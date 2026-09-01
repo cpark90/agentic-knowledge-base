@@ -28,6 +28,7 @@ kg/catalog-kg.ttl          # A-Box — 에이전트 카탈로그 (역할·스코
 kg/chunks-kg.ttl           # (생성) 청크 head 그래프 — frontmatter에서 생성 (4.3절)
 chunks/<plane>/*.md        # 청크. 한 청크 = 한 파일: frontmatter(head) + 본문 ≤ 42줄
 space/                     # 설계 공간 (*-space, Part VII) — 5단계에서 채움
+docs/feedback/             # 유저 피드백 채널 (그래프 밖) — hci agent 담당, 규약은 README.md
 tools/                     # 판정 도구: validate(게이트) · chunk_lint · chunk2kg · canonicalize
 defs/knowledge.bzl         # kb_gate_test · kb_chunk_kg · kb_chunk_lint_test 매크로
 ```

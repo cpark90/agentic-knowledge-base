@@ -10,6 +10,7 @@ filegroup(
         "project-ontology.ttl",
         "//ontology/entity/knowledge-item",
         "//ontology/related/assumption",
+        "//ontology/related/channel",
         "//ontology/related/condition",
         "//ontology/related/harness",
         "//ontology/related/scope",

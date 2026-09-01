@@ -1,0 +1,15 @@
+# 채널 — 통신 (노트 2.3절 related/channel 모듈)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:Channel a owl:Class ;
+    rdfs:label "channel"@en , "채널"@ko ;
+    skos:definition "행위자 간 통신 경로. 세션이 분리된 행위자(유저·별도 세션 에이전트) 간 연동은 대화가 아니라 영속 파일 채널로 한다. 채널의 파일은 그래프 밖이다 — 검사 게이트의 어휘·shape 검사 대상이 아니다."@ko .
+
+agt:ownedBy a owl:ObjectProperty ;
+    rdfs:domain agt:Channel ;
+    rdfs:range agt:Role ;
+    rdfs:label "owned by"@en , "담당한다"@ko ;
+    skos:definition "채널의 담당 역할. 담당 역할만 채널의 에이전트 쪽 소통을 수행하고, 다른 에이전트는 자기 lane에 항목을 남길 뿐 유저와 직접 상세 소통하지 않는다."@ko .

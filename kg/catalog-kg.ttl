@@ -3,14 +3,23 @@
 # 역할이 규정하는 것은 plane 권한 요구까지다. 실제 절차는 AGENTS.md(하네스)의 몫이다.
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix id: <https://agentic-knowledge-base.dev/id/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 ### 하네스
 
 id:h-akb a agt:Harness ;
     rdfs:label "agentic-knowledge-base Bazel harness"@en , "agentic-knowledge-base Bazel 하네스"@ko ;
-    agt:hasRole id:role-orchestrator , id:role-developer , id:role-vnv , id:role-inspection ;
+    agt:hasRole id:role-orchestrator , id:role-developer , id:role-vnv ,
+        id:role-inspection , id:role-hci ;
     agt:grants id:scope-orchestrator , id:scope-developer .
+
+### 채널 — 유저 소통은 hci가 전담한다 (docs/feedback/README.md가 규약 원본)
+
+id:chan-user-feedback a agt:Channel ;
+    rdfs:label "user feedback channel"@en , "유저 피드백 채널"@ko ;
+    agt:ownedBy id:role-hci ;
+    prov:atLocation "docs/feedback" .
 
 ### 역할 — plane 권한 요구 (9.2절). 설계/구현/운영은 같은 write plane을 공유하지 않는다.
 
@@ -37,6 +46,12 @@ id:role-vnv a agt:Role ;
 
 id:role-inspection a agt:Role ;
     rdfs:label "inspection"@en , "조사"@ko ;
+    agt:reads agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
+    agt:executionMode agt:sessionPersistent ;
+    agt:maxConcurrent 1 .
+
+id:role-hci a agt:Role ;
+    rdfs:label "human-computer interaction"@en , "유저 소통"@ko ;
     agt:reads agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
     agt:executionMode agt:sessionPersistent ;
     agt:maxConcurrent 1 .
