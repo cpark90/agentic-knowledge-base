@@ -1,0 +1,10 @@
+# 재현성: 테스트는 항상 hermetic 샌드박스에서, 환경 변수 오염 없이
+build --incompatible_strict_action_env
+test --test_output=errors
+
+# 검사 게이트는 지식 파일이 바뀔 때마다 다시 돌아야 한다 — 캐시는 입력 해시 기준이므로 기본 동작으로 충분
+build --nolegacy_external_runfiles
+
+# 로컬 개발 편의
+build --show_timestamps
+common --enable_platform_specific_config

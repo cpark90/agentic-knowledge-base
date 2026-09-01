@@ -1,0 +1,27 @@
+load("//defs:knowledge.bzl", "kb_chunk_kg", "kb_gate_test")
+
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "kg",
+    srcs = glob(["*-kg.ttl"]),
+)
+
+# 청크 head 그래프 — 각 청크 파일의 frontmatter에서 생성 (4.3절). 손으로 쓰지 않는다.
+kb_chunk_kg(
+    name = "chunks_kg",
+    srcs = ["//chunks:bodies"],
+    out = "chunks-kg.ttl",
+)
+
+# 지식그래프 게이트: 어휘 폐쇄(4.4절) + 청크 shape + 가정→ODD 참조(0.4절)
+kb_gate_test(
+    name = "gate_test",
+    data = [
+        ":chunks_kg",
+        ":kg",
+    ],
+    odd = ["//odd:odd"],
+    ontology = ["//ontology:modules"],
+    shapes = ["//ontology:shapes"],
+)

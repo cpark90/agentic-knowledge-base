@@ -1,0 +1,19 @@
+# shape — 스코프: 모드와 ODD 부분집합 명시 (노트 0.4절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+agt:ScopeShape a sh:NodeShape ;
+    sh:targetClass agt:Scope ;
+    sh:property [
+        sh:path agt:mode ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ( "restrictive" "permissive" ) ;
+        sh:message "스코프의 기본 모드는 restrictive 또는 permissive다 (0.4절)" ;
+    ] ;
+    sh:property [
+        sh:path agt:subsetOf ;
+        sh:minCount 1 ;
+        sh:class agt:ODD ;
+        sh:message "스코프는 어느 ODD의 부분집합인지 명시한다 (0.4절)" ;
+    ] .

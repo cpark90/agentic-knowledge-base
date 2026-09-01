@@ -1,0 +1,21 @@
+# 하네스 — 실행 환경 (노트 0.4절, 3.3절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:Harness a owl:Class ;
+    rdfs:label "harness"@en , "하네스"@ko ;
+    skos:definition "에이전트의 실행 환경. 스코프를 부여한다. 하네스가 부여하는 스코프는 ODD의 부분집합이다 (0.4절, 3.3절)."@ko .
+
+agt:grants a owl:ObjectProperty ;
+    rdfs:domain agt:Harness ;
+    rdfs:range agt:Scope ;
+    rdfs:label "grants"@en , "부여한다"@ko ;
+    skos:definition "하네스가 에이전트에게 부여하는 스코프 (0.4절)."@ko .
+
+agt:hasRole a owl:ObjectProperty ;
+    rdfs:domain agt:Harness ;
+    rdfs:range agt:Role ;
+    rdfs:label "has role"@en , "역할을 갖는다"@ko ;
+    skos:definition "하네스가 구동하는 카탈로그 역할 (9.2절)."@ko .

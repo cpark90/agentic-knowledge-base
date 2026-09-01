@@ -1,0 +1,102 @@
+"""지식 산출물용 게이트 매크로.
+
+지식 파일(TTL·청크 본문)은 데이터 타깃이고, 검사 게이트(노트 6.7절)는 테스트 타깃이다.
+`bazel test //...` 가 곧 게이트 전체 실행이다.
+"""
+
+load("@kb_pip//:requirements.bzl", "requirement")
+load("@rules_python//python:defs.bzl", "py_test")
+
+_VALIDATE_SRCS = [
+    Label("//tools:validate.py"),
+    Label("//tools:kb_lib.py"),
+]
+
+_LINT_SRCS = [
+    Label("//tools:chunk_lint.py"),
+    Label("//tools:kb_lib.py"),
+]
+
+_RDF_DEPS = [
+    requirement("rdflib"),
+    requirement("pyshacl"),
+    requirement("owlrl"),
+]
+
+def _flag_args(flag, targets):
+    if not targets:
+        return []
+    return [flag] + ["$(rootpaths %s)" % t for t in targets]
+
+def kb_gate_test(
+        name,
+        ontology = [],
+        shapes = [],
+        odd = [],
+        data = [],
+        reason = False,
+        **kwargs):
+    """검사 게이트 테스트 — tools/validate.py 를 지정 그래프들에 대해 돌린다.
+
+    Args:
+      name: 테스트 이름.
+      ontology: T-Box 모듈 라벨들 (*-ontology, *-rules).
+      shapes: SHACL shape 라벨들 (*-shapes).
+      odd: ODD 라벨들 (*-odd). 주면 agt:refersTo → ODD 참조 게이트가 켜진다.
+      data: A-Box 라벨들 (*-kg, *-space). 어휘 폐쇄 검사 대상.
+      reason: SHACL 전에 OWL-RL 추론 적용.
+      **kwargs: py_test 로 전달.
+    """
+    graphs = ontology + shapes + odd + data
+    args = (
+        _flag_args("--ontology", ontology) +
+        _flag_args("--shapes", shapes) +
+        _flag_args("--odd", odd) +
+        _flag_args("--data", data) +
+        (["--reason"] if reason else [])
+    )
+    py_test(
+        name = name,
+        srcs = _VALIDATE_SRCS,
+        main = Label("//tools:validate.py"),
+        args = args,
+        data = graphs,
+        deps = _RDF_DEPS,
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+def kb_chunk_kg(name, srcs, out = None):
+    """청크 파일들의 frontmatter에서 head 그래프(-kg)를 생성한다 (4.3절).
+
+    한 청크는 한 파일이다 — head 메타데이터는 청크 파일 안에 있고, kg의
+    head 그래프는 이 규칙이 생성한다. lineCount·assertionLocation은 파일에서
+    계산되므로 손으로 쓴 메타데이터와 어긋날 수 없다.
+
+    Args:
+      name: 타깃 이름.
+      srcs: 청크 파일 라벨들 (filegroup 가능).
+      out: 생성할 TTL 파일명 (기본 <name>.ttl, 접미사 규약상 -kg 권장).
+    """
+    out = out or name + ".ttl"
+    native.genrule(
+        name = name,
+        srcs = srcs,
+        outs = [out],
+        cmd = "$(location //tools:chunk2kg) --out $@ $(SRCS)",
+        tools = [Label("//tools:chunk2kg")],
+    )
+
+def kb_chunk_lint_test(name, chunks = [], ttl = [], **kwargs):
+    """청크 42줄 제한(4.1절)과 TTL 접미사 규약(0.2절) 린트."""
+    args = _flag_args("--chunks", chunks) + _flag_args("--ttl", ttl)
+    py_test(
+        name = name,
+        srcs = _LINT_SRCS,
+        main = Label("//tools:chunk_lint.py"),
+        args = args,
+        data = chunks + ttl,
+        deps = [requirement("rdflib")],  # kb_lib(접미사 규약의 단일 정의처)가 요구
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )

@@ -1,0 +1,17 @@
+# shape — 가정: ODD 조건 위의 명제 (노트 0.4절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+agt:AssumptionShape a sh:NodeShape ;
+    sh:targetClass agt:Assumption ;
+    sh:property [
+        sh:path agt:refersTo ;
+        sh:minCount 1 ;
+        sh:class agt:Condition ;
+        sh:message "가정은 최소 하나의 ODD 조건을 참조한다 (0.4절)" ;
+    ] ;
+    sh:property [
+        sh:path agt:proposition ;
+        sh:minCount 1 ;
+        sh:message "가정은 명제를 갖는다 (0.4절)" ;
+    ] .

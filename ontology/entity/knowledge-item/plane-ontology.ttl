@@ -1,0 +1,35 @@
+# 청크 — plane 하위 클래스: plane은 청크의 특수화다 (노트 4.2절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:DecisionChunk a owl:Class ;
+    rdfs:subClassOf agt:Chunk ;
+    rdfs:label "decision chunk"@en , "결정 청크"@ko ;
+    skos:definition "decision plane의 청크. 결론·근거·대안 중 하나의 역할 태그를 갖는 구조화 산문 (4.2절, 4.12절)."@ko .
+
+agt:ContractChunk a owl:Class ;
+    rdfs:subClassOf agt:Chunk ;
+    rdfs:label "contract chunk"@en , "계약 청크"@ko ;
+    skos:definition "contract plane의 청크. 언어 네이티브 선언 (4.12절)."@ko .
+
+agt:SchemaChunk a owl:Class ;
+    rdfs:subClassOf agt:Chunk ;
+    rdfs:label "schema chunk"@en , "스키마 청크"@ko ;
+    skos:definition "schema plane의 청크. 스키마 언어로 쓴 본문 (4.12절)."@ko .
+
+agt:ArtifactChunk a owl:Class ;
+    rdfs:subClassOf agt:Chunk ;
+    rdfs:label "artifact chunk"@en , "산출물 청크"@ko ;
+    skos:definition "artifact plane의 청크. 언어 네이티브 코드. 본문은 심볼로 해석된다 (4.9절)."@ko .
+
+agt:AnnotationChunk a owl:Class ;
+    rdfs:subClassOf agt:Chunk ;
+    rdfs:label "annotation chunk"@en , "주석 청크"@ko ;
+    skos:definition "annotation plane의 청크. 대상 청크 IRI를 동반한 산문 (4.12절)."@ko .
+
+agt:MemoryChunk a owl:Class ;
+    rdfs:subClassOf agt:Chunk ;
+    rdfs:label "memory chunk"@en , "기억 청크"@ko ;
+    skos:definition "memory plane의 청크. 구조화 관측(시각·행동·situation 요약). 승격 규칙에 따라 주제 plane으로 올라간다 (9.4절)."@ko .

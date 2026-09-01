@@ -1,0 +1,32 @@
+# shape — 조건과 ODD: 판정 방법 필수, 모드 고정 (노트 3.2절, 3.9절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+agt:ConditionShape a sh:NodeShape ;
+    sh:targetClass agt:Condition ;
+    sh:property [
+        sh:path agt:checkMethod ;
+        sh:minCount 1 ;
+        sh:message "모든 조건은 객관적 판정 방법을 갖는다 (0.4절, 3.2절)" ;
+    ] ;
+    sh:property [
+        sh:path agt:verificationGrade ;
+        sh:minCount 1 ;
+        sh:in ( "A" "B" "C" "D" ) ;
+        sh:message "판정 등급은 A–D 중 하나다 (3.9절)" ;
+    ] .
+
+agt:ODDShape a sh:NodeShape ;
+    sh:targetClass agt:ODD ;
+    sh:property [
+        sh:path agt:hasCondition ;
+        sh:minCount 1 ;
+        sh:message "ODD는 최소 하나의 조건을 명세한다 (3.2절)" ;
+    ] ;
+    sh:property [
+        sh:path agt:mode ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ( "restrictive" "permissive" ) ;
+        sh:message "기본 모드는 restrictive 또는 permissive다 (0.4절)" ;
+    ] .

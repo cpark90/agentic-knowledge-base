@@ -1,0 +1,7 @@
+# 모듈 = 디렉토리, 청크 = 파일. 이 패키지가 모듈 경계다 (노트 2.3절).
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "scope",
+    srcs = glob(["*.ttl"]),
+)

@@ -1,0 +1,26 @@
+# 하네스 — 에이전트 카탈로그의 역할과 plane 권한 (노트 9.2절, 9.5절, 9.6절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:Role a owl:Class ;
+    rdfs:label "role"@en , "역할"@ko ;
+    skos:definition "에이전트 카탈로그의 역할. 카탈로그가 규정하는 것은 역할과 권한 요구까지이고, 실제 절차는 하네스의 몫이다 (9.2절)."@ko .
+
+agt:reads a owl:ObjectProperty ;
+    rdfs:domain agt:Role ;
+    rdfs:label "reads"@en , "읽는다"@ko ;
+    skos:definition "역할이 요구하는 read plane 권한. 값은 plane 청크 클래스 (9.5절)."@ko .
+
+agt:writes a owl:ObjectProperty ;
+    rdfs:domain agt:Role ;
+    rdfs:label "writes"@en , "쓴다"@ko ;
+    skos:definition "역할이 요구하는 write plane 권한. 값은 plane 청크 클래스. 설계/구현/운영 역할은 같은 write plane을 공유하지 않는다 (9.2절, 9.6절)."@ko .
+
+agt:maxConcurrent a owl:DatatypeProperty ;
+    rdfs:domain agt:Role ;
+    rdfs:range xsd:integer ;
+    rdfs:label "max concurrent"@en , "최대 동시 수"@ko ;
+    skos:definition "역할의 최대 동시 활성 수. 합은 ODD 동적 요소의 한도 안이어야 한다 (9.2절, 9.6절)."@ko .

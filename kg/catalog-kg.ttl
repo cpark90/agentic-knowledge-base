@@ -1,0 +1,60 @@
+# catalog-kg — 에이전트 카탈로그 (노트 9.2절 개발 프로파일의 부분집합).
+# AGENTS.md의 역할 표와 이 그래프는 일치해야 한다 — 문서가 산문이고 여기가 형식이다.
+# 역할이 규정하는 것은 plane 권한 요구까지다. 실제 절차는 AGENTS.md(하네스)의 몫이다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix id: <https://agentic-knowledge-base.dev/id/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+### 하네스
+
+id:h-akb a agt:Harness ;
+    rdfs:label "agentic-knowledge-base Bazel harness"@en , "agentic-knowledge-base Bazel 하네스"@ko ;
+    agt:hasRole id:role-orchestrator , id:role-developer , id:role-vnv , id:role-inspection ;
+    agt:grants id:scope-orchestrator , id:scope-developer .
+
+### 역할 — plane 권한 요구 (9.2절). 설계/구현/운영은 같은 write plane을 공유하지 않는다.
+
+id:role-orchestrator a agt:Role ;
+    rdfs:label "orchestrator"@en , "오케스트레이터"@ko ;
+    agt:writes agt:DecisionChunk ;
+    agt:reads agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
+    agt:executionMode agt:sessionPersistent ;
+    agt:maxConcurrent 1 .
+
+id:role-developer a agt:Role ;
+    rdfs:label "developer"@en , "개발자"@ko ;
+    agt:writes agt:ArtifactChunk ;
+    agt:reads agt:ContractChunk , agt:SchemaChunk , agt:DecisionChunk ;
+    agt:executionMode agt:dispatch ;
+    agt:maxConcurrent 1 .
+
+id:role-vnv a agt:Role ;
+    rdfs:label "verification and validation"@en , "검증·확인"@ko ;
+    agt:writes agt:AnnotationChunk ;
+    agt:reads agt:ArtifactChunk , agt:DecisionChunk ;
+    agt:executionMode agt:dispatch ;
+    agt:maxConcurrent 1 .
+
+id:role-inspection a agt:Role ;
+    rdfs:label "inspection"@en , "조사"@ko ;
+    agt:reads agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
+    agt:executionMode agt:sessionPersistent ;
+    agt:maxConcurrent 1 .
+
+### 스코프 — ODD 조건의 부분집합 + plane 권한 (0.4절, 3.4절)
+
+id:scope-orchestrator a agt:Scope ;
+    rdfs:label "orchestrator scope"@en , "오케스트레이터 스코프"@ko ;
+    agt:mode "restrictive" ;
+    agt:subsetOf id:odd-agentic-knowledge-base ;
+    agt:includesCondition id:cond-build-system , id:cond-repo-layout ,
+        id:cond-language-policy , id:cond-concurrent-agents ;
+    agt:conditionalRule "include write plane artifact if 관련 decision 청크의 level = concrete (9.1절 '구현 전 상세 설계'의 기계적 강제)" .
+
+id:scope-developer a agt:Scope ;
+    rdfs:label "developer scope"@en , "개발자 스코프"@ko ;
+    agt:mode "restrictive" ;
+    agt:subsetOf id:odd-agentic-knowledge-base ;
+    agt:includesCondition id:cond-build-system , id:cond-python-runtime ,
+        id:cond-dependency-lock ;
+    agt:excludesCondition id:cond-network .

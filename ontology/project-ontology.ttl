@@ -1,0 +1,16 @@
+# 최상위 온톨로지 — import만 하는 얇은 파일 (노트 2.3절 코어+확장).
+# 확장은 새 모듈 추가로만 한다. 기존 모듈을 수정하지 않는다.
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://agentic-knowledge-base.dev/ontology/project>
+    a owl:Ontology ;
+    owl:versionIRI <https://agentic-knowledge-base.dev/ontology/project/0.1.0> ;
+    dcterms:title "agentic-knowledge-base project ontology"@en ,
+                  "agentic-knowledge-base 프로젝트 온톨로지"@ko ;
+    owl:imports
+        <https://agentic-knowledge-base.dev/ontology/entity/knowledge-item> ,
+        <https://agentic-knowledge-base.dev/ontology/related/condition> ,
+        <https://agentic-knowledge-base.dev/ontology/related/scope> ,
+        <https://agentic-knowledge-base.dev/ontology/related/assumption> ,
+        <https://agentic-knowledge-base.dev/ontology/related/harness> .

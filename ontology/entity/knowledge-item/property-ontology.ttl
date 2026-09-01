@@ -1,0 +1,36 @@
+# 청크 — 지식 항목의 속성 (노트 4.2절, 4.5절, 4.9절, 4.11절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:hasLevel a owl:ObjectProperty ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:range agt:Level ;
+    rdfs:label "has level"@en , "추상화 수준을 갖는다"@ko ;
+    skos:definition "지식 항목의 추상화 수준. 정확히 하나. 수준 전이는 새 청크와 refines 링크로 한다 (4.2절)."@ko .
+
+agt:lineCount a owl:DatatypeProperty ;
+    rdfs:domain agt:Chunk ;
+    rdfs:range xsd:integer ;
+    rdfs:label "line count"@en , "본문 줄 수"@ko ;
+    skos:definition "assertion 본문의 줄 수. 42 이하. 청크 파일에서 자동 계산된다 (4.1절)."@ko .
+
+agt:state a owl:DatatypeProperty ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:range xsd:string ;
+    rdfs:label "state"@en , "상태"@ko ;
+    skos:definition "청크 상태 기계의 현재 상태: draft / valid / suspect / invalidated / deprecated (4.11절)."@ko .
+
+agt:hasDirectPart a owl:ObjectProperty ;
+    rdfs:domain agt:Composite ;
+    rdfs:range agt:KnowledgeItem ;
+    rdfs:label "has direct part"@en , "직접 부분을 갖는다"@ko ;
+    skos:definition "구성체의 직접 부분. 최대 9개(7±2). 상위 온톨로지 도입 시 표준 part-of의 하위 속성으로 정렬한다 (4.5절)."@ko .
+
+agt:assertionLocation a owl:DatatypeProperty ;
+    rdfs:domain agt:Chunk ;
+    rdfs:range xsd:string ;
+    rdfs:label "assertion location"@en , "본문 위치"@ko ;
+    skos:definition "청크 IRI에서 assertion 본문 저장 위치로의 사상. 산문 계열은 저장소 상대 파일 경로, 코드 계열은 심볼 ID (4.9절)."@ko .

@@ -1,0 +1,26 @@
+# 조건 — ODD 문서 어휘 (노트 Part III, 3.2절 명세 형식)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:ODD a owl:Class ;
+    rdfs:label "operational design domain"@en , "운영 설계 영역"@ko ;
+    skos:definition "프로젝트 전체가 설계된 운영 조건의 명세. 실제로 작성·유지되는 문서이며, 스코프·가정·시나리오·커버리지가 여기서 파생된다 (3.1절, 3.3절)."@ko .
+
+agt:hasCondition a owl:ObjectProperty ;
+    rdfs:domain agt:ODD ;
+    rdfs:range agt:Condition ;
+    rdfs:label "has condition"@en , "조건을 갖는다"@ko ;
+    skos:definition "ODD가 명세하는 조건(속성). 정적·환경·동적 절의 항목 하나가 조건 개체 하나다 (3.2절)."@ko .
+
+agt:mode a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "mode"@en , "기본 모드"@ko ;
+    skos:definition "명세의 기본 모드: restrictive(명시 포함만 허용) 또는 permissive(명시 제외만 금지). ODD와 스코프가 공유하는 명세 형식 (0.4절)."@ko .
+
+agt:excludes a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "explicitly excludes"@en , "명시 제외"@ko ;
+    skos:definition "검토한 뒤 설계 범위 밖으로 명시적으로 제외한 것. 검토 시점과 이유를 함께 적는다 (3.2절)."@ko .

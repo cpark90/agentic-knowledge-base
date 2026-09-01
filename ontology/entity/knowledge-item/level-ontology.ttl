@@ -1,0 +1,29 @@
+# 청크 — 추상화 수준: 다섯 개체 (노트 0.1절, Part VI)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:Level a owl:Class ;
+    rdfs:label "abstraction level"@en , "추상화 수준"@ko ;
+    skos:definition "추상화 사다리의 다섯 수준을 담는 클래스 (0.1절, Part VI)."@ko .
+
+agt:functional a owl:NamedIndividual , agt:Level ;
+    rdfs:label "functional"@en , "기능 수준"@ko ;
+    skos:definition "어휘 자체를 서술적으로 쓴 수준. 별도 파일이 아니라 온톨로지의 주석·라벨로 존재한다 (0.2절)."@ko .
+
+agt:abstract a owl:NamedIndividual , agt:Level ;
+    rdfs:label "abstract"@en , "추상 수준"@ko ;
+    skos:definition "설계 공간의 출발점 선언이 놓이는 수준 (0.2절)."@ko .
+
+agt:logical a owl:NamedIndividual , agt:Level ;
+    rdfs:label "logical"@en , "논리 수준"@ko ;
+    skos:definition "도착점 후보와 양립 제약이 놓이는 수준 (0.2절)."@ko .
+
+agt:concrete a owl:NamedIndividual , agt:Level ;
+    rdfs:label "concrete"@en , "구체 수준"@ko ;
+    skos:definition "확정된 개체·결정·경계가 놓이는 수준. 관측은 언제나 이 수준에만 존재한다 (0.5절)."@ko .
+
+agt:executable a owl:NamedIndividual , agt:Level ;
+    rdfs:label "executable"@en , "실행 수준"@ko ;
+    skos:definition "코드·하네스·설정 등 실행 산출물의 수준 (0.2절)."@ko .

@@ -1,0 +1,71 @@
+# project-odd — agentic-knowledge-base 구축 작업 자신의 운영 설계 영역 (노트 Part III)
+# 이 파일이 이 저장소의 첫 ODD다. 모든 스코프·가정은 여기 적힌 조건만 참조할 수 있다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix id: <https://agentic-knowledge-base.dev/id/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+### 식별 + 명세 (3.2절)
+
+id:odd-agentic-knowledge-base a agt:ODD ;
+    rdfs:label "agentic-knowledge-base ODD v0.1"@en , "agentic-knowledge-base 운영 설계 영역 v0.1"@ko ;
+    agt:mode "restrictive" ;
+    agt:hasCondition
+        id:cond-build-system ,
+        id:cond-python-runtime ,
+        id:cond-repo-layout ,
+        id:cond-language-policy ,
+        id:cond-dependency-lock ,
+        id:cond-network ,
+        id:cond-concurrent-agents ;
+    agt:excludes
+        "원격 실행·원격 캐시(RBE) — reviewed 2026-09, 이유: 로컬 개발 전용 단계" ,
+        "CI 파이프라인 — reviewed 2026-09, 이유: Part XII 1단계 범위 밖, 게이트가 안정된 뒤 도입" ,
+        "참조 저장소(harness_ontology·harness-recipes) 빌드 의존 — reviewed 2026-09, 이유: 내용을 청크로 승격해 활용하고(prov:wasDerivedFrom), 프로젝트 자체는 직접 사용하지 않는다" .
+
+### 정적 요소
+
+id:cond-build-system a agt:StaticElement ;
+    rdfs:label "build system"@en , "빌드 체계"@ko ;
+    agt:conditionValue "Bazel 9.2.0 + bzlmod, rules_python 2.3.2" ;
+    agt:checkMethod ".bazelversion 파일 내용 = 9.2.0; bazel test //... 성공" ;
+    agt:verificationGrade "A" .
+
+id:cond-python-runtime a agt:StaticElement ;
+    rdfs:label "python runtime"@en , "파이썬 런타임"@ko ;
+    agt:conditionValue "hermetic Python 3.11 (rules_python toolchain)" ;
+    agt:checkMethod "MODULE.bazel의 python.toolchain(python_version = \"3.11\")" ;
+    agt:verificationGrade "A" .
+
+id:cond-repo-layout a agt:StaticElement ;
+    rdfs:label "repository layout"@en , "저장소 구조"@ko ;
+    agt:conditionValue "ontology/ odd/ kg/ space/ chunks/ tools/ defs/ — 접미사 규약은 0.2절, 한 청크는 한 파일" ;
+    agt:checkMethod "bazel test //:naming_test (접미사 린트) + //chunks:lint_test" ;
+    agt:verificationGrade "A" .
+
+id:cond-language-policy a agt:StaticElement ;
+    rdfs:label "language policy"@en , "언어 정책"@ko ;
+    agt:conditionValue "산문 한글, 식별자 영어 케밥, 라벨 한/영 1:1 (0.6절)" ;
+    agt:checkMethod "bazel test //ontology:gate_test 의 labels 검사 (한/영 라벨 강제)" ;
+    agt:verificationGrade "B" .
+
+### 환경 조건
+
+id:cond-dependency-lock a agt:EnvironmentalCondition ;
+    rdfs:label "dependency lock"@en , "의존성 고정"@ko ;
+    agt:conditionValue "rdflib 7.6.0, pyshacl 0.40.0, owlrl 7.6.2 — 해시 고정" ;
+    agt:checkMethod "tools/requirements_lock.txt 존재 + bazel fetch 성공" ;
+    agt:verificationGrade "A" .
+
+id:cond-network a agt:EnvironmentalCondition ;
+    rdfs:label "network connectivity"@en , "네트워크 연결성"@ko ;
+    agt:conditionValue "최초 fetch 시 BCR·PyPI 접근 필요, 이후 오프라인 빌드 가능" ;
+    agt:checkMethod "curl -sI https://bcr.bazel.build → 200 (최초 1회)" ;
+    agt:verificationGrade "A" .
+
+### 동적 요소
+
+id:cond-concurrent-agents a agt:DynamicElement ;
+    rdfs:label "concurrent agents"@en , "동시 에이전트 수"@ko ;
+    agt:conditionValue "≤ 2 (구축 단계: 메인 세션 + dispatch 1)" ;
+    agt:checkMethod "활성 Claude 세션 수 확인" ;
+    agt:verificationGrade "B" .

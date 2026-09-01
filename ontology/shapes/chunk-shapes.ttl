@@ -1,0 +1,44 @@
+# shape — 청크: 구조적 글쓰기 원칙의 검사 가능한 형태 (노트 4.4절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+agt:ChunkShape a sh:NodeShape ;
+    sh:targetClass agt:Chunk ;
+    sh:property [
+        sh:path agt:lineCount ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:maxInclusive 42 ;
+        sh:message "본문은 42줄 이하여야 한다 (4.1절)" ;
+    ] ;
+    sh:property [
+        sh:path agt:hasLevel ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "청크는 정확히 하나의 추상화 수준을 갖는다 (4.2절)" ;
+    ] ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:qualifiedValueShape [ sh:languageIn ( "ko" ) ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "한글 라벨이 필요하다 (0.6절)" ;
+    ] ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:qualifiedValueShape [ sh:languageIn ( "en" ) ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:message "영어 라벨이 필요하다 (0.6절)" ;
+    ] ;
+    sh:property [
+        sh:path agt:state ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ( "draft" "valid" "suspect" "invalidated" "deprecated" ) ;
+        sh:message "상태는 4.11절 상태 기계의 값 중 하나다" ;
+    ] ;
+    sh:property [
+        sh:path agt:assertionLocation ;
+        sh:maxCount 1 ;
+        sh:message "본문 위치는 하나다 (4.9절)" ;
+    ] .

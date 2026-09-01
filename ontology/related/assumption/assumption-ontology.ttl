@@ -1,0 +1,28 @@
+# 가정 — 지식 항목의 전제 (노트 0.4절, 6.5절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:Assumption a owl:Class ;
+    rdfs:label "assumption"@en , "가정"@ko ;
+    skos:definition "지식 항목이 유효하기 위해 참이어야 하는 전제. ODD 속성 위의 명제이며, 가정 위반 감지가 무효화의 트리거다 (0.4절, 6.5절)."@ko .
+
+agt:assumes a owl:ObjectProperty ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:range agt:Assumption ;
+    rdfs:label "assumes"@en , "가정한다"@ko ;
+    skos:definition "지식 항목이 서 있는 전제를 가리킨다 (0.4절)."@ko .
+
+agt:refersTo a owl:ObjectProperty ;
+    rdfs:domain agt:Assumption ;
+    rdfs:range agt:Condition ;
+    rdfs:label "refers to"@en , "참조한다"@ko ;
+    skos:definition "가정이 딛고 선 ODD 조건. ODD에 없는 속성을 참조하는 가정은 검사 게이트가 거부한다 (0.4절)."@ko .
+
+agt:proposition a owl:DatatypeProperty ;
+    rdfs:domain agt:Assumption ;
+    rdfs:range xsd:string ;
+    rdfs:label "proposition"@en , "명제"@ko ;
+    skos:definition "가정의 내용 — ODD 조건 위에서 참이어야 하는 명제 (0.4절)."@ko .

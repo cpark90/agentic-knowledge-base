@@ -1,0 +1,24 @@
+# 조건 — 경계 조건의 3분류 (노트 0.4절, ISO 34503의 구조)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:Condition a owl:Class ;
+    rdfs:label "condition"@en , "조건"@ko ;
+    skos:definition "스코프와 가정이 언급할 수 있는 경계 조건의 최상위 클래스. 모든 조건은 객관적 판정 방법을 갖는다 (0.4절)."@ko .
+
+agt:StaticElement a owl:Class ;
+    rdfs:subClassOf agt:Condition ;
+    rdfs:label "static element"@en , "정적 요소"@ko ;
+    skos:definition "작업 기간 동안 변하지 않는 구조. 언어·플랫폼, 저장소 구조, 아키텍처, 빌드 체계 (0.4절)."@ko .
+
+agt:EnvironmentalCondition a owl:Class ;
+    rdfs:subClassOf agt:Condition ;
+    rdfs:label "environmental condition"@en , "환경 조건"@ko ;
+    skos:definition "작업 밖에서 주어지며 변할 수 있는 조건. 의존성 버전, 인프라 상태, 외부 서비스 가용성, 연결성 (0.4절)."@ko .
+
+agt:DynamicElement a owl:Class ;
+    rdfs:subClassOf agt:Condition ;
+    rdfs:label "dynamic element"@en , "동적 요소"@ko ;
+    skos:definition "작업 중 움직이는 행위자와 산출물. 다른 에이전트, 유저, 진행 중인 변경, 미해소 스레드 (0.4절)."@ko .

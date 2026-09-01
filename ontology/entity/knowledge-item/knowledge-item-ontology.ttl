@@ -1,0 +1,20 @@
+# 청크 — 지식 항목의 핵심 구조: KnowledgeItem / Chunk / Composite (노트 4.1절, 4.5절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:KnowledgeItem a owl:Class ;
+    rdfs:label "knowledge item"@en , "지식 항목"@ko ;
+    skos:definition "체계가 관리하는 정보 내용 개체의 최상위 클래스. 상위 온톨로지 도입 시 iao:InformationContentEntity 아래로 정렬한다 (4.1절)."@ko .
+
+agt:Chunk a owl:Class ;
+    rdfs:subClassOf agt:KnowledgeItem ;
+    rdfs:label "chunk"@en , "청크"@ko ;
+    skos:definition "본문 42줄 이하의 자립적 최소 지식 단위. 하나의 plane, 하나의 level에 속하고 한 주제만 다룬다. 한 청크는 한 파일이다 (4.1절, 4.9절)."@ko .
+
+agt:Composite a owl:Class ;
+    rdfs:subClassOf agt:KnowledgeItem ;
+    owl:disjointWith agt:Chunk ;
+    rdfs:label "composite"@en , "구성체"@ko ;
+    skos:definition "본문 없이 순서 있는 부분(청크·구성체)만 갖는 지식 항목 (4.5절). 부분의 plane·level은 전체와 같아야 한다."@ko .

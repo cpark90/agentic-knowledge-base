@@ -1,0 +1,4 @@
+# 직접 의존 — lock 재생성: tools/relock.sh
+rdflib==7.6.0
+pyshacl==0.40.0
+owlrl==7.6.2

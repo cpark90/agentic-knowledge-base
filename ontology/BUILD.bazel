@@ -1,0 +1,38 @@
+load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_gate_test")
+
+package(default_visibility = ["//visibility:public"])
+
+# T-Box — 모듈 = 디렉토리(Bazel 패키지), 청크 = 파일 (노트 2.3절).
+# 확장은 새 파일·새 모듈 디렉토리 추가로만 한다.
+filegroup(
+    name = "modules",
+    srcs = [
+        "project-ontology.ttl",
+        "//ontology/entity/knowledge-item",
+        "//ontology/related/assumption",
+        "//ontology/related/condition",
+        "//ontology/related/harness",
+        "//ontology/related/scope",
+    ],
+)
+
+filegroup(
+    name = "shapes",
+    srcs = ["//ontology/shapes"],
+)
+
+# 온톨로지 위생 게이트 (2.5절): 라벨 완전성 + 청크(파일) 단위 정의 경계 + SHACL
+kb_gate_test(
+    name = "gate_test",
+    ontology = [":modules"],
+    shapes = [":shapes"],
+)
+
+# 온톨로지 청크도 42줄 규율을 따른다 — @prefix·주석 제외 본문 기준
+kb_chunk_lint_test(
+    name = "chunk_lint_test",
+    chunks = [
+        ":modules",
+        ":shapes",
+    ],
+)

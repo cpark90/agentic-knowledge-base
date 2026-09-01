@@ -1,0 +1,24 @@
+# 조건 — 값과 판정 방법 (노트 0.4절 "모든 조건은 객관적 판정 방법을 갖는다", 3.9절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:conditionValue a owl:DatatypeProperty ;
+    rdfs:domain agt:Condition ;
+    rdfs:range xsd:string ;
+    rdfs:label "condition value"@en , "조건 값"@ko ;
+    skos:definition "조건의 값 또는 범위 (3.2절)."@ko .
+
+agt:checkMethod a owl:DatatypeProperty ;
+    rdfs:domain agt:Condition ;
+    rdfs:range xsd:string ;
+    rdfs:label "check method"@en , "판정 방법"@ko ;
+    skos:definition "조건의 객관적 관측 수단. 판정 방법 없는 조건은 실행 시 대조(3.5절)를 할 수 없으므로 ODD에 둘 수 없다 (3.2절)."@ko .
+
+agt:verificationGrade a owl:DatatypeProperty ;
+    rdfs:domain agt:Condition ;
+    rdfs:range xsd:string ;
+    rdfs:label "verification grade"@en , "판정 등급"@ko ;
+    skos:definition "판정 방법의 등급 A–D (3.9절). C·D가 많으면 판정 방법을 개선하거나 ODD에서 빼고 가정으로 내린다 (0.4절)."@ko .

@@ -1,0 +1,48 @@
+load("@kb_pip//:requirements.bzl", "requirement")
+load("@rules_python//python:defs.bzl", "py_binary", "py_library")
+
+package(default_visibility = ["//visibility:public"])
+
+exports_files([
+    "validate.py",
+    "chunk_lint.py",
+    "kb_lib.py",
+    "requirements_lock.txt",
+])
+
+py_library(
+    name = "kb_lib",
+    srcs = ["kb_lib.py"],
+    deps = [requirement("rdflib")],
+)
+
+# 게이트 도구를 손으로 돌릴 때: bazel run //tools:validate -- --ontology <files...>
+py_binary(
+    name = "validate",
+    srcs = ["validate.py"],
+    deps = [
+        ":kb_lib",
+        requirement("owlrl"),
+        requirement("pyshacl"),
+        requirement("rdflib"),
+    ],
+)
+
+py_binary(
+    name = "chunk_lint",
+    srcs = ["chunk_lint.py"],
+    deps = [":kb_lib"],
+)
+
+# 청크 파일(frontmatter) → head 그래프(-kg) 생성기. 한 청크는 한 파일 (4.3절, 4.9절)
+py_binary(
+    name = "chunk2kg",
+    srcs = ["chunk2kg.py"],
+)
+
+# 정규화 직렬화 (2.5절): bazel run //tools:canonicalize -- --write <files...>
+py_binary(
+    name = "canonicalize",
+    srcs = ["canonicalize.py"],
+    deps = [requirement("rdflib")],
+)

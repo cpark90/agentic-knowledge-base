@@ -1,0 +1,18 @@
+load("//defs:knowledge.bzl", "kb_chunk_lint_test")
+
+package(default_visibility = ["//visibility:public"])
+
+# 청크 본문(assertion) 파일 — head·provenance·pubinfo 는 //kg 에 있다 (노트 4.9절)
+filegroup(
+    name = "bodies",
+    srcs = glob(
+        ["**/*.md"],
+        allow_empty = True,
+    ),
+)
+
+# 42줄 게이트 (4.1절)
+kb_chunk_lint_test(
+    name = "lint_test",
+    chunks = [":bodies"],
+)
