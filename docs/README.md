@@ -20,12 +20,25 @@
 
 ## 설계 문서
 
+**구현 설계** — 이 저장소가 체계를 어떻게 실현했는가.
+
 | 문서 | 다루는 것 |
 |---|---|
-| [`DESIGN.md`](DESIGN.md) | **먼저 읽는다.** 이 저장소가 체계를 구현하는 방식 — 확정 결정 A1–A5, 왜 Bazel인가, 층 구조, 세 실패 모드의 이 저장소판 |
+| [`DESIGN.md`](DESIGN.md) | **먼저 읽는다.** 확정 결정 A1–A5, 왜 Bazel인가, 층 구조, 세 실패 모드의 이 저장소판 |
 | [`artifact-placement.md`](artifact-placement.md) | 모든 산출물이 ODD·기반·plane × level 격자 어디에 놓이는가. 빈 칸의 해석과 새 산출물의 배치 규칙 |
 | [`storage-design.md`](storage-design.md) | 청크 저장 — 한 청크 한 파일, 네 그래프의 실현, frontmatter → head 생성 파이프라인, 정규화 직렬화 |
 | [`gate-design.md`](gate-design.md) | 검사 게이트 — 무엇을 기계가 강제하고 무엇이 규약으로 남았는가, Bazel 배선, 게이트 추가 절차 |
+
+**체계 운영** — 진행 상태와 미결. 결정이 아니라 **추적해야 하는 것**이라 청크가
+아니다.
+
+| 문서 | 다루는 것 |
+|---|---|
+| [`roadmap.md`](roadmap.md) | 도입 7단계와 현재 위치(2단계 완료), 단계별 측정 산출, 3단계 진입 조건 |
+| [`risks-and-tensions.md`](risks-and-tensions.md) | 체계가 실패하는 방식과 대응, 서로 당기는 힘 사이의 균형점(정해진 것과 미정) |
+| [`open-questions.md`](open-questions.md) | 체계의 미해결 26건과 구현의 미해결 9건. 둘을 구분하는 것이 요점 |
+| [`references.md`](references.md) | 어느 구조를 어느 표준에서 가져왔는가, 개발 참조 프로파일 |
+| [`decomposition-audit.md`](decomposition-audit.md) | 설계 노트가 어디로 갔는가 — 절별 대응과 커버리지 감사 |
 
 ## 소통 채널
 
@@ -38,11 +51,29 @@ hci→조사)와 승인 게이트(`status: approved`는 유저만)는 그 안의
 
 | 문서 | 위치 | 성격 |
 |---|---|---|
-| `agent-knowledge-system-notes.md` | 저장소 루트 | **체계의 설계 원본.** 이 저장소가 구현하는 대상. 여기 문서들은 노트를 재서술하지 않는다 |
 | `README.md` | 루트 | 저장소 소개 — 구조·명령·현재 담긴 지식·도입 단계 |
 | `AGENTS.md` | 루트 | 에이전트 하네스 운영 규칙 — 역할·워크플로·황금률 |
 | `STYLEGUIDE.md` | 루트 | 컴포넌트별 저작 스타일 — `[지킴]`/`[권장]` |
 | `docs/*.md` | 여기 | **왜 이 구조인가**. 위 셋이 "무엇을 어떻게 하라"면 여기는 "왜 그렇게 배선했나" |
+
+## "노트 N.N절" 인용에 대하여
+
+청크와 문서 곳곳에 `(노트 2.3절)` 같은 인용이 있다. **노트**는
+`agent-knowledge-system-notes.md` — 이 체계의 설계 원본이었던 2476줄짜리 문서다.
+2026-09-01에 체계 자신의 규칙에 따라 **결정 청크와 이 디렉토리의 문서로 분해되고
+제거되었다.**
+
+절 번호는 그대로 둔다 — 그것이 **출처 기록**이기 때문이다. 어느 청크가 노트의
+어느 절에서 왔는지가 남아야 분해의 충실도를 나중에 감사할 수 있다. 원본은 git
+이력에 있다:
+
+```bash
+git log --all --oneline -- agent-knowledge-system-notes.md
+git show ed633cc:agent-knowledge-system-notes.md
+```
+
+기계가 읽는 출처는 각 청크의 `derived_from: [.../id/doc-system-notes]`이고, 그
+개체는 `kg/base-kg.ttl`에 있다 (지속 IRI — 문서가 사라져도 IRI는 유지된다).
 
 ## 참조 저장소의 설계 문서
 

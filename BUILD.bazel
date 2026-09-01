@@ -2,8 +2,6 @@ load("//defs:knowledge.bzl", "kb_chunk_lint_test")
 
 package(default_visibility = ["//visibility:public"])
 
-exports_files(["agent-knowledge-system-notes.md"])
-
 # 산출물 접미사 규약 (노트 0.2절) — 저장소의 모든 TTL 산출물에 적용
 kb_chunk_lint_test(
     name = "naming_test",

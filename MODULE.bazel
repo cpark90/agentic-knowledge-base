@@ -1,6 +1,6 @@
 """agentic-knowledge-base — 에이전트 지식 관리 체계의 Bazel 하네스.
 
-agent-knowledge-system-notes.md의 체계를 인스턴스화한다.
+에이전트 지식 관리 체계를 인스턴스화한다 (체계의 규칙은 chunks/decision/).
 - 지식 산출물(온톨로지·ODD·kg·청크)은 데이터 타깃이다
 - 검사 게이트(6.7절)는 테스트 타깃이다 — `bazel test //...`가 게이트 전체다
 - 참조 저장소(harness_ontology, harness-recipes)의 내용은 청크로 승격해

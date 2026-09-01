@@ -40,3 +40,160 @@ id:comp-recipe-standard a agt:Composite ;
     rdfs:label "recipe standard"@en , "레시피 표준"@ko ;
     agt:hasLevel agt:concrete ;
     agt:hasDirectPart id:chunk-d0018 , id:chunk-d0019 , id:chunk-d0020 .
+
+### 노트 분해 산출 — Part IV·V·VI 나머지 (구조 모델과 사다리의 세부)
+
+id:comp-chunk-model a agt:Composite ;
+    rdfs:label "chunk model"@en , "청크 모델"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0071 , id:chunk-d0072 , id:chunk-d0077 ,
+        id:chunk-d0078 , id:chunk-d0079 , id:chunk-d0080 .
+
+id:comp-composite-projection a agt:Composite ;
+    rdfs:label "composite and projection"@en , "구성체와 투영"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0073 , id:chunk-d0074 , id:chunk-d0075 , id:chunk-d0076 .
+
+id:comp-plane-operation a agt:Composite ;
+    rdfs:label "plane operation"@en , "plane의 운용"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0081 , id:chunk-d0082 , id:chunk-d0083 , id:chunk-d0084 .
+
+id:comp-ladder-mechanism a agt:Composite ;
+    rdfs:label "ladder mechanism detail"@en , "사다리 메커니즘의 세부"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0085 , id:chunk-d0086 , id:chunk-d0087 ,
+        id:chunk-d0088 , id:chunk-d0089 .
+
+### 노트 분해 산출 — Part VII (미확정의 표현)
+
+id:comp-uncertainty-as-csp a agt:Composite ;
+    rdfs:label "uncertainty as constraint satisfaction"@en , "미확정의 제약 만족 사상"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0096 , id:chunk-d0097 , id:chunk-d0098 , id:chunk-d0099 .
+
+id:comp-design-space-operation a agt:Composite ;
+    rdfs:label "design space operation"@en , "설계 공간의 운용"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0100 , id:chunk-d0101 , id:chunk-d0102 ,
+        id:chunk-d0103 , id:chunk-d0104 .
+
+### 노트 분해 산출 — Part VIII 나머지 (링크의 운용)
+
+id:comp-link-operation a agt:Composite ;
+    rdfs:label "link operation"@en , "링크의 운용"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0105 , id:chunk-d0106 , id:chunk-d0107 ,
+        id:chunk-d0108 , id:chunk-d0109 , id:chunk-d0110 , id:chunk-d0111 ,
+        id:chunk-d0112 .
+
+### 노트 분해 산출 — 서두와 Part 0 (체계의 정의와 명명 규약)
+
+id:comp-system-definition a agt:Composite ;
+    rdfs:label "system definition and scope"@en , "체계의 정의와 범위"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0021 , id:chunk-d0022 , id:chunk-d0023 .
+
+id:comp-terminology-rules a agt:Composite ;
+    rdfs:label "terminology and notation rules"@en , "용어와 표기 규칙"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0024 , id:chunk-d0025 , id:chunk-d0031 ,
+        id:chunk-d0033 , id:chunk-d0034 , id:chunk-d0035 .
+
+id:comp-identifier-conventions a agt:Composite ;
+    rdfs:label "axes and identifier conventions"@en , "축과 식별자 규약"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0026 , id:chunk-d0027 , id:chunk-d0028 , id:chunk-d0032 .
+
+id:comp-boundary-specification a agt:Composite ;
+    rdfs:label "boundary specification form"@en , "경계의 명세 형식"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0029 , id:chunk-d0030 .
+
+### 노트 분해 산출 — Part I (왜 이 체계인가)
+
+id:comp-why-this-system a agt:Composite ;
+    rdfs:label "why this system exists"@en , "이 체계가 필요한 이유"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0036 , id:chunk-d0037 , id:chunk-d0038 ,
+        id:chunk-d0039 , id:chunk-d0040 , id:chunk-d0041 , id:chunk-d0042 .
+
+### 노트 분해 산출 — Part II (온톨로지 — 첫째 기반)
+
+id:comp-ontology-role a agt:Composite ;
+    rdfs:label "ontology as foundation"@en , "기반으로서의 온톨로지"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0046 , id:chunk-d0047 , id:chunk-d0048 , id:chunk-d0049 .
+
+id:comp-ontology-hygiene a agt:Composite ;
+    rdfs:label "ontology hygiene and evaluation"@en , "온톨로지 위생과 평가"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0050 , id:chunk-d0051 , id:chunk-d0052 ,
+        id:chunk-d0053 , id:chunk-d0054 , id:chunk-d0055 .
+
+id:comp-domain-profile a agt:Composite ;
+    rdfs:label "domain profile"@en , "도메인 프로파일"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0056 , id:chunk-d0057 .
+
+### 노트 분해 산출 — Part III (ODD — 둘째 기반)
+
+id:comp-odd-document a agt:Composite ;
+    rdfs:label "ODD as a document"@en , "문서로서의 ODD"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0058 , id:chunk-d0059 , id:chunk-d0060 , id:chunk-d0067 .
+
+id:comp-odd-operation a agt:Composite ;
+    rdfs:label "ODD operation and maintenance"@en , "ODD의 운용과 유지"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0061 , id:chunk-d0062 , id:chunk-d0063 ,
+        id:chunk-d0064 , id:chunk-d0065 , id:chunk-d0066 .
+
+### 노트 분해 산출 — Part IX (입력: 체계가 소모하는 사전정보)
+
+id:comp-system-inputs a agt:Composite ;
+    rdfs:label "system inputs"@en , "체계의 입력"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0121 , id:chunk-d0122 , id:chunk-d0123 , id:chunk-d0129 .
+
+id:comp-agent-catalog-input a agt:Composite ;
+    rdfs:label "agent catalog and execution inputs"@en , "에이전트 카탈로그와 실행 입력"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0124 , id:chunk-d0125 , id:chunk-d0126 ,
+        id:chunk-d0127 , id:chunk-d0128 .
+
+### 노트 분해 산출 — Part X (활용: 체계를 소비하는 기능)
+
+id:comp-verification-environment a agt:Composite ;
+    rdfs:label "verification targets and environments"@en , "검증의 대상과 환경"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0130 , id:chunk-d0131 , id:chunk-d0132 ,
+        id:chunk-d0133 , id:chunk-d0134 , id:chunk-d0135 .
+
+id:comp-verification-criteria a agt:Composite ;
+    rdfs:label "pass criteria and credibility"@en , "합격 기준과 신뢰도"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0136 , id:chunk-d0137 , id:chunk-d0138 , id:chunk-d0139 .
+
+id:comp-defect-taxonomy a agt:Composite ;
+    rdfs:label "defect composition and taxonomy"@en , "결함의 구성과 분류"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0140 , id:chunk-d0141 , id:chunk-d0142 , id:chunk-d0143 .
+
+id:comp-utilization-functions a agt:Composite ;
+    rdfs:label "utilization functions"@en , "활용 기능"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0144 , id:chunk-d0145 , id:chunk-d0146 ,
+        id:chunk-d0147 , id:chunk-d0148 , id:chunk-d0149 .
+
+id:comp-projection-uses a agt:Composite ;
+    rdfs:label "projection-based uses"@en , "투영 기반 활용"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0150 , id:chunk-d0151 , id:chunk-d0152 , id:chunk-d0153 .
+
+### 노트 분해 산출 — Part XI (표현·UX)
+
+id:comp-editor-ux a agt:Composite ;
+    rdfs:label "editor and matrix UX"@en , "편집기와 매트릭스 화면"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0154 , id:chunk-d0155 .

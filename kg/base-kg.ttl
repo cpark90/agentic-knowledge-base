@@ -15,9 +15,12 @@ id:asm-bazel-toolchain a agt:Assumption ;
 
 ### 출처 문서 — 내용을 청크로 승격해 가져오는 원천 (prov:wasDerivedFrom 의 대상)
 
+# 2026-09-01: 체계 자신의 규칙에 따라 결정 청크와 docs/ 로 분해되고 제거되었다.
+# IRI는 유지한다 (0.7절 지속 IRI) — 청크들의 derived_from 이 이것을 가리킨다.
 id:doc-system-notes
-    rdfs:label "agent knowledge system design notes"@en , "에이전트 지식 관리 체계 설계 노트"@ko ;
-    prov:atLocation "agent-knowledge-system-notes.md" .
+    rdfs:label "agent knowledge system design notes (decomposed 2026-09-01)"@en ,
+        "에이전트 지식 관리 체계 설계 노트 (2026-09-01 분해됨)"@ko ;
+    prov:atLocation "git history: agent-knowledge-system-notes.md" .
 
 # 지속 IRI 원칙(0.7절): 저장소가 개명되어도 출처 개체의 IRI는 유지한다.
 id:doc-harness-ontology

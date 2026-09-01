@@ -88,7 +88,6 @@ ODD가 concrete인 이유: 검토를 마쳐 **확정된** 경계이기 때문이
 | `docs/*.md` | 설계 문서. 청크 위의 투영이며 결정은 IRI로 인용만 한다 |
 | `docs/feedback/` | 유저 소통 채널 (3-lane, hci 담당) |
 | `.claude/` | 에이전트 역할 정의와 역할별 메모리 |
-| `agent-knowledge-system-notes.md` | 체계의 설계 원본. 이 저장소가 구현하는 대상 |
 
 어휘 폐쇄·shape 검사의 대상이 아니다. 소통 기록과 지식을 섞지 않는다는 것이
 `DESIGN.md` A5다.
