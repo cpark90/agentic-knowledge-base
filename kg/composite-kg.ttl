@@ -1,0 +1,37 @@
+# composite-kg — 구성체: 청크의 순서 있는 묶음 (노트 4.5절, 4.7절).
+# 부분은 최대 9개(7±2), 부분의 plane·level은 전체와 같다 (동질성).
+# 청크 head는 생성물(chunks-kg)이고, 구성체는 청크가 아니므로 여기 손으로 쓴다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix id: <https://agentic-knowledge-base.dev/id/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+id:comp-knowledge-structure a agt:Composite ;
+    rdfs:label "knowledge structure model"@en , "지식 구조 모델"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0002 , id:chunk-d0011 , id:chunk-d0003 , id:chunk-d0004 .
+
+id:comp-ladder-update a agt:Composite ;
+    rdfs:label "abstraction ladder and update mechanism"@en , "추상화 사다리와 갱신 메커니즘"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0005 , id:chunk-d0006 , id:chunk-d0007 .
+
+id:comp-boundary-model a agt:Composite ;
+    rdfs:label "boundary and observation model"@en , "경계와 관측 모델"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0008 , id:chunk-d0012 .
+
+id:comp-traceability a agt:Composite ;
+    rdfs:label "traceability model"@en , "추적성 모델"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0009 , id:chunk-d0010 .
+
+id:comp-harness-methodology a agt:Composite ;
+    rdfs:label "harness ontology methodology"@en , "하네스 온톨로지 방법론"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0013 , id:chunk-d0014 , id:chunk-d0015 ,
+        id:chunk-d0016 , id:chunk-d0017 .
+
+id:comp-recipe-standard a agt:Composite ;
+    rdfs:label "recipe standard"@en , "레시피 표준"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0018 , id:chunk-d0019 , id:chunk-d0020 .

@@ -72,11 +72,15 @@
    객관적 `checkMethod`(명령 또는 관측 수단), `verificationGrade`.
 2. ODD 개체의 `agt:hasCondition` 목록에 등록한다. `bazel test //odd:gate_test`.
 
-**④ 참조 저장소 내용 승격** — `../harness_ontology`, `../harness-recipes`의 지식 활용.
+**④ 참조 저장소 내용 승격** — `../harness-functional`(구 harness_ontology,
+하네스의 functional+ODD)과 `../harness-concrete`(구 harness-recipes, 하네스의
+logical+concrete)의 지식 활용.
 1. 필요한 부분만 읽는다. 프로젝트 자체를 빌드에 연결하지 않는다 (ODD 명시 제외).
 2. 가져올 지식을 `agt:` 어휘의 청크로 다시 쓴다 — `ho:` 어휘를 섞지 않는다.
 3. frontmatter `derived_from`에 출처 개체(`id:doc-harness-ontology` /
-   `id:doc-harness-recipes`)를 남긴다. 출처 없는 승격은 감사(10.4절)가 잡는다.
+   `id:doc-harness-recipes` — IRI는 개명 전 이름을 유지, 0.7절 지속 IRI)를
+   남긴다. 출처 없는 승격은 감사(10.4절)가 잡는다.
+4. 이송(원본에서 제거하며 옮기는 경우)이면 원본 저장소에 이송 표기를 남긴다.
 
 **⑤ 게이트 실패 대응.**
 - FAIL 메시지에 노트 절 번호가 있다 — 그 절이 수정 방향이다.

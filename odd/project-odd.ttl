@@ -20,7 +20,7 @@ id:odd-agentic-knowledge-base a agt:ODD ;
     agt:excludes
         "원격 실행·원격 캐시(RBE) — reviewed 2026-09, 이유: 로컬 개발 전용 단계" ,
         "CI 파이프라인 — reviewed 2026-09, 이유: Part XII 1단계 범위 밖, 게이트가 안정된 뒤 도입" ,
-        "참조 저장소(harness_ontology·harness-recipes) 빌드 의존 — reviewed 2026-09, 이유: 내용을 청크로 승격해 활용하고(prov:wasDerivedFrom), 프로젝트 자체는 직접 사용하지 않는다" .
+        "참조 저장소(harness-functional·harness-concrete, 구 harness_ontology·harness-recipes) 빌드 의존 — reviewed 2026-09, 이유: 내용을 청크로 승격해 활용하고(prov:wasDerivedFrom), 프로젝트 자체는 직접 사용하지 않는다" .
 
 ### 정적 요소
 

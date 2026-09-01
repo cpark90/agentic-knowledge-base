@@ -13,8 +13,9 @@ Claude Code용 진입점이며 두 문서를 재진술하지 않는다.
    `kg/`에 손으로 쓰지 않는다.
 5. 역할·권한(`AGENTS.md` 표)의 형식 원본은 `kg/catalog-kg.ttl` — 문서와 그래프를
    같은 커밋에서 일치시킨다.
-6. 참조 저장소(`../harness_ontology`, `../harness-recipes`)는 내용의 원천일 뿐 빌드
-   의존이 아니다 — 지식을 `agt:` 청크로 승격하고 `derived_from`으로 출처를 남긴다.
+6. 참조 저장소(`../harness-functional`=하네스 ODD+functional, `../harness-concrete`
+   =하네스 logical+concrete)는 내용의 원천일 뿐 빌드 의존이 아니다 — 지식을
+   `agt:` 청크로 승격하고 `derived_from`으로 출처를 남긴다.
 7. 산문은 한글, 식별자·라벨(en)은 영어. 지어낸 용어 금지 (노트 0.0절, 0.6절).
 
 체계의 설계 근거가 필요하면 `agent-knowledge-system-notes.md`의 해당 절을 연다 —

@@ -91,8 +91,12 @@ derived_from: [<출처 IRI>] # 선택
 
 ## 참조 저장소 — 내용 활용, 직접 의존 없음
 
-`../harness_ontology`(하네스 온톨로지·방법론)와 `../harness-recipes`(조립
-명세)는 **내용의 원천**이다. 프로젝트 자체를 빌드에 연결하지 않고, 필요한
-지식을 `agt:` 어휘의 청크로 승격해 가져오며 출처를 `prov:wasDerivedFrom`
-으로 남긴다 (출처 개체는 `kg/base-kg.ttl`의 `id:doc-harness-ontology`,
-`id:doc-harness-recipes`).
+참조 저장소들은 이 체계의 추상화 사다리로 재배치되었다:
+`../harness-functional`(구 harness_ontology — 하네스의 **ODD + functional**
+수준: 어휘 TBox·shapes)과 `../harness-concrete`(구 harness-recipes —
+하네스의 **logical + concrete** 수준: union root·부품 라이브러리·조립 명세).
+둘 다 **내용의 원천**일 뿐 빌드에 연결하지 않으며, 필요한 지식을 `agt:`
+어휘의 청크로 승격해 가져오고 출처를 `prov:wasDerivedFrom`으로 남긴다
+(출처 개체는 `kg/base-kg.ttl`의 `id:doc-harness-ontology`,
+`id:doc-harness-recipes` — 지속 IRI라 개명 전 이름 유지). 일반 방법론은
+이미 청크 d-0013~d-0020으로 이송되었다.

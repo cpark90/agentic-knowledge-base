@@ -1,0 +1,28 @@
+---
+iri: https://agentic-knowledge-base.dev/id/chunk-d0019
+plane: decision
+level: concrete
+label_ko: 레시피 필수 코어 — 규약이 shape보다 강하다
+label_en: Recipe required core - convention over SHACL floor
+state: valid
+derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
+generated_at: 2026-09-01T00:00:00+09:00
+---
+**결론** — 레시피의 필수 형태는 두 층으로 강제한다. shape(SHACL)는
+의도·완결성의 최소만 구조적으로 강제하고(라벨 + 도메인·과업·프롬프트·
+워크플로 각 1 이상), 그 위의 필수 술어 집합(도구·guardrail·모델·
+capability·태그 등)은 **플릿 규약**으로 요구하되 린터·감사·리뷰가
+지킨다. 규약 ⊇ shape — 규약이 항상 더 강한 요구다.
+
+**근거** (harness-recipes RECIPE_STANDARD §0–1)
+- 필수/선택의 구분은 발명이 아니라 **53개 레시피의 실측 교집합**이다 —
+  전수 커버리지 술어가 hard core, 대부분 커버리지 술어가 규약 요구가
+  된다. 표준이 먼저 있고 데이터가 따르는 것이 아니라 그 반대다.
+- shape의 minCount를 규약 수준까지 올리지 않는 이유: 같은 shape가 연합
+  CI에서 하위 저장소 데이터까지 검증하므로, 상한선을 shape에 넣으면
+  정당한 축소 프로파일까지 깨진다. 강한 요구는 규약·린터 층에 둔다.
+- 표준은 바닥이지 천장이 아니다 — 원천이 제공하면 잘 타입된 다른
+  바인딩을 얼마든지 더 실을 수 있다.
+
+**이 저장소와의 관계** — 검사 게이트(6.7절)와 스타일 규약(STYLEGUIDE의
+[지킴]/[권장])의 이층 구조가 같은 원리다: shape는 최소, 규약은 실측.

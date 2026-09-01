@@ -19,10 +19,13 @@ id:doc-system-notes
     rdfs:label "agent knowledge system design notes"@en , "에이전트 지식 관리 체계 설계 노트"@ko ;
     prov:atLocation "agent-knowledge-system-notes.md" .
 
+# 지속 IRI 원칙(0.7절): 저장소가 개명되어도 출처 개체의 IRI는 유지한다.
 id:doc-harness-ontology
-    rdfs:label "harness ontology repository"@en , "하네스 온톨로지 저장소"@ko ;
-    prov:atLocation "../harness_ontology" .
+    rdfs:label "harness functional repository (formerly harness_ontology)"@en ,
+        "하네스 functional 저장소 (구 harness_ontology)"@ko ;
+    prov:atLocation "../harness-functional" .
 
 id:doc-harness-recipes
-    rdfs:label "harness recipes repository"@en , "하네스 레시피 저장소"@ko ;
-    prov:atLocation "../harness-recipes" .
+    rdfs:label "harness concrete repository (formerly harness-recipes)"@en ,
+        "하네스 concrete 저장소 (구 harness-recipes)"@ko ;
+    prov:atLocation "../harness-concrete" .
