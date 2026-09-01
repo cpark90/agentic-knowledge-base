@@ -197,3 +197,35 @@ id:comp-editor-ux a agt:Composite ;
     rdfs:label "editor and matrix UX"@en , "편집기와 매트릭스 화면"@ko ;
     agt:hasLevel agt:concrete ;
     agt:hasDirectPart id:chunk-d0154 , id:chunk-d0155 .
+
+### 참조 저장소 승격 2차 (2026-09-02) — 연합·저작·빌드·명세
+
+id:comp-federation-invariants a agt:Composite ;
+    rdfs:label "federation invariants"@en , "연합의 불변식"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0156 , id:chunk-d0157 , id:chunk-d0158 , id:chunk-d0159 .
+
+id:comp-authoring-discipline a agt:Composite ;
+    rdfs:label "authoring discipline"@en , "저작 규율"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0160 , id:chunk-d0161 , id:chunk-d0163 .
+
+id:comp-reproducible-build a agt:Composite ;
+    rdfs:label "reproducible build projection"@en , "재현 가능한 빌드 투영"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0162 , id:chunk-d0178 , id:chunk-d0179 , id:chunk-d0180 .
+
+id:comp-selection-policy a agt:Composite ;
+    rdfs:label "deterministic selection"@en , "결정론적 선택"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0176 , id:chunk-d0177 .
+
+id:comp-verifiable-spec a agt:Composite ;
+    rdfs:label "specification as verifiable contract"@en , "검증 가능한 명세"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0181 , id:chunk-d0182 .
+
+id:comp-spec-content a agt:Composite ;
+    rdfs:label "what a specification carries"@en , "명세가 담는 것"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0183 , id:chunk-d0184 , id:chunk-d0185 .
