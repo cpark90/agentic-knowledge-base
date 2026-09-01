@@ -13,7 +13,7 @@ generated_at: 2026-09-01T00:00:00+09:00
 픽스처를 발명하는 대신 **명시적 수용 사유**를 기록하고 그 축을
 생략한다 — 이것은 갭이 아니라 정당한 감사 결과다.
 
-**근거** (harness-recipes RECIPE_STANDARD §2)
+**근거** (harness-concrete RECIPE_STANDARD §2)
 - 원천에 없던 시나리오나 정책을 지어내는 것은 정직한 과소 반영보다
   나쁘다 — 표현이 원천을 왜곡하기 시작하면 coverage-audit(source→표현
   충실도 감사, d-0015)의 방향 자체가 무의미해진다.

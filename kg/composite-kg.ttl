@@ -5,6 +5,11 @@
 @prefix id: <https://agentic-knowledge-base.dev/id/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
+id:comp-project-harness a agt:Composite ;
+    rdfs:label "this project's harness decisions"@en , "이 프로젝트의 하네스 결정"@ko ;
+    agt:hasLevel agt:concrete ;
+    agt:hasDirectPart id:chunk-d0001 .
+
 id:comp-knowledge-structure a agt:Composite ;
     rdfs:label "knowledge structure model"@en , "지식 구조 모델"@ko ;
     agt:hasLevel agt:concrete ;

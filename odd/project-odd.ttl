@@ -38,7 +38,7 @@ id:cond-python-runtime a agt:StaticElement ;
 
 id:cond-repo-layout a agt:StaticElement ;
     rdfs:label "repository layout"@en , "저장소 구조"@ko ;
-    agt:conditionValue "ontology/ odd/ kg/ space/ chunks/ tools/ defs/ — 접미사 규약은 0.2절, 한 청크는 한 파일" ;
+    agt:conditionValue "ontology/ odd/ kg/ space/ chunks/ tools/ defs/ docs/ .claude/ — 접미사 규약은 0.2절, 한 청크는 한 파일. docs/·.claude/는 그래프 밖(소통 채널·에이전트 정의)" ;
     agt:checkMethod "bazel test //:naming_test (접미사 린트) + //chunks:lint_test" ;
     agt:verificationGrade "A" .
 
@@ -66,6 +66,6 @@ id:cond-network a agt:EnvironmentalCondition ;
 
 id:cond-concurrent-agents a agt:DynamicElement ;
     rdfs:label "concurrent agents"@en , "동시 에이전트 수"@ko ;
-    agt:conditionValue "≤ 2 (구축 단계: 메인 세션 + dispatch 1)" ;
-    agt:checkMethod "활성 Claude 세션 수 확인" ;
+    agt:conditionValue "≤ 5 — 카탈로그 역할별 agt:maxConcurrent 의 합 (orchestrator·developer·vnv·inspection·hci 각 1). 9.2절: 동시 활성 가능한 역할 조합이 이 한도 안에 있어야 한다" ;
+    agt:checkMethod "kg/catalog-kg.ttl 의 agt:maxConcurrent 합 ≤ 5, 그리고 실행 중 활성 세션·dispatch 수 확인" ;
     agt:verificationGrade "B" .

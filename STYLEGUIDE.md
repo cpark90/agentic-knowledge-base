@@ -106,21 +106,30 @@
 ## §5. 지식그래프 A-Box (`kg/*-kg.ttl`)
 
 - **[지킴]** 청크 head를 손으로 쓰지 않는다 (생성 산출물). 여기 두는 것은 청크가
-  아닌 개체다: 가정, 출처 문서, 역할, 스코프, 하네스.
-- **[지킴]** 개체 IRI는 `id:` 네임스페이스, `<kind>-<slug>` 소문자 케밥:
+  아닌 개체다: 가정, 출처 문서, 구성체, 역할, 스코프, 채널, 하네스, ODD.
+- **[지킴]** 개체 IRI는 `id:` 네임스페이스, `<kind>-<slug>` 소문자 케밥. 새 접두사를
+  쓰기 전에 이 표에 등록한다 — 표에 없는 접두사가 그래프에 나타나면 그 자체가
+  드리프트 신호다:
 
-  | 종류 | 접두사 | 예 |
-  |---|---|---|
-  | 청크 | `chunk-` | `id:chunk-d0001` |
-  | 가정 | `asm-` | `id:asm-bazel-toolchain` |
-  | 조건 | `cond-` | `id:cond-build-system` |
-  | 출처 문서 | `doc-` | `id:doc-system-notes` |
-  | 역할 | `role-` | `id:role-developer` |
-  | 스코프 | `scope-` | `id:scope-developer` |
-  | 하네스 | `h-` | `id:h-akb` |
-  | 구성체 | `comp-` | `id:comp-…` |
-  | 시나리오 | `scn-` | `id:scn-…` |
-  | 실행 기록 | `run-` | `id:run-…` |
+  | 종류 | 접두사 | 예 | 사는 곳 |
+  |---|---|---|---|
+  | 청크 | `chunk-` | `id:chunk-d0001` | (생성) `chunks-kg.ttl` |
+  | 가정 | `asm-` | `id:asm-bazel-toolchain` | `base-kg.ttl` |
+  | 출처 문서 | `doc-` | `id:doc-system-notes` | `base-kg.ttl` |
+  | 구성체 | `comp-` | `id:comp-traceability` | `composite-kg.ttl` |
+  | ODD | `odd-` | `id:odd-agentic-knowledge-base` | `project-odd.ttl` |
+  | 조건 | `cond-` | `id:cond-build-system` | `project-odd.ttl` |
+  | 하네스 | `h-` | `id:h-akb` | `catalog-kg.ttl` |
+  | 역할 | `role-` | `id:role-developer` | `catalog-kg.ttl` |
+  | 스코프 | `scope-` | `id:scope-developer` | `catalog-kg.ttl` |
+  | 채널 | `chan-` | `id:chan-user-feedback` | `catalog-kg.ttl` |
+  | 시나리오 | `scn-` | (아직 없음 — Part XII 5단계) | `-space` / `-kg` |
+  | 실행 기록 | `run-` | (아직 없음 — Part XII 6단계) | `run-kg` |
+
+- **[지킴]** 카탈로그(`catalog-kg.ttl`)의 완전성: 하네스가 `agt:hasRole` 하는 모든
+  역할은 대응 스코프를 갖고 하네스가 그것을 `agt:grants` 한다. 역할을 추가하면
+  스코프도 같은 커밋에서 파생한다 (3.4절) — 스코프 없는 역할은 무엇의
+  부분집합인지 말할 수 없다.
 
 - **[지킴]** 출처·귀속·버전은 PROV-O만 쓴다 (4.3절): `prov:wasDerivedFrom`,
   `prov:wasAttributedTo`, `prov:generatedAtTime`, `prov:atLocation`.

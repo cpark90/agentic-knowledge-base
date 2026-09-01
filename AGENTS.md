@@ -30,8 +30,11 @@
 
 ## 에이전트 역할 (노트 9.2절 카탈로그의 부분집합)
 
-형식 원본: `kg/catalog-kg.ttl` (`id:h-akb`). 각 역할은 자기 write plane 밖을 수정하지
-않는다. 설계/구현/운영 역할은 같은 write plane을 공유하지 않는다.
+형식 원본: `kg/catalog-kg.ttl` (`id:h-akb`) — 역할 5개와 각각의 스코프
+(`id:scope-*`)가 거기 있다. 각 역할은 자기 write plane 밖을 수정하지 않는다.
+설계/구현/운영 역할은 같은 write plane을 공유하지 않는다. 별도 세션으로 도는
+역할은 정의 파일을 갖는다(`.claude/agents/hci.md`); orchestrator는 메인이라
+이 표가 정의이고, developer·vnv는 dispatch 시 이 표와 스코프로 브리핑한다.
 
 | 역할 | 책임 | write | read | 구동 | git |
 |---|---|---|---|---|---|
@@ -47,7 +50,9 @@
   조회 범위는 저장소 전체다. 다른 에이전트는 채널에서 **유저에게 전달할 자기 항목**
   (`agents/` lane)과 조사 lane의 자기 담당 답만 작성·수정할 수 있고, 이외 채널 파일은
   조회만 가능하다.
-- 동시 활성 수의 합은 ODD 동적 요소(`id:cond-concurrent-agents`, ≤ 2) 안이어야 한다.
+- 역할별 `agt:maxConcurrent`의 합은 ODD 동적 요소(`id:cond-concurrent-agents`,
+  현재 ≤ 5) 안이어야 한다 (9.2절·9.6절). 역할을 추가하면 ODD 한도도 함께 검토한다 —
+  지금 이 검사는 규약이고 게이트가 아니다(README "다음" 참조).
 - 커밋 전 `bazel test //...` PASS를 확인한다. 커밋은 inspection(또는 유저 지시)만.
 
 ## 표준 워크플로
@@ -57,7 +62,11 @@
    (frontmatter 스키마는 `STYLEGUIDE.md` §4, 형식 예는 `README.md`).
 2. 전제가 있으면 가정 개체를 `kg/base-kg.ttl`에 추가하고 frontmatter `assumes`로
    가리킨다. 가정은 ODD 조건을 `agt:refersTo` 해야 한다.
-3. `bazel test //...` — chunks-kg 생성과 게이트가 한 번에 돈다.
+3. **같은 커밋에서 구성체에 잇는다** — `kg/composite-kg.ttl`의 기존 구성체에
+   `agt:hasDirectPart`로 넣거나, 주제가 새로우면 구성체를 하나 만든다. 부분은
+   최대 9개(7±2)이고 부분의 plane·level은 전체와 같아야 한다(동질성, 4.5절).
+   어느 구성체의 부분도 아니고 링크도 없는 청크가 고아다(4.13절 고아율).
+4. `bazel test //...` — chunks-kg 생성과 게이트가 한 번에 돈다.
 
 **② 온톨로지 확장** — 새 개념이 필요할 때.
 1. 기존 어휘를 먼저 찾는다 (`grep -r "찾는개념" ontology/`). 같은 뜻의 개념을 둘

@@ -14,7 +14,7 @@ generated_at: 2026-09-01T00:00:00+09:00
 capability·태그 등)은 **플릿 규약**으로 요구하되 린터·감사·리뷰가
 지킨다. 규약 ⊇ shape — 규약이 항상 더 강한 요구다.
 
-**근거** (harness-recipes RECIPE_STANDARD §0–1)
+**근거** (harness-concrete RECIPE_STANDARD §0–1)
 - 필수/선택의 구분은 발명이 아니라 **53개 레시피의 실측 교집합**이다 —
   전수 커버리지 술어가 hard core, 대부분 커버리지 술어가 규약 요구가
   된다. 표준이 먼저 있고 데이터가 따르는 것이 아니라 그 반대다.

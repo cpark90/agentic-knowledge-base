@@ -2384,7 +2384,13 @@ SELECT ?anc WHERE { :s-203 agt:refines+ ?anc }
 
 - `CODESTYLE.md`, `CLAUDE.md`
 - V&V 프로젝트 (참고 대상)
-- `harness-recipes` — https://github.com/cpark90/harness-recipes
+- 하네스 지식 — 2026-09에 이 체계의 사다리(6.1절) 기준으로 두 저장소로 재배치됨
+  - `harness-functional` (하네스의 ODD + functional: 어휘 TBox·shapes·도구)
+    — https://github.com/cpark90/harness-functional (구 `harness_ontology`)
+  - `harness-concrete` (하네스의 logical + concrete: union root·중립 부품
+    라이브러리·조립 명세) — https://github.com/cpark90/harness-concrete
+    (구 `harness-recipes`)
+  - 두 저장소의 일반 방법론은 이 체계의 결정 청크 d-0013~d-0020으로 승격됨
 
 # 부록 B. 사례 프로젝트 — device harvest 웹서비스
 

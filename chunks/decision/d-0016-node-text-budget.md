@@ -13,7 +13,7 @@ generated_at: 2026-09-01T00:00:00+09:00
 결정론적). 목표 대역은 130–260 token이며 하한은 권고, 상한만 기계적으로
 강제한다.
 
-**근거** (harness_ontology ONTOLOGYSTYLE §1c)
+**근거** (harness-functional ONTOLOGYSTYLE §1c)
 - 검색 정밀도 최적대가 100–200 word(≈130–260 BPE token)라는 실증에서
   온 값이다.
 - 초과는 그 노드가 두 가지 이상을 말하고 있다는 단일 책임 위반

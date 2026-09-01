@@ -14,7 +14,7 @@ generated_at: 2026-09-01T00:00:00+09:00
 노트로 두지 말고 표준 규칙(guardrail·instruction·스타일 문서 조항)으로
 승격한다.
 
-**근거** (harness_ontology CLAUDE.md — lesson-capture / lesson-reuse /
+**근거** (harness-functional CLAUDE.md — lesson-capture / lesson-reuse /
 lesson-promotion guardrail)
 - 각 에이전트는 cold-start이므로 세션 시작 시 역할 메모리를 읽어
   특화하고, 종료 전 재사용 지식을 자기 폴더에 써서 축적한다 (자기 역할

@@ -12,7 +12,8 @@ id:h-akb a agt:Harness ;
     rdfs:label "agentic-knowledge-base Bazel harness"@en , "agentic-knowledge-base Bazel 하네스"@ko ;
     agt:hasRole id:role-orchestrator , id:role-developer , id:role-vnv ,
         id:role-inspection , id:role-hci ;
-    agt:grants id:scope-orchestrator , id:scope-developer .
+    agt:grants id:scope-orchestrator , id:scope-developer , id:scope-vnv ,
+        id:scope-inspection , id:scope-hci .
 
 ### 채널 — 유저 소통은 hci가 전담한다 (docs/feedback/README.md가 규약 원본)
 
@@ -73,3 +74,27 @@ id:scope-developer a agt:Scope ;
     agt:includesCondition id:cond-build-system , id:cond-python-runtime ,
         id:cond-dependency-lock ;
     agt:excludesCondition id:cond-network .
+
+id:scope-vnv a agt:Scope ;
+    rdfs:label "verification and validation scope"@en , "검증·확인 스코프"@ko ;
+    agt:mode "restrictive" ;
+    agt:subsetOf id:odd-agentic-knowledge-base ;
+    agt:includesCondition id:cond-build-system , id:cond-python-runtime ,
+        id:cond-repo-layout ;
+    agt:conditionalRule "판정만 한다 — 게이트 결과를 annotation 청크로 쓰되 판정 대상(artifact·decision)은 수정하지 않는다 (9.2절 저작·판정 분리)" .
+
+id:scope-inspection a agt:Scope ;
+    rdfs:label "inspection scope"@en , "조사 스코프"@ko ;
+    agt:mode "restrictive" ;
+    agt:subsetOf id:odd-agentic-knowledge-base ;
+    agt:includesCondition id:cond-build-system , id:cond-repo-layout ,
+        id:cond-concurrent-agents ;
+    agt:conditionalRule "git 쓰기(add/commit/push)는 유저가 요청했고 bazel test //... 가 PASS일 때만" .
+
+id:scope-hci a agt:Scope ;
+    rdfs:label "human-computer interaction scope"@en , "유저 소통 스코프"@ko ;
+    agt:mode "restrictive" ;
+    agt:subsetOf id:odd-agentic-knowledge-base ;
+    agt:includesCondition id:cond-language-policy , id:cond-repo-layout ,
+        id:cond-concurrent-agents ;
+    agt:conditionalRule "쓰기는 채널(docs/feedback/**)로 한정, 읽기는 저장소 전체. 지식 산출물 반영은 유저의 status: approved 태깅 뒤 담당 역할이 수행한다" .

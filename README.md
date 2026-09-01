@@ -12,7 +12,8 @@
 보장한다.
 
 에이전트 하네스 운영 규칙은 `AGENTS.md`, 컴포넌트별 작성 스타일은
-`STYLEGUIDE.md`가 원본이다.
+`STYLEGUIDE.md`, **설계 근거는 [`docs/`](docs/README.md)** 가 원본이다 —
+"왜 이 구조인가"는 [`docs/DESIGN.md`](docs/DESIGN.md)부터 읽는다.
 
 ## 구조
 
@@ -20,15 +21,18 @@
 ontology/                  # T-Box — 어휘와 공리 (*-ontology), 모듈 구조는 노트 2.3절
   project-ontology.ttl     #   최상위. import만 하는 얇은 파일
   entity/                  #   plane으로 분류 가능한 개념 (청크·구성체·level)
-  related/                 #   횡단 개념 (조건·스코프·가정·하네스)
+  related/                 #   횡단 개념 (조건·스코프·가정·채널·하네스)
   shapes/                  #   SHACL shape (*-shapes) — 4.4절 청크 규칙 등
 odd/project-odd.ttl        # 이 프로젝트의 운영 설계 영역 (Part III)
 kg/base-kg.ttl             # A-Box — 청크가 아닌 개체 (가정·출처 문서)
-kg/catalog-kg.ttl          # A-Box — 에이전트 카탈로그 (역할·스코프·하네스, 9.2절)
+kg/catalog-kg.ttl          # A-Box — 에이전트 카탈로그 (하네스·역할·스코프·채널, 9.2절)
+kg/composite-kg.ttl        # A-Box — 구성체: 청크의 묶음 (4.5절, 부분 ≤ 9)
 kg/chunks-kg.ttl           # (생성) 청크 head 그래프 — frontmatter에서 생성 (4.3절)
 chunks/<plane>/*.md        # 청크. 한 청크 = 한 파일: frontmatter(head) + 본문 ≤ 42줄
 space/                     # 설계 공간 (*-space, Part VII) — 5단계에서 채움
-docs/feedback/             # 유저 피드백 채널 (그래프 밖) — hci agent 담당, 규약은 README.md
+docs/*.md                  # 설계 문서 (그래프 밖) — DESIGN · artifact-placement · storage · gate
+docs/feedback/             # 유저 피드백 채널 (그래프 밖) — hci agent 담당, 규약은 그 안 README.md
+.claude/agents/            # 에이전트 역할 정의 (hci 등), agent-memory/ 는 역할별 메모리
 tools/                     # 판정 도구: validate(게이트) · chunk_lint · chunk2kg · canonicalize
 defs/knowledge.bzl         # kb_gate_test · kb_chunk_kg · kb_chunk_lint_test 매크로
 ```
@@ -63,11 +67,30 @@ tools/relock.sh
 | chunk lint | 본문 파일 42줄 이하 | 4.1절 |
 | naming | TTL 접미사 규약 | 0.2절 |
 
+## 현재 담긴 지식
+
+| 산출물 | 수 | 내용 |
+|---|---|---|
+| 결정 청크 (`chunks/decision/`) | 20 | d-0001 하네스 채택 / d-0002~d-0012 체계의 골격(청크·plane·사다리·가정·ODD·링크) / d-0013~d-0017 하네스 온톨로지 방법론 / d-0018~d-0020 조립 표준 |
+| 구성체 (`kg/composite-kg.ttl`) | 7 | 프로젝트 하네스 결정 · 지식 구조 · 사다리와 갱신 · 경계와 관측 · 추적성 · 하네스 방법론 · 레시피 표준 — **모든 청크가 어느 구성체의 부분이다(고아 0)** |
+| 온톨로지 청크 (`ontology/**`) | 13 + 루트 | `entity/knowledge-item` 4 + `related/`(condition 3·scope 1·assumption 1·channel 1·harness 3), 그리고 import만 하는 `project-ontology.ttl` |
+| SHACL shape | 5 | 청크 · 구성체 · 조건/ODD · 가정 · 스코프 |
+| ODD 조건 | 7 | 정적 4 · 환경 2 · 동적 1 (전부 판정 방법·등급 포함) |
+| 카탈로그 | 하네스 1 · 역할 5 · 스코프 5 · 채널 1 | `kg/catalog-kg.ttl` — `AGENTS.md` 역할 표의 형식 원본 |
+
+d-0013~d-0020은 참조 저장소에서 **승격**된 지식이다 (`derived_from`으로 출처를
+가리킨다). 승격 후 원본 저장소에서는 제거되었고 그쪽에 이송 표기가 남아 있다.
+
 ## 도입 단계 (노트 Part XII)
 
-- **1단계 (청크와 plane)** — 이 하네스가 구현. 온톨로지 `entity/` 최소본, 청크·게이트 동작.
-- **2단계 (ODD와 스코프)** — 어휘와 `project-odd.ttl` 준비됨. 에이전트 카탈로그·스코프 개체는 다음 작업.
-- 3단계 이후(링크·가정 전파·사다리)는 어휘 확장과 함께 진행.
+- **1단계 (청크와 plane)** — **완료.** 온톨로지 `entity/` 최소본, 한 청크 한 파일,
+  42줄 게이트, 라벨·어휘 폐쇄 검사.
+- **2단계 (ODD와 스코프)** — **완료.** `project-odd.ttl`(조건 7개, 전부 판정 방법
+  보유), 에이전트 카탈로그(역할 5), 역할별 스코프 5, 소통 채널.
+- **다음** — 9.6절 입력 검증을 게이트로 (역할별 read plane 최소 1, 설계/구현/운영이
+  같은 write plane을 공유하지 않음, `maxConcurrent` 합이 ODD 동적 요소 안). 지금은
+  규약으로만 지켜지고 기계가 검사하지 않는다.
+- **3단계 이후** (링크·가정 전파·사다리 완성)는 `related/trace` 모듈 추가와 함께.
 
 ## 청크 형식 — 한 청크는 한 파일
 

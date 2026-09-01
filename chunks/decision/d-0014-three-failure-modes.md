@@ -17,7 +17,7 @@ generated_at: 2026-09-01T00:00:00+09:00
 | context drift (어휘 분화) | 통제 어휘: 스키마가 유일한 어휘, 라벨 유일성 + 동의어는 altLabel, typed edge, 추론 정규화 | 빌드 실패 |
 | context rot (컨텍스트 부패) | 유계 투영: 관련도 순위 + 토큰 예산 상한 | 읽기 경로 |
 
-**근거** (harness_ontology docs/DESIGN.md)
+**근거** (harness-functional 구 docs/DESIGN.md — 이 승격으로 원본은 제거됨)
 - 고아는 예외가 아니라 build failure다 — 새 노드는 같은 커밋 안에서
   그래프에 연결한다. 노드 지역 규칙(shape)이 놓치는 섬은 도달성 BFS가
   잡고, "연결됐지만 빌드 불가"는 capability 짝 맞춤이 잡는다.

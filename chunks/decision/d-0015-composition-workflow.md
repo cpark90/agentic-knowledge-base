@@ -15,7 +15,7 @@ capability마다 제공 컴포넌트를 바인딩해 결핍을 메우고 ④ 조
 게이트를 다시 돌린다. 새 노드도 같은 반-고아·반-drift 불변식에 잡히므로
 그래프는 부패하는 대신 복리로 쌓인다.
 
-**근거** (harness_ontology CLAUDE.md, docs/DESIGN.md)
+**근거** (harness-concrete CLAUDE.md의 조립 워크플로 + harness-functional 구 docs/DESIGN.md)
 - 컨텍스트 팩이 조립에 필요한 입력 전부가 되도록 설계되어 있다 — 팩의
   capability gaps 목록이 메워야 할 것을 명시한다.
 - 템플릿 출처를 남기는 것이 손실 내성의 온톨로지판이다 (어디서 왔는지
