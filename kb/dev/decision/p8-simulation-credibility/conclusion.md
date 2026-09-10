@@ -8,6 +8,7 @@ status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0138]
+refines: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]
 part_of: https://agentic-knowledge-base.dev/id/composite/962ef704-4544-41b5-8b6d-bea52f11c595
 composite: {id: https://agentic-knowledge-base.dev/id/composite/962ef704-4544-41b5-8b6d-bea52f11c595, title_ko: 시뮬레이션의 신뢰도, title: Credibility of the simulation}
 ---

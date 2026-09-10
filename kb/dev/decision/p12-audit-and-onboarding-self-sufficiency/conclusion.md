@@ -7,7 +7,7 @@ title: Audit and onboarding run on the system's output alone
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
-refines: [https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8]
+refines: [https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8, https://agentic-knowledge-base.dev/id/chunk/ba638521-e9b0-4c38-b073-44230ac22785]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0146]
 part_of: https://agentic-knowledge-base.dev/id/composite/7f9b04c1-54f8-415f-83a2-7c0de8016c6a
 composite: {id: https://agentic-knowledge-base.dev/id/composite/7f9b04c1-54f8-415f-83a2-7c0de8016c6a, title_ko: 감사와 온보딩의 자족성, title: Self-sufficiency of audit and onboarding}

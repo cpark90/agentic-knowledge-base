@@ -7,6 +7,7 @@ title: A learned judge must pass accuracy, discrimination, and calibration
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+refines: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]
 part_of: https://agentic-knowledge-base.dev/id/composite/0b5e9efb-5c56-4cc8-92bf-bc0ba2f4f531
 composite: {id: https://agentic-knowledge-base.dev/id/composite/0b5e9efb-5c56-4cc8-92bf-bc0ba2f4f531, title_ko: 학습된 환경과 학습된 판정자, title: Learned environments and learned judges}
 ---

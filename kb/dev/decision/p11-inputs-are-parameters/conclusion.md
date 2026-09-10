@@ -8,6 +8,7 @@ status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0121, https://agentic-knowledge-base.dev/id/chunk-d0122]
+refines: [https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef]
 part_of: https://agentic-knowledge-base.dev/id/composite/c0707632-682f-4f16-bae0-d5b47f69d096
 composite: {id: https://agentic-knowledge-base.dev/id/composite/c0707632-682f-4f16-bae0-d5b47f69d096, title_ko: 체계가 요구하는 입력 목록, title: Inventory of inputs the system requires}
 ---

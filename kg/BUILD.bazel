@@ -1,4 +1,4 @@
-load("//defs:knowledge.bzl", "kb_chunk_kg", "kb_gate_test", "kb_reference_kg")
+load("//defs:knowledge.bzl", "kb_chunk_kg", "kb_gate_test", "kb_metrics", "kb_reference_kg")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -41,4 +41,14 @@ kb_gate_test(
     ontology = ["//kb/ontology:modules"],
     shapes = ["//kb/ontology:shapes"],
     verify_queries = "//tools:verify_queries",
+)
+
+# 골격 지표 — 생성물 (bazel build //kg:metrics → bazel-bin/kg/metrics.md). 4.13절·14.1절
+kb_metrics(
+    name = "metrics",
+    data = [
+        ":chunks_kg",
+        ":kg",
+        ":references_kg",
+    ],
 )

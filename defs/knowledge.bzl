@@ -115,6 +115,16 @@ def kb_odd_kg(name, src, taxonomy, out):
         tools = [Label("//tools:odd2kg")],
     )
 
+def kb_metrics(name, data, out = "metrics.md"):
+    """그래프(-kg)에서 골격 지표 metrics.md를 생성한다 (4.13절, 14.1절 통과 조건)."""
+    native.genrule(
+        name = name,
+        srcs = data,
+        outs = [out],
+        cmd = "$(location //tools:metrics) --out $@ $(SRCS)",
+        tools = [Label("//tools:metrics")],
+    )
+
 def kb_index(name, srcs, out = "index.md"):
     """청크 head에서 라벨 목록 index.md를 생성한다 (5.6절, 부록 E.2).
 

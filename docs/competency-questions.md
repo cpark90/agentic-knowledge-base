@@ -237,6 +237,7 @@ concrete 한 칸만 쓰고 있다는 증거다.*
 
 | 공백 | 종류 | 막고 있는 질문 | 어디에 |
 |---|---|---|---|
+| CQ19·CQ20 측정 | **도구화**(2026-09-10) — `bazel build //kg:metrics`의 하강 완주율·상향 귀속률 | CQ-19·20 | `tools/metrics.py` |
 | ~~`related/trace`~~ | **해소**(2026-09-04, 어휘 29개) | CQ-13~20 | `kb/ontology/related/trace/` |
 | ~~트러스트 티어~~ | **해소**(2026-09-07, 어휘 3개 + shape) | CQ-31·32 | `kb/ontology/related/trust/` |
 | ~~인용 링크 데이터~~ | **해소**(2026-09-07, 링크 27개) | CQ-20 | `tools/extract_refs.py` |

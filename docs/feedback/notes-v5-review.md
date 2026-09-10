@@ -105,5 +105,6 @@ Q10 `counterfactualTest` 폐기 · Q11 노트 커밋(inspection/유저).
 | 4 E(a) OKF 필드 정렬 | **완료** | frontmatter 키 `iri`→`id`, `label_ko`→`title_ko`, `label_en`→`title`, `derived_from`→`sources` (청크 732개, 구성체 182), `chunk2kg`·`extract_refs`·STYLEGUIDE·rules 갱신. `index.md`는 생성물 — `tools/labels.py` + `kb_index` 매크로 (`bazel build //kb/dev:index`) |
 | 5 E(b) `kb/{ontology,odd}` + OpenODD | **완료** | `git mv` + 라벨·경로 재작성 22파일. ODD 원본 `kb/odd/project-odd.yml`(OpenODD, 확장 키 `checks`·`exclusions_reviewed`), `taxonomy.yml`·`project-odd.ttl` 생성(`tools/taxonomy.py`·`odd2kg.py`, 부정 검사 2종 확인). YAML 부분집합 로더는 부채로 기록 |
 | 6 문서 세 층 | **완료** | `tools.md` 전면 재편 — 게이트 총람(19+2)이 원본, 계층·실측 열. `rules.md` §7 development·§8 V&V, `method.md` §13·§14, `ontology.md` development·V&V 층. 결정 링크는 파일 경로(링크 검사 대상) |
-| 7~8 | 미착수 | — |
+| 7 1단계 측정 | **부분** | `tools/metrics.py` + `kb_metrics`(`//kg:metrics`): 고아율 1.2% **통과**, CQ19 0%, CQ20 92%, 사람 검토 0. 고아 요구 7건은 결정 `refines` 연결로 해소. 토큰 감소는 바이트 대리 측정(과제 5 × 체제 6) + 프로토콜 3안을 [`stage1-pass-measurement.md`](stage1-pass-measurement.md)에 — **유저 판단 대기** |
+| 8 E(c)(d) | 미착수 | 도입 3·5·7단계에서 |
 | Q11 노트 커밋 | **유저/inspection** | `git add docs/agent-knowledge-system-notes.md docs/agentic-knowledge-base-structure.md && git commit` |

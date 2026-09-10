@@ -13,7 +13,7 @@
 
 | 단계 | 도입 | 전제 | 끝의 산출 | 14.1 통과 조건 | 이 저장소 |
 |---|---|---|---|---|---|
-| 1. 청크와 plane | 42줄 청크, plane 클래스, 라벨 목록 | `entity/` 최소본 | 청크 수, 고아율 | **같은 작업의 토큰이 줄어듦이 측정됨**, 고아율 < 10% | **미통과** — 7 plane·상주표는 있으나 토큰 감소가 측정된 적 없다 (Q7: 먼저 잰다) |
+| 1. 청크와 plane | 42줄 청크, plane 클래스, 라벨 목록 | `entity/` 최소본 | 청크 수, 고아율 | **같은 작업의 토큰이 줄어듦이 측정됨**, 고아율 < 10% | **부분** — 고아율은 `bazel build //kg:metrics`로 재며 통과(<10%). 토큰 감소는 대리(바이트) 측정과 프로토콜 제안까지 — [`feedback/stage1-pass-measurement.md`](feedback/stage1-pass-measurement.md), 유저 판단 대기 |
 | 2. ODD와 스코프 | ODD 작성, 스코프 파생, 작업 집합 | 1 + 카탈로그 | ODD 이탈 0회, 작업 집합 크기 | 첫 대조 이탈 0, 역할별 작업 집합 200줄 안 | 부분 — ODD(OpenODD 문서)·스코프 있음, `odd_check`·`workset` 없어 이탈·크기 미측정 |
 | 3. 링크 구축 | 편집 부산물로 `refines`·`satisfies` | 2 + 읽기·쓰기 집합 기록 | 링크 밀도 | 링크 밀도 하한, 복원 비율 < 20% | **부분** — refines·supersedes·cites 있음. 읽기·쓰기 기록·`sources` 자동 채움 없음 |
 | 4. 가정과 무효화 | 가정, 판정 식, 전파 | 3 + 판정 A등급 | 전수조사 없는 무효 범위 계산 1회 | 가정 하나를 인위로 깨뜨려 무효 범위 계산 | 미착수 — 어휘(`when`)는 준비 |
@@ -30,7 +30,7 @@
 | **methodology · method · rules** | 규칙은 문서화됨([`rules.md`](rules.md)). 절차 12개 중 11개는 근거를 갖춘 서술 | **프로파일 구축 절차**(method §1)가 비어 있다 |
 | **tools** | 검사·생성 6개 — validate(3계층: report·verify·reason) · chunk_lint · chunk2kg · extract_refs · canonicalize · **term_propose**. `bazel test //...` 게이트 | **활용 도구 0개** — workset/labels · link · query · impact · project · metrics · propagate · revalidate |
 
-지식 실측(2026-09-10, v5 델타 재도출 후): **요구 33** · **결정 182**(구성체 182 · 파일 546 · 대안 청크 182/182,
+지식 실측은 이제 생성물이 원본이다 — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md` (청크 수·고아율·크기 분포·링크 밀도·CQ19/20·트러스트). 아래는 2026-09-10 시점 스냅샷: **요구 33** · **결정 182**(구성체 182 · 파일 546 · 대안 청크 182/182,
 `kb/dev/`) · 옛 결정 153 중 **deprecated 126**·잔류 27(harness 유래 26 + d-0001) ·
 ODD 조건 7 · 역할 5 · 스코프 5 · 인용 링크 23 · 링크 개체 0 · 사람 검토 **0** ·
 가정 1 · `kb/vv/` 비어 있음 · `annotation`·`memory`·`artifact` plane 항목 0.

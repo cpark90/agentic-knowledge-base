@@ -7,7 +7,7 @@ title: Verification is confirmed vertically, horizontally, and by criterion qual
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
-refines: [https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
+refines: [https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9, https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]
 part_of: https://agentic-knowledge-base.dev/id/composite/9ac75416-7fff-4995-be5d-fed7b6ecbb90
 composite: {id: https://agentic-knowledge-base.dev/id/composite/9ac75416-7fff-4995-be5d-fed7b6ecbb90, title_ko: 검증의 세 방향, title: The three directions of verification}
 ---

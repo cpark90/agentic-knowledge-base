@@ -126,6 +126,7 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 | `extract_refs.py` | 본문의 `d-NNNN` 인용 → `references-kg.ttl`의 `agt:cites` | 인용 대상이 실재하지 않음 |
 | `odd2kg.py` + `taxonomy.py` | OpenODD 문서 `kb/odd/project-odd.yml` → `project-odd.ttl`; `related/condition` → `taxonomy.yml` (부록 E.4) | 택소노미 밖 범주, 판정 방법·등급 없는 조건 |
 | `labels.py` | 청크 head → OKF `index.md` (5.6절) | frontmatter 오류 |
+| `metrics.py` | 그래프 → `metrics.md` (4.13절 지표, CQ19·CQ20, 14.1 통과 조건) | 그래프 파싱 실패 |
 
 `kb_yaml.py`는 YAML **부분집합** 로더 — 잠금이 순수 파이썬 휠만 허용해 PyYAML을 못 넣은
 부채다 ([`open-questions.md`](open-questions.md) §3). 생성물은 `bazel-bin`에만 있고 소스 트리에
@@ -146,10 +147,10 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 | `query` | [competency-questions](competency-questions.md) | CQ1~20과 표준 추적 질의 | 3 |
 | `impact` | [method §12 영향 분석](method.md#12-영향-분석) | 변경 전 의존 집합·승인 필요 수 | 3 |
 | `project` | [method §9 투영](method.md#9-투영) | tangle·weave·매트릭스·보고. 저장하지 않고 질의 | 8 |
-| `metrics` | [methodology 완료 판정](methodology.md#완료-판정) | 고아율·링크 밀도·suspect 비율·누락률·라벨 대표성·**CQ19·CQ20** | 1 |
+| `metrics` | [methodology 완료 판정](methodology.md#완료-판정) | **첫 형태 있음** — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md`: 청크 수·고아율·크기 분포·링크 밀도·CQ19·CQ20·트러스트. 없는 것: suspect 비율·누락률·라벨 대표성 | 1 |
 
-`metrics`가 없어 지표를 손으로 세고 있다. 도구가 생기면 문서는 수치를 적지 않고 생성물을
-인용한다 (d-0075).
+`metrics`의 첫 형태가 생겼으므로 문서는 수치를 적지 않고 생성물을 인용한다 (d-0075). 문서에 남아
+있는 수치는 스냅샷 표기가 붙어야 한다.
 
 ## development 층 — 개발 KB의 도구 (노트 Part VII, 전부 미구현)
 
@@ -197,12 +198,12 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 ├── //kb/odd:gate_test             ODD shape  ← //kb/odd:odd (odd2kg) · :taxonomy
 └── //kg:gate_test                 vocab · odd-ref · dangling · verify · SHACL
                                     ← //kg:chunks_kg · //kg:references_kg 를 입력으로
-생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index
+생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics
 ```
 
 `//kb/ontology:chunk_lint_test`는 `bazel test //...`로는 돌고 `//:gate`로는 안 돈다. 배선은
 `defs/knowledge.bzl`의 매크로(`kb_gate_test`·`kb_chunk_kg`·`kb_reference_kg`·`kb_chunk_lint_test`·
-`kb_odd_kg`·`kb_taxonomy`·`kb_index`)로만 선언하며 `py_test`를 직접 쓰지 않는다.
+`kb_odd_kg`·`kb_taxonomy`·`kb_index`·`kb_metrics`)로만 선언하며 `py_test`를 직접 쓰지 않는다.
 
 ## 게이트 밖 — 규약으로 남은 것
 
