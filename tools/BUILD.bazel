@@ -6,6 +6,8 @@ package(default_visibility = ["//visibility:public"])
 exports_files([
     "validate.py",
     "chunk_lint.py",
+    "chunk2kg.py",
+    "gen_build.py",
     "extract_refs.py",
     "kb_lib.py",
     "requirements_lock.txt",
@@ -65,6 +67,16 @@ py_binary(
     name = "metrics",
     srcs = ["metrics.py"],
     deps = [requirement("rdflib")],
+)
+
+# BUILD 생성기 (bazel-dependency-review 2단계): frontmatter·owl:imports → 패키지 BUILD. 원본은 그래프, BUILD 는 뷰
+py_binary(
+    name = "gen_build",
+    srcs = [
+        "chunk2kg.py",
+        "gen_build.py",
+    ],
+    main = "gen_build.py",
 )
 
 # 작업 집합 뷰 (0.5절, 5.6절): 스코프 × 수준 창 → 라벨 목록 + 앵커 이웃, 예산 패킹

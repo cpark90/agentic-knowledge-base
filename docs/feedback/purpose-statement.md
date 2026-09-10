@@ -180,6 +180,7 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 19 | 전체 문서·에이전트 용어를 표준 용어로 정규화 (2026-09-10) | `terminology-normalization.md` — **표대로 적용**, `docs/glossary.md` |
 | 20 | 진행 검토 + 외부 조사로 세부 보충 (2026-09-11) — OKF `sources` 객체화·ODC 한정자 3·PyYAML 정책 정정, 참조 표준 상세 | `external-review-2026-09-11.md` — §3 둘 다 진행(OpenODD 정합·PyYAML 잠금) |
 | 21 | 작업 집합 정의에 **앵커 이웃** — 스코프 × 수준 창 × 앵커 이웃 (2026-09-11) | 노트 0.5·11.3·14.1 정정, `agt:anchor`, `p0-workset-anchor-neighbourhood`, metrics 앵커 비율 |
+| 22 | 의존성·연결성을 Bazel로 — B안 + 링크 deps + 가시성 + rules (2026-09-11 반영 1~4단계) | `bazel-dependency-review.md` 진행 기록 |
 
 **아직 유저 답을 기다리는 것**: `dependency-graph-design.md`의 (a)~(j),
 `chunk-definition-unification.md`(반영 완료로 제거 — git 이력)의 D1~D9(온톨로지·ODD 항목의 plane·level 배정).

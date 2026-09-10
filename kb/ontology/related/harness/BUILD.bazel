@@ -1,7 +1,11 @@
-# 모듈 = 디렉토리, 청크 = 파일. 이 패키지가 모듈 경계다 (노트 2.3절).
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+load("//defs:kb.bzl", "kb_ontology_module")
+
 package(default_visibility = ["//visibility:public"])
 
-filegroup(
+# 모듈 = 디렉토리, 청크 = 파일 (2.3절). IRI https://agentic-knowledge-base.dev/ontology/related/harness
+kb_ontology_module(
     name = "harness",
     srcs = glob(["*.ttl"]),
+    iri = "https://agentic-knowledge-base.dev/ontology/related/harness",
 )

@@ -2,11 +2,11 @@ load("//defs:knowledge.bzl", "kb_chunk_lint_test")
 
 package(default_visibility = ["//visibility:public"])
 
-# 청크 본문(assertion) 파일 — head·provenance·pubinfo 는 //kg 에 있다 (노트 4.9절)
+# 옛 결정(v1 유래, 대부분 deprecated) — decision/ 의 BUILD 는 tools/gen_build.py 가 생성한다. supersedes 의 끝점이라 타깃으로 남긴다.
 filegroup(
     name = "bodies",
-    srcs = glob(
-        ["**/*.md"],
+    srcs = ["//chunks/decision:bodies"] + glob(
+        ["*.md"],
         allow_empty = True,
     ),
 )

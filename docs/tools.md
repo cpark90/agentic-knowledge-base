@@ -32,10 +32,10 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 |---|---|---|---|---|
 | 청크 형식 | 42줄 초과, 라벨 누락, plane·level 유일성 위반, `type`이 온톨로지 밖 | shape | 4.4 | **있음** — `chunk_lint` + `chunk2kg` + `chunk-shapes` |
 | 수준 허용표 | plane에 허용되지 않는 level | shape | 6.4 | **있음** — `residency-shapes` |
-| 복합체 | 부분의 plane·level 불일치, 직접 부분 > 9, 순환 | analysis | 4.5 | 부분 — `composite-shapes`(≤9)만. 동질성·순환은 없음 |
+| 복합체 | 부분의 plane·level 불일치, 직접 부분 > 9, 순환 | analysis | 4.5 | 부분 — `composite-shapes`(≤9); 결정 복합체는 `kb_decision` 규칙이 세 부분·수준을 분석 시점에 검사 |
 | 통제 어휘 | 온톨로지에 없는 술어·개체 | verify | 0.0, 2.12 | **있음** — `validate` vocab |
 | 출처 | `sources`가 빈 청크, 파생 연쇄 전체가 외부 유입인 확정 청크 | verify | 4.3, 2.12 | **있음** — `sources-empty.rq`·`imported-chain-confirmed.rq` |
-| TIM | 링크 타입의 정의역·치역 밖 plane, 카디널리티 초과, 단방향 규칙 위반 | analysis | 10.1 | 없음 (도입 3단계, plane별 규칙) |
+| TIM | 링크 타입의 정의역·치역 밖 plane, 카디널리티 초과, 단방향 규칙 위반 | analysis | 10.1 | **부분** — `defs/kb.bzl` 규칙이 `refines`(상위 수준·plane 단방향)·`serves`(요구만)·`supersedes`(같은 plane)·`verifies`(V&V 주어·같은 수준)를 분석 시점 `fail()`로, 끊긴 링크는 로드 에러, 방향은 `package_group` 가시성 (2026-09-11) |
 | ODD 참조 | ODD에 없는 조건을 참조하는 스코프·가정·시나리오 변수 | verify | 3.3 | **있음** — `validate` odd-ref |
 | ODD 경계 | 후보 값·케이스 값이 ODD 범위 밖 | verify | 9.10 | 없음 (5단계 `space_check`) |
 | 기여 | `serves` 없는 abstract 결정 | verify | 6.8 | 없음 — abstract 결정 자체가 아직 없다 |
@@ -44,15 +44,15 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 | 표본 근거 | `sampling` 없는 concrete 값·케이스 | shape | 6.8, 8.23 | 없음 (5·7단계) |
 | 할당 근거 | 후보가 둘 이상인데 확정된 링크, 배제 근거 없는 기각 | verify | 9.10 | 부분 — 증거 기록 규칙 2 질의(`confirmed-without-evidence`·`confirmed-with-refutation`), 링크 데이터 0 |
 | 기준 바인딩 | 기준 없는 `verifies`, 판정식 없는 기준 | shape | 8.11 | **있음** — `verifies-without-criteria.rq` |
-| 대안 기록 | 대안 청크 없는 결정 | shape | 7.4 | 규약 — 182/182 충족, shape은 없음 |
+| 대안 기록 | 대안 청크 없는 결정 | shape | 7.4 | **있음** — `kb_decision` 의 `alternatives` 가 필수 속성, `gen_build` 가 세 청크 없는 디렉토리를 거부 (로드 시점) |
 | 계약 선행 | 계약보다 먼저 확정된 구현 | verify | 7.5 | 없음 — `contract` plane 항목 0 |
 | 판정 도구 | 컴파일·타입·스키마·린터 실패 | test | 5.4 | 없음 — `artifact` plane 항목 0 |
-| 독립성 | 개발 역할이 V&V KB에 쓴 흔적 | verify | 8.5 | 없음 — `kb/vv/` 비어 있음 |
+| 독립성 | 개발 역할이 V&V KB에 쓴 흔적 | verify | 8.5 | 부분 — 의존 방향(개발 → V&V 금지)은 `//kb:vv_readers` 가시성으로 분석 시점 차단. 쓰기 흔적 검사는 없음 |
 | 승인 | `requirement`·`decision`의 `stable` 전이, 온톨로지 확장, 학습 판정자 결과 | human | 5.4, 2.5, 8.14 | 규약 — `verified` 목록·`status: approved`. 사람 검토 실측 0 |
 | 신뢰 등급 | `generatedBy` 없음, 검증 뒤 수정 | shape | 2.12 | **있음** — `trust-shapes` |
 | 참조 무결성 | 인용 대상·부분·가정·요구가 실재하지 않음 | verify + 생성 | 4.8 | **있음** — `extract_refs`·`validate` dangling |
 
-기계화 9 · 부분 2 · 규약 2 · 없음 8. 없음의 대부분이 도입 3·5·7단계의 산출에 걸려 있다.
+기계화 10 · 부분 4 · 규약 1 · 없음 6 (2026-09-11 Bazel 규칙 반영 후). 없음의 대부분이 도입 5·7단계의 산출에 걸려 있다.
 
 ## 코어 층 — 두 KB가 공유하는 도구
 
@@ -193,8 +193,23 @@ YAML은 PyYAML(잠금 `pyyaml==6.0.2`, 호스트 휠 + sdist 두 해시)로 읽�
 
 ## Bazel 배선
 
+**지식 항목은 타깃이다** (2026-09-11, [`bazel-dependency-review`](feedback/bazel-dependency-review.md) B + 연결성). `defs/kb.bzl`의
+규칙 `kb_chunk`(청크 = 타깃)·`kb_decision`(결정 복합체 = 타깃, 대안 필수)·`kb_ontology_module`(모듈 = 타깃, `owl:imports` = deps)이
+`ChunkInfo`·`OntologyModuleInfo` provider를 내보내고, frontmatter의 `refines`·`serves`·`supersedes`·`verifies`가 **deps**다.
+BUILD는 `tools/gen_build.py`가 frontmatter에서 **생성**하고 커밋한다 — `//:build_drift_test`가 원본과 비교한다 (d-0159).
+Bazel이 맡는 것은 링크의 **구조**: 끊긴 링크 = 로드 에러, 방향 = 분석 시점 `fail()` + `//kb:*_readers` 가시성, 파급 = `bazel query rdeps`,
+42줄·frontmatter = 검증 액션(`bazel build`만으로). 의미(SHACL·통제 어휘·상태)는 그대로 union 게이트(d-0157). 음성 시험은 `//defs/tests`(skylib analysistest).
+
+```bash
+bazel query "rdeps(//kb/..., //kb/dev/requirement:r-008-every-requirement-descends)"   # 영향 집합 (impact 1단계)
+bazel build //kb/dev/decision:all                                                       # 검증 액션 = 42줄·frontmatter
+tools/gen_build.py                                                                       # frontmatter 를 고쳤으면 BUILD 재생성
+```
+
 ```
 //:gate  (test_suite)
+├── //:build_drift_test            생성 BUILD = frontmatter (드리프트 가드)
+├── //defs/tests:*                 음성 시험 5 — plane 단방향·수준 허용표·supersedes plane·verifies 주어·결정 수준
 ├── //:naming_test                 TTL 접미사 규약
 ├── //chunks:lint_test             `chunks/` 항목 42줄
 ├── //kb/dev:lint_test             개발 KB 청크 42줄

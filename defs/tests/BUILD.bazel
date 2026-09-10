@@ -1,0 +1,41 @@
+# 음성 시험 — "이 타깃은 분석에 실패해야 한다" (bazel-dependency-review 3·4단계). 영구 테스트.
+load("//defs:kb.bzl", "kb_chunk", "kb_decision")
+load(":negative.bzl", "failure_test")
+
+package(default_visibility = ["//visibility:private"])
+
+# 고정물 — manual 이라 //... 에 잡히지 않는다
+kb_chunk(name = "fx_req", src = "fx_req.md", iri = "urn:fx:req", plane = "requirement", level = "functional", tags = ["manual"])
+kb_chunk(name = "fx_dec", src = "fx_dec.md", iri = "urn:fx:dec", plane = "decision", level = "concrete", refines = [":fx_req"], tags = ["manual"])
+
+# 1. plane 단방향 — 결정(concrete)이 하위 plane 인 contract(abstract) 를 refines (수준은 더 높아 수준 검사는 통과)
+kb_chunk(name = "fx_ctr", src = "fx_dec.md", iri = "urn:fx:ctr", plane = "contract", level = "abstract", tags = ["manual"])
+kb_chunk(name = "bad_plane_dir", src = "fx_dec.md", iri = "urn:fx:bad1", plane = "decision", level = "concrete", refines = [":fx_ctr"], tags = ["manual"])
+failure_test(name = "plane_direction_test", target_under_test = ":bad_plane_dir", expected = "plane 단방향 위반")
+
+# 2. 수준 허용표 — requirement 가 concrete 에 산다
+kb_chunk(name = "bad_residency", src = "fx_req.md", iri = "urn:fx:bad2", plane = "requirement", level = "concrete", tags = ["manual"])
+failure_test(name = "residency_test", target_under_test = ":bad_residency", expected = "수준 허용표 위반")
+
+# 3. supersedes 는 같은 plane
+kb_chunk(name = "bad_supersedes", src = "fx_dec.md", iri = "urn:fx:bad3", plane = "decision", level = "concrete", supersedes = [":fx_req"], tags = ["manual"])
+failure_test(name = "supersedes_plane_test", target_under_test = ":bad_supersedes", expected = "같은 plane 안에서만")
+
+# 4. verifies 의 주어는 V&V 청크뿐 — 개발 패키지(여기)에서 verifies
+kb_chunk(name = "bad_verifies", src = "fx_dec.md", iri = "urn:fx:bad4", plane = "decision", level = "concrete", verifies = [":fx_dec"], tags = ["manual"])
+failure_test(name = "verifies_subject_test", target_under_test = ":bad_verifies", expected = "verifies 의 주어는")
+
+# 5. 결정은 세 청크 — 대안 없는 결정은 로드 시점 실패라 여기서는 수준 불일치로 잡는다
+kb_decision(
+    name = "bad_decision_levels",
+    conclusion = "fx_dec.md",
+    rationale = "fx_dec.md",
+    alternatives = "fx_dec.md",
+    iri = "urn:fx:comp",
+    part_iris = ["urn:fx:c", "urn:fx:r", "urn:fx:a"],
+    part_levels = ["executable", "logical", "logical"],
+    tags = ["manual"],
+)
+failure_test(name = "decision_levels_test", target_under_test = ":bad_decision_levels", expected = "수준 허용표 위반")
+
+# 6. 가시성 — V&V 항목을 개발 쪽에서 의존 (kb/vv 가 생기면 실제 타깃으로 교체)

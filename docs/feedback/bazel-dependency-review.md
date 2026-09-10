@@ -197,6 +197,17 @@ Bazel에 부담이 아니다.
 | 5 | `chunk2kg`를 규칙 액션으로 분해, `KgInfo` depset 병합 → `//kg:chunks_kg`. `metrics`·`index`를 output group으로 | 생성 TTL 바이트 동일(정규화 후) |
 | 6 | `workset`을 aspect + `--//kb:role` 플래그로. `impact`를 `query rdeps` 위에 | 역할별 작업 집합 크기 = 2단계 통과 조건 측정 |
 
+### 진행 기록 (hci, 2026-09-11)
+
+| 순서 | 상태 | 산출 |
+|---|---|---|
+| 1 규칙·provider | **완료** | `defs/kb.bzl`: `ChunkInfo`·`OntologyModuleInfo`, `kb_chunk`·`kb_decision`·`kb_ontology_module`, 수준 허용표·plane 단방향·serves·supersedes·verifies 분석 시점 `fail()`, 42줄 lint 검증 액션(`bazel build` 411 액션 PASS) |
+| 2 생성기·드리프트 | **완료** | `tools/gen_build.py` → BUILD 14개(요구 33·결정 184·옛 결정 153 타깃, 모듈 10, `modules.bzl`) 커밋, `//:build_drift_test`(음성: 손 편집 시 FAIL 확인). `project-ontology.ttl`의 `owl:imports`에 빠져 있던 channel·state·tag 보강 |
+| 3 링크 → deps | **완료** | `refines` 335·`supersedes` 134 → deps. 끊긴 링크 = 로드 에러 확인. `cites`·`assumes` 제외(확인 2) |
+| 4 가시성 | **완료** | `//kb:dev_readers`·`vv_readers`·`requirement_readers`·`decision_readers`. 역방향 의존 → "not visible" 확인. `//defs/tests` analysistest 5종(skylib 1.7.1) |
+| 5 chunk2kg 분해 | 미착수 | KgInfo depset 병합 |
+| 6 aspect·impact | 미착수 | `rdeps`는 지금도 됨 |
+
 ### 하지 않는 것
 
 - transition으로 plane마다 구성 분기 — 지금 실효 없음.

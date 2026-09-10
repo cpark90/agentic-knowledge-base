@@ -1,0 +1,3119 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_decision")
+
+package(default_visibility = ["//kb:decision_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["**/*.md"]),
+)
+
+kb_decision(
+    name = "p0-agt-namespace",
+    conclusion = "p0-agt-namespace/conclusion.md",
+    rationale = "p0-agt-namespace/rationale.md",
+    alternatives = "p0-agt-namespace/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/d0df4af3-434f-43de-ac31-927b6cf902a8",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/4f432ff2-9703-4ca8-afcb-fc7b41a39d0b", "https://agentic-knowledge-base.dev/id/chunk/19a56942-730c-49fc-80cb-c07cc7ee05f7", "https://agentic-knowledge-base.dev/id/chunk/4d9b1724-6fe1-4fb4-90c6-3609826e88be"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0028-agt-namespace",
+    ],
+)
+
+kb_decision(
+    name = "p0-artifact-filename-suffix",
+    conclusion = "p0-artifact-filename-suffix/conclusion.md",
+    rationale = "p0-artifact-filename-suffix/rationale.md",
+    alternatives = "p0-artifact-filename-suffix/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/0af48edc-840f-49e8-ad8b-60dfb331854d",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/0b0949b2-408d-4c50-98e1-e06bb09b792b", "https://agentic-knowledge-base.dev/id/chunk/fa97d6dc-8842-4a88-b317-d410a80cf7ce", "https://agentic-knowledge-base.dev/id/chunk/b6492fc9-43d1-441d-aa1b-6cbfca385155"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0027-artifact-filename-suffix",
+    ],
+)
+
+kb_decision(
+    name = "p0-classification-by-tags",
+    conclusion = "p0-classification-by-tags/conclusion.md",
+    rationale = "p0-classification-by-tags/rationale.md",
+    alternatives = "p0-classification-by-tags/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/49901d72-dedc-4f2c-a4ca-5ab543eea90c",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/39b345d8-1e30-4562-b1af-fd06c950b2bc", "https://agentic-knowledge-base.dev/id/chunk/21375ecd-b25c-4f67-a6a7-80ba16474ceb", "https://agentic-knowledge-base.dev/id/chunk/c7bb9248-685a-4fb5-9c1e-8349f7833211"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-026-observations-append-only",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0012-scene-situation-scenario",
+    ],
+)
+
+kb_decision(
+    name = "p0-condition-taxonomy",
+    conclusion = "p0-condition-taxonomy/conclusion.md",
+    rationale = "p0-condition-taxonomy/rationale.md",
+    alternatives = "p0-condition-taxonomy/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/7d50713a-5c4d-485d-8a46-a36172a1b114",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/870158d1-2a3e-4b89-b721-7afb4d7a095d", "https://agentic-knowledge-base.dev/id/chunk/46957827-a764-43a0-b254-06d90f7cd453", "https://agentic-knowledge-base.dev/id/chunk/46a21d82-b3a7-45ee-a0eb-d46dee28e3cd"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0030-condition-subclasses",
+    ],
+)
+
+kb_decision(
+    name = "p0-deprecate-not-delete",
+    conclusion = "p0-deprecate-not-delete/conclusion.md",
+    rationale = "p0-deprecate-not-delete/rationale.md",
+    alternatives = "p0-deprecate-not-delete/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8453e658-a276-4f75-83a4-9926df17826b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2e558417-83e2-4f30-8da2-6fca18f21865", "https://agentic-knowledge-base.dev/id/chunk/622a0314-a454-4b41-aef7-c8644cff448c", "https://agentic-knowledge-base.dev/id/chunk/4bbe1502-a3f9-4ccc-8d21-23d6c74f090e"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0035-deprecate-not-delete",
+    ],
+)
+
+kb_decision(
+    name = "p0-genus-differentia-definition",
+    conclusion = "p0-genus-differentia-definition/conclusion.md",
+    rationale = "p0-genus-differentia-definition/rationale.md",
+    alternatives = "p0-genus-differentia-definition/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/9698cc60-f54e-4dfb-b678-e505d36b8034",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d3bc7271-822a-4fde-8667-51f16331e506", "https://agentic-knowledge-base.dev/id/chunk/88fd12e5-b20d-4cde-8e24-4362eb3ad36c", "https://agentic-knowledge-base.dev/id/chunk/da4608ac-9137-449a-b2cc-789b183d8ddd"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0034-genus-differentia-definition",
+    ],
+)
+
+kb_decision(
+    name = "p0-iri-design",
+    conclusion = "p0-iri-design/conclusion.md",
+    rationale = "p0-iri-design/rationale.md",
+    alternatives = "p0-iri-design/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/eb847899-2640-4bca-955a-7f511528bc1d",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d0f3d2b1-9533-40a4-acfb-12f318382f7d", "https://agentic-knowledge-base.dev/id/chunk/9ae9e0cb-62ef-48a4-a149-d5a3169d55eb", "https://agentic-knowledge-base.dev/id/chunk/2c1c00b0-933e-4d86-82b9-82700814091d"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0032-iri-design",
+    ],
+)
+
+kb_decision(
+    name = "p0-no-invented-terms",
+    conclusion = "p0-no-invented-terms/conclusion.md",
+    rationale = "p0-no-invented-terms/rationale.md",
+    alternatives = "p0-no-invented-terms/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/049f46d7-97d5-42ae-b0d7-dddf6f35d5fa",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/51882754-a479-4cc5-a80c-d1a85dd1ef8e", "https://agentic-knowledge-base.dev/id/chunk/2ef6272e-5c8f-4f52-b0e8-968c367709d0", "https://agentic-knowledge-base.dev/id/chunk/a61eb5af-388b-40a2-9811-4679f5af635e"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0024-no-invented-terms",
+    ],
+)
+
+kb_decision(
+    name = "p0-notation-format",
+    conclusion = "p0-notation-format/conclusion.md",
+    rationale = "p0-notation-format/rationale.md",
+    alternatives = "p0-notation-format/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/fc68c83c-8feb-47ce-8dea-30f24d2ee645",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/0b18332b-1a03-4019-a50f-9c419b230184", "https://agentic-knowledge-base.dev/id/chunk/14188a01-8332-4451-a538-8a857aa490dd", "https://agentic-knowledge-base.dev/id/chunk/ce1a4a5f-e4ab-4e0a-a0ef-69bbdfe3d1bb"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0031-notation-format",
+    ],
+)
+
+kb_decision(
+    name = "p0-odd-scope-assumption",
+    conclusion = "p0-odd-scope-assumption/conclusion.md",
+    rationale = "p0-odd-scope-assumption/rationale.md",
+    alternatives = "p0-odd-scope-assumption/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/d892c74e-912c-45df-a36b-cccefabeed74",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/98142727-d920-46fc-a3e2-22e7d9a57b65", "https://agentic-knowledge-base.dev/id/chunk/3750e221-6a51-4f5b-859a-d655f49d1a50", "https://agentic-knowledge-base.dev/id/chunk/01ca7982-5062-4fa6-9744-b8afffc34874"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0008-odd-foundation",
+    ],
+)
+
+kb_decision(
+    name = "p0-one-word-one-concept",
+    conclusion = "p0-one-word-one-concept/conclusion.md",
+    rationale = "p0-one-word-one-concept/rationale.md",
+    alternatives = "p0-one-word-one-concept/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/727e4644-52bb-4880-bb4b-ba11d36469f1",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/84dbc611-a7b9-4944-a6d8-0b8b4716f9f3", "https://agentic-knowledge-base.dev/id/chunk/4bbca001-fd36-4657-a9dc-dfabb820d055", "https://agentic-knowledge-base.dev/id/chunk/188ef57f-ba64-4cee-9dff-29233c4c0803"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0025-one-word-one-concept",
+    ],
+)
+
+kb_decision(
+    name = "p0-run-as-observation",
+    conclusion = "p0-run-as-observation/conclusion.md",
+    rationale = "p0-run-as-observation/rationale.md",
+    alternatives = "p0-run-as-observation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/696b52ee-952f-478e-9af1-cd83c82c9b88",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/9f79d119-83cf-46a7-89c0-680e8f203296", "https://agentic-knowledge-base.dev/id/chunk/6189466b-4ba2-4b53-9a83-79dfbe146028", "https://agentic-knowledge-base.dev/id/chunk/5ad586f5-0cf6-4dbb-83e8-4f400cdb03a0"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-026-observations-append-only",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0012-scene-situation-scenario",
+    ],
+)
+
+kb_decision(
+    name = "p0-scope-specification-form",
+    conclusion = "p0-scope-specification-form/conclusion.md",
+    rationale = "p0-scope-specification-form/rationale.md",
+    alternatives = "p0-scope-specification-form/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/780d333f-1d35-4e81-83cf-58355a1d3d41",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/4cb46349-f0c4-499f-b5a7-f5b5a4da5eaa", "https://agentic-knowledge-base.dev/id/chunk/ce657f56-0814-4797-9568-5338f42fc40b", "https://agentic-knowledge-base.dev/id/chunk/40165645-9791-437b-a053-d89805f82bc4"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0029-scope-specification-form",
+    ],
+)
+
+kb_decision(
+    name = "p0-skos-label-synonyms",
+    conclusion = "p0-skos-label-synonyms/conclusion.md",
+    rationale = "p0-skos-label-synonyms/rationale.md",
+    alternatives = "p0-skos-label-synonyms/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8a718aed-4f88-4847-9d00-800c0f14a0e7",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f5d2aa76-09cd-4533-83cf-b4e0f738594b", "https://agentic-knowledge-base.dev/id/chunk/fbacedd4-94d7-4da3-8ab4-01316db02668", "https://agentic-knowledge-base.dev/id/chunk/3a504617-d0fa-4e68-be00-0e5e89140f9a"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0033-skos-label-synonyms",
+    ],
+)
+
+kb_decision(
+    name = "p0-state-units-revision-workset",
+    conclusion = "p0-state-units-revision-workset/conclusion.md",
+    rationale = "p0-state-units-revision-workset/rationale.md",
+    alternatives = "p0-state-units-revision-workset/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/52124ca7-97f8-4b5e-818f-1574ab131484",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2f4dffbe-34da-4dc7-ad52-8e549088d23f", "https://agentic-knowledge-base.dev/id/chunk/e94ebdc8-ac6e-4e75-bbed-ce17251f9f78", "https://agentic-knowledge-base.dev/id/chunk/8f1a0310-bc32-4cfd-a35e-575068d96699"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0012-scene-situation-scenario",
+    ],
+)
+
+kb_decision(
+    name = "p0-temporal-constraint-vocabulary",
+    conclusion = "p0-temporal-constraint-vocabulary/conclusion.md",
+    rationale = "p0-temporal-constraint-vocabulary/rationale.md",
+    alternatives = "p0-temporal-constraint-vocabulary/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/a65b4cb7-b236-46d5-ba86-c9c9c85ac000",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b8b2e18e-ae67-4590-a830-e4cf4d54e81b", "https://agentic-knowledge-base.dev/id/chunk/0d88fe7e-5085-4fbb-89c9-ba8627a97c56", "https://agentic-knowledge-base.dev/id/chunk/85326ce7-7fd1-4a81-8b14-11403fb44e98"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-008-descend-to-executable",
+    ],
+)
+
+kb_decision(
+    name = "p0-two-axes-plane-level",
+    conclusion = "p0-two-axes-plane-level/conclusion.md",
+    rationale = "p0-two-axes-plane-level/rationale.md",
+    alternatives = "p0-two-axes-plane-level/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ad724fe1-631f-41fb-a6dd-e7f0df9ac7d7",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b256fd8d-476a-4ca8-ab47-22d77a8a5834", "https://agentic-knowledge-base.dev/id/chunk/38ee17e0-3018-4ac7-ac77-1ac01bc0c84a", "https://agentic-knowledge-base.dev/id/chunk/6b0780e8-997a-422a-a85d-7e2eb9a26944"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0026-two-axes-plane-level",
+    ],
+)
+
+kb_decision(
+    name = "p0-two-foundations-five-mechanisms",
+    conclusion = "p0-two-foundations-five-mechanisms/conclusion.md",
+    rationale = "p0-two-foundations-five-mechanisms/rationale.md",
+    alternatives = "p0-two-foundations-five-mechanisms/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/4a312eca-5b3b-40e5-9f0a-c141039ac7c1",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/75d1736b-2822-48d0-b406-ff6faf0311a4", "https://agentic-knowledge-base.dev/id/chunk/371c29fe-df8e-4b81-b5c4-937b6e00eab5", "https://agentic-knowledge-base.dev/id/chunk/36492d75-2ee1-4afb-82f6-016ddcf680ef"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0022-two-foundations-five-mechanisms",
+        "//chunks/decision:d-0023-out-of-scope-input-and-use",
+    ],
+)
+
+kb_decision(
+    name = "p0-workset-anchor-neighbourhood",
+    conclusion = "p0-workset-anchor-neighbourhood/conclusion.md",
+    rationale = "p0-workset-anchor-neighbourhood/rationale.md",
+    alternatives = "p0-workset-anchor-neighbourhood/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/0e7f41dc-e010-4c71-809f-51535f17e6ce",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/82e341ba-c47f-4677-8013-491082b24b6c", "https://agentic-knowledge-base.dev/id/chunk/a0314be9-c9ef-4b83-a8fe-da7520a85fe4", "https://agentic-knowledge-base.dev/id/chunk/8c364a4e-b8f5-49d2-ae9b-2650ede319ed"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:context-budget",
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+    ],
+)
+
+kb_decision(
+    name = "p1-bias-structural-mitigation",
+    conclusion = "p1-bias-structural-mitigation/conclusion.md",
+    rationale = "p1-bias-structural-mitigation/rationale.md",
+    alternatives = "p1-bias-structural-mitigation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/d3a0bc2e-b147-4eca-ad4a-3649472ea570",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/9d8897c0-9466-4e86-b27c-60451367d0c9", "https://agentic-knowledge-base.dev/id/chunk/43582b9a-cd83-49b4-94e2-6a056e692492", "https://agentic-knowledge-base.dev/id/chunk/978476e8-0d1a-459c-903d-eac8cec06b46"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0038-agent-errors-have-direction",
+        "//chunks/decision:d-0039-bias-structural-mitigation",
+    ],
+)
+
+kb_decision(
+    name = "p1-context-budget-breakdown",
+    conclusion = "p1-context-budget-breakdown/conclusion.md",
+    rationale = "p1-context-budget-breakdown/rationale.md",
+    alternatives = "p1-context-budget-breakdown/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ee6bf20f-7b60-4ee8-8681-af13f995682d",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/de38da18-3de5-4b30-86d6-af112ca9659c", "https://agentic-knowledge-base.dev/id/chunk/17415ccd-8911-48bc-87dd-ce547417ac77", "https://agentic-knowledge-base.dev/id/chunk/8270818e-4bdd-4427-a505-e4124851ccf7"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:context-budget",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-014-42-line-chunk",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0036-agent-narrow-context-premise",
+        "//chunks/decision:d-0041-context-budget-breakdown",
+    ],
+)
+
+kb_decision(
+    name = "p1-partial-observability-harness-projections",
+    conclusion = "p1-partial-observability-harness-projections/conclusion.md",
+    rationale = "p1-partial-observability-harness-projections/rationale.md",
+    alternatives = "p1-partial-observability-harness-projections/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/cca68a89-e572-4104-ba7e-cddd3c67c7bb",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ed543173-7943-418a-880a-818bb6cce52a", "https://agentic-knowledge-base.dev/id/chunk/57a89ef5-58bd-4c89-bf2a-07b4fa800153", "https://agentic-knowledge-base.dev/id/chunk/07e5f29d-4192-4bff-a91d-a811df15c217"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0037-human-review-does-not-scale",
+        "//chunks/decision:d-0042-partial-observability-formalization",
+    ],
+)
+
+kb_decision(
+    name = "p1-three-breaks-common-vocabulary",
+    conclusion = "p1-three-breaks-common-vocabulary/conclusion.md",
+    rationale = "p1-three-breaks-common-vocabulary/rationale.md",
+    alternatives = "p1-three-breaks-common-vocabulary/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/e84e779c-80d6-41e0-bee2-7b75fe0ac090",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/572f96df-9286-4fd1-8dc2-993c45fae9ef", "https://agentic-knowledge-base.dev/id/chunk/dfdd6089-bd08-4539-8351-7f342c46661b", "https://agentic-knowledge-base.dev/id/chunk/43a24b1c-08a2-4802-8c21-3bcbd0c30a9d"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0040-three-breaks-common-vocabulary",
+    ],
+)
+
+kb_decision(
+    name = "p10-candidate-and-confirmed-link",
+    conclusion = "p10-candidate-and-confirmed-link/conclusion.md",
+    rationale = "p10-candidate-and-confirmed-link/rationale.md",
+    alternatives = "p10-candidate-and-confirmed-link/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/526f1fb6-5721-4b89-b8ac-3955dcbf6a37",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5287133e-f7a3-4913-8aaf-062647cf5491", "https://agentic-knowledge-base.dev/id/chunk/59a97c5d-4eef-4d6c-b8cc-cd12d2f5115e", "https://agentic-knowledge-base.dev/id/chunk/ab836292-c3ab-459a-9eb1-721a5f4a48da"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+)
+
+kb_decision(
+    name = "p10-context-handoff-yields-links",
+    conclusion = "p10-context-handoff-yields-links/conclusion.md",
+    rationale = "p10-context-handoff-yields-links/rationale.md",
+    alternatives = "p10-context-handoff-yields-links/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/65989bd8-c9ca-4659-8069-5b9913ce7b7e",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/92762c1c-18df-4b8e-9b9d-9d43e4811e0f", "https://agentic-knowledge-base.dev/id/chunk/75568b7e-3fa2-40ab-8458-bab2f17afdb6", "https://agentic-knowledge-base.dev/id/chunk/bf87b9f9-be90-47d1-8954-1b6a3d852c72"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-019-record-read-write-sets",
+    ],
+)
+
+kb_decision(
+    name = "p10-link-attributes",
+    conclusion = "p10-link-attributes/conclusion.md",
+    rationale = "p10-link-attributes/rationale.md",
+    alternatives = "p10-link-attributes/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/eec0c89d-bba0-404c-a19e-b43043e2e1a2",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/80ce7bef-d9df-40ac-84da-c534c1c726c2", "https://agentic-knowledge-base.dev/id/chunk/bb0eca8e-bf60-453d-b558-0f20e20a8744", "https://agentic-knowledge-base.dev/id/chunk/dad45cbb-62d9-4268-8f9e-8aaf1ce04c7f"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0111-link-attributes",
+    ],
+)
+
+kb_decision(
+    name = "p10-link-by-construction",
+    conclusion = "p10-link-by-construction/conclusion.md",
+    rationale = "p10-link-by-construction/rationale.md",
+    alternatives = "p10-link-by-construction/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/6651b045-a578-4114-a942-eae19ab99b0c",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/8d09b0e4-44b4-47b2-9ff6-5da9f3b22e12", "https://agentic-knowledge-base.dev/id/chunk/5f73e2ef-9f11-4612-8a87-63c8e472ac5e", "https://agentic-knowledge-base.dev/id/chunk/e993b7fd-b392-4254-9ced-0cd55cd26f36"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-019-record-read-write-sets",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0009-link-by-construction",
+    ],
+)
+
+kb_decision(
+    name = "p10-link-decay-states",
+    conclusion = "p10-link-decay-states/conclusion.md",
+    rationale = "p10-link-decay-states/rationale.md",
+    alternatives = "p10-link-decay-states/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/c88e9891-e992-4e33-a891-0dcba05746b3",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/fd6617a6-5387-4059-9014-faf6ad5effcf", "https://agentic-knowledge-base.dev/id/chunk/d466db7b-bff0-428c-9bbf-4dc8c618e67d", "https://agentic-knowledge-base.dev/id/chunk/9eeaf67c-a274-4127-a73b-a26b78eb1ef0"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0106-link-decay-states",
+        "//chunks/decision:d-0107-rejudgement-rule-catalog",
+    ],
+)
+
+kb_decision(
+    name = "p10-link-judgement-evidence",
+    conclusion = "p10-link-judgement-evidence/conclusion.md",
+    rationale = "p10-link-judgement-evidence/rationale.md",
+    alternatives = "p10-link-judgement-evidence/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/4f68217b-9725-4607-9748-151d55d543a8",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/6321bf38-7026-4c60-b4fb-7cf3a956b35b", "https://agentic-knowledge-base.dev/id/chunk/7a57c8ac-ad29-4aa8-a5cc-f3352a57b261", "https://agentic-knowledge-base.dev/id/chunk/722e45ee-416c-40fb-8a6a-3740dde8f7b7"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0110-link-judgement-evidence",
+    ],
+)
+
+kb_decision(
+    name = "p10-link-storage-and-anchors",
+    conclusion = "p10-link-storage-and-anchors/conclusion.md",
+    rationale = "p10-link-storage-and-anchors/rationale.md",
+    alternatives = "p10-link-storage-and-anchors/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/c1ce996d-dc84-45c5-b567-a9da42421774",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/6c1bb389-1c3e-4381-a693-d0d7020f79c4", "https://agentic-knowledge-base.dev/id/chunk/fd397d16-f882-423b-b7c7-d9cb432707d2", "https://agentic-knowledge-base.dev/id/chunk/f960aebc-973d-432d-ad7a-1cdbc82f2b8f"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0105-link-storage-and-anchors",
+    ],
+)
+
+kb_decision(
+    name = "p10-link-types",
+    conclusion = "p10-link-types/conclusion.md",
+    rationale = "p10-link-types/rationale.md",
+    alternatives = "p10-link-types/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/42c1ecbe-34fd-4c59-9038-51db6144ad29",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c5bb1922-eb82-4b96-a49c-a46e41c239e4", "https://agentic-knowledge-base.dev/id/chunk/80c55e7a-50b7-4428-95f3-bd7f814c2411", "https://agentic-knowledge-base.dev/id/chunk/a5c3ab0b-1684-4db5-8c75-e8162ca52250"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-010-decision-names-concern",
+        "//kb/dev/requirement:r-022-verifies-subject-is-vv",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0010-link-types",
+    ],
+)
+
+kb_decision(
+    name = "p10-standard-trace-queries",
+    conclusion = "p10-standard-trace-queries/conclusion.md",
+    rationale = "p10-standard-trace-queries/rationale.md",
+    alternatives = "p10-standard-trace-queries/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/03b399d7-2688-4588-bfed-7942e0e30aab",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/9245ee8e-581f-44df-a08b-3a386eecbded", "https://agentic-knowledge-base.dev/id/chunk/6493de12-ad0f-474a-828b-bdf1965a8968", "https://agentic-knowledge-base.dev/id/chunk/03ad1ac3-a350-4a2c-afbe-f4b1c07400c0"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0108-standard-trace-queries",
+    ],
+)
+
+kb_decision(
+    name = "p10-traceability-information-model",
+    conclusion = "p10-traceability-information-model/conclusion.md",
+    rationale = "p10-traceability-information-model/rationale.md",
+    alternatives = "p10-traceability-information-model/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/e9f394a2-e59b-41ea-be88-d8ed2c5f9c60",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2f8d8dd3-155f-41bc-a9d7-fd8deef5ce45", "https://agentic-knowledge-base.dev/id/chunk/46616ef9-3a36-4fa1-87cc-f3e2a76000e5", "https://agentic-knowledge-base.dev/id/chunk/2daca13c-1386-4df9-8226-b9891ff0584e"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0010-link-types",
+    ],
+)
+
+kb_decision(
+    name = "p10-traceability-matrix",
+    conclusion = "p10-traceability-matrix/conclusion.md",
+    rationale = "p10-traceability-matrix/rationale.md",
+    alternatives = "p10-traceability-matrix/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/2e051e5d-6083-4a41-91e0-ade82422c705",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ceee3bb0-7ada-4f07-ad8a-4261358a5099", "https://agentic-knowledge-base.dev/id/chunk/d74bc0af-c465-4692-9af3-a1f4d23b7f26", "https://agentic-knowledge-base.dev/id/chunk/ac8ff84f-6e89-4401-b6a9-06e4f9b6b9a2"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0109-traceability-matrix",
+    ],
+)
+
+kb_decision(
+    name = "p10-traceability-metrics",
+    conclusion = "p10-traceability-metrics/conclusion.md",
+    rationale = "p10-traceability-metrics/rationale.md",
+    alternatives = "p10-traceability-metrics/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/759aa68a-d77b-425c-b819-42ead2a9b0e9",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b1335ecb-5ef9-45bf-a8aa-db8f44e86b5f", "https://agentic-knowledge-base.dev/id/chunk/7689649d-91bd-4238-9873-39caa8461cf0", "https://agentic-knowledge-base.dev/id/chunk/6969ae72-9c96-4e30-9315-64e27b6b9479"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0112-traceability-metrics",
+    ],
+)
+
+kb_decision(
+    name = "p11-agent-catalog-derives-scope",
+    conclusion = "p11-agent-catalog-derives-scope/conclusion.md",
+    rationale = "p11-agent-catalog-derives-scope/rationale.md",
+    alternatives = "p11-agent-catalog-derives-scope/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/2e3b40bb-c5f0-4355-8108-ccdf481d998a",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/18537e8d-b957-4704-add4-639d90f323e5", "https://agentic-knowledge-base.dev/id/chunk/0752e39c-bf11-41ab-bde6-102c26ef58fe", "https://agentic-knowledge-base.dev/id/chunk/53f543ed-7acc-490d-b5e7-9f81a8995975"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0124-agent-catalog-scope",
+    ],
+)
+
+kb_decision(
+    name = "p11-dev-profile-role-permissions",
+    conclusion = "p11-dev-profile-role-permissions/conclusion.md",
+    rationale = "p11-dev-profile-role-permissions/rationale.md",
+    alternatives = "p11-dev-profile-role-permissions/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/4dbb535c-ea05-4b67-accf-29c2ef7f6ee3",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/acd3f19b-bb9e-448f-acf3-ac227733c8ab", "https://agentic-knowledge-base.dev/id/chunk/e6ec0ff2-3568-413f-b1f2-0c81edab76fd", "https://agentic-knowledge-base.dev/id/chunk/e738c171-600f-4a35-aa8b-f9e8afc5bf2f"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0125-dev-profile-role-permissions",
+    ],
+)
+
+kb_decision(
+    name = "p11-execution-mode-and-workset",
+    conclusion = "p11-execution-mode-and-workset/conclusion.md",
+    rationale = "p11-execution-mode-and-workset/rationale.md",
+    alternatives = "p11-execution-mode-and-workset/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/7e1f24c0-e217-46a1-8599-5fd5ac39e486",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/965f738a-db50-4729-a551-e58a90cd6320", "https://agentic-knowledge-base.dev/id/chunk/0d55b305-c3b6-4247-8350-9006365769c4", "https://agentic-knowledge-base.dev/id/chunk/db979862-55e5-49d2-a35f-da151fe77d39"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:context-budget",
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-020-session-memory-promotes",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0126-execution-mode-and-reentry",
+    ],
+)
+
+kb_decision(
+    name = "p11-input-dependency-order",
+    conclusion = "p11-input-dependency-order/conclusion.md",
+    rationale = "p11-input-dependency-order/rationale.md",
+    alternatives = "p11-input-dependency-order/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/1b1b47e5-a634-4953-bfd9-7b77bf651857",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c87af959-a788-459b-8c49-b43202d41686", "https://agentic-knowledge-base.dev/id/chunk/76db5145-4048-40cb-974f-77de5c900fdc", "https://agentic-knowledge-base.dev/id/chunk/7ad67e2f-a282-41ae-8cb5-a95cc4ae1e3d"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:explicit-versioned-inputs",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0129-input-dependency-order",
+    ],
+)
+
+kb_decision(
+    name = "p11-input-validation-shapes",
+    conclusion = "p11-input-validation-shapes/conclusion.md",
+    rationale = "p11-input-validation-shapes/rationale.md",
+    alternatives = "p11-input-validation-shapes/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/23431e57-2877-4a0f-9f25-9f8dabdfc792",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/9389012a-78f3-4e8b-a051-53c5f6f49a8f", "https://agentic-knowledge-base.dev/id/chunk/5b904638-6b04-463c-9c5a-d166fe96014f", "https://agentic-knowledge-base.dev/id/chunk/ed30da36-fac4-4b72-9745-c4eb74dee950"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0128-input-validation-shapes",
+    ],
+)
+
+kb_decision(
+    name = "p11-inputs-are-parameters",
+    conclusion = "p11-inputs-are-parameters/conclusion.md",
+    rationale = "p11-inputs-are-parameters/rationale.md",
+    alternatives = "p11-inputs-are-parameters/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/c0707632-682f-4f16-bae0-d5b47f69d096",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/7210823c-184f-47ef-b964-d512ac1a3a53", "https://agentic-knowledge-base.dev/id/chunk/0ffbaaaf-9bd5-405c-90f7-ed40b0addcd5", "https://agentic-knowledge-base.dev/id/chunk/da737f44-5c27-418e-a4c7-9f2765b9fe77"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:explicit-versioned-inputs",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0121-inputs-and-uses-are-outside",
+        "//chunks/decision:d-0122-required-input-inventory",
+    ],
+)
+
+kb_decision(
+    name = "p11-inputs-as-versioned-vocabulary",
+    conclusion = "p11-inputs-as-versioned-vocabulary/conclusion.md",
+    rationale = "p11-inputs-as-versioned-vocabulary/rationale.md",
+    alternatives = "p11-inputs-as-versioned-vocabulary/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/81f5ea27-b01f-427d-bad5-4d35e593b94d",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a02a4db5-cf50-4b19-9a5e-1b101c4e0600", "https://agentic-knowledge-base.dev/id/chunk/065991e2-afd8-42c4-b81a-1a166d4e6541", "https://agentic-knowledge-base.dev/id/chunk/cabf0708-b9ed-48dd-8655-18fff07e21ac"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:explicit-versioned-inputs",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0123-inputs-in-ontology-vocabulary",
+    ],
+)
+
+kb_decision(
+    name = "p11-memory-promotion-rule",
+    conclusion = "p11-memory-promotion-rule/conclusion.md",
+    rationale = "p11-memory-promotion-rule/rationale.md",
+    alternatives = "p11-memory-promotion-rule/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/46d1f19a-5541-4328-903d-caa729dcb9b4",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/7279105c-038a-4f28-ae4c-9c6d04237001", "https://agentic-knowledge-base.dev/id/chunk/1683e5a1-7b80-41ef-abfa-b4651b36edb3", "https://agentic-knowledge-base.dev/id/chunk/c2a1a240-b1af-44c3-860c-1b6d96903fcb"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-020-session-memory-promotes",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0127-memory-promotion-rule",
+    ],
+)
+
+kb_decision(
+    name = "p11-parallel-attempts-need-no-new-machinery",
+    conclusion = "p11-parallel-attempts-need-no-new-machinery/conclusion.md",
+    rationale = "p11-parallel-attempts-need-no-new-machinery/rationale.md",
+    alternatives = "p11-parallel-attempts-need-no-new-machinery/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/75b6dc7f-4862-44ea-8a35-1848ae723d74",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/8868503d-8928-4eff-aabe-a62f3dd077d4", "https://agentic-knowledge-base.dev/id/chunk/7c8c5508-835d-4a0a-97e7-ef7667cab71d", "https://agentic-knowledge-base.dev/id/chunk/773cfec9-bf1c-48a6-8a04-2a8a2bffff93"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-020-session-memory-promotes",
+    ],
+)
+
+kb_decision(
+    name = "p12-artifact-review-support",
+    conclusion = "p12-artifact-review-support/conclusion.md",
+    rationale = "p12-artifact-review-support/rationale.md",
+    alternatives = "p12-artifact-review-support/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ea213fc4-d774-409a-91e6-3afd40a1b6f3",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/dcf96f18-9ab2-42b2-bc6f-9bd02fcf2837", "https://agentic-knowledge-base.dev/id/chunk/ab08abf2-d6f2-479c-93b2-9cce4158f755", "https://agentic-knowledge-base.dev/id/chunk/7fb8e021-fa6f-4d8e-afe4-35bd4b616e05"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0150-artifact-review-support",
+    ],
+)
+
+kb_decision(
+    name = "p12-audit-and-onboarding-self-sufficiency",
+    conclusion = "p12-audit-and-onboarding-self-sufficiency/conclusion.md",
+    rationale = "p12-audit-and-onboarding-self-sufficiency/rationale.md",
+    alternatives = "p12-audit-and-onboarding-self-sufficiency/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/7f9b04c1-54f8-415f-83a2-7c0de8016c6a",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/64cbbffa-54d9-4f66-a2a0-ea2a34dc8653", "https://agentic-knowledge-base.dev/id/chunk/8a6e1191-3c74-428b-929e-b5ac7e8397bf", "https://agentic-knowledge-base.dev/id/chunk/b626acdd-24b5-40ba-93bb-994aedf1447c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:audit-self-sufficiency",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0146-audit-and-onboarding-self-sufficiency",
+    ],
+)
+
+kb_decision(
+    name = "p12-change-impact-analysis",
+    conclusion = "p12-change-impact-analysis/conclusion.md",
+    rationale = "p12-change-impact-analysis/rationale.md",
+    alternatives = "p12-change-impact-analysis/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/6b8cc1c0-c8c4-4aa4-a9e5-b72e150d72ab",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/05cabe0e-10b0-4e02-81b1-8f5154a94fcc", "https://agentic-knowledge-base.dev/id/chunk/e90f9795-75f1-4d53-9aa0-ee2397ad4e17", "https://agentic-knowledge-base.dev/id/chunk/3aaf23b7-0d8c-4620-9cbe-266a078f9c82"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0148-change-impact-analysis",
+    ],
+)
+
+kb_decision(
+    name = "p12-cognition-measurement",
+    conclusion = "p12-cognition-measurement/conclusion.md",
+    rationale = "p12-cognition-measurement/rationale.md",
+    alternatives = "p12-cognition-measurement/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/d2db1db1-ebc3-4f6d-8f93-3bef450b93f9",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c480e03a-fbf4-40a8-8e24-8248b934a01d", "https://agentic-knowledge-base.dev/id/chunk/cabce0f4-92f4-4e46-9da6-4e29fa354614", "https://agentic-knowledge-base.dev/id/chunk/341fa030-a4e7-43f0-a4e3-f6a5ffd2c444"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+)
+
+kb_decision(
+    name = "p12-cross-project-reuse",
+    conclusion = "p12-cross-project-reuse/conclusion.md",
+    rationale = "p12-cross-project-reuse/rationale.md",
+    alternatives = "p12-cross-project-reuse/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8dbf8cd0-81dd-478f-b73e-3aeea905768f",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/14782c7c-bf50-47a8-ab11-62715aeeb63e", "https://agentic-knowledge-base.dev/id/chunk/fe6b6284-362e-4830-9f28-3b8991ad565a", "https://agentic-knowledge-base.dev/id/chunk/8cf9deac-b0c5-4fd5-8c20-f4ed35080762"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+        "//kb/dev/requirement:r-003-chunks-stay-inside-project",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0149-cross-project-reuse",
+    ],
+)
+
+kb_decision(
+    name = "p12-dev-vv-kb-exchange",
+    conclusion = "p12-dev-vv-kb-exchange/conclusion.md",
+    rationale = "p12-dev-vv-kb-exchange/rationale.md",
+    alternatives = "p12-dev-vv-kb-exchange/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/d8683edb-e683-4f3f-a6cc-fd448b724280",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/71c85a9d-e26c-4a98-be38-3af4656257aa", "https://agentic-knowledge-base.dev/id/chunk/be3f2d14-0cf4-4295-a9d3-2e8d9e5e2d00", "https://agentic-knowledge-base.dev/id/chunk/7f4b26d0-db2d-44fa-bdc2-c8f680a02a92"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-021-two-kbs-separated",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0121-inputs-and-uses-are-outside",
+    ],
+)
+
+kb_decision(
+    name = "p12-documents-are-generated",
+    conclusion = "p12-documents-are-generated/conclusion.md",
+    rationale = "p12-documents-are-generated/rationale.md",
+    alternatives = "p12-documents-are-generated/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/66832e72-2baf-420e-876f-05120bb3184d",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f", "https://agentic-knowledge-base.dev/id/chunk/d18aa19c-6d09-4609-a39b-15fdbd15b2ab", "https://agentic-knowledge-base.dev/id/chunk/220f6469-138a-4eb8-aa89-acbe3175cc9c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    supersedes = [
+        "//chunks/decision:d-0151-documents-are-generated",
+    ],
+)
+
+kb_decision(
+    name = "p12-evaluation-metrics",
+    conclusion = "p12-evaluation-metrics/conclusion.md",
+    rationale = "p12-evaluation-metrics/rationale.md",
+    alternatives = "p12-evaluation-metrics/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/a4a5acea-aaed-4439-ac17-164495f5927c",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/dedc8e99-5853-4e24-9d64-adb22f0c0da4", "https://agentic-knowledge-base.dev/id/chunk/d4df01e7-fffe-46ac-9aff-87c1eb8ff0b9", "https://agentic-knowledge-base.dev/id/chunk/295a5e09-7c60-4ebf-a9da-9a7b44b43f68"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0145-evaluation-metrics",
+    ],
+)
+
+kb_decision(
+    name = "p12-incident-postmortem",
+    conclusion = "p12-incident-postmortem/conclusion.md",
+    rationale = "p12-incident-postmortem/rationale.md",
+    alternatives = "p12-incident-postmortem/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/48ce0d53-db1b-4b0f-9ef3-cded88f22d8b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/cae1f4ce-1a3d-492c-ae12-04302a5e8d49", "https://agentic-knowledge-base.dev/id/chunk/e2b172d0-49ef-4bc7-9dbe-317c84a8795e", "https://agentic-knowledge-base.dev/id/chunk/aacf157a-0347-476e-a1bf-c806e1105893"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-020-session-memory-promotes",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0153-incident-postmortem",
+    ],
+)
+
+kb_decision(
+    name = "p12-knowledge-retrieval-by-label",
+    conclusion = "p12-knowledge-retrieval-by-label/conclusion.md",
+    rationale = "p12-knowledge-retrieval-by-label/rationale.md",
+    alternatives = "p12-knowledge-retrieval-by-label/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/5133b9c7-e45d-462d-ad99-20e3b49ef15c",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/595590fa-f40a-4008-92c0-f971f574111b", "https://agentic-knowledge-base.dev/id/chunk/455bac43-8a38-426b-98a8-6d02b966a8f7", "https://agentic-knowledge-base.dev/id/chunk/816b1ccf-fcbc-489c-9fde-cff6cf7d1379"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0152-knowledge-retrieval-by-label",
+    ],
+)
+
+kb_decision(
+    name = "p12-operational-monitoring",
+    conclusion = "p12-operational-monitoring/conclusion.md",
+    rationale = "p12-operational-monitoring/rationale.md",
+    alternatives = "p12-operational-monitoring/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/f2acea7a-db49-4239-aa5f-eef954055e55",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/13c1f8a2-edd5-4ee1-a3a1-0124a13174c7", "https://agentic-knowledge-base.dev/id/chunk/7f4f027a-2720-45cf-9ad8-dfdb16d8558d", "https://agentic-knowledge-base.dev/id/chunk/5ad7f60b-f602-47f1-8c03-99e486d954c9"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0147-operational-monitoring",
+    ],
+)
+
+kb_decision(
+    name = "p12-symbolic-diagnosis",
+    conclusion = "p12-symbolic-diagnosis/conclusion.md",
+    rationale = "p12-symbolic-diagnosis/rationale.md",
+    alternatives = "p12-symbolic-diagnosis/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/9b5d96a6-065b-42d1-8a6b-49b8a56384ff",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d002fe54-d635-4383-a60e-0d168df9b7e9", "https://agentic-knowledge-base.dev/id/chunk/d064c502-adbb-43d4-948e-9c64b90d4a96", "https://agentic-knowledge-base.dev/id/chunk/56f86772-1f33-4df4-94a2-3a109597f59d"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+)
+
+kb_decision(
+    name = "p12-user-feedback-space-file",
+    conclusion = "p12-user-feedback-space-file/conclusion.md",
+    rationale = "p12-user-feedback-space-file/rationale.md",
+    alternatives = "p12-user-feedback-space-file/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/4458fad7-b74e-477f-816a-517940cebde2",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/60faade0-d3e7-4ad4-8bf6-371be22956c3", "https://agentic-knowledge-base.dev/id/chunk/181e4909-74cc-44e2-b41a-95943556ea2d", "https://agentic-knowledge-base.dev/id/chunk/80a50495-42a6-421c-bed8-b0a4ddf1fd1d"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0144-user-feedback-loop-space-file",
+    ],
+)
+
+kb_decision(
+    name = "p13-chunk-editor-requirements",
+    conclusion = "p13-chunk-editor-requirements/conclusion.md",
+    rationale = "p13-chunk-editor-requirements/rationale.md",
+    alternatives = "p13-chunk-editor-requirements/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/922f75fe-58e0-4964-b79b-b9897ac35ce5",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c5890ddf-86b5-443e-9dff-544ae13e8ab3", "https://agentic-knowledge-base.dev/id/chunk/b6912d83-519c-4a03-8457-c8ba3efd5d55", "https://agentic-knowledge-base.dev/id/chunk/7d0847eb-d3cc-4606-9f61-ed1c1f25bd93"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-019-record-read-write-sets",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0154-chunk-editor-requirements",
+    ],
+)
+
+kb_decision(
+    name = "p13-traceability-matrix-screen",
+    conclusion = "p13-traceability-matrix-screen/conclusion.md",
+    rationale = "p13-traceability-matrix-screen/rationale.md",
+    alternatives = "p13-traceability-matrix-screen/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/78873300-5f9a-4316-bc7c-9a384d60822b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/1f407ad0-2e57-4e62-96b4-640c246a6100", "https://agentic-knowledge-base.dev/id/chunk/729b826e-12fa-4ad9-ac52-a7f66b33203b", "https://agentic-knowledge-base.dev/id/chunk/76dd76ac-206c-4833-8a20-4195d6d87c64"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0155-traceability-matrix-screen",
+    ],
+)
+
+kb_decision(
+    name = "p14-adoption-stages",
+    conclusion = "p14-adoption-stages/conclusion.md",
+    rationale = "p14-adoption-stages/rationale.md",
+    alternatives = "p14-adoption-stages/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/4e1e176d-aa8d-4ab5-aade-db3aca0f68fc",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/7ffcce18-39d0-45b3-90f7-6ac8d1528254", "https://agentic-knowledge-base.dev/id/chunk/8a125616-65de-47a4-8d5c-fa8b40319988", "https://agentic-knowledge-base.dev/id/chunk/5a93c3da-b38f-4fc8-9df2-f66ae811cc05"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "deprecated",
+)
+
+kb_decision(
+    name = "p14-stage-pass-conditions",
+    conclusion = "p14-stage-pass-conditions/conclusion.md",
+    rationale = "p14-stage-pass-conditions/rationale.md",
+    alternatives = "p14-stage-pass-conditions/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/6878b566-73c2-462f-a524-5203c4c3832e",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/1f7d15d7-e85d-42dd-bef3-fb9c9a6d0365", "https://agentic-knowledge-base.dev/id/chunk/1038cb52-1415-4b17-b609-303fb00e0e6c", "https://agentic-knowledge-base.dev/id/chunk/274413dc-9d7b-47d5-8917-79c8a9ae22c5"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+    ],
+    supersedes = [
+        "//kb/dev/decision:p14-adoption-stages",
+    ],
+)
+
+kb_decision(
+    name = "p2-competency-questions",
+    conclusion = "p2-competency-questions/conclusion.md",
+    rationale = "p2-competency-questions/rationale.md",
+    alternatives = "p2-competency-questions/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/5f6eadd5-ef4f-47cb-8128-f72cca5e8575",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/0c829785-f155-4ab8-bf9a-1f69b0d3e85d", "https://agentic-knowledge-base.dev/id/chunk/a6d691f9-0dd6-4bc3-8dc3-bbf299b3563f", "https://agentic-knowledge-base.dev/id/chunk/a451e218-c1ce-416b-9a3b-cbef0ebe5ae1"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0052-competency-questions",
+    ],
+)
+
+kb_decision(
+    name = "p2-judgement-history-in-verified",
+    conclusion = "p2-judgement-history-in-verified/conclusion.md",
+    rationale = "p2-judgement-history-in-verified/rationale.md",
+    alternatives = "p2-judgement-history-in-verified/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/eec68e02-3a0a-459a-9357-0c6cb85e8267",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/4ec4de00-ea81-4ed0-abf7-40beedc25e38", "https://agentic-knowledge-base.dev/id/chunk/e11c495f-94e3-4baa-bd8e-644700bb601c", "https://agentic-knowledge-base.dev/id/chunk/07ff3110-cabe-40ff-b90b-5921fa6c0b3a"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-026-observations-append-only",
+    ],
+)
+
+kb_decision(
+    name = "p2-ontology-as-vocabulary",
+    conclusion = "p2-ontology-as-vocabulary/conclusion.md",
+    rationale = "p2-ontology-as-vocabulary/rationale.md",
+    alternatives = "p2-ontology-as-vocabulary/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/0a751e1a-d819-45e5-8425-54945c706108",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c7e1eccd-8eb4-4af6-8844-6b95cfcff5fb", "https://agentic-knowledge-base.dev/id/chunk/7dc13586-2454-4384-8bf8-54625337c293", "https://agentic-knowledge-base.dev/id/chunk/ad5979dc-7582-423a-a1ee-b1c0b12704cc"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0046-ontology-as-vocabulary",
+    ],
+)
+
+kb_decision(
+    name = "p2-ontology-compiler-three-tiers",
+    conclusion = "p2-ontology-compiler-three-tiers/conclusion.md",
+    rationale = "p2-ontology-compiler-three-tiers/rationale.md",
+    alternatives = "p2-ontology-compiler-three-tiers/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/33d988f2-27b2-44d7-98f2-110215bfe237",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a9cc1a02-29b3-4f53-8711-8d60a4bea3cf", "https://agentic-knowledge-base.dev/id/chunk/2ef92011-1d5a-4f71-931f-fa142c25c823", "https://agentic-knowledge-base.dev/id/chunk/c014f3ca-7476-48df-a5e3-dfbb5c6ce7ef"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0050-ontology-hygiene-checks",
+    ],
+)
+
+kb_decision(
+    name = "p2-ontology-module-structure",
+    conclusion = "p2-ontology-module-structure/conclusion.md",
+    rationale = "p2-ontology-module-structure/rationale.md",
+    alternatives = "p2-ontology-module-structure/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/301046f4-6db7-42f5-aea0-ffe4599d4a15",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/bb57dfa0-e134-40b7-bbcf-10325fe59a3d", "https://agentic-knowledge-base.dev/id/chunk/aafaca3e-cac9-44c9-a274-7593f821c38b", "https://agentic-knowledge-base.dev/id/chunk/74911540-fabf-493e-b736-1e41c2998685"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0048-ontology-module-structure",
+    ],
+)
+
+kb_decision(
+    name = "p2-ontology-pitfall-catalogue",
+    conclusion = "p2-ontology-pitfall-catalogue/conclusion.md",
+    rationale = "p2-ontology-pitfall-catalogue/rationale.md",
+    alternatives = "p2-ontology-pitfall-catalogue/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/e2647f3b-9122-4cad-93ea-8f5bd85b2a51",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc", "https://agentic-knowledge-base.dev/id/chunk/92f3ee19-8cd7-4659-a695-3e1a382d651a", "https://agentic-knowledge-base.dev/id/chunk/d00a5e97-064b-4604-94cf-091d7f45584d"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0055-ontology-pitfall-catalogue",
+    ],
+)
+
+kb_decision(
+    name = "p2-owl2-rl-profile",
+    conclusion = "p2-owl2-rl-profile/conclusion.md",
+    rationale = "p2-owl2-rl-profile/rationale.md",
+    alternatives = "p2-owl2-rl-profile/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/4863dfa7-90c7-471e-b5ac-84e0ca2011c8",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/bcf9106c-2d8a-4866-89ad-e40d05489672", "https://agentic-knowledge-base.dev/id/chunk/428cb843-a4fb-4e74-a63b-5768f433d744", "https://agentic-knowledge-base.dev/id/chunk/81613b3e-f19f-421e-86c1-c15446216736"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0054-owl2-rl-profile",
+    ],
+)
+
+kb_decision(
+    name = "p2-skeleton-and-domain-profile",
+    conclusion = "p2-skeleton-and-domain-profile/conclusion.md",
+    rationale = "p2-skeleton-and-domain-profile/rationale.md",
+    alternatives = "p2-skeleton-and-domain-profile/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/f28573cc-2a81-4db9-9497-160a41fdd56d",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/93a15ba6-326d-4e40-ac54-f76736f46001", "https://agentic-knowledge-base.dev/id/chunk/24801883-e1ac-4dfe-b3cf-bd29ef1576fb", "https://agentic-knowledge-base.dev/id/chunk/1ad79ada-328e-41d3-807f-891a3dd56eaf"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0021-domain-neutral-skeleton",
+        "//chunks/decision:d-0056-skeleton-and-domain-profile",
+        "//chunks/decision:d-0057-profile-extension-only-module",
+    ],
+)
+
+kb_decision(
+    name = "p2-standard-relation-vocabulary",
+    conclusion = "p2-standard-relation-vocabulary/conclusion.md",
+    rationale = "p2-standard-relation-vocabulary/rationale.md",
+    alternatives = "p2-standard-relation-vocabulary/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ad815628-628e-40a9-a3da-05db0480bb7e",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/551ff31a-12a5-4bf1-a1bf-65d74e2bde16", "https://agentic-knowledge-base.dev/id/chunk/d8ec49ca-9a20-4402-b47f-9affa7c93d32", "https://agentic-knowledge-base.dev/id/chunk/e48ebe27-6ff4-4253-9079-7b37c3c7c0a8"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0053-standard-relation-vocabulary",
+    ],
+)
+
+kb_decision(
+    name = "p2-tbox-abox-separation",
+    conclusion = "p2-tbox-abox-separation/conclusion.md",
+    rationale = "p2-tbox-abox-separation/rationale.md",
+    alternatives = "p2-tbox-abox-separation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/066baab4-8fef-4903-ac08-2d2c9d37f233",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/6fc1c9d5-1328-4b8e-8d4b-b2145b8d5602", "https://agentic-knowledge-base.dev/id/chunk/4871c59c-3704-4224-93a7-7c5047598130", "https://agentic-knowledge-base.dev/id/chunk/398dff7d-bf15-426c-8f25-0608ad4876c5"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+        "//kb/dev/requirement:r-003-chunks-stay-inside-project",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0049-tbox-abox-separation",
+    ],
+)
+
+kb_decision(
+    name = "p2-temporal-identity",
+    conclusion = "p2-temporal-identity/conclusion.md",
+    rationale = "p2-temporal-identity/rationale.md",
+    alternatives = "p2-temporal-identity/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/215abd9c-4b8f-458e-aec7-6d09034dd8bd",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b009c97f-50bf-4084-9487-8430c00af7f1", "https://agentic-knowledge-base.dev/id/chunk/18465672-aa51-43e4-9d02-53fbb6da158e", "https://agentic-knowledge-base.dev/id/chunk/4c602a91-fdf9-4a00-869f-ab4f01f9872a"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0051-temporal-identity-iri",
+    ],
+)
+
+kb_decision(
+    name = "p2-term-proposal-workflow",
+    conclusion = "p2-term-proposal-workflow/conclusion.md",
+    rationale = "p2-term-proposal-workflow/rationale.md",
+    alternatives = "p2-term-proposal-workflow/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/07c94f4c-0307-4273-9c25-f90fc5152e7b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/4754eb68-ad27-45ad-912c-0385087cd063", "https://agentic-knowledge-base.dev/id/chunk/a4c6c588-8b4e-4c18-a603-098425b72609", "https://agentic-knowledge-base.dev/id/chunk/fd2e495d-b23f-41ad-8154-622cbac898e5"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+)
+
+kb_decision(
+    name = "p2-trust-propagation-along-derivation",
+    conclusion = "p2-trust-propagation-along-derivation/conclusion.md",
+    rationale = "p2-trust-propagation-along-derivation/rationale.md",
+    alternatives = "p2-trust-propagation-along-derivation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/34cd97d1-50df-4db6-8511-fd10b918eaf3",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/7ebc849c-91bf-44fa-93e4-9b9090a2ea5b", "https://agentic-knowledge-base.dev/id/chunk/bc4de86c-2c7c-40d2-a5a5-61a66b1c4b5b", "https://agentic-knowledge-base.dev/id/chunk/b5776383-5297-4ca5-9a77-bc201849c220"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+)
+
+kb_decision(
+    name = "p2-upper-ontology-foundation",
+    conclusion = "p2-upper-ontology-foundation/conclusion.md",
+    rationale = "p2-upper-ontology-foundation/rationale.md",
+    alternatives = "p2-upper-ontology-foundation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/4f26e1e2-595d-4d6a-b485-6c1293d11a53",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/6db30cc0-8583-468d-b6fd-df0122206d6e", "https://agentic-knowledge-base.dev/id/chunk/7de631c3-3f1e-4f7a-b454-62546f881859", "https://agentic-knowledge-base.dev/id/chunk/531e36a2-1a74-4eed-935f-e8522896fc4d"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0047-upper-ontology-foundation",
+    ],
+)
+
+kb_decision(
+    name = "p3-measurement-method-grades",
+    conclusion = "p3-measurement-method-grades/conclusion.md",
+    rationale = "p3-measurement-method-grades/rationale.md",
+    alternatives = "p3-measurement-method-grades/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/09270524-0ea3-40bb-8360-178681e7cbca",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2df65a05-0d25-4b3c-aae9-8da6dd82218f", "https://agentic-knowledge-base.dev/id/chunk/e78306f6-30c7-4c3f-97cd-10de419c2cd2", "https://agentic-knowledge-base.dev/id/chunk/5f65e24f-177e-4739-b967-7ec7b02a5261"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0064-measurement-method-grades",
+    ],
+)
+
+kb_decision(
+    name = "p3-odd-as-closed-projection",
+    conclusion = "p3-odd-as-closed-projection/conclusion.md",
+    rationale = "p3-odd-as-closed-projection/rationale.md",
+    alternatives = "p3-odd-as-closed-projection/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/4640aa0e-49a7-4fee-952d-e33ec4d57cbb",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/85ac72bf-a4f7-4397-a766-7b9dbb90994a", "https://agentic-knowledge-base.dev/id/chunk/2e900050-47d8-4b98-a6b0-faed11dfa478", "https://agentic-knowledge-base.dev/id/chunk/a6c1b94f-aef0-4aca-b930-f95d4057a99b"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+)
+
+kb_decision(
+    name = "p3-odd-derivations-and-gate",
+    conclusion = "p3-odd-derivations-and-gate/conclusion.md",
+    rationale = "p3-odd-derivations-and-gate/rationale.md",
+    alternatives = "p3-odd-derivations-and-gate/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/87eb4cc9-8cf0-4461-a9af-24945dccda21",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/40abcad5-6a9c-4233-99d3-0b7ceeafb06b", "https://agentic-knowledge-base.dev/id/chunk/606a9e7e-1c1d-443c-b642-1508f67531cf", "https://agentic-knowledge-base.dev/id/chunk/9f332520-ac7e-4b19-816f-610ab9b98338"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0008-odd-foundation",
+    ],
+)
+
+kb_decision(
+    name = "p3-odd-exit-is-a-signal",
+    conclusion = "p3-odd-exit-is-a-signal/conclusion.md",
+    rationale = "p3-odd-exit-is-a-signal/rationale.md",
+    alternatives = "p3-odd-exit-is-a-signal/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ce551363-f48f-40a3-95f8-b35a0ddd377d",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/8e83391e-5fd2-499b-881c-37e6f9cb60f1", "https://agentic-knowledge-base.dev/id/chunk/46f8ee85-30f8-48f6-9000-85dcbfcd230f", "https://agentic-knowledge-base.dev/id/chunk/58da08e7-0966-45ca-bd77-f90643013cd0"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0061-odd-exit-is-a-signal",
+    ],
+)
+
+kb_decision(
+    name = "p3-odd-first-project-start",
+    conclusion = "p3-odd-first-project-start/conclusion.md",
+    rationale = "p3-odd-first-project-start/rationale.md",
+    alternatives = "p3-odd-first-project-start/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/dc652ea1-791f-4fc8-bdb6-8862023ca380",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/74a70b7e-ba89-4379-ab74-fdb9cd51844f", "https://agentic-knowledge-base.dev/id/chunk/e612254d-679c-49ad-baa3-f59df79c803f", "https://agentic-knowledge-base.dev/id/chunk/545a14b1-5d97-4835-9d33-176fce345c37"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0063-odd-first-authoring-procedure",
+    ],
+)
+
+kb_decision(
+    name = "p3-odd-hierarchy-narrowing",
+    conclusion = "p3-odd-hierarchy-narrowing/conclusion.md",
+    rationale = "p3-odd-hierarchy-narrowing/rationale.md",
+    alternatives = "p3-odd-hierarchy-narrowing/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/7699d0eb-b30b-4015-b02c-d7db24b8eed1",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/244f435c-f0f7-4b3a-9bbc-b66f3d610f27", "https://agentic-knowledge-base.dev/id/chunk/4bbd27d5-552a-4342-b317-0a83485a4fe4", "https://agentic-knowledge-base.dev/id/chunk/c5e61e99-4f9e-46b3-9193-0c42accc392b"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0066-odd-hierarchy-narrowing",
+    ],
+)
+
+kb_decision(
+    name = "p3-odd-is-a-document",
+    conclusion = "p3-odd-is-a-document/conclusion.md",
+    rationale = "p3-odd-is-a-document/rationale.md",
+    alternatives = "p3-odd-is-a-document/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/71a6fe17-3337-48af-b27d-271bb17a0ab4",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/3d66b1bc-0e65-4e62-9654-fc0ddb6b7d20", "https://agentic-knowledge-base.dev/id/chunk/8101fd53-88ad-4ae1-ba9a-db44a13019f4", "https://agentic-knowledge-base.dev/id/chunk/64bcbee2-14e0-4f8b-beb4-7f4ebcd88fe8"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0058-odd-is-a-document",
+    ],
+)
+
+kb_decision(
+    name = "p3-odd-maintenance",
+    conclusion = "p3-odd-maintenance/conclusion.md",
+    rationale = "p3-odd-maintenance/rationale.md",
+    alternatives = "p3-odd-maintenance/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/d53cfcf9-c765-4bfe-b787-a420967a6f35",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/6b7ed24a-88b6-4acf-8ac7-285cee097957", "https://agentic-knowledge-base.dev/id/chunk/e2533f18-359f-4bbb-920f-fdda1df12126", "https://agentic-knowledge-base.dev/id/chunk/afb1d033-4c21-4e81-b86e-ed595610c1b8"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0062-odd-maintenance-changes",
+    ],
+)
+
+kb_decision(
+    name = "p3-odd-required-sections",
+    conclusion = "p3-odd-required-sections/conclusion.md",
+    rationale = "p3-odd-required-sections/rationale.md",
+    alternatives = "p3-odd-required-sections/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/80a7e3df-fc4f-452e-94fc-4acead84d77b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/00deb95f-2fe6-42a3-aaa2-648cf1794ce5", "https://agentic-knowledge-base.dev/id/chunk/4bcdf854-9ebe-4cb0-a55a-a670b491c3d3", "https://agentic-knowledge-base.dev/id/chunk/797d7ab9-bb8d-4b44-8113-f96071c12855"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0059-odd-required-sections",
+    ],
+)
+
+kb_decision(
+    name = "p3-odd-sets-the-observed-extension",
+    conclusion = "p3-odd-sets-the-observed-extension/conclusion.md",
+    rationale = "p3-odd-sets-the-observed-extension/rationale.md",
+    alternatives = "p3-odd-sets-the-observed-extension/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/3d748edf-6a6d-49be-b2e5-8ec9c342d615",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/3f1efd1b-f49d-4907-8f3f-849d1ffca59d", "https://agentic-knowledge-base.dev/id/chunk/aa9188d3-9f1b-4b7d-bc66-fe83d0af685f", "https://agentic-knowledge-base.dev/id/chunk/360b5e36-7645-437f-be32-b5ce27ebb9ef"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+    ],
+)
+
+kb_decision(
+    name = "p3-out-of-odd-case-tagging",
+    conclusion = "p3-out-of-odd-case-tagging/conclusion.md",
+    rationale = "p3-out-of-odd-case-tagging/rationale.md",
+    alternatives = "p3-out-of-odd-case-tagging/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/334ec611-70bf-40cd-85df-7ed0431ac556",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a4934aca-9aac-4883-88ce-45b81c7dad0b", "https://agentic-knowledge-base.dev/id/chunk/62757841-88ad-4f01-9bdf-0e1a2c4ac9b7", "https://agentic-knowledge-base.dev/id/chunk/7360216e-5592-48b0-9f55-d257f6943fd5"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0067-out-of-odd-scenario-tagging",
+    ],
+)
+
+kb_decision(
+    name = "p3-safe-stop-state",
+    conclusion = "p3-safe-stop-state/conclusion.md",
+    rationale = "p3-safe-stop-state/rationale.md",
+    alternatives = "p3-safe-stop-state/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/a28b73f3-e4b9-41b0-840a-1febcceae940",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a24ec170-66e3-4ed4-aa09-3f70fb7f4d28", "https://agentic-knowledge-base.dev/id/chunk/be6b1524-63ea-485c-96eb-8e307b660dcc", "https://agentic-knowledge-base.dev/id/chunk/44b416eb-d235-4e99-8d84-31339149b7c7"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+        "//kb/dev/requirement:r-019-record-read-write-sets",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0065-safe-stop-state",
+    ],
+)
+
+kb_decision(
+    name = "p3-scope-derived-from-odd",
+    conclusion = "p3-scope-derived-from-odd/conclusion.md",
+    rationale = "p3-scope-derived-from-odd/rationale.md",
+    alternatives = "p3-scope-derived-from-odd/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/494002b4-33ba-470c-93ee-cc0fe39be1c7",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d5fd57f5-a6d5-464f-af17-4f5bab994774", "https://agentic-knowledge-base.dev/id/chunk/5fd867b9-6d4d-4a4a-ab2d-98691b2392c2", "https://agentic-knowledge-base.dev/id/chunk/9f8b08e8-5e39-4790-98ee-3964812da198"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0060-scope-derived-from-odd",
+    ],
+)
+
+kb_decision(
+    name = "p4-all-knowledge-is-composite",
+    conclusion = "p4-all-knowledge-is-composite/conclusion.md",
+    rationale = "p4-all-knowledge-is-composite/rationale.md",
+    alternatives = "p4-all-knowledge-is-composite/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/b4546452-61a1-4d61-b6c3-8af8a25e0f44",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b7ef890e-af82-442e-8cf4-091412f49c2e", "https://agentic-knowledge-base.dev/id/chunk/2b49d8b2-cfa4-409d-80c2-0fb2b0ae7d9d", "https://agentic-knowledge-base.dev/id/chunk/43087568-6633-4d1d-ba7d-114eb937cc03"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-014-42-line-chunk",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0076-all-knowledge-is-composite",
+    ],
+)
+
+kb_decision(
+    name = "p4-assertion-storage-per-plane",
+    conclusion = "p4-assertion-storage-per-plane/conclusion.md",
+    rationale = "p4-assertion-storage-per-plane/rationale.md",
+    alternatives = "p4-assertion-storage-per-plane/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8d3c07da-293b-47cd-861a-44cfd81449b3",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2a213451-6832-4f8a-9f9b-44ce5de04fa8", "https://agentic-knowledge-base.dev/id/chunk/764abb14-5376-4fa9-aa49-44c89752f524", "https://agentic-knowledge-base.dev/id/chunk/11d95e06-7e04-4ee8-9bd7-1796a2a43ead"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0079-assertion-format-per-plane",
+    ],
+)
+
+kb_decision(
+    name = "p4-chunk-as-four-named-graphs",
+    conclusion = "p4-chunk-as-four-named-graphs/conclusion.md",
+    rationale = "p4-chunk-as-four-named-graphs/rationale.md",
+    alternatives = "p4-chunk-as-four-named-graphs/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/428f00f0-6790-41c0-83a8-bf8a564e848e",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ab66f02d-6126-4507-b73a-c29429769f11", "https://agentic-knowledge-base.dev/id/chunk/d6fe2e89-0600-4d91-9bf0-3aa8bb1d3528", "https://agentic-knowledge-base.dev/id/chunk/3a35c8de-bac0-4f1e-b745-469608bc1790"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-019-record-read-write-sets",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0011-chunk-four-graphs",
+    ],
+)
+
+kb_decision(
+    name = "p4-chunk-as-ontology-class",
+    conclusion = "p4-chunk-as-ontology-class/conclusion.md",
+    rationale = "p4-chunk-as-ontology-class/rationale.md",
+    alternatives = "p4-chunk-as-ontology-class/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/dd76498b-2cca-4b79-a1fe-ce5a4d33c0ca",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/4eef1ba8-9095-4b69-aa55-69ca65ff7a35", "https://agentic-knowledge-base.dev/id/chunk/e9c81f92-b685-49ff-ba97-29641ccd945d", "https://agentic-knowledge-base.dev/id/chunk/5fb7e1bf-36fd-4bc4-b0d7-8f1e2ed6eaee"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:context-budget",
+        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0002-chunk-42-line-unit",
+    ],
+)
+
+kb_decision(
+    name = "p4-chunk-iri-is-the-anchor",
+    conclusion = "p4-chunk-iri-is-the-anchor/conclusion.md",
+    rationale = "p4-chunk-iri-is-the-anchor/rationale.md",
+    alternatives = "p4-chunk-iri-is-the-anchor/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/5e2184c3-67a9-4745-b0c3-65e8c3f69fd6",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a4678d28-76ed-48df-84de-db8421a8718e", "https://agentic-knowledge-base.dev/id/chunk/85beb0c7-fa2e-4118-a18c-6f5f7b4ad174", "https://agentic-knowledge-base.dev/id/chunk/aa48f15c-ef15-4c18-af7c-81ee56f094ab"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:deterministic-notation",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0077-chunk-iri-is-the-anchor",
+    ],
+)
+
+kb_decision(
+    name = "p4-chunk-quality-metrics",
+    conclusion = "p4-chunk-quality-metrics/conclusion.md",
+    rationale = "p4-chunk-quality-metrics/rationale.md",
+    alternatives = "p4-chunk-quality-metrics/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/997c76c5-45f5-496d-84cc-49c5e0907761",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/42605476-22c6-483d-9dc9-c386ac797f3e", "https://agentic-knowledge-base.dev/id/chunk/8535b744-654f-448a-8268-d4ef94b61f4c", "https://agentic-knowledge-base.dev/id/chunk/2446613a-50eb-4c1c-b4a7-7d74b0c78f72"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-014-42-line-chunk",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0080-chunk-quality-metrics",
+    ],
+)
+
+kb_decision(
+    name = "p4-chunk-rules-as-shacl-shapes",
+    conclusion = "p4-chunk-rules-as-shacl-shapes/conclusion.md",
+    rationale = "p4-chunk-rules-as-shacl-shapes/rationale.md",
+    alternatives = "p4-chunk-rules-as-shacl-shapes/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/19abf7d7-e6fe-406a-be99-f9de153f4e95",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328", "https://agentic-knowledge-base.dev/id/chunk/6f5317ee-a1fb-4990-a7e7-2ba27ea20859", "https://agentic-knowledge-base.dev/id/chunk/b4c0b64c-6e68-45e9-b6ad-754433640ce1"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0072-chunk-rules-as-shacl-shapes",
+    ],
+)
+
+kb_decision(
+    name = "p4-chunk-split-and-merge",
+    conclusion = "p4-chunk-split-and-merge/conclusion.md",
+    rationale = "p4-chunk-split-and-merge/rationale.md",
+    alternatives = "p4-chunk-split-and-merge/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/bef41c67-e767-4eac-8a76-338d9a83913b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ce8d3eb5-ad6e-4c2a-a5f5-812d366c8e06", "https://agentic-knowledge-base.dev/id/chunk/1e86544b-4d89-488b-a7c6-b320b91bf6d1", "https://agentic-knowledge-base.dev/id/chunk/4c259d7a-4404-46c8-959d-f86382d7a0ff"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-014-42-line-chunk",
+    ],
+)
+
+kb_decision(
+    name = "p4-chunk-state-machine",
+    conclusion = "p4-chunk-state-machine/conclusion.md",
+    rationale = "p4-chunk-state-machine/rationale.md",
+    alternatives = "p4-chunk-state-machine/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/0662736c-b666-499e-bf57-2097608f4b9b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/09164cfd-7490-447c-9360-ac01c2f6d720", "https://agentic-knowledge-base.dev/id/chunk/6bb5eb59-ceed-4397-bfa9-4c2e47cc29f4", "https://agentic-knowledge-base.dev/id/chunk/c0211178-4dac-4660-b86d-f190036acb06"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0078-chunk-state-machine",
+    ],
+)
+
+kb_decision(
+    name = "p4-composite-as-part-of",
+    conclusion = "p4-composite-as-part-of/conclusion.md",
+    rationale = "p4-composite-as-part-of/rationale.md",
+    alternatives = "p4-composite-as-part-of/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/85fcc7f3-446f-46d6-b386-693544fefe6e",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/047c5c56-2b6c-4f8b-993e-32f3a35fd1d6", "https://agentic-knowledge-base.dev/id/chunk/c2551205-dc47-4e26-8e84-3f1736c6628a", "https://agentic-knowledge-base.dev/id/chunk/5ea7648b-59f6-438c-b910-763f1ccd84a2"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0073-composite-standard-part-of",
+    ],
+)
+
+kb_decision(
+    name = "p4-composition-rules",
+    conclusion = "p4-composition-rules/conclusion.md",
+    rationale = "p4-composition-rules/rationale.md",
+    alternatives = "p4-composition-rules/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/27157a50-048e-4b31-835f-ce91abcb93a8",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/930258f9-270a-484b-9b01-6841e72a9eae", "https://agentic-knowledge-base.dev/id/chunk/c5d73d32-e369-47e5-916e-e735959ce112", "https://agentic-knowledge-base.dev/id/chunk/390c30be-fc0b-4003-8b9a-7bd790cf4e53"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0074-composition-rules-homogeneity",
+    ],
+)
+
+kb_decision(
+    name = "p4-label-is-the-interface",
+    conclusion = "p4-label-is-the-interface/conclusion.md",
+    rationale = "p4-label-is-the-interface/rationale.md",
+    alternatives = "p4-label-is-the-interface/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/004649e6-0eb9-42fb-b3dc-60c65883d906",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/8d962172-f5b0-4fe3-8c9c-8598334847e4", "https://agentic-knowledge-base.dev/id/chunk/96432531-4199-4168-9e9e-7347e5387ebf", "https://agentic-knowledge-base.dev/id/chunk/acd886c7-c362-42f0-b6cc-ca01acf2a7fa"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0082-read-response-is-label-list",
+    ],
+)
+
+kb_decision(
+    name = "p4-plane-subclass-level-property",
+    conclusion = "p4-plane-subclass-level-property/conclusion.md",
+    rationale = "p4-plane-subclass-level-property/rationale.md",
+    alternatives = "p4-plane-subclass-level-property/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/db06bc97-7100-4ad3-bad0-83fb1c876e1c",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2", "https://agentic-knowledge-base.dev/id/chunk/a09428ec-58e9-4538-b698-a9ec667d0762", "https://agentic-knowledge-base.dev/id/chunk/f31af815-e869-42e8-9ef7-5a687d5ba87c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0071-plane-class-level-property",
+    ],
+)
+
+kb_decision(
+    name = "p4-projection-as-query",
+    conclusion = "p4-projection-as-query/conclusion.md",
+    rationale = "p4-projection-as-query/rationale.md",
+    alternatives = "p4-projection-as-query/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/5d561aaa-6fc8-4102-91b9-96db89f984e8",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a4fbabb3-5a44-4221-bf3c-10e32145d51c", "https://agentic-knowledge-base.dev/id/chunk/4a44f2a8-99c8-47d5-9ff8-e396a8d87e43", "https://agentic-knowledge-base.dev/id/chunk/26785b60-5c83-40a7-b7d9-9f411b66f517"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0075-projection-as-query",
+    ],
+)
+
+kb_decision(
+    name = "p5-annotation-artifact-separation",
+    conclusion = "p5-annotation-artifact-separation/conclusion.md",
+    rationale = "p5-annotation-artifact-separation/rationale.md",
+    alternatives = "p5-annotation-artifact-separation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/67157f22-93ba-4abe-a303-d058de25ef7f",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5d6b01cd-e551-4242-93d1-f2095e158f2a", "https://agentic-knowledge-base.dev/id/chunk/739b97cd-add4-472e-a7b1-98950800b545", "https://agentic-knowledge-base.dev/id/chunk/d55ce607-8fc9-4dc2-88ac-1b5b8dd8bbbe"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+)
+
+kb_decision(
+    name = "p5-plane-addition-criterion",
+    conclusion = "p5-plane-addition-criterion/conclusion.md",
+    rationale = "p5-plane-addition-criterion/rationale.md",
+    alternatives = "p5-plane-addition-criterion/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ab95f777-16da-41c6-8b1d-5f51f1484840",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/97ff6e27-ac14-4d59-bd25-6fc00d166861", "https://agentic-knowledge-base.dev/id/chunk/626aabcf-e088-4776-89d8-262d7a866db8", "https://agentic-knowledge-base.dev/id/chunk/b1b61b11-010b-4e6f-926c-0af3d670c455"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0003-plane-by-verification",
+    ],
+)
+
+kb_decision(
+    name = "p5-plane-assignment-tool-surface",
+    conclusion = "p5-plane-assignment-tool-surface/conclusion.md",
+    rationale = "p5-plane-assignment-tool-surface/rationale.md",
+    alternatives = "p5-plane-assignment-tool-surface/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/3ebc2598-b846-412e-b76e-4ebb13ce90a4",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2f009d87-1c7c-46f2-bbf0-1d37d7c793b0", "https://agentic-knowledge-base.dev/id/chunk/a1596cb9-42a6-467b-b07f-049b266e6c5b", "https://agentic-knowledge-base.dev/id/chunk/670b61ad-2317-46fc-a4ea-6f8c2e1311d7"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0081-plane-assignment-tool-surface",
+        "//chunks/decision:d-0082-read-response-is-label-list",
+    ],
+)
+
+kb_decision(
+    name = "p5-plane-by-verification",
+    conclusion = "p5-plane-by-verification/conclusion.md",
+    rationale = "p5-plane-by-verification/rationale.md",
+    alternatives = "p5-plane-by-verification/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/5b5edf6d-f638-4c16-bc32-f4d8e6ed9785",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b9e56142-cf12-47ad-b688-5848a39a87fb", "https://agentic-knowledge-base.dev/id/chunk/b3c791cf-87e6-4f92-b1b3-058211f6d5e3", "https://agentic-knowledge-base.dev/id/chunk/b26f0698-c8a1-4608-8973-c09f9b67e118"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0003-plane-by-verification",
+    ],
+)
+
+kb_decision(
+    name = "p5-plane-order-one-way-influence",
+    conclusion = "p5-plane-order-one-way-influence/conclusion.md",
+    rationale = "p5-plane-order-one-way-influence/rationale.md",
+    alternatives = "p5-plane-order-one-way-influence/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/f49e799a-b677-42d6-bc5c-84cefbc27122",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/462530a9-e459-4c7e-9f55-5ee5de29c9fe", "https://agentic-knowledge-base.dev/id/chunk/8ed3b616-e0a8-4500-a899-d96691288a41", "https://agentic-knowledge-base.dev/id/chunk/bbeda45c-f946-42bf-9393-a1758cb3f3c7"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0004-plane-one-way-influence",
+    ],
+)
+
+kb_decision(
+    name = "p5-verification-tools-per-plane",
+    conclusion = "p5-verification-tools-per-plane/conclusion.md",
+    rationale = "p5-verification-tools-per-plane/rationale.md",
+    alternatives = "p5-verification-tools-per-plane/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/e41d8f22-3084-4182-870e-8abbf9f95076",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/0feae549-1641-4f26-95d1-067e531e8945", "https://agentic-knowledge-base.dev/id/chunk/2b641fb6-fbd9-4d17-b4bc-e41479df2706", "https://agentic-knowledge-base.dev/id/chunk/91fd2afe-2f75-464e-90a0-aed5db13470f"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0083-verification-tools-per-plane",
+    ],
+)
+
+kb_decision(
+    name = "p6-abox-inspection-gate",
+    conclusion = "p6-abox-inspection-gate/conclusion.md",
+    rationale = "p6-abox-inspection-gate/rationale.md",
+    alternatives = "p6-abox-inspection-gate/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/194f050d-929c-4c2c-a42e-887beed7b690",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e961f335-1010-4425-a957-f31f46615ac7", "https://agentic-knowledge-base.dev/id/chunk/0df66b13-e01e-4119-a581-050ba505a7ec", "https://agentic-knowledge-base.dev/id/chunk/c6d9bc01-67f3-48c4-b22d-2c027ef8a657"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0086-abox-inspection-gate",
+    ],
+)
+
+kb_decision(
+    name = "p6-ascent-candidate-approval",
+    conclusion = "p6-ascent-candidate-approval/conclusion.md",
+    rationale = "p6-ascent-candidate-approval/rationale.md",
+    alternatives = "p6-ascent-candidate-approval/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/b3bb3bde-43af-4fad-8e67-3a52dd7a2fa9",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b136d285-c4ba-461b-99cf-bda07c2243d8", "https://agentic-knowledge-base.dev/id/chunk/3a0a3c6d-4cd2-4510-ba6f-4161f7e49813", "https://agentic-knowledge-base.dev/id/chunk/2224512f-ee1f-423a-bc09-7807e5d944f7"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-020-session-memory-promotes",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0089-ascent-trigger-candidates",
+    ],
+)
+
+kb_decision(
+    name = "p6-ascent-generalization",
+    conclusion = "p6-ascent-generalization/conclusion.md",
+    rationale = "p6-ascent-generalization/rationale.md",
+    alternatives = "p6-ascent-generalization/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/7602294f-6051-4712-b9d6-f4ed896a8316",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/31ea902d-4793-4615-b7f4-1839fbbc6283", "https://agentic-knowledge-base.dev/id/chunk/4ac6e4fb-f9f5-44b0-b8b5-05f7e576a796", "https://agentic-knowledge-base.dev/id/chunk/add918f7-8558-400e-affb-4e7bf8eff303"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0006-ascent-generalization",
+    ],
+)
+
+kb_decision(
+    name = "p6-assumption-invalidation",
+    conclusion = "p6-assumption-invalidation/conclusion.md",
+    rationale = "p6-assumption-invalidation/rationale.md",
+    alternatives = "p6-assumption-invalidation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/db06ba12-f04a-45c7-b5e3-d26d97dc7e51",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b36581f8-2688-46dc-9b44-3e1019a37d66", "https://agentic-knowledge-base.dev/id/chunk/0ae3682d-1aea-48e1-9777-c8a6bcf34a65", "https://agentic-knowledge-base.dev/id/chunk/ba1b5718-a7ac-48ff-8251-66058b52d3eb"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0007-assumption-invalidation",
+    ],
+)
+
+kb_decision(
+    name = "p6-assumption-verification-methods",
+    conclusion = "p6-assumption-verification-methods/conclusion.md",
+    rationale = "p6-assumption-verification-methods/rationale.md",
+    alternatives = "p6-assumption-verification-methods/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/674dc862-8a79-40df-a50e-9643d9caca63",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/79bcc1dd-4036-43ef-b30d-f4dff07be513", "https://agentic-knowledge-base.dev/id/chunk/d2ecafaf-cb13-4b9f-a337-11b9c454427a", "https://agentic-knowledge-base.dev/id/chunk/cb8132dd-11ce-4ff2-8503-87a995692ef2"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0087-assumption-verification-methods",
+    ],
+)
+
+kb_decision(
+    name = "p6-descent-refinement",
+    conclusion = "p6-descent-refinement/conclusion.md",
+    rationale = "p6-descent-refinement/rationale.md",
+    alternatives = "p6-descent-refinement/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/3eec3426-b051-4594-8d32-be0867520885",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d69c38aa-659d-48fe-9a65-2b8b04d1d8fd", "https://agentic-knowledge-base.dev/id/chunk/bae9ece6-74f9-4c58-a832-e4a3bc91e4e5", "https://agentic-knowledge-base.dev/id/chunk/5a64d150-5c88-4dd1-96d1-49545d6e3a00"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+)
+
+kb_decision(
+    name = "p6-executable-splits-by-kb",
+    conclusion = "p6-executable-splits-by-kb/conclusion.md",
+    rationale = "p6-executable-splits-by-kb/rationale.md",
+    alternatives = "p6-executable-splits-by-kb/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8e8697a1-16b9-4c24-a377-340db2b6000b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ee51de32-a48b-4ade-a147-4953bce27364", "https://agentic-knowledge-base.dev/id/chunk/3c8bd124-8f95-4106-83dc-05087cc58c2c", "https://agentic-knowledge-base.dev/id/chunk/7af94d35-2d65-4ff4-9ecd-f46ebd60d5a7"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-021-two-kbs-separated",
+        "//kb/dev/requirement:r-022-verifies-subject-is-vv",
+    ],
+)
+
+kb_decision(
+    name = "p6-formal-language-reproducibility",
+    conclusion = "p6-formal-language-reproducibility/conclusion.md",
+    rationale = "p6-formal-language-reproducibility/rationale.md",
+    alternatives = "p6-formal-language-reproducibility/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/3b728259-9d19-4617-a431-35fccffec28c",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/41464ace-db5e-4b86-ba07-a0700ebe8d07", "https://agentic-knowledge-base.dev/id/chunk/09d432d9-a7cc-4e0e-bfff-8aef123d93cc", "https://agentic-knowledge-base.dev/id/chunk/33064ab8-445f-4dfb-abe1-5f8c0c32b237"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0085-formal-language-makes-reproducibility",
+    ],
+)
+
+kb_decision(
+    name = "p6-gate-catalogue",
+    conclusion = "p6-gate-catalogue/conclusion.md",
+    rationale = "p6-gate-catalogue/rationale.md",
+    alternatives = "p6-gate-catalogue/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/33c8a1a1-fc90-4ce7-83a9-20c607a7c163",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5", "https://agentic-knowledge-base.dev/id/chunk/05b54661-5696-4596-8fa7-6fab11b57497", "https://agentic-knowledge-base.dev/id/chunk/a595f2cf-63e4-4f64-9c59-7d6765f0eb1e"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+)
+
+kb_decision(
+    name = "p6-invalidation-propagation",
+    conclusion = "p6-invalidation-propagation/conclusion.md",
+    rationale = "p6-invalidation-propagation/rationale.md",
+    alternatives = "p6-invalidation-propagation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/01ce160f-72c9-4898-b0b1-fe6842b799e8",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/651e2c44-9a19-4a3e-b04a-ed1226aeef23", "https://agentic-knowledge-base.dev/id/chunk/45d16364-c786-43ff-93f9-0c31ce02decb", "https://agentic-knowledge-base.dev/id/chunk/316389d1-e095-4007-b739-8f119e40b998"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0088-invalidation-propagation-procedure",
+    ],
+)
+
+kb_decision(
+    name = "p6-plane-level-occupancy",
+    conclusion = "p6-plane-level-occupancy/conclusion.md",
+    rationale = "p6-plane-level-occupancy/rationale.md",
+    alternatives = "p6-plane-level-occupancy/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8387ed4f-09c5-48b5-b682-704a045a79a1",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/53ab4452-1b2f-494f-afb8-8706debe19f0", "https://agentic-knowledge-base.dev/id/chunk/3ea1569b-6a3d-4b28-8491-52f697978765", "https://agentic-knowledge-base.dev/id/chunk/a92620b2-aebf-4826-952b-9b21296524fa"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0084-plane-level-grid",
+    ],
+)
+
+kb_decision(
+    name = "p6-refinement-ladder",
+    conclusion = "p6-refinement-ladder/conclusion.md",
+    rationale = "p6-refinement-ladder/rationale.md",
+    alternatives = "p6-refinement-ladder/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/5ef6f4a9-343a-4f00-8e88-172521022d6b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/55aa8967-2f34-41d4-bb94-d84f7272c7cd", "https://agentic-knowledge-base.dev/id/chunk/45e43552-9031-4883-94e7-a05309a79dcc", "https://agentic-knowledge-base.dev/id/chunk/f860a9f0-61ec-4291-806a-383773a42204"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0005-abstraction-ladder",
+    ],
+)
+
+kb_decision(
+    name = "p6-transition-gates",
+    conclusion = "p6-transition-gates/conclusion.md",
+    rationale = "p6-transition-gates/rationale.md",
+    alternatives = "p6-transition-gates/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/7daf868e-e331-4e89-bbcc-447c0ce05f29",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/8e8285e0-77f0-456b-8601-8ecc104585e2", "https://agentic-knowledge-base.dev/id/chunk/023c6da3-a7d3-4d02-84ed-0b2a6016159e", "https://agentic-knowledge-base.dev/id/chunk/4b805063-e8c4-4ab0-927b-bcd98660bf22"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-024-criteria-before-verifies",
+    ],
+)
+
+kb_decision(
+    name = "p6-what-evolves-has-a-home",
+    conclusion = "p6-what-evolves-has-a-home/conclusion.md",
+    rationale = "p6-what-evolves-has-a-home/rationale.md",
+    alternatives = "p6-what-evolves-has-a-home/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/cc186a37-0cf9-48c4-b3d9-aa95b76d67f3",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/cc105a39-e07a-42ed-bd29-b9049079db4d", "https://agentic-knowledge-base.dev/id/chunk/1a4cd889-2c11-41ce-bacd-c839d6aa17e2", "https://agentic-knowledge-base.dev/id/chunk/c9966a1a-a5a0-4b04-af2d-a5932c313f2d"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+        "//kb/dev/requirement:r-020-session-memory-promotes",
+    ],
+)
+
+kb_decision(
+    name = "p7-alternatives-mandatory",
+    conclusion = "p7-alternatives-mandatory/conclusion.md",
+    rationale = "p7-alternatives-mandatory/rationale.md",
+    alternatives = "p7-alternatives-mandatory/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/07096f39-a6f4-4727-a653-b8eafc5eff92",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/4962e5fe-9d28-4f18-b054-95670b51808e", "https://agentic-knowledge-base.dev/id/chunk/46c4212e-6948-47fd-94a6-77c91aa857e5", "https://agentic-knowledge-base.dev/id/chunk/a96fac97-7dbe-45f5-ba0b-1f9f6fbaed55"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+)
+
+kb_decision(
+    name = "p7-authoring-flow",
+    conclusion = "p7-authoring-flow/conclusion.md",
+    rationale = "p7-authoring-flow/rationale.md",
+    alternatives = "p7-authoring-flow/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8d167ee6-64e5-48ee-b34d-ed2d994669d1",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5d09956e-4811-4c26-b1e4-1367209763a9", "https://agentic-knowledge-base.dev/id/chunk/016661db-82bc-411a-abd8-5436b35fb9db", "https://agentic-knowledge-base.dev/id/chunk/bf791cf8-8153-49fb-85ff-887bd7169167"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-023-rung-before-descent",
+    ],
+)
+
+kb_decision(
+    name = "p7-contract-first",
+    conclusion = "p7-contract-first/conclusion.md",
+    rationale = "p7-contract-first/rationale.md",
+    alternatives = "p7-contract-first/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/5957a996-1394-4279-8e3c-31b55c586f62",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/3d7fb8e9-c078-4615-b4dd-d8325af0bffb", "https://agentic-knowledge-base.dev/id/chunk/d4bef818-3f3c-4ee7-b93b-998b32931382", "https://agentic-knowledge-base.dev/id/chunk/e2482f22-3c16-4d3d-8e87-77f6dd17849a"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-024-criteria-before-verifies",
+    ],
+)
+
+kb_decision(
+    name = "p7-decision-spans-three-levels",
+    conclusion = "p7-decision-spans-three-levels/conclusion.md",
+    rationale = "p7-decision-spans-three-levels/rationale.md",
+    alternatives = "p7-decision-spans-three-levels/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/9acf3e73-f933-4260-9b42-432825013b6c",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/23a48782-3383-4721-a184-8185f2a5a554", "https://agentic-knowledge-base.dev/id/chunk/6a1f743e-95a2-4413-ba48-81c316af6eb0", "https://agentic-knowledge-base.dev/id/chunk/87912c85-9a5e-4d3a-a410-b092a59b2735"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+)
+
+kb_decision(
+    name = "p7-decision-supersession",
+    conclusion = "p7-decision-supersession/conclusion.md",
+    rationale = "p7-decision-supersession/rationale.md",
+    alternatives = "p7-decision-supersession/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/c34b1d2f-86fb-4cd1-b532-edf65e7230c7",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5e51cb2d-6aab-4687-92d8-ebe9b3a98045", "https://agentic-knowledge-base.dev/id/chunk/b00eaea5-0cea-4c94-b031-37d08c50a815", "https://agentic-knowledge-base.dev/id/chunk/46606cc7-09b7-4086-b999-1663bd806be5"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+)
+
+kb_decision(
+    name = "p7-dev-kb-completion",
+    conclusion = "p7-dev-kb-completion/conclusion.md",
+    rationale = "p7-dev-kb-completion/rationale.md",
+    alternatives = "p7-dev-kb-completion/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/c831629d-706d-4d61-90e5-f4d848758731",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e3ac8b70-f181-47ca-a124-a976ab0c4c9c", "https://agentic-knowledge-base.dev/id/chunk/0785017b-530e-497b-9dfd-caaeb0f145f2", "https://agentic-knowledge-base.dev/id/chunk/ff970321-0d97-4f87-b6f1-19076d0b6cc0"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-023-rung-before-descent",
+    ],
+)
+
+kb_decision(
+    name = "p7-dev-kb-outputs-and-metrics",
+    conclusion = "p7-dev-kb-outputs-and-metrics/conclusion.md",
+    rationale = "p7-dev-kb-outputs-and-metrics/rationale.md",
+    alternatives = "p7-dev-kb-outputs-and-metrics/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/f44b4776-de6f-44bf-893b-72ce88179fdb",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/190168d1-87d1-4283-b933-8ad804f767cb", "https://agentic-knowledge-base.dev/id/chunk/e56f2c76-bbbe-46a6-abd8-95d068289a4a", "https://agentic-knowledge-base.dev/id/chunk/e089613b-be51-47b0-a26d-317f7ffb7e0a"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+    ],
+)
+
+kb_decision(
+    name = "p7-dev-kb-purpose",
+    conclusion = "p7-dev-kb-purpose/conclusion.md",
+    rationale = "p7-dev-kb-purpose/rationale.md",
+    alternatives = "p7-dev-kb-purpose/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/b850e446-e631-41b6-b47c-48c334c8968e",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/50bf2161-6921-4960-b579-060b5f19b8da", "https://agentic-knowledge-base.dev/id/chunk/46c73ce3-c7fd-4131-b068-6b12fdb519bb", "https://agentic-knowledge-base.dev/id/chunk/986614a8-6210-4380-9a9f-c9cf28bda177"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
+    ],
+)
+
+kb_decision(
+    name = "p7-dev-plane-substance",
+    conclusion = "p7-dev-plane-substance/conclusion.md",
+    rationale = "p7-dev-plane-substance/rationale.md",
+    alternatives = "p7-dev-plane-substance/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ec197591-b1c7-494e-bc07-2f27b96cd057",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869", "https://agentic-knowledge-base.dev/id/chunk/b5f5f9be-e57e-48eb-8361-21bae4aef24c", "https://agentic-knowledge-base.dev/id/chunk/7653b2fe-f60c-47b7-b078-5932fe836676"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+    ],
+)
+
+kb_decision(
+    name = "p7-dev-roles-and-scopes",
+    conclusion = "p7-dev-roles-and-scopes/conclusion.md",
+    rationale = "p7-dev-roles-and-scopes/rationale.md",
+    alternatives = "p7-dev-roles-and-scopes/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/92f76b7c-3bd8-4e3c-a014-61c6aec60af4",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f1d4cbae-2b57-4b96-826f-536b132cd624", "https://agentic-knowledge-base.dev/id/chunk/eccd625d-df17-4583-bc3d-9de1867544e9", "https://agentic-knowledge-base.dev/id/chunk/c861a155-0d59-4e9b-be74-2954ef259232"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
+    ],
+)
+
+kb_decision(
+    name = "p7-developer-requires-concrete",
+    conclusion = "p7-developer-requires-concrete/conclusion.md",
+    rationale = "p7-developer-requires-concrete/rationale.md",
+    alternatives = "p7-developer-requires-concrete/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/fb8de557-6f61-436f-ae39-57f6c7019555",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a3be2d7b-c106-4026-9278-3b1d8e59f822", "https://agentic-knowledge-base.dev/id/chunk/78022ec3-95df-4223-ae18-2fb3b63788a6", "https://agentic-knowledge-base.dev/id/chunk/b445f688-abe2-4a08-85c1-088119bc09e9"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+    ],
+)
+
+kb_decision(
+    name = "p7-schema-derivation",
+    conclusion = "p7-schema-derivation/conclusion.md",
+    rationale = "p7-schema-derivation/rationale.md",
+    alternatives = "p7-schema-derivation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/d7435609-eefb-48a3-bab6-2cab0f56476e",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/43ccbea0-23c0-49be-913c-960a7dcbbf8c", "https://agentic-knowledge-base.dev/id/chunk/a9505b08-0ae3-41e9-8f98-d6f6fe4a2ac9", "https://agentic-knowledge-base.dev/id/chunk/b47d223d-983b-4a72-a4f0-6e56a0a05dc8"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+)
+
+kb_decision(
+    name = "p8-agent-vv",
+    conclusion = "p8-agent-vv/conclusion.md",
+    rationale = "p8-agent-vv/rationale.md",
+    alternatives = "p8-agent-vv/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/a47a3cfd-e9df-401a-90d1-d49cfff12452",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f50c86b2-b06c-45b9-8585-08b4f14565b6", "https://agentic-knowledge-base.dev/id/chunk/62465880-185a-4250-be30-6356d3d411c0", "https://agentic-knowledge-base.dev/id/chunk/aaa57ace-43a4-4ec1-b4f3-5e46dbd22c68"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+)
+
+kb_decision(
+    name = "p8-case-generation",
+    conclusion = "p8-case-generation/conclusion.md",
+    rationale = "p8-case-generation/rationale.md",
+    alternatives = "p8-case-generation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/b70975e0-3013-4480-8885-6b0ea69cf97b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5ff79a30-1dc2-45e0-be42-2d793dbcf65a", "https://agentic-knowledge-base.dev/id/chunk/4807a67c-1e98-40b3-b10d-937b9de41cfc", "https://agentic-knowledge-base.dev/id/chunk/ca9049d3-4bfa-4698-bfbf-82b66f3fbf06"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:reproducible-runs",
+    ],
+)
+
+kb_decision(
+    name = "p8-coverage-metrics",
+    conclusion = "p8-coverage-metrics/conclusion.md",
+    rationale = "p8-coverage-metrics/rationale.md",
+    alternatives = "p8-coverage-metrics/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/205cefbf-aaf5-4b93-9e68-83f242e64e86",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/84876fe0-13f8-4691-a6c6-27ff29ac61c1", "https://agentic-knowledge-base.dev/id/chunk/e3d33eb9-ea7e-46f5-b82f-5ba725bb21b4", "https://agentic-knowledge-base.dev/id/chunk/11d782d3-7807-452a-a3cc-7d92317ddc88"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0135-coverage-definition",
+    ],
+)
+
+kb_decision(
+    name = "p8-defect-factor-taxonomy",
+    conclusion = "p8-defect-factor-taxonomy/conclusion.md",
+    rationale = "p8-defect-factor-taxonomy/rationale.md",
+    alternatives = "p8-defect-factor-taxonomy/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/941cae39-2d59-468c-bd54-9d71cf8982ba",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/90637802-c79a-43f1-8665-8c50f3b6fd9f", "https://agentic-knowledge-base.dev/id/chunk/3e497c98-a93b-4976-8d4a-1c37b0d45784", "https://agentic-knowledge-base.dev/id/chunk/6989d41e-26b3-4814-b4c6-76674a64090c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0140-three-defect-factors",
+    ],
+)
+
+kb_decision(
+    name = "p8-environment-assignment",
+    conclusion = "p8-environment-assignment/conclusion.md",
+    rationale = "p8-environment-assignment/rationale.md",
+    alternatives = "p8-environment-assignment/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/12df135b-c37d-48d8-b768-8279da163438",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/225ea6bb-00d7-4447-a0b3-2ae33d5f4880", "https://agentic-knowledge-base.dev/id/chunk/282e0d88-6e9c-4f30-8e37-98390b61737a", "https://agentic-knowledge-base.dev/id/chunk/78586b04-179f-472d-8a6f-a4e8796ecc6c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0134-scenario-environment-assignment",
+    ],
+)
+
+kb_decision(
+    name = "p8-learned-environment-and-judge",
+    conclusion = "p8-learned-environment-and-judge/conclusion.md",
+    rationale = "p8-learned-environment-and-judge/rationale.md",
+    alternatives = "p8-learned-environment-and-judge/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/0b5e9efb-5c56-4cc8-92bf-bc0ba2f4f531",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c9389c95-3596-453d-9915-6d4a28898afb", "https://agentic-knowledge-base.dev/id/chunk/03615e55-7dff-4d59-ae60-4801dc1c370e", "https://agentic-knowledge-base.dev/id/chunk/acb96c21-27eb-48e4-a842-1c6c31ab36d7"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:verification-means-trust",
+    ],
+)
+
+kb_decision(
+    name = "p8-mismatch-attribution",
+    conclusion = "p8-mismatch-attribution/conclusion.md",
+    rationale = "p8-mismatch-attribution/rationale.md",
+    alternatives = "p8-mismatch-attribution/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/4d7432c4-7474-4d30-bfcb-dcb756408d72",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f64bb63b-9741-4f24-8831-1fcd0f0eaded", "https://agentic-knowledge-base.dev/id/chunk/0f86906b-a2b0-4d15-99ae-b1084a3a3f84", "https://agentic-knowledge-base.dev/id/chunk/3a16e1da-4dea-499f-ac27-48ca2f559b93"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+)
+
+kb_decision(
+    name = "p8-odc-defect-subtypes",
+    conclusion = "p8-odc-defect-subtypes/conclusion.md",
+    rationale = "p8-odc-defect-subtypes/rationale.md",
+    alternatives = "p8-odc-defect-subtypes/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/49d21395-f143-4467-b1e8-55c07e9341dc",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ca6505e8-987f-4890-b38a-07f6ed5f8612", "https://agentic-knowledge-base.dev/id/chunk/f015e7f7-e974-44a3-aec0-6f24a96e5a30", "https://agentic-knowledge-base.dev/id/chunk/754a6078-88a7-4a1e-8ca2-1ecca17d2b5c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0141-odc-defect-subtypes",
+    ],
+)
+
+kb_decision(
+    name = "p8-odc-qualifier-and-dimensions",
+    conclusion = "p8-odc-qualifier-and-dimensions/conclusion.md",
+    rationale = "p8-odc-qualifier-and-dimensions/rationale.md",
+    alternatives = "p8-odc-qualifier-and-dimensions/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/a70f283f-26aa-465e-9162-51aadc42ec13",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c52bc5b2-cd33-4676-843e-c0b0986b5237", "https://agentic-knowledge-base.dev/id/chunk/23baaabf-a741-46eb-9618-54b6bdcf5dec", "https://agentic-knowledge-base.dev/id/chunk/b4b0a400-9fd6-427b-8006-7af0e4c25c97"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0142-odc-qualifier-and-dimensions",
+    ],
+)
+
+kb_decision(
+    name = "p8-pass-criteria",
+    conclusion = "p8-pass-criteria/conclusion.md",
+    rationale = "p8-pass-criteria/rationale.md",
+    alternatives = "p8-pass-criteria/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/14433614-5dd7-4df3-b32c-2422a25daef3",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/96966fae-587c-426f-9da7-5233844aa016", "https://agentic-knowledge-base.dev/id/chunk/a8129aa8-f771-496f-8a3c-6f3f0b2a0ebd", "https://agentic-knowledge-base.dev/id/chunk/8b4bb7eb-ae79-42cc-a425-ca13529d58be"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-024-criteria-before-verifies",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0136-pass-criteria-separate-chunk",
+    ],
+)
+
+kb_decision(
+    name = "p8-proactive-vv",
+    conclusion = "p8-proactive-vv/conclusion.md",
+    rationale = "p8-proactive-vv/rationale.md",
+    alternatives = "p8-proactive-vv/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/579b14ac-e4d4-4718-9516-4211838cb9d0",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5efca330-1381-4309-b742-17d4a347e425", "https://agentic-knowledge-base.dev/id/chunk/0d9cf421-8e7e-475b-ac0c-2d4aae6d57c9", "https://agentic-knowledge-base.dev/id/chunk/42465bf4-c107-4403-8921-695bc1fbc3bf"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+    ],
+)
+
+kb_decision(
+    name = "p8-reproducibility",
+    conclusion = "p8-reproducibility/conclusion.md",
+    rationale = "p8-reproducibility/rationale.md",
+    alternatives = "p8-reproducibility/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/c71e12a1-2a31-43f5-af40-c670d767f559",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/36a0b6fa-ac60-47db-a769-b49d067f6854", "https://agentic-knowledge-base.dev/id/chunk/9c1f0e81-8372-48a1-8b8a-ce9753e86988", "https://agentic-knowledge-base.dev/id/chunk/f6bfebac-476b-436a-b265-8b5940dbbdff"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-026-observations-append-only",
+        "//kb/dev/requirement:reproducible-runs",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0137-reproducibility-as-assignment-condition",
+    ],
+)
+
+kb_decision(
+    name = "p8-risk-analysis-profile",
+    conclusion = "p8-risk-analysis-profile/conclusion.md",
+    rationale = "p8-risk-analysis-profile/rationale.md",
+    alternatives = "p8-risk-analysis-profile/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/a9889acc-3e51-4428-8dff-b9bce3e26ce5",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/688dd654-9493-4ff5-a3bc-1fe4906776ce", "https://agentic-knowledge-base.dev/id/chunk/2b5cb4d0-1d23-4d45-a4bd-66199ff2a502", "https://agentic-knowledge-base.dev/id/chunk/e1c93aae-95a8-4d0e-830a-3494c33a2fc7"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+    ],
+)
+
+kb_decision(
+    name = "p8-scenario-authoring",
+    conclusion = "p8-scenario-authoring/conclusion.md",
+    rationale = "p8-scenario-authoring/rationale.md",
+    alternatives = "p8-scenario-authoring/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/791e4e4c-db54-45f9-a03b-8922cd7cc3af",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e0c54da4-5d6f-43cf-b6c9-094548333c74", "https://agentic-knowledge-base.dev/id/chunk/b93237ef-5a6b-414c-9b4c-46537dfa37f7", "https://agentic-knowledge-base.dev/id/chunk/0aa40f3e-b854-4d44-9930-30fae7f84472"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+)
+
+kb_decision(
+    name = "p8-scenario-ladder-rungs",
+    conclusion = "p8-scenario-ladder-rungs/conclusion.md",
+    rationale = "p8-scenario-ladder-rungs/rationale.md",
+    alternatives = "p8-scenario-ladder-rungs/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/0ef3233e-c6aa-434b-a0ef-350c857e690e",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/525c2b08-d69e-41f1-bbcd-fbffa082a5eb", "https://agentic-knowledge-base.dev/id/chunk/68ac1095-a83b-4b37-b61c-2053c833aa68", "https://agentic-knowledge-base.dev/id/chunk/8066865c-a0c4-4bcd-a509-27abb002a366"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-023-rung-before-descent",
+    ],
+)
+
+kb_decision(
+    name = "p8-simulation-credibility",
+    conclusion = "p8-simulation-credibility/conclusion.md",
+    rationale = "p8-simulation-credibility/rationale.md",
+    alternatives = "p8-simulation-credibility/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/962ef704-4544-41b5-8b6d-bea52f11c595",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/bdb1f8b2-86ba-44fa-8005-1e49d4ccc031", "https://agentic-knowledge-base.dev/id/chunk/36ad6f0f-c619-4487-8ce0-b4a41aa16ed9", "https://agentic-knowledge-base.dev/id/chunk/424cb1a6-90fe-4285-823f-5f8e699bc538"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:verification-means-trust",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0138-simulation-credibility",
+    ],
+)
+
+kb_decision(
+    name = "p8-simulation-project",
+    conclusion = "p8-simulation-project/conclusion.md",
+    rationale = "p8-simulation-project/rationale.md",
+    alternatives = "p8-simulation-project/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/229d2de0-e6eb-432a-9548-5ea5898ce770",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2bb29216-3c7d-4333-a556-ce7b3021ccdb", "https://agentic-knowledge-base.dev/id/chunk/026cdd4e-aa39-4572-83ae-a0b1adf6ed22", "https://agentic-knowledge-base.dev/id/chunk/8039acdb-d961-4214-9c53-5a0320816da1"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0133-simulation-project",
+    ],
+)
+
+kb_decision(
+    name = "p8-testbed",
+    conclusion = "p8-testbed/conclusion.md",
+    rationale = "p8-testbed/rationale.md",
+    alternatives = "p8-testbed/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8475c698-2795-4e94-8c13-85e3aa7d85eb",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a9d34ef5-55e0-45eb-876e-b82e717f03d0", "https://agentic-knowledge-base.dev/id/chunk/6d30bbff-d21e-4c03-9d1c-d5264bc2bed9", "https://agentic-knowledge-base.dev/id/chunk/8da319be-5d0d-4a35-924f-e8ea20dbe80e"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-026-observations-append-only",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0139-testbed-composition",
+    ],
+)
+
+kb_decision(
+    name = "p8-three-directions-of-verification",
+    conclusion = "p8-three-directions-of-verification/conclusion.md",
+    rationale = "p8-three-directions-of-verification/rationale.md",
+    alternatives = "p8-three-directions-of-verification/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/9ac75416-7fff-4995-be5d-fed7b6ecbb90",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/19340826-1e0d-48ab-afa9-16402d5325e1", "https://agentic-knowledge-base.dev/id/chunk/6aae17d1-726c-49a3-9a1e-5ebc5e844c0d", "https://agentic-knowledge-base.dev/id/chunk/a3c7ec98-fe2b-41e2-bafe-4b3ab2143fd3"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-024-criteria-before-verifies",
+        "//kb/dev/requirement:verification-means-trust",
+    ],
+)
+
+kb_decision(
+    name = "p8-two-knowledge-bases",
+    conclusion = "p8-two-knowledge-bases/conclusion.md",
+    rationale = "p8-two-knowledge-bases/rationale.md",
+    alternatives = "p8-two-knowledge-bases/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ff2266a5-716f-41ad-a738-292aca41f27b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/af618b63-841a-4c19-a935-62ec246c2218", "https://agentic-knowledge-base.dev/id/chunk/2c7d59a4-3581-4f91-9eaa-9175bc0cee55", "https://agentic-knowledge-base.dev/id/chunk/f26fe05c-f67e-4d52-834f-a683a477418b"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-021-two-kbs-separated",
+        "//kb/dev/requirement:r-023-rung-before-descent",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0130-testing-as-application",
+    ],
+)
+
+kb_decision(
+    name = "p8-two-verification-targets",
+    conclusion = "p8-two-verification-targets/conclusion.md",
+    rationale = "p8-two-verification-targets/rationale.md",
+    alternatives = "p8-two-verification-targets/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/e11ea926-9802-41f2-92a9-62dccfa80b4d",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/1346522d-0e9b-4a3d-9390-082cf9aa47f3", "https://agentic-knowledge-base.dev/id/chunk/d577873b-6b6f-426b-8be3-190a69370562", "https://agentic-knowledge-base.dev/id/chunk/bb95f17b-69e3-4546-9076-ba59c66fc773"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0131-two-verification-targets",
+    ],
+)
+
+kb_decision(
+    name = "p8-unknown-risk-cases",
+    conclusion = "p8-unknown-risk-cases/conclusion.md",
+    rationale = "p8-unknown-risk-cases/rationale.md",
+    alternatives = "p8-unknown-risk-cases/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/afadcad8-6d9b-4e7d-aac5-cdc0c6ffe89c",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/467199b6-287f-4e76-8832-6f13e753d943", "https://agentic-knowledge-base.dev/id/chunk/fbc3f6de-defb-4b0d-8234-aa952c45d01e", "https://agentic-knowledge-base.dev/id/chunk/ae25b989-da6d-41f4-9918-fb177c185358"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0143-unknown-risk-scenarios",
+    ],
+)
+
+kb_decision(
+    name = "p8-verification-and-validation",
+    conclusion = "p8-verification-and-validation/conclusion.md",
+    rationale = "p8-verification-and-validation/rationale.md",
+    alternatives = "p8-verification-and-validation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/f78cc6f9-4200-405e-8a12-7c8eb43f9c24",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f12c958e-2314-43b9-8f6c-77dc38f87a6b", "https://agentic-knowledge-base.dev/id/chunk/6b6fe18d-fe67-4b27-8139-c84ef1844acd", "https://agentic-knowledge-base.dev/id/chunk/de54cf29-cd0a-4dce-ae86-ed5583597a70"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+)
+
+kb_decision(
+    name = "p8-verification-environment-ladder",
+    conclusion = "p8-verification-environment-ladder/conclusion.md",
+    rationale = "p8-verification-environment-ladder/rationale.md",
+    alternatives = "p8-verification-environment-ladder/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ea0859cb-27fc-4f71-a6a9-66d5e96be952",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/daaadd68-8582-441a-8ffe-8648125310c6", "https://agentic-knowledge-base.dev/id/chunk/88b559f6-a94d-4ffd-a744-8f820bce6d4e", "https://agentic-knowledge-base.dev/id/chunk/9b498b8c-1902-45a3-a189-bffea5e612f6"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0132-verification-environment-ladder",
+    ],
+)
+
+kb_decision(
+    name = "p8-vv-independence-scope",
+    conclusion = "p8-vv-independence-scope/conclusion.md",
+    rationale = "p8-vv-independence-scope/rationale.md",
+    alternatives = "p8-vv-independence-scope/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/a6634f6f-503c-4e74-8aa1-08d272e2a38e",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/60271a33-e150-4e2d-a6ed-728ea04e7ce3", "https://agentic-knowledge-base.dev/id/chunk/8e92a120-4898-48fa-921b-ad377220fbb8", "https://agentic-knowledge-base.dev/id/chunk/0f6b9efd-3473-4c5a-bcfb-3727c6ad394d"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-021-two-kbs-separated",
+    ],
+)
+
+kb_decision(
+    name = "p8-vv-plane-instances",
+    conclusion = "p8-vv-plane-instances/conclusion.md",
+    rationale = "p8-vv-plane-instances/rationale.md",
+    alternatives = "p8-vv-plane-instances/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8348f42d-da82-4b6f-b1a0-d31a93ff3d65",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b71b1baa-9d02-4d6f-b152-7a8a292637c1", "https://agentic-knowledge-base.dev/id/chunk/2c2b0d83-f624-4d8a-bc06-a3953a64a455", "https://agentic-knowledge-base.dev/id/chunk/8a627318-3f5e-4f10-9416-06c0ce2bcb88"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
+    ],
+)
+
+kb_decision(
+    name = "p8-vv-reports",
+    conclusion = "p8-vv-reports/conclusion.md",
+    rationale = "p8-vv-reports/rationale.md",
+    alternatives = "p8-vv-reports/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/12dac333-3480-43ae-9b38-2884efe35bd0",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/25cf6714-8a00-45b7-8efa-426dda90e785", "https://agentic-knowledge-base.dev/id/chunk/e39759ee-a761-483a-9baf-895dcbd535a4", "https://agentic-knowledge-base.dev/id/chunk/c921d511-16df-438a-b9a6-60e3914faf60"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+    ],
+)
+
+kb_decision(
+    name = "p8-vv-roles",
+    conclusion = "p8-vv-roles/conclusion.md",
+    rationale = "p8-vv-roles/rationale.md",
+    alternatives = "p8-vv-roles/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/666bd423-dc26-4857-9841-c1e3aa131223",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/cf8fcbbf-d356-4c6d-af23-d4b26ce3ba75", "https://agentic-knowledge-base.dev/id/chunk/102a6844-5b56-4fc0-87dd-d2c5734a01a2", "https://agentic-knowledge-base.dev/id/chunk/d5d47afc-1763-494e-b4ad-153db312a14d"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:audit-self-sufficiency",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+)
+
+kb_decision(
+    name = "p8-vv-workflow",
+    conclusion = "p8-vv-workflow/conclusion.md",
+    rationale = "p8-vv-workflow/rationale.md",
+    alternatives = "p8-vv-workflow/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ad7a39e2-6ef7-4ba3-a4df-92cf2c9409ca",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c99ccaef-6c94-4c42-a21b-834c2887372e", "https://agentic-knowledge-base.dev/id/chunk/f9a23169-9809-4ac3-ba19-1e26a6622c0b", "https://agentic-knowledge-base.dev/id/chunk/647676a1-b3ca-49fe-b9e6-6bde376db6e2"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-022-verifies-subject-is-vv",
+        "//kb/dev/requirement:r-023-rung-before-descent",
+    ],
+)
+
+kb_decision(
+    name = "p9-candidate-generation-limits",
+    conclusion = "p9-candidate-generation-limits/conclusion.md",
+    rationale = "p9-candidate-generation-limits/rationale.md",
+    alternatives = "p9-candidate-generation-limits/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/24a2256b-3151-4896-a1f5-712d76f8b4fc",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/0f68d642-0020-443f-9876-072e8832b270", "https://agentic-knowledge-base.dev/id/chunk/ea6fd937-f144-4fb0-8157-5b8ed5322307", "https://agentic-knowledge-base.dev/id/chunk/7e000f55-4c04-4ed7-b4fb-691162204745"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0102-candidate-generation-limits",
+    ],
+)
+
+kb_decision(
+    name = "p9-candidate-storage",
+    conclusion = "p9-candidate-storage/conclusion.md",
+    rationale = "p9-candidate-storage/rationale.md",
+    alternatives = "p9-candidate-storage/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/b4561dfb-19ea-4f34-b57e-c241cae4b9da",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/7c9d74e6-1a77-4d52-a126-644a65bfab93", "https://agentic-knowledge-base.dev/id/chunk/284d98e4-ea66-4433-a722-20cb9f3b5a5c", "https://agentic-knowledge-base.dev/id/chunk/f7fe34ac-6b4a-4720-806a-15492db20cb4"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-014-42-line-chunk",
+    ],
+)
+
+kb_decision(
+    name = "p9-candidates-per-level",
+    conclusion = "p9-candidates-per-level/conclusion.md",
+    rationale = "p9-candidates-per-level/rationale.md",
+    alternatives = "p9-candidates-per-level/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/aa01f873-7345-4c18-a227-e8cc6e4dc958",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/886dfa34-dfe9-4b91-9c7d-80865dce8ed0", "https://agentic-knowledge-base.dev/id/chunk/e5e3cf87-6f83-48b7-8895-aef801230828", "https://agentic-knowledge-base.dev/id/chunk/6f99ba97-1cd9-4e55-9524-b0d73153b3e1"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+)
+
+kb_decision(
+    name = "p9-conditional-links",
+    conclusion = "p9-conditional-links/conclusion.md",
+    rationale = "p9-conditional-links/rationale.md",
+    alternatives = "p9-conditional-links/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/0b7abe3a-c03e-434f-b53b-b9d9d936a388",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2921c7a6-95a6-49b2-83d1-4b90bfd44c1a", "https://agentic-knowledge-base.dev/id/chunk/68c71368-de19-47b0-9237-4a6acf194aff", "https://agentic-knowledge-base.dev/id/chunk/979c86aa-4026-4bd3-8537-0aa1511c2884"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
+        "//kb/dev/requirement:r-007-invalidate-without-survey",
+    ],
+)
+
+kb_decision(
+    name = "p9-constraint-propagation-timing",
+    conclusion = "p9-constraint-propagation-timing/conclusion.md",
+    rationale = "p9-constraint-propagation-timing/rationale.md",
+    alternatives = "p9-constraint-propagation-timing/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/560ccdfa-94a3-4a43-bc41-3697c44b69cc",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/21accfe5-3723-46b2-8d44-f700e2099825", "https://agentic-knowledge-base.dev/id/chunk/9eccc506-292a-43df-a121-15fd00d359ca", "https://agentic-knowledge-base.dev/id/chunk/3895f5a0-161c-4e22-82a8-f810684bf94c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0101-constraint-propagation-timing",
+    ],
+)
+
+kb_decision(
+    name = "p9-constraint-sources-and-kinds",
+    conclusion = "p9-constraint-sources-and-kinds/conclusion.md",
+    rationale = "p9-constraint-sources-and-kinds/rationale.md",
+    alternatives = "p9-constraint-sources-and-kinds/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/82fb12dd-6188-4e06-bae7-e86e699ac5fe",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e09e5796-4a28-4f39-a886-2eb95c957f8a", "https://agentic-knowledge-base.dev/id/chunk/6a32ff4f-beb8-4013-b563-bf9c283d96a5", "https://agentic-knowledge-base.dev/id/chunk/98f0add9-7e65-4b6e-8b0e-ee31f962c41a"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0099-constraint-sources-and-kinds",
+    ],
+)
+
+kb_decision(
+    name = "p9-contradiction-handling",
+    conclusion = "p9-contradiction-handling/conclusion.md",
+    rationale = "p9-contradiction-handling/rationale.md",
+    alternatives = "p9-contradiction-handling/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/60c37dde-858e-4e6a-b878-b8340bcef798",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5fecc471-fe63-4526-9dca-9ba0bf3c2a77", "https://agentic-knowledge-base.dev/id/chunk/1a6ff8d1-785b-4558-a6c9-e43ec74de6f7", "https://agentic-knowledge-base.dev/id/chunk/1bd35e25-91c1-4ae6-b8c8-339fc18efab9"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0103-contradiction-handling",
+    ],
+)
+
+kb_decision(
+    name = "p9-csp-mapping-of-links",
+    conclusion = "p9-csp-mapping-of-links/conclusion.md",
+    rationale = "p9-csp-mapping-of-links/rationale.md",
+    alternatives = "p9-csp-mapping-of-links/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/aa7d5c28-822d-4904-9e3f-13920eb41256",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f28a27f4-a539-4913-b1cd-fc8fc346eff3", "https://agentic-knowledge-base.dev/id/chunk/5eedadfc-b34b-4634-9701-aefb9fbbbd66", "https://agentic-knowledge-base.dev/id/chunk/d08b9695-9a52-4c4d-9b1f-ecc3fb6dc68f"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0098-csp-mapping-of-links",
+    ],
+)
+
+kb_decision(
+    name = "p9-design-space-file",
+    conclusion = "p9-design-space-file/conclusion.md",
+    rationale = "p9-design-space-file/rationale.md",
+    alternatives = "p9-design-space-file/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/77fa385a-9aa6-406f-b72f-bb966f6c42f8",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/828f6e56-8841-4778-94b7-fe42d706243f", "https://agentic-knowledge-base.dev/id/chunk/34ad0213-ff01-4093-859b-393235c4bcbc", "https://agentic-knowledge-base.dev/id/chunk/f9294170-85e0-42b1-9898-575df58d3b4c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0100-design-space-file",
+    ],
+)
+
+kb_decision(
+    name = "p9-evidence-ledger",
+    conclusion = "p9-evidence-ledger/conclusion.md",
+    rationale = "p9-evidence-ledger/rationale.md",
+    alternatives = "p9-evidence-ledger/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/05abd2cf-de1b-4aa2-9559-10cb0f868dab",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d3a36010-25a1-417b-b2e7-875ccc6955ce", "https://agentic-knowledge-base.dev/id/chunk/bb21779a-b314-46f3-b9f7-2dd0f35ac358", "https://agentic-knowledge-base.dev/id/chunk/aa5949c4-b69d-4388-be81-f640d3a57169"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-022-verifies-subject-is-vv",
+    ],
+)
+
+kb_decision(
+    name = "p9-language-model-place",
+    conclusion = "p9-language-model-place/conclusion.md",
+    rationale = "p9-language-model-place/rationale.md",
+    alternatives = "p9-language-model-place/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/a6dd335e-3bb8-41b4-9c4c-2745b90b5188",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/51d32aac-c242-4615-a0dc-b651565bddde", "https://agentic-knowledge-base.dev/id/chunk/5e4dc67f-c98d-4615-963d-627b9439a492", "https://agentic-knowledge-base.dev/id/chunk/bef830d6-7398-4718-b4be-11a0e0efeb8e"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+)
+
+kb_decision(
+    name = "p9-possibility-as-feasible-set",
+    conclusion = "p9-possibility-as-feasible-set/conclusion.md",
+    rationale = "p9-possibility-as-feasible-set/rationale.md",
+    alternatives = "p9-possibility-as-feasible-set/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/3d6c3728-c1d8-4bc4-8d9e-f6963425410c",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/204c3abf-f882-4a82-92d0-a375d4e859e2", "https://agentic-knowledge-base.dev/id/chunk/91828cd5-3534-4ec1-970c-ca02f27c914c", "https://agentic-knowledge-base.dev/id/chunk/fd66dd3b-a47e-4e41-8ff1-2213702371dc"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0097-possibility-as-feasible-set",
+    ],
+)
+
+kb_decision(
+    name = "p9-preference-partial-order",
+    conclusion = "p9-preference-partial-order/conclusion.md",
+    rationale = "p9-preference-partial-order/rationale.md",
+    alternatives = "p9-preference-partial-order/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/d019ef5c-899b-459f-98cb-80d0fd72a0c4",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c6c78803-bdb6-4ca2-9b07-bba7878f3a01", "https://agentic-knowledge-base.dev/id/chunk/67571819-4620-4639-9e59-46e9fe4e7e29", "https://agentic-knowledge-base.dev/id/chunk/ad544be2-8940-47c2-b038-9639b32b88c5"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0104-preference-partial-order",
+    ],
+)
+
+kb_decision(
+    name = "p9-same-level-relations",
+    conclusion = "p9-same-level-relations/conclusion.md",
+    rationale = "p9-same-level-relations/rationale.md",
+    alternatives = "p9-same-level-relations/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/152194cd-d12e-4d2c-9626-ccb6119e1baf",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f64eac29-6dae-40d9-9e46-7459bf37b8a2", "https://agentic-knowledge-base.dev/id/chunk/165d36cf-9031-4232-b19c-152c7f9ecf0d", "https://agentic-knowledge-base.dev/id/chunk/5d6d052f-46c8-4939-8bcc-27c1ed88b928"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-014-42-line-chunk",
+    ],
+)
+
+kb_decision(
+    name = "p9-uncertainty-as-link-uncertainty",
+    conclusion = "p9-uncertainty-as-link-uncertainty/conclusion.md",
+    rationale = "p9-uncertainty-as-link-uncertainty/rationale.md",
+    alternatives = "p9-uncertainty-as-link-uncertainty/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/d85fdc0a-47c2-499e-9379-813c5a5cc167",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5b6ac70d-af5e-48ed-8e23-c7a66921493f", "https://agentic-knowledge-base.dev/id/chunk/279fc913-f473-46de-babe-203a0b3c59f1", "https://agentic-knowledge-base.dev/id/chunk/1ebe0f01-3a3f-42a4-9682-47f81b6d1074"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+    supersedes = [
+        "//chunks/decision:d-0096-uncertainty-as-link-uncertainty",
+    ],
+)
+
+kb_decision(
+    name = "pe-bazel-rules",
+    conclusion = "pe-bazel-rules/conclusion.md",
+    rationale = "pe-bazel-rules/rationale.md",
+    alternatives = "pe-bazel-rules/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/3e725e9e-fd83-432d-b708-ed004a01cedd",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/eb439f51-39e5-4a23-9335-c77c588a598c", "https://agentic-knowledge-base.dev/id/chunk/ceaf0bf1-3306-43b3-85ee-46fed0c6d6b2", "https://agentic-knowledge-base.dev/id/chunk/7901ab8b-9a44-4e29-a46b-f87a124750fd"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+)
+
+kb_decision(
+    name = "pe-notation-and-cel",
+    conclusion = "pe-notation-and-cel/conclusion.md",
+    rationale = "pe-notation-and-cel/rationale.md",
+    alternatives = "pe-notation-and-cel/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ffcf1fe8-be2a-4a21-b532-ff6f7bb4b727",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/52882515-946a-4d03-a4a2-938489b1a203", "https://agentic-knowledge-base.dev/id/chunk/448c244b-8cab-47ea-8074-8d2b2676371f", "https://agentic-knowledge-base.dev/id/chunk/5c5e8fd3-db36-4de4-9389-6107a0b8c598"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
+        "//kb/dev/requirement:r-024-criteria-before-verifies",
+    ],
+)
+
+kb_decision(
+    name = "pe-odd-is-openodd",
+    conclusion = "pe-odd-is-openodd/conclusion.md",
+    rationale = "pe-odd-is-openodd/rationale.md",
+    alternatives = "pe-odd-is-openodd/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/f867e42b-0106-4796-8861-4bdc493e15db",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f7f3a3a1-2266-460b-bc5b-38f085f574b8", "https://agentic-knowledge-base.dev/id/chunk/cbc3be30-e73f-4e88-b375-ffd58b0f4119", "https://agentic-knowledge-base.dev/id/chunk/947f136b-2d73-4fe3-b89f-dcd12f605bd8"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+)
+
+kb_decision(
+    name = "pe-scenario-is-openscenario",
+    conclusion = "pe-scenario-is-openscenario/conclusion.md",
+    rationale = "pe-scenario-is-openscenario/rationale.md",
+    alternatives = "pe-scenario-is-openscenario/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/7fcedb3d-e6cb-4df2-81fc-0787c3934fea",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/1adeb68f-a1ed-4eb3-bb03-6aaaa27cbc6e", "https://agentic-knowledge-base.dev/id/chunk/89053ad9-4452-401b-92fe-56e8fb811694", "https://agentic-knowledge-base.dev/id/chunk/67c1293a-e11b-4217-8cec-0d805be04e9d"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-024-criteria-before-verifies",
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+)
+
+kb_decision(
+    name = "pe-storage-layout",
+    conclusion = "pe-storage-layout/conclusion.md",
+    rationale = "pe-storage-layout/rationale.md",
+    alternatives = "pe-storage-layout/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/6d696b3f-6d63-476e-bb56-65f27d8d2ed5",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/af38a092-1ea7-41f2-a032-e31c6ff0168d", "https://agentic-knowledge-base.dev/id/chunk/8fbc4644-38d0-4a50-8ab7-bbc01c54f53c", "https://agentic-knowledge-base.dev/id/chunk/0ada58bb-091b-4c72-93ff-1b50fdcf09ea"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
+    ],
+)
+
+kb_decision(
+    name = "pe-three-layer-binding",
+    conclusion = "pe-three-layer-binding/conclusion.md",
+    rationale = "pe-three-layer-binding/rationale.md",
+    alternatives = "pe-three-layer-binding/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/22ffbbd9-3eba-4e36-aeaf-8e5ff96113aa",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/578a6482-7bea-4b79-9206-92870d919a33", "https://agentic-knowledge-base.dev/id/chunk/cf282d5d-fc8b-4d70-8587-2b28485f98e8", "https://agentic-knowledge-base.dev/id/chunk/17574304-0b74-46c8-8ad7-08e5cdd8a535"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+)

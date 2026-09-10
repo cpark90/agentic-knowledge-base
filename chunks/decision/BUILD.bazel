@@ -1,0 +1,1389 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_chunk")
+
+package(default_visibility = ["//kb:decision_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_chunk(
+    name = "d-0001-bazel-harness",
+    src = "d-0001-bazel-harness.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0001",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0002-chunk-42-line-unit",
+    src = "d-0002-chunk-42-line-unit.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0002",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0003-plane-by-verification",
+    src = "d-0003-plane-by-verification.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0003",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0004-plane-one-way-influence",
+    src = "d-0004-plane-one-way-influence.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0004",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0005-abstraction-ladder",
+    src = "d-0005-abstraction-ladder.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0005",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0006-ascent-generalization",
+    src = "d-0006-ascent-generalization.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0006",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0007-assumption-invalidation",
+    src = "d-0007-assumption-invalidation.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0007",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0008-odd-foundation",
+    src = "d-0008-odd-foundation.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0008",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0009-link-by-construction",
+    src = "d-0009-link-by-construction.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0009",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0010-link-types",
+    src = "d-0010-link-types.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0010",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0011-chunk-four-graphs",
+    src = "d-0011-chunk-four-graphs.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0011",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0012-scene-situation-scenario",
+    src = "d-0012-scene-situation-scenario.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0012",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0013-store-formal-read-narrow",
+    src = "d-0013-store-formal-read-narrow.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0013",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0014-three-failure-modes",
+    src = "d-0014-three-failure-modes.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0014",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0015-composition-workflow",
+    src = "d-0015-composition-workflow.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0015",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0016-node-text-budget",
+    src = "d-0016-node-text-budget.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0016",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0017-lesson-promotion",
+    src = "d-0017-lesson-promotion.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0017",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0018-recipe-assembly-spec",
+    src = "d-0018-recipe-assembly-spec.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0018",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0019-recipe-required-core",
+    src = "d-0019-recipe-required-core.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0019",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0020-source-gated-axes",
+    src = "d-0020-source-gated-axes.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0020",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0021-domain-neutral-skeleton",
+    src = "d-0021-domain-neutral-skeleton.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0021",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0022-two-foundations-five-mechanisms",
+    src = "d-0022-two-foundations-five-mechanisms.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0022",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0023-out-of-scope-input-and-use",
+    src = "d-0023-out-of-scope-input-and-use.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0023",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0024-no-invented-terms",
+    src = "d-0024-no-invented-terms.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0024",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0025-one-word-one-concept",
+    src = "d-0025-one-word-one-concept.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0025",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0026-two-axes-plane-level",
+    src = "d-0026-two-axes-plane-level.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0026",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0027-artifact-filename-suffix",
+    src = "d-0027-artifact-filename-suffix.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0027",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0028-agt-namespace",
+    src = "d-0028-agt-namespace.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0028",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0029-scope-specification-form",
+    src = "d-0029-scope-specification-form.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0029",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0030-condition-subclasses",
+    src = "d-0030-condition-subclasses.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0030",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0031-notation-format",
+    src = "d-0031-notation-format.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0031",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0032-iri-design",
+    src = "d-0032-iri-design.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0032",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0033-skos-label-synonyms",
+    src = "d-0033-skos-label-synonyms.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0033",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0034-genus-differentia-definition",
+    src = "d-0034-genus-differentia-definition.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0034",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0035-deprecate-not-delete",
+    src = "d-0035-deprecate-not-delete.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0035",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0036-agent-narrow-context-premise",
+    src = "d-0036-agent-narrow-context-premise.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0036",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0037-human-review-does-not-scale",
+    src = "d-0037-human-review-does-not-scale.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0037",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0038-agent-errors-have-direction",
+    src = "d-0038-agent-errors-have-direction.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0038",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0039-bias-structural-mitigation",
+    src = "d-0039-bias-structural-mitigation.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0039",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0040-three-breaks-common-vocabulary",
+    src = "d-0040-three-breaks-common-vocabulary.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0040",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0041-context-budget-breakdown",
+    src = "d-0041-context-budget-breakdown.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0041",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0042-partial-observability-formalization",
+    src = "d-0042-partial-observability-formalization.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0042",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0046-ontology-as-vocabulary",
+    src = "d-0046-ontology-as-vocabulary.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0046",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0047-upper-ontology-foundation",
+    src = "d-0047-upper-ontology-foundation.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0047",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0048-ontology-module-structure",
+    src = "d-0048-ontology-module-structure.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0048",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0049-tbox-abox-separation",
+    src = "d-0049-tbox-abox-separation.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0049",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0050-ontology-hygiene-checks",
+    src = "d-0050-ontology-hygiene-checks.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0050",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0051-temporal-identity-iri",
+    src = "d-0051-temporal-identity-iri.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0051",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0052-competency-questions",
+    src = "d-0052-competency-questions.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0052",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0053-standard-relation-vocabulary",
+    src = "d-0053-standard-relation-vocabulary.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0053",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0054-owl2-rl-profile",
+    src = "d-0054-owl2-rl-profile.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0054",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0055-ontology-pitfall-catalogue",
+    src = "d-0055-ontology-pitfall-catalogue.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0055",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0056-skeleton-and-domain-profile",
+    src = "d-0056-skeleton-and-domain-profile.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0056",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0057-profile-extension-only-module",
+    src = "d-0057-profile-extension-only-module.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0057",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0058-odd-is-a-document",
+    src = "d-0058-odd-is-a-document.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0058",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0059-odd-required-sections",
+    src = "d-0059-odd-required-sections.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0059",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0060-scope-derived-from-odd",
+    src = "d-0060-scope-derived-from-odd.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0060",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0061-odd-exit-is-a-signal",
+    src = "d-0061-odd-exit-is-a-signal.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0061",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0062-odd-maintenance-changes",
+    src = "d-0062-odd-maintenance-changes.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0062",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0063-odd-first-authoring-procedure",
+    src = "d-0063-odd-first-authoring-procedure.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0063",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0064-measurement-method-grades",
+    src = "d-0064-measurement-method-grades.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0064",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0065-safe-stop-state",
+    src = "d-0065-safe-stop-state.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0065",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0066-odd-hierarchy-narrowing",
+    src = "d-0066-odd-hierarchy-narrowing.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0066",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0067-out-of-odd-scenario-tagging",
+    src = "d-0067-out-of-odd-scenario-tagging.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0067",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0071-plane-class-level-property",
+    src = "d-0071-plane-class-level-property.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0071",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0072-chunk-rules-as-shacl-shapes",
+    src = "d-0072-chunk-rules-as-shacl-shapes.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0072",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0073-composite-standard-part-of",
+    src = "d-0073-composite-standard-part-of.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0073",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0074-composition-rules-homogeneity",
+    src = "d-0074-composition-rules-homogeneity.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0074",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0075-projection-as-query",
+    src = "d-0075-projection-as-query.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0075",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0076-all-knowledge-is-composite",
+    src = "d-0076-all-knowledge-is-composite.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0076",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0077-chunk-iri-is-the-anchor",
+    src = "d-0077-chunk-iri-is-the-anchor.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0077",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0078-chunk-state-machine",
+    src = "d-0078-chunk-state-machine.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0078",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0079-assertion-format-per-plane",
+    src = "d-0079-assertion-format-per-plane.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0079",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0080-chunk-quality-metrics",
+    src = "d-0080-chunk-quality-metrics.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0080",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0081-plane-assignment-tool-surface",
+    src = "d-0081-plane-assignment-tool-surface.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0081",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0082-read-response-is-label-list",
+    src = "d-0082-read-response-is-label-list.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0082",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0083-verification-tools-per-plane",
+    src = "d-0083-verification-tools-per-plane.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0083",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0084-plane-level-grid",
+    src = "d-0084-plane-level-grid.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0084",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0085-formal-language-makes-reproducibility",
+    src = "d-0085-formal-language-makes-reproducibility.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0085",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0086-abox-inspection-gate",
+    src = "d-0086-abox-inspection-gate.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0086",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0087-assumption-verification-methods",
+    src = "d-0087-assumption-verification-methods.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0087",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0088-invalidation-propagation-procedure",
+    src = "d-0088-invalidation-propagation-procedure.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0088",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0089-ascent-trigger-candidates",
+    src = "d-0089-ascent-trigger-candidates.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0089",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0096-uncertainty-as-link-uncertainty",
+    src = "d-0096-uncertainty-as-link-uncertainty.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0096",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0097-possibility-as-feasible-set",
+    src = "d-0097-possibility-as-feasible-set.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0097",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0098-csp-mapping-of-links",
+    src = "d-0098-csp-mapping-of-links.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0098",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0099-constraint-sources-and-kinds",
+    src = "d-0099-constraint-sources-and-kinds.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0099",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0100-design-space-file",
+    src = "d-0100-design-space-file.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0100",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0101-constraint-propagation-timing",
+    src = "d-0101-constraint-propagation-timing.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0101",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0102-candidate-generation-limits",
+    src = "d-0102-candidate-generation-limits.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0102",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0103-contradiction-handling",
+    src = "d-0103-contradiction-handling.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0103",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0104-preference-partial-order",
+    src = "d-0104-preference-partial-order.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0104",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0105-link-storage-and-anchors",
+    src = "d-0105-link-storage-and-anchors.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0105",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0106-link-decay-states",
+    src = "d-0106-link-decay-states.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0106",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0107-rejudgement-rule-catalog",
+    src = "d-0107-rejudgement-rule-catalog.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0107",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0108-standard-trace-queries",
+    src = "d-0108-standard-trace-queries.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0108",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0109-traceability-matrix",
+    src = "d-0109-traceability-matrix.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0109",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0110-link-judgement-evidence",
+    src = "d-0110-link-judgement-evidence.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0110",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0111-link-attributes",
+    src = "d-0111-link-attributes.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0111",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0112-traceability-metrics",
+    src = "d-0112-traceability-metrics.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0112",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0121-inputs-and-uses-are-outside",
+    src = "d-0121-inputs-and-uses-are-outside.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0121",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0122-required-input-inventory",
+    src = "d-0122-required-input-inventory.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0122",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0123-inputs-in-ontology-vocabulary",
+    src = "d-0123-inputs-in-ontology-vocabulary.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0123",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0124-agent-catalog-scope",
+    src = "d-0124-agent-catalog-scope.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0124",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0125-dev-profile-role-permissions",
+    src = "d-0125-dev-profile-role-permissions.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0125",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0126-execution-mode-and-reentry",
+    src = "d-0126-execution-mode-and-reentry.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0126",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0127-memory-promotion-rule",
+    src = "d-0127-memory-promotion-rule.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0127",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0128-input-validation-shapes",
+    src = "d-0128-input-validation-shapes.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0128",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0129-input-dependency-order",
+    src = "d-0129-input-dependency-order.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0129",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0130-testing-as-application",
+    src = "d-0130-testing-as-application.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0130",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0131-two-verification-targets",
+    src = "d-0131-two-verification-targets.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0131",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0132-verification-environment-ladder",
+    src = "d-0132-verification-environment-ladder.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0132",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0133-simulation-project",
+    src = "d-0133-simulation-project.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0133",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0134-scenario-environment-assignment",
+    src = "d-0134-scenario-environment-assignment.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0134",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0135-coverage-definition",
+    src = "d-0135-coverage-definition.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0135",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0136-pass-criteria-separate-chunk",
+    src = "d-0136-pass-criteria-separate-chunk.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0136",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0137-reproducibility-as-assignment-condition",
+    src = "d-0137-reproducibility-as-assignment-condition.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0137",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0138-simulation-credibility",
+    src = "d-0138-simulation-credibility.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0138",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0139-testbed-composition",
+    src = "d-0139-testbed-composition.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0139",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0140-three-defect-factors",
+    src = "d-0140-three-defect-factors.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0140",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0141-odc-defect-subtypes",
+    src = "d-0141-odc-defect-subtypes.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0141",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0142-odc-qualifier-and-dimensions",
+    src = "d-0142-odc-qualifier-and-dimensions.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0142",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0143-unknown-risk-scenarios",
+    src = "d-0143-unknown-risk-scenarios.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0143",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0144-user-feedback-loop-space-file",
+    src = "d-0144-user-feedback-loop-space-file.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0144",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0145-evaluation-metrics",
+    src = "d-0145-evaluation-metrics.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0145",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0146-audit-and-onboarding-self-sufficiency",
+    src = "d-0146-audit-and-onboarding-self-sufficiency.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0146",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0147-operational-monitoring",
+    src = "d-0147-operational-monitoring.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0147",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0148-change-impact-analysis",
+    src = "d-0148-change-impact-analysis.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0148",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0149-cross-project-reuse",
+    src = "d-0149-cross-project-reuse.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0149",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0150-artifact-review-support",
+    src = "d-0150-artifact-review-support.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0150",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0151-documents-are-generated",
+    src = "d-0151-documents-are-generated.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0151",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0152-knowledge-retrieval-by-label",
+    src = "d-0152-knowledge-retrieval-by-label.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0152",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0153-incident-postmortem",
+    src = "d-0153-incident-postmortem.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0153",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0154-chunk-editor-requirements",
+    src = "d-0154-chunk-editor-requirements.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0154",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0155-traceability-matrix-screen",
+    src = "d-0155-traceability-matrix-screen.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0155",
+    plane = "decision",
+    level = "concrete",
+    status = "deprecated",
+)
+
+kb_chunk(
+    name = "d-0156-catalog-resolved-union",
+    src = "d-0156-catalog-resolved-union.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0156",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0157-validate-the-union",
+    src = "d-0157-validate-the-union.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0157",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0158-owner-namespace-segment",
+    src = "d-0158-owner-namespace-segment.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0158",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0159-generated-index-drift-guard",
+    src = "d-0159-generated-index-drift-guard.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0159",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0160-search-before-authoring",
+    src = "d-0160-search-before-authoring.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0160",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0161-definition-says-why-and-when",
+    src = "d-0161-definition-says-why-and-when.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0161",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0162-deterministic-build-projection",
+    src = "d-0162-deterministic-build-projection.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0162",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0163-authoring-ui-shares-the-gate",
+    src = "d-0163-authoring-ui-shares-the-gate.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0163",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0176-deterministic-selection-policy",
+    src = "d-0176-deterministic-selection-policy.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0176",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0177-closed-policy-vocabulary",
+    src = "d-0177-closed-policy-vocabulary.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0177",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0178-lock-snapshot-reproducibility",
+    src = "d-0178-lock-snapshot-reproducibility.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0178",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0179-atomic-generation",
+    src = "d-0179-atomic-generation.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0179",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0180-output-address-from-spec-slot",
+    src = "d-0180-output-address-from-spec-slot.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0180",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0181-contract-hangs-off-capability",
+    src = "d-0181-contract-hangs-off-capability.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0181",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0182-spec-as-verifiable-contract",
+    src = "d-0182-spec-as-verifiable-contract.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0182",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0183-spec-stores-references-not-artifacts",
+    src = "d-0183-spec-stores-references-not-artifacts.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0183",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0184-reference-reach-tradeoff",
+    src = "d-0184-reference-reach-tradeoff.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0184",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "d-0185-topology-as-declared-dimension",
+    src = "d-0185-topology-as-declared-dimension.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk-d0185",
+    plane = "decision",
+    level = "concrete",
+    status = "stable",
+)

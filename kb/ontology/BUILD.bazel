@@ -1,13 +1,23 @@
+load("//defs:kb.bzl", "kb_ontology_module")
 load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_gate_test")
+load(":modules.bzl", "PROJECT_IMPORTS")
 
 package(default_visibility = ["//visibility:public"])
 
 # T-Box — 모듈 = 디렉토리(Bazel 패키지), 청크 = 파일 (노트 2.3절).
 # 확장은 새 파일·새 모듈 디렉토리 추가로만 한다.
+# 최상위 모듈 — owl:imports 가 deps 다 (modules.bzl 은 tools/gen_build.py 가 생성)
+kb_ontology_module(
+    name = "project",
+    srcs = ["project-ontology.ttl"],
+    imports = PROJECT_IMPORTS,
+    iri = "https://agentic-knowledge-base.dev/ontology/project",
+)
+
 filegroup(
     name = "modules",
     srcs = [
-        "project-ontology.ttl",
+        ":project",
         "//kb/ontology/entity/knowledge-item",
         "//kb/ontology/related/assumption",
         "//kb/ontology/related/channel",
@@ -39,5 +49,24 @@ kb_chunk_lint_test(
     chunks = [
         ":modules",
         ":shapes",
+    ],
+)
+
+# 드리프트 테스트 입력 — 생성 BUILD 와 modules.bzl
+exports_files(["modules.bzl"])
+
+filegroup(
+    name = "module_builds",
+    srcs = [
+        "//kb/ontology/entity/knowledge-item:BUILD.bazel",
+        "//kb/ontology/related/assumption:BUILD.bazel",
+        "//kb/ontology/related/channel:BUILD.bazel",
+        "//kb/ontology/related/condition:BUILD.bazel",
+        "//kb/ontology/related/harness:BUILD.bazel",
+        "//kb/ontology/related/scope:BUILD.bazel",
+        "//kb/ontology/related/state:BUILD.bazel",
+        "//kb/ontology/related/tag:BUILD.bazel",
+        "//kb/ontology/related/trace:BUILD.bazel",
+        "//kb/ontology/related/trust:BUILD.bazel",
     ],
 )

@@ -13,6 +13,7 @@ module(
 )
 
 bazel_dep(name = "rules_python", version = "2.3.2")
+bazel_dep(name = "bazel_skylib", version = "1.7.1")  # analysistest — 링크 방향·가시성 음성 시험
 
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
 python.toolchain(

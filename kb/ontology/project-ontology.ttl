@@ -15,4 +15,7 @@
         <https://agentic-knowledge-base.dev/ontology/related/assumption> ,
         <https://agentic-knowledge-base.dev/ontology/related/harness> ,
         <https://agentic-knowledge-base.dev/ontology/related/trace> ,
-        <https://agentic-knowledge-base.dev/ontology/related/trust> .
+        <https://agentic-knowledge-base.dev/ontology/related/trust> ,
+        <https://agentic-knowledge-base.dev/ontology/related/channel> ,
+        <https://agentic-knowledge-base.dev/ontology/related/state> ,
+        <https://agentic-knowledge-base.dev/ontology/related/tag> .

@@ -1,0 +1,309 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_chunk")
+
+package(default_visibility = ["//kb:requirement_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_chunk(
+    name = "audit-self-sufficiency",
+    src = "audit-self-sufficiency.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ba638521-e9b0-4c38-b073-44230ac22785",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "context-budget",
+    src = "context-budget.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "deterministic-notation",
+    src = "deterministic-notation.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/90fc2df7-0a74-43fe-9c8f-546c7afdf1d3",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "documents-are-generated",
+    src = "documents-are-generated.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "explicit-versioned-inputs",
+    src = "explicit-versioned-inputs.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-001-accumulate-domain-knowledge",
+    src = "r-001-accumulate-domain-knowledge.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-002-carry-skeleton-across-projects",
+    src = "r-002-carry-skeleton-across-projects.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-003-chunks-stay-inside-project",
+    src = "r-003-chunks-stay-inside-project.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/20148952-30c4-4f76-8cbf-4d9b32c68b25",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-004-ascend-observation-to-vocabulary",
+    src = "r-004-ascend-observation-to-vocabulary.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-005-odd-single-document",
+    src = "r-005-odd-single-document.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-006-every-item-declares-assumptions",
+    src = "r-006-every-item-declares-assumptions.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-007-invalidate-without-survey",
+    src = "r-007-invalidate-without-survey.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-008-descend-to-executable",
+    src = "r-008-descend-to-executable.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-009-ascend-to-requirement",
+    src = "r-009-ascend-to-requirement.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-010-decision-names-concern",
+    src = "r-010-decision-names-concern.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/57a2dca5-8628-4255-a964-9928d2fd14a4",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-011-no-groundless-assignment",
+    src = "r-011-no-groundless-assignment.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-012-edits-downgrade-links",
+    src = "r-012-edits-downgrade-links.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-013-labels-before-bodies",
+    src = "r-013-labels-before-bodies.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-014-42-line-chunk",
+    src = "r-014-42-line-chunk.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-015-dispatch-workset-only",
+    src = "r-015-dispatch-workset-only.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-016-gate-judges-actions",
+    src = "r-016-gate-judges-actions.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-017-reject-foreign-vocabulary",
+    src = "r-017-reject-foreign-vocabulary.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-018-planes-stay-separate",
+    src = "r-018-planes-stay-separate.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-019-record-read-write-sets",
+    src = "r-019-record-read-write-sets.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-020-session-memory-promotes",
+    src = "r-020-session-memory-promotes.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-021-two-kbs-separated",
+    src = "r-021-two-kbs-separated.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-022-verifies-subject-is-vv",
+    src = "r-022-verifies-subject-is-vv.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2c574d24-71bb-4ea1-9812-0b2d0dc22395",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-023-rung-before-descent",
+    src = "r-023-rung-before-descent.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/71d2b786-e873-4705-b160-a443603ae0d2",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-024-criteria-before-verifies",
+    src = "r-024-criteria-before-verifies.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-025-verify-product-and-agent",
+    src = "r-025-verify-product-and-agent.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "r-026-observations-append-only",
+    src = "r-026-observations-append-only.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8117429b-5245-4a0a-8628-a46fb78dd65d",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "reproducible-runs",
+    src = "reproducible-runs.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2b1e5103-9b9d-43da-9231-6b4027bc370e",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "verification-means-trust",
+    src = "verification-means-trust.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)

@@ -1,0 +1,53 @@
+# kb/ — 두 지식 베이스와 코어(온톨로지·ODD). 가시성 정책의 원본 (bazel-dependency-review 4단계).
+# 방향: V&V → 개발만 (8.5절), plane 단방향 requirement ← decision ← contract/schema ← artifact ← annotation ← memory (5.2절).
+package(default_visibility = ["//visibility:public"])
+
+# 개발 KB 항목을 볼 수 있는 곳 — 개발 KB 자신, V&V KB, 그래프·게이트·뷰
+package_group(
+    name = "dev_readers",
+    packages = [
+        "//",
+        "//kb/...",
+        "//kg/...",
+        "//tools/...",
+        "//defs/...",
+    ],
+)
+
+# V&V KB 항목을 볼 수 있는 곳 — V&V KB 자신과 그래프·게이트뿐. 개발 KB는 여기 없다 (독립성, 8.5절)
+package_group(
+    name = "vv_readers",
+    packages = [
+        "//",
+        "//kb/vv/...",
+        "//kg/...",
+        "//tools/...",
+        "//defs/...",
+    ],
+)
+
+# plane 단방향 — requirement 는 모두가, decision 은 requirement 를 제외한 모두가 본다
+package_group(
+    name = "requirement_readers",
+    includes = [":dev_readers"],
+)
+
+package_group(
+    name = "decision_readers",
+    packages = [
+        "//",
+        "//kb",
+        "//kb/dev",
+        "//kb/dev/decision",
+        "//kb/dev/contract/...",
+        "//kb/dev/schema/...",
+        "//kb/dev/artifact/...",
+        "//kb/dev/annotation/...",
+        "//kb/dev/memory/...",
+        "//kb/vv/...",
+        "//kg/...",
+        "//tools/...",
+        "//defs/...",
+        "//chunks/...",
+    ],
+)
