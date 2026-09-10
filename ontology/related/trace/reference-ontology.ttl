@@ -1,0 +1,18 @@
+# 추적성 — 명시적 참조 족의 링크 타입 (노트 8.2절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:cites a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:references ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:range agt:KnowledgeItem ;
+    rdfs:label "cites"@en , "인용한다"@ko ;
+    skos:definition "본문이 다른 항목의 식별자를 적어 가리키는 관계. 본문에서 추출하는 생성물이므로 손으로 쓰지 않으며, 식별자가 실재하는지 검사해 참조 무결성을 지킨다 (8.2절)."@ko .
+
+agt:targets a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:references ;
+    rdfs:domain agt:AnnotationChunk ;
+    rdfs:label "targets"@en , "논평 대상으로 삼는다"@ko ;
+    skos:definition "논평이 자기 대상을 가리키는 관계. plane을 가로질러 어떤 항목이든 가리킬 수 있는 유일한 참조이며, 논평이 산출물 수정을 유발하는 작업 흐름을 표현한다 (5.2절, 8.2절)."@ko .

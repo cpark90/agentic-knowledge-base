@@ -229,3 +229,47 @@ id:comp-spec-content a agt:Composite ;
     rdfs:label "what a specification carries"@en , "명세가 담는 것"@ko ;
     agt:hasLevel agt:concrete ;
     agt:hasDirectPart id:chunk-d0183 , id:chunk-d0184 , id:chunk-d0185 .
+
+### 요구 층 (2026-09-10, v3 재도출 1단계) — 이해관계자 관심사별 구성체
+
+id:comp-req-accumulation a agt:Composite ;
+    rdfs:label "requirements — accumulation and reuse"@en , "요구 — 축적과 재사용"@ko ;
+    agt:hasLevel agt:functional ;
+    agt:hasDirectPart <https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced> ,
+        <https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d> ,
+        <https://agentic-knowledge-base.dev/id/chunk/20148952-30c4-4f76-8cbf-4d9b32c68b25> ,
+        <https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901> .
+
+id:comp-req-project a agt:Composite ;
+    rdfs:label "requirements — project boundary and completion"@en , "요구 — 프로젝트 경계와 완주"@ko ;
+    agt:hasLevel agt:functional ;
+    agt:hasDirectPart <https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c> ,
+        <https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249> ,
+        <https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366> ,
+        <https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0> ,
+        <https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9> ,
+        <https://agentic-knowledge-base.dev/id/chunk/57a2dca5-8628-4255-a964-9928d2fd14a4> ,
+        <https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c> ,
+        <https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd> .
+
+id:comp-req-agent a agt:Composite ;
+    rdfs:label "requirements — agent observation and control"@en , "요구 — 에이전트 관측과 통제"@ko ;
+    agt:hasLevel agt:functional ;
+    agt:hasDirectPart <https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8> ,
+        <https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08> ,
+        <https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af> ,
+        <https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a> ,
+        <https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7> ,
+        <https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4> ,
+        <https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93> ,
+        <https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b> .
+
+id:comp-req-verification a agt:Composite ;
+    rdfs:label "requirements — independent verification"@en , "요구 — 독립 검증"@ko ;
+    agt:hasLevel agt:functional ;
+    agt:hasDirectPart <https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7> ,
+        <https://agentic-knowledge-base.dev/id/chunk/2c574d24-71bb-4ea1-9812-0b2d0dc22395> ,
+        <https://agentic-knowledge-base.dev/id/chunk/71d2b786-e873-4705-b160-a443603ae0d2> ,
+        <https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46> ,
+        <https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193> ,
+        <https://agentic-knowledge-base.dev/id/chunk/8117429b-5245-4a0a-8628-a46fb78dd65d> .

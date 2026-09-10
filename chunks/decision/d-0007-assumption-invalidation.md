@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0007
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0007
+type: decision
 level: concrete
-label_ko: 가정 위반이 무효화의 트리거
-label_en: Assumption violation triggers invalidation
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 가정 위반이 무효화의 트리거
+title: Assumption violation triggers invalidation
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 각 지식 항목은 참이라고 전제한 조건(agt:Assumption) 위에 서
 있고, 가정이 깨지면 그 가정에 의존하는 모든 항목이 자동으로 무효화

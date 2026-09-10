@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0086
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0086
+type: decision
 level: concrete
-label_ko: 검사 게이트는 A-Box를 SHACL로 검사한다
-label_en: The inspection gate checks the A-Box with SHACL
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 검사 게이트는 A-Box를 SHACL로 검사한다
+title: The inspection gate checks the A-Box with SHACL
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 에이전트가 A-Box와 설계 공간을 채우게 하려면 기계적 검사가
 필수다. **SHACL 제약**으로 카디널리티, 타입 일관성, 필수 필드를 검사하는

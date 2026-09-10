@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0063
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0063
+type: decision
 level: concrete
-label_ko: 프로젝트는 ODD 작성으로 시작하고 5단계를 거친다
-label_en: A project starts by authoring the ODD in five steps
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 프로젝트는 ODD 작성으로 시작하고 5단계를 거친다
+title: A project starts by authoring the ODD in five steps
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 새 프로젝트의 첫 산출물은 ODD다. 온톨로지는 프로젝트 간에
 공유되므로 이미 있다. 작성은 식별 → 분류 → 정량화 → 제외 검토 → 검증

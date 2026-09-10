@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0084
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0084
+type: decision
 level: concrete
-label_ko: 모든 plane이 다섯 level을 갖는다 — plane × level 격자
-label_en: Every plane has all five levels - the plane x level grid
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 모든 plane이 다섯 level을 갖는다 — plane × level 격자
+title: Every plane has all five levels - the plane x level grid
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 사다리는 `decision`만의 장치가 아니라 일반 메커니즘이므로
 **모든 plane이 다섯 단계를 갖는다.** plane과 level은 서로 직교하는 두 축이고

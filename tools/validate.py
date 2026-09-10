@@ -91,6 +91,54 @@ def check_odd_refs(merged: Graph, odd: Graph) -> list[str]:
     return errors
 
 
+def check_dangling(merged: Graph) -> list[str]:
+    """저장소 안을 가리키는 링크의 대상이 실재하는가 (참조 무결성, 8.2절).
+
+    인용·구성체 부분·가정·출처처럼 id: 개체를 가리키는 술어의 목적어는 그래프에
+    주어로 나타나야 한다. 나타나지 않으면 끊어진 링크이고, 끊어진 링크는 실제
+    구조를 오도하므로 없는 것보다 해롭다 (8.6절).
+    """
+    checked = (
+        kb_lib.AGT.cites,
+        kb_lib.AGT.hasDirectPart,
+        kb_lib.AGT.assumes,
+        kb_lib.AGT.satisfies,
+        kb_lib.AGT.refines,
+    )
+    subjects = set(merged.subjects())
+    errors = []
+    for pred in checked:
+        for s, o in merged.subject_objects(pred):
+            if isinstance(o, URIRef) and str(o).startswith(str(kb_lib.ID)) and o not in subjects:
+                errors.append(f"[dangling] {merged.qname(s)} 의 {merged.qname(pred)} 대상이 없다: {o}")
+    return errors
+
+
+def check_verify(merged: Graph, query_dir: str) -> list[str]:
+    """안티패턴 계층 (노트 2.5절) — '이런 트리플이 존재하면 실패'를 SPARQL로 명세.
+
+    tools/verify-queries/*.rq 하나가 안티패턴 하나다. 결과 행이 나오면 그 행 수만큼
+    위반이며, 질의 첫 주석 줄이 실패 메시지의 근거가 된다. shape로 쓰기 어색한
+    제약(연쇄·부정·집계)이 여기로 온다.
+    """
+    from pathlib import Path
+    errors = []
+    for rq in sorted(Path(query_dir).glob("*.rq")):
+        text = rq.read_text(encoding="utf-8")
+        title = text.splitlines()[0].lstrip("# ").strip() if text.startswith("#") else rq.stem
+        try:
+            rows = list(merged.query(text))
+        except Exception as e:
+            errors.append(f"[verify] {rq.name}: 질의 자체가 실패 — {e}")
+            continue
+        for row in rows[:20]:
+            vals = " ".join(str(v) for v in row)
+            errors.append(f"[verify] {rq.stem}: {vals}  ({title})")
+        if len(rows) > 20:
+            errors.append(f"[verify] {rq.stem}: … 외 {len(rows)-20}건")
+    return errors
+
+
 def check_shacl(merged: Graph, shapes: Graph, reason: bool) -> list[str]:
     from pyshacl import validate as shacl_validate
 
@@ -113,6 +161,7 @@ def main() -> int:
     ap.add_argument("--odd", nargs="*", default=[], help="ODD 파일들 (*-odd)")
     ap.add_argument("--data", nargs="*", default=[], help="A-Box 파일들 (*-kg, *-space)")
     ap.add_argument("--reason", action="store_true", help="SHACL 전에 OWL-RL 추론 적용")
+    ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 계층)")
     args = ap.parse_args()
 
     errors: list[str] = []
@@ -133,8 +182,12 @@ def main() -> int:
     merged = onto_merged + odd_merged + data_merged
     if args.odd:
         errors += check_odd_refs(merged, odd_merged)
+    if data_files:
+        errors += check_dangling(merged)
     if args.shapes:
         errors += check_shacl(merged, shapes_merged, args.reason)
+    if args.verify_queries:
+        errors += check_verify(merged, args.verify_queries)
 
     if errors:
         for e in errors:

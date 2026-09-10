@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0033
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0033
+type: decision
 level: concrete
-label_ko: 동의어는 없애지 않고 SKOS 라벨로 등록한다
-label_en: Register synonyms as SKOS labels instead of removing them
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 동의어는 없애지 않고 SKOS 라벨로 등록한다
+title: Register synonyms as SKOS labels instead of removing them
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 0.6절의 "동의어 사용 금지"를 어휘 수준에서 강제하는 방법은
 동의어를 **없애는 것이 아니라 등록하는 것**이다. SKOS 라벨 구분을 쓴다.

@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0149
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0149
+type: decision
 level: concrete
-label_ko: 청크는 프로젝트를 넘지 않는다
-label_en: Chunks do not cross projects
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 청크는 프로젝트를 넘지 않는다
+title: Chunks do not cross projects
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 프로젝트를 넘는 것은 **어휘·제약·ODD 골격**이고, **청크는
 재사용하지 않는다.**

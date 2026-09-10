@@ -6,9 +6,15 @@ package(default_visibility = ["//visibility:public"])
 exports_files([
     "validate.py",
     "chunk_lint.py",
+    "extract_refs.py",
     "kb_lib.py",
     "requirements_lock.txt",
 ])
+
+filegroup(
+    name = "verify_queries",
+    srcs = glob(["verify-queries/*.rq"]),
+)
 
 py_library(
     name = "kb_lib",
@@ -38,6 +44,32 @@ py_binary(
 py_binary(
     name = "chunk2kg",
     srcs = ["chunk2kg.py"],
+)
+
+# 라벨 목록 투영 → index.md (5.6절, 부록 E.2). OKF 예약 파일은 생성물이다
+py_binary(
+    name = "labels",
+    srcs = [
+        "chunk2kg.py",
+        "labels.py",
+    ],
+    main = "labels.py",
+)
+
+# 청크 본문의 인용 → 참조 그래프(-kg) 생성기 (8.2절). 대상이 없으면 실패한다
+py_binary(
+    name = "extract_refs",
+    srcs = ["extract_refs.py"],
+)
+
+# 용어 제안 워크플로 (2.5절): 상승이 온톨로지에 닿을 때 — 제안은 검사를 거쳐 승인 큐로
+py_binary(
+    name = "term_propose",
+    srcs = ["term_propose.py"],
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
 )
 
 # 정규화 직렬화 (2.5절): bazel run //tools:canonicalize -- --write <files...>

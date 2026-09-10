@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0080
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0080
+type: decision
 level: concrete
-label_ko: 청크 품질 지표 넷
-label_en: Four chunk-level quality metrics
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 청크 품질 지표 넷
+title: Four chunk-level quality metrics
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 평가(10.3절)에 청크 수준 지표 넷을 더한다. shape이 통과했다고
 청크가 잘 나뉜 것은 아니므로, shape이 잡지 못하는 것을 지표로 관측한다.

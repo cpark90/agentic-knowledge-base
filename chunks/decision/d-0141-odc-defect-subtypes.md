@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0141
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0141
+type: decision
 level: concrete
-label_ko: 요인의 하위 분류 — ODC + 에이전트 고유 유형
-label_en: Defect subtypes: ODC plus agent-specific types
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 요인의 하위 분류 — ODC + 에이전트 고유 유형
+title: Defect subtypes: ODC plus agent-specific types
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 3갈래 아래에 소프트웨어 결함 분류의 표준인 **직교 결함 분류
 (ODC)** 를 배치하고, 인지·상호작용 갈래에는 ODC에 없는 **에이전트 고유

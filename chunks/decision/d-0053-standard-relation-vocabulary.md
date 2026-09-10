@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0053
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0053
+type: decision
 level: concrete
-label_ko: 관계도 표준을 쓰고 고유 관계는 subPropertyOf로 매단다
-label_en: Reuse standard relations; hang custom ones under subPropertyOf
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 관계도 표준을 쓰고 고유 관계는 subPropertyOf로 매단다
+title: Reuse standard relations; hang custom ones under subPropertyOf
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 관계도 지어내지 않는다. 상위 온톨로지 계열의 표준 관계
 온톨로지(RO)를 비롯한 표준에 있는 것을 우선 쓰고, 표준에 없는 고유 관계만

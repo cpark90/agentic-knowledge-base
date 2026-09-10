@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0132
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0132
+type: decision
 level: concrete
-label_ko: 검증 환경의 6단계 사다리
-label_en: Six-rung ladder of verification environments
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 검증 환경의 6단계 사다리
+title: Six-rung ladder of verification environments
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 검증은 충실도(fidelity)가 낮고 통제 가능한 환경에서 시작해 실제
 환경으로 올라간다. 6단계로 고정하고, **단계를 건너뛰지 않으며**, 낮은

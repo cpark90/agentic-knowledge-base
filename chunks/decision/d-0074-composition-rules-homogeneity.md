@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0074
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0074
+type: decision
 level: concrete
-label_ko: 구성 규칙 — 비순환·7±2·동질성·참조 재사용
-label_en: Composition rules - acyclic, 7+-2, homogeneity, reference reuse
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 구성 규칙 — 비순환·7±2·동질성·참조 재사용
+title: Composition rules - acyclic, 7+-2, homogeneity, reference reuse
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 구성 규칙 넷을 shape으로 쓴다. 비순환은 `part-of`의 반대칭
 공리로 추론되고, 직접 부분은 최대 9개(`agt:hasDirectPart` `sh:maxCount 9`),

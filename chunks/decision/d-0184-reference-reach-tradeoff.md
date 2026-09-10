@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0184
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0184
+type: decision
 level: concrete
-label_ko: 참조의 도달 범위는 단위별로 명시하는 트레이드오프다
-label_en: Reference reach is a per-unit, explicitly recorded tradeoff
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
-generated_at: 2026-09-02T00:00:00+09:00
+title_ko: 참조의 도달 범위는 단위별로 명시하는 트레이드오프다
+title: Reference reach is a per-unit, explicitly recorded tradeoff
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
+generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 참조는 두 형태 중 하나이고, 단위마다 **어느 쪽을 왜 골랐는지
 기록한다.** 내부(저장소 상대) 참조는 어디서나 해석되지만 그 자체가

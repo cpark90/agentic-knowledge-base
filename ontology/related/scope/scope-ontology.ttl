@@ -31,4 +31,4 @@ agt:conditionalRule a owl:DatatypeProperty ;
     rdfs:domain agt:Scope ;
     rdfs:range xsd:string ;
     rdfs:label "conditional rule"@en , "조건부 규정"@ko ;
-    skos:definition "include/exclude에 붙는 부가 조건. 'X이면 Y를 포함' 형태. 프로세스 규칙의 기계적 강제 지점 (0.4절, 9.1절)."@ko .
+    skos:definition "include/exclude에 붙는 부가 조건. 'X이면 Y를 포함' 형태 — 링크의 when 조건(9.11절)의 특수형이며, 지금은 산문이고 CEL 전환은 도입 5단계에서 한다. 프로세스 규칙의 기계적 강제 지점 (0.4절, 11.1절)."@ko .

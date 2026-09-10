@@ -13,4 +13,6 @@
         <https://agentic-knowledge-base.dev/ontology/related/condition> ,
         <https://agentic-knowledge-base.dev/ontology/related/scope> ,
         <https://agentic-knowledge-base.dev/ontology/related/assumption> ,
-        <https://agentic-knowledge-base.dev/ontology/related/harness> .
+        <https://agentic-knowledge-base.dev/ontology/related/harness> ,
+        <https://agentic-knowledge-base.dev/ontology/related/trace> ,
+        <https://agentic-knowledge-base.dev/ontology/related/trust> .

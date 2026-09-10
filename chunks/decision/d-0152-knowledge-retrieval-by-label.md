@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0152
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0152
+type: decision
 level: concrete
-label_ko: 검색의 인덱스는 라벨과 개념이다
-label_en: Retrieval is indexed by labels and concepts
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 검색의 인덱스는 라벨과 개념이다
+title: Retrieval is indexed by labels and concepts
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 검색의 단위는 청크이고 인덱스는 **라벨과 온톨로지 개념**이다.
 본문 전문 검색은 마지막 수단이다.

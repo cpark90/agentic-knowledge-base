@@ -10,10 +10,11 @@ agt:Assumption a owl:Class ;
     skos:definition "지식 항목이 유효하기 위해 참이어야 하는 전제. ODD 속성 위의 명제이며, 가정 위반 감지가 무효화의 트리거다 (0.4절, 6.5절)."@ko .
 
 agt:assumes a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:semanticallyDependsOn ;
     rdfs:domain agt:KnowledgeItem ;
     rdfs:range agt:Assumption ;
     rdfs:label "assumes"@en , "가정한다"@ko ;
-    skos:definition "지식 항목이 서 있는 전제를 가리킨다 (0.4절)."@ko .
+    skos:definition "지식 항목이 서 있는 전제를 가리킨다. 링크의 when 조건(9.11절)의 특수형 — '이 가정이 참일 때만 유효' — 이며, 가정이 깨지면 그 항목이 무효화되고 plane을 가로질러 전파되는 유일한 링크다 (0.4절, 6.5절)."@ko .
 
 agt:refersTo a owl:ObjectProperty ;
     rdfs:domain agt:Assumption ;

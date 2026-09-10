@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0134
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0134
+type: decision
 level: concrete
-label_ko: 시나리오는 판정 가능한 가장 낮은 단계에 배정한다
-label_en: Assign each scenario to the lowest rung that can judge it
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 시나리오는 판정 가능한 가장 낮은 단계에 배정한다
+title: Assign each scenario to the lowest rung that can judge it
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 각 시나리오는 그것을 판정할 수 있는 **가장 낮은 단계**에 배정하고,
 배정을 시나리오 태그(0.5절)에 `env:` 범주로 기록한다. 배정 근거는 그

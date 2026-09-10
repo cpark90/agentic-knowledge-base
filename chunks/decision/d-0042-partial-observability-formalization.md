@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0042
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0042
+type: decision
 level: concrete
-label_ko: 부분관측 모델에 개념을 대응시킨다
-label_en: Map concepts onto the partial-observability model
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 부분관측 모델에 개념을 대응시킨다
+title: Map concepts onto the partial-observability model
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — "에이전트는 **부분관측 분산 시스템의 행위자**"라는 전제를
 형식화하고, 그 모델의 요소마다 이 체계의 개념을 하나씩 대응시켜 각 개념의

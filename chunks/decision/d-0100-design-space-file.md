@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0100
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0100
+type: decision
 level: concrete
-label_ko: 설계 공간(-space) 파일은 후보 링크와 양립 제약을 담는다
-label_en: The design space file holds candidate links and compatibility constraints
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 설계 공간(-space) 파일은 후보 링크와 양립 제약을 담는다
+title: The design space file holds candidate links and compatibility constraints
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — `-space` 파일은 **후보 링크 집합과 양립 제약을 담는 파일**이다.
 `variable`(링크가 필요한 항목) 선언, `candidates`(후보 링크),

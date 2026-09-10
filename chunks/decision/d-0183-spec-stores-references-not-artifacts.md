@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0183
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0183
+type: decision
 level: concrete
-label_ko: 조립 명세는 산출물을 저장하지 않고 참조만 담는다
-label_en: An assembly spec stores references, never the artifacts themselves
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
-generated_at: 2026-09-02T00:00:00+09:00
+title_ko: 조립 명세는 산출물을 저장하지 않고 참조만 담는다
+title: An assembly spec stores references, never the artifacts themselves
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
+generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 조립 명세 단위가 담는 것은 셋이다: **명세**(부품 식별자와 그
 조립), **설명**(어떤 부품과 방법론으로 무엇을 만들었는가), **참조**(구체

@@ -1,0 +1,43 @@
+# 추적성 — 증거 종류, 검사 가능성 순 (노트 10.8절, 9.11절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:EvidenceKind a owl:Class ;
+    rdfs:label "evidence kind"@en , "판정 근거 종류"@ko ;
+    skos:definition "링크가 성립한다고 판정한 근거의 종류. 검사 가능성이 높은 순으로 고정되며, 그 순서가 신뢰도와 확정 권한을 정한다 (10.8절)."@ko .
+
+
+agt:constructionRecord a owl:NamedIndividual , agt:EvidenceKind ;
+    rdfs:label "construction record"@en , "구축 기록"@ko ;
+    skos:definition "만든 주체가 편집 시점에 남긴 기록. 가장 검사 가능성이 높으며 본문의 명시적 인용도 여기 속한다 (10.3절)."@ko .
+
+agt:coEditHistory a owl:NamedIndividual , agt:EvidenceKind ;
+    rdfs:label "co-edit history"@en , "동시 편집 이력"@ko ;
+    skos:definition "두 항목이 같은 커밋에서 함께 바뀌었다는 사실 (10.8절)."@ko .
+
+agt:testCoverage a owl:NamedIndividual , agt:EvidenceKind ;
+    rdfs:label "test coverage"@en , "테스트 공동 커버"@ko ;
+    skos:definition "같은 시나리오가 두 항목을 함께 검증한다는 사실. 검증 링크의 근거다 (10.8절)."@ko .
+
+agt:counterfactualTest a owl:NamedIndividual , agt:EvidenceKind ;
+    owl:deprecated true ;
+    rdfs:label "counterfactual test (deprecated)"@en , "반사실 검사 (폐기)"@ko ;
+    skos:definition "폐기 (2026-09-10). 언어모델의 반사실 검사는 제안의 한 방식이므로 proposal 종류로 흡수한다 (9.11절 언어모델의 자리)."@ko .
+
+agt:runResult a owl:NamedIndividual , agt:EvidenceKind ;
+    rdfs:label "run result"@en , "실행 결과"@ko ;
+    skos:definition "verifier·판정 도구의 통과(+) 또는 실패(−). 실행(−)은 후보를 즉시 기각하고 확정을 invalid로 떨어뜨린다 (9.11절)."@ko .
+
+agt:proposal a owl:NamedIndividual , agt:EvidenceKind ;
+    rdfs:label "proposal"@en , "제안"@ko ;
+    skos:definition "언어모델이 후보를 제안했다는 사실. 극성은 +이되 확정 근거가 아니며 동률만 깬다 — 에이전트는 센서다 (9.11절, 2.5절)."@ko .
+
+agt:embeddingSimilarity a owl:NamedIndividual , agt:EvidenceKind ;
+    rdfs:label "embedding similarity"@en , "임베딩 유사도"@ko ;
+    skos:definition "본문 임베딩의 유사도. **후보를 추리는 데만** 쓰고 확정 근거로 쓰지 않는다 (10.4절)."@ko .
+
+agt:coRead a owl:NamedIndividual , agt:EvidenceKind ;
+    rdfs:label "co-read"@en , "같은 세션에서 읽음"@ko ;
+    skos:definition "한 작업에서 두 항목을 함께 읽었다는 사실. 구축 기록의 약한 형태로 검사 가능성이 가장 낮다 (10.8절)."@ko .

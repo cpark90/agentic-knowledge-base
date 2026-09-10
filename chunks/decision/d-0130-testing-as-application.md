@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0130
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0130
+type: decision
 level: concrete
-label_ko: 테스트·검증은 체계의 응용이다
-label_en: Testing and verification are an application of the system
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 테스트·검증은 체계의 응용이다
+title: Testing and verification are an application of the system
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 테스트·검증은 체계의 구성요소가 아니라 **응용**이다. 체계는
 시험 대상·경계·결과 축적·실패 분류의 단위를 제공하고, 시험 절차 자체는

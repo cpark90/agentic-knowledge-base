@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0049
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0049
+type: decision
 level: concrete
-label_ko: T-Box와 A-Box를 다른 파일에 둔다
-label_en: T-Box and A-Box live in separate files
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: T-Box와 A-Box를 다른 파일에 둔다
+title: T-Box and A-Box live in separate files
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 개념 정의(T-Box)와 개체(A-Box)를 다른 파일에 둔다. `*-ontology`·
 `*-rules`가 T-Box, `*-kg`·`*-space`가 A-Box이며, 0.2절 접미사 규약이 이

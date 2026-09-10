@@ -1,0 +1,18 @@
+# shape — 트러스트: 생성 주체와 검증 시각의 정합 (노트 8.10절, OKF v0.2)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+agt:TrustShape a sh:NodeShape ;
+    sh:targetClass agt:Chunk ;
+    sh:property [
+        sh:path agt:generatedBy ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "누가 만들었는지 적어야 한다 — OKF 행위자 표기 (8.10절)" ;
+    ] ;
+    sh:property [
+        sh:path prov:generatedAtTime ;
+        sh:lessThanOrEquals agt:verifiedAt ;
+        sh:message "검증 뒤에 내용이 바뀌었다 — 재검증 없이 검증 항목을 고칠 수 없다 (8.10절)" ;
+    ] .

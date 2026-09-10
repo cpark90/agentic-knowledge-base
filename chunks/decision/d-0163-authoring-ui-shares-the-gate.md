@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0163
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0163
+type: decision
 level: concrete
-label_ko: 저작 UI는 SSOT를 우회하지 않는다
-label_en: The authoring UI never forks the source of truth
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
-generated_at: 2026-09-02T00:00:00+09:00
+title_ko: 저작 UI는 SSOT를 우회하지 않는다
+title: The authoring UI never forks the source of truth
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
+generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 사람용 편집 도구는 상태를 자기 저장소로 fork하지 않는다. 에이전트가
 읽고 쓰는 **같은 파일**을 단일 진실 공급원으로 쓰고, 저장은 에이전트가 통과하는

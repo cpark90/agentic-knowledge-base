@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0148
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0148
+type: decision
 level: concrete
-label_ko: 변경 영향 분석 절차
-label_en: Change impact analysis procedure
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 변경 영향 분석 절차
+title: Change impact analysis procedure
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — "X를 바꾸면 무엇이 영향받는가"를 8.7절 질의의 조합으로 계산하고,
 **변경 전에** 그 결과를 보고 진행 여부를 정한다.

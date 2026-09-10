@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0048
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0048
+type: decision
 level: concrete
-label_ko: 온톨로지는 entity/related와 어휘/형식화로 나눈 모듈이다
-label_en: Ontology modules split by entity/related and vocabulary/formalization
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 온톨로지는 entity/related와 어휘/형식화로 나눈 모듈이다
+title: Ontology modules split by entity/related and vocabulary/formalization
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 온톨로지를 단일 파일이 아니라 모듈로 나누고, import만 하는 얇은
 최상위 `project-ontology`가 합친다. 분할 축은 둘이다 — plane으로 분류되는

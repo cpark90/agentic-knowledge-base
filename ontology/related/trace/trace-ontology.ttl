@@ -1,0 +1,36 @@
+# 추적성 — 링크의 네 족: 무엇이 무엇에 어떻게 의존하는가 (노트 8.1절, 8.2절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:dependsOn a owl:ObjectProperty ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:label "depends on"@en , "의존한다"@ko ;
+    skos:definition "링크 세 족의 추상 상위 속성. 직접 쓰지 않고 하위 족(참조·의미 의존·관련성) 중 하나를 쓴다 — 족을 상위에 두는 이유는 전파 규칙과 조회 우선순위가 족 단위로 정의되기 때문이다 (8.1절, 8.6절)."@ko .
+
+agt:references a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:dependsOn , dcterms:references ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:label "references"@en , "명시적으로 참조한다"@ko ;
+    skos:definition "본문이 다른 항목을 식별자·번호로 가리키는 관계. 본문에서 기계로 추출되므로 근거가 본문 자체이며, 대상이 바뀌면 참조하는 쪽이 suspect가 된다 (8.2절)."@ko .
+
+agt:semanticallyDependsOn a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:dependsOn ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:label "semantically depends on"@en , "의미상 의존한다"@ko ;
+    skos:definition "대상을 빼면 출발점이 의미상 불완전해지는 관계 — 정의와 사용, 전제와 결론. 방향은 사용·결론 → 정의·전제이고 plane 단방향 규칙 안에서만 성립한다 (5.2절, 8.2절)."@ko .
+
+agt:relatedTo a owl:ObjectProperty , owl:SymmetricProperty ;
+    rdfs:subPropertyOf agt:dependsOn , skos:related ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:label "related to"@en , "함께 갱신된다"@ko ;
+    skos:definition "직접 참조도 의미 의존도 없으나 함께 갱신되어야 하는 관계. 대칭이며 한쪽이 바뀌면 양쪽이 suspect가 된다. 함께 읽히는 관계는 구성체(part-of)이고 이 족이 아니다 (4.5절, 8.6절)."@ko .
+
+agt:generates a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:dependsOn ;
+    rdfs:domain agt:SchemaChunk ;
+    rdfs:range agt:ArtifactChunk ;
+    rdfs:label "generates"@en , "생성한다"@ko ;
+    skos:definition "이 스키마에서 이 코드가 생성됨. 의존 범주의 v3 채택 타입 — 범용 의존(dependsOn)의 하위다. 스키마가 바뀌면 생성물이 재생성 대상이 된다 (9.2절)."@ko .

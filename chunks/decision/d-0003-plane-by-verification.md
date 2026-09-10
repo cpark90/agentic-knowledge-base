@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0003
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0003
+type: decision
 level: concrete
-label_ko: plane은 판정 방식으로 정의된다
-label_en: Planes are defined by verification mechanism
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: plane은 판정 방식으로 정의된다
+title: Planes are defined by verification mechanism
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 종류가 다른 지식을 하나의 컨텍스트에 섞지 않는다. plane의 분류
 기준은 저장 위치나 파일 형식이 아니라 **"맞다"고 판정되는 메커니즘**이다.

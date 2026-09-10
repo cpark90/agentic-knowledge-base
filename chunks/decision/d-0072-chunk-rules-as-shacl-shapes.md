@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0072
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0072
+type: decision
 level: concrete
-label_ko: 청크의 규칙은 SHACL shape으로 쓴다
-label_en: Chunk rules are written as SHACL shapes
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 청크의 규칙은 SHACL shape으로 쓴다
+title: Chunk rules are written as SHACL shapes
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 구조적 글쓰기의 원칙을 산문 지침이 아니라 **SHACL shape**으로
 쓴다. 원칙이 검사 가능한 제약이 되고, 검사 게이트(6.7절)가 이 shape으로

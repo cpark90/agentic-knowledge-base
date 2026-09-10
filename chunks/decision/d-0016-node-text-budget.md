@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0016
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0016
+type: decision
 level: concrete
-label_ko: 노드 서술 텍스트의 토큰 대역
-label_en: Token band for node description text
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 노드 서술 텍스트의 토큰 대역
+title: Token band for node description text
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
+generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 검색 단위로 투영되는 노드의 서술 텍스트 합은 260 token을
 넘지 않는다 (측정: 문자수 ÷ 4 — 외부 tokenizer에 의존하지 않아

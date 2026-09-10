@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0036
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0036
+type: decision
 level: concrete
-label_ko: 200줄 컨텍스트가 모든 결정의 출발점
-label_en: The 200-line context is the origin of every decision
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 200줄 컨텍스트가 모든 결정의 출발점
+title: The 200-line context is the origin of every decision
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 이 체계는 **에이전트가 한 번에 파악하는 맥락이 200줄 안팎**이라는
 것을 전제하고, 그 위에서 모든 것을 설계한다. 에이전트는 부분관측 행위자이므로

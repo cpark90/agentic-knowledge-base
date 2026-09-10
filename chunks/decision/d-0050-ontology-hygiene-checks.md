@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0050
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0050
+type: decision
 level: concrete
-label_ko: 온톨로지 위생 — 커밋 전 자동 검사와 정규화 직렬화
-label_en: Ontology hygiene - pre-commit checks and canonical serialization
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 온톨로지 위생 — 커밋 전 자동 검사와 정규화 직렬화
+title: Ontology hygiene - pre-commit checks and canonical serialization
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 온톨로지 파일 자체가 커밋 전에 통과해야 하는 자동 검사를 둔다:
 상위 온톨로지 준수, 정의 완전성, 모듈 경계, 정규화 직렬화. LLM 출력에 대한

@@ -1,0 +1,33 @@
+# 추적성 — 증거 장부: 후보와 확정 링크에 붙는 (종류, 참조, 극성) 항목 목록 (노트 9.11절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:Evidence a owl:Class ;
+    rdfs:label "evidence entry"@en , "증거 항목"@ko ;
+    skos:definition "링크 장부의 한 줄 — 종류·참조·극성. 확률로 합산하지 않으며 상태 전이 규칙이 장부를 읽는다: 구축(+) 또는 실행(+)이 있고 반박(−)이 없어야 확정 가능, 실행(−)은 즉시 기각, ±공존은 사람 큐 (9.11절)."@ko .
+
+agt:hasEvidence a owl:ObjectProperty ;
+    rdfs:domain agt:Link ;
+    rdfs:range agt:Evidence ;
+    rdfs:label "has evidence"@en , "증거 항목을 갖는다"@ko ;
+    skos:definition "링크의 장부. 확정 뒤에도 실행 결과가 계속 쌓이며, '왜 아직 유효한가'에 마지막 확정 시각이 아니라 마지막 지지 증거로 답한다 (9.11절)."@ko .
+
+agt:evidenceKind a owl:ObjectProperty ;
+    rdfs:domain agt:Evidence ;
+    rdfs:range agt:EvidenceKind ;
+    rdfs:label "evidence kind"@en , "증거 종류"@ko ;
+    skos:definition "이 항목의 근거 종류. 검사 가능성 서열(구축 > 실행 > 동시 편집 > 공동 커버 > 임베딩 > 세션 > 제안)이 기본 선호이고, 언어모델의 제안은 이를 덮지 못하고 동률만 깬다 (10.8절, 9.11절)."@ko .
+
+agt:evidenceRef a owl:ObjectProperty ;
+    rdfs:domain agt:Evidence ;
+    rdfs:label "evidence reference"@en , "증거 참조"@ko ;
+    skos:definition "증거의 실체 — 편집 기록·커밋·실행 기록·시나리오 등. verifier의 통과·실패가 개발 KB satisfies 후보의 장부로 흘러드는 유일한 경로가 이 참조다 (9.11절, 8.5절)."@ko .
+
+agt:polarity a owl:DatatypeProperty ;
+    rdfs:domain agt:Evidence ;
+    rdfs:range xsd:string ;
+    rdfs:label "polarity"@en , "극성"@ko ;
+    skos:definition "지지(+) 또는 반박(−). 같은 후보에 둘이 공존하면 자동으로 해소하지 않고 사람에게 넘긴다 (9.11절)."@ko .

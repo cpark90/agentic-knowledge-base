@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0158
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0158
+type: decision
 level: concrete
-label_ko: 개체 이름공간을 소유자 세그먼트로 나눈다
-label_en: Partition the entity namespace by owner segment
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
-generated_at: 2026-09-02T00:00:00+09:00
+title_ko: 개체 이름공간을 소유자 세그먼트로 나눈다
+title: Partition the entity namespace by owner segment
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
+generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 독립 저장소가 각자 개체를 민팅하는 연합에서는 개체 IRI에 **소유자
 세그먼트**를 넣어 `…/id/<owner>/<slug>` 꼴로 민팅한다. 공용 중립 부품용

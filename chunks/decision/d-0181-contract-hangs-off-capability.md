@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0181
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0181
+type: decision
 level: concrete
-label_ko: 계약은 구현이 아니라 능력에 매단다
-label_en: Contracts hang off the capability, not the implementation
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
-generated_at: 2026-09-02T00:00:00+09:00
+title_ko: 계약은 구현이 아니라 능력에 매단다
+title: Contracts hang off the capability, not the implementation
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
+generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 산출물의 합격 기준(계약)은 그것을 실현한 **구현이 아니라 명세
 쪽 능력(capability)** 에 매단다. 어느 구현이 그 능력을 실현하든 판정

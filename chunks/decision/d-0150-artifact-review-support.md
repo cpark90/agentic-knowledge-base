@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0150
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0150
+type: decision
 level: concrete
-label_ko: 산출물 리뷰는 본문보다 먼저 맥락을 보여준다
-label_en: Artifact review shows context before the body
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 산출물 리뷰는 본문보다 먼저 맥락을 보여준다
+title: Artifact review shows context before the body
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 변경된 `artifact` 청크의 리뷰어에게 산출물 본문을 읽기 전에
 **"무엇을 위한 변경이고 무엇이 흔들리는가"** 를 먼저 보여준다.

@@ -31,11 +31,11 @@ agt:ChunkShape a sh:NodeShape ;
         sh:message "영어 라벨이 필요하다 (0.6절)" ;
     ] ;
     sh:property [
-        sh:path agt:state ;
+        sh:path agt:status ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-        sh:in ( "draft" "valid" "suspect" "invalidated" "deprecated" ) ;
-        sh:message "상태는 4.11절 상태 기계의 값 중 하나다" ;
+        sh:in ( "draft" "stable" "suspect" "invalidated" "deprecated" ) ;
+        sh:message "상태는 OKF status(draft/stable/deprecated)와 확장 둘(suspect/invalidated) 중 하나다 (4.11절)" ;
     ] ;
     sh:property [
         sh:path agt:assertionLocation ;

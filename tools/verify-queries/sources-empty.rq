@@ -1,0 +1,10 @@
+# 안티패턴: 출처(sources) 빈 청크 — 어디서 왔는지 없는 지식은 실패다 (노트 2.5절·2.12절)
+# 결과 행 하나 = 위반 하나.
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?chunk WHERE {
+  ?chunk a ?cls .
+  ?cls rdfs:subClassOf* agt:Chunk .
+  FILTER NOT EXISTS { ?chunk prov:wasDerivedFrom ?src }
+}

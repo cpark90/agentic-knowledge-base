@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0128
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0128
+type: decision
 level: concrete
-label_ko: 입력도 shape로 검사한다
-label_en: Inputs are validated by shapes
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 입력도 shape로 검사한다
+title: Inputs are validated by shapes
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 입력도 청크와 같이 shape로 검사한다. 검사 항목은 네 입력에 대해
 아래로 고정한다.

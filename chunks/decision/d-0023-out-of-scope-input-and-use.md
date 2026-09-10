@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0023
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0023
+type: decision
 level: concrete
-label_ko: 체계 밖은 입력과 활용으로 나뉜다
-label_en: Outside the system splits into input and use
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 체계 밖은 입력과 활용으로 나뉜다
+title: Outside the system splits into input and use
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 체계의 구성요소가 아닌 것을 두 방향으로 갈라 둔다.
 **입력**은 체계가 소모하는 사전정보 — 에이전트 카탈로그, 실행 모드, 승격

@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0067
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0067
+type: decision
 level: concrete
-label_ko: ODD 밖 시나리오는 별도 태그로 분리해 보관한다
-label_en: Out-of-ODD scenarios are kept but tagged separately
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: ODD 밖 시나리오는 별도 태그로 분리해 보관한다
+title: Out-of-ODD scenarios are kept but tagged separately
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — ODD 밖 시나리오는 존재할 수 있되 별도 태그로 표시한다. 파생물이
 ODD에 없는 속성을 참조하면 게이트가 거부하지만, 시나리오만은 기각 대신

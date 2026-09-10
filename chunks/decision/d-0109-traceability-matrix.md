@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0109
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0109
+type: decision
 level: concrete
-label_ko: 기본 시각화는 추적 매트릭스 — 빈 칸이 곧 누락
-label_en: Traceability matrix as default visualization; empty cells are gaps
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 기본 시각화는 추적 매트릭스 — 빈 칸이 곧 누락
+title: Traceability matrix as default visualization; empty cells are gaps
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 기본 시각화는 **추적 매트릭스**다. plane × plane 격자의 각
 셀에 링크 수와 상태(`valid` / `suspect`)를 표시한다. 그래프 시각화는

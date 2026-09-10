@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0046
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0046
+type: decision
 level: concrete
-label_ko: 온톨로지는 사다리의 단계가 아니라 전체의 어휘다
-label_en: The ontology is the whole system's vocabulary, not a ladder rung
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 온톨로지는 사다리의 단계가 아니라 전체의 어휘다
+title: The ontology is the whole system's vocabulary, not a ladder rung
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 온톨로지는 이 체계의 세계 모델이다. 개발 작업의 세계에 무엇이
 존재하고(개념), 그것들이 어떤 관계를 맺으며(관계), 무엇이 성립해야 하는지

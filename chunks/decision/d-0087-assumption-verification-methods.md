@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0087
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0087
+type: decision
 level: concrete
-label_ko: 가정에는 판정 유형과 판정 식을 함께 적는다
-label_en: Each assumption records its verification type and expression
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 가정에는 판정 유형과 판정 식을 함께 적는다
+title: Each assumption records its verification type and expression
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 가정 청크의 assertion에 **판정 유형과 판정 식을 함께 적는다.**
 판정 식이 없는 가정은 `unverified`로만 존재한다 — 기록은 되지만 `valid`에

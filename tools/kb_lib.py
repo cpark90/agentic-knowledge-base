@@ -11,6 +11,7 @@ from rdflib import Graph, Namespace, RDF, RDFS, OWL, URIRef
 
 # 이 체계 고유 어휘 (노트 0.3절, 0.7절)
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
+ID = Namespace("https://agentic-knowledge-base.dev/id/")
 
 # 외부 표준 어휘 — 정의를 변경하지 않고 그대로 쓴다 (0.3절)
 WELL_KNOWN_PREFIXES = (

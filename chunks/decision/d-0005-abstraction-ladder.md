@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0005
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0005
+type: decision
 level: concrete
-label_ko: 추상화 사다리 다섯 수준
-label_en: Five-level abstraction ladder
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 추상화 사다리 다섯 수준
+title: Five-level abstraction ladder
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 모든 지식 항목은 추상에서 실용으로 내려오는 다섯 단계를 갖는다:
 functional(개념·의도) → abstract(형식 문장, 도메인 없음) → logical(선택지

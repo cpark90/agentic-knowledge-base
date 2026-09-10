@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0006
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0006
+type: decision
 level: concrete
-label_ko: 상승 — 관측을 어휘로 일반화
-label_en: Ascent - generalizing observation into vocabulary
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 상승 — 관측을 어휘로 일반화
+title: Ascent - generalizing observation into vocabulary
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 하강만 있는 체계는 지식이 축적되지 않는다. 관측에서 어휘로
 올라가는 상승 전이를 체계의 동작으로 둔다.

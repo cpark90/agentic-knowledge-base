@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0056
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0056
+type: decision
 level: concrete
-label_ko: 도메인 중립 골격과 도메인 프로파일로 나눈다
-label_en: Split the system into a domain-neutral skeleton and domain profiles
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 도메인 중립 골격과 도메인 프로파일로 나눈다
+title: Split the system into a domain-neutral skeleton and domain profiles
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 체계를 작업 종류와 무관한 **도메인 중립 골격**과, 그것을 특정 작업
 종류에 맞게 채우는 **도메인 프로파일**로 나눈다.

@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0051
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0051
+type: decision
 level: concrete
-label_ko: 개체의 시간 정체성은 IRI이고 상태 변화는 wasRevisionOf다
-label_en: Temporal identity is the IRI; state change is wasRevisionOf
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 개체의 시간 정체성은 IRI이고 상태 변화는 wasRevisionOf다
+title: Temporal identity is the IRI; state change is wasRevisionOf
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — scene은 스냅샷이고 개체는 여러 scene을 관통하여 존재한다
 (endurant). 정체성은 개체의 IRI이고, 상태의 변화는 PROV-O

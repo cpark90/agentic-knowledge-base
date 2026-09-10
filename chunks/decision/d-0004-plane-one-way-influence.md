@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0004
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0004
+type: decision
 level: concrete
-label_ko: plane 간 단방향 영향 규칙
-label_en: One-way influence rule between planes
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: plane 간 단방향 영향 규칙
+title: One-way influence rule between planes
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 상위 plane만 하위 plane에 영향을 줄 수 있다. 순서 기준은
 **변화 속도**다 (느린 것이 상위).

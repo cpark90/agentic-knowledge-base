@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0064
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0064
+type: decision
 level: concrete
-label_ko: 판정 방법을 A~D로 등급화하고 D는 ODD에 넣지 않는다
-label_en: Grade measurement methods A-D; grade D stays out of the ODD
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 판정 방법을 A~D로 등급화하고 D는 ODD에 넣지 않는다
+title: Grade measurement methods A-D; grade D stays out of the ODD
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — ODD 속성의 판정 방법을 A~D로 등급화하고, **판정 불가(D) 속성은
 ODD에 넣지 않는다.** D는 가정으로만 기록하되 무효화 트리거가 될 수 없음을

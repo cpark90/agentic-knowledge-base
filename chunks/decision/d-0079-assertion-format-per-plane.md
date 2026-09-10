@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0079
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0079
+type: decision
 level: concrete
-label_ko: assertion 본문 형식은 plane마다 다르다
-label_en: Assertion body format differs per plane
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: assertion 본문 형식은 plane마다 다르다
+title: Assertion body format differs per plane
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 청크의 assertion 그래프는 공통 형식을 강요하지 않고 plane마다
 그 plane의 판정 도구가 읽는 형식을 그대로 쓴다.

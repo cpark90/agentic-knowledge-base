@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0102
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0102
+type: decision
 level: concrete
-label_ko: 후보 링크의 출처와 상한
-label_en: Candidate link sources and their upper bounds
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 후보 링크의 출처와 상한
+title: Candidate link sources and their upper bounds
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 후보 링크는 링크 타입별로 정해진 출처에서 가져오고, 각 출처는
 **상한**을 갖는다.

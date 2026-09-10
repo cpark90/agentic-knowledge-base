@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0096
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0096
+type: decision
 level: concrete
-label_ko: 모든 미확정은 연결의 미확정이다
-label_en: All uncertainty is link uncertainty
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 모든 미확정은 연결의 미확정이다
+title: All uncertainty is link uncertainty
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 이 체계에서 미확정은 항상 "두 지식 항목이 연결되는가"의
 미확정이다. 값이 미확정인 것처럼 보이는 경우도 연결로 환원한다.

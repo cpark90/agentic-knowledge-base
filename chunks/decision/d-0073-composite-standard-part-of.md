@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0073
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0073
+type: decision
 level: concrete
-label_ko: 구성체는 표준 part-of와 순서 컬렉션으로 쓴다
-label_en: Composites use standard part-of and ordered collections
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 구성체는 표준 part-of와 순서 컬렉션으로 쓴다
+title: Composites use standard part-of and ordered collections
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 구성체(`agt:Composite`)는 청크 또는 다른 구성체를 부분으로 갖는
 개체다. **assertion 그래프가 없고**, 라벨과 순서 있는 부분 목록이 전부다.

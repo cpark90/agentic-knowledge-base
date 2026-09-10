@@ -1,0 +1,19 @@
+# 추적성 — 함께 갱신되는 관계의 링크 타입 (노트 8.2절, 8.6절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:coUpdatesWith a owl:ObjectProperty , owl:SymmetricProperty ;
+    rdfs:subPropertyOf agt:relatedTo ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:range agt:KnowledgeItem ;
+    rdfs:label "co-updates with"@en , "함께 갱신된다"@ko ;
+    skos:definition "한쪽을 고치면 다른 쪽도 함께 고쳐야 하는 관계. 참조도 의미 의존도 없어 기계 추출이 불가하므로 후보로만 생성되고 확정은 사람이 한다 (8.4절)."@ko .
+
+agt:conflictsWith a owl:ObjectProperty , owl:SymmetricProperty ;
+    rdfs:subPropertyOf agt:relatedTo ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:range agt:KnowledgeItem ;
+    rdfs:label "conflicts with"@en , "상충한다"@ko ;
+    skos:definition "두 항목이 동시에 성립할 수 없음. 후보를 좁히는 양립 제약의 확정 형태이며, 상충이 발견되면 자동으로 풀지 않고 사람에게 넘긴다 (7.8절)."@ko .

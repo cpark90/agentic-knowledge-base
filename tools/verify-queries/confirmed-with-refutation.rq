@@ -1,0 +1,6 @@
+# 안티패턴: 반박된 확정 — (−) 증거가 있는데 여전히 confirmed인 링크. 실행(−)은 invalid, 그 밖의 (−)는 사람 큐 (노트 9.11절)
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+SELECT ?link ?k WHERE {
+  ?link a agt:Link ; agt:linkState "confirmed" ;
+        agt:hasEvidence ?e . ?e agt:polarity "-" ; agt:evidenceKind ?k .
+}

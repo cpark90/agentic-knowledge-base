@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0031
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0031
+type: decision
 level: concrete
-label_ko: 표기 형식과 용어집의 위치
-label_en: Notation format and where the glossary lives
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 표기 형식과 용어집의 위치
+title: Notation format and where the glossary lives
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 표기를 다음으로 고정한다.
 - **식별자**: 영어 단수 소문자 케밥 (`design-space`)

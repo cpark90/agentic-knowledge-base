@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0142
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0142
+type: decision
 level: concrete
-label_ko: ODC 한정자·차원과 분포 진단
-label_en: ODC qualifier, dimensions, and distribution as diagnosis
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: ODC 한정자·차원과 분포 진단
+title: ODC qualifier, dimensions, and distribution as diagnosis
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 각 결함에 ODC **한정자**(`missing` 있어야 할 것이 없음 /
 `incorrect` 있으나 틀림)를 붙이고, **트리거·영향·발견 단계** 세 차원을 결함

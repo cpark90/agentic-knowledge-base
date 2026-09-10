@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0156
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0156
+type: decision
 level: concrete
-label_ko: 카탈로그로 IRI를 파일로 해석해 union을 조립한다
-label_en: Assemble the union by resolving IRIs through a catalog
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
-generated_at: 2026-09-02T00:00:00+09:00
+title_ko: 카탈로그로 IRI를 파일로 해석해 union을 조립한다
+title: Assemble the union by resolving IRIs through a catalog
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
+generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 여러 저장소에 나뉜 그래프는 **import 선언 + 카탈로그**(문서 IRI →
 로컬 파일)로 하나의 union으로 조립한다. root 문서에서 import를 따라간 폐포가

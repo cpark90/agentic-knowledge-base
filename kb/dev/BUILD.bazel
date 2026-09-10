@@ -1,0 +1,25 @@
+# 개발 KB — 요구에서 실산출물을 생산하기 위한 지식 (노트 7.1절).
+# plane별 하위 디렉토리(requirement/ decision/ contract/ schema/ artifact/
+# annotation/ memory/)에 청크가 놓인다. 한 청크는 한 파일이다.
+load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_index")
+
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(
+        ["**/*.md"],
+        allow_empty = True,
+    ),
+)
+
+kb_chunk_lint_test(
+    name = "lint_test",
+    chunks = [":bodies"],
+)
+
+# 라벨 목록 — OKF index.md는 생성물이다 (bazel build //kb/dev:index → bazel-bin/kb/dev/index.md)
+kb_index(
+    name = "index",
+    srcs = [":bodies"],
+)

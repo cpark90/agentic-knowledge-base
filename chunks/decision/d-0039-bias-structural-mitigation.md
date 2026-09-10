@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0039
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0039
+type: decision
 level: concrete
-label_ko: 편향마다 구조적 완화 장치를 고정한다
-label_en: Each bias is bound to a structural mitigation
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 편향마다 구조적 완화 장치를 고정한다
+title: Each bias is bound to a structural mitigation
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 1.2절의 성질 각각에 이 체계의 어느 장치가 대응하는지를 표로
 고정한다. 완화는 프롬프트가 아니라 자료구조·규칙·체계 밖 판정으로 한다.

@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0022
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0022
+type: decision
 level: concrete
-label_ko: 두 기반과 다섯 메커니즘
-label_en: Two foundations and five mechanisms
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 두 기반과 다섯 메커니즘
+title: Two foundations and five mechanisms
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 체계는 두 **기반**(온톨로지, ODD)과 그 위에 선 다섯
 **메커니즘**(청크·구성체, plane, 추상화 사다리, 연결의 가능성, 링크)으로

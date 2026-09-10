@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0081
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0081
+type: decision
 level: concrete
-label_ko: plane 배정은 툴 표면을 바꿔야 효과가 난다
-label_en: Plane assignment must change the tool surface
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: plane 배정은 툴 표면을 바꿔야 효과가 난다
+title: Plane assignment must change the tool surface
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 에이전트는 자신의 read scope와 write scope에 해당하는 plane만
 배정받는다. 그리고 **툴 표면이 배정에 따라 실제로 달라져야 한다** — 배정된

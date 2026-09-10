@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0060
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0060
+type: decision
 level: concrete
-label_ko: 하네스는 ODD에서 스코프를 잘라낸다
-label_en: The harness carves scopes out of the ODD
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 하네스는 ODD에서 스코프를 잘라낸다
+title: The harness carves scopes out of the ODD
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 하네스는 ODD에서 스코프를 잘라낸다. 스코프는 ODD 속성을
 `inherit`하고 plane 권한을 `include`할 뿐이며, **ODD에 없는 속성을 스코프에

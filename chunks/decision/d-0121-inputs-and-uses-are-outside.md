@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0121
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0121
+type: decision
 level: concrete
-label_ko: 입력과 활용은 체계 밖이다
-label_en: Inputs and uses lie outside the system
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 입력과 활용은 체계 밖이다
+title: Inputs and uses lie outside the system
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 체계의 구성요소가 아닌 것을 두 방향으로 나눈다. **입력**은 체계가
 소모하는 사전정보(파라미터)이고, **활용**은 체계의 출력을 소비하는 기능이다.

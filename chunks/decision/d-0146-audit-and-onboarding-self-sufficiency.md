@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0146
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0146
+type: decision
 level: concrete
-label_ko: 감사와 온보딩은 체계의 출력만으로 성립한다
-label_en: Audit and onboarding run on the system's output alone
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 감사와 온보딩은 체계의 출력만으로 성립한다
+title: Audit and onboarding run on the system's output alone
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — audit 역할과 새로 들어오는 에이전트·사람은 **이 체계의 출력만으로
 동작해야 한다.** 체계 밖 정보가 필요하면 그것은 체계의 누락이다.

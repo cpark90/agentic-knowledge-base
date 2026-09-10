@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0111
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0111
+type: decision
 level: concrete
-label_ko: 링크도 개체다 — 링크가 갖는 속성
-label_en: Links are entities with attributes
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 링크도 개체다 — 링크가 갖는 속성
+title: Links are entities with attributes
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크도 개체이므로 속성을 갖는다. 4.3절 청크의 4분 구조를
 링크에도 그대로 적용한다.

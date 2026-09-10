@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0154
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0154
+type: decision
 level: concrete
-label_ko: 청크 편집기의 최소 요구
-label_en: Minimum requirements for the chunk editor
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 청크 편집기의 최소 요구
+title: Minimum requirements for the chunk editor
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 청크를 만드는 도구가 만족해야 할 최소 요구를 다섯으로 고정한다.
 전부 체계의 규칙을 **저장 시점에** 강제하기 위한 것이다.

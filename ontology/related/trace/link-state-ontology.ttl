@@ -1,0 +1,25 @@
+# 추적성 — 링크의 상태와 조건: 상태는 저장값이 아니라 when 평가와 장부 규칙의 결과 (노트 9.11절, 10.6절, 10.10절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:linkState a owl:DatatypeProperty ;
+    rdfs:domain agt:Link ;
+    rdfs:range xsd:string ;
+    rdfs:label "link state"@en , "링크 상태"@ko ;
+    skos:definition "링크 상태 기계의 현재 값: candidate(가능하나 미확정) / confirmed(확정) / suspect(재판정 필요) / invalid(불성립). 저장값이 아니라 when 조건의 평가 결과와 증거 장부 규칙의 결과다 — when이 거짓이면 후보는 eliminated, 확정은 suspect (9.11절, 10.6절)."@ko .
+
+agt:when a owl:DatatypeProperty ;
+    rdfs:domain agt:Link ;
+    rdfs:range xsd:string ;
+    rdfs:label "when"@en , "성립 조건"@ko ;
+    skos:definition "이 링크가 가능한 조건 — ODD 속성과 가정 위의 CEL 술어. 참이면 가능, 거짓이면 불가, 판정 불가면 unverified. assumes(가정이 참일 때)와 스코프 conditional(결정이 concrete일 때)이 이것의 특수형이며, 무효화 전파는 when이 거짓이 된 링크를 따라가는 것이다. ODD 밖 속성을 참조하면 게이트가 거부한다 (9.11절, 3.3절)."@ko .
+
+agt:confidence a owl:DatatypeProperty ;
+    owl:deprecated true ;
+    rdfs:domain agt:Link ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "confidence (deprecated)"@en , "신뢰도 (폐기)"@ko ;
+    skos:definition "폐기 (2026-09-10, 노트 v5 9.11절 '수치가 없다'). 링크의 가능성은 수치가 아니라 when 조건과 증거 장부로 구조화되며, 선호는 지지 증거의 종류 서열에서 파생된다. 대체 속성 없음 — 데이터에 쓰인 적 없다."@ko .

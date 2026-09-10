@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0052
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0052
+type: decision
 level: concrete
-label_ko: 경쟁 질문이 온톨로지의 요구사항이다
-label_en: Competency questions are the ontology's requirements
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 경쟁 질문이 온톨로지의 요구사항이다
+title: Competency questions are the ontology's requirements
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 온톨로지의 요구사항을 "답해야 할 질문 목록"(competency question,
 CQ)으로 정의한다. 각 질문은 그래프 질의 하나로 답할 수 있어야 하고,

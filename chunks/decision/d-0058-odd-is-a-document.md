@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0058
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0058
+type: decision
 level: concrete
-label_ko: ODD는 영역 개념이 아니라 프로젝트당 하나의 문서다
-label_en: The ODD is a document, one per project - not a permission region
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: ODD는 영역 개념이 아니라 프로젝트당 하나의 문서다
+title: The ODD is a document, one per project - not a permission region
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — ODD는 이 프로젝트의 지식과 작업이 설계된 운영 조건의 명세이며,
 스코프처럼 권한을 나누는 영역 개념이 아니라 **실제로 작성되고 버전 관리되고

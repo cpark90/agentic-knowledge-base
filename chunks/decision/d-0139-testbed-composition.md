@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0139
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0139
+type: decision
 level: concrete
-label_ko: 테스트베드의 구성과 ODD 부분집합 제약
-label_en: Testbed composition and the ODD-subset constraint
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 테스트베드의 구성과 ODD 부분집합 제약
+title: Testbed composition and the ODD-subset constraint
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 테스트베드는 **3~4단계 환경의 영속적 구현**이며, 그 환경 정의는
 **ODD의 부분집합**이어야 한다.

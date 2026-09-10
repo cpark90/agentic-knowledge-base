@@ -1,0 +1,46 @@
+# 추적성 — 충족·제약·검증·개념 사용의 링크 타입 (노트 8.2절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:satisfies a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:semanticallyDependsOn ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:range agt:DecisionChunk ;
+    rdfs:label "satisfies"@en , "충족한다"@ko ;
+    skos:definition "산출물이 어느 결정을 실현하는가. 편집 컨텍스트가 읽은 결정이 후보의 출처이고, 이 링크가 없는 결정이 추적 매트릭스의 빈 칸이다 (8.3절, 8.7절)."@ko .
+
+agt:constrains a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:semanticallyDependsOn ;
+    rdfs:domain agt:SchemaChunk ;
+    rdfs:range agt:ContractChunk ;
+    rdfs:label "constrains"@en , "제약한다"@ko ;
+    skos:definition "스키마가 인터페이스에 거는 제약. 인터페이스가 추적의 기준축이므로 이 링크가 plane 사이를 잇는 축을 지난다 (8.2절)."@ko .
+
+agt:verifies a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:semanticallyDependsOn ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:range agt:KnowledgeItem ;
+    rdfs:label "verifies"@en , "검증한다"@ko ;
+    skos:definition "시나리오가 어느 결정·계약을 검증하는가. 합격 기준을 갖지 않은 이 링크는 검사 게이트가 거부한다 — 무엇으로 검증했는지 없으면 검증이 아니다 (10.1절)."@ko .
+
+agt:usesConcept a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:semanticallyDependsOn ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:label "uses concept"@en , "개념을 사용한다"@ko ;
+    skos:definition "항목의 본문이 어느 온톨로지 개념을 쓰는가. 치역이 지식 항목이 아니라 어휘의 개념이므로 범위를 지정하지 않는다. 개념 정의가 바뀌면 그것을 쓰는 항목이 suspect가 된다 (2.7절)."@ko .
+
+agt:allocates a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:semanticallyDependsOn ;
+    rdfs:domain agt:DecisionChunk ;
+    rdfs:range agt:Composite ;
+    rdfs:label "allocates"@en , "할당한다"@ko ;
+    skos:definition "이 결정을 어느 모듈(구성체)이 담당하는가 — satisfies의 역할 배정판. 충족 범주의 빈 칸을 채우는 v3 채택 타입이다 (9.2절)."@ko .
+
+agt:serves a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:refines ;
+    rdfs:domain agt:DecisionChunk ;
+    rdfs:range agt:RequirementChunk ;
+    rdfs:label "serves"@en , "봉사한다"@ko ;
+    skos:definition "결정이 어느 요구의 어느 관심사에 봉사하는가. functional → abstract 전이 게이트가 요구하는 명시이며, 봉사 없는 설계는 거부된다. refines의 특수형이므로 요구까지의 연쇄 질의에 그대로 걸린다 (6.8절, 7.3절)."@ko .

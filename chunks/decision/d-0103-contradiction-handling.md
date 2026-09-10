@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0103
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0103
+type: decision
 level: concrete
-label_ko: 후보 없음(모순)은 자동으로 풀지 않고 유저에게 넘긴다
-label_en: Contradictions are handed to the user, never auto-resolved
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 후보 없음(모순)은 자동으로 풀지 않고 유저에게 넘긴다
+title: Contradictions are handed to the user, never auto-resolved
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 후보 링크가 하나도 남지 않은 상태(모순 신호)는 **자동으로 풀지
 않는다.** 세 원인 중 무엇인지 판별한 결과와 함께 유저에게 넘긴다.

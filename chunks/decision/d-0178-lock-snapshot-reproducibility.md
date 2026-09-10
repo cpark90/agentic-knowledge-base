@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0178
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0178
+type: decision
 level: concrete
-label_ko: 선택 스냅샷(lock)이 재현의 계약이다
-label_en: The selection snapshot (lock) is the reproducibility contract
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
-generated_at: 2026-09-02T00:00:00+09:00
+title_ko: 선택 스냅샷(lock)이 재현의 계약이다
+title: The selection snapshot (lock) is the reproducibility contract
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
+generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 생성할 때마다 "이번에 실제로 무엇이 선택되었는가"를 **lock
 스냅샷**으로 산출물과 함께 쓴다. 그 스냅샷을 입력으로 다시 생성하면 결과가

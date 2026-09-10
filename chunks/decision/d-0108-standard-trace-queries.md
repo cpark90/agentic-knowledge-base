@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0108
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0108
+type: decision
 level: concrete
-label_ko: 링크 모델이 답해야 할 표준 질의 네 가지
-label_en: Four standard queries the link model must answer
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 링크 모델이 답해야 할 표준 질의 네 가지
+title: Four standard queries the link model must answer
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크 모델은 네 표준 질의에 답할 수 있어야 한다.
 

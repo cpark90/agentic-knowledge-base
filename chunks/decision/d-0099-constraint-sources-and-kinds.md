@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0099
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0099
+type: decision
 level: concrete
-label_ko: 제약의 출처 셋과 공리·제약·가정의 구분
-label_en: Three constraint sources and axiom/constraint/assumption distinction
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 제약의 출처 셋과 공리·제약·가정의 구분
+title: Three constraint sources and axiom/constraint/assumption distinction
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 후보 링크를 깎는 제약의 출처는 셋으로 고정하고, **공리·제약·
 가정은 서로 다른 것**으로 구분해 각각 제 위치에 둔다.

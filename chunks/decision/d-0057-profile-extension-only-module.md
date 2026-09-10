@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0057
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0057
+type: decision
 level: concrete
-label_ko: 프로파일은 골격을 확장만 하는 온톨로지 모듈이다
-label_en: A profile is an extension-only ontology module
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 프로파일은 골격을 확장만 하는 온톨로지 모듈이다
+title: A profile is an extension-only ontology module
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 프로파일은 별도 장치가 아니라 온톨로지 모듈이다. `profile/<domain>`
 에 두고 골격 모듈을 import하며, **골격 클래스의 하위 클래스와 shape만

@@ -1,0 +1,52 @@
+# shape — plane × level 거주표: 각 plane은 정해진 level 구간에만 거주한다 (노트 6.4절 v3)
+# annotation은 대상의 level을 물려받으므로 여기서 구간을 제한하지 않는다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+agt:RequirementResidencyShape a sh:NodeShape ;
+    sh:targetClass agt:RequirementChunk ;
+    sh:property [
+        sh:path agt:hasLevel ;
+        sh:in ( agt:functional ) ;
+        sh:message "requirement는 functional 전용이다 — 사다리의 출발점 (6.4절 거주표)" ;
+    ] .
+
+agt:DecisionResidencyShape a sh:NodeShape ;
+    sh:targetClass agt:DecisionChunk ;
+    sh:property [
+        sh:path agt:hasLevel ;
+        sh:in ( agt:abstract agt:logical agt:concrete ) ;
+        sh:message "decision은 abstract(변수 선언)·logical(후보·제약·배제 근거·기준)·concrete(확정 값)에만 거주한다 (6.4절)" ;
+    ] .
+
+agt:ContractResidencyShape a sh:NodeShape ;
+    sh:targetClass agt:ContractChunk ;
+    sh:property [
+        sh:path agt:hasLevel ;
+        sh:in ( agt:abstract agt:logical ) ;
+        sh:message "contract는 abstract(시그니처 변수)·logical(타입 범위·계약 조건·판정식)에만 거주한다 (6.4절)" ;
+    ] .
+
+agt:SchemaResidencyShape a sh:NodeShape ;
+    sh:targetClass agt:SchemaChunk ;
+    sh:property [
+        sh:path agt:hasLevel ;
+        sh:in ( agt:logical agt:concrete ) ;
+        sh:message "schema는 logical(필드 범위·호환 제약)·concrete(확정 스키마)에만 거주한다 (6.4절)" ;
+    ] .
+
+agt:ArtifactResidencyShape a sh:NodeShape ;
+    sh:targetClass agt:ArtifactChunk ;
+    sh:property [
+        sh:path agt:hasLevel ;
+        sh:in ( agt:concrete agt:executable ) ;
+        sh:message "artifact는 concrete(고정 입력·설정)·executable(실산출물 — 전용 도착점)에만 거주한다 (6.4절)" ;
+    ] .
+
+agt:MemoryResidencyShape a sh:NodeShape ;
+    sh:targetClass agt:MemoryChunk ;
+    sh:property [
+        sh:path agt:hasLevel ;
+        sh:in ( agt:concrete ) ;
+        sh:message "관측은 이미 일어난 것이라 concrete에만 존재한다 (0.5절, 6.4절)" ;
+    ] .

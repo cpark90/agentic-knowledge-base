@@ -1,0 +1,14 @@
+# V&V KB — 시나리오 기반 평가의 지식 (노트 7.1절). 개발 KB와 같은 골격이되
+# 저장·스코프·편집 주체가 분리된다: 편집은 vnv·audit 역할만, 개발 역할은 읽기만.
+# verifies 링크만 KB를 가로지른다 (V&V → 개발, 같은 level).
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(
+        ["**/*.md"],
+        allow_empty = True,
+    ),
+)
+
+# lint_test는 첫 청크가 들어올 때 켠다 — 빈 filegroup은 $(rootpaths) 확장이 실패한다.

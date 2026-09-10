@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0066
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0066
+type: decision
 level: concrete
-label_ko: 하위 ODD는 상위를 좁히기만 하고 이탈 전파는 비대칭이다
-label_en: A child ODD only narrows the parent; exit propagation is asymmetric
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 하위 ODD는 상위를 좁히기만 하고 이탈 전파는 비대칭이다
+title: A child ODD only narrows the parent; exit propagation is asymmetric
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 하위 ODD는 상위 ODD를 `import`하고 속성 값 범위를 **좁히기만**
 한다. 넓히거나 새 속성을 추가하면 검사 실패다. 이탈 전파는 비대칭이다 —

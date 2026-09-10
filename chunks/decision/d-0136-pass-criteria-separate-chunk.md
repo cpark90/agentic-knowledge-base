@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0136
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0136
+type: decision
 level: concrete
-label_ko: 합격 기준은 시나리오와 별도 청크
-label_en: Pass criteria live in a chunk separate from the scenario
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 합격 기준은 시나리오와 별도 청크
+title: Pass criteria live in a chunk separate from the scenario
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 시나리오마다 합격 기준을 **별도 청크로** 두고, `verifies` 링크의
 속성으로 시나리오에 붙인다. 기준 없는 `verifies` 링크는 검사 게이트가

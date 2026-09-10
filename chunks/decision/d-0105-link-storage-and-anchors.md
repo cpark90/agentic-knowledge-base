@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0105
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0105
+type: decision
 level: concrete
-label_ko: 링크는 산출물 밖에 저장하고 앵커는 청크 ID
-label_en: Store links outside artifacts, anchored by chunk ID
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 링크는 산출물 밖에 저장하고 앵커는 청크 ID
+title: Store links outside artifacts, anchored by chunk ID
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크는 **산출물 안에 쓰지 않는다.** 별도 링크 모델(A-Box이므로
 `-kg` 파일)에 두고, 양 끝은 각 plane의 네이티브 앵커로 가리킨다. **앵커는

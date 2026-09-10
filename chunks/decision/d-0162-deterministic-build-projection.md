@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0162
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0162
+type: decision
 level: concrete
-label_ko: 빌드 투영은 검증된 그래프에서만 결정론적으로 나온다
-label_en: The build projection is gated on validation and deterministic
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
-generated_at: 2026-09-02T00:00:00+09:00
+title_ko: 빌드 투영은 검증된 그래프에서만 결정론적으로 나온다
+title: The build projection is gated on validation and deterministic
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
+generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 그래프에서 산출물을 만드는 빌드는 ① 조립된 union이 **검증을 통과할
 때만** 실행하고(실패면 한 파일도 쓰지 않고 비영 종료) ② 같은 입력이면 **바이트

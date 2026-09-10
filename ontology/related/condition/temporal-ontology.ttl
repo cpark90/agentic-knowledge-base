@@ -1,0 +1,21 @@
+# 조건 — 동적 갈래의 시간 제약 어휘: 선행·배타·시한 (노트 0.4절·0.5절 v3)
+# 시간열 개체를 제거한 보완이다. 동시성·순서 요구는 logical에서 이 어휘로 형식화되고,
+# 판정식은 실행 기록의 시각 순서로 검사한다 (판정 등급 A).
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:precedes a owl:ObjectProperty ;
+    rdfs:label "precedes"@en , "선행한다"@ko ;
+    skos:definition "A precedes B — A가 완료된 뒤에야 B가 시작될 수 있다. 시간 제약 어휘의 선행. 표준 관계(ro:precedes)의 대응물이며 상위 온톨로지 도입 시 그 아래로 정렬한다 (0.5절, 2.8절)."@ko .
+
+agt:mutuallyExclusiveWith a owl:ObjectProperty , owl:SymmetricProperty ;
+    rdfs:label "mutually exclusive with"@en , "동시에 불가하다"@ko ;
+    skos:definition "A와 B는 동시에 진행될 수 없다. 시간 제약 어휘의 배타 — 대칭 관계다 (0.5절)."@ko .
+
+agt:withinDeadline a owl:DatatypeProperty ;
+    rdfs:range xsd:duration ;
+    rdfs:label "within deadline"@en , "시한 안에"@ko ;
+    skos:definition "항목이 시작부터 이 기간 안에 완료되어야 한다. 시간 제약 어휘의 시한 — ISO 8601 duration으로 적고, 판정은 실행 기록의 시각 차로 한다 (0.5절)."@ko .

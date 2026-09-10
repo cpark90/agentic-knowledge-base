@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0110
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0110
+type: decision
 level: concrete
-label_ko: 링크 판정 근거는 검사 가능한 것부터
-label_en: Rank link judgement evidence by checkability
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 링크 판정 근거는 검사 가능한 것부터
+title: Rank link judgement evidence by checkability
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크가 성립하는지의 판정 근거는 **검사 가능성 순으로** 쓴다.
 

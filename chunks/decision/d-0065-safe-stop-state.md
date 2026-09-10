@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0065
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0065
+type: decision
 level: concrete
-label_ko: ODD 이탈 시 남겨야 할 안전 정지 상태
-label_en: The safe-stop state required on ODD exit
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: ODD 이탈 시 남겨야 할 안전 정지 상태
+title: The safe-stop state required on ODD exit
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 3.5절의 "작업 중단"이 뜻하는 상태를 정의한다. 이탈을 감지한
 에이전트는 진행 중 편집을 커밋하지 않고 작업 디렉토리에 `suspect` 표시로

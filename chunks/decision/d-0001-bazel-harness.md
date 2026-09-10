@@ -1,13 +1,13 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0001
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0001
+type: decision
 level: concrete
-label_ko: Bazel 하네스 채택
-label_en: Adopt Bazel harness
-state: valid
+title_ko: Bazel 하네스 채택
+title: Adopt Bazel harness
+status: stable
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain]
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T17:34:48+09:00}
 ---
 **결론** — 지식 베이스의 하네스를 Bazel(bzlmod) 위에 세운다.
 

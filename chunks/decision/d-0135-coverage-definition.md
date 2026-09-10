@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0135
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0135
+type: decision
 level: concrete
-label_ko: 커버리지의 분모와 단계별 합산
-label_en: Coverage denominator and cross-rung accumulation
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 커버리지의 분모와 단계별 합산
+title: Coverage denominator and cross-rung accumulation
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 커버리지는 **측정 지표**이며 분모는 ODD다. 단계별로 합산하되
 6단계(실환경) 관측은 넣지 않는다. **완전성을 전제한 무인 운영은 성립하지

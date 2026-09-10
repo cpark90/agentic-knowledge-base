@@ -34,6 +34,7 @@ def kb_gate_test(
         shapes = [],
         odd = [],
         data = [],
+        verify_queries = None,
         reason = False,
         **kwargs):
     """검사 게이트 테스트 — tools/validate.py 를 지정 그래프들에 대해 돌린다.
@@ -53,8 +54,11 @@ def kb_gate_test(
         _flag_args("--shapes", shapes) +
         _flag_args("--odd", odd) +
         _flag_args("--data", data) +
+        (["--verify-queries", "tools/verify-queries"] if verify_queries else []) +
         (["--reason"] if reason else [])
     )
+    if verify_queries:
+        graphs = graphs + [verify_queries]
     py_test(
         name = name,
         srcs = _VALIDATE_SRCS,
@@ -85,6 +89,44 @@ def kb_chunk_kg(name, srcs, out = None):
         outs = [out],
         cmd = "$(location //tools:chunk2kg) --out $@ $(SRCS)",
         tools = [Label("//tools:chunk2kg")],
+    )
+
+def kb_index(name, srcs, out = "index.md"):
+    """청크 head에서 라벨 목록 index.md를 생성한다 (5.6절, 부록 E.2).
+
+    OKF 예약 파일 index.md는 생성물이다 — 손으로 쓰면 본문과 어긋난다.
+
+    Args:
+      name: 타깃 이름.
+      srcs: 청크 파일 라벨들 (filegroup 가능).
+      out: 생성할 파일명 (기본 index.md).
+    """
+    native.genrule(
+        name = name,
+        srcs = srcs,
+        outs = [out],
+        cmd = "$(location //tools:labels) --out $@ $(SRCS)",
+        tools = [Label("//tools:labels")],
+    )
+
+def kb_reference_kg(name, srcs, out = None):
+    """청크 본문의 명시적 인용에서 참조 그래프(-kg)를 생성한다 (8.2절).
+
+    본문이 원본이고 이 그래프는 생성물이다 — 목록을 손으로 복제하면 어긋난다.
+    인용 대상이 실재하지 않으면 생성이 실패하므로 참조 무결성이 여기서 강제된다.
+
+    Args:
+      name: 타깃 이름.
+      srcs: 청크 파일 라벨들 (filegroup 가능).
+      out: 생성할 TTL 파일명 (기본 <name>.ttl, 접미사 규약상 -kg 권장).
+    """
+    out = out or name + ".ttl"
+    native.genrule(
+        name = name,
+        srcs = srcs,
+        outs = [out],
+        cmd = "$(location //tools:extract_refs) --out $@ $(SRCS)",
+        tools = [Label("//tools:extract_refs")],
     )
 
 def kb_chunk_lint_test(name, chunks = [], ttl = [], **kwargs):

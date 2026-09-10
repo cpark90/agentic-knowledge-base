@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0122
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0122
+type: decision
 level: concrete
-label_ko: 체계가 요구하는 입력 목록
-label_en: Inventory of inputs the system requires
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 체계가 요구하는 입력 목록
+title: Inventory of inputs the system requires
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 체계를 한 프로젝트에 인스턴스화하는 데 필요한 입력을 15종으로
 확정하고, 각각에 대해 결정하는 것·제공 주체·변경 시 파급을 기록한다.

@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0145
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0145
+type: decision
 level: concrete
-label_ko: 평가의 세 측정 단위
-label_en: Three units of evaluation measurement
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 평가의 세 측정 단위
+title: Three units of evaluation measurement
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 평가의 측정을 셋으로 둔다. **인지능력**(입력 정보 누락률),
 **추적 커버리지**(링크 없는 항목 비율), **가정 건전성**(`invalidated`·

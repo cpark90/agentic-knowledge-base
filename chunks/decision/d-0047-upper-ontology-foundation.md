@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0047
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0047
+type: decision
 level: concrete
-label_ko: 표준 상위 온톨로지 위에 구축한다
-label_en: Build on a standard upper ontology
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 표준 상위 온톨로지 위에 구축한다
+title: Build on a standard upper ontology
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 프로젝트 온톨로지를 맨바닥에서 짓지 않고 표준 상위 온톨로지 위에
 구축한다. 후보는 ISO/IEC 21838-2로 표준화된 BFO다.

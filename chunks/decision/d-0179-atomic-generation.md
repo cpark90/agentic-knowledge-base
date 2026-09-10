@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0179
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0179
+type: decision
 level: concrete
-label_ko: 생성은 전부 성공했을 때만 원자적으로 교체한다
-label_en: Generation lands atomically, only on full success
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
-generated_at: 2026-09-02T00:00:00+09:00
+title_ko: 생성은 전부 성공했을 때만 원자적으로 교체한다
+title: Generation lands atomically, only on full success
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
+generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 생성은 임시 위치에 산출물 전체를 만들고 모든 게이트를 그 위에서
 통과시킨 뒤, **전부 성공했을 때만** 원자적 교체로 목적지에 놓는다. 어느

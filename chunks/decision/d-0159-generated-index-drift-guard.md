@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0159
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0159
+type: decision
 level: concrete
-label_ko: 목록은 손으로 복제하지 않고 생성하고 대조한다
-label_en: Generate indexes from disk and diff them in CI
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
-generated_at: 2026-09-02T00:00:00+09:00
+title_ko: 목록은 손으로 복제하지 않고 생성하고 대조한다
+title: Generate indexes from disk and diff them in CI
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
+generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 같은 목록(색인·카탈로그·매니페스트)이 두 곳 이상에 필요하면 손으로
 복제하지 않고 **디스크의 실물에서 결정론적으로 생성**하며, CI가 생성기를 검사

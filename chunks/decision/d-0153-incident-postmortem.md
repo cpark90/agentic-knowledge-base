@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0153
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0153
+type: decision
 level: concrete
-label_ko: 인시던트 사후분석은 상승을 실행하는 자리
-label_en: Incident postmortem is where ascent is executed
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 인시던트 사후분석은 상승을 실행하는 자리
+title: Incident postmortem is where ascent is executed
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 사후분석은 이 체계의 상승(6.3절)을 실행하는 자리다. 아래 여섯
 단계를 밟고, **3~5 중 하나도 산출하지 않은 사후분석은 실패로 본다.**

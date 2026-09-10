@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0112
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0112
+type: decision
 level: concrete
-label_ko: 추적성 지표 다섯과 그 경고 신호
-label_en: Five traceability metrics and their warning signals
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 추적성 지표 다섯과 그 경고 신호
+title: Five traceability metrics and their warning signals
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크 모델의 건강을 다섯 지표로 관측하고, 각 지표의 움직임을
 특정 고장의 경고로 읽는다.

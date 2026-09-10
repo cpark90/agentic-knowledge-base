@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0027
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0027
+type: decision
 level: concrete
-label_ko: 산출물 접미사가 성격과 축 위치를 알린다
-label_en: Filename suffix announces artifact kind and axis position
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 산출물 접미사가 성격과 축 위치를 알린다
+title: Filename suffix announces artifact kind and axis position
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 파일명이 그 파일의 성격을 알려주도록 접미사를 고정한다.
 

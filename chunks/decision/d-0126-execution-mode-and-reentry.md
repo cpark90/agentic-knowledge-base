@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0126
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0126
+type: decision
 level: concrete
-label_ko: 실행 모드와 dispatch 재진입 요약
-label_en: Execution mode and dispatch re-entry summary
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 실행 모드와 dispatch 재진입 요약
+title: Execution mode and dispatch re-entry summary
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 실행 모드(세션 유지 / dispatch)를 입력으로 받고, dispatch
 대상에게는 전체 컨텍스트가 아니라 **그 역할의 스코프로 거른 situation**

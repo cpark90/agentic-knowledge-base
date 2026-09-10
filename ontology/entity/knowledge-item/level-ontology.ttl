@@ -1,29 +1,29 @@
-# 청크 — 추상화 수준: 다섯 개체 (노트 0.1절, Part VI)
+# 청크 — 정제 사다리: level은 요구에서 실산출물까지의 정제 높이다 (노트 6.1절, v3 개정)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 agt:Level a owl:Class ;
-    rdfs:label "abstraction level"@en , "추상화 수준"@ko ;
-    skos:definition "추상화 사다리의 다섯 수준을 담는 클래스 (0.1절, Part VI)."@ko .
+    rdfs:label "refinement level"@en , "정제 수준"@ko ;
+    skos:definition "요구에서 실산출물까지의 정제 높이. plane과 직교하며, plane마다 거주하는 level 구간이 정해져 있다(6.4절 거주표). 상황의 추상화가 아니라 요구가 산출물이 되는 사슬이다 (6.1절)."@ko .
 
 agt:functional a owl:NamedIndividual , agt:Level ;
     rdfs:label "functional"@en , "기능 수준"@ko ;
-    skos:definition "어휘 자체를 서술적으로 쓴 수준. 별도 파일이 아니라 온톨로지의 주석·라벨로 존재한다 (0.2절)."@ko .
+    skos:definition "요구사항의 수준. 자연어(EARS 권장)로 이해관계자와 관심사를 명시한다. requirement plane 전용 — 사다리의 출발점이며 판정은 합의다 (6.1절)."@ko .
 
 agt:abstract a owl:NamedIndividual , agt:Level ;
     rdfs:label "abstract"@en , "추상 수준"@ko ;
-    skos:definition "설계 공간의 출발점 선언이 놓이는 수준 (0.2절)."@ko .
+    skos:definition "설계·계약의 형식화 수준. 변수는 있되 범위가 없다. 기계가독의 경계 — functional→abstract 전이가 자연어를 형식 언어로 옮기는 단계다. decision·contract가 거주한다 (6.1절)."@ko .
 
 agt:logical a owl:NamedIndividual , agt:Level ;
     rdfs:label "logical"@en , "논리 수준"@ko ;
-    skos:definition "도착점 후보와 양립 제약이 놓이는 수준 (0.2절)."@ko .
+    skos:definition "범위·제약·합격 기준의 수준. 근거와 기준의 보존소 — 선택되지 않은 대안과 배제 이유, 무엇으로 합격을 판정할 것인가가 여기 있고 판정식이 여기서 태어난다. contract·schema·decision이 거주한다 (6.1절)."@ko .
 
 agt:concrete a owl:NamedIndividual , agt:Level ;
     rdfs:label "concrete"@en , "구체 수준"@ko ;
-    skos:definition "확정된 개체·결정·경계가 놓이는 수준. 관측은 언제나 이 수준에만 존재한다 (0.5절)."@ko .
+    skos:definition "특정 값의 수준. 케이스·고정 입력·구체 설정이며 표본 추출 근거가 필수다. schema·decision·artifact가 거주하고, 관측(memory)은 언제나 이 수준에만 존재한다 (6.1절, 0.5절)."@ko .
 
 agt:executable a owl:NamedIndividual , agt:Level ;
     rdfs:label "executable"@en , "실행 수준"@ko ;
-    skos:definition "코드·하네스·설정 등 실행 산출물의 수준 (0.2절)."@ko .
+    skos:definition "실산출물의 수준. 코드·테스트·설정·모델의 head와 앵커. artifact plane 전용 — 사다리의 도착점이며 판정은 실행이다. 구현은 개발 KB, verifier는 V&V KB의 artifact다 (6.1절, 7.2절)."@ko .

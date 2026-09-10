@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0038
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0038
+type: decision
 level: concrete
-label_ko: 에이전트의 실수에는 방향이 있다
-label_en: Agent errors have a direction
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 에이전트의 실수에는 방향이 있다
+title: Agent errors have a direction
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 에이전트의 실수는 무작위가 아니라 **방향이 있다**고 전제한다.
 방향을 알면 프롬프트가 아니라 **구조로** 막을 수 있고, 이 체계는 네 가지

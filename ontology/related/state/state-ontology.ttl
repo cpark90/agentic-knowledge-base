@@ -1,0 +1,19 @@
+# 상태의 단위 — 리비전·작업 집합·실행 기록·대응 절차 (노트 0.5절 v3)
+# 시간열 개체를 두지 않는다. 리비전은 커밋(정규화 해시)이라 어휘가 필요 없고,
+# 아래 셋만 개체다. scene·situation·scenario 3분리는 v3에서 폐기되었다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:Workset a owl:Class ;
+    rdfs:label "workset"@en , "작업 집합"@ko ;
+    skos:definition "지식 베이스를 스코프 × level 창으로 거른 청크 집합. 질의 결과이며 저장하지 않는다. 인지 측정과 dispatch 전달의 단위다 — 스코프가 plane과 조건을, level 창이 사다리 높이를 거른다 (0.5절). 과거 작업 집합은 그 리비전에 같은 질의를 다시 걸어 얻는다."@ko .
+
+agt:Run a owl:Class ;
+    rdfs:label "run"@en , "실행 기록"@ko ;
+    skos:definition "관측된 실행 기록 — 자극·환경·결과. concrete 전용이고 append-only이며 run-kg에 저장한다. 관측은 이미 일어난 것이라 수준을 갖지 못하고, 상승의 목적지는 개발 KB에서는 요구·결정·규칙, V&V KB에서는 시나리오·합격 기준이다 (0.5절, 6.3절)."@ko .
+
+agt:Runbook a owl:Class ;
+    rdfs:label "runbook"@en , "대응 절차"@ko ;
+    skos:definition "대응 절차 — 상승으로 승격된 스킬. 실행 기록의 반복 패턴이 절차로 일반화된 것이며 -kg에 저장한다 (0.5절)."@ko .

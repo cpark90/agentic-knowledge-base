@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0078
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0078
+type: decision
 level: concrete
-label_ko: 청크의 다섯 상태와 전이
-label_en: Five chunk states and their transitions
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 청크의 다섯 상태와 전이
+title: Five chunk states and their transitions
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 청크도 가정·링크와 **같은 상태 기계**를 갖는다.
 

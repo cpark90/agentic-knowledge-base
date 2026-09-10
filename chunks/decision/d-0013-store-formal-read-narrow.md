@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0013
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0013
+type: decision
 level: concrete
-label_ko: 형식으로 저장하고 좁게 읽는다
-label_en: Store formally, read narrowly
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 형식으로 저장하고 좁게 읽는다
+title: Store formally, read narrowly
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
+generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 저장과 읽기를 2층으로 분리한다. 저장 층은 형식 그래프(검증되고
 연결된 단일 진실 공급원)로 두고 통째로 읽지 않으며, 읽기 층은 요청별로

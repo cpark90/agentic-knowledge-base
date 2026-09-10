@@ -1,0 +1,7 @@
+# 안티패턴: 기준 없는 verifies — 무엇으로 검증했는지 없으면 검증이 아니다 (노트 7.11절)
+# 기준 연결 = verifies의 주어가 합격 기준(ContractChunk)을 refines 한다.
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+SELECT ?s ?o WHERE {
+  ?s agt:verifies ?o .
+  FILTER NOT EXISTS { ?s agt:refines ?c . ?c a agt:ContractChunk }
+}

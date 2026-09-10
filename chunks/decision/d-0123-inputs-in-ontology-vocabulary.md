@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0123
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0123
+type: decision
 level: concrete
-label_ko: 입력은 온톨로지 어휘로 쓰고 버전 관리한다
-label_en: Inputs are written in ontology vocabulary and versioned
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 입력은 온톨로지 어휘로 쓰고 버전 관리한다
+title: Inputs are written in ontology vocabulary and versioned
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 9.1절의 모든 입력을 온톨로지 어휘로 쓰고, ODD와 같은 방식으로
 버전 관리한다.

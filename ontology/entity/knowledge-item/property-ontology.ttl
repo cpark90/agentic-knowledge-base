@@ -17,11 +17,11 @@ agt:lineCount a owl:DatatypeProperty ;
     rdfs:label "line count"@en , "본문 줄 수"@ko ;
     skos:definition "assertion 본문의 줄 수. 42 이하. 청크 파일에서 자동 계산된다 (4.1절)."@ko .
 
-agt:state a owl:DatatypeProperty ;
+agt:status a owl:DatatypeProperty ;
     rdfs:domain agt:KnowledgeItem ;
     rdfs:range xsd:string ;
-    rdfs:label "state"@en , "상태"@ko ;
-    skos:definition "청크 상태 기계의 현재 상태: draft / valid / suspect / invalidated / deprecated (4.11절)."@ko .
+    rdfs:label "status"@en , "상태"@ko ;
+    skos:definition "지식 항목 상태 기계의 현재 값. OKF의 draft / stable / deprecated 를 그대로 쓰고, 무효화 메커니즘이 요구하는 suspect(재검토 필요) / invalidated(가정 거짓) 둘을 확장으로 더한다. stable 은 4.11절의 valid 에 해당한다 (4.11절)."@ko .
 
 agt:hasDirectPart a owl:ObjectProperty ;
     rdfs:domain agt:Composite ;
@@ -34,3 +34,9 @@ agt:assertionLocation a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:label "assertion location"@en , "본문 위치"@ko ;
     skos:definition "청크 IRI에서 assertion 본문 저장 위치로의 사상. 산문 계열은 저장소 상대 파일 경로, 코드 계열은 심볼 ID (4.9절)."@ko .
+
+agt:contentHash a owl:DatatypeProperty ;
+    rdfs:domain agt:Chunk ;
+    rdfs:range xsd:string ;
+    rdfs:label "content hash"@en , "내용 해시"@ko ;
+    skos:definition "본문의 정규화 해시. 지속 IRI(uuid)에 이 해시를 더한 것이 버전 IRI이며, 본문이 바뀌면 해시가 바뀌어 그 IRI를 끝으로 하는 링크가 suspect가 된다 — 변경 감지가 diff가 아니라 해시 비교다 (0.7절, 4.8절)."@ko .

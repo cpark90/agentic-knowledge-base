@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0155
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0155
+type: decision
 level: concrete
-label_ko: 추적 매트릭스 화면의 상호작용
-label_en: Interaction of the traceability matrix screen
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 추적 매트릭스 화면의 상호작용
+title: Interaction of the traceability matrix screen
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 추적 매트릭스 화면의 행·열은 plane이고, 셀 클릭은 그 셀의 링크
 목록(라벨 + 상태)을 연다. `suspect` 셀과 "TIM 허용 & 0" 칸은 색으로

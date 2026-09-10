@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0129
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0129
+type: decision
 level: concrete
-label_ko: 입력 간 의존 순서
-label_en: Dependency order among inputs
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 입력 간 의존 순서
+title: Dependency order among inputs
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 입력끼리 순서가 있다. 앞의 것이 바뀌면 뒤의 것이 재검토된다.
 세 사슬로 정리한다.

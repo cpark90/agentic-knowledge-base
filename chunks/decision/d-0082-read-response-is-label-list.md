@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0082
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0082
+type: decision
 level: concrete
-label_ko: 라벨이 인터페이스 — 읽기 응답은 라벨 목록이 기본
-label_en: The label is the interface - reads return a label list by default
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 라벨이 인터페이스 — 읽기 응답은 라벨 목록이 기본
+title: The label is the interface - reads return a label list by default
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — **라벨이 청크의 인터페이스다.** 읽기 응답의 기본은 본문이 아니라
 **청크 라벨 목록**이고, 에이전트는 라벨 목록을 먼저 받아 필요한 청크만

@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0176
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0176
+type: decision
 level: concrete
-label_ko: 자동 선택은 전순서 정책으로 결정한다
-label_en: Automatic choice needs a total-order selection policy
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
-generated_at: 2026-09-02T00:00:00+09:00
+title_ko: 자동 선택은 전순서 정책으로 결정한다
+title: Automatic choice needs a total-order selection policy
+status: stable
+sources: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
+generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 후보가 여럿 남은 채로도 산출을 내야 하는 무인 경로에서는 사람의
 선택을 기다리지 않고 **전순서(total order) 선택 정책**으로 하나를 고른다.

@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0143
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0143
+type: decision
 level: concrete
-label_ko: 알려지지 않은 위험 시나리오의 두 원인
-label_en: Two sources of unknown risk scenarios
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 알려지지 않은 위험 시나리오의 두 원인
+title: Two sources of unknown risk scenarios
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 알려지지 않은 위험 시나리오는 둘 중 하나에서 온다. **알려지지
 않은 요인**(`defect` 어휘에 없는 요인)과 **알려진 요인의 알려지지 않은

@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0098
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0098
+type: decision
 level: concrete
-label_ko: 링크 가능성을 제약 만족 문제로 사상
-label_en: Mapping link possibility to a constraint satisfaction problem
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 링크 가능성을 제약 만족 문제로 사상
+title: Mapping link possibility to a constraint satisfaction problem
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크의 가능성을 **제약 만족 문제(CSP)** 로 다룬다. 변수와
 도메인이 값이 아니라 링크로 정의된다.

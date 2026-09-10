@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0097
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0097
+type: decision
 level: concrete
-label_ko: 링크의 가능성은 확률이 아니라 가능 집합
-label_en: Link possibility as feasible set, not probability
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 링크의 가능성은 확률이 아니라 가능 집합
+title: Link possibility as feasible set, not probability
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크의 가능성은 **가능 / 불가능**의 가능 집합(제약 만족)
 수준으로만 표현한다. 등급([0,1] 확률·가능성 측도)은 쓰지 않는다.

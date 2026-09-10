@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0024
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0024
+type: decision
 level: concrete
-label_ko: 지어낸 용어를 쓰지 않는다
-label_en: No invented terminology
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 지어낸 용어를 쓰지 않는다
+title: No invented terminology
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 확립된 표준어가 있으면 그것을 쓰고, 없을 때만 새로 만든다.
 개념의 **최상위 분류는 상위 온톨로지에서 가져온다** — "결정이 무엇인가"를

@@ -1,0 +1,13 @@
+# 안티패턴: 신뢰 전파 위반 — 확정 상태인데 파생 연쇄 전체가 origin:imported (노트 2.12절)
+# 연쇄 어딘가에 사람 검토(verifiedBy human:*)나 designed/observed 출처가 있어야 한다.
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?chunk WHERE {
+  ?chunk agt:status "stable" ; agt:taggedWith ?t .
+  ?t agt:inTagCategory agt:originCategory .
+  FILTER NOT EXISTS { ?chunk agt:verifiedBy ?v . FILTER(STRSTARTS(?v, "human:")) }
+  FILTER NOT EXISTS {
+    ?chunk (prov:wasDerivedFrom)* ?anc .
+    ?anc agt:taggedWith ?dt . FILTER(?dt != ?t)
+  }
+}

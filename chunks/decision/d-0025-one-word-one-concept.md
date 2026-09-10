@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0025
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0025
+type: decision
 level: concrete
-label_ko: 한 단어에 한 개념 — 동음 충돌 회피
-label_en: One word, one concept
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 한 단어에 한 개념 — 동음 충돌 회피
+title: One word, one concept
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 같은 한글 단어를 두 개념에 쓰지 않는다. 충돌하는 자리마다 한쪽에
 **다른 단어를 배정**해 1:1로 고정한다.

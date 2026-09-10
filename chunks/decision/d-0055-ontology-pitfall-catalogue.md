@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0055
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0055
+type: decision
 level: concrete
-label_ko: 온톨로지 결함 카탈로그로 설계 결함을 주기 평가한다
-label_en: Periodic ontology evaluation via a pitfall catalogue
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 온톨로지 결함 카탈로그로 설계 결함을 주기 평가한다
+title: Periodic ontology evaluation via a pitfall catalogue
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 2.5절 위생 검사 외에, 표준 온톨로지 결함 카탈로그(pitfall
 catalogue)로 설계 결함을 주기적으로 검사한다.

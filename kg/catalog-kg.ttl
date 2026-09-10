@@ -73,7 +73,8 @@ id:scope-developer a agt:Scope ;
     agt:subsetOf id:odd-agentic-knowledge-base ;
     agt:includesCondition id:cond-build-system , id:cond-python-runtime ,
         id:cond-dependency-lock ;
-    agt:excludesCondition id:cond-network .
+    agt:excludesCondition id:cond-network ;
+    agt:conditionalRule "노트 10.2절 9역할 카탈로그의 design 역할(T-Box·ODD 편집)을 이 저장소에서는 developer가 겸한다 — 부분집합 사용은 프로젝트 재량 (유저 결정 C4, 2026-09-10). V&V KB(kb/vv/)는 읽기 전용" .
 
 id:scope-vnv a agt:Scope ;
     rdfs:label "verification and validation scope"@en , "검증·확인 스코프"@ko ;
@@ -81,7 +82,7 @@ id:scope-vnv a agt:Scope ;
     agt:subsetOf id:odd-agentic-knowledge-base ;
     agt:includesCondition id:cond-build-system , id:cond-python-runtime ,
         id:cond-repo-layout ;
-    agt:conditionalRule "판정만 한다 — 게이트 결과를 annotation 청크로 쓰되 판정 대상(artifact·decision)은 수정하지 않는다 (9.2절 저작·판정 분리)" .
+    agt:conditionalRule "판정만 한다 — 판정 대상(artifact·decision)은 수정하지 않는다 (저작·판정 분리). V&V KB(kb/vv/)의 유일한 편집 주체다 — verifies의 주어는 V&V KB 청크뿐이고, 개발 역할은 kb/vv/를 읽기만 한다 (노트 7.1·7.5절)" .
 
 id:scope-inspection a agt:Scope ;
     rdfs:label "inspection scope"@en , "조사 스코프"@ko ;

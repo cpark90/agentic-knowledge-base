@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0026
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0026
+type: decision
 level: concrete
-label_ko: 지식 표현의 좌표는 plane과 level 두 축
-label_en: Knowledge is located by two axes, plane and level
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 지식 표현의 좌표는 plane과 level 두 축
+title: Knowledge is located by two axes, plane and level
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 모든 지식 **표현**의 위치는 두 축으로 정해진다.
 **plane**(지식의 종류, 한글 "평면"): `annotation`, `decision`, `schema`,

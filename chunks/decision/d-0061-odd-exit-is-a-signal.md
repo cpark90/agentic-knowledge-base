@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0061
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0061
+type: decision
 level: concrete
-label_ko: ODD 이탈은 결함이 아니라 신호다
-label_en: ODD exit is a signal, not a defect
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: ODD 이탈은 결함이 아니라 신호다
+title: ODD exit is a signal, not a defect
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 실행 시점의 실제 조건을 `run-kg`에 관측으로 기록하고 ODD와
 대조한다. 속성 하나 이상이 ODD 밖이면 **ODD 이탈**이며, 이탈은 결함이 아니라

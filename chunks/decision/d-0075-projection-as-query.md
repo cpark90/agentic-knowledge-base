@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0075
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0075
+type: decision
 level: concrete
-label_ko: 뷰는 저장하지 않고 질의로 조립한다
-label_en: Views are assembled by query, never stored
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 뷰는 저장하지 않고 질의로 조립한다
+title: Views are assembled by query, never stored
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 이 체계의 모든 투영은 **그래프 질의의 결과**이며 저장하지
 않는다. 문학적 프로그래밍의 두 연산(tangle, weave)도 별도 도구가 아니라

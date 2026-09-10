@@ -1,13 +1,19 @@
-# 청크 — plane 하위 클래스: plane은 청크의 특수화다 (노트 4.2절)
+# 청크 — plane 하위 클래스: plane 7개, 판정 방식으로 정의된다 (노트 4.2절, 5.1절 v3)
+# 순서(변화 속도): requirement → decision → contract·schema → artifact → annotation → memory
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
+agt:RequirementChunk a owl:Class ;
+    rdfs:subClassOf agt:Chunk ;
+    rdfs:label "requirement chunk"@en , "요구 청크"@ko ;
+    skos:definition "requirement plane의 청크 — 이해관계자와 관심사를 명시한 요구 문장(EARS 권장). 판정은 이해관계자 합의이고 변화가 가장 느린 최상위 plane이며 functional level 전용이다. 논평의 합의와 다르다 — 요구의 합의는 '이것을 원한다'에 대한 동의로 사다리의 출발점이다 (5.1절)."@ko .
+
 agt:DecisionChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;
     rdfs:label "decision chunk"@en , "결정 청크"@ko ;
-    skos:definition "decision plane의 청크. 결론·근거·대안 중 하나의 역할 태그를 갖는 구조화 산문 (4.2절, 4.12절)."@ko .
+    skos:definition "decision plane의 청크. 결론·근거·대안 중 하나의 역할을 갖는 구조화 산문이며, 결정 하나는 그 세 청크의 구성체다. abstract~concrete에 거주한다 (4.2절, 4.7절, 4.12절)."@ko .
 
 agt:ContractChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;

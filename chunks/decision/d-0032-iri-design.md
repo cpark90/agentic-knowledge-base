@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0032
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0032
+type: decision
 level: concrete
-label_ko: 불투명 지속 IRI와 해시 버전 IRI
-label_en: Opaque persistent IRI and content-hash version IRI
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 불투명 지속 IRI와 해시 버전 IRI
+title: Opaque persistent IRI and content-hash version IRI
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 청크·구성체·링크·가정은 전부 개체이므로 IRI를 갖는다. 지속성과
 버전을 IRI 구조로 표현한다.

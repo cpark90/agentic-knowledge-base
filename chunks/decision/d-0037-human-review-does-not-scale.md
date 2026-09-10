@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0037
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0037
+type: decision
 level: concrete
-label_ko: 사람의 검토로는 품질을 지킬 수 없다
-label_en: Human review cannot hold quality
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 사람의 검토로는 품질을 지킬 수 없다
+title: Human review cannot hold quality
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — **사람의 검토로 품질을 지키는 방식은 처음부터 성립하지 않는다**고
 전제한다. 대신 지식 접근을 **구조로** 통제한다 — 스코프가 무엇을 보는지를

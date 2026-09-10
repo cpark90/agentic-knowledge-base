@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0137
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0137
+type: decision
 level: concrete
-label_ko: 재현성은 환경 배정의 조건이다
-label_en: Reproducibility is a condition of rung assignment
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 재현성은 환경 배정의 조건이다
+title: Reproducibility is a condition of rung assignment
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 1~4단계 시나리오는 재현 가능해야 한다. 재현성은 시나리오의
 속성이 아니라 **환경 배정의 조건**이며, 재현되지 않는 시나리오는 5~6단계로

@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0076
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0076
+type: decision
 level: concrete
-label_ko: 모든 지식 항목은 청크의 구성체다
-label_en: Every knowledge item is a composite of chunks
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 모든 지식 항목은 청크의 구성체다
+title: Every knowledge item is a composite of chunks
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 이 체계에 "청크가 아닌 지식 항목"은 없다. 모든 지식 항목은
 청크이거나 청크의 구성체다. 결정은 결론·근거·대안 세 `agt:DecisionChunk`의

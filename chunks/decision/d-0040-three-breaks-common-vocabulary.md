@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0040
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0040
+type: decision
 level: concrete
-label_ko: 세 단절의 공통 원인은 공통 어휘의 부재
-label_en: The three breaks share one cause, no common vocabulary
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 세 단절의 공통 원인은 공통 어휘의 부재
+title: The three breaks share one cause, no common vocabulary
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 좁게 보고 자기 방향으로 틀리는 행위자 여럿이 한 프로젝트를 만들면
 **세 곳에서 끊어지며, 공통 원인은 공통 어휘의 부재다.** 그래서 이 체계는

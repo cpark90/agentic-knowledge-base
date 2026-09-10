@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0131
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0131
+type: decision
 level: concrete
-label_ko: 검증의 두 대상 — 제품과 에이전트
-label_en: Two verification targets: product and agent
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 검증의 두 대상 — 제품과 에이전트
+title: Two verification targets: product and agent
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 검증 대상이 둘이다. **제품**(에이전트가 만든 소프트웨어)과
 **에이전트**(소프트웨어를 만드는 주체) 자체. 둘을 섞으면 "무엇이 틀렸는가"가

@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0041
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0041
+type: decision
 level: concrete
-label_ko: 컨텍스트 예산을 항목별로 분해하고 통제한다
-label_en: Break down the context budget and control each item
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 컨텍스트 예산을 항목별로 분해하고 통제한다
+title: Break down the context budget and control each item
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 1.1절의 200줄은 전부 지식에 쓰이지 않는다. 예산을 항목으로
 분해하고 **각 항목에 통제 수단을 붙이며, 지식 청크 본문은 나머지를 받는

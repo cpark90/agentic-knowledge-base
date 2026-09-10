@@ -1,12 +1,12 @@
 ---
-iri: https://agentic-knowledge-base.dev/id/chunk-d0085
-plane: decision
+id: https://agentic-knowledge-base.dev/id/chunk-d0085
+type: decision
 level: concrete
-label_ko: 재현성은 인터프리터가 아니라 형식 언어가 만든다
-label_en: Reproducibility comes from a formal language, not an interpreter
-state: valid
-derived_from: [https://agentic-knowledge-base.dev/id/doc-system-notes]
-generated_at: 2026-09-01T00:00:00+09:00
+title_ko: 재현성은 인터프리터가 아니라 형식 언어가 만든다
+title: Reproducibility comes from a formal language, not an interpreter
+status: deprecated
+sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 온톨로지에 대응하는 **형식 언어를 정의하고 그 파일 자체를
 산출물로 삼는다.** 온톨로지를 읽어 자유형 문서를 생성하는 방식은 쓰지
