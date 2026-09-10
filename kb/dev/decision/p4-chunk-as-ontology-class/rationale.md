@@ -22,7 +22,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/dd76498b-2cca-4b79-a1fe
 |---|---|---|
 | 인지과학 | chunk (7±2) | 42줄과 구성 상한(4.5절)의 근거 |
 | 구조적 글쓰기 | information block | 청크 shape (4.4절) |
-| 문학적 프로그래밍 | chunk | 투영 질의 (4.6절) |
+| 문학적 프로그래밍 | chunk | 뷰 질의 (4.6절) |
 | 모듈형 문서 | topic | plane 하위 클래스 (4.2절) |
 
 - `Chunk`와 `Composite`를 disjoint로 두면 "본문을 가진 것"과 "부분만 가진 것"의

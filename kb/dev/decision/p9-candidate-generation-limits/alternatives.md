@@ -15,7 +15,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/24a2256b-3151-4896-a1f5
 |---|---|---|
 | `refines` | 9.3절 구축 기록. 전이 시점에 하나 | 1 |
 | `satisfies` | 편집 컨텍스트가 읽은 `decision` 청크 | 읽은 수 |
-| `constrains` | 같은 구성체 안의 `schema`·`contract` 청크 | 구성체 크기 |
+| `constrains` | 같은 복합체 안의 `schema`·`contract` 청크 | 복합체 크기 |
 | `verifies` | 같은 전이에서 태어난 logical 기준 (6.8절) | 기준 수 |
 | `assumes` | 스코프가 inherit한 ODD 속성 | 속성 수 |
 | 복원 (9.4절) | 임베딩 상위 k | k ≤ 7 |

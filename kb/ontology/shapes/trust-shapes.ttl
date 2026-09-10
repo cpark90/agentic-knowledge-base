@@ -1,4 +1,4 @@
-# shape — 트러스트: 생성 주체와 검증 시각의 정합 (노트 8.10절, OKF v0.2)
+# shape — 신뢰 등급: 생성 주체와 검증 시각의 정합 (노트 8.10절, OKF v0.2)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .

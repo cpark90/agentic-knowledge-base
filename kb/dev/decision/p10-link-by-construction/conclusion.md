@@ -18,7 +18,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/6651b045-a578-41
 
 | 기록 | 링크 |
 |---|---|
-| 사다리 전이 (6.2절) | `refines` |
+| 계층 전이 (6.2절) | `refines` |
 | 결정을 읽고 코드를 씀 | `satisfies` 후보 |
 | 결정을 읽고 결정을 씀 | `derives-from` 후보 |
 | 스코프의 조건을 참조함 | `assumes` |

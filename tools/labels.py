@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""라벨 목록 투영 — 청크 파일들의 head에서 index.md를 생성한다 (노트 5.6절, 부록 E.2).
+"""라벨 목록 뷰 — 청크 파일들의 head에서 index.md를 생성한다 (노트 5.6절, 부록 E.2).
 
 index.md는 OKF 예약 파일이며 손으로 쓰지 않는다 (유저 결정 2026-09-10 Q4). 라벨 목록이
 본문보다 먼저 읽히는 것(4.4절)의 파일 형태이고, 생성물이어야 본문과 어긋나지 않는다.
@@ -30,7 +30,7 @@ def main() -> int:
     for d in sorted(groups):
         out.append(f"## {d}")
         for meta, n, path in sorted(groups[d], key=lambda t: (t[0]["type"], t[0]["level"], t[0]["title_ko"])):
-            comp = " · 구성체" if meta.get("composite") else ""
+            comp = " · 복합체" if meta.get("composite") else ""
             out.append(f"- [{meta['title_ko']}]({Path(path).name}) — {meta['title']} · {meta['type']}/{meta['level']} · {meta['status']} · {n}줄{comp}")
         out.append("")
     Path(args.out).write_text("\n".join(out), encoding="utf-8")

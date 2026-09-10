@@ -12,4 +12,4 @@ supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0133]
 part_of: https://agentic-knowledge-base.dev/id/composite/229d2de0-e6eb-432a-9548-5ea5898ce770
 composite: {id: https://agentic-knowledge-base.dev/id/composite/229d2de0-e6eb-432a-9548-5ea5898ce770, title_ko: 시뮬레이션 프로젝트, title: The simulation project}
 ---
-**결론** — 환경 사다리 3단계의 **시뮬레이션 프로젝트**가 에이전트 검증의 중심이다. 실제 서비스의 **서브셋을 격리 구축**하고, 미리 정의한 요구를 에이전트가 산출물로 하강하게 한다. 유저 피드백은 자동 응답으로 대신하고 seed를 고정한다.
+**결론** — 환경 계층 3단계의 **시뮬레이션 프로젝트**가 에이전트 검증의 중심이다. 실제 서비스의 **서브셋을 격리 구축**하고, 미리 정의한 요구를 에이전트가 산출물로 정제하게 한다. 유저 피드백은 자동 응답으로 대신하고 seed를 고정한다.

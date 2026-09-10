@@ -14,6 +14,6 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/205cefbf-aaf5-4b
 ---
 **결론** — **커버리지는 측정 지표다.** 완전성을 전제한 무인 운영은 성립하지 않는다. 세 지표로 잰다.
 
-- **하강 완주율** — executable까지 닿은 requirement 청크 비율. 분모는 requirement 청크 수
-- **상향 귀속률** — functional까지 거슬러 오르는 executable 청크 비율. 분모는 executable 청크 수
+- **전방 추적 커버리지** — executable까지 닿은 requirement 청크 비율. 분모는 requirement 청크 수
+- **후방 추적 커버리지** — functional까지 거슬러 오르는 executable 청크 비율. 분모는 executable 청크 수
 - **logical 공간 커버** — logical 범위 중 concrete 케이스가 표본 추출한 비율. 분모는 ODD 값 범위 × 변수. **경계값 미커버는 별도 집계**

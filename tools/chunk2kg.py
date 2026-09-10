@@ -20,8 +20,8 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
   sources:      출처 IRI 목록 (선택, prov:wasDerivedFrom) — OKF sources
   refines:      이 항목이 정제하는 상위 항목 IRI 목록 (선택, 수직 링크 9.2절)
   supersedes:   이 항목이 대체하는 항목 IRI 목록 (선택)
-  part_of:      소속 구성체 IRI (선택) — 구성체는 멤버 중 하나가 composite: 로 선언
-  composite:    {id: …, title_ko: …, title: …} (선택) — 구성체 개체 선언
+  part_of:      소속 복합체 IRI (선택) — 복합체는 멤버 중 하나가 composite: 로 선언
+  composite:    {id: …, title_ko: …, title: …} (선택) — 복합체 개체 선언
 
 사용: chunk2kg.py --out <생성.ttl> <청크 파일들...>
 """
@@ -187,7 +187,7 @@ def main() -> int:
             if not (isinstance(comp, dict) and comp.get("id") and comp.get("title_ko") and comp.get("title")):
                 errors.append(f"{path}: composite 는 {{id, title_ko, title}} 이어야 한다")
             elif comp["id"] in composites:
-                errors.append(f"{path}: 구성체 {comp['iri']} 가 중복 선언됨")
+                errors.append(f"{path}: 복합체 {comp['iri']} 가 중복 선언됨")
             else:
                 composites[comp["id"]] = {"ko": comp["title_ko"], "en": comp["title"], "members": []}
         if meta.get("part_of"):
@@ -195,12 +195,12 @@ def main() -> int:
         blocks.append(emit_chunk(path, meta, n))
     for chunk_iri, comp_iri, path in part_refs:
         if comp_iri not in composites:
-            errors.append(f"{path}: part_of 대상 구성체 {comp_iri} 가 이 묶음 안에 선언되지 않았다")
+            errors.append(f"{path}: part_of 대상 복합체 {comp_iri} 가 이 묶음 안에 선언되지 않았다")
         else:
             composites[comp_iri]["members"].append(chunk_iri)
     for iri, c in sorted(composites.items()):
         if not c["members"]:
-            errors.append(f"구성체 {iri} 에 부분이 없다")
+            errors.append(f"복합체 {iri} 에 부분이 없다")
             continue
         parts = " ,\n        ".join(f"<{m}>" for m in c["members"])
         blocks.append(

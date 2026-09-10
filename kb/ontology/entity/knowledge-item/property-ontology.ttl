@@ -27,7 +27,7 @@ agt:hasDirectPart a owl:ObjectProperty ;
     rdfs:domain agt:Composite ;
     rdfs:range agt:KnowledgeItem ;
     rdfs:label "has direct part"@en , "직접 부분을 갖는다"@ko ;
-    skos:definition "구성체의 직접 부분. 최대 9개(7±2). 상위 온톨로지 도입 시 표준 part-of의 하위 속성으로 정렬한다 (4.5절)."@ko .
+    skos:definition "복합체의 직접 부분. 최대 9개(7±2). 상위 온톨로지 도입 시 표준 part-of의 하위 속성으로 정렬한다 (4.5절)."@ko .
 
 agt:assertionLocation a owl:DatatypeProperty ;
     rdfs:domain agt:Chunk ;

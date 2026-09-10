@@ -19,4 +19,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/23431e57-2877-4a
   ODD 동적 요소 안에 있을 것
 - **태그 어휘** — 태그가 온톨로지 개념일 것. 중복 없음
 - **프로세스 규칙** — 스코프 conditional로 표현 가능할 것. 순환 없음
-- **재판정 경계** — 최소 하나
+- **재검증 시점** — 최소 하나

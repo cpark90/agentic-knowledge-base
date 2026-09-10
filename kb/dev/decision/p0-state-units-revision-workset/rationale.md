@@ -17,4 +17,4 @@ part_of: https://agentic-knowledge-base.dev/id/composite/52124ca7-97f8-4b5e-818f
 - 작업 집합을 저장하지 않는 것도 같은 이유다. 저장하면 질의 조건이 바뀌었을 때
   옛 집합이 남아 무엇이 현재의 dispatch 입력인지 흐려진다.
 - 두 필터가 분리되어 있어야 역할별 조망을 조합으로 만들 수 있다 — plane 권한은
-  스코프가, 사다리 높이는 level 창이 담당한다.
+  스코프가, 계층 높이는 level 창이 담당한다.

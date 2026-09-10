@@ -24,8 +24,8 @@
 | abstract 단계 — functional과 logical 사이의 형식화 | ISO 34501, ASAM OpenSCENARIO |
 | 결함의 구성 — 3갈래 요인의 조합으로 위험 시나리오 | ISO 34502 |
 | 알려진 것과 알려지지 않은 것 — 미지 요인 vs 미지 조합 | ISO 21448 |
-| 검증 환경 사다리(MIL→SIL→HIL→실차)의 충실도·통제·재현성 | X-in-the-loop 검증, ISO 26262 V-모델 |
-| 시나리오의 환경 배정, 합격 기준 분리, 재현성 조건 | ISO 34502 |
+| 검증 환경 계층(MIL→SIL→HIL→실차)의 충실도·통제·재현성 | X-in-the-loop 검증, ISO 26262 V-모델 |
+| 시나리오의 환경 할당, 합격 기준 분리, 재현성 조건 | ISO 34502 |
 
 ### 온톨로지 공학
 
@@ -33,9 +33,9 @@
 |---|---|
 | 상위 온톨로지 — BFO 기반 구축 | kul-ai/ontology-autonomous-driving |
 | 모듈 구조 — entity/related 분리, 어휘/형식화 분리 | lu-w/auto |
-| 온톨로지 위생 — 자동 검사와 정규화 직렬화 | kul-ai/ontology-autonomous-driving |
+| 온톨로지 품질 검사 — 자동 검사와 정규화 직렬화 | kul-ai/ontology-autonomous-driving |
 | 시간 정체성 — 개체의 시간 관통 정체성 | lu-w/auto |
-| 경쟁 질문 — 온톨로지 요구사항 정의 | METHONTOLOGY, NeOn |
+| 역량 질문 — 온톨로지 요구사항 정의 | METHONTOLOGY, NeOn |
 | 관계 어휘 — 표준 관계 재사용 | Relations Ontology |
 | 추론 프로파일 — OWL 2 RL/EL/DL | W3C OWL 2 |
 | 결함 카탈로그 — 온톨로지 pitfall 검사 | OOPS! |
@@ -83,7 +83,7 @@
 
 ## 2. 참조 프로파일
 
-골격을 소프트웨어 개발 작업에 특수화한 결정들은 [`ontology.md`](ontology.md)의 "참조
+코어을 소프트웨어 개발 작업에 특수화한 결정들은 [`ontology.md`](ontology.md)의 "참조
 프로파일" 표로 옮겼다 — 그것은 출처 기록이 아니라 어휘의 일부이기 때문이다.
 
 ## 3. 관련 산출물과 사례

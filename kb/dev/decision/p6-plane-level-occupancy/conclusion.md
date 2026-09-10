@@ -10,9 +10,9 @@ generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0084]
 part_of: https://agentic-knowledge-base.dev/id/composite/8387ed4f-09c5-48b5-b682-704a045a79a1
-composite: {id: https://agentic-knowledge-base.dev/id/composite/8387ed4f-09c5-48b5-b682-704a045a79a1, title_ko: plane × level 거주표, title: The plane x level occupancy table}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/8387ed4f-09c5-48b5-b682-704a045a79a1, title_ko: plane × level 수준 허용표, title: The plane x level occupancy table}
 ---
-**결론** — level이 정제 높이이므로 **모든 plane이 모든 level을 갖지 않는다.** 각 plane은 정해진 구간에만 거주한다.
+**결론** — level이 정제 수준이므로 **모든 plane이 모든 level을 갖지 않는다.** 각 plane은 정해진 구간에만 거주한다.
 
 - `requirement` — functional **전용**
 - `decision` — abstract(결정 변수 선언) · logical(후보·제약·배제 근거·기준) · concrete(확정된 값)

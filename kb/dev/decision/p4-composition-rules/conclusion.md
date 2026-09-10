@@ -24,5 +24,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/27157a50-048e-4b
 **동질성이 핵심이다.** `part-of`는 같은 plane·level 안에서 청크를 묶는 유일한
 수단이고, plane이나 level을 넘는 모든 관계는 링크(Part X)다.
 
-**구성체의 상태는 부분에서 추론된다** — 부분 청크 하나가 `invalidated`이면
-구성체는 `suspect`. 이 추론은 `defect-rules`의 규칙 하나다.
+**복합체의 상태는 부분에서 추론된다** — 부분 청크 하나가 `invalidated`이면
+복합체는 `suspect`. 이 추론은 `defect-rules`의 규칙 하나다.

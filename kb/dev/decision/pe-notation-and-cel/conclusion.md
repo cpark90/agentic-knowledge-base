@@ -19,6 +19,6 @@ part_of: https://agentic-knowledge-base.dev/id/composite/ffcf1fe8-be2a-4a21-b532
 | abstract | 변수 선언 YAML + plane별 표기 (IDL / 결론·근거·대안) | `scenario` parameter + actor |
 | logical | 범위·제약 YAML + CEL / `schema`는 JSON Schema 자체 | `keep(범위)` + 기준 청크(CEL) + `cover()` |
 | concrete | 값 레코드 + 표본 근거 | `keep(고정값)` — 생성 결과 |
-| executable | 앵커 (소스에서 추출한 stub) | verifier 앵커 + 계산 필드 |
+| executable | 앵커 (소스에서 추출한 stub) | 검증기 앵커 + 계산 필드 |
 
 판정식은 네 곳(ODD 판정 방법·가정·합격 기준·후보 제약) 전부 **CEL** 하나. OpenODD 식과 `keep()`은 표준 표기를 쓰되 실행 시 CEL로 변환된다. 이 저장소: CEL 평가기는 도입 5단계 (유저 결정 Q9).

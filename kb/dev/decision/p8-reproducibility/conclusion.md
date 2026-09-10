@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/36a0b6fa-ac60-47db-a769-b49d067f6854
 type: decision
 level: concrete
-title_ko: 재현성은 검증 청크의 속성이 아니라 환경 배정의 조건이다
+title_ko: 재현성은 검증 청크의 속성이 아니라 환경 할당의 조건이다
 title: Reproducibility is a condition of environment assignment, not a chunk attribute
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
@@ -20,6 +20,6 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/c71e12a1-2a31-43
 - **환경 버전** — 실행 단계, mock 버전, 인프라 버전
 - **에이전트 버전**(에이전트 검증 시) — 모델, 하네스, 스코프 버전
 
-**재현이 안 되는 검증은 5~6단계로 강등된다.** 재현성은 검증 청크의 속성이 아니라 **환경 배정의 조건**이다.
+**재현이 안 되는 검증은 5~6단계로 강등된다.** 재현성은 검증 청크의 속성이 아니라 **환경 할당의 조건**이다.
 
-실행 기록에서 일반화할 때(6.3절 상승) 재현 가능한 형태로 만들 수 없는 관측은 `origin:observed` 태그를 유지한 채 6단계 관측으로 남긴다 — 억지로 concrete 케이스로 만들지 않는다.
+실행 기록에서 일반화할 때(6.3절 일반화) 재현 가능한 형태로 만들 수 없는 관측은 `origin:observed` 태그를 유지한 채 6단계 관측으로 남긴다 — 억지로 concrete 케이스로 만들지 않는다.

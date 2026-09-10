@@ -12,7 +12,7 @@ supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0032]
 part_of: https://agentic-knowledge-base.dev/id/composite/eb847899-2640-4bca-955a-7f511528bc1d
 composite: {id: https://agentic-knowledge-base.dev/id/composite/eb847899-2640-4bca-955a-7f511528bc1d, title_ko: 불투명 지속 IRI와 해시 버전 IRI, title: Opaque persistent IRI and content-hash version IRI}
 ---
-**결론** — 청크·구성체·링크·가정은 전부 개체이므로 IRI가 필요하다. 지속성과
+**결론** — 청크·복합체·링크·가정은 전부 개체이므로 IRI가 필요하다. 지속성과
 버전을 IRI 구조로 표현한다.
 
 - **지속 IRI** — `agt:chunk/<uuid>`. 내용과 무관한 불투명 식별자

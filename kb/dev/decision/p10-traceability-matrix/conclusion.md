@@ -29,7 +29,7 @@ level × level  (refines만)
 abstract          14/0       —         —        —
 logical            —       11/1        —        —
 concrete           —         —        9/0       —
-executable         —         —         —       9/0     ← 하강 완주 9/14
+executable         —         —         —       9/0     ← 정제 완주 9/14
 ```
 
-**plane × plane은 "TIM이 허용하는데 0"인 칸을 우선 검토한다. level × level 매트릭스는 하강 완주를 보여준다** — 한 칸씩 내려가며 수가 줄어드는 지점이 사슬이 끊긴 곳이다.
+**plane × plane은 "TIM이 허용하는데 0"인 칸을 우선 검토한다. level × level 매트릭스는 정제 완주를 보여준다** — 한 칸씩 내려가며 수가 줄어드는 지점이 사슬이 끊긴 곳이다.

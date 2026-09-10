@@ -16,4 +16,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/3b728259-9d19-46
 
 형식 언어의 어휘는 온톨로지에서 온다 — 언어를 따로 설계하는 것이 아니라 **온톨로지 개념을 그대로 키워드로 쓰는 표기**가 된다.
 
-이 언어는 사다리의 **abstract 단계**를 표현한다. functional → abstract 전이가 곧 "이 언어로 옮기기"이며, 이후 단계는 이 언어 위에 도메인과 값을 채우는 것이다.
+이 언어는 계층의 **abstract 단계**를 표현한다. functional → abstract 전이가 곧 "이 언어로 옮기기"이며, 이후 단계는 이 언어 위에 도메인과 값을 채우는 것이다.

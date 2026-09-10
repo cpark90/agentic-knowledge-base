@@ -1,4 +1,4 @@
-# shape — 구성체: 7±2 인지 한계 (노트 4.5절)
+# shape — 복합체: 7±2 인지 한계 (노트 4.5절)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 

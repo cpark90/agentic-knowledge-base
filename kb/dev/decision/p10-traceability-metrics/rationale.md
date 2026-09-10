@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/7689649d-91bd-4238-9873-39caa8461cf0
 type: decision
 level: logical
-title_ko: 지표는 이 파트의 규율이 실제로 지켜지는지를 잰다
+title_ko: 지표는 이 파트의 규칙이 실제로 지켜지는지를 잰다
 title: Each metric measures whether one rule of this part still holds
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]

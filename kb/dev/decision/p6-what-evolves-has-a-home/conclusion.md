@@ -11,7 +11,7 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94
 part_of: https://agentic-knowledge-base.dev/id/composite/cc186a37-0cf9-48c4-b3d9-aa95b76d67f3
 composite: {id: https://agentic-knowledge-base.dev/id/composite/cc186a37-0cf9-48c4-b3d9-aa95b76d67f3, title_ko: 진화 대상의 자리, title: Where each evolving object lands}
 ---
-**결론** — 자기진화 에이전트 연구의 객체 중심 분류(무엇이 진화하는가)를 이 체계에 대응시키면 상승의 산출이 전부 이미 있는 자리로 들어간다. **별도 저장소를 만들지 않는다.**
+**결론** — 자기진화 에이전트 연구의 객체 중심 분류(무엇이 진화하는가)를 이 체계에 대응시키면 일반화의 산출이 전부 이미 있는 자리로 들어간다. **별도 저장소를 만들지 않는다.**
 
 - 기억 → `memory`에서 주제 plane으로 승격 (승격 규칙, 10.4절)
 - 스킬(재사용 절차) → **`agt:Runbook` 청크** — 관측 청크에서 절차를 추출

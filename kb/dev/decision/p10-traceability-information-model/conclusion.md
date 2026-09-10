@@ -14,6 +14,6 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/e9f394a2-e59b-41
 ---
 **결론** — 링크가 무엇을 무엇에 어떻게 이을 수 있는지를 **추적성 정보 모델(traceability information model, TIM)** 로 고정한다. TIM은 셋을 정의한다 — **추적 대상 유형**(plane × 원자 단위), **링크 타입**(9.2절), **제약**(타입별 출발·도착 plane 제한과 카디널리티).
 
-**TIM은 온톨로지의 일부다.** `related/trace` 모듈에 링크 타입을 object property로, plane 제한을 정의역·치역 공리로 둔다. 따라서 2.5절 위생 검사가 TIM에도 적용되고, **검사 게이트가 TIM 위반 링크를 거부한다** — 정의역·치역 밖의 plane, 카디널리티 초과, 단방향 규칙 위반.
+**TIM은 온톨로지의 일부다.** `related/trace` 모듈에 링크 타입을 object property로, plane 제한을 정의역·치역 공리로 둔다. 따라서 2.5절 품질 검사가 TIM에도 적용되고, **검사 게이트가 TIM 위반 링크를 거부한다** — 정의역·치역 밖의 plane, 카디널리티 초과, 단방향 규칙 위반.
 
-**링크의 양 끝은 파일이 아니라 청크 또는 구성체다** (Part IV).
+**링크의 양 끝은 파일이 아니라 청크 또는 복합체다** (Part IV).

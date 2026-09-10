@@ -12,7 +12,7 @@ supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0034]
 part_of: https://agentic-knowledge-base.dev/id/composite/9698cc60-f54e-4dfb-b678-e505d36b8034
 composite: {id: https://agentic-knowledge-base.dev/id/composite/9698cc60-f54e-4dfb-b678-e505d36b8034, title_ko: 정의는 속 더하기 종차로 쓴다, title: Definitions use genus plus differentia}
 ---
-**결론** — 온톨로지의 모든 개념은 텍스트 정의를 갖는다 (2.5절 위생). 정의
+**결론** — 온톨로지의 모든 개념은 텍스트 정의를 갖는다 (2.5절 품질 검사). 정의
 형식은 상위 온톨로지 커뮤니티의 관행을 따라 **속(genus) + 종차(differentia)**로
 쓴다 — "A는 [상위 개념] 중 [구별 조건]인 것이다."
 

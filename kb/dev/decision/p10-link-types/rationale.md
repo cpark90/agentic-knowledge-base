@@ -9,7 +9,7 @@ sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/42c1ecbe-34fd-4c59-9038-51db6144ad29
 ---
-**근거** (노트 10.2절) — 추적성 연구의 표준 분류(의존 / 일반화·정련 / 진화 / 충족 / 근거)로 기존 타입을 정리하면 빈 범주가 드러난다. 채택 4종은 모두 빈 범주를 채우는 것이다 — 충족의 역할 배정(`allocates`), 의존(`depends-on`·`generates`), 그리고 아예 비어 있던 **양립 불가**(`conflicts-with`).
+**근거** (노트 10.2절) — 추적성 연구의 표준 분류(의존 / 일반화·정련 / 진화 / 충족 / 근거)로 기존 타입을 정리하면 빈 범주가 드러난다. 채택 4종은 모두 빈 범주를 채우는 것이다 — 충족의 역할 할당(`allocates`), 의존(`depends-on`·`generates`), 그리고 아예 비어 있던 **양립 불가**(`conflicts-with`).
 
 `conflicts-with`가 특별하다. Part VIII의 제약("A→X가 성립하면 B→Y는 불가")을 링크로 저장하면 **제약 자체가 추적 대상이 된다** — 누가 언제 왜 이 양립 불가를 정했는지가 PROV-O로 남는다.
 

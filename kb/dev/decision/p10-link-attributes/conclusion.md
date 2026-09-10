@@ -17,7 +17,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/eec0c89d-bba0-40
 | 속성 | 내용 | 어휘 |
 |---|---|---|
 | 타입 | 9.2절 링크 타입 | `agt:` |
-| 양 끝 | 청크 또는 구성체 IRI | — |
+| 양 끝 | 청크 또는 복합체 IRI | — |
 | 상태 | `candidate` / `confirmed` / `suspect` / `invalid` | `agt:` |
 | 근거 | 왜 이 링크가 성립하는가 (9.8절 근거 유형) | `prov:wasDerivedFrom` |
 | 만든 주체 | 구축이면 에이전트, 복원이면 파이프라인 | `prov:wasAttributedTo` |

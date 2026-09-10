@@ -3,7 +3,7 @@ id: https://agentic-knowledge-base.dev/id/chunk/102a6844-5b56-4fc0-87dd-d2c5734a
 type: decision
 level: logical
 title_ko: 기준의 빈틈이 verifier의 빈틈으로 옮겨가지 않게 한다
-title: Keeping gaps in the criteria from becoming gaps in the verifier
+title: Keeping gaps in the criteria from becoming gaps in the 검증기
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}

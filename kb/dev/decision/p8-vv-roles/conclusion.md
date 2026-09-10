@@ -2,8 +2,8 @@
 id: https://agentic-knowledge-base.dev/id/chunk/cf8fcbbf-d356-4c6d-af23-d4b26ce3ba75
 type: decision
 level: concrete
-title_ko: V&V KB에는 다섯 역할이 쓰고 기준 저자와 verifier 저자는 다른 세션이다
-title: Five roles write to the V&V KB; criteria author and verifier author work in different sessions
+title_ko: V&V KB에는 다섯 역할이 쓰고 기준 저자와 검증기 저자는 다른 세션이다
+title: Five roles write to the V&V KB; criteria author and 검증기 저자 work in different sessions
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
@@ -16,8 +16,8 @@ part_of: https://agentic-knowledge-base.dev/id/composite/666bd423-dc26-4857-9841
 | 역할 | 쓰기 | 읽기 | 책임 |
 |---|---|---|---|
 | V&V engineer | `requirement`·`decision`·`contract`·`schema`(vv) | 개발 KB 전부 | 검증 목표·시나리오·기준 저작 |
-| verifier author | `artifact`(vv) | 개발 KB `contract`·`schema`, V&V 기준 | verifier 구현 |
-| executor (하네스) | `memory`(vv) | 케이스, verifier | 실행·관측 기록 |
+| 검증기 저자 | `artifact`(vv) | 개발 KB `contract`·`schema`, V&V 기준 | 검증기 구현 |
+| executor (하네스) | `memory`(vv) | 케이스, 검증기 | 실행·관측 기록 |
 | judge | `annotation`(vv) | 실행 기록, 기준 | 결함 분류, 통과/실패 확정 |
 | audit | 없음 | 두 KB 전부 | 독립성·커버리지 감사 |
 

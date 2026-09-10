@@ -3,7 +3,7 @@ id: https://agentic-knowledge-base.dev/id/chunk/ee51de32-a48b-4ade-a147-4953bce2
 type: decision
 level: concrete
 title_ko: executable의 구현과 검증은 서로 다른 KB에 산다
-title: Implementation and verifier live in different KBs
+title: Implementation and 검증기 live in different KBs
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}

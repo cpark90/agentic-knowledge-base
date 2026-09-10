@@ -15,7 +15,7 @@ agt:checkMethod a owl:DatatypeProperty ;
     rdfs:domain agt:Condition ;
     rdfs:range xsd:string ;
     rdfs:label "check method"@en , "판정 방법"@ko ;
-    skos:definition "조건의 객관적 관측 수단. 판정 방법 없는 조건은 실행 시 대조(3.5절)를 할 수 없으므로 ODD에 둘 수 없다 (3.2절)."@ko .
+    skos:definition "조건의 객관적 관측 수단. 판정 방법 없는 조건은 실행 시 모니터링(3.5절)를 할 수 없으므로 ODD에 둘 수 없다 (3.2절)."@ko .
 
 agt:verificationGrade a owl:DatatypeProperty ;
     rdfs:domain agt:Condition ;

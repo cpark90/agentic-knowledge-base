@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/b9e56142-cf12-47ad-b688-5848a39a87fb
 type: decision
 level: concrete
-title_ko: plane은 판정 방식으로 정의되고 골격은 일곱이다
+title_ko: plane은 판정 방식으로 정의되고 코어은 일곱이다
 title: Planes are defined by verification mechanism; the skeleton has seven
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
@@ -23,10 +23,10 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/5b5edf6d-f638-4c
 | 데이터 스키마 | `schema` | 스키마·호환성 검사 | 낮음 | 스키마 경로 |
 | 계약 | `contract` | 형식 검사 (결정론적) | 중간 | 도메인 식별자 |
 | 실행 산출물 | `artifact` | 실행·실측 | 빠름 | 도메인 식별자 |
-| 논평 | `annotation` | 사회적 합의 (해소/승인) | 매우 높음 | standoff 앵커 |
+| 주석 | `annotation` | 사회적 합의 (해소/승인) | 매우 높음 | standoff 앵커 |
 | 작업 메모리 | `memory` | 없음 (휘발성) | 매우 빠름 | 세션 ID + 시점 |
 
-**요구와 논평은 둘 다 합의로 판정되지만 다른 plane이다.** 요구의 합의는
-이해관계자가 "이것을 원한다"에 동의하는 것이고, 논평의 합의는 "이 지적이
-해소되었다"에 동의하는 것이다. 전자는 사다리의 출발점이고 후자는 임의 청크에
+**요구와 주석은 둘 다 합의로 판정되지만 다른 plane이다.** 요구의 합의는
+이해관계자가 "이것을 원한다"에 동의하는 것이고, 주석의 합의는 "이 지적이
+해소되었다"에 동의하는 것이다. 전자는 계층의 출발점이고 후자는 임의 청크에
 붙는다.

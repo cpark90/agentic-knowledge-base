@@ -1,3 +1,3 @@
 # 설계 공간 (*-space) — 후보 링크 집합 (노트 0.2절, Part VII).
-# Part XII 5단계(사다리 완성)에서 채워진다. 지금은 자리만 예약한다.
+# Part XII 5단계(정제 계층 완성)에서 채워진다. 지금은 자리만 예약한다.
 package(default_visibility = ["//visibility:public"])

@@ -13,6 +13,6 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/9ac75416-7fff-49
 ---
 **결론** — 연쇄의 성립은 세 방향에서 확인된다. **셋 중 하나만으로는 검증이 아니다.**
 
-- **수직** — `refines` 연쇄가 functional까지 닿는가(하강 완주). `refines+` 질의와 level × level 매트릭스(9.12절)로 확인
-- **수평** — 검증 역할 executable이 logical 기준에 대해 `verifies`로 실행 통과하는가. 환경 사다리에서 실행해 확인
+- **수직** — `refines` 연쇄가 functional까지 닿는가(정제 완주). `refines+` 질의와 level × level 매트릭스(9.12절)로 확인
+- **수평** — 검증 역할 executable이 logical 기준에 대해 `verifies`로 실행 통과하는가. 환경 계층에서 실행해 확인
 - **기준의 질** — `verifies`가 실제로 거르는가. 판정식에 **변이**(값 경계 넘김, 조건 반전)를 주입했을 때 실패하는지 표본으로 확인

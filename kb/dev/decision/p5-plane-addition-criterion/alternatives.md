@@ -20,7 +20,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/ab95f777-16da-41c6-8b1d
 | 운영 지표 | 관측 = `memory` 하위 클래스 |
 | 데이터 (픽스처·마이그레이션·샘플셋) | 스키마 검사 + 통계적 검증(분포·결측). `schema` 하위 클래스로 시작하되 통계 검증이 주가 되면 plane 후보 |
 | 대응 절차 (runbook) | 절차 실행 성공 = `decision` 하위 클래스 `agt:Runbook`. 판정은 실행 기록으로 |
-| 인시던트·사후분석 | 관측은 `memory`, 결론은 `decision` — 두 plane의 구성체 |
+| 인시던트·사후분석 | 관측은 `memory`, 결론은 `decision` — 두 plane의 복합체 |
 | 보안·라이선스·규제 정책 | plane이 아님. ODD 조건 또는 온톨로지 공리 |
 | 용어집 | plane이 아님. 온톨로지 자체 |
 | 요구사항 | 이해관계자 합의 — 기존과 다름. **승격됨** |

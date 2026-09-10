@@ -14,5 +14,5 @@ agt:cites a owl:ObjectProperty ;
 agt:targets a owl:ObjectProperty ;
     rdfs:subPropertyOf agt:references ;
     rdfs:domain agt:AnnotationChunk ;
-    rdfs:label "targets"@en , "논평 대상으로 삼는다"@ko ;
-    skos:definition "논평이 자기 대상을 가리키는 관계. plane을 가로질러 어떤 항목이든 가리킬 수 있는 유일한 참조이며, 논평이 산출물 수정을 유발하는 작업 흐름을 표현한다 (5.2절, 8.2절)."@ko .
+    rdfs:label "targets"@en , "주석 대상으로 삼는다"@ko ;
+    skos:definition "주석이 자기 대상을 가리키는 관계. plane을 가로질러 어떤 항목이든 가리킬 수 있는 유일한 참조이며, 주석이 산출물 수정을 유발하는 작업 흐름을 표현한다 (5.2절, 8.2절)."@ko .

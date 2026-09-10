@@ -36,11 +36,11 @@ agt:allocates a owl:ObjectProperty ;
     rdfs:domain agt:DecisionChunk ;
     rdfs:range agt:Composite ;
     rdfs:label "allocates"@en , "할당한다"@ko ;
-    skos:definition "이 결정을 어느 모듈(구성체)이 담당하는가 — satisfies의 역할 배정판. 충족 범주의 빈 칸을 채우는 v3 채택 타입이다 (9.2절)."@ko .
+    skos:definition "이 결정을 어느 모듈(복합체)이 담당하는가 — satisfies의 역할 할당판. 충족 범주의 빈 칸을 채우는 v3 채택 타입이다 (9.2절)."@ko .
 
 agt:serves a owl:ObjectProperty ;
     rdfs:subPropertyOf agt:refines ;
     rdfs:domain agt:DecisionChunk ;
     rdfs:range agt:RequirementChunk ;
-    rdfs:label "serves"@en , "봉사한다"@ko ;
-    skos:definition "결정이 어느 요구의 어느 관심사에 봉사하는가. functional → abstract 전이 게이트가 요구하는 명시이며, 봉사 없는 설계는 거부된다. refines의 특수형이므로 요구까지의 연쇄 질의에 그대로 걸린다 (6.8절, 7.3절)."@ko .
+    rdfs:label "serves"@en , "기여한다"@ko ;
+    skos:definition "결정이 어느 요구의 어느 관심사에 기여하는가. functional → abstract 전이 게이트가 요구하는 명시이며, 기여 없는 설계는 거부된다. refines의 특수형이므로 요구까지의 연쇄 질의에 그대로 걸린다 (6.8절, 7.3절)."@ko .

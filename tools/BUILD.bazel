@@ -47,7 +47,7 @@ py_binary(
     srcs = ["chunk2kg.py"],
 )
 
-# ODD 택소노미 투영 (부록 E.4): related/condition → taxonomy.yml
+# ODD 택소노미 뷰 (부록 E.4): related/condition → taxonomy.yml
 py_binary(
     name = "taxonomy",
     srcs = ["taxonomy.py"],
@@ -64,14 +64,14 @@ py_binary(
     main = "odd2kg.py",
 )
 
-# 골격 지표 투영 → metrics.md (4.13절, 14.1절). 문서는 수치를 적지 않고 이 생성물을 인용한다
+# 코어 지표 뷰 → metrics.md (4.13절, 14.1절). 문서는 수치를 적지 않고 이 생성물을 인용한다
 py_binary(
     name = "metrics",
     srcs = ["metrics.py"],
     deps = [requirement("rdflib")],
 )
 
-# 라벨 목록 투영 → index.md (5.6절, 부록 E.2). OKF 예약 파일은 생성물이다
+# 라벨 목록 뷰 → index.md (5.6절, 부록 E.2). OKF 예약 파일은 생성물이다
 py_binary(
     name = "labels",
     srcs = [
@@ -87,7 +87,7 @@ py_binary(
     srcs = ["extract_refs.py"],
 )
 
-# 용어 제안 워크플로 (2.5절): 상승이 온톨로지에 닿을 때 — 제안은 검사를 거쳐 승인 큐로
+# 용어 제안 워크플로 (2.5절): 일반화이 온톨로지에 닿을 때 — 제안은 검사를 거쳐 승인 큐로
 py_binary(
     name = "term_propose",
     srcs = ["term_propose.py"],

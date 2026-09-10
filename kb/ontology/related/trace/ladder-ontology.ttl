@@ -1,4 +1,4 @@
-# 추적성 — 사다리 전이와 시간축의 링크 타입 (노트 6.2절, 8.2절)
+# 추적성 — 계층 전이와 시간축의 링크 타입 (노트 6.2절, 8.2절)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
@@ -10,7 +10,7 @@ agt:refines a owl:ObjectProperty ;
     rdfs:domain agt:Chunk ;
     rdfs:range agt:Chunk ;
     rdfs:label "refines"@en , "정련한다"@ko ;
-    skos:definition "하강 전이의 기록 — 하위 수준 항목이 자기가 내려온 상위 수준 항목을 가리킨다. 수직 링크는 이것 하나뿐이며, 전이 시점에 하나만 생기므로 후보 상한도 1이다 (6.2절, 7.7절)."@ko .
+    skos:definition "정제 전이의 기록 — 하위 수준 항목이 자기가 내려온 상위 수준 항목을 가리킨다. 수직 링크는 이것 하나뿐이며, 전이 시점에 하나만 생기므로 후보 상한도 1이다 (6.2절, 7.7절)."@ko .
 
 agt:derivesFrom a owl:ObjectProperty ;
     rdfs:subPropertyOf agt:semanticallyDependsOn , prov:wasDerivedFrom ;

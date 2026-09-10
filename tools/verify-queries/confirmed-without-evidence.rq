@@ -1,4 +1,4 @@
-# 안티패턴: 지지 없는 확정 — 구축(+) 또는 실행(+) 증거 없이 confirmed인 링크 (노트 9.11절 장부 규칙, 10.4절)
+# 안티패턴: 지지 없는 확정 — 구축(+) 또는 실행(+) 증거 없이 confirmed인 링크 (노트 9.11절 증거 기록 규칙, 10.4절)
 PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
 SELECT ?link WHERE {
   ?link a agt:Link ; agt:linkState "confirmed" .

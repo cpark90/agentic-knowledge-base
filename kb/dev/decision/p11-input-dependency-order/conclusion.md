@@ -19,5 +19,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/1b1b47e5-a634-49
 상위 온톨로지 선택 → (온톨로지) → ODD → 에이전트 카탈로그 → 스코프
                                   ↘ 태그 어휘
 언어 정책 → 표기 형식 (독립)
-실행 모드 → 메모리 승격 규칙 → 재판정 경계
+실행 모드 → 메모리 승격 규칙 → 재검증 시점
 ```

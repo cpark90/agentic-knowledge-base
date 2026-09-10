@@ -19,4 +19,4 @@ part_of: https://agentic-knowledge-base.dev/id/composite/48ce0d53-db1b-4b0f-9ef3
 - 1단계가 실행 기록에서 시작하므로 append-only 관측 기록이 없으면 절차 자체가
   시작되지 않는다.
 - 6단계에서 결론과 관측을 다른 plane에 두는 이유 — 판정 방식이 다르다.
-  구성체가 둘을 묶어 하나의 문서로 읽히게 한다.
+  복합체가 둘을 묶어 하나의 문서로 읽히게 한다.

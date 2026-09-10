@@ -1,10 +1,10 @@
 # 설계 논증을 형식화할 수 있는가
 
 ## 질문
-사다리의 functional → abstract 전이는 "자연어를 형식 언어로 옮기는 단계"이고 abstract는
+계층의 functional → abstract 전이는 "자연어를 형식 언어로 옮기는 단계"이고 abstract는
 기계가독의 경계다. `decision`의 내용은 **논증**(결론·근거·대안)인데, 논증을 형식 언어로
 옮길 수 있는가? 옮길 수 없다면 `decision`은 functional에서 곧바로 concrete로 가는 plane이
-되어 사다리의 예외가 된다.
+되어 계층의 예외가 된다.
 
 ## 이미 정해진 것
 - 형식 언어는 abstract 단계의 언어이며 온톨로지 개념을 키워드로 쓰는 표기다. 따로 설계하지
@@ -20,8 +20,8 @@ abstract level인 파일이 하나도 없다. 즉 저장소는 **사실상 이 �
 
 ## 답이 가르는 것
 긍정이면 결정마다 abstract 형식이 별도 항목으로 생기고 `refines` 연쇄가 functional까지 닿는다.
-부정이면 `decision`은 사다리의 예외로 명시되고, [contract·artifact의 logical](contract-artifact-logical.md)이
-"decision의 투영"일 수 없게 된다.
+부정이면 `decision`은 계층의 예외로 명시되고, [contract·artifact의 logical](contract-artifact-logical.md)이
+"decision의 뷰"일 수 없게 된다.
 
 ## 선택지
 - **A. 구조만 형식화** — 내용은 산문으로 두되 구조(결론·근거·대안·기각 사유·대안 간 관계)를
@@ -29,4 +29,4 @@ abstract level인 파일이 하나도 없다. 즉 저장소는 **사실상 이 �
   제한한다.
 - **B. 논증 온톨로지 도입** — 표준 논증 어휘로 근거·반박·전제를 개체화. 표준어 원칙에 맞으나
   비용이 크고 42줄과 충돌할 수 있다.
-- **C. 부정으로 확정** — `decision`은 사다리 예외. d-0084의 대안절을 결정으로 승격한다.
+- **C. 부정으로 확정** — `decision`은 계층 예외. d-0084의 대안절을 결정으로 승격한다.

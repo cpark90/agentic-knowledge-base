@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/4dbb535c-ea05-4b67-accf
   (Part VIII). 개발 산출물 쪽은 읽기와 logical 기준 참조에 그친다.
 - **write 권한이 겹치지 않는다** — `decision`은 orchestrator·design,
   `artifact`는 developer, `annotation`은 V&V. 이 비겹침이 10.6절 입력 검증의
-  검사 항목이다. claim은 제안만 하고 배정하지 않는다.
+  검사 항목이다. claim은 제안만 하고 할당하지 않는다.
 - 유저 결정 C4 — 이 저장소는 이 카탈로그의 **부분집합**만 쓰고 developer가
   design을 겸한다. 부분집합 사용은 프로젝트 재량이며, 카탈로그 자체는 아홉
   역할로 남는다(겸임하더라도 write 비겹침 검사는 겸임된 역할 쌍에 적용된다).

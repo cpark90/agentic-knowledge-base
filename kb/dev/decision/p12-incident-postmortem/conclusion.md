@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/cae1f4ce-1a3d-492c-ae12-04302a5e8d49
 type: decision
 level: concrete
-title_ko: 사후분석은 상승을 실행하는 자리이고 산출 없는 사후분석은 실패다
+title_ko: 사후분석은 일반화을 실행하는 자리이고 산출 없는 사후분석은 실패다
 title: The postmortem is where ascent executes; one yielding nothing is a failure
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
@@ -12,7 +12,7 @@ supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0153]
 part_of: https://agentic-knowledge-base.dev/id/composite/48ce0d53-db1b-4b0f-9ef3-cded88f22d8b
 composite: {id: https://agentic-knowledge-base.dev/id/composite/48ce0d53-db1b-4b0f-9ef3-cded88f22d8b, title_ko: 인시던트 사후분석 절차, title: Incident postmortem procedure}
 ---
-**결론** — 사후분석은 이 체계의 상승(6.3절)을 실행하는 자리다. 여섯 단계를
+**결론** — 사후분석은 이 체계의 일반화(6.3절)을 실행하는 자리다. 여섯 단계를
 밟고, **3~5 중 하나도 산출하지 않는 사후분석은 실패로 본다.**
 
 ```
@@ -23,5 +23,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/48ce0d53-db1b-4b
    — 새 요구 또는 logical 기준 후보 (origin:observed)
 5. 깨진 가정이 있으면 — ODD 속성 재검토 후보 (3.6절)
 6. 결론을 design 청크로, 관측을 memory 청크로.
-   둘의 구성체가 사후분석 문서
+   둘의 복합체가 사후분석 문서
 ```

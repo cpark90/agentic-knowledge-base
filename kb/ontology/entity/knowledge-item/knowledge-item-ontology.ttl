@@ -16,5 +16,5 @@ agt:Chunk a owl:Class ;
 agt:Composite a owl:Class ;
     rdfs:subClassOf agt:KnowledgeItem ;
     owl:disjointWith agt:Chunk ;
-    rdfs:label "composite"@en , "구성체"@ko ;
-    skos:definition "본문 없이 순서 있는 부분(청크·구성체)만 갖는 지식 항목 (4.5절). 부분의 plane·level은 전체와 같아야 한다."@ko .
+    rdfs:label "composite"@en , "복합체"@ko ;
+    skos:definition "본문 없이 순서 있는 부분(청크·복합체)만 갖는 지식 항목 (4.5절). 부분의 plane·level은 전체와 같아야 한다."@ko .

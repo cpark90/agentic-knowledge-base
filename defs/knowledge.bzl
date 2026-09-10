@@ -44,7 +44,7 @@ def kb_gate_test(
       ontology: T-Box 모듈 라벨들 (*-ontology, *-rules).
       shapes: SHACL shape 라벨들 (*-shapes).
       odd: ODD 라벨들 (*-odd). 주면 agt:refersTo → ODD 참조 게이트가 켜진다.
-      data: A-Box 라벨들 (*-kg, *-space). 어휘 폐쇄 검사 대상.
+      data: A-Box 라벨들 (*-kg, *-space). 통제 어휘 검사 대상.
       reason: SHACL 전에 OWL-RL 추론 적용.
       **kwargs: py_test 로 전달.
     """
@@ -116,7 +116,7 @@ def kb_odd_kg(name, src, taxonomy, out):
     )
 
 def kb_metrics(name, data, out = "metrics.md"):
-    """그래프(-kg)에서 골격 지표 metrics.md를 생성한다 (4.13절, 14.1절 통과 조건)."""
+    """그래프(-kg)에서 코어 지표 metrics.md를 생성한다 (4.13절, 14.1절 통과 조건)."""
     native.genrule(
         name = name,
         srcs = data,

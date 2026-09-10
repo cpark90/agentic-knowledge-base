@@ -26,14 +26,14 @@ filegroup(
     srcs = ["//kb/ontology/shapes"],
 )
 
-# 온톨로지 위생 게이트 (2.5절): 라벨 완전성 + 청크(파일) 단위 정의 경계 + SHACL
+# 온톨로지 품질 검사 게이트 (2.5절): 라벨 완전성 + 청크(파일) 단위 정의 경계 + SHACL
 kb_gate_test(
     name = "gate_test",
     ontology = [":modules"],
     shapes = [":shapes"],
 )
 
-# 온톨로지 청크도 42줄 규율을 따른다 — @prefix·주석 제외 본문 기준
+# 온톨로지 청크도 42줄 규칙을 따른다 — @prefix·주석 제외 본문 기준
 kb_chunk_lint_test(
     name = "chunk_lint_test",
     chunks = [

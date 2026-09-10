@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/8e83391e-5fd2-499b-881c-37e6f9cb60f1
 type: decision
 level: concrete
-title_ko: 실행 시 대조가 이탈을 잡고 이탈은 결함이 아니라 신호다
+title_ko: 실행 시 모니터링가 이탈을 잡고 이탈은 결함이 아니라 신호다
 title: Runtime comparison catches the exit; the exit is a signal, not a defect
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]

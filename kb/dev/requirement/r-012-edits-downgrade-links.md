@@ -8,7 +8,7 @@ status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
-**요구** — 산출물이 변경되면, 체계는 그 항목을 끝으로 하는 링크를 suspect로 내려 재판정 경계에서 일괄 재판정하여야 한다.
+**요구** — 산출물이 변경되면, 체계는 그 항목을 끝으로 하는 링크를 suspect로 내려 재검증 시점에서 일괄 재판정하여야 한다.
 
 - **이해관계자**: 프로젝트 · **관심사**: 경계와 갱신
 - **출처**: 노트 10.6절

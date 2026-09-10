@@ -16,8 +16,8 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/66832e72-2baf-42
 
 | 문서 | 질의 |
 |---|---|
-| 아키텍처 개요 | `decision` concrete + `allocates` 대상 구성체 |
+| 아키텍처 개요 | `decision` concrete + `allocates` 대상 복합체 |
 | API 문서 | `contract` + `targets` `annotation` + `constrains` `schema` |
-| 결정 기록(ADR) | `decision` 구성체 하나 + `supersedes` 연쇄 |
+| 결정 기록(ADR) | `decision` 복합체 하나 + `supersedes` 연쇄 |
 | 변경 이력 | `prov:wasRevisionOf` 연쇄 + `supersedes` |
 | 감사 증적 | 추적 매트릭스 + 링크 속성(확인 주체·시각) |

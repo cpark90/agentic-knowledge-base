@@ -3,7 +3,7 @@ id: https://agentic-knowledge-base.dev/id/chunk/96966fae-587c-426f-9da7-5233844a
 type: decision
 level: concrete
 title_ko: 합격 기준은 verifier와 별도 청크로 존재하고 링크 속성으로 바인딩된다
-title: Pass criteria are chunks apart from the verifier, bound as link attributes
+title: Pass criteria are chunks apart from the 검증기, bound as link attributes
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}

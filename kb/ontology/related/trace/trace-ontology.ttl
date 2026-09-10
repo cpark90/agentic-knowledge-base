@@ -26,7 +26,7 @@ agt:relatedTo a owl:ObjectProperty , owl:SymmetricProperty ;
     rdfs:subPropertyOf agt:dependsOn , skos:related ;
     rdfs:domain agt:KnowledgeItem ;
     rdfs:label "related to"@en , "함께 갱신된다"@ko ;
-    skos:definition "직접 참조도 의미 의존도 없으나 함께 갱신되어야 하는 관계. 대칭이며 한쪽이 바뀌면 양쪽이 suspect가 된다. 함께 읽히는 관계는 구성체(part-of)이고 이 족이 아니다 (4.5절, 8.6절)."@ko .
+    skos:definition "직접 참조도 의미 의존도 없으나 함께 갱신되어야 하는 관계. 대칭이며 한쪽이 바뀌면 양쪽이 suspect가 된다. 함께 읽히는 관계는 복합체(part-of)이고 이 족이 아니다 (4.5절, 8.6절)."@ko .
 
 agt:generates a owl:ObjectProperty ;
     rdfs:subPropertyOf agt:dependsOn ;

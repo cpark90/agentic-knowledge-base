@@ -2,8 +2,8 @@
 id: https://agentic-knowledge-base.dev/id/chunk/d5d47afc-1763-494e-b4ad-153db312a14d
 type: decision
 level: logical
-title_ko: 기준·verifier 동일 저자의 기각
-title: Rejecting a single author for criteria and verifier
+title_ko: 기준·검증기 동일 저자의 기각
+title: Rejecting a single author for criteria and 검증기
 status: stable
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}

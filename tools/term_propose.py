@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""용어 제안 워크플로 (노트 2.5절) — 상승이 온톨로지에 닿을 때의 절차.
+"""용어 제안 워크플로 (노트 2.5절) — 일반화이 온톨로지에 닿을 때의 절차.
 
 에이전트는 신뢰할 수 없는 센서다: 제안은 하되 판정하지 않는다. 이 도구는
-template 행(ID·라벨 ko/en·정의·상위·경쟁 질문 기여)을 받아 검사를 통과한
+template 행(ID·라벨 ko/en·정의·상위·역량 질문 기여)을 받아 검사를 통과한
 제안만 승인 큐(kb/ontology/proposals/)에 남긴다. 승인 큐는 //kb/ontology:modules
 밖이라 병합 전에는 그래프에 들어가지 않는다.
 
@@ -50,7 +50,7 @@ def main() -> int:
     ap.add_argument("--label-ko", required=True)
     ap.add_argument("--label-en", required=True)
     ap.add_argument("--definition", required=True, help="속 + 종차 형식의 한글 정의")
-    ap.add_argument("--cq", required=True, help="기여하는 경쟁 질문 (예: CQ12)")
+    ap.add_argument("--cq", required=True, help="기여하는 역량 질문 (예: CQ12)")
     ap.add_argument("--derived-from", default="", help="근거 관측·청크 IRI")
     ap.add_argument("--repo", default=str(Path(__file__).resolve().parent.parent))
     args = ap.parse_args()
@@ -91,7 +91,7 @@ def main() -> int:
     out_dir.mkdir(exist_ok=True)
     derived = f"# derived-from: {args.derived_from}\n" if args.derived_from else ""
     body = f"""# 용어 제안 — 승인 전. //kb/ontology:modules 밖이라 그래프에 들어가지 않는다 (2.5절).
-# 기여 경쟁 질문: {args.cq}
+# 기여 역량 질문: {args.cq}
 {derived}@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .

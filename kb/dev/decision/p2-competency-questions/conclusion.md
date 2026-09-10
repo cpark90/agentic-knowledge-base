@@ -10,7 +10,7 @@ generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0052]
 part_of: https://agentic-knowledge-base.dev/id/composite/5f6eadd5-ef4f-47cb-8128-f72cca5e8575
-composite: {id: https://agentic-knowledge-base.dev/id/composite/5f6eadd5-ef4f-47cb-8128-f72cca5e8575, title_ko: 경쟁 질문이 온톨로지의 요구사항이다, title: Competency questions are the ontology's requirements}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/5f6eadd5-ef4f-47cb-8128-f72cca5e8575, title_ko: 역량 질문이 온톨로지의 요구사항이다, title: Competency questions are the ontology's requirements}
 ---
 **결론** — 온톨로지는 **답해야 할 질문 목록(competency questions)**으로 요구사항을 정의한다. 각 질문은 **그래프 질의 하나**로 답할 수 있어야 하고, 온톨로지가 충분한지를 이 목록으로 검사한다.
 
@@ -18,4 +18,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/5f6eadd5-ef4f-47
 
 두 질문이 추적성의 양방향 완주를 검사한다 — **CQ19 executable까지 닿지 않은 요구**(`refines` 하향 질의)와 **CQ20 요구로 거슬러 오르지 못하는 산출물**(`refines+` 상향 질의).
 
-**경쟁 질문에 답할 수 없는 온톨로지 변경은 검토 대상이다.** 새 개념을 추가할 때는 어느 경쟁 질문에 기여하는지 적는다.
+**역량 질문에 답할 수 없는 온톨로지 변경은 검토 대상이다.** 새 개념을 추가할 때는 어느 역량 질문에 기여하는지 적는다.

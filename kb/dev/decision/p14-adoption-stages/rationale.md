@@ -4,7 +4,7 @@ type: decision
 level: logical
 title_ko: 단계마다 측정 가능한 산출이 있어야 도입이 검증된다
 title: Adoption is validated only if each stage has a measurable output
-status: stable
+status: deprecated
 sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/4e1e176d-aa8d-4ab5-aade-db3aca0f68fc

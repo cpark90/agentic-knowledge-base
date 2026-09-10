@@ -1,4 +1,4 @@
-# 트러스트 — 누가 만들고 누가 검증했는가 (노트 8.10절, OKF v0.2 generated·verified)
+# 신뢰 등급 — 누가 만들고 누가 검증했는가 (노트 8.10절, OKF v0.2 generated·verified)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .

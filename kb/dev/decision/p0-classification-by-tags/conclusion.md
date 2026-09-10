@@ -26,10 +26,10 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/49901d72-dedc-4f
 - **결함 요인** — `defect` 어휘 (`factor:interaction/timing`)
 - **출처** — 고정 어휘 (observed / designed / imported)
 - **ODD 관계** — 고정 어휘 (inside / boundary / outside, 3.3절)
-- **환경** — 검증 환경 사다리 (unit / model / sil / hil / staging /
+- **환경** — 검증 환경 계층 (unit / model / sil / hil / staging /
   production, 7.9절)
 - **대상** — 고정 어휘 (product / agent)
-- **level** — 사다리 (`level:logical`)
+- **level** — 계층 (`level:logical`)
 
 **범주 자체의 추가는 온톨로지 확장이고, 태그 값의 추가는 그 범주의 출처 어휘
 확장이다.**

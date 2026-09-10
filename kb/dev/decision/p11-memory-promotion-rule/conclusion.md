@@ -17,6 +17,6 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/46d1f19a-5541-43
 - **단기기억** — `memory` plane에 두고 첫 실행 시 한 번에 읽는다
 - **장기기억** — 주제 plane으로 승격해 필요한 순간에 읽는다
 
-승격은 6.3절 상승의 최소 단위다. 설계 판단이면 `decision`, 코드 논평이면
+승격은 6.3절 일반화의 최소 단위다. 설계 판단이면 `decision`, 코드 주석이면
 `annotation`으로 올라간다. **승격 규칙(언제·무엇을)은 체계가 고정하지 않는
 입력이다** — 프로젝트마다 다르다.

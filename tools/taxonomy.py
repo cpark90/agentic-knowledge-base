@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ODD 택소노미 투영 — related/condition 온톨로지에서 taxonomy.yml을 생성한다 (노트 부록 E.4).
+"""ODD 택소노미 뷰 — related/condition 온톨로지에서 taxonomy.yml을 생성한다 (노트 부록 E.4).
 
 OpenODD의 택소노미(속성 범주)는 이 체계에서 온톨로지의 조건 클래스다. 손으로 쓰지 않는다.
 사용: taxonomy.py --out taxonomy.yml <condition 모듈 TTL...>

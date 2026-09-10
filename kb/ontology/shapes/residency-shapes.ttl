@@ -1,4 +1,4 @@
-# shape — plane × level 거주표: 각 plane은 정해진 level 구간에만 거주한다 (노트 6.4절 v3)
+# shape — plane × level 수준 허용표: 각 plane은 정해진 level 구간에만 거주한다 (노트 6.4절 v3)
 # annotation은 대상의 level을 물려받으므로 여기서 구간을 제한하지 않는다.
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
@@ -8,7 +8,7 @@ agt:RequirementResidencyShape a sh:NodeShape ;
     sh:property [
         sh:path agt:hasLevel ;
         sh:in ( agt:functional ) ;
-        sh:message "requirement는 functional 전용이다 — 사다리의 출발점 (6.4절 거주표)" ;
+        sh:message "requirement는 functional 전용이다 — 계층의 출발점 (6.4절 수준 허용표)" ;
     ] .
 
 agt:DecisionResidencyShape a sh:NodeShape ;

@@ -16,7 +16,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/4dbb535c-ea05-4b
 정하고 plane 권한을 아래로 고정한다.
 
 - **orchestrator** — 설계 반영·구현 관리·dispatch. `decision`(RW), 나머지 R
-- **verification & validation** — 검증·평가. `artifact` 검증 역할(RW),
+- **verification & validation** — 검증·확인. `artifact` 검증 역할(RW),
   `requirement`·`decision` logical 기준(R), `annotation`(W)
 - **design** — 설계 전용. `decision`(RW) + **T-Box와 ODD 편집 권한**,
   `schema`·`contract`(R)

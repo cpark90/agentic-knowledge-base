@@ -47,7 +47,7 @@ agt:oddRelationCategory a owl:NamedIndividual , agt:TagCategory ;
 
 agt:environmentCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "environment"@en , "환경"@ko ;
-    skos:definition "값의 출처: 검증 환경 사다리 — unit·model·sil·hil·staging·production (0.5절, 7.9절)."@ko .
+    skos:definition "값의 출처: 검증 환경 계층 — unit·model·sil·hil·staging·production (0.5절, 7.9절)."@ko .
 
 agt:targetCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "target"@en , "대상"@ko ;
@@ -55,4 +55,4 @@ agt:targetCategory a owl:NamedIndividual , agt:TagCategory ;
 
 agt:levelCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "level"@en , "수준"@ko ;
-    skos:definition "값의 출처: 정제 사다리의 다섯 개체. 예: level:logical (0.5절)."@ko .
+    skos:definition "값의 출처: 정제 계층의 다섯 개체. 예: level:logical (0.5절)."@ko .

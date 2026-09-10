@@ -28,7 +28,7 @@ agt:counterfactualTest a owl:NamedIndividual , agt:EvidenceKind ;
 
 agt:runResult a owl:NamedIndividual , agt:EvidenceKind ;
     rdfs:label "run result"@en , "실행 결과"@ko ;
-    skos:definition "verifier·판정 도구의 통과(+) 또는 실패(−). 실행(−)은 후보를 즉시 기각하고 확정을 invalid로 떨어뜨린다 (9.11절)."@ko .
+    skos:definition "검증기·판정 도구의 통과(+) 또는 실패(−). 실행(−)은 후보를 즉시 기각하고 확정을 invalid로 떨어뜨린다 (9.11절)."@ko .
 
 agt:proposal a owl:NamedIndividual , agt:EvidenceKind ;
     rdfs:label "proposal"@en , "제안"@ko ;

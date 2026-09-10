@@ -11,7 +11,7 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1
 composite: {id: https://agentic-knowledge-base.dev/id/composite/ec197591-b1c7-494e-bc07-2f27b96cd057, title_ko: 개발 프로파일의 plane 실체, title: Plane substance in the development profile}
 part_of: https://agentic-knowledge-base.dev/id/composite/ec197591-b1c7-494e-bc07-2f27b96cd057
 ---
-**결론** — 개발 프로파일(부록 D)에서 일곱 plane의 실체. 6.4절 거주표를 개발 관점에서 다시 읽은 것이다 (노트 7.2절).
+**결론** — 개발 프로파일(부록 D)에서 일곱 plane의 실체. 6.4절 수준 허용표를 개발 관점에서 다시 읽은 것이다 (노트 7.2절).
 
 | plane | 실체 | 거주 수준 | 청크의 단위 | 판정 도구 |
 |---|---|---|---|---|
@@ -19,6 +19,6 @@ part_of: https://agentic-knowledge-base.dev/id/composite/ec197591-b1c7-494e-bc07
 | `decision` | 설계 결정, ADR 형식 | abstract → concrete | 결론 / 근거 / 대안 각각 | 논증 구조 검사 + 유저 승인 |
 | `contract` | 인터페이스 시그니처, 사전·사후조건 | abstract → logical | 시그니처 하나 | 타입 체커 |
 | `schema` | 메시지·필드 정의 | logical → concrete | 메시지 하나 | 스키마 검사기 |
-| `artifact` | 함수. 구현 역할만 (verifier는 V&V KB) | executable | 함수 하나 (≤42줄) | 컴파일·린터·V&V verifier |
+| `artifact` | 함수. 구현 역할만 (verifier는 V&V KB) | executable | 함수 하나 (≤42줄) | 컴파일·린터·V&V 검증기 |
 | `annotation` | 코드 리뷰 코멘트, 설계 리뷰 | 대상의 수준 | 코멘트 하나 | 해소 |
 | `memory` | 세션 관측 | concrete | 관측 하나 | — |

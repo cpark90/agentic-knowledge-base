@@ -9,6 +9,6 @@ sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d7435609-eefb-48a3-bab6-2cab0f56476e
 ---
-**대안** — 스키마를 결정과 무관하게 독립 작성하는 안. 기각 — 상향 귀속이 끊긴다 (노트 7.6절, 7.1절).
+**대안** — 스키마를 결정과 무관하게 독립 작성하는 안. 기각 — 후방 추적 귀속이 끊긴다 (노트 7.6절, 7.1절).
 
 **대안** — 모든 스키마 변경에 새 IRI를 주는 안. 기각 — 하위 호환 변경까지 `constrains` 링크를 전부 `suspect`로 만들어 재판정 낭비가 난다. 호환성 검사가 둘을 가른다 (노트 7.6절).

@@ -9,4 +9,4 @@ sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8d167ee6-64e5-48ee-b34d-ed2d994669d1
 ---
-**대안** — 여덟 단계를 프로젝트 전체의 단계(모든 요구를 먼저 쓰고, 모두 형식화하고, …)로 읽는 안. 기각 — 순서는 요구 하나에 대한 것이다. 요구마다 독립적으로 하강해야 완주율이 요구 단위로 잡히고, 요구 간 순서는 `depends-on`과 ODD 시간 제약이 정한다 (노트 7.3절).
+**대안** — 여덟 단계를 프로젝트 전체의 단계(모든 요구를 먼저 쓰고, 모두 형식화하고, …)로 읽는 안. 기각 — 순서는 요구 하나에 대한 것이다. 요구마다 독립적으로 정제해야 완주율이 요구 단위로 잡히고, 요구 간 순서는 `depends-on`과 ODD 시간 제약이 정한다 (노트 7.3절).
