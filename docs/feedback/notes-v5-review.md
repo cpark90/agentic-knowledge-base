@@ -107,5 +107,6 @@ Q10 `counterfactualTest` 폐기 · Q11 노트 커밋(inspection/유저).
 | 6 문서 세 층 | **완료** | `tools.md` 전면 재편 — 게이트 총람(19+2)이 원본, 계층·실측 열. `rules.md` §7 development·§8 V&V, `method.md` §13·§14, `ontology.md` development·V&V 층. 결정 링크는 파일 경로(링크 검사 대상) |
 | 7 1단계 측정 | **부분** | `tools/metrics.py` + `kb_metrics`(`//kg:metrics`): 고아율 1.2% **통과**, CQ19 0%, CQ20 92%, 사람 검토 0. 고아 요구 7건은 결정 `refines` 연결로 해소. 토큰 감소는 바이트 대리 측정(과제 5 × 체제 6) + 프로토콜 3안을 [`stage1-pass-measurement.md`](stage1-pass-measurement.md)에 — **유저 판단 대기** |
 | 8 E(c)(d) | 미착수 | 도입 3·5·7단계에서 |
-| 도입 2단계 착수 (2026-09-11) | **부분** | `workset`(역할 스코프 × 수준 창 → 라벨 목록 + 앵커 이웃, 예산 패킹·접기) · `odd_check`(CHECKS.cmd 모니터링: 7속성 in, 이탈 0) · `metrics`에 1단계 확정 문장 커버리지(절 단위 136/148)와 2단계 대리(역할별 작업 집합·스코프 파생 0건). 카탈로그에 `requirement` 읽기 추가. 미통과: 작업 집합 ≤ 예산(역할별 573줄) |
+| 도입 2단계 착수 (2026-09-11) | **부분** | `workset`(역할 스코프 × 수준 창 → 라벨 목록 + 앵커 이웃, 예산 패킹·접기) · `odd_check`(CHECKS.cmd 모니터링: 7속성 in, 이탈 0) · `metrics`에 1단계 확정 문장 커버리지(절 단위 136/148)와 2단계 대리(역할별 작업 집합·스코프 파생 0건). 카탈로그에 `requirement` 읽기 추가. 앵커 이웃을 정의에 넣은 뒤 역할·앵커별 작업 집합 예산 내 98.7~100% (2026-09-11) |
+| 미인용 절 닫기 (2026-09-11) | **완료** | `metrics` 인용 정규식을 "(N.N절)" 형식까지 넓히자 12 → 4절, 나머지 4절은 해당 결정에 출처 보강 줄 추가 → 확정 문장 커버리지 **148/148** |
 | Q11 노트 커밋 | **유저/inspection** | `git add docs/agent-knowledge-system-notes.md docs/agentic-knowledge-base-structure.md && git commit` |

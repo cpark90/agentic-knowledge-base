@@ -111,6 +111,7 @@ def main() -> int:
                  "schema": {"logical", "concrete"}, "artifact": {"concrete", "executable"}, "memory": {"concrete"}}
     residency_bad = [c for c in live if plane[c] in RESIDENCY and level[c] not in RESIDENCY[plane[c]]]
 
+    def pct(n, d): return f"{100*n/d:.1f}%" if d else "—"
     # 1단계 의미 보존 대리 — 확정 문장 커버리지: [확정]이 있는 절 중 결정이 인용하는 절의 비율
     cov_line = "- 의미 보존: 확정 문장 커버리지 — `--notes` 없음"
     if a.notes:
@@ -124,7 +125,7 @@ def main() -> int:
         with_fixed = {k for k, v in sec.items() if v}
         cited = set()
         for b_ in a.bodies:
-            cited |= set(_re.findall(r"노트 (\d+\.\d+)절", Path(b_).read_text(encoding="utf-8")))
+            cited |= set(_re.findall(r"(?<![\d.])(\d{1,2}\.\d{1,2})절", Path(b_).read_text(encoding="utf-8")))  # "노트 N.N절"과 "(N.N절)" 둘 다
         missing = sorted(with_fixed - cited, key=lambda x: [int(t) for t in x.split(".")])
         cov_line = (f"- 의미 보존: 확정 문장 커버리지(절 단위) **{len(with_fixed & cited)}/{len(with_fixed)}** = {100*len(with_fixed & cited)/max(len(with_fixed),1):.1f}% — "
                     f"[확정] {sum(sec.values())}문장, 결정 {sum(1 for c in live if plane[c]=='decision' and c not in parts) + len(siblings)}개. 인용 없는 절: " + (", ".join(missing) or "없음"))
@@ -132,16 +133,26 @@ def main() -> int:
     ID = Namespace("https://agentic-knowledge-base.dev/id/")
     odd_conds = set(g.objects(None, AGT.hasCondition))
     role_rows, scope_bad = [], []
+    nb = defaultdict(set)
+    for p_ in LINKS + [AGT.hasDirectPart]:
+        for s_, o_ in g.subject_objects(p_):
+            nb[s_].add(o_); nb[o_].add(s_)
+    BUDGET = 200
     for role in g.subjects(RDF.type, AGT.Role):
         planes = set(g.objects(role, AGT.reads)) | set(g.objects(role, AGT.writes))
-        n = sum(1 for c in live if next(g.objects(c, RDF.type)) in planes)
-        role_rows.append(f"`{str(role).split('/')[-1].replace('role-','')}` {n}줄")
+        in_scope = [c for c in live if next(g.objects(c, RDF.type)) in planes]
+        ok = 0
+        for anc in in_scope:  # 앵커마다: 헤더 2 + plane 제목 + 이웃 라벨 + (앵커+이웃) 본문
+            nbs = [n for n in nb.get(anc, ()) if n in lines and n in live and next(g.objects(n, RDF.type)) in planes]
+            total = 2 + len({plane[x] for x in [anc] + nbs}) + 1 + len(nbs) + lines[anc] + sum(lines[n] for n in nbs)
+            ok += total <= BUDGET
+        role_rows.append(f"`{str(role).split('/')[-1].replace('role-','')}` {ok}/{len(in_scope)} = {pct(ok, len(in_scope))}")
         scope = ID[str(role).split('/')[-1].replace('role-', 'scope-')]
         inc = set(g.objects(scope, AGT.includesCondition))
         if (scope, AGT.subsetOf, None) not in g or not inc or not inc <= odd_conds:
             scope_bad.append(str(scope).split('/')[-1])
 
-    def pct(n, d): return f"{100*n/d:.1f}%" if d else "—"
+
     o = ["# metrics — 코어 지표 (생성 파일, tools/metrics.py)", "",
          f"청크 {len(chunks)} (살아 있는 것 {len(live)}, deprecated {len(chunks)-len(live)}) · 복합체 {len(siblings)} · 트리플 {len(g)}", "",
          "## plane × level (살아 있는 청크)", "", "| plane | " + " | ".join(LEVELS) + " | 합 |", "|---|" + "---|" * (len(LEVELS) + 1)]
@@ -162,7 +173,7 @@ def main() -> int:
           cov_line,
           "- 의미 보존: 라벨 대표성은 실험 — 이 도구 밖",
           "", "## 2단계 대리 — ODD와 스코프", "",
-          "- 구체화: 역할별 작업 집합(스코프의 plane, 전 수준, 라벨 목록 줄 수 — 예산 200줄): " + " · ".join(role_rows),
+          "- 구체화: 역할·앵커별 작업 집합(스코프 안 청크를 앵커로, 1홉 이웃 라벨 + 본문 펼침)이 예산 200줄 안인 비율: " + " · ".join(role_rows),
           f"- 구체화: ODD × plane 권한에서 파생되지 않은 스코프 **{len(scope_bad)}**건" + (f" — {', '.join(scope_bad)}" if scope_bad else "") + " (목표 0)",
           "- 연결: ODD 밖 참조는 게이트(odd-ref)가 0으로 강제. 첫 모니터링 이탈은 `bazel run //tools:odd_check`",
           "", "## 링크 밀도", "", f"- 링크 {sum(link_count.values())} / 살아 있는 청크 {len(live)} = **{sum(link_count.values())/max(len(live),1):.2f}**/청크",

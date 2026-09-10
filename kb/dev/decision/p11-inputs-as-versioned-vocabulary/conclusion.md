@@ -24,3 +24,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/81f5ea27-b01f-42
   agt:executionMode agt:dispatch ;
   agt:maxConcurrent 2 .
 ```
+
+출처 보강(2026-09-11, 확정 문장 커버리지 감사): 노트 11.5절도 이 결정의 원문이다.

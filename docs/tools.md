@@ -145,7 +145,7 @@ YAML은 PyYAML(잠금 `pyyaml==6.0.2`, 호스트 휠 + sdist 두 해시)로 읽�
 
 | 도구 | 대응 절차 | 하는 일 | 단계 |
 |---|---|---|---|
-| `workset` / `labels` | [method §8 조회](method.md#8-조회) | **첫 형태 있음** — `bazel build //kg:workset_<role>` → `bazel-bin/kg/workset-<role>.md`: 역할 스코프(plane) × 수준 창 → 라벨 목록, 앵커 이웃 펼치기(우선순위: 앵커 > 복합체 형제 > refines > 나머지), 예산 패킹, 접기. 실측: 수준 창 없이는 모든 역할이 573줄로 예산 초과 — 스코프가 plane만 거르고 내용이 `decision`뿐이라서 | 2 |
+| `workset` / `labels` | [method §8 조회](method.md#8-조회) | **첫 형태 있음** — `bazel build //kg:workset_<role>` → `bazel-bin/kg/workset-<role>.md`: 역할 스코프(plane) × 수준 창 → 라벨 목록, 앵커 이웃 펼치기(우선순위: 앵커 > 복합체 형제 > refines > 나머지), 예산 패킹, 접기. 정의(0.5절 정정본)대로 앵커가 양을 거른다 — 앵커 없이 573줄, 앵커를 주면 14줄 | 2 |
 | `link` | [method §6 연결](method.md#6-연결) | 구축 기록 → 후보, 복원 파이프라인 k≤7 | 3·8 |
 | `propagate` / `revalidate` | [method §7 갱신](method.md#7-갱신) | 무효화 전파 8단계 · 재판정 큐, 규칙 카탈로그 8종 | 4 |
 | `query` | [competency-questions](competency-questions.md) | CQ1~20과 표준 추적 질의 | 3 |

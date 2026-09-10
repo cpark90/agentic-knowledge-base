@@ -36,4 +36,5 @@
 | 청크 · 지식 종류(plane) · 수준(level) | chunk · plane · level | (유지) | 유저 결정 2026-09-02·04 |
 | ODD 이탈 · 운영 설계 영역 | ODD exit · operational design domain | (유지) | ISO 34503 (최상위 3범주 scenery·environmental·dynamic). 국문 명칭·"ODD exit" 표기는 미확인 |
 | 되먹임 | feedback | (유지) | 제어공학 |
-| 작업 집합 · 읽기 집합 · 인수인계 · 앵커 · 게이트 · 승격 | working set · read set · handoff · anchor · gate · promotion | (유지) | OS·DB·품질 관용 |
+| 앵커 (두 역할) | anchor | (유지) | ① 링크가 가리키는 기준점 = 청크 IRI (4.8절, Eclipse Capra 앵커 해석기) ② 작업 집합의 출발점 = 지금 작업이 가리키는 청크, 이웃을 펼친다 (0.5절 2026-09-11, LEDGER·LARGER) |
+| 작업 집합 · 읽기 집합 · 인수인계 · 게이트 · 승격 | working set · read set · handoff · anchor · gate · promotion | (유지) | OS·DB·품질 관용 |
