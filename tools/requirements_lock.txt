@@ -1,5 +1,6 @@
 # 전체 폐포(transitive closure) 고정 — tools/relock.sh가 생성. 손으로 고치지 않는다.
-# 모든 패키지가 py3-none-any 순수 파이썬 휠이므로 플랫폼 독립이다.
+# 순수 파이썬 휠(py3-none-any)은 해시 하나, 플랫폼 휠인 패키지는 호스트 휠 + sdist 두 해시 —
+# 다른 플랫폼에서는 rules_python이 sdist를 빌드한다 (2026-09-11, PyYAML 도입).
 html5rdf==1.2.1 \
     --hash=sha256:1f519121bc366af3e485310dc8041d2e86e5173c1a320fac3dc9d2604069b83e
 importlib_metadata==9.0.1 \
@@ -14,6 +15,9 @@ pyparsing==3.3.2 \
     --hash=sha256:850ba148bd908d7e2411587e247a1e4f0327839c40e2e5e6d05a007ecc69911d
 pyshacl==0.40.0 \
     --hash=sha256:1f814baa7fc2b877c999819fed9e4b8e4ba2461bc00ed8ed3e8bb4346258500f
+PyYAML==6.0.2 \
+    --hash=sha256:3ad2a3decf9aaba3d29c8f537ac4b243e36bef957511b4766cb0057d32b0be85 \
+    --hash=sha256:d584d9ec91ad65861cc08d42e834324ef890a082e591037abe114850ff7bbc3e
 rdflib==7.6.0 \
     --hash=sha256:30c0a3ebf4c0e09215f066be7246794b6492e054e782d7ac2a34c9f70a15e0dd
 wcwidth==0.8.3 \

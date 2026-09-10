@@ -8,7 +8,6 @@ exports_files([
     "chunk_lint.py",
     "extract_refs.py",
     "kb_lib.py",
-    "kb_yaml.py",
     "requirements_lock.txt",
 ])
 
@@ -54,14 +53,11 @@ py_binary(
     deps = [requirement("rdflib")],
 )
 
-# OpenODD 문서 → ODD 그래프(-odd.ttl) 생성기 (3.2절, 부록 E.4). YAML 부분집합 로더 kb_yaml 사용
+# OpenODD 문서 → ODD 그래프(-odd.ttl) 생성기 (3.2절, 부록 E.4). PyYAML (2026-09-11 잠금)
 py_binary(
     name = "odd2kg",
-    srcs = [
-        "kb_yaml.py",
-        "odd2kg.py",
-    ],
-    main = "odd2kg.py",
+    srcs = ["odd2kg.py"],
+    deps = [requirement("pyyaml")],
 )
 
 # 코어 지표 뷰 → metrics.md (4.13절, 14.1절). 문서는 수치를 적지 않고 이 생성물을 인용한다

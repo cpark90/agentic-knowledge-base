@@ -47,4 +47,4 @@ targets: [docs/references.md, docs/glossary.md, docs/feedback/notes-v5-review.md
 2. **PyYAML** — 정책을 바꿔 sdist 해시로 잠그면 `kb_yaml.py`를 지울 수 있다. 네트워크가 필요하다(ODD `cond-network` 허용 범위). 할지 말지.
 
 ## 답
-(유저가 채움)
+**유저(2026-09-11): "1은 지금 맞추고 2도 진행해줘"** — 반영: ODD 문서를 OpenODD YAML 매핑 모양으로 재작성(범주 리터럴·수치 식·확장 키 대문자), 생성기 재작성; `pyyaml==6.0.2` 잠금(relock.sh가 플랫폼 휠에 sdist 해시 병기), `kb_yaml.py` 삭제.

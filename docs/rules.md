@@ -184,7 +184,7 @@ conditional은 `when`의 특수형이다. 증거 기록 규칙 둘은 verify 질
 | 복합체 | `kg/composite-kg.ttl` | 손 |
 | 가정·출처 문서 | `kg/base-kg.ttl` | 손 |
 | 역할·스코프·채널·하네스 (입력) | `kg/catalog-kg.ttl` | 손 |
-| 조건과 ODD | `kb/odd/project-odd.yml` (OpenODD; 확장 키 `checks`·`exclusions_reviewed`) → 생성 `project-odd.ttl`·`taxonomy.yml` | YAML 손, TTL 생성 |
+| 조건과 ODD | `kb/odd/project-odd.yml` (OpenODD YAML 매핑: `TAXONOMY`·`MODULES`·`INCLUDE_AND`…; 확장 키 `ATTRIBUTES`·`LITERALS`·`CHECKS`·`EXCLUSIONS_REVIEWED`) → 생성 `project-odd.ttl`·`taxonomy.yml` | YAML 손, TTL 생성 |
 | 후보 링크 | `kb/dev/**/*.space.md` (`type: agt:Space`, 변수 하나 = 파일 하나) | 미구현 — [p9-candidate-storage](../kb/dev/decision/p9-candidate-storage/conclusion.md) |
 
 ### ODD

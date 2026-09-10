@@ -124,12 +124,11 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 |---|---|---|
 | `chunk2kg.py` | 청크 frontmatter → `kg/chunks-kg.ttl` (head·복합체·contentHash) | 필수 키 7개 누락, 값 어휘 밖, **IRI 중복**, 복합체 미선언 — "한 chunk는 한 파일"의 기계적 강제 |
 | `extract_refs.py` | 본문의 `d-NNNN` 인용 → `references-kg.ttl`의 `agt:cites` | 인용 대상이 실재하지 않음 |
-| `odd2kg.py` + `taxonomy.py` | OpenODD 문서 `kb/odd/project-odd.yml` → `project-odd.ttl`; `related/condition` → `taxonomy.yml` (부록 E.4) | 택소노미 밖 범주, 판정 방법·등급 없는 조건 |
+| `odd2kg.py` + `taxonomy.py` | OpenODD YAML 매핑 문서 `kb/odd/project-odd.yml`(`TAXONOMY`·`MODULES`·`INCLUDE_AND`…) → `project-odd.ttl`; `related/condition` → `taxonomy.yml` (부록 E.4) | 택소노미 밖 범주 · 미선언 속성 · 선언 밖 리터럴 · OpenODD 식이 아닌 값 · `ATTRIBUTES`/`CHECKS` 없는 조건 |
 | `labels.py` | 청크 head → OKF `index.md` (5.6절) | frontmatter 오류 |
 | `metrics.py` | 그래프 → `metrics.md` (4.13절 지표, CQ19·CQ20, 14.1 통과 조건) | 그래프 파싱 실패 |
 
-`kb_yaml.py`는 YAML **부분집합** 로더 — 잠금 정책("순수 파이썬 휠만") 때문에 PyYAML을 넣지 않은 부채다.
-rules_python은 sdist 빌드를 지원하므로 정책만 바꾸면 없앨 수 있다 ([`open-questions.md`](open-questions.md) §3). 생성물은 `bazel-bin`에만 있고 소스 트리에
+YAML은 PyYAML(잠금 `pyyaml==6.0.2`, 호스트 휠 + sdist 두 해시)로 읽는다 — 부분집합 로더 `kb_yaml.py`는 2026-09-11에 삭제했다. 생성물은 `bazel-bin`에만 있고 소스 트리에
 같은 이름의 파일을 두지 않는다 (`index.md`·`log.md` 포함).
 
 ### 검사 (없음) — `odd_check`(COD 대조·이탈 감지, 3.5절) · `assume_check`(가정 판정식 실행, 6.9절). 도입 2·4단계.
