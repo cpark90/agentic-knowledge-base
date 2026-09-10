@@ -1,8 +1,11 @@
 # method — 각 단계를 어떻게 하는가
 
-[`methodology.md`](methodology.md)가 순서라면 여기는 방법이다. 각 절차는 **입력 → 절차 →
+[`methodology.md`](methodology.md)가 순서라면 여기는 방법이다. 구조도 v5에 따라 **골격(§1~§12,
+두 KB 공통) / development(§13) / V&V(§14)** 세 층으로 적는다. 각 절차는 **입력 → 절차 →
 게이트 → 산출**로 쓰고, 규칙은 [`rules.md`](rules.md), 도구는 [`tools.md`](tools.md)를
 가리킨다. 절차를 바꾸면 대응 도구도 함께 본다.
+
+# 골격 — 공통 절차
 
 ## 1. 프로파일 구축
 
@@ -21,7 +24,7 @@
 **5단계를 통과하기 전에는 스코프를 파생하지 않는다** ([`id:chunk-d0063`](../chunks/decision/d-0063-odd-first-authoring-procedure.md)).
 
 1. 프로젝트가 의존하는 조건을 **정적 요소 / 환경 조건 / 동적 요소** 3갈래로 열거한다.
-2. 각 속성을 온톨로지 `related/condition` 개념에 대응시킨다 — 없으면 온톨로지를 먼저 확장한다.
+2. 각 속성의 범주를 `related/condition`에서 생성된 택소노미(`taxonomy.yml`)에 대응시킨다 — 없으면 온톨로지를 먼저 확장한다. 문서는 OpenODD 형식이다 ([`pe-odd-is-openodd`](../kb/dev/decision/pe-odd-is-openodd/conclusion.md)).
 3. **값 또는 범위**와 **객관적 판정 방법**을 지정한다. "정상이다"가 아니라 "명령 X가 Y를
    반환한다"여야 한다. 등급 A~D를 매기고 **D는 ODD에 넣지 않는다**(영원히 `unverified`인
    속성이 생겨 대조 결과가 늘 불완전해진다).
@@ -88,7 +91,7 @@ level을 바꾸지 않는다 — 전이는 기존 청크의 level 갱신이 아�
   임베딩 유사도(후보 추림만) > 같은 세션에서 읽음 (d-0110).
 - **임베딩 유사도를 확정 근거로 쓰지 않는다** (d-0009).
 
-네 족(참조·의미 의존·관련성·구성)과 후보 상태·신뢰도의 상세는
+조건(`when`)·증거 장부·상태 전이 규칙은 [`p9-conditional-links`](../kb/dev/decision/p9-conditional-links/conclusion.md)·[`p9-evidence-ledger`](../kb/dev/decision/p9-evidence-ledger/conclusion.md). 조회 알고리즘과 복원 계획은
 [`feedback/dependency-graph-design.md`](feedback/dependency-graph-design.md).
 
 ## 7. 갱신
@@ -147,21 +150,11 @@ level을 바꾸지 않는다 — 전이는 기존 청크의 level 갱신이 아�
 한다. **트리거는 초기에 사람 지정만 쓴다** — 반복 임계값 트리거는 관측 모수가 쌓인 뒤다
 (d-0006 · d-0089). 교훈 승격이 상승의 최소 단위다 (d-0017 · d-0127).
 
-## 11. 검증
+## 11. 검증 — V&V 층으로
 
-검증은 체계의 구성요소가 아니라 **응용**이다. 체계는 시험 대상·경계·결과 축적·실패 분류의
-단위를 제공하고 시험 절차 자체는 규정하지 않는다 (d-0130).
-
-- **대상이 둘이다** — 제품(만들어진 시스템)과 에이전트(만드는 주체). 시나리오도 판정도
-  분리한다 (d-0131).
-- **시나리오**는 시스템 상태의 시간열 + 행위자의 행동 + **트리거**다. 트리거 없는 행동
-  목록은 시나리오가 아니라 절차다.
-- **합격 기준은 시나리오와 별도**로 두고 `verifies` 링크에 붙인다. 기준 없는 링크는 게이트가
-  거부한다 — "검증했다"에 "무엇으로"가 없으면 검증이 아니다 (d-0136).
-- **환경은 판정 가능한 가장 낮은 단계**에 배정한다. 1~4단계는 재현 가능해야 하며, 재현되지
-  않으면 상위로 강등한다 (d-0134 · d-0137).
-- **커버리지의 분모는 ODD**다. ODD 밖 시나리오는 별도 태그로 보관하되 분모에 넣지 않는다
-  (d-0135 · d-0067).
+v1의 "검증은 응용"(d-0130)은 v3부터 대체됐다 — 검증·평가는 **두 번째 지식 베이스**이며 절차는
+§14 V&V 층에 있다 ([`p12-dev-vv-kb-exchange`](../kb/dev/decision/p12-dev-vv-kb-exchange/conclusion.md)).
+골격이 제공하는 것은 시험 대상·경계(ODD)·결과 축적(실행 기록)·실패 분류(defect)의 단위다.
 
 ## 12. 영향 분석
 
@@ -176,3 +169,44 @@ level을 바꾸지 않는다 — 전이는 기존 청크의 level 갱신이 아�
 
 새 질의를 만들지 않는다 — 이미 있는 역방향 질의와 단방향 규칙의 조합이다. 네 수치로 나오므로
 변경의 크기가 비교 가능해지고, 유저 승인이 필요한 수가 0이 아니면 자율 진행 범위를 벗어난다.
+
+# development — 개발 KB의 절차 (노트 7.3~7.9)
+
+## 13. 저작 흐름과 완료
+
+**저작 흐름 8단계** ([`p7-authoring-flow`](../kb/dev/decision/p7-authoring-flow/conclusion.md)): 요구 작성(유저+design) →
+형식화(`decision` abstract, `serves`) → 계약 선언(`contract` abstract) → 전개(`decision` logical `-space` / `contract`
+logical 사후조건 / `schema` logical) → 확정(design+유저, 체크박스 피드백, `-space` resolved) → 스키마 확정 → 구현(developer,
+`artifact`) → 리뷰(`annotation`). 요구마다 독립적으로 하강하고 요구 간 순서는 `depends-on`과 ODD 시간 제약이 정한다.
+
+| 절차 | 입력 → 산출 | 게이트 | 결정 |
+|---|---|---|---|
+| 하강 전이 게이트 4종 | f→a 봉사 명시 / a→l 판정식·범위 / l→c 표본 근거·배제 근거 / c→e 기준 바인딩 | `gate`(미구현) | [p6-transition-gates](../kb/dev/decision/p6-transition-gates/conclusion.md) |
+| 결정 확정 | `-space` → 유저 체크박스 → 후보 하나 → concrete 청크 + eliminated 항목이 대안 청크로 승격 | `space_check`·`feedback`(미구현) | [p9-candidate-storage](../kb/dev/decision/p9-candidate-storage/conclusion.md) |
+| 계약 선언 → 구현 | 시그니처 먼저, 사후조건(CEL)이 V&V 기준의 재료 | `contract_check`(미구현) | [p7-contract-first](../kb/dev/decision/p7-contract-first/conclusion.md) |
+| 스키마 확정 | 호환성 판정 → `wasRevisionOf` 또는 새 IRI + `supersedes` | `schema_compat`(미구현) | [p7-schema-derivation](../kb/dev/decision/p7-schema-derivation/conclusion.md) |
+| 완료 판정 | 연쇄 완주 · 계약 선행 · 대안 존재 · 가정 `stable` · V&V `verifies` 유효 | `dev_metrics`(미구현) | [p7-dev-kb-completion](../kb/dev/decision/p7-dev-kb-completion/conclusion.md) |
+
+이 저장소에서 지금 실제로 도는 것은 1(요구)과 2·4·5의 결정 부분(단, `-space` 없이 결론·근거·대안 직접 저작)뿐이다.
+
+# V&V — V&V KB의 절차 (노트 8.19~8.27, 8.4, 12.12)
+
+## 14. 위험 분석에서 되먹임까지
+
+| 절차 | 요지 | 결정 |
+|---|---|---|
+| 위험 분석 G1~G6 | 현상 추출 → 인과 모델 → 데이터 검토 → 지표 → 시나리오 부류 → 목표 거동. 규칙성 가정 먼저. 도메인당 한 번, 초기엔 전문가 | [p8-risk-analysis-profile](../kb/dev/decision/p8-risk-analysis-profile/conclusion.md) |
+| 워크플로 10단계 | 목표 파생 → 시나리오 형식화 → 논리 시나리오+기준 → 케이스 생성 → verifier → 환경 배정 → 실행 → 판정 → 보고 → 되먹임. **1~3은 개발 확정 전 시작** | [p8-vv-workflow](../kb/dev/decision/p8-vv-workflow/conclusion.md) |
+| V&V 파생 | 요구→목표 / 결정 abstract→시나리오 abstract / 계약 사후조건→기준 / 확정 값→케이스 / 구현→verifier | [p8-scenario-ladder-rungs](../kb/dev/decision/p8-scenario-ladder-rungs/conclusion.md) |
+| 시나리오 저작 | 부류(G5)에서 시작 → ODD 속성으로 변수 → 계약 사후조건으로 기준 → 배제 자극 기록. concrete는 생성기가 | [p8-scenario-authoring](../kb/dev/decision/p8-scenario-authoring/conclusion.md) |
+| 케이스 생성 5규칙 | 등가분할 · 경계값(별도 집계) · t-wise · 요인 주입 · 관측 재현. 규칙·seed는 provenance에 | [p8-case-generation](../kb/dev/decision/p8-case-generation/conclusion.md) |
+| 환경 배정 | 판정 가능한 최저 단계. 요인 → 단계. 재현성 조건 | [p8-environment-assignment](../kb/dev/decision/p8-environment-assignment/conclusion.md) |
+| 검증 세 방향 | 수직 완주 · 수평 실행 통과 · 기준의 질(변이 검출) | [p8-three-directions-of-verification](../kb/dev/decision/p8-three-directions-of-verification/conclusion.md) |
+| 검증과 평가 | 검증은 1~5단계 verifier / 평가는 5~6단계 실환경·유저·이탈 → `requirement` 상승 | [p8-verification-and-validation](../kb/dev/decision/p8-verification-and-validation/conclusion.md) |
+| 불일치의 귀속 | 실패 → 기호 진단 → 산출물/지식/둘 다 귀속 → 지도 청크(귀속·조치·배제된 전략) → 조치 | [p8-mismatch-attribution](../kb/dev/decision/p8-mismatch-attribution/conclusion.md) |
+| 보고 5종 | 검증 상태 · 커버리지 · 결함 분포 · 가정 건전성 · 독립성. 저장하지 않고 투영, 리비전·질의 명기 | [p8-vv-reports](../kb/dev/decision/p8-vv-reports/conclusion.md) |
+| 에이전트 V&V | 목표는 역할 책임, 자극은 작업 집합+요구+의도된 이탈, 기준은 shape·완주·인지 누락률·안전 정지. 3단계 시뮬레이션 프로젝트 중심 | [p8-agent-vv](../kb/dev/decision/p8-agent-vv/conclusion.md) · [p12-cognition-measurement](../kb/dev/decision/p12-cognition-measurement/conclusion.md) |
+| 사후분석 | 기호 진단(불만족 핵·보간·최약 전제조건·명세 추론) → 요인 추론 → 지도 청크 → 어휘·요구/기준·ODD 후보. 산출 없으면 실패 | [p12-symbolic-diagnosis](../kb/dev/decision/p12-symbolic-diagnosis/conclusion.md) · [p12-incident-postmortem](../kb/dev/decision/p12-incident-postmortem/conclusion.md) |
+| 선제적 V&V | ODD 경계 근접 · 커버리지 공백 · 외부 지식 변화 · 증거 노화가 트리거. 산출은 전부 `origin:observed` 후보 | [p8-proactive-vv](../kb/dev/decision/p8-proactive-vv/conclusion.md) |
+
+이 저장소는 아직 어느 절차도 실행하지 않았다 — `kb/vv/`가 비어 있다 (도입 7단계).

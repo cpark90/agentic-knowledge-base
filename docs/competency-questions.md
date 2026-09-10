@@ -241,7 +241,7 @@ concrete 한 칸만 쓰고 있다는 증거다.*
 | ~~트러스트 티어~~ | **해소**(2026-09-07, 어휘 3개 + shape) | CQ-31·32 | `kb/ontology/related/trust/` |
 | ~~인용 링크 데이터~~ | **해소**(2026-09-07, 링크 27개) | CQ-20 | `tools/extract_refs.py` |
 | `satisfies`·`refines` 데이터 — 구축이 안 됨 | **데이터** | CQ-13·16·17·18의 답이 부분 | [`method.md` §6](method.md#6-연결) · 읽기·쓰기 집합 기록 |
-| `related/scene`·실행 기록·`defect` | 어휘 | CQ-12·26·27 | [`method.md` §11](method.md#11-검증) |
+| `related/scene`·실행 기록·`defect` | 어휘 | CQ-12·26·27 | [`method.md` §11](method.md#11-검증--vv-층으로) |
 | 상위 온톨로지 정렬·상태 전이 이력 | 어휘 | CQ-23·30 | [`open-questions/`](open-questions/) |
 | 라벨 대표성 판정 | 판정 불가 | CQ-06 | 지표로 관측 |
 
@@ -252,7 +252,7 @@ concrete 한 칸만 쓰고 있다는 증거다.*
 ## 실행
 
 지금은 손으로 돌린다. `query` 도구가 생기면 이 목록이 그 도구의 입력이 되고, 상태 표가
-생성물이 된다 ([`tools.md` §활용 도구](tools.md#활용-도구-없음)).
+생성물이 된다 ([`tools.md` §활용 도구](tools.md#활용-없음)).
 
 ```bash
 python3 - <<'PY'

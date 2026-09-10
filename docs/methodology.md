@@ -4,7 +4,7 @@
 [`rules.md`](rules.md)는 그 결과가 유효한지의 규칙이다.** 원본은 노트 v3
 ([`agent-knowledge-system-notes.md`](agent-knowledge-system-notes.md)) Part VI·XI과
 운용 지도다. 여기의 순환은 **운용 순환**이고, 이 저장소 자신이 어디까지 왔는가의
-**도입 7단계**는 [`roadmap.md`](roadmap.md)에 있다 — 둘은 다른 축이다.
+**도입 8단계**는 [`roadmap.md`](roadmap.md)에 있다 — 둘은 다른 축이다.
 
 ## 순서
 

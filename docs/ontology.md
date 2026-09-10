@@ -1,10 +1,10 @@
 # ontology — 지식의 골격과 분야 프로파일
 
-온톨로지는 이 체계의 **어휘**다. 사다리의 한 단계가 아니라 사다리 전체가 쓰는 어휘이며,
+구조도 v5에 따라 **골격 / development / V&V** 세 층으로 적는다. 온톨로지는 이 체계의 **어휘**다. 사다리의 한 단계가 아니라 사다리 전체가 쓰는 어휘이며,
 이 어휘 밖에서 쓴 지식은 이 체계에 존재하지 않는다
 ([`id:chunk-d0046`](../chunks/decision/d-0046-ontology-as-vocabulary.md)).
 
-## 두 층
+## 골격 — 두 층(골격·프로파일)
 
 | 층 | 담는 것 | 누가 만드나 | 위치 |
 |---|---|---|---|
@@ -79,6 +79,23 @@ mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementC
 목록과 현재 답할 수 있는 것의 실측은 [`competency-questions.md`](competency-questions.md) —
 노트 v3의 CQ1~20과 이 저장소 등록분 CQ-01~32의 대응표도 거기에 있다. 답할 수 없는
 질문이 어휘 확장의 우선순위다.
+
+## development 층 — 개발 KB의 어휘 (노트 7.2)
+
+| 항목 | 설계 | 이 저장소 |
+|---|---|---|
+| plane 실체 | `RequirementChunk`(EARS 패턴·이해관계자·관심사) · `DecisionChunk`(결론/근거/대안, `serves`) · `ContractChunk`(시그니처, 사전·사후조건) · `SchemaChunk`(호환 관계) · `ArtifactChunk`(앵커) · `AnnotationChunk` · `MemoryChunk` | 클래스 7 **있음**(`entity/knowledge-item`). `serves ⊑ refines` 있음. EARS 패턴·관심사·호환성·표본 근거 유형 어휘 **없음** |
+| 경쟁 질문 | CQ1 충족 · CQ3 배제 대안 · CQ4 무효 범위 · CQ7 고아 · CQ16 할당 · **CQ19 하강 완주** · **CQ20 상향 귀속** | [competency-questions](competency-questions.md) |
+
+## V&V 층 — V&V KB의 어휘 (노트 8.2, 8.16~8.21, 부록 E.5)
+
+| 항목 | 설계 | 이 저장소 |
+|---|---|---|
+| `vv/` 모듈 | 일곱 plane의 V&V 실체 — 검증 목표 · 시나리오(자극·요인·배제 자극) · 합격 기준(판정식) · 케이스 · verifier · 판정 논평 · 실행 기록 | **없음** — plane 클래스는 골격을 그대로 쓴다 ([p8-vv-plane-instances](../kb/dev/decision/p8-vv-plane-instances/conclusion.md)) |
+| 위험 분석 산출 | 현상(ODD 조건 + `defect` 요인) · 인과(`defect-rules`) · 지표 · 시나리오 부류 abstract 라이브러리 · 목표 거동(Runbook) | `Runbook`만 있음(`related/state`). `defect`·`defect-rules` **없음** |
+| 시나리오 도메인 모델 | actor(에이전트·유저·서비스) · action — OpenSCENARIO 코어 구조 위 | **없음** (도입 7단계, [pe-scenario-is-openscenario](../kb/dev/decision/pe-scenario-is-openscenario/conclusion.md)) |
+| 결함 어휘 | 3갈래 × ODC 유형 × 한정자 × 트리거 × 발견 단계 | **없음** |
+| 경쟁 질문 | CQ5 작업 집합 · CQ6 ODD 안팎 · CQ10 결함 요인 · **CQ11 무엇을 검증하는가** · CQ17 양립 후보 | [competency-questions](competency-questions.md) |
 
 ## 참조 프로파일 — 소프트웨어 개발
 

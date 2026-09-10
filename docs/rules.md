@@ -1,9 +1,12 @@
 # rules — 무엇이 유효한 지식 구조인가
 
-원본은 노트 v3([`agent-knowledge-system-notes.md`](agent-knowledge-system-notes.md))
-Part II·IV·V·IX와 그 재도출 결정(`kb/dev/decision/`)이다. **규칙은 여기, 규칙을 수행하는 절차는
+원본은 노트 v5([`agent-knowledge-system-notes.md`](agent-knowledge-system-notes.md))
+Part II·IV·V·VII·VIII·IX·X와 그 재도출 결정(`kb/dev/decision/`)이다. 구조도 v5에 따라
+**골격(§1~§6, 두 KB 공통) / development(§7) / V&V(§8)** 세 층으로 적는다. **규칙은 여기, 규칙을 수행하는 절차는
 [`method.md`](method.md), 규칙을 기계로 강제하는 것은 [`tools.md`](tools.md)의 검사 도구다.**
 기계가 판정할 수 없는 규칙은 [`../STYLEGUIDE.md`](../STYLEGUIDE.md)의 `[지킴]`으로 남는다.
+
+# 골격 — 두 KB가 공유하는 규칙
 
 ## 1. chunk — 자립적 최소 지식 단위
 
@@ -42,7 +45,7 @@ OKF의 행위자 규약을 그대로 쓴다: 도구는 `<생성기>/<버전>`, �
 기록되지 않았고 채널의 `status: approved`는 그래프 밖이었다 — `verified`가 그 둘을 잇고,
 write plane 경계가 규약에서 기계 검사로 내려온다.
 
-*현재 실측: 153개 전부 `generatedBy: claude/fable-5`, **사람 검토 0건**.*
+*현재 실측(2026-09-10): 생성자는 `claude/fable-5`·`claude/opus-5`뿐, **사람 검토 0건**.*
 
 ### 파일 형식과 head 생성
 
@@ -75,8 +78,9 @@ IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 
 **이 형식은 [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)
 번들이다** — 마크다운 + YAML 프론트매터, `type`만 필수, 소비자는 알 수 없는 키를 견딘다.
-그래서 `iri`·`level`·`label_*`·`assumes`는 producer-defined key로 남고 외부 도구도 이
-저장소를 읽을 수 있다. 예약 파일명 `index.md`·`log.md`는 쓰지 않는다.
+`id`·`title_ko`·`level`·`assumes` 등은 확장 키로 남고 외부 도구도 이 저장소를 읽을 수 있다
+(필드 사상은 [`pe-three-layer-binding`](../kb/dev/decision/pe-three-layer-binding/conclusion.md)).
+예약 파일명 `index.md`·`log.md`는 **생성물로만** 둔다 — `bazel build //kb/dev:index` (유저 결정 Q4).
 
 값 어휘의 원본은 `tools/chunk2kg.py`의 상수(`PLANE_CLASS`·`LEVELS`·`STATES`·`REQUIRED`)다.
 생성 경로: `chunks/<plane>/*.md` + `kb/dev/**/*.md` + `kb/vv/**/*.md` → `//kg:chunks_kg`
@@ -111,8 +115,8 @@ d-0002), **순서가 뜻을 갖는가**(d-0073). 셋째 기준인 "무효화가 
 구성체가 아니라 링크(`relatedTo`)로 표현한다
 ([`feedback/dependency-graph-design.md`](feedback/dependency-graph-design.md) §2.4).
 
-**결정은 세 청크의 구성체다** (노트 4.7절, 유저 결정 C2) — 결론(concrete)·근거(logical)·
-대안(logical, 있을 때만)이 `kb/dev/decision/<파트>-<슬러그>/` 디렉토리 하나에 살고,
+**결정은 세 청크의 구성체다** (노트 4.7절·7.4절, 유저 결정 C2) — 결론(concrete)·근거(logical)·
+대안(logical, **필수** — "대안 없었음"도 기록)이 `kb/dev/decision/<파트>-<슬러그>/` 디렉토리 하나에 살고,
 구성체 개체는 conclusion의 frontmatter 선언에서 `chunk2kg`가 생성한다. 이 구성체는
 level이 섞이므로 동질성 규칙과 긴장한다 — 등록된 미해결이다
 ([`open-questions.md`](open-questions.md) "이 저장소가 관찰한 추가 긴장").
@@ -181,7 +185,7 @@ conditional은 `when`의 특수형이다. 장부 규칙 둘은 verify 질의다 
 | 가정·출처 문서 | `kg/base-kg.ttl` | 손 |
 | 역할·스코프·채널·하네스 (입력) | `kg/catalog-kg.ttl` | 손 |
 | 조건과 ODD | `kb/odd/project-odd.yml` (OpenODD; 확장 키 `checks`·`exclusions_reviewed`) → 생성 `project-odd.ttl`·`taxonomy.yml` | YAML 손, TTL 생성 |
-| 후보 링크 | `space/*-space.ttl` | 미구현 |
+| 후보 링크 | `kb/dev/**/*.space.md` (`type: agt:Space`, 변수 하나 = 파일 하나) | 미구현 — [p9-candidate-storage](../kb/dev/decision/p9-candidate-storage/conclusion.md) |
 
 ### ODD
 
@@ -250,7 +254,50 @@ bazel run //tools:canonicalize -- --write <files>
 
 ## 6. 그래프 안과 밖
 
-검사 대상인 지식(`kb/ontology/`·`kb/odd/`·`kg/`·`chunks/`·`space/`)과, 대상이 아닌 문서
+검사 대상인 지식(`kb/{ontology,odd,dev,vv}/`·`kg/`·`chunks/`)과, 대상이 아닌 문서
 (`docs/`·`.claude/`)를 가른다. 소통 기록과 지식을 섞으면 어휘 폐쇄 검사가 무의미해진다.
 문서는 결정을 복사하지 않고 **IRI로 인용**한다 — 복사하면 이중 관리가 되고 둘이 어긋나는
 순간 어느 쪽이 원본인지 알 수 없어진다 (d-0075).
+
+# development 규칙 — 개발 KB (노트 7.2~7.7)
+
+개발 KB는 요구 명세에서 실산출물을 생산하기 위한 지식이다
+([`p7-dev-kb-purpose`](../kb/dev/decision/p7-dev-kb-purpose/conclusion.md)). 골격 규칙 위에 다음이 더해진다.
+
+| 규칙 | 내용 | 결정 |
+|---|---|---|
+| `requirement` | functional 전용. EARS 다섯 패턴, 이해관계자·관심사 필수 | [p7-dev-plane-substance](../kb/dev/decision/p7-dev-plane-substance/conclusion.md) |
+| 결정 구성체 | 항상 결론·근거·대안 세 청크. **대안 청크 없는 결정 = shape 위반**, "대안 없었음"도 기록 | [p7-alternatives-mandatory](../kb/dev/decision/p7-alternatives-mandatory/conclusion.md) |
+| 결정의 수준 | abstract(변수)·logical(후보·제약·배제)·concrete(값)는 별개 청크, `refines`로 연결. concrete가 생겨야 확정. abstract 청크는 `-space`가 있을 때만 | [p7-decision-spans-three-levels](../kb/dev/decision/p7-decision-spans-three-levels/conclusion.md) |
+| 봉사 | abstract 결정은 `serves`(⊑ `refines`)로 어느 요구의 어느 관심사에 봉사하는지 명시. 없으면 거부 | [p6-transition-gates](../kb/dev/decision/p6-transition-gates/conclusion.md) |
+| 계약 우선 | `contract` abstract가 구현보다 먼저. 계약 없는 구현 = 하강 단절. 계약 logical(사후조건)이 V&V 기준의 재료 | [p7-contract-first](../kb/dev/decision/p7-contract-first/conclusion.md) |
+| 스키마 | `decision`에서 `derives-from`, `contract`를 `constrains`. 비호환 변경 = 새 IRI + `supersedes` | [p7-schema-derivation](../kb/dev/decision/p7-schema-derivation/conclusion.md) |
+| `artifact` | 구현만. verifier는 V&V KB | [p6-executable-splits-by-kb](../kb/dev/decision/p6-executable-splits-by-kb/conclusion.md) |
+| 구현 착수 | developer는 concrete 결정·확정 스키마 없이 구현 불가(스코프 conditional). developer 작업 집합에 `-space` 없음 | [p7-developer-requires-concrete](../kb/dev/decision/p7-developer-requires-concrete/conclusion.md) |
+| 대체 | 결정 대체는 `supersedes`. 옛 결정은 `deprecated`, 그 `satisfies` 전부 `suspect` | [p7-decision-supersession](../kb/dev/decision/p7-decision-supersession/conclusion.md) |
+| 완료 | 연쇄 완주 · 계약 선행 · 대안 존재 · 가정 `stable` · **V&V `verifies` 유효** — 개발 KB만으로 완료 선언 불가 | [p7-dev-kb-completion](../kb/dev/decision/p7-dev-kb-completion/conclusion.md) |
+| 역할 | design(요구·결정·계약·스키마·ODD) / developer(`artifact`) / orchestrator(dispatch 결정) / V&V(`annotation`만) | [p7-dev-roles-and-scopes](../kb/dev/decision/p7-dev-roles-and-scopes/conclusion.md) |
+
+이 저장소의 실측(2026-09-10): `requirement` 33 · `decision` 182(대안 182/182) · `contract`·`schema`·`artifact` 0.
+
+# V&V 규칙 — V&V KB (노트 8.2~8.5, 8.11~8.15, 8.4, 9.11)
+
+V&V KB는 골격의 두 번째 인스턴스다 — 새 plane을 만들지 않고 실체만 다르다
+([`p8-vv-plane-instances`](../kb/dev/decision/p8-vv-plane-instances/conclusion.md)).
+
+| 규칙 | 내용 | 결정 |
+|---|---|---|
+| 독립성 | 개발 역할은 V&V KB 쓰기 불가. 기준 수정은 요구 수정으로만. 저장 분리(`kb/vv/`), V&V → 개발 단방향 의존 | [p8-vv-independence-scope](../kb/dev/decision/p8-vv-independence-scope/conclusion.md) |
+| 가로대 필수 | f→a에 검증 목표 / l→c에 합격 기준 / c→e에 verifier. 없으면 개발 게이트 실패(7단계 전엔 경고) | [p8-scenario-ladder-rungs](../kb/dev/decision/p8-scenario-ladder-rungs/conclusion.md) |
+| `verifies` | KB를 가로지르는 유일한 링크. 방향은 V&V → 개발, 같은 level끼리 | [p6-executable-splits-by-kb](../kb/dev/decision/p6-executable-splits-by-kb/conclusion.md) |
+| 시나리오 | `decision`(vv) 구성체 — 자극·요인·배제 자극. 변수는 ODD 속성만, ODD 밖은 `odd:outside`로 커버리지 제외 | [p8-scenario-authoring](../kb/dev/decision/p8-scenario-authoring/conclusion.md) |
+| 기준 ≠ 자극 | 기준은 `contract`(vv) 별도 청크, `verifies` 속성으로 바인딩. 판정식 없는 기준은 abstract로 강등 | [p8-pass-criteria](../kb/dev/decision/p8-pass-criteria/conclusion.md) |
+| 케이스 | concrete 케이스는 사람이 쓰지 않는다 — `keep`+`cover`에서 생성. 표본 근거 없는 케이스 거부 | [p8-case-generation](../kb/dev/decision/p8-case-generation/conclusion.md) |
+| 역할 | verifier author ≠ V&V engineer (또는 다른 세션). audit은 쓰기 없음 | [p8-vv-roles](../kb/dev/decision/p8-vv-roles/conclusion.md) |
+| 재현성 | 재현 불가 → 5~6단계 강등. 6단계 관측은 커버리지에 넣지 않음 | [p8-reproducibility](../kb/dev/decision/p8-reproducibility/conclusion.md) |
+| 학습된 판정자 | 정확도·판별력·캘리브레이션 3지표 + 사람 승인. 결과는 head `verified` 목록에 | [p8-learned-environment-and-judge](../kb/dev/decision/p8-learned-environment-and-judge/conclusion.md) |
+| 평가의 목적지 | 평가 결과는 `requirement`로 — 요구가 바뀌는 유일한 정규 경로 | [p8-verification-and-validation](../kb/dev/decision/p8-verification-and-validation/conclusion.md) |
+| 불일치의 귀속 | 산출물 / 지식(요구 과도·제약 부족·가정 누락) / 둘 다는 **결정**이며 V&V `decision`의 지도 청크. 진단은 기호 도구 먼저 | [p8-mismatch-attribution](../kb/dev/decision/p8-mismatch-attribution/conclusion.md) |
+| 실행 증거 | verifier 결과는 개발 KB `satisfies` 후보의 장부에 (+)(−)로 — 링크가 아니라 장부 항목이라 방향 규칙 유지 | [p9-evidence-ledger](../kb/dev/decision/p9-evidence-ledger/conclusion.md) |
+
+이 저장소의 실측(2026-09-10): `kb/vv/`는 비어 있다 — 이 저장소 자신의 검증 목표·시나리오·기준이 없다 (도입 7단계).

@@ -25,20 +25,20 @@
 | 문서 | 다루는 것 |
 |---|---|
 | [`methodology.md`](methodology.md) | 전체 순서와 그 이유, 각 단계의 완료 판정과 다음 단계의 전제 |
-| [`ontology.md`](ontology.md) | 골격과 분야 프로파일, 확장 규칙, 참조 프로파일 |
+| [`ontology.md`](ontology.md) | 골격과 분야 프로파일, 확장 규칙 — 골격 / development / V&V 세 층 |
 | [`competency-questions.md`](competency-questions.md) | 온톨로지가 답해야 하는 질문과 현재 답할 수 있는 것 (노트 CQ1~20 대응표 포함) |
-| [`rules.md`](rules.md) | 무엇이 유효한 구조인가 — chunk · 구성체 · plane · traceability · knowledge graph |
-| [`method.md`](method.md) | 각 단계를 어떻게 하는가 |
+| [`rules.md`](rules.md) | 무엇이 유효한 구조인가 — 골격(chunk · 구성체 · plane · traceability · KG) / development / V&V |
+| [`method.md`](method.md) | 각 단계를 어떻게 하는가 — 골격 12절차 / development 저작 흐름 / V&V 위험 분석~되먹임 |
 | [`input.md`](input.md) | 체계가 소모하는 입력 15종과 이 저장소의 바인딩 현황 |
-| [`tools.md`](tools.md) | 검사 도구(3계층 컴파일러)와 활용 도구, Bazel 배선, 게이트 밖 규약 |
+| [`tools.md`](tools.md) | **게이트 총람(원본)**, 골격 검사·활용 도구 / development / V&V 도구, Bazel 배선, 게이트 밖 규약 |
 
 ## 진행과 기록
 
 | 문서 | 다루는 것 |
 |---|---|
-| [`roadmap.md`](roadmap.md) | 도입 7단계에서의 현재 위치와 다음 산출, 실측 |
+| [`roadmap.md`](roadmap.md) | 도입 8단계에서의 현재 위치와 다음 산출, 실측 |
 | [`risks-and-tensions.md`](risks-and-tensions.md) | 체계가 실패하는 방식과 대응, 서로 당기는 힘의 균형점 |
-| [`open-questions.md`](open-questions.md) | 미해결 질문 인덱스 — 노트 Part XVI 25건 + 이 저장소의 관찰 (항목 본문은 `open-questions/`) |
+| [`open-questions.md`](open-questions.md) | 미해결 질문 인덱스 — 노트 Part XVII 30건 + 이 저장소의 관찰 (항목 본문은 `open-questions/`) |
 | [`references.md`](references.md) | 어느 구조를 어느 표준에서 가져왔는가 |
 | [`decomposition-audit.md`](decomposition-audit.md) | 노트→결정 대응과 커버리지 감사 — v1 분해(153건)와 v3 재도출 |
 
