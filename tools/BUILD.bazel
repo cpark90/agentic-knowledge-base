@@ -67,6 +67,20 @@ py_binary(
     deps = [requirement("rdflib")],
 )
 
+# 작업 집합 뷰 (0.5절, 5.6절): 스코프 × 수준 창 → 라벨 목록 + 앵커 이웃, 예산 패킹
+py_binary(
+    name = "workset",
+    srcs = ["workset.py"],
+    deps = [requirement("rdflib")],
+)
+
+# ODD 모니터링 (3.5절): bazel run //tools:odd_check — CHECKS.cmd 실행, 이탈 보고. 네트워크·호스트 상태를 보므로 테스트 타깃이 아니다
+py_binary(
+    name = "odd_check",
+    srcs = ["odd_check.py"],
+    deps = [requirement("pyyaml")],
+)
+
 # 라벨 목록 뷰 → index.md (5.6절, 부록 E.2). OKF 예약 파일은 생성물이다
 py_binary(
     name = "labels",

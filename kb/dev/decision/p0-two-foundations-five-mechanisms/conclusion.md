@@ -13,7 +13,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/4a312eca-5b3b-40e5-9f0a
 composite: {id: https://agentic-knowledge-base.dev/id/composite/4a312eca-5b3b-40e5-9f0a-c141039ac7c1, title_ko: 체계의 구성 — 기반·메커니즘·KB, title: System composition}
 ---
 **결론** — 체계는 두 **기반**과 다섯 **메커니즘**, 메커니즘으로 만든 두 **지식
-베이스**로 구성된다. 작업 종류를 가리지 않으며, 도메인 중립 코어과 도메인
+베이스**로 구성된다. 작업 종류를 가리지 않으며, 도메인 중립 코어와 도메인
 프로파일(2.11절)로 나뉜다.
 
 | 구성 | 푸는 문제 |

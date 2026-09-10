@@ -11,7 +11,7 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e
 composite: {id: https://agentic-knowledge-base.dev/id/composite/c831629d-706d-4d61-90e5-f4d848758731, title_ko: 개발 KB의 완결과 완료 판정, title: Completion of the development KB}
 part_of: https://agentic-knowledge-base.dev/id/composite/c831629d-706d-4d61-90e5-f4d848758731
 ---
-**결론** — 개발 KB의 완결 조건은 하나다: **모든 요구가 executable까지 `refines` 연쇄로 닿고, 모든 산출물이 요구로 거슬러 오른다** (CQ19·CQ20). 전방 추적 커버리지·후방 추적 커버리지이 100%가 아니면 개발 KB는 열려 있다 (노트 7.1절).
+**결론** — 개발 KB의 완결 조건은 하나다: **모든 요구가 executable까지 `refines` 연쇄로 닿고, 모든 산출물이 요구로 거슬러 오른다** (CQ19·CQ20). 전방 추적 커버리지·후방 추적 커버리지가 100%가 아니면 개발 KB는 열려 있다 (노트 7.1절).
 
 요구 하나가 "끝났다"의 정의 (7.9절):
 1. `refines` 연쇄가 requirement → decision(abstract·logical·concrete) → artifact로 닿음

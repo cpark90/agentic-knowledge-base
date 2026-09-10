@@ -1,4 +1,4 @@
-load("//defs:knowledge.bzl", "kb_chunk_kg", "kb_gate_test", "kb_metrics", "kb_reference_kg")
+load("//defs:knowledge.bzl", "kb_chunk_kg", "kb_gate_test", "kb_metrics", "kb_reference_kg", "kb_workset")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -46,9 +46,32 @@ kb_gate_test(
 # 코어 지표 — 생성물 (bazel build //kg:metrics → bazel-bin/kg/metrics.md). 4.13절·14.1절
 kb_metrics(
     name = "metrics",
+    bodies = ["//kb/dev:bodies"],
     data = [
         ":chunks_kg",
         ":kg",
         ":references_kg",
+        "//kb/odd:odd",
     ],
+    notes = "//docs:notes",
 )
+
+# 역할별 작업 집합 뷰 (2단계 산출: 역할별 작업 집합이 예산 안인가). bazel build //kg:workset_developer 등
+[
+    kb_workset(
+        name = "workset_" + role,
+        data = [
+            ":chunks_kg",
+            ":kg",
+            ":references_kg",
+        ],
+        role = role,
+    )
+    for role in [
+        "orchestrator",
+        "developer",
+        "vnv",
+        "inspection",
+        "hci",
+    ]
+]

@@ -8,7 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
-**요구** — 프로젝트가 종료되면, 체계는 온톨로지 어휘·일반화으로 올라간 공리·ODD 코어·결함 어휘·교훈을 다음 프로젝트로 넘길 수 있어야 한다.
+**요구** — 프로젝트가 종료되면, 체계는 온톨로지 어휘·일반화로 올라간 공리·ODD 코어·결함 어휘·교훈을 다음 프로젝트로 넘길 수 있어야 한다.
 
 - **이해관계자**: 업체 · **관심사**: 축적과 재사용
 - **출처**: 구조도 축적의 단위 / 노트 12.7절

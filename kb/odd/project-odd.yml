@@ -52,14 +52,14 @@ LITERALS:                            # 범주 리터럴의 뜻 (사람이 읽는
   hash_locked_closure:               "rdflib 7.6.0, pyshacl 0.40.0, owlrl 7.6.2, pyyaml 6.0.2 — 전체 폐포 해시 고정. 플랫폼 휠은 호스트 휠 + sdist 두 해시"
   initial_fetch_then_offline:        "최초 fetch 시 BCR·PyPI 접근 필요, 이후 오프라인 빌드 가능"
 
-CHECKS:                              # 판정 방법·등급 (3.2절, 3.9절). cel 은 도입 5단계에서 채운다
-  build_system:         {grade: A, method: ".bazelversion 파일 내용 = 9.2.0; bazel test //... 성공"}
-  python_runtime:       {grade: A, method: "MODULE.bazel의 python.toolchain(python_version = \"3.11\")"}
-  repository_layout:    {grade: A, method: "bazel test //:naming_test (접미사 린트) + //chunks:lint_test + //kb/dev:lint_test"}
-  language_policy:      {grade: B, method: "bazel test //kb/ontology:gate_test 의 labels 검사 (한/영 라벨 강제)"}
-  dependency_lock:      {grade: A, method: "tools/requirements_lock.txt 존재 + bazel fetch 성공"}
-  network_connectivity: {grade: A, method: "curl -sI https://bcr.bazel.build → 200 (최초 1회)"}
-  concurrent_agents:    {grade: B, method: "kg/catalog-kg.ttl 의 agt:maxConcurrent 합 ≤ 5 (orchestrator·developer·vnv·inspection·hci 각 1), 그리고 실행 중 활성 세션·dispatch 수 확인"}
+CHECKS:                              # 판정 방법·등급 (3.2절, 3.9절) + cmd(실행 가능한 판정, 종료 0 = ODD 안 / 1 = 이탈). cel 은 도입 5단계
+  build_system:         {grade: A, method: ".bazelversion 파일 내용 = 9.2.0; bazel test //... 성공", cmd: 'test "$(tr -d ''[:space:]'' < .bazelversion)" = 9.2.0'}
+  python_runtime:       {grade: A, method: "MODULE.bazel의 python.toolchain(python_version = \"3.11\")", cmd: 'grep -q ''python_version = "3.11"'' MODULE.bazel'}
+  repository_layout:    {grade: A, method: "bazel test //:naming_test (접미사 린트) + //chunks:lint_test + //kb/dev:lint_test", cmd: 'for d in kb/ontology kb/odd kb/dev kb/vv kg chunks tools defs docs .claude; do test -d $d || exit 1; done'}
+  language_policy:      {grade: B, method: "bazel test //kb/ontology:gate_test 의 labels 검사 (한/영 라벨 강제)", cmd: 'bazel test //kb/ontology:gate_test --noshow_progress >/dev/null 2>&1'}
+  dependency_lock:      {grade: A, method: "tools/requirements_lock.txt 존재 + bazel fetch 성공", cmd: 'test -f tools/requirements_lock.txt && grep -q ''^rdflib==7.6.0'' tools/requirements_lock.txt && grep -q ''^pyshacl==0.40.0'' tools/requirements_lock.txt'}
+  network_connectivity: {grade: A, method: "curl -sI https://bcr.bazel.build → 200 (최초 1회)", cmd: 'curl -sI --max-time 5 https://bcr.bazel.build | head -1 | grep -q '' 200'''}
+  concurrent_agents:    {grade: B, method: "kg/catalog-kg.ttl 의 agt:maxConcurrent 합 ≤ 5 (orchestrator·developer·vnv·inspection·hci 각 1), 그리고 실행 중 활성 세션·dispatch 수 확인", cmd: 'test "$(grep -o ''agt:maxConcurrent [0-9]*'' kg/catalog-kg.ttl | awk ''{s+=$2} END{print s+0}'')" -le 5'}
 
 EXCLUSIONS_REVIEWED:                 # 검토 뒤 명시 제외 (3.2절)
   - {concept: "원격 실행·원격 캐시(RBE)", reviewed: 2026-09, reason: "로컬 개발 전용 단계"}

@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/cae1f4ce-1a3d-492c-ae12-04302a5e8d49
 type: decision
 level: concrete
-title_ko: 사후분석은 일반화을 실행하는 자리이고 산출 없는 사후분석은 실패다
+title_ko: 사후분석은 일반화를 실행하는 자리이고 산출 없는 사후분석은 실패다
 title: The postmortem is where ascent executes; one yielding nothing is a failure
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]

@@ -1,4 +1,4 @@
-# ontology — 지식의 코어과 분야 프로파일
+# ontology — 지식의 코어와 분야 프로파일
 
 구조도 v5에 따라 **코어 / development / V&V** 세 층으로 적는다. 온톨로지는 이 체계의 **어휘**다. 계층의 한 단계가 아니라 계층 전체가 쓰는 어휘이며,
 이 어휘 밖에서 쓴 지식은 이 체계에 존재하지 않는다
@@ -66,7 +66,7 @@ mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementC
    필요하면 표준 관계의 하위 속성으로 매단다 (d-0024 · d-0053). 어디서 가져왔는지는
    [`references.md`](references.md)에 기록한다.
 6. 폐기는 삭제가 아니다 — `owl:deprecated` + `agt:replacedBy` (d-0035).
-7. **에이전트는 제안만 한다** — 일반화이 온톨로지에 닿을 때는 `bazel run //tools:term_propose`로
+7. **에이전트는 제안만 한다** — 일반화가 온톨로지에 닿을 때는 `bazel run //tools:term_propose`로
    제안을 승인 큐(`kb/ontology/proposals/`)에 올리고, 유저 승인 뒤에만 모듈 파일로 옮긴다
    (노트 2.5절). 큐는 `//kb/ontology:modules` 밖이라 승인 전에는 그래프에 들어가지 않는다.
 

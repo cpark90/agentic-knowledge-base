@@ -15,7 +15,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/ab95f777-16da-41
 **결론** — plane을 추가하는 **유일한 근거는 판정 방식이 기존 plane 어디와도 다를
 때**다. 판정 방식이 같으면 같은 plane의 **하위 클래스**로 둔다.
 
-후보 검토의 결과 — **`requirement`는 승격되어 코어이 일곱이 되었고, `ui`만
+후보 검토의 결과 — **`requirement`는 승격되어 코어가 일곱이 되었고, `ui`만
 후보로 남는다.** 나머지는 하위 클래스나 다른 장치로 흡수된다.
 
 `requirement` 승격의 귀결로 **functional이 `requirement` 전용이 되고

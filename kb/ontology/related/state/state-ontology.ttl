@@ -16,4 +16,4 @@ agt:Run a owl:Class ;
 
 agt:Runbook a owl:Class ;
     rdfs:label "runbook"@en , "대응 절차"@ko ;
-    skos:definition "대응 절차 — 일반화으로 승격된 스킬. 실행 기록의 반복 패턴이 절차로 일반화된 것이며 -kg에 저장한다 (0.5절)."@ko .
+    skos:definition "대응 절차 — 일반화로 승격된 스킬. 실행 기록의 반복 패턴이 절차로 일반화된 것이며 -kg에 저장한다 (0.5절)."@ko .

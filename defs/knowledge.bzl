@@ -115,14 +115,29 @@ def kb_odd_kg(name, src, taxonomy, out):
         tools = [Label("//tools:odd2kg")],
     )
 
-def kb_metrics(name, data, out = "metrics.md"):
-    """그래프(-kg)에서 코어 지표 metrics.md를 생성한다 (4.13절, 14.1절 통과 조건)."""
+def kb_metrics(name, data, notes = None, bodies = [], out = "metrics.md"):
+    """그래프(-kg)에서 코어 지표 metrics.md를 생성한다 (4.13절, 14.1절 통과 조건 세 축의 대리).
+
+    notes·bodies를 주면 확정 문장 커버리지(1단계 의미 보존 대리)도 계산한다.
+    """
+    extra = ((" --notes $(location %s)" % notes) if notes else "") + ((" --bodies " + " ".join(["$(execpaths %s)" % b for b in bodies])) if bodies else "")
     native.genrule(
         name = name,
-        srcs = data,
+        srcs = data + ([notes] if notes else []) + bodies,
         outs = [out],
-        cmd = "$(location //tools:metrics) --out $@ $(SRCS)",
+        cmd = "$(location //tools:metrics) --out $@ %s%s" % (" ".join(["$(execpaths %s)" % d for d in data]), extra),
         tools = [Label("//tools:metrics")],
+    )
+
+def kb_workset(name, role, data, levels = "", anchor = "", budget = 200, out = None):
+    """역할의 작업 집합 뷰 workset-<role>.md — 라벨 목록 + 앵커 이웃, 예산 패킹 (0.5절, 5.6절). 저장하지 않는 질의 결과다."""
+    out = out or "workset-%s.md" % role
+    native.genrule(
+        name = name,
+        srcs = data + ["//kb/dev:bodies"],
+        outs = [out],
+        cmd = "$(location //tools:workset) --role %s --levels '%s' --anchor '%s' --budget %d --root . --out $@ %s" % (role, levels, anchor, budget, " ".join(["$(execpaths %s)" % d for d in data])),
+        tools = [Label("//tools:workset")],
     )
 
 def kb_index(name, srcs, out = "index.md"):

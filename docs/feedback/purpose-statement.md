@@ -181,4 +181,6 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 20 | 진행 검토 + 외부 조사로 세부 보충 (2026-09-11) — OKF `sources` 객체화·ODC 한정자 3·PyYAML 정책 정정, 참조 표준 상세 | `external-review-2026-09-11.md` — §3 둘 다 진행(OpenODD 정합·PyYAML 잠금) |
 
 **아직 유저 답을 기다리는 것**: `dependency-graph-design.md`의 (a)~(j),
-`chunk-definition-unification.md`의 D1~D9(온톨로지·ODD 항목의 plane·level 배정).
+`chunk-definition-unification.md`(반영 완료로 제거 — git 이력)의 D1~D9(온톨로지·ODD 항목의 plane·level 배정).
+
+> 결정 로그가 인용하는 채널 항목 중 반영 완료로 제거된 것(`chunk-definition-unification.md`·`suggestion-okf-three-layer.md`·`notes-v4-review.md`·`terminology-normalization.md`)은 git 이력에서 본다.

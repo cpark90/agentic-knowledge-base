@@ -12,7 +12,7 @@
 
 | 산출물 | 무엇 | 문서 | 상태 |
 |---|---|---|---|
-| **ontology** | 지식의 코어과 분야 프로파일 | [`docs/ontology.md`](docs/ontology.md) | 코어(모듈 파일 26 · plane 7종 · 수준 허용표) · 프로파일 없음 |
+| **ontology** | 지식의 코어와 분야 프로파일 | [`docs/ontology.md`](docs/ontology.md) | 코어(모듈 파일 26 · plane 7종 · 수준 허용표) · 프로파일 없음 |
 | **methodology · method · rules** | 순서 · 방법 · 유효한 구조의 규칙 | [`docs/methodology.md`](docs/methodology.md) · [`docs/method.md`](docs/method.md) · [`docs/rules.md`](docs/rules.md) | 규칙은 있음 · 절차는 문서화 진행 중 |
 | **tools** | 규칙을 검사하고 방법을 수행하는 도구 | [`docs/tools.md`](docs/tools.md) | 검사·생성 6개(3계층 컴파일러) · **활용 도구 0개** |
 

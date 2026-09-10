@@ -1,4 +1,4 @@
-# 청크 — 정제 계층: level은 요구에서 실산출물까지의 정제 수준다 (노트 6.1절, v3 개정)
+# 청크 — 정제 계층: level은 요구에서 실산출물까지의 정제 수준이다 (노트 6.1절, v3 개정)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .

@@ -6,7 +6,7 @@ targets: [inquiries/design-detail.md, ../agent-knowledge-system-notes.md, ../age
 
 # 검토 — `design-detail.md`: 설계 노트 v3와 구조도 v3로 현 KB를 갱신하기
 
-원문: [`inquiries/design-detail.md`](inquiries/design-detail.md) — *"agent-knowledge-system-notes.md,
+원문: `inquiries/design-detail.md` (반영 완료로 제거 — git 이력) — *"agent-knowledge-system-notes.md,
 agentic-knowledge-base-structure.md을 기반으로 현 지식베이스 업데이트해줘. 그리고 두 문서는
 INTENT.md의 핵심이야."* (유저 지시이므로 유저 lane이 자리다. 원문은 옮기지 않고 인용한다.)
 

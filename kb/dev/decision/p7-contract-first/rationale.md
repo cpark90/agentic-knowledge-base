@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/d4bef818-3f3c-4ee7-b93b-998b32931382
 type: decision
 level: logical
-title_ko: 사후조건이 판정식이 되어야 검증 대응물가 성립한다
+title_ko: 사후조건이 판정식이 되어야 검증 대응물이 성립한다
 title: Postconditions must become criteria for the rung to exist
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]

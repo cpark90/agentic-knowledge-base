@@ -38,11 +38,11 @@ dispatch 시 이 표와 스코프로 브리핑한다.
 
 | 역할 | 책임 | write | read | 구동 | git |
 |---|---|---|---|---|---|
-| **orchestrator** (=메인) | 계획·dispatch·통합. 결정 저작. 직접 구현하지 않는다 | `decision` | 전 plane | 세션 유지 | ✗ |
+| **orchestrator** (=메인) | 계획·dispatch·통합. 결정 저작. 직접 구현하지 않는다 | `decision` | `requirement`·전 plane | 세션 유지 | ✗ |
 | **developer** (dispatch) | 분배된 산출물(코드·설정·온톨로지 개념) 저작. 노트 10.2절 9역할 중 design(T-Box·ODD 편집)을 겸한다 — 유저 결정 C4 | `artifact` (+T-Box·ODD) | `contract`·`schema`·`decision`. **`kb/vv/`는 읽기 전용** | dispatch | ✗ |
-| **vnv** (dispatch) | 판정 전용: `bazel test //...` PASS 확인 + 결과 주석. **V&V KB(`kb/vv/`)의 유일한 편집 주체** — `verifies`의 주어는 V&V 청크뿐 | `annotation` + `kb/vv/` | `artifact`·`decision` | dispatch | ✗ |
-| **inspection** (별도 세션) | 조사 전용 + git 관리 (add/commit/push, 유저 요청 시) | — | 전 plane | 세션 유지 | ✓ |
-| **hci** (별도 세션) | **유저 소통 전담 — 유일한 유저 창구.** 조사 요청 접수·구체화·제안 정리·타 에이전트 피드백 검토·중계. 채널 `docs/feedback/` 관리 | — (채널만) | 전 plane + 저장소 전체 | 세션 유지 | ✗ |
+| **vnv** (dispatch) | 판정 전용: `bazel test //...` PASS 확인 + 결과 주석. **V&V KB(`kb/vv/`)의 유일한 편집 주체** — `verifies`의 주어는 V&V 청크뿐 | `annotation` + `kb/vv/` | `requirement`·`artifact`·`decision` | dispatch | ✗ |
+| **inspection** (별도 세션) | 조사 전용 + git 관리 (add/commit/push, 유저 요청 시) | — | `requirement`·전 plane | 세션 유지 | ✓ |
+| **hci** (별도 세션) | **유저 소통 전담 — 유일한 유저 창구.** 조사 요청 접수·구체화·제안 정리·타 에이전트 피드백 검토·중계. 채널 `docs/feedback/` 관리 | — (채널만) | `requirement`·전 plane + 저장소 전체 | 세션 유지 | ✗ |
 
 - dispatch 대상에게는 전체 컨텍스트가 아니라 **작업 집합**(스코프 × level 창으로 거른 청크 집합)만 전달한다
   ([`docs/method.md` §8](docs/method.md#8-조회)). 저장소를 통째로 컨텍스트에 싣지 않는다.

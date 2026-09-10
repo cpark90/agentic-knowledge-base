@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/578a6482-7bea-4b79-9206-92870d919a33
 type: decision
 level: concrete
-title_ko: 청크의 물리 형식은 OKF, 어휘·제약은 온톨로지, 의존·검사·뷰은 Bazel이 맡는다
+title_ko: 청크의 물리 형식은 OKF, 어휘·제약은 온톨로지, 의존·검사·뷰는 Bazel이 맡는다
 title: OKF carries physical form, the ontology carries vocabulary and constraints, Bazel carries dependencies, checks and projections
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]

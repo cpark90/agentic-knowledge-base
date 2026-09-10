@@ -9,8 +9,8 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/e84e779c-80d6-41e0-bee2-7b75fe0ac090
 ---
-**근거** (노트 1.3절) — 정제이 끊어지는 이유: 에이전트는 의도에서 곧바로 산출물로
-가며 중간 기록을 남길 이유가 없다. 일반화이 끊어지는 이유: 세션이 끝나면 경험이
+**근거** (노트 1.3절) — 정제가 끊어지는 이유: 에이전트는 의도에서 곧바로 산출물로
+가며 중간 기록을 남길 이유가 없다. 일반화가 끊어지는 이유: 세션이 끝나면 경험이
 사라져 같은 실수를 다음 세션이 반복한다. 갱신이 끊어지는 이유: 무엇이 무효가
 됐는지 알 방법이 없어 전수조사밖에 없다.
 

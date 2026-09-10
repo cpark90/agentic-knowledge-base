@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/d064c502-adbb-43d4-948e-9c64b90d4a96
 type: decision
 level: logical
-title_ko: 설명이 공통 어휘로 써져야 일반화이 기계화된다
+title_ko: 설명이 공통 어휘로 써져야 일반화가 기계화된다
 title: Ascent becomes mechanical only when explanations are written in the shared vocabulary
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]

@@ -10,11 +10,11 @@ generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0056, https://agentic-knowledge-base.dev/id/chunk-d0057, https://agentic-knowledge-base.dev/id/chunk-d0021]
 part_of: https://agentic-knowledge-base.dev/id/composite/f28573cc-2a81-4db9-9497-160a41fdd56d
-composite: {id: https://agentic-knowledge-base.dev/id/composite/f28573cc-2a81-4db9-9497-160a41fdd56d, title_ko: 도메인 중립 코어과 도메인 프로파일, title: Domain-neutral skeleton and domain profiles}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/f28573cc-2a81-4db9-9497-160a41fdd56d, title_ko: 도메인 중립 코어와 도메인 프로파일, title: Domain-neutral skeleton and domain profiles}
 ---
-**결론** — 체계는 **도메인 중립 코어**과 **도메인 프로파일**로 나뉜다. 코어은 작업 종류와 무관한 것이고, 프로파일은 그것을 특정 작업 종류에 맞게 채운 것이다.
+**결론** — 체계는 **도메인 중립 코어**과 **도메인 프로파일**로 나뉜다. 코어는 작업 종류와 무관한 것이고, 프로파일은 그것을 특정 작업 종류에 맞게 채운 것이다.
 
-| 코어이 정하는 것 | 프로파일이 채우는 것 |
+| 코어가 정하는 것 | 프로파일이 채우는 것 |
 |---|---|
 | plane 여섯과 각각의 판정 방식 | 각 plane의 청크가 무엇인가, 판정 도구는 무엇인가 |
 | level 다섯 단계 | 각 단계의 assertion 형식 |

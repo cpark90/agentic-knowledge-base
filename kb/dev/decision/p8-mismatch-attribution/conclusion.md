@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/f64bb63b-9741-4f24-8831-1fcd0f0eaded
 type: decision
 level: concrete
-title_ko: 검증기 실패의 귀속은 결정이며 V&V decision의 지침로 남는다
+title_ko: 검증기 실패의 귀속은 결정이며 V&V decision의 지침으로 남는다
 title: Attributing a 검증기 failure is a decision, recorded as a guidance chunk in V&V decision
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]

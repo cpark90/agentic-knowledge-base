@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/55aa8967-2f34-41d4-bb94-d84f7272c7cd
 type: decision
 level: concrete
-title_ko: level은 요구에서 산출물까지의 정제 수준다
+title_ko: level은 요구에서 산출물까지의 정제 수준이다
 title: Level is the refinement height from requirement to artifact
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
@@ -20,6 +20,6 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/5ef6f4a9-343a-4f
 - **concrete** — 특정 값·케이스·고정 입력. **표본 추출 근거 필수**. `schema`·`decision`·`artifact`. 근거 검사
 - **executable** — 실산출물(코드·테스트·설정·모델의 head + 앵커). `artifact` **전용**. 실행으로 판정
 
-**양 끝이 plane 전용이다.** 계층는 요구에서 시작해 산출물에서 끝나고 그 사이 세 단계가 정제다. 이 정의에서 계층는 상황의 추상화가 아니라 **요구가 산출물이 되는 사슬**이다.
+**양 끝이 plane 전용이다.** 계층은 요구에서 시작해 산출물에서 끝나고 그 사이 세 단계가 정제다. 이 정의에서 계층은 상황의 추상화가 아니라 **요구가 산출물이 되는 사슬**이다.
 
 **단계를 건너뛰지 않는다** — functional에서 곧바로 executable로 가는 것이 에이전트의 기본 동작이며, 그것이 문제의 원인이다.

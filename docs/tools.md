@@ -77,7 +77,7 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 | **안티패턴** (verify) | "이런 트리플이 존재하면 실패"를 SPARQL로 명세 | `validate.py --verify-queries` — `tools/verify-queries/*.rq` 하나가 안티패턴 하나. 현재 5종: 출처 빈 청크 · 외부 유입 연쇄 · 기준 없는 verifies · 지지 없는 확정 · 반박된 확정 |
 | 논리 정합성 (reason) | OWL 추론기 (RL 프로파일 안) | SHACL + `--reason`(OWL-RL). shape로 자연스러운 것(수준 허용표·카디널리티)은 shape에 남긴다 |
 
-**용어 제안 워크플로**(`term_propose`) — 일반화이 온톨로지에 닿을 때: 에이전트는 신뢰할 수
+**용어 제안 워크플로**(`term_propose`) — 일반화가 온톨로지에 닿을 때: 에이전트는 신뢰할 수
 없는 센서이므로 제안만 하고, 검사(상위 실재·라벨 중복·정의 형식)를 통과한 것만
 `kb/ontology/proposals/` 승인 큐에 오른다. 큐는 `//kb/ontology:modules` 밖이라 승인 전에는
 그래프에 들어가지 않는다.
@@ -131,7 +131,12 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 YAML은 PyYAML(잠금 `pyyaml==6.0.2`, 호스트 휠 + sdist 두 해시)로 읽는다 — 부분집합 로더 `kb_yaml.py`는 2026-09-11에 삭제했다. 생성물은 `bazel-bin`에만 있고 소스 트리에
 같은 이름의 파일을 두지 않는다 (`index.md`·`log.md` 포함).
 
-### 검사 (없음) — `odd_check`(COD 대조·이탈 감지, 3.5절) · `assume_check`(가정 판정식 실행, 6.9절). 도입 2·4단계.
+### 검사 (없음) — `assume_check`(가정 판정식 실행, 6.9절). 도입 4단계.
+
+#### `odd_check.py` — ODD 모니터링 (3.5절, 도입 2단계)
+
+`bazel run //tools:odd_check` — ODD 문서 `CHECKS.<속성>.cmd`를 실행해 속성마다 in / out / unverified를 판정하고 이탈을 보고한다
+(종료 1 = 이탈). 네트워크·호스트 상태를 보므로 테스트 타깃이 아니다. 첫 모니터링(2026-09-11): 7속성 전부 in, 이탈 0.
 
 ### 활용 (없음)
 
@@ -140,7 +145,7 @@ YAML은 PyYAML(잠금 `pyyaml==6.0.2`, 호스트 휠 + sdist 두 해시)로 읽�
 
 | 도구 | 대응 절차 | 하는 일 | 단계 |
 |---|---|---|---|
-| `workset` / `labels` | [method §8 조회](method.md#8-조회) | 스코프 × level 창 → 작업 집합. 라벨 목록 → 펼치기 → 예산 패킹 (`labels`의 첫 형태는 `index.md` 생성기) | 2 |
+| `workset` / `labels` | [method §8 조회](method.md#8-조회) | **첫 형태 있음** — `bazel build //kg:workset_<role>` → `bazel-bin/kg/workset-<role>.md`: 역할 스코프(plane) × 수준 창 → 라벨 목록, 앵커 이웃 펼치기(우선순위: 앵커 > 복합체 형제 > refines > 나머지), 예산 패킹, 접기. 실측: 수준 창 없이는 모든 역할이 573줄로 예산 초과 — 스코프가 plane만 거르고 내용이 `decision`뿐이라서 | 2 |
 | `link` | [method §6 연결](method.md#6-연결) | 구축 기록 → 후보, 복원 파이프라인 k≤7 | 3·8 |
 | `propagate` / `revalidate` | [method §7 갱신](method.md#7-갱신) | 무효화 전파 8단계 · 재판정 큐, 규칙 카탈로그 8종 | 4 |
 | `query` | [competency-questions](competency-questions.md) | CQ1~20과 표준 추적 질의 | 3 |
@@ -148,7 +153,7 @@ YAML은 PyYAML(잠금 `pyyaml==6.0.2`, 호스트 휠 + sdist 두 해시)로 읽�
 | `project` | [method §9 뷰](method.md#9-뷰) | tangle·weave·매트릭스·보고. 저장하지 않고 질의 | 8 |
 | `metrics` | [methodology 완료 판정](methodology.md#완료-판정) | **첫 형태 있음** — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md`: 청크 수·고아율·크기 분포·링크 밀도·CQ19·CQ20·신뢰 등급. 없는 것: suspect 비율·누락률·라벨 대표성 | 1 |
 
-`metrics`의 첫 형태가 생겼으므로 문서는 수치를 적지 않고 생성물을 인용한다 (d-0075). 문서에 남아
+`metrics`(1·2단계 대리 포함)·`workset`·`odd_check`의 첫 형태가 생겼으므로 문서는 수치를 적지 않고 생성물을 인용한다 (d-0075). 문서에 남아
 있는 수치는 스냅샷 표기가 붙어야 한다.
 
 ## development 층 — 개발 KB의 도구 (노트 Part VII, 전부 미구현)
@@ -197,12 +202,12 @@ YAML은 PyYAML(잠금 `pyyaml==6.0.2`, 호스트 휠 + sdist 두 해시)로 읽�
 ├── //kb/odd:gate_test             ODD shape  ← //kb/odd:odd (odd2kg) · :taxonomy
 └── //kg:gate_test                 vocab · odd-ref · dangling · verify · SHACL
                                     ← //kg:chunks_kg · //kg:references_kg 를 입력으로
-생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics
+생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics · //kg:workset_<role>
 ```
 
 `//kb/ontology:chunk_lint_test`는 `bazel test //...`로는 돌고 `//:gate`로는 안 돈다. 배선은
 `defs/knowledge.bzl`의 매크로(`kb_gate_test`·`kb_chunk_kg`·`kb_reference_kg`·`kb_chunk_lint_test`·
-`kb_odd_kg`·`kb_taxonomy`·`kb_index`·`kb_metrics`)로만 선언하며 `py_test`를 직접 쓰지 않는다.
+`kb_odd_kg`·`kb_taxonomy`·`kb_index`·`kb_metrics`·`kb_workset`)로만 선언하며 `py_test`를 직접 쓰지 않는다.
 
 ## 게이트 밖 — 규약으로 남은 것
 

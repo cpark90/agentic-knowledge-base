@@ -9,7 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 part_of: https://agentic-knowledge-base.dev/id/composite/4640aa0e-49a7-4fee-952d-e33ec4d57cbb
-composite: {id: https://agentic-knowledge-base.dev/id/composite/4640aa0e-49a7-4fee-952d-e33ec4d57cbb, title_ko: ODD는 온톨로지의 닫힌 뷰이다, title: The ODD is a closed projection of the ontology}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/4640aa0e-49a7-4fee-952d-e33ec4d57cbb, title_ko: ODD는 온톨로지의 닫힌 뷰다, title: The ODD is a closed projection of the ontology}
 ---
 **결론** — ODD의 어휘는 전부 온톨로지에서 온다. 그러나 ODD는 온톨로지가 아니라 **세 연산의 결과**다.
 

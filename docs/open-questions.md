@@ -23,7 +23,7 @@
 | 5 | 리팩터링 시 시간 정체성 (2.6) | [`temporal-identity`](open-questions/temporal-identity.md) |
 | 6 | 일반화의 트리거 (6.3) | **재개** (C5) |
 | 7 | `annotation`의 plane 순서 (5.2) | **재개** (C5) |
-| 8 | 링크 판정 근거 (10.8) — v5 9.11 증거 기록가 규칙을 정함, 확정 규칙의 수는 #29 | [`link-judgement-basis`](open-questions/link-judgement-basis.md) |
+| 8 | 링크 판정 근거 (10.8) — v5 9.11 증거 기록이 규칙을 정함, 확정 규칙의 수는 #29 | [`link-judgement-basis`](open-questions/link-judgement-basis.md) |
 | 9 | plane 수 상한 (5.3) | **재개** (C5) |
 | 10 | logical 공간 커버의 계산 — 조합·경계값 가중 (8.7) | [`coverage-computation`](open-questions/coverage-computation.md) |
 | 11 | 기존에 없는 모듈화 구현 (1.2) | **재개** (C5) |
@@ -68,11 +68,11 @@
 
 | 항목 | 무엇이 없나 |
 |---|---|
-| 활용 도구 | workset/labels · link · query · impact · project · metrics — 하나도 없다. v3는 `propagate`·`revalidate`도 요구 |
+| 활용 도구 | `workset`·`labels`·`metrics`는 첫 형태가 있다(2026-09-11). 없는 것: link · query · impact · project · propagate · revalidate |
 | 읽기·쓰기 집합 기록 | 연결 단계의 입력이 없다 |
 | `profile/` 디렉토리와 구축 절차 | 분야 프로파일이 하나도 없다 |
 | 미구현 게이트 | 카탈로그 정합성 · 복합체 동질성 · 정규화 · **대안 청크 필수**(v4 7.4 — 현재 77/145 위반) · 증거 기록 규칙(verify 질의 2개는 있음, 데이터 0) |
-| 검사 도구 확장 | `odd_check`·`assume_check` (v3 도구 목록) |
+| 검사 도구 확장 | `assume_check` (v3 도구 목록). `odd_check`는 있다(2026-09-11) |
 | 이름 붙은 그래프 (TriG) | 네 그래프가 논리적 구분일 뿐 |
 | V&V KB 내용 | `kb/vv/`가 비어 있다 — 이 저장소 자신의 검증 목표·시나리오·기준이 없다 |
 | `artifact` plane 등록 | 도구 코드를 지식으로 등록할지 미결 |

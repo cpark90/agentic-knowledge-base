@@ -7,7 +7,7 @@ targets: [notes-v4-review.md, ../agent-knowledge-system-notes.md, ../agentic-kno
 # 검토 — 노트 v5·구조도 v5 (v4 검토의 부록)
 
 유저(2026-09-10 19:00): 두 문서를 **다시** 대규모 개편했고 이를 기반으로 완전히 개선하려 한다.
-**v4 검토(`notes-v4-review.md`)의 발견과 질문 Q1~Q7은 전부 그대로 유효하다** — v4의 답이 아직
+**v4 검토(`notes-v4-review.md`, 반영 완료로 제거 — git 이력)의 발견과 질문 Q1~Q7은 전부 그대로 유효하다** — v4의 답이 아직
 없고, v5는 v4 위에 얹힌 델타다. 이 문서는 델타만 다루고, 마지막에 두 검토의 결정을 한 표로 합친다.
 
 ## 질문
@@ -107,4 +107,5 @@ Q10 `counterfactualTest` 폐기 · Q11 노트 커밋(inspection/유저).
 | 6 문서 세 층 | **완료** | `tools.md` 전면 재편 — 게이트 총람(19+2)이 원본, 계층·실측 열. `rules.md` §7 development·§8 V&V, `method.md` §13·§14, `ontology.md` development·V&V 층. 결정 링크는 파일 경로(링크 검사 대상) |
 | 7 1단계 측정 | **부분** | `tools/metrics.py` + `kb_metrics`(`//kg:metrics`): 고아율 1.2% **통과**, CQ19 0%, CQ20 92%, 사람 검토 0. 고아 요구 7건은 결정 `refines` 연결로 해소. 토큰 감소는 바이트 대리 측정(과제 5 × 체제 6) + 프로토콜 3안을 [`stage1-pass-measurement.md`](stage1-pass-measurement.md)에 — **유저 판단 대기** |
 | 8 E(c)(d) | 미착수 | 도입 3·5·7단계에서 |
+| 도입 2단계 착수 (2026-09-11) | **부분** | `workset`(역할 스코프 × 수준 창 → 라벨 목록 + 앵커 이웃, 예산 패킹·접기) · `odd_check`(CHECKS.cmd 모니터링: 7속성 in, 이탈 0) · `metrics`에 1단계 확정 문장 커버리지(절 단위 136/148)와 2단계 대리(역할별 작업 집합·스코프 파생 0건). 카탈로그에 `requirement` 읽기 추가. 미통과: 작업 집합 ≤ 예산(역할별 573줄) |
 | Q11 노트 커밋 | **유저/inspection** | `git add docs/agent-knowledge-system-notes.md docs/agentic-knowledge-base-structure.md && git commit` |

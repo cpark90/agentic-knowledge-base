@@ -18,4 +18,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/ad724fe1-631f-41
 - **plane**(평면) — 지식의 종류. `requirement`, `decision`, `contract`,
   `schema`, `artifact`, `annotation`, `memory`
 - **level**(수준) — **정제 수준.** functional, abstract, logical, concrete,
-  executable. 요구에서 산출물까지 내려가는 계층의 검증 대응물다
+  executable. 요구에서 산출물까지 내려가는 계층의 검증 대응물이다

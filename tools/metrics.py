@@ -22,11 +22,14 @@ LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
+    ap.add_argument("--notes", default="", help="설계 노트 md — 확정 문장 커버리지(1단계 의미 보존 대리)")
+    ap.add_argument("--bodies", nargs="*", default=[], help="청크 파일들 — 노트 절 인용 스캔")
     ap.add_argument("files", nargs="+")
     a = ap.parse_args()
     g = Graph()
     for f in a.files:
-        g.parse(f, format="turtle")
+        if f.endswith(".ttl"):
+            g.parse(f, format="turtle")
 
     chunks = {s for s in g.subjects(AGT.lineCount, None)}
     plane = {c: str(next(g.objects(c, RDF.type))).split("/")[-1].replace("Chunk", "").lower() for c in chunks}
@@ -108,6 +111,36 @@ def main() -> int:
                  "schema": {"logical", "concrete"}, "artifact": {"concrete", "executable"}, "memory": {"concrete"}}
     residency_bad = [c for c in live if plane[c] in RESIDENCY and level[c] not in RESIDENCY[plane[c]]]
 
+    # 1단계 의미 보존 대리 — 확정 문장 커버리지: [확정]이 있는 절 중 결정이 인용하는 절의 비율
+    cov_line = "- 의미 보존: 확정 문장 커버리지 — `--notes` 없음"
+    if a.notes:
+        import re as _re
+        text = Path(a.notes).read_text(encoding="utf-8")
+        sec, cur = {}, None
+        for ln in text.splitlines():
+            m = _re.match(r"^## (\d+\.\d+) ", ln)
+            if m: cur = m.group(1); sec.setdefault(cur, 0)
+            elif cur and "[확정]" in ln: sec[cur] += 1
+        with_fixed = {k for k, v in sec.items() if v}
+        cited = set()
+        for b_ in a.bodies:
+            cited |= set(_re.findall(r"노트 (\d+\.\d+)절", Path(b_).read_text(encoding="utf-8")))
+        missing = sorted(with_fixed - cited, key=lambda x: [int(t) for t in x.split(".")])
+        cov_line = (f"- 의미 보존: 확정 문장 커버리지(절 단위) **{len(with_fixed & cited)}/{len(with_fixed)}** = {100*len(with_fixed & cited)/max(len(with_fixed),1):.1f}% — "
+                    f"[확정] {sum(sec.values())}문장, 결정 {sum(1 for c in live if plane[c]=='decision' and c not in parts) + len(siblings)}개. 인용 없는 절: " + (", ".join(missing) or "없음"))
+    # 2단계 — 역할별 작업 집합(라벨 목록) 크기와 스코프 파생
+    ID = Namespace("https://agentic-knowledge-base.dev/id/")
+    odd_conds = set(g.objects(None, AGT.hasCondition))
+    role_rows, scope_bad = [], []
+    for role in g.subjects(RDF.type, AGT.Role):
+        planes = set(g.objects(role, AGT.reads)) | set(g.objects(role, AGT.writes))
+        n = sum(1 for c in live if next(g.objects(c, RDF.type)) in planes)
+        role_rows.append(f"`{str(role).split('/')[-1].replace('role-','')}` {n}줄")
+        scope = ID[str(role).split('/')[-1].replace('role-', 'scope-')]
+        inc = set(g.objects(scope, AGT.includesCondition))
+        if (scope, AGT.subsetOf, None) not in g or not inc or not inc <= odd_conds:
+            scope_bad.append(str(scope).split('/')[-1])
+
     def pct(n, d): return f"{100*n/d:.1f}%" if d else "—"
     o = ["# metrics — 코어 지표 (생성 파일, tools/metrics.py)", "",
          f"청크 {len(chunks)} (살아 있는 것 {len(live)}, deprecated {len(chunks)-len(live)}) · 복합체 {len(siblings)} · 트리플 {len(g)}", "",
@@ -126,7 +159,12 @@ def main() -> int:
           f"- 연결: level×level `refines` 매트릭스 채움 {len(filled)}/4 — " + (", ".join(f"{a_}→{b_}" for a_, b_ in filled) or "없음") + " (목표 4/4)",
           f"- 구체화: level을 한 단계씩 내려가지 않는 `refines` **{len(skips)}**건 (목표 0; 지금은 concrete→functional 직행이 구조적으로 허용됨 — abstract·logical 결정이 생기면 0이어야 한다)",
           f"- 구체화: 수준 허용표 위반 **{len(residency_bad)}**건 (목표 0)",
-          "- 의미 보존: 확정 문장 커버리지·라벨 대표성은 이 도구 밖 — 감사 §3과 실험",
+          cov_line,
+          "- 의미 보존: 라벨 대표성은 실험 — 이 도구 밖",
+          "", "## 2단계 대리 — ODD와 스코프", "",
+          "- 구체화: 역할별 작업 집합(스코프의 plane, 전 수준, 라벨 목록 줄 수 — 예산 200줄): " + " · ".join(role_rows),
+          f"- 구체화: ODD × plane 권한에서 파생되지 않은 스코프 **{len(scope_bad)}**건" + (f" — {', '.join(scope_bad)}" if scope_bad else "") + " (목표 0)",
+          "- 연결: ODD 밖 참조는 게이트(odd-ref)가 0으로 강제. 첫 모니터링 이탈은 `bazel run //tools:odd_check`",
           "", "## 링크 밀도", "", f"- 링크 {sum(link_count.values())} / 살아 있는 청크 {len(live)} = **{sum(link_count.values())/max(len(live),1):.2f}**/청크",
           "- 타입별: " + " · ".join(f"`{k}` {v}" for k, v in link_count.most_common()),
           f"- 링크 개체(`agt:Link`): {sum(1 for _ in g.subjects(RDF.type, AGT.Link))} · 증거 항목: {sum(1 for _ in g.subjects(RDF.type, AGT.Evidence))}",

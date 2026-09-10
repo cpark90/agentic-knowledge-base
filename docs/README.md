@@ -25,7 +25,7 @@
 | 문서 | 다루는 것 |
 |---|---|
 | [`methodology.md`](methodology.md) | 전체 순서와 그 이유, 각 단계의 완료 판정과 다음 단계의 전제 |
-| [`ontology.md`](ontology.md) | 코어과 분야 프로파일, 확장 규칙 — 코어 / development / V&V 세 층 |
+| [`ontology.md`](ontology.md) | 코어와 분야 프로파일, 확장 규칙 — 코어 / development / V&V 세 층 |
 | [`competency-questions.md`](competency-questions.md) | 온톨로지가 답해야 하는 질문과 현재 답할 수 있는 것 (노트 CQ1~20 대응표 포함) |
 | [`rules.md`](rules.md) | 무엇이 유효한 구조인가 — 코어(chunk · 복합체 · plane · traceability · KG) / development / V&V |
 | [`method.md`](method.md) | 각 단계를 어떻게 하는가 — 코어 12절차 / development 저작 흐름 / V&V 위험 분석~되먹임 |

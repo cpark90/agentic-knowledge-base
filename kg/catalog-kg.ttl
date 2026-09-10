@@ -27,7 +27,7 @@ id:chan-user-feedback a agt:Channel ;
 id:role-orchestrator a agt:Role ;
     rdfs:label "orchestrator"@en , "오케스트레이터"@ko ;
     agt:writes agt:DecisionChunk ;
-    agt:reads agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
+    agt:reads agt:RequirementChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
     agt:executionMode agt:sessionPersistent ;
     agt:maxConcurrent 1 .
 
@@ -41,19 +41,19 @@ id:role-developer a agt:Role ;
 id:role-vnv a agt:Role ;
     rdfs:label "verification and validation"@en , "검증·확인"@ko ;
     agt:writes agt:AnnotationChunk ;
-    agt:reads agt:ArtifactChunk , agt:DecisionChunk ;
+    agt:reads agt:RequirementChunk , agt:ArtifactChunk , agt:DecisionChunk ;
     agt:executionMode agt:dispatch ;
     agt:maxConcurrent 1 .
 
 id:role-inspection a agt:Role ;
     rdfs:label "inspection"@en , "조사"@ko ;
-    agt:reads agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
+    agt:reads agt:RequirementChunk , agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
     agt:executionMode agt:sessionPersistent ;
     agt:maxConcurrent 1 .
 
 id:role-hci a agt:Role ;
     rdfs:label "human-computer interaction"@en , "유저 소통"@ko ;
-    agt:reads agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
+    agt:reads agt:RequirementChunk , agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
     agt:executionMode agt:sessionPersistent ;
     agt:maxConcurrent 1 .
 

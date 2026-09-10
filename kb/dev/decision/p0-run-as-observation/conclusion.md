@@ -16,7 +16,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/696b52ee-952f-47
 
 - **`agt:Run`** — 관측된 실행 기록. 자극·환경·결과를 담는다. **concrete
   전용, append-only**, `run-kg`에 저장한다
-- **`agt:Runbook`** — 대응 절차. 일반화으로 승격된 스킬. `-kg`에 저장한다
+- **`agt:Runbook`** — 대응 절차. 일반화로 승격된 스킬. `-kg`에 저장한다
 
 **관측은 이미 일어난 것이라 concrete에만 존재하고 수준을 갖지 못한다.**
 관측을 명세로 올리는 일반화(6.3절)의 목적지는 개발 KB에서는 **요구·결정·

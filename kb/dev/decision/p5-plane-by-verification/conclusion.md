@@ -2,7 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/b9e56142-cf12-47ad-b688-5848a39a87fb
 type: decision
 level: concrete
-title_ko: plane은 판정 방식으로 정의되고 코어은 일곱이다
+title_ko: plane은 판정 방식으로 정의되고 코어는 일곱이다
 title: Planes are defined by verification mechanism; the skeleton has seven
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
