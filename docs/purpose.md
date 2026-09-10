@@ -3,7 +3,7 @@
 이 문서는 **무엇을 위해 이 체계가 있는가**와 **그 체계가 다루는 지식이 무엇인가**를
 고정한다. 원본은 노트 v3([`agent-knowledge-system-notes.md`](agent-knowledge-system-notes.md))의
 산출물 정의·Part 0과 운용 지도([`agentic-knowledge-base-structure.md`](agentic-knowledge-base-structure.md))다.
-요구 층의 진입 문서는 루트의 [`intent.md`](../intent.md)이며, 궁극 목적의 정식 서술도
+요구 층의 진입 문서는 루트의 [`INTENT.md`](../INTENT.md)이며, 궁극 목적의 정식 서술도
 거기에 있다.
 
 ## 궁극 목적
@@ -32,7 +32,7 @@
 | 종류 | 어디에 놓이는가 |
 |---|---|
 | **요구** | `requirement` plane, functional 전용 — 이해관계자 관심사의 EARS 문장. `kb/dev/requirement/` |
-| **의도** | ODD와 functional 수준 — 온톨로지 개념의 서술적 사용. 진입 문서는 `intent.md` |
+| **의도** | ODD와 functional 수준 — 온톨로지 개념의 서술적 사용. 진입 문서는 `INTENT.md` |
 | **결정** | `decision` plane. 결론(concrete)·근거(logical)·대안(logical) 세 청크의 구성체 (유저 결정 C2). `kb/dev/decision/` |
 | **계약** | `contract` plane. 인터페이스 — 추적성의 기준축 |
 | **스키마** | `schema` plane |
@@ -49,7 +49,7 @@
 | **교훈** | 기억·관측에서 승격된 것. 결정 또는 규칙이 된다 |
 
 plane은 일곱이고 **검증 메커니즘이 plane을 가른다** — 정의와 상주표는
-[`rules.md`](rules.md)와 `ontology/entity/knowledge-item/`.
+[`rules.md`](rules.md)와 `kb/ontology/entity/knowledge-item/`.
 
 ### 두 지식 베이스
 

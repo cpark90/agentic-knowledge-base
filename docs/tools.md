@@ -46,7 +46,7 @@ v3가 검사를 세 계층으로 재편했고, 이 저장소의 대응은 다음
 
 **용어 제안 워크플로**(`term_propose`) — 상승이 온톨로지에 닿을 때: 에이전트는
 신뢰할 수 없는 센서이므로 제안만 하고, 검사(상위 실재·라벨 중복·정의 형식)를
-통과한 것만 `ontology/proposals/` 승인 큐에 오른다. 큐는 `//ontology:modules`
+통과한 것만 `kb/ontology/proposals/` 승인 큐에 오른다. 큐는 `//kb/ontology:modules`
 밖이라 승인 전에는 그래프에 들어가지 않는다.
 
 ### `validate.py` — 그래프 게이트
@@ -63,7 +63,7 @@ v3가 검사를 세 계층으로 재편했고, 이 저장소의 대응은 다음
 
 `vocab`이 핵심 방어선이다 — 어휘 우회를 막지 못하면 나머지 규칙이 전부 우회된다.
 
-### SHACL shape — `ontology/shapes/`
+### SHACL shape — `kb/ontology/shapes/`
 
 | 파일 | 대상 | 주요 제약 |
 |---|---|---|
@@ -94,6 +94,13 @@ v3가 검사를 세 계층으로 재편했고, 이 저장소의 대응은 다음
 
 *현재 실측: 항목 20개가 27개의 인용 링크를 만든다.*
 
+### `odd2kg.py` · `taxonomy.py` · `kb_yaml.py` — ODD 생성 겸 검사
+
+ODD 원본은 OpenODD 문서 `kb/odd/project-odd.yml`이다 (부록 E.4). `taxonomy.py`가 `related/condition`
+온톨로지에서 속성 범주 택소노미를 생성하고, `odd2kg.py`가 문서를 `-odd.ttl`로 올리며 **택소노미 밖 범주·판정
+방법 없는 조건이면 생성이 실패한다** (0.4절). `kb_yaml.py`는 YAML **부분집합** 로더 — 잠금이 순수 파이썬
+휠만 허용해 PyYAML을 못 넣은 부채다 ([`open-questions.md`](open-questions.md) §3).
+
 ### `labels.py` — 라벨 목록 투영
 
 OKF 예약 파일 `index.md`를 청크 head에서 생성한다 (5.6절, 부록 E.2). `bazel build //kb/dev:index` →
@@ -111,13 +118,13 @@ OKF 예약 파일 `index.md`를 청크 head에서 생성한다 (5.6절, 부록 E
 //:gate  (test_suite)
 ├── //:naming_test              TTL 접미사 규약
 ├── //chunks:lint_test          `chunks/` 항목 42줄
-├── //ontology:gate_test        labels · boundary · SHACL
-├── //odd:gate_test             ODD shape
+├── //kb/ontology:gate_test        labels · boundary · SHACL
+├── //kb/odd:gate_test             ODD shape
 └── //kg:gate_test              vocab · odd-ref · dangling · SHACL
                                  ← //kg:chunks_kg · //kg:references_kg 를 입력으로
 ```
 
-`//ontology:chunk_lint_test`는 정의되어 있으나 `//:gate` suite에는 들어 있지 않다 —
+`//kb/ontology:chunk_lint_test`는 정의되어 있으나 `//:gate` suite에는 들어 있지 않다 —
 `bazel test //...`로는 돌고 `//:gate`로는 안 돈다. 배선은 `defs/knowledge.bzl`의 매크로
 (`kb_gate_test`·`kb_chunk_kg`·`kb_chunk_lint_test`)로만 선언하며 `py_test`를 직접 쓰지 않는다.
 

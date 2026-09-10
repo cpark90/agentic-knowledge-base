@@ -8,7 +8,7 @@
 
 | 층 | 담는 것 | 누가 만드나 | 위치 |
 |---|---|---|---|
-| **골격** | 분야와 무관한 것 — plane, level, 조건, 가정, 역할, 청크·구성체, 링크 타입 | 이 저장소 | `ontology/` (`agt:`) |
+| **골격** | 분야와 무관한 것 — plane, level, 조건, 가정, 역할, 청크·구성체, 링크 타입 | 이 저장소 | `kb/ontology/` (`agt:`) |
 | **분야 프로파일** | 각 plane의 실체와 판정 도구, 조건 어휘 셋째 수준, 도메인 결함 하위 유형, 앵커 해석기 | 분야마다 | `profile/<분야>` (미구현) |
 
 프로파일은 별도 장치가 아니라 **골격을 확장만 하는 온톨로지 모듈**이다. 골격 클래스의
@@ -23,14 +23,14 @@
 ## 골격의 구성
 
 ```
-ontology/
+kb/ontology/
   project-ontology.ttl          # 최상위. import만 하는 얇은 파일
   entity/                       # plane으로 분류 가능한 개념
     knowledge-item/             #   KnowledgeItem · Chunk · Composite · plane 7종 · level · 속성
   related/                      # 횡단 개념 — 어느 plane에도 속하지 않는다
     condition/  scope/  assumption/  channel/  harness/  trace/  trust/  state/  tag/
   shapes/                       # SHACL — 원칙의 검사 가능한 형태 (plane×level 상주표 포함)
-  proposals/                    # 용어 제안 승인 큐 — //ontology:modules 밖 (2.5절)
+  proposals/                    # 용어 제안 승인 큐 — //kb/ontology:modules 밖 (2.5절)
 ```
 
 모듈 = 디렉토리 = Bazel 패키지이고, 한 파일이 한 주제다. 분할 축은 둘 — **plane으로
@@ -53,10 +53,10 @@ mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementC
 
 ## 확장 규칙
 
-1. **기존 어휘를 먼저 찾는다** (`grep -r "찾는개념" ontology/`). 같은 뜻의 개념을 둘
+1. **기존 어휘를 먼저 찾는다** (`grep -r "찾는개념" kb/ontology/`). 같은 뜻의 개념을 둘
    만드는 것이 이 체계가 막는 드리프트다 ([`id:chunk-d0160`](../chunks/decision/d-0160-search-before-authoring.md)).
 2. 주제가 맞는 **기존 모듈 디렉토리에 새 파일 하나**, 새 주제면 **새 모듈 디렉토리**
-   + `BUILD.bazel` + `//ontology:modules` 등록.
+   + `BUILD.bazel` + `//kb/ontology:modules` 등록.
 3. 한 개념은 정확히 한 파일에서 정의된다 — 다른 파일에서 재정의하면 boundary 게이트가
    거부한다.
 4. 모든 `agt:` 용어에 한/영 `rdfs:label`과 `skos:definition`. 정의는 속 + 종차로 쓰고
@@ -67,8 +67,8 @@ mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementC
    [`references.md`](references.md)에 기록한다.
 6. 폐기는 삭제가 아니다 — `owl:deprecated` + `agt:replacedBy` (d-0035).
 7. **에이전트는 제안만 한다** — 상승이 온톨로지에 닿을 때는 `bazel run //tools:term_propose`로
-   제안을 승인 큐(`ontology/proposals/`)에 올리고, 유저 승인 뒤에만 모듈 파일로 옮긴다
-   (노트 2.5절). 큐는 `//ontology:modules` 밖이라 승인 전에는 그래프에 들어가지 않는다.
+   제안을 승인 큐(`kb/ontology/proposals/`)에 올리고, 유저 승인 뒤에만 모듈 파일로 옮긴다
+   (노트 2.5절). 큐는 `//kb/ontology:modules` 밖이라 승인 전에는 그래프에 들어가지 않는다.
 
 ## 경쟁 질문 — 온톨로지의 요구사항이자 완료 판정
 

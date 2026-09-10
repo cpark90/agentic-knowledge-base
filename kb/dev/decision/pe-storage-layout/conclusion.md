@@ -15,10 +15,10 @@ part_of: https://agentic-knowledge-base.dev/id/composite/6d696b3f-6d63-476e-bb56
 
 ```
 kb/
-├── ontology/    Turtle. related/condition → odd/taxonomy.yml 생성
-├── odd/         OpenODD YAML
+├── kb/ontology/    Turtle. related/condition → kb/odd/taxonomy.yml 생성
+├── kb/odd/         OpenODD YAML
 ├── dev/         OKF 번들 — requirement/ decision/ contract/ schema/ artifact/ + *.space.md
 └── vv/          OKF 번들 — goal/ scenario/ criteria/ case/ verifier/ + domain.osc
 ```
 
-`vv/`만 `dev/`를 참조한다. 각 디렉터리의 `index.md`가 라벨 목록이다. 이 저장소: `kb/dev`·`kb/vv`는 있고(같은 저장소 별도 패키지, 유저 결정 2026-09-10), `ontology/`·`odd/`의 `kb/` 이동은 도입 순서 (b), `index.md`는 생성물로만 (Q4).
+`vv/`만 `dev/`를 참조한다. 각 디렉터리의 `index.md`가 라벨 목록이다. 이 저장소: `kb/dev`·`kb/vv`는 있고(같은 저장소 별도 패키지, 유저 결정 2026-09-10), `ontology/`·`odd/`의 `kb/` 이동은 완료(2026-09-10, 순서 (b)), `index.md`는 생성물로만 (Q4).

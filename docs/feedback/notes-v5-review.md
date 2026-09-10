@@ -103,5 +103,6 @@ Q10 `counterfactualTest` 폐기 · Q11 노트 커밋(inspection/유저).
 | 2 대안 청크 77건 | **완료** | 145/145. 노트가 대비한 안은 그 내용으로, 열거하지 않은 것은 "대안 없음 — 후보가 하나였다는 사실" (7.4절) |
 | 3 v4·v5 델타 재도출 | **완료** | 결정 **37건**(`[확정]` 79문장 → Part VII 12 · VIII 9 · IX 6 · 6.7 1 · 12 2 · 14.1 1 · 부록 E 6) + 요구 **7건**(감사 §3 공백: 컨텍스트 예산·명명 결정론·입력 버전·문서 생성·검증 수단 신뢰도·감사 자족성·재현성). 결정 182 · 요구 33. 게이트 7/7 |
 | 4 E(a) OKF 필드 정렬 | **완료** | frontmatter 키 `iri`→`id`, `label_ko`→`title_ko`, `label_en`→`title`, `derived_from`→`sources` (청크 732개, 구성체 182), `chunk2kg`·`extract_refs`·STYLEGUIDE·rules 갱신. `index.md`는 생성물 — `tools/labels.py` + `kb_index` 매크로 (`bazel build //kb/dev:index`) |
-| 5~8 | 미착수 | — |
+| 5 E(b) `kb/{ontology,odd}` + OpenODD | **완료** | `git mv` + 라벨·경로 재작성 22파일. ODD 원본 `kb/odd/project-odd.yml`(OpenODD, 확장 키 `checks`·`exclusions_reviewed`), `taxonomy.yml`·`project-odd.ttl` 생성(`tools/taxonomy.py`·`odd2kg.py`, 부정 검사 2종 확인). YAML 부분집합 로더는 부채로 기록 |
+| 6~8 | 미착수 | — |
 | Q11 노트 커밋 | **유저/inspection** | `git add docs/agent-knowledge-system-notes.md docs/agentic-knowledge-base-structure.md && git commit` |

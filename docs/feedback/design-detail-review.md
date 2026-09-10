@@ -8,7 +8,7 @@ targets: [inquiries/design-detail.md, ../agent-knowledge-system-notes.md, ../age
 
 원문: [`inquiries/design-detail.md`](inquiries/design-detail.md) — *"agent-knowledge-system-notes.md,
 agentic-knowledge-base-structure.md을 기반으로 현 지식베이스 업데이트해줘. 그리고 두 문서는
-intent.md의 핵심이야."* (유저 지시이므로 유저 lane이 자리다. 원문은 옮기지 않고 인용한다.)
+INTENT.md의 핵심이야."* (유저 지시이므로 유저 lane이 자리다. 원문은 옮기지 않고 인용한다.)
 
 ## 질문
 
@@ -24,7 +24,7 @@ v4를 "v1"로 놓고 그 위에 v2·v3 변경(부록 두 표)을 쌓았다. 결�
    scene·situation·scenario 3분리는 v3에서 폐기). 동결 참조로 둔 것을 어떻게 처리할지.
 3. 이 채널에서 내려진 유저 결정 몇 개가 v3 노트와 **정면으로 다르다**(§충돌).
 
-**"intent.md의 핵심"의 해석** — `intent.md`는 저장소에 없다. v3 설계가 `requirement` plane ×
+**"INTENT.md의 핵심"의 해석** — `INTENT.md`는 저장소에 없다. v3 설계가 `requirement` plane ×
 functional을 사다리의 출발점으로 두었으므로, 두 문서가 곧 **이 저장소 자신의 KB에서 요구
 층(의도)**이라는 뜻으로 읽었다. 그러면 결정 153개는 이 의도를 `refines`하는 abstract 이하가
 되고, 하강 완주율(CQ19)이 이 저장소에도 적용된다. 이 읽기가 맞는지 확인이 필요하다(Q0).
@@ -104,19 +104,19 @@ functional을 사다리의 출발점으로 두었으므로, 두 문서가 곧 **
 
 | 순서 | 무엇 | 왜 먼저 | 게이트 |
 |---|---|---|---|
-| 0 | **Q0·C1~C7 결정** + `intent.md` 위치 | 뒤 전부가 종속 | — |
+| 0 | **Q0·C1~C7 결정** + `INTENT.md` 위치 | 뒤 전부가 종속 | — |
 | 1 | **골격 어휘** — `RequirementChunk`, level 정의 5개 개정, 거주표 shape, `Workset`·`Run`·`Runbook`, 태그 범주, 시간 제약, `allocates`·`generates`, 후보/확정 표현 | 어휘 없이는 어떤 항목도 못 만든다 | `bazel test //...` |
 | 2 | **규칙·문서** — purpose·methodology·rules·method·tools·roadmap(도입 7단계 복원)·competency-questions(대응표)·open-questions(재동기화) + `docs/input.md` 신설 + `situation`→작업 집합 개명 | 골격이 바뀌면 규칙 문서가 거짓이 된다 | 링크 검사 |
 | 3 | **두 KB 분리** — 디렉토리·카탈로그 스코프·`vv/` 모듈 | 저장 분리는 어휘·규칙 뒤 | 카탈로그 정합성 |
 | 4 | **결정 델타** — diff 절 → 새 결정, `supersedes`, 옛 것 `deprecated`. 결정 3분할(C2) 여기서 | 어휘·규칙이 정해진 뒤 | 게이트 + 고아율 |
 | 5 | **검사 3계층** — `validate`에 SPARQL verify 계층(거주표·`sources` 빈 청크·신뢰 전파·기준 없는 `verifies`), `term_propose` | 규칙이 확정된 뒤 게이트화 | 음성 시험 |
-| 6 | **이 저장소를 요구 층으로** — 두 문서를 `requirement` × functional 항목으로 등록, 결정이 `refines`. `intent.md` 생성 여부 | Q0에 종속 | 하강 완주율 |
+| 6 | **이 저장소를 요구 층으로** — 두 문서를 `requirement` × functional 항목으로 등록, 결정이 `refines`. `INTENT.md` 생성 여부 | Q0에 종속 | 하강 완주율 |
 
 각 단계 끝에 `bazel test //...` PASS와 실측 보고. 1단계만으로 이득이 없으면 멈춘다(노트 Part XIII).
 
 ### 유저가 정할 것
 
-- **Q0** "두 문서 = 이 저장소 KB의 요구 층(functional)"이라는 해석이 맞는가? `intent.md`는
+- **Q0** "두 문서 = 이 저장소 KB의 요구 층(functional)"이라는 해석이 맞는가? `INTENT.md`는
   새로 만드는 파일인가(두 문서를 가리키는 요구 문서), 아니면 두 문서 자체를 그렇게 부르는가?
 - **C1~C7** 위 표의 hci 제안대로인가.
 - **A/B/C** 반영 범위. hci 권고 **B**.
@@ -124,7 +124,7 @@ functional을 사다리의 출발점으로 두었으므로, 두 문서가 곧 **
   노트 7.5는 둘 다 허용. hci 권고: **같은 저장소, 별도 패키지** — 게이트 하나로 두 KB를 검사한다.
 
 ## 답
-Q0: claude에서 추천하는 intent.md로 새로 작성
+Q0: claude에서 추천하는 INTENT.md로 새로 작성
 c1~c7: 제안대로
 반영범위: A
 저장 분리: 같은 저장소, 별도 패키지
@@ -133,7 +133,7 @@ c1~c7: 제안대로
 
 ## 재검토 (2026-09-10, 유저 답 수신 후)
 
-**유저 답**: Q0 = Claude 권고안으로 `intent.md` 새로 작성 · C1~C7 = 제안대로 · 반영 범위 = **A(전면
+**유저 답**: Q0 = Claude 권고안으로 `INTENT.md` 새로 작성 · C1~C7 = 제안대로 · 반영 범위 = **A(전면
 재도출)** · 저장 분리 = 같은 저장소, 별도 패키지.
 
 ### 제 검토문의 오류 정정
@@ -164,15 +164,15 @@ c1~c7: 제안대로
 - **병렬 에이전트** — 지금 세션은 단독 실행이다. v1 분해가 5개 병렬로 하루였으니 단독이면
   여러 턴에 걸친다. 원하시면 분해 단계만 병렬로 돌린다. → **Q2**
 
-### Q0 — `intent.md` 권고안
+### Q0 — `INTENT.md` 권고안
 
 v3에서 사다리의 출발점은 `requirement` × functional이다. **이 저장소 자신의 KB에도 그 층이
 있어야 하강 완주율(CQ19)이 성립한다.** 지금은 없다 — 결정 153개가 무엇을 `refines`하는지
-말할 수 없는 이유다. `intent.md`가 그 층의 진입 문서다.
+말할 수 없는 이유다. `INTENT.md`가 그 층의 진입 문서다.
 
 | | 권고 |
 |---|---|
-| 위치 | 저장소 루트 `intent.md` — README·AGENTS·STYLEGUIDE와 같은 층. 세션 시작 필독에 넣는다 |
+| 위치 | 저장소 루트 `INTENT.md` — README·AGENTS·STYLEGUIDE와 같은 층. 세션 시작 필독에 넣는다 |
 | 성격 | **요구 층의 진입 문서(색인)**. 그래프 밖. 요구 항목 자체는 `kb/dev/requirement/`의 청크(functional, EARS) |
 | 내용 | ① 궁극 목적 한 단락(구조도 v3 첫 줄 그대로) ② **이해관계자와 관심사** — 업체(분야 지식 축적), 프로젝트(ODD 안에서 시스템 생산·운용), 에이전트(좁은 컨텍스트에서 판단), 검증자(독립 판정) ③ 요구 목록 — 관심사별 구성체, 각 요구는 EARS 한 문장 + 출처 절 ④ 두 핵심 문서의 자리 — 노트 v3 = 요구의 **근거와 결정의 원천**, 구조도 v3 = **운용 지도** |
 | 요구의 출처 | 노트 **Part I(왜 이 체계인가)·산출물 정의·한 줄 요약**, 구조도 **궁극 목적·대상 지식·순환**. `[확정]` 절은 요구가 아니라 결정의 원천이다 — 그래서 Parts II~XII는 재도출에서 `decision`으로 간다 |
@@ -181,7 +181,7 @@ v3에서 사다리의 출발점은 `requirement` × functional이다. **이 저�
 | 크기 | 요구 20~30개 예상. 요구 하나 = 청크 하나(42줄) |
 
 **따라서 순서가 바뀐다** — 요구가 결정보다 먼저 있어야 `refines`를 구축으로 만들 수 있다
-(복원이 아니라). 재도출 전에 `intent.md`와 요구 청크를 먼저 만든다.
+(복원이 아니라). 재도출 전에 `INTENT.md`와 요구 청크를 먼저 만든다.
 
 ### 실행 순서 (A 확정판)
 
@@ -189,7 +189,7 @@ v3에서 사다리의 출발점은 `requirement` × functional이다. **이 저�
 |---|---|---|
 | 1 | **골격 어휘** — `RequirementChunk`·level 5 정의 개정·거주표 shape·`Workset`/`Run`/`Runbook`·태그 범주·시간 제약·`allocates`/`generates`·`CandidateLink`/`ConfirmedLink`(C7 병합)·IRI 체계(Q1) | `ontology/` 갱신, 게이트 PASS |
 | 2 | **저장 구조** — `kb/dev/<plane>/`·`kb/vv/<plane>/` 패키지, `chunk2kg`·`extract_refs`가 두 KB를 읽음, 카탈로그 스코프(V&V 쓰기 주체) | BUILD 배선 |
-| 3 | **`intent.md` + 요구 청크** — Part I·산출물 정의·구조도 궁극 목적에서 EARS 요구 20~30개 | `kb/dev/requirement/`, 요구 → 두 문서 `derives-from` |
+| 3 | **`INTENT.md` + 요구 청크** — Part I·산출물 정의·구조도 궁극 목적에서 EARS 요구 20~30개 | `kb/dev/requirement/`, 요구 → 두 문서 `derives-from` |
 | 4 | **결정 재도출** — 노트 v3 Parts 0~XII의 `[확정]`을 결정으로. 결정 = 결론(concrete)·근거·대안(logical) 세 청크 + 구성체. 각 결정이 요구를 `refines`, 옛 153을 `supersedes`. 절→항목 대응표(감사) 갱신 | `kb/dev/decision/`, 옛 `chunks/decision/`은 `deprecated` |
 | 5 | **규칙·문서** — purpose·methodology·rules·method·tools·roadmap(도입 7단계 복원)·competency-questions(노트 CQ1~20 대응)·open-questions(13건 재개)·`docs/input.md` 신설·`situation`→작업 집합 | 링크 검사 |
 | 6 | **검사 3계층** — SPARQL verify(거주표·`sources` 빈 청크·신뢰 전파·기준 없는 `verifies`), `term_propose` | 음성 시험 |
@@ -213,7 +213,7 @@ Q2: 예
 |---|---|
 | 1 골격 어휘 | `RequirementChunk` · level 재정의 · 상주표 shape · `state/`(Workset·Run·Runbook) · `tag/`(범주 9) · 시간 제약 3 · `allocates`/`generates` · `CandidateLink`/`ConfirmedLink` · `contentHash` — 모듈 파일 26 |
 | 2 저장 구조 | `kb/dev/`·`kb/vv/` 패키지, chunk2kg가 uuid IRI·contentHash·refines/supersedes/구성체 생성 지원, 카탈로그에 V&V 편집 주체·C4 명시 |
-| 3 요구 층 | `intent.md` + 요구 26건 (EARS, `kb/dev/requirement/`) |
+| 3 요구 층 | `INTENT.md` + 요구 26건 (EARS, `kb/dev/requirement/`) |
 | 4 결정 재도출 | **결정 145건 / 파일 358** (`kb/dev/decision/`, 6 에이전트 병렬 + 서두·Part I 직접분 5). 노트 유래 옛 결정 **126건 전부 deprecated** — 대체 없는 폐기 0. 잔류 27건은 harness 유래·d-0001 |
 | 5 규칙·문서 | purpose · methodology · rules · method · ontology · tools · roadmap(도입 7단계) · competency-questions(CQ 대응표) · open-questions(25건 재동기화) · `input.md` 신설 · README/AGENTS/docs-README · 감사 §3 · situation→작업 집합 |
 | 6 검사 3계층 | validate에 verify 계층(`tools/verify-queries/` 4질의) + `term_propose` 승인 큐 — 음성 시험 통과 |

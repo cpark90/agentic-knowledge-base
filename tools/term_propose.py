@@ -3,7 +3,7 @@
 
 에이전트는 신뢰할 수 없는 센서다: 제안은 하되 판정하지 않는다. 이 도구는
 template 행(ID·라벨 ko/en·정의·상위·경쟁 질문 기여)을 받아 검사를 통과한
-제안만 승인 큐(ontology/proposals/)에 남긴다. 승인 큐는 //ontology:modules
+제안만 승인 큐(kb/ontology/proposals/)에 남긴다. 승인 큐는 //kb/ontology:modules
 밖이라 병합 전에는 그래프에 들어가지 않는다.
 
   1. 에이전트가 관측에서 개념 후보를 뽑아 이 도구로 제안
@@ -90,7 +90,7 @@ def main() -> int:
     out_dir = repo / "ontology" / "proposals"
     out_dir.mkdir(exist_ok=True)
     derived = f"# derived-from: {args.derived_from}\n" if args.derived_from else ""
-    body = f"""# 용어 제안 — 승인 전. //ontology:modules 밖이라 그래프에 들어가지 않는다 (2.5절).
+    body = f"""# 용어 제안 — 승인 전. //kb/ontology:modules 밖이라 그래프에 들어가지 않는다 (2.5절).
 # 기여 경쟁 질문: {args.cq}
 {derived}@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .

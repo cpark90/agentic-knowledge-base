@@ -22,19 +22,19 @@
 ## 저장소 구조
 
 ```
-ontology/                  # 골격 어휘 (T-Box) — 모듈 = 디렉토리, 개념 = 파일
+kb/ontology/                  # 골격 어휘 (T-Box) — 모듈 = 디렉토리, 개념 = 파일
   project-ontology.ttl     #   최상위. import만 하는 얇은 파일
   entity/knowledge-item/   #   plane 7종 · level · 청크·구성체
   related/                 #   횡단 개념 (조건·스코프·가정·채널·하네스·링크·상태·태그)
   shapes/                  #   SHACL — 규칙의 검사 가능한 형태 (plane×level 상주표 포함)
   proposals/               #   용어 제안 승인 큐 (그래프 밖)
-odd/project-odd.ttl        # 이 저장소 자신의 운영 조건 (조건 7개)
+kb/odd/project-odd.yml     # 이 저장소 자신의 운영 조건 (OpenODD, 조건 7개) — TTL·택소노미는 생성물
 kg/base-kg.ttl             # A-Box — 가정·출처 문서
 kg/catalog-kg.ttl          # A-Box — 에이전트 역할·스코프·채널 (하네스 입력)
 kg/composite-kg.ttl        # A-Box — 구성체 (손)
 kg/chunks-kg.ttl           # (생성) head 그래프 — frontmatter에서 만든다
 kg/references-kg.ttl       # (생성) 인용 링크 — 본문에서 뽑는다
-intent.md                  # 요구 층 진입 — 궁극 목적·이해관계자·요구 인덱스
+INTENT.md                  # 요구 층 진입 — 궁극 목적·이해관계자·요구 인덱스
 kb/dev/requirement/        # 개발 KB — 요구 33건 (EARS, functional)
 kb/dev/decision/           # 개발 KB — 결정 182건 (결론·근거·대안 세 청크 구성체)
 kb/vv/                     # V&V KB — vnv 역할만 편집 (아직 비어 있음)

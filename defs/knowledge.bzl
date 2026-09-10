@@ -91,6 +91,30 @@ def kb_chunk_kg(name, srcs, out = None):
         tools = [Label("//tools:chunk2kg")],
     )
 
+def kb_taxonomy(name, ontology, out = "taxonomy.yml"):
+    """related/condition 온톨로지에서 OpenODD 택소노미(속성 범주)를 생성한다 (부록 E.4)."""
+    native.genrule(
+        name = name,
+        srcs = ontology,
+        outs = [out],
+        cmd = "$(location //tools:taxonomy) --out $@ $(SRCS)",
+        tools = [Label("//tools:taxonomy")],
+    )
+
+def kb_odd_kg(name, src, taxonomy, out):
+    """OpenODD 문서(YAML)에서 ODD 그래프(-odd.ttl)를 생성한다 (3.2절, 부록 E.4).
+
+    원본은 YAML이고 TTL은 생성물이다. 속성 범주가 택소노미 밖이거나 판정 방법 없는
+    조건이 있으면 생성이 실패한다 — ODD 게이트의 앞 절반이 여기다.
+    """
+    native.genrule(
+        name = name,
+        srcs = [src, taxonomy],
+        outs = [out],
+        cmd = "$(location //tools:odd2kg) --taxonomy $(location %s) --out $@ $(location %s)" % (taxonomy, src),
+        tools = [Label("//tools:odd2kg")],
+    )
+
 def kb_index(name, srcs, out = "index.md"):
     """청크 head에서 라벨 목록 index.md를 생성한다 (5.6절, 부록 E.2).
 

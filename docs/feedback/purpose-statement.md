@@ -170,8 +170,8 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 13-1 | 스키마 편집 권한은 **기존대로** — developer가 온톨로지 개념을 저작한다 | `AGENTS.md` 역할 표 (변경 없음) |
 | 13-2 | `state` vs OKF `status` 충돌은 **OKF로 변환** — 필드·값 어휘를 OKF에 맞추고 무효화 확장 둘을 더한다 | [`../rules.md` §1](../rules.md#1-chunk--자립적-최소-지식-단위) |
 | 13-3 | 제안의 5클래스 모델은 **기각** — plane × level 격자를 유지한다 | 구조도 v4 그대로 |
-| 14 | 설계 노트 v3(`docs/agent-knowledge-system-notes.md`)와 구조도 v3(`docs/agentic-knowledge-base-structure.md`)로 KB를 갱신한다. 두 문서가 "intent.md의 핵심" (2026-09-10) | `design-detail-review.md` |
-| 14-1 | 반영 범위 **A(전면 재도출)**, C1~C7 hci 제안대로, 저장 분리는 같은 저장소 별도 패키지, `intent.md`는 권고안으로 신규 작성 (2026-09-10) | **완료** (감사 §3): 요구 26·결정 145·옛 126 deprecated |
+| 14 | 설계 노트 v3(`docs/agent-knowledge-system-notes.md`)와 구조도 v3(`docs/agentic-knowledge-base-structure.md`)로 KB를 갱신한다. 두 문서가 "INTENT.md의 핵심" (2026-09-10) | `design-detail-review.md` |
+| 14-1 | 반영 범위 **A(전면 재도출)**, C1~C7 hci 제안대로, 저장 분리는 같은 저장소 별도 패키지, `INTENT.md`는 권고안으로 신규 작성 (2026-09-10) | **완료** (감사 §3): 요구 26·결정 145·옛 126 deprecated |
 | 15 | 노트 v4(3,361줄)·구조도 v4로 대규모 개편 — 이를 기반으로 프로젝트를 완전히 개선한다 (2026-09-10 17:32) | `notes-v4-review.md` — Q1·Q2·Q4~Q7 대기 |
 | 16 | 노트 v5(3,470줄)·구조도 v5로 재개편 — 조건부 링크·증거 장부(9.11), 불일치 귀속(8.4), 선제적 V&V(8.27), 기호 진단(12.12) (2026-09-10 19:00) | `notes-v5-review.md` |
 | 16-1 | v4·v5 검토의 Q1~Q11 **전부 권고대로** (2026-09-10) | `notes-v5-review.md` 진행 표 — 0·1·2·3·3′ 완료, 4~8 진행 중 |

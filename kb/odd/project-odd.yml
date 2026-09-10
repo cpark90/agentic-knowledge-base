@@ -1,0 +1,39 @@
+# OpenODD — agentic-knowledge-base 구축 작업 자신의 운영 설계 영역 (노트 Part III, 부록 E.4)
+# 이 문서가 원본이고 project-odd.ttl 은 생성물이다 (bazel build //kb/odd:odd). 확장 키 둘: checks, exclusions_reviewed.
+id: id:odd-agentic-knowledge-base
+title: agentic-knowledge-base ODD v0.2
+title_ko: agentic-knowledge-base 운영 설계 영역 v0.2
+exclude_when_unknown: true            # = restrictive — 명시 포함만 허용 (0.4절)
+taxonomy: taxonomy.yml                # kb/ontology/related/condition 에서 생성
+
+attributes:                           # 이 ODD의 속성(조건). category 는 택소노미의 key
+  id:cond-build-system:      { category: static,        title: build system,         title_ko: 빌드 체계 }
+  id:cond-python-runtime:    { category: static,        title: python runtime,       title_ko: 파이썬 런타임 }
+  id:cond-repo-layout:       { category: static,        title: repository layout,    title_ko: 저장소 구조 }
+  id:cond-language-policy:   { category: static,        title: language policy,      title_ko: 언어 정책 }
+  id:cond-dependency-lock:   { category: environmental, title: dependency lock,      title_ko: 의존성 고정 }
+  id:cond-network:           { category: environmental, title: network connectivity, title_ko: 네트워크 연결성 }
+  id:cond-concurrent-agents: { category: dynamic,       title: concurrent agents,    title_ko: 동시 에이전트 수 }
+
+modules:
+  - id: akb-core
+    include_and:
+      - id:cond-build-system:      { equal: "Bazel 9.2.0 + bzlmod, rules_python 2.3.2" }
+      - id:cond-python-runtime:    { equal: "hermetic Python 3.11 (rules_python toolchain)" }
+      - id:cond-repo-layout:       { equal: "kb/{ontology,odd,dev,vv}/ kg/ chunks/ tools/ defs/ docs/ .claude/ — 접미사 규약은 0.2절, 한 청크는 한 파일, 저장 구조는 노트 부록 E.7. docs/·.claude/는 그래프 밖(소통 채널·에이전트 정의)" }
+      - id:cond-language-policy:   { equal: "산문 한글, 식별자 영어 케밥, 라벨 한/영 1:1 (0.6절)" }
+      - id:cond-dependency-lock:   { equal: "rdflib 7.6.0, pyshacl 0.40.0, owlrl 7.6.2 — 해시 고정, 순수 파이썬 휠만" }
+      - id:cond-network:           { equal: "최초 fetch 시 BCR·PyPI 접근 필요, 이후 오프라인 빌드 가능" }
+      - id:cond-concurrent-agents: { upper_bound: 5, unit: agents, note: "카탈로그 역할별 agt:maxConcurrent 의 합 (orchestrator·developer·vnv·inspection·hci 각 1). 11.2절: 동시 활성 가능한 역할 조합이 이 한도 안에 있어야 한다" }
+    checks:                           # 확장 키 — 판정 방법·등급 (3.2절, 3.9절). cel 은 도입 5단계에서 채운다
+      id:cond-build-system:      { grade: A, method: ".bazelversion 파일 내용 = 9.2.0; bazel test //... 성공" }
+      id:cond-python-runtime:    { grade: A, method: "MODULE.bazel의 python.toolchain(python_version = \"3.11\")" }
+      id:cond-repo-layout:       { grade: A, method: "bazel test //:naming_test (접미사 린트) + //chunks:lint_test + //kb/dev:lint_test" }
+      id:cond-language-policy:   { grade: B, method: "bazel test //kb/ontology:gate_test 의 labels 검사 (한/영 라벨 강제)" }
+      id:cond-dependency-lock:   { grade: A, method: "tools/requirements_lock.txt 존재 + bazel fetch 성공" }
+      id:cond-network:           { grade: A, method: "curl -sI https://bcr.bazel.build → 200 (최초 1회)" }
+      id:cond-concurrent-agents: { grade: B, method: "kg/catalog-kg.ttl 의 agt:maxConcurrent 합 ≤ 5, 그리고 실행 중 활성 세션·dispatch 수 확인" }
+    exclusions_reviewed:              # 확장 키 — 검토 뒤 명시 제외 (3.2절)
+      - { concept: "원격 실행·원격 캐시(RBE)", reviewed: 2026-09, reason: "로컬 개발 전용 단계" }
+      - { concept: "CI 파이프라인", reviewed: 2026-09, reason: "Part XIV 1단계 범위 밖, 게이트가 안정된 뒤 도입" }
+      - { concept: "참조 저장소(harness-functional·harness-concrete, 구 harness_ontology·harness-recipes) 빌드 의존", reviewed: 2026-09, reason: "내용을 청크로 승격해 활용하고(prov:wasDerivedFrom), 프로젝트 자체는 직접 사용하지 않는다" }

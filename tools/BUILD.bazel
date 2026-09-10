@@ -8,6 +8,7 @@ exports_files([
     "chunk_lint.py",
     "extract_refs.py",
     "kb_lib.py",
+    "kb_yaml.py",
     "requirements_lock.txt",
 ])
 
@@ -44,6 +45,23 @@ py_binary(
 py_binary(
     name = "chunk2kg",
     srcs = ["chunk2kg.py"],
+)
+
+# ODD 택소노미 투영 (부록 E.4): related/condition → taxonomy.yml
+py_binary(
+    name = "taxonomy",
+    srcs = ["taxonomy.py"],
+    deps = [requirement("rdflib")],
+)
+
+# OpenODD 문서 → ODD 그래프(-odd.ttl) 생성기 (3.2절, 부록 E.4). YAML 부분집합 로더 kb_yaml 사용
+py_binary(
+    name = "odd2kg",
+    srcs = [
+        "kb_yaml.py",
+        "odd2kg.py",
+    ],
+    main = "odd2kg.py",
 )
 
 # 라벨 목록 투영 → index.md (5.6절, 부록 E.2). OKF 예약 파일은 생성물이다

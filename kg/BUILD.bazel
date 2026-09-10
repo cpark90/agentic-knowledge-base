@@ -37,8 +37,8 @@ kb_gate_test(
         ":kg",
         ":references_kg",
     ],
-    odd = ["//odd:odd"],
-    ontology = ["//ontology:modules"],
-    shapes = ["//ontology:shapes"],
+    odd = ["//kb/odd:odd"],
+    ontology = ["//kb/ontology:modules"],
+    shapes = ["//kb/ontology:shapes"],
     verify_queries = "//tools:verify_queries",
 )

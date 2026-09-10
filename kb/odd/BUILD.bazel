@@ -1,0 +1,25 @@
+# ODD — 이 저장소 자신의 운영 설계 영역. 원본은 OpenODD 문서 project-odd.yml (노트 부록 E.4),
+# 그래프 project-odd.ttl 과 택소노미 taxonomy.yml 은 생성물이다. 손으로 쓰지 않는다.
+load("//defs:knowledge.bzl", "kb_gate_test", "kb_odd_kg", "kb_taxonomy")
+
+package(default_visibility = ["//visibility:public"])
+
+kb_taxonomy(
+    name = "taxonomy",
+    ontology = ["//kb/ontology/related/condition"],
+)
+
+kb_odd_kg(
+    name = "odd",
+    src = "project-odd.yml",
+    taxonomy = ":taxonomy",
+    out = "project-odd.ttl",
+)
+
+# ODD 게이트 (3.2절): 모든 조건에 판정 방법·등급, ODD에 mode와 조건 최소 1
+kb_gate_test(
+    name = "gate_test",
+    odd = [":odd"],
+    ontology = ["//kb/ontology:modules"],
+    shapes = ["//kb/ontology:shapes"],
+)

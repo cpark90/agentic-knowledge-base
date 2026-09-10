@@ -149,7 +149,7 @@ chunk + `refines`) ([`id:chunk-d0071`](../chunks/decision/d-0071-plane-class-lev
 chunk·구성체의 IRI이고, 링크는 산출물 밖(`-kg`)에 한 방향만 저장한다(역방향은 질의)
 (d-0010 · d-0105).
 
-링크 타입은 네 족으로 정렬된다 (`ontology/related/trace/`).
+링크 타입은 네 족으로 정렬된다 (`kb/ontology/related/trace/`).
 
 | 족 | 뜻 | 잎 | 전파 |
 |---|---|---|---|
@@ -180,7 +180,7 @@ conditional은 `when`의 특수형이다. 장부 규칙 둘은 verify 질의다 
 | 구성체 | `kg/composite-kg.ttl` | 손 |
 | 가정·출처 문서 | `kg/base-kg.ttl` | 손 |
 | 역할·스코프·채널·하네스 (입력) | `kg/catalog-kg.ttl` | 손 |
-| 조건과 ODD | `odd/project-odd.ttl` | 손 |
+| 조건과 ODD | `kb/odd/project-odd.yml` (OpenODD; 확장 키 `checks`·`exclusions_reviewed`) → 생성 `project-odd.ttl`·`taxonomy.yml` | YAML 손, TTL 생성 |
 | 후보 링크 | `space/*-space.ttl` | 미구현 |
 
 ### ODD
@@ -202,7 +202,7 @@ v3가 level을 **정제 높이**로 재정의했다 (노트 6.4절): `functional
 `executable`(동작만 남은 높이). 다섯 단계를 유지하며 건너뛰지 않는다.
 
 **모든 plane이 모든 level에 살지 않는다** — plane×level 상주표가 SHACL로 강제된다
-(`ontology/shapes/residency-shapes.ttl`):
+(`kb/ontology/shapes/residency-shapes.ttl`):
 
 | plane | 허용 level |
 |---|---|
@@ -250,7 +250,7 @@ bazel run //tools:canonicalize -- --write <files>
 
 ## 6. 그래프 안과 밖
 
-검사 대상인 지식(`ontology/`·`odd/`·`kg/`·`chunks/`·`space/`)과, 대상이 아닌 문서
+검사 대상인 지식(`kb/ontology/`·`kb/odd/`·`kg/`·`chunks/`·`space/`)과, 대상이 아닌 문서
 (`docs/`·`.claude/`)를 가른다. 소통 기록과 지식을 섞으면 어휘 폐쇄 검사가 무의미해진다.
 문서는 결정을 복사하지 않고 **IRI로 인용**한다 — 복사하면 이중 관리가 되고 둘이 어긋나는
 순간 어느 쪽이 원본인지 알 수 없어진다 (d-0075).

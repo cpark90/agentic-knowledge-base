@@ -8,22 +8,22 @@ filegroup(
     name = "modules",
     srcs = [
         "project-ontology.ttl",
-        "//ontology/entity/knowledge-item",
-        "//ontology/related/assumption",
-        "//ontology/related/channel",
-        "//ontology/related/condition",
-        "//ontology/related/harness",
-        "//ontology/related/scope",
-        "//ontology/related/state",
-        "//ontology/related/tag",
-        "//ontology/related/trace",
-        "//ontology/related/trust",
+        "//kb/ontology/entity/knowledge-item",
+        "//kb/ontology/related/assumption",
+        "//kb/ontology/related/channel",
+        "//kb/ontology/related/condition",
+        "//kb/ontology/related/harness",
+        "//kb/ontology/related/scope",
+        "//kb/ontology/related/state",
+        "//kb/ontology/related/tag",
+        "//kb/ontology/related/trace",
+        "//kb/ontology/related/trust",
     ],
 )
 
 filegroup(
     name = "shapes",
-    srcs = ["//ontology/shapes"],
+    srcs = ["//kb/ontology/shapes"],
 )
 
 # 온톨로지 위생 게이트 (2.5절): 라벨 완전성 + 청크(파일) 단위 정의 경계 + SHACL

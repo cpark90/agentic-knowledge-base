@@ -1,7 +1,7 @@
 ---
 from: hci
 status: open
-targets: [../agent-knowledge-system-notes.md, ../agentic-knowledge-base-structure.md, ../decomposition-audit.md, design-detail-review.md, ../../intent.md, kb/dev/decision/, ontology/, ../tools.md, ../rules.md, ../method.md, ../roadmap.md, ../open-questions.md]
+targets: [../agent-knowledge-system-notes.md, ../agentic-knowledge-base-structure.md, ../decomposition-audit.md, design-detail-review.md, ../../INTENT.md, kb/dev/decision/, ontology/, ../tools.md, ../rules.md, ../method.md, ../roadmap.md, ../open-questions.md]
 ---
 
 # 검토 — 노트 v4·구조도 v4 대규모 개편과 현 프로젝트의 완전 개선
@@ -55,7 +55,7 @@ Part 0~6 유래 100여 건은 내용상 유효).
 | S2 | 대안 청크 없는 결정 **77 / 145** (alternatives.md 68개뿐) | 7.4 "대안 청크 없는 결정 = shape 위반. '대안 없었음'도 기록" | **절반이 위반** |
 | S3 | 결정 구성체 = 결론(concrete) + 근거(logical) + 대안(logical) | 7.2 "결정은 수준마다 별개 청크 — abstract 변수 선언 / logical 후보·제약·배제 / concrete 값" + 7.4 "결론·근거·대안 세 청크" | **v4 안에서 두 분할이 겹친다** (Q1). 감사가 이미 동질성 긴장으로 등록 |
 | S4 | 결정 → 요구 링크가 `refines` | 6.8 "봉사를 `refines`로 명시", 7.3·7.4·B.2는 **`serves`** | 노트 내부 불일치 (Q2). `serves`는 trace 모듈에 없음 |
-| S5 | `intent.md`·`docs/README`가 "노트 v3, 2,789줄" | v4 3,361줄 | 낡음 |
+| S5 | `INTENT.md`·`docs/README`가 "노트 v3, 2,789줄" | v4 3,361줄 | 낡음 |
 | S6 | `docs/roadmap.md` 도입 **7단계** | 14 "8단계" + 14.1 통과 조건 | 갱신 필요 |
 | S7 | `docs/open-questions.md` 25건 | 28건 | +3 |
 | S8 | `docs/tools.md` 검사 7·활용 8 (골격만) | 구조도: 골격 15 + development 8 + V&V 14 | 세 층 재편 |
@@ -92,7 +92,7 @@ Part 0~6 유래 100여 건은 내용상 유효).
 | 순서 | 무엇 | 크기 | 게이트 |
 |---|---|---|---|
 | 0 | Q1·Q2·Q4~Q7 결정 | — | — |
-| 1 | **번호·수치 동기화** — 결정 145·감사·문서의 절 인용을 v4로(Part ≥ 7은 +1), `intent.md`·README 줄 수, 미해결 26~28 추가, roadmap 8단계 + 14.1 | 기계적 | 링크 검사 |
+| 1 | **번호·수치 동기화** — 결정 145·감사·문서의 절 인용을 v4로(Part ≥ 7은 +1), `INTENT.md`·README 줄 수, 미해결 26~28 추가, roadmap 8단계 + 14.1 | 기계적 | 링크 검사 |
 | 2 | **대안 청크 77건 보충** ("대안 없었음" 포함) + Q1 구조 반영 + `serves` 어휘 | 77 파일 | `bazel test` |
 | 3 | **v4 델타 재도출** — Part VII 9절 · 8.19~8.26 · 6.7 총람 · 9.10 · 12.3 · 14.1 · 부록 B·E의 `[확정]` → 결정 약 40~60건, 요구 층 공백 7건(감사 §3) 보충 | 중간 | `bazel test` + 고아율 |
 | 4 | **부록 E(a)** OKF 필드 정렬 + 예약 파일명 생성 | 384 파일 기계 변환 | 게이트 |

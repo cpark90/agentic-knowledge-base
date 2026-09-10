@@ -237,8 +237,8 @@ concrete 한 칸만 쓰고 있다는 증거다.*
 
 | 공백 | 종류 | 막고 있는 질문 | 어디에 |
 |---|---|---|---|
-| ~~`related/trace`~~ | **해소**(2026-09-04, 어휘 29개) | CQ-13~20 | `ontology/related/trace/` |
-| ~~트러스트 티어~~ | **해소**(2026-09-07, 어휘 3개 + shape) | CQ-31·32 | `ontology/related/trust/` |
+| ~~`related/trace`~~ | **해소**(2026-09-04, 어휘 29개) | CQ-13~20 | `kb/ontology/related/trace/` |
+| ~~트러스트 티어~~ | **해소**(2026-09-07, 어휘 3개 + shape) | CQ-31·32 | `kb/ontology/related/trust/` |
 | ~~인용 링크 데이터~~ | **해소**(2026-09-07, 링크 27개) | CQ-20 | `tools/extract_refs.py` |
 | `satisfies`·`refines` 데이터 — 구축이 안 됨 | **데이터** | CQ-13·16·17·18의 답이 부분 | [`method.md` §6](method.md#6-연결) · 읽기·쓰기 집합 기록 |
 | `related/scene`·실행 기록·`defect` | 어휘 | CQ-12·26·27 | [`method.md` §11](method.md#11-검증) |
@@ -259,7 +259,7 @@ python3 - <<'PY'
 from rdflib import Graph
 g = Graph()
 for f in ['bazel-bin/kg/chunks-kg.ttl','kg/base-kg.ttl','kg/catalog-kg.ttl',
-          'kg/composite-kg.ttl','odd/project-odd.ttl']:
+          'kg/composite-kg.ttl','bazel-bin/kb/odd/project-odd.ttl']:  # ODD TTL은 생성물 — 먼저 bazel build //kb/odd:odd
     g.parse(f)
 P = 'PREFIX agt: <https://agentic-knowledge-base.dev/agt/> '
 for row in g.query(P + 'SELECT ?p ?l (COUNT(?c) AS ?n) WHERE '

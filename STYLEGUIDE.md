@@ -20,7 +20,7 @@
   시그니처·함수·논평·관측. "결정 청크"가 아니라 "결정"이다. "청크"는 그 항목이 따르는
   구조 규율을 말할 때만 쓴다. 온톨로지 클래스 이름·그래프 라벨 인용은 예외다.
 - **[지킴]** **중복 대신 재사용.** 새 개념·항목을 만들기 전에 기존 것을 찾는다
-  (`grep -r ontology/`, 라벨 목록). 같은 뜻의 항목 둘이 이 체계가 막는 드리프트다.
+  (`grep -r kb/ontology/`, 라벨 목록). 같은 뜻의 항목 둘이 이 체계가 막는 드리프트다.
 - **[지킴]** **표준어 우선.** 지어낸 용어·자체 약어를 만들지 않는다. 없을 때만 새로 만들고,
   가져온 곳은 [`docs/references.md`](docs/references.md)에 남긴다.
 - **[지킴]** **자기설명적으로.** 좋은 라벨과 정의가 주석보다 낫다. 정의는 "무엇인가"의
@@ -36,12 +36,12 @@
 | anti-rot | 컨텍스트가 무한히 커짐 | 42줄 상한, 라벨 목록 우선 읽기 | `chunk_lint.py`, SHACL `lineCount` |
 | anti-orphan | 쓰이지 않는 지식이 쌓임 | 구성체·링크 연결, 고아율 관측 | (없음 — [`docs/tools.md`](docs/tools.md) §게이트 밖) |
 
-## §1. 온톨로지 (`ontology/**/*-ontology.ttl`)
+## §1. 온톨로지 (`kb/ontology/**/*-ontology.ttl`)
 
 파일 = 청크, 디렉토리 = 모듈(Bazel 패키지).
 
 - **[지킴]** 새 개념은 **주제가 맞는 기존 모듈 디렉토리의 새 파일**로, 새 주제는 **새 모듈
-  디렉토리**(+ `BUILD.bazel` + `//ontology:modules` 등록)로 추가한다.
+  디렉토리**(+ `BUILD.bazel` + `//kb/ontology:modules` 등록)로 추가한다.
 - **[지킴]** 한 개념은 정확히 한 파일에서 정의된다 — 다른 파일에서 재정의·재선언 금지
   (boundary 게이트). 다른 모듈의 개념은 참조만 한다.
 - **[지킴]** 모든 `agt:` 클래스·속성·개체에 `rdfs:label` 한/영 각 1 + `skos:definition`(한글).
@@ -55,7 +55,7 @@
 - **[지킴]** 상위 온톨로지와 외부 어휘(prov·skos·co 등)의 정의를 변경하지 않는다.
 - **[권장]** 동의어는 새 개념이 아니라 `skos:altLabel`로 등록한다.
 
-## §2. SHACL shape (`ontology/shapes/*-shapes.ttl`)
+## §2. SHACL shape (`kb/ontology/shapes/*-shapes.ttl`)
 
 - **[지킴]** 파일 하나 = 검사 대상 하나(또는 밀접한 쌍). 파일명 `<대상>-shapes.ttl`.
 - **[지킴]** 모든 property shape에 `sh:message`를 달고, 메시지에 강제하는 규칙을 적는다 —
@@ -64,7 +64,7 @@
   변경은 유저 승인 사항이다.
 - **[권장]** 닫힌 값 목록(`sh:in`)의 원천은 온톨로지 정의의 서술과 일치시킨다.
 
-## §3. ODD (`odd/*-odd.ttl`)
+## §3. ODD (`kb/odd/*-odd.yml` — OpenODD 문서. `*-odd.ttl`·`taxonomy.yml`은 생성물, 손으로 쓰지 않는다)
 
 작성 절차는 [`docs/method.md` §2](docs/method.md#2-odd-작성).
 

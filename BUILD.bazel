@@ -7,9 +7,9 @@ kb_chunk_lint_test(
     name = "naming_test",
     ttl = [
         "//kg",
-        "//odd",
-        "//ontology:modules",
-        "//ontology:shapes",
+        "//kb/odd",
+        "//kb/ontology:modules",
+        "//kb/ontology:shapes",
     ],
 )
 
@@ -20,7 +20,7 @@ test_suite(
         ":naming_test",
         "//chunks:lint_test",
         "//kg:gate_test",
-        "//odd:gate_test",
-        "//ontology:gate_test",
+        "//kb/odd:gate_test",
+        "//kb/ontology:gate_test",
     ],
 )

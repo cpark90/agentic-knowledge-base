@@ -273,12 +273,12 @@ functional로 간다. 축의 나머지 절반(후보·계약을 싣는 레시피
 
 | 원본의 성격 | 목적지 |
 |---|---|
-| 이해관계자 관심사 | **요구 33건** (`kb/dev/requirement/`, EARS, functional; v3 26 + 공백 보충 7) + [`../intent.md`](../intent.md) |
+| 이해관계자 관심사 | **요구 33건** (`kb/dev/requirement/`, EARS, functional; v3 26 + 공백 보충 7) + [`../INTENT.md`](../INTENT.md) |
 | `[확정]` | **결정 182건** (`kb/dev/decision/<파트>-<슬러그>/`, 결론·근거·대안 세 청크 구성체; v3 145 + v4·v5 델타 37) |
 | `[안]` | 해당 결정의 `alternatives.md`에 "미확정" 표기 |
 | `[?]` · Part XVI | [`open-questions.md`](open-questions.md) (25건 + 이 저장소 관찰) |
 | Part XIII 도입 순서 | [`roadmap.md`](roadmap.md) 도입 7단계 |
-| 골격 어휘 신설분 | `ontology/` — state·tag·시간 제약·상주표·RequirementChunk·링크 확장·contentHash |
+| 골격 어휘 신설분 | `kb/ontology/` — state·tag·시간 제약·상주표·RequirementChunk·링크 확장·contentHash |
 
 ## 파트별 배정과 산출 (6 에이전트 병렬 + 직접 1)
 

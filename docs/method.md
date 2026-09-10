@@ -31,7 +31,7 @@
 5. 현재 **실제 조건이 ODD 안에 있는지 대조**한다. 첫 대조에서 이탈이 나오면 틀린 쪽은
    현실이 아니라 ODD다.
 
-게이트: `bazel test //odd:gate_test`. 산출: `odd/*-odd.ttl` + 그 위에서 파생된 스코프.
+게이트: `bazel test //kb/odd:gate_test`. 산출: `kb/odd/*-odd.yml`(OpenODD, 부록 E.4) → 생성 `*-odd.ttl` + 그 위에서 파생된 스코프. 속성 범주는 `related/condition`에서 생성된 택소노미 안이어야 한다.
 
 ## 3. 청크 저작
 
