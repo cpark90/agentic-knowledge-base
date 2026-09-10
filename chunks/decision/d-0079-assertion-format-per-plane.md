@@ -5,7 +5,7 @@ level: concrete
 title_ko: assertion 본문 형식은 plane마다 다르다
 title: Assertion body format differs per plane
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 청크의 assertion 그래프는 공통 형식을 강요하지 않고 plane마다

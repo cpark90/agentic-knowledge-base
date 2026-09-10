@@ -5,7 +5,7 @@ level: concrete
 title_ko: V&V KB는 코어의 두 번째 인스턴스다 — 새 plane을 만들지 않는다
 title: The V&V KB is a second instance of the skeleton - no new planes
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7]
 part_of: https://agentic-knowledge-base.dev/id/composite/8348f42d-da82-4b6f-b1a0-d31a93ff3d65

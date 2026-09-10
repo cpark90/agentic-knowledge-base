@@ -5,7 +5,7 @@ level: logical
 title_ko: 판정식 언어 복수의 기각
 title: Rejecting multiple expression languages
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ffcf1fe8-be2a-4a21-b532-ff6f7bb4b727
 ---

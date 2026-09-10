@@ -5,7 +5,7 @@ level: concrete
 title_ko: plane 추가의 유일한 근거는 판정 방식이 다를 때다
 title: A new plane is justified only by a different verification mechanism
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0003]

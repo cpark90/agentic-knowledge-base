@@ -5,7 +5,7 @@ level: logical
 title_ko: 할당 조건으로 두어야 강등이 자동으로 따라온다
 title: Only as an assignment condition does demotion follow automatically
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/c71e12a1-2a31-43f5-af40-c670d767f559
 ---

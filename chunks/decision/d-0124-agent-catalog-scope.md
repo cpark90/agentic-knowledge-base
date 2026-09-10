@@ -5,7 +5,7 @@ level: concrete
 title_ko: 에이전트 카탈로그가 규정하는 범위
 title: What the agent catalog specifies
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 에이전트 카탈로그는 **어떤 역할이 존재하고 각자 무엇을 읽고

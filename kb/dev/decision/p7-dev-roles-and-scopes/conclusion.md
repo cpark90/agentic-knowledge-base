@@ -5,7 +5,7 @@ level: concrete
 title_ko: 개발 KB의 쓰기 권한은 네 역할에 나뉘고 developer는 확정된 것만 본다
 title: Write access to the development KB is split across four roles; developers see only what is fixed
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af, https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/92f76b7c-3bd8-4e3c-a014-61c6aec60af4, title_ko: 개발 역할과 스코프, title: Development roles and scopes}

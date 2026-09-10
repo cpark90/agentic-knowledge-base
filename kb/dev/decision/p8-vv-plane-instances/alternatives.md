@@ -5,7 +5,7 @@ level: logical
 title_ko: V&V 전용 plane 신설의 기각
 title: Rejecting new V&V-specific planes
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8348f42d-da82-4b6f-b1a0-d31a93ff3d65
 ---

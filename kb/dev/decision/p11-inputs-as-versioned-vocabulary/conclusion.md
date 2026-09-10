@@ -5,7 +5,7 @@ level: concrete
 title_ko: 입력은 온톨로지 어휘로 쓰고 버전 관리한다
 title: Inputs are written in ontology vocabulary and versioned
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7, https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0123]

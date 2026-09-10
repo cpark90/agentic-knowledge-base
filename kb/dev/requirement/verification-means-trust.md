@@ -5,7 +5,7 @@ level: functional
 title_ko: 검증 수단 자체의 신뢰도를 잰다
 title: The trustworthiness of verification means is measured
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 ---
 **요구** — 체계는 합격 기준이 실제로 거르는지(변이 검출률)와 판정자가 믿을 만한지(정확도·판별력·캘리브레이션)를 측정하여야 한다.

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 입력도 shape로 검사한다
 title: Inputs are validated by shapes
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 입력도 청크와 같이 shape로 검사한다. 검사 항목은 네 입력에 대해

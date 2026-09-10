@@ -5,7 +5,7 @@ level: logical
 title_ko: 시간열 개체 도입과 환경 조건의 시간에 합치는 안의 기각
 title: Rejecting timeline entities and folding this into the environmental time subclass
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/a65b4cb7-b236-46d5-ba86-c9c9c85ac000
 ---

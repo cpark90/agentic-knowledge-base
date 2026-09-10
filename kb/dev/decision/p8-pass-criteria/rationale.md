@@ -5,7 +5,7 @@ level: logical
 title_ko: 자극과 판정을 한 청크에 두면 기준 변경이 케이스 변경으로 보인다
 title: Fusing stimulus and judgement makes a loosened criterion look like a changed case
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/14433614-5dd7-4df3-b32c-2422a25daef3
 ---

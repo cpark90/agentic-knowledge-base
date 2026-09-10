@@ -5,7 +5,7 @@ level: logical
 title_ko: 사람 검토가 성립하지 않으므로 구조로 통제한다
 title: Human review cannot scale, so control by structure
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/cca68a89-e572-4104-ba7e-cddd3c67c7bb
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 불투명 지속 IRI와 해시 버전 IRI
 title: Opaque persistent IRI and content-hash version IRI
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 청크·구성체·링크·가정은 전부 개체이므로 IRI를 갖는다. 지속성과

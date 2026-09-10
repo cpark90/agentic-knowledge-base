@@ -5,7 +5,7 @@ level: logical
 title_ko: 임의 도메인 목록과 ODD 밖 값 범위의 기각
 title: Rejecting ad-hoc domains and out-of-ODD ranges
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/3eec3426-b051-4594-8d32-be0867520885
 ---

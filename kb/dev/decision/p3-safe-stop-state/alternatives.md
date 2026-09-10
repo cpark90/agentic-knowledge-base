@@ -5,7 +5,7 @@ level: logical
 title_ko: 커밋하거나 폐기하는 안
 title: Committing or discarding the in-flight work
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/a28b73f3-e4b9-41b0-840a-1febcceae940
 ---

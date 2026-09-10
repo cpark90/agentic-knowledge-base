@@ -5,7 +5,7 @@ level: logical
 title_ko: level을 클래스로 두는 안은 계층 전이를 타입 변경으로 만든다
 title: Modeling level as a class would turn ladder transitions into type changes
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/db06bc97-7100-4ad3-bad0-83fb1c876e1c
 ---

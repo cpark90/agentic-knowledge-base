@@ -210,3 +210,9 @@ hci 권고: 전부 수용. (g)만 유의 — 임베딩 모델 선택·저장이 
 
 ## 답
 (유저가 채움)
+
+## 외부 조사로 채운 세부 (2026-09-11)
+
+- **LEDGER** 노드는 (id, 요약, 임베딩, 타입 section/paragraph/figure/table/equation, 위치, 수정 시각). RELATED는 코사인 ≥ 0.7이고 **REFERENCES·DEPENDS가 없을 때만**, 유일하게 양방향. DEPENDS는 반사실 검사("빼면 의미상 불완전·모호·미정의인가")로 추출 — 이 체계에서 `agt:counterfactualTest`를 폐기하고 `proposal` 종류로 흡수한 것과 정합(언어모델의 반사실 검사는 제안). 검색은 대상 식별(명시 대상 또는 임베딩 유사) → 상·하류 확장 → 우선순위(대상 > REFERENCES > DEPENDS > CONTAINS > RELATED, "수치보다 순서") → 예산 패킹(문서 크기와 무관하게 O(1), 10~15%). 편집 후 검사: 참조 무결성 · 용어 일관성 · 의미 응집(임베딩 유사도 하락). 76% vs 56%, 편집당 ~1,535 토큰, 85~92% 절감 (arXiv 2606.28379, ACL 2026 Findings).
+- **LARGER** 정식 제목은 *Lexically Anchored Repository Graph Exploration and Retrieval* — "의존성 그래프"는 제목이 아니다. 노드 directory·file·class·function, 엣지 contains·imports·invokes·코드–테스트/문서 교차 링크. 에이전트의 어휘 검색 결과가 active set M_t로 그래프에 앵커되고, 앵커마다 K-hop·신뢰 임계 θ 이웃 중 상위 k를 골라 컨텍스트 사영 Π로 합친다. LocBench 파일 Acc@5 +11.8 (arXiv 2605.16352).
+- 이 체계에의 대응은 위 표 그대로이며, 두 논문 모두 **엣지 신뢰도를 수치로 쓰는 쪽**(θ, ω)이다 — 이 체계는 9.11절에 따라 수치 없이 조건·증거 기록으로 간다는 점에서 의도적으로 갈린다.

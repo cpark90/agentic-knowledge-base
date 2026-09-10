@@ -5,7 +5,7 @@ level: concrete
 title_ko: 빌드 투영은 검증된 그래프에서만 결정론적으로 나온다
 title: The build projection is gated on validation and deterministic
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 그래프에서 산출물을 만드는 빌드는 ① 조립된 union이 **검증을 통과할

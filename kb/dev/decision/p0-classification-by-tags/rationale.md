@@ -5,7 +5,7 @@ level: logical
 title_ko: 최선의 계층은 존재하지 않고 첫 분기가 나머지를 지배한다
 title: There is no best hierarchy and the first split dominates the rest
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/49901d72-dedc-4f2c-a4ca-5ab543eea90c
 ---

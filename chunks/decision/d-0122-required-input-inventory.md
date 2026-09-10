@@ -5,7 +5,7 @@ level: concrete
 title_ko: 체계가 요구하는 입력 목록
 title: Inventory of inputs the system requires
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 체계를 한 프로젝트에 인스턴스화하는 데 필요한 입력을 15종으로

@@ -5,7 +5,7 @@ level: logical
 title_ko: 읽기 응답은 라벨·상태·핵심 링크만이고 본문은 요청 시다
 title: A read response carries labels, states and key links only; bodies on request
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/3ebc2598-b846-412e-b76e-4ebb13ce90a4
 ---

@@ -5,7 +5,7 @@ level: logical
 title_ko: 단절별 개별 장치의 기각
 title: Rejecting per-break remedies without a shared vocabulary
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/e84e779c-80d6-41e0-bee2-7b75fe0ac090
 ---

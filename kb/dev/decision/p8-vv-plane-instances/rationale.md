@@ -5,7 +5,7 @@ level: logical
 title_ko: 시나리오가 decision이고 합격 기준이 contract인 이유
 title: Why a scenario is a decision and a pass criterion is a contract
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8348f42d-da82-4b6f-b1a0-d31a93ff3d65
 ---

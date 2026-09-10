@@ -5,7 +5,7 @@ level: logical
 title_ko: IRI에 의미를 넣으면 이름 변경이 링크를 고아로 만든다
 title: Meaningful IRIs orphan links whenever a name changes
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/eb847899-2640-4bca-955a-7f511528bc1d
 ---

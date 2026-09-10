@@ -5,7 +5,7 @@ level: logical
 title_ko: 값 미확정과 링크 미확정의 이중 관리 기각
 title: Rejecting dual management of value and link uncertainty
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/aa7d5c28-822d-4904-9e3f-13920eb41256
 ---

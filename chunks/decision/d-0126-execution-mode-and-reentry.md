@@ -5,7 +5,7 @@ level: concrete
 title_ko: 실행 모드와 dispatch 재진입 요약
 title: Execution mode and dispatch re-entry summary
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 실행 모드(세션 유지 / dispatch)를 입력으로 받고, dispatch

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 입력 사이에는 순서가 있고 앞이 바뀌면 뒤가 재검토된다
 title: Inputs are ordered; a change upstream forces review downstream
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0129]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef]

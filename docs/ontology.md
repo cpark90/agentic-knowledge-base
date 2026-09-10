@@ -11,8 +11,8 @@
 | **코어** | 분야와 무관한 것 — plane, level, 조건, 가정, 역할, 청크·복합체, 링크 타입 | 이 저장소 | `kb/ontology/` (`agt:`) |
 | **분야 프로파일** | 각 plane의 실체와 판정 도구, 조건 어휘 셋째 수준, 도메인 결함 하위 유형, 앵커 해석기 | 분야마다 | `profile/<분야>` (미구현) |
 
-프로파일은 별도 장치가 아니라 **코어을 확장만 하는 온톨로지 모듈**이다. 코어 클래스의
-하위 클래스와 shape만 추가하며, 코어을 수정하는 프로파일은 검사 실패다
+프로파일은 별도 장치가 아니라 **코어를 확장만 하는 온톨로지 모듈**이다. 코어 클래스의
+하위 클래스와 shape만 추가하며, 코어를 수정하는 프로파일은 검사 실패다
 ([`id:chunk-d0057`](../chunks/decision/d-0057-profile-extension-only-module.md)). 한 프로젝트가
 프로파일을 여럿 가질 수 있고, 링크는 프로파일을 넘는다.
 
@@ -91,7 +91,7 @@ mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementC
 
 | 항목 | 설계 | 이 저장소 |
 |---|---|---|
-| `vv/` 모듈 | 일곱 plane의 V&V 실체 — 검증 목표 · 시나리오(자극·요인·배제 자극) · 합격 기준(판정식) · 케이스 · 검증기 · 판정 주석 · 실행 기록 | **없음** — plane 클래스는 코어을 그대로 쓴다 ([p8-vv-plane-instances](../kb/dev/decision/p8-vv-plane-instances/conclusion.md)) |
+| `vv/` 모듈 | 일곱 plane의 V&V 실체 — 검증 목표 · 시나리오(자극·요인·배제 자극) · 합격 기준(판정식) · 케이스 · 검증기 · 판정 주석 · 실행 기록 | **없음** — plane 클래스는 코어를 그대로 쓴다 ([p8-vv-plane-instances](../kb/dev/decision/p8-vv-plane-instances/conclusion.md)) |
 | 위험 분석 산출 | 현상(ODD 조건 + `defect` 요인) · 인과(`defect-rules`) · 지표 · 시나리오 부류 abstract 라이브러리 · 목표 거동(Runbook) | `Runbook`만 있음(`related/state`). `defect`·`defect-rules` **없음** |
 | 시나리오 도메인 모델 | actor(에이전트·유저·서비스) · action — OpenSCENARIO 코어 구조 위 | **없음** (도입 7단계, [pe-scenario-is-openscenario](../kb/dev/decision/pe-scenario-is-openscenario/conclusion.md)) |
 | 결함 어휘 | 3갈래 × ODC 유형 × 한정자 × 트리거 × 발견 단계 | **없음** |
@@ -99,7 +99,7 @@ mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementC
 
 ## 참조 프로파일 — 소프트웨어 개발
 
-코어을 개발 작업에 특수화한 결정들이며, 다른 프로파일의 템플릿이다. 이 저장소는 이
+코어를 개발 작업에 특수화한 결정들이며, 다른 프로파일의 템플릿이다. 이 저장소는 이
 프로파일의 부분집합만 쓴다 — 현재 `requirement`·`decision` plane이 채워져 있고, 역할은
 노트 10.2절 9역할 중 5개다(design은 developer가 겸함 — 유저 결정 C4).
 

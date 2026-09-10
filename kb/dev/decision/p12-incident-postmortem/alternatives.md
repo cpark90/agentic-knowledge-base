@@ -5,7 +5,7 @@ level: logical
 title_ko: 서술 기반 진단과 산출 없는 사후분석의 기각
 title: Rejecting narrative diagnosis and postmortems without output
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/48ce0d53-db1b-4b0f-9ef3-cded88f22d8b
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 프로젝트는 ODD 작성으로 시작하고 5단계를 거친다
 title: A project starts by authoring the ODD in five steps
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 새 프로젝트의 첫 산출물은 ODD다. 온톨로지는 프로젝트 간에

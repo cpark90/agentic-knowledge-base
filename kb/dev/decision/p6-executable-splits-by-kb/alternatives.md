@@ -5,7 +5,7 @@ level: logical
 title_ko: 역할 태그만으로 구현·검증을 구분하는 안의 대체
 title: Superseding tag-only separation of implementation and verification
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8e8697a1-16b9-4c24-a377-340db2b6000b
 ---

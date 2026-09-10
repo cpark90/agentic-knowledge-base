@@ -5,7 +5,7 @@ level: logical
 title_ko: 양 지표 유지와 실험 전용의 기각
 title: Rejecting quantity-only and experiment-only conditions
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T21:10:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/6878b566-73c2-462f-a524-5203c4c3832e
 ---

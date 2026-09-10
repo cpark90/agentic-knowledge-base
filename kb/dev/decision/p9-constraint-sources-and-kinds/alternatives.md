@@ -5,7 +5,7 @@ level: logical
 title_ko: 대안 없음 — 제약의 출처와 종류
 title: No alternative recorded — constraint sources and kinds
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/82fb12dd-6188-4e06-bae7-e86e699ac5fe
 ---

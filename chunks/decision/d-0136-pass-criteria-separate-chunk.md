@@ -5,7 +5,7 @@ level: concrete
 title_ko: 합격 기준은 시나리오와 별도 청크
 title: Pass criteria live in a chunk separate from the scenario
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 시나리오마다 합격 기준을 **별도 청크로** 두고, `verifies` 링크의

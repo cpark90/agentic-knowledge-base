@@ -5,7 +5,7 @@ level: logical
 title_ko: 선택적 검증 대응물와 ODD 밖 변수의 기각
 title: Rejecting optional rungs and out-of-ODD variables
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/0ef3233e-c6aa-434b-a0ef-350c857e690e
 ---

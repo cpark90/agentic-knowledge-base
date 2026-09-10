@@ -5,7 +5,7 @@ level: concrete
 title_ko: plane 할당은 툴 표면을 바꿔야 효과가 난다
 title: Plane assignment only works if the tool surface changes with it
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8, https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0081, https://agentic-knowledge-base.dev/id/chunk-d0082]

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 지어낸 용어를 쓰지 않는다
 title: No invented terminology
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 확립된 표준어가 있으면 그것을 쓰고, 없을 때만 새로 만든다.

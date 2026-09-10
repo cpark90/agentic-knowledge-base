@@ -5,7 +5,7 @@ level: concrete
 title_ko: 입력도 shape로 검사한다
 title: Inputs are validated by shapes
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0128]

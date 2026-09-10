@@ -5,7 +5,7 @@ level: logical
 title_ko: 전이와 게이트를 역할의 작업 순서로 펴야 정제이 실행된다
 title: Descent only runs when transitions and gates are laid out as a role work order
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8d167ee6-64e5-48ee-b34d-ed2d994669d1
 ---

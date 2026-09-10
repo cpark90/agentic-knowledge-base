@@ -5,7 +5,7 @@ level: concrete
 title_ko: ODD는 일곱 절과 속성별 판정 방법으로 쓴다
 title: The ODD has seven sections and a check per property
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c, https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0059]

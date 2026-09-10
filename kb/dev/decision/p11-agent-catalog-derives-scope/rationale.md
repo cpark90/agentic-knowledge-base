@@ -5,7 +5,7 @@ level: logical
 title_ko: 역할 이름은 프로파일마다 달라도 파생 방식은 고정이고 ODD가 상한이다
 title: Role names vary by profile while the derivation is fixed, and the ODD caps the catalog
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/2e3b40bb-c5f0-4355-8108-ccdf481d998a
 ---

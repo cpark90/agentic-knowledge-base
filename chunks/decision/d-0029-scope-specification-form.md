@@ -5,7 +5,7 @@ level: concrete
 title_ko: 스코프 명세는 네 문장으로 쓴다
 title: Scope is written as four statement kinds
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 스코프는 네 종류의 문장으로 쓴다. **mode**(기본 모드:

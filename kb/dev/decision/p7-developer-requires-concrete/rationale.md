@@ -5,7 +5,7 @@ level: logical
 title_ko: 후보가 남은 상태에서의 구현은 근거 없는 할당이다
 title: Implementing while candidates remain is an ungrounded assignment
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/fb8de557-6f61-436f-ae39-57f6c7019555
 ---

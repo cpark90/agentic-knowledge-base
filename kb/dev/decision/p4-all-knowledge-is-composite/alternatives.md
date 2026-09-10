@@ -5,7 +5,7 @@ level: logical
 title_ko: 지식 항목마다 다른 구조의 기각
 title: Rejecting per-item structures
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/b4546452-61a1-4d61-b6c3-8af8a25e0f44
 ---

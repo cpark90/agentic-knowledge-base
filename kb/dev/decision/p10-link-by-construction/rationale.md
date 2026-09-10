@@ -5,7 +5,7 @@ level: logical
 title_ko: 복원은 본질적으로 사후적이고 계층가 링크를 안정시킨다
 title: Recovery is inherently after the fact; the ladder buffers links
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/6651b045-a578-4114-a942-eae19ab99b0c
 ---

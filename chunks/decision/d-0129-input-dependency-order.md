@@ -5,7 +5,7 @@ level: concrete
 title_ko: 입력 간 의존 순서
 title: Dependency order among inputs
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 입력끼리 순서가 있다. 앞의 것이 바뀌면 뒤의 것이 재검토된다.

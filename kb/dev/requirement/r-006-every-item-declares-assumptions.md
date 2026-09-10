@@ -5,7 +5,7 @@ level: functional
 title_ko: 모든 항목은 자기 가정을 명시한다
 title: Every item declares its assumptions
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 체계는 모든 지식 항목이 ODD의 어떤 조건 위에 서 있는지(가정)를 명시할 수 있어야 하며, ODD에 없는 조건을 참조하는 가정을 거부하여야 한다.

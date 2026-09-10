@@ -5,7 +5,7 @@ level: logical
 title_ko: 아무것도 거르지 않는 기준도 통과하므로 기준의 질을 따로 잰다
 title: A criterion that filters nothing also passes, so its quality is measured separately
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/9ac75416-7fff-4995-be5d-fed7b6ecbb90
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 노드 서술 텍스트의 토큰 대역
 title: Token band for node description text
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 검색 단위로 투영되는 노드의 서술 텍스트 합은 260 token을

@@ -17,7 +17,7 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
   generated:    {by: <행위자>, at: <ISO 8601>} (필수, OKF)
   verified:     [{by: <행위자>, at: <ISO 8601>}, ...] (선택, OKF) — human: 접두어가 사람 검토
   assumes:      가정 IRI 목록 (선택)
-  sources:      출처 IRI 목록 (선택, prov:wasDerivedFrom) — OKF sources
+  sources:      OKF v0.2 sources — [{resource: IRI, id?, title?, author?}] (선택). resource → prov:wasDerivedFrom
   refines:      이 항목이 정제하는 상위 항목 IRI 목록 (선택, 수직 링크 9.2절)
   supersedes:   이 항목이 대체하는 항목 IRI 목록 (선택)
   part_of:      소속 복합체 IRI (선택) — 복합체는 멤버 중 하나가 composite: 로 선언
@@ -146,7 +146,10 @@ def emit_chunk(path: str, meta: dict, line_count: int) -> str:
     for a in meta.get("assumes", []):
         stmts.append(f"agt:assumes <{a}>")
     for d in meta.get("sources", []):
-        stmts.append(f"prov:wasDerivedFrom <{d}>")
+        res = d.get("resource") if isinstance(d, dict) else d  # OKF: 객체 목록. 옛 문자열 목록도 읽는다
+        if not res:
+            raise ValueError(f"{path}: sources 항목에 resource 가 없다 (OKF v0.2 §5.1)")
+        stmts.append(f"prov:wasDerivedFrom <{res}>")
     for r in meta.get("refines", []):
         stmts.append(f"agt:refines <{r}>")
     for s in meta.get("supersedes", []):

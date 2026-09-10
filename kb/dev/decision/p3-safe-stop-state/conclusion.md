@@ -5,7 +5,7 @@ level: concrete
 title_ko: 이탈 시 남겨야 할 상태와 복귀 가능성
 title: What must remain after an exit, and the ability to return
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366, https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0065]

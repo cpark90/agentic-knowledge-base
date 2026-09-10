@@ -5,7 +5,7 @@ level: concrete
 title_ko: 도입 단계별 통과 조건은 의미 보존·구체화·유기적 연결 세 축이다
 title: Stage pass conditions are three axes: meaning preserved, concretisation, organic linkage
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T21:10:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk/7ffcce18-39d0-45b3-90f7-6ac8d1528254]

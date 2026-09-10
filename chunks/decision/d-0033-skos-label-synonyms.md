@@ -5,7 +5,7 @@ level: concrete
 title_ko: 동의어는 없애지 않고 SKOS 라벨로 등록한다
 title: Register synonyms as SKOS labels instead of removing them
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 0.6절의 "동의어 사용 금지"를 어휘 수준에서 강제하는 방법은

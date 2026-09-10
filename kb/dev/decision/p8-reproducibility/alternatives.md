@@ -5,7 +5,7 @@ level: logical
 title_ko: 청크 속성으로서의 재현성과 억지 케이스화의 기각
 title: Rejecting reproducibility as a chunk attribute and forced concretisation
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/c71e12a1-2a31-43f5-af40-c670d767f559
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 편향마다 구조적 완화 장치를 고정한다
 title: Each bias is bound to a structural mitigation
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 1.2절의 성질 각각에 이 체계의 어느 장치가 대응하는지를 표로

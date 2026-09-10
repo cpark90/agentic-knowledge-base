@@ -5,7 +5,7 @@ level: logical
 title_ko: 저장된 뷰는 어긋나는 순간 거짓이고 분리된 것을 합치는 것이 질의다
 title: A stored view is false the moment it diverges; queries join what is stored apart
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/5d561aaa-6fc8-4102-91b9-96db89f984e8
 ---

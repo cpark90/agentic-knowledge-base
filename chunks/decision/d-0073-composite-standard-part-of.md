@@ -5,7 +5,7 @@ level: concrete
 title_ko: 구성체는 표준 part-of와 순서 컬렉션으로 쓴다
 title: Composites use standard part-of and ordered collections
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 구성체(`agt:Composite`)는 청크 또는 다른 구성체를 부분으로 갖는

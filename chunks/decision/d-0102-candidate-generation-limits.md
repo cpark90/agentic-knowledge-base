@@ -5,7 +5,7 @@ level: concrete
 title_ko: 후보 링크의 출처와 상한
 title: Candidate link sources and their upper bounds
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 후보 링크는 링크 타입별로 정해진 출처에서 가져오고, 각 출처는

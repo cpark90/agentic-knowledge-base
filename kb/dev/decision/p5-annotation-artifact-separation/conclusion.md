@@ -5,7 +5,7 @@ level: concrete
 title_ko: 주석과 산출물을 분리하는 도구가 필요하다
 title: A tool is needed to keep annotation out of the artifact
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4]
 part_of: https://agentic-knowledge-base.dev/id/composite/67157f22-93ba-4abe-a303-d058de25ef7f

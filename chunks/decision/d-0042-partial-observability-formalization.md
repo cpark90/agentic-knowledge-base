@@ -5,7 +5,7 @@ level: concrete
 title_ko: 부분관측 모델에 개념을 대응시킨다
 title: Map concepts onto the partial-observability model
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — "에이전트는 **부분관측 분산 시스템의 행위자**"라는 전제를

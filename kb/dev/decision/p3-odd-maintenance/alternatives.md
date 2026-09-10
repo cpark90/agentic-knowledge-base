@@ -5,7 +5,7 @@ level: logical
 title_ko: ODD에서 새 속성을 바로 만드는 안
 title: Introducing new properties directly in the ODD
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d53cfcf9-c765-4bfe-b787-a420967a6f35
 ---

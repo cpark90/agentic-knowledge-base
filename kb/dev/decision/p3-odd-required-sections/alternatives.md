@@ -5,7 +5,7 @@ level: logical
 title_ko: 명시 제외와 판정 방법을 선택 절로 두는 안
 title: Making exclusions and check methods optional
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/80a7e3df-fc4f-452e-94fc-4acead84d77b
 ---

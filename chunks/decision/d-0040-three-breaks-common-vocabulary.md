@@ -5,7 +5,7 @@ level: concrete
 title_ko: 세 단절의 공통 원인은 공통 어휘의 부재
 title: The three breaks share one cause, no common vocabulary
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 좁게 보고 자기 방향으로 틀리는 행위자 여럿이 한 프로젝트를 만들면

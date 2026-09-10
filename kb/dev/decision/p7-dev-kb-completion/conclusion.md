@@ -5,7 +5,7 @@ level: concrete
 title_ko: 개발 KB의 완결 조건은 정제 완주와 후방 추적 귀속 100%이고 완료는 V&V 상태를 읽어야 선언된다
 title: Completion means 100% descent and ascription, and can only be declared by reading the V&V KB
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9, https://agentic-knowledge-base.dev/id/chunk/71d2b786-e873-4705-b160-a443603ae0d2]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/c831629d-706d-4d61-90e5-f4d848758731, title_ko: 개발 KB의 완결과 완료 판정, title: Completion of the development KB}

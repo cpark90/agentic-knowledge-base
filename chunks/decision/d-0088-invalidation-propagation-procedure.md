@@ -5,7 +5,7 @@ level: concrete
 title_ko: 무효화 전파의 여덟 단계 절차
 title: The eight-step invalidation propagation procedure
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — "가정이 깨지면 자동으로 무효화 표시된다"(6.5절)를 다음 절차로

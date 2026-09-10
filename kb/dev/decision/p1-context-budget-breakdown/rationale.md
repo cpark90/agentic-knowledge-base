@@ -5,7 +5,7 @@ level: logical
 title_ko: 분해해야 42줄 4~5개 계산이 성립하는지 알 수 있다
 title: Only a breakdown shows whether 42x4-5 actually holds
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ee6bf20f-7b60-4ee8-8681-af13f995682d
 ---

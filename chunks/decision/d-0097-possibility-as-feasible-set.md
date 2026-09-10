@@ -5,7 +5,7 @@ level: concrete
 title_ko: 링크의 가능성은 확률이 아니라 가능 집합
 title: Link possibility as feasible set, not probability
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크의 가능성은 **가능 / 불가능**의 가능 집합(제약 만족)

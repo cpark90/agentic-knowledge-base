@@ -5,7 +5,7 @@ level: logical
 title_ko: 링크 생성을 게이트에 묶는 것이 강제의 실체이고 마지막 게이트가 V-모델의 검증 대응물다
 title: Binding link creation to the gate is the enforcement; the last gate is the V-model rung
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/7daf868e-e331-4e89-bbcc-447c0ce05f29
 ---

@@ -5,7 +5,7 @@ level: logical
 title_ko: 둘째 수준이 고정되어야 갈래별 커버리지를 셀 수 있다
 title: A fixed second level is what makes per-branch coverage countable
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/7d50713a-5c4d-485d-8a46-a36172a1b114
 ---

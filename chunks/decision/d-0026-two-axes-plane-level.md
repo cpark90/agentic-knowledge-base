@@ -5,7 +5,7 @@ level: concrete
 title_ko: 지식 표현의 좌표는 plane과 level 두 축
 title: Knowledge is located by two axes, plane and level
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 모든 지식 **표현**의 위치는 두 축으로 정해진다.

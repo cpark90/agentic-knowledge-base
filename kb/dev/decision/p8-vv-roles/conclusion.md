@@ -5,7 +5,7 @@ level: concrete
 title_ko: V&V KB에는 다섯 역할이 쓰고 기준 저자와 검증기 저자는 다른 세션이다
 title: Five roles write to the V&V KB; criteria author and 검증기 저자 work in different sessions
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7, https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193, https://agentic-knowledge-base.dev/id/chunk/ba638521-e9b0-4c38-b073-44230ac22785]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/666bd423-dc26-4857-9841-c1e3aa131223, title_ko: V&V 역할, title: V&V roles}

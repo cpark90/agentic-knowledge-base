@@ -5,7 +5,7 @@ level: logical
 title_ko: 대안 없음 — 기본 화면
 title: No alternative recorded — the default view
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/2e051e5d-6083-4a41-91e0-ade82422c705
 ---

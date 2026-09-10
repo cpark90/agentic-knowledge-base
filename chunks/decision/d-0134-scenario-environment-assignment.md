@@ -5,7 +5,7 @@ level: concrete
 title_ko: 시나리오는 판정 가능한 가장 낮은 단계에 배정한다
 title: Assign each scenario to the lowest rung that can judge it
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 각 시나리오는 그것을 판정할 수 있는 **가장 낮은 단계**에 배정하고,

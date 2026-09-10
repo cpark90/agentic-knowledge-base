@@ -5,7 +5,7 @@ level: concrete
 title_ko: 검사 게이트는 A-Box를 SHACL로 검사한다
 title: The inspection gate checks the A-Box with SHACL
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 에이전트가 A-Box와 설계 공간을 채우게 하려면 기계적 검사가

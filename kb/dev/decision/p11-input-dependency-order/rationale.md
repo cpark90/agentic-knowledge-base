@@ -5,7 +5,7 @@ level: logical
 title_ko: 사슬의 위치가 불가역성과 파급 계산 순서를 결정한다
 title: Position in the chain determines irreversibility and the order of impact computation
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/1b1b47e5-a634-4953-bfd9-7b77bf651857
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: ODD 이탈 시 남겨야 할 안전 정지 상태
 title: The safe-stop state required on ODD exit
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 3.5절의 "작업 중단"이 뜻하는 상태를 정의한다. 이탈을 감지한

@@ -5,7 +5,7 @@ level: logical
 title_ko: ODD를 온톨로지 모듈로 두는 안
 title: Making the ODD an ontology module
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/4640aa0e-49a7-4fee-952d-e33ec4d57cbb
 ---

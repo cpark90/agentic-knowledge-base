@@ -5,7 +5,7 @@ level: logical
 title_ko: 산출물을 열지 않고 링크를 만들고 질의할 수 있어야 한다
 title: Links must be authored and queried without opening artifacts
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/c1ce996d-dc84-45c5-b567-a9da42421774
 ---

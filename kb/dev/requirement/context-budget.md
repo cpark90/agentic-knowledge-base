@@ -5,7 +5,7 @@ level: functional
 title_ko: 작업 집합은 컨텍스트 예산 안에 든다
 title: Worksets fit within the context budget
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 ---
 **요구** — 체계는 역할별 작업 집합이 컨텍스트 예산(약 200줄, 42줄 청크 4~5개) 안에 들도록 유지하여야 한다.

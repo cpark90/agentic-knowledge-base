@@ -5,7 +5,7 @@ level: logical
 title_ko: 별도 저장소 분리의 보류
 title: Deferring separation into repositories
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/6d696b3f-6d63-476e-bb56-65f27d8d2ed5
 ---

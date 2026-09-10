@@ -5,7 +5,7 @@ level: concrete
 title_ko: 표준 상위 온톨로지 위에 구축한다
 title: Build on a standard upper ontology
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 프로젝트 온톨로지를 맨바닥에서 짓지 않고 표준 상위 온톨로지 위에

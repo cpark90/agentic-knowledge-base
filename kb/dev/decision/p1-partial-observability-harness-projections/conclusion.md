@@ -5,7 +5,7 @@ level: concrete
 title_ko: 하네스는 관측 사영과 행동 사영 둘을 담당한다
 title: The harness owns two projections, observation and action
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af, https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0037, https://agentic-knowledge-base.dev/id/chunk-d0042]

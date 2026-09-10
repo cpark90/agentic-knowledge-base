@@ -5,7 +5,7 @@ level: logical
 title_ko: D 등급 속성을 ODD에 포함하는 안
 title: Keeping grade-D properties in the ODD
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/09270524-0ea3-40bb-8360-178681e7cbca
 ---

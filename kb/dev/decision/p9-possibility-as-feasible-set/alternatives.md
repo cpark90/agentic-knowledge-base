@@ -5,7 +5,7 @@ level: logical
 title_ko: 등급과 확률
 title: Graded possibility and probability
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/3d6c3728-c1d8-4bc4-8d9e-f6963425410c
 ---

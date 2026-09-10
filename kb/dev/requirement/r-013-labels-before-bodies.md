@@ -5,7 +5,7 @@ level: functional
 title_ko: 라벨 목록이 본문보다 먼저다
 title: Labels come before bodies
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 에이전트가 판단할 때, 체계는 판단에 필요한 지식을 청크 라벨 목록으로 먼저 보여주고 요청된 본문만 펼쳐야 한다.

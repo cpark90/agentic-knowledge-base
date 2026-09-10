@@ -6,7 +6,7 @@ title_ko: Bazel 하네스 채택
 title: Adopt Bazel harness
 status: stable
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain]
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T17:34:48+09:00}
 ---
 **결론** — 지식 베이스의 하네스를 Bazel(bzlmod) 위에 세운다.

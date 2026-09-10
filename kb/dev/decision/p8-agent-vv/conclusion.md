@@ -5,7 +5,7 @@ level: concrete
 title_ko: 에이전트 V&V는 제품 V&V와 같은 사슬이되 실체가 다르고 부류는 하네스에 종속된다
 title: Agent V&V shares the product chain with different substance; its classes depend on the harness
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193, https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/a47a3cfd-e9df-401a-90d1-d49cfff12452, title_ko: 에이전트 V&V, title: Agent V&V}

@@ -5,7 +5,7 @@ level: functional
 title_ko: 하네스는 읽기·쓰기 집합을 기록한다
 title: The harness records read and write sets
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 에이전트의 편집이 일어나면, 하네스는 읽기 집합과 쓰기 집합을 기록하여 링크를 편집의 부산물로 구축하여야 한다.

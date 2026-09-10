@@ -5,7 +5,7 @@ level: concrete
 title_ko: 두 기반과 다섯 메커니즘
 title: Two foundations and five mechanisms
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 체계는 두 **기반**(온톨로지, ODD)과 그 위에 선 다섯

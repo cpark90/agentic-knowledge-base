@@ -5,7 +5,7 @@ level: logical
 title_ko: ODD 밖 조건을 품은 환경의 통과는 설계 범위 안의 통과가 아니다
 title: Passing in an environment beyond the ODD is not passing within design scope
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8475c698-2795-4e94-8c13-85e3aa7d85eb
 ---

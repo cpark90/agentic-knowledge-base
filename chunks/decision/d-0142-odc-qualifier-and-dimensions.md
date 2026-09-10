@@ -5,7 +5,7 @@ level: concrete
 title_ko: ODC 한정자·차원과 분포 진단
 title: ODC qualifier, dimensions, and distribution as diagnosis
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 각 결함에 ODC **한정자**(`missing` 있어야 할 것이 없음 /

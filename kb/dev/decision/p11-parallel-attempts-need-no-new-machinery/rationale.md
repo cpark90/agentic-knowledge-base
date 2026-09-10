@@ -5,7 +5,7 @@ level: logical
 title_ko: 비교·선택·재사용의 단위는 원시 궤적이 아니라 구조화 요약이다
 title: The unit of comparison, selection, and reuse is a structured summary, not a raw trajectory
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/75b6dc7f-4862-44ea-8a35-1848ae723d74
 ---

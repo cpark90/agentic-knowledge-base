@@ -5,7 +5,7 @@ level: concrete
 title_ko: 청크의 규칙은 SHACL shape으로 쓴다
 title: Chunk rules are written as SHACL shapes
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 구조적 글쓰기의 원칙을 산문 지침이 아니라 **SHACL shape**으로

@@ -5,7 +5,7 @@ level: concrete
 title_ko: V&V 프로파일은 도메인당 한 번의 위험 분석 G1~G6으로 만든다
 title: The V&V profile is built once per domain by risk analysis G1–G6
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/a9889acc-3e51-4428-8dff-b9bce3e26ce5, title_ko: 위험 분석에 의한 V&V 프로파일, title: V&V profile by risk analysis}

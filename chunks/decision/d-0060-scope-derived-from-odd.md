@@ -5,7 +5,7 @@ level: concrete
 title_ko: 하네스는 ODD에서 스코프를 잘라낸다
 title: The harness carves scopes out of the ODD
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 하네스는 ODD에서 스코프를 잘라낸다. 스코프는 ODD 속성을

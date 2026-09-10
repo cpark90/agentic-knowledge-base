@@ -5,7 +5,7 @@ level: concrete
 title_ko: 개념 정의와 개체는 파일이 다르고 편집 주체도 다르다
 title: Concept definitions and individuals live in different files with different editors
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/20148952-30c4-4f76-8cbf-4d9b32c68b25]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0049]

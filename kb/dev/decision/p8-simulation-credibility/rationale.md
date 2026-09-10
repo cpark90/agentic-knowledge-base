@@ -5,7 +5,7 @@ level: logical
 title_ko: 낮은 단계가 위 단계를 예측한다는 전제도 판정 방법을 동반해야 한다
 title: The premise that lower steps predict higher ones must itself be checkable
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/962ef704-4544-41b5-8b6d-bea52f11c595
 ---

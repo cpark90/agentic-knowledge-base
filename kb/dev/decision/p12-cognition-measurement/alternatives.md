@@ -5,7 +5,7 @@ level: logical
 title_ko: 단일 누락률의 기각
 title: Rejecting a single omission rate
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d2db1db1-ebc3-4f6d-8f93-3bef450b93f9
 ---

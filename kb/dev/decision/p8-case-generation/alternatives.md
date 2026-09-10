@@ -5,7 +5,7 @@ level: logical
 title_ko: 대안 없음 — 생성 규칙 다섯
 title: No alternative recorded — the five generation rules
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/b70975e0-3013-4480-8885-6b0ea69cf97b
 ---

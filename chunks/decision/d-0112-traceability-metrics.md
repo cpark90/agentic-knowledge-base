@@ -5,7 +5,7 @@ level: concrete
 title_ko: 추적성 지표 다섯과 그 경고 신호
 title: Five traceability metrics and their warning signals
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크 모델의 건강을 다섯 지표로 관측하고, 각 지표의 움직임을

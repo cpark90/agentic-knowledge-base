@@ -5,7 +5,7 @@ level: functional
 title_ko: 청크는 프로젝트를 넘지 않는다
 title: Chunks never cross the project boundary
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 체계는 청크를 프로젝트 경계 밖으로 넘기지 않아야 한다 — 청크는 그 프로젝트의 ODD 안에서만 유효하다.

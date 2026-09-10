@@ -5,7 +5,7 @@ level: logical
 title_ko: 반응형 전용 V&V의 기각과 적응형 실행기의 보류
 title: Rejecting reactive-only V&V; deferring the adaptive executor
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/579b14ac-e4d4-4718-9516-4211838cb9d0
 ---

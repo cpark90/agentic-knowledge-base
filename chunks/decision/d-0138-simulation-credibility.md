@@ -5,7 +5,7 @@ level: concrete
 title_ko: 시뮬레이션의 신뢰도는 요인별로 관리한다
 title: Simulation credibility is managed per defect factor
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 시뮬레이션이 실환경을 대신하려면 **시뮬레이션 자체가 검증되어야

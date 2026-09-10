@@ -5,7 +5,7 @@ level: concrete
 title_ko: 인지능력은 시뮬레이션 프로젝트에서 작업 집합을 재생해 재고 세 누락의 목적지가 다르다
 title: Cognition is measured by replaying worksets in the simulation project; the three omissions go to different places
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193, https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/d2db1db1-ebc3-4f6d-8f93-3bef450b93f9, title_ko: 인지능력 측정, title: Measuring cognition}

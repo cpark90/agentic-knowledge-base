@@ -5,7 +5,7 @@ level: concrete
 title_ko: 알려지지 않은 위험 케이스는 어휘 문제와 커버리지 문제로 갈린다
 title: Unknown risk cases split into a vocabulary problem and a coverage problem
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0143]

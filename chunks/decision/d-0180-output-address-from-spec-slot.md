@@ -5,7 +5,7 @@ level: concrete
 title_ko: 산출물의 주소는 구현이 아니라 명세의 슬롯에서 얻는다
 title: An artifact's address comes from the spec slot, not the implementation
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 생성된 산출물의 이름과 위치는 **명세 쪽 슬롯**에서 파생하고,

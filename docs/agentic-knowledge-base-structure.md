@@ -90,7 +90,7 @@ result는 코어(공통)과 그 위의 두 지식 베이스로 이루어진다. 
         - 용어 제안 워크플로 (2.5): 에이전트 template 행 → 3계층 → 유저 승인 → 확장 모듈. 에이전트 = 신뢰할 수 없는 센서
         - 사례 교훈 (2.12): 코어은 수십 클래스로 충분 · 게이트는 질의로 · `sources` 빈 청크 = 실패 · 신뢰 등급 전파 · 판정 이력을 head에
         - 관계는 RO 하위 속성으로 (2.8). 추론은 OWL 2 RL 안에서 (2.9). 시간 정체성: IRI 지속 + `prov:wasRevisionOf` (2.6)
-        - 분야 프로파일: 코어을 **확장만** 하는 모듈 `profile/<분야>` (2.11, 부록 D)
+        - 분야 프로파일: 코어를 **확장만** 하는 모듈 `profile/<분야>` (2.11, 부록 D)
     - development
         - `entity/` 일곱 plane의 개발 실체 (7.2): `RequirementChunk`(EARS 패턴·이해관계자·관심사 필드) · `DecisionChunk`(역할 태그 결론/근거/대안, `serves`) · `ContractChunk`(시그니처, 사전·사후조건) · `SchemaChunk`(호환 관계) · `ArtifactChunk`(구현, 앵커) · `AnnotationChunk` · `MemoryChunk`
         - 개발 어휘: EARS 다섯 패턴, 관심사 분류, 계약 호환성(하위 호환/비호환), 표본 추출 근거 유형

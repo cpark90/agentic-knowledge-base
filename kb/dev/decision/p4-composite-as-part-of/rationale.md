@@ -5,7 +5,7 @@ level: logical
 title_ko: 이행성·반대칭성 공리가 이미 있고 part-of는 순서를 모른다
 title: Transitivity and antisymmetry already exist; part-of does not know order
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/85fcc7f3-446f-46d6-b386-693544fefe6e
 ---

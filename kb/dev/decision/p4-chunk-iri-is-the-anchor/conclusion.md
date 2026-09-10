@@ -5,7 +5,7 @@ level: concrete
 title_ko: 청크 IRI가 앵커다 — 드리프트가 청크 안에 갇힌다
 title: The chunk IRI is the anchor; drift is confined inside the chunk
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/90fc2df7-0a74-43fe-9c8f-546c7afdf1d3]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0077]

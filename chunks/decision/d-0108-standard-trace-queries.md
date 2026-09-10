@@ -5,7 +5,7 @@ level: concrete
 title_ko: 링크 모델이 답해야 할 표준 질의 네 가지
 title: Four standard queries the link model must answer
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크 모델은 네 표준 질의에 답할 수 있어야 한다.

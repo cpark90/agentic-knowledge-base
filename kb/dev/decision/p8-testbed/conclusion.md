@@ -5,7 +5,7 @@ level: concrete
 title_ko: 테스트베드는 3~4단계 환경의 영속적 구현이고 환경 정의는 ODD의 부분집합이다
 title: The testbed persists steps 3-4, and its environment is a subset of the ODD
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/8117429b-5245-4a0a-8628-a46fb78dd65d]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0139]

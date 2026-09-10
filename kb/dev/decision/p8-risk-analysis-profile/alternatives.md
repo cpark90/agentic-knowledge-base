@@ -5,7 +5,7 @@ level: logical
 title_ko: 프로젝트별 즉석 시나리오 작성의 기각
 title: Rejecting ad-hoc per-project scenario writing
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/a9889acc-3e51-4428-8dff-b9bce3e26ce5
 ---

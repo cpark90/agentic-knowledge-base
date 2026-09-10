@@ -5,7 +5,7 @@ level: logical
 title_ko: 병렬 시도 모드는 미확정이고 원시 궤적 비교는 배제한다
 title: The parallel-attempt mode is undecided; raw-trajectory comparison is ruled out
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/75b6dc7f-4862-44ea-8a35-1848ae723d74
 ---

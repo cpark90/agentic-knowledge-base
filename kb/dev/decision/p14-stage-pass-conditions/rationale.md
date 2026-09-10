@@ -5,7 +5,7 @@ level: logical
 title_ko: 양 지표는 목적의 대리일 뿐이라 목적을 직접 묻는 조건이 필요하다
 title: Quantity metrics are proxies; conditions must ask for the purpose itself
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T21:10:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/6878b566-73c2-462f-a524-5203c4c3832e
 ---

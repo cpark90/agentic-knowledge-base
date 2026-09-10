@@ -5,7 +5,7 @@ level: functional
 title_ko: dispatch는 작업 집합만 전달한다
 title: Dispatch passes only the workset
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 에이전트가 dispatch되면, 하네스는 지식 베이스 전체가 아니라 역할 스코프 × level 창으로 거른 작업 집합만 전달하여야 한다.

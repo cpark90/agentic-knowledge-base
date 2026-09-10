@@ -5,7 +5,7 @@ level: logical
 title_ko: 표본 추출 표기가 표준에 있으므로 케이스 생성이 표준 위에 선다
 title: Sampling notation exists in the standard, so case generation stands on it
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/7fcedb3d-e6cb-4df2-81fc-0787c3934fea
 ---

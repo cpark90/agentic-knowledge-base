@@ -5,7 +5,7 @@ level: concrete
 title_ko: 링크 판정 근거는 검사 가능한 것부터
 title: Rank link judgement evidence by checkability
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크가 성립하는지의 판정 근거는 **검사 가능성 순으로** 쓴다.

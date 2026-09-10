@@ -58,7 +58,7 @@ bazel run //tools:canonicalize -- --write <files>   # 기계 생성 TTL 정규�
 
 ## 이 저장소 자신
 
-코어을 코어 자신에 적용한 **첫 인스턴스**다. 설계 원본은 노트 v3
+코어를 코어 자신에 적용한 **첫 인스턴스**다. 설계 원본은 노트 v3
 ([`docs/agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md))이고, 그
 `[확정]`이 요구 33건과 결정 182건(`kb/dev/`)으로 재도출되어 있다 (v3 145 + v4·v5 델타 37). `chunks/decision/`의
 옛 결정은 v1 유래로 126건이 deprecated다. 출처와 처리 경위는

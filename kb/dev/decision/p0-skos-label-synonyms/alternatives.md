@@ -5,7 +5,7 @@ level: logical
 title_ko: 동의어 제거와 금지만 두는 안의 기각
 title: Rejecting synonym removal and a prohibition without registration
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8a718aed-4f88-4847-9d00-800c0f14a0e7
 ---

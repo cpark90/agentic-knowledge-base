@@ -5,7 +5,7 @@ level: logical
 title_ko: logical은 근거의 보존소이므로 배제 근거가 없으면 결정이 재현되지 않는다
 title: Logical is the store of grounds; without exclusion grounds a decision cannot be replayed
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/07096f39-a6f4-4727-a653-b8eafc5eff92
 ---

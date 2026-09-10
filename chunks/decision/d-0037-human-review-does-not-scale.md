@@ -5,7 +5,7 @@ level: concrete
 title_ko: 사람의 검토로는 품질을 지킬 수 없다
 title: Human review cannot hold quality
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — **사람의 검토로 품질을 지키는 방식은 처음부터 성립하지 않는다**고

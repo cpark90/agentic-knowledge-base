@@ -5,7 +5,7 @@ level: logical
 title_ko: 다섯 항목 전부 기존 링크의 조회라 리뷰용 메타데이터가 필요 없다
 title: All five items are lookups over existing links, so review needs no metadata of its own
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ea213fc4-d774-409a-91e6-3afd40a1b6f3
 ---

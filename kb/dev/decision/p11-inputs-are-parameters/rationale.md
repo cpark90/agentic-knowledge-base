@@ -5,7 +5,7 @@ level: logical
 title_ko: 입력은 ODD와 다른 축이고 파급 기록이 재검토 범위를 만든다
 title: Inputs form an axis distinct from the ODD; the impact column defines the review scope
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/c0707632-682f-4f16-bae0-d5b47f69d096
 ---

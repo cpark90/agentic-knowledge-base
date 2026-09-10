@@ -5,7 +5,7 @@ level: concrete
 title_ko: 선호는 후보를 기각하지 않고 순서만 정한다
 title: Preferences order candidates without rejecting them
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 선호는 설계 공간 파일의 `preferences` 절에 **수치 없이

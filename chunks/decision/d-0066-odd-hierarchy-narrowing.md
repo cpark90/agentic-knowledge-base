@@ -5,7 +5,7 @@ level: concrete
 title_ko: 하위 ODD는 상위를 좁히기만 하고 이탈 전파는 비대칭이다
 title: A child ODD only narrows the parent; exit propagation is asymmetric
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 하위 ODD는 상위 ODD를 `import`하고 속성 값 범위를 **좁히기만**

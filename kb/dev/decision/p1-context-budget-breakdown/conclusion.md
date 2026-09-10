@@ -5,7 +5,7 @@ level: concrete
 title_ko: 컨텍스트 예산은 항목별로 분해하고 지식 본문은 잔여로 둔다
 title: Decompose the context budget; knowledge body gets the remainder
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08, https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8, https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0036, https://agentic-knowledge-base.dev/id/chunk-d0041]

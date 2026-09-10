@@ -5,7 +5,7 @@ level: logical
 title_ko: ODD 안팎의 갈림이 대응 주체를 가르고 커버 밖은 자동 대응하지 않는다
 title: Inside or outside the ODD decides who responds; uncovered anomalies are never auto-handled
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/f2acea7a-db49-4239-aa5f-eef954055e55
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 판정 도구 없는 plane은 검사 게이트를 통과할 수 없다
 title: A plane without a verification tool cannot pass the gate
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 각 plane의 "판정 방식"을 실제 도구에 대응시키고, **판정 도구가

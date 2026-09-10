@@ -5,7 +5,7 @@ level: logical
 title_ko: 시간 개체를 없앤 대가로 어휘 쪽에 자리를 만든다
 title: Removing timeline entities requires giving time a place in the vocabulary
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/a65b4cb7-b236-46d5-ba86-c9c9c85ac000
 ---

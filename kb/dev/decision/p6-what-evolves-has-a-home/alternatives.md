@@ -5,7 +5,7 @@ level: logical
 title_ko: 진화 대상별 별도 저장소의 기각
 title: Rejecting separate stores per evolving object
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/cc186a37-0cf9-48c4-b3d9-aa95b76d67f3
 ---

@@ -5,7 +5,7 @@ level: logical
 title_ko: 지표는 이 파트의 규칙이 실제로 지켜지는지를 잰다
 title: Each metric measures whether one rule of this part still holds
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/759aa68a-d77b-425c-b819-42ead2a9b0e9
 ---

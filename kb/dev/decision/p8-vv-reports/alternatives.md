@@ -5,7 +5,7 @@ level: logical
 title_ko: 보고서 저장의 기각
 title: Rejecting stored reports
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/12dac333-3480-43ae-9b38-2884efe35bd0
 ---

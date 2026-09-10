@@ -5,7 +5,7 @@ level: concrete
 title_ko: 스키마는 결정에서 파생되어 계약을 제약하고 변경은 호환성 검사를 거친다
 title: Schemas derive from decisions, constrain contracts, and changes pass a compatibility check
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/d7435609-eefb-48a3-bab6-2cab0f56476e, title_ko: 스키마의 파생과 변경, title: Schema derivation and change}

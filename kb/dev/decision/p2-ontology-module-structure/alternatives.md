@@ -5,7 +5,7 @@ level: logical
 title_ko: 단일 파일과 plane 일원화
 title: Single file, or forcing everything into planes
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/301046f4-6db7-42f5-aea0-ffe4599d4a15
 ---

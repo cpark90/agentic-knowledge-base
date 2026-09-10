@@ -5,7 +5,7 @@ level: logical
 title_ko: 앵커 수 × k로 상한되어 지식 베이스 크기와 무관하다
 title: Bounded by anchors times k, the loop is independent of knowledge base size
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/5133b9c7-e45d-462d-ad99-20e3b49ef15c
 ---

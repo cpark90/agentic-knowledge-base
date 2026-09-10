@@ -5,7 +5,7 @@ level: functional
 title_ko: 최소 단위는 42줄 자립 청크다
 title: The minimal unit is a self-contained 42-line chunk
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 체계는 지식의 최소 단위를 본문 42줄 이하·한 주제의 자립적 청크로 유지하여야 한다 — 200줄 컨텍스트에 4~5개가 조망되도록.

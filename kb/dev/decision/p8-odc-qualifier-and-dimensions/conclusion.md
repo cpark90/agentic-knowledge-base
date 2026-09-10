@@ -5,14 +5,14 @@ level: concrete
 title_ko: 결함에 한정자와 세 차원을 붙이고 분포로 진단한다
 title: Tag defects with a qualifier and three dimensions; the distribution is the diagnosis
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0142]
 part_of: https://agentic-knowledge-base.dev/id/composite/a70f283f-26aa-465e-9162-51aadc42ec13
 composite: {id: https://agentic-knowledge-base.dev/id/composite/a70f283f-26aa-465e-9162-51aadc42ec13, title_ko: 결함의 한정자와 차원, title: Defect qualifier and dimensions}
 ---
-**결론** — ODC의 **한정자(qualifier)** 를 쓴다 — 각 결함은 `missing`(있어야 할 것이 없음) 또는 `incorrect`(있으나 틀림)다. 인지 요인의 "누락"과 실행 요인의 `missing`은 다르다 — 전자는 **입력의 부재**, 후자는 **산출물의 부재**다.
+**결론** — ODC의 **한정자(qualifier)** 를 쓴다 — 각 결함은 `missing`(있어야 할 것이 없음) · `incorrect`(있으나 틀림) · `extraneous`(없어야 할 것이 있음)다 — ODC v5.2의 세 값 (외부 조사 2026-09-11로 보충; 노트 원문은 둘만 적었다). 인지 요인의 "누락"과 실행 요인의 `missing`은 다르다 — 전자는 **입력의 부재**, 후자는 **산출물의 부재**다.
 
 ODC의 다른 차원도 결함 청크의 속성으로 둔다.
 

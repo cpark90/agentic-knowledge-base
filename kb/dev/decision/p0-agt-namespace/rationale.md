@@ -5,7 +5,7 @@ level: logical
 title_ko: 접두어가 이름에 붙어 있으면 출처와 미등록이 동시에 드러난다
 title: A prefix on every name reveals both provenance and non-registration
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d0df4af3-434f-43de-ac31-927b6cf902a8
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 인시던트 사후분석은 상승을 실행하는 자리
 title: Incident postmortem is where ascent is executed
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 사후분석은 이 체계의 상승(6.3절)을 실행하는 자리다. 아래 여섯

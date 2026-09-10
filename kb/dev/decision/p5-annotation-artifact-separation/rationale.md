@@ -5,7 +5,7 @@ level: logical
 title_ko: 인라인 주석은 저장 수준에서 plane 분리를 불가능하게 만든다
 title: Inline annotation makes plane separation impossible at the storage level
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/67157f22-93ba-4abe-a303-d058de25ef7f
 ---

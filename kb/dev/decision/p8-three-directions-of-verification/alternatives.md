@@ -5,7 +5,7 @@ level: logical
 title_ko: 기준의 질을 빼는 안의 기각
 title: Rejecting verification without criterion quality
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/9ac75416-7fff-4995-be5d-fed7b6ecbb90
 ---

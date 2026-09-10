@@ -5,7 +5,7 @@ level: logical
 title_ko: plane별 assertion 형식 초안 — 아직 미확정
 title: Draft assertion formats per plane, still undecided
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8d3c07da-293b-47cd-861a-44cfd81449b3
 ---

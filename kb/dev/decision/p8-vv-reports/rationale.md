@@ -5,7 +5,7 @@ level: logical
 title_ko: 저장된 보고서는 낡고 질의된 보고서는 리비전을 갖는다
 title: Stored reports go stale; queried reports carry a revision
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/12dac333-3480-43ae-9b38-2884efe35bd0
 ---

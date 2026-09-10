@@ -22,18 +22,18 @@
 | 온톨로지 품질 검사 | ontology quality check | 위생 | — |
 | 통제 어휘 | controlled vocabulary | 어휘 폐쇄 | ISO 25964 |
 | ODD 모니터링 | ODD monitoring | ODD 대조 | ISO 34503 |
-| 역량 질문 | competency question | 경쟁 질문 | 온톨로지 공학 |
-| 검증 · 확인 | verification · validation | 검증 · 평가 | KS X ISO/IEC/IEEE 24765, ISO 9000 |
+| 역량 질문 | competency question | 경쟁 질문 | 온톨로지 공학 (Grüninger & Fox 1995). **국문 정역 미확인** — 국내 문헌은 역량/능력 질문 혼용 |
+| 검증 · 확인 | verification · validation | 검증 · 평가 | ISO/IEC/IEEE 24765, ISO 9000. 국문은 확인·유효성 확인·타당성 확인이 혼용 — 이 체계는 "확인" |
 | 평가 | evaluation (지표 측정, 12.3절) | 평가 | 24765 |
 | 주석 | annotation | 논평 | 표준 번역 |
-| 복합체 | composite | 구성체 | GoF Composite |
+| 복합체 | composite | 구성체 | GoF 국문판(김정아 역, 프로텍미디어 2015) "복합체" — 확인됨 |
 | 코어 온톨로지 · 코어 | core ontology | 골격 | 온톨로지 공학 core/domain |
 | 도메인 프로파일 | domain profile | 프로파일 | OWL 2 profile, ISO 34503 |
 | 신뢰 등급 | trust tier | 트러스트 (티어) | OKF v0.2 |
 | 검증기 | verifier | verifier | — |
 | 규칙 | rule (구조 규칙, 42줄 규칙) | 규율 | — |
-| 판정 · 합격 판정 기준 · 판정식 · 판정자 | judgement · pass criteria · predicate · judge | (유지) | ISTQB 국문 용어집 |
+| 판정 · 합격 판정 기준 · 판정식 · 판정자 | judgement · pass/fail criteria · predicate · judge | (유지) | ISTQB (국문 용어집 표기는 미확인). 29148 검증 방법 4종과의 대응은 references §1.1 |
 | 청크 · 지식 종류(plane) · 수준(level) | chunk · plane · level | (유지) | 유저 결정 2026-09-02·04 |
-| ODD 이탈 · 운영 설계 영역 | ODD exit · operational design domain | (유지) | ISO 34503 |
+| ODD 이탈 · 운영 설계 영역 | ODD exit · operational design domain | (유지) | ISO 34503 (최상위 3범주 scenery·environmental·dynamic). 국문 명칭·"ODD exit" 표기는 미확인 |
 | 되먹임 | feedback | (유지) | 제어공학 |
 | 작업 집합 · 읽기 집합 · 인수인계 · 앵커 · 게이트 · 승격 | working set · read set · handoff · anchor · gate · promotion | (유지) | OS·DB·품질 관용 |

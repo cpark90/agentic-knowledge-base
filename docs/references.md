@@ -78,12 +78,35 @@
 |---|---|
 | 호 일관성 — 증분 제약 전파 | CSP 표준 알고리즘 |
 | plane 후보 — 소프트웨어 산출물 유형과 판정 방식 | SWEBOK 산출물, 아키텍처 뷰포인트 |
-| 요인 하위 유형·한정자·트리거·영향 | 직교 결함 분류 ODC (Chillarege) |
+| 요인 하위 유형 8·한정자 3(missing·incorrect·extraneous)·트리거·영향 | 직교 결함 분류 ODC v5.2 (Chillarege, IBM) |
 | 도입 순서 — 단계별 측정 가능 산출 | (고유) |
+
+## 1.1 외부 조사로 확인한 세부 (2026-09-11)
+
+부록 E의 바인딩과 용어집이 기대는 명세를 원문에서 확인했다. 확인/정정/미확인을 구분한다.
+
+| 대상 | 확인된 세부 | 이 저장소 |
+|---|---|---|
+| **OKF v0.2** ([SPEC](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)) | 필수 `type`뿐. 권장 `title`·`description`·`resource`·`tags`. **`sources`는 객체 목록** — `resource`(필수)·`id`·`title`·`author`·`usage_count`·`last_modified`. `generated {by, at}`, `verified` = `{by, at}` 목록. `status` = draft/stable/deprecated(기본 stable), `stale_after`. 행위자 `<producer>/<version>`·`human:<id>`·`process:<id>`. 예약 `index.md`(frontmatter 없음)·`log.md`(ISO 날짜 제목). 미지 키는 거부 불가·보존. `type: Attested Computation`에 `runtime`·`parameters`·`computation`·`executor`·`attester` | **정정**: `sources`를 `[{resource: IRI}]`로 이행. `stale_after` ↔ 8.27 증거 노화 후보. 판정식 "계산 필드"는 Attested Computation |
+| **ASAM OpenODD 1.0** ([6.4 모듈](https://publications.pages.asam.net/standards/ASAM_OpenODD/ASAM_OpenODD/latest/specification/06_model_concept/06_04_openodd_modules.html), [10.2 택소노미 YAML](https://publications.pages.asam.net/standards/ASAM_OpenODD/ASAM_OpenODD/latest/specification/10_yaml/10_02_openodd_export_taxonomy_yaml.html)) | 모듈 = `id`·`title`(LangString)·`description`·`comment`·`is_root`·`is_active`·`labels`·`tags`, INCLUDE·EXCLUDE 각 최대 하나, 연산자 AND/OR. **MODULE = INCLUDE ∧ ¬EXCLUDE**. 식 5종 `LowerBound`·`UpperBound`·`Equal`·`Range [a .. b]`·`CategoricalList`. `unknown` 리터럴 = 값 부재일 때 참. 택소노미 YAML: 최상위 `TAXONOMY:`, 속성은 `이름: float velocity`·`boolean`·범주 목록, 단위 체계 | `project-odd.yml`의 `include_and`·`exclude_when_unknown`·`checks`·`exclusions_reviewed`는 **적응**(모듈 YAML 키 원문은 404로 미확인). `taxonomy.yml`은 범주 목록이라 OpenODD 택소노미(형 있는 속성 트리)의 부분집합 |
+| **ASAM OpenSCENARIO DSL 2.x** ([coverage](https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_DSL/latest/language-reference/coverage_main.html), [scenarios](https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_DSL/latest/conceptual-overview/writing_a_scenario.html)) | `keep(it in [a..b])` 제약, `do serial/parallel` 시간 구성, actor = 시나리오를 담는 구조체. **`cover(expr, event:, target:)`** = 커버리지 수집점, 스칼라 식, 목표 횟수 | 부록 E.5·9.10·8.23의 `keep`/`cover` 용법과 일치 |
+| **CEL** ([langdef](https://github.com/google/cel-spec/blob/master/doc/langdef.md), [cel-go](https://pkg.go.dev/github.com/google/cel-go/cel)) | 메모리 안전·부작용 없음·종료 보장·강타입·결정론. 값 또는 오류. **미지값(unknown)** 은 cel-go의 부분 평가(`PartialVars`·`OptTrackState`·잔여 AST)로 다룬다 | `when`의 세 값(참·거짓·판정 불가)은 값·오류·미지 → 잔여 식으로 사상 |
+| **ISO/IEC/IEEE 29148** | 검증 방법 4종 inspection·analysis·demonstration·test. 전방/후방 추적성 | 판정 유형 5종(그래프 질의·파일 검사·실행 검사·외부 조회·사람 확인)의 대응: 질의·파일 ≈ analysis/inspection, 실행 ≈ test/demonstration, 사람 ≈ inspection |
+| **EARS** (Mavin, RE'09) | 다섯 패턴 ubiquitous · event-driven(When) · state-driven(While) · unwanted behaviour(If…then) · optional(Where) + complex | 7.2 `requirement` 실체 |
+| **ISO 34503:2023** | 최상위 3범주 **scenery elements** · environmental conditions · dynamic elements | 이 체계의 "정적 요소(static element)"는 scenery의 소프트웨어 적응. "ODD exit"·국문 명칭은 **미확인** |
+| **ODC v5.2** (Chillarege, IBM) | 결함 유형 8: function · interface · checking · assignment · timing/serialization · build/package/merge · documentation · algorithm. **한정자 3: missing · incorrect · extraneous**. 열 때 activity·trigger·impact, 닫을 때 target·type·qualifier·age·source | **정정**: 노트 8.17·결정에 `extraneous` 추가 |
+| **LinkML** | YAML 스키마 → JSON Schema·SHACL·ShEx·OWL·GraphQL·SQL DDL·Python 생성 | 부록 E.1 온톨로지 층의 LinkML |
+| **ISO/IEC 15026-2** | 보증 사례 = 최상위 주장 · 논증 · 증거 · 명시 가정. 추론 = 하위 주장(전제)에서 결론 | 증거 기록(9.11)의 "증거" 용어 |
+| **ISO 25964 · ISO/IEC/IEEE 42010** | 통제 어휘 = 개념마다 일관된 라벨 하나를 정한 목록. 뷰 = 뷰포인트 규약에 따라 관심사를 담는 산출물 | 용어집 "통제 어휘"·"뷰" |
+| **rules_python** ([sdist](https://github.com/bazel-contrib/rules_python/issues/2410)) | sdist 빌드 지원(저장소 규칙·빌드 액션). PyYAML ≥ 6.0.1은 sdist 빌드 가능 | **정정**: PyYAML 부채는 정책 선택 |
+| **LEDGER** ([2606.28379](https://arxiv.org/abs/2606.28379), ACL 2026 Findings) | 노드 (id, 요약, 임베딩, 타입 section/paragraph/figure/table/equation, 위치, 시각). 엣지 CONTAINS(DOM) · REFERENCES(최소 명시 참조) · DEPENDS(반사실 검사 — 빼면 의미상 불완전) · RELATED(코사인 ≥ 0.7, REFERENCES·DEPENDS 없을 때만, 양방향). 검색: 대상 식별 → 상·하류 확장 → 우선순위(대상 > REFERENCES > DEPENDS > CONTAINS > RELATED) → 예산 패킹. 편집 후 검사 3: 참조 무결성·용어 일관성·의미 응집. 76% vs 56% 일관성, 편집당 ~1,535 토큰, 85~92% 토큰 절감 | `dependency-graph-design.md` 대응표. DEPENDS의 반사실 검사는 이 체계에서 `proposal` 종류 |
+| **LARGER** ([2605.16352](https://arxiv.org/abs/2605.16352)) | 정식 제목 *Lexically Anchored Repository Graph Exploration and Retrieval*. 노드 4종 directory·file·class·function, 엣지 contains·imports·invokes·코드–테스트/문서 교차 링크. 에이전트의 어휘 검색 결과가 그래프 진입점(active set), 앵커마다 K-hop·신뢰 임계 θ·상위 k 확장, 컨텍스트 사영 Π. LocBench Acc@5 +11.8 | 앵커 = 청크 IRI, K-hop 확장 = 작업 집합 조립(§4) |
+
+**미확인으로 남긴 것**: 역량 질문의 국문 정역, ISTQB 국문 용어집의 "합격 판정 기준" 표기, ISO 34503 국문 명칭, OpenODD 모듈 YAML의 키 이름.
 
 ## 2. 참조 프로파일
 
-코어을 소프트웨어 개발 작업에 특수화한 결정들은 [`ontology.md`](ontology.md)의 "참조
+코어를 소프트웨어 개발 작업에 특수화한 결정들은 [`ontology.md`](ontology.md)의 "참조
 프로파일" 표로 옮겼다 — 그것은 출처 기록이 아니라 어휘의 일부이기 때문이다.
 
 ## 3. 관련 산출물과 사례

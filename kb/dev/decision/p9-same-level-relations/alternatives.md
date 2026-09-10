@@ -5,7 +5,7 @@ level: logical
 title_ko: 구성 관계의 수기 지정 기각
 title: Rejecting hand-assigned composition
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/152194cd-d12e-4d2c-9626-ccb6119e1baf
 ---

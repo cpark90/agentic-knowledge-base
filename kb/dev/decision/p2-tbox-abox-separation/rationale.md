@@ -5,7 +5,7 @@ level: logical
 title_ko: 변경률과 편집 권한이 다른 것을 한 파일에 둘 수 없다
 title: Different change rates and edit rights cannot share a file
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/066baab4-8fef-4903-ac08-2d2c9d37f233
 ---

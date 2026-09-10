@@ -5,7 +5,7 @@ level: concrete
 title_ko: 요인의 하위 분류 — ODC + 에이전트 고유 유형
 title: Defect subtypes: ODC plus agent-specific types
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 3갈래 아래에 소프트웨어 결함 분류의 표준인 **직교 결함 분류

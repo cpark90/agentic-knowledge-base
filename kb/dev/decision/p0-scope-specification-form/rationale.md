@@ -5,7 +5,7 @@ level: logical
 title_ko: mode가 없으면 적히지 않은 것의 뜻이 추측에 맡겨진다
 title: Without a mode, the meaning of what is unwritten is left to guesswork
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/780d333f-1d35-4e81-83cf-58355a1d3d41
 ---

@@ -5,7 +5,7 @@ level: logical
 title_ko: 푸는 문제는 의도와 산출물의 단절 하나다
 title: The single problem is the intent-artifact break
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/4a312eca-5b3b-40e5-9f0a-c141039ac7c1
 ---

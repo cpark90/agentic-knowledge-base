@@ -5,7 +5,7 @@ level: concrete
 title_ko: 명세는 주장이 아니라 검증 가능한 계약이다 — 게이트는 세 방향
 title: A spec is a verifiable contract, not an assertion - three gate directions
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 명세는 "이렇게 되어 있다"는 주장이 아니라 **기계가 판정할 수

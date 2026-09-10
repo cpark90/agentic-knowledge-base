@@ -5,7 +5,7 @@ level: logical
 title_ko: 저장된 문서는 두 번째 진실 공급원이 되고 사본은 출처를 잃는다
 title: A stored document becomes a second source of truth, and a copy loses its provenance
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/66832e72-2baf-420e-876f-05120bb3184d
 ---

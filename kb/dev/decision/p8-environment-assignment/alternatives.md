@@ -5,7 +5,7 @@ level: logical
 title_ko: 상위 단계 우선 할당의 기각
 title: Rejecting upper-stage-first assignment
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/12df135b-c37d-48d8-b768-8279da163438
 ---

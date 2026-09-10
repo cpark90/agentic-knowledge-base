@@ -5,7 +5,7 @@ level: concrete
 title_ko: 신뢰 등급은 derives-from과 sources를 따라 전파된다
 title: Trust grade propagates along derives-from and sources
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 part_of: https://agentic-knowledge-base.dev/id/composite/34cd97d1-50df-4db6-8511-fd10b918eaf3

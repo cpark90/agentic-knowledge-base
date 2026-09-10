@@ -5,7 +5,7 @@ level: concrete
 title_ko: ODD는 영역 개념이 아니라 프로젝트당 하나의 문서다
 title: The ODD is one versioned document per project, not a region concept
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0058]

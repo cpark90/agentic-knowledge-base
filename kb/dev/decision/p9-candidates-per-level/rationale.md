@@ -5,7 +5,7 @@ level: logical
 title_ko: 표준이 있는 곳은 표준을 쓰고 없는 곳만 자체 형식을 쓴다
 title: Use the standard where one exists; own format only where none does
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/aa01f873-7345-4c18-a227-e8cc6e4dc958
 ---

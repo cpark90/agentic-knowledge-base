@@ -5,7 +5,7 @@ level: concrete
 title_ko: 반복 시도는 표현·선택·재사용의 문제이고 체계가 그 세 자리를 이미 준다
 title: Repeated attempts are a representation, selection, and reuse problem the system already seats
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b, https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901]
 part_of: https://agentic-knowledge-base.dev/id/composite/75b6dc7f-4862-44ea-8a35-1848ae723d74

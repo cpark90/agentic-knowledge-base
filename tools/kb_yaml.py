@@ -1,7 +1,8 @@
 """YAML 부분집합 로더 — OpenODD 문서(kb/odd/*.yml)와 생성 택소노미를 읽는다.
 
-잠금 파일(tools/requirements_lock.txt)이 순수 파이썬 휠만 허용해 PyYAML(C 확장 휠)을
-넣지 못했다 (ODD 조건 cond-dependency-lock). 이 로더는 그 자리를 메우는 **부분집합**이다:
+잠금 파일(tools/requirements_lock.txt)의 정책("순수 파이썬 휠만")에 맞춰 PyYAML을 넣지 않았다
+(ODD 조건 cond-dependency-lock). rules_python은 sdist 빌드를 지원하고 PyYAML ≥ 6.0.1은 sdist에서 빌드되므로
+정책을 바꾸면 relock으로 넣을 수 있다 (2026-09-11 확인). 이 로더는 그 자리를 메우는 **부분집합**이다:
 블록 매핑·블록 시퀀스·흐름 매핑 `{}`·흐름 시퀀스 `[]`·따옴표 스칼라·주석. 앵커·다중 문서·
 블록 스칼라(`|`, `>`)는 지원하지 않는다. 진짜 YAML 파서로 읽어도 같은 결과가 나오는
 문서만 쓴다 — 잠금에 PyYAML이 들어오면 이 파일은 삭제 대상이다 (open-questions §3).

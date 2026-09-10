@@ -5,7 +5,7 @@ level: concrete
 title_ko: 불변식은 union 위에서만 성립하므로 union을 검증한다
 title: Invariants hold only over the union, so validate the union
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 반-고아·반-drift·조립가능 같은 보장은 **합쳐 추론한 그래프**에서만

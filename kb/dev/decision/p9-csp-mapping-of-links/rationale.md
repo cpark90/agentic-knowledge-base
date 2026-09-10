@@ -5,7 +5,7 @@ level: logical
 title_ko: 후보가 여럿인 상태가 정상이고 임의 선택이 자료구조에서 막힌다
 title: Multiple candidates are the normal state; arbitrary choice is structurally blocked
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/aa7d5c28-822d-4904-9e3f-13920eb41256
 ---

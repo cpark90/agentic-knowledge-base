@@ -5,7 +5,7 @@ level: functional
 title_ko: 프로젝트를 넘는 것은 어휘·공리·코어·교훈이다
 title: Carry vocabulary, axioms, skeleton and lessons across projects
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 프로젝트가 종료되면, 체계는 온톨로지 어휘·일반화으로 올라간 공리·ODD 코어·결함 어휘·교훈을 다음 프로젝트로 넘길 수 있어야 한다.

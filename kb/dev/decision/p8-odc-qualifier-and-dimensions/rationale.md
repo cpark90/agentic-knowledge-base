@@ -5,7 +5,7 @@ level: logical
 title_ko: 결함 하나는 사건이지만 분포는 체계의 결함을 가리킨다
 title: One defect is an incident; the distribution points at a systemic flaw
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/a70f283f-26aa-465e-9162-51aadc42ec13
 ---

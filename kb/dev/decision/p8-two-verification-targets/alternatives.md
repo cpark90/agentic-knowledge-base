@@ -5,7 +5,7 @@ level: logical
 title_ko: 검증 대상 통합의 기각
 title: Rejecting merged verification targets
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/e11ea926-9802-41f2-92a9-62dccfa80b4d
 ---

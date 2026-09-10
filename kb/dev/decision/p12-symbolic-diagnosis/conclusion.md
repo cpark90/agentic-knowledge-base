@@ -5,7 +5,7 @@ level: concrete
 title_ko: 요인 추론과 귀속은 기호 도구 넷의 결과 위에서 하고 언어모델은 도구를 고르고 서술한다
 title: Factor inference and attribution run on the results of four symbolic tools; the LM selects and narrates
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/9b5d96a6-065b-42d1-8a6b-49b8a56384ff, title_ko: 기호 진단 도구, title: Symbolic diagnosis tools}

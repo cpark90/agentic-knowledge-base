@@ -5,7 +5,7 @@ level: concrete
 title_ko: 검증기 실패의 귀속은 결정이며 V&V decision의 지침로 남는다
 title: Attributing a 검증기 failure is a decision, recorded as a guidance chunk in V&V decision
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c, https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/4d7432c4-7474-4d30-bfcb-dcb756408d72, title_ko: 불일치의 귀속, title: Attribution of a mismatch}

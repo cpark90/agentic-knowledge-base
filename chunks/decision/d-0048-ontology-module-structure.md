@@ -5,7 +5,7 @@ level: concrete
 title_ko: 온톨로지는 entity/related와 어휘/형식화로 나눈 모듈이다
 title: Ontology modules split by entity/related and vocabulary/formalization
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 온톨로지를 단일 파일이 아니라 모듈로 나누고, import만 하는 얇은

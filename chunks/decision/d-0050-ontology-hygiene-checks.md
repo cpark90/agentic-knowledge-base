@@ -5,7 +5,7 @@ level: concrete
 title_ko: 온톨로지 위생 — 커밋 전 자동 검사와 정규화 직렬화
 title: Ontology hygiene - pre-commit checks and canonical serialization
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 온톨로지 파일 자체가 커밋 전에 통과해야 하는 자동 검사를 둔다:

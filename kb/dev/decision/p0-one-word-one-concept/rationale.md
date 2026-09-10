@@ -5,7 +5,7 @@ level: logical
 title_ko: 문맥 추측을 남기면 에이전트가 빈칸을 스스로 채운다
 title: Context-guessing invites the agent to fill blanks on its own
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/727e4644-52bb-4880-bb4b-ba11d36469f1
 ---

@@ -5,7 +5,7 @@ level: logical
 title_ko: 개발 완료 후 V&V 착수의 기각
 title: Rejecting V&V that starts after development completes
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ad7a39e2-6ef7-4ba3-a4df-92cf2c9409ca
 ---

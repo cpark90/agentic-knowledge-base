@@ -5,7 +5,7 @@ level: logical
 title_ko: 대안 없음 — 편집기 요구
 title: No alternative recorded — editor requirements
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/922f75fe-58e0-4964-b79b-b9897ac35ce5
 ---

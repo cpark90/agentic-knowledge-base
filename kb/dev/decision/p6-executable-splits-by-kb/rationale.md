@@ -5,7 +5,7 @@ level: logical
 title_ko: 판정의 독립은 스코프 분리로만 실효를 갖는다
 title: Independence of judgement takes effect only through scope separation
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8e8697a1-16b9-4c24-a377-340db2b6000b
 ---

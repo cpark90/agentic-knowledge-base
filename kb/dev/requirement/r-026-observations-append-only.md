@@ -5,7 +5,7 @@ level: functional
 title_ko: 관측은 append-only 실행 기록이다
 title: Observations are append-only run records
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 검증이 실행되면, 체계는 관측을 실행 기록(Run)으로 concrete 수준에 append-only 저장하여야 한다.

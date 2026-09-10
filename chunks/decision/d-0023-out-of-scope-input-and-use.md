@@ -5,7 +5,7 @@ level: concrete
 title_ko: 체계 밖은 입력과 활용으로 나뉜다
 title: Outside the system splits into input and use
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 체계의 구성요소가 아닌 것을 두 방향으로 갈라 둔다.

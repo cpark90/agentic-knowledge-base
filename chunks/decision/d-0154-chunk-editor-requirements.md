@@ -5,7 +5,7 @@ level: concrete
 title_ko: 청크 편집기의 최소 요구
 title: Minimum requirements for the chunk editor
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 청크를 만드는 도구가 만족해야 할 최소 요구를 다섯으로 고정한다.

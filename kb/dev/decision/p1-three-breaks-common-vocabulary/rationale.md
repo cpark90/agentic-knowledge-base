@@ -5,7 +5,7 @@ level: logical
 title_ko: 각 단절이 생기는 이유와 어휘가 선행하는 이유
 title: Why each break occurs and why vocabulary comes first
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/e84e779c-80d6-41e0-bee2-7b75fe0ac090
 ---

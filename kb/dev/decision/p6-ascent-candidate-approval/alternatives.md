@@ -5,7 +5,7 @@ level: logical
 title_ko: 일반화 트리거 자동화 후보 넷 — 초기에는 유저 지정만 쓴다
 title: Four candidate ascent triggers - only user tagging is used at first
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/b3bb3bde-43af-4fad-8e67-3a52dd7a2fa9
 ---

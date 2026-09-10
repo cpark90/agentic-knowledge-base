@@ -5,7 +5,7 @@ level: logical
 title_ko: 경계값을 따로 세지 않으면 가장 위험한 미커버가 숨는다
 title: Unless boundaries are counted apart, the riskiest gap hides behind a high number
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/205cefbf-aaf5-4b93-9e68-83f242e64e86
 ---

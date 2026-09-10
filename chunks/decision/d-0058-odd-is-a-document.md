@@ -5,7 +5,7 @@ level: concrete
 title_ko: ODD는 영역 개념이 아니라 프로젝트당 하나의 문서다
 title: The ODD is a document, one per project - not a permission region
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — ODD는 이 프로젝트의 지식과 작업이 설계된 운영 조건의 명세이며,

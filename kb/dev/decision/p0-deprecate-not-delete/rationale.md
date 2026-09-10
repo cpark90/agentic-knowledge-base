@@ -5,7 +5,7 @@ level: logical
 title_ko: 삭제는 참조 링크를 고아로 만들어 추적성을 끊는다
 title: Deletion orphans referring links and severs traceability
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8453e658-a276-4f75-83a4-9926df17826b
 ---

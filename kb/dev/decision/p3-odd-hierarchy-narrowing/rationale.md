@@ -5,7 +5,7 @@ level: logical
 title_ko: 부분집합 관계가 유지되어야 상위의 경계가 의미를 갖는다
 title: Only a maintained subset relation keeps the parent boundary meaningful
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/7699d0eb-b30b-4015-b02c-d7db24b8eed1
 ---

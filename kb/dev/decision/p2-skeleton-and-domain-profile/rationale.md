@@ -2,10 +2,10 @@
 id: https://agentic-knowledge-base.dev/id/chunk/24801883-e1ac-4dfe-b3cf-bd29ef1576fb
 type: decision
 level: logical
-title_ko: 코어이 도메인에 오염되면 다음 도메인이 코어을 못 쓴다
+title_ko: 코어이 도메인에 오염되면 다음 도메인이 코어를 못 쓴다
 title: A domain-contaminated skeleton cannot serve the next domain
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/f28573cc-2a81-4db9-9497-160a41fdd56d
 ---

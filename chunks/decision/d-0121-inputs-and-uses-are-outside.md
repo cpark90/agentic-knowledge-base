@@ -5,7 +5,7 @@ level: concrete
 title_ko: 입력과 활용은 체계 밖이다
 title: Inputs and uses lie outside the system
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 체계의 구성요소가 아닌 것을 두 방향으로 나눈다. **입력**은 체계가

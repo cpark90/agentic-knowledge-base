@@ -5,7 +5,7 @@ level: logical
 title_ko: 수준마다 판정이 다르므로 청크가 다르다
 title: Different judgements per level require different chunks
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/9acf3e73-f933-4260-9b42-432825013b6c
 ---

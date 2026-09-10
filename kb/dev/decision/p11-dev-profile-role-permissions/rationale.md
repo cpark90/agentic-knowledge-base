@@ -5,7 +5,7 @@ level: logical
 title_ko: 어휘와 경계의 편집권은 설계에, V&V KB 쓰기는 검증에 묶인다
 title: Editing the vocabulary and the boundary belongs to design; writing the V&V KB belongs to verification
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/4dbb535c-ea05-4b67-accf-29c2ef7f6ee3
 ---

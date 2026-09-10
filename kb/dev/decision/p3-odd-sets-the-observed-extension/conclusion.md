@@ -5,7 +5,7 @@ level: concrete
 title_ko: 외연은 ODD가 정하고 값은 범위를 벗어날 수 있다
 title: The ODD fixes which properties exist; values may fall outside
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c, https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366]
 part_of: https://agentic-knowledge-base.dev/id/composite/3d748edf-6a6d-49be-b2e5-8ec9c342d615

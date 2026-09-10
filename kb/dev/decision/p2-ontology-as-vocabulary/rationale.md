@@ -5,7 +5,7 @@ level: logical
 title_ko: 어휘를 한 단계에 가두면 나머지 단계가 검사 불가능해진다
 title: Confining vocabulary to one rung makes other rungs uncheckable
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/0a751e1a-d819-45e5-8425-54945c706108
 ---

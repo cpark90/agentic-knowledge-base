@@ -5,7 +5,7 @@ level: logical
 title_ko: 표준 분류의 빈 범주만 채운다
 title: Fill only the empty categories of the standard classification
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/42c1ecbe-34fd-4c59-9038-51db6144ad29
 ---

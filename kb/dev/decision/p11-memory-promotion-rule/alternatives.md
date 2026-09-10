@@ -5,7 +5,7 @@ level: logical
 title_ko: 승격 규칙을 체계가 고정하는 안의 기각
 title: Rejecting a system-fixed promotion rule
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/46d1f19a-5541-4328-903d-caa729dcb9b4
 ---

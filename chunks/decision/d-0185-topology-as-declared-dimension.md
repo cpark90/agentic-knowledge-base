@@ -5,7 +5,7 @@ level: concrete
 title_ko: 조율 방식은 전역 고정이 아니라 구성물이 선언하는 차원
 title: Coordination topology is a declared dimension, not a global constant
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 구성물의 참여자들이 **어떻게 조율하는가**(topology)는 체계

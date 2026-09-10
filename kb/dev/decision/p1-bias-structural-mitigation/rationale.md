@@ -5,7 +5,7 @@ level: logical
 title_ko: 실수에 방향이 있으므로 구조로 막을 수 있다
 title: Errors have direction, so structure can block them
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d3a0bc2e-b147-4eca-ad4a-3649472ea570
 ---

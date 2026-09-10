@@ -5,7 +5,7 @@ level: concrete
 title_ko: 설정 어휘는 닫힌 집합, 미인식 값은 조용한 기본값이 아니라 실패
 title: Closed configuration vocabulary - unknown values fail loudly
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-harness-recipes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 선택 정책처럼 거동을 바꾸는 설정 어휘는 **닫힌 집합**으로

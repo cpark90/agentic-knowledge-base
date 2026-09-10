@@ -5,7 +5,7 @@ level: concrete
 title_ko: 실패 요인은 인지·상호작용·실행 셋이고 그 조합이 위험 케이스다
 title: Three failure factors - cognition, interaction, execution - and their combinations
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0140]

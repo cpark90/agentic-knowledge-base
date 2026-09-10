@@ -5,7 +5,7 @@ level: logical
 title_ko: 본문 우선 읽기의 기각
 title: Rejecting body-first reading
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/004649e6-0eb9-42fb-b3dc-60c65883d906
 ---

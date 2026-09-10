@@ -5,7 +5,7 @@ level: logical
 title_ko: 임베딩을 1차 인덱스로 두는 안과 전문 검색을 기본으로 두는 안은 배제
 title: Embedding as the primary index and full-text as the default are both ruled out
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/5133b9c7-e45d-462d-ad99-20e3b49ef15c
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 기본 시각화는 추적 매트릭스 — 빈 칸이 곧 누락
 title: Traceability matrix as default visualization; empty cells are gaps
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 기본 시각화는 **추적 매트릭스**다. plane × plane 격자의 각

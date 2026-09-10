@@ -5,7 +5,7 @@ level: concrete
 title_ko: 평가의 세 측정 단위
 title: Three units of evaluation measurement
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 평가의 측정을 셋으로 둔다. **인지능력**(입력 정보 누락률),

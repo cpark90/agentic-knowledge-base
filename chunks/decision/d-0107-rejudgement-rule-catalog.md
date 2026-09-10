@@ -5,7 +5,7 @@ level: concrete
 title_ko: 재판정 규칙 카탈로그
 title: Re-judgement rule catalog
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 8.6절이 "규칙으로 자동 갱신"이라 한 변경 패턴의 초기 목록.

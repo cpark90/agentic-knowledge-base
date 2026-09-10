@@ -5,7 +5,7 @@ level: concrete
 title_ko: 42줄 청크가 최소 지식 단위
 title: 42-line chunk as minimal knowledge unit
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 모든 지식은 본문 42줄 이하의 자립적 청크를 가장 작은 부품으로

@@ -5,7 +5,7 @@ level: logical
 title_ko: 수치 신뢰도와 확률 합산의 기각
 title: Rejecting numeric confidence and probabilistic aggregation
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/05abd2cf-de1b-4aa2-9559-10cb0f868dab
 ---

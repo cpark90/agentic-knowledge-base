@@ -5,7 +5,7 @@ level: logical
 title_ko: 자체 ODD 형식의 대체
 title: Superseding the bespoke ODD format
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/f867e42b-0106-4796-8861-4bdc493e15db
 ---

@@ -5,7 +5,7 @@ level: logical
 title_ko: 네 수치가 변경의 크기를 비교 가능하게 만들고 자율 진행 여부를 가른다
 title: Four numbers make change size comparable and decide whether autonomy holds
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/6b8cc1c0-c8c4-4aa4-a9e5-b72e150d72ab
 ---

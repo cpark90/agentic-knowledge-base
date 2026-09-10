@@ -5,7 +5,7 @@ level: logical
 title_ko: 스코프가 독자 속성을 정의하는 안
 title: Letting scope define its own properties
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/494002b4-33ba-470c-93ee-cc0fe39be1c7
 ---

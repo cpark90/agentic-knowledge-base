@@ -5,7 +5,7 @@ level: logical
 title_ko: 기존에 없던 구조의 창조는 미해결로 남긴다
 title: Creating unprecedented structure remains unresolved
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d3a0bc2e-b147-4eca-ad4a-3649472ea570
 ---

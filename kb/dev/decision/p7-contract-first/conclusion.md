@@ -5,7 +5,7 @@ level: concrete
 title_ko: 계약이 구현보다 먼저 확정되고 계약 logical이 V&V 기준의 직접 재료다
 title: Contracts are fixed before implementation, and contract logical is the direct material of V&V criteria
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/5957a996-1394-4279-8e3c-31b55c586f62, title_ko: 계약 우선, title: Contract first}

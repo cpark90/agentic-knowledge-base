@@ -5,7 +5,7 @@ level: concrete
 title_ko: 카탈로그는 역할과 plane 권한까지만 규정하고 스코프는 ODD와 함께 파생된다
 title: The catalog specifies roles and plane permissions only; scope derives from it with the ODD
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0124]

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 3단계 시뮬레이션 프로젝트가 에이전트 검증의 중심이다
 title: The step-3 simulation project is the centre of agent verification
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0133]

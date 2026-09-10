@@ -5,7 +5,7 @@ level: logical
 title_ko: -space의 네 칸이 결정에 필요한 것과 그대로 대응한다
 title: The four parts of a -space map one-to-one onto what a decision needs
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/4458fad7-b74e-477f-816a-517940cebde2
 ---

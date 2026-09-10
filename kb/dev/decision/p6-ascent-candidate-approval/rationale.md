@@ -5,7 +5,7 @@ level: logical
 title_ko: 잘못 올라간 하나가 이후 모든 프로젝트의 출발점을 오염시킨다
 title: One wrong promotion contaminates the starting point of every later project
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/b3bb3bde-43af-4fad-8e67-3a52dd7a2fa9
 ---

@@ -5,7 +5,7 @@ level: logical
 title_ko: 대안 없음 — 산출과 지표 목록
 title: No alternative recorded — outputs and metrics
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/f44b4776-de6f-44bf-893b-72ce88179fdb
 ---

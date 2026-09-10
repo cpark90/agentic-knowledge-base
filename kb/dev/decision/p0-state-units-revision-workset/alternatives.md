@@ -5,7 +5,7 @@ level: logical
 title_ko: v1의 scene·situation·scenario 3분리 폐기
 title: The v1 scene, situation, scenario split is retired
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/52124ca7-97f8-4b5e-818f-1574ab131484
 ---

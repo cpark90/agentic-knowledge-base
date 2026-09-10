@@ -5,7 +5,7 @@ level: concrete
 title_ko: 200줄 컨텍스트가 모든 결정의 출발점
 title: The 200-line context is the origin of every decision
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 이 체계는 **에이전트가 한 번에 파악하는 맥락이 200줄 안팎**이라는

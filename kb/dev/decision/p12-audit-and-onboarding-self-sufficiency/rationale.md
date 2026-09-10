@@ -5,7 +5,7 @@ level: logical
 title_ko: 부족한 감사 질문은 기록을 늘려서 답하고 프로젝트의 형태는 라벨로 보여야 한다
 title: An unanswerable audit question means recording more; the project's shape must show in labels alone
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/7f9b04c1-54f8-415f-83a2-7c0de8016c6a
 ---

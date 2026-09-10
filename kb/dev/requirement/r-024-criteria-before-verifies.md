@@ -5,7 +5,7 @@ level: functional
 title_ko: 기준 없는 verifies는 거부한다
 title: Reject verifies without pass criteria
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — verifies 링크가 합격 기준 없이 저작되면, 체계는 그것을 거부하여야 한다.

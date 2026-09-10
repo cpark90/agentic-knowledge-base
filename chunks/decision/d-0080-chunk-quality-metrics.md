@@ -5,7 +5,7 @@ level: concrete
 title_ko: 청크 품질 지표 넷
 title: Four chunk-level quality metrics
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 평가(10.3절)에 청크 수준 지표 넷을 더한다. shape이 통과했다고

@@ -63,7 +63,7 @@ status: stable             # 필수 (OKF). draft|stable|suspect|invalidated|depr
 generated: {by: claude/fable-5, at: 2026-09-01T17:34:48+09:00}   # 필수 (OKF)
 verified: [{by: human:cpark, at: 2026-09-07T10:00:00+09:00}]     # 선택 (OKF)
 assumes: [<가정 IRI>, ...]      # 선택
-sources: [<출처 IRI>, ...]      # 선택 — OKF sources (prov:wasDerivedFrom). 도입 3단계부터 하네스가 읽기 집합으로 채움
+sources: [{resource: <출처 IRI>}, ...]   # 선택 — OKF v0.2 sources: 객체 목록(resource 필수, id·title·author 선택) → prov:wasDerivedFrom. 도입 3단계부터 하네스가 읽기 집합으로 채움
 refines: [<IRI>, ...]           # 선택 — 결정→요구 등
 supersedes: [<IRI>, ...]        # 선택 — 시간축 대체
 part_of: <복합체 IRI>            # 선택 — 복합체의 부분일 때

@@ -5,7 +5,7 @@ level: logical
 title_ko: plane이 늘면 shape과 판정 도구가 함께 늘므로 하위 클래스가 기본이다
 title: Each new plane multiplies shapes and tools, so subclassing is the default
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ab95f777-16da-41c6-8b1d-5f51f1484840
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 도메인 중립 골격과 도메인 프로파일
 title: Domain-neutral skeleton and domain profile
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 체계는 작업의 종류를 가리지 않는다. 대신 **도메인 중립 골격**과

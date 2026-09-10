@@ -5,7 +5,7 @@ level: logical
 title_ko: 폐쇄가 없으면 3.3절 게이트가 무너진다
 title: Without closure the derivation gate collapses
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/4640aa0e-49a7-4fee-952d-e33ec4d57cbb
 ---

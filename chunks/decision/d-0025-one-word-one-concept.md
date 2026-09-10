@@ -5,7 +5,7 @@ level: concrete
 title_ko: 한 단어에 한 개념 — 동음 충돌 회피
 title: One word, one concept
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 같은 한글 단어를 두 개념에 쓰지 않는다. 충돌하는 자리마다 한쪽에

@@ -5,7 +5,7 @@ level: logical
 title_ko: 저장된 상태는 낡지만 평가된 상태는 낡지 않는다
 title: A stored state goes stale; an evaluated state cannot
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/0b7abe3a-c03e-434f-b53b-b9d9d936a388
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 모든 plane이 다섯 level을 갖는다 — plane × level 격자
 title: Every plane has all five levels - the plane x level grid
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 사다리는 `decision`만의 장치가 아니라 일반 메커니즘이므로

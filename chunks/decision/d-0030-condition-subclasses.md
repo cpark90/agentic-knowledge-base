@@ -5,7 +5,7 @@ level: concrete
 title_ko: 조건의 둘째 수준 하위 분류와 판정 등급 요건
 title: Second-level condition subclasses and decidability grade
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 조건 3갈래(정적 요소·환경 조건·동적 요소) 아래 **둘째 수준까지를

@@ -5,7 +5,7 @@ level: logical
 title_ko: 고유 용어 신설과 정의 동봉 안의 기각
 title: Rejecting coined terms shipped with their definitions
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/049f46d7-97d5-42ae-b0d7-dddf6f35d5fa
 ---

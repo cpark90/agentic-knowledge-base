@@ -5,7 +5,7 @@ level: logical
 title_ko: 임베딩 유사도에 의한 확정의 기각
 title: Rejecting confirmation by embedding similarity
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/526f1fb6-5721-4b89-b8ac-3955dcbf6a37
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 운영 모니터링이 체계에서 받는 것
 title: What operational monitoring draws from the system
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 전체 시스템을 모니터링하는 에이전트가 이상 신호를 보내면 문제

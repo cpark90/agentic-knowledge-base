@@ -5,7 +5,7 @@ level: concrete
 title_ko: 입력은 온톨로지 어휘로 쓰고 버전 관리한다
 title: Inputs are written in ontology vocabulary and versioned
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 9.1절의 모든 입력을 온톨로지 어휘로 쓰고, ODD와 같은 방식으로

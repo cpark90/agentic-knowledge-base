@@ -5,7 +5,7 @@ level: logical
 title_ko: 횡단 개념을 plane에 넣으면 분류가 무너지고 규칙 변경이 어휘를 흔든다
 title: Cross-cutting concepts break plane classification; rule churn must not shake the vocabulary
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/301046f4-6db7-42f5-aea0-ffe4599d4a15
 ---

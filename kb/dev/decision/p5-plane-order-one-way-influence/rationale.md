@@ -5,7 +5,7 @@ level: logical
 title_ko: 느린 것이 빠른 것에 의존하면 상위가 하위의 속도로 흔들린다
 title: If the slow depends on the fast, the top shakes at the bottom's rate
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/f49e799a-b677-42d6-bc5c-84cefbc27122
 ---

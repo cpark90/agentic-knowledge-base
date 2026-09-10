@@ -5,7 +5,7 @@ level: concrete
 title_ko: 추론은 OWL 2 RL 프로파일로 제한한다
 title: Restrict reasoning to the OWL 2 RL profile
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 허용 추론을 OWL 2 RL로 정한다. 규칙 기반이고 다항 시간이며

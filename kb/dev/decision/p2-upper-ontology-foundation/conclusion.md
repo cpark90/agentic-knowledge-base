@@ -5,7 +5,7 @@ level: concrete
 title_ko: 프로젝트 온톨로지는 BFO 위에 선다
 title: The project ontology stands on BFO
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced, https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0047]

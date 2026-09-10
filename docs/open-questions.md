@@ -76,7 +76,7 @@
 | 이름 붙은 그래프 (TriG) | 네 그래프가 논리적 구분일 뿐 |
 | V&V KB 내용 | `kb/vv/`가 비어 있다 — 이 저장소 자신의 검증 목표·시나리오·기준이 없다 |
 | `artifact` plane 등록 | 도구 코드를 지식으로 등록할지 미결 |
-| YAML 로더 | `tools/kb_yaml.py`는 부분집합 로더다. 잠금(`requirements_lock.txt`)이 순수 파이썬 휠만 두어 PyYAML(C 확장)을 못 넣었다 — 잠금 정책을 바꾸거나 순수 파이썬 YAML 구현을 넣으면 삭제 |
+| YAML 로더 | `tools/kb_yaml.py`는 부분집합 로더다. 외부 조사(2026-09-11): rules_python은 sdist 빌드를 지원하고 PyYAML ≥ 6.0.1은 sdist에서 빌드되므로 **기술적 제약이 아니라 잠금 정책**("순수 파이썬 휠만")의 선택이다. `tools/relock.sh`에 pyyaml을 넣고 sdist 해시로 잠그면 삭제 가능 — 네트워크 필요(ODD 조건 `cond-network`) |
 
 ## 4. 이 목록을 쓰는 법
 

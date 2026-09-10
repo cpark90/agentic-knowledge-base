@@ -5,7 +5,7 @@ level: concrete
 title_ko: 요구 하나의 V&V 사슬은 열 단계이고 앞 세 단계는 개발 확정 전에 시작한다
 title: The V&V chain per requirement has ten steps; the first three start before development is fixed
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/71d2b786-e873-4705-b160-a443603ae0d2, https://agentic-knowledge-base.dev/id/chunk/2c574d24-71bb-4ea1-9812-0b2d0dc22395]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/ad7a39e2-6ef7-4ba3-a4df-92cf2c9409ca, title_ko: V&V 워크플로, title: The V&V workflow}

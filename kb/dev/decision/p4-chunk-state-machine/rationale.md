@@ -5,7 +5,7 @@ level: logical
 title_ko: 상태 어휘가 하나여야 가정·링크·청크·복합체를 한 규칙 집합으로 다룬다
 title: One state vocabulary lets one rule set cover assumptions, links, chunks, composites
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/0662736c-b666-499e-bf57-2097608f4b9b
 ---

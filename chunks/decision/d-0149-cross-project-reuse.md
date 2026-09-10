@@ -5,7 +5,7 @@ level: concrete
 title_ko: 청크는 프로젝트를 넘지 않는다
 title: Chunks do not cross projects
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 프로젝트를 넘는 것은 **어휘·제약·ODD 골격**이고, **청크는

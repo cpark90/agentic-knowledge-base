@@ -5,7 +5,7 @@ level: concrete
 title_ko: 판정 방법을 A~D로 등급화하고 D는 ODD에 넣지 않는다
 title: Grade measurement methods A-D; grade D stays out of the ODD
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — ODD 속성의 판정 방법을 A~D로 등급화하고, **판정 불가(D) 속성은

@@ -5,7 +5,7 @@ level: logical
 title_ko: 게이트를 질의로 쓰면 규칙이 데이터가 되고, 직렬화가 흔들리면 무효화 판정이 오염된다
 title: Gates as queries; unstable serialization poisons invalidation
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/33d988f2-27b2-44d7-98f2-110215bfe237
 ---

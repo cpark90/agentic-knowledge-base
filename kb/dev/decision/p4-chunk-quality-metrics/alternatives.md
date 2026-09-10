@@ -5,7 +5,7 @@ level: logical
 title_ko: 대안 없음 — 품질 지표 넷
 title: No alternative recorded — the four quality metrics
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/997c76c5-45f5-496d-84cc-49c5e0907761
 ---

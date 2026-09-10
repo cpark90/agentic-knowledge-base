@@ -5,7 +5,7 @@ level: logical
 title_ko: ODD를 스코프 같은 영역 개념으로 두는 안
 title: Treating the ODD as a region concept like scope
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/71a6fe17-3337-48af-b27d-271bb17a0ab4
 ---

@@ -5,7 +5,7 @@ level: logical
 title_ko: 별도 trust 필드의 대체
 title: Superseding a separate trust field
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/eec68e02-3a0a-459a-9357-0c6cb85e8267
 ---

@@ -5,7 +5,7 @@ level: logical
 title_ko: 두 메커니즘이 겹치지 않아야 하고 참조 재사용은 그래프에서 공짜다
 title: The two mechanisms must not overlap, and reference reuse is free in a graph
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/27157a50-048e-4b31-835f-ce91abcb93a8
 ---

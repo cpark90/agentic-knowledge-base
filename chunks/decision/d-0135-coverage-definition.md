@@ -5,7 +5,7 @@ level: concrete
 title_ko: 커버리지의 분모와 단계별 합산
 title: Coverage denominator and cross-rung accumulation
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 커버리지는 **측정 지표**이며 분모는 ODD다. 단계별로 합산하되

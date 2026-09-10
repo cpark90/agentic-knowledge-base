@@ -5,7 +5,7 @@ level: logical
 title_ko: 파일 단위 링크는 무효화를 파일 전체로 번지게 한다
 title: File-level links spread invalidation across whole files
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/e9f394a2-e59b-41ea-be88-d8ed2c5f9c60
 ---

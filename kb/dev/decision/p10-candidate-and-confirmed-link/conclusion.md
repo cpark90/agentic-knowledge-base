@@ -5,7 +5,7 @@ level: concrete
 title_ko: 후보 링크와 확정 링크는 A-Box의 개체 클래스다
 title: CandidateLink and ConfirmedLink are A-Box individuals
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c, https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
 part_of: https://agentic-knowledge-base.dev/id/composite/526f1fb6-5721-4b89-b8ac-3955dcbf6a37

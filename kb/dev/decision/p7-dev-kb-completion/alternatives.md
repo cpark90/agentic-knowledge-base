@@ -5,7 +5,7 @@ level: logical
 title_ko: 개발 KB 자체 완료 선언의 기각
 title: Rejecting self-declared completion of the development KB
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/c831629d-706d-4d61-90e5-f4d848758731
 ---

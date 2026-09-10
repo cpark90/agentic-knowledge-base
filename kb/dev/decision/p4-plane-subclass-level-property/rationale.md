@@ -5,7 +5,7 @@ level: logical
 title_ko: plane마다 다른 shape을 붙이려면 클래스여야 하고 level은 바뀌지 않는다
 title: Planes need per-class shapes; a chunk never changes its level
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/db06bc97-7100-4ad3-bad0-83fb1c876e1c
 ---

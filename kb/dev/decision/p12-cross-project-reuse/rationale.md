@@ -5,7 +5,7 @@ level: logical
 title_ko: 청크의 가정이 그 ODD 위의 명제라 ODD가 다르면 판정이 성립하지 않는다
 title: A chunk's assumptions are propositions over its own ODD, so judgement fails under another
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8dbf8cd0-81dd-478f-b73e-3aeea905768f
 ---

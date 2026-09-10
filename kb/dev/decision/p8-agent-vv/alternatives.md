@@ -5,7 +5,7 @@ level: logical
 title_ko: 제품 V&V 사슬로의 통합 기각
 title: Rejecting a merge into the product V&V chain
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/a47a3cfd-e9df-401a-90d1-d49cfff12452
 ---

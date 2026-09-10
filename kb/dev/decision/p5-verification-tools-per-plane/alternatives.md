@@ -5,7 +5,7 @@ level: logical
 title_ko: 판정 도구 없는 plane 허용의 기각
 title: Rejecting planes without verification tools
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/e41d8f22-3084-4182-870e-8abbf9f95076
 ---

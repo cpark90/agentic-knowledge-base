@@ -5,7 +5,7 @@ level: logical
 title_ko: 빈 칸이 곧 누락이다
 title: An empty cell is a gap
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/2e051e5d-6083-4a41-91e0-ade82422c705
 ---

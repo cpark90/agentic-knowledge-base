@@ -5,7 +5,7 @@ level: concrete
 title_ko: 링크의 증거는 극성 있는 항목의 증거 기록이고 확률로 합산하지 않으며 상태 전이 규칙이 증거 기록를 읽는다
 title: Link evidence is a ledger of signed entries, never summed into a probability; transition rules read the ledger
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c, https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/2c574d24-71bb-4ea1-9812-0b2d0dc22395]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/05abd2cf-de1b-4aa2-9559-10cb0f868dab, title_ko: 증거 기록, title: The evidence ledger}

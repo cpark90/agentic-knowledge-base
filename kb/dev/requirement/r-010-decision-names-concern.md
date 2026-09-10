@@ -5,7 +5,7 @@ level: functional
 title_ko: 결정은 기여하는 관심사를 명시한다
 title: A decision names the concern it serves
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 결정이 저작되면, 체계는 그 결정이 어느 요구의 어느 관심사에 기여하는지 명시하여야 한다.

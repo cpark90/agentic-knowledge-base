@@ -5,7 +5,7 @@ level: logical
 title_ko: 전체의 전제를 적는 자리가 하나뿐이어야 파생물이 무엇의 부분집합인지 정해진다
 title: Derivations need exactly one place that states the whole project's premises
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/71a6fe17-3337-48af-b27d-271bb17a0ab4
 ---

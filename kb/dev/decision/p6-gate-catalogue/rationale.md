@@ -5,7 +5,7 @@ level: logical
 title_ko: 계층 배치가 컨텍스트 예산과 재검증 시점 입력의 근거다
 title: Layer placement grounds the context budget and the re-judgement boundary input
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/33c8a1a1-fc90-4ce7-83a9-20c607a7c163
 ---

@@ -5,7 +5,7 @@ level: concrete
 title_ko: 판정 이력은 OKF verified 목록에 누적된다
 title: Judgement history accumulates in the OKF verified list
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/8117429b-5245-4a0a-8628-a46fb78dd65d]
 part_of: https://agentic-knowledge-base.dev/id/composite/eec68e02-3a0a-459a-9357-0c6cb85e8267

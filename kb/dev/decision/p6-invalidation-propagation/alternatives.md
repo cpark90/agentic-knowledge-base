@@ -5,7 +5,7 @@ level: logical
 title_ko: 양방향 전파의 기각
 title: Rejecting bidirectional propagation
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/01ce160f-72c9-4898-b0b1-fe6842b799e8
 ---

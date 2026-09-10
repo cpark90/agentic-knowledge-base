@@ -5,7 +5,7 @@ level: concrete
 title_ko: 알려지지 않은 위험 시나리오의 두 원인
 title: Two sources of unknown risk scenarios
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 알려지지 않은 위험 시나리오는 둘 중 하나에서 온다. **알려지지

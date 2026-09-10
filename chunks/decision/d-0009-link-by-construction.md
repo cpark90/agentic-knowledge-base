@@ -5,7 +5,7 @@ level: concrete
 title_ko: 링크는 구축이 기본, 복원은 예외
 title: Links by construction, recovery as exception
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 링크는 산출물이 만들어지는 순간 편집 연산의 부산물로 만든다

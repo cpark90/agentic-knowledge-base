@@ -5,7 +5,7 @@ level: logical
 title_ko: 하위가 넓히거나 전파를 대칭으로 두는 안
 title: Letting a child widen, or making propagation symmetric
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/7699d0eb-b30b-4015-b02c-d7db24b8eed1
 ---

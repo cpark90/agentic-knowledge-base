@@ -5,7 +5,7 @@ level: concrete
 title_ko: 같은 plane·수준의 관계도 -space 변수이고 일반화이 증거 기록를 읽어 공리와 범위 후보를 계산한다
 title: Same-plane relations are -space variables too; ascent reads the ledger to compute axiom and range candidates
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901, https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/152194cd-d12e-4d2c-9626-ccb6119e1baf, title_ko: 같은 plane·수준 안의 연결, title: Relations within the same plane and level}

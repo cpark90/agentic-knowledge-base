@@ -5,7 +5,7 @@ level: logical
 title_ko: ODD가 없으면 부분집합도 명제도 정의되지 않는다
 title: Without an ODD there is no set to be a subset of and no proposition to judge
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d892c74e-912c-45df-a36b-cccefabeed74
 ---

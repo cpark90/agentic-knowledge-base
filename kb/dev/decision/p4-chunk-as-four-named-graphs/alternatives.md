@@ -5,7 +5,7 @@ level: logical
 title_ko: 본문 안에 가정과 링크를 함께 두면 청크가 문맥에 묶인다
 title: Embedding assumptions and links in the body binds the chunk to its context
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/428f00f0-6790-41c0-83a8-bf8a564e848e
 ---

@@ -5,7 +5,7 @@ level: logical
 title_ko: 자연어 블록 길이 제약의 확정 형태가 42줄 청크이고 편집기가 그것을 강제한다
 title: The 42-line chunk is the settled form of the natural-language length constraint the editor enforces
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/922f75fe-58e0-4964-b79b-b9897ac35ce5
 ---

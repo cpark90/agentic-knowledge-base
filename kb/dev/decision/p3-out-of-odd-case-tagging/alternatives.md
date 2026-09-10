@@ -5,7 +5,7 @@ level: logical
 title_ko: 폐기하거나 함께 집계하는 안
 title: Discarding them, or counting them together
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/334ec611-70bf-40cd-85df-7ed0431ac556
 ---

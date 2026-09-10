@@ -5,7 +5,7 @@ level: logical
 title_ko: 재판정 규칙 카탈로그
 title: The rejudgement rule catalogue
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/c88e9891-e992-4e33-a891-0dcba05746b3
 ---

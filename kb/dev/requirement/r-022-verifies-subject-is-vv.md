@@ -5,7 +5,7 @@ level: functional
 title_ko: verifies의 주어는 V&V 청크뿐이다
 title: Only V&V chunks may be the subject of verifies
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes, https://agentic-knowledge-base.dev/id/doc-structure]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 체계는 verifies 링크의 주어를 V&V KB의 청크로만 허용하여야 한다.

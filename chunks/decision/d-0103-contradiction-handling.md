@@ -5,7 +5,7 @@ level: concrete
 title_ko: 후보 없음(모순)은 자동으로 풀지 않고 유저에게 넘긴다
 title: Contradictions are handed to the user, never auto-resolved
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 후보 링크가 하나도 남지 않은 상태(모순 신호)는 **자동으로 풀지

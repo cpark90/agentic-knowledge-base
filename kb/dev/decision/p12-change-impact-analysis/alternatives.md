@@ -5,7 +5,7 @@ level: logical
 title_ko: 전용 질의 신설의 기각
 title: Rejecting a dedicated impact query
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/6b8cc1c0-c8c4-4aa4-a9e5-b72e150d72ab
 ---

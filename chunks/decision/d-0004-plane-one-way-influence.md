@@ -5,7 +5,7 @@ level: concrete
 title_ko: plane 간 단방향 영향 규칙
 title: One-way influence rule between planes
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 상위 plane만 하위 plane에 영향을 줄 수 있다. 순서 기준은

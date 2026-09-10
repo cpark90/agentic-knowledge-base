@@ -5,7 +5,7 @@ level: logical
 title_ko: 캘리브레이션이 나쁜 판정자는 시도 선택과 승격 판단을 체계적으로 오염시킨다
 title: A poorly calibrated judge systematically pollutes selection and promotion
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/0b5e9efb-5c56-4cc8-92bf-bc0ba2f4f531
 ---

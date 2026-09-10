@@ -5,7 +5,7 @@ level: logical
 title_ko: 산출물 안 링크 표기와 경로·줄 번호 앵커의 기각
 title: Rejecting inline link notation and path-plus-line anchors
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/c1ce996d-dc84-45c5-b567-a9da42421774
 ---

@@ -5,7 +5,7 @@ level: logical
 title_ko: 신뢰 없는 조상은 후손 전부를 신뢰 없게 만든다
 title: An untrusted ancestor taints every descendant
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/34cd97d1-50df-4db6-8511-fd10b918eaf3
 ---

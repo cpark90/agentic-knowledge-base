@@ -5,7 +5,7 @@ level: logical
 title_ko: 이탈을 결함으로 처리하거나 자동 진행하는 안
 title: Treating the exit as a defect, or continuing automatically
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ce551363-f48f-40a3-95f8-b35a0ddd377d
 ---

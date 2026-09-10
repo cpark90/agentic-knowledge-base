@@ -5,7 +5,7 @@ level: logical
 title_ko: 설계 공간은 CSP의 인스턴스를 파일로 적은 것이다
 title: The -space file is a CSP instance written down
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/77fa385a-9aa6-406f-b72f-bb966f6c42f8
 ---

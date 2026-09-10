@@ -5,7 +5,7 @@ level: logical
 title_ko: 전수조사를 질의 하나로 바꾸는 것이 갱신 단절의 해법이다
 title: Replacing exhaustive survey with a single query solves the update break
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/db06ba12-f04a-45c7-b5e3-d26d97dc7e51
 ---

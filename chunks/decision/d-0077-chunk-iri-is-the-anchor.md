@@ -5,7 +5,7 @@ level: concrete
 title_ko: 청크 IRI가 앵커다 — 앵커 드리프트를 청크 안에 가둔다
 title: The chunk IRI is the anchor - drift is confined inside the chunk
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 별도의 앵커 장치를 두지 않는다. **청크 IRI가 앵커다.** plane별

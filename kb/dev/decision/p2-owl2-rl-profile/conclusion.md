@@ -5,7 +5,7 @@ level: concrete
 title_ko: 검사 게이트와 무효화 전파는 RL 안에서 동작한다
 title: Gate and invalidation propagation run inside RL
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366, https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0054]

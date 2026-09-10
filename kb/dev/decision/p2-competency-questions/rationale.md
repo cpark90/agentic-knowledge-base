@@ -5,7 +5,7 @@ level: logical
 title_ko: 질의로 답할 수 없는 개념은 늘기만 하고 검사되지 않는다
 title: Concepts no query can use only accumulate
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/5f6eadd5-ef4f-47cb-8128-f72cca5e8575
 ---

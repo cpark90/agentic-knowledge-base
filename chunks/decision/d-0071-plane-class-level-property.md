@@ -5,7 +5,7 @@ level: concrete
 title_ko: plane은 하위 클래스, level은 속성
 title: Plane as subclass, level as property
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — plane은 `agt:Chunk`의 **하위 클래스**로 두고(`agt:DecisionChunk`,

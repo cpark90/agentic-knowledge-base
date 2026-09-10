@@ -5,7 +5,7 @@ level: concrete
 title_ko: 링크의 붕괴 — 상태 셋과 경계에서의 일괄 재판정
 title: Link decay states and batched re-judgement at boundaries
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크는 가정(6.5절)과 같은 상태를 갖는다 — `valid`(양 끝이

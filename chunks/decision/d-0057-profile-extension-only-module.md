@@ -5,7 +5,7 @@ level: concrete
 title_ko: 프로파일은 골격을 확장만 하는 온톨로지 모듈이다
 title: A profile is an extension-only ontology module
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 프로파일은 별도 장치가 아니라 온톨로지 모듈이다. `profile/<domain>`

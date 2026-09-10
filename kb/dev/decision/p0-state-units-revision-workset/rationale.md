@@ -5,7 +5,7 @@ level: logical
 title_ko: 스냅샷을 열거하면 저장 비용과 진위 물음이 함께 늘어난다
 title: Enumerating snapshots multiplies storage and raises the question of which one is true
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/52124ca7-97f8-4b5e-818f-1574ab131484
 ---

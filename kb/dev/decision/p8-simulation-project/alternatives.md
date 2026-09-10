@@ -5,7 +5,7 @@ level: logical
 title_ko: 실환경 중심 에이전트 검증의 기각
 title: Rejecting production-centred agent verification
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/229d2de0-e6eb-432a-9548-5ea5898ce770
 ---

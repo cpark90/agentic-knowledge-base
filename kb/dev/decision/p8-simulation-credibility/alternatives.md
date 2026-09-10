@@ -5,7 +5,7 @@ level: logical
 title_ko: 실환경 관측으로 시뮬레이션을 보정하는 것은 뒤로 미룬다
 title: Calibrating the simulation from field observation is deferred
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/962ef704-4544-41b5-8b6d-bea52f11c595
 ---

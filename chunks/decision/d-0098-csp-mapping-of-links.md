@@ -5,7 +5,7 @@ level: concrete
 title_ko: 링크 가능성을 제약 만족 문제로 사상
 title: Mapping link possibility to a constraint satisfaction problem
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 링크의 가능성을 **제약 만족 문제(CSP)** 로 다룬다. 변수와

@@ -2,10 +2,10 @@
 id: https://agentic-knowledge-base.dev/id/chunk/93a15ba6-326d-4e40-ac54-f76736f46001
 type: decision
 level: concrete
-title_ko: 프로파일은 코어을 확장만 하는 온톨로지 모듈이다
+title_ko: 프로파일은 코어를 확장만 하는 온톨로지 모듈이다
 title: A profile is an ontology module that only extends the skeleton
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0056, https://agentic-knowledge-base.dev/id/chunk-d0057, https://agentic-knowledge-base.dev/id/chunk-d0021]
@@ -22,6 +22,6 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/f28573cc-2a81-4d
 | 결함 요인 3갈래 · 링크 타입 | 도메인 고유 하위 유형 · 링크 양 끝의 프로파일 클래스 |
 | 42줄 상한 · 앵커 해석 방식 | plane별 오버라이드와 "줄"의 단위 · 실제 해석기 |
 
-**프로파일은 온톨로지 모듈이다.** `profile/<domain>`에 두고 코어 모듈을 import하며, **코어 클래스의 하위 클래스와 shape만 추가한다. 코어을 수정하는 프로파일은 검사 실패다.**
+**프로파일은 온톨로지 모듈이다.** `profile/<domain>`에 두고 코어 모듈을 import하며, **코어 클래스의 하위 클래스와 shape만 추가한다. 코어를 수정하는 프로파일은 검사 실패다.**
 
 한 프로젝트는 프로파일을 여럿 가질 수 있다 — 개발 프로젝트에도 문서 작성 작업이 있다. 청크는 프로파일 클래스 하나에 속하되 **링크는 프로파일을 넘는다.** 참조 프로파일은 `development`이고, 부록 D가 다른 프로파일의 템플릿이다.

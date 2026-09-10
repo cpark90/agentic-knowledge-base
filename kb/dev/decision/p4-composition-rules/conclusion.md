@@ -5,7 +5,7 @@ level: concrete
 title_ko: 구성 규칙 — 비순환·7±2·동질성·참조 재사용
 title: Composition rules: acyclic, 7±2, homogeneity, reference reuse
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0074]

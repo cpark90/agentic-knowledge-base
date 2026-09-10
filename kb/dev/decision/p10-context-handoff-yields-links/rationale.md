@@ -5,7 +5,7 @@ level: logical
 title_ko: 넘기지 않으면 편집 컨텍스트는 무엇에 근거해 쓰는지 모른다
 title: Without handoff the edit context does not know what it is writing from
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/65989bd8-c9ca-4659-8069-5b9913ce7b7e
 ---

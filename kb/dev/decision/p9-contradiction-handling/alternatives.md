@@ -5,7 +5,7 @@ level: logical
 title_ko: 모순 원인의 판별 절차
 title: Diagnosing the cause of a contradiction
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/60c37dde-858e-4e6a-b878-b8340bcef798
 ---

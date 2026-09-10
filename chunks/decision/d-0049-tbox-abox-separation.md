@@ -5,7 +5,7 @@ level: concrete
 title_ko: T-Box와 A-Box를 다른 파일에 둔다
 title: T-Box and A-Box live in separate files
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 개념 정의(T-Box)와 개체(A-Box)를 다른 파일에 둔다. `*-ontology`·

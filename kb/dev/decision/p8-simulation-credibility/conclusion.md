@@ -5,7 +5,7 @@ level: concrete
 title_ko: 시뮬레이션의 신뢰도는 요인별로 관리한다
 title: Simulation credibility is managed factor by factor
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0138]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]

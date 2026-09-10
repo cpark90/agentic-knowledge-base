@@ -5,7 +5,7 @@ level: logical
 title_ko: 수기 케이스와 백지 저작의 기각
 title: Rejecting hand-written cases and blank-page authoring
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/791e4e4c-db54-45f9-a03b-8922cd7cc3af
 ---

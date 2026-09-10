@@ -5,7 +5,7 @@ level: logical
 title_ko: 대안 없음 — 입력 간 순서
 title: No alternative recorded — input ordering
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/1b1b47e5-a634-4953-bfd9-7b77bf651857
 ---

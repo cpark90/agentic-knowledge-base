@@ -5,7 +5,7 @@ level: logical
 title_ko: 검증 대응물를 게이트 조건으로 두면 검증을 나중으로 미룰 수 없다
 title: Making the rung a gate condition makes deferred verification impossible
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/0ef3233e-c6aa-434b-a0ef-350c857e690e
 ---

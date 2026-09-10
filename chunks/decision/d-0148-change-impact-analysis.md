@@ -5,7 +5,7 @@ level: concrete
 title_ko: 변경 영향 분석 절차
 title: Change impact analysis procedure
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — "X를 바꾸면 무엇이 영향받는가"를 8.7절 질의의 조합으로 계산하고,

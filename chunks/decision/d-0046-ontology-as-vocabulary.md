@@ -5,7 +5,7 @@ level: concrete
 title_ko: 온톨로지는 사다리의 단계가 아니라 전체의 어휘다
 title: The ontology is the whole system's vocabulary, not a ladder rung
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 온톨로지는 이 체계의 세계 모델이다. 개발 작업의 세계에 무엇이

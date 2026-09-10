@@ -5,7 +5,7 @@ level: concrete
 title_ko: 만들기 전에 검색한다 — 노드는 단일 책임
 title: Search before authoring - one node, one responsibility
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-harness-ontology]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 한 노드는 한 가지만 담고(한 페르소나·한 정책·한 능력), 새 노드를

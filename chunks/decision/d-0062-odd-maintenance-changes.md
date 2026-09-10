@@ -5,7 +5,7 @@ level: concrete
 title_ko: ODD 변경은 확장·축소·정밀화 셋이고 온톨로지가 선행한다
 title: ODD changes are expand, narrow, refine - and the ontology comes first
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — ODD는 버전 관리되는 살아 있는 문서다. 변경은 확장·축소·정밀화

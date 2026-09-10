@@ -5,7 +5,7 @@ level: concrete
 title_ko: 온톨로지 결함 카탈로그로 설계 결함을 주기 평가한다
 title: Periodic ontology evaluation via a pitfall catalogue
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 2.5절 위생 검사 외에, 표준 온톨로지 결함 카탈로그(pitfall

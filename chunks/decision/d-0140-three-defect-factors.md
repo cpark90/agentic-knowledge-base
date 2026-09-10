@@ -5,7 +5,7 @@ level: concrete
 title_ko: 결함 요인 3갈래와 위험 시나리오의 구성
 title: Three defect factors and how risk scenarios are composed
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 실패 요인을 **인지 / 상호작용 / 실행** 세 갈래로 분류한다.

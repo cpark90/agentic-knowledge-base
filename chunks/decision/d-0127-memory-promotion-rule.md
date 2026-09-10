@@ -5,7 +5,7 @@ level: concrete
 title_ko: 단기·장기 구분과 메모리 승격 규칙
 title: Short-term vs long-term memory and the promotion rule
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 지식 **생산 시점에** 단기·장기를 구분한다. 단기기억은 `memory`

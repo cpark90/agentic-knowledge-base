@@ -5,7 +5,7 @@ level: logical
 title_ko: 요인이 개선 대상을 지목하고 위에서 아래로 구성해야 빠진 조합이 계산된다
 title: Factors point at what to fix; top-down composition makes missing combinations countable
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/941cae39-2d59-468c-bd54-9d71cf8982ba
 ---

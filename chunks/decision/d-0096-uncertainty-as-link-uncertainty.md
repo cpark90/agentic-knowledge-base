@@ -5,7 +5,7 @@ level: concrete
 title_ko: 모든 미확정은 연결의 미확정이다
 title: All uncertainty is link uncertainty
 status: deprecated
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
 ---
 **결론** — 이 체계에서 미확정은 항상 "두 지식 항목이 연결되는가"의

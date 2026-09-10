@@ -5,7 +5,7 @@ level: logical
 title_ko: 언어모델 서술 기반 진단의 기각
 title: Rejecting narrative-only diagnosis
 status: stable
-sources: [https://agentic-knowledge-base.dev/id/doc-system-notes]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/9b5d96a6-065b-42d1-8a6b-49b8a56384ff
 ---
