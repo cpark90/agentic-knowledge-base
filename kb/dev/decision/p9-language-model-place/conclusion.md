@@ -6,7 +6,8 @@ title_ko: 언어모델은 후보와 선호 순서를 제안할 뿐이고 선호�
 title: The language model only proposes candidates and preference order; default preference comes from the ledger kind ranking
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/a6dd335e-3bb8-41b4-9c4c-2745b90b5188, title_ko: 언어모델의 자리, title: The place of the language model}
 part_of: https://agentic-knowledge-base.dev/id/composite/a6dd335e-3bb8-41b4-9c4c-2745b90b5188

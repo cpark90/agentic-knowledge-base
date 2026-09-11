@@ -6,7 +6,8 @@ title_ko: 개발 프로파일에서 일곱 plane의 실체·거주 수준·단�
 title: Substance, residency, unit and verification tool of the seven planes in the development profile
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/ec197591-b1c7-494e-bc07-2f27b96cd057, title_ko: 개발 프로파일의 plane 실체, title: Plane substance in the development profile}
 part_of: https://agentic-knowledge-base.dev/id/composite/ec197591-b1c7-494e-bc07-2f27b96cd057

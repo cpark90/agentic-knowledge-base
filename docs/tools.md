@@ -122,7 +122,7 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 
 | 도구 | 입력 → 산출 | 실패 조건 |
 |---|---|---|
-| `chunk2kg.py` | 청크 frontmatter → `kg/chunks-kg.ttl` (head·복합체·contentHash) | 필수 키 7개 누락, 값 어휘 밖, **IRI 중복**, 복합체 미선언 — "한 chunk는 한 파일"의 기계적 강제 |
+| `chunk2kg.py` | 청크 frontmatter → head 그래프. **타깃별 조각**(`--fragment`, `kb_chunk`·`kb_decision` 액션) → `kb_kg_merge`(`--merge`) → `kg/chunks-kg.ttl`. 바뀐 타깃의 조각만 다시 만든다. 옛 union 방식은 `//kg:chunks_kg_union`으로 남겨 `//kg:kg_equivalence_test`가 바이트 동일을 검사 | 필수 키 7개 누락, 값 어휘 밖, 복합체 미선언(조각), **IRI 중복**(병합) — "한 chunk는 한 파일"의 기계적 강제 |
 | `extract_refs.py` | 본문의 `d-NNNN` 인용 → `references-kg.ttl`의 `agt:cites` | 인용 대상이 실재하지 않음 |
 | `odd2kg.py` + `taxonomy.py` | OpenODD YAML 매핑 문서 `kb/odd/project-odd.yml`(`TAXONOMY`·`MODULES`·`INCLUDE_AND`…) → `project-odd.ttl`; `related/condition` → `taxonomy.yml` (부록 E.4) | 택소노미 밖 범주 · 미선언 속성 · 선언 밖 리터럴 · OpenODD 식이 아닌 값 · `ATTRIBUTES`/`CHECKS` 없는 조건 |
 | `labels.py` | 청크 head → OKF `index.md` (5.6절) | frontmatter 오류 |
@@ -145,11 +145,11 @@ YAML은 PyYAML(잠금 `pyyaml==6.0.2`, 호스트 휠 + sdist 두 해시)로 읽�
 
 | 도구 | 대응 절차 | 하는 일 | 단계 |
 |---|---|---|---|
-| `workset` / `labels` | [method §8 조회](method.md#8-조회) | **첫 형태 있음** — `bazel build //kg:workset_<role>` → `bazel-bin/kg/workset-<role>.md`: 역할 스코프(plane) × 수준 창 → 라벨 목록, 앵커 이웃 펼치기(우선순위: 앵커 > 복합체 형제 > refines > 나머지), 예산 패킹, 접기. 정의(0.5절 정정본)대로 앵커가 양을 거른다 — 앵커 없이 573줄, 앵커를 주면 14줄 | 2 |
-| `link` | [method §6 연결](method.md#6-연결) | 구축 기록 → 후보, 복원 파이프라인 k≤7 | 3·8 |
+| `workset` / `labels` | [method §8 조회](method.md#8-조회) | **첫 형태 있음** — `bazel build //kg:workset --//kb:role=<role> --//kb:anchor=<라벨|IRI> --//kb:levels=<창> --//kb:hops=1 --//kb:budget=200` → `bazel-bin/kg/workset-<role>.md`: 역할 스코프(plane) × 수준 창 × 앵커 이웃, 예산 패킹, 접기. 선택자는 빌드 설정이라 BUILD를 고치지 않는다. 정의(0.5절 정정본)대로 앵커가 양을 거른다 — 앵커 없이 573줄, 앵커를 주면 14줄 | 2 |
+| `link` | [method §6 연결](method.md#6-연결) | 구축 기록 → 후보, 복원 파이프라인 k≤7. 첫 형태: frontmatter 링크마다 `agt:Link` + 구축 기록 증거를 `chunk2kg`가 방출, `handoff`가 workset 뷰의 펼친 청크를 `sources`로 옮김 (`bazel run //tools:handoff -- --workset bazel-bin/kg/workset-<role>.md <청크>`) | 3·8 |
 | `propagate` / `revalidate` | [method §7 갱신](method.md#7-갱신) | 무효화 전파 8단계 · 재판정 큐, 규칙 카탈로그 8종 | 4 |
 | `query` | [competency-questions](competency-questions.md) | CQ1~20과 표준 추적 질의 | 3 |
-| `impact` | [method §12 영향 분석](method.md#12-영향-분석) | 변경 전 의존 집합·승인 필요 수 | 3 |
+| `impact` | [method §12 영향 분석](method.md#12-영향-분석) | **첫 형태 있음** — `bazel run //tools:impact -- <타깃>`: `rdeps`로 영향 항목 수·plane 분포·suspect가 될 링크 수·승인 필요 결정 수. 구조 근사이며 가정·무효화 전파는 그래프 질의 몫 | 3 |
 | `project` | [method §9 뷰](method.md#9-뷰) | tangle·weave·매트릭스·보고. 저장하지 않고 질의 | 8 |
 | `metrics` | [methodology 완료 판정](methodology.md#완료-판정) | **첫 형태 있음** — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md`: 청크 수·고아율·크기 분포·링크 밀도·CQ19·CQ20·신뢰 등급. 없는 것: suspect 비율·누락률·라벨 대표성 | 1 |
 
@@ -201,7 +201,8 @@ Bazel이 맡는 것은 링크의 **구조**: 끊긴 링크 = 로드 에러, 방�
 42줄·frontmatter = 검증 액션(`bazel build`만으로). 의미(SHACL·통제 어휘·상태)는 그대로 union 게이트(d-0157). 음성 시험은 `//defs/tests`(skylib analysistest).
 
 ```bash
-bazel query "rdeps(//kb/..., //kb/dev/requirement:r-008-every-requirement-descends)"   # 영향 집합 (impact 1단계)
+bazel run //tools:impact -- //kb/dev/requirement:r-008-descend-to-executable   # 영향 집합 = rdeps (12.6절 네 수치)
+bazel build //kg:workset --//kb:role=developer --//kb:anchor="두 KB" --//kb:levels=concrete   # 작업 집합 뷰, 선택자는 플래그
 bazel build //kb/dev/decision:all                                                       # 검증 액션 = 42줄·frontmatter
 tools/gen_build.py                                                                       # frontmatter 를 고쳤으면 BUILD 재생성
 ```
@@ -210,6 +211,7 @@ tools/gen_build.py                                                              
 //:gate  (test_suite)
 ├── //:build_drift_test            생성 BUILD = frontmatter (드리프트 가드)
 ├── //defs/tests:*                 음성 시험 5 — plane 단방향·수준 허용표·supersedes plane·verifies 주어·결정 수준
+├── //kg:kg_equivalence_test       병합 head 그래프 = union head 그래프 (바이트)
 ├── //:naming_test                 TTL 접미사 규약
 ├── //chunks:lint_test             `chunks/` 항목 42줄
 ├── //kb/dev:lint_test             개발 KB 청크 42줄
@@ -222,7 +224,7 @@ tools/gen_build.py                                                              
 
 `//kb/ontology:chunk_lint_test`는 `bazel test //...`로는 돌고 `//:gate`로는 안 돈다. 배선은
 `defs/knowledge.bzl`의 매크로(`kb_gate_test`·`kb_chunk_kg`·`kb_reference_kg`·`kb_chunk_lint_test`·
-`kb_odd_kg`·`kb_taxonomy`·`kb_index`·`kb_metrics`·`kb_workset`)로만 선언하며 `py_test`를 직접 쓰지 않는다.
+`kb_odd_kg`·`kb_taxonomy`·`kb_index`·`kb_metrics`·`kb_workset`) 또는 `defs/kb.bzl`의 규칙(`kb_chunk`·`kb_decision`·`kb_ontology_module`·`kb_bundle`·`kb_kg_merge`)으로만 선언하며 `py_test`를 직접 쓰지 않는다.
 
 ## 게이트 밖 — 규약으로 남은 것
 

@@ -20,6 +20,7 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
   sources:      OKF v0.2 sources — [{resource: IRI, id?, title?, author?}] (선택). resource → prov:wasDerivedFrom
   refines:      이 항목이 정제하는 상위 항목 IRI 목록 (선택, 수직 링크 9.2절)
   supersedes:   이 항목이 대체하는 항목 IRI 목록 (선택)
+  coUpdatesWith: 같은 내용을 담아 함께 갱신되어야 하는 청크 IRI 목록 (선택, relatedTo 족 — 안전율 중복의 표시)
   part_of:      소속 복합체 IRI (선택) — 복합체는 멤버 중 하나가 composite: 로 선언
   composite:    {id: …, title_ko: …, title: …} (선택) — 복합체 개체 선언
 
@@ -154,6 +155,8 @@ def emit_chunk(path: str, meta: dict, line_count: int) -> str:
         stmts.append(f"agt:refines <{r}>")
     for s in meta.get("supersedes", []):
         stmts.append(f"agt:supersedes <{s}>")
+    for c in meta.get("coUpdatesWith", []):  # 알고 둔 중복 — 안전율 (p4-redundancy-as-safety-margin). 대칭·relatedTo 족
+        stmts.append(f"agt:coUpdatesWith <{c}>")
     for v in meta.get("verified", []):
         stmts.append(f'agt:verifiedBy "{esc(v["by"])}"')
         stmts.append(f'agt:verifiedAt "{v["at"]}"^^xsd:dateTime')
@@ -165,11 +168,58 @@ def emit_chunk(path: str, meta: dict, line_count: int) -> str:
     return "\n".join(lines)
 
 
+LINK_KEYS = ("refines", "serves", "supersedes", "verifies", "satisfies", "constrains", "derivesFrom", "allocates", "generates")
+ID_BASE = "https://agentic-knowledge-base.dev/id/"
+
+
+def emit_links(meta: dict) -> list:
+    """frontmatter 링크 하나 = agt:Link 개체 하나 + 구축 기록 증거 하나 (9.11절, 10.10절).
+
+    링크는 청크를 저작할 때 편집 연산의 부산물로 생겼으므로(10.3절 구축) 증거 종류는 구축 기록이고,
+    참조는 그 청크 자신(생성 기록 generatedBy·generatedAtTime 을 지닌다). 상태는 확정이며 증거 기록이
+    있어야 확정이 유효하다 — verify 질의 confirmed-without-evidence 가 검사한다. IRI 는 (출발, 종류, 도착)의 해시라 결정적이다.
+    """
+    out = []
+    for key in LINK_KEYS:
+        for to in meta.get(key, []) or []:
+            h = hashlib.sha256(f"{meta['id']}|{key}|{to}".encode("utf-8")).hexdigest()[:12]
+            link, ev = f"{ID_BASE}link/{h}", f"{ID_BASE}evidence/{h}"
+            out.append((link, f"<{link}>\n    a agt:Link , agt:ConfirmedLink ;\n    agt:linkFrom <{meta['id']}> ;\n    agt:linkTo <{to}> ;\n"
+                              f"    agt:linkKind agt:{key} ;\n    agt:linkState \"confirmed\" ;\n    agt:hasEvidence <{ev}> ."))
+            out.append((ev, f"<{ev}>\n    a agt:Evidence ;\n    agt:evidenceKind agt:constructionRecord ;\n    agt:evidenceRef <{meta['id']}> ;\n    agt:polarity \"+\" ."))
+    return out
+
+
+def merge(out: str, fragments: list) -> int:
+    """타깃별 head 조각(--fragment 출력)을 하나의 -kg 로 병합한다. IRI 중복 검사는 여기서 한다 (한 청크는 한 파일)."""
+    chunks, comps, seen, errors = [], [], {}, []
+    for frag in fragments:
+        text = Path(frag).read_text(encoding="utf-8").strip("\n")
+        for block in (b for b in text.split("\n\n") if b.strip()):
+            iri = block.split("\n", 1)[0].strip("<>")
+            if iri in seen:
+                errors.append(f"{frag}: IRI {iri} 가 {seen[iri]} 와 중복 — 한 청크는 한 파일이다")
+                continue
+            seen[iri] = frag
+            (comps if "\n    a agt:Composite" in block else chunks).append((iri, block))
+    if errors:
+        for e in errors:
+            print(f"FAIL [chunk2kg merge] {e}", file=sys.stderr)
+        return 1
+    blocks = [b for _, b in sorted(chunks)] + [b for _, b in sorted(comps)]
+    Path(out).write_text(PREAMBLE + "\n" + "\n\n".join(blocks) + "\n", encoding="utf-8")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--fragment", action="store_true", help="타깃 하나의 조각 — 전문(preamble) 없이 블록만 (kb_chunk·kb_decision 액션)")
+    ap.add_argument("--merge", action="store_true", help="조각들을 병합해 -kg 를 만든다 (kb_kg_merge)")
     ap.add_argument("files", nargs="*")
     args = ap.parse_args()
+    if args.merge:
+        return merge(args.out, args.files)
 
     blocks, seen = [], {}
     composites: dict = {}   # iri -> {labels, members[]}
@@ -182,7 +232,7 @@ def main() -> int:
             errors.append(str(e))
             continue
         if meta["id"] in seen:
-            errors.append(f"{path}: IRI {meta['iri']} 가 {seen[meta['iri']]} 와 중복 — 한 청크는 한 파일이다")
+            errors.append(f"{path}: IRI {meta['id']} 가 {seen[meta['id']]} 와 중복 — 한 청크는 한 파일이다")
             continue
         seen[meta["id"]] = path
         comp = meta.get("composite")
@@ -190,23 +240,25 @@ def main() -> int:
             if not (isinstance(comp, dict) and comp.get("id") and comp.get("title_ko") and comp.get("title")):
                 errors.append(f"{path}: composite 는 {{id, title_ko, title}} 이어야 한다")
             elif comp["id"] in composites:
-                errors.append(f"{path}: 복합체 {comp['iri']} 가 중복 선언됨")
+                errors.append(f"{path}: 복합체 {comp['id']} 가 중복 선언됨")
             else:
                 composites[comp["id"]] = {"ko": comp["title_ko"], "en": comp["title"], "members": []}
         if meta.get("part_of"):
             part_refs.append((meta["id"], meta["part_of"], path))
-        blocks.append(emit_chunk(path, meta, n))
+        blocks.append((meta["id"], emit_chunk(path, meta, n)))
+        blocks.extend(emit_links(meta))
     for chunk_iri, comp_iri, path in part_refs:
         if comp_iri not in composites:
             errors.append(f"{path}: part_of 대상 복합체 {comp_iri} 가 이 묶음 안에 선언되지 않았다")
         else:
             composites[comp_iri]["members"].append(chunk_iri)
+    comp_blocks = []
     for iri, c in sorted(composites.items()):
         if not c["members"]:
             errors.append(f"복합체 {iri} 에 부분이 없다")
             continue
-        parts = " ,\n        ".join(f"<{m}>" for m in c["members"])
-        blocks.append(
+        parts = " ,\n        ".join(f"<{m}>" for m in sorted(c["members"]))
+        comp_blocks.append(
             f"<{iri}>\n    a agt:Composite ;\n"
             f'    rdfs:label "{esc(c["en"])}"@en ;\n'
             f'    rdfs:label "{esc(c["ko"])}"@ko ;\n'
@@ -218,7 +270,8 @@ def main() -> int:
             print(f"FAIL [chunk2kg] {e}", file=sys.stderr)
         return 1
 
-    Path(args.out).write_text(PREAMBLE + "\n" + "\n\n".join(blocks) + "\n", encoding="utf-8")
+    body = "\n\n".join([b for _, b in sorted(blocks)] + comp_blocks)  # 정규 순서: 청크 IRI 순, 그다음 복합체 IRI 순 — union 과 merge 가 바이트 동일
+    Path(args.out).write_text((body if args.fragment else PREAMBLE + "\n" + body) + "\n", encoding="utf-8")
     return 0
 
 

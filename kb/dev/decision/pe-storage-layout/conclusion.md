@@ -6,7 +6,8 @@ title_ko: 저장은 kb/{ontology,odd,dev,vv}이고 vv만 dev를 참조하며 각
 title: Storage is kb/{ontology,odd,dev,vv}; only vv references dev; each directory index.md is the label list
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7, https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/6d696b3f-6d63-476e-bb56-65f27d8d2ed5, title_ko: 저장 구조, title: Storage layout}
 part_of: https://agentic-knowledge-base.dev/id/composite/6d696b3f-6d63-476e-bb56-65f27d8d2ed5

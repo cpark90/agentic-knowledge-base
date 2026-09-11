@@ -6,7 +6,8 @@ title_ko: 동시 도입과 통과 조건 없는 단계의 기각
 title: Rejecting parallel adoption and stages without pass conditions
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/4e1e176d-aa8d-4ab5-aade-db3aca0f68fc
 ---
 **대안** — 여러 프로젝트에 동시 도입하는 안. 기각 — 실패 원인이 체계인지 프로젝트인지 분리되지 않는다 (노트 14.1절).

@@ -1,3 +1,5 @@
+load("@bazel_skylib//rules:common_settings.bzl", "BuildSettingInfo")
+
 """지식 항목을 Bazel 타깃으로 — provider·규칙·가시성 (bazel-dependency-review B + 연결성, 2026-09-11).
 
 원칙: 의존의 원본은 그래프(frontmatter·owl:imports)이고 BUILD는 생성물(tools/gen_build.py)이다.
@@ -20,6 +22,11 @@ ChunkInfo = provider(
 OntologyModuleInfo = provider(
     doc = "온톨로지 모듈(디렉토리)이 내보내는 것 — owl:imports 가 deps 다.",
     fields = {"iri": "모듈 IRI", "srcs": "TTL 파일들 (depset)", "imports": "가져오는 모듈의 IRI 목록"},
+)
+
+KgInfo = provider(
+    doc = "타깃별 head 그래프 조각 — 청크 head·복합체 트리플의 TTL. //kg:chunks_kg 는 이 depset 의 병합이다 (바뀐 타깃만 재생성).",
+    fields = {"ttl": "head TTL 조각 (depset)"},
 )
 
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]
@@ -76,12 +83,26 @@ def _lint_action(ctx, files):
     )
     return marker
 
+def _head_action(ctx, files):
+    """타깃 하나의 head 그래프 조각 — chunk2kg --fragment. 프런트매터 오류·복합체 불일치는 여기서 실패한다."""
+    out = ctx.actions.declare_file(ctx.label.name + ".head.ttl")
+    ctx.actions.run(
+        executable = ctx.executable._chunk2kg,
+        arguments = ["--fragment", "--out", out.path] + [f.path for f in files],
+        inputs = files,
+        outputs = [out],
+        mnemonic = "KbHead",
+        progress_message = "head 그래프 조각 %s" % ctx.label,
+    )
+    return out
+
 _LINK_ATTRS = {
     "refines": attr.label_list(providers = [ChunkInfo], doc = "정제 — 더 높은 수준의 항목으로 (6.2절)"),
     "serves": attr.label_list(providers = [ChunkInfo], doc = "기여 — 결정이 봉사하는 요구 (6.8절, ⊑ refines)"),
     "supersedes": attr.label_list(providers = [ChunkInfo], doc = "대체 — 같은 plane 의 옛 항목 (7.4절)"),
     "verifies": attr.label_list(providers = [ChunkInfo], doc = "검증 — V&V 청크만 주어 (8.5절)"),
     "_lint": attr.label(default = "//tools:chunk_lint", executable = True, cfg = "exec"),
+    "_chunk2kg": attr.label(default = "//tools:chunk2kg", executable = True, cfg = "exec"),
 }
 
 def _kb_chunk_impl(ctx):
@@ -90,10 +111,12 @@ def _kb_chunk_impl(ctx):
         fail("%s: 알 수 없는 status %r" % (ctx.label, ctx.attr.status))
     _check_links(ctx, ctx.attr.plane, ctx.attr.level)
     src = ctx.file.src
+    head = _head_action(ctx, [src])
     return [
         DefaultInfo(files = depset([src])),
         ChunkInfo(iri = ctx.attr.iri, plane = ctx.attr.plane, level = ctx.attr.level, status = ctx.attr.status, srcs = depset([src]), parts = []),
-        OutputGroupInfo(_validation = depset([_lint_action(ctx, [src])])),
+        KgInfo(ttl = depset([head])),
+        OutputGroupInfo(_validation = depset([_lint_action(ctx, [src])]), kg = depset([head])),
     ]
 
 kb_chunk = rule(
@@ -118,10 +141,12 @@ def _kb_decision_impl(ctx):
         fail("%s: 알 수 없는 status %r" % (ctx.label, ctx.attr.status))
     _check_links(ctx, "decision", levels[0])
     files = [ctx.file.conclusion, ctx.file.rationale, ctx.file.alternatives]
+    head = _head_action(ctx, files)
     return [
         DefaultInfo(files = depset(files)),
         ChunkInfo(iri = ctx.attr.iri, plane = "decision", level = levels[0], status = ctx.attr.status, srcs = depset(files), parts = ctx.attr.part_iris),
-        OutputGroupInfo(_validation = depset([_lint_action(ctx, files)])),
+        KgInfo(ttl = depset([head])),
+        OutputGroupInfo(_validation = depset([_lint_action(ctx, files)]), kg = depset([head])),
     ]
 
 kb_decision = rule(
@@ -151,5 +176,84 @@ kb_ontology_module = rule(
         "srcs": attr.label_list(allow_files = [".ttl"], mandatory = True),
         "iri": attr.string(mandatory = True),
         "imports": attr.label_list(providers = [OntologyModuleInfo]),
+    },
+)
+
+def _kb_bundle_impl(ctx):
+    ttl = depset(transitive = [d[KgInfo].ttl for d in ctx.attr.items if KgInfo in d])
+    return [DefaultInfo(files = ttl), KgInfo(ttl = ttl)]
+
+kb_bundle = rule(
+    implementation = _kb_bundle_impl,
+    doc = "패키지의 지식 항목 묶음 — KgInfo 를 전이적으로 모은다. gen_build 가 패키지마다 :kg 로 생성한다.",
+    attrs = {"items": attr.label_list(mandatory = True)},
+)
+
+def _kb_kg_merge_impl(ctx):
+    frags = depset(transitive = [d[KgInfo].ttl for d in ctx.attr.deps])
+    out = ctx.actions.declare_file(ctx.attr.out)
+    args = ctx.actions.args()
+    args.add("--merge")
+    args.add("--out", out)
+    args.add_all(frags)
+    ctx.actions.run(
+        executable = ctx.executable._chunk2kg,
+        arguments = [args],
+        inputs = frags,
+        outputs = [out],
+        mnemonic = "KbKgMerge",
+        progress_message = "head 그래프 병합 %s" % ctx.label,
+    )
+    return [DefaultInfo(files = depset([out]))]
+
+kb_kg_merge = rule(
+    implementation = _kb_kg_merge_impl,
+    doc = "타깃별 head 조각을 하나의 -kg 로 병합한다 (chunk2kg --merge). 바뀐 타깃의 조각만 다시 만들어지고 병합만 다시 돈다.",
+    attrs = {
+        "deps": attr.label_list(providers = [KgInfo], mandatory = True),
+        "out": attr.string(mandatory = True),
+        "_chunk2kg": attr.label(default = "//tools:chunk2kg", executable = True, cfg = "exec"),
+    },
+)
+
+def _kb_workset_view_impl(ctx):
+    """작업 집합 뷰 — 스코프(역할) × 수준 창 × 앵커 이웃, 빌드 설정으로 고른다 (0.5절 정정본)."""
+    role = ctx.attr._role[BuildSettingInfo].value
+    anchor = ctx.attr._anchor[BuildSettingInfo].value
+    levels = ctx.attr._levels[BuildSettingInfo].value
+    hops = ctx.attr._hops[BuildSettingInfo].value
+    budget = ctx.attr._budget[BuildSettingInfo].value
+    out = ctx.actions.declare_file("workset-%s.md" % role)
+    ttl = [f for f in ctx.files.data if f.extension == "ttl"]
+    args = ctx.actions.args()
+    args.add("--role", role)
+    args.add("--levels", levels)
+    args.add("--anchor", anchor)
+    args.add("--hops", str(hops))
+    args.add("--budget", str(budget))
+    args.add("--root", ".")
+    args.add("--out", out)
+    args.add_all(ttl)
+    ctx.actions.run(
+        executable = ctx.executable._workset,
+        arguments = [args],
+        inputs = ctx.files.data,
+        outputs = [out],
+        mnemonic = "KbWorkset",
+        progress_message = "작업 집합 %s (role=%s anchor=%s)" % (ctx.label, role, anchor or "-"),
+    )
+    return [DefaultInfo(files = depset([out]))]
+
+kb_workset_view = rule(
+    implementation = _kb_workset_view_impl,
+    doc = "작업 집합 뷰. 선택자는 빌드 설정 //kb:role·anchor·levels·hops·budget — BUILD 를 고치지 않고 명령줄로 고른다. 저장하지 않는 질의 결과다.",
+    attrs = {
+        "data": attr.label_list(allow_files = True, mandatory = True, doc = "그래프 TTL(-kg)과 청크 본문"),
+        "_role": attr.label(default = "//kb:role"),
+        "_anchor": attr.label(default = "//kb:anchor"),
+        "_levels": attr.label(default = "//kb:levels"),
+        "_hops": attr.label(default = "//kb:hops"),
+        "_budget": attr.label(default = "//kb:budget"),
+        "_workset": attr.label(default = "//tools:workset", executable = True, cfg = "exec"),
     },
 )

@@ -37,3 +37,9 @@ id:doc-harness-recipes
     rdfs:label "harness concrete repository (formerly harness-recipes)"@en ,
         "하네스 concrete 저장소 (구 harness-recipes)"@ko ;
     prov:atLocation "../harness-concrete" .
+
+# 유저 결정의 원문 — 채널 항목이 결정의 출처가 될 때 (docs/feedback/README.md)
+id:doc-label-representativeness-protocol
+    rdfs:label "label representativeness protocol (user feedback item)"@en ,
+        "라벨 대표성 실험 프로토콜 (유저 피드백 항목)"@ko ;
+    prov:atLocation "docs/feedback/label-representativeness-protocol.md" .

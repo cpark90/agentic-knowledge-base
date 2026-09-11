@@ -6,7 +6,8 @@ title_ko: 기준 직접 수정 경로의 기각과 저장 분리 형태
 title: Rejecting direct criterion edits; the storage-separation choice
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T19:40:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/a6634f6f-503c-4e74-8aa1-08d272e2a38e
 ---
 **대안** — 개발 역할이 합격 기준을 직접 고치는 경로를 두는 안. 기각 — 기준을 고쳐야 하면 개발 KB의 요구를 고치고 V&V 역할이 다시 파생한다 (8.5절).

@@ -17,7 +17,9 @@
 | **hci** | `docs/feedback/**` 전체 + 자기 역할 메모리 `.claude/agent-memory/hci/**` — 이 둘이 hci의 유일한 쓰기 범위다 | 저장소 전체 |
 | **다른 에이전트** | `agents/` lane의 **자기 항목만** (유저에게 전달할 내용) | 저장소 전체 (읽기 전용) |
 
-- 진행 중인 판단 요청: [`external-review-2026-09-11.md`](external-review-2026-09-11.md) §3 (2026-09-11). 채택됨: [`stage-pass-conditions.md`](stage-pass-conditions.md) · [`stage1-pass-measurement.md`](stage1-pass-measurement.md). 반영 완료된 항목은 채널에서 제거한다 — 원문은 git 이력에
+- **orchestrator 인수 절차**: [`handoff-to-orchestrator-2026-09-11.md`](handoff-to-orchestrator-2026-09-11.md)
+- **hci 가 반영한 항목(담당 역할 인수 대기 — 게이트 FAIL 중)**: [`notes-v5-review.md`](notes-v5-review.md) · [`stage1-pass-measurement.md`](stage1-pass-measurement.md) · [`stage-pass-conditions.md`](stage-pass-conditions.md) · [`external-review-2026-09-11.md`](external-review-2026-09-11.md) · [`stage3-link-construction.md`](stage3-link-construction.md)
+- 유저 판정 대기: [`label-representativeness-sheet.md`](label-representativeness-sheet.md) (라벨 30개 예측 → 정답지 대조 → 판정). 프로토콜: [`label-representativeness-protocol.md`](label-representativeness-protocol.md) 답 완료: [`external-review-2026-09-11.md`](external-review-2026-09-11.md) §3. 채택됨: [`stage-pass-conditions.md`](stage-pass-conditions.md) · [`stage1-pass-measurement.md`](stage1-pass-measurement.md). 반영 완료된 항목은 채널에서 제거한다 — 원문은 git 이력에
 - hci는 지식 산출물(kb/ontology/·kb/odd/·kg/·chunks/·tools/ 등)을 편집하지 않는다.
 - 다른 에이전트는 이 채널에서 자기 항목 외 어떤 파일도 수정하지 않는다 — 유저 lane
   항목, hci의 중계문, 타 에이전트의 항목은 읽기 전용이다.
@@ -48,6 +50,11 @@ docs/feedback/
   `open`을 `approved`로 **고치기만** 하면 된다.
 - **승인 게이트**: `status: approved`는 **유저만** 태깅한다. 이것이 지식 산출물 반영을
   허가하는 유일한 신호다. 승인 없이는 어떤 에이전트도 항목을 반영·제거하지 않는다.
+- **hci는 수행하지 않는다** (2026-09-11 교정): 유저의 구두 답은 담당 역할(orchestrator 등)에게 유효한
+  지시다. 그러나 hci는 어떤 답이든 채널 밖에 반영하지 않는다 — 답을 `## 답`에 옮기고 반영 계획을 구체화해
+  담당 역할에 넘긴다. 기계 게이트 `//docs/feedback:channel_lint_test`가 hci의 반영 흔적을 FAIL로 잡고(담당
+  역할의 `인수: <역할> <날짜>` 줄 또는 되돌림·closed로 해소), `//kg:gate_test`의 writer 검사가 청크
+  `generated.by`의 역할과 카탈로그 쓰기 권한을 대조한다.
   결정이 더 필요한 항목은 `## 답`에 결정을 적는 것이 먼저다.
 
 ### 에이전트 lane (`agents/`) — 타 에이전트 → hci

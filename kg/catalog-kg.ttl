@@ -26,8 +26,8 @@ id:chan-user-feedback a agt:Channel ;
 
 id:role-orchestrator a agt:Role ;
     rdfs:label "orchestrator"@en , "오케스트레이터"@ko ;
-    agt:writes agt:DecisionChunk ;
-    agt:reads agt:RequirementChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
+    agt:writes agt:RequirementChunk , agt:DecisionChunk ;  # 요구는 유저 관심사를 orchestrator 가 EARS 로 저작하고 stable 전이는 유저 승인 (5.4절 human 게이트)
+    agt:reads agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
     agt:executionMode agt:sessionPersistent ;
     agt:maxConcurrent 1 .
 

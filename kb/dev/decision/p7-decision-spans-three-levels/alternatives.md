@@ -6,7 +6,8 @@ title_ko: 수준 통합 청크와 전 결정 abstract 강제의 기각
 title: Rejecting single-chunk decisions and mandatory abstract chunks
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/9acf3e73-f933-4260-9b42-432825013b6c
 ---
 **대안** — 한 결정을 수준 구분 없는 하나의 결정 청크(ADR 한 장)로 두는 안(이 저장소의 옛 `chunks/decision/`). 기각 — 변수·후보·값의 판정이 섞여 게이트가 수준별로 실패를 잡을 수 없고, `refines` 연쇄가 결정 안에서 끊긴다 (노트 7.2절, 6.8절).

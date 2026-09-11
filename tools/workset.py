@@ -65,6 +65,10 @@ def main() -> int:
             for x in frontier:
                 for p in NEIGHBOUR:
                     nxt |= set(g.objects(x, p)) | set(g.subjects(p, x))
+            # 복합체 노드(청크 아님)는 통과해 부분까지 — 같은 복합체의 형제는 한 홉이다 (4.5절)
+            for n in list(nxt):
+                if n not in chunks:
+                    nxt |= set(g.objects(n, AGT.hasDirectPart))
             nxt = {n for n in nxt if n in chunks and n not in seen}; seen |= nxt; frontier = nxt
         # 우선순위: 앵커 > 같은 복합체 부분 > refines 양방향 > 나머지 (LEDGER 3.2절과 같은 순서 원칙)
         comp = next(g.subjects(AGT.hasDirectPart, anchor), None)
@@ -88,7 +92,7 @@ def main() -> int:
         lines = body_lines(str(Path(a.root) / chunks[n][5]))
         if used + len(lines) + 2 > a.budget:
             body.append(f"… {chunks[n][3]} (펼치지 않음 — 예산 {a.budget}줄 초과)"); continue
-        body += ["", f"### {chunks[n][3]}  ({chunks[n][0]}/{chunks[n][1]})"] + lines; used += len(lines) + 2
+        body += ["", f"### {chunks[n][3]}  ({chunks[n][0]}/{chunks[n][1]})", f"<!-- iri: {n} -->"] + lines; used += len(lines) + 3
     head = [f"# workset — {a.role}: 라벨 {len(chunks)}개({len(label_lines)-2}줄), 펼침 {len([b for b in body if b.startswith('### ')])}개, 합계 {used}줄 / 예산 {a.budget}줄 → {'예산 안' if used <= a.budget else '예산 초과'}", ""]
     Path(a.out).write_text("\n".join(head + label_lines + body) + "\n", encoding="utf-8")
     return 0

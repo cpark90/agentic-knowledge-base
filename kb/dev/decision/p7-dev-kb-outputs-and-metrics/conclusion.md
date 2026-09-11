@@ -6,7 +6,8 @@ title_ko: 개발 KB는 다섯 산출을 내놓고 여섯 지표로 진행을 잰
 title: The development KB emits five outputs and measures progress with six metrics
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9, https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f44b4776-de6f-44bf-893b-72ce88179fdb, title_ko: 개발 KB의 산출과 지표, title: Outputs and metrics of the development KB}
 part_of: https://agentic-knowledge-base.dev/id/composite/f44b4776-de6f-44bf-893b-72ce88179fdb

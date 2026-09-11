@@ -6,7 +6,8 @@ title_ko: 청크의 물리 형식은 OKF, 어휘·제약은 온톨로지, 의존
 title: OKF carries physical form, the ontology carries vocabulary and constraints, Bazel carries dependencies, checks and projections
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/22ffbbd9-3eba-4e36-aeaf-8e5ff96113aa, title_ko: 세 층 바인딩, title: Three-layer binding}
 part_of: https://agentic-knowledge-base.dev/id/composite/22ffbbd9-3eba-4e36-aeaf-8e5ff96113aa

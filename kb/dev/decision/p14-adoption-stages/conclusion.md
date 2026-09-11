@@ -6,7 +6,8 @@ title_ko: 도입은 여덟 단계이고 단계마다 통과 조건이 있으며 
 title: Adoption has eight stages with pass conditions, each completed end-to-end on one case project before the next
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/4e1e176d-aa8d-4ab5-aade-db3aca0f68fc, title_ko: 도입 8단계와 통과 조건, title: Eight adoption stages and their pass conditions}
 part_of: https://agentic-knowledge-base.dev/id/composite/4e1e176d-aa8d-4ab5-aade-db3aca0f68fc
 ---

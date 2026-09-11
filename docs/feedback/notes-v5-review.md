@@ -92,7 +92,7 @@ Q10 `counterfactualTest` 폐기 · Q11 노트 커밋(inspection/유저).
 
 진행 기록은 아래에 추가된다.
 
-### 진행 (2026-09-10)
+### 진행 (hci, 2026-09-10 — hci 가 반영함, 담당 역할 인수 대기)
 
 | 단계 | 상태 | 산출 |
 |---|---|---|
@@ -110,3 +110,5 @@ Q10 `counterfactualTest` 폐기 · Q11 노트 커밋(inspection/유저).
 | 도입 2단계 착수 (2026-09-11) | **부분** | `workset`(역할 스코프 × 수준 창 → 라벨 목록 + 앵커 이웃, 예산 패킹·접기) · `odd_check`(CHECKS.cmd 모니터링: 7속성 in, 이탈 0) · `metrics`에 1단계 확정 문장 커버리지(절 단위 136/148)와 2단계 대리(역할별 작업 집합·스코프 파생 0건). 카탈로그에 `requirement` 읽기 추가. 앵커 이웃을 정의에 넣은 뒤 역할·앵커별 작업 집합 예산 내 98.7~100% (2026-09-11) |
 | 미인용 절 닫기 (2026-09-11) | **완료** | `metrics` 인용 정규식을 "(N.N절)" 형식까지 넓히자 12 → 4절, 나머지 4절은 해당 결정에 출처 보강 줄 추가 → 확정 문장 커버리지 **148/148** |
 | Q11 노트 커밋 | **유저/inspection** | `git add docs/agent-knowledge-system-notes.md docs/agentic-knowledge-base-structure.md && git commit` |
+
+인수: orchestrator 2026-09-11 — 청크·도구·문서 변경을 검토했다(요구 7건 전문, 결정 표본, 온톨로지 폐기 표기, 게이트 구조 검사). endorse 로 verified 부여.

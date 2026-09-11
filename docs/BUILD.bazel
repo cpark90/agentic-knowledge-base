@@ -1,9 +1,18 @@
 # docs/ 는 그래프 밖이다 — 게이트 대상이 아니다. 설계 노트만 지표(확정 문장 커버리지)의 입력으로 노출한다.
 package(default_visibility = ["//visibility:public"])
 
-exports_files(["agent-knowledge-system-notes.md"])
+exports_files([
+    "agent-knowledge-system-notes.md",
+    "glossary.md",
+])
 
 filegroup(
     name = "notes",
     srcs = ["agent-knowledge-system-notes.md"],
+)
+
+# 용어집 — consistency 보고의 옛 표기 검사 입력
+filegroup(
+    name = "glossary",
+    srcs = ["glossary.md"],
 )

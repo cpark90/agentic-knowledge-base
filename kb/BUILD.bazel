@@ -1,5 +1,8 @@
 # kb/ — 두 지식 베이스와 코어(온톨로지·ODD). 가시성 정책의 원본 (bazel-dependency-review 4단계).
 # 방향: V&V → 개발만 (8.5절), plane 단방향 requirement ← decision ← contract/schema ← artifact ← annotation ← memory (5.2절).
+load("@bazel_skylib//rules:common_settings.bzl", "int_flag", "string_flag")
+load("//defs:knowledge.bzl", "kb_consistency")
+
 package(default_visibility = ["//visibility:public"])
 
 # 개발 KB 항목을 볼 수 있는 곳 — 개발 KB 자신, V&V KB, 그래프·게이트·뷰
@@ -50,4 +53,26 @@ package_group(
         "//defs/...",
         "//chunks/...",
     ],
+)
+
+# 작업 집합 뷰의 선택자 — 빌드 설정 (bazel-dependency-review 6단계). bazel build //kg:workset --//kb:role=developer --//kb:anchor=…
+string_flag(name = "role", build_setting_default = "developer")
+
+string_flag(name = "anchor", build_setting_default = "")
+
+string_flag(name = "levels", build_setting_default = "")
+
+int_flag(name = "hops", build_setting_default = 1)
+
+int_flag(name = "budget", build_setting_default = 200)
+
+# 정합성 보고 — 재검증 시점(커밋)마다 본다. bazel build //kb:consistency → bazel-bin/kb/consistency.md
+kb_consistency(
+    name = "consistency",
+    bodies = [
+        "//kb/dev:bodies",
+        # "//kb/vv:bodies" — 비어 있는 filegroup 은 $(execpaths) 에서 에러다. V&V KB 에 청크가 생기면 추가
+        "//chunks:bodies",
+    ],
+    glossary = "//docs:glossary",
 )

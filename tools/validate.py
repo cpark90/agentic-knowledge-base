@@ -114,6 +114,35 @@ def check_dangling(merged: Graph) -> list[str]:
     return errors
 
 
+def check_writer(merged: Graph) -> list[str]:
+    """생성자의 쓰기 권한 (AGENTS 표 · kg/catalog-kg.ttl agt:writes) — write plane 경계를 규약에서 기계 검사로.
+
+    generated.by 가 `<역할>/<모델>` 이면 그 역할이 청크의 plane 을 쓸 수 있어야 한다. 못 쓰는 역할(hci·inspection)이
+    만든 청크는 쓰기 권한이 있는 역할의 verified(인수)가 있어야 통과한다. 역할이 아닌 생성자(`claude/…`)는 검사하지 않는다.
+    """
+    from rdflib import RDF, URIRef
+    AGT, ID = kb_lib.AGT, kb_lib.ID
+    roles = {str(r).split("/")[-1].replace("role-", ""): r for r in merged.subjects(RDF.type, AGT.Role)}
+    errors, unattributed = [], 0
+    for chunk, by in merged.subject_objects(AGT.generatedBy):
+        producer = str(by).split("/")[0]
+        if producer not in roles:
+            unattributed += 1
+            continue
+        plane_cls = next((c for c in merged.objects(chunk, RDF.type) if str(c).endswith("Chunk")), None)
+        if plane_cls is None or (roles[producer], AGT.writes, plane_cls) in merged:
+            continue
+        endorsed = any(str(v).split("/")[0] in roles and (roles[str(v).split("/")[0]], AGT.writes, plane_cls) in merged
+                       for v in merged.objects(chunk, AGT.verifiedBy))
+        if not endorsed:
+            where = next((str(l) for l in merged.objects(chunk, AGT.assertionLocation)), merged.qname(chunk))
+            errors.append(f"[writer] {where}: 생성자 {by} 의 역할 {producer} 는 {str(plane_cls).split('/')[-1]} 쓰기 권한이 없다 — "
+                          f"담당 역할의 verified(인수) 또는 되돌림 (AGENTS 표 · 11.2절)")
+    if unattributed:
+        print(f"info [writer] 역할 없는 생성자의 청크 {unattributed}개 — 검사 대상 아님 (2026-09-11 이전 표기)")
+    return errors
+
+
 def check_verify(merged: Graph, query_dir: str) -> list[str]:
     """안티패턴 계층 (노트 2.5절) — '이런 트리플이 존재하면 실패'를 SPARQL로 명세.
 
@@ -184,6 +213,7 @@ def main() -> int:
         errors += check_odd_refs(merged, odd_merged)
     if data_files:
         errors += check_dangling(merged)
+        errors += check_writer(merged)
     if args.shapes:
         errors += check_shacl(merged, shapes_merged, args.reason)
     if args.verify_queries:

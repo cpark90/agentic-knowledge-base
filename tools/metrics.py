@@ -112,6 +112,27 @@ def main() -> int:
     residency_bad = [c for c in live if plane[c] in RESIDENCY and level[c] not in RESIDENCY[plane[c]]]
 
     def pct(n, d): return f"{100*n/d:.1f}%" if d else "—"
+    # 3단계 대리 — 링크마다 근거 · 구축/복원 비율 · plane×plane 매트릭스 채움 (TIM 이 허용하는 칸)
+    link_ents = list(g.subjects(RDF.type, AGT.Link))
+    with_ev = [l for l in link_ents if (l, AGT.hasEvidence, None) in g]
+    cites_n = sum(1 for _ in g.subject_objects(AGT.cites))
+    TIM = [("refines", "decision", "requirement"), ("serves", "decision", "requirement"), ("supersedes", "decision", "decision"),
+           ("satisfies", "contract", "decision"), ("derivesFrom", "schema", "decision"), ("constrains", "schema", "contract"),
+           ("satisfies", "artifact", "decision"), ("verifies", "requirement", "requirement")]
+    seen_cells = set()
+    for l in link_ents:
+        f_, t_ = next(g.objects(l, AGT.linkFrom), None), next(g.objects(l, AGT.linkTo), None)
+        k_ = str(next(g.objects(l, AGT.linkKind), "")).split("/")[-1]
+        if f_ in plane and t_ in plane:
+            seen_cells.add((k_, plane[f_], plane[t_]))
+    # 복합체 IRI 는 plane 이 없다 — 복합체 부분의 plane 으로 보정
+    for l in link_ents:
+        f_, t_ = next(g.objects(l, AGT.linkFrom), None), next(g.objects(l, AGT.linkTo), None)
+        k_ = str(next(g.objects(l, AGT.linkKind), "")).split("/")[-1]
+        pf = plane.get(f_) or plane.get(next(iter(siblings.get(f_, [])), None))
+        pt = plane.get(t_) or plane.get(next(iter(siblings.get(t_, [])), None))
+        if pf and pt: seen_cells.add((k_, pf, pt))
+    tim_filled = [c for c in TIM if c in seen_cells]
     # 1단계 의미 보존 대리 — 확정 문장 커버리지: [확정]이 있는 절 중 결정이 인용하는 절의 비율
     cov_line = "- 의미 보존: 확정 문장 커버리지 — `--notes` 없음"
     if a.notes:
@@ -172,6 +193,11 @@ def main() -> int:
           f"- 구체화: 수준 허용표 위반 **{len(residency_bad)}**건 (목표 0)",
           cov_line,
           "- 의미 보존: 라벨 대표성은 실험 — 이 도구 밖",
+          "", "## 3단계 대리 — 링크 구축 (14.1 정정본: 근거 · 한 단계씩 · 매트릭스 · 복원 비율)", "",
+          f"- 의미 보존: 링크 개체 **{len(link_ents)}** 중 증거 기록이 있는 것 {len(with_ev)} = **{pct(len(with_ev), len(link_ents))}** (목표 100%; 지금은 전부 구축 기록)",
+          f"- 의미 보존: 구축 비율 — 구축(frontmatter 링크) {len(link_ents)} vs 복원(본문 인용 추출 `cites`) {cites_n} → 복원 비율 **{pct(cites_n, len(link_ents) + cites_n)}** (목표 < 20%)",
+          f"- 연결: plane×plane 매트릭스 — TIM 허용 {len(TIM)}칸 중 채움 **{len(tim_filled)}** ({', '.join(f'{k}:{a_}→{b_}' for k, a_, b_ in tim_filled) or '없음'}); 빈 칸은 contract·schema·artifact·V&V 항목이 생겨야 찬다",
+          "- 구체화: `refines` 한 단계씩 — 위 세 축 절의 건너뜀 수 참조",
           "", "## 2단계 대리 — ODD와 스코프", "",
           "- 구체화: 역할·앵커별 작업 집합(스코프 안 청크를 앵커로, 1홉 이웃 라벨 + 본문 펼침)이 예산 200줄 안인 비율: " + " · ".join(role_rows),
           f"- 구체화: ODD × plane 권한에서 파생되지 않은 스코프 **{len(scope_bad)}**건" + (f" — {', '.join(scope_bad)}" if scope_bad else "") + " (목표 0)",

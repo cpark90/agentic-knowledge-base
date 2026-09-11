@@ -1,0 +1,23 @@
+# 유저 피드백 채널 — 그래프 밖이지만 승인 규약은 게이트다 (유저 교정 2026-09-11):
+# 반영 허가 = 유저의 status: approved 태깅뿐. 승인 없는 항목에 반영 흔적이 있으면 FAIL.
+load("@rules_python//python:defs.bzl", "py_test")
+
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "items",
+    srcs = glob([
+        "*.md",
+        "agents/*.md",
+        "inquiries/*.md",
+    ]),
+)
+
+py_test(
+    name = "channel_lint_test",
+    srcs = ["//tools:channel_lint.py"],
+    args = ["$(rootpaths :items)"],
+    data = [":items"],
+    main = "channel_lint.py",
+    size = "small",
+)

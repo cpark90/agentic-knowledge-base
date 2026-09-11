@@ -6,7 +6,8 @@ title_ko: 감사는 체계의 출력만으로 성립한다
 title: Audit stands on the system output alone
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 ---
 **요구** — 체계는 감사 보고서와 온보딩이 체계 밖 정보(구두 설명, 별도 문서) 없이 생성되도록 하여야 한다.
 

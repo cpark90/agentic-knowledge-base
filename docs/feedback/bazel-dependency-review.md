@@ -58,6 +58,8 @@ targets: [inquiries/bazel_suggestion.md, ../../kb/ontology/BUILD.bazel, ../../kg
 - **이중 관리**: 의존의 원본이 그래프인 채 BUILD가 생성물이 되는가(안전), BUILD가
   제2의 원본이 되는가(드리프트).
 
+인수: orchestrator 2026-09-11 — 청크·도구·문서 변경을 검토했다(요구 7건 전문, 결정 표본, 온톨로지 폐기 표기, 게이트 구조 검사). endorse 로 verified 부여.
+
 ## 선택지
 
 | 안 | 내용 | 얻는 것 | 비용·위험 |
@@ -205,8 +207,8 @@ Bazel에 부담이 아니다.
 | 2 생성기·드리프트 | **완료** | `tools/gen_build.py` → BUILD 14개(요구 33·결정 184·옛 결정 153 타깃, 모듈 10, `modules.bzl`) 커밋, `//:build_drift_test`(음성: 손 편집 시 FAIL 확인). `project-ontology.ttl`의 `owl:imports`에 빠져 있던 channel·state·tag 보강 |
 | 3 링크 → deps | **완료** | `refines` 335·`supersedes` 134 → deps. 끊긴 링크 = 로드 에러 확인. `cites`·`assumes` 제외(확인 2) |
 | 4 가시성 | **완료** | `//kb:dev_readers`·`vv_readers`·`requirement_readers`·`decision_readers`. 역방향 의존 → "not visible" 확인. `//defs/tests` analysistest 5종(skylib 1.7.1) |
-| 5 chunk2kg 분해 | 미착수 | KgInfo depset 병합 |
-| 6 aspect·impact | 미착수 | `rdeps`는 지금도 됨 |
+| 5 chunk2kg 분해 | **완료** | `KgInfo` 조각(`chunk2kg --fragment`, 타깃당 액션) → 패키지 `kb_bundle(:kg)` → `kb_kg_merge`(`--merge`, IRI 중복 검사) = `//kg:chunks_kg`. 옛 union은 `chunks_kg_union`으로 남겨 `kg_equivalence_test`가 바이트 동일(629,457 B)을 검사. 청크 하나 수정 → 조각 1 + 병합 1만 재실행. 정규 순서(IRI 정렬)를 양쪽에 적용 |
+| 6 플래그 뷰·impact | **완료(변형)** | `kb_workset_view` + 빌드 설정 `//kb:role·anchor·levels·hops·budget`(skylib `string_flag`·`int_flag`) — `bazel build //kg:workset --//kb:role=… --//kb:anchor=…`. `tools/impact.py`가 `rdeps` 위에서 12.6절 네 수치(예: `r-008-descend-to-executable` → 영향 항목·직접 의존자·plane 분포·승인 필요 결정). **aspect는 쓰지 않았다** — aspect는 deps 방향(상류)만 따라가 rdeps(하류 이웃)를 못 보고, 역할→plane 사상을 카탈로그와 중복하게 된다. 뷰는 규칙 + 플래그로 같은 효과 |
 
 ### 하지 않는 것
 

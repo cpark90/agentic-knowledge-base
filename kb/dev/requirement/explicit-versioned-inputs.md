@@ -6,7 +6,8 @@ title_ko: 입력은 명시되고 버전 관리된다
 title: Inputs are explicit and versioned
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 ---
 **요구** — 체계는 카탈로그·실행 모드·승격 규칙 등 밖에서 오는 입력을 온톨로지 어휘로 명시하고 버전으로 관리하여야 한다.
 

@@ -6,7 +6,8 @@ title_ko: 수준별 본문 표기는 정해져 있고 판정식은 네 곳 전�
 title: Per-level body notation is fixed, and every judgement expression in all four places is CEL
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249, https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/ffcf1fe8-be2a-4a21-b532-ff6f7bb4b727, title_ko: 수준별 표기와 CEL, title: Per-level notation and CEL}
 part_of: https://agentic-knowledge-base.dev/id/composite/ffcf1fe8-be2a-4a21-b532-ff6f7bb4b727

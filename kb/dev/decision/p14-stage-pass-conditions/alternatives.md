@@ -6,7 +6,8 @@ title_ko: 양 지표 유지와 실험 전용의 기각
 title: Rejecting quantity-only and experiment-only conditions
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T21:10:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T21:10:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/6878b566-73c2-462f-a524-5203c4c3832e
 ---
 **대안** — 14.1 원문대로 양 지표만 두는 안. 기각 — 목적을 직접 묻지 않아 대리 통과가 생긴다 (재측정 실증).

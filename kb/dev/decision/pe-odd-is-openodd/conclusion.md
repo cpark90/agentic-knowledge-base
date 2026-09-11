@@ -6,7 +6,8 @@ title_ko: ODD 문서는 OpenODD 형식이고 확장 키는 checks와 exclusions_
 title: The ODD document is OpenODD, with exactly two extension keys: checks and exclusions_reviewed
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f867e42b-0106-4796-8861-4bdc493e15db, title_ko: ODD = OpenODD, title: ODD = OpenODD}
 part_of: https://agentic-knowledge-base.dev/id/composite/f867e42b-0106-4796-8861-4bdc493e15db

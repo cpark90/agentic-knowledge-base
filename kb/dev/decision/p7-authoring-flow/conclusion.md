@@ -6,7 +6,8 @@ title_ko: 요구 하나는 여덟 단계로 산출물이 되고 요구마다 독
 title: One requirement becomes an artifact in eight steps, and each requirement descends independently
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/71d2b786-e873-4705-b160-a443603ae0d2]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/8d167ee6-64e5-48ee-b34d-ed2d994669d1, title_ko: 개발 저작 흐름, title: The development authoring flow}
 part_of: https://agentic-knowledge-base.dev/id/composite/8d167ee6-64e5-48ee-b34d-ed2d994669d1

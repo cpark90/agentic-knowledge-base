@@ -28,6 +28,14 @@ Part II·IV·V·VII·VIII·IX·X와 그 재도출 결정(`kb/dev/decision/`)이�
 쓴다 (유저 결정 2026-09-04). 온톨로지 클래스 이름(`agt:DecisionChunk` 등)과 그래프 라벨을
 인용할 때는 그대로 쓴다 — 그것은 구조 타입의 식별자다.
 
+**본문 중복은 안전율로 용인한다** (유저 결정 2026-09-11,
+[`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md)).
+자립성이 맥락의 반복을 요구하므로 같은 서술이 여러 청크에 있는 것은 결함이 아니다. 단
+경계가 있다 — **개념·용어·라벨·요구의 중복은 용인하지 않는다**(어휘 드리프트·인터페이스
+충돌·추적 커버리지 왜곡). 알고 둔 중복은 `coUpdatesWith`로 묶어 한쪽의 변경이 다른 쪽을
+`suspect`로 만들게 한다 — 링크 없는 중복이 드리프트다. 정리는 재검증 시점에서 일괄로:
+`consistency` 보고(중복·라벨 형식·용어)는 커밋마다, 병합·묶기·유지 판정은 도입 단계 끝마다.
+
 ### 신뢰 등급 — 누가 만들고 누가 검증했는가 {#11}
 
 OKF의 행위자 규약을 그대로 쓴다: 도구는 `<생성기>/<버전>`, 사람은 `human:<id>`, 프로세스는
@@ -83,8 +91,8 @@ IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 예약 파일명 `index.md`·`log.md`는 **생성물로만** 둔다 — `bazel build //kb/dev:index` (유저 결정 Q4).
 
 값 어휘의 원본은 `tools/chunk2kg.py`의 상수(`PLANE_CLASS`·`LEVELS`·`STATES`·`REQUIRED`)다.
-생성 경로: `chunks/<plane>/*.md` + `kb/dev/**/*.md` + `kb/vv/**/*.md` → `//kg:chunks_kg`
-(genrule) → `bazel-out/.../kg/chunks-kg.ttl` → `//kg:gate_test`의 입력. 생성물은
+생성 경로: 청크 타깃(`kb_chunk`·`kb_decision`)마다 head 조각 → 패키지 `:kg` 묶음 → `//kg:chunks_kg`(`kb_kg_merge`)
+→ `bazel-out/.../kg/chunks-kg.ttl` → `//kg:gate_test`의 입력. union 생성(`chunks_kg_union`)과 바이트 동일해야 한다. 생성물은
 `bazel-out`에만 존재하며 소스 트리에 같은 이름의 파일을 두지 않는다.
 
 **지식은 두 KB로 갈려 산다** — 개발 KB `kb/dev/`(요구·결정·계약·스키마·구현), V&V KB

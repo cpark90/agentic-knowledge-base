@@ -6,7 +6,8 @@ title_ko: 결정의 대체는 supersedes이고 옛 결정은 deprecated로 남�
 title: A decision is replaced via supersedes; the old one remains deprecated
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/c34b1d2f-86fb-4cd1-b532-edf65e7230c7, title_ko: 결정의 대체, title: Superseding a decision}
 part_of: https://agentic-knowledge-base.dev/id/composite/c34b1d2f-86fb-4cd1-b532-edf65e7230c7

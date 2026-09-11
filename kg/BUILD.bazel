@@ -1,4 +1,6 @@
-load("//defs:knowledge.bzl", "kb_chunk_kg", "kb_gate_test", "kb_metrics", "kb_reference_kg", "kb_workset")
+load("@rules_python//python:defs.bzl", "py_test")
+load("//defs:kb.bzl", "kb_kg_merge", "kb_workset_view")
+load("//defs:knowledge.bzl", "kb_chunk_kg", "kb_gate_test", "kb_metrics", "kb_reference_kg")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -7,15 +9,41 @@ filegroup(
     srcs = glob(["*-kg.ttl"]),
 )
 
-# 청크 head 그래프 — 각 청크 파일의 frontmatter에서 생성 (4.3절). 손으로 쓰지 않는다.
-kb_chunk_kg(
+# 청크 head 그래프 — 타깃별 조각(KgInfo)의 병합 (4.3절, bazel-dependency-review 5단계). 바뀐 타깃의 조각만 다시 만들어진다.
+kb_kg_merge(
     name = "chunks_kg",
+    out = "chunks-kg.ttl",
+    deps = [
+        "//chunks/decision:kg",  # v1 결정 153 — 재도출 후 deprecated로 남는다
+        "//kb/dev/decision:kg",
+        "//kb/dev/requirement:kg",
+    ],
+)
+
+# 같은 그래프를 옛 방식(union 한 번에)으로 — 병합 결과와 바이트 동일해야 한다 (d-0157 union 검증의 대조군)
+kb_chunk_kg(
+    name = "chunks_kg_union",
     srcs = [
-        "//chunks:bodies",  # v1 결정 153 — 재도출 후 deprecated로 남는다
+        "//chunks:bodies",
         "//kb/dev:bodies",
         "//kb/vv:bodies",
     ],
-    out = "chunks-kg.ttl",
+    out = "chunks-kg-union.ttl",
+)
+
+py_test(
+    name = "kg_equivalence_test",
+    srcs = ["//tools:same_bytes.py"],
+    args = [
+        "$(rootpath :chunks_kg)",
+        "$(rootpath :chunks_kg_union)",
+    ],
+    data = [
+        ":chunks_kg",
+        ":chunks_kg_union",
+    ],
+    main = "same_bytes.py",
+    size = "small",
 )
 
 # 참조 링크 — 본문의 인용에서 생성 (8.2절). 손으로 쓰지 않는다.
@@ -56,22 +84,13 @@ kb_metrics(
     notes = "//docs:notes",
 )
 
-# 역할별 작업 집합 뷰 (2단계 산출: 역할별 작업 집합이 예산 안인가). bazel build //kg:workset_developer 등
-[
-    kb_workset(
-        name = "workset_" + role,
-        data = [
-            ":chunks_kg",
-            ":kg",
-            ":references_kg",
-        ],
-        role = role,
-    )
-    for role in [
-        "orchestrator",
-        "developer",
-        "vnv",
-        "inspection",
-        "hci",
-    ]
-]
+# 작업 집합 뷰 — 선택자는 빌드 설정: bazel build //kg:workset --//kb:role=developer --//kb:anchor="두 KB" --//kb:levels=concrete
+kb_workset_view(
+    name = "workset",
+    data = [
+        ":chunks_kg",
+        ":kg",
+        ":references_kg",
+        "//kb/dev:bodies",
+    ],
+)

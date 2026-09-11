@@ -6,7 +6,8 @@ title_ko: 선택적 검증 대응물과 ODD 밖 변수의 기각
 title: Rejecting optional rungs and out-of-ODD variables
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T19:40:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/0ef3233e-c6aa-434b-a0ef-350c857e690e
 ---
 **대안** — 검증 대응물을 선택으로 두어 V&V가 개발 뒤에 오게 하는 안. 기각 — 같은 높이의 대응물이 없으면 개발 게이트가 다음 높이로 못 내려간다. 이것이 의도된 압력이다 (8.3절, 8.19절).

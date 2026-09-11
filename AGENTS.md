@@ -38,7 +38,7 @@ dispatch 시 이 표와 스코프로 브리핑한다.
 
 | 역할 | 책임 | write | read | 구동 | git |
 |---|---|---|---|---|---|
-| **orchestrator** (=메인) | 계획·dispatch·통합. 결정 저작. 직접 구현하지 않는다 | `decision` | `requirement`·전 plane | 세션 유지 | ✗ |
+| **orchestrator** (=메인) | 계획·dispatch·통합. 요구(유저 관심사의 EARS 저작 — stable 전이는 유저 승인)·결정 저작. 직접 구현하지 않는다 | `requirement` · `decision` | 전 plane | 세션 유지 | ✗ |
 | **developer** (dispatch) | 분배된 산출물(코드·설정·온톨로지 개념) 저작. 노트 10.2절 9역할 중 design(T-Box·ODD 편집)을 겸한다 — 유저 결정 C4 | `artifact` (+T-Box·ODD) | `contract`·`schema`·`decision`. **`kb/vv/`는 읽기 전용** | dispatch | ✗ |
 | **vnv** (dispatch) | 판정 전용: `bazel test //...` PASS 확인 + 결과 주석. **V&V KB(`kb/vv/`)의 유일한 편집 주체** — `verifies`의 주어는 V&V 청크뿐 | `annotation` + `kb/vv/` | `requirement`·`artifact`·`decision` | dispatch | ✗ |
 | **inspection** (별도 세션) | 조사 전용 + git 관리 (add/commit/push, 유저 요청 시) | — | `requirement`·전 plane | 세션 유지 | ✓ |
@@ -68,7 +68,7 @@ dispatch 시 이 표와 스코프로 브리핑한다.
 1. 유저 항목(조사 요청·구체화·제안) 또는 에이전트 항목이 채널에 들어온다.
 2. hci가 검토·구체화한다 — 조사가 필요하면 조사 lane으로 위임하고, 유저 판단이 필요한
    에이전트 항목은 유저 lane으로 중계한다.
-3. 유저가 `status: approved`로 태깅한 항목만, 반영 계획대로 담당 write plane의 역할이
+3. 유저가 승인한 항목만(`status: approved` 태깅 또는 담당 역할에게 준 구두 답 — hci는 어느 쪽이든 수행하지 않는다, `//docs/feedback:channel_lint_test`·writer 검사가 강제), 반영 계획대로 담당 write plane의 역할이
    반영한다. 반영 후 `bazel test //...` PASS + 항목에 반영 결과 기록.
 4. hci가 반영 확인된 항목을 refresh한다.
 

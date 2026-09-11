@@ -6,7 +6,8 @@ title_ko: 명명과 표기는 결정론적이다
 title: Naming and notation are deterministic
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 ---
 **요구** — 체계는 같은 내용이 같은 바이트로 직렬화되고 이름·라벨이 규칙으로 정해지도록 하여야 한다.
 

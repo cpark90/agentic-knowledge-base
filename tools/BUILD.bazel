@@ -6,8 +6,10 @@ package(default_visibility = ["//visibility:public"])
 exports_files([
     "validate.py",
     "chunk_lint.py",
+    "channel_lint.py",
     "chunk2kg.py",
     "gen_build.py",
+    "same_bytes.py",
     "extract_refs.py",
     "kb_lib.py",
     "requirements_lock.txt",
@@ -69,6 +71,26 @@ py_binary(
     deps = [requirement("rdflib")],
 )
 
+# 정합성 보고 뷰 — 중복·라벨 형식·용어 (p4-redundancy-as-safety-margin). 게이트가 아니다
+py_binary(
+    name = "consistency",
+    srcs = [
+        "chunk2kg.py",
+        "consistency.py",
+    ],
+    main = "consistency.py",
+)
+
+# 라벨 대표성 실험 — 층화 표본 + 미끼 (docs/feedback/label-representativeness-protocol.md)
+py_binary(
+    name = "label_sample",
+    srcs = [
+        "chunk2kg.py",
+        "label_sample.py",
+    ],
+    main = "label_sample.py",
+)
+
 # BUILD 생성기 (bazel-dependency-review 2단계): frontmatter·owl:imports → 패키지 BUILD. 원본은 그래프, BUILD 는 뷰
 py_binary(
     name = "gen_build",
@@ -77,6 +99,24 @@ py_binary(
         "gen_build.py",
     ],
     main = "gen_build.py",
+)
+
+# 인수 (writer 검사 해소): 쓰기 역할이 검토한 청크에 verified 를 붙인다. bazel run //tools:endorse -- --by orchestrator/<모델> --at <시각> <파일>
+py_binary(
+    name = "endorse",
+    srcs = ["endorse.py"],
+)
+
+# 읽기 집합 인수인계 (10.3절): workset 뷰의 펼친 청크 → 새 청크의 sources. 하네스 기록 전의 첫 형태
+py_binary(
+    name = "handoff",
+    srcs = ["handoff.py"],
+)
+
+# 영향 분석 (12.6절): bazel run //tools:impact -- <타깃>. 링크 = deps 이므로 rdeps 가 영향 집합
+py_binary(
+    name = "impact",
+    srcs = ["impact.py"],
 )
 
 # 작업 집합 뷰 (0.5절, 5.6절): 스코프 × 수준 창 → 라벨 목록 + 앵커 이웃, 예산 패킹

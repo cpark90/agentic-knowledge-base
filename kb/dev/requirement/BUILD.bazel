@@ -1,6 +1,6 @@
 # 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
-load("//defs:kb.bzl", "kb_chunk")
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
 
 package(default_visibility = ["//kb:requirement_readers"])
 
@@ -306,4 +306,44 @@ kb_chunk(
     plane = "requirement",
     level = "functional",
     status = "stable",
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":audit-self-sufficiency",
+        ":context-budget",
+        ":deterministic-notation",
+        ":documents-are-generated",
+        ":explicit-versioned-inputs",
+        ":r-001-accumulate-domain-knowledge",
+        ":r-002-carry-skeleton-across-projects",
+        ":r-003-chunks-stay-inside-project",
+        ":r-004-ascend-observation-to-vocabulary",
+        ":r-005-odd-single-document",
+        ":r-006-every-item-declares-assumptions",
+        ":r-007-invalidate-without-survey",
+        ":r-008-descend-to-executable",
+        ":r-009-ascend-to-requirement",
+        ":r-010-decision-names-concern",
+        ":r-011-no-groundless-assignment",
+        ":r-012-edits-downgrade-links",
+        ":r-013-labels-before-bodies",
+        ":r-014-42-line-chunk",
+        ":r-015-dispatch-workset-only",
+        ":r-016-gate-judges-actions",
+        ":r-017-reject-foreign-vocabulary",
+        ":r-018-planes-stay-separate",
+        ":r-019-record-read-write-sets",
+        ":r-020-session-memory-promotes",
+        ":r-021-two-kbs-separated",
+        ":r-022-verifies-subject-is-vv",
+        ":r-023-rung-before-descent",
+        ":r-024-criteria-before-verifies",
+        ":r-025-verify-product-and-agent",
+        ":r-026-observations-append-only",
+        ":reproducible-runs",
+        ":verification-means-trust",
+    ],
 )

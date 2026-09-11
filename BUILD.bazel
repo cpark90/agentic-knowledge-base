@@ -46,6 +46,8 @@ test_suite(
     tests = [
         ":build_drift_test",
         ":naming_test",
+        "//docs/feedback:channel_lint_test",
+        "//kg:kg_equivalence_test",
         "//chunks:lint_test",
         "//kg:gate_test",
         "//kb/odd:gate_test",

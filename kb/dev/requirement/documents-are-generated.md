@@ -6,7 +6,8 @@ title_ko: 문서는 저장하지 않고 생성한다
 title: Documents are generated, not stored
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 ---
 **요구** — 체계는 코드 파일·문서·보고서·라벨 목록을 청크의 뷰로 생성하고 별도 원본으로 저장하지 않아야 한다.
 

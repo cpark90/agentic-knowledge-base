@@ -6,7 +6,8 @@ title_ko: 제자리 수정과 삭제의 기각
 title: Rejecting in-place edits and deletion
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/c34b1d2f-86fb-4cd1-b532-edf65e7230c7
 ---
 **대안** — 옛 결정을 제자리에서 고쳐 쓰는 안. 기각 — 결론이 바뀐 것은 새 결정이며, 제자리 수정은 `wasRevisionOf`(같은 결정의 개정)와 구분되지 않는다 (노트 7.6절 스키마의 호환 규칙과 같은 논리).

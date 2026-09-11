@@ -129,6 +129,21 @@ def kb_metrics(name, data, notes = None, bodies = [], out = "metrics.md"):
         tools = [Label("//tools:metrics")],
     )
 
+def kb_consistency(name, bodies, glossary = None, theta = "0.5", out = "consistency.md"):
+    """청크 파일에서 정합성 보고 consistency.md 를 생성한다 (p4-redundancy-as-safety-margin).
+
+    중복(정확·근사 후보)·coUpdatesWith 묶임·라벨 형식·용어집 옛 표기. 게이트가 아니라 뷰다 —
+    병합·묶기·유지 판정은 재검증 시점에 사람/승인된 판정자가 한다.
+    """
+    extra = (" --glossary $(location %s)" % glossary) if glossary else ""
+    native.genrule(
+        name = name,
+        srcs = bodies + ([glossary] if glossary else []),
+        outs = [out],
+        cmd = "$(location //tools:consistency) --out $@ --theta %s%s %s" % (theta, extra, " ".join(["$(execpaths %s)" % b for b in bodies])),
+        tools = [Label("//tools:consistency")],
+    )
+
 def kb_workset(name, role, data, levels = "", anchor = "", budget = 200, out = None):
     """역할의 작업 집합 뷰 workset-<role>.md — 라벨 목록 + 앵커 이웃, 예산 패킹 (0.5절, 5.6절). 저장하지 않는 질의 결과다."""
     out = out or "workset-%s.md" % role

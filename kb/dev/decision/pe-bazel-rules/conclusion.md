@@ -6,7 +6,8 @@ title_ko: plane별 청크 규칙이 provider를 주고 링크 타입이 deps이�
 title: Per-plane chunk rules provide providers, link types are deps, and -space is never deps
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/3e725e9e-fd83-432d-b708-ed004a01cedd, title_ko: Bazel 규칙과 테스트, title: Bazel rules and tests}
 part_of: https://agentic-knowledge-base.dev/id/composite/3e725e9e-fd83-432d-b708-ed004a01cedd

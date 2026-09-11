@@ -6,7 +6,8 @@ title_ko: V&V KB는 개발이 바뀌지 않아도 네 트리거로 선제적으�
 title: The V&V KB moves proactively on four triggers even without development changes; all outputs are candidates
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901, https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/579b14ac-e4d4-4718-9516-4211838cb9d0, title_ko: 선제적 V&V, title: Proactive V&V}
 part_of: https://agentic-knowledge-base.dev/id/composite/579b14ac-e4d4-4718-9516-4211838cb9d0

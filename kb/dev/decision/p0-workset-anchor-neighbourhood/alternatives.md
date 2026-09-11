@@ -6,7 +6,8 @@ title_ko: 스코프·수준 창만의 정의와 고정 요약의 기각
 title: Rejecting scope-and-window-only definition and fixed summaries
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-11T02:20:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-11T02:20:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/0e7f41dc-e010-4c71-809f-51535f17e6ce
 ---
 **대안** — 0.5절 원문대로 "스코프 × 수준 창"만으로 정의하는 안. 기각 — 실측상 예산의 세 배이며, 규모가 커지면 어느 스코프도 예산을 지키지 못한다.

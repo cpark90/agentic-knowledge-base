@@ -71,7 +71,7 @@ def links_of(meta, iri_to_label, where):
 
 
 def render_chunks(pkg, items, iri_to_label, visibility):
-    body = [HEADER, 'load("//defs:kb.bzl", "kb_chunk")', "", f"package(default_visibility = [{q(visibility)}])", "",
+    body = [HEADER, 'load("//defs:kb.bzl", "kb_bundle", "kb_chunk")', "", f"package(default_visibility = [{q(visibility)}])", "",
             'exports_files(["BUILD.bazel"])', "", 'filegroup(\n    name = "bodies",\n    srcs = glob(["*.md"]),\n)', ""]
     for lab, it in sorted(items.items()):
         if it["pkg"] != pkg:
@@ -81,11 +81,13 @@ def render_chunks(pkg, items, iri_to_label, visibility):
         body.append("kb_chunk(\n" + f"    name = {q(lab.split(':')[1])},\n" + f"    src = {q(it['src'])},\n" + f"    iri = {q(m['id'])},\n"
                     + f"    plane = {q(m['type'])},\n" + f"    level = {q(m['level'])},\n" + f"    status = {q(m['status'])},\n"
                     + "".join(label_list(k, v) for k, v in sorted(links.items())) + ")\n")
+    names = sorted(lab.split(":")[1] for lab, it in items.items() if it["pkg"] == pkg)
+    body.append("# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다\nkb_bundle(\n    name = \"kg\",\n" + label_list("items", [":" + n for n in names]) + ")\n")
     return "\n".join(body)
 
 
 def render_decisions(items, iri_to_label):
-    body = [HEADER, 'load("//defs:kb.bzl", "kb_decision")', "", 'package(default_visibility = ["//kb:decision_readers"])', "",
+    body = [HEADER, 'load("//defs:kb.bzl", "kb_bundle", "kb_decision")', "", 'package(default_visibility = ["//kb:decision_readers"])', "",
             'exports_files(["BUILD.bazel"])', "", 'filegroup(\n    name = "bodies",\n    srcs = glob(["**/*.md"]),\n)', ""]
     for lab, it in sorted(items.items()):
         if it["kind"] != "decision":
@@ -102,6 +104,8 @@ def render_decisions(items, iri_to_label):
                     + "    part_levels = [" + ", ".join(q(p[n]["level"]) for n in ("conclusion", "rationale", "alternatives")) + "],\n"
                     + f"    status = {q(p['conclusion']['status'])},\n"
                     + "".join(label_list(k, sorted(set(v))) for k, v in sorted(links.items())) + ")\n")
+    names = sorted(it["dir"] for it in items.values() if it["kind"] == "decision")
+    body.append("# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다\nkb_bundle(\n    name = \"kg\",\n" + label_list("items", [":" + n for n in names]) + ")\n")
     return "\n".join(body)
 
 

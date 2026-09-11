@@ -6,7 +6,8 @@ title_ko: 단일 시나리오 커버리지와 경계값 합산의 기각
 title: Rejecting a single scenario-coverage metric and merged boundary counts
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/opus-5, at: 2026-09-10T19:40:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-09-10T19:40:00+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/205cefbf-aaf5-4b93-9e68-83f242e64e86
 ---
 **대안** — 시나리오 커버리지 하나로 재는 안(v1). 대체 — 전방 추적 커버리지·후방 추적 커버리지·logical 공간 커버 셋 (8.7절).
