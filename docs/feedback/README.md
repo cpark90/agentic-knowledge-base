@@ -17,9 +17,12 @@
 | **hci** | `docs/feedback/**` 전체 + 자기 역할 메모리 `.claude/agent-memory/hci/**` — 이 둘이 hci의 유일한 쓰기 범위다 | 저장소 전체 |
 | **다른 에이전트** | `agents/` lane의 **자기 항목만** (유저에게 전달할 내용) | 저장소 전체 (읽기 전용) |
 
-- **orchestrator 인수 절차**: [`handoff-to-orchestrator-2026-09-11.md`](handoff-to-orchestrator-2026-09-11.md)
-- **hci 가 반영한 항목(담당 역할 인수 대기 — 게이트 FAIL 중)**: [`notes-v5-review.md`](notes-v5-review.md) · [`stage1-pass-measurement.md`](stage1-pass-measurement.md) · [`stage-pass-conditions.md`](stage-pass-conditions.md) · [`external-review-2026-09-11.md`](external-review-2026-09-11.md) · [`stage3-link-construction.md`](stage3-link-construction.md)
-- 검토 보고(판단 요청 2): [`consistency-review-2026-09-11.md`](consistency-review-2026-09-11.md)
+- **담당 역할 인수 완료, 유저 태깅 대기**(`status: open` — 유저가 `approved` 로 바꾸면 다음 refresh 에서 제거):
+  [`notes-v5-review.md`](notes-v5-review.md) · [`stage1-pass-measurement.md`](stage1-pass-measurement.md) ·
+  [`stage-pass-conditions.md`](stage-pass-conditions.md) · [`external-review-2026-09-11.md`](external-review-2026-09-11.md)
+  (오늘 refresh 로 제거한 것: `handoff-to-orchestrator-2026-09-11` · `stage3-link-construction` · `consistency-review-2026-09-11` — 기록은 git 이력)
+- **설계 자료(반영 단위가 아니라 상시 참조)**: [`dependency-graph-design.md`](dependency-graph-design.md) ·
+  [`bazel-dependency-review.md`](bazel-dependency-review.md) · [`design-detail-review.md`](design-detail-review.md)
 - 에이전트 판정 결과: [`label-experiment-agent-2026-09-11.md`](label-experiment-agent-2026-09-11.md)
 - 유저 판정 대기: [`label-representativeness-sheet.md`](label-representativeness-sheet.md) (라벨 30개 예측 → 정답지 대조 → 판정). 프로토콜: [`label-representativeness-protocol.md`](label-representativeness-protocol.md) 답 완료: [`external-review-2026-09-11.md`](external-review-2026-09-11.md) §3. 채택됨: [`stage-pass-conditions.md`](stage-pass-conditions.md) · [`stage1-pass-measurement.md`](stage1-pass-measurement.md). 반영 완료된 항목은 채널에서 제거한다 — 원문은 git 이력에
 - hci는 지식 산출물(kb/ontology/·kb/odd/·kg/·chunks/·tools/ 등)을 편집하지 않는다.

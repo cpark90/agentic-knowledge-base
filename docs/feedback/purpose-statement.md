@@ -182,6 +182,7 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 21 | 작업 집합 정의에 **앵커 이웃** — 스코프 × 수준 창 × 앵커 이웃 (2026-09-11) | 노트 0.5·11.3·14.1 정정, `agt:anchor`, `p0-workset-anchor-neighbourhood`, metrics 앵커 비율 |
 | 22 | 의존성·연결성을 Bazel로 — B안 + 링크 deps + 가시성 + rules (2026-09-11 반영 1~6단계 완료) | `bazel-dependency-review.md` 진행 기록 |
 | 23 | 3단계 착수 — frontmatter 링크 = `agt:Link` + 구축 기록 증거, `handoff`(읽기 집합 → sources), metrics 3단계 대리; 라벨 대표성 실험 프로토콜 제안 (2026-09-11) | `label-representativeness-protocol.md` — 답 대기 |
+| 24 | 채널 refresh — 인수·반영이 끝난 항목 제거 (2026-09-11): `handoff-to-orchestrator-2026-09-11` · `stage3-link-construction` · `consistency-review-2026-09-11` · `hci-generated-chunks-2026-09-11.txt`. 기록은 git 이력(546dfb8·a522f2e)과 지식 산출물 | 채널 규약 refresh |
 
 **아직 유저 답을 기다리는 것**: `dependency-graph-design.md`의 (a)~(j),
 `chunk-definition-unification.md`(반영 완료로 제거 — git 이력)의 D1~D9(온톨로지·ODD 항목의 plane·level 배정).

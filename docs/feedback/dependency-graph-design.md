@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [https://agentic-knowledge-base.dev/id/chunk-d0009, https://agentic-knowledge-base.dev/id/chunk-d0010, https://agentic-knowledge-base.dev/id/chunk-d0041, https://agentic-knowledge-base.dev/id/chunk-d0053, https://agentic-knowledge-base.dev/id/chunk-d0081, https://agentic-knowledge-base.dev/id/chunk-d0082, https://agentic-knowledge-base.dev/id/chunk-d0096, https://agentic-knowledge-base.dev/id/chunk-d0102, https://agentic-knowledge-base.dev/id/chunk-d0105, https://agentic-knowledge-base.dev/id/chunk-d0106, https://agentic-knowledge-base.dev/id/chunk-d0110, https://agentic-knowledge-base.dev/id/chunk-d0111, https://agentic-knowledge-base.dev/id/chunk-d0126, https://agentic-knowledge-base.dev/id/chunk-d0148, ontology/related/, kg/, docs/decomposition-audit.md, purpose-statement.md]
 sources:
   - "LEDGER: Scaling Agentic Document Editing with Dependency-aware Graph Retrieval — arXiv 2606.28379 (2026-06)"
