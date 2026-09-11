@@ -19,6 +19,8 @@
 
 - **orchestrator 인수 절차**: [`handoff-to-orchestrator-2026-09-11.md`](handoff-to-orchestrator-2026-09-11.md)
 - **hci 가 반영한 항목(담당 역할 인수 대기 — 게이트 FAIL 중)**: [`notes-v5-review.md`](notes-v5-review.md) · [`stage1-pass-measurement.md`](stage1-pass-measurement.md) · [`stage-pass-conditions.md`](stage-pass-conditions.md) · [`external-review-2026-09-11.md`](external-review-2026-09-11.md) · [`stage3-link-construction.md`](stage3-link-construction.md)
+- 검토 보고(판단 요청 2): [`consistency-review-2026-09-11.md`](consistency-review-2026-09-11.md)
+- 에이전트 판정 결과: [`label-experiment-agent-2026-09-11.md`](label-experiment-agent-2026-09-11.md)
 - 유저 판정 대기: [`label-representativeness-sheet.md`](label-representativeness-sheet.md) (라벨 30개 예측 → 정답지 대조 → 판정). 프로토콜: [`label-representativeness-protocol.md`](label-representativeness-protocol.md) 답 완료: [`external-review-2026-09-11.md`](external-review-2026-09-11.md) §3. 채택됨: [`stage-pass-conditions.md`](stage-pass-conditions.md) · [`stage1-pass-measurement.md`](stage1-pass-measurement.md). 반영 완료된 항목은 채널에서 제거한다 — 원문은 git 이력에
 - hci는 지식 산출물(kb/ontology/·kb/odd/·kg/·chunks/·tools/ 등)을 편집하지 않는다.
 - 다른 에이전트는 이 채널에서 자기 항목 외 어떤 파일도 수정하지 않는다 — 유저 lane
