@@ -7,6 +7,7 @@ title: Inputs form an axis distinct from the ODD; the impact column defines the 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: human:cpark, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/c0707632-682f-4f16-bae0-d5b47f69d096
 ---
 **근거** (노트 11.1절, Part XI 도입)

@@ -182,7 +182,7 @@ conditional은 `when`의 특수형이다. 증거 기록 규칙 둘은 verify 질
 
 상세 설계(LEDGER·LARGER를 참고한 조회 알고리즘, 복원 계획)는
 [`feedback/dependency-graph-design.md`](feedback/dependency-graph-design.md).
-**어휘는 갖춰졌고 링크 데이터는 아직 0개다.**
+**어휘는 갖춰졌고 링크 개체는 472(전부 구축 기록 증거, `metrics` 3단계 절)이며 후보 링크는 아직 0이다.**
 
 ## 5. knowledge graph — 무엇을 담는가
 

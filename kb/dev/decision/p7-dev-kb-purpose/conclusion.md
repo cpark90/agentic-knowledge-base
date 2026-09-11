@@ -7,7 +7,7 @@ title: The development KB is the knowledge for producing real artifacts from req
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/b850e446-e631-41b6-b47c-48c334c8968e, title_ko: 개발 KB의 목적, title: Purpose of the development KB}
 part_of: https://agentic-knowledge-base.dev/id/composite/b850e446-e631-41b6-b47c-48c334c8968e

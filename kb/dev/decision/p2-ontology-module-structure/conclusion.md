@@ -7,6 +7,7 @@ title: Modules split by entity/related and vocabulary/rules, imported by a thin 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0048]
 part_of: https://agentic-knowledge-base.dev/id/composite/301046f4-6db7-42f5-aea0-ffe4599d4a15

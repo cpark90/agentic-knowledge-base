@@ -7,6 +7,7 @@ title: Reject knowledge outside the vocabulary
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 ---
 **요구** — 지식이 온톨로지 밖 어휘로 저작되면, 체계는 그것을 거부하여야 한다.
 

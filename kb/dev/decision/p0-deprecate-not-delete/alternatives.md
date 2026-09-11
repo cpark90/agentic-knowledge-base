@@ -7,6 +7,7 @@ title: Rejecting deletion and rejecting references outright
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/8453e658-a276-4f75-83a4-9926df17826b
 ---
 **대안** — 쓰이지 않는 개념을 삭제하는 안. 기각 — 위 근거의 고아 링크.

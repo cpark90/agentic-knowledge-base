@@ -7,6 +7,7 @@ title: Concept definitions and individuals live in different files with differen
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/20148952-30c4-4f76-8cbf-4d9b32c68b25]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0049]
 part_of: https://agentic-knowledge-base.dev/id/composite/066baab4-8fef-4903-ac08-2d2c9d37f233

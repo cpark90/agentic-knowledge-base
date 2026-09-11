@@ -7,6 +7,7 @@ title: Exempting vocabulary growth would make the vocabulary the weakest link
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/07c94f4c-0307-4273-9c25-f90fc5152e7b
 ---
 **근거** (노트 2.5절 용어 제안 워크플로) — 어휘는 그 위의 모든 문장을 규정하므로 가장 통제가 강해야 하는데, 관측에서 개념을 뽑는 일은 에이전트만 할 수 있다. 제안과 판정을 분리하면 두 사실이 동시에 성립한다 — 에이전트가 어휘를 자라게 하되 어휘를 바꾸지는 못한다.

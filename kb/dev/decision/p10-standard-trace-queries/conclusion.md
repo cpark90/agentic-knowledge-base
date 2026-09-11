@@ -7,6 +7,7 @@ title: Four standard queries the link model must answer
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0108]
 part_of: https://agentic-knowledge-base.dev/id/composite/03b399d7-2688-4588-bfed-7942e0e30aab

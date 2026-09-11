@@ -7,6 +7,7 @@ title: Multiple candidates are the normal state; arbitrary choice is structurall
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: human:cpark, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/aa7d5c28-822d-4904-9e3f-13920eb41256
 ---
 **근거** (노트 8.3·8.5절) — 이 사상이 주는 것.

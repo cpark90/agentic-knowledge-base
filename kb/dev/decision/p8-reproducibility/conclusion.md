@@ -7,6 +7,7 @@ title: Reproducibility is a condition of environment assignment, not a chunk att
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/8117429b-5245-4a0a-8628-a46fb78dd65d, https://agentic-knowledge-base.dev/id/chunk/2b1e5103-9b9d-43da-9231-6b4027bc370e]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0137]
 part_of: https://agentic-knowledge-base.dev/id/composite/c71e12a1-2a31-43f5-af40-c670d767f559

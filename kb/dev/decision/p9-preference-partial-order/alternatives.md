@@ -7,7 +7,7 @@ title: Rejecting elimination by preference and numeric grades
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: hci/claude-opus-5, at: 2026-09-10T19:40:00+09:00}
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/d019ef5c-899b-459f-98cb-80d0fd72a0c4
 ---
 **대안** — 선호로 후보를 기각하는 안. 기각 — 선호는 후보가 여럿 남았을 때 보여 주는 순서만 정한다. 기각은 제약이 한다 (9.9절).

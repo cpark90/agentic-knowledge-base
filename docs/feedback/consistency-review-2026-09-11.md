@@ -53,3 +53,5 @@ targets: [README.md, docs/roadmap.md, docs/tools.md, docs/risks-and-tensions.md,
 
 ## 답
 **유저(2026-09-11): "문서 정정은 orchestrator에 맡기고, 라벨 실험은 둘 다 진행해줘"** — §2 문서 정정과 §3 `consistency` 배선은 orchestrator 담당(hci 는 손대지 않음). 라벨 실험은 사람 판정(기록지)과 에이전트 판정(`label_sample`, 미끼) 둘 다 — 에이전트 판정은 hci 세션이 판정자로 수행하고 결과를 `label-experiment-agent-2026-09-11.md` 에 남긴다.
+
+인수: orchestrator 2026-09-11 — §2 문서 정정 전부 반영(`README.md`·`INTENT.md`·`roadmap.md`·`open-questions.md`·`decomposition-audit.md`·`rules.md`·`risks-and-tensions.md`·`tools.md`·`glossary.md` 안전율 등재). §3 `consistency` 배선은 `kb/BUILD.bazel:70`의 `kb_consistency(name = "consistency")`로 이미 있어 `bazel build //kb:consistency`가 성립한다(검토 시점의 "kg/BUILD에 없음"은 위치 착오) — `tools.md` 생성물 목록에 추가. "커밋마다 자동 생성"은 하네스 훅이 없어 규약으로 남는다. 라벨 실험 반영분(`verified` 60 + `human:cpark` 10, roadmap)은 워킹트리에 있고 게이트 15/15 PASS — 커밋은 유저·inspection 몫.

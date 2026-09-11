@@ -7,6 +7,7 @@ title: Composites use standard part-of and an ordered collection
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: human:cpark, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0073]
 part_of: https://agentic-knowledge-base.dev/id/composite/85fcc7f3-446f-46d6-b386-693544fefe6e

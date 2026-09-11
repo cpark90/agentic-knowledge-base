@@ -7,6 +7,7 @@ title: The harness records read and write sets
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 ---
 **요구** — 에이전트의 편집이 일어나면, 하네스는 읽기 집합과 쓰기 집합을 기록하여 링크를 편집의 부산물로 구축하여야 한다.
 

@@ -7,6 +7,7 @@ title: Fusing stimulus and judgement makes a loosened criterion look like a chan
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: human:cpark, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/14433614-5dd7-4df3-b32c-2422a25daef3
 ---
 **근거** (노트 8.11절) — 자극(케이스)과 판정(기준)을 한 청크에 두면 **기준 변경이 케이스 변경으로 보인다.** 무엇이 느슨해졌는지가 이력에서 드러나지 않으므로 기준을 별도 청크로 두고 링크 속성으로 묶는다.

@@ -7,6 +7,7 @@ title: Development roles may only read the V&V KB
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7]
 part_of: https://agentic-knowledge-base.dev/id/composite/a6634f6f-503c-4e74-8aa1-08d272e2a38e
 composite: {id: https://agentic-knowledge-base.dev/id/composite/a6634f6f-503c-4e74-8aa1-08d272e2a38e, title_ko: 독립성과 스코프, title: Independence and scope}

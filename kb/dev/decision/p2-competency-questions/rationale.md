@@ -7,6 +7,7 @@ title: Concepts no query can use only accumulate
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: human:cpark, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/5f6eadd5-ef4f-47cb-8128-f72cca5e8575
 ---
 **근거** (노트 2.7절) — 온톨로지에 "무엇이 빠졌는가"를 판정할 기준이 없으면 개념은 늘기만 한다. 역량 질문은 온톨로지 공학의 표준 관행이고, 이 체계에서는 두 방향으로 쓰인다 — 충분성 검사(질문에 답하지 못하면 개념이 모자란다)와 과설계 검사(어느 질문에도 기여하지 않으면 개념이 남는다, 2.10절).

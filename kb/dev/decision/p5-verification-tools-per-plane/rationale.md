@@ -7,6 +7,7 @@ title: Weak verification automates form only and fills the rest with user approv
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/e41d8f22-3084-4182-870e-8abbf9f95076
 ---
 **근거** (노트 5.4절)

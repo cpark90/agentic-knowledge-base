@@ -42,13 +42,13 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 | 범위·제약 | 범위 없는 logical 변수, 실행 불가한 사후조건 | shape + test | 6.8 | 없음 (5단계) |
 | 검증 대응물 | 같은 높이의 V&V 대응물(목표·기준·검증기) 부재 | verify | 8.3 | 없음 (7단계; 그 전엔 **경고**) |
 | 표본 근거 | `sampling` 없는 concrete 값·케이스 | shape | 6.8, 8.23 | 없음 (5·7단계) |
-| 할당 근거 | 후보가 둘 이상인데 확정된 링크, 배제 근거 없는 기각 | verify | 9.10 | 부분 — 증거 기록 규칙 2 질의(`confirmed-without-evidence`·`confirmed-with-refutation`), 링크 데이터 0 |
+| 할당 근거 | 후보가 둘 이상인데 확정된 링크, 배제 근거 없는 기각 | verify | 9.10 | 부분 — 증거 기록 규칙 2 질의(`confirmed-without-evidence`·`confirmed-with-refutation`); 링크 개체 472(전부 구축 기록), 후보 링크 0 |
 | 기준 바인딩 | 기준 없는 `verifies`, 판정식 없는 기준 | shape | 8.11 | **있음** — `verifies-without-criteria.rq` |
 | 대안 기록 | 대안 청크 없는 결정 | shape | 7.4 | **있음** — `kb_decision` 의 `alternatives` 가 필수 속성, `gen_build` 가 세 청크 없는 디렉토리를 거부 (로드 시점) |
 | 계약 선행 | 계약보다 먼저 확정된 구현 | verify | 7.5 | 없음 — `contract` plane 항목 0 |
 | 판정 도구 | 컴파일·타입·스키마·린터 실패 | test | 5.4 | 없음 — `artifact` plane 항목 0 |
 | 독립성 | 개발 역할이 V&V KB에 쓴 흔적 | verify | 8.5 | 부분 — 의존 방향(개발 → V&V 금지)은 `//kb:vv_readers` 가시성으로 분석 시점 차단. 쓰기 흔적 검사는 없음 |
-| 승인 | `requirement`·`decision`의 `stable` 전이, 온톨로지 확장, 학습 판정자 결과 | human | 5.4, 2.5, 8.14 | 규약 — `verified` 목록·`status: approved`. 사람 검토 실측 0 |
+| 승인 | `requirement`·`decision`의 `stable` 전이, 온톨로지 확장, 학습 판정자 결과 | human | 5.4, 2.5, 8.14 | 규약 — `verified` 목록·`status: approved`. 사람 검토 실측 10(2026-09-11 라벨 재판정) |
 | 신뢰 등급 | `generatedBy` 없음, 검증 뒤 수정 | shape | 2.12 | **있음** — `trust-shapes` |
 | 참조 무결성 | 인용 대상·부분·가정·요구가 실재하지 않음 | verify + 생성 | 4.8 | **있음** — `extract_refs`·`validate` dangling |
 
@@ -127,6 +127,17 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 | `odd2kg.py` + `taxonomy.py` | OpenODD YAML 매핑 문서 `kb/odd/project-odd.yml`(`TAXONOMY`·`MODULES`·`INCLUDE_AND`…) → `project-odd.ttl`; `related/condition` → `taxonomy.yml` (부록 E.4) | 택소노미 밖 범주 · 미선언 속성 · 선언 밖 리터럴 · OpenODD 식이 아닌 값 · `ATTRIBUTES`/`CHECKS` 없는 조건 |
 | `labels.py` | 청크 head → OKF `index.md` (5.6절) | frontmatter 오류 |
 | `metrics.py` | 그래프 → `metrics.md` (4.13절 지표, CQ19·CQ20, 14.1 통과 조건) | 그래프 파싱 실패 |
+| `gen_build.py` | 청크 frontmatter → `BUILD.bazel`(`kb_chunk`·`kb_decision` 타깃, 링크 = deps). 커밋한다 | 세 청크 없는 결정 디렉토리 · 끊긴 링크 |
+| `consistency.py` | 청크 본문 + 용어집 → `consistency.md` (`bazel build //kb:consistency`): 정확·근사 중복, 라벨 중복, 결정 라벨 형식, 용어집 옛 표기, 중복률. 보고 뷰이며 게이트가 아니다 ([`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md)) | 파싱 실패 |
+
+#### 하네스 도구 — 역할 규약과 인수
+
+| 도구 | 하는 일 | 게이트 |
+|---|---|---|
+| `channel_lint.py` | 채널(`docs/feedback/`) 규약 — lane별 `status` 어휘, hci 반영 흔적은 담당 역할의 `인수:` 줄이 있어야 통과 | `//docs/feedback:channel_lint_test` |
+| `endorse.py` | 인수 — plane 쓰기 권한이 있는 역할이 검토한 청크에 `verified`를 붙인다. `//kg:gate_test`의 writer 검사(`generated.by` 역할 × 카탈로그 쓰기 권한)를 해소하는 수단 | `bazel run //tools:endorse -- --by <역할>/<모델> --at <시각> <청크…>` |
+| `same_bytes.py` | 두 파일의 바이트 동일 검사 — 타깃별 병합 head 그래프 = union head 그래프 | `//kg:kg_equivalence_test` |
+| `label_sample.py` | 라벨 대표성 실험 표본 — 층화 표본 + 미끼, seed 고정 ([`label-representativeness-protocol`](feedback/label-representativeness-protocol.md)) | 게이트 아님 — 실험 |
 
 YAML은 PyYAML(잠금 `pyyaml==6.0.2`, 호스트 휠 + sdist 두 해시)로 읽는다 — 부분집합 로더 `kb_yaml.py`는 2026-09-11에 삭제했다. 생성물은 `bazel-bin`에만 있고 소스 트리에
 같은 이름의 파일을 두지 않는다 (`index.md`·`log.md` 포함).
@@ -138,10 +149,11 @@ YAML은 PyYAML(잠금 `pyyaml==6.0.2`, 호스트 휠 + sdist 두 해시)로 읽�
 `bazel run //tools:odd_check` — ODD 문서 `CHECKS.<속성>.cmd`를 실행해 속성마다 in / out / unverified를 판정하고 이탈을 보고한다
 (종료 1 = 이탈). 네트워크·호스트 상태를 보므로 테스트 타깃이 아니다. 첫 모니터링(2026-09-11): 7속성 전부 in, 이탈 0.
 
-### 활용 (없음)
+### 활용 (첫 형태 5)
 
-**하나도 구현되어 있지 않다.** 검사만 있고 활용이 없다는 것이 현재의 가장 큰 공백이며,
-활용 도구가 없으면 "온톨로지를 활용하는 방법론"이 성립하지 않는다.
+**첫 형태가 있는 것은 `workset`·`metrics`·`impact`·`handoff`·`consistency`다** (2026-09-11). 없는 것은
+`link`(후보 생성)·`query`·`project`·`propagate`/`revalidate`이며, 공통 원인은 하네스가 읽기·쓰기 집합을
+기록하지 않는 것이다 — 활용 도구가 없으면 "온톨로지를 활용하는 방법론"이 성립하지 않는다.
 
 | 도구 | 대응 절차 | 하는 일 | 단계 |
 |---|---|---|---|
@@ -213,13 +225,14 @@ tools/gen_build.py                                                              
 ├── //defs/tests:*                 음성 시험 5 — plane 단방향·수준 허용표·supersedes plane·verifies 주어·결정 수준
 ├── //kg:kg_equivalence_test       병합 head 그래프 = union head 그래프 (바이트)
 ├── //:naming_test                 TTL 접미사 규약
+├── //docs/feedback:channel_lint_test  채널 규약 — lane status 어휘 · hci 반영 흔적의 인수 줄
 ├── //chunks:lint_test             `chunks/` 항목 42줄
 ├── //kb/dev:lint_test             개발 KB 청크 42줄
 ├── //kb/ontology:gate_test        labels · boundary · SHACL
 ├── //kb/odd:gate_test             ODD shape  ← //kb/odd:odd (odd2kg) · :taxonomy
 └── //kg:gate_test                 vocab · odd-ref · dangling · verify · SHACL
                                     ← //kg:chunks_kg · //kg:references_kg 를 입력으로
-생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics · //kg:workset_<role>
+생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics · //kg:workset_<role> · //kb:consistency
 ```
 
 `//kb/ontology:chunk_lint_test`는 `bazel test //...`로는 돌고 `//:gate`로는 안 돈다. 배선은
@@ -234,8 +247,7 @@ tools/gen_build.py                                                              
 |---|---|---|
 | 라벨이 본문을 대표한다 | 판정 불가 | `STYLEGUIDE.md` §4 |
 | 한 chunk는 한 주제 | 판정 불가. 42줄과 분할 신호가 대리 지표 | `STYLEGUIDE.md` §0 |
-| 복합체 동질성·순환 | 분석 시점 검사 — plane별 규칙 전환(3단계)까지 미구현 | [rules §2](rules.md#2-복합체--통합이-필요한-것만) |
-| 대안 청크 필수 | shape로 가능하나 미구현 (복합체 멤버 역할이 그래프에 없다) | [rules development](rules.md#development-규칙--개발-kb-노트-7277) |
+| 복합체 순환 | 결정 복합체의 세 부분·수준은 `kb_decision`이 분석 시점에 검사한다. 일반 복합체의 순환 검사는 미구현 | [rules §2](rules.md#2-복합체--통합이-필요한-것만) |
 | 카탈로그 정합성 (역할별 read plane ≥ 1, write plane 비공유, `maxConcurrent` 합 ≤ ODD 동적 요소) | 기계화 가능하나 미구현 | `AGENTS.md` 역할 절 |
 | 정규화 직렬화 | `canonicalize.py --check`가 있으나 테스트 타깃이 아니다 | [rules §정규화](rules.md#정규화-직렬화) |
 

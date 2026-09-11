@@ -7,6 +7,7 @@ title: ODD changes are widen, narrow, or refine, and the ontology comes first
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c, https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0062]
 part_of: https://agentic-knowledge-base.dev/id/composite/d53cfcf9-c765-4bfe-b787-a420967a6f35

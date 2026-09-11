@@ -7,6 +7,7 @@ title: Run constraint propagation only at gates and rejudgement boundaries
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0101]
 part_of: https://agentic-knowledge-base.dev/id/composite/560ccdfa-94a3-4a43-bc41-3697c44b69cc

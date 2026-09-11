@@ -7,6 +7,7 @@ title: Rejecting the v1 abstraction reading of level and a single-axis scheme
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: human:cpark, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/ad724fe1-631f-41fb-a6dd-e7f0df9ac7d7
 ---
 **대안** — level을 "추상도"로 읽는 v1의 해석. 폐기한다. 추상도는 등급이라

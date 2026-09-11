@@ -7,6 +7,7 @@ title: The testbed persists steps 3-4, and its environment is a subset of the OD
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/8117429b-5245-4a0a-8628-a46fb78dd65d]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0139]
 part_of: https://agentic-knowledge-base.dev/id/composite/8475c698-2795-4e94-8c13-85e3aa7d85eb

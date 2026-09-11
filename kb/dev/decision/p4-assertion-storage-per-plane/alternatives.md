@@ -7,6 +7,7 @@ title: Draft assertion formats per plane, still undecided
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/8d3c07da-293b-47cd-861a-44cfd81449b3
 ---
 **대안** — `[안]` 4.12절의 plane별 assertion 형식 초안. **미확정이다.**

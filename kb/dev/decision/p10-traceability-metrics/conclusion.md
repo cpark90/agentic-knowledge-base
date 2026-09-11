@@ -7,6 +7,7 @@ title: Five traceability metrics and what they warn about
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0112]
 part_of: https://agentic-knowledge-base.dev/id/composite/759aa68a-d77b-425c-b819-42ead2a9b0e9

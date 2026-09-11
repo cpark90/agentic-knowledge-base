@@ -7,6 +7,7 @@ title: Role names vary by profile while the derivation is fixed, and the ODD cap
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/2e3b40bb-c5f0-4355-8108-ccdf481d998a
 ---
 **근거** (노트 11.2절)

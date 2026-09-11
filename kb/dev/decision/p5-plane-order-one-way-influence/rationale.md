@@ -7,6 +7,7 @@ title: If the slow depends on the fast, the top shakes at the bottom's rate
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/f49e799a-b677-42d6-bc5c-84cefbc27122
 ---
 **근거** (노트 5.2절)

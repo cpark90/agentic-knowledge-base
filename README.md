@@ -14,7 +14,7 @@
 |---|---|---|---|
 | **ontology** | 지식의 코어와 분야 프로파일 | [`docs/ontology.md`](docs/ontology.md) | 코어(모듈 파일 26 · plane 7종 · 수준 허용표) · 프로파일 없음 |
 | **methodology · method · rules** | 순서 · 방법 · 유효한 구조의 규칙 | [`docs/methodology.md`](docs/methodology.md) · [`docs/method.md`](docs/method.md) · [`docs/rules.md`](docs/rules.md) | 규칙은 있음 · 절차는 문서화 진행 중 |
-| **tools** | 규칙을 검사하고 방법을 수행하는 도구 | [`docs/tools.md`](docs/tools.md) | 검사·생성 6개(3계층 컴파일러) · **활용 도구 0개** |
+| **tools** | 규칙을 검사하고 방법을 수행하는 도구 | [`docs/tools.md`](docs/tools.md) | 검사·생성 도구 14(온톨로지 검사 3단계 포함) · 실험 1(`label_sample`) · **활용 첫 형태 5**(workset·metrics·impact·handoff·consistency) |
 
 현재 상태와 도입 순서는 [`docs/roadmap.md`](docs/roadmap.md), 문서 색인은
 [`docs/README.md`](docs/README.md).
@@ -36,11 +36,11 @@ kg/chunks-kg.ttl           # (생성) head 그래프 — frontmatter에서 만�
 kg/references-kg.ttl       # (생성) 인용 링크 — 본문에서 뽑는다
 INTENT.md                  # 요구 층 진입 — 궁극 목적·이해관계자·요구 인덱스
 kb/dev/requirement/        # 개발 KB — 요구 33건 (EARS, functional)
-kb/dev/decision/           # 개발 KB — 결정 182건 (결론·근거·대안 세 청크 복합체)
+kb/dev/decision/           # 개발 KB — 결정 185건 (결론·근거·대안 세 청크 복합체; 1건은 deprecated)
 kb/vv/                     # V&V KB — vnv 역할만 편집 (아직 비어 있음)
 chunks/decision/           # v1 유래 옛 결정 (126 deprecated · 27 유효)
 space/                     # 설계 공간 (후보와 제약) — 아직 비어 있음
-tools/                     # validate · chunk_lint · chunk2kg · extract_refs · canonicalize · term_propose
+tools/                     # 검사·생성(validate · chunk_lint · chunk2kg · gen_build · channel_lint …) · 활용(workset · metrics · impact · handoff · consistency)
 defs/knowledge.bzl         # 게이트 매크로
 docs/                      # 이 체계의 문서 + 설계 노트 v3 (그래프 밖)
 docs/feedback/             # 유저 소통 채널 (그래프 밖) — hci 담당
@@ -60,8 +60,8 @@ bazel run //tools:canonicalize -- --write <files>   # 기계 생성 TTL 정규�
 
 코어를 코어 자신에 적용한 **첫 인스턴스**다. 설계 원본은 노트 v3
 ([`docs/agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md))이고, 그
-`[확정]`이 요구 33건과 결정 182건(`kb/dev/`)으로 재도출되어 있다 (v3 145 + v4·v5 델타 37). `chunks/decision/`의
-옛 결정은 v1 유래로 126건이 deprecated다. 출처와 처리 경위는
+`[확정]`이 요구 33건과 결정 185건(`kb/dev/`)으로 재도출되어 있다 (v3 145 + v4·v5 델타 37 + 2026-09-11 추가 3). deprecated는
+청크 129 — `chunks/decision/`의 v1 유래 옛 결정 126건과 대체된 새 결정 1건(`p14-adoption-stages`). 출처와 처리 경위는
 [`docs/decomposition-audit.md`](docs/decomposition-audit.md).
 
 작업 규칙은 [`AGENTS.md`](AGENTS.md), 저작 스타일은 [`STYLEGUIDE.md`](STYLEGUIDE.md).

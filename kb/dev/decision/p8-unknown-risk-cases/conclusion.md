@@ -7,6 +7,7 @@ title: Unknown risk cases split into a vocabulary problem and a coverage problem
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0143]
 part_of: https://agentic-knowledge-base.dev/id/composite/afadcad8-6d9b-4e7d-aac5-cdc0c6ffe89c

@@ -7,7 +7,7 @@ title: Rejecting verification-only and automatic attribution
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: hci/claude-opus-5, at: 2026-09-10T19:40:00+09:00}
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/f78cc6f9-4200-405e-8a12-7c8eb43f9c24
 ---
 **대안** — 검증만 두고 평가(요구 자체가 맞는가)를 생략하는 안. 기각 — 틀린 요구를 완벽히 충족하는 시스템이 된다 (8.4절).

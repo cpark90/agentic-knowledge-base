@@ -7,6 +7,7 @@ title: The premise that lower steps predict higher ones must itself be checkable
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: human:cpark, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/962ef704-4544-41b5-8b6d-bea52f11c595
 ---
 **근거** (노트 8.13절) — 3~4단계 통과가 실환경 통과를 예측한다는 근거가 없으면 환경 계층 자체가 무의미하다. 낮은 단계에서 거른다는 설계는 낮은 단계의 판정이 위 단계의 판정과 상관한다는 전제 위에 서 있고, 그 전제는 가정이므로 판정 방법을 동반해야 한다 (6.5절·6.9절).
