@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [kb/dev/decision/p8-mismatch-attribution/conclusion.md, kb/dev/decision/p6-executable-splits-by-kb/conclusion.md, kb/dev/decision/p8-vv-roles/rationale.md, kb/dev/decision/p8-vv-roles/alternatives.md, kb/dev/decision/p8-pass-criteria/conclusion.md, kb/dev/decision/p8-vv-roles/conclusion.md, tools/consistency.py, docs/glossary.md]
 ---
 
@@ -54,4 +54,12 @@ targets: [kb/dev/decision/p8-mismatch-attribution/conclusion.md, kb/dev/decision
 표지를 "반영/수행했다"는 **서술**로 좁히는 편이 맞다. 검사 약화가 아니라 대상 명확화다.
 
 ## 답
-(유저가 채움)
+
+**유저(2026-09-12): "1,3"** — 선택지 1(`chunk2kg` 에 라벨 언어 검사 추가)과 3(STYLEGUIDE 한 줄) 둘 다.
+게이트와 규약을 함께 둔다 — 기계가 잡되 저작 시점에도 읽히게.
+
+담당 역할이 수행할 것:
+1. `tools/chunk2kg.py` frontmatter 검증에 "`title` 에 한글 금지" 추가 (생성기가 곧 검사기 — `//kg:chunks_kg` 에서 실패)
+2. `STYLEGUIDE.md` 언어 규칙에 "영문 라벨(`title`)에 한글을 섞지 않는다 — 용어 치환 시 한글 필드만 대상" 한 줄
+3. 오염 6건 정정 (`검증기` → `verifier`): 위 `targets` 의 앞 6개
+4. 덧붙임의 `channel_lint` 표지 완화 (같은 소유자)

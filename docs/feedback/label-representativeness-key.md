@@ -4,7 +4,14 @@ status: approved
 targets: [docs/feedback/label-representativeness-sheet.md]
 ---
 
-# 라벨 대표성 실험 — 정답지 (예측을 다 적기 전에는 열지 않는다)
+# 라벨 대표성 실험 — 정답지
+
+**예측을 다 적기 전에는 열지 않는다.** 먼저 보면 실험이 무효가 된다 — 본문을 알고 나면 라벨이
+대표하는지를 판단할 수 없기 때문이다(순응 편향).
+
+기록지([`label-representativeness-sheet.md`](label-representativeness-sheet.md))의 번호와 여기 번호가 같다.
+각 행의 "본문 요지"는 그 청크 본문의 **첫 문단 240자**다 — 전문이 필요하면 파일 경로로 연다.
+예측과 대조해 적합 / 부분 / 부적합을 기록지에 적는다.
 
 | # | 파일 | 본문 요지 (첫 문단, 240자) |
 |---|---|---|
