@@ -20,7 +20,7 @@
 - **담당 역할 인수 완료, 유저 태깅 대기**(`status: open` — 유저가 `approved` 로 바꾸면 다음 refresh 에서 제거):
   [`notes-v5-review.md`](notes-v5-review.md) · [`stage1-pass-measurement.md`](stage1-pass-measurement.md) ·
   [`stage-pass-conditions.md`](stage-pass-conditions.md) · [`external-review-2026-09-11.md`](external-review-2026-09-11.md)
-  (오늘 refresh 로 제거한 것: `handoff-to-orchestrator-2026-09-11` · `stage3-link-construction` · `consistency-review-2026-09-11` — 기록은 git 이력)
+- refresh 2026-09-12: 제거 0건 — `approved` 이면서 반영이 끝난 항목은 아래 "설계 자료" 셋뿐이고, 그것은 `docs/` 가 상시 참조하므로 남긴다
 - **설계 자료(반영 단위가 아니라 상시 참조)**: [`dependency-graph-design.md`](dependency-graph-design.md) ·
   [`bazel-dependency-review.md`](bazel-dependency-review.md) · [`design-detail-review.md`](design-detail-review.md)
 - **유저 판단 대기(2026-09-12)**: [`terminology-profile-retention-2026-09-12.md`](terminology-profile-retention-2026-09-12.md) ·
