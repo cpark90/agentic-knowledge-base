@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk/4cb46349-f0c4-499f-b5a7-f5b5a4da5eaa
 type: decision
 level: concrete
-title_ko: mode·include·exclude·conditional
-title: mode, include, exclude, conditional
+title_ko: 스코프는 mode·include·exclude·conditional 네 종류의 문장으로 쓴다
+title: A scope is written as four kinds of statement: mode, include, exclude and conditional
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0029]
 part_of: https://agentic-knowledge-base.dev/id/composite/780d333f-1d35-4e81-83cf-58355a1d3d41

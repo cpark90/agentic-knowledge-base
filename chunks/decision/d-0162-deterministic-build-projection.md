@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk-d0162
 type: decision
 level: concrete
-title_ko: 빌드 투영은 검증된 그래프에서만 결정론적으로 나온다
-title: The build projection is gated on validation and deterministic
+title_ko: 빌드 뷰는 검증된 그래프에서만 결정론적으로 나온다
+title: The build view is gated on validation and deterministic
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
-generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 그래프에서 산출물을 만드는 빌드는 ① 조립된 union이 **검증을 통과할
 때만** 실행하고(실패면 한 파일도 쓰지 않고 비영 종료) ② 같은 입력이면 **바이트
@@ -24,7 +24,7 @@ generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 - 해석되지 않은 참조는 **조용히 빠뜨리지 않는다**. 자리표시 stub을 내고
   항목마다 상태를 빌드 기록에 남긴다 — 빌드는 언제나 나오되 결손이 보인다.
   오프라인·부분 체크아웃이 실패가 아니라 표시된 결손이 된다.
-- 읽기 투영과 빌드 투영은 같은 union의 **반대 방향 투영**이다: 읽기는 컨텍스트
+- 읽기 뷰와 빌드 뷰는 같은 union의 **반대 방향 뷰**다: 읽기는 컨텍스트
   상한으로 rot를, 빌드는 검증 선행으로 고아·drift를 막는다. 저장 그래프는
   어느 쪽으로도 통째로 나가지 않는다(d-0013).
 

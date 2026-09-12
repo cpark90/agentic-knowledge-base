@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk-d0160
 type: decision
 level: concrete
-title_ko: 만들기 전에 검색한다 — 노드는 단일 책임
-title: Search before authoring - one node, one responsibility
+title_ko: 만들기 전에 검색하고 노드는 한 가지 책임만 담는다
+title: Search before authoring, and a node carries one responsibility
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
-generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 한 노드는 한 가지만 담고(한 페르소나·한 정책·한 능력), 새 노드를
 만들기 전에 **검색 도구로 같은 것이 이미 있는지 먼저 찾는다**. 없어서 만드는

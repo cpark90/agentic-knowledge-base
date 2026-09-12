@@ -28,9 +28,9 @@
 |---|---|---|
 | **ontology** | 코어 — 모듈 파일 26, shape 7(수준 허용표 포함). `trace`·`trust`·`state`·`tag`·시간 제약 포함. 용어 제안 큐(`proposals/`) | `upper`(상위 온톨로지 정렬), `related/policy`, `defect`·`-rules`, **`profile/` 전체** |
 | **methodology · method · rules** | 규칙은 문서화됨([`rules.md`](rules.md)). 절차 12개 중 11개는 근거를 갖춘 서술 | **프로파일 구축 절차**(method §1)가 비어 있다 |
-| **tools** | 검사·생성 도구 14(온톨로지 검사 3단계 포함) · 실험 1(`label_sample`) · **활용 첫 형태 5**(workset·metrics·impact·handoff·consistency). 게이트 15 — `bazel test //...` ([`tools.md`](tools.md) 총람) | 활용 도구 중 `link`(후보 생성) · `query` · `project` · `propagate`/`revalidate` — 하네스의 읽기·쓰기 집합 자동 기록 없음 |
+| **tools** | 검사·생성 도구 14(온톨로지 검사 3단계 포함) · 실험 1(`label_sample`) · **활용 첫 형태 5**(workset·metrics·impact·handoff·consistency). 게이트 16 — `bazel test //...` ([`tools.md`](tools.md) 총람) | 활용 도구 중 `link`(후보 생성) · `query` · `project` · `propagate`/`revalidate` — 하네스의 읽기·쓰기 집합 자동 기록 없음 |
 
-지식 실측은 이제 생성물이 원본이다 — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md` (청크 수·고아율·크기 분포·링크 밀도·CQ19/20·신뢰 등급). 아래는 2026-09-11 시점 스냅샷: **요구 33** · **결정 185**(복합체, 대안 청크 185/185, `kb/dev/`; 1건 deprecated) ·
+지식 실측은 이제 생성물이 원본이다 — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md` (청크 수·고아율·크기 분포·링크 밀도·CQ19/20·신뢰 등급). 아래는 2026-09-11 시점 스냅샷: **요구 33** · **결정 186**(복합체, 대안 청크 186/186, `kb/dev/`; 1건 deprecated) ·
 옛 결정 153 중 **deprecated 126**·잔류 27(harness 유래 26 + d-0001) · 살아 있는 청크 612 ·
 ODD 조건 7 · 역할 5 · 스코프 5 · 인용 링크 30 · 링크 개체 472(증거 100%) · 사람 검토 **10** ·
 가정 1 · `kb/vv/` 비어 있음 · `annotation`·`memory`·`artifact` plane 항목 0.

@@ -128,7 +128,7 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 | `labels.py` | 청크 head → OKF `index.md` (5.6절) | frontmatter 오류 |
 | `metrics.py` | 그래프 → `metrics.md` (4.13절 지표, CQ19·CQ20, 14.1 통과 조건) | 그래프 파싱 실패 |
 | `gen_build.py` | 청크 frontmatter → `BUILD.bazel`(`kb_chunk`·`kb_decision` 타깃, 링크 = deps). 커밋한다 | 세 청크 없는 결정 디렉토리 · 끊긴 링크 |
-| `consistency.py` | 청크 본문 + 용어집 → `consistency.md` (`bazel build //kb:consistency`): 정확·근사 중복, 라벨 중복, 결정 라벨 형식, 용어집 옛 표기, 중복률. 보고 뷰이며 게이트가 아니다 ([`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md)) | 파싱 실패 |
+| `consistency.py` | 청크 본문 + 용어집 → `consistency.md` (`bazel build //kb:consistency`): 정확·근사 중복, 라벨 중복, 결론 라벨 형식(결론만 — 근거·대안 라벨은 명사구 관례), 용어집 옛 표기, 중복률. 보고 뷰이며 게이트가 아니지만 `//kb:consistency_build_test`가 `bazel test //...`마다 생성한다(rules.md "커밋마다") ([`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md)) | 파싱 실패 |
 
 #### 하네스 도구 — 역할 규약과 인수
 
@@ -226,6 +226,7 @@ tools/gen_build.py                                                              
 ├── //kg:kg_equivalence_test       병합 head 그래프 = union head 그래프 (바이트)
 ├── //:naming_test                 TTL 접미사 규약
 ├── //docs/feedback:channel_lint_test  채널 규약 — lane status 어휘 · hci 반영 흔적의 인수 줄
+├── //kb:consistency_build_test    정합성 보고 생성 (build_test — 보고는 게이트 실행마다)
 ├── //chunks:lint_test             `chunks/` 항목 42줄
 ├── //kb/dev:lint_test             개발 KB 청크 42줄
 ├── //kb/ontology:gate_test        labels · boundary · SHACL

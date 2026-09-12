@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk-d0182
 type: decision
 level: concrete
-title_ko: 명세는 주장이 아니라 검증 가능한 계약이다 — 게이트는 세 방향
-title: A spec is a verifiable contract, not an assertion - three gate directions
+title_ko: 명세는 검증 가능한 계약이고 검사 게이트는 세 방향이다
+title: A spec is a verifiable contract and gate checks run in three directions
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
-generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 명세는 "이렇게 되어 있다"는 주장이 아니라 **기계가 판정할 수
 있는 계약**으로 쓴다. 같은 명세가 생성의 입력이자 검증의 기준이 된다.

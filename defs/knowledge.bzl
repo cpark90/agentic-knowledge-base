@@ -4,6 +4,7 @@
 `bazel test //...` 가 곧 게이트 전체 실행이다.
 """
 
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load("@kb_pip//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_test")
 
@@ -134,6 +135,7 @@ def kb_consistency(name, bodies, glossary = None, theta = "0.5", out = "consiste
 
     중복(정확·근사 후보)·coUpdatesWith 묶임·라벨 형식·용어집 옛 표기. 게이트가 아니라 뷰다 —
     병합·묶기·유지 판정은 재검증 시점에 사람/승인된 판정자가 한다.
+    보고는 커밋마다 생성돼야 하므로(docs/rules.md) build_test 로 감싸 `bazel test //...` 가 곧 생성이 되게 한다.
     """
     extra = (" --glossary $(location %s)" % glossary) if glossary else ""
     native.genrule(
@@ -142,6 +144,11 @@ def kb_consistency(name, bodies, glossary = None, theta = "0.5", out = "consiste
         outs = [out],
         cmd = "$(location //tools:consistency) --out $@ --theta %s%s %s" % (theta, extra, " ".join(["$(execpaths %s)" % b for b in bodies])),
         tools = [Label("//tools:consistency")],
+    )
+    build_test(
+        name = name + "_build_test",
+        targets = [":" + name],
+        size = "small",
     )
 
 def kb_workset(name, role, data, levels = "", anchor = "", budget = 200, out = None):

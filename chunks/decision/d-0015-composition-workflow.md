@@ -2,14 +2,14 @@
 id: https://agentic-knowledge-base.dev/id/chunk-d0015
 type: decision
 level: concrete
-title_ko: 조립 워크플로 — 투영에서 검증까지
-title: Composition workflow from pack to validation
+title_ko: 조립 워크플로는 뷰에서 검증까지 여섯 단계를 고정한다
+title: The composition workflow fixes six steps from view to validation
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
-generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 새 구성물(하네스)의 조립은 고정된 절차를 따른다: ① 요청으로
-컨텍스트 팩을 투영받고 ② 최상위 후보를 템플릿으로 삼아 ③ 요구
+컨텍스트 팩을 뷰로 받고 ② 최상위 후보를 템플릿으로 삼아 ③ 요구
 capability마다 제공 컴포넌트를 바인딩해 결핍을 메우고 ④ 조립한 뒤
 ⑤ 출처(derivedFrom)·성숙도(draft)와 함께 그래프에 기록하고 ⑥ 검증
 게이트를 다시 돌린다. 새 노드도 같은 반-고아·반-drift 불변식에 잡히므로

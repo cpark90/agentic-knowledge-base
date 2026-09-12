@@ -2,17 +2,17 @@
 id: https://agentic-knowledge-base.dev/id/chunk/96966fae-587c-426f-9da7-5233844aa016
 type: decision
 level: concrete
-title_ko: 합격 기준은 verifier와 별도 청크로 존재하고 링크 속성으로 바인딩된다
+title_ko: 합격 기준은 검증기와 별도 청크로 존재하고 링크 속성으로 바인딩된다
 title: Pass criteria are chunks apart from the 검증기, bound as link attributes
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0136]
 part_of: https://agentic-knowledge-base.dev/id/composite/14433614-5dd7-4df3-b32c-2422a25daef3
 composite: {id: https://agentic-knowledge-base.dev/id/composite/14433614-5dd7-4df3-b32c-2422a25daef3, title_ko: 합격 기준, title: Pass criteria}
 ---
-**결론** — 합격 기준은 **V&V KB의 `contract` plane, logical 수준**에서 판정식으로 태어난다 (7.2절). 개발 KB의 abstract → logical 게이트가 이 기준의 존재를 요구한다 (7.3절). **기준은 verifier와 별도 청크로 존재하고 `verifies` 링크의 속성으로 바인딩된다.** 기준 유형은 일곱이다.
+**결론** — 합격 기준은 **V&V KB의 `contract` plane, logical 수준**에서 판정식으로 태어난다 (7.2절). 개발 KB의 abstract → logical 게이트가 이 기준의 존재를 요구한다 (7.3절). **기준은 검증기와 별도 청크로 존재하고 `verifies` 링크의 속성으로 바인딩된다.** 기준 유형은 일곱이다.
 
 - **명세 대조** — 출력이 `contract`·`schema` 청크와 일치 (응답 스키마 정합)
 - **불변식** — 실행 전후로 유지되는 조건 (총량 보존, 참조 무결성)

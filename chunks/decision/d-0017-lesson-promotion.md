@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk-d0017
 type: decision
 level: concrete
-title_ko: 교훈 포착과 표준 규칙 승격
-title: Lesson capture and promotion to standard rules
+title_ko: 실패한 시도는 교훈으로 기록하고 반복되면 표준 규칙으로 승격한다
+title: Failed attempts are captured as lessons and promoted to standard rules when they recur
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
-generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 시도가 실패·기각되거나 수정을 요구받으면 그 자체가 기록
 트리거다: 무엇을 시도했고, 왜 실패했고, 대신 무엇을 하는지를 세션 종료
@@ -25,4 +25,4 @@ lesson-promotion guardrail)
   교훈은 규칙.
 
 **이 저장소와의 관계** — 노트 9.4절 메모리 승격 규칙의 실행 형태이며,
-승격의 목적지는 memory plane → 주제 plane (상승의 최소 단위, d-0006).
+승격의 목적지는 memory plane → 주제 plane (일반화의 최소 단위, d-0006).

@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2
 type: decision
 level: concrete
-title_ko: plane은 하위 클래스, level은 속성
-title: Plane is a subclass, level is a property
+title_ko: plane은 Chunk의 하위 클래스이고 level은 속성이다
+title: Plane is a subclass of Chunk and level is a property
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0071]
 part_of: https://agentic-knowledge-base.dev/id/composite/db06bc97-7100-4ad3-bad0-83fb1c876e1c

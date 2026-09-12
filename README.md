@@ -36,7 +36,7 @@ kg/chunks-kg.ttl           # (생성) head 그래프 — frontmatter에서 만�
 kg/references-kg.ttl       # (생성) 인용 링크 — 본문에서 뽑는다
 INTENT.md                  # 요구 층 진입 — 궁극 목적·이해관계자·요구 인덱스
 kb/dev/requirement/        # 개발 KB — 요구 33건 (EARS, functional)
-kb/dev/decision/           # 개발 KB — 결정 185건 (결론·근거·대안 세 청크 복합체; 1건은 deprecated)
+kb/dev/decision/           # 개발 KB — 결정 186건 (결론·근거·대안 세 청크 복합체; 1건은 deprecated)
 kb/vv/                     # V&V KB — vnv 역할만 편집 (아직 비어 있음)
 chunks/decision/           # v1 유래 옛 결정 (126 deprecated · 27 유효)
 space/                     # 설계 공간 (후보와 제약) — 아직 비어 있음
@@ -60,7 +60,7 @@ bazel run //tools:canonicalize -- --write <files>   # 기계 생성 TTL 정규�
 
 코어를 코어 자신에 적용한 **첫 인스턴스**다. 설계 원본은 노트 v3
 ([`docs/agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md))이고, 그
-`[확정]`이 요구 33건과 결정 185건(`kb/dev/`)으로 재도출되어 있다 (v3 145 + v4·v5 델타 37 + 2026-09-11 추가 3). deprecated는
+`[확정]`이 요구 33건과 결정 186건(`kb/dev/`)으로 재도출되어 있다 (v3 145 + v4·v5 델타 37 + 2026-09-11~12 추가 4). deprecated는
 청크 129 — `chunks/decision/`의 v1 유래 옛 결정 126건과 대체된 새 결정 1건(`p14-adoption-stages`). 출처와 처리 경위는
 [`docs/decomposition-audit.md`](docs/decomposition-audit.md).
 

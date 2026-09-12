@@ -92,8 +92,8 @@ level을 바꾸지 않는다 — 전이는 기존 청크의 level 갱신이 아�
   임베딩 유사도(후보 추림만) > 같은 세션에서 읽음 (d-0110).
 - **임베딩 유사도를 확정 근거로 쓰지 않는다** (d-0009).
 
-조건(`when`)·증거 기록·상태 전이 규칙은 [`p9-conditional-links`](../kb/dev/decision/p9-conditional-links/conclusion.md)·[`p9-evidence-ledger`](../kb/dev/decision/p9-evidence-ledger/conclusion.md). 조회 알고리즘과 복원 계획은
-[`feedback/dependency-graph-design.md`](feedback/dependency-graph-design.md).
+조건(`when`)·증거 기록·상태 전이 규칙은 [`p9-conditional-links`](../kb/dev/decision/p9-conditional-links/conclusion.md)·[`p9-evidence-ledger`](../kb/dev/decision/p9-evidence-ledger/conclusion.md). 조회 알고리즘은 §8, 복원 경로는
+[`p10-link-by-construction`](../kb/dev/decision/p10-link-by-construction/conclusion.md)·[`p9-candidate-generation-limits`](../kb/dev/decision/p9-candidate-generation-limits/conclusion.md).
 
 ## 7. 갱신
 
@@ -120,7 +120,8 @@ level을 바꾸지 않는다 — 전이는 기존 청크의 level 갱신이 아�
 - 컨텍스트 예산은 항목별로 분해해 통제하고 지식 본문은 잔여로 둔다 (d-0041).
 
 조립 알고리즘(앵커 → 이웃 확장 → 우선순위 → 예산 패킹)은
-[`feedback/dependency-graph-design.md`](feedback/dependency-graph-design.md) §4.
+[`p0-workset-anchor-neighbourhood`](../kb/dev/decision/p0-workset-anchor-neighbourhood/conclusion.md) 결정이고 첫 형태는 `workset`([`tools.md`](tools.md))이다.
+예산 상한식은 Δ = m·k·42(앵커 m × 이웃 k × 42줄).
 
 ## 9. 뷰
 

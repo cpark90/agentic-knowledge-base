@@ -16,7 +16,7 @@
 
 | 문서 | 자리 |
 |---|---|
-| [`docs/agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md) (v5, 3,470줄) | 요구의 **근거와 결정의 원천**. Part I·산출물 정의가 요구를 낳고, Parts 0~XIII의 `[확정]`이 결정으로 재도출된다 (v3 기준 145건 + v4·v5 델타 37건 + 2026-09-11 추가 3건 = 185건) |
+| [`docs/agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md) (v5, 3,470줄) | 요구의 **근거와 결정의 원천**. Part I·산출물 정의가 요구를 낳고, Parts 0~XIII의 `[확정]`이 결정으로 재도출된다 (v3 기준 145건 + v4·v5 델타 37건 + 2026-09-11~12 추가 4건 = 186건) |
 | [`docs/agentic-knowledge-base-structure.md`](docs/agentic-knowledge-base-structure.md) (v5) | **운용 지도** — 두 KB·plane·수준·순환이 한눈에 |
 
 요구는 이 두 문서를 `derives_from`으로 가리키고, 재도출된 결정이 요구를

@@ -209,7 +209,12 @@ hci 권고: 전부 수용. (g)만 유의 — 임베딩 모델 선택·저장이 
 [LARGER (arXiv 2605.16352)](https://arxiv.org/abs/2605.16352)
 
 ## 답
-(유저가 채움)
+유저(2026-09-12): `status: approved` 태깅 + orchestrator에 구두 지시 "이후에 dependency-graph도 반영해줘" — hci 권고(전부 수용) 채택.
+
+인수: orchestrator 2026-09-12 — 결정 지점 (a)~(j)를 현재 온톨로지·결정·도구와 대조해 남은 것만 반영했다.
+- 이미 반영돼 있던 것 (v3~v5 재도출, 2026-09-04~11): (a) 네 족 상위 속성 — `related/trace/trace-ontology.ttl`(`dependsOn` > `references`·`semanticallyDependsOn`·`relatedTo`, 구성 관계는 `hasDirectPart`) · (b) `agt:CandidateLink`/`agt:ConfirmedLink` + `linkState`, ω는 9.11절에 따라 폐기(`confidence` deprecated) · (c) `kg/references-kg.ttl` 생성(`extract_refs`) · (d) `agt:references ⊑ dcterms:references`, `agt:relatedTo ⊑ skos:related` · (e) 복합체 = 함께 읽힘·순서, `relatedTo` = 함께 갱신(`rules.md` §2·§4) · (f) `agt:usesConcept` 속성 · (g) 임베딩은 후보 추림에만(`p10-link-judgement-evidence`·`p12-knowledge-retrieval-by-label`, 증거 종류 `embeddingSimilarity`) · (i) situation 도구 = `workset` 첫 형태 + `p0-workset-anchor-neighbourhood` · (j) `imports`·`invokes`는 코어에 없음. 대상 옛 결정 14건은 전부 deprecated이고 `p10-*`·`p9-*`·`p12-*`가 대체했다.
+- 이번에 반영: (h) 결정 신설 `p4-community-detection-proposes-composites`(세 청크, 출처 개체 `id:doc-dependency-graph-design`, refines r-011) · (i) 예산식 Δ = m·k·42를 `p0-workset-anchor-neighbourhood/rationale`와 `method.md` §8에 · 문서 네 곳(`rules.md` §2·§4, `ontology.md`, `method.md` §6·§8)의 이 항목 참조를 결정·도구 참조로 승격 — 이 항목은 채널에서 제거돼도 문서가 깨지지 않는다.
+- 반영하지 않고 남긴 것: (f) 기존 청크에 `usesConcept` 링크 복원(수백 건 후보 — 후보 생성 도구 `link` 몫, 도입 3단계) · (g)의 ODD 조건(임베딩 모델·저장) — 임베딩 도구가 실제로 생길 때 ODD를 먼저 확장 · §5 의미 응집 검사(임베딩 필요, 선택) · §6 `assumes` 공백(가정 1건 — 도입 4단계) · (h)의 도구 자체(`project` 계열, 도입 8단계).
 
 ## 외부 조사로 채운 세부 (2026-09-11)
 

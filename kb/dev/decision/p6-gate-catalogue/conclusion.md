@@ -2,12 +2,12 @@
 id: https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5
 type: decision
 level: concrete
-title_ko: 게이트는 열아홉이고 다섯 실행 계층에 배치되며 실패는 draft에 머물러 전파되지 않는다
-title: Nineteen gates on five execution layers; a failure stays in draft and does not propagate
+title_ko: 게이트는 다섯 실행 계층에 배치되며 실패는 draft에 머물러 전파되지 않는다
+title: Gates sit on five execution layers; a failure stays in draft and does not propagate
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
+generated: {by: hci/claude-opus-5, at: 2026-09-12T00:50:00+09:00}
+verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-12T00:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/33c8a1a1-fc90-4ce7-83a9-20c607a7c163, title_ko: 게이트 총람, title: The gate catalogue}
 part_of: https://agentic-knowledge-base.dev/id/composite/33c8a1a1-fc90-4ce7-83a9-20c607a7c163

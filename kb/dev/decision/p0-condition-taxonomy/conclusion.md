@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk/870158d1-2a3e-4b89-b721-7afb4d7a095d
 type: decision
 level: concrete
-title_ko: 조건의 3갈래 분류와 둘째 수준 고정
-title: Three condition branches with a fixed second level
+title_ko: 조건은 정적 요소·환경 조건·동적 요소 세 갈래이고 둘째 수준까지 고정된다
+title: Conditions branch into static elements, environmental conditions and dynamic elements, fixed down to the second level
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c, https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0030]
 part_of: https://agentic-knowledge-base.dev/id/composite/7d50713a-5c4d-485d-8a46-a36172a1b114

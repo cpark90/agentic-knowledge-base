@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk/e09e5796-4a28-4f39-a886-2eb95c957f8a
 type: decision
 level: concrete
-title_ko: 제약의 출처 셋과 공리·제약·가정의 구분
-title: Three constraint sources; axiom, constraint and assumption are distinct
+title_ko: 제약의 출처는 공리·ODD·설계 공간 셋이고 공리·제약·가정은 서로 다르다
+title: Constraints come from three sources, axioms, ODD and design space, and axiom, constraint and assumption are distinct
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249, https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0099]
 part_of: https://agentic-knowledge-base.dev/id/composite/82fb12dd-6188-4e06-bae7-e86e699ac5fe

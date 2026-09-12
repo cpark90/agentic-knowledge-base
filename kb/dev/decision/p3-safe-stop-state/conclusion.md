@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk/a24ec170-66e3-4ed4-aa09-3f70fb7f4d28
 type: decision
 level: concrete
-title_ko: 이탈 시 남겨야 할 상태와 복귀 가능성
-title: What must remain after an exit, and the ability to return
+title_ko: ODD 이탈 시 남기는 상태는 정해져 있고 안전 정지는 되돌릴 수 있어야 한다
+title: The state left at an ODD exit is fixed and a safe stop must be reversible
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366, https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0065]
 part_of: https://agentic-knowledge-base.dev/id/composite/a28b73f3-e4b9-41b0-840a-1febcceae940

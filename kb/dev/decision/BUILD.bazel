@@ -1707,6 +1707,20 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p4-community-detection-proposes-composites",
+    conclusion = "p4-community-detection-proposes-composites/conclusion.md",
+    rationale = "p4-community-detection-proposes-composites/rationale.md",
+    alternatives = "p4-community-detection-proposes-composites/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/165ef75a-d4f3-4de2-aba2-ea3a8efb787a",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/822db955-483e-47ed-ad68-fec783bc825b", "https://agentic-knowledge-base.dev/id/chunk/f21050ba-f71f-4e47-8e4f-e0ddbd6c2095", "https://agentic-knowledge-base.dev/id/chunk/97dca3e0-2cb6-47e6-a99c-72055dbc1792"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+)
+
+kb_decision(
     name = "p4-composite-as-part-of",
     conclusion = "p4-composite-as-part-of/conclusion.md",
     rationale = "p4-composite-as-part-of/rationale.md",
@@ -3235,6 +3249,7 @@ kb_bundle(
         ":p4-chunk-rules-as-shacl-shapes",
         ":p4-chunk-split-and-merge",
         ":p4-chunk-state-machine",
+        ":p4-community-detection-proposes-composites",
         ":p4-composite-as-part-of",
         ":p4-composition-rules",
         ":p4-label-is-the-interface",

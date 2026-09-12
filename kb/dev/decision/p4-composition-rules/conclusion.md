@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk/930258f9-270a-484b-9b01-6841e72a9eae
 type: decision
 level: concrete
-title_ko: 구성 규칙 — 비순환·7±2·동질성·참조 재사용
-title: Composition rules: acyclic, 7±2, homogeneity, reference reuse
+title_ko: 구성 규칙은 비순환·7±2·동질성·참조 재사용이며 shape으로 쓴다
+title: Composition rules are acyclicity, 7±2, homogeneity and reference reuse, written as shapes
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0074]
 part_of: https://agentic-knowledge-base.dev/id/composite/27157a50-048e-4b31-835f-ce91abcb93a8

@@ -6,7 +6,7 @@ title_ko: 레시피는 중립 부품의 조립 명세다
 title: A recipe is an assembly spec over neutral parts
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
-generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 중앙 라이브러리와 레시피의 역할을 나눈다. 중앙은 일반화된
 도메인 독립 부품(guardrail·pattern·workflow·prompt·tool·capability·
@@ -26,4 +26,4 @@ concept)만 담는 **중립 부품 라이브러리**로 두고, "부품이 어�
 
 **이 저장소와의 관계** — 온톨로지 코어+확장 원칙(노트 2.3절: 최상위는
 import만, 확장은 새 모듈 추가로만)의 A-Box판이다. 도메인 프로파일
-(2.11절)이 골격과 분리되는 것과 같은 구도다.
+(2.11절)이 코어와 분리되는 것과 같은 구도다.

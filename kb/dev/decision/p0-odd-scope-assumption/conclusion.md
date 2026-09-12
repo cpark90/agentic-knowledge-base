@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk/98142727-d920-46fc-a3e2-22e7d9a57b65
 type: decision
 level: concrete
-title_ko: 세 종류의 경계와 그 파생 관계
-title: Three kinds of boundary and their derivation
+title_ko: 경계는 ODD·스코프·가정 셋이며 ODD가 상위이고 나머지는 ODD에서 파생된다
+title: The three boundaries are ODD, scope and assumption; ODD is primary and the others derive from it
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c, https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249, https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0008]
 part_of: https://agentic-knowledge-base.dev/id/composite/d892c74e-912c-45df-a36b-cccefabeed74

@@ -2,12 +2,12 @@
 id: https://agentic-knowledge-base.dev/id/chunk/b1335ecb-5ef9-45bf-a8aa-db8f44e86b5f
 type: decision
 level: concrete
-title_ko: 추적성 지표 다섯과 그 경고 신호
-title: Five traceability metrics and what they warn about
+title_ko: 추적성은 다섯 지표로 관측하고 지표마다 경고 신호를 정의한다
+title: Traceability is observed through five metrics, each with a defined warning signal
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
-verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-12T00:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0112]
 part_of: https://agentic-knowledge-base.dev/id/composite/759aa68a-d77b-425c-b819-42ead2a9b0e9

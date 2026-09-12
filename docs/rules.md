@@ -120,8 +120,8 @@ IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 **모든 chunk가 복합체에 속할 필요는 없다** (유저 결정 2026-09-02). 통합이 필요한 것만
 묶고 나머지는 개별로 둔다. 통합의 기준은 둘이다 — **함께 읽혀야 이해되는가**(병합 신호,
 d-0002), **순서가 뜻을 갖는가**(d-0073). 셋째 기준인 "무효화가 함께 번져야 하는가"는
-복합체가 아니라 링크(`relatedTo`)로 표현한다
-([`feedback/dependency-graph-design.md`](feedback/dependency-graph-design.md) §2.4).
+복합체가 아니라 링크(`relatedTo`)로 표현한다 (§4 링크 타입 표). 복합체 **후보**는 커뮤니티 탐지가
+제안하고 채택은 사람이 한다 ([`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md)).
 
 **결정은 세 청크의 복합체다** (노트 4.7절·7.4절, 유저 결정 C2) — 결론(concrete)·근거(logical)·
 대안(logical, **필수** — "대안 없었음"도 기록)이 `kb/dev/decision/<파트>-<슬러그>/` 디렉토리 하나에 살고,
@@ -180,8 +180,9 @@ C7). `serves ⊑ refines`(결정 → 요구·관심사)는 v4 6.8·7.3의 기여
 conditional은 `when`의 특수형이다. 증거 기록 규칙 둘은 verify 질의다 — 구축(+)·실행(+) 없는 확정,
 (−)가 있는 확정 (`tools/verify-queries/`). (노트 9.11절, 2026-09-10)
 
-상세 설계(LEDGER·LARGER를 참고한 조회 알고리즘, 복원 계획)는
-[`feedback/dependency-graph-design.md`](feedback/dependency-graph-design.md).
+조회 알고리즘(앵커 → 이웃 확장 → 우선순위 → 예산 패킹)은 [`p0-workset-anchor-neighbourhood`](../kb/dev/decision/p0-workset-anchor-neighbourhood/conclusion.md),
+복원 경로는 [`p10-link-by-construction`](../kb/dev/decision/p10-link-by-construction/conclusion.md)·[`p9-candidate-generation-limits`](../kb/dev/decision/p9-candidate-generation-limits/conclusion.md).
+LEDGER·LARGER 대응표 원안은 채널 항목 `dependency-graph-design`(2026-09-04, 반영 완료 2026-09-12 — git 이력)에 있다.
 **어휘는 갖춰졌고 링크 개체는 472(전부 구축 기록 증거, `metrics` 3단계 절)이며 후보 링크는 아직 0이다.**
 
 ## 5. knowledge graph — 무엇을 담는가

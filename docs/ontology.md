@@ -37,8 +37,10 @@ kb/ontology/
 분류되는 개념(`entity/`)과 횡단 개념(`related/`)**, 그리고 **어휘(`-ontology`)와
 형식화(`-rules`·`-shapes`)** ([`id:chunk-d0048`](../chunks/decision/d-0048-ontology-module-structure.md)).
 
-`related/trace`(링크 타입·링크 개체·판정 근거, 파일 8개)가 2026-09-04에 추가되었다 — 설계는
-[`feedback/dependency-graph-design.md`](feedback/dependency-graph-design.md).
+`related/trace`(링크 타입·링크 개체·판정 근거, 파일 9개)가 2026-09-04에 추가되었다 — 네 족(`references`·
+`semanticallyDependsOn`·`relatedTo` + 구성 관계)과 표준 정렬(`dcterms:references`·`skos:related`)은
+[`p10-link-types`](../kb/dev/decision/p10-link-types/conclusion.md)·[`p10-traceability-information-model`](../kb/dev/decision/p10-traceability-information-model/conclusion.md).
+LEDGER·LARGER 대응 원안은 채널 항목 `dependency-graph-design`(반영 완료 — git 이력).
 
 `related/trust`(생성·검증 주체)가 2026-09-07에 추가되었다 — OKF v0.2의 신뢰 등급.
 

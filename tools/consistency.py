@@ -8,7 +8,8 @@
   ② 라벨 중복 — title_ko 또는 title 이 같은 청크 (용인 불가: 라벨은 인터페이스)
   ③ 근사 중복 후보 — 본문 문자 5-gram 집합의 Jaccard ≥ θ (기본 0.5). 유사도는 후보 추림에만 쓴다
   ④ 묶임 여부 — ①·③ 쌍이 coUpdatesWith 로 묶여 있는가. 안 묶인 중복이 드리프트 후보다
-  ⑤ 라벨 형식 — 결정 부분의 title_ko 가 문장형(…다)으로 끝나는가
+  ⑤ 결론 라벨 형식 — 결정의 결론(conclusion.md 또는 단일 파일 결정)의 title_ko 가 문장형(…다)으로 끝나는가.
+     근거·대안 라벨은 명사구가 관례라 보지 않는다 (label-representativeness-protocol (c) ④: "결정 라벨은 결론 문장형")
   ⑥ 용어 — docs/glossary.md 의 "옛 표기"가 살아 있는 청크 본문에 남아 있는가
 
 사용: consistency.py --out consistency.md [--theta 0.5] [--glossary docs/glossary.md] <청크 .md …>
@@ -108,8 +109,12 @@ def main() -> int:
             near.append((j, x, y))
     near.sort(key=lambda t: -t[0])
 
-    # ⑤ 라벨 형식 — 결정 부분은 문장형
-    bad_form = [it for it in items if it["type"] == "decision" and not re.search(r"(다|음|함|없음|있음)$", it["title_ko"])]
+    # ⑤ 결론 라벨 형식 — 결정의 결론만 문장형. 판정은 경로 basename: conclusion.md 이거나
+    #    근거·대안(rationale.md·alternatives.md)이 아닌 단일 파일 결정(chunks/decision/d-*.md)
+    def is_conclusion(it):
+        return it["type"] == "decision" and Path(it["path"]).name not in ("rationale.md", "alternatives.md")
+
+    bad_form = [it for it in items if is_conclusion(it) and not re.search(r"(다|음|함|없음|있음)$", it["title_ko"])]
 
     # ⑥ 용어
     term_hits = []
@@ -133,7 +138,7 @@ def main() -> int:
              f"| 정확 중복 묶음 | {len(exact)} (쌍 {total_pairs}) — coUpdatesWith 미묶음 {len(unlinked_exact)} |",
              f"| 라벨 중복 | {len(label_dups)} (용인 불가) |",
              f"| 근사 중복 후보 (Jaccard ≥ θ) | {len(near)} — 미묶음 {len(unlinked_near)} |",
-             f"| 결정 라벨 형식 위반 | {len(bad_form)} |",
+             f"| 결론 라벨 형식 위반 | {len(bad_form)} |",
              f"| 용어집 옛 표기 잔존 | {len(term_hits)} |",
              f"| **중복률** (정확·근사 관련 청크 / 전체) | {len({i['id'] for g in exact for i in g} | {i['id'] for _, x, y in near for i in (x, y)})}/{len(items)} |",
              ""]
@@ -156,7 +161,7 @@ def main() -> int:
         lines.append("- 없음")
     if len(near) > 50:
         lines.append(f"- … {len(near) - 50}건 더")
-    lines += ["", "## ⑤ 결정 라벨 형식 위반 (문장형이 아님)", ""]
+    lines += ["", "## ⑤ 결론 라벨 형식 위반 (문장형이 아님)", ""]
     for it in bad_form[:50]:
         lines.append(f"- {ref(it)}")
     if not bad_form:

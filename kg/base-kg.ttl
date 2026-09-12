@@ -43,3 +43,8 @@ id:doc-label-representativeness-protocol
     rdfs:label "label representativeness protocol (user feedback item)"@en ,
         "라벨 대표성 실험 프로토콜 (유저 피드백 항목)"@ko ;
     prov:atLocation "docs/feedback/label-representativeness-protocol.md" .
+
+id:doc-dependency-graph-design
+    rdfs:label "dependency graph design (user feedback item)"@en ,
+        "의존성 그래프 설계 (유저 피드백 항목)"@ko ;
+    prov:atLocation "docs/feedback/dependency-graph-design.md" .

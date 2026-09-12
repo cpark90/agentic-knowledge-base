@@ -6,7 +6,7 @@ title_ko: 저작 UI는 SSOT를 우회하지 않는다
 title: The authoring UI never forks the source of truth
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
-generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 사람용 편집 도구는 상태를 자기 저장소로 fork하지 않는다. 에이전트가
 읽고 쓰는 **같은 파일**을 단일 진실 공급원으로 쓰고, 저장은 에이전트가 통과하는
@@ -14,7 +14,7 @@ generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 
 **근거** (harness-functional docs/webui-design.md §1·§5·§6)
 - 폼의 선택지가 스키마에서 나오면 사람은 새 클래스나 타입 없는 간선을 애초에
-  만들 수 없다 — drift를 규율이 아니라 UI의 구조로 봉한다.
+  만들 수 없다 — drift를 규칙이 아니라 UI의 구조로 봉한다.
 - 저장 파이프라인은 낙관적 쓰기 → 원자 교체 → 검증 → **실패 시 롤백**이다.
   잘못된 상태가 디스크에 남지 않고, 실패 리포트와 diff를 편집 화면에 그대로
   돌려주므로 고치는 자리와 판정하는 자리가 같다.

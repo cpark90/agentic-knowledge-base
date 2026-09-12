@@ -274,7 +274,7 @@ functional로 간다. 축의 나머지 절반(후보·계약을 싣는 레시피
 | 원본의 성격 | 목적지 |
 |---|---|
 | 이해관계자 관심사 | **요구 33건** (`kb/dev/requirement/`, EARS, functional; v3 26 + 공백 보충 7) + [`../INTENT.md`](../INTENT.md) |
-| `[확정]` | **결정 185건** (`kb/dev/decision/<파트>-<슬러그>/`, 결론·근거·대안 세 청크 복합체; v3 145 + v4·v5 델타 37 + 2026-09-11 추가 3) |
+| `[확정]` | **결정 186건** (`kb/dev/decision/<파트>-<슬러그>/`, 결론·근거·대안 세 청크 복합체; v3 145 + v4·v5 델타 37 + 2026-09-11~12 추가 4) |
 | `[안]` | 해당 결정의 `alternatives.md`에 "미확정" 표기 |
 | `[?]` · Part XVII | [`open-questions.md`](open-questions.md) (30건 + 이 저장소 관찰) |
 | Part XIV 도입 순서 | [`roadmap.md`](roadmap.md) 도입 8단계 |

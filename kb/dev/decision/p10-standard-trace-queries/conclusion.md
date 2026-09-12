@@ -2,12 +2,12 @@
 id: https://agentic-knowledge-base.dev/id/chunk/9245ee8e-581f-44df-a08b-3a386eecbded
 type: decision
 level: concrete
-title_ko: 링크 모델이 답해야 할 표준 질의 네 가지
-title: Four standard queries the link model must answer
+title_ko: 링크 모델은 영향 분석·커버리지·근거 추적·상태 집계 네 질의에 답해야 한다
+title: The link model must answer four queries: impact, coverage, rationale trace and state aggregation
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
-verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-12T00:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0108]
 part_of: https://agentic-knowledge-base.dev/id/composite/03b399d7-2688-4588-bfed-7942e0e30aab

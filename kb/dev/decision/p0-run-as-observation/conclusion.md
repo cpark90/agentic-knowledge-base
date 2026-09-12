@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk/9f79d119-83cf-46a7-89c0-680e8f203296
 type: decision
 level: concrete
-title_ko: agt:Run과 agt:Runbook
-title: agt:Run and agt:Runbook
+title_ko: 관측된 실행은 agt:Run, 대응 절차는 agt:Runbook으로 가른다
+title: Observed runs are agt:Run and response procedures are agt:Runbook
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/8117429b-5245-4a0a-8628-a46fb78dd65d, https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0012]
 part_of: https://agentic-knowledge-base.dev/id/composite/696b52ee-952f-478e-9af1-cd83c82c9b88

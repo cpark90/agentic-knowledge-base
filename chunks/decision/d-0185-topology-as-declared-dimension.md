@@ -2,11 +2,11 @@
 id: https://agentic-knowledge-base.dev/id/chunk-d0185
 type: decision
 level: concrete
-title_ko: 조율 방식은 전역 고정이 아니라 구성물이 선언하는 차원
-title: Coordination topology is a declared dimension, not a global constant
+title_ko: 조율 방식은 전역 고정이 아니라 구성물이 선언하는 차원이다
+title: Coordination topology is a dimension each composition declares, not a global constant
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
-generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 구성물의 참여자들이 **어떻게 조율하는가**(topology)는 체계
 전역에 하나로 고정하지 않는다. 재사용 가능한 기본 개체로 제공하되, 구성물
@@ -26,5 +26,5 @@ generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
   개체를 라이브러리에 두어 재사용하게 하고, 재정의는 예외로 남긴다 —
   재정의를 허용한다는 것과 매번 새로 정의하는 것은 다르다.
 
-**이 저장소와의 관계** — 골격을 고치지 않고 하위 클래스·shape 추가만
+**이 저장소와의 관계** — 코어를 고치지 않고 하위 클래스·shape 추가만
 허용하는 프로파일 규칙(d-0057)의 개체(A-Box) 축 대응이다.
