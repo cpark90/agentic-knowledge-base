@@ -17,6 +17,7 @@
 | **hci** | `docs/feedback/**` 전체 + 자기 역할 메모리 `.claude/agent-memory/hci/**` — 이 둘이 hci의 유일한 쓰기 범위다 | 저장소 전체 |
 | **다른 에이전트** | `agents/` lane의 **자기 항목만** (유저에게 전달할 내용) | 저장소 전체 (읽기 전용) |
 
+- **유저 판단 대기(2026-09-12)**: [`agrtls-practices-review-2026-09-12.md`](agrtls-practices-review-2026-09-12.md) — agrtls 하네스에서 가져올 후보 열(F·P·N·A·B·C·E·Q·K·M′, 4판 — 하위 9 repo 포함) + V&V 설계 입력
 - **유저 판정 대기**: [`label-representativeness-sheet.md`](label-representativeness-sheet.md) — 라벨 30개 예측 → 정답지 대조 → 판정.
   1단계 "의미 보존" 축의 마지막 조각이다. 프로토콜 [`label-representativeness-protocol.md`](label-representativeness-protocol.md) ·
   정답지 [`label-representativeness-key.md`](label-representativeness-key.md) · 에이전트 판정 대조군 [`label-experiment-agent-2026-09-11.md`](label-experiment-agent-2026-09-11.md)
