@@ -23,7 +23,8 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
   coUpdatesWith: 같은 내용을 담아 함께 갱신되어야 하는 청크 IRI 목록 (선택, relatedTo 족 — 안전율 중복의 표시)
   part_of:      소속 복합체 IRI (선택) — 복합체는 멤버 중 하나가 composite: 로 선언
   composite:    {id: …, title_ko: …, title: …} (선택) — 복합체 개체 선언
-  라벨 언어:    title 에 한글([ㄱ-ㆎ가-힣])이 있거나 title_ko 에 한글이 없으면 거부 — 영문 라벨에 한글을 섞지 않는다(0.6절)
+  라벨 언어:    title 에 한글([ㄱ-ㆎ가-힣])이 있거나 title_ko 에 한글이 없으면 거부 — 영문 라벨에 한글을 섞지 않는다(0.6절).
+                composite 의 title·title_ko 도 같은 @en/@ko 라벨이므로 같은 규칙으로 거부한다
 
 사용: chunk2kg.py --out <생성.ttl> <청크 파일들...>
 """
@@ -100,6 +101,12 @@ def parse_chunk(path: str) -> tuple[dict, int]:
         raise ValueError(f"{path}: title {meta['title']!r} 에 한글이 있다 — 영문 라벨에 한글을 섞지 않는다(0.6절)")
     if not HANGUL.search(meta["title_ko"]):
         raise ValueError(f"{path}: title_ko {meta['title_ko']!r} 에 한글이 없다 — 라벨은 한/영 1:1, 한글 라벨은 한글로 쓴다(0.6절)")
+    comp = meta.get("composite")
+    if isinstance(comp, dict):  # 구조({id, title_ko, title})는 main 이 검사한다 — 여기서는 청크 라벨과 같은 언어 규칙만
+        if comp.get("title") and HANGUL.search(comp["title"]):
+            raise ValueError(f"{path}: composite.title {comp['title']!r} 에 한글이 있다 — 복합체 라벨도 한/영 1:1(0.6절)")
+        if comp.get("title_ko") and not HANGUL.search(comp["title_ko"]):
+            raise ValueError(f"{path}: composite.title_ko {comp['title_ko']!r} 에 한글이 없다 — 복합체 라벨도 한/영 1:1(0.6절)")
     gen = meta["generated"]
     if not isinstance(gen, dict) or not gen.get("by") or not gen.get("at"):
         raise ValueError(f"{path}: generated 는 {{by: …, at: …}} 여야 한다 (OKF 행위자 표기)")

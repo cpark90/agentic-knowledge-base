@@ -106,3 +106,4 @@ targets: [kb/dev/decision/p8-mismatch-attribution/conclusion.md, kb/dev/decision
 4. 덧붙임의 `channel_lint` 표지 완화 (같은 소유자)
 
 인수: orchestrator 2026-09-12 — 유저 답 1,3. (1) `chunk2kg`가 `title`의 한글, `title_ko`의 한글 부재를 `FAIL [chunk2kg]`로 거부(developer, 음성 시험 확인) (2) `STYLEGUIDE.md` §0 언어 규칙에 한 줄 (3) 오염 6건을 git 이력의 원문(`verifier`)으로 되돌렸다 — `generated.at` 갱신, orchestrator 재검토 표시. 라벨 판정 도장은 `label-rejudge-2026-09-12` 유저 확인 뒤 한 번만 찍는다(hci 권고 순서) (4) `channel_lint` 표지를 서술형(`hci 반영`·`hci가 반영/수행`)으로 좁혔다(developer). 원인은 orchestrator의 치환 정규식이 영문 라벨 줄을 제외하지 않은 것 — 세션 메모리에 남겼다.
+후속 (orchestrator 2026-09-12): 같은 검사를 복합체 선언(`composite.title`·`title_ko`)에도 붙였다(developer). HEAD에 있던 위반 1건 — `pe-odd-is-openodd` 복합체 라벨 `ODD = OpenODD`(한글 없음) → `ODD는 OpenODD다` / `ODD is OpenODD`. 용어집 `검증기` 행에 "영문 라벨·식별자는 verifier 그대로"를 명시했다.

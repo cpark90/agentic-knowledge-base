@@ -30,7 +30,7 @@
 | 코어 온톨로지 · 코어 | core ontology | 골격 | 온톨로지 공학 core/domain |
 | 도메인 프로파일 (단축형: 프로파일) | domain profile | — (단축형 인정, 유저 결정 2026-09-12) | OWL 2 profile, ISO 34503. 첫 언급에 한정(도메인·개발·V&V·참조)을 붙이고 이후 단축한다 |
 | 신뢰 등급 | trust tier | 트러스트 (티어) | OKF v0.2 |
-| 검증기 | verifier | verifier | — |
+| 검증기 | verifier | verifier (한글 산문 안에서) | — . 영문 라벨·식별자(`title`, 디렉토리명 `verifier/`, `verifier_bind`)는 `verifier` 그대로 — 치환 대상은 한글 필드뿐 (유저 결정 2026-09-12) |
 | 규칙 | rule (구조 규칙, 42줄 규칙) | 규율 | — |
 | 판정 · 합격 판정 기준 · 판정식 · 판정자 | judgement · pass/fail criteria · predicate · judge | (유지) | ISTQB (국문 용어집 표기는 미확인). 29148 검증 방법 4종과의 대응은 references §1.1 |
 | 청크 · 지식 종류(plane) · 수준(level) | chunk · plane · level | (유지) | 유저 결정 2026-09-02·04 |
