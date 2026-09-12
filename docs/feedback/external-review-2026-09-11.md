@@ -1,7 +1,7 @@
 ---
 from: hci
-status: open
-targets: [docs/references.md, docs/glossary.md, docs/feedback/notes-v5-review.md]
+status: approved
+targets: [docs/references.md, docs/glossary.md, docs/roadmap.md]
 ---
 
 # 진행 검토와 외부 조사 보충 (2026-09-11)
@@ -50,3 +50,5 @@ targets: [docs/references.md, docs/glossary.md, docs/feedback/notes-v5-review.md
 **유저(2026-09-11): "1은 지금 맞추고 2도 진행해줘"** — hci 반영(담당 역할 인수 대기): ODD 문서를 OpenODD YAML 매핑 모양으로 재작성(범주 리터럴·수치 식·확장 키 대문자), 생성기 재작성; `pyyaml==6.0.2` 잠금(relock.sh가 플랫폼 휠에 sdist 해시 병기), `kb_yaml.py` 삭제.
 
 인수: orchestrator 2026-09-11 — 청크·도구·문서 변경을 검토했다(요구 7건 전문, 결정 표본, 온톨로지 폐기 표기, 게이트 구조 검사). endorse 로 verified 부여.
+
+인수: orchestrator 2026-09-12 (채널 점검) — 판단 둘 다 반영 완료 상태 확인: 1 OpenODD YAML 매핑 재작성(`kb/odd/project-odd.yml`·`odd2kg`·`taxonomy`), 2 PyYAML 해시 고정(`pyyaml==6.0.2`, `kb_yaml.py` 삭제 2026-09-11). 이 항목에서 남는 수행은 없다 — 유저 태깅 대기(`open`).

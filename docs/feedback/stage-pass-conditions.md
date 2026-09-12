@@ -18,7 +18,7 @@ targets: [kb/dev/decision/p14-adoption-stages/conclusion.md, docs/roadmap.md, do
 ## 이미 정해진 것
 
 - 세 축의 원천은 노트에 이미 있다 — 의미 보존: 4.13 라벨 대표성 · 7.4 대안 필수 · 2.12 `sources` 빈 청크 = 실패 / 구체화: 6.2 하강 4전이(전이마다 근거와 `refines`) · 6.8 전이 게이트 · 7.2 결정의 세 수준 / 유기적 연결: 4.5 참조 원칙 · 10.12 매트릭스 "빈 칸이 곧 누락" · 9.11 장부 · 8.3 가로대
-- 1단계의 "토큰 감소"는 이미 "의미를 보존하면서 예산 이내"로 재정의됐다 (결정 원장 17, [`stage1-pass-measurement.md`](stage1-pass-measurement.md))
+- 1단계의 "토큰 감소"는 이미 "의미를 보존하면서 예산 이내"로 재정의됐다 (결정 원장 17, `stage1-pass-measurement.md`(2026-09-12 refresh 로 제거, git 이력))
 - 단계는 여덟이고 사례 프로젝트 하나에서 끝까지 한다 ([`p14-adoption-stages`](../../kb/dev/decision/p14-adoption-stages/conclusion.md)) — 단계 수·순서는 바꾸지 않는다
 - 지표는 생성물(`bazel build //kg:metrics`)로 낸다
 

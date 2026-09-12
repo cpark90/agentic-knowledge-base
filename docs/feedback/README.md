@@ -17,16 +17,16 @@
 | **hci** | `docs/feedback/**` 전체 + 자기 역할 메모리 `.claude/agent-memory/hci/**` — 이 둘이 hci의 유일한 쓰기 범위다 | 저장소 전체 |
 | **다른 에이전트** | `agents/` lane의 **자기 항목만** (유저에게 전달할 내용) | 저장소 전체 (읽기 전용) |
 
-- **담당 역할 인수 완료, 유저 태깅 대기**(`status: open` — 유저가 `approved` 로 바꾸면 다음 refresh 에서 제거):
-  [`notes-v5-review.md`](notes-v5-review.md) · [`stage1-pass-measurement.md`](stage1-pass-measurement.md) ·
-  [`stage-pass-conditions.md`](stage-pass-conditions.md) · [`external-review-2026-09-11.md`](external-review-2026-09-11.md)
-- refresh 2026-09-12: 제거 0건 — `approved` 이면서 반영이 끝난 항목은 아래 "설계 자료" 셋뿐이고, 그것은 `docs/` 가 상시 참조하므로 남긴다
-- **설계 자료(반영 단위가 아니라 상시 참조)**: [`dependency-graph-design.md`](dependency-graph-design.md) ·
+- **유저 판정 대기**: [`label-representativeness-sheet.md`](label-representativeness-sheet.md) — 라벨 30개 예측 → 정답지 대조 → 판정.
+  1단계 "의미 보존" 축의 마지막 조각이다. 프로토콜 [`label-representativeness-protocol.md`](label-representativeness-protocol.md) ·
+  정답지 [`label-representativeness-key.md`](label-representativeness-key.md) · 에이전트 판정 대조군 [`label-experiment-agent-2026-09-11.md`](label-experiment-agent-2026-09-11.md)
+- **유저 태깅 대기**(`status: open`, 담당 역할 인수는 끝남): [`external-review-2026-09-11.md`](external-review-2026-09-11.md)
+- **지식이 참조하는 항목**(제거 금지): [`stage-pass-conditions.md`](stage-pass-conditions.md) — 결정 `p14-stage-pass-conditions` 가 채택 표를 원본으로 인용한다
+- **설계 자료**(반영 단위가 아니라 상시 참조): [`dependency-graph-design.md`](dependency-graph-design.md) ·
   [`bazel-dependency-review.md`](bazel-dependency-review.md) · [`design-detail-review.md`](design-detail-review.md)
-- **유저 판단 대기(2026-09-12)**: [`terminology-profile-retention-2026-09-12.md`](terminology-profile-retention-2026-09-12.md) ·
-  [`english-labels-korean-leak-2026-09-12.md`](english-labels-korean-leak-2026-09-12.md) · [`label-rejudge-2026-09-12.md`](label-rejudge-2026-09-12.md)
-- 에이전트 판정 결과: [`label-experiment-agent-2026-09-11.md`](label-experiment-agent-2026-09-11.md)
-- 유저 판정 대기: [`label-representativeness-sheet.md`](label-representativeness-sheet.md) (라벨 30개 예측 → 정답지 대조 → 판정). 프로토콜: [`label-representativeness-protocol.md`](label-representativeness-protocol.md) 답 완료: [`external-review-2026-09-11.md`](external-review-2026-09-11.md) §3. 채택됨: [`stage-pass-conditions.md`](stage-pass-conditions.md) · [`stage1-pass-measurement.md`](stage1-pass-measurement.md). 반영 완료된 항목은 채널에서 제거한다 — 원문은 git 이력에
+- refresh 2026-09-12: 6건 제거 — `agents/orchestrator-consistency-cleanup`(발신자 closed) · `terminology-profile-retention` ·
+  `label-rejudge` · `english-labels-korean-leak` · `notes-v5-review` · `stage1-pass-measurement`. 반영 흔적은 지식 산출물과 git 이력(`77e0870`·`737655b`)
+
 - hci는 지식 산출물(kb/ontology/·kb/odd/·kg/·chunks/·tools/ 등)을 편집하지 않는다.
 - 다른 에이전트는 이 채널에서 자기 항목 외 어떤 파일도 수정하지 않는다 — 유저 lane
   항목, hci의 중계문, 타 에이전트의 항목은 읽기 전용이다.
