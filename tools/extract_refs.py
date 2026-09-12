@@ -14,6 +14,7 @@ agt:usesConcept 링크로 방출한다 (청크당 용어당 1). 온톨로지에 
 만들지 않고 stderr 에 `info [usesConcept]` 로 센다 — 본문의 오타·예시일 수 있으므로
 게이트 실패가 아니다. 폐기된 용어 참조의 경고는 validate.py 가 낸다.
 
+출력·종료: 위반은 `FAIL [extract-refs] <경로>: …` + EXIT_FAIL. 읽을 수 없는 입력은 EXIT_CONFIG.
 사용: extract_refs.py --out <생성.ttl> [--ontology <온톨로지.ttl...> --] <청크 파일들...>
 """
 
@@ -25,7 +26,17 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-CITE = re.compile(r"\bd-(\d{4})\b")
+try:  # 종료 코드 규약의 단일 정의처는 kb_lib — 없으면 같은 값의 폴백 (kb_lib 는 --ontology 때만 필수)
+    from tools import kb_lib
+except ImportError:
+    try:
+        import kb_lib
+    except ImportError:
+        kb_lib = None
+EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)
+EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)
+
+CITE =re.compile(r"\bd-(\d{4})\b")
 CONCEPT = re.compile(r"\bagt:([A-Za-z][A-Za-z0-9]*)")
 IRI = "https://agentic-knowledge-base.dev/id/chunk-d{}"
 AGT = "https://agentic-knowledge-base.dev/agt/"
@@ -44,7 +55,10 @@ def read(path: str) -> tuple[str, str]:
     lines = Path(path).read_text(encoding="utf-8").splitlines()
     if not lines or lines[0].strip() != "---":
         raise ValueError(f"{path}: frontmatter가 없다")
-    end = lines[1:].index("---") + 1
+    try:
+        end = lines[1:].index("---") + 1
+    except ValueError:
+        raise ValueError(f"{path}: frontmatter가 닫히지 않았다")
     iri = ""
     for l in lines[1:end]:
         if l.startswith("id:"):
@@ -82,6 +96,9 @@ def main() -> int:
     for path in sorted(p for p in args.files if p.endswith(".md")):
         try:
             iri, body = read(path)
+        except OSError as e:
+            print(f"FAIL [extract-refs] {path}: 읽을 수 없다 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
         except ValueError as e:
             errors.append(str(e))
             continue
@@ -123,7 +140,7 @@ def main() -> int:
     if errors:
         for e in errors:
             print(f"FAIL [extract-refs] {e}", file=sys.stderr)
-        return 1
+        return EXIT_FAIL
 
     Path(args.out).write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"[extract-refs] 인용한 항목 {blocks}개", file=sys.stderr)

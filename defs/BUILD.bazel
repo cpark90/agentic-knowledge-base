@@ -1,1 +1,3 @@
 # Starlark 매크로 패키지 — 타깃 없음. defs/knowledge.bzl 을 load 해서 쓴다.
+# 문서가 이 파일들을 경로로 가리키므로 doccheck 의 runfiles 근거로 노출한다.
+exports_files(["kb.bzl", "knowledge.bzl"])

@@ -4,6 +4,7 @@ package(default_visibility = ["//visibility:public"])
 exports_files([
     "agent-knowledge-system-notes.md",
     "glossary.md",
+    "waivers.md",
 ])
 
 filegroup(
@@ -15,4 +16,16 @@ filegroup(
 filegroup(
     name = "glossary",
     srcs = ["glossary.md"],
+)
+
+# 면제 선언 (agrtls-practices-review-2026-09-12 C) — 게이트 id·대상·축·사유·판정자·날짜. 도구는 집계에서 빼되 목록에 남긴다
+# 체계 문서 — 문서 현행성 게이트(//:doccheck_test)의 입력. 노트는 대상으로만(유저 문서), 채널은 hci 스캔 몫
+filegroup(
+    name = "docs",
+    srcs = glob(["*.md", "open-questions/*.md"], exclude = ["agent-knowledge-system-notes.md"]),
+)
+
+filegroup(
+    name = "waivers",
+    srcs = ["waivers.md"],
 )

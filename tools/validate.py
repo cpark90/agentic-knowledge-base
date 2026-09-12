@@ -19,7 +19,9 @@
   usesConcept-deprecated  agt:usesConcept 의 대상이 폐기된 용어(owl:deprecated true 또는
               라벨의 "(deprecated)"/"(폐기)")다 — 용어 일관성 (dependency-graph-design §5)
 
-실패는 비영(non-zero) 종료 — bazel test 가 곧 게이트다.
+출력·종료 (agrtls-practices-review A): 위반은 `FAIL [<검사명>] <경로>: <메시지>` 한 줄씩 + EXIT_FAIL.
+  파싱되지 않는 입력(syntax)·파일 없음은 게이트가 판정을 내릴 수 없는 상태이므로 EXIT_CONFIG,
+  그래프 파일 0건은 EXIT_SKIP — SKIP 은 PASS 가 아니다. bazel test 가 곧 게이트다.
 """
 
 from __future__ import annotations
@@ -36,6 +38,34 @@ except ImportError:
     import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
 
 AGT = kb_lib.AGT
+EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)      # 판정 실패 (단일 정의처 kb_lib — 없으면 같은 값)
+EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음·파싱 불가 입력
+EXIT_SKIP = getattr(kb_lib, "EXIT_SKIP", 3)      # 검사 대상 0건
+
+
+class SyntaxFailure(Exception):
+    """파일 하나가 파싱되지 않는다 — 어느 파일인지를 메시지에 지닌다."""
+
+
+def load_files(paths: list[str]) -> tuple[Graph, dict[str, Graph]]:
+    """파일별 그래프와 병합 그래프 — 파싱 실패는 파일을 지목하는 SyntaxFailure 로."""
+    merged, per_file = Graph(), {}
+    for p in paths:
+        try:
+            g = kb_lib.load_graph(p)
+        except Exception as e:  # rdflib 파서·OSError 모두 — 판정 불가 입력
+            raise SyntaxFailure(f"{p}: 파싱 실패 — {e}") from e
+        per_file[p] = g
+        merged += g
+    return merged, per_file
+
+
+def _where(files: dict[str, Graph], node) -> str:
+    """노드를 주어로 가진 파일 — FAIL 메시지의 <경로> 자리. 어느 파일에도 없으면 IRI 그대로."""
+    for path, g in files.items():
+        if (node, None, None) in g:
+            return path
+    return str(node)
 
 
 def check_labels(per_file: dict[str, Graph]) -> list[str]:
@@ -64,7 +94,7 @@ def check_boundary(per_file: dict[str, Graph]) -> list[str]:
         for term in kb_lib.defined_terms(g):
             if term in owner and owner[term] != path:
                 errors.append(
-                    f"[boundary] {g.qname(term)} 가 두 모듈에서 정의됨: {owner[term]}, {path}"
+                    f"[boundary] {path}: {g.qname(term)} 가 {owner[term]} 에서 이미 정의됨 — 한 용어는 한 모듈 파일에서만 정의된다 (2.3절)"
                 )
             owner.setdefault(term, path)
     return errors
@@ -130,18 +160,18 @@ def check_standard_vocab(graphs: dict[str, Graph], terms: set[URIRef], namespace
     return errors
 
 
-def check_odd_refs(merged: Graph, odd: Graph) -> list[str]:
+def check_odd_refs(merged: Graph, odd: Graph, files: dict[str, Graph]) -> list[str]:
     errors = []
     odd_subjects = {s for s in odd.subjects() if isinstance(s, URIRef)}
     for s, o in merged.subject_objects(AGT.refersTo):
         if o not in odd_subjects:
             errors.append(
-                f"[odd-ref] {merged.qname(s)} 가 ODD에 없는 속성을 참조: {o} (0.4절 — ODD를 먼저 확장하라)"
+                f"[odd-ref] {_where(files, s)}: {merged.qname(s)} 가 ODD에 없는 속성을 참조: {o} (0.4절 — ODD를 먼저 확장하라)"
             )
     return errors
 
 
-def check_dangling(merged: Graph, ontology: Graph | None = None) -> list[str]:
+def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph]) -> list[str]:
     """저장소 안을 가리키는 링크의 대상이 실재하는가 (참조 무결성, 8.2절).
 
     인용·복합체 부분·가정·출처처럼 id: 개체를 가리키는 술어의 목적어는 그래프에
@@ -163,7 +193,7 @@ def check_dangling(merged: Graph, ontology: Graph | None = None) -> list[str]:
     for pred in checked:
         for s, o in merged.subject_objects(pred):
             if isinstance(o, URIRef) and str(o).startswith(str(kb_lib.ID)) and o not in subjects:
-                errors.append(f"[dangling] {merged.qname(s)} 의 {merged.qname(pred)} 대상이 없다: {o}")
+                errors.append(f"[dangling] {_where(files, s)}: {merged.qname(s)} 의 {merged.qname(pred)} 대상이 없다: {o} (참조 무결성 8.2절)")
     concepts = kb_lib.defined_terms(ontology) if ontology is not None else subjects
     for s, o in merged.subject_objects(kb_lib.AGT.usesConcept):
         if o not in concepts:
@@ -247,17 +277,17 @@ def check_verify(merged: Graph, query_dir: str) -> list[str]:
         try:
             rows = list(merged.query(text))
         except Exception as e:
-            errors.append(f"[verify] {rq.name}: 질의 자체가 실패 — {e}")
+            errors.append(f"[verify] {rq.as_posix()}: 질의 자체가 실패 — {e}")
             continue
         for row in rows[:20]:
             vals = " ".join(str(v) for v in row)
-            errors.append(f"[verify] {rq.stem}: {vals}  ({title})")
+            errors.append(f"[verify] {rq.as_posix()}: {vals}  ({title})")
         if len(rows) > 20:
-            errors.append(f"[verify] {rq.stem}: … 외 {len(rows)-20}건")
+            errors.append(f"[verify] {rq.as_posix()}: … 외 {len(rows)-20}건")
     return errors
 
 
-def check_shacl(merged: Graph, shapes: Graph, reason: bool) -> list[str]:
+def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[str]) -> list[str]:
     from pyshacl import validate as shacl_validate
 
     conforms, _, text = shacl_validate(
@@ -269,7 +299,7 @@ def check_shacl(merged: Graph, shapes: Graph, reason: bool) -> list[str]:
         allow_infos=True,
         allow_warnings=False,
     )
-    return [] if conforms else [f"[shacl] {text}"]
+    return [] if conforms else [f"[shacl] {', '.join(shape_paths)}: shape 부적합 — sh:message 가 수정 방향이다\n{text}"]
 
 
 def main() -> int:
@@ -287,15 +317,22 @@ def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
 
+    n_files = len(args.ontology) + len(args.odd) + len(args.data) + len(args.shapes)
+    if n_files == 0:
+        print("SKIP [validate] 검사 대상 0건 — 그래프 파일이 없다 (PASS 가 아니다)")
+        return EXIT_SKIP
     try:
-        onto_merged, onto_files = kb_lib.load_merged(args.ontology)
-        odd_merged, odd_files = kb_lib.load_merged(args.odd)
-        data_merged, data_files = kb_lib.load_merged(args.data)
-        shapes_merged, shapes_files = kb_lib.load_merged(args.shapes)
+        onto_merged, onto_files = load_files(args.ontology)
+        odd_merged, odd_files = load_files(args.odd)
+        data_merged, data_files = load_files(args.data)
+        shapes_merged, shapes_files = load_files(args.shapes)
         std_terms, std_namespaces = load_standard_vocab(args.standard_vocab)
-    except Exception as e:  # 파싱 실패 = syntax 게이트 실패
+    except SyntaxFailure as e:  # 파싱되지 않는 입력 — 게이트가 판정을 내릴 수 없다
         print(f"FAIL [syntax] {e}")
-        return 1
+        return EXIT_CONFIG
+    except Exception as e:  # 표준 어휘 원문 등 부속 입력의 실패
+        print(f"FAIL [syntax] {', '.join(args.standard_vocab) or '?'}: 파싱 실패 — {e}")
+        return EXIT_CONFIG
 
     errors += check_labels(onto_files)
     errors += check_boundary(onto_files)
@@ -304,15 +341,16 @@ def main() -> int:
         errors += check_standard_vocab({**onto_files, **shapes_files, **odd_files, **data_files}, std_terms, std_namespaces)
 
     merged = onto_merged + odd_merged + data_merged
+    located = {**odd_files, **data_files}  # 개체 → 파일: FAIL 메시지의 <경로> 자리
     if args.odd:
-        errors += check_odd_refs(merged, odd_merged)
+        errors += check_odd_refs(merged, odd_merged, located)
     if data_files:
-        errors += check_dangling(merged, onto_merged if args.ontology else None)
+        errors += check_dangling(merged, onto_merged if args.ontology else None, located)
         errors += check_writer(merged)
         if args.ontology:
             warnings += check_deprecated_concepts(merged, onto_merged)
     if args.shapes:
-        errors += check_shacl(merged, shapes_merged, args.reason)
+        errors += check_shacl(merged, shapes_merged, args.reason, args.shapes)
     if args.verify_queries:
         errors += check_verify(merged, args.verify_queries)
 
@@ -324,11 +362,10 @@ def main() -> int:
     if errors:
         for e in errors:
             print(f"FAIL {e}")
-        print(f"\nFAIL — {len(errors)}건")
-        return 1
+        print(f"\nFAIL [validate] — {len(errors)}건")
+        return EXIT_FAIL
 
-    n_files = len(onto_files) + len(odd_files) + len(data_files)
-    print(f"PASS — 파일 {n_files}개, 트리플 {len(merged)}개")
+    print(f"PASS [validate] — 파일 {n_files}개, 트리플 {len(merged)}개")
     return 0
 
 

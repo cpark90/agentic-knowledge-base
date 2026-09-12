@@ -198,10 +198,10 @@ git show ed633cc:agent-knowledge-system-notes.md
 
 | 결정 | 원본 |
 |---|---|
-| d-0013 형식 저장·좁은 읽기 / d-0014 3대 실패 모드 / d-0015 조립 워크플로 / d-0016 토큰 대역 / d-0017 교훈 승격 | harness-functional (당시 `docs/DESIGN.md`·`ONTOLOGYSTYLE.md`·`CLAUDE.md`) |
+| d-0013 형식 저장·좁은 읽기 / d-0014 3대 실패 모드 / d-0015 조립 워크플로 / d-0016 토큰 대역 / d-0017 교훈 승격 | harness-functional (당시 옛 DESIGN.md·`ONTOLOGYSTYLE.md`·`CLAUDE.md`) |
 | d-0018 레시피=조립 명세 / d-0019 규약⊇SHACL / d-0020 source-gated | harness-concrete (`README.md`·`RECIPE_STANDARD.md`) |
 
-`docs/DESIGN.md`는 승격 후 **제거**되었다 — 그 문서는 전체가 일반 방법론이라
+옛 DESIGN.md는 승격 후 **제거**되었다 — 그 문서는 전체가 일반 방법론이라
 남길 운영 명세가 없었다. 예외적인 경우다.
 
 ## 2차 (2026-09-02) — d-0156~d-0163, d-0176~d-0185

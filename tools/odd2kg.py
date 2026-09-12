@@ -6,6 +6,7 @@
   - MODULES 의 모든 조건 속성이 TAXONOMY 에 선언되어 있고, 식이 OpenODD 식(리터럴·"< n"·"> n"·"[a .. b]"·unknown)이다
   - 범주 리터럴은 선언된 목록 안, 수치 식은 수치 속성에만
   - 모든 속성에 ATTRIBUTES(IRI·라벨)와 CHECKS(방법·등급)가 있다 — 판정 방법 없는 조건은 ODD에 둘 수 없다 (0.4절)
+출력·종료: 위반은 `FAIL [odd2kg] <원본 yml>: <메시지>` + EXIT_FAIL. 읽을 수 없거나 YAML 로 파싱되지 않는 입력은 EXIT_CONFIG.
 사용: odd2kg.py --taxonomy taxonomy.yml --out project-odd.ttl project-odd.yml
 """
 import argparse
@@ -14,6 +15,26 @@ import sys
 from pathlib import Path
 
 import yaml
+
+try:  # 종료 코드 규약의 단일 정의처는 kb_lib — 이 도구는 rdflib 없이 돌므로 없으면 같은 값의 폴백
+    from tools import kb_lib
+except ImportError:
+    try:
+        import kb_lib
+    except ImportError:
+        kb_lib = None
+EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)
+EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)
+TAG = "odd2kg"
+
+
+def load_yaml(path: str):
+    """YAML 문서 하나 — 파일 없음·파싱 실패는 판정 불가 입력(EXIT_CONFIG)이다."""
+    try:
+        return yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError) as e:
+        print(f"FAIL [{TAG}] {path}: 읽거나 파싱할 수 없다 — {e}", file=sys.stderr)
+        raise SystemExit(EXIT_CONFIG)
 
 CLASS = {"static_element": "agt:StaticElement", "environmental_condition": "agt:EnvironmentalCondition", "dynamic_element": "agt:DynamicElement"}
 NUM = re.compile(r'^\s*(<=?|>=?)\s*([-\d.]+)\s*(\w+)?\s*$')
@@ -54,8 +75,11 @@ def main() -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("src")
     a = ap.parse_args()
-    tax = yaml.safe_load(Path(a.taxonomy).read_text(encoding="utf-8")) or {}
-    doc = yaml.safe_load(Path(a.src).read_text(encoding="utf-8"))
+    tax = load_yaml(a.taxonomy) or {}
+    doc = load_yaml(a.src)
+    if not isinstance(doc, dict) or not doc.get("MODULES"):
+        print(f"FAIL [{TAG}] {a.src}: OpenODD 문서가 아니다 — 최상위 MODULES 매핑이 있어야 한다", file=sys.stderr)
+        return EXIT_FAIL
     cats = set((tax.get("TAXONOMY") or {}).keys())
     errors = []
     attrs = {}  # name -> (category, decl)
@@ -85,7 +109,8 @@ def main() -> int:
                 value = text if kind != "Equal" else f"{text} — {lits[text]}" if text in lits else text
                 conds.append((m["iri"], CLASS[cat], m, f"{sec} {kind}: {value}", c))
     if errors:
-        print("\n".join("odd2kg: " + e for e in errors), file=sys.stderr); return 1
+        print("\n".join(f"FAIL [{TAG}] {a.src}: {e}" for e in errors), file=sys.stderr)
+        return EXIT_FAIL
     root = next(iter(doc["MODULES"]))
     title = doc["MODULES"][root].get("title") or {}
     mode = "restrictive" if doc.get("EXCLUDE_WHEN_UNKNOWN", True) else "permissive"

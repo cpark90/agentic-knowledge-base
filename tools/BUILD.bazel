@@ -8,12 +8,26 @@ exports_files([
     "chunk_lint.py",
     "channel_lint.py",
     "chunk2kg.py",
+    "doccheck.py",
     "gen_build.py",
     "same_bytes.py",
     "extract_refs.py",
     "kb_lib.py",
     "requirements_lock.txt",
 ])
+
+# 이 패키지의 소스 전부 — 문서 현행성 게이트(//:doccheck_test)가 문서의 `tools/…` 경로 실재를 runfiles 로 판정한다
+filegroup(
+    name = "tools",
+    srcs = glob([
+        "*.py",
+        "*.sh",
+        "*.in",
+        "*.txt",
+        "BUILD.bazel",
+        "verify-queries/*.rq",
+    ]),
+)
 
 filegroup(
     name = "verify_queries",
@@ -82,6 +96,7 @@ py_binary(
         "consistency.py",
     ],
     main = "consistency.py",
+    deps = [":kb_lib"],  # 종료 코드·waiver 표 읽기 (2026-09-12 A·C)
 )
 
 # 라벨 대표성 실험 — 층화 표본 + 미끼 (docs/feedback/label-representativeness-protocol.md)
@@ -189,4 +204,12 @@ py_binary(
     name = "canonicalize",
     srcs = ["canonicalize.py"],
     deps = [requirement("rdflib")],
+)
+
+# 문서 현행성 (agrtls-practices-review N): 죽은 링크·앵커·백틱 경로. 게이트는 //:doccheck_test (kb_doccheck_test)
+# 손으로: bazel run //tools:doccheck -- *.md docs/*.md docs/open-questions/*.md --target-only docs/agent-knowledge-system-notes.md
+py_binary(
+    name = "doccheck",
+    srcs = ["doccheck.py"],
+    deps = [":kb_lib"],
 )

@@ -49,7 +49,9 @@ dispatch 시 이 표와 스코프로 브리핑한다.
 - **채널 쓰기 경계**: hci의 작성·수정 범위는 소통 채널(`docs/feedback/**`)과 자기 역할
   메모리(`.claude/agent-memory/hci/**`)뿐이고 조회 범위는 저장소 전체다. 다른 에이전트는
   채널에서 **자기 항목**(`agents/` lane, 조사 lane의 자기 담당 답)만 작성·수정할 수 있고
-  이외 채널 파일은 조회만 가능하다.
+  이외 채널 파일은 조회만 가능하다. 승인된 항목은 hci가 `handoff/` lane에 verdict·파급효과·반영 계획으로
+  넘기고, 담당 역할의 인수 기록은 `agents/` 항목에 `ref: handoff/<항목>`으로 남긴다 — 유저 lane 항목에는
+  hci 외 누구도 쓰지 않는다 (2026-09-12).
 - 역할별 `agt:maxConcurrent`의 합은 ODD 동적 요소(`id:cond-concurrent-agents`, 현재 ≤ 5)
   안이어야 한다. 역할을 추가하면 ODD 한도도 함께 검토한다 — **지금 이 검사는 규약이고
   게이트가 아니다** ([`docs/tools.md` §게이트 밖](docs/tools.md#게이트-밖--규약으로-남은-것)).
@@ -69,7 +71,7 @@ dispatch 시 이 표와 스코프로 브리핑한다.
 2. hci가 검토·구체화한다 — 조사가 필요하면 조사 lane으로 위임하고, 유저 판단이 필요한
    에이전트 항목은 유저 lane으로 중계한다.
 3. 유저가 승인한 항목만(`status: approved` 태깅 또는 담당 역할에게 준 구두 답 — hci는 어느 쪽이든 수행하지 않는다, `//docs/feedback:channel_lint_test`·writer 검사가 강제), 반영 계획대로 담당 write plane의 역할이
-   반영한다. 반영 후 `bazel test //...` PASS + 항목에 반영 결과 기록.
+   반영한다. 반영 후 `bazel test //...` PASS + `agents/` 항목(`ref: handoff/…`)에 반영 결과 기록.
 4. hci가 반영 확인된 항목을 refresh한다.
 
 ## 소통 규칙 (문서 우선)

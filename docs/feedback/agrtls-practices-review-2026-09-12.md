@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [docs/feedback/README.md, tools/channel_lint.py, .claude/agents/hci.md, docs/tools.md, docs/glossary.md, tools/consistency.py, tools/validate.py, tools/chunk2kg.py, docs/methodology.md, AGENTS.md, kg/catalog-kg.ttl, docs/agent-knowledge-system-notes.md]
 ---
 
@@ -167,4 +167,4 @@ hci 의 임시 `linkcheck.py` 를 `tools/doccheck.py` 로 들이고 백틱 경�
 - **markdown frontmatter 온톨로지 · 200줄 상한 · `docs_review` 의 orphans/removed_refs** — 지난 단계이거나 hci 스캔이 이미 잰다.
 
 ## 답
-권장대로.
+전부 반영

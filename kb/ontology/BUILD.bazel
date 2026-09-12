@@ -71,3 +71,9 @@ filegroup(
         "//kb/ontology/related/trust:BUILD.bazel",
     ],
 )
+
+# 용어 제안 승인 큐 — 그래프 밖(modules 에 안 들어감). 문서가 경로로 가리키므로 doccheck 근거로만 노출
+filegroup(
+    name = "proposals",
+    srcs = glob(["proposals/*"]),
+)

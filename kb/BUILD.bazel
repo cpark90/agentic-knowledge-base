@@ -75,4 +75,5 @@ kb_consistency(
         "//chunks:bodies",
     ],
     glossary = "//docs:glossary",
+    waivers = "//docs:waivers",  # ⑥ term-drift 면제 선언 (docs/waivers.md)
 )

@@ -4,6 +4,9 @@
 원본은 그래프(frontmatter 링크, owl:imports)이고 BUILD 는 커밋되는 뷰다. 링크 변화가 PR diff 에 보이도록
 커밋하며, //:build_drift_test 가 생성기를 다시 돌려 커밋본과 비교한다 — frontmatter 를 고치고 BUILD 를 안 돌린
 경우를 잡는다. 사용: gen_build.py [--check] [--root .]
+출력·종료: 생성 시점 거부(세 청크 없는 결정 디렉토리·끊긴 링크)는 `FAIL [gen-build] <경로>: …`, frontmatter 위반은
+chunk2kg 의 규칙이므로 `FAIL [chunk2kg] …`, --check 의 어긋남은 `FAIL [build-drift] <BUILD>: …` — 모두 EXIT_FAIL.
+읽을 수 없는 입력은 EXIT_CONFIG.
 """
 import argparse
 import difflib
@@ -12,9 +15,14 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from chunk2kg import parse_chunk  # noqa: E402
+from chunk2kg import EXIT_CONFIG, EXIT_FAIL, parse_chunk  # noqa: E402 — 종료 코드는 chunk2kg 가 kb_lib 에서 가져온 것
 
-HEADER = "# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test\n"
+
+class GenBuildError(Exception):
+    """생성 시점 거부 — 메시지가 `<경로>: <근거>` 다."""
+
+
+HEADER ="# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test\n"
 LINKS = ("refines", "serves", "supersedes", "verifies")
 ONTO_BASE = "https://agentic-knowledge-base.dev/ontology/"
 
@@ -41,7 +49,7 @@ def scan(root: Path):
     for d in sorted(p for p in (root / "kb/dev/decision").iterdir() if p.is_dir()):
         parts = {n: parse_chunk(str(d / f"{n}.md"))[0] for n in ("conclusion", "rationale", "alternatives") if (d / f"{n}.md").exists()}
         if set(parts) != {"conclusion", "rationale", "alternatives"}:
-            raise SystemExit(f"gen_build: {d} 는 결론·근거·대안 세 청크가 있어야 한다 (7.4절): {sorted(parts)}")
+            raise GenBuildError(f"{d}: 결론·근거·대안 세 청크가 있어야 한다 (7.4절 대안 기록) — 있는 것: {sorted(parts)}")
         comp = parts["conclusion"].get("composite") or {}
         lab = f"//kb/dev/decision:{d.name}"
         items[lab] = {"kind": "decision", "parts": parts, "dir": d.name, "pkg": "kb/dev/decision", "comp_iri": comp.get("id", "")}
@@ -63,7 +71,7 @@ def links_of(meta, iri_to_label, where):
         labs = []
         for iri in meta.get(key, []) or []:
             if iri not in iri_to_label:
-                raise SystemExit(f"gen_build: {where}: {key} 대상 {iri} 가 타깃이 아니다 — 끊긴 링크")
+                raise GenBuildError(f"{where}: {key} 대상 {iri} 가 타깃이 아니다 — 끊긴 링크 (참조 무결성)")
             labs.append(iri_to_label[iri])
         if labs:
             out[key] = labs
@@ -135,13 +143,23 @@ def main() -> int:
     ap.add_argument("--check", action="store_true", help="생성하지 않고 커밋본과 비교. 어긋나면 1")
     a = ap.parse_args()
     root = Path(a.root)
-    items, iri_to_label = scan(root)
-    outputs = {
-        str(root / "kb/dev/requirement/BUILD.bazel"): render_chunks("kb/dev/requirement", items, iri_to_label, "//kb:requirement_readers"),
-        str(root / "kb/dev/decision/BUILD.bazel"): render_decisions(items, iri_to_label),
-        str(root / "chunks/decision/BUILD.bazel"): render_chunks("chunks/decision", items, iri_to_label, "//kb:decision_readers"),
-    }
-    outputs.update(ontology(root))
+    try:
+        items, iri_to_label = scan(root)
+        outputs = {
+            str(root / "kb/dev/requirement/BUILD.bazel"): render_chunks("kb/dev/requirement", items, iri_to_label, "//kb:requirement_readers"),
+            str(root / "kb/dev/decision/BUILD.bazel"): render_decisions(items, iri_to_label),
+            str(root / "chunks/decision/BUILD.bazel"): render_chunks("chunks/decision", items, iri_to_label, "//kb:decision_readers"),
+        }
+        outputs.update(ontology(root))
+    except GenBuildError as e:
+        print(f"FAIL [gen-build] {e}")
+        return EXIT_FAIL
+    except ValueError as e:  # parse_chunk 의 frontmatter·본문 규칙 — chunk2kg 의 판정
+        print(f"FAIL [chunk2kg] {e}")
+        return EXIT_FAIL
+    except OSError as e:
+        print(f"FAIL [gen-build] {getattr(e, 'filename', root)}: 읽을 수 없다 — {e}")
+        return EXIT_CONFIG
     drift = []
     for path, content in outputs.items():
         p = Path(path)
@@ -154,9 +172,11 @@ def main() -> int:
                 p.write_text(content, encoding="utf-8")
     if a.check:
         if drift:
-            print(f"FAIL [build-drift] BUILD {len(drift)}개가 frontmatter 와 어긋난다 — tools/gen_build.py 를 돌려 커밋하라: " + ", ".join(drift))
-            return 1
-        print(f"OK build-drift: 생성 BUILD {len(outputs)}개가 원본과 일치")
+            for path in drift:
+                print(f"FAIL [build-drift] {path}: frontmatter 와 어긋난다 — tools/gen_build.py 를 돌려 커밋하라 (BUILD 는 뷰, frontmatter 가 원본)")
+            print(f"\nFAIL [build-drift] — {len(drift)}건 / 생성 BUILD {len(outputs)}개")
+            return EXIT_FAIL
+        print(f"PASS [build-drift] — 생성 BUILD {len(outputs)}개가 원본과 일치")
         return 0
     print(f"생성 {len(outputs)}개, 변경 {len(drift)}개: " + ", ".join(Path(d).relative_to(root).as_posix() for d in drift))
     return 0

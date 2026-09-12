@@ -22,6 +22,11 @@ id:chan-user-feedback a agt:Channel ;
     agt:ownedBy id:role-hci ;
     prov:atLocation "docs/feedback" .
 
+id:chan-handoff a agt:Channel ;
+    rdfs:label "handoff lane (hci to owning roles)"@en , "인수인계 lane (hci → 담당 역할)"@ko ;
+    agt:ownedBy id:role-hci ;
+    prov:atLocation "docs/feedback/handoff" .
+
 ### 역할 — plane 권한 요구 (9.2절). 설계/구현/운영은 같은 write plane을 공유하지 않는다.
 
 id:role-orchestrator a agt:Role ;

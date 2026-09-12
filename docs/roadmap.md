@@ -28,7 +28,7 @@
 |---|---|---|
 | **ontology** | 코어 — 모듈 파일 26, shape 7(수준 허용표 포함). `trace`·`trust`·`state`·`tag`·시간 제약 포함. 용어 제안 큐(`proposals/`) | `upper`(상위 온톨로지 정렬), `related/policy`, `defect`·`-rules`, **`profile/` 전체** |
 | **methodology · method · rules** | 규칙은 문서화됨([`rules.md`](rules.md)). 절차 12개 중 11개는 근거를 갖춘 서술 | **프로파일 구축 절차**(method §1)가 비어 있다 |
-| **tools** | 검사·생성 도구 14(온톨로지 검사 3단계 포함) · 실험 1(`label_sample`) · **활용 첫 형태 5**(workset·metrics·impact·handoff·consistency). 게이트 16 — `bazel test //...` ([`tools.md`](tools.md) 총람) | 활용 도구 중 `link`(후보 생성) · `query` · `project` · `propagate`/`revalidate` — 하네스의 읽기·쓰기 집합 자동 기록 없음 |
+| **tools** | 검사·생성 도구 14(온톨로지 검사 3단계 포함) · 실험 1(`label_sample`) · **활용 첫 형태 5**(workset·metrics·impact·handoff·consistency). 게이트 17 — `bazel test //...` ([`tools.md`](tools.md) 총람) | 활용 도구 중 `link`(후보 생성) · `query` · `project` · `propagate`/`revalidate` — 하네스의 읽기·쓰기 집합 자동 기록 없음 |
 
 지식 실측은 이제 생성물이 원본이다 — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md` (청크 수·고아율·크기 분포·링크 밀도·CQ19/20·신뢰 등급). 아래는 2026-09-11 시점 스냅샷: **요구 33** · **결정 186**(복합체, 대안 청크 186/186, `kb/dev/`; 1건 deprecated) ·
 옛 결정 153 중 **deprecated 126**·잔류 27(harness 유래 26 + d-0001) · 살아 있는 청크 612 ·
@@ -56,8 +56,8 @@ ODD 조건 7 · 역할 5 · 스코프 5 · 인용 링크 30 · 링크 개체 472
 1. ~~역량 질문 목록~~ — **작성됨**([`competency-questions.md`](competency-questions.md), 30개).
    13개가 답해지고 13개가 어휘 공백에 막혀 있다. 그 공백의 순서가 아래 2~4의 순서다.
 2. ~~`related/trace` 모듈~~ — **작성됨**(2026-09-04, 파일 8개·어휘 29개). 네 족, 링크 개체,
-   후보 상태, 판정 근거 6종. 남은 것은 **링크 데이터**와 저장 파일(`kg/references-kg.ttl`·
-   `kg/trace-kg.ttl`)이다.
+   후보 상태, 판정 근거 6종. 링크 데이터는 링크 개체(구축)와 생성물 `bazel-bin/kg/references-kg.ttl`(본문 추출)로 찼고,
+   `trace-kg`는 v5 결정(`p9-candidate-storage`: 후보는 -space 청크)으로 만들지 않는다.
 3. ~~본문 인용 추출~~ — **완료**(2026-09-07, `tools/extract_refs.py`, 인용 링크 27개).
    참조 무결성이 생성 시점에 강제된다.
 4. **규칙 물질화** — `superseded → suspect`, 가정 위반 → `invalidated` 전파를 SPARQL

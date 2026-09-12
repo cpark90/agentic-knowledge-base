@@ -1,5 +1,5 @@
 load("@rules_python//python:defs.bzl", "py_test")
-load("//defs:knowledge.bzl", "kb_chunk_lint_test")
+load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_doccheck_test")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -12,6 +12,36 @@ kb_chunk_lint_test(
         "//kb/ontology:modules",
         "//kb/ontology:shapes",
     ],
+)
+
+# 문서 현행성 (agrtls-practices-review N): 진입점 문서의 죽은 링크·앵커·백틱 경로.
+# glob 은 패키지 경계를 넘지 않는다 — docs/*.md·docs/open-questions/*.md 는 //docs 의 filegroup 으로 srcs 에 넣어야 한다
+# (docs/BUILD.bazel 소유: orchestrator). 채널(//docs/feedback:items)과 노트(//docs:notes)는 대상으로만 쓴다.
+# 실재 판정은 runfiles 이므로 문서가 가리키는 패키지의 파일은 targets 에 선언한다.
+kb_doccheck_test(
+    name = "doccheck_test",
+    srcs = glob(["*.md"]) + ["//docs:docs"],
+    data = [
+        "//defs:kb.bzl",
+        "//defs:knowledge.bzl",
+        "//kb/ontology:proposals",
+        "//docs:glossary",
+        "//docs/feedback:items",
+        "//tools",
+        "//chunks:bodies",
+        "//kb/dev:bodies",
+        "//kb/vv:bodies",
+        "//kb/ontology:modules",
+        "//kb/ontology:shapes",
+        "//kb/ontology:modules.bzl",
+        "//kg",
+        "//kb/odd:project-odd.yml",
+    ] + glob([".claude/**"]),
+    empty_dirs = [
+        "kb/vv",  # V&V KB — 7단계까지 비어 있다
+        "space",  # 설계 공간 — 5단계까지 자리만
+    ],
+    target_only = ["//docs:notes"],
 )
 
 # 게이트 전체 = 저장소의 모든 테스트. `bazel test //:gate` 또는 `bazel test //...`

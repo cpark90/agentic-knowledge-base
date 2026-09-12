@@ -25,7 +25,11 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
   composite:    {id: …, title_ko: …, title: …} (선택) — 복합체 개체 선언
   라벨 언어:    title 에 한글([ㄱ-ㆎ가-힣])이 있거나 title_ko 에 한글이 없으면 거부 — 영문 라벨에 한글을 섞지 않는다(0.6절).
                 composite 의 title·title_ko 도 같은 @en/@ko 라벨이므로 같은 규칙으로 거부한다
+  인용원:       본문(frontmatter 제외)에 소멸성 채널 경로 `docs/feedback/` 가 있으면 거부 — 규칙·근거는 영속 지식
+                (노트·결정)에 둔다 (agrtls-practices-review P). status: deprecated 청크는 제외
 
+출력·종료: 위반은 `FAIL [chunk2kg] <경로>: <메시지>` (병합은 `FAIL [chunk2kg-merge]`) + EXIT_FAIL,
+           읽을 수 없는 입력은 EXIT_CONFIG. 생성기이므로 입력 0건은 빈 그래프(SKIP 아님).
 사용: chunk2kg.py --out <생성.ttl> <청크 파일들...>
 """
 
@@ -36,6 +40,19 @@ import hashlib
 import re
 import sys
 from pathlib import Path
+
+try:  # 종료 코드 규약의 단일 정의처는 kb_lib — 이 도구는 rdflib 없이 돌므로(타깃마다 실행) 없으면 같은 값의 폴백
+    from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
+except ImportError:
+    try:
+        import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
+    except ImportError:
+        kb_lib = None
+EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)      # 판정 실패
+EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음·읽을 수 없는 입력
+
+TAG = "chunk2kg"
+EPHEMERAL_PATH = "docs/feedback/"  # 소멸성 채널 — 인용원이 될 수 없다 (agrtls-practices-review P)
 
 PLANE_CLASS = {
     "requirement": "agt:RequirementChunk",
@@ -97,6 +114,11 @@ def parse_chunk(path: str) -> tuple[dict, int]:
         raise ValueError(f"{path}: 알 수 없는 level {meta['level']!r}")
     if meta["status"] not in STATES:
         raise ValueError(f"{path}: 알 수 없는 status {meta['status']!r}")
+    if meta["status"] != "deprecated":
+        for i, raw in enumerate(lines[end + 1 :], start=end + 2):
+            if EPHEMERAL_PATH in raw:
+                raise ValueError(f"{path}:{i}: 소멸성 채널 경로를 인용원으로 쓰지 않는다 — 규칙·근거는 영속 지식(노트·결정)에 둔다 "
+                                 f"(agrtls-practices-review P): {raw.strip()[:80]}")
     if HANGUL.search(meta["title"]):
         raise ValueError(f"{path}: title {meta['title']!r} 에 한글이 있다 — 영문 라벨에 한글을 섞지 않는다(0.6절)")
     if not HANGUL.search(meta["title_ko"]):
@@ -207,7 +229,11 @@ def merge(out: str, fragments: list) -> int:
     """타깃별 head 조각(--fragment 출력)을 하나의 -kg 로 병합한다. IRI 중복 검사는 여기서 한다 (한 청크는 한 파일)."""
     chunks, comps, seen, errors = [], [], {}, []
     for frag in fragments:
-        text = Path(frag).read_text(encoding="utf-8").strip("\n")
+        try:
+            text = Path(frag).read_text(encoding="utf-8").strip("\n")
+        except OSError as e:
+            print(f"FAIL [{TAG}-merge] {frag}: 조각을 읽을 수 없다 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
         for block in (b for b in text.split("\n\n") if b.strip()):
             iri = block.split("\n", 1)[0].strip("<>")
             if iri in seen:
@@ -217,8 +243,8 @@ def merge(out: str, fragments: list) -> int:
             (comps if "\n    a agt:Composite" in block else chunks).append((iri, block))
     if errors:
         for e in errors:
-            print(f"FAIL [chunk2kg merge] {e}", file=sys.stderr)
-        return 1
+            print(f"FAIL [{TAG}-merge] {e}", file=sys.stderr)
+        return EXIT_FAIL
     blocks = [b for _, b in sorted(chunks)] + [b for _, b in sorted(comps)]
     Path(out).write_text(PREAMBLE + "\n" + "\n\n".join(blocks) + "\n", encoding="utf-8")
     return 0
@@ -241,6 +267,9 @@ def main() -> int:
     for path in sorted(args.files):
         try:
             meta, n = parse_chunk(path)
+        except OSError as e:
+            print(f"FAIL [{TAG}] {path}: 읽을 수 없다 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
         except ValueError as e:
             errors.append(str(e))
             continue
@@ -253,9 +282,9 @@ def main() -> int:
             if not (isinstance(comp, dict) and comp.get("id") and comp.get("title_ko") and comp.get("title")):
                 errors.append(f"{path}: composite 는 {{id, title_ko, title}} 이어야 한다")
             elif comp["id"] in composites:
-                errors.append(f"{path}: 복합체 {comp['id']} 가 중복 선언됨")
+                errors.append(f"{path}: 복합체 {comp['id']} 가 {composites[comp['id']]['path']} 와 중복 선언됨")
             else:
-                composites[comp["id"]] = {"ko": comp["title_ko"], "en": comp["title"], "members": []}
+                composites[comp["id"]] = {"ko": comp["title_ko"], "en": comp["title"], "members": [], "path": path}
         if meta.get("part_of"):
             part_refs.append((meta["id"], meta["part_of"], path))
         blocks.append((meta["id"], emit_chunk(path, meta, n)))
@@ -268,7 +297,7 @@ def main() -> int:
     comp_blocks = []
     for iri, c in sorted(composites.items()):
         if not c["members"]:
-            errors.append(f"복합체 {iri} 에 부분이 없다")
+            errors.append(f"{c['path']}: 복합체 {iri} 에 부분이 없다 — 멤버 청크가 part_of 로 가리켜야 한다")
             continue
         parts = " ,\n        ".join(f"<{m}>" for m in sorted(c["members"]))
         comp_blocks.append(
@@ -280,8 +309,8 @@ def main() -> int:
 
     if errors:
         for e in errors:
-            print(f"FAIL [chunk2kg] {e}", file=sys.stderr)
-        return 1
+            print(f"FAIL [{TAG}] {e}", file=sys.stderr)
+        return EXIT_FAIL
 
     body = "\n\n".join([b for _, b in sorted(blocks)] + comp_blocks)  # 정규 순서: 청크 IRI 순, 그다음 복합체 IRI 순 — union 과 merge 가 바이트 동일
     Path(args.out).write_text((body if args.fragment else PREAMBLE + "\n" + body) + "\n", encoding="utf-8")

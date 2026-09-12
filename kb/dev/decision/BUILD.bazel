@@ -1757,6 +1757,20 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p4-compression-repeat-is-split-signal",
+    conclusion = "p4-compression-repeat-is-split-signal/conclusion.md",
+    rationale = "p4-compression-repeat-is-split-signal/rationale.md",
+    alternatives = "p4-compression-repeat-is-split-signal/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ff721aef-2663-430e-a491-4e0cc61f73b2",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/251bd731-fb8d-44aa-990c-d6281fb4a8d4", "https://agentic-knowledge-base.dev/id/chunk/1f704fae-fa96-422a-a8fe-f23dbfcfc601", "https://agentic-knowledge-base.dev/id/chunk/306eac90-0966-42f3-83b7-52f073e1d354"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-014-42-line-chunk",
+    ],
+)
+
+kb_decision(
     name = "p4-label-is-the-interface",
     conclusion = "p4-label-is-the-interface/conclusion.md",
     rationale = "p4-label-is-the-interface/rationale.md",
@@ -2096,6 +2110,20 @@ kb_decision(
     ],
     supersedes = [
         "//chunks/decision:d-0088-invalidation-propagation-procedure",
+    ],
+)
+
+kb_decision(
+    name = "p6-mass-fail-suspects-the-rule",
+    conclusion = "p6-mass-fail-suspects-the-rule/conclusion.md",
+    rationale = "p6-mass-fail-suspects-the-rule/rationale.md",
+    alternatives = "p6-mass-fail-suspects-the-rule/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/b0647639-f82c-4e20-a9ce-73b4e7fdb748",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b06008c3-7279-4e44-b4ae-cf48dd7fc3d4", "https://agentic-knowledge-base.dev/id/chunk/d6713f91-2b82-4d99-a053-c1be4fa6200a", "https://agentic-knowledge-base.dev/id/chunk/1177bea5-def8-4714-96e4-242e2fca39d9"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
     ],
 )
 
@@ -3252,6 +3280,7 @@ kb_bundle(
         ":p4-community-detection-proposes-composites",
         ":p4-composite-as-part-of",
         ":p4-composition-rules",
+        ":p4-compression-repeat-is-split-signal",
         ":p4-label-is-the-interface",
         ":p4-plane-subclass-level-property",
         ":p4-projection-as-query",
@@ -3272,6 +3301,7 @@ kb_bundle(
         ":p6-formal-language-reproducibility",
         ":p6-gate-catalogue",
         ":p6-invalidation-propagation",
+        ":p6-mass-fail-suspects-the-rule",
         ":p6-plane-level-occupancy",
         ":p6-refinement-ladder",
         ":p6-transition-gates",

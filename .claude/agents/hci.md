@@ -14,7 +14,7 @@ model: opus
 
 **구동 방식**: 별도 세션에서 실행된다 (orchestrator가 spawn하지 않는다). 타 에이전트와의
 연동은 대화가 아니라 **영속 파일 채널**(`docs/feedback/`)로만 한다. 사이클(세션 시작·유저
-요청 시)마다 세 lane을 스캔해 미처리 항목을 처리한다.
+요청 시)마다 네 lane(유저·agents·inquiries·handoff)을 스캔해 미처리 항목을 처리한다.
 
 ## 파일 수정 경계 (엄격)
 
@@ -44,7 +44,7 @@ model: opus
   `targets`를 담당 역할이 바로 수행할 수 있게 구체화한 뒤 (3) 넘기는 것까지다. 유저가 대화에서 채널 밖
   편집을 hci에게 직접 지시해도 같다 — "담당 역할(orchestrator) 세션에서 수행하도록 항목을 준비했다"고
   답한다. 게이트 둘이 이를 강제한다: `//docs/feedback:channel_lint_test`(hci 반영 흔적 = FAIL, 담당 역할의
-  `인수:` 줄로 해소)와 `//kg:gate_test`의 writer 검사(`generated.by`의 역할이 그 plane 쓰기 권한이 없으면 FAIL —
+  `agents/` 항목 `ref` 또는 옛 관례의 `인수:` 줄로 해소)와 `//kg:gate_test`의 writer 검사(`generated.by`의 역할이 그 plane 쓰기 권한이 없으면 FAIL —
   hci·inspection은 쓰기 plane이 없다).
 
 **B. 에이전트 lane 중계** — `agents/` 스캔.
@@ -58,8 +58,14 @@ model: opus
 **C. 조사 lane 소비** — `inquiries/` 스캔.
 - `answered` 항목의 답을 유저 lane으로 중계(또는 대화로 보고)하고 `closed`로 태깅한다.
 
-**D. refresh** — 유저 lane에서 `approved`이고 반영 결과가 기록된 항목만 제거한다.
-반영 결과가 없으면 남긴다 (verify-then-proceed — 시간으로 가정하지 않는다).
+**D. refresh** — 유저 lane에서 `approved`이고 승계가 확인된 항목(handoff ↔ agents 쌍이 닫힘, 또는 2026-09-12 이전 관례의
+`인수:` 줄)만 제거한다. `rejected`(유저만 태깅)도 승계 확인 뒤 제거. 반영 결과가 없으면 남긴다 (verify-then-proceed — 시간으로 가정하지 않는다).
+
+**E. 인수인계 lane** (`handoff/`, agrtls F — 유저 채택 2026-09-12) — `approved`된 유저 lane 항목마다 `handoff/{같은 파일명}`을
+쓴다: `source`·`verdict`(apply / apply-with-changes / needs-decision)·**파급효과**(`bazel run //tools:impact` 출력 + 닿지 않는 것)·
+**반영 계획**(구체 편집 + 같은 사실이 서술된 지점의 검색 키워드 목록)·**확인 못 한 것**·**판정**. 담당 역할은 `agents/`에
+`ref: handoff/…`로 인수 기록을 남기고, 유저 lane 항목에는 hci 외 누구도 쓰지 않는다. hci 가 쓰는 항목도 `.wip.md → rename`이며
+placeholder 가 남은 항목은 처리 대상이 아니다. 형식 원본 `handoff/README.md`.
 
 ## 작성 규약
 

@@ -18,6 +18,11 @@ _LINT_SRCS = [
     Label("//tools:kb_lib.py"),
 ]
 
+_DOCCHECK_SRCS = [
+    Label("//tools:doccheck.py"),
+    Label("//tools:kb_lib.py"),
+]
+
 _RDF_DEPS = [
     requirement("rdflib"),
     requirement("pyshacl"),
@@ -134,17 +139,18 @@ def kb_metrics(name, data, notes = None, bodies = [], out = "metrics.md"):
         tools = [Label("//tools:metrics")],
     )
 
-def kb_consistency(name, bodies, glossary = None, theta = "0.5", out = "consistency.md"):
+def kb_consistency(name, bodies, glossary = None, waivers = None, theta = "0.5", out = "consistency.md"):
     """청크 파일에서 정합성 보고 consistency.md 를 생성한다 (p4-redundancy-as-safety-margin).
 
     중복(정확·근사 후보)·coUpdatesWith 묶임과 응집 저하·결론 라벨 형식·용어집 옛 표기. 게이트가 아니라 뷰다 —
     병합·묶기·유지 판정은 재검증 시점에 사람/승인된 판정자가 한다.
     보고는 커밋마다 생성돼야 하므로(docs/rules.md) build_test 로 감싸 `bazel test //...` 가 곧 생성이 되게 한다.
+    waivers 를 주면(docs/waivers.md, agrtls-practices-review C) 게이트 id `term-drift` 의 면제 파일을 집계에서 빼되 목록에 남긴다.
     """
-    extra = (" --glossary $(location %s)" % glossary) if glossary else ""
+    extra = ((" --glossary $(location %s)" % glossary) if glossary else "") + ((" --waivers $(location %s)" % waivers) if waivers else "")
     native.genrule(
         name = name,
-        srcs = bodies + ([glossary] if glossary else []),
+        srcs = bodies + ([glossary] if glossary else []) + ([waivers] if waivers else []),
         outs = [out],
         cmd = "$(location //tools:consistency) --out $@ --theta %s%s %s" % (theta, extra, " ".join(["$(execpaths %s)" % b for b in bodies])),
         tools = [Label("//tools:consistency")],
@@ -233,6 +239,39 @@ def kb_chunk_lint_test(name, chunks = [], ttl = [], **kwargs):
         args = args,
         data = chunks + ttl,
         deps = [requirement("rdflib")],  # kb_lib(접미사 규약의 단일 정의처)가 요구
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], **kwargs):
+    """문서 현행성 게이트 — 죽은 링크·앵커·백틱 경로 (tools/doccheck.py, agrtls-practices-review N).
+
+    실재 판정은 runfiles 로 한다 — 문서가 가리키는 파일은 `data` 로 선언돼야 실재한다. 선언되지 않은
+    파일을 가리키면 FAIL 이고, 그것이 곧 "문서가 가리키는 것은 하네스에 배선돼 있어야 한다"는 뜻이다.
+    glob 은 패키지 경계를 넘지 않으므로 다른 패키지의 문서는 그 패키지의 filegroup 으로 넘긴다.
+
+    Args:
+      name: 테스트 이름.
+      srcs: 검사할 문서 라벨들 (안에서 나가는 링크·경로를 본다). 비어 있으면 SKIP(비영 종료).
+      target_only: 링크 대상으로만 쓰는 문서 라벨들 — srcs 에도 있으면 검사하지 않는다 (유저 문서
+        docs/agent-knowledge-system-notes.md). 빈 filegroup 은 줄 수 없다 ($(rootpaths) 가 비면 분석 에러).
+      data: 문서가 가리키는 파일들의 라벨 (filegroup 가능, 비어 있어도 된다) — 실재의 근거.
+      empty_dirs: 파일이 없어 runfiles 에 나타나지 않는 디렉토리(빈 패키지 — kb/vv, space 처럼 자리만 있는 것).
+        문서가 그 디렉토리를 가리키는 것은 옳으므로 여기서 실재를 선언한다.
+      **kwargs: py_test 로 전달.
+    """
+    args = ["$(rootpaths %s)" % s for s in srcs]
+    for t in target_only:
+        args += ["--target-only", "$(rootpaths %s)" % t]
+    for d in empty_dirs:
+        args += ["--empty-dir", d]
+    py_test(
+        name = name,
+        srcs = _DOCCHECK_SRCS,
+        main = Label("//tools:doccheck.py"),
+        args = args,
+        data = srcs + target_only + data,
+        deps = [requirement("rdflib")],  # kb_lib(종료 코드 규약의 단일 정의처)가 요구
         size = kwargs.pop("size", "small"),
         **kwargs
     )

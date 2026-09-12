@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from rdflib import Graph, Namespace, RDF, RDFS, OWL, URIRef
@@ -82,3 +83,68 @@ def defined_terms(g: Graph):
 
 def is_well_known(iri: str) -> bool:
     return any(iri.startswith(p) for p in WELL_KNOWN_PREFIXES)
+
+
+# ── 종료 코드 — 실패 종류를 구분한다 (agrtls-practices-review-2026-09-12 A) ──────────────────
+# 판정 실패 / 설정·입력 문제 / 미실행을 하나의 1 로 뭉개지 않는다. **SKIP 은 PASS 가 아니다** —
+# 입력이 0건이라 검사가 돌지 않은 것은 통과가 아니라 미실행이다. 모든 게이트·뷰 도구가 같은 상수를 쓴다.
+EXIT_OK = 0
+EXIT_FAIL = 1      # 판정 실패 — 산출물을 고친다
+EXIT_CONFIG = 2    # 설정·입력 문제 — 파일 없음·인자 오류·파싱 불가. 배선을 고친다
+EXIT_SKIP = 3      # 검사가 실행되지 않음 — 입력 0건 등. 통과로 세지 않는다
+
+
+# ── 면제 선언 (docs/waivers.md, agrtls-practices-review-2026-09-12 C) ──────────────────────
+# "오탐은 침묵이 아니라 선언으로": 코드 속 면제 대신 표 하나. 도구는 면제 대상을 집계에서 빼되 목록에 남긴다.
+WAIVER_COLUMNS = ("게이트 id", "대상", "축", "사유", "판정자", "날짜")
+WAIVER_AXES = ("파일", "stem", "상태")
+
+
+def _cells(line: str) -> list[str]:
+    return [c.strip() for c in line.strip().strip("|").split("|")]
+
+
+def load_waivers(path: str | Path) -> list[dict]:
+    """docs/waivers.md 의 표를 읽는다 → [{gate, targets, axis, reason, judge, date, line}].
+
+    헤더가 WAIVER_COLUMNS 와 다르거나 축이 WAIVER_AXES 밖이면 ValueError, 파일이 없으면 FileNotFoundError —
+    둘 다 설정 문제(EXIT_CONFIG)이지 판정 실패가 아니다. `대상` 은 ` · ` 로 구분된 여러 값.
+    """
+    p = Path(path)
+    if not p.is_file():
+        raise FileNotFoundError(f"{path}: waiver 표가 없다")
+    header_seen, out = False, []
+    for n, line in enumerate(p.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.lstrip().startswith("|"):
+            continue
+        cells = _cells(line)
+        if not header_seen:
+            if tuple(cells) != WAIVER_COLUMNS:
+                raise ValueError(f"{path}:{n}: waiver 표의 열은 | {' | '.join(WAIVER_COLUMNS)} | 여야 한다 — 실제 {cells}")
+            header_seen = True
+            continue
+        if all(re.fullmatch(r":?-+:?", c) for c in cells) or tuple(cells) == WAIVER_COLUMNS:
+            continue
+        if len(cells) != len(WAIVER_COLUMNS):
+            raise ValueError(f"{path}:{n}: 열이 {len(cells)}개다 (필요 {len(WAIVER_COLUMNS)})")
+        gate, targets, axis, reason, judge, date = (c.strip("`") for c in cells)
+        if axis not in WAIVER_AXES:
+            raise ValueError(f"{path}:{n}: 축 {axis!r} 는 {'|'.join(WAIVER_AXES)} 중 하나여야 한다")
+        out.append({"gate": gate, "axis": axis, "reason": reason, "judge": judge, "date": date, "line": n,
+                    "targets": [t.strip().strip("`") for t in re.split(r"\s*·\s*", targets) if t.strip()]})
+    if not header_seen:
+        raise ValueError(f"{path}: waiver 표가 없다")
+    return out
+
+
+def _target_matches(declared: str, target: str, axis: str) -> bool:
+    if axis == "파일":
+        t = Path(target).as_posix()
+        return t == declared or t.endswith("/" + declared)  # 루트 상대 경로 또는 그 접미(절대 경로로 불렸을 때)
+    return declared == target
+
+
+def waived(waivers: list[dict], gate_id: str, target: str, axis: str) -> bool:
+    """게이트 `gate_id` 에서 `target` 이 `axis` 축으로 면제 선언됐는가."""
+    return any(w["gate"] == gate_id and w["axis"] == axis and any(_target_matches(d, target, axis) for d in w["targets"])
+               for w in waivers)

@@ -152,9 +152,11 @@
 
 - **[지킴]** 쓰기 경계: hci는 채널 전체와 자기 역할 메모리, 다른 에이전트는 자기 항목만.
 - **[지킴]** 한 파일에 한 주제 — 항목이 반영·승인의 단위다.
-- **[지킴]** `status` 어휘는 lane마다 다르다 — 섞지 않는다: 유저 lane `open→approved`
-  (approved는 유저만), 에이전트 lane `open→relayed→answered→closed`, 조사 lane
-  `open→answered→closed`.
+- **[지킴]** `status` 어휘는 lane마다 다르다 — 섞지 않는다: 유저 lane `open→approved | rejected`
+  (approved·rejected는 유저만), 에이전트 lane `open→relayed→answered→closed`, 조사 lane
+  `open→answered→closed`, 인수인계 lane(`handoff/`) `open→closed`.
+- **[지킴]** 담당 역할의 인수 기록은 `agents/` 항목(`ref: handoff/…`)에 — 유저 lane 항목에는 hci 외 누구도 쓰지
+  않는다. 면제는 코드가 아니라 `docs/waivers.md`에 선언한다 (2026-09-12).
 - **[지킴]** 에이전트가 쓰는 항목은 `.wip.md`로 작성하고 완료 시 rename한다.
 - **[지킴]** 항목에서 지식을 가리킬 때는 이름이 아니라 **IRI·조건 id·`file:line`**으로.
 - **[지킴]** 유저 판단을 요청하는 항목은 **다섯 절**로 쓴다 — 질문(왜 어려운가 포함) /

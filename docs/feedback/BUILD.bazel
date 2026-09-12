@@ -4,20 +4,31 @@ load("@rules_python//python:defs.bzl", "py_test")
 
 package(default_visibility = ["//visibility:public"])
 
+# 네 lane — 유저(./*.md) · agents/ · inquiries/ · handoff/(hci → 담당 역할, F). *.wip.md 는 작성 중이라 lint 가 건너뛴다
 filegroup(
     name = "items",
     srcs = glob([
         "*.md",
         "agents/*.md",
         "inquiries/*.md",
+        "handoff/*.md",
     ]),
 )
 
+# 면제는 코드가 아니라 //docs:waivers 의 선언으로 (게이트 id channel, 축 파일). 종료 코드 1 판정 / 2 설정 / 3 미실행
 py_test(
     name = "channel_lint_test",
     srcs = ["//tools:channel_lint.py"],
-    args = ["$(rootpaths :items)"],
-    data = [":items"],
+    args = [
+        "--waivers",
+        "$(rootpath //docs:waivers)",
+        "$(rootpaths :items)",
+    ],
+    data = [
+        ":items",
+        "//docs:waivers",
+    ],
     main = "channel_lint.py",
     size = "small",
+    deps = ["//tools:kb_lib"],
 )

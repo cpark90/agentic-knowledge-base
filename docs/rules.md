@@ -57,7 +57,7 @@ write plane 경계가 규약에서 기계 검사로 내려온다.
 
 ### 파일 형식과 head 생성
 
-head 메타데이터는 파일 안(frontmatter)에 있고, `kg/chunks-kg.ttl`은 거기서 **생성**된다.
+head 메타데이터는 파일 안(frontmatter)에 있고, `bazel-bin/kg/chunks-kg.ttl`은 거기서 **생성**된다.
 손으로 쓰지 않는다 — `lineCount`·`assertionLocation`이 파일에서 계산되므로 어긋날 수 없다.
 
 ```markdown
@@ -189,7 +189,7 @@ LEDGER·LARGER 대응표 원안은 채널 항목 `dependency-graph-design`(2026-
 
 | 담는 것 | 위치 | 손/생성 |
 |---|---|---|
-| chunk head | `kg/chunks-kg.ttl` | **생성** |
+| chunk head | `bazel-bin/kg/chunks-kg.ttl` | **생성** |
 | 복합체 | `kg/composite-kg.ttl` | 손 |
 | 가정·출처 문서 | `kg/base-kg.ttl` | 손 |
 | 역할·스코프·채널·하네스 (입력) | `kg/catalog-kg.ttl` | 손 |

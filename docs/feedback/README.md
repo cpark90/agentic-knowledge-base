@@ -15,7 +15,7 @@
 |---|---|---|
 | **유저** | 전체 | 전체 |
 | **hci** | `docs/feedback/**` 전체 + 자기 역할 메모리 `.claude/agent-memory/hci/**` — 이 둘이 hci의 유일한 쓰기 범위다 | 저장소 전체 |
-| **다른 에이전트** | `agents/` lane의 **자기 항목만** (유저에게 전달할 내용) | 저장소 전체 (읽기 전용) |
+| **다른 에이전트** | `agents/` lane의 **자기 항목만** (유저에게 전달할 내용, 인수 기록 `ref: handoff/…`) | 저장소 전체 (읽기 전용) |
 
 - **유저 판단 대기(2026-09-12)**: [`agrtls-practices-review-2026-09-12.md`](agrtls-practices-review-2026-09-12.md) — agrtls 하네스에서 가져올 후보 열(F·P·N·A·B·C·E·Q·K·M′, 4판 — 하위 9 repo 포함) + V&V 설계 입력
 - **유저 판정 대기**: [`label-representativeness-sheet.md`](label-representativeness-sheet.md) — 라벨 30개 예측 → 정답지 대조 → 판정.
@@ -41,8 +41,10 @@ docs/feedback/
 ├── {주제-kebab}.md      # 유저 lane: user ↔ hci 항목
 ├── agents/              # 에이전트 lane: 타 에이전트 → hci
 │   └── {발신역할}-{주제-kebab}.md
-└── inquiries/           # 조사 lane: hci → 타 에이전트 조사 질문/답
+├── inquiries/           # 조사 lane: hci → 타 에이전트 조사 질문/답
     └── {주제-kebab}.md
+└── handoff/             # 인수인계 lane: hci → 담당 역할 (verdict · 파급효과 · 반영 계획) — README.md 참조
+    └── {유저 lane 항목 파일명}
 ```
 
 ### 유저 lane (`./*.md`) — user ↔ hci
@@ -57,11 +59,12 @@ docs/feedback/
   받을 수 없다. frontmatter에 `status: open`을 **반드시 포함**한다 — 유저는 필드를 새로 적지 않고
   `open`을 `approved`로 **고치기만** 하면 된다.
 - **승인 게이트**: `status: approved`는 **유저만** 태깅한다. 이것이 지식 산출물 반영을
-  허가하는 유일한 신호다. 승인 없이는 어떤 에이전트도 항목을 반영·제거하지 않는다.
+  허가하는 유일한 신호다. 승인 없이는 어떤 에이전트도 항목을 반영·제거하지 않는다. 거부는 `status: rejected`(유저만) —
+  refresh가 승계 확인 뒤 제거한다 (2026-09-12).
 - **hci는 수행하지 않는다** (2026-09-11 교정): 유저의 구두 답은 담당 역할(orchestrator 등)에게 유효한
   지시다. 그러나 hci는 어떤 답이든 채널 밖에 반영하지 않는다 — 답을 `## 답`에 옮기고 반영 계획을 구체화해
   담당 역할에 넘긴다. 기계 게이트 `//docs/feedback:channel_lint_test`가 hci의 반영 흔적을 FAIL로 잡고(담당
-  역할의 `인수: <역할> <날짜>` 줄 또는 되돌림·closed로 해소), `//kg:gate_test`의 writer 검사가 청크
+  역할의 `agents/` 항목 `ref: handoff/…` — 2026-09-12 이전 관례는 `인수: <역할> <날짜>` 줄 — 또는 되돌림·closed로 해소), `//kg:gate_test`의 writer 검사가 청크
   `generated.by`의 역할과 카탈로그 쓰기 권한을 대조한다.
   결정이 더 필요한 항목은 `## 답`에 결정을 적는 것이 먼저다.
 
@@ -87,13 +90,21 @@ hci를 제외한 에이전트는 **유저 피드백이 필요할 때, 문제가 
 hci가 답을 유저 lane으로 중계·소비하면 `status: closed`로 태깅하고, 담당 에이전트가
 다음 사이클에 제거한다.
 
+### 인수인계 lane (`handoff/`) — hci → 담당 역할 (2026-09-12)
+
+승인된 유저 lane 항목마다 hci가 `handoff/{같은 파일명}`을 쓴다 — `source`·`verdict`(apply / apply-with-changes /
+needs-decision)·파급효과(`impact` 출력)·반영 계획(편집 + 검색 키워드)·확인 못 한 것·판정. 담당 역할은 수행 뒤 `agents/`
+항목에 `ref: handoff/…`로 기록하고, hci는 쌍이 닫힌 것만 refresh한다. 유저 lane 항목은 hci 외 읽기 전용으로 돌아간다.
+양식·규칙: [`handoff/README.md`](handoff/README.md).
+
 ## 완료 마커 — 작성 중 문서는 처리 금지
 
 완료 판정은 시간이 아니라 **상태 확인**으로 한다 (verify-then-proceed):
 
 - 에이전트가 쓰는 항목은 `{name}.wip.md`로 작성하고 완료 시 `{name}.md`로 **rename**
   한다 — rename이 완료 선언이다. 어떤 에이전트도 `*.wip.md`를 처리하지 않는다.
-- 유저 답의 placeholder(`(유저가 채움)`)가 남아 있으면 미완성으로 취급한다.
+- hci가 쓰는 항목(중계·handoff)도 같다 — `.wip.md`로 쓰고 rename한다.
+- 답의 placeholder(`(유저가 채움)`·`(hci가 유저의 답을 채움)`)가 남아 있으면 미완성으로 취급한다.
 
 ## 처리 파이프라인 (검증 → 유저 승인 → 반영 → refresh)
 
@@ -101,9 +112,10 @@ hci가 답을 유저 lane으로 중계·소비하면 `status: closed`로 태깅�
 2. **검토 (hci)**: 항목을 검토·구체화한다 — 관련 지식(청크 IRI·ODD 조건·결정)을
    찾아 링크하고, 필요하면 조사 lane으로 조사를 시킨 뒤 결과를 항목에 보강한다.
    지식 산출물과 `docs/`의 체계 문서는 편집하지 않는다.
-3. **승인 (유저)**: 구체화된 반영 계획을 검토하고 `status: approved`로 고친다.
+3. **승인 (유저)**: 구체화된 반영 계획을 검토하고 `status: approved`(또는 `rejected`)로 고친다.
+3′. **인수인계 (hci)**: 승인된 항목마다 `handoff/` 항목 — verdict·파급효과·반영 계획·확인 못 한 것.
 4. **반영 (담당 역할)**: 승인된 항목만, 반영 계획대로 담당 write plane의 역할이
    반영한다 (결정은 orchestrator, 산출물은 developer). 반영 후 `bazel test //...`
-   PASS 확인, 항목에 반영 결과(무엇을 어디에)를 기록한다.
-5. **refresh (hci)**: `approved`이고 반영 결과가 기록된 항목만 제거한다. 반영 흔적은
+   PASS 확인, `agents/` 항목(`ref: handoff/…`)에 반영 결과(무엇을 어디에)를 기록한다 — 유저 lane 항목에는 쓰지 않는다.
+5. **refresh (hci)**: `approved`(또는 `rejected`)이고 승계가 확인된(handoff ↔ agents 쌍 닫힘) 항목만 제거한다. 반영 흔적은
    지식 산출물과 git 이력이 기록이다 — 채널에 사본을 남기지 않는다.

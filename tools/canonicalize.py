@@ -6,6 +6,7 @@
 
 정규형: 정렬된 @prefix 블록 + 주어(subject) 정렬 블록, 술어는 rdf:type 우선 후 정렬,
 목적어 정렬. 익명 노드는 rdflib 정준화(canonicalization)로 라벨을 고정한다.
+출력·종료: --check 위반은 `FAIL [canon] <경로>: …` + EXIT_FAIL. 읽을 수 없거나 파싱되지 않는 입력은 EXIT_CONFIG.
 """
 
 from __future__ import annotations
@@ -19,6 +20,16 @@ import re
 
 from rdflib import BNode, Graph, Literal, RDF, URIRef
 from rdflib.compare import to_canonical_graph
+
+try:  # 종료 코드 규약의 단일 정의처는 kb_lib — 없으면 같은 값의 폴백
+    from tools import kb_lib
+except ImportError:
+    try:
+        import kb_lib
+    except ImportError:
+        kb_lib = None
+EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)
+EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)
 
 STANDARD_PREFIXES = {
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -119,21 +130,27 @@ def main() -> int:
         p = Path(f)
         if workdir and not p.is_absolute() and args.write:
             p = Path(workdir) / p
-        canon = canonical_text(p)
+        try:
+            canon = canonical_text(p)
+            current = p.read_text(encoding="utf-8")
+        except Exception as e:  # OSError·rdflib 파서 — 판정 불가 입력
+            print(f"FAIL [canon] {f}: 읽거나 파싱할 수 없다 — {e}")
+            return EXIT_CONFIG
         if args.write:
-            if p.read_text(encoding="utf-8") != canon:
+            if current != canon:
                 p.write_text(canon, encoding="utf-8")
                 print(f"wrote {f}")
         else:
-            if p.read_text(encoding="utf-8") != canon:
+            if current != canon:
                 dirty.append(f)
 
     if args.check and dirty:
         for f in dirty:
             print(f"FAIL [canon] {f}: 정규형과 다름 — bazel run //tools:canonicalize -- --write {f}")
-        return 1
+        print(f"\nFAIL [canon] — {len(dirty)}건")
+        return EXIT_FAIL
     if args.check:
-        print(f"PASS — {len(args.files)}개 정규형")
+        print(f"PASS [canon] — {len(args.files)}개 정규형")
     return 0
 
 
