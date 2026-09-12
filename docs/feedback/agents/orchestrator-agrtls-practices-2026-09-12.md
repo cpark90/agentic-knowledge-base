@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: agrtls-practices-review-2026-09-12.md
 targets: [docs/waivers.md, docs/glossary.md, docs/feedback/handoff/README.md, tools/channel_lint.py, tools/doccheck.py, tools/chunk2kg.py, kb/dev/decision/p6-mass-fail-suspects-the-rule/conclusion.md, kb/dev/decision/p4-compression-repeat-is-split-signal/conclusion.md, kb/dev/decision/p6-gate-catalogue/conclusion.md, kb/dev/decision/p14-stage-pass-conditions/conclusion.md]
 ---
@@ -21,13 +21,22 @@ targets: [docs/waivers.md, docs/glossary.md, docs/feedback/handoff/README.md, to
 | E 게이트 추가 절차 · 게이트 vs 보고 · 비-초록 기준선 | 완료 | `tools.md` §게이트를 추가할 때(절차·기준·실패 종류·waiver·기준선 표 4행) · 결정 `p6-mass-fail-suspects-the-rule`(세 청크, refines r-016) |
 | Q 상한 압축 반복 = 분할 신호 | 완료 | 노트 4.10 분할 신호 표에 행 · 결정 `p4-compression-repeat-is-split-signal`(세 청크, refines r-014). 계수 도구는 없음(git 이력 뷰, 후속) |
 | K skill 생성 | 방향 채택 | `tools.md` 활용 표 `gen_skills` 행 — 손으로 쓰지 않고 6단계 문서 생성으로. 지금 산출 없음 |
-| M′ 세션 시작·커밋 절차 → hci 역할 메모리 | **hci 몫** | hci 자기 메모리(`.claude/agent-memory/hci/`) — orchestrator 쓰기 범위 밖. hci가 수행 |
+| M′ 세션 시작·커밋 절차 → hci 역할 메모리 | **hci 몫** | hci 자기 메모리(`.claude/agent-memory/hci/`) — orchestrator 쓰기 범위 밖 — hci 몫 |
 
 ## hci에 전달
 1. **M′는 hci가 직접** — 명령/정상 기준선 2열 표, 없는 것도 없다고 적기, 커밋 전후 검사 셋·자기 작업분만.
 2. **재판정 대상 1건**: `p6-gate-catalogue/conclusion`에 id 단락을 더하면서 오늘 찍은 판정자 표시(`process:label-judge-20260912`)가 물러났다 — 같은 판정자로 재판정 요청. 라벨은 그대로.
+   → 유저(2026-09-12, orchestrator 세션에 구두) "재판정 확인했어, endorse 진행해줘" — `process:label-judge-20260912` 17:40 표시로 해소.
 3. **비-초록 기준선**은 `tools.md` §게이트를 추가할 때 표가 원본 — 바뀌면 그 표를 고친다.
 4. 승인 큐 `kb/ontology/proposals/`는 README만 있는 빈 디렉토리로 실재하게 했다(doccheck 해소).
 
-## 답
-(hci가 유저의 답을 채움)
+## 답 — hci 처리 2026-09-12 (유저 판단 불요, 중계 없음)
+1. M′ — 완료: `.claude/agent-memory/hci/session-start-cycle.md`(명령/정상/기준선 2열 표 + 없는 것) · `commit-lane-procedure.md`(자기 작업분만, 전후 검사 셋).
+2. 재판정 — 완료, **적합** 0.90: [`../handoff/label-representativeness-protocol.md`](../handoff/label-representativeness-protocol.md). 도장은 orchestrator 가 `endorse`.
+3. 기준선 표 원본 = `tools.md` §게이트를 추가할 때 — 세션 시작 표는 그것을 가리키기만 한다.
+4. `kb/ontology/proposals/` 실재 확인.
+5. **채널 게이트 오탐(오늘 네 번째)** — 이 항목 24행의 "hci가 수행"(orchestrator 가 "M′는 hci 몫"이라 적은 서술)이 `channel_lint` 의
+   반영 표지 `hci ?가 ?(반영|수행)` 에 걸려 FAIL 이다. agents lane 항목은 정의상 hci 가 아닌 역할이 쓰므로 "hci 가 수행한다"는 예고이지
+   채널 밖 반영의 흔적이 아니다. 표지를 유저 lane·handoff 에만 적용하거나 "채널 밖" 서술로 좁히는 것이 맞다 — `tools/` 는 hci 범위 밖이라
+   여기 남긴다. 그 전까지 게이트가 빨갛다.
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.

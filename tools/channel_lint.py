@@ -15,9 +15,11 @@
   ref         agents 항목의 `ref`(선택)는 실재해야 한다 — `handoff/<파일>` 또는 유저 lane 파일 → 아니면 FAIL
   pair        verdict apply·apply-with-changes 이고 open 인 handoff 항목을 `ref` 하는 agents 항목이 있으면 "되돌아옴",
               없으면 "되돌아오지 않은 handoff N건" 으로 보고(FAIL 아님 — pending)
-  hci-reflect hci 가 반영·수행했다는 서술("hci 반영" · "hci 가 반영" · "hci 가 수행")이 있는 항목은 해소 기록이 있어야 한다 —
-              `인수: <역할> …` 줄(2026-09-12 이전 관례) **또는** 그 항목(또는 그것을 source 로 갖는 handoff 항목)을 `ref` 하는
-              agents 항목, 또는 closed(되돌림). 둘 다 없으면 FAIL. 절 제목의 서명 "(hci, 날짜)" 는 소통의 표기이지 반영 표지가 아니다
+  hci-reflect **유저 lane 만**: hci 가 반영·수행했다는 서술("hci 반영" · "hci 가 반영" · "hci 가 수행")이 있는 항목은 해소 기록이
+              있어야 한다 — `인수: <역할> …` 줄(2026-09-12 이전 관례) **또는** 그 항목(또는 그것을 source 로 갖는 handoff 항목)을
+              `ref` 하는 agents 항목, 또는 closed(되돌림). 둘 다 없으면 FAIL. 절 제목의 서명 "(hci, 날짜)" 는 소통의 표기이지 반영
+              표지가 아니다. agents·inquiries·handoff lane 은 hci 가 아닌 역할이 쓰거나 hci 가 계획을 쓰는 곳이라 같은 문구가
+              hci 에 대한 서술이다 — 돌리지 않는다 (오탐 실측 2026-09-12)
   pending     `## 답` 에 유저 답이 옮겨졌으나 반영 기록(인수·ref)이 없는 항목 → 담당 역할 대기로 보고
   placeholder 답 절에 placeholder(`(유저가 채움` · `(hci가 유저의 답을 채움`)가 남은 항목은 처리 대상 아님 — 집계만
 면제: `--waivers docs/waivers.md` 의 게이트 id `channel`, 축 파일(규약 문서·원장). 코드 속 면제는 없다 (C).
@@ -161,12 +163,12 @@ def main(argv: list[str]) -> int:
             pending.append(f"{h['path']}: 되돌아오지 않은 handoff (verdict {h['meta']['verdict']}) — 담당 역할이 agents/ 에 ref 로 인수")
     unreturned = len(pending)
 
-    # hci-reflect · pending
+    # hci-reflect (유저 lane 만) · pending
     for it in items.values():
         if it["status"] == "closed":
             continue
         text = it["text"]
-        if HCI_REFLECTED.search(text):
+        if it["lane"] == USER and HCI_REFLECTED.search(text):
             if not (TAKEN_OVER.search(text) or returned(it)):
                 errors.append(f"{it['path']}: hci 가 채널 밖에 반영했다 — 담당 역할이 검토 뒤 agents/ 항목에서 ref 로 인수하거나(유지, "
                               f"옛 관례 `인수: <역할> <날짜>` 줄도 인정) 되돌리고 closed 로 (hci 는 소통만 한다)")

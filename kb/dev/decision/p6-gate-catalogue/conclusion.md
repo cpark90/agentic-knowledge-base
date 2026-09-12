@@ -8,7 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-12T17:10:00+09:00}
-verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-12T17:10:00+09:00}]
+verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-12T17:10:00+09:00}, {by: process:label-judge-20260912, at: 2026-09-12T17:40:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/33c8a1a1-fc90-4ce7-83a9-20c607a7c163, title_ko: 게이트 총람, title: The gate catalogue}
 part_of: https://agentic-knowledge-base.dev/id/composite/33c8a1a1-fc90-4ce7-83a9-20c607a7c163
