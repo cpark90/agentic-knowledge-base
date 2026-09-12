@@ -6,6 +6,7 @@ title_ko: 두 모드의 손실이 반대라 각자 다른 장치로 메운다
 title: The two modes lose opposite things, so each is repaired by a different device
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/7e1f24c0-e217-46a1-8599-5fd5ac39e486
 ---

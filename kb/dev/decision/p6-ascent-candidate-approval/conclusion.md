@@ -6,6 +6,7 @@ title_ko: 일반화는 자동화하지 않고 실행 가능 피드백이 붙은 
 title: Ascent is never automated and prefers observations with executable feedback
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901, https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0089]

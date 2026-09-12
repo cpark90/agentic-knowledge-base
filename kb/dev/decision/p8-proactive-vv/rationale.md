@@ -6,6 +6,7 @@ title_ko: 환경과 지식은 개발과 무관하게 바뀐다
 title: Environment and knowledge change independently of development
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
 verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/579b14ac-e4d4-4718-9516-4211838cb9d0

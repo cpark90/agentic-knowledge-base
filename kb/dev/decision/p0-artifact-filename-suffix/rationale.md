@@ -6,6 +6,7 @@ title_ko: 스코프와 게이트를 파일 단위로 걸려면 성격이 파일�
 title: Per-file scopes and gates need the file kind visible in the name
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/0af48edc-840f-49e8-ad8b-60dfb331854d
 ---

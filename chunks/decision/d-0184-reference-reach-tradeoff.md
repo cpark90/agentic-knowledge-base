@@ -6,6 +6,7 @@ title_ko: 참조의 도달 범위는 단위별로 명시하는 트레이드오�
 title: Reference reach is a per-unit, explicitly recorded tradeoff
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 참조는 두 형태 중 하나이고, 단위마다 **어느 쪽을 왜 골랐는지

@@ -6,6 +6,7 @@ title_ko: 손으로 쓴 Turtle 직접 릴리스와 shape 일원화
 title: Releasing hand-written Turtle; expressing every constraint as a shape
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/33d988f2-27b2-44d7-98f2-110215bfe237
 ---

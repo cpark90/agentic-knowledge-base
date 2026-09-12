@@ -6,6 +6,7 @@ title_ko: 가정에는 판정 유형과 판정 식을 함께 적는다
 title: Every assumption records its verification kind and expression
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0087]

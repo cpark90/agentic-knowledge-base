@@ -6,7 +6,8 @@ title_ko: 링크는 구축이 기본이고 복원은 예외다
 title: Links are built by construction; recovery is the exception
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+generated: {by: claude/fable-5, at: 2026-09-12T12:20:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0009]
 part_of: https://agentic-knowledge-base.dev/id/composite/6651b045-a578-4114-a942-eae19ab99b0c
@@ -23,5 +24,6 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/6651b045-a578-41
 | 결정을 읽고 결정을 씀 | `derives-from` 후보 |
 | 스코프의 조건을 참조함 | `assumes` |
 | 같은 IRI의 본문을 다시 씀 | `prov:wasRevisionOf` |
+| 본문에 식별자를 적음 (`d-NNNN` · `agt:Term`) | `cites` · `usesConcept` — 추출(`extract_refs`)은 이 기록을 읽는 것이지 사후 추정이 아니다 (유저 결정 2026-09-12) |
 
 **복원은 셋에만 쓴다** — 이 체계 도입 전 산출물, 외부에서 가져온 산출물, 구축이 누락된 것의 감사.

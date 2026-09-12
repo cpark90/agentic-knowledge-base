@@ -6,6 +6,7 @@ title_ko: 레시피 필수 코어 — 규약이 shape보다 강하다
 title: Recipe required core - convention over SHACL floor
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
 ---
 **결론** — 레시피의 필수 형태는 두 층으로 강제한다. shape(SHACL)는

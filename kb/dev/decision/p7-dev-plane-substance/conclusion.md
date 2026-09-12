@@ -6,6 +6,7 @@ title_ko: 개발 프로파일은 일곱 plane의 실체·거주 수준·단위·
 title: The development profile fixes substance, residency, unit and verification tool of the seven planes in one table
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-12T00:50:00+09:00}
 verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-12T00:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4]

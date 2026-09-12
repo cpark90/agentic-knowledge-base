@@ -6,6 +6,7 @@ title_ko: 링크의 붕괴는 세 상태로 관리하고 경계에서 일괄 재
 title: Link decay is tracked in three states and rejudged in batches at boundaries
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0106, https://agentic-knowledge-base.dev/id/chunk-d0107]

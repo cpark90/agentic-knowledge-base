@@ -6,6 +6,7 @@ title_ko: 만든 주체와 확인한 주체는 다른 활동이다
 title: Creating and confirming a link are different activities
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/eec0c89d-bba0-404c-a19e-b43043e2e1a2
 ---

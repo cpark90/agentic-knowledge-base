@@ -6,6 +6,7 @@ title_ko: level을 클래스로 두는 안은 계층 전이를 타입 변경으�
 title: Modeling level as a class would turn ladder transitions into type changes
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/db06bc97-7100-4ad3-bad0-83fb1c876e1c
 ---

@@ -216,6 +216,16 @@ hci 권고: 전부 수용. (g)만 유의 — 임베딩 모델 선택·저장이 
 - 이번에 반영: (h) 결정 신설 `p4-community-detection-proposes-composites`(세 청크, 출처 개체 `id:doc-dependency-graph-design`, refines r-011) · (i) 예산식 Δ = m·k·42를 `p0-workset-anchor-neighbourhood/rationale`와 `method.md` §8에 · 문서 네 곳(`rules.md` §2·§4, `ontology.md`, `method.md` §6·§8)의 이 항목 참조를 결정·도구 참조로 승격 — 이 항목은 채널에서 제거돼도 문서가 깨지지 않는다.
 - 반영하지 않고 남긴 것: (f) 기존 청크에 `usesConcept` 링크 복원(수백 건 후보 — 후보 생성 도구 `link` 몫, 도입 3단계) · (g)의 ODD 조건(임베딩 모델·저장) — 임베딩 도구가 실제로 생길 때 ODD를 먼저 확장 · §5 의미 응집 검사(임베딩 필요, 선택) · §6 `assumes` 공백(가정 1건 — 도입 4단계) · (h)의 도구 자체(`project` 계열, 도입 8단계).
 
+인수: orchestrator 2026-09-12 (2차, 유저 "전부 수용으로 진행") — 위에 남겼던 것을 반영했다.
+- (f) `usesConcept` 복원 — `extract_refs`가 본문의 `agt:<Term>` 표기를 온톨로지 union과 대조해 **136 링크 / 59 청크**를 `//kg:references_kg`에 방출. `validate`의 `dangling`이 대상 실재를 검사하고, 폐기 용어 참조는 `warn [usesConcept-deprecated]`(4건 — 폐기를 서술하는 결정). 온톨로지에 없는 표기 11종은 링크 없이 집계.
+- (g) 학습 모델 임베딩은 **ODD 명시 제외**(`project-odd.yml` EXCLUSIONS_REVIEWED, reviewed 2026-09 — 모델·버전·저장 조건이 없음; 조건을 추가하면 해제). §5 의미 응집 검사의 첫 형태는 `consistency` ④(`coUpdatesWith` 쌍의 본문 5-gram Jaccard < θ/2 → 응집 저하 후보).
+- §6 `assumes` 공백 — 기본 가정 `id:asm-chunk-conventions`(저장소 구조·언어 정책 조건)를 살아 있는 청크 614에 연결("기본 가정 후 좁힘"). 좁힘 진행률은 `metrics` 가정 절(기본 가정만 614/615).
+- (h) 도구 — `//kg:communities`(결정론적 Louvain, 선언된 복합체를 한 단위로): 군집 12, 복합체 후보 0, `relatedTo` 링크 후보 8 — 결론의 예측대로 지금은 복합체 선언과 같은 군집만 나온다.
+- §4 3단계 — `workset`이 이웃을 족별 우선순위(앵커 ≫ references ≫ semanticallyDependsOn ≫ 구성 관계 ≫ relatedTo ≫ 시간축)로 정렬해 패킹, 초과분은 라벨만.
+- §5 1행 — `bazel run //tools:revalidate -- --base <rev>`: 본문 해시가 바뀐 청크 → 링크 양 끝·`part_of` 형제·`rdeps` 하류를 재판정 대상 표로.
+- §3 `kg/trace-kg.ttl`·`kg/revision-kg.ttl`·`kg/embeddings/`는 만들지 않는다 — v5 결정이 대체(`p9-candidate-storage`: 후보는 -space 청크, `p0-state-units-revision-workset`: 시간열 개체 없음)하고 임베딩은 ODD 제외.
+- 이 항목 밖으로 남는 것: 하네스의 읽기·쓰기 집합 자동 기록(r-019, 3단계)과 전파 규칙 `propagate`(4단계). 부작용 하나 — 복원 비율 6% → **26%**(usesConcept를 복원으로 센 정의). references 족 추출을 구축 기록(§2.3 ω 표 1.0)으로 볼지는 판단 요청으로 넘긴다.
+
 ## 외부 조사로 채운 세부 (2026-09-11)
 
 - **LEDGER** 노드는 (id, 요약, 임베딩, 타입 section/paragraph/figure/table/equation, 위치, 수정 시각). RELATED는 코사인 ≥ 0.7이고 **REFERENCES·DEPENDS가 없을 때만**, 유일하게 양방향. DEPENDS는 반사실 검사("빼면 의미상 불완전·모호·미정의인가")로 추출 — 이 체계에서 `agt:counterfactualTest`를 폐기하고 `proposal` 종류로 흡수한 것과 정합(언어모델의 반사실 검사는 제안). 검색은 대상 식별(명시 대상 또는 임베딩 유사) → 상·하류 확장 → 우선순위(대상 > REFERENCES > DEPENDS > CONTAINS > RELATED, "수치보다 순서") → 예산 패킹(문서 크기와 무관하게 O(1), 10~15%). 편집 후 검사: 참조 무결성 · 용어 일관성 · 의미 응집(임베딩 유사도 하락). 76% vs 56%, 편집당 ~1,535 토큰, 85~92% 절감 (arXiv 2606.28379, ACL 2026 Findings).

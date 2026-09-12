@@ -6,6 +6,7 @@ title_ko: 분리의 이유는 독립성이고 연동의 이유는 완주다
 title: Separation buys independence; coupling buys completion of the descent
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ff2266a5-716f-41ad-a738-292aca41f27b
 ---

@@ -6,6 +6,7 @@ title_ko: 테스트·검증은 활용이 아니라 두 번째 KB이고 활용 �
 title: Test and verification is a second KB, not a use; only the exchange list remains here
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0121]

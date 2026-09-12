@@ -13,6 +13,13 @@ id:asm-bazel-toolchain a agt:Assumption ;
     agt:proposition "빌드 체계 조건이 성립한다 — Bazel 9.2.0 + bzlmod 로 bazel test //... 가 성공한다" ;
     agt:refersTo id:cond-build-system .
 
+# 기본 가정 — 항목 고유의 전제를 아직 적지 않은 청크의 자리표시. 좁힘(항목별 가정)이 이것을 대체한다
+# (dependency-graph-design §6 "기본 가정 후 좁힘", 유저 수용 2026-09-12)
+id:asm-chunk-conventions a agt:Assumption ;
+    rdfs:label "chunk conventions hold"@en , "청크 규약 성립"@ko ;
+    agt:proposition "저장소 구조 조건(파일 = 청크, 디렉토리 = 모듈, 부록 E.7 배치)과 언어 정책 조건(산문 한글, 식별자 영어, 라벨 한/영 1:1)이 성립한다 — 둘 중 하나가 깨지면 청크의 IRI↔파일 해석과 라벨 인터페이스가 무효다" ;
+    agt:refersTo id:cond-repo-layout , id:cond-language-policy .
+
 ### 출처 문서 — 내용을 청크로 승격해 가져오는 원천 (prov:wasDerivedFrom 의 대상)
 
 # v1은 2026-09-01 분해 후 제거되었으나(git ed633cc), v3(2,789줄)가 2026-09-08 돌아왔다.

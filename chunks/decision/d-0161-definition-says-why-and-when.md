@@ -6,6 +6,7 @@ title_ko: 서술은 그래프가 못 보여주는 것만 적는다
 title: Write only what the graph cannot show
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 노드의 정의·주석에는 그래프 구조가 이미 말하는 것을 반복하지 않고,

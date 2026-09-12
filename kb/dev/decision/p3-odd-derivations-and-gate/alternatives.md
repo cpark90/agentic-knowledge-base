@@ -6,6 +6,7 @@ title_ko: 예외 통과를 허용하는 안
 title: Allowing a pass-through exception
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/87eb4cc9-8cf0-4461-a9af-24945dccda21
 ---

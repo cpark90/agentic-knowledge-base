@@ -6,6 +6,7 @@ title_ko: 검색은 어휘 앵커로 진입해 구조로 확장하고 인덱스�
 title: Retrieval enters by vocabulary anchor and expands by structure, indexed on labels and concepts
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0152]

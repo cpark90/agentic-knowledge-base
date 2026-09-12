@@ -6,6 +6,7 @@ title_ko: 결함 하나는 사건이지만 분포는 체계의 결함을 가리�
 title: One defect is an incident; the distribution points at a systemic flaw
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/a70f283f-26aa-465e-9162-51aadc42ec13
 ---

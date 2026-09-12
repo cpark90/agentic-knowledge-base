@@ -6,6 +6,7 @@ title_ko: 정체성이 없으면 개정마다 링크가 끊어진다
 title: Without identity, every revision severs the links
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/215abd9c-4b8f-458e-aec7-6d09034dd8bd
 ---

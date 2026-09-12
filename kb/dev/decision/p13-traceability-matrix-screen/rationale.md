@@ -6,6 +6,7 @@ title_ko: 빈 칸의 두 뜻을 색이 갈라야 추적 누락이 읽힌다
 title: Only color can split the two meanings of an empty cell, revealing missing traces
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/78873300-5f9a-4316-bc7c-9a384d60822b
 ---

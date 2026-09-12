@@ -6,6 +6,7 @@ title_ko: 전제를 적지 않고 시작하는 것을 구조로 막는다
 title: Structurally blocking work that starts without stated premises
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/dc652ea1-791f-4fc8-bdb6-8862023ca380
 ---

@@ -6,6 +6,7 @@ title_ko: 관계를 지어내면 표준 질의가 이 그래프를 지나친다
 title: Bespoke relations make standard queries miss this graph
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ad815628-628e-40a9-a3da-05db0480bb7e
 ---

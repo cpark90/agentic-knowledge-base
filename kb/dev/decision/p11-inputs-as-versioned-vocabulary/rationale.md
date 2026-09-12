@@ -6,6 +6,7 @@ title_ko: 어휘 밖 입력은 읽히지 않고 버전 없는 입력은 재검�
 title: Inputs outside the vocabulary cannot be read; unversioned inputs yield no review scope
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/81f5ea27-b01f-427d-bad5-4d35e593b94d
 ---

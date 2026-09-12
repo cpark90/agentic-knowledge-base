@@ -6,6 +6,7 @@ title_ko: 라벨로 조망하고 본문으로 깊이를 얻는 것이 200줄 예
 title: Labels give the overview, bodies give the depth, within the 200-line budget
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/004649e6-0eb9-42fb-b3dc-60c65883d906
 ---

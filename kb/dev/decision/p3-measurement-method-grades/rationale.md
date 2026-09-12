@@ -6,6 +6,7 @@ title_ko: 판정 불가 속성은 경계를 넓힌 척만 한다
 title: Unmeasurable properties only pretend to widen the boundary
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/09270524-0ea3-40bb-8360-178681e7cbca
 ---

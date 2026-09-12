@@ -6,6 +6,7 @@ title_ko: 실행 기록은 하나이고 요인 분류가 두 대상을 가른다
 title: One run record; the factor taxonomy is what separates the two targets
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/e11ea926-9802-41f2-92a9-62dccfa80b4d
 ---

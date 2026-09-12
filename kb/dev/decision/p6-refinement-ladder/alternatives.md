@@ -6,6 +6,7 @@ title_ko: level을 상황의 추상화 높이로 두는 정의를 버린다
 title: Rejecting level as abstraction height of a situation
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/5ef6f4a9-343a-4f00-8e88-172521022d6b
 ---

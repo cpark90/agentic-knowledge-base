@@ -6,6 +6,7 @@ title_ko: ODD 이탈 시 남기는 상태는 정해져 있고 안전 정지는 �
 title: The state left at an ODD exit is fixed and a safe stop must be reversible
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366, https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0065]

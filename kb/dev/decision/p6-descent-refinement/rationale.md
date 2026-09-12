@@ -6,6 +6,7 @@ title_ko: 왜 이 값인가가 기록되지 않으면 정제 단절이 재현된
 title: Without recorded value rationale the descent break recurs
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/3eec3426-b051-4594-8d32-be0867520885
 ---

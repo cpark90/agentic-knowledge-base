@@ -23,6 +23,7 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
   coUpdatesWith: 같은 내용을 담아 함께 갱신되어야 하는 청크 IRI 목록 (선택, relatedTo 족 — 안전율 중복의 표시)
   part_of:      소속 복합체 IRI (선택) — 복합체는 멤버 중 하나가 composite: 로 선언
   composite:    {id: …, title_ko: …, title: …} (선택) — 복합체 개체 선언
+  라벨 언어:    title 에 한글([ㄱ-ㆎ가-힣])이 있거나 title_ko 에 한글이 없으면 거부 — 영문 라벨에 한글을 섞지 않는다(0.6절)
 
 사용: chunk2kg.py --out <생성.ttl> <청크 파일들...>
 """
@@ -46,6 +47,7 @@ PLANE_CLASS = {
 }
 LEVELS = {"functional", "abstract", "logical", "concrete", "executable"}
 STATES = {"draft", "stable", "suspect", "invalidated", "deprecated"}
+HANGUL = re.compile(r"[ㄱ-ㆎ가-힣]")  # 한글 음절·자모 — 라벨 언어 검사 (0.6절 표기 형식)
 REQUIRED = ("id", "type", "level", "title_ko", "title", "status", "generated")
 
 PREAMBLE = """\
@@ -94,6 +96,10 @@ def parse_chunk(path: str) -> tuple[dict, int]:
         raise ValueError(f"{path}: 알 수 없는 level {meta['level']!r}")
     if meta["status"] not in STATES:
         raise ValueError(f"{path}: 알 수 없는 status {meta['status']!r}")
+    if HANGUL.search(meta["title"]):
+        raise ValueError(f"{path}: title {meta['title']!r} 에 한글이 있다 — 영문 라벨에 한글을 섞지 않는다(0.6절)")
+    if not HANGUL.search(meta["title_ko"]):
+        raise ValueError(f"{path}: title_ko {meta['title_ko']!r} 에 한글이 없다 — 라벨은 한/영 1:1, 한글 라벨은 한글로 쓴다(0.6절)")
     gen = meta["generated"]
     if not isinstance(gen, dict) or not gen.get("by") or not gen.get("at"):
         raise ValueError(f"{path}: generated 는 {{by: …, at: …}} 여야 한다 (OKF 행위자 표기)")

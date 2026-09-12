@@ -6,6 +6,7 @@ title_ko: 카탈로그로 IRI를 파일로 해석해 union을 조립한다
 title: Assemble the union by resolving IRIs through a catalog
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 여러 저장소에 나뉜 그래프는 **import 선언 + 카탈로그**(문서 IRI →

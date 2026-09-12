@@ -6,6 +6,7 @@ title_ko: 적지 않은 것과 검토한 뒤 제외한 것은 다르다
 title: Unmentioned is not the same as reviewed-and-excluded
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/80a7e3df-fc4f-452e-94fc-4acead84d77b
 ---

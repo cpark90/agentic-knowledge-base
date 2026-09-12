@@ -6,6 +6,7 @@ title_ko: 만드는 주체의 검증은 되먹임 목적지가 입력이다
 title: Verifying the producer feeds back into the inputs
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
 verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/a47a3cfd-e9df-401a-90d1-d49cfff12452

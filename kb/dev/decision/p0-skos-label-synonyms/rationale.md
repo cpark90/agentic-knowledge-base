@@ -6,6 +6,7 @@ title_ko: 등록하면 옛 표기로 찾고 산문에서는 공식 이름만 쓰
 title: Registration lets old spellings be found while prose is checked against the official name
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8a718aed-4f88-4847-9d00-800c0f14a0e7
 ---

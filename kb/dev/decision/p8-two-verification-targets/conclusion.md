@@ -6,6 +6,7 @@ title_ko: 검증 대상은 제품과 에이전트 둘이다
 title: There are two verification targets - the product and the agent
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0131]

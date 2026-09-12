@@ -6,6 +6,7 @@ title_ko: 일반화는 관측을 어휘로 일반화하는 네 전이다
 title: Ascent is four transitions generalizing observation into vocabulary
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901, https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0006]

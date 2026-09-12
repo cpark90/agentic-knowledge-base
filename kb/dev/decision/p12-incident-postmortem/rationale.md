@@ -6,6 +6,7 @@ title_ko: 3·4가 알려지지 않은 위험의 두 원인에 대응하고 문�
 title: Steps 3 and 4 map onto the two causes of unknown risk; producing a document proves nothing
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/48ce0d53-db1b-4b0f-9ef3-cded88f22d8b
 ---

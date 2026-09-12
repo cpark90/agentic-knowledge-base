@@ -6,6 +6,7 @@ title_ko: 상한 없는 후보 집합은 라벨 인터페이스를 깨뜨린다
 title: An unbounded candidate set breaks the label interface
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/24a2256b-3151-4896-a1f5-712d76f8b4fc
 ---

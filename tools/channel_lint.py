@@ -7,8 +7,9 @@
 
 검사:
   status      허용 값 안인가 (open | approved | answered | relayed | closed)
-  hci-reflect hci 가 반영했다는 흔적(진행 기록의 "(hci" · "hci 반영" · "hci 가 반영")이 있는 항목은
-              담당 역할의 인수 줄(`인수: <역할> …`)이 있거나 `closed`(되돌림)여야 한다 → 아니면 FAIL
+  hci-reflect hci 가 반영·수행했다는 서술("hci 반영" · "hci 가 반영" · "hci 가 수행")이 있는 항목은
+              담당 역할의 인수 줄(`인수: <역할> …`)이 있거나 `closed`(되돌림)여야 한다 → 아니면 FAIL.
+              절 제목의 서명 "(hci, 2026-09-12)"·"(hci 2026-09-12)" 는 소통의 표기이지 반영 표지가 아니다
   pending     `## 답` 에 유저 답이 옮겨졌으나 반영 기록이 없는 항목 → 담당 역할 대기로 보고
 사용: channel_lint.py <채널 md 파일...>
 """
@@ -18,7 +19,7 @@ from pathlib import Path
 
 STATES = {"open", "approved", "answered", "relayed", "closed"}
 EXEMPT = {"README.md", "TEMPLATE.md", "purpose-statement.md"}  # 규약 문서·원장은 반영 항목이 아니다
-HCI_REFLECTED = re.compile(r"\(hci[,)]|hci 반영|hci 가 반영|hci가 반영", re.M)
+HCI_REFLECTED = re.compile(r"hci 반영|hci ?가 ?(반영|수행)", re.M)  # 서술형만 — 괄호 서명 "(hci, 날짜)" 는 잡지 않는다 (유저 승인 2026-09-12)
 TAKEN_OVER = re.compile(r"^인수:\s*(orchestrator|developer|vnv)", re.M)
 ANSWERED = re.compile(r"^\*\*유저\(", re.M)
 

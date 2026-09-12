@@ -6,6 +6,7 @@ title_ko: 정지 조건이 없으면 전파가 순환하고 KB 전체가 물든�
 title: Without the stopping condition propagation cycles and stains the whole KB
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/01ce160f-72c9-4898-b0b1-fe6842b799e8
 ---

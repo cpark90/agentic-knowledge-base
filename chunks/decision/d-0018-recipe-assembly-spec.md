@@ -6,6 +6,7 @@ title_ko: 레시피는 중립 부품의 조립 명세다
 title: A recipe is an assembly spec over neutral parts
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 중앙 라이브러리와 레시피의 역할을 나눈다. 중앙은 일반화된

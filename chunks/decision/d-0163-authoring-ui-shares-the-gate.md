@@ -6,6 +6,7 @@ title_ko: 저작 UI는 SSOT를 우회하지 않는다
 title: The authoring UI never forks the source of truth
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 사람용 편집 도구는 상태를 자기 저장소로 fork하지 않는다. 에이전트가

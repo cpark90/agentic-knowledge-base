@@ -6,6 +6,7 @@ title_ko: 제약을 임의로 완화하는 것은 추측의 다른 이름이다
 title: Silently relaxing a constraint is guessing by another name
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/60c37dde-858e-4e6a-b878-b8340bcef798
 ---

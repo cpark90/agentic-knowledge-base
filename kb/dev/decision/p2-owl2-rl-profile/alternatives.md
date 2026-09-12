@@ -6,6 +6,7 @@ title_ko: EL과 DL 전체
 title: OWL 2 EL and full DL
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/4863dfa7-90c7-471e-b5ac-84e0ca2011c8
 ---

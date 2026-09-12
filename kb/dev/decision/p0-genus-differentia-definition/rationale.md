@@ -6,6 +6,7 @@ title_ko: 상위 개념이 정의 안에 적히면 분류 오류가 드러난다
 title: Naming the parent inside the definition exposes classification errors
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/9698cc60-f54e-4dfb-b678-e505d36b8034
 ---

@@ -6,6 +6,7 @@ title_ko: abstract는 기계가독의 경계이고 logical은 기준의 보존�
 title: Abstract is the machine-readable boundary, logical the store of criteria
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/5ef6f4a9-343a-4f00-8e88-172521022d6b
 ---

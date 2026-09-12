@@ -6,6 +6,7 @@ title_ko: 목록은 손으로 복제하지 않고 생성하고 대조한다
 title: Generate indexes from disk and diff them in CI
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 같은 목록(색인·카탈로그·매니페스트)이 두 곳 이상에 필요하면 손으로

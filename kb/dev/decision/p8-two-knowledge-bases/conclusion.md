@@ -6,6 +6,7 @@ title_ko: 지식 베이스는 개발 KB와 V&V KB 둘이다
 title: There are two knowledge bases - development and V&V
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7, https://agentic-knowledge-base.dev/id/chunk/71d2b786-e873-4705-b160-a443603ae0d2]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0130]

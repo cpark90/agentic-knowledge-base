@@ -6,6 +6,7 @@ title_ko: 복합체는 선언이고 커뮤니티는 계산이라 탐지는 후�
 title: Composites are declared and communities are computed, so detection fits only as a candidate generator
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-dependency-graph-design}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T00:50:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/165ef75a-d4f3-4de2-aba2-ea3a8efb787a
 ---

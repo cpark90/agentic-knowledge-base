@@ -28,7 +28,7 @@
 | 주석 | annotation | 논평 | 표준 번역 |
 | 복합체 | composite | 구성체 | GoF 국문판(김정아 역, 프로텍미디어 2015) "복합체" — 확인됨 |
 | 코어 온톨로지 · 코어 | core ontology | 골격 | 온톨로지 공학 core/domain |
-| 도메인 프로파일 | domain profile | 프로파일 | OWL 2 profile, ISO 34503 |
+| 도메인 프로파일 (단축형: 프로파일) | domain profile | — (단축형 인정, 유저 결정 2026-09-12) | OWL 2 profile, ISO 34503. 첫 언급에 한정(도메인·개발·V&V·참조)을 붙이고 이후 단축한다 |
 | 신뢰 등급 | trust tier | 트러스트 (티어) | OKF v0.2 |
 | 검증기 | verifier | verifier | — |
 | 규칙 | rule (구조 규칙, 42줄 규칙) | 규율 | — |

@@ -10,11 +10,20 @@ import argparse
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from rdflib import Graph, Namespace, RDF, RDFS, URIRef
+from rdflib import Graph, RDF, RDFS, URIRef
 
-AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
+try:
+    from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path에 있다
+except ImportError:
+    import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
+
+AGT = kb_lib.AGT  # 네임스페이스의 단일 정의처는 kb_lib (STYLEGUIDE §7)
+ID = kb_lib.ID
+DEFAULT_ASSUMPTION = ID["asm-chunk-conventions"]  # 기본 가정 (dependency-graph-design §6 "기본 가정 후 좁힘", docs/rules.md 가정 절)
 LINKS = [AGT[p] for p in ("refines", "serves", "satisfies", "verifies", "cites", "targets", "assumes", "supersedes",
                           "derivesFrom", "constrains", "usesConcept", "allocates", "generates", "coUpdatesWith", "conflictsWith")]
+EXTRACTED = (AGT.cites, AGT.usesConcept)  # 본문 식별자 기록(extract_refs) — 구축 기록으로 센다 (유저 결정 2026-09-12 (b))
+RESTORED = ()  # 복원 링크 — `link` 후보 파이프라인의 산출만. 아직 없다
 PLANES = ["requirement", "decision", "contract", "schema", "artifact", "annotation", "memory"]
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]
 
@@ -115,7 +124,9 @@ def main() -> int:
     # 3단계 대리 — 링크마다 근거 · 구축/복원 비율 · plane×plane 매트릭스 채움 (TIM 이 허용하는 칸)
     link_ents = list(g.subjects(RDF.type, AGT.Link))
     with_ev = [l for l in link_ents if (l, AGT.hasEvidence, None) in g]
-    cites_n = sum(1 for _ in g.subject_objects(AGT.cites))
+    extracted_n = {g.qname(p_): sum(1 for _ in g.subject_objects(p_)) for p_ in EXTRACTED}
+    built_total = len(link_ents) + sum(extracted_n.values())  # 구축 = frontmatter 링크 개체 + 본문 식별자 추출
+    restored_total = sum(1 for p_ in RESTORED for _ in g.subject_objects(p_))
     TIM = [("refines", "decision", "requirement"), ("serves", "decision", "requirement"), ("supersedes", "decision", "decision"),
            ("satisfies", "contract", "decision"), ("derivesFrom", "schema", "decision"), ("constrains", "schema", "contract"),
            ("satisfies", "artifact", "decision"), ("verifies", "requirement", "requirement")]
@@ -150,8 +161,9 @@ def main() -> int:
         missing = sorted(with_fixed - cited, key=lambda x: [int(t) for t in x.split(".")])
         cov_line = (f"- 의미 보존: 확정 문장 커버리지(절 단위) **{len(with_fixed & cited)}/{len(with_fixed)}** = {100*len(with_fixed & cited)/max(len(with_fixed),1):.1f}% — "
                     f"[확정] {sum(sec.values())}문장, 결정 {sum(1 for c in live if plane[c]=='decision' and c not in parts) + len(siblings)}개. 인용 없는 절: " + (", ".join(missing) or "없음"))
+    # 가정 — 기본 가정만 가진 청크 (좁힘 진행률의 역수, docs/rules.md 가정 절)
+    default_only = sum(1 for c in live if set(g.objects(c, AGT.assumes)) == {DEFAULT_ASSUMPTION})
     # 2단계 — 역할별 작업 집합(라벨 목록) 크기와 스코프 파생
-    ID = Namespace("https://agentic-knowledge-base.dev/id/")
     odd_conds = set(g.objects(None, AGT.hasCondition))
     role_rows, scope_bad = [], []
     nb = defaultdict(set)
@@ -195,7 +207,7 @@ def main() -> int:
           "- 의미 보존: 라벨 대표성은 실험 — 이 도구 밖",
           "", "## 3단계 대리 — 링크 구축 (14.1 정정본: 근거 · 한 단계씩 · 매트릭스 · 복원 비율)", "",
           f"- 의미 보존: 링크 개체 **{len(link_ents)}** 중 증거 기록이 있는 것 {len(with_ev)} = **{pct(len(with_ev), len(link_ents))}** (목표 100%; 지금은 전부 구축 기록)",
-          f"- 의미 보존: 구축 비율 — 구축(frontmatter 링크) {len(link_ents)} vs 복원(본문 인용 추출 `cites`) {cites_n} → 복원 비율 **{pct(cites_n, len(link_ents) + cites_n)}** (목표 < 20%)",
+          f"- 의미 보존: 구축 비율 — 구축(frontmatter 링크 개체 {len(link_ents)} + 본문 식별자 추출 " + " · ".join(f"`{k}` {v}" for k, v in extracted_n.items()) + f" = {built_total}) vs 복원 {restored_total} → 복원 비율 **{pct(restored_total, built_total + restored_total)}** (목표 < 20%; 복원은 `link` 후보 파이프라인 산출만 — 유저 결정 2026-09-12 (b))",
           f"- 연결: plane×plane 매트릭스 — TIM 허용 {len(TIM)}칸 중 채움 **{len(tim_filled)}** ({', '.join(f'{k}:{a_}→{b_}' for k, a_, b_ in tim_filled) or '없음'}); 빈 칸은 contract·schema·artifact·V&V 항목이 생겨야 찬다",
           "- 구체화: `refines` 한 단계씩 — 위 세 축 절의 건너뜀 수 참조",
           "", "## 2단계 대리 — ODD와 스코프", "",
@@ -215,6 +227,7 @@ def main() -> int:
           f"- 요구로 거슬러 오르는 비요구 청크: {ascribed}/{len(nonreq)} = **{pct(ascribed, len(nonreq))}** (후방 추적 커버리지, 목표 100%)",
           "", "## 가정 · 신뢰 등급", "",
           f"- `assumes` 링크 {assumes} · 가정 개체 {sum(1 for _ in g.subjects(RDF.type, AGT.Assumption))}",
+          f"- 기본 가정만 가진 청크(`assumes` 대상이 `id:asm-chunk-conventions` 하나뿐인 살아 있는 청크): {default_only}/{len(live)} = **{pct(default_only, len(live))}** (좁힘 진행률의 역수 — 목표 0)",
           f"- 생성자: " + " · ".join(f"`{k}` {v}" for k, v in gen.most_common()) + f" · **사람 검토(`human:`) {human}건**",
           ""]
     Path(a.out).write_text("\n".join(o), encoding="utf-8")

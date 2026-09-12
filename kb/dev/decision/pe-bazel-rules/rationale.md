@@ -6,6 +6,7 @@ title_ko: 빌드 그래프가 곧 확정 의존 그래프면 영향 분석과 �
 title: If the build graph is the confirmed dependency graph, impact analysis and incremental re-judgement come free
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
 verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/3e725e9e-fd83-432d-b708-ed004a01cedd

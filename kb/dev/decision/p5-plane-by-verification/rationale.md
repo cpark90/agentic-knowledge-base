@@ -6,6 +6,7 @@ title_ko: 판정 방식으로 정의하면 plane이 도메인 중립이 되고 �
 title: Defining planes by verification keeps them domain-neutral; profiles supply the specifics
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/5b5edf6d-f638-4c16-bc32-f4d8e6ed9785
 ---

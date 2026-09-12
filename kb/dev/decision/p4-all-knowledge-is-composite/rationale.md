@@ -6,6 +6,7 @@ title_ko: 구조 모델 하나면 shape 하나와 질의 하나가 모든 항목
 title: One structural model lets a single shape and a single query cover every item
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/b4546452-61a1-4d61-b6c3-8af8a25e0f44
 ---

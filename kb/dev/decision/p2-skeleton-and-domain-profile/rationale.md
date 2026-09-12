@@ -6,6 +6,7 @@ title_ko: 코어가 도메인에 오염되면 다음 도메인이 코어를 못 
 title: A domain-contaminated skeleton cannot serve the next domain
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/f28573cc-2a81-4db9-9497-160a41fdd56d
 ---

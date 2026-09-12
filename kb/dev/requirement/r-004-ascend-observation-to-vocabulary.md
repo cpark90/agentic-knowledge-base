@@ -6,6 +6,7 @@ title_ko: 반복 관측을 어휘·규칙으로 승격한다
 title: Promote repeated observation into vocabulary and rules
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 관측이 반복 패턴을 보이면, 체계는 그것을 개발 KB의 요구·결정·규칙과 V&V KB의 시나리오·기준으로, 궁극에는 온톨로지 어휘로 승격할 수 있어야 한다.

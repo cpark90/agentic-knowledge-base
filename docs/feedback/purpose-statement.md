@@ -1,6 +1,6 @@
 ---
 from: user            # 유저 구술을 hci가 옮겨 적음 — 원문은 §1·§2·§3 그대로
-status: open
+status: approved
 targets: [../purpose.md, ../methodology.md, ../ontology.md, ../rules.md, ../method.md, ../tools.md, ../roadmap.md]
 ---
 

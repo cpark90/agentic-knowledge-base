@@ -1,6 +1,6 @@
 load("@rules_python//python:defs.bzl", "py_test")
 load("//defs:kb.bzl", "kb_kg_merge", "kb_workset_view")
-load("//defs:knowledge.bzl", "kb_chunk_kg", "kb_gate_test", "kb_metrics", "kb_reference_kg")
+load("//defs:knowledge.bzl", "kb_chunk_kg", "kb_community", "kb_gate_test", "kb_metrics", "kb_reference_kg")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -54,6 +54,7 @@ kb_reference_kg(
         "//kb/dev:bodies",
         "//kb/vv:bodies",
     ],
+    ontology = ["//kb/ontology:modules"],
     out = "references-kg.ttl",
 )
 
@@ -68,6 +69,7 @@ kb_gate_test(
     odd = ["//kb/odd:odd"],
     ontology = ["//kb/ontology:modules"],
     shapes = ["//kb/ontology:shapes"],
+    standard_vocab = ["@prov_o//file", "@skos//file"],
     verify_queries = "//tools:verify_queries",
 )
 
@@ -82,6 +84,16 @@ kb_metrics(
         "//kb/odd:odd",
     ],
     notes = "//docs:notes",
+)
+
+# 커뮤니티 탐지 뷰 — 복합체 후보·relatedTo 링크 후보 (bazel build //kg:communities → bazel-bin/kg/communities.md). 채택은 사람
+kb_community(
+    name = "communities",
+    data = [
+        ":chunks_kg",
+        ":kg",  # composite-kg 의 손으로 쓴 복합체 — 이미 복합체인 부분을 후보로 다시 내지 않기 위해
+        ":references_kg",
+    ],
 )
 
 # 작업 집합 뷰 — 선택자는 빌드 설정: bazel build //kg:workset --//kb:role=developer --//kb:anchor="두 KB" --//kb:levels=concrete

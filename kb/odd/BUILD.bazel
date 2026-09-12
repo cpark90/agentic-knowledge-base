@@ -22,4 +22,5 @@ kb_gate_test(
     odd = [":odd"],
     ontology = ["//kb/ontology:modules"],
     shapes = ["//kb/ontology:shapes"],
+    standard_vocab = ["@prov_o//file", "@skos//file"],
 )

@@ -6,6 +6,7 @@ title_ko: 값 슬롯에 미정 표시를 두는 안
 title: Marking undecided values in a value slot
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d85fdc0a-47c2-499e-9379-813c5a5cc167
 ---

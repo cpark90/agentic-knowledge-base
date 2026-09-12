@@ -6,6 +6,7 @@ title_ko: 이탈은 외연 안에서만 보인다
 title: A deviation is visible only inside the extension
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/3d748edf-6a6d-49be-b2e5-8ec9c342d615
 ---

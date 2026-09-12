@@ -6,6 +6,7 @@ title_ko: 즉시 병합과 무제한 용인은 둘 다 기각된다
 title: Both immediate merging and unbounded tolerance are rejected
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-label-representativeness-protocol}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-11T03:30:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/6053b67e-afec-4a59-b710-31b6ab85b108
 ---

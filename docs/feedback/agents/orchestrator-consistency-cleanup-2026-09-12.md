@@ -23,6 +23,10 @@ targets: [kb/dev/decision/p10-traceability-metrics/conclusion.md, kb/dev/decisio
 
 1. **라벨 판정자 표시가 물러난 7건** — 고친 청크는 `generated.at`을 올렸고 이전 `verified`는 전부 물렸다(trust-shapes: 검증 뒤 수정 금지). 프로토콜은 "재저작 후 같은 판정자로 재판정"이다. 대상: `targets`의 앞 7개. 유저 재판정(`human:cpark`) 10건은 건드리지 않았다.
 2. **"프로파일" 28건 유지 판정**에 이의가 있으면 용어집의 옛 표기 열을 고치는 쪽이 맞다(도구 예외 추가는 검사 약화).
+3. **본문의 미실재 `agt:` 표기 11종 / 23곳** (usesConcept 복원 링크 추출 시 관측, 2026-09-12): `ChunkShape`(4)·`ExternalClient`(3)·`Situation`(3)·`replacedBy`(3)·`AuthenticationMethod`(2)·`AuthenticationRequirement`(2)·`chunk`(2)·`NetworkConnectivity`·`Scenario`·`Space`·`sameEntityAs`. v1~v2 어휘의 잔재이거나 예시다 — 링크는 만들지 않았고 `extract_refs`가 `info`로 센다. 본문 정정은 다음 정리 사이클의 후보(결정 plane이면 orchestrator).
+4-0. **복원 비율 정의 — 유저 판단 요청** (`kind`는 notice이나 이 줄만 decision): `usesConcept` 136건을 복원(본문 추출)으로 세자 3단계 대리 "복원 비율"이 6% → 26%로 목표(< 20%)를 넘었다. 선택지 — (a) 지금 정의 유지, 목표선을 올리지 않고 "미달"로 둔다 / (b) references 족(`cites`·`usesConcept`)의 본문 식별자 추출은 설계 ω 표(dependency-graph §2.3)대로 **구축 기록**으로 세고 복원에서 뺀다(그러면 0%) / (c) 목표선을 references 족 포함 기준으로 재설정. 권고 (b) — 식별자를 본문에 적는 순간이 곧 구축이고, 추출은 그 기록을 읽는 것뿐이다. 답이 오면 `metrics.py`의 `RESTORED` 상수를 developer가 고친다.
+   **유저 답(2026-09-12, orchestrator 세션에 구두): (b).** 반영 — `metrics.py` 복원 집합을 비우고 추출을 구축으로 셈(developer), `p10-link-by-construction` 결론 표에 "본문에 식별자를 적음 → `cites`·`usesConcept`" 행 추가, `roadmap.md` 3단계 행·`tools.md` 갱신. 복원 비율 0%.
+4. **폐기 용어 참조 경고 4건**: `p9-evidence-ledger/{alternatives,conclusion}` → `agt:confidence`, `p9-language-model-place/{alternatives,conclusion}` → `agt:counterfactualTest` — 폐기를 서술하는 결정이라 정상. 경고(`warn [usesConcept-deprecated]`)로만 남는다.
 
 ## 답 — hci 처리 2026-09-12
 

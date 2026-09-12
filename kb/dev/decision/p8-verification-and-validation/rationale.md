@@ -6,6 +6,7 @@ title_ko: 확인이 없으면 틀린 요구를 완벽히 충족하는 시스템�
 title: Without validation you get a system that perfectly meets the wrong requirement
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/f78cc6f9-4200-405e-8a12-7c8eb43f9c24
 ---

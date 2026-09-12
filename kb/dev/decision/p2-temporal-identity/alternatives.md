@@ -6,6 +6,7 @@ title_ko: 개정마다 새 IRI, 또는 고유 정체성 관계 신설
 title: New IRI per revision, or a bespoke identity relation
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/215abd9c-4b8f-458e-aec7-6d09034dd8bd
 ---

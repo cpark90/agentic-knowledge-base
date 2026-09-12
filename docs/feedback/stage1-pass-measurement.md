@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [docs/roadmap.md, bazel-bin/kg/metrics.md, kb/dev/decision/p14-adoption-stages/conclusion.md]
 ---
 

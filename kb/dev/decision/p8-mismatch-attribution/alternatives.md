@@ -6,6 +6,7 @@ title_ko: 자동 귀속과 산출물 귀속 기본값의 기각
 title: Rejecting automatic attribution and a default of blaming the artifact
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
 verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/4d7432c4-7474-4d30-bfcb-dcb756408d72

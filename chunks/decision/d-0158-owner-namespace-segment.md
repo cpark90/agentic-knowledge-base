@@ -6,6 +6,7 @@ title_ko: 개체 이름공간을 소유자 세그먼트로 나눈다
 title: Partition the entity namespace by owner segment
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 독립 저장소가 각자 개체를 민팅하는 연합에서는 개체 IRI에 **소유자

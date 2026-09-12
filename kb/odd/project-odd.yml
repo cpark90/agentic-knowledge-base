@@ -65,3 +65,4 @@ EXCLUSIONS_REVIEWED:                 # 검토 뒤 명시 제외 (3.2절)
   - {concept: "원격 실행·원격 캐시(RBE)", reviewed: 2026-09, reason: "로컬 개발 전용 단계"}
   - {concept: "CI 파이프라인", reviewed: 2026-09, reason: "Part XIV 1단계 범위 밖, 게이트가 안정된 뒤 도입"}
   - {concept: "참조 저장소(harness-functional·harness-concrete) 빌드 의존", reviewed: 2026-09, reason: "내용을 청크로 승격해 활용하고(prov:wasDerivedFrom), 프로젝트 자체는 직접 사용하지 않는다"}
+  - {concept: "학습 모델 임베딩(문장 임베딩 모델·벡터 저장)", reviewed: 2026-09, reason: "모델·버전 고정과 벡터 저장이 ODD 조건(id:cond-dependency-lock·id:cond-repo-layout)에 없다. 후보 추림·응집 검사는 문자 n-gram 유사도(tools/consistency.py)로 하고, 학습 모델을 들이려면 조건을 먼저 추가한다"}

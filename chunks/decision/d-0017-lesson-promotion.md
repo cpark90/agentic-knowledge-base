@@ -6,6 +6,7 @@ title_ko: 실패한 시도는 교훈으로 기록하고 반복되면 표준 규�
 title: Failed attempts are captured as lessons and promoted to standard rules when they recur
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 시도가 실패·기각되거나 수정을 요구받으면 그 자체가 기록

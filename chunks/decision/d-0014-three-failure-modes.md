@@ -6,6 +6,7 @@ title_ko: 실패 모드 셋(고아·drift·rot)마다 독립된 기계적 방어
 title: Each of the three failure modes, orphans, drift and rot, gets an independent mechanical defense
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 자라는 지식그래프의 실패 모드는 셋이고, 각각 독립된 기계적

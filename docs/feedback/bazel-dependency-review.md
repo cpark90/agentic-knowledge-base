@@ -215,3 +215,5 @@ Bazel에 부담이 아니다.
 - transition으로 plane마다 구성 분기 — 지금 실효 없음.
 - toolchain화 — 이득 소폭, 보류.
 - 본문 인용 `cites`의 deps화 — 유저 확인 2대로 1차 제외.
+
+인수: orchestrator 2026-09-12 — 유저 "전부 수용으로 진행". 권고 B와 실행 순서 6단계는 2026-09-11에 구현 완료(진행 기록 표). 이번에 기능 표의 남은 "후속" (a)를 반영했다: 외부 표준 어휘 PROV-O·SKOS를 `MODULE.bazel`의 `http_file`로 sha256 고정해 가져오고(`@prov_o//file`·`@skos//file`), `validate.py` `vocab`이 `--standard-vocab`로 그 네임스페이스의 용어가 원문에 실재하는지까지 검사한다 — 세 게이트(`//kg`·`//kb/ontology`·`//kb/odd`)에 연결. (b) `@kb_links` 합성은 권고대로 생성 BUILD 방식을 유지해 하지 않는다. 표의 나머지(rule(test=True) 게이트·symbolic macro·output group·toolchain·transition·aspect)는 진행 기록의 변형 결정대로 — 기능상 얻는 것이 없는 재구성이라 채택하지 않는다.

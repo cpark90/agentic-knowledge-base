@@ -6,6 +6,7 @@ title_ko: 두 원인 중 어느 쪽이 다수인지는 미해결
 title: Which of the two causes dominates is unresolved
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/afadcad8-6d9b-4e7d-aac5-cdc0c6ffe89c
 ---

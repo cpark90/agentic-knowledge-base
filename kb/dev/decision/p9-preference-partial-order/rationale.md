@@ -6,6 +6,7 @@ title_ko: 순서와 기각을 분리해야 임의 선택이 다시 열리지 않
 title: Separating ranking from rejection keeps arbitrary choice closed
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d019ef5c-899b-459f-98cb-80d0fd72a0c4
 ---

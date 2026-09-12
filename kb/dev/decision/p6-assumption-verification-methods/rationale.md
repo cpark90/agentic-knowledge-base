@@ -6,6 +6,7 @@ title_ko: 유형이 자동 판정의 범위와 무효화 전파의 주기를 가
 title: The kind determines what can be judged automatically and how often
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/674dc862-8a79-40df-a50e-9643d9caca63
 ---

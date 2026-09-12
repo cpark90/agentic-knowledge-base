@@ -6,6 +6,7 @@ title_ko: 스코프가 인식과 행동을 정하므로 시뮬레이션 관측�
 title: Scope fixes perception and action, so simulated observations have the real shape
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/229d2de0-e6eb-432a-9548-5ea5898ce770
 ---

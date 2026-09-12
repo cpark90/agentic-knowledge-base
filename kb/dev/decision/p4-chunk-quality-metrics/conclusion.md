@@ -6,6 +6,7 @@ title_ko: 청크 품질은 라벨 대표성·고아율·크기 분포·draft 체
 title: Chunk quality is measured by label representativeness, orphan rate, size distribution and draft dwell time
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8, https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0080]

@@ -6,6 +6,7 @@ title_ko: 변경률과 편집 권한이 다른 것을 한 파일에 둘 수 없�
 title: Different change rates and edit rights cannot share a file
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/066baab4-8fef-4903-ac08-2d2c9d37f233
 ---

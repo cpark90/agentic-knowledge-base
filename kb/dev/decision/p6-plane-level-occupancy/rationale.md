@@ -6,6 +6,7 @@ title_ko: contract와 schema의 logical 칸이 이 표의 시험대다
 title: The logical cells of contract and schema are the test of this table
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8387ed4f-09c5-48b5-b682-704a045a79a1
 ---

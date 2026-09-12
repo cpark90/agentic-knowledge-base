@@ -7,12 +7,15 @@
   ① 정확 중복 — 본문 sha256 앞 12자(contentHash)가 같은 살아 있는 청크 쌍
   ② 라벨 중복 — title_ko 또는 title 이 같은 청크 (용인 불가: 라벨은 인터페이스)
   ③ 근사 중복 후보 — 본문 문자 5-gram 집합의 Jaccard ≥ θ (기본 0.5). 유사도는 후보 추림에만 쓴다
-  ④ 묶임 여부 — ①·③ 쌍이 coUpdatesWith 로 묶여 있는가. 안 묶인 중복이 드리프트 후보다
+  ④ 묶임과 응집 — ①·③ 쌍이 coUpdatesWith 로 묶여 있는가(안 묶인 중복이 드리프트 후보), 그리고 묶인 쌍의 현재 본문
+     Jaccard 가 θ_cohesion(기본 θ/2) 미만인가 — 응집 저하 후보: 묶었으나 본문이 갈라짐, suspect 판정 대상.
+     저장된 이전 값과의 비교가 아니라 절대 임계다 — 뷰는 저장하지 않으므로(4.6절) 비교할 캐시가 없다.
+     학습 모델 임베딩은 ODD 명시 제외(project-odd.yml EXCLUSIONS_REVIEWED)라 유사도는 문자 n-gram 으로만 잰다
   ⑤ 결론 라벨 형식 — 결정의 결론(conclusion.md 또는 단일 파일 결정)의 title_ko 가 문장형(…다)으로 끝나는가.
      근거·대안 라벨은 명사구가 관례라 보지 않는다 (label-representativeness-protocol (c) ④: "결정 라벨은 결론 문장형")
   ⑥ 용어 — docs/glossary.md 의 "옛 표기"가 살아 있는 청크 본문에 남아 있는가
 
-사용: consistency.py --out consistency.md [--theta 0.5] [--glossary docs/glossary.md] <청크 .md …>
+사용: consistency.py --out consistency.md [--theta 0.5] [--theta-cohesion θ/2] [--glossary docs/glossary.md] <청크 .md …>
 """
 import argparse
 import re
@@ -38,6 +41,11 @@ def shingles(text: str, n: int = 5) -> set:
     return {s[i:i + n] for i in range(max(0, len(s) - n + 1))}
 
 
+def jaccard(a: set, b: set) -> float:
+    u = a | b
+    return len(a & b) / len(u) if u else 1.0
+
+
 def old_terms(glossary: str) -> list:
     """glossary 표의 셋째 열(옛 표기)에서 용어를 뽑는다 — '·'로 나뉜 항목 각각."""
     rows = []
@@ -61,9 +69,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--out", required=True)
     ap.add_argument("--theta", type=float, default=0.5)
+    ap.add_argument("--theta-cohesion", type=float, default=None, help="묶인 쌍의 응집 하한 (기본 θ/2)")
     ap.add_argument("--glossary", default="")
     ap.add_argument("chunks", nargs="+")
     a = ap.parse_args()
+    theta_c = a.theta_cohesion if a.theta_cohesion is not None else a.theta / 2
 
     items = []
     for p in a.chunks:
@@ -104,10 +114,16 @@ def main() -> int:
         sx, sy = sh[x["id"]], sh[y["id"]]
         if not sx or not sy:
             continue
-        j = len(sx & sy) / len(sx | sy)
+        j = jaccard(sx, sy)
         if j >= a.theta:
             near.append((j, x, y))
     near.sort(key=lambda t: -t[0])
+
+    # ④ 묶임과 응집 — coUpdatesWith 로 묶인 쌍(살아 있는 입력 안의 것만)의 현재 본문 Jaccard 가 θ_cohesion 미만이면
+    #    응집 저하 후보. 이전 값과 비교하지 않는다 — 뷰는 저장하지 않으므로 캐시가 없다 (4.6절). 절대 임계
+    bound = sorted({tuple(sorted((x["id"], c))) for x in items for c in x["co"] if c in by_id and c != x["id"]})
+    cohesion = [(jaccard(sh[xi], sh[yi]), by_id[xi], by_id[yi]) for xi, yi in bound]
+    cohesion_low = sorted((t for t in cohesion if t[0] < theta_c), key=lambda t: t[0])
 
     # ⑤ 결론 라벨 형식 — 결정의 결론만 문장형. 판정은 경로 basename: conclusion.md 이거나
     #    근거·대안(rationale.md·alternatives.md)이 아닌 단일 파일 결정(chunks/decision/d-*.md)
@@ -132,12 +148,13 @@ def main() -> int:
     unlinked_near = [(j, x, y) for j, x, y in near if not linked(x, y)]
 
     lines = ["# consistency — 정합성 보고 (생성물, 저장하지 않는다)", "",
-             f"살아 있는 청크 {len(items)} · θ = {a.theta}", "",
+             f"살아 있는 청크 {len(items)} · θ = {a.theta} · θ_cohesion = {theta_c:g}", "",
              "## 요약", "",
              "| 항목 | 값 |", "|---|---|",
              f"| 정확 중복 묶음 | {len(exact)} (쌍 {total_pairs}) — coUpdatesWith 미묶음 {len(unlinked_exact)} |",
              f"| 라벨 중복 | {len(label_dups)} (용인 불가) |",
              f"| 근사 중복 후보 (Jaccard ≥ θ) | {len(near)} — 미묶음 {len(unlinked_near)} |",
+             f"| 묶인 쌍 중 응집 저하 (coUpdatesWith, Jaccard < θ_cohesion) | {len(cohesion_low)} / 묶인 쌍 {len(bound)} |",
              f"| 결론 라벨 형식 위반 | {len(bad_form)} |",
              f"| 용어집 옛 표기 잔존 | {len(term_hits)} |",
              f"| **중복률** (정확·근사 관련 청크 / 전체) | {len({i['id'] for g in exact for i in g} | {i['id'] for _, x, y in near for i in (x, y)})}/{len(items)} |",
@@ -161,6 +178,13 @@ def main() -> int:
         lines.append("- 없음")
     if len(near) > 50:
         lines.append(f"- … {len(near) - 50}건 더")
+    lines += ["", f"## ④ 묶인 쌍의 응집 저하 (coUpdatesWith 쌍 {len(bound)}, Jaccard < {theta_c:g}) — 판정: suspect / 유지", ""]
+    for j, x, y in cohesion_low[:50]:
+        lines.append(f"- {j:.2f} **응집 저하 — 묶었으나 본문이 갈라짐**: {ref(x)}  ↔  {ref(y)}")
+    if not cohesion_low:
+        lines.append("- 없음")
+    if len(cohesion_low) > 50:
+        lines.append(f"- … {len(cohesion_low) - 50}건 더")
     lines += ["", "## ⑤ 결론 라벨 형식 위반 (문장형이 아님)", ""]
     for it in bad_form[:50]:
         lines.append(f"- {ref(it)}")

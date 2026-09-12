@@ -6,6 +6,7 @@ title_ko: 판정을 버리면 재판정이 매번 처음부터 시작하고 판�
 title: Discarded judgements make re-judgement start from zero and leave the judge unmeasured
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/eec68e02-3a0a-459a-9357-0c6cb85e8267
 ---

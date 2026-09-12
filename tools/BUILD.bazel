@@ -68,7 +68,10 @@ py_binary(
 py_binary(
     name = "metrics",
     srcs = ["metrics.py"],
-    deps = [requirement("rdflib")],
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
 )
 
 # 정합성 보고 뷰 — 중복·라벨 형식·용어 (p4-redundancy-as-safety-margin). 게이트가 아니다
@@ -126,6 +129,24 @@ py_binary(
     deps = [requirement("rdflib")],
 )
 
+# 커뮤니티 탐지 뷰 (p4-community-detection-proposes-composites): 링크 군집 → 복합체 후보·relatedTo 링크 후보. 채택은 사람 — 게이트가 아니다
+py_binary(
+    name = "community",
+    srcs = ["community.py"],
+    deps = [requirement("rdflib")],
+)
+
+# 재검증 후보 (dependency-graph-design §5): bazel run //tools:revalidate -- [--base HEAD]. 본문 해시가 바뀐 청크의 링크·하류 의존자를 재판정 대상으로.
+# git 과 bazel query 를 부르므로 odd_check 처럼 테스트 타깃이 아니다
+py_binary(
+    name = "revalidate",
+    srcs = [
+        "chunk2kg.py",
+        "revalidate.py",
+    ],
+    main = "revalidate.py",
+)
+
 # ODD 모니터링 (3.5절): bazel run //tools:odd_check — CHECKS.cmd 실행, 이탈 보고. 네트워크·호스트 상태를 보므로 테스트 타깃이 아니다
 py_binary(
     name = "odd_check",
@@ -147,6 +168,10 @@ py_binary(
 py_binary(
     name = "extract_refs",
     srcs = ["extract_refs.py"],
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
 )
 
 # 용어 제안 워크플로 (2.5절): 일반화이 온톨로지에 닿을 때 — 제안은 검사를 거쳐 승인 큐로

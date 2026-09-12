@@ -6,6 +6,7 @@ title_ko: 진화 대상은 모두 이미 있는 자리로 들어간다
 title: Every evolving object lands in a place that already exists
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b]
 part_of: https://agentic-knowledge-base.dev/id/composite/cc186a37-0cf9-48c4-b3d9-aa95b76d67f3

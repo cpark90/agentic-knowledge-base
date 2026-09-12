@@ -6,6 +6,7 @@ title_ko: 건너뛴 단계의 결함은 위에서 원인이 갈리지 않고 피
 title: Skipped steps hide causes; a broken pyramid pollutes the ascent
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ea0859cb-27fc-4f71-a6a9-66d5e96be952
 ---

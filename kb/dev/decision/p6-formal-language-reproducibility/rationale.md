@@ -6,6 +6,7 @@ title_ko: 자유형 생성은 드리프트를 누적하고 형식 파일은 동�
 title: Free-form generation accumulates drift; a formal file makes sameness comparable
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/3b728259-9d19-4617-a431-35fccffec28c
 ---

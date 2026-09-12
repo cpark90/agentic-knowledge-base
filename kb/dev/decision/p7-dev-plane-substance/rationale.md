@@ -6,6 +6,7 @@ title_ko: plane은 판정 방식이므로 프로파일은 실체와 도구만 �
 title: Since a plane is a mode of judgement, a profile only fills in substance and tools
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-12T00:50:00+09:00}
 verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-12T00:50:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/ec197591-b1c7-494e-bc07-2f27b96cd057

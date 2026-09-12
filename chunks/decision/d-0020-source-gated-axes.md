@@ -6,6 +6,7 @@ title_ko: 원천이 없는 것은 지어내지 않는다
 title: Source-gated axes - never fabricate fixtures
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 실행 거동 축(실행 모드·테스트 시나리오·실패 정책)은 **원천이

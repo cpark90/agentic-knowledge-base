@@ -6,6 +6,7 @@ title_ko: 경로와 줄 번호를 앵커로 쓰면 편집마다 드리프트한�
 title: Path-plus-line anchors drift on every edit
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/5e2184c3-67a9-4745-b0c3-65e8c3f69fd6
 ---

@@ -6,6 +6,7 @@ title_ko: 대안 없음 — 요인 3갈래
 title: No alternative recorded — the three factor branches
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-10T19:40:00+09:00}
 verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/941cae39-2d59-468c-bd54-9d71cf8982ba

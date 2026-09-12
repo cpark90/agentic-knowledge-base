@@ -6,6 +6,7 @@ title_ko: 청크의 가정이 그 ODD 위의 명제라 ODD가 다르면 판정�
 title: A chunk's assumptions are propositions over its own ODD, so judgement fails under another
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8dbf8cd0-81dd-478f-b73e-3aeea905768f
 ---

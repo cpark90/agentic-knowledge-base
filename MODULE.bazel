@@ -28,3 +28,22 @@ pip.parse(
     requirements_lock = "//tools:requirements_lock.txt",
 )
 use_repo(pip, "kb_pip")
+
+# 외부 표준 어휘 원문 — 해시 고정 (bazel-dependency-review 기능 표 "module extension / repo rule (a)").
+# 정의를 바꾸지 않고 그대로 쓰는 어휘(0.3절)이므로 원문은 빌드 입력이고, validate --standard-vocab 이
+# 데이터·온톨로지가 쓴 prov:·skos: 용어가 원문에 실재하는지 본다. 타깃: @prov_o//file, @skos//file
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+
+http_file(
+    name = "prov_o",
+    downloaded_file_path = "prov-o.ttl",
+    sha256 = "7d203989f67b38bca572253942acc5a1bf24ce3ccfece16f072dcb4be2b79a96",
+    urls = ["https://www.w3.org/ns/prov-o.ttl"],
+)
+
+http_file(
+    name = "skos",
+    downloaded_file_path = "skos.rdf",
+    sha256 = "e79633b8d0564816cee8a99f5c9acf9a0e6fc7257c7209acd684ecad53a89dd6",
+    urls = ["https://www.w3.org/2009/08/skos-reference/skos.rdf"],
+)

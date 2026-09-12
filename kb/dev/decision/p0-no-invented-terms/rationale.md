@@ -6,6 +6,7 @@ title_ko: 지어낸 용어는 정의를 매번 컨텍스트에 실어야 한다
 title: Invented terms force the definition into every context window
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/049f46d7-97d5-42ae-b0d7-dddf6f35d5fa
 ---

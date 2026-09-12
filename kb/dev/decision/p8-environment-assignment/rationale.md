@@ -6,6 +6,7 @@ title_ko: 요인이 할당을 증명하고 통제되지 않은 관측은 시험�
 title: The factor justifies the assignment; uncontrolled observation is not a test
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/12df135b-c37d-48d8-b768-8279da163438
 ---

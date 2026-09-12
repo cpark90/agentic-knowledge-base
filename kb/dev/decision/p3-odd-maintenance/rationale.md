@@ -6,6 +6,7 @@ title_ko: ODD가 틀리면 그 위의 모든 것이 틀린다
 title: If the ODD is wrong, everything above it is wrong
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d53cfcf9-c765-4bfe-b787-a420967a6f35
 ---

@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [kb/dev/decision/p10-traceability-metrics/conclusion.md, kb/dev/decision/p10-standard-trace-queries/conclusion.md, kb/dev/decision/p8-vv-independence-scope/conclusion.md, kb/dev/decision/p6-gate-catalogue/conclusion.md, kb/dev/decision/p8-verification-and-validation/alternatives.md, kb/dev/decision/p8-mismatch-attribution/conclusion.md, kb/dev/decision/p8-vv-roles/rationale.md]
 ---
 
@@ -27,3 +27,5 @@ targets: [kb/dev/decision/p10-traceability-metrics/conclusion.md, kb/dev/decisio
 
 ## 답
 (유저가 채움 — 재판정 결과 확인, 또는 판정자 교체 요구)
+
+인수: orchestrator 2026-09-12 — 유저(orchestrator 세션에 구두): "라벨 재판정 7건 확인했어, endorse 진행해줘". 7건에 `verified: {by: process:label-judge-20260912, at: 2026-09-12T12:40:00+09:00}`를 endorse로 추가했다(영문 라벨 정정 11:50 뒤라 trust-shapes 통과). 기존 orchestrator 재검토 표시는 유지. 물러났던 판정자 표시 7건이 전부 복구됐다.

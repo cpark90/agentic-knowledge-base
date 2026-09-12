@@ -6,6 +6,7 @@ title_ko: 단기·장기는 생산 시점에 갈리고 승격 규칙은 입력�
 title: Short-term and long-term split at production time, and the promotion rule is an input
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0127]

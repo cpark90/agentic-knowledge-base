@@ -6,6 +6,7 @@ title_ko: 수정 행위로 정의된 배타적 유형이라야 분포 진단이 
 title: Only mutually exclusive types defined by the fix make distribution diagnosis work
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/49d21395-f143-4467-b1e8-55c07e9341dc
 ---

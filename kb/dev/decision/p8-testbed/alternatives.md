@@ -6,6 +6,7 @@ title_ko: 외부 평가자 다수를 쓰는 것은 5단계의 한 형태다
 title: A panel of external evaluators is one form of step 5
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/8475c698-2795-4e94-8c13-85e3aa7d85eb
 ---

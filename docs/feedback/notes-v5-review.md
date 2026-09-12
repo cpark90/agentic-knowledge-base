@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [notes-v4-review.md, ../agent-knowledge-system-notes.md, ../agentic-knowledge-base-structure.md, ontology/related/trace/, ontology/related/assumption/, ontology/related/scope/, ../tools.md, ../rules.md, ../method.md, ../open-questions.md]
 ---
 

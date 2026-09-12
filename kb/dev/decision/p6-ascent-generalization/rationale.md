@@ -6,6 +6,7 @@ title_ko: 자란 어휘로 다음 프로젝트가 시작하는 것이 재사용�
 title: The next project starting from grown vocabulary is what reuse means
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/7602294f-6051-4712-b9d6-f4ed896a8316
 ---

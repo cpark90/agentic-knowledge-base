@@ -6,6 +6,7 @@ title_ko: 검사할 수 없는 원칙과 규칙의 부작용은 지표로만 드
 title: Uncheckable principles and rule side effects surface only as metrics
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/997c76c5-45f5-496d-84cc-49c5e0907761
 ---

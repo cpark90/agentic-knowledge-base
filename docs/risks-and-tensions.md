@@ -15,7 +15,7 @@
 | **계층 우회** — functional에서 곧바로 executable로 | 중간 산출물을 커밋 조건으로 | **현재 모든 항목이 concrete 직행** |
 | **logical 공동화** — 후보 없이 형식만 남음 | 시험대: `contract`·`artifact`의 logical 칸 | [미해결](open-questions/contract-artifact-logical.md) |
 | **정체성 단절** — 리팩터링 시 개체가 새로 생김 | 지속 IRI + 해시 버전 IRI | [미해결](open-questions/temporal-identity.md) · `contentHash`는 있고 해시 버전 IRI는 미결 |
-| **링크 붕괴** — 오래된 링크가 실제 구조를 오도 | 링크 상태 관리, 재검증 시점 | 부분 — 링크 개체 472, 상태는 증거 기록 규칙(verify 질의 2)으로 판정. suspect 전파는 미착수 |
+| **링크 붕괴** — 오래된 링크가 실제 구조를 오도 | 링크 상태 관리, 재검증 시점 | 부분 — 링크 개체 472, 상태는 증거 기록 규칙(verify 질의 2)으로 판정. suspect 후보는 `revalidate`(본문 해시 변경 → 링크·rdeps)로 계산하며 상태 저장은 없음 |
 | **구축 누락** — 링크를 만들 수 있던 순간에 만들지 않음 | 편집 부산물로 강제. 복원은 감사용 (d-0009) | 미착수 — 읽기·쓰기 기록 없음 |
 | **직렬화 노이즈** — diff가 의미 없는 변경으로 오염 | 정규화 직렬화 | 도구는 있으나 **게이트에 안 걸림** |
 | **온톨로지 과설계** — 역량 질문에 기여하지 않는 개념 | 역량 질문 대조 | 목록 있음([`competency-questions.md`](competency-questions.md)). 대조는 규약(`term_propose`의 `--cq`) |

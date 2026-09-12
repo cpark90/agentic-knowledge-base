@@ -41,6 +41,7 @@ kb_gate_test(
     name = "gate_test",
     ontology = [":modules"],
     shapes = [":shapes"],
+    standard_vocab = ["@prov_o//file", "@skos//file"],
 )
 
 # 온톨로지 청크도 42줄 규칙을 따른다 — @prefix·주석 제외 본문 기준

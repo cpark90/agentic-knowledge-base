@@ -33,7 +33,7 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 | 청크 형식 | 42줄 초과, 라벨 누락, plane·level 유일성 위반, `type`이 온톨로지 밖 | shape | 4.4 | **있음** — `chunk_lint` + `chunk2kg` + `chunk-shapes` |
 | 수준 허용표 | plane에 허용되지 않는 level | shape | 6.4 | **있음** — `residency-shapes` |
 | 복합체 | 부분의 plane·level 불일치, 직접 부분 > 9, 순환 | analysis | 4.5 | 부분 — `composite-shapes`(≤9); 결정 복합체는 `kb_decision` 규칙이 세 부분·수준을 분석 시점에 검사 |
-| 통제 어휘 | 온톨로지에 없는 술어·개체 | verify | 0.0, 2.12 | **있음** — `validate` vocab |
+| 통제 어휘 | 온톨로지에 없는 술어·개체, 표준 어휘 원문에 없는 prov·skos 용어 | verify | 0.0, 2.12 | **있음** — `validate` vocab (+ `--standard-vocab`, 2026-09-12) |
 | 출처 | `sources`가 빈 청크, 파생 연쇄 전체가 외부 유입인 확정 청크 | verify | 4.3, 2.12 | **있음** — `sources-empty.rq`·`imported-chain-confirmed.rq` |
 | TIM | 링크 타입의 정의역·치역 밖 plane, 카디널리티 초과, 단방향 규칙 위반 | analysis | 10.1 | **부분** — `defs/kb.bzl` 규칙이 `refines`(상위 수준·plane 단방향)·`serves`(요구만)·`supersedes`(같은 plane)·`verifies`(V&V 주어·같은 수준)를 분석 시점 `fail()`로, 끊긴 링크는 로드 에러, 방향은 `package_group` 가시성 (2026-09-11) |
 | ODD 참조 | ODD에 없는 조건을 참조하는 스코프·가정·시나리오 변수 | verify | 3.3 | **있음** — `validate` odd-ref |
@@ -89,9 +89,9 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 | `syntax` | 모든 TTL이 파싱된다 | — |
 | `labels` | `agt:` 용어마다 한/영 `rdfs:label` + `skos:definition` | [ontology §확장 규칙](ontology.md#확장-규칙) |
 | `boundary` | 한 용어는 한 모듈 파일에서만 정의된다 | 같음 |
-| `vocab` | 데이터의 술어가 온톨로지 또는 등록된 표준 어휘 안 | [rules §통제 어휘](rules.md#통제-어휘) |
+| `vocab` | 데이터의 술어가 온톨로지 또는 등록된 표준 어휘 안. `--standard-vocab`(PROV-O·SKOS 원문, `MODULE.bazel` `http_file` 해시 고정)를 주면 그 네임스페이스의 용어가 **원문에 실재**하는지까지 — 접두사만 맞는 오타를 잡는다 | [rules §통제 어휘](rules.md#통제-어휘) |
 | `odd-ref` | `agt:refersTo`의 대상이 ODD에 존재한다 | [rules §가정](rules.md#가정) |
-| `dangling` | `cites`·`hasDirectPart`·`assumes`·`refines`·`satisfies`가 가리키는 항목이 실재한다 | [rules §4](rules.md#4-traceability--인터페이스를-기준축으로-한-mapping) |
+| `dangling` | `cites`·`usesConcept`·`hasDirectPart`·`assumes`·`refines`·`satisfies`가 가리키는 항목이 실재한다. `usesConcept`의 대상이 폐기 용어(`owl:deprecated`)면 `warn [usesConcept-deprecated]`(FAIL 아님 — LEDGER 용어 일관성 검사) | [rules §4](rules.md#4-traceability--인터페이스를-기준축으로-한-mapping) |
 | `verify` | 안티패턴 질의 결과 행 = 위반 | 위 표 |
 | `shacl` | shape 적합성 (아래) | [rules](rules.md) |
 
@@ -123,12 +123,12 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 | 도구 | 입력 → 산출 | 실패 조건 |
 |---|---|---|
 | `chunk2kg.py` | 청크 frontmatter → head 그래프. **타깃별 조각**(`--fragment`, `kb_chunk`·`kb_decision` 액션) → `kb_kg_merge`(`--merge`) → `kg/chunks-kg.ttl`. 바뀐 타깃의 조각만 다시 만든다. 옛 union 방식은 `//kg:chunks_kg_union`으로 남겨 `//kg:kg_equivalence_test`가 바이트 동일을 검사 | 필수 키 7개 누락, 값 어휘 밖, 복합체 미선언(조각), **IRI 중복**(병합) — "한 chunk는 한 파일"의 기계적 강제 |
-| `extract_refs.py` | 본문의 `d-NNNN` 인용 → `references-kg.ttl`의 `agt:cites` | 인용 대상이 실재하지 않음 |
+| `extract_refs.py` | 본문의 `d-NNNN` 인용 → `references-kg.ttl`의 `agt:cites`; 본문의 `agt:<Term>` 표기 중 온톨로지가 정의한 용어 → `agt:usesConcept`(복원 경로, dependency-graph (f)). 온톨로지에 없는 표기는 `info`로 집계만 | 인용 대상이 실재하지 않음 |
 | `odd2kg.py` + `taxonomy.py` | OpenODD YAML 매핑 문서 `kb/odd/project-odd.yml`(`TAXONOMY`·`MODULES`·`INCLUDE_AND`…) → `project-odd.ttl`; `related/condition` → `taxonomy.yml` (부록 E.4) | 택소노미 밖 범주 · 미선언 속성 · 선언 밖 리터럴 · OpenODD 식이 아닌 값 · `ATTRIBUTES`/`CHECKS` 없는 조건 |
 | `labels.py` | 청크 head → OKF `index.md` (5.6절) | frontmatter 오류 |
-| `metrics.py` | 그래프 → `metrics.md` (4.13절 지표, CQ19·CQ20, 14.1 통과 조건) | 그래프 파싱 실패 |
+| `metrics.py` | 그래프 → `metrics.md` (4.13절 지표, CQ19·CQ20, 14.1 통과 조건; 구축에는 frontmatter 링크 개체와 본문 식별자 추출(`cites`·`usesConcept`)이 들어가고 복원은 후보 파이프라인 산출만(유저 결정 2026-09-12 (b)), 가정 절에 "기본 가정만 가진 청크") | 그래프 파싱 실패 |
 | `gen_build.py` | 청크 frontmatter → `BUILD.bazel`(`kb_chunk`·`kb_decision` 타깃, 링크 = deps). 커밋한다 | 세 청크 없는 결정 디렉토리 · 끊긴 링크 |
-| `consistency.py` | 청크 본문 + 용어집 → `consistency.md` (`bazel build //kb:consistency`): 정확·근사 중복, 라벨 중복, 결론 라벨 형식(결론만 — 근거·대안 라벨은 명사구 관례), 용어집 옛 표기, 중복률. 보고 뷰이며 게이트가 아니지만 `//kb:consistency_build_test`가 `bazel test //...`마다 생성한다(rules.md "커밋마다") ([`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md)) | 파싱 실패 |
+| `consistency.py` | 청크 본문 + 용어집 → `consistency.md` (`bazel build //kb:consistency`): 정확·근사 중복, 묶인 쌍(`coUpdatesWith`)의 응집 저하(본문 5-gram Jaccard < θ/2 — 의미 응집 검사의 첫 형태, 학습 모델 임베딩은 ODD 명시 제외), 라벨 중복, 결론 라벨 형식(결론만 — 근거·대안 라벨은 명사구 관례), 용어집 옛 표기, 중복률. 보고 뷰이며 게이트가 아니지만 `//kb:consistency_build_test`가 `bazel test //...`마다 생성한다(rules.md "커밋마다") ([`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md)) | 파싱 실패 |
 
 #### 하네스 도구 — 역할 규약과 인수
 
@@ -157,12 +157,12 @@ YAML은 PyYAML(잠금 `pyyaml==6.0.2`, 호스트 휠 + sdist 두 해시)로 읽�
 
 | 도구 | 대응 절차 | 하는 일 | 단계 |
 |---|---|---|---|
-| `workset` / `labels` | [method §8 조회](method.md#8-조회) | **첫 형태 있음** — `bazel build //kg:workset --//kb:role=<role> --//kb:anchor=<라벨|IRI> --//kb:levels=<창> --//kb:hops=1 --//kb:budget=200` → `bazel-bin/kg/workset-<role>.md`: 역할 스코프(plane) × 수준 창 × 앵커 이웃, 예산 패킹, 접기. 선택자는 빌드 설정이라 BUILD를 고치지 않는다. 정의(0.5절 정정본)대로 앵커가 양을 거른다 — 앵커 없이 573줄, 앵커를 주면 14줄 | 2 |
+| `workset` / `labels` | [method §8 조회](method.md#8-조회) | **첫 형태 있음** — `bazel build //kg:workset --//kb:role=<role> --//kb:anchor=<라벨|IRI> --//kb:levels=<창> --//kb:hops=1 --//kb:budget=200` → `bazel-bin/kg/workset-<role>.md`: 역할 스코프(plane) × 수준 창 × 앵커 이웃(상류 ∪ 하류), 족별 우선순위(앵커 ≫ references ≫ semanticallyDependsOn ≫ 구성 관계 ≫ relatedTo ≫ 시간축) 뒤 예산 패킹, 초과분은 라벨만(dependency-graph §4, 2026-09-12). 선택자는 빌드 설정이라 BUILD를 고치지 않는다. 정의(0.5절 정정본)대로 앵커가 양을 거른다 — 앵커 없이 573줄, 앵커를 주면 14줄 | 2 |
 | `link` | [method §6 연결](method.md#6-연결) | 구축 기록 → 후보, 복원 파이프라인 k≤7. 첫 형태: frontmatter 링크마다 `agt:Link` + 구축 기록 증거를 `chunk2kg`가 방출, `handoff`가 workset 뷰의 펼친 청크를 `sources`로 옮김 (`bazel run //tools:handoff -- --workset bazel-bin/kg/workset-<role>.md <청크>`) | 3·8 |
-| `propagate` / `revalidate` | [method §7 갱신](method.md#7-갱신) | 무효화 전파 8단계 · 재판정 큐, 규칙 카탈로그 8종 | 4 |
+| `propagate` / `revalidate` | [method §7 갱신](method.md#7-갱신) | **첫 형태 있음(revalidate)** — `bazel run //tools:revalidate -- --base <rev>`: base 리비전 대비 본문 해시가 바뀐 청크와 그 링크 양 끝·`part_of` 형제·`rdeps` 하류를 재판정 대상 표로(종료 1 = 대상 있음). head만 바뀐 청크는 제외. 무효화 전파 8단계·규칙 카탈로그(`propagate`)는 없음 | 4 |
 | `query` | [competency-questions](competency-questions.md) | CQ1~20과 표준 추적 질의 | 3 |
 | `impact` | [method §12 영향 분석](method.md#12-영향-분석) | **첫 형태 있음** — `bazel run //tools:impact -- <타깃>`: `rdeps`로 영향 항목 수·plane 분포·suspect가 될 링크 수·승인 필요 결정 수. 구조 근사이며 가정·무효화 전파는 그래프 질의 몫 | 3 |
-| `project` | [method §9 뷰](method.md#9-뷰) | tangle·weave·매트릭스·보고. 저장하지 않고 질의 | 8 |
+| `project` | [method §9 뷰](method.md#9-뷰) | **첫 형태 있음(communities)** — `bazel build //kg:communities`: 결정론적 Louvain으로 복합체 후보(같은 plane·level, 2~9)와 `relatedTo` 링크 후보(plane·level을 넘음)를 제안, 판정은 사람([`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md)). tangle·weave·매트릭스는 없음 | 8 |
 | `metrics` | [methodology 완료 판정](methodology.md#완료-판정) | **첫 형태 있음** — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md`: 청크 수·고아율·크기 분포·링크 밀도·CQ19·CQ20·신뢰 등급. 없는 것: suspect 비율·누락률·라벨 대표성 | 1 |
 
 `metrics`(1·2단계 대리 포함)·`workset`·`odd_check`의 첫 형태가 생겼으므로 문서는 수치를 적지 않고 생성물을 인용한다 (d-0075). 문서에 남아
@@ -216,6 +216,7 @@ Bazel이 맡는 것은 링크의 **구조**: 끊긴 링크 = 로드 에러, 방�
 bazel run //tools:impact -- //kb/dev/requirement:r-008-descend-to-executable   # 영향 집합 = rdeps (12.6절 네 수치)
 bazel build //kg:workset --//kb:role=developer --//kb:anchor="두 KB" --//kb:levels=concrete   # 작업 집합 뷰, 선택자는 플래그
 bazel build //kb/dev/decision:all                                                       # 검증 액션 = 42줄·frontmatter
+bazel run //tools:revalidate -- --base HEAD~1                                            # 본문 해시 변경 → 재판정 대상 링크·항목
 tools/gen_build.py                                                                       # frontmatter 를 고쳤으면 BUILD 재생성
 ```
 
@@ -233,7 +234,7 @@ tools/gen_build.py                                                              
 ├── //kb/odd:gate_test             ODD shape  ← //kb/odd:odd (odd2kg) · :taxonomy
 └── //kg:gate_test                 vocab · odd-ref · dangling · verify · SHACL
                                     ← //kg:chunks_kg · //kg:references_kg 를 입력으로
-생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics · //kg:workset_<role> · //kb:consistency
+생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics · //kg:workset_<role> · //kb:consistency · //kg:communities
 ```
 
 `//kb/ontology:chunk_lint_test`는 `bazel test //...`로는 돌고 `//:gate`로는 안 돈다. 배선은

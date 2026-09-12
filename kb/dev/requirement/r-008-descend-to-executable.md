@@ -6,6 +6,7 @@ title_ko: 모든 요구는 실산출물까지 내려간다
 title: Every requirement descends to an executable
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 체계는 요구에서 실산출물까지의 정제 사슬(refines)을 유지하여야 하며, executable까지 닿지 않은 요구를 셀 수 있어야 한다.

@@ -6,6 +6,7 @@ title_ko: 의미 있는 IRI와 버전을 별도 속성으로 두는 안의 기�
 title: Rejecting meaningful IRIs and version as a separate property
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/eb847899-2640-4bca-955a-7f511528bc1d
 ---

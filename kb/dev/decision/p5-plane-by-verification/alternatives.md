@@ -6,6 +6,7 @@ title_ko: 요구를 주석이나 결정에 흡수하는 안은 합의의 대상�
 title: Folding requirement into annotation or decision breaks on what the consensus is about
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/5b5edf6d-f638-4c16-bc32-f4d8e6ed9785
 ---

@@ -6,6 +6,7 @@ title_ko: 읽는 시점이 저장 위치를 가르고 규칙이 없으면 memory
 title: Read timing decides the location; without a rule the memory plane eats the budget
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/46d1f19a-5541-4328-903d-caa729dcb9b4
 ---

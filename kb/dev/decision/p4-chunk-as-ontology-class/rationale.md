@@ -6,6 +6,7 @@ title_ko: 42줄은 200줄 컨텍스트의 1/5이고 청크는 네 분야의 합�
 title: 42 lines is one fifth of the 200-line context; four fields converge on the chunk
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/dd76498b-2cca-4b79-a1fe-ce5a4d33c0ca
 ---

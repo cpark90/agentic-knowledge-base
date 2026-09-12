@@ -6,6 +6,7 @@ title_ko: 세션의 경험은 승격 규칙으로 남는다
 title: Session experience survives via promotion rules
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 세션이 끝나면, 체계는 시행착오를 memory plane에 남기고 승격 규칙에 따라 주제 plane으로 올릴 수 있어야 한다.

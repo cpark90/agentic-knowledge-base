@@ -6,6 +6,7 @@ title_ko: 형식 검사가 없으면 형식 이탈이 유효한 지식으로 저
 title: Without format checks, off-format output is stored as valid knowledge
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/194f050d-929c-4c2c-a42e-887beed7b690
 ---

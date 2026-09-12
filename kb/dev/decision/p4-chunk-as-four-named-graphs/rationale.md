@@ -6,6 +6,7 @@ title_ko: 나노출판 구조를 그대로 쓰면 변환도 지어낸 출처 어
 title: Reusing the nanopublication structure removes both conversion and invented provenance terms
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/428f00f0-6790-41c0-83a8-bf8a564e848e
 ---

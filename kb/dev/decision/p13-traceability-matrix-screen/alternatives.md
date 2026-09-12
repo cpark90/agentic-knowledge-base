@@ -6,6 +6,7 @@ title_ko: 의도 모호성 시각화는 미확정이고 같은 화면의 색 축
 title: Intent-ambiguity coloring is undecided and collides with this screen's color axis
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/78873300-5f9a-4316-bc7c-9a384d60822b
 ---

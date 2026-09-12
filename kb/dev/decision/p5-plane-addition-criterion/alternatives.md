@@ -6,6 +6,7 @@ title_ko: 검토된 plane 후보 — ui만 남고 나머지는 하위 클래스�
 title: Reviewed plane candidates: only ui remains, the rest are absorbed
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ab95f777-16da-41c6-8b1d-5f51f1484840
 ---

@@ -6,6 +6,7 @@ title_ko: 누락률은 분모가 둘로 갈리고 측정은 기록된 작업 집
 title: The omission rate splits by two denominators, and measurement replays recorded worksets
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/a4a5acea-aaed-4439-ac17-164495f5927c
 ---

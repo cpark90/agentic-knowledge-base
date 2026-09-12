@@ -6,6 +6,7 @@ title_ko: 구성도 하나의 결정이며 반복 기각은 공리의 재료다
 title: Composition is itself a decision, and repeated elimination is material for axioms
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
 verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/152194cd-d12e-4d2c-9626-ccb6119e1baf

@@ -47,6 +47,47 @@ targets: [kb/dev/decision/p8-mismatch-attribution/conclusion.md, kb/dev/decision
 
 어느 쪽이든 **6건의 정정**(검증기 → verifier)은 필요하다 — 담당 역할이 수행한다.
 
+## 검토 — 인계 준비 (hci 2026-09-12)
+
+유저 답 "1,3" 이후 항목을 다시 검토했다. 채널 밖 수정은 담당 역할 몫이므로 여기에는 인계에 필요한 것만 갖춰 둔다.
+
+**범위 확인 — 오염은 이 6건뿐이다.** 영문 필드가 될 수 있는 자리를 전부 훑었다 (2026-09-12 실측):
+
+| 검사한 자리 | 결과 |
+|---|---|
+| 청크 frontmatter `title` | **6건 오염** (아래) |
+| 복합체 선언의 `title` | 0 |
+| `title_ko` 가 한글 없이 영문뿐 | 0 |
+| 온톨로지 `@en` 라벨·정의문 | 0 |
+| `@ko` 인데 한글 없음 | 0 |
+| `kg/`·`kb/odd/` 의 `@en` | 0 |
+| 도구·매크로의 영문 식별자 | 0 |
+
+**정정 6건 — git 이력에서 원래 표현을 복원했다** (`bb1db4e` 시점, 치환 전):
+
+| 파일 | 고칠 값 |
+|---|---|
+| `p8-mismatch-attribution/conclusion.md` | `Attributing a verifier failure is a decision, recorded as a guidance chunk in V&V decision` |
+| `p8-pass-criteria/conclusion.md` | `Pass criteria are chunks apart from the verifier, bound as link attributes` |
+| `p8-vv-roles/alternatives.md` | `Rejecting a single author for criteria and verifier` |
+| `p6-executable-splits-by-kb/conclusion.md` | `Implementation and verifier live in different KBs` |
+| `p8-vv-roles/rationale.md` | `Keeping gaps in the criteria from becoming gaps in the verifier` |
+| `p8-vv-roles/conclusion.md` | `Five roles write to the V&V KB; criteria author and verifier author work in different sessions` |
+
+즉 새로 쓰는 것이 아니라 **되돌리는 것**이다 — 한글 라벨은 "검증기"로 정규화된 채 두고 영문만 `verifier` 로 돌린다
+(용어집: 산문은 검증기, 영문 식별자·라벨은 `verifier`).
+
+**주의 — 고치면 판정 도장이 물러난다.** `trust-shapes` 가 "검증 뒤 수정 금지"라 `generated.at` 을 올리는 순간
+기존 `verified` 가 무효가 된다. 이 6건 중 넷(`p8-mismatch-attribution/conclusion`·`p8-vv-roles/rationale` 등)은
+2026-09-12 재판정 대상과 겹친다 — **라벨 언어 정정을 먼저 하고, 그다음 `endorse` 로 한 번만 도장을 찍는 편이
+재판정을 두 번 하지 않는 길이다** (`label-rejudge-2026-09-12.md` 와 순서를 맞출 것).
+
+**검사의 위치 — `chunk2kg` 가 맞다.** `title` 은 frontmatter 필수 키이고 `chunk2kg` 가 이미 필수 키·값 어휘·IRI
+중복을 검사한다. 한 줄 추가로 `bazel build //kg:chunks_kg` 에서 즉시 실패한다. `consistency` 는 보고라 놓칠 수 있고,
+`validate` 의 labels 검사는 온톨로지 용어만 본다.
+
+**반대 방향도 함께 볼 것** — 지금은 0이지만 `title_ko` 에 한글이 없는 경우(영문만)도 같은 검사에서 잡는 편이 싸다.
+
 ## 덧붙임 — 같은 소유자(`tools/`)에게: 채널 게이트의 과잉 검출
 
 `tools/channel_lint.py` 의 반영 표지가 여는 괄호 + 역할 이름 형태를 통째로 잡는다. 그래서 채널 안에서 정상인
@@ -63,3 +104,5 @@ targets: [kb/dev/decision/p8-mismatch-attribution/conclusion.md, kb/dev/decision
 2. `STYLEGUIDE.md` 언어 규칙에 "영문 라벨(`title`)에 한글을 섞지 않는다 — 용어 치환 시 한글 필드만 대상" 한 줄
 3. 오염 6건 정정 (`검증기` → `verifier`): 위 `targets` 의 앞 6개
 4. 덧붙임의 `channel_lint` 표지 완화 (같은 소유자)
+
+인수: orchestrator 2026-09-12 — 유저 답 1,3. (1) `chunk2kg`가 `title`의 한글, `title_ko`의 한글 부재를 `FAIL [chunk2kg]`로 거부(developer, 음성 시험 확인) (2) `STYLEGUIDE.md` §0 언어 규칙에 한 줄 (3) 오염 6건을 git 이력의 원문(`verifier`)으로 되돌렸다 — `generated.at` 갱신, orchestrator 재검토 표시. 라벨 판정 도장은 `label-rejudge-2026-09-12` 유저 확인 뒤 한 번만 찍는다(hci 권고 순서) (4) `channel_lint` 표지를 서술형(`hci 반영`·`hci가 반영/수행`)으로 좁혔다(developer). 원인은 orchestrator의 치환 정규식이 영문 라벨 줄을 제외하지 않은 것 — 세션 메모리에 남겼다.

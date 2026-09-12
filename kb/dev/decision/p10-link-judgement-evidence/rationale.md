@@ -6,6 +6,7 @@ title_ko: 네 한계와 그 완화
 title: Four limits and their mitigations
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/4f68217b-9725-4607-9748-151d55d543a8
 ---

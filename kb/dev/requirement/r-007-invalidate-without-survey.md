@@ -6,6 +6,7 @@ title_ko: 조건이 깨지면 전수조사 없이 무효화한다
 title: Invalidate without exhaustive survey
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — ODD 조건이 깨지면, 체계는 그 조건을 가정하는 모든 항목을 전수조사 없이 자동으로 무효화 표시하여야 한다.

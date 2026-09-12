@@ -6,6 +6,7 @@ title_ko: mode 생략과 프로세스 규칙을 문서로 두는 안의 기각
 title: Rejecting an implicit mode and process rules kept as prose
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/780d333f-1d35-4e81-83cf-58355a1d3d41
 ---

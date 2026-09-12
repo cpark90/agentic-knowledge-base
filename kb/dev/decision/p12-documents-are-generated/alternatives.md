@@ -6,6 +6,7 @@ title_ko: 문서를 산출물로 저장하고 동기화하는 안은 배제한�
 title: Storing documents as artifacts and syncing them is ruled out
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/66832e72-2baf-420e-876f-05120bb3184d
 ---

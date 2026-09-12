@@ -6,6 +6,7 @@ title_ko: 설계 조건과 실행 조건은 어긋나며 그 어긋남이 정보
 title: Design and runtime conditions diverge, and the divergence is information
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ce551363-f48f-40a3-95f8-b35a0ddd377d
 ---

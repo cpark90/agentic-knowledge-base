@@ -6,10 +6,18 @@
   labels      온톨로지가 정의한 모든 agt: 용어에 rdfs:label 한/영 + skos:definition (2.5절)
   boundary    한 agt: 용어는 정확히 한 모듈 파일에서만 정의된다 (2.3절 경계 규칙)
   vocab       데이터 그래프의 술어는 온톨로지 정의 또는 표준 어휘 안에 있다 (4.4절 일관성,
-              Part XIII "어휘 우회" 리스크)
+              Part XIII "어휘 우회" 리스크). --standard-vocab <원문...> 을 주면 그 원문
+              (PROV-O·SKOS, MODULE.bazel http_file 해시 고정)의 네임스페이스에 속한 용어가
+              실제로 거기 정의돼 있는지까지 본다 — 접두사만 맞는 오타를 잡는다
   odd-ref     agt:refersTo 의 대상은 ODD 그래프에 존재한다 — "ODD에 없는 속성을 참조하는
               스코프나 가정은 존재할 수 없다" (0.4절)
+  dangling    저장소 안을 가리키는 링크의 대상이 실재한다. agt:usesConcept 의 대상은
+              온톨로지가 정의한 용어여야 한다 (dependency-graph-design §5 참조 무결성)
   shacl       (--shapes) OWL-RL 추론 후 pySHACL 적합성 (--reason 시 추론 적용)
+
+경고(비영 종료 아님, `warn [검사명]` 접두사)
+  usesConcept-deprecated  agt:usesConcept 의 대상이 폐기된 용어(owl:deprecated true 또는
+              라벨의 "(deprecated)"/"(폐기)")다 — 용어 일관성 (dependency-graph-design §5)
 
 실패는 비영(non-zero) 종료 — bazel test 가 곧 게이트다.
 """
@@ -19,7 +27,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from rdflib import RDF, RDFS, Graph, URIRef
+from rdflib import OWL, RDF, RDFS, XSD, Graph, URIRef
 from rdflib.namespace import SKOS
 
 try:
@@ -80,6 +88,48 @@ def check_vocab(data_files: dict[str, Graph], ontology: Graph) -> list[str]:
     return errors
 
 
+def _namespace(iri: URIRef) -> str:
+    s = str(iri)
+    return s[: max(s.rfind("#"), s.rfind("/")) + 1]
+
+
+def load_standard_vocab(paths: list[str]) -> tuple[set[URIRef], set[str]]:
+    """등록 표준 어휘 원문(PROV-O·SKOS — MODULE.bazel 의 http_file 이 해시 고정으로 가져온다)이
+    정의하는 용어와, 검사 대상이 되는 네임스페이스.
+
+    네임스페이스는 원문이 정의한 용어에서 파생한다(PROV-O 원문은 rdfs·owl 주석 속성도 선언하므로
+    기본 어휘 넷은 뺀다) — 원문을 하나 더 등록하면 그 어휘가 그대로 검사 대상이 된다.
+    """
+    from rdflib.util import guess_format
+
+    terms: set[URIRef] = set()
+    for p in paths:
+        g = Graph()
+        g.parse(p, format=guess_format(p) or "turtle")
+        for t in kb_lib.DEFINING_TYPES:
+            terms |= {s for s in g.subjects(RDF.type, t) if isinstance(s, URIRef)}
+    base = {str(RDF), str(RDFS), str(OWL), str(XSD)}
+    return terms, {_namespace(t) for t in terms} - base
+
+
+def check_standard_vocab(graphs: dict[str, Graph], terms: set[URIRef], namespaces: set[str]) -> list[str]:
+    """(--standard-vocab) 표준 어휘 네임스페이스의 용어는 등록 원문에 정의돼 있어야 한다.
+
+    check_vocab 은 접두사(WELL_KNOWN_PREFIXES)만 보므로 prov:wasDerivedfrom 같은 오타가 통과한다.
+    원문이 있으면 술어뿐 아니라 주어·목적어 자리(타입, subPropertyOf 대상)의 용어까지 실재를 본다.
+    """
+    errors = []
+    for path, g in graphs.items():
+        seen: set[URIRef] = set()
+        for s, p, o in g:
+            for node in (s, p, o):
+                if isinstance(node, URIRef) and node not in seen:
+                    seen.add(node)
+                    if _namespace(node) in namespaces and node not in terms:
+                        errors.append(f"[vocab] {path}: 표준 어휘 원문에 정의되지 않은 용어 {node} (--standard-vocab 기준)")
+    return errors
+
+
 def check_odd_refs(merged: Graph, odd: Graph) -> list[str]:
     errors = []
     odd_subjects = {s for s in odd.subjects() if isinstance(s, URIRef)}
@@ -91,12 +141,15 @@ def check_odd_refs(merged: Graph, odd: Graph) -> list[str]:
     return errors
 
 
-def check_dangling(merged: Graph) -> list[str]:
+def check_dangling(merged: Graph, ontology: Graph | None = None) -> list[str]:
     """저장소 안을 가리키는 링크의 대상이 실재하는가 (참조 무결성, 8.2절).
 
     인용·복합체 부분·가정·출처처럼 id: 개체를 가리키는 술어의 목적어는 그래프에
     주어로 나타나야 한다. 나타나지 않으면 끊어진 링크이고, 끊어진 링크는 실제
     구조를 오도하므로 없는 것보다 해롭다 (8.6절).
+
+    agt:usesConcept 은 개념 IRI를 바로 가리킨다(dependency-graph-design (f)) — 대상은
+    온톨로지가 정의한 agt: 용어여야 한다. 온톨로지를 안 주면 병합 그래프의 주어로 대신한다.
     """
     checked = (
         kb_lib.AGT.cites,
@@ -111,7 +164,43 @@ def check_dangling(merged: Graph) -> list[str]:
         for s, o in merged.subject_objects(pred):
             if isinstance(o, URIRef) and str(o).startswith(str(kb_lib.ID)) and o not in subjects:
                 errors.append(f"[dangling] {merged.qname(s)} 의 {merged.qname(pred)} 대상이 없다: {o}")
+    concepts = kb_lib.defined_terms(ontology) if ontology is not None else subjects
+    for s, o in merged.subject_objects(kb_lib.AGT.usesConcept):
+        if o not in concepts:
+            errors.append(f"[dangling] {_chunk_location(merged, s)} 의 agt:usesConcept 대상이 온톨로지에 정의되지 않았다: {o}")
     return errors
+
+
+def _chunk_location(merged: Graph, chunk: URIRef) -> str:
+    return next((str(l) for l in merged.objects(chunk, kb_lib.AGT.assertionLocation)), merged.qname(chunk))
+
+
+def _agt_qname(merged: Graph, term: URIRef) -> str:
+    """병합 그래프에는 접두사가 묶여 있지 않아 qname 이 ns2: 처럼 나온다 — agt: 용어는 그대로 적는다."""
+    return f"agt:{str(term)[len(str(AGT)):]}" if str(term).startswith(str(AGT)) else merged.qname(term)
+
+
+def deprecated_terms(ontology: Graph) -> set[URIRef]:
+    """폐기된 용어 — owl:deprecated true 가 기준이고, 라벨의 "(deprecated)"/"(폐기)" 표기도 인정한다."""
+    terms = {s for s, v in ontology.subject_objects(OWL.deprecated) if str(v).lower() == "true"}
+    for s, lbl in ontology.subject_objects(RDFS.label):
+        if "(deprecated)" in str(lbl) or "(폐기)" in str(lbl):
+            terms.add(s)
+    return {t for t in terms if isinstance(t, URIRef)}
+
+
+def check_deprecated_concepts(merged: Graph, ontology: Graph) -> list[str]:
+    """경고(FAIL 아님): agt:usesConcept 의 대상이 폐기된 용어다 — 용어 일관성 (dependency-graph-design §5).
+
+    폐기는 삭제가 아니므로(p0-deprecate-not-delete) 링크 자체는 유효하다. 본문이 옛 용어를 쓰고
+    있다는 신호이며, 재검증 시점에 대체 용어로 고칠 대상이다.
+    """
+    deprecated = deprecated_terms(ontology)
+    return sorted(
+        f"[usesConcept-deprecated] {_chunk_location(merged, s)} → {_agt_qname(merged, o)}"
+        for s, o in merged.subject_objects(kb_lib.AGT.usesConcept)
+        if o in deprecated
+    )
 
 
 def check_writer(merged: Graph) -> list[str]:
@@ -191,15 +280,19 @@ def main() -> int:
     ap.add_argument("--data", nargs="*", default=[], help="A-Box 파일들 (*-kg, *-space)")
     ap.add_argument("--reason", action="store_true", help="SHACL 전에 OWL-RL 추론 적용")
     ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 계층)")
+    ap.add_argument("--standard-vocab", nargs="*", default=[],
+                    help="등록 표준 어휘 원문(PROV-O·SKOS 등). 주면 그 네임스페이스의 용어가 원문에 정의돼 있는지까지 본다")
     args = ap.parse_args()
 
     errors: list[str] = []
+    warnings: list[str] = []
 
     try:
         onto_merged, onto_files = kb_lib.load_merged(args.ontology)
         odd_merged, odd_files = kb_lib.load_merged(args.odd)
         data_merged, data_files = kb_lib.load_merged(args.data)
-        shapes_merged, _ = kb_lib.load_merged(args.shapes)
+        shapes_merged, shapes_files = kb_lib.load_merged(args.shapes)
+        std_terms, std_namespaces = load_standard_vocab(args.standard_vocab)
     except Exception as e:  # 파싱 실패 = syntax 게이트 실패
         print(f"FAIL [syntax] {e}")
         return 1
@@ -207,17 +300,26 @@ def main() -> int:
     errors += check_labels(onto_files)
     errors += check_boundary(onto_files)
     errors += check_vocab({**odd_files, **data_files}, onto_merged)
+    if args.standard_vocab:
+        errors += check_standard_vocab({**onto_files, **shapes_files, **odd_files, **data_files}, std_terms, std_namespaces)
 
     merged = onto_merged + odd_merged + data_merged
     if args.odd:
         errors += check_odd_refs(merged, odd_merged)
     if data_files:
-        errors += check_dangling(merged)
+        errors += check_dangling(merged, onto_merged if args.ontology else None)
         errors += check_writer(merged)
+        if args.ontology:
+            warnings += check_deprecated_concepts(merged, onto_merged)
     if args.shapes:
         errors += check_shacl(merged, shapes_merged, args.reason)
     if args.verify_queries:
         errors += check_verify(merged, args.verify_queries)
+
+    for w in warnings:
+        print(f"warn {w}")
+    if warnings:
+        print(f"warn — {len(warnings)}건 (게이트 실패 아님)")
 
     if errors:
         for e in errors:

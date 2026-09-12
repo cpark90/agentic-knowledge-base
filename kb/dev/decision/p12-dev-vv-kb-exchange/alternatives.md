@@ -6,6 +6,7 @@ title_ko: 검증을 활용 기능으로 두는 안의 대체
 title: Superseding verification-as-application
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-10T19:40:00+09:00}
 verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/d8683edb-e683-4f3f-a6cc-fd448b724280

@@ -6,6 +6,7 @@ title_ko: 조립 명세는 산출물을 저장하지 않고 참조만 담는다
 title: An assembly spec stores references, never the artifacts themselves
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 조립 명세 단위가 담는 것은 셋이다: **명세**(부품 식별자와 그

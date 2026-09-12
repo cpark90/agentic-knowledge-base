@@ -6,6 +6,7 @@ title_ko: 주는 넷과 받는 넷이 짝을 이루고 활용의 내부 절차�
 title: The four given pair with the four returned; a use's internal procedure lies outside
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d8683edb-e683-4f3f-a6cc-fd448b724280
 ---

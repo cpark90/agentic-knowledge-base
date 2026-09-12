@@ -6,6 +6,7 @@ title_ko: 최상위 분류를 프로젝트가 직접 정하는 안
 title: Letting the project define its own top-level categories
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/4f26e1e2-595d-4d6a-b485-6c1293d11a53
 ---

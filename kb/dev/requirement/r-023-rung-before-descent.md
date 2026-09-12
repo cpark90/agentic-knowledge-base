@@ -6,6 +6,7 @@ title_ko: 검증 대응물 없이 다음 높이로 내려가지 않는다
 title: No descent without the verification rung
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 ---
 **요구** — 개발 계층의 한 높이가 완성되면, 같은 높이의 V&V 검증 대응물(verifies)가 있어야 다음 높이로 내려갈 수 있어야 한다.

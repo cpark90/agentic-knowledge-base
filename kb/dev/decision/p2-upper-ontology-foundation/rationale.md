@@ -6,6 +6,7 @@ title_ko: 표준어 원칙의 연장이자 정렬과 검사의 조건
 title: Standard terms, alignment, and mechanical conformance checking
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/4f26e1e2-595d-4d6a-b485-6c1293d11a53
 ---

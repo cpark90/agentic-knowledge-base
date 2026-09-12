@@ -6,6 +6,7 @@ title_ko: 커뮤니티의 자동 채택과 탐지 없음은 둘 다 기각된다
 title: Both automatic adoption of communities and no detection are rejected
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-dependency-graph-design}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T00:50:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/165ef75a-d4f3-4de2-aba2-ea3a8efb787a
 ---

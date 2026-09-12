@@ -6,6 +6,7 @@ title_ko: 설정 어휘는 닫힌 집합이고 미인식 값은 기본값으로 
 title: Configuration vocabulary is a closed set; unknown values fail instead of defaulting
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 선택 정책처럼 거동을 바꾸는 설정 어휘는 **닫힌 집합**으로

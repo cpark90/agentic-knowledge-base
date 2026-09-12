@@ -6,6 +6,7 @@ title_ko: 임베딩을 1차 인덱스로 두는 안과 전문 검색을 기본�
 title: Embedding as the primary index and full-text as the default are both ruled out
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/5133b9c7-e45d-462d-ad99-20e3b49ef15c
 ---

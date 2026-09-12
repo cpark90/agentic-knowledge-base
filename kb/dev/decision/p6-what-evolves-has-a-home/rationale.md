@@ -6,6 +6,7 @@ title_ko: 스킬 뱅크의 무한 팽창을 청크 규칙이 막는다
 title: Chunk discipline stops the skill bank from growing without bound
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/cc186a37-0cf9-48c4-b3d9-aa95b76d67f3
 ---

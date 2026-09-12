@@ -6,6 +6,7 @@ title_ko: 권한과 의존 방향을 고정해야 독립이 실효를 갖는다
 title: Independence takes effect only when permissions and dependency direction are fixed
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/a6634f6f-503c-4e74-8aa1-08d272e2a38e
 ---

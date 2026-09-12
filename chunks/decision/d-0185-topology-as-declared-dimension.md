@@ -6,6 +6,7 @@ title_ko: 조율 방식은 전역 고정이 아니라 구성물이 선언하는 
 title: Coordination topology is a dimension each composition declares, not a global constant
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 구성물의 참여자들이 **어떻게 조율하는가**(topology)는 체계

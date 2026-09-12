@@ -6,6 +6,7 @@ title_ko: 자동 선택은 전순서 정책으로 결정한다
 title: Automatic choice needs a total-order selection policy
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 후보가 여럿 남은 채로도 산출을 내야 하는 무인 경로에서는 사람의

@@ -6,6 +6,7 @@ title_ko: 개발 프로파일의 카탈로그는 아홉 역할이고 설계·구
 title: The development profile catalog has nine roles and splits write across design, build, and operations
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7, https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0125]

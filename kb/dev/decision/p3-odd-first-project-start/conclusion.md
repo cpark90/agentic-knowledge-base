@@ -6,6 +6,7 @@ title_ko: 새 프로젝트는 ODD 작성으로 시작하고 5단계를 거친다
 title: A project starts by writing its ODD, in five steps
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c, https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0063]

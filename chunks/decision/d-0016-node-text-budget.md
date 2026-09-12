@@ -6,6 +6,7 @@ title_ko: 노드 서술 텍스트는 130–260 token 대역에 두고 상한만 
 title: Node description text stays in a 130-260 token band, with only the upper bound enforced
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 검색 단위로 뷰에 실리는 노드의 서술 텍스트 합은 260 token을

@@ -6,6 +6,7 @@ title_ko: 문맥으로 구분하는 안과 v1 할당 중 폐기된 항목
 title: Rejecting context-based disambiguation and the dropped v1 assignments
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/727e4644-52bb-4880-bb4b-ba11d36469f1
 ---

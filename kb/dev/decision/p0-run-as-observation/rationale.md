@@ -6,6 +6,7 @@ title_ko: 관측과 명세를 같은 이름으로 부르면 일반화 단계가 
 title: Naming observation and specification alike erases the generalization step
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/696b52ee-952f-478e-9af1-cd83c82c9b88
 ---

@@ -6,6 +6,7 @@ title_ko: 네 분할 신호는 모두 청크 입도가 다른 장치의 입도�
 title: Every split signal says the chunk's granularity mismatches another mechanism's
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/bef41c67-e767-4eac-8a76-338d9a83913b
 ---
