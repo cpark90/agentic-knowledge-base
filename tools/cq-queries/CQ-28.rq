@@ -1,0 +1,15 @@
+# 정의되었으나 한 번도 쓰이지 않은 개념이 있는가 (고립 개념).
+# 행 = 온톨로지가 정의한 agt: 용어 중 A-Box(주어가 agt: 밖인 트리플)에서 술어로도 목적어로도 쓰이지 않은 것 하나 (정의 타입). 상위 클래스(Chunk·KnowledgeItem·Condition·Level)는 추론기 없이는 여기 나온다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?term ?definedAs WHERE {
+  ?term a ?definedAs .
+  FILTER(?definedAs IN (owl:Class, owl:ObjectProperty, owl:DatatypeProperty, owl:AnnotationProperty, owl:NamedIndividual, rdfs:Class, rdf:Property))
+  FILTER(STRSTARTS(STR(?term), "https://agentic-knowledge-base.dev/agt/"))
+  FILTER NOT EXISTS { ?s ?term ?o . FILTER(!STRSTARTS(STR(?s), "https://agentic-knowledge-base.dev/agt/")) }
+  FILTER NOT EXISTS { ?s2 ?p ?term . FILTER(!STRSTARTS(STR(?s2), "https://agentic-knowledge-base.dev/agt/")) }
+} ORDER BY ?definedAs ?term

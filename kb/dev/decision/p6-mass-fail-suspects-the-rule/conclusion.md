@@ -6,6 +6,7 @@ title_ko: 대량 FAIL은 산출물보다 규칙을 먼저 의심하는 신호이
 title: A mass FAIL is a signal to suspect the rule before the artefacts, and unwired checks are declared as the known baseline
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-agrtls-practices-review}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T16:30:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 part_of: https://agentic-knowledge-base.dev/id/composite/b0647639-f82c-4e20-a9ce-73b4e7fdb748

@@ -1,0 +1,9 @@
+# 이 가정은 어느 조건 위에 서 있는가 / 판정 방법은 무엇인가.
+# 행 = 가정 × 참조 조건 하나 (조건의 판정 방법 · 등급 · 가정의 명제). 가정 고유의 판정식은 어휘에 없어 조건의 판정 방법이 답이다 (연언의 등급은 최저 — tools/assume_check.py)
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?assumption ?condition ?checkMethod ?grade ?proposition WHERE {
+  ?assumption a agt:Assumption ; agt:refersTo ?condition ; agt:proposition ?proposition .
+  ?condition agt:checkMethod ?checkMethod ; agt:verificationGrade ?grade .
+} ORDER BY ?assumption ?condition

@@ -6,6 +6,7 @@ title_ko: 상한을 올리는 안과 압축을 금지하는 안은 둘 다 기�
 title: Raising the cap and forbidding compression are both rejected
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-agrtls-practices-review}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T16:30:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ff721aef-2663-430e-a491-4e0cc61f73b2
 ---

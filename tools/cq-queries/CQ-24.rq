@@ -1,0 +1,13 @@
+# 이 역할은 무엇을 읽고 쓰는가 / 읽을 plane이 하나도 없는 역할이 있는가.
+# 행 = 역할 × 권한 하나 (reads/writes · plane). 읽을 plane 이 없는 역할은 access=reads 에 plane 이 빈 행으로 나온다. 원본은 kg/catalog-kg.ttl 이고 AGENTS.md 표는 산문이다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?role ?access ?plane WHERE {
+  ?role a agt:Role .
+  { ?role agt:reads ?plane . BIND("reads" AS ?access) }
+  UNION
+  { ?role agt:writes ?plane . BIND("writes" AS ?access) }
+  UNION
+  { FILTER NOT EXISTS { ?role agt:reads ?any } BIND("reads" AS ?access) }
+} ORDER BY ?role ?access ?plane

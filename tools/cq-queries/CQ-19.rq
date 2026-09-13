@@ -1,0 +1,9 @@
+# 지금 suspect·invalid인 링크는 무엇인가.
+# 행 = 재판정 큐의 링크 하나 (출발 · 종류 · 도착 · 상태). 0행이면 큐가 비어 있다 (결정 p10-standard-trace-queries 의 상태 집계)
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?link ?from ?kind ?to ?state WHERE {
+  ?link a agt:Link ; agt:linkState ?state ; agt:linkFrom ?from ; agt:linkTo ?to ; agt:linkKind ?kind .
+  FILTER(?state IN ("suspect", "invalid"))
+} ORDER BY ?state ?from ?kind ?to

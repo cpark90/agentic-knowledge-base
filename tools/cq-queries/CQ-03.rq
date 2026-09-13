@@ -1,0 +1,9 @@
+# 42줄을 넘는 항목이 있는가.
+# 행 = 본문이 42줄을 넘는 청크 하나 (plane · 줄 수). 0행이 정상이다 — shape 이 막고 분포는 //kg:metrics 가 낸다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?item ?plane ?lines WHERE {
+  ?item a ?plane ; agt:lineCount ?lines .
+  FILTER(?lines > 42)
+} ORDER BY DESC(?lines) ?item

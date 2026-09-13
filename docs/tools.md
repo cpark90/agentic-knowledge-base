@@ -177,7 +177,7 @@ YAML은 PyYAML로 읽는다. 잠금은 `pyyaml==6.0.2`이고 해시는 호스트
 | `workset` / `labels` | [method §8 조회](method.md#8-조회) | **첫 형태 있음** — `bazel build //kg:workset --//kb:role=<role> --//kb:anchor=<라벨|IRI> --//kb:levels=<창> --//kb:hops=1 --//kb:budget=200` → `bazel-bin/kg/workset-<role>.md`: 역할 스코프(plane) × 수준 창 × 앵커 이웃(상류 ∪ 하류), 족별 우선순위(앵커 ≫ references ≫ semanticallyDependsOn ≫ 구성 관계 ≫ relatedTo ≫ 시간축) 뒤 예산 패킹, 초과분은 라벨만(dependency-graph §4, 2026-09-12). 선택자는 빌드 설정이라 BUILD를 고치지 않는다. 정의(0.5절 정정본)대로 앵커가 양을 거른다 — 앵커 없이 573줄, 앵커를 주면 14줄이다 | 2 |
 | `link` | [method §6 연결](method.md#6-연결) | 구축 기록 → 후보, 복원 파이프라인 k≤7. 첫 형태: frontmatter 링크마다 `agt:Link` + 구축 기록 증거를 `chunk2kg`가 방출, `handoff`가 workset 뷰의 펼친 청크를 `sources`로 옮긴다 (`bazel run //tools:handoff -- --workset bazel-bin/kg/workset-<role>.md <청크>`) | 3·8 |
 | `propagate` / `revalidate` | [method §7 갱신](method.md#7-갱신) | **첫 형태 있음** — `propagate`는 `assume_check`의 전파 절(깨진 가정 → 직접 영향 집합 → 하류 suspect 후보). `revalidate` — `bazel run //tools:revalidate -- --base <rev>`: base 리비전 대비 본문 해시가 바뀐 청크와 그 링크 양 끝·`part_of` 형제·`rdeps` 하류를 재판정 대상 표로 낸다(종료 1 = 대상 있음). head만 바뀐 청크는 제외한다. 무효화 전파 8단계·규칙 카탈로그(`propagate`)는 없다 | 4 |
-| `query` | [competency-questions](competency-questions.md) | CQ1~20과 표준 추적 질의 | 3 |
+| `query` | [competency-questions](competency-questions.md) | **첫 형태 있음** — `bazel run //tools:query -- <CQ> [--labels] [--bind ?v=…]`가 역량 질문 질의 27개(`tools/cq-queries/*.rq`, 하나가 CQ 하나)를 그래프 union 위에서 돌린다. 결과는 라벨 목록이다. 뷰 `bazel build //kg:cq` → `bazel-bin/kg/cq.md`가 CQ마다 행 수와 상위 5행을 낸다(2026-09-14) | 3 |
 | `impact` | [method §12 영향 분석](method.md#12-영향-분석) | **첫 형태 있음** — `bazel run //tools:impact -- <타깃>`: `rdeps`로 영향 항목 수·plane 분포·suspect가 될 링크 수·승인 필요 결정 수. 구조 근사이며 가정·무효화 전파는 그래프 질의 몫이다 | 3 |
 | `project` | [method §9 뷰](method.md#9-뷰) | **첫 형태 있음(communities)** — `bazel build //kg:communities`: 결정론적 Louvain으로 복합체 후보(같은 plane·level, 2~9)와 `relatedTo` 링크 후보(plane·level을 넘음)를 제안, 판정은 사람이 한다([`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md)). tangle·weave·매트릭스는 없다 | 8 |
 | `gen_skills` | [method](method.md) 정형 절차 | **없음** — skill은 손으로 쓰지 않고 지식·절차에서 **생성**한다(agrtls K, 6단계 문서 생성; `upgrade/ranging_module`의 recipe 생성 선례). 지금 손으로 쓰면 이중 원본이다 | 6 |
@@ -255,7 +255,7 @@ bazel test //...  (게이트 전체 — test_suite 없음, 패키지의 test 타
 ├── //kb/odd:gate_test             ODD shape  ← //kb/odd:odd (odd2kg) · :taxonomy
 └── //kg:gate_test                 vocab · odd-ref · dangling · verify · SHACL
                                     ← //kg:chunks_kg · //kg:references_kg 를 입력으로
-생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics · //kg:workset_<role> · //kb:consistency · //kg:communities
+생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics · //kg:workset_<role> · //kb:consistency · //kg:communities · //kg:cq
 ```
 
 배선은

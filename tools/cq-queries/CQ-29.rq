@@ -1,0 +1,18 @@
+# 한/영 라벨이나 정의가 빠진 용어가 있는가.
+# 행 = rdfs:label@ko · rdfs:label@en · skos:definition 중 빠진 것이 있는 agt: 용어 하나 (빠진 것). 0행이 정상 — labels 게이트가 강제한다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?term ?missing WHERE {
+  ?term a ?definedAs .
+  FILTER(?definedAs IN (owl:Class, owl:ObjectProperty, owl:DatatypeProperty, owl:AnnotationProperty, owl:NamedIndividual, rdfs:Class, rdf:Property))
+  FILTER(STRSTARTS(STR(?term), "https://agentic-knowledge-base.dev/agt/"))
+  OPTIONAL { ?term rdfs:label ?ko . FILTER(LANG(?ko) = "ko") }
+  OPTIONAL { ?term rdfs:label ?en . FILTER(LANG(?en) = "en") }
+  OPTIONAL { ?term skos:definition ?definition }
+  BIND(CONCAT(IF(BOUND(?ko), "", "label@ko "), IF(BOUND(?en), "", "label@en "), IF(BOUND(?definition), "", "skos:definition")) AS ?missing)
+  FILTER(?missing != "")
+} ORDER BY ?term

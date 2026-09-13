@@ -1,0 +1,12 @@
+# 복합체의 직접 부분이 9개를 넘는가 / 부분의 plane·level이 전체와 다른가.
+# 행 = 위반 복합체 하나 (부분 수 · 부분의 plane 수 · 부분의 level 수). 부분 > 9 또는 plane 이질이 위반이다. 결정 밖 복합체의 level 이질은 verify 질의 composite-heterogeneous 가 게이트로 막고, 결정 복합체의 level 이질(결론 concrete · 근거/대안 logical)은 설계다 (p7-decision-spans-three-levels)
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?composite (COUNT(DISTINCT ?part) AS ?parts) (COUNT(DISTINCT ?plane) AS ?planes) (COUNT(DISTINCT ?level) AS ?levels) WHERE {
+  ?composite a agt:Composite ; agt:hasDirectPart ?part .
+  ?part a ?plane .
+  OPTIONAL { ?part agt:hasLevel ?level }
+} GROUP BY ?composite
+HAVING (COUNT(DISTINCT ?part) > 9 || COUNT(DISTINCT ?plane) > 1)
+ORDER BY ?composite

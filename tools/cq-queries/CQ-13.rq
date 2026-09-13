@@ -1,0 +1,9 @@
+# 이 항목은 어느 상위에서 내려왔는가 — functional까지 거슬러 달라.
+# 행 = 항목 × refines 연쇄(1홉 이상)의 조상 하나 (조상의 level). ?item 을 --bind 로 묶으면 한 항목의 조상 목록 — functional 조상이 요구다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?item ?ancestor ?ancestorLevel WHERE {
+  ?item agt:refines+ ?ancestor .
+  OPTIONAL { ?ancestor agt:hasLevel ?ancestorLevel }
+} ORDER BY ?item ?ancestorLevel ?ancestor

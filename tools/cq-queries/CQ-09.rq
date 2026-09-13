@@ -1,0 +1,11 @@
+# 전제를 적지 않은 항목이 얼마나 되는가.
+# 행 = agt:assumes 가 하나도 없는 살아 있는 청크 하나 (plane). 행 수가 답이다. 기본 가정(asm-chunk-conventions)만 가진 청크의 수는 //kg:metrics
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?item ?plane WHERE {
+  ?item a ?plane ; agt:status ?status .
+  ?plane rdfs:subClassOf agt:Chunk .
+  FILTER(?status != "deprecated")
+  FILTER NOT EXISTS { ?item agt:assumes ?assumption }
+} ORDER BY ?plane ?item

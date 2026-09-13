@@ -1,0 +1,8 @@
+# 이 온톨로지 개념을 본문에서 쓰는 항목은 무엇인가 (개념 검색).
+# 행 = 개념 × 그 개념을 본문에서 쓰는 항목 하나. ?concept 을 --bind 로 묶으면 한 개념의 사용처 — 결정 p12-knowledge-retrieval-by-label 의 개념 검색. tools/extract_refs.py 가 본문의 agt: 표기에서 생성한다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?concept ?item WHERE {
+  ?item agt:usesConcept ?concept .
+} ORDER BY ?concept ?item

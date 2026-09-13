@@ -1,0 +1,9 @@
+# 이 항목은 무엇을 대체했고 무엇에 대체되었는가 — supersedes 이력.
+# 행 = 대체 쌍 하나 (새 항목 → 옛 항목 · 옛 항목의 status). ?old 를 --bind 로 묶으면 옛 항목의 후계, ?new 를 묶으면 새 항목이 대체한 것. 옛 항목은 deprecated 여야 한다 (p0-deprecate-not-delete)
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?new ?old ?oldStatus WHERE {
+  ?new agt:supersedes ?old .
+  OPTIONAL { ?old agt:status ?oldStatus }
+} ORDER BY ?old ?new

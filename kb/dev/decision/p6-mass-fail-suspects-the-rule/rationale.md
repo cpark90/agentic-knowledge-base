@@ -6,6 +6,7 @@ title_ko: 규칙이 실태와 어긋난 채 게이트가 되면 산출물이 규
 title: When a rule becomes a gate while disagreeing with reality, the artefacts bend to the rule
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-agrtls-practices-review}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T16:30:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/b0647639-f82c-4e20-a9ce-73b4e7fdb748
 ---

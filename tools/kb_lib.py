@@ -291,3 +291,49 @@ def check_prose(path: str | Path, text: str, waivers: list[dict] | None = None):
     if errors and waivers and waived(waivers, PROSE_GATE, str(path), "파일"):
         errors = []
     return errors, hedges, colloquial
+
+
+# ── 그래프 union 과 라벨 인터페이스 (query · cq 뷰) ────────────────────────────────────────────────
+# 활용 도구가 읽는 그래프 — metrics 와 같은 입력(head·참조·시드·카탈로그·복합체·ODD)에 온톨로지 모듈을 더한 union.
+# 경로는 워크스페이스 상대이고 `bazel run` 의 runfiles 에는 data 로 같은 경로에 놓인다. 온톨로지는 모듈 디렉토리 재귀 glob.
+UNION_GRAPH_PATHS = ("kg/chunks-kg.ttl", "kg/references-kg.ttl", "kg/base-kg.ttl", "kg/catalog-kg.ttl", "kg/composite-kg.ttl",
+                     "kb/odd/project-odd.ttl")
+UNION_GRAPH_GLOBS = ("kb/ontology/**/*-ontology.ttl",)
+# IRI 축약 — 표 출력용. rdflib 의 qname 은 로컬부에 `/` 가 있는 청크 IRI(id:chunk/<uuid>)를 만들지 못한다
+COMPACT_PREFIXES = ((str(AGT), "agt:"), (str(ID), "id:"), ("http://www.w3.org/ns/prov#", "prov:"),
+                    (str(RDFS), "rdfs:"), (str(OWL), "owl:"), (str(RDF), "rdf:"),
+                    ("http://www.w3.org/2004/02/skos/core#", "skos:"), ("http://www.w3.org/2001/XMLSchema#", "xsd:"))
+
+
+def resolve_path(path: str, root: Path) -> Path | None:
+    """워크스페이스 상대 경로를 runfiles(현재 디렉토리) → bazel-bin → 소스 순으로 찾는다. 없으면 None (호출자가 EXIT_CONFIG)."""
+    for cand in (Path(path), root / "bazel-bin" / path, root / path):
+        if cand.is_file():
+            return cand
+    return None
+
+
+def resolve_glob(pattern: str, root: Path) -> list[Path]:
+    """재귀 glob 을 같은 순서로 찾는다 — 첫 번째로 파일이 나오는 뿌리의 결과만."""
+    import glob as _glob
+    for base in (Path("."), root / "bazel-bin", root):
+        found = sorted(Path(p) for p in _glob.glob(str(base / pattern), recursive=True))
+        if found:
+            return found
+    return []
+
+
+def compact_iri(iri: str) -> str:
+    for ns, prefix in COMPACT_PREFIXES:
+        if iri.startswith(ns):
+            return prefix + iri[len(ns):]
+    return iri
+
+
+def label_of(g: Graph, node, lang: str = "ko") -> str:
+    """개체의 rdfs:label — 요청 언어 → 다른 언어 → 축약 IRI 순. 라벨이 인터페이스다 (p4-label-is-the-interface)."""
+    labels = list(g.objects(node, RDFS.label))
+    for lab in labels:
+        if getattr(lab, "language", None) == lang:
+            return str(lab)
+    return str(labels[0]) if labels else compact_iri(str(node))

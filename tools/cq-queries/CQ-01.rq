@@ -1,0 +1,11 @@
+# 이 스코프 안에 무엇이 있는가 — 라벨 목록을 보여 달라.
+# 행 = 살아 있는 청크 하나 (plane · level · 한글 라벨). ?plane 을 --bind 로 묶으면 그 plane 만 (역할 스코프 × 수준 창 × 앵커는 //kg:workset)
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?item ?plane ?level ?label WHERE {
+  ?item a ?plane ; agt:hasLevel ?level ; agt:status ?status ; rdfs:label ?label .
+  ?plane rdfs:subClassOf agt:Chunk .
+  FILTER(?status != "deprecated")
+  FILTER(LANG(?label) = "ko")
+} ORDER BY ?plane ?level ?label

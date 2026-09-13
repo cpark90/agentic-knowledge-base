@@ -1,0 +1,12 @@
+# 아무도 참조하지 않는 ODD 조건이 있는가 (ODD 과대의 신호).
+# 행 = 가정(refersTo)도 스코프(includesCondition·excludesCondition)도 가리키지 않는 조건 하나. 명시 제외도 참조로 센다 — 스코프가 그 조건을 검토했다는 기록이다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?condition ?kind WHERE {
+  ?odd a agt:ODD ; agt:hasCondition ?condition .
+  ?condition a ?kind .
+  FILTER NOT EXISTS { ?assumption agt:refersTo ?condition }
+  FILTER NOT EXISTS { ?scope agt:includesCondition ?condition }
+  FILTER NOT EXISTS { ?scope2 agt:excludesCondition ?condition }
+} ORDER BY ?condition

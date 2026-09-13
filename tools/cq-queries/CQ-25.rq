@@ -1,0 +1,11 @@
+# 동시에 활성화될 수 있는 에이전트 수가 ODD 한도 안인가.
+# 행 = 하나 — 역할별 maxConcurrent 합 · ODD 조건 cond-concurrent-agents 의 값 · 그 상한 · 한도 안 여부. 같은 검사를 //kg:gate_test 의 catalog 가 게이트로 한다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?sum ?limitValue ?upper (?sum <= ?upper AS ?within) WHERE {
+  { SELECT (SUM(?m) AS ?sum) WHERE { ?role a agt:Role ; agt:maxConcurrent ?m } }
+  id:cond-concurrent-agents agt:conditionValue ?limitValue .
+  BIND(xsd:integer(REPLACE(?limitValue, "^.*\\.\\.\\s*(\\d+).*$", "$1")) AS ?upper)
+}

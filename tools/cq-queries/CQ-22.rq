@@ -1,0 +1,10 @@
+# 같은 가정에 의존하는 항목 집합은 무엇인가.
+# 행 = 가정 × 그 가정에 의존하는 살아 있는 항목 하나. ?assumption 을 --bind 로 묶으면 한 가정의 의존 집합 — 가정이 깨지면 무효가 되는 후보다 (노트 CQ4, 결정 p10-standard-trace-queries)
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?assumption ?item WHERE {
+  ?assumption a agt:Assumption .
+  ?item agt:assumes ?assumption ; agt:status ?status .
+  FILTER(?status != "deprecated")
+} ORDER BY ?assumption ?item

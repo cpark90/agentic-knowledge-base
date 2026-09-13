@@ -6,6 +6,7 @@ title_ko: 상한에 걸려 압축으로 버틴 횟수는 분할 신호이며 1�
 title: The number of times a chunk survived the cap by compression is a split signal: once tolerated, twice warned, three times a debt
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-agrtls-practices-review}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T16:30:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 part_of: https://agentic-knowledge-base.dev/id/composite/ff721aef-2663-430e-a491-4e0cc61f73b2

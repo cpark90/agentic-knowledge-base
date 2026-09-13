@@ -1,0 +1,10 @@
+# 지금 invalidated·suspect인 항목은 무엇인가.
+# 행 = status 가 suspect 또는 invalidated 인 청크 하나 (plane · 상태). 0행이면 상태 전이가 한 번도 없었다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?item ?plane ?status WHERE {
+  ?item a ?plane ; agt:status ?status .
+  ?plane rdfs:subClassOf agt:Chunk .
+  FILTER(?status IN ("suspect", "invalidated"))
+} ORDER BY ?status ?plane ?item

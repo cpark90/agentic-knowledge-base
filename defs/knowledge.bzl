@@ -104,6 +104,19 @@ def kb_odd_kg(name, src, taxonomy, out):
         tools = [Label("//tools:odd2kg")],
     )
 
+def kb_cq_report(name, data, queries, out = "cq.md"):
+    """역량 질문 질의를 전부 돌려 뷰 cq.md 를 생성한다 (docs/competency-questions.md).
+
+    게이트가 아니라 보고다. 행 수와 상위 행의 라벨만 낸다 — 라벨이 인터페이스다.
+    """
+    native.genrule(
+        name = name,
+        srcs = data + [queries],
+        outs = [out],
+        cmd = "$(location //tools:query) --report $@ --queries $(execpaths %s) --ttl %s" % (queries, " ".join(["$(execpaths %s)" % d for d in data])),
+        tools = [Label("//tools:query")],
+    )
+
 def kb_metrics(name, data, notes = None, bodies = [], out = "metrics.md"):
     """그래프(-kg)에서 코어 지표 metrics.md를 생성한다 (4.13절, 14.1절 통과 조건 세 축의 대리).
 

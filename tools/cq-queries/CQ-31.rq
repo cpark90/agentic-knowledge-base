@@ -1,0 +1,9 @@
+# 이 항목은 누가 만들었고 누가 검증했는가 — 사람이 검토한 항목은 얼마나 되는가.
+# 행 = 사람(human:)이 검증한 청크 하나 (생성 주체 · 검증 주체). 행 수가 사람 검토 항목 수다. 생성 주체 분포 전체는 //kg:metrics
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?item ?generatedBy ?verifiedBy WHERE {
+  ?item agt:generatedBy ?generatedBy ; agt:verifiedBy ?verifiedBy .
+  FILTER(STRSTARTS(?verifiedBy, "human:"))
+} ORDER BY ?item ?verifiedBy

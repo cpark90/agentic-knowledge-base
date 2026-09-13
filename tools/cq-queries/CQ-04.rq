@@ -1,0 +1,13 @@
+# 어느 항목도 복합체에 속하지 않는가 (고아 후보).
+# 행 = 복합체의 부분도 아니고 링크의 어느 끝에도 없는 살아 있는 청크 하나 (plane). 링크 술어는 tools/metrics.py LINKS 와 같다 (고아율과 같은 정의)
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?item ?plane WHERE {
+  ?item a ?plane ; agt:status ?status .
+  ?plane rdfs:subClassOf agt:Chunk .
+  FILTER(?status != "deprecated")
+  FILTER NOT EXISTS { ?composite agt:hasDirectPart ?item }
+  FILTER NOT EXISTS { ?item ?out ?o . FILTER(?out IN (agt:refines, agt:serves, agt:satisfies, agt:verifies, agt:cites, agt:targets, agt:assumes, agt:supersedes, agt:derivesFrom, agt:constrains, agt:usesConcept, agt:allocates, agt:generates, agt:coUpdatesWith, agt:conflictsWith)) }
+  FILTER NOT EXISTS { ?s ?in ?item . FILTER(?in IN (agt:refines, agt:serves, agt:satisfies, agt:verifies, agt:cites, agt:targets, agt:assumes, agt:supersedes, agt:derivesFrom, agt:constrains, agt:usesConcept, agt:allocates, agt:generates, agt:coUpdatesWith, agt:conflictsWith)) }
+} ORDER BY ?plane ?item

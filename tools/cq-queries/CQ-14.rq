@@ -1,0 +1,10 @@
+# 이 변수의 후보는 무엇이고 무엇이 왜 배제되었는가.
+# 행 = 확정이 아닌 링크 하나 (출발 항목 · 종류 · 도착 · 상태 candidate/invalid · 증거 극성 · 증거 종류). 배제 사유는 (−) 증거의 종류로만 남는다 — 제약 자체를 담는 자리는 어휘에 없다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?from ?kind ?to ?state ?polarity ?evidenceKind WHERE {
+  ?link a agt:Link ; agt:linkFrom ?from ; agt:linkTo ?to ; agt:linkKind ?kind ; agt:linkState ?state .
+  FILTER(?state IN ("candidate", "invalid"))
+  OPTIONAL { ?link agt:hasEvidence ?evidence . ?evidence agt:polarity ?polarity ; agt:evidenceKind ?evidenceKind }
+} ORDER BY ?from ?kind ?state ?to

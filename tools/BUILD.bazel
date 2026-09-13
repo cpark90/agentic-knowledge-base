@@ -25,6 +25,7 @@ filegroup(
         "*.in",
         "*.txt",
         "BUILD.bazel",
+        "cq-queries/*.rq",
         "verify-queries/*.rq",
     ]),
 )
@@ -32,6 +33,12 @@ filegroup(
 filegroup(
     name = "verify_queries",
     srcs = glob(["verify-queries/*.rq"]),
+)
+
+# 역량 질문 질의 — 하나가 CQ 하나다 (docs/competency-questions.md)
+filegroup(
+    name = "cq_queries",
+    srcs = glob(["cq-queries/*.rq"]),
 )
 
 py_library(
@@ -82,6 +89,17 @@ py_binary(
 py_binary(
     name = "metrics",
     srcs = ["metrics.py"],
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
+)
+
+# 역량 질문 질의 실행 — 활용 도구. 결과는 라벨 목록이다 (p4-label-is-the-interface)
+py_binary(
+    name = "query",
+    srcs = ["query.py"],
+    data = [":cq_queries"],
     deps = [
         ":kb_lib",
         requirement("rdflib"),

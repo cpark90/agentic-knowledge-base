@@ -1,0 +1,10 @@
+# 이 항목은 어느 칸에 있는가 (plane × level).
+# 행 = plane × level 칸 하나와 그 칸의 살아 있는 청크 수. ?item 을 --bind 로 묶으면 그 항목의 칸
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?plane ?level (COUNT(?item) AS ?n) WHERE {
+  ?item a ?plane ; agt:hasLevel ?level ; agt:status ?status .
+  ?plane rdfs:subClassOf agt:Chunk .
+  FILTER(?status != "deprecated")
+} GROUP BY ?plane ?level ORDER BY ?plane ?level

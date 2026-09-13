@@ -1,0 +1,10 @@
+# 검증한 뒤에 내용이 바뀐 항목이 있는가.
+# 행 = 생성 시각이 검증 시각보다 뒤인 청크 하나 (생성 시각 · 검증 시각). 0행이 정상 — trust-shapes 가 거부한다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?item ?generatedAt ?verifiedAt WHERE {
+  ?item prov:generatedAtTime ?generatedAt ; agt:verifiedAt ?verifiedAt .
+  FILTER(?generatedAt > ?verifiedAt)
+} ORDER BY ?item

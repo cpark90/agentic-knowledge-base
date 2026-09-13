@@ -1,0 +1,13 @@
+# 이 스코프는 ODD의 어느 부분집합인가 — 이 역할이 볼 수 있는 조건은 무엇인가.
+# 행 = 역할 × 스코프의 조건 하나 (ODD · 조건 · include/exclude). 역할↔스코프 대응은 슬러그 role-*/scope-* 다 (kb_lib ROLE_ID_PREFIX). ?role 을 --bind 로 묶으면 한 역할의 조건
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?role ?scope ?odd ?condition ?membership WHERE {
+  ?harness agt:hasRole ?role ; agt:grants ?scope .
+  ?scope agt:subsetOf ?odd .
+  FILTER(STRAFTER(STR(?role), "/id/role-") = STRAFTER(STR(?scope), "/id/scope-"))
+  { ?scope agt:includesCondition ?condition . BIND("include" AS ?membership) }
+  UNION
+  { ?scope agt:excludesCondition ?condition . BIND("exclude" AS ?membership) }
+} ORDER BY ?role ?membership ?condition

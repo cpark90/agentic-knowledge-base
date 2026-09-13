@@ -1,0 +1,11 @@
+# 링크가 종류별로 몇 개 있는가.
+# 행 = 링크 종류 × 형태 하나 (수). 형태 triple 은 직접 트리플(frontmatter 링크 + 본문 추출 cites·usesConcept), 형태 entity 는 agt:Link 개체(frontmatter 링크마다 하나 — chunk2kg)
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?kind ?form (COUNT(*) AS ?n) WHERE {
+  VALUES ?kind { agt:refines agt:serves agt:satisfies agt:verifies agt:cites agt:targets agt:assumes agt:supersedes agt:derivesFrom agt:constrains agt:usesConcept agt:allocates agt:generates agt:coUpdatesWith agt:conflictsWith }
+  { ?s ?kind ?o . BIND("triple" AS ?form) }
+  UNION
+  { ?link a agt:Link ; agt:linkKind ?kind . BIND("entity" AS ?form) }
+} GROUP BY ?kind ?form ORDER BY DESC(?n) ?kind ?form

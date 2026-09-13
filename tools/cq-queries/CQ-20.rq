@@ -1,0 +1,8 @@
+# 이 항목이 본문에서 인용하는 다른 항목은 무엇인가.
+# 행 = 인용 쌍 하나 (인용하는 항목 → 인용되는 항목). tools/extract_refs.py 가 본문에서 생성한다 — 인용 대상이 실재하지 않으면 생성이 실패한다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?item ?cited WHERE {
+  ?item agt:cites ?cited .
+} ORDER BY ?item ?cited

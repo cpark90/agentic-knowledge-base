@@ -6,6 +6,7 @@ title_ko: 압축을 반복하면 가장 최근 개정이 가장 근거가 얇은
 title: Repeated compression inverts the record: the newest revision carries the thinnest rationale
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-agrtls-practices-review}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T16:30:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/ff721aef-2663-430e-a491-4e0cc61f73b2
 ---

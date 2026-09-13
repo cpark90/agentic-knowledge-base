@@ -1,5 +1,8 @@
 # 역량 질문 — 온톨로지의 요구사항이자 완료 판정
 
+답할 수 있는 질문은 질의로 있다. `tools/cq-queries/`의 `CQ-NN.rq` 하나가 질문 하나이고,
+`bazel run //tools:query -- CQ-NN --labels`가 답을 라벨 목록으로 낸다. 전체 현황은 뷰 `bazel build //kg:cq`다 (2026-09-14).
+
 **온톨로지가 답해야 하는 질문 목록이 그 온톨로지의 요구사항이다.** 각 질문은 그래프 질의
 하나로 답할 수 있어야 한다. 답할 수 없으면 필요한 개념·속성·링크가 어휘에 없다는 뜻이다
 ([`id:chunk-d0052`](../chunks/decision/d-0052-competency-questions.md)).

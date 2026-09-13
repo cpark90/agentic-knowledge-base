@@ -1,5 +1,5 @@
 load("//defs:kb.bzl", "kb_kg_merge", "kb_workset_view")
-load("//defs:knowledge.bzl", "kb_community", "kb_gate_test", "kb_metrics", "kb_reference_kg")
+load("//defs:knowledge.bzl", "kb_community", "kb_cq_report", "kb_gate_test", "kb_metrics", "kb_reference_kg")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -48,6 +48,18 @@ kb_gate_test(
 )
 
 # 코어 지표 — 생성물 (bazel build //kg:metrics → bazel-bin/kg/metrics.md). 4.13절·14.1절
+kb_cq_report(
+    name = "cq",
+    data = [
+        ":chunks_kg",
+        ":kg",
+        ":references_kg",
+        "//kb/odd:odd",
+        "//kb/ontology:modules",
+    ],
+    queries = "//tools:cq_queries",
+)
+
 kb_metrics(
     name = "metrics",
     bodies = ["//kb/dev:bodies"],

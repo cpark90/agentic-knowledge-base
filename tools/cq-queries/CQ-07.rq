@@ -1,0 +1,9 @@
+# 이 프로젝트는 무엇을 전제하는가 — ODD 조건과 판정 방법을 보여 달라.
+# 행 = ODD 조건 하나 (종류 · 값 · 판정 방법 · 등급). 원본은 kb/odd/project-odd.yml 이고 TTL 은 생성물이다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?condition ?kind ?value ?checkMethod ?grade WHERE {
+  ?odd a agt:ODD ; agt:hasCondition ?condition .
+  ?condition a ?kind ; agt:conditionValue ?value ; agt:checkMethod ?checkMethod ; agt:verificationGrade ?grade .
+} ORDER BY ?kind ?condition

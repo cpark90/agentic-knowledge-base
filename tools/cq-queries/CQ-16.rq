@@ -1,0 +1,9 @@
+# X가 바뀌면 무엇이 영향받는가.
+# 행 = 대상 × 그것에 직접 의존하는 항목 하나 (링크 종류). ?target 을 --bind 로 묶으면 한 항목(청크·가정·개념)의 직접 영향 집합. plane 단방향 규칙의 반복은 tools/impact.py(rdeps)·assume_check(가정 전파)
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?target ?dependent ?kind WHERE {
+  VALUES ?kind { agt:refines agt:serves agt:satisfies agt:verifies agt:cites agt:targets agt:assumes agt:supersedes agt:derivesFrom agt:constrains agt:usesConcept agt:allocates agt:generates agt:coUpdatesWith agt:conflictsWith }
+  ?dependent ?kind ?target .
+} ORDER BY ?target ?kind ?dependent

@@ -1,0 +1,20 @@
+# 이 결정을 충족하는 산출물이 있는가 / verifies가 없는 인터페이스는 무엇인가.
+# 행 = 추적 매트릭스의 빈 칸 하나 — satisfies 없는 살아 있는 concrete 결정, 또는 verifies 없는 살아 있는 계약(ContractChunk) (빈 링크 종류). 결정 p10-standard-trace-queries 의 커버리지 질의
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?item ?gap WHERE {
+  {
+    ?item a agt:DecisionChunk ; agt:hasLevel agt:concrete ; agt:status ?status .
+    FILTER(?status != "deprecated")
+    FILTER NOT EXISTS { ?x agt:satisfies ?item }
+    BIND("satisfies" AS ?gap)
+  }
+  UNION
+  {
+    ?item a agt:ContractChunk ; agt:status ?status2 .
+    FILTER(?status2 != "deprecated")
+    FILTER NOT EXISTS { ?y agt:verifies ?item }
+    BIND("verifies" AS ?gap)
+  }
+} ORDER BY ?gap ?item
