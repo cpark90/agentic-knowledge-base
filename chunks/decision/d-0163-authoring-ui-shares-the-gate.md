@@ -7,6 +7,7 @@ title: The authoring UI never forks the source of truth
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 사람용 편집 도구는 상태를 자기 저장소로 fork하지 않는다. 에이전트가

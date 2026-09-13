@@ -39,7 +39,7 @@ dispatch 시 이 표와 스코프로 브리핑한다.
 
 | 역할 | 책임 | write | read | 구동 | git |
 |---|---|---|---|---|---|
-| **orchestrator** (=메인) | 계획·dispatch·통합. 요구(유저 관심사의 EARS 저작 — stable 전이는 유저 승인)·결정 저작. 직접 구현하지 않는다 | `requirement` · `decision` | 전 plane | 세션 유지 | ✗ |
+| **orchestrator** (=메인) | 계획·dispatch·통합. 요구(유저 관심사의 EARS 저작 — stable 전이는 유저 승인)·결정 저작. 직접 구현하지 않는다 | `requirement` · `decision` · `memory`(세션·판정 관측, 2026-09-14) | 전 plane | 세션 유지 | ✗ |
 | **developer** (dispatch) | 분배된 산출물(코드·설정·온톨로지 개념) 저작. 노트 10.2절 9역할 중 design(T-Box·ODD 편집)을 겸한다 — 유저 결정 C4 | `artifact` (+T-Box·ODD) | `contract`·`schema`·`decision`. **`kb/vv/`는 읽기 전용** | dispatch | ✗ |
 | **vnv** (dispatch) | 판정 전용: `bazel test //...` PASS 확인 + 결과 주석. **V&V KB(`kb/vv/`)의 유일한 편집 주체** — `verifies`의 주어는 V&V 청크뿐 | `annotation` + `kb/vv/` | `requirement`·`artifact`·`decision` | dispatch | ✗ |
 | **hci** (별도 세션) | **유저 소통 전담 — 유일한 유저 창구.** 조사 요청 접수·구체화·제안 정리·타 에이전트 피드백 검토·중계. 채널 `docs/feedback/` 관리. **조사와 git 관리**(add/commit/push, 유저 요청 시)를 맡는다 — 옛 inspection 역할을 2026-09-13에 이관 | — (채널만) | `requirement`·전 plane + 저장소 전체 | 세션 유지 | ✓ |
@@ -55,8 +55,7 @@ dispatch 시 이 표와 스코프로 브리핑한다.
   항목에 `ref: handoff/<항목>`으로 남긴다. 유저 lane 항목에는 hci 외 누구도 쓰지
   않는다(2026-09-12).
 - 역할별 `agt:maxConcurrent`의 합은 ODD 동적 요소(`id:cond-concurrent-agents`) 안이어야
-  한다. 그 한도는 현재 5 이하다. 역할을 추가하면 ODD 한도도 함께 검토한다. **지금 이 검사는
-  규약이고 게이트가 아니다**
+  한다. 그 한도는 현재 5 이하다. 역할을 추가하면 ODD 한도도 함께 검토한다. **이 검사는 `//kg:gate_test`의 `catalog`가 한다**(2026-09-13)
   ([`docs/tools.md` §게이트 밖](docs/tools.md#게이트-밖--규약으로-남은-것)).
 - 커밋 전 `bazel test //...` PASS를 확인한다. 커밋은 hci(유저 요청 시) 또는 유저가 한다.
 

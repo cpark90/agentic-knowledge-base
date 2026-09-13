@@ -7,6 +7,7 @@ title: Invariants hold only over the union, so validate the union
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 반-고아·반-drift·조립가능 같은 보장은 **합쳐 추론한 그래프**에서만

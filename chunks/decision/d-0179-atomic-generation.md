@@ -7,6 +7,7 @@ title: Generation lands atomically, only on full success
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+refines: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 생성은 임시 위치에 산출물 전체를 만들고 모든 게이트를 그 위에서

@@ -10,7 +10,9 @@ import argparse
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from rdflib import Graph, RDF, RDFS, URIRef
+from rdflib import Graph, Namespace, RDF, RDFS, URIRef
+
+PROV = Namespace("http://www.w3.org/ns/prov#")
 
 try:
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path에 있다
@@ -26,6 +28,7 @@ EXTRACTED = (AGT.cites, AGT.usesConcept)  # 본문 식별자 기록(extract_refs
 RESTORED = ()  # 복원 링크 — `link` 후보 파이프라인의 산출만. 아직 없다
 PLANES = ["requirement", "decision", "contract", "schema", "artifact", "annotation", "memory"]
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]
+GRADES = "ABCD"  # 판정 방법 등급 (3.9절) — 연언의 등급은 최저 = 가장 뒤의 글자 (assume_check 와 같은 정의)
 
 
 def main() -> int:
@@ -163,6 +166,16 @@ def main() -> int:
                     f"[확정] {sum(sec.values())}문장, 결정 {sum(1 for c in live if plane[c]=='decision' and c not in parts) + len(siblings)}개. 인용 없는 절: " + (", ".join(missing) or "없음"))
     # 가정 — 기본 가정만 가진 청크 (좁힘 진행률의 역수, docs/rules.md 가정 절)
     default_only = sum(1 for c in live if set(g.objects(c, AGT.assumes)) == {DEFAULT_ASSUMPTION})
+    # 4단계 대리 (14.1 정정본: 무효화 이력 · 판정식 등급 · 인위 파괴 실험) — 판정식은 참조 조건 판정의 연언이라 등급은 참조 조건
+    # 등급(ODD agt:verificationGrade)의 최저다 (tools/assume_check.py 와 같은 정의). 무효화 이력은 memory plane 의 관측 수다
+    assumptions = sorted(g.subjects(RDF.type, AGT.Assumption), key=str)
+    def asm_grade(asm):
+        grades = [str(next(g.objects(c, AGT.verificationGrade), "?")) for c in g.objects(asm, AGT.refersTo)]
+        return max(grades, key=lambda x: GRADES.index(x) if x in GRADES else len(GRADES)) if grades else "?"
+    grade_dist = Counter(asm_grade(a_) for a_ in assumptions)
+    grade_ab = sum(v for k, v in grade_dist.items() if k in "AB")
+    observations = [c for c in live if plane[c] == "memory"]
+    obs_recorded = sum(1 for c in observations if str(next(g.objects(c, AGT.generatedBy), "")) == "process:assume_check")
     # 2단계 — 역할별 작업 집합(라벨 목록) 크기와 스코프 파생
     odd_conds = set(g.objects(None, AGT.hasCondition))
     role_rows, scope_bad = [], []
@@ -214,6 +227,10 @@ def main() -> int:
           "- 구체화: 역할·앵커별 작업 집합(스코프 안 청크를 앵커로, 1홉 이웃 라벨 + 본문 펼침)이 예산 200줄 안인 비율: " + " · ".join(role_rows),
           f"- 구체화: ODD × plane 권한에서 파생되지 않은 스코프 **{len(scope_bad)}**건" + (f" — {', '.join(scope_bad)}" if scope_bad else "") + " (목표 0)",
           "- 연결: ODD 밖 참조는 게이트(odd-ref)가 0으로 강제. 첫 모니터링 이탈은 `bazel run //tools:odd_check`",
+          "", "## 4단계 대리 — 가정과 무효화 (14.1 정정본: 무효화 이력 · 판정식 등급 · 인위 파괴 실험)", "",
+          f"- 의미 보존: 무효화 이력 — 관측(memory plane) **{len(observations)}**건, 그중 `assume_check --record` 의 판정 관측 {obs_recorded}건 (지금은 판정 관측 수 — 무효화 사건이 생기면 그 이력이 여기 쌓인다. provenance 100% 는 관측이 `generatedBy`·`prov:wasDerivedFrom` 를 갖는 비율로 잰다: {pct(sum(1 for c in observations if (c, AGT.generatedBy, None) in g and (c, PROV.wasDerivedFrom, None) in g), len(observations))})",
+          f"- 구체화: 가정 개체 {len(assumptions)} · `assumes` 링크 {assumes} (가정 · 신뢰 등급 절과 같은 수) · 판정식 등급 분포(참조 조건 등급의 최저) " + (" · ".join(f"{k} {v}" for k, v in sorted(grade_dist.items())) or "없음") + f" — A·B 비율 **{pct(grade_ab, len(assumptions))}** (목표 100%), D **{grade_dist.get('D', 0)}**건 (목표 0)",
+          "- 연결: 인위 파괴 실험은 `bazel run //tools:assume_check -- --break <cond>` — 계산된 직접 영향 집합과 실제 의존 집합(frontmatter 스캔)의 일치 여부를 그 보고가 낸다. 판정은 호스트 상태를 보므로 이 뷰 밖이다",
           "", "## 링크 밀도", "", f"- 링크 {sum(link_count.values())} / 살아 있는 청크 {len(live)} = **{sum(link_count.values())/max(len(live),1):.2f}**/청크",
           "- 타입별: " + " · ".join(f"`{k}` {v}" for k, v in link_count.most_common()),
           f"- 링크 개체(`agt:Link`): {sum(1 for _ in g.subjects(RDF.type, AGT.Link))} · 증거 항목: {sum(1 for _ in g.subjects(RDF.type, AGT.Evidence))}",

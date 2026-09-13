@@ -187,6 +187,8 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 26 | 채널 refresh (2026-09-13) — external-review · stage-pass-conditions(결정의 채널 인용을 P 로 해소한 뒤) · 첫 handoff 쌍(재판정) 제거. `agrtls-practices-review` 는 `kg/base-kg.ttl` 인용 때문에 보류 | git 이력 `10c75e6`·`ff8307e` |
 | 27 | inspection 역할을 hci 로 이관 (2026-09-13) — 역할은 넷(orchestrator·developer·vnv·hci). 조사와 git 관리가 hci 몫이 된다 | `kg/catalog-kg.ttl`·AGENTS 역할 표·`hci.md` |
 | 28 | 전체 간소화 (2026-09-13) — 문서 통합(`methodology`·`input` 흡수, 역사 기록은 git 이력으로), union 경로·`kg_equivalence_test` 제거(게이트 17→16), 채널 10건 정리. 옛 결정 129청크와 노트 v5는 유지 | `orchestrator-simplification-2026-09-13` |
+| 29 | 도입 1단계 통과 (2026-09-13) — 연결 성분 5→1(옛 harness 유래 결정 28건을 관심사에 맞는 요구로 `refines`), 규약 게이트 셋 추가(catalog·복합체 이질·순환·결정 역할 표지) | `orchestrator-stage1-closed-2026-09-13` |
+| 30 | 도입 4단계 첫 형태 (2026-09-14) — 가정 판정식·영향 전파(`assume_check`, 인위 파괴 실험 정밀도·재현율 1.0)와 `memory` plane 개통(write 주체 orchestrator). 한계: 가정 2건·suspect 저장 없음 | `orchestrator-stage4-first-form-2026-09-14` |
 
 **아직 유저 답을 기다리는 것**: `dependency-graph-design.md`의 (a)~(j),
 `chunk-definition-unification.md`(반영 완료로 제거 — git 이력)의 D1~D9(온톨로지·ODD 항목의 plane·level 배정).

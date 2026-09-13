@@ -6,6 +6,7 @@ title_ko: 하네스는 Bazel 위에 세운다
 title: The harness is built on Bazel
 status: stable
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain]
+refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/2b1e5103-9b9d-43da-9231-6b4027bc370e]
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---

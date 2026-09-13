@@ -7,6 +7,7 @@ title: Write only what the graph cannot show
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+refines: [https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 노드의 정의·주석에는 그래프 구조가 이미 말하는 것을 반복하지 않고,

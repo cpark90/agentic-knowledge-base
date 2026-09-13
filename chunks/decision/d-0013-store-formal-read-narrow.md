@@ -7,6 +7,7 @@ title: Store formally, read narrowly
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+refines: [https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 저장과 읽기를 2층으로 분리한다. 저장 층은 형식 그래프(검증되고

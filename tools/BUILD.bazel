@@ -5,6 +5,7 @@ package(default_visibility = ["//visibility:public"])
 
 exports_files([
     "validate.py",
+    "canonicalize.py",
     "chunk_lint.py",
     "channel_lint.py",
     "chunk2kg.py",
@@ -166,6 +167,29 @@ py_binary(
     name = "odd_check",
     srcs = ["odd_check.py"],
     deps = [requirement("pyyaml")],
+)
+
+# 가정 판정과 전파 (6.9절, 도입 4단계 첫 형태): bazel run //tools:assume_check -- [--break <cond-id>…] [--record]
+# 조건 판정은 odd_check 의 함수를 재사용하고(호스트 상태를 보므로 테스트 타깃이 아니다), 그래프는 data 로 놓여 실행 전에 빌드된다
+py_binary(
+    name = "assume_check",
+    srcs = [
+        "assume_check.py",
+        "chunk2kg.py",
+        "odd_check.py",
+    ],
+    data = [
+        "//kb/odd:odd",
+        "//kg",
+        "//kg:chunks_kg",
+        "//kg:references_kg",
+    ],
+    main = "assume_check.py",
+    deps = [
+        ":kb_lib",
+        requirement("pyyaml"),
+        requirement("rdflib"),
+    ],
 )
 
 # 라벨 목록 뷰 → index.md (5.6절, 부록 E.2). OKF 예약 파일은 생성물이다

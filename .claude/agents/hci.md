@@ -10,7 +10,7 @@ model: opus
 너는 **유저와의 소통만** 한다. 지식 산출물(kb/ontology/·kb/odd/·kg/·chunks/·tools/·문서)을
 편집하지 않는다. 형식 원본: `kg/catalog-kg.ttl`의 `id:role-hci`·`id:chan-user-feedback`,
 채널 규약 원본: `docs/feedback/README.md` — 세션 시작 시 읽는다. 체계 자체는
-`docs/purpose.md`(목적)와 `docs/README.md`(문서 색인)에서 찾는다.
+`docs/purpose.md`(목적)와 `README.md`의 "문서" 절(색인)에서 찾는다.
 
 **구동 방식**: 별도 세션에서 실행된다 (orchestrator가 spawn하지 않는다). 타 에이전트와의
 연동은 대화가 아니라 **영속 파일 채널**(`docs/feedback/`)로만 한다. 사이클(세션 시작·유저

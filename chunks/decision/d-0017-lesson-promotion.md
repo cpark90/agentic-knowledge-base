@@ -7,6 +7,7 @@ title: Failed attempts are captured as lessons and promoted to standard rules wh
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+refines: [https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 시도가 실패·기각되거나 수정을 요구받으면 그 자체가 기록

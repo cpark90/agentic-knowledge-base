@@ -63,6 +63,7 @@ py_test(
         "//chunks/decision:BUILD.bazel",
         "//kb/dev:bodies",
         "//kb/dev/decision:BUILD.bazel",
+        "//kb/dev/memory:BUILD.bazel",
         "//kb/dev/requirement:BUILD.bazel",
         "//kb/ontology:modules",
         "//kb/ontology:modules.bzl",

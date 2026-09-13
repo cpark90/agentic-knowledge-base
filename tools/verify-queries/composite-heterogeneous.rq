@@ -1,0 +1,21 @@
+# 안티패턴: 이질 복합체 — 부분들의 plane 이 서로 다르거나, 결정 밖 복합체의 부분 수준이 서로 다르다 (노트 4.5절 동질성, rules §2)
+# 결과 행 하나 = 위반 하나 (복합체, 부분, 다른 부분). plane 은 부분의 agt:Chunk 하위 클래스로 본다.
+# 수준 검사는 결정 복합체(부분이 agt:DecisionChunk)를 뺀다 — 결론 concrete·근거/대안 logical 이 설계다
+# (p7-decision-spans-three-levels, 유저 결정 2026-09-10 Q1(a)); 그 세 부분의 수준 허용은 kb_decision 이 분석 시점에 본다.
+# 첫 실행(2026-09-13, 복합체 230): 수준까지 전부에 걸면 결정 복합체 188/188 이 걸려 규칙을 의심했고 범위를 좁혔다
+# (p6-mass-fail-suspects-the-rule). plane 이질 0 · 결정 밖 수준 이질 0 (손으로 쓴 복합체 42 포함).
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT ?composite ?part ?other WHERE {
+  ?composite a agt:Composite ; agt:hasDirectPart ?part , ?other .
+  FILTER(STR(?part) < STR(?other))
+  {
+    ?part a ?c1 . ?other a ?c2 .
+    ?c1 rdfs:subClassOf agt:Chunk . ?c2 rdfs:subClassOf agt:Chunk .
+    FILTER(?c1 != ?c2)
+  } UNION {
+    ?part agt:hasLevel ?l1 . ?other agt:hasLevel ?l2 .
+    FILTER(?l1 != ?l2)
+    FILTER NOT EXISTS { ?part a agt:DecisionChunk }
+  }
+}

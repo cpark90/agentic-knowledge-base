@@ -18,6 +18,10 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:reproducible-runs",
+    ],
 )
 
 kb_chunk(
@@ -126,6 +130,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:context-budget",
+    ],
 )
 
 kb_chunk(
@@ -135,6 +142,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
 )
 
 kb_chunk(
@@ -144,6 +154,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
 )
 
 kb_chunk(
@@ -153,6 +166,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-014-42-line-chunk",
+    ],
 )
 
 kb_chunk(
@@ -162,6 +178,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-020-session-memory-promotes",
+    ],
 )
 
 kb_chunk(
@@ -171,6 +190,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
+    ],
 )
 
 kb_chunk(
@@ -180,6 +202,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
+    ],
 )
 
 kb_chunk(
@@ -189,6 +214,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
 )
 
 kb_chunk(
@@ -1233,6 +1261,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
 )
 
 kb_chunk(
@@ -1242,6 +1273,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
 )
 
 kb_chunk(
@@ -1251,6 +1285,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:deterministic-notation",
+    ],
 )
 
 kb_chunk(
@@ -1260,6 +1297,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
+    ],
 )
 
 kb_chunk(
@@ -1269,6 +1309,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
 )
 
 kb_chunk(
@@ -1278,6 +1321,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+    ],
 )
 
 kb_chunk(
@@ -1287,6 +1333,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
+    ],
 )
 
 kb_chunk(
@@ -1296,6 +1345,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
 )
 
 kb_chunk(
@@ -1305,6 +1357,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:reproducible-runs",
+    ],
 )
 
 kb_chunk(
@@ -1314,6 +1369,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+    ],
 )
 
 kb_chunk(
@@ -1323,6 +1381,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:explicit-versioned-inputs",
+    ],
 )
 
 kb_chunk(
@@ -1332,6 +1393,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
+    ],
 )
 
 kb_chunk(
@@ -1341,6 +1405,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:deterministic-notation",
+    ],
 )
 
 kb_chunk(
@@ -1350,6 +1417,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-009-ascend-to-requirement",
+    ],
 )
 
 kb_chunk(
@@ -1359,6 +1429,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-024-criteria-before-verifies",
+    ],
 )
 
 kb_chunk(
@@ -1368,6 +1441,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:explicit-versioned-inputs",
+    ],
 )
 
 kb_chunk(
@@ -1377,6 +1453,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:context-budget",
+    ],
 )
 
 kb_chunk(
@@ -1386,6 +1465,9 @@ kb_chunk(
     plane = "decision",
     level = "concrete",
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:explicit-versioned-inputs",
+    ],
 )
 
 # 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다

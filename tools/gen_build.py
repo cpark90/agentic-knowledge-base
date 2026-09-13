@@ -25,6 +25,7 @@ class GenBuildError(Exception):
 HEADER ="# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test\n"
 LINKS = ("refines", "serves", "supersedes", "verifies")
 ONTO_BASE = "https://agentic-knowledge-base.dev/ontology/"
+MEMORY_PKG = "kb/dev/memory"  # 관측 패키지 — 비어 있어도 BUILD 는 생성한다 (//kb/dev:bodies·//kg:chunks_kg 의 끝점)
 
 
 def q(s):
@@ -62,6 +63,13 @@ def scan(root: Path):
         lab = f"//chunks/decision:{f.stem}"
         items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": "chunks/decision"}
         iri_to_label[meta["id"]] = lab
+    for f in sorted((root / MEMORY_PKG).glob("*.md")):  # 관측 (memory plane, append-only) — assume_check --record 가 만든다
+        meta, _ = parse_chunk(str(f))
+        if meta["type"] != "memory":
+            raise GenBuildError(f"{f}: {MEMORY_PKG} 의 청크는 type: memory 여야 한다 — 실제 {meta['type']!r} (수준 허용표 6.4절)")
+        lab = f"//{MEMORY_PKG}:{f.stem}"
+        items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": MEMORY_PKG}
+        iri_to_label[meta["id"]] = lab
     return items, iri_to_label
 
 
@@ -78,9 +86,10 @@ def links_of(meta, iri_to_label, where):
     return out
 
 
-def render_chunks(pkg, items, iri_to_label, visibility):
+def render_chunks(pkg, items, iri_to_label, visibility, allow_empty=False):
+    glob_ = 'glob(\n        ["*.md"],\n        allow_empty = True,\n    )' if allow_empty else 'glob(["*.md"])'
     body = [HEADER, 'load("//defs:kb.bzl", "kb_bundle", "kb_chunk")', "", f"package(default_visibility = [{q(visibility)}])", "",
-            'exports_files(["BUILD.bazel"])', "", 'filegroup(\n    name = "bodies",\n    srcs = glob(["*.md"]),\n)', ""]
+            'exports_files(["BUILD.bazel"])', "", f'filegroup(\n    name = "bodies",\n    srcs = {glob_},\n)', ""]
     for lab, it in sorted(items.items()):
         if it["pkg"] != pkg:
             continue
@@ -90,7 +99,8 @@ def render_chunks(pkg, items, iri_to_label, visibility):
                     + f"    plane = {q(m['type'])},\n" + f"    level = {q(m['level'])},\n" + f"    status = {q(m['status'])},\n"
                     + "".join(label_list(k, v) for k, v in sorted(links.items())) + ")\n")
     names = sorted(lab.split(":")[1] for lab, it in items.items() if it["pkg"] == pkg)
-    body.append("# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다\nkb_bundle(\n    name = \"kg\",\n" + label_list("items", [":" + n for n in names]) + ")\n")
+    body.append("# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다\nkb_bundle(\n    name = \"kg\",\n"
+                + (label_list("items", [":" + n for n in names]) or "    items = [],\n") + ")\n")
     return "\n".join(body)
 
 
@@ -149,6 +159,7 @@ def main() -> int:
             str(root / "kb/dev/requirement/BUILD.bazel"): render_chunks("kb/dev/requirement", items, iri_to_label, "//kb:requirement_readers"),
             str(root / "kb/dev/decision/BUILD.bazel"): render_decisions(items, iri_to_label),
             str(root / "chunks/decision/BUILD.bazel"): render_chunks("chunks/decision", items, iri_to_label, "//kb:decision_readers"),
+            str(root / MEMORY_PKG / "BUILD.bazel"): render_chunks(MEMORY_PKG, items, iri_to_label, "//kb:memory_readers", allow_empty=True),
         }
         outputs.update(ontology(root))
     except GenBuildError as e:
@@ -169,6 +180,7 @@ def main() -> int:
             if a.check:
                 sys.stdout.writelines(difflib.unified_diff(old.splitlines(True), content.splitlines(True), f"{path} (커밋본)", f"{path} (생성)", n=1))
             else:
+                p.parent.mkdir(parents=True, exist_ok=True)  # 비어 있는 관측 패키지의 첫 BUILD
                 p.write_text(content, encoding="utf-8")
     if a.check:
         if drift:

@@ -1,0 +1,6 @@
+# 안티패턴: 순환 복합체 — agt:hasDirectPart 연쇄가 자기 자신에 닿는다 (노트 4.5절, rules §2 비순환)
+# 결과 행 하나 = 위반 하나. 첫 실행(2026-09-13, 복합체 230): 0.
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+SELECT DISTINCT ?composite WHERE {
+  ?composite a agt:Composite ; agt:hasDirectPart+ ?composite .
+}

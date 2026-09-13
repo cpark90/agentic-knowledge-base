@@ -7,6 +7,7 @@ title: The selection snapshot (lock) is the reproducibility contract
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+refines: [https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 ---
 **결론** — 생성할 때마다 "이번에 실제로 무엇이 선택되었는가"를 **lock

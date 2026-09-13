@@ -903,6 +903,9 @@ kb_decision(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f", "https://agentic-knowledge-base.dev/id/chunk/d18aa19c-6d09-4609-a39b-15fdbd15b2ab", "https://agentic-knowledge-base.dev/id/chunk/220f6469-138a-4eb8-aa89-acbe3175cc9c"],
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
+    ],
     supersedes = [
         "//chunks/decision:d-0151-documents-are-generated",
     ],

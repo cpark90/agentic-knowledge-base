@@ -1,0 +1,32 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
+
+package(default_visibility = ["//kb:memory_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(
+        ["*.md"],
+        allow_empty = True,
+    ),
+)
+
+kb_chunk(
+    name = "obs-20260913T154324Z",
+    src = "obs-20260913T154324Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7726809e-1996-41cb-9da7-71d92f1c30ac",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":obs-20260913T154324Z",
+    ],
+)

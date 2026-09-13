@@ -7,6 +7,7 @@ title: Coordination topology is a dimension each composition declares, not a glo
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+refines: [https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 구성물의 참여자들이 **어떻게 조율하는가**(topology)는 체계

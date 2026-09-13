@@ -32,7 +32,7 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 |---|---|---|---|---|---|---|
 | 청크 형식 | 42줄 초과, 라벨 누락, plane·level 유일성 위반, `type`이 온톨로지 밖 | shape | 4.4 | **있음** — `chunk_lint` + `chunk2kg` + `chunk-shapes` | `chunk` · `chunk2kg` | 청크를 고친다 — plane의 write 역할(요구·결정 orchestrator, 산출물 developer) |
 | 수준 허용표 | plane에 허용되지 않는 level | shape | 6.4 | **있음** — `residency-shapes` | `shacl`(residency) | level 또는 plane을 고친다 — 저작자 |
-| 복합체 | 부분의 plane·level 불일치, 직접 부분 > 9, 순환 | analysis | 4.5 | 부분 — `composite-shapes`(≤9); 결정 복합체는 `kb_decision` 규칙이 세 부분·수준을 분석 시점에 검사한다 | `shacl`(composite) · `gen-build` | 복합체 선언·세 청크를 고친다 — 저작자 |
+| 복합체 | 부분의 plane·level 불일치, 직접 부분 > 9, 순환 | analysis + verify | 4.5 | **있음** — `composite-shapes`(≤9) · `kb_decision`(결정의 세 부분·수준, 분석 시점) · verify 질의 `composite-heterogeneous`·`composite-cycle`(전체 복합체, 2026-09-13; 수준 동질성은 결정 복합체 제외) | `shacl`·`gen-build`·`verify` | 복합체 선언·세 청크를 고친다 — 저작자 |
 | 통제 어휘 | 온톨로지에 없는 술어·개체, 표준 어휘 원문에 없는 prov·skos 용어 | verify | 0.0, 2.12 | **있음** — `validate` vocab (+ `--standard-vocab`, 2026-09-12) | `vocab` | 온톨로지에 개념을 먼저 더하거나(`term_propose` → 승인) 술어를 정정한다 — developer(T-Box) |
 | 출처 | `sources`가 빈 청크, 파생 연쇄 전체가 외부 유입인 확정 청크 | verify | 4.3, 2.12 | **있음** — `sources-empty.rq`·`imported-chain-confirmed.rq` | `verify` | `sources`를 보강한다 — 저작자 |
 | TIM | 링크 타입의 정의역·치역 밖 plane, 카디널리티 초과, 단방향 규칙 위반 | analysis | 10.1 | **부분** — `defs/kb.bzl` 규칙이 `refines`(상위 수준·plane 단방향)·`serves`(요구만)·`supersedes`(같은 plane)·`verifies`(V&V 주어·같은 수준)를 분석 시점 `fail()`로, 끊긴 링크는 로드 에러, 방향은 `package_group` 가시성 (2026-09-11) | `tim`(`defs/kb.bzl` 분석 시점) | 링크의 방향·수준을 고친다 — 저작자. 규칙 변경은 유저 승인 사항이다 |
@@ -52,6 +52,8 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 | 신뢰 등급 | `generatedBy` 없음, 검증 뒤 수정 | shape | 2.12 | **있음** — `trust-shapes` | `shacl`(trust) | `generated.at` ≤ `verified.at`가 되게 검증 표시를 물리거나 다시 찍는다 |
 | 참조 무결성 | 인용 대상·부분·가정·요구가 실재하지 않음 | verify + 생성 | 4.8 | **있음** — `extract_refs`·`validate` dangling | `dangling` · `extract-refs` | 인용 대상을 정정한다 — 저작자 |
 | 산문 문체 | 경어체 종결(`습니다`·`세요`·`해요` 등), 산문의 느낌표 | test | STYLEGUIDE §0 | **있음** — `chunk_lint`·`doccheck`의 `prose` (2026-09-13). 추측·구어·대시 밀도는 `consistency` ⑦이 보고한다 | `prose` | 문장을 고친다 — 저작자. 고유명사의 느낌표는 `waivers.md` |
+| 카탈로그 정합성 | 스코프 없는 역할, 미부여 스코프, read plane 0, write plane 공유, `maxConcurrent` 합 > ODD 상한 | verify | 10.2 | **있음** — `validate` `check_catalog`(2026-09-13) | `catalog` | `kg/catalog-kg.ttl`·ODD를 고친다 — orchestrator(문서·그래프 같은 커밋) |
+| 결정 역할 표지 | 결론·근거·대안 청크의 첫 산문 줄에 `**결론**`·`**근거**`·`**대안**`("대안 없음" 변형 허용) 없음 | test | 7.4 | **있음** — `chunk_lint` `decision-role`(2026-09-13) | `decision-role` | 본문 첫 줄을 고친다 — orchestrator |
 
 2026-09-11 Bazel 규칙 반영 후 기계화 10 · 부분 4 · 규약 1 · 없음 6이다. 없음의 대부분이 도입
 5·7단계의 산출에 걸려 있다. `id`는 도구의 `FAIL [<id>]` 태그와 같다(agrtls A). 결정
@@ -149,7 +151,14 @@ YAML은 PyYAML로 읽는다. 잠금은 `pyyaml==6.0.2`이고 해시는 호스트
 `kb_yaml.py`는 2026-09-11에 삭제했다. 생성물은 `bazel-bin`에만 있고 소스 트리에 같은 이름의 파일을
 두지 않는다. `index.md`·`log.md`도 마찬가지다.
 
-### 검사 (없음) — `assume_check`(가정 판정식 실행, 6.9절). 도입 4단계.
+#### `assume_check.py` — 가정 판정과 전파 (6.9절, 도입 4단계 첫 형태, 2026-09-14)
+
+`bazel run //tools:assume_check -- [--break <cond-id>…] [--record]` — 가정마다 `refersTo`한 ODD 조건의 판정(`odd_check`와 같은
+`CHECKS.cmd`)을 연언으로 평가해 `valid`·`invalidated`·`unverified`를 낸다. 판정식 등급은 참조 조건 등급의 최저다. 깨진 가정을
+`assumes`하는 살아 있는 청크가 직접 영향 집합이고, 링크·복합체 형제로 닿는 하류를 더한 것이 suspect 후보 집합이다 — 전파
+(`propagate`)의 첫 형태다. `--break`는 조건 하나를 이탈로 가정해 계산된 영향 집합이 실제 의존 집합과 같은지 보는 인위 파괴
+실험이다. `--record`는 실행 결과를 관측 청크(`kb/dev/memory/obs-<시각>.md`, memory plane, append-only)로 남긴다 — 무효화 이력의
+자리다. 새 어휘는 없다. 가정 자체의 `when` 판정식은 후속이다.
 
 #### `odd_check.py` — ODD 모니터링 (3.5절, 도입 2단계)
 
@@ -167,7 +176,7 @@ YAML은 PyYAML로 읽는다. 잠금은 `pyyaml==6.0.2`이고 해시는 호스트
 |---|---|---|---|
 | `workset` / `labels` | [method §8 조회](method.md#8-조회) | **첫 형태 있음** — `bazel build //kg:workset --//kb:role=<role> --//kb:anchor=<라벨|IRI> --//kb:levels=<창> --//kb:hops=1 --//kb:budget=200` → `bazel-bin/kg/workset-<role>.md`: 역할 스코프(plane) × 수준 창 × 앵커 이웃(상류 ∪ 하류), 족별 우선순위(앵커 ≫ references ≫ semanticallyDependsOn ≫ 구성 관계 ≫ relatedTo ≫ 시간축) 뒤 예산 패킹, 초과분은 라벨만(dependency-graph §4, 2026-09-12). 선택자는 빌드 설정이라 BUILD를 고치지 않는다. 정의(0.5절 정정본)대로 앵커가 양을 거른다 — 앵커 없이 573줄, 앵커를 주면 14줄이다 | 2 |
 | `link` | [method §6 연결](method.md#6-연결) | 구축 기록 → 후보, 복원 파이프라인 k≤7. 첫 형태: frontmatter 링크마다 `agt:Link` + 구축 기록 증거를 `chunk2kg`가 방출, `handoff`가 workset 뷰의 펼친 청크를 `sources`로 옮긴다 (`bazel run //tools:handoff -- --workset bazel-bin/kg/workset-<role>.md <청크>`) | 3·8 |
-| `propagate` / `revalidate` | [method §7 갱신](method.md#7-갱신) | **첫 형태 있음(revalidate)** — `bazel run //tools:revalidate -- --base <rev>`: base 리비전 대비 본문 해시가 바뀐 청크와 그 링크 양 끝·`part_of` 형제·`rdeps` 하류를 재판정 대상 표로 낸다(종료 1 = 대상 있음). head만 바뀐 청크는 제외한다. 무효화 전파 8단계·규칙 카탈로그(`propagate`)는 없다 | 4 |
+| `propagate` / `revalidate` | [method §7 갱신](method.md#7-갱신) | **첫 형태 있음** — `propagate`는 `assume_check`의 전파 절(깨진 가정 → 직접 영향 집합 → 하류 suspect 후보). `revalidate` — `bazel run //tools:revalidate -- --base <rev>`: base 리비전 대비 본문 해시가 바뀐 청크와 그 링크 양 끝·`part_of` 형제·`rdeps` 하류를 재판정 대상 표로 낸다(종료 1 = 대상 있음). head만 바뀐 청크는 제외한다. 무효화 전파 8단계·규칙 카탈로그(`propagate`)는 없다 | 4 |
 | `query` | [competency-questions](competency-questions.md) | CQ1~20과 표준 추적 질의 | 3 |
 | `impact` | [method §12 영향 분석](method.md#12-영향-분석) | **첫 형태 있음** — `bazel run //tools:impact -- <타깃>`: `rdeps`로 영향 항목 수·plane 분포·suspect가 될 링크 수·승인 필요 결정 수. 구조 근사이며 가정·무효화 전파는 그래프 질의 몫이다 | 3 |
 | `project` | [method §9 뷰](method.md#9-뷰) | **첫 형태 있음(communities)** — `bazel build //kg:communities`: 결정론적 Louvain으로 복합체 후보(같은 plane·level, 2~9)와 `relatedTo` 링크 후보(plane·level을 넘음)를 제안, 판정은 사람이 한다([`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md)). tangle·weave·매트릭스는 없다 | 8 |
@@ -292,9 +301,6 @@ bazel test //...  (게이트 전체 — test_suite 없음, 패키지의 test 타
 |---|---|---|
 | 라벨이 본문을 대표한다 | 판정 불가 | `STYLEGUIDE.md` §4 |
 | 한 chunk는 한 주제 | 판정 불가. 42줄과 분할 신호가 대리 지표 | `STYLEGUIDE.md` §0 |
-| 복합체 순환 | 결정 복합체의 세 부분·수준은 `kb_decision`이 분석 시점에 검사한다. 일반 복합체의 순환 검사는 미구현 | [rules §2](rules.md#2-복합체--통합이-필요한-것만) |
-| 카탈로그 정합성 (역할별 read plane ≥ 1, write plane 비공유, `maxConcurrent` 합 ≤ ODD 동적 요소) | 기계화 가능하나 미구현 | `AGENTS.md` 역할 절 |
-| 정규화 직렬화 | `canonicalize.py --check`가 있으나 테스트 타깃이 아니다 | [rules §정규화](rules.md#정규화-직렬화) |
 
 카탈로그 정합성 검사가 없어 ODD의 동시 에이전트 한도와 카탈로그의 합이 한동안 어긋난 채
 지나간 적이 있다. 규약만으로는 지켜지지 않는다는 증거다.

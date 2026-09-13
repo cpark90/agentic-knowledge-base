@@ -13,6 +13,10 @@
               스코프나 가정은 존재할 수 없다" (0.4절)
   dangling    저장소 안을 가리키는 링크의 대상이 실재한다. agt:usesConcept 의 대상은
               온톨로지가 정의한 용어여야 한다 (dependency-graph-design §5 참조 무결성)
+  catalog     (--data 에 agt:Harness 가 있을 때) 카탈로그 정합성 (AGENTS.md 역할 절 · STYLEGUIDE §5 · 9.2·9.6절):
+              하네스가 hasRole 하는 역할마다 대응 스코프(id:role-<x> ↔ id:scope-<x>)가 있고 하네스가 grants 한다 ·
+              역할마다 read plane ≥ 1 · write plane 은 역할 사이에 겹치지 않는다 · maxConcurrent 합 ≤ ODD 동적 요소
+              id:cond-concurrent-agents 의 상한(--odd 의 agt:conditionValue). 상한을 못 뽑으면 EXIT_CONFIG
   shacl       (--shapes) OWL-RL 추론 후 pySHACL 적합성 (--reason 시 추론 적용)
 
 경고(비영 종료 아님, `warn [검사명]` 접두사)
@@ -45,6 +49,10 @@ EXIT_SKIP = getattr(kb_lib, "EXIT_SKIP", 3)      # 검사 대상 0건
 
 class SyntaxFailure(Exception):
     """파일 하나가 파싱되지 않는다 — 어느 파일인지를 메시지에 지닌다."""
+
+
+class ConfigFailure(Exception):
+    """게이트가 판정을 내릴 수 없는 설정·입력 상태(EXIT_CONFIG) — 메시지가 `FAIL [<검사명>] …` 한 줄이다."""
 
 
 def load_files(paths: list[str]) -> tuple[Graph, dict[str, Graph]]:
@@ -233,6 +241,79 @@ def check_deprecated_concepts(merged: Graph, ontology: Graph) -> list[str]:
     )
 
 
+def _qname(merged: Graph, term) -> str:
+    """agt:·id: 용어는 접두사로 적는다 — 병합 그래프의 qname 은 ns2: 처럼 나온다."""
+    for prefix, ns in (("agt", AGT), ("id", kb_lib.ID)):
+        if str(term).startswith(str(ns)):
+            return f"{prefix}:{str(term)[len(str(ns)):]}"
+    return merged.qname(term) if isinstance(term, URIRef) else str(term)
+
+
+def check_catalog(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> list[str]:
+    """카탈로그 정합성 (AGENTS.md 역할 절 · STYLEGUIDE §5 · 노트 9.2·9.6절) — 규약이던 것을 게이트로 (2026-09-13).
+
+    데이터 그래프에 agt:Harness 가 없으면 대상이 아니다. 하네스마다:
+      (a) hasRole 하는 역할마다 대응 스코프가 실재하고 하네스가 grants 한다. 대응은 슬러그다 — id:role-<x> ↔ id:scope-<x>
+          (kb_lib.ROLE_ID_PREFIX·SCOPE_ID_PREFIX, rules §개체 IRI 접두사). 카탈로그에 역할→스코프 술어는 없다.
+      (b) 역할마다 agt:reads 가 하나 이상이다 — 읽지 못하는 역할은 작업 집합을 받을 수 없다.
+      (c) agt:writes 의 plane 은 역할 사이에 겹치지 않는다 — 설계·구현·운영 분리 (9.2절).
+      (d) agt:maxConcurrent 합 ≤ ODD 동적 요소 id:cond-concurrent-agents 의 상한. 상한은 --odd 그래프의 agt:conditionValue 에서
+          kb_lib.odd_upper_bound 로 뽑는다. ODD 가 없거나 조건·상한을 못 뽑으면 ConfigFailure(EXIT_CONFIG) — 판정 불가지 통과가 아니다.
+    첫 실행(2026-09-13): 역할 4 · 스코프 4 · write plane 겹침 0 · 합 4 ≤ 5, FAIL 0.
+    """
+    AGT_, ID = kb_lib.AGT, kb_lib.ID
+    gate = kb_lib.CATALOG_GATE
+    harnesses = sorted(s for s in merged.subjects(RDF.type, AGT_.Harness) if isinstance(s, URIRef))
+    if not harnesses:
+        return []
+    errors: list[str] = []
+    for h in harnesses:
+        where = _where(files, h)
+        roles = sorted(r for r in merged.objects(h, AGT_.hasRole) if isinstance(r, URIRef))
+        grants = set(merged.objects(h, AGT_.grants))
+        writers: dict[URIRef, list[URIRef]] = {}
+        total = 0
+        for r in roles:
+            rq = _qname(merged, r)
+            local = str(r)[len(str(ID)):] if str(r).startswith(str(ID)) else ""
+            if not local.startswith(kb_lib.ROLE_ID_PREFIX):
+                errors.append(f"[{gate}] {where}: 역할 {rq} 의 IRI 가 id:{kb_lib.ROLE_ID_PREFIX}<slug> 가 아니다 — 대응 스코프를 찾을 수 없다 (rules §개체 IRI 접두사)")
+            else:
+                scope = ID[kb_lib.SCOPE_ID_PREFIX + local[len(kb_lib.ROLE_ID_PREFIX):]]
+                if (scope, RDF.type, AGT_.Scope) not in merged:
+                    errors.append(f"[{gate}] {where}: 역할 {rq} 에 대응 스코프 {_qname(merged, scope)} 가 없다 — 역할마다 스코프를 선언한다 (STYLEGUIDE §5 카탈로그 완전성)")
+                elif scope not in grants:
+                    errors.append(f"[{gate}] {where}: 하네스 {_qname(merged, h)} 가 역할 {rq} 의 스코프 {_qname(merged, scope)} 를 agt:grants 하지 않는다 (STYLEGUIDE §5)")
+            if not any(True for _ in merged.objects(r, AGT_.reads)):
+                errors.append(f"[{gate}] {where}: 역할 {rq} 의 read plane 이 0 이다 — agt:reads 를 하나 이상 선언한다 (AGENTS 표 read 열)")
+            for plane in merged.objects(r, AGT_.writes):
+                writers.setdefault(plane, []).append(r)
+            counts = list(merged.objects(r, AGT_.maxConcurrent))
+            if not counts:
+                errors.append(f"[{gate}] {where}: 역할 {rq} 에 agt:maxConcurrent 가 없다 — 합을 판정할 수 없다 (9.6절)")
+                continue
+            try:
+                total += int(counts[0])
+            except (TypeError, ValueError):
+                errors.append(f"[{gate}] {where}: 역할 {rq} 의 agt:maxConcurrent {counts[0]!r} 이 정수가 아니다")
+        for plane, rs in sorted(writers.items(), key=lambda kv: str(kv[0])):
+            if len(rs) > 1:
+                names = ", ".join(_qname(merged, r) for r in sorted(rs))
+                errors.append(f"[{gate}] {where}: write plane {_qname(merged, plane)} 을 역할 {names} 이 공유한다 — 설계·구현·운영은 같은 write plane 을 쓰지 않는다 (AGENTS 역할 절, 9.2절)")
+        cond = kb_lib.CONCURRENT_AGENTS_CONDITION
+        if odd is None:
+            raise ConfigFailure(f"[{gate}] {where}: maxConcurrent 합의 상한은 ODD 조건 {_qname(merged, cond)} 인데 --odd 그래프가 없다")
+        values = list(odd.objects(cond, AGT_.conditionValue))
+        if not values:
+            raise ConfigFailure(f"[{gate}] {where}: ODD 에 {_qname(merged, cond)} 의 agt:conditionValue 가 없다 — ODD 를 먼저 확장한다 (0.4절)")
+        bound = kb_lib.odd_upper_bound(str(values[0]))
+        if bound is None:
+            raise ConfigFailure(f"[{gate}] {where}: {_qname(merged, cond)} 의 값 {str(values[0])!r} 에서 정수 상한을 뽑을 수 없다 — Range [a .. b] 또는 UpperBound 식이어야 한다")
+        if total > bound:
+            errors.append(f"[{gate}] {where}: 역할별 agt:maxConcurrent 합 {total} > ODD 동적 요소 {_qname(merged, cond)} 의 상한 {bound} — 역할을 줄이거나 ODD 한도를 먼저 검토한다 (AGENTS 역할 절, 9.6절)")
+    return errors
+
+
 def check_writer(merged: Graph) -> list[str]:
     """생성자의 쓰기 권한 (AGENTS 표 · kg/catalog-kg.ttl agt:writes) — write plane 경계를 규약에서 기계 검사로.
 
@@ -347,6 +428,11 @@ def main() -> int:
     if data_files:
         errors += check_dangling(merged, onto_merged if args.ontology else None, located)
         errors += check_writer(merged)
+        try:
+            errors += check_catalog(merged, odd_merged if args.odd else None, located)
+        except ConfigFailure as e:  # 상한을 판정할 수 없다 — 배선·ODD 문제
+            print(f"FAIL {e}")
+            return EXIT_CONFIG
         if args.ontology:
             warnings += check_deprecated_concepts(merged, onto_merged)
     if args.shapes:

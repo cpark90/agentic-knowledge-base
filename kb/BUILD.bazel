@@ -14,6 +14,7 @@ package_group(
         "//kg/...",
         "//tools/...",
         "//defs/...",
+        "//chunks/...",  # 옛 결정(decision plane)이 요구를 refines 한다 (2026-09-13 연결 성분 1)
     ],
 )
 
@@ -52,6 +53,20 @@ package_group(
         "//tools/...",
         "//defs/...",
         "//chunks/...",
+    ],
+)
+
+# memory 는 마지막 plane — 아무 plane 도 관측을 refines 하지 않는다. 관측 자신과 그래프·게이트·뷰만 본다 (5.2절)
+package_group(
+    name = "memory_readers",
+    packages = [
+        "//",
+        "//kb",
+        "//kb/dev",
+        "//kb/dev/memory",
+        "//kg/...",
+        "//tools/...",
+        "//defs/...",
     ],
 )
 

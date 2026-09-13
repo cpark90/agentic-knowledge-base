@@ -8,6 +8,7 @@ filegroup(
     name = "bodies",
     srcs = [
         "//kb/dev/decision:bodies",
+        "//kb/dev/memory:bodies",  # 관측 (assume_check --record) — 비어 있어도 된다
         "//kb/dev/requirement:bodies",
     ] + glob(
         ["*.md"],

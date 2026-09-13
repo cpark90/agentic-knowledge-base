@@ -20,6 +20,7 @@
 - **남은 유저 lane 항목 넷** — `docs/` 가 마크다운 링크로 가리켜 아직 제거하지 못한다(링크를 `git:<리비전>:<경로>` 평문 인용으로 바꾸면 제거):
   [`bazel-dependency-review.md`](bazel-dependency-review.md)(`tools.md`) · [`dependency-graph-design.md`](dependency-graph-design.md)(`open-questions/link-judgement-basis.md`) ·
   [`design-detail-review.md`](design-detail-review.md)(`decomposition-audit.md`·`docs/README.md`) · [`label-representativeness-protocol.md`](label-representativeness-protocol.md)(`tools.md`·`roadmap.md`)
+- refresh 2026-09-14: agents 2 제거(발신자 `closed` — inspection 이관·간소화 기록). 유저 lane 넷은 `docs/` 링크가 남아 그대로.
 - refresh 2026-09-13(2차): 10건 제거 — 유저 lane 4(라벨 실험 기록지·정답지·에이전트 판정 결과·agrtls 관행 검토) ·
   agents 4(발신자 `closed`) · 조사 lane 2(유저 원문, 답 완료). KG 출처 개체가 `git:<리비전>:<경로>` 를 가리키므로 트리에서 지워도 인용이 산다.
   기록은 git 이력(`36f6273` 이전).

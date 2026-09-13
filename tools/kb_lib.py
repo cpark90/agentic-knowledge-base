@@ -38,6 +38,14 @@ ALLOWED_TTL_SUFFIXES = (
     "-odd",
 )
 
+# 개체 IRI 접두사 (docs/rules.md §개체 IRI 접두사) — 카탈로그 정합성 검사(validate `catalog`)가 역할 ↔ 스코프 대응을
+# id:role-<slug> ↔ id:scope-<slug> 로 푼다. 카탈로그에 역할→스코프 술어는 없고 슬러그가 대응의 원본이다 (STYLEGUIDE §5)
+ROLE_ID_PREFIX = "role-"
+SCOPE_ID_PREFIX = "scope-"
+# ODD 동적 요소 — 역할별 agt:maxConcurrent 합의 상한 (AGENTS.md 역할 절, kb/odd/project-odd.yml concurrent_agents)
+CONCURRENT_AGENTS_CONDITION = ID["cond-concurrent-agents"]
+CATALOG_GATE = "catalog"  # 게이트 id — FAIL [catalog]
+
 # 온톨로지 모듈이 "정의"로 간주되는 타입 (2.3절 경계 규칙, 2.5절 정의 완전성)
 DEFINING_TYPES = (
     OWL.Class,
@@ -83,6 +91,28 @@ def defined_terms(g: Graph):
 
 def is_well_known(iri: str) -> bool:
     return any(iri.startswith(p) for p in WELL_KNOWN_PREFIXES)
+
+
+# ── OpenODD 식의 상한 — odd2kg 가 agt:conditionValue 에 "<INCLUDE_…> <종류>: <식>" 으로 적는다 (tools/odd2kg.py NUM·RANGE) ──
+# Range `[a .. b] unit` 의 b, UpperBound `<= n unit` 의 n, `< n unit` 은 n 미만이라 정수면 n-1. LowerBound·Equal(범주)·unknown 은 상한이 없다
+_ODD_RANGE = re.compile(r"\[\s*(-?\d+(?:\.\d+)?)\s*\.\.\s*(-?\d+(?:\.\d+)?)\s*\]")
+_ODD_UPPER = re.compile(r"(?<![\w<>=])(<=?)\s*(-?\d+(?:\.\d+)?)")
+
+
+def odd_upper_bound(value: str) -> int | None:
+    """agt:conditionValue 문자열의 정수 상한. 식이 상한을 갖지 않거나 정수가 아니면 None — 호출자가 EXIT_CONFIG 로 다룬다."""
+    m = _ODD_RANGE.search(value)
+    if m:
+        hi = m.group(2)
+    else:
+        m = _ODD_UPPER.search(value)
+        if not m:
+            return None
+        hi = m.group(2)
+    if not re.fullmatch(r"-?\d+", hi):
+        return None
+    n = int(hi)
+    return n - 1 if (not _ODD_RANGE.search(value) and m.group(1) == "<") else n
 
 
 # ── 종료 코드 — 실패 종류를 구분한다 (agrtls-practices-review-2026-09-12 A) ──────────────────
@@ -148,6 +178,17 @@ def waived(waivers: list[dict], gate_id: str, target: str, axis: str) -> bool:
     """게이트 `gate_id` 에서 `target` 이 `axis` 축으로 면제 선언됐는가."""
     return any(w["gate"] == gate_id and w["axis"] == axis and any(_target_matches(d, target, axis) for d in w["targets"])
                for w in waivers)
+
+
+# ── 결정의 역할 표지 (STYLEGUIDE §4, 게이트 id `decision-role` — chunk_lint) ────────────────────────────────
+# type: decision 인 .md 의 본문 첫 산문 줄은 굵은 역할 표지로 시작한다. 세 파일 결정은 파일 stem 이 표지를 정하고, 단일 파일 옛 결정
+# (chunks/decision/d-*.md)은 결론 표지만 요구한다. 표지 안의 한정어("**대안 없음**"·"**대안 — 미확정**"·"**대안(미해결)**")는 같은 역할
+# 표지로 본다 — 첫 실행(2026-09-13) 결론 187/187·근거 187/187 은 맨 표지, 대안 21/187 이 한정어 형태였고 그것은 "대안 없음"을 기록하라는
+# 규칙(노트 7.4절)의 이행이지 표지 누락이 아니다 (p6-mass-fail-suspects-the-rule). 굵은 span 이 역할 낱말로 시작하지 않으면 위반이다
+DECISION_ROLE_GATE = "decision-role"
+DECISION_ROLE_MARKERS = {"conclusion": "결론", "rationale": "근거", "alternatives": "대안"}
+DECISION_SINGLE_FILE_MARKER = "결론"
+DECISION_ROLE_MARKER = re.compile(r"^\s*\*\*(" + "|".join(sorted(set(DECISION_ROLE_MARKERS.values()))) + r")[^*\n]*\*\*")
 
 
 # ── 산문 문체 (STYLEGUIDE §0 "산문은 단정 서술형", 유저 결정 2026-09-13) ──────────────────────────

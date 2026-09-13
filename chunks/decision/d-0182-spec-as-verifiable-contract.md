@@ -7,6 +7,7 @@ title: A spec is a verifiable contract and gate checks run in three directions
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+refines: [https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 ---
 **결론** — 명세는 "이렇게 되어 있다"는 주장이 아니라 **기계가 판정할 수
