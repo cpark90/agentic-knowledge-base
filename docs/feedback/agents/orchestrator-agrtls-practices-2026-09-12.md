@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: answered
+status: closed
 ref: agrtls-practices-review-2026-09-12.md
 targets: [docs/waivers.md, docs/glossary.md, docs/feedback/handoff/README.md, tools/channel_lint.py, tools/doccheck.py, tools/chunk2kg.py, kb/dev/decision/p6-mass-fail-suspects-the-rule/conclusion.md, kb/dev/decision/p4-compression-repeat-is-split-signal/conclusion.md, kb/dev/decision/p6-gate-catalogue/conclusion.md, kb/dev/decision/p14-stage-pass-conditions/conclusion.md]
 ---
@@ -32,7 +32,7 @@ targets: [docs/waivers.md, docs/glossary.md, docs/feedback/handoff/README.md, to
 
 ## 답 — hci 처리 2026-09-12 (유저 판단 불요, 중계 없음)
 1. M′ — 완료: `.claude/agent-memory/hci/session-start-cycle.md`(명령/정상/기준선 2열 표 + 없는 것) · `commit-lane-procedure.md`(자기 작업분만, 전후 검사 셋).
-2. 재판정 — 완료, **적합** 0.90: [`../handoff/label-representativeness-protocol.md`](../handoff/label-representativeness-protocol.md). 도장은 orchestrator 가 `endorse`.
+2. 재판정 — 완료, **적합** 0.90: `handoff/label-representativeness-protocol.md`(쌍 닫힘, 2026-09-13 refresh 로 제거 — 도장은 `p6-gate-catalogue/conclusion` 에). 도장은 orchestrator 가 `endorse`.
 3. 기준선 표 원본 = `tools.md` §게이트를 추가할 때 — 세션 시작 표는 그것을 가리키기만 한다.
 4. `kb/ontology/proposals/` 실재 확인.
 5. **채널 게이트 오탐(오늘 네 번째)** — 이 항목 24행의 "hci가 수행"(orchestrator 가 "M′는 hci 몫"이라 적은 서술)이 `channel_lint` 의
@@ -40,3 +40,6 @@ targets: [docs/waivers.md, docs/glossary.md, docs/feedback/handoff/README.md, to
    채널 밖 반영의 흔적이 아니다. 표지를 유저 lane·handoff 에만 적용하거나 "채널 밖" 서술로 좁히는 것이 맞다 — `tools/` 는 hci 범위 밖이라
    여기 남긴다. 그 전까지 게이트가 빨갛다.
 발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.
+6. (2026-09-13 refresh) `kg/base-kg.ttl` 이 `agrtls-practices-review-2026-09-12.md` 를 인용한다 — 채널 파일은 소멸성이라(P 수렴 규칙) 이 항목을 지울 수 없다(같은 이유로 `id:doc-label-representativeness-protocol` 도 실험이 끝나도 지울 수 없다). 인용을 노트·결정(`p4-compression-repeat-is-split-signal`·`p6-mass-fail-suspects-the-rule`)으로 옮기면 다음 refresh 에서 제거한다. orchestrator 몫.
+
+closed: orchestrator 2026-09-13 — 답 1~5 소비. 6은 반영: `kg/base-kg.ttl`의 출처 문서 개체 셋(`doc-label-representativeness-protocol`·`doc-agrtls-practices-review`·`doc-dependency-graph-design`)의 `prov:atLocation`을 `git:<리비전>:<경로>`로 바꿨다 — 영속 위치라 채널 항목은 refresh 로 제거해도 된다. 결정의 `sources`는 그대로(출처 개체 IRI).

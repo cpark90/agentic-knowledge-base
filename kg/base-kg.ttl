@@ -45,18 +45,19 @@ id:doc-harness-recipes
         "하네스 concrete 저장소 (구 harness-recipes)"@ko ;
     prov:atLocation "../harness-concrete" .
 
-# 유저 결정의 원문 — 채널 항목이 결정의 출처가 될 때 (docs/feedback/README.md)
+# 유저 결정의 원문 — 채널 항목이 결정의 출처가 될 때. 위치는 git 리비전 + 경로로 적는다 — 채널 파일은 refresh 로 제거되므로
+# 트리 경로는 영속 위치가 아니다 (agrtls P 수렴 규칙). 원문은 `git show <리비전>:<경로>` 로 읽는다.
 id:doc-label-representativeness-protocol
     rdfs:label "label representativeness protocol (user feedback item)"@en ,
         "라벨 대표성 실험 프로토콜 (유저 피드백 항목)"@ko ;
-    prov:atLocation "docs/feedback/label-representativeness-protocol.md" .
+    prov:atLocation "git:546dfb8:docs/feedback/label-representativeness-protocol.md" .   # 영속 위치 = 리비전 + 경로. 채널 파일은 소멸성이라 트리에서 제거될 수 있다 (P, 2026-09-13)
 
 id:doc-agrtls-practices-review
     rdfs:label "agrtls harness practices review (user feedback item)"@en ,
         "agrtls 하네스 관행 검토 (유저 피드백 항목)"@ko ;
-    prov:atLocation "docs/feedback/agrtls-practices-review-2026-09-12.md" .
+    prov:atLocation "git:10c75e6:docs/feedback/agrtls-practices-review-2026-09-12.md" .   # 영속 위치 = 리비전 + 경로. 채널 파일은 소멸성이라 트리에서 제거될 수 있다 (P, 2026-09-13)
 
 id:doc-dependency-graph-design
     rdfs:label "dependency graph design (user feedback item)"@en ,
         "의존성 그래프 설계 (유저 피드백 항목)"@ko ;
-    prov:atLocation "docs/feedback/dependency-graph-design.md" .
+    prov:atLocation "git:77e0870:docs/feedback/dependency-graph-design.md" .   # 영속 위치 = 리비전 + 경로. 채널 파일은 소멸성이라 트리에서 제거될 수 있다 (P, 2026-09-13)

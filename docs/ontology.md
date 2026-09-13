@@ -1,8 +1,8 @@
 # ontology — 지식의 코어와 분야 프로파일
 
-구조도 v5에 따라 **코어 / development / V&V** 세 층으로 적는다. 온톨로지는 이 체계의 **어휘**다. 계층의 한 단계가 아니라 계층 전체가 쓰는 어휘이며,
-이 어휘 밖에서 쓴 지식은 이 체계에 존재하지 않는다
-([`id:chunk-d0046`](../chunks/decision/d-0046-ontology-as-vocabulary.md)).
+구조도 v5에 따라 **코어 / development / V&V** 세 층으로 적는다. 온톨로지는 이 체계의 **어휘**다.
+계층의 한 단계가 아니라 계층 전체가 쓰는 어휘다. 이 어휘 밖에서 쓴 지식은 이 체계에 존재하지
+않는다 ([`id:chunk-d0046`](../chunks/decision/d-0046-ontology-as-vocabulary.md)).
 
 ## 코어 — 두 층(코어·프로파일)
 
@@ -12,11 +12,11 @@
 | **분야 프로파일** | 각 plane의 실체와 판정 도구, 조건 어휘 셋째 수준, 도메인 결함 하위 유형, 앵커 해석기 | 분야마다 | `profile/<분야>` (미구현) |
 
 프로파일은 별도 장치가 아니라 **코어를 확장만 하는 온톨로지 모듈**이다. 코어 클래스의
-하위 클래스와 shape만 추가하며, 코어를 수정하는 프로파일은 검사 실패다
+하위 클래스와 shape만 추가한다. 코어를 수정하는 프로파일은 검사 실패다
 ([`id:chunk-d0057`](../chunks/decision/d-0057-profile-extension-only-module.md)). 한 프로젝트가
 프로파일을 여럿 가질 수 있고, 링크는 프로파일을 넘는다.
 
-**현재 `profile/` 디렉토리는 없다.** 프로파일 구축 절차도 아직 없다 —
+**현재 `profile/` 디렉토리는 없다.** 프로파일 구축 절차도 아직 없다.
 [`method.md §1`](method.md#1-프로파일-구축)이 그 자리이고, 첫 프로파일 작성이 다음 산출이다
 ([`roadmap.md`](roadmap.md)).
 
@@ -33,42 +33,44 @@ kb/ontology/
   proposals/                    # 용어 제안 승인 큐 — //kb/ontology:modules 밖 (2.5절)
 ```
 
-모듈 = 디렉토리 = Bazel 패키지이고, 한 파일이 한 주제다. 분할 축은 둘 — **plane으로
-분류되는 개념(`entity/`)과 횡단 개념(`related/`)**, 그리고 **어휘(`-ontology`)와
-형식화(`-rules`·`-shapes`)** ([`id:chunk-d0048`](../chunks/decision/d-0048-ontology-module-structure.md)).
+모듈 = 디렉토리 = Bazel 패키지이고, 한 파일이 한 주제다. 분할 축은 둘이다. 하나는 **plane으로
+분류되는 개념(`entity/`)과 횡단 개념(`related/`)**이고, 다른 하나는 **어휘(`-ontology`)와
+형식화(`-rules`·`-shapes`)**다 ([`id:chunk-d0048`](../chunks/decision/d-0048-ontology-module-structure.md)).
 
-`related/trace`(링크 타입·링크 개체·판정 근거, 파일 9개)가 2026-09-04에 추가되었다 — 네 족(`references`·
-`semanticallyDependsOn`·`relatedTo` + 구성 관계)과 표준 정렬(`dcterms:references`·`skos:related`)은
-[`p10-link-types`](../kb/dev/decision/p10-link-types/conclusion.md)·[`p10-traceability-information-model`](../kb/dev/decision/p10-traceability-information-model/conclusion.md).
-LEDGER·LARGER 대응 원안은 채널 항목 `dependency-graph-design`(반영 완료 — git 이력).
+`related/trace`가 2026-09-04에 추가되었다. 링크 타입·링크 개체·판정 근거를 담는 파일 9개다.
+네 족과 표준 정렬은 [`p10-link-types`](../kb/dev/decision/p10-link-types/conclusion.md)·[`p10-traceability-information-model`](../kb/dev/decision/p10-traceability-information-model/conclusion.md)에 있다.
+네 족은 `references`·`semanticallyDependsOn`·`relatedTo`와 구성 관계이고, 표준 정렬은
+`dcterms:references`·`skos:related`다. LEDGER·LARGER 대응 원안은 채널 항목 `dependency-graph-design`이다.
+반영이 완료되었고 항목은 git 이력에 있다.
 
-`related/trust`(생성·검증 주체)가 2026-09-07에 추가되었다 — OKF v0.2의 신뢰 등급.
+`related/trust`가 2026-09-07에 추가되었다. 생성·검증 주체를 담는 모듈이고, 내용은 OKF v0.2의
+신뢰 등급이다.
 
-노트 v3 반영(2026-09-10)으로 추가된 것: `related/state`(Workset·Run·Runbook),
+2026-09-10의 노트 v3 반영으로 `related/state`(Workset·Run·Runbook),
 `related/tag`(태그 범주 9종), `related/condition/temporal-ontology.ttl`(precedes·
 mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementChunk`,
 `shapes/residency-shapes.ttl`(plane×level 수준 허용표), trace의 `allocates`·`generates`·
-`CandidateLink`·`ConfirmedLink`, `agt:contentHash`.
+`CandidateLink`·`ConfirmedLink`, `agt:contentHash`가 추가되었다.
 
-설계가 요구하나 아직 없는 모듈: `upper`(상위 온톨로지 정렬), `related/policy`,
-`profile/`, `defect`·`defect-rules`.
+설계가 요구하나 아직 없는 모듈은 `upper`(상위 온톨로지 정렬), `related/policy`,
+`profile/`, `defect`·`defect-rules`다.
 
 ## 확장 규칙
 
 1. **기존 어휘를 먼저 찾는다** (`grep -r "찾는개념" kb/ontology/`). 같은 뜻의 개념을 둘
    만드는 것이 이 체계가 막는 드리프트다 ([`id:chunk-d0160`](../chunks/decision/d-0160-search-before-authoring.md)).
-2. 주제가 맞는 **기존 모듈 디렉토리에 새 파일 하나**, 새 주제면 **새 모듈 디렉토리**
-   + `BUILD.bazel` + `//kb/ontology:modules` 등록.
-3. 한 개념은 정확히 한 파일에서 정의된다 — 다른 파일에서 재정의하면 boundary 게이트가
+2. 주제가 맞는 **기존 모듈 디렉토리에 새 파일 하나**를 만든다. 새 주제면 **새 모듈 디렉토리**를
+   만들고 `BUILD.bazel`을 두고 `//kb/ontology:modules`에 등록한다.
+3. 한 개념은 정확히 한 파일에서 정의된다. 다른 파일에서 재정의하면 boundary 게이트가
    거부한다.
-4. 모든 `agt:` 용어에 한/영 `rdfs:label`과 `skos:definition`. 정의는 속 + 종차로 쓰고
-   ([`id:chunk-d0034`](../chunks/decision/d-0034-genus-differentia-definition.md)), 그래프가
+4. 모든 `agt:` 용어에 한/영 `rdfs:label`과 `skos:definition`을 단다. 정의는 속 + 종차로 쓴다
+   ([`id:chunk-d0034`](../chunks/decision/d-0034-genus-differentia-definition.md)). 그래프가
    보여주지 못하는 것만 서술한다 ([`id:chunk-d0161`](../chunks/decision/d-0161-definition-says-why-and-when.md)).
 5. **지어낸 용어를 쓰지 않는다.** 확립된 표준어가 있으면 그것을 쓰고, 고유 관계가
    필요하면 표준 관계의 하위 속성으로 매단다 (d-0024 · d-0053). 어디서 가져왔는지는
    [`references.md`](references.md)에 기록한다.
-6. 폐기는 삭제가 아니다 — `owl:deprecated` + `agt:replacedBy` (d-0035).
-7. **에이전트는 제안만 한다** — 일반화가 온톨로지에 닿을 때는 `bazel run //tools:term_propose`로
+6. 폐기는 삭제가 아니라 `owl:deprecated` + `agt:replacedBy`다 (d-0035).
+7. **에이전트는 제안만 한다.** 일반화가 온톨로지에 닿을 때는 `bazel run //tools:term_propose`로
    제안을 승인 큐(`kb/ontology/proposals/`)에 올리고, 유저 승인 뒤에만 모듈 파일로 옮긴다
    (노트 2.5절). 큐는 `//kb/ontology:modules` 밖이라 승인 전에는 그래프에 들어가지 않는다.
 
@@ -78,7 +80,7 @@ mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementC
 ([`id:chunk-d0052`](../chunks/decision/d-0052-competency-questions.md)). 질문에 기여하지 않는
 개념은 과설계이고, 질문이 질의로 답해지면 그 부분은 완성이다.
 
-목록과 현재 답할 수 있는 것의 실측은 [`competency-questions.md`](competency-questions.md) —
+목록과 현재 답할 수 있는 것의 실측은 [`competency-questions.md`](competency-questions.md)에 있다.
 노트 v3의 CQ1~20과 이 저장소 등록분 CQ-01~32의 대응표도 거기에 있다. 답할 수 없는
 질문이 어휘 확장의 우선순위다.
 
@@ -102,8 +104,8 @@ mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementC
 ## 참조 프로파일 — 소프트웨어 개발
 
 코어를 개발 작업에 특수화한 결정들이며, 다른 프로파일의 템플릿이다. 이 저장소는 이
-프로파일의 부분집합만 쓴다 — 현재 `requirement`·`decision` plane이 채워져 있고, 역할은
-노트 10.2절 9역할 중 5개다(design은 developer가 겸함 — 유저 결정 C4).
+프로파일의 부분집합만 쓴다. 현재 `requirement`·`decision` plane이 채워져 있고, 역할은
+노트 10.2절 9역할 중 5개다. design은 developer가 겸한다 (유저 결정 C4).
 
 | 코어 항목 | 개발 프로파일의 결정 |
 |---|---|

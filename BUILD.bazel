@@ -42,6 +42,7 @@ kb_doccheck_test(
         "space",  # 설계 공간 — 5단계까지 자리만
     ],
     target_only = ["//docs:notes"],
+    waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md, 게이트 id prose)
 )
 
 # 게이트 전체 = 저장소의 모든 테스트. `bazel test //:gate` 또는 `bazel test //...`

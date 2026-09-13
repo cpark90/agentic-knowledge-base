@@ -26,20 +26,21 @@ Part II·IV·V·VII·VIII·IX·X와 그 재도출 결정(`kb/dev/decision/`)이�
 **지식의 종류는 "X 청크"라 부르지 않는다.** 조건·개념·변수·후보·결정·가정·시그니처·
 함수·주석·관측처럼 고유 용어로 부르고, "청크"는 그것들이 따르는 구조 규칙을 가리킬 때만
 쓴다 (유저 결정 2026-09-04). 온톨로지 클래스 이름(`agt:DecisionChunk` 등)과 그래프 라벨을
-인용할 때는 그대로 쓴다 — 그것은 구조 타입의 식별자다.
+인용할 때는 그대로 쓴다. 그것은 구조 타입의 식별자다.
 
 **본문 중복은 안전율로 용인한다** (유저 결정 2026-09-11,
 [`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md)).
 자립성이 맥락의 반복을 요구하므로 같은 서술이 여러 청크에 있는 것은 결함이 아니다. 단
-경계가 있다 — **개념·용어·라벨·요구의 중복은 용인하지 않는다**(어휘 드리프트·인터페이스
-충돌·추적 커버리지 왜곡). 알고 둔 중복은 `coUpdatesWith`로 묶어 한쪽의 변경이 다른 쪽을
-`suspect`로 만들게 한다 — 링크 없는 중복이 드리프트다. 정리는 재검증 시점에서 일괄로:
-`consistency` 보고(중복·라벨 형식·용어)는 커밋마다, 병합·묶기·유지 판정은 도입 단계 끝마다.
+경계가 있다. **개념·용어·라벨·요구의 중복은 용인하지 않는다.** 그 이유는 어휘 드리프트·
+인터페이스 충돌·추적 커버리지 왜곡이다. 알고 둔 중복은 `coUpdatesWith`로 묶어 한쪽의 변경이
+다른 쪽을 `suspect`로 만들게 한다. 링크 없는 중복이 드리프트다. 정리는 재검증 시점에서 일괄로
+한다. `consistency` 보고는 커밋마다 내며 중복·라벨 형식·용어를 다룬다. 병합·묶기·유지 판정은
+도입 단계 끝마다 한다.
 
 ### 신뢰 등급 — 누가 만들고 누가 검증했는가 {#11}
 
-OKF의 행위자 규약을 그대로 쓴다: 도구는 `<생성기>/<버전>`, 사람은 `human:<id>`, 프로세스는
-`process:<id>`. 등급은 저장하지 않고 질의로 얻는다 — `verified`가 없으면 **미검증**,
+OKF의 행위자 규약을 그대로 쓴다. 도구는 `<생성기>/<버전>`, 사람은 `human:<id>`, 프로세스는
+`process:<id>`다. 등급은 저장하지 않고 질의로 얻는다. `verified`가 없으면 **미검증**,
 `human:` 없는 검증만 있으면 **기계 확인**, `human:`이 있으면 **사람 검토**다.
 
 게이트 둘이 이 위에 선다.
@@ -50,15 +51,15 @@ OKF의 행위자 규약을 그대로 쓴다: 도구는 `<생성기>/<버전>`, �
 | `generatedAtTime ≤ verifiedAt` | **검증 뒤에 내용이 바뀌면 FAIL** — 사람이 검증한 항목을 에이전트가 고치고 재검증하지 않는 경우를 잡는다 |
 
 둘째가 요점이다. "decision은 유저 승인이 `valid` 전이의 조건"(d-0003)이 지금까지 그래프에
-기록되지 않았고 채널의 `status: approved`는 그래프 밖이었다 — `verified`가 그 둘을 잇고,
+기록되지 않았고 채널의 `status: approved`는 그래프 밖이었다. `verified`가 그 둘을 잇고,
 write plane 경계가 규약에서 기계 검사로 내려온다.
 
-*현재 실측(2026-09-10): 생성자는 `claude/fable-5`·`claude/opus-5`뿐, **사람 검토 0건**.*
+*현재 실측(2026-09-10): 생성자는 `claude/fable-5`·`claude/opus-5`뿐이고 **사람 검토는 0건**이다.*
 
 ### 파일 형식과 head 생성
 
-head 메타데이터는 파일 안(frontmatter)에 있고, `bazel-bin/kg/chunks-kg.ttl`은 거기서 **생성**된다.
-손으로 쓰지 않는다 — `lineCount`·`assertionLocation`이 파일에서 계산되므로 어긋날 수 없다.
+head 메타데이터는 파일 안의 frontmatter에 있고, `bazel-bin/kg/chunks-kg.ttl`은 거기서 **생성**된다.
+손으로 쓰지 않는다. `lineCount`·`assertionLocation`이 파일에서 계산되므로 어긋날 수 없다.
 
 ```markdown
 ---
@@ -81,26 +82,26 @@ composite: {id: ..., title_ko: ..., title: ...}  # 복합체 선언 — 대표 �
 ```
 
 IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞 12자를
-`agt:contentHash`로 계산해 붙인다 — 같은 IRI에서 내용이 바뀌었는지를 해시 비교로
+`agt:contentHash`로 계산해 붙인다. 같은 IRI에서 내용이 바뀌었는지를 해시 비교로
 안다 (노트 9.9절, 유저 결정 Q1).
 
 **이 형식은 [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)
-번들이다** — 마크다운 + YAML 프론트매터, `type`만 필수, 소비자는 알 수 없는 키를 견딘다.
+번들이다.** 번들은 마크다운 + YAML 프론트매터이고, `type`만 필수이며, 소비자는 알 수 없는 키를 견딘다.
 `id`·`title_ko`·`level`·`assumes` 등은 확장 키로 남고 외부 도구도 이 저장소를 읽을 수 있다
 (필드 사상은 [`pe-three-layer-binding`](../kb/dev/decision/pe-three-layer-binding/conclusion.md)).
-예약 파일명 `index.md`·`log.md`는 **생성물로만** 둔다 — `bazel build //kb/dev:index` (유저 결정 Q4).
+예약 파일명 `index.md`·`log.md`는 **생성물로만** 둔다. 생성 명령은 `bazel build //kb/dev:index`다 (유저 결정 Q4).
 
 값 어휘의 원본은 `tools/chunk2kg.py`의 상수(`PLANE_CLASS`·`LEVELS`·`STATES`·`REQUIRED`)다.
-생성 경로: 청크 타깃(`kb_chunk`·`kb_decision`)마다 head 조각 → 패키지 `:kg` 묶음 → `//kg:chunks_kg`(`kb_kg_merge`)
-→ `bazel-out/.../kg/chunks-kg.ttl` → `//kg:gate_test`의 입력. union 생성(`chunks_kg_union`)과 바이트 동일해야 한다. 생성물은
-`bazel-out`에만 존재하며 소스 트리에 같은 이름의 파일을 두지 않는다.
+생성 경로는 청크 타깃(`kb_chunk`·`kb_decision`)마다 head 조각 → 패키지 `:kg` 묶음 → `//kg:chunks_kg`(`kb_kg_merge`)
+→ `bazel-out/.../kg/chunks-kg.ttl` → `//kg:gate_test`의 입력이다. union 생성(`chunks_kg_union`)과 바이트 동일해야 한다.
+생성물은 `bazel-out`에만 존재하며 소스 트리에 같은 이름의 파일을 두지 않는다.
 
-**지식은 두 KB로 갈려 산다** — 개발 KB `kb/dev/`(요구·결정·계약·스키마·구현), V&V KB
-`kb/vv/`(검증 목표·시나리오·판정 기준). 두 KB를 잇는 링크는 `verifies` 하나뿐이고 주어는
-항상 V&V 쪽, `kb/vv/`의 편집 주체는 vnv 역할뿐이다 (노트 Part VII, 유저 결정 저장 분리).
+**지식은 두 KB로 갈려 산다.** 개발 KB `kb/dev/`는 요구·결정·계약·스키마·구현을 담고, V&V KB
+`kb/vv/`는 검증 목표·시나리오·판정 기준을 담는다. 두 KB를 잇는 링크는 `verifies` 하나뿐이고 주어는
+항상 V&V 쪽이며, `kb/vv/`의 편집 주체는 vnv 역할뿐이다 (노트 Part VII, 유저 결정 저장 분리).
 `chunks/`는 v1 유래 결정의 잔류 위치로, 재도출로 대체된 것은 `deprecated`가 된다.
 
-**네 그래프는 현재 논리적 구분이다** — 저장 형식이 Turtle이라 물리적으로는 기본 그래프
+**네 그래프는 현재 논리적 구분이다.** 저장 형식이 Turtle이라 물리적으로는 기본 그래프
 하나다. TriG 전환은 `annotation`이 생겨 "어느 그래프에 대한 주석인가"를 말해야 할 때
 재검토한다.
 
@@ -118,23 +119,23 @@ IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 | 상태 | 부분에서 추론된다 — 부분 하나가 `invalidated`면 복합체는 `suspect` | d-0074 |
 
 **모든 chunk가 복합체에 속할 필요는 없다** (유저 결정 2026-09-02). 통합이 필요한 것만
-묶고 나머지는 개별로 둔다. 통합의 기준은 둘이다 — **함께 읽혀야 이해되는가**(병합 신호,
-d-0002), **순서가 뜻을 갖는가**(d-0073). 셋째 기준인 "무효화가 함께 번져야 하는가"는
+묶고 나머지는 개별로 둔다. 통합의 기준은 둘이다. 첫째는 **함께 읽혀야 이해되는가**(병합 신호,
+d-0002)이고, 둘째는 **순서가 뜻을 갖는가**(d-0073)다. 셋째 기준인 "무효화가 함께 번져야 하는가"는
 복합체가 아니라 링크(`relatedTo`)로 표현한다 (§4 링크 타입 표). 복합체 **후보**는 커뮤니티 탐지가
 제안하고 채택은 사람이 한다 ([`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md)).
 
-**결정은 세 청크의 복합체다** (노트 4.7절·7.4절, 유저 결정 C2) — 결론(concrete)·근거(logical)·
-대안(logical, **필수** — "대안 없었음"도 기록)이 `kb/dev/decision/<파트>-<슬러그>/` 디렉토리 하나에 살고,
-복합체 개체는 conclusion의 frontmatter 선언에서 `chunk2kg`가 생성한다. 이 복합체는
-level이 섞이므로 동질성 규칙과 긴장한다 — 등록된 미해결이다
-([`open-questions.md`](open-questions.md) "이 저장소가 관찰한 추가 긴장").
+**결정은 세 청크의 복합체다** (노트 4.7절·7.4절, 유저 결정 C2). 결론은 concrete, 근거는 logical,
+대안은 logical이다. 대안은 **필수**이며 "대안 없었음"도 기록한다. 세 청크는
+`kb/dev/decision/<파트>-<슬러그>/` 디렉토리 하나에 살고, 복합체 개체는 conclusion의 frontmatter
+선언에서 `chunk2kg`가 생성한다. 이 복합체는 level이 섞이므로 동질성 규칙과 긴장한다. 이것은
+등록된 미해결이다 ([`open-questions.md`](open-questions.md) "이 저장소가 관찰한 추가 긴장").
 
 ## 3. plane — 판정 방식으로 나뉜 종류
 
 plane의 분류 기준은 저장 위치나 파일 형식이 아니라 **"맞다"고 판정되는 메커니즘**이다
 ([`id:chunk-d0003`](../chunks/decision/d-0003-plane-by-verification.md)).
 
-plane은 **일곱**이다 (v3에서 `requirement` 추가).
+plane은 **일곱**이다. v3에서 `requirement`가 추가됐다.
 
 | plane | 판정 방식 | 변경률 | 개발 프로파일의 실체 |
 |---|---|---|---|
@@ -146,19 +147,19 @@ plane은 **일곱**이다 (v3에서 `requirement` 추가).
 | `annotation` | 사회적 합의 (해소/승인) | 매우 높음 | 주석·리뷰 코멘트 |
 | `memory` | 없음 (휘발성) | 매우 빠름 | 에이전트 작업 메모리 |
 
-plane은 `agt:Chunk`의 **하위 클래스**이고 level은 **속성**(`agt:hasLevel`)이다 — plane마다
-다른 shape을 붙이기 위해서이고, 같은 항목이 level을 바꾸는 일은 없기 때문이다(전이는 새
-chunk + `refines`) ([`id:chunk-d0071`](../chunks/decision/d-0071-plane-class-level-property.md)).
+plane은 `agt:Chunk`의 **하위 클래스**이고 level은 **속성**(`agt:hasLevel`)이다. plane마다
+다른 shape을 붙이기 위해서이고, 같은 항목이 level을 바꾸는 일은 없기 때문이다. 전이는 새
+chunk + `refines`로 한다 ([`id:chunk-d0071`](../chunks/decision/d-0071-plane-class-level-property.md)).
 
 **plane 추가의 유일한 근거는 판정 방식이 기존 어디와도 다를 때다.** 같으면 하위 클래스로
-둔다. 영향은 단방향이며 순서 기준은 변화 속도다 —
-`requirement → decision → contract/schema → artifact → annotation → memory`. 무효화도 이
+둔다. 영향은 단방향이며 순서 기준은 변화 속도다. 순서는
+`requirement → decision → contract/schema → artifact → annotation → memory`다. 무효화도 이
 순서로만 전파되므로 파급이 유계가 된다 (노트 5.2절).
 
 ## 4. traceability — 인터페이스를 기준축으로 한 mapping
 
 각 종류의 **인터페이스를 기준축**으로 plane 간 항목을 잇는다. 링크의 양 끝은 파일이 아니라
-chunk·복합체의 IRI이고, 링크는 산출물 밖(`-kg`)에 한 방향만 저장한다(역방향은 질의)
+chunk·복합체의 IRI이고, 링크는 산출물 밖(`-kg`)에 한 방향만 저장한다. 역방향은 질의로 얻는다
 (d-0010 · d-0105).
 
 링크 타입은 네 족으로 정렬된다 (`kb/ontology/related/trace/`).
@@ -170,18 +171,19 @@ chunk·복합체의 IRI이고, 링크는 산출물 밖(`-kg`)에 한 방향만 �
 | `agt:relatedTo` | 함께 갱신되어야 함 | `coUpdatesWith` · `conflictsWith` | 대칭 — 양쪽 `suspect` |
 | (구성 관계) | 함께 읽힘·순서 | `hasDirectPart` | 부분이 무효면 전체 `suspect` |
 
-`allocates`(요구→구성요소 할당)와 `generates`(산출 의존)는 v3 9장에서 추가됐다 (유저 결정
-C7). `serves ⊑ refines`(결정 → 요구·관심사)는 v4 6.8·7.3의 기여 명시다. `supersedes`는 시간축이라
-세 족 밖이다. **링크는 개체다**(`agt:Link`) — 양 끝·타입·**조건**(`when`: ODD 속성·가정 위의 CEL)·
-**증거 기록**(`agt:Evidence` — 종류·참조·극성 ± 항목 목록)를 갖고, 확정 전 후보는 `agt:CandidateLink`,
-판정된 것은 `agt:ConfirmedLink`다. 상태(`candidate`/`confirmed`/`suspect`/`invalid`)는 저장값이
-아니라 **조건 평가와 증거 기록 규칙의 결과**다. **수치 신뢰도는 없다** — 선호는 지지 증거의 종류 서열
-(구축 > 실행 > 동시 편집 > 공동 커버 > 임베딩 > 세션 > 제안)에서 파생된다. `assumes`와 스코프
-conditional은 `when`의 특수형이다. 증거 기록 규칙 둘은 verify 질의다 — 구축(+)·실행(+) 없는 확정,
-(−)가 있는 확정 (`tools/verify-queries/`). (노트 9.11절, 2026-09-10)
+`allocates`는 요구→구성요소 할당이고 `generates`는 산출 의존이며, 둘은 v3 9장에서 추가됐다 (유저 결정
+C7). `serves ⊑ refines`는 결정 → 요구·관심사의 링크이며 v4 6.8·7.3의 기여 명시다. `supersedes`는
+시간축이라 세 족 밖이다. **링크는 개체다**(`agt:Link`). 링크는 양 끝·타입·**조건**·**증거 기록**을
+갖는다. 조건은 `when`이며 ODD 속성·가정 위의 CEL이다. 증거 기록은 `agt:Evidence`이며 종류·참조·극성
+±를 가진 항목 목록이다. 확정 전 후보는 `agt:CandidateLink`, 판정된 것은 `agt:ConfirmedLink`다.
+상태(`candidate`/`confirmed`/`suspect`/`invalid`)는 저장값이 아니라 **조건 평가와 증거 기록 규칙의
+결과**다. **수치 신뢰도는 없다.** 선호는 지지 증거의 종류 서열에서 파생된다. 서열은
+구축 > 실행 > 동시 편집 > 공동 커버 > 임베딩 > 세션 > 제안이다. `assumes`와 스코프 conditional은
+`when`의 특수형이다. 증거 기록 규칙 둘은 verify 질의다. 하나는 구축(+)·실행(+) 없는 확정이고, 다른
+하나는 (−)가 있는 확정이다 (`tools/verify-queries/`). (노트 9.11절, 2026-09-10)
 
-조회 알고리즘(앵커 → 이웃 확장 → 우선순위 → 예산 패킹)은 [`p0-workset-anchor-neighbourhood`](../kb/dev/decision/p0-workset-anchor-neighbourhood/conclusion.md),
-복원 경로는 [`p10-link-by-construction`](../kb/dev/decision/p10-link-by-construction/conclusion.md)·[`p9-candidate-generation-limits`](../kb/dev/decision/p9-candidate-generation-limits/conclusion.md).
+조회 알고리즘은 앵커 → 이웃 확장 → 우선순위 → 예산 패킹이며 [`p0-workset-anchor-neighbourhood`](../kb/dev/decision/p0-workset-anchor-neighbourhood/conclusion.md)에 있다.
+복원 경로는 [`p10-link-by-construction`](../kb/dev/decision/p10-link-by-construction/conclusion.md)·[`p9-candidate-generation-limits`](../kb/dev/decision/p9-candidate-generation-limits/conclusion.md)에 있다.
 LEDGER·LARGER 대응표 원안은 채널 항목 `dependency-graph-design`(2026-09-04, 반영 완료 2026-09-12 — git 이력)에 있다.
 **어휘는 갖춰졌고 링크 개체는 472(전부 구축 기록 증거, `metrics` 3단계 절)이며 후보 링크는 아직 0이다.**
 
@@ -205,22 +207,23 @@ LEDGER·LARGER 대응표 원안은 채널 항목 `dependency-graph-design`(2026-
 ### 가정
 
 모든 chunk는 ODD 조건 위의 가정 위에 선다. **ODD에 없는 조건을 참조하는 파생물은 게이트가
-거부한다** — 대응은 ODD 확장 또는 파생물 기각뿐이다. 가정이 깨지면 그 가정에 의존하는
+거부한다.** 대응은 ODD 확장 또는 파생물 기각뿐이다. 가정이 깨지면 그 가정에 의존하는
 항목이 자동으로 무효화 표시되므로 전수조사가 필요 없다 (d-0007 · d-0008 · d-0087).
 
-**기본 가정 후 좁힘** (2026-09-12) — 항목 고유의 전제를 아직 적지 않은 청크는 기본 가정
-`id:asm-chunk-conventions`(저장소 구조 + 언어 정책 조건)를 `assumes`한다. 이것은 자리표시이며, 항목의
-실제 전제(예: Bazel 하네스 결정 → `asm-bazel-toolchain`)가 드러나면 그것으로 **대체**한다 — 기본 가정 위에
-덧붙이지 않는다. 기본 가정만 가진 청크 수는 `metrics`의 가정 절에서 본다.
+**기본 가정 후 좁힘**(2026-09-12)이 규칙이다. 항목 고유의 전제를 아직 적지 않은 청크는 기본 가정
+`id:asm-chunk-conventions`를 `assumes`한다. 이 기본 가정은 저장소 구조 + 언어 정책 조건이다. 이것은
+자리표시이며, 항목의 실제 전제가 드러나면 그것으로 **대체**한다. 예를 들어 Bazel 하네스 결정의 실제
+전제는 `asm-bazel-toolchain`이다. 기본 가정 위에 덧붙이지 않는다. 기본 가정만 가진 청크 수는
+`metrics`의 가정 절에서 본다.
 
 ### level — 정제 수준과 수준 허용표
 
-v3가 level을 **정제 수준**로 재정의했다 (노트 6.4절): `functional`(요구만 있는 높이) ·
+v3가 level을 **정제 수준**으로 재정의했다 (노트 6.4절). 다섯 수준은 `functional`(요구만 있는 높이) ·
 `abstract`(형식 문장, 도메인 없음) · `logical`(후보와 제약) · `concrete`(확정된 개체) ·
-`executable`(동작만 남은 높이). 다섯 단계를 유지하며 건너뛰지 않는다.
+`executable`(동작만 남은 높이)이다. 다섯 단계를 유지하며 건너뛰지 않는다.
 
-**모든 plane이 모든 level에 살지 않는다** — plane×level 수준 허용표가 SHACL로 강제된다
-(`kb/ontology/shapes/residency-shapes.ttl`):
+**모든 plane이 모든 level에 살지 않는다.** plane×level 수준 허용표가 SHACL로 강제된다
+(`kb/ontology/shapes/residency-shapes.ttl`).
 
 | plane | 허용 level |
 |---|---|
@@ -235,10 +238,10 @@ v3가 level을 **정제 수준**로 재정의했다 (노트 6.4절): `functional
 ### 통제 어휘
 
 데이터의 술어는 `agt:` 온톨로지 또는 등록된 표준 어휘(rdf·rdfs·owl·xsd·skos·sh·prov·
-dcterms·co·obo) 안이어야 한다. prov·skos 용어는 W3C 원문(`MODULE.bazel`의 `http_file` 해시 고정,
-`@prov_o`·`@skos`)에 실재해야 한다 — 게이트가 원문과 대조한다 (2026-09-12). `agt:` 접두어인데 온톨로지에 없으면 오타 또는 무단 어휘
-생성이고, 등록되지 않은 네임스페이스면 어휘 우회다 — 둘을 다른 메시지로 구분해 보고한다
-(d-0028, `tools/kb_lib.py`가 목록의 단일 정의처).
+dcterms·co·obo) 안이어야 한다. prov·skos 용어는 W3C 원문에 실재해야 한다. 원문은 `MODULE.bazel`의
+`http_file`로 해시 고정한 `@prov_o`·`@skos`다. 게이트가 원문과 대조한다 (2026-09-12). `agt:` 접두어인데
+온톨로지에 없으면 오타 또는 무단 어휘 생성이고, 등록되지 않은 네임스페이스면 어휘 우회다. 둘을 다른
+메시지로 구분해 보고한다 (d-0028). 목록의 단일 정의처는 `tools/kb_lib.py`다.
 
 ### 개체 IRI 접두사
 
@@ -253,13 +256,13 @@ dcterms·co·obo) 안이어야 한다. prov·skos 용어는 W3C 원문(`MODULE.b
 | 하네스 · 역할 · 스코프 · 채널 | `h-` · `role-` · `scope-` · `chan-` | `catalog-kg.ttl` |
 | 시나리오 · 실행 기록 | `scn-` · `run-` | (아직 없음) |
 
-IRI는 불투명하게 유지한다 — 라벨이나 경로가 바뀌어도 IRI가 유지되어야 시간 정체성이
-성립한다 (그래서 v3부터 uuid다, 유저 결정 Q1). 사람이 읽는 이름은 IRI가 아니라
+IRI는 불투명하게 유지한다. 라벨이나 경로가 바뀌어도 IRI가 유지되어야 시간 정체성이
+성립한다. 그래서 v3부터 uuid다 (유저 결정 Q1). 사람이 읽는 이름은 IRI가 아니라
 `rdfs:label`이고, 내용 버전은 `agt:contentHash`다.
 
 ### 정규화 직렬화
 
-기계가 만든 TTL은 커밋 전 정규형으로 바꾼다 — 정렬된 `@prefix` + 주어·술어·목적어 정렬.
+기계가 만든 TTL은 커밋 전 정규형으로 바꾼다. 정규형은 정렬된 `@prefix` + 주어·술어·목적어 정렬이다.
 직렬화 순서가 불안정하면 git diff가 의미 없는 변경으로 오염되고, 그것이 무효화 판정의
 입력을 더럽힌다 (d-0050).
 
@@ -271,7 +274,7 @@ bazel run //tools:canonicalize -- --write <files>
 
 검사 대상인 지식(`kb/{ontology,odd,dev,vv}/`·`kg/`·`chunks/`)과, 대상이 아닌 문서
 (`docs/`·`.claude/`)를 가른다. 소통 기록과 지식을 섞으면 통제 어휘 검사가 무의미해진다.
-문서는 결정을 복사하지 않고 **IRI로 인용**한다 — 복사하면 이중 관리가 되고 둘이 어긋나는
+문서는 결정을 복사하지 않고 **IRI로 인용**한다. 복사하면 이중 관리가 되고 둘이 어긋나는
 순간 어느 쪽이 원본인지 알 수 없어진다 (d-0075).
 
 # development 규칙 — 개발 KB (노트 7.2~7.7)
@@ -293,11 +296,11 @@ bazel run //tools:canonicalize -- --write <files>
 | 완료 | 연쇄 완주 · 계약 선행 · 대안 존재 · 가정 `stable` · **V&V `verifies` 유효** — 개발 KB만으로 완료 선언 불가 | [p7-dev-kb-completion](../kb/dev/decision/p7-dev-kb-completion/conclusion.md) |
 | 역할 | design(요구·결정·계약·스키마·ODD) / developer(`artifact`) / orchestrator(dispatch 결정) / V&V(`annotation`만) | [p7-dev-roles-and-scopes](../kb/dev/decision/p7-dev-roles-and-scopes/conclusion.md) |
 
-이 저장소의 실측(2026-09-10): `requirement` 33 · `decision` 182(대안 182/182) · `contract`·`schema`·`artifact` 0.
+이 저장소의 실측(2026-09-10)은 `requirement` 33 · `decision` 182(대안 182/182) · `contract`·`schema`·`artifact` 0이다.
 
 # V&V 규칙 — V&V KB (노트 8.2~8.5, 8.11~8.15, 8.4, 9.11)
 
-V&V KB는 코어의 두 번째 인스턴스다 — 새 plane을 만들지 않고 실체만 다르다
+V&V KB는 코어의 두 번째 인스턴스다. 새 plane을 만들지 않고 실체만 다르다
 ([`p8-vv-plane-instances`](../kb/dev/decision/p8-vv-plane-instances/conclusion.md)).
 
 | 규칙 | 내용 | 결정 |
@@ -315,4 +318,4 @@ V&V KB는 코어의 두 번째 인스턴스다 — 새 plane을 만들지 않고
 | 불일치의 귀속 | 산출물 / 지식(요구 과도·제약 부족·가정 누락) / 둘 다는 **결정**이며 V&V `decision`의 지침. 진단은 기호 도구 먼저 | [p8-mismatch-attribution](../kb/dev/decision/p8-mismatch-attribution/conclusion.md) |
 | 실행 증거 | 검증기 결과는 개발 KB `satisfies` 후보의 증거 기록에 (+)(−)로 — 링크가 아니라 증거 기록 항목이라 방향 규칙 유지 | [p9-evidence-ledger](../kb/dev/decision/p9-evidence-ledger/conclusion.md) |
 
-이 저장소의 실측(2026-09-10): `kb/vv/`는 비어 있다 — 이 저장소 자신의 검증 목표·시나리오·기준이 없다 (도입 7단계).
+이 저장소의 실측(2026-09-10)에서 `kb/vv/`는 비어 있다. 이 저장소 자신의 검증 목표·시나리오·기준이 없다 (도입 7단계).

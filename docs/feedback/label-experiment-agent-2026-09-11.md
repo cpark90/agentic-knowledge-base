@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [docs/feedback/label-representativeness-protocol.md, docs/roadmap.md]
 ---
 
@@ -45,4 +45,7 @@ targets: [docs/feedback/label-representativeness-protocol.md, docs/roadmap.md]
 - 부분 2건은 라벨이 본문의 **대상**(어휘 폐기 vs 결정 폐기)이나 **범위**(이득 하나 vs 다섯)를 말하지 않는 경우다 — 재저작 후보.
 
 ## 답
-(유저가 채움 — 사람 판정 결과와 함께 1단계 통과 여부)
+**유저(2026-09-13, orchestrator 세션에 구두 — orchestrator 대필): 1단계 통과 확인.** 에이전트 판정(적합 58/60 = 96.7%, 미끼 10/10)과
+판정자 2 재실행(적합 59/60, 판정자 간 일치 69/70), 유저 재판정 10건 개별 이의 없음 — 의미 보존 축은 실험으로 닫혔다
+(`label-representativeness-protocol.md` "결과 확정" 절, roadmap 1단계 행). 사람 판정 기록지 30건은 집계하지 않고 재판정 10건으로 대체한다
+(`label-representativeness-sheet.md` 답). 이 항목에 남는 수행은 없다 — 유저 태깅 뒤 refresh.

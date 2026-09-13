@@ -59,7 +59,7 @@ CHECKS:                              # 판정 방법·등급 (3.2절, 3.9절) + 
   language_policy:      {grade: B, method: "bazel test //kb/ontology:gate_test 의 labels 검사 (한/영 라벨 강제)", cmd: 'bazel test //kb/ontology:gate_test --noshow_progress >/dev/null 2>&1'}
   dependency_lock:      {grade: A, method: "tools/requirements_lock.txt 존재 + bazel fetch 성공", cmd: 'test -f tools/requirements_lock.txt && grep -q ''^rdflib==7.6.0'' tools/requirements_lock.txt && grep -q ''^pyshacl==0.40.0'' tools/requirements_lock.txt'}
   network_connectivity: {grade: A, method: "curl -sI https://bcr.bazel.build → 200 (최초 1회)", cmd: 'curl -sI --max-time 5 https://bcr.bazel.build | head -1 | grep -q '' 200'''}
-  concurrent_agents:    {grade: B, method: "kg/catalog-kg.ttl 의 agt:maxConcurrent 합 ≤ 5 (orchestrator·developer·vnv·inspection·hci 각 1), 그리고 실행 중 활성 세션·dispatch 수 확인", cmd: 'test "$(grep -o ''agt:maxConcurrent [0-9]*'' kg/catalog-kg.ttl | awk ''{s+=$2} END{print s+0}'')" -le 5'}
+  concurrent_agents:    {grade: B, method: "kg/catalog-kg.ttl 의 agt:maxConcurrent 합 ≤ 5 (orchestrator·developer·vnv·hci 각 1), 그리고 실행 중 활성 세션·dispatch 수 확인", cmd: 'test "$(grep -o ''agt:maxConcurrent [0-9]*'' kg/catalog-kg.ttl | awk ''{s+=$2} END{print s+0}'')" -le 5'}
 
 EXCLUSIONS_REVIEWED:                 # 검토 뒤 명시 제외 (3.2절)
   - {concept: "원격 실행·원격 캐시(RBE)", reviewed: 2026-09, reason: "로컬 개발 전용 단계"}

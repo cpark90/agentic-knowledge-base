@@ -16,6 +16,12 @@
   ⑥ 용어 — docs/glossary.md 의 "옛 표기"가 살아 있는 청크 본문에 남아 있는가. **tier 1 (기계 치환)만** 위반이다 —
      tier 2 는 유저 결정, tier 3 은 문맥 공존(바꾸지 않음), — 는 옛 표기 없음. tier 열이 없으면 전부 1 로 보고 info 를 남긴다.
      docs/waivers.md 의 게이트 id `term-drift`(축 파일)에 면제된 파일의 히트는 집계에서 빼되 목록에 남긴다 (C)
+  ⑦ 단정성 — STYLEGUIDE §0 "산문은 단정 서술형"(유저 결정 2026-09-13) 가운데 게이트 `prose`(chunk_lint·doccheck: 경어·감탄)가
+     거부하지 않는, 판단이 필요한 나머지: 추측 표현(것 같·듯하·수도 있·아마 …)·구어 후보(근데·그냥·좀·엄청·뭔가·약간)의
+     파일·줄·표현 목록과, 대시 밀도(문장당 " — " 수; 문장 = 마침표 종결 또는 마침표 없는 종결 "다" 뒤에 `|`·`)`·닫는 따옴표·
+     줄끝이 오는 곳 — 명사형 종결 "기각." 과 표 셀 "…다 |" 를 다 센다; 줄·불릿·셀 첫머리의 종결 없는 짧은 라벨 뒤의
+     라벨 대시 "**결론** — "·"- 라벨 — " 는 구조적 구분자라 세지 않는다)가 1.0 을 넘는 청크(상위 20). 목록·정규식의 단일 정의처는 kb_lib(PROSE_HEDGES·PROSE_COLLOQUIAL·PROSE_SENTENCE_END·prose_segments).
+     대시·문장 모두 산문 조각(prose_segments) 안에서만 센다 — 코드·따옴표 안은 산문이 아니다
 
 종료 코드(kb_lib): 0 생성됨 · 2 설정·입력 문제(용어집·waiver 표·청크 파싱 불가). 보고 뷰라 판정 실패(1)는 없다
 사용: consistency.py --out consistency.md [--theta 0.5] [--theta-cohesion θ/2] [--glossary docs/glossary.md] [--waivers docs/waivers.md] <청크 .md …>
@@ -29,7 +35,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from chunk2kg import parse_chunk  # noqa: E402
-from kb_lib import EXIT_CONFIG, EXIT_OK, load_waivers, waived  # noqa: E402
+from kb_lib import EXIT_CONFIG, EXIT_OK, PROSE_LABEL_DASH, PROSE_SENTENCE_END, check_prose, load_waivers, prose_segments, waived  # noqa: E402
 
 GATE_TERM = "term-drift"  # ⑥ 의 게이트 id — waivers.md 가 이 이름으로 면제를 선언한다
 LIVE = {"draft", "stable", "suspect"}
@@ -171,6 +177,25 @@ def main() -> int:
             if old in it["body"] or old in it["title_ko"]:
                 (term_waived if waived(waivers, GATE_TERM, it["path"], "파일") else term_hits).append((old, std, it))
 
+    # ⑦ 단정성 — 게이트 prose 가 거부하지 않는 나머지(추측·구어·대시 밀도)를 보고한다. 판정은 사람 몫이다.
+    #    대시 밀도 = 산문 조각 안의 " — " 수 / max(1, 문장 수). 문장 = PROSE_SENTENCE_END(마침표 종결, 또는 마침표 없는 종결 "다" +
+    #    | ) 닫는 따옴표 줄끝). "다." 만 세면 209/621, 종결 "다" 기반은 130 — 명사형 종결·인용 괄호를 놓쳐 대안 양식이 전부
+    #    걸렸다(대리의 결함). 마침표 종결까지 세면 28 — 그 상위는 라벨 대시("- 라벨 — 설명", "| 셀 | `id` — 설명")의 불릿·표
+    #    청크라 라벨 대시를 뺀다(PROSE_LABEL_DASH) → 1. 문장 없이 절 대시만 있는 청크는 여전히 잡힌다
+    hedge_hits, colloq_hits, dash_dense = [], [], []
+    for it in items:
+        text = Path(it["path"]).read_text(encoding="utf-8")
+        _, hedges, colloquial = check_prose(it["path"], text)
+        hedge_hits += [(it, ln, expr) for ln, expr in hedges]
+        colloq_hits += [(it, ln, expr) for ln, expr in colloquial]
+        segs = [seg for _, seg in prose_segments(text)]
+        dashes = sum(seg.count(" — ") - len(PROSE_LABEL_DASH.findall(seg)) for seg in segs)  # 라벨 대시는 절 연결이 아니다
+        sentences = sum(len(PROSE_SENTENCE_END.findall(seg)) for seg in segs)
+        density = dashes / max(sentences, 1)
+        if density > 1.0:
+            dash_dense.append((density, dashes, sentences, it))
+    dash_dense.sort(key=lambda t: (-t[0], t[3]["path"]))
+
     def ref(it):
         return f"`{it['path']}` — {it['title_ko']}"
 
@@ -188,6 +213,9 @@ def main() -> int:
              f"| 묶인 쌍 중 응집 저하 (coUpdatesWith, Jaccard < θ_cohesion) | {len(cohesion_low)} / 묶인 쌍 {len(bound)} |",
              f"| 결론 라벨 형식 위반 | {len(bad_form)} |",
              f"| 용어집 옛 표기 잔존 (tier 1) | {len(term_hits)} — 면제 {len(term_waived)}건(waivers.md) |",
+             f"| 추측 표현 (⑦, 보고) | {len(hedge_hits)}건 / 청크 {len({h[0]['id'] for h in hedge_hits})} |",
+             f"| 구어 후보 (⑦, 보고) | {len(colloq_hits)}건 / 청크 {len({h[0]['id'] for h in colloq_hits})} |",
+             f"| 대시 밀도 > 1.0 (⑦, 문장당 \" — \") | {len(dash_dense)} / {len(items)} |",
              f"| **중복률** (정확·근사 관련 청크 / 전체) | {len({i['id'] for g in exact for i in g} | {i['id'] for _, x, y in near for i in (x, y)})}/{len(items)} |",
              ""]
     lines += ["## ① 정확 중복 (contentHash 동일)", ""]
@@ -233,6 +261,28 @@ def main() -> int:
     if term_waived:
         lines.append(f"- 면제 {len(term_waived)}건(waivers.md, `{GATE_TERM}`) — 집계에서 뺐다:")
         lines += [f"  - `{old}` → `{std}`: `{it['path']}`" for old, std, it in term_waived[:80]]
+    lines += ["", "## ⑦ 단정성 — 추측·구어·대시 밀도 (보고; 경어·감탄은 게이트 `prose` 가 거부한다)", "",
+              "### 추측 표현 (것 같·듯하·듯싶·아닐까·않을까·수도 있·아마도·아마) — 판정: 단정으로 고침 / 삭제 / 유지", ""]
+    for it, ln, expr in hedge_hits[:50]:
+        lines.append(f"- `{expr}`: `{it['path']}:{ln}` — {it['title_ko']}")
+    if not hedge_hits:
+        lines.append("- 없음")
+    if len(hedge_hits) > 50:
+        lines.append(f"- … {len(hedge_hits) - 50}건 더")
+    lines += ["", "### 구어 후보 (근데·그냥·좀·엄청·뭔가·약간) — `되게`·`진짜`는 정상 용법이 많아 후보에 넣지 않는다", ""]
+    for it, ln, expr in colloq_hits[:50]:
+        lines.append(f"- `{expr}`: `{it['path']}:{ln}` — {it['title_ko']}")
+    if not colloq_hits:
+        lines.append("- 없음")
+    if len(colloq_hits) > 50:
+        lines.append(f"- … {len(colloq_hits) - 50}건 더")
+    lines += ["", "### 대시 밀도 > 1.0 (문장당 \" — \" 수, 줄·불릿·셀 첫머리의 라벨 대시 제외; 문장 = 마침표 종결 또는 종결 \"다\" + `|`·`)`·닫는 따옴표·줄끝; 상위 20)", ""]
+    for density, dashes, sentences, it in dash_dense[:20]:
+        lines.append(f"- {density:.2f} (대시 {dashes} / 문장 {sentences}): {ref(it)}")
+    if not dash_dense:
+        lines.append("- 없음")
+    if len(dash_dense) > 20:
+        lines.append(f"- … {len(dash_dense) - 20}건 더")
     Path(a.out).write_text("\n".join(lines) + "\n", encoding="utf-8")
     return EXIT_OK
 

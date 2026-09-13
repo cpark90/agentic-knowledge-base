@@ -56,7 +56,7 @@ def neighbours(g: Graph, x):
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--role", required=True, help="카탈로그 역할 id 접미 (developer, orchestrator, vnv, inspection, hci)")
+    ap.add_argument("--role", required=True, help="카탈로그 역할 id 접미 (developer, orchestrator, vnv, hci)")
     ap.add_argument("--levels", default="", help="수준 창, 쉼표 구분. 비면 전부")
     ap.add_argument("--anchor", default="", help="펼칠 앵커 — 청크 IRI 또는 한글 라벨 부분 문자열")
     ap.add_argument("--hops", type=int, default=1)

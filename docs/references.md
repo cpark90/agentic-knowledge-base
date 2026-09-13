@@ -1,7 +1,7 @@
 # 참조 표준과 프로파일
 
 체계의 본문은 프로젝트 어휘로만 쓰되, **구조를 어디서 가져왔는지** 기록한다.
-지어낸 용어를 쓰지 않는다는 원칙의 뒷면이다 — 표준에서 가져왔으면
+지어낸 용어를 쓰지 않는다는 원칙의 뒷면이다. 표준에서 가져왔으면
 그 사실이 남아야 검증도 되고, 표준이 개정될 때 무엇을 다시 볼지도 알 수 있다.
 원래 설계 노트의 부록이었다.
 
@@ -102,19 +102,21 @@
 | **LEDGER** ([2606.28379](https://arxiv.org/abs/2606.28379), ACL 2026 Findings) | 노드 (id, 요약, 임베딩, 타입 section/paragraph/figure/table/equation, 위치, 시각). 엣지 CONTAINS(DOM) · REFERENCES(최소 명시 참조) · DEPENDS(반사실 검사 — 빼면 의미상 불완전) · RELATED(코사인 ≥ 0.7, REFERENCES·DEPENDS 없을 때만, 양방향). 검색: 대상 식별 → 상·하류 확장 → 우선순위(대상 > REFERENCES > DEPENDS > CONTAINS > RELATED) → 예산 패킹. 편집 후 검사 3: 참조 무결성·용어 일관성·의미 응집. 76% vs 56% 일관성, 편집당 ~1,535 토큰, 85~92% 토큰 절감 | `dependency-graph-design.md` 대응표. DEPENDS의 반사실 검사는 이 체계에서 `proposal` 종류 |
 | **LARGER** ([2605.16352](https://arxiv.org/abs/2605.16352)) | 정식 제목 *Lexically Anchored Repository Graph Exploration and Retrieval*. 노드 4종 directory·file·class·function, 엣지 contains·imports·invokes·코드–테스트/문서 교차 링크. 에이전트의 어휘 검색 결과가 그래프 진입점(active set), 앵커마다 K-hop·신뢰 임계 θ·상위 k 확장, 컨텍스트 사영 Π. LocBench Acc@5 +11.8 | 앵커 = 청크 IRI, K-hop 확장 = 작업 집합 조립(§4) |
 
-**미확인으로 남긴 것**: 역량 질문의 국문 정역, ISTQB 국문 용어집의 "합격 판정 기준" 표기, ISO 34503 국문 명칭. (OpenODD 모듈 YAML 키는 ASAM 릴리스 발표 slide 8에서 확인 — 명세 10.3 페이지 자체는 404.)
+**미확인으로 남긴 것**은 역량 질문의 국문 정역, ISTQB 국문 용어집의 "합격 판정 기준" 표기, ISO 34503
+국문 명칭이다. OpenODD 모듈 YAML 키는 ASAM 릴리스 발표 slide 8에서 확인했다. 명세 10.3 페이지 자체는
+404다.
 
 ## 2. 참조 프로파일
 
 코어를 소프트웨어 개발 작업에 특수화한 결정들은 [`ontology.md`](ontology.md)의 "참조
-프로파일" 표로 옮겼다 — 그것은 출처 기록이 아니라 어휘의 일부이기 때문이다.
+프로파일" 표로 옮겼다. 그것은 출처 기록이 아니라 어휘의 일부이기 때문이다.
 
 ## 3. 관련 산출물과 사례
 
-- **하네스 지식** — 두 참조 저장소:
-  `../harness-functional`(ODD + functional: 어휘 TBox·shapes·도구),
-  `../harness-concrete`(logical + concrete: union root·부품 라이브러리·조립 명세).
-  내용의 원천일 뿐 빌드 의존이 아니다. 두 저장소의 일반 방법론은 결정 d-0013~d-0020과
+- **하네스 지식**의 원천은 두 참조 저장소다.
+  `../harness-functional`은 ODD + functional에 해당하며 어휘 TBox·shapes·도구를 담는다.
+  `../harness-concrete`는 logical + concrete에 해당하며 union root·부품 라이브러리·조립 명세를 담는다.
+  두 저장소는 내용의 원천일 뿐 빌드 의존이 아니다. 두 저장소의 일반 방법론은 결정 d-0013~d-0020과
   d-0156~d-0185로 승격되어 있고 출처는 `derived_from`으로 남아 있다.
-- **사례 프로젝트** — device harvest 웹서비스(`~/git/agrtls/webservice`). 이 체계의
+- **사례 프로젝트**는 device harvest 웹서비스(`~/git/agrtls/webservice`)다. 이 체계의
   검증 케이스로 쓰기로 한 대상이며, 아직 적용되지 않았다.

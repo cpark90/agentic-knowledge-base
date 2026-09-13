@@ -1,8 +1,8 @@
 # docs/ — 이 체계의 문서
 
-**그래프 밖**이다. 검사 게이트의 통제 어휘·shape 검사 대상이 아니며, 여기 있는 것은 지식이
-아니라 지식을 만드는 체계의 서술이다. 문서는 결정을 **복사하지 않고 인용한다** —
-복사하면 이중 관리가 되고 둘이 어긋나는 순간 어느 쪽이 원본인지 알 수 없어진다.
+**그래프 밖**이다. 검사 게이트의 통제 어휘·shape 검사 대상이 아니다. 여기 있는 것은 지식이
+아니라 지식을 만드는 체계의 서술이다. 문서는 결정을 **복사하지 않고 인용한다**. 복사하면
+이중 관리가 되고, 둘이 어긋나는 순간 어느 쪽이 원본인지 알 수 없어진다.
 
 ## 설계 원본
 
@@ -11,7 +11,8 @@
 | [`agent-knowledge-system-notes.md`](agent-knowledge-system-notes.md) | **노트 v5** — 이 체계의 설계 원본 (3,470줄, Part 0~XVII + 부록 A~E). `[확정]`은 결정으로 재도출되어 `kb/dev/decision/`에 있다 (v3 145건 + v4·v5 델타 37건 = 182건) |
 | [`agentic-knowledge-base-structure.md`](agentic-knowledge-base-structure.md) | **운용 지도** — 노트를 실제 운용 관점에서 재배열한 구조도 |
 
-본문의 `(노트 N.N절)` 인용은 전부 이 노트 **v5**의 절 번호다 (2026-09-10 v3→v5 동기화: Part VII 신설로 옛 VII 이후가 한 칸 밀림).
+본문의 `(노트 N.N절)` 인용은 전부 이 노트 **v5**의 절 번호다. 2026-09-10의 v3→v5 동기화에서
+Part VII이 신설되어 옛 VII 이후가 한 칸 밀렸다.
 
 ## 목적
 
@@ -45,10 +46,10 @@
 
 ## 소통 채널
 
-[`feedback/`](feedback/README.md) — 유저 피드백 채널. hci 에이전트가 담당하며 유저와 직접
-상세 소통하는 유일한 창구다. 3-lane 구조(유저↔hci / 타 에이전트→hci / hci→조사)와 승인
-게이트(`status: approved`는 유저만)는 그 안의 `README.md`가 원본이다. 유저 결정의 원문
-기록은 [`feedback/purpose-statement.md`](feedback/purpose-statement.md)와
+[`feedback/`](feedback/README.md)는 유저 피드백 채널이다. hci 에이전트가 담당하며, 유저와 직접
+상세 소통하는 유일한 창구다. 3-lane 구조와 승인 게이트는 그 안의 `README.md`가 원본이다.
+세 lane은 유저↔hci, 타 에이전트→hci, hci→조사이고, 승인 게이트의 `status: approved`는 유저만
+붙인다. 유저 결정의 원문 기록은 [`feedback/purpose-statement.md`](feedback/purpose-statement.md)와
 [`feedback/design-detail-review.md`](feedback/design-detail-review.md)에 있다.
 
 ## 다른 문서와의 관계

@@ -236,7 +236,7 @@ def check_deprecated_concepts(merged: Graph, ontology: Graph) -> list[str]:
 def check_writer(merged: Graph) -> list[str]:
     """생성자의 쓰기 권한 (AGENTS 표 · kg/catalog-kg.ttl agt:writes) — write plane 경계를 규약에서 기계 검사로.
 
-    generated.by 가 `<역할>/<모델>` 이면 그 역할이 청크의 plane 을 쓸 수 있어야 한다. 못 쓰는 역할(hci·inspection)이
+    generated.by 가 `<역할>/<모델>` 이면 그 역할이 청크의 plane 을 쓸 수 있어야 한다. 못 쓰는 역할(hci)이
     만든 청크는 쓰기 권한이 있는 역할의 verified(인수)가 있어야 통과한다. 역할이 아닌 생성자(`claude/…`)는 검사하지 않는다.
     """
     from rdflib import RDF, URIRef

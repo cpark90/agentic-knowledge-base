@@ -1,12 +1,12 @@
 # agentic-knowledge-base
 
 **에이전트가 활용할 수 있는 형태로 지식을 축적하기 위한 온톨로지와, 그것을 쓰는 방법론과
-도구를 설계·구현하는 저장소.**
+도구를 설계·구현하는 저장소다.**
 
-특정 분야에서 사업을 수행하는 업체가 그 분야의 지식을 축적하고, 프로젝트마다 ODD를 정하고,
-그 지식 위에서 시스템을 만들고 운용한다 — 이것이 궁극 목적이고, 여기서 만드는 것은 그
-목적을 위한 **코어**이다. 분야 온톨로지와 개별 프로젝트의 ODD·지식은 여기서 만들지 않는다.
-목적과 대상 지식의 전체 진술은 [`docs/purpose.md`](docs/purpose.md).
+궁극 목적은 특정 분야에서 사업을 수행하는 업체가 그 분야의 지식을 축적하고, 프로젝트마다
+ODD를 정하고, 그 지식 위에서 시스템을 만들고 운용하는 것이다. 여기서 만드는 것은 그 목적을
+위한 **코어**다. 분야 온톨로지와 개별 프로젝트의 ODD·지식은 여기서 만들지 않는다.
+목적과 대상 지식의 전체 진술은 [`docs/purpose.md`](docs/purpose.md)에 있다.
 
 ## 세 산출물
 
@@ -16,8 +16,8 @@
 | **methodology · method · rules** | 순서 · 방법 · 유효한 구조의 규칙 | [`docs/methodology.md`](docs/methodology.md) · [`docs/method.md`](docs/method.md) · [`docs/rules.md`](docs/rules.md) | 규칙은 있음 · 절차는 문서화 진행 중 |
 | **tools** | 규칙을 검사하고 방법을 수행하는 도구 | [`docs/tools.md`](docs/tools.md) | 검사·생성 도구 14(온톨로지 검사 3단계 포함) · 실험 1(`label_sample`) · **활용 첫 형태 5**(workset·metrics·impact·handoff·consistency) |
 
-현재 상태와 도입 순서는 [`docs/roadmap.md`](docs/roadmap.md), 문서 색인은
-[`docs/README.md`](docs/README.md).
+현재 상태와 도입 순서는 [`docs/roadmap.md`](docs/roadmap.md)에, 문서 색인은
+[`docs/README.md`](docs/README.md)에 있다.
 
 ## 저장소 구조
 
@@ -36,7 +36,7 @@ kg/chunks-kg.ttl           # (생성) head 그래프 — frontmatter에서 만�
 kg/references-kg.ttl       # (생성) 인용 링크 — 본문에서 뽑는다
 INTENT.md                  # 요구 층 진입 — 궁극 목적·이해관계자·요구 인덱스
 kb/dev/requirement/        # 개발 KB — 요구 33건 (EARS, functional)
-kb/dev/decision/           # 개발 KB — 결정 186건 (결론·근거·대안 세 청크 복합체; 1건은 deprecated)
+kb/dev/decision/           # 개발 KB — 결정 188건 (결론·근거·대안 세 청크 복합체; 1건은 deprecated)
 kb/vv/                     # V&V KB — vnv 역할만 편집 (아직 비어 있음)
 chunks/decision/           # v1 유래 옛 결정 (126 deprecated · 27 유효)
 space/                     # 설계 공간 (후보와 제약) — 아직 비어 있음
@@ -54,14 +54,15 @@ bazel test //...                 # 검사 게이트 전체 (커밋 전 필수)
 bazel run //tools:canonicalize -- --write <files>   # 기계 생성 TTL 정규화
 ```
 
-도구 목록과 각 검사가 무엇을 강제하는지는 [`docs/tools.md`](docs/tools.md).
+도구 목록과 각 검사가 무엇을 강제하는지는 [`docs/tools.md`](docs/tools.md)에 있다.
 
 ## 이 저장소 자신
 
 코어를 코어 자신에 적용한 **첫 인스턴스**다. 설계 원본은 노트 v3
-([`docs/agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md))이고, 그
-`[확정]`이 요구 33건과 결정 186건(`kb/dev/`)으로 재도출되어 있다 (v3 145 + v4·v5 델타 37 + 2026-09-11~12 추가 4). deprecated는
-청크 129 — `chunks/decision/`의 v1 유래 옛 결정 126건과 대체된 새 결정 1건(`p14-adoption-stages`). 출처와 처리 경위는
-[`docs/decomposition-audit.md`](docs/decomposition-audit.md).
+([`docs/agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md))다. 그
+`[확정]`이 요구 33건과 결정 188건(`kb/dev/`)으로 재도출되어 있다. 188건은 v3 145건, v4·v5
+델타 37건, 2026-09-11~13 추가 6건의 합이다. deprecated는 청크 129다. `chunks/decision/`의 v1
+유래 옛 결정 126건과 대체된 새 결정 1건(`p14-adoption-stages`, 청크 3)이 여기 든다. 출처와 처리
+경위는 [`docs/decomposition-audit.md`](docs/decomposition-audit.md)에 있다.
 
-작업 규칙은 [`AGENTS.md`](AGENTS.md), 저작 스타일은 [`STYLEGUIDE.md`](STYLEGUIDE.md).
+작업 규칙은 [`AGENTS.md`](AGENTS.md)에, 저작 스타일은 [`STYLEGUIDE.md`](STYLEGUIDE.md)에 있다.

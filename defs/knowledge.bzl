@@ -229,22 +229,28 @@ def kb_reference_kg(name, srcs, out = None, ontology = []):
         tools = [Label("//tools:extract_refs")],
     )
 
-def kb_chunk_lint_test(name, chunks = [], ttl = [], **kwargs):
-    """청크 42줄 제한(4.1절)과 TTL 접미사 규약(0.2절) 린트."""
+def kb_chunk_lint_test(name, chunks = [], ttl = [], waivers = None, **kwargs):
+    """청크 42줄 제한(4.1절)·TTL 접미사 규약(0.2절)·.md 청크의 산문 문체(STYLEGUIDE §0, 게이트 id `prose`) 린트.
+
+    waivers 를 주면(docs/waivers.md, agrtls-practices-review C) 게이트 id `prose`(축 파일)로 면제된 파일의 산문 위반은
+    세지 않는다. TTL 입력은 산문 검사 대상이 아니다 — chunk_lint 가 .md 에만 prose 를 돌린다.
+    """
     args = _flag_args("--chunks", chunks) + _flag_args("--ttl", ttl)
+    if waivers:
+        args += ["--waivers", "$(rootpath %s)" % waivers]
     py_test(
         name = name,
         srcs = _LINT_SRCS,
         main = Label("//tools:chunk_lint.py"),
         args = args,
-        data = chunks + ttl,
+        data = chunks + ttl + ([waivers] if waivers else []),
         deps = [requirement("rdflib")],  # kb_lib(접미사 규약의 단일 정의처)가 요구
         size = kwargs.pop("size", "small"),
         **kwargs
     )
 
-def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], **kwargs):
-    """문서 현행성 게이트 — 죽은 링크·앵커·백틱 경로 (tools/doccheck.py, agrtls-practices-review N).
+def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], waivers = None, **kwargs):
+    """문서 현행성 게이트 — 죽은 링크·앵커·백틱 경로 + 산문 문체 (tools/doccheck.py, agrtls-practices-review N; STYLEGUIDE §0).
 
     실재 판정은 runfiles 로 한다 — 문서가 가리키는 파일은 `data` 로 선언돼야 실재한다. 선언되지 않은
     파일을 가리키면 FAIL 이고, 그것이 곧 "문서가 가리키는 것은 하네스에 배선돼 있어야 한다"는 뜻이다.
@@ -258,6 +264,7 @@ def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], *
       data: 문서가 가리키는 파일들의 라벨 (filegroup 가능, 비어 있어도 된다) — 실재의 근거.
       empty_dirs: 파일이 없어 runfiles 에 나타나지 않는 디렉토리(빈 패키지 — kb/vv, space 처럼 자리만 있는 것).
         문서가 그 디렉토리를 가리키는 것은 옳으므로 여기서 실재를 선언한다.
+      waivers: docs/waivers.md 라벨. 주면 게이트 id `prose`(축 파일)로 면제된 문서의 산문 위반(경어·감탄)은 세지 않는다.
       **kwargs: py_test 로 전달.
     """
     args = ["$(rootpaths %s)" % s for s in srcs]
@@ -265,12 +272,14 @@ def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], *
         args += ["--target-only", "$(rootpaths %s)" % t]
     for d in empty_dirs:
         args += ["--empty-dir", d]
+    if waivers:
+        args += ["--waivers", "$(rootpath %s)" % waivers]
     py_test(
         name = name,
         srcs = _DOCCHECK_SRCS,
         main = Label("//tools:doccheck.py"),
         args = args,
-        data = srcs + target_only + data,
+        data = srcs + target_only + data + ([waivers] if waivers else []),
         deps = [requirement("rdflib")],  # kb_lib(종료 코드 규약의 단일 정의처)가 요구
         size = kwargs.pop("size", "small"),
         **kwargs

@@ -1,22 +1,22 @@
 # intent — 이 저장소의 요구 층 진입 문서
 
 이 저장소가 **왜 존재하고 무엇을 요구받는가**의 진입점이다. 요구 항목 자체는
-`kb/dev/requirement/`의 청크(`requirement` × functional, EARS)이고, 여기는 그
-색인이다 — 그래프 밖이며, 세션 시작 시 `README.md`·`AGENTS.md`와 함께 읽는다.
+`kb/dev/requirement/`의 청크(`requirement` × functional, EARS)다. 여기는 그
+색인이다. 이 문서는 그래프 밖이며, 세션 시작 시 `README.md`·`AGENTS.md`와 함께 읽는다.
 
 ## 궁극 목적
 
 특정 분야에서 사업을 수행하는 업체가, 그 분야의 지식을 에이전트가 활용할 수
 있는 형태로 축적하고, 프로젝트마다 그 지식 위에서 시스템을 만들고 운용한다.
 
-이 저장소는 그 체계 자신이다 — 체계를 정의하는 온톨로지·방법론·도구를 담고,
+이 저장소는 그 체계 자신이다. 체계를 정의하는 온톨로지·방법론·도구를 담고,
 자기 자신을 첫 사례로 그 체계로 관리한다.
 
 ## 두 핵심 문서
 
 | 문서 | 자리 |
 |---|---|
-| [`docs/agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md) (v5, 3,470줄) | 요구의 **근거와 결정의 원천**. Part I·산출물 정의가 요구를 낳고, Parts 0~XIII의 `[확정]`이 결정으로 재도출된다 (v3 기준 145건 + v4·v5 델타 37건 + 2026-09-11~12 추가 4건 = 186건) |
+| [`docs/agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md) (v5, 3,470줄) | 요구의 **근거와 결정의 원천**. Part I·산출물 정의가 요구를 낳고, Parts 0~XIII의 `[확정]`이 결정으로 재도출된다 (v3 기준 145건 + v4·v5 델타 37건 + 2026-09-11~13 추가 6건 = 188건) |
 | [`docs/agentic-knowledge-base-structure.md`](docs/agentic-knowledge-base-structure.md) (v5) | **운용 지도** — 두 KB·plane·수준·순환이 한눈에 |
 
 요구는 이 두 문서를 `derives_from`으로 가리키고, 재도출된 결정이 요구를
@@ -80,4 +80,4 @@
 
 요구의 판정은 **이해관계자 합의**다. 항목 수정·추가는 유저 승인 사항이며
 채널(`docs/feedback/`)을 경유한다. 요구가 바뀌면 그것을 `refines`하는 결정이
-전부 재판정 대상이 된다 — 그것이 이 층을 최상위에 두는 이유다.
+전부 재판정 대상이 된다. 그것이 이 층을 최상위에 두는 이유다.

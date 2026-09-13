@@ -10,12 +10,13 @@
 | 3 | `bazel test //docs/feedback:channel_lint_test --test_output=all` | `OK channel` · WAIT 는 담당 역할 대기 목록(정상) · FAIL 은 hci 규약 위반 |
 | 4 | `bazel build //kg:metrics && sed -n 3p bazel-bin/kg/metrics.md` | 청크 750(살아 있는 621 · deprecated 129) · 링크 개체 475, 증거 100% · 고아 0% · 연결 성분 **5 (목표 1 — 계약·스키마·구현 plane 이 0 이라 구조적)** |
 | 5 | `bazel build //kb:consistency` → ⑥ | tier 1 위반 **0** (잔존 2건은 tier 3/waiver 목록 — 보고에 보이는 것이 정상) |
-| 6 | 채널 스캔 — 유저 lane `open`/`approved`/`rejected` · `agents/` `open` · `inquiries/` `answered` · `handoff/` 짝 없는 것 | 기준선: 유저 11(실험 4 · 설계 자료 3 · 원장 · 태깅 대기 1 · 검토 2) · agents 1 · handoff 0~1 · inquiries 2 |
+| 6 | 조사 lane — `inquiries/` 의 열린 항목은 **hci 가 직접 조사**한다(2026-09-13 이관 전에는 inspection 몫이었다) |
+| 7 | 채널 스캔 — 유저 lane `open`/`approved`/`rejected` · `agents/` `open` · `inquiries/` `answered` · `handoff/` 짝 없는 것 | 기준선: 유저 11(실험 4 · 설계 자료 3 · 원장 · 태깅 대기 1 · 검토 2) · agents 1 · handoff 0~1 · inquiries 2 |
 
 ## 없는 것 — 없는 것이 정상이다 (다음 세션이 고치러 오지 않게)
 
 - `kb/vv/` 비어 있음, `kb/ontology/vv` 없음 — 도입 4단계 전. V&V 설계 입력은 `agrtls-practices-review-2026-09-12` V&V 절.
-- `.claude/agents/` 에 `hci.md` 뿐 — vnv·developer·inspection 정의 파일 없음(AGENTS 표가 원본). V&V 착수 시 신설.
+- `.claude/agents/` 에 `hci.md` 뿐 — vnv·developer 정의 파일 없음(AGENTS 표가 원본). V&V 착수 시 신설. 역할은 넷이다 — inspection 은 2026-09-13 hci 로 이관됐다(조사·git 이 hci 몫).
 - `contract`·`schema`·`artifact` plane 0 — plane×plane 매트릭스 8칸 중 2, `refines` 한 단계씩 건너뜀 339. 사례 프로젝트 관통 전까지 그대로.
 - `handoff/` 항목 0 = 인수 대기 없음. 짝 없는 handoff = 되돌아오지 않은 것.
 - 사람 검토(`human:`) 도장 10건 — 라벨 실험 표본. 기록지 30행 사람 판정은 아직 비어 있음(유저).

@@ -148,3 +148,105 @@ def waived(waivers: list[dict], gate_id: str, target: str, axis: str) -> bool:
     """게이트 `gate_id` 에서 `target` 이 `axis` 축으로 면제 선언됐는가."""
     return any(w["gate"] == gate_id and w["axis"] == axis and any(_target_matches(d, target, axis) for d in w["targets"])
                for w in waivers)
+
+
+# ── 산문 문체 (STYLEGUIDE §0 "산문은 단정 서술형", 유저 결정 2026-09-13) ──────────────────────────
+# 판정 가능한 것만 게이트 `prose`(chunk_lint·doccheck)다 — 경어·비격식 종결과 산문의 감탄. 판단이 필요한 것(추측·구어)은
+# consistency ⑦ 보고다 (p6-mass-fail-suspects-the-rule: 오탐 0 이 게이트의 조건). 코드·따옴표·주석 안은 산문이 아니므로
+# prose_segments 가 먼저 뺀다. 표 셀과 불릿은 산문이다 — 경어체는 어디서든 금지다.
+PROSE_GATE = "prose"  # 게이트 id — waivers.md 가 이 이름으로 면제를 선언한다 (축 파일)
+# 문장 끝의 경어·비격식 종결 — 뒤에 . ! ? ) " 공백 또는 줄끝. 합쇼체 "…ㅂ니다/습니다"(합니다·됩니다·입니다·있습니다)는
+# 받침 ㅂ 음절 + "니다" 로 잡는다 — "습" 도 받침 ㅂ 이다. 그냥 "니다" 로 넓히면 평서형 "아니다"(받침 없음)가 오탐이다 (첫 실행 70건 전부)
+_HANGUL_B_FINAL = "".join(chr(0xAC00 + i) for i in range(11172) if i % 28 == 17)  # 종성 ㅂ 인 음절 399자
+PROSE_FORBIDDEN_ENDINGS = re.compile(r"(?:[" + _HANGUL_B_FINAL + r"]니다|십시오|세요|해요|예요|이에요|죠|네요|군요|어요|아요)(?=[.!?)\"\s]|$)")
+# 산문의 느낌표 — `!=`(부등)·`![`(이미지)는 제외. 코드·따옴표·`<!--` 는 prose_segments 가 이미 뺐다
+PROSE_EXCLAMATION = re.compile(r"!(?![=\[])")
+# 보고용 — 추측 표현과 구어 후보. `되게`·`진짜`는 정상 용법("…되게 한다", "진짜 결함")이 많아 넣지 않는다
+PROSE_HEDGES = re.compile(r"것 같|듯하|듯싶|아닐까|않을까|수도 있|아마도|아마 ")
+PROSE_COLLOQUIAL = re.compile(r"근데|그냥|좀|엄청|뭔가|약간")
+# 문장 끝의 대리(consistency ⑦ 대시 밀도의 분모) — 둘 중 하나: 마침표 뒤에 공백·줄끝·`|`·`)`·닫는 따옴표(굵게 `**` 는 사이에
+# 와도 된다; "4.13절" 처럼 숫자·글자가 이어지면 마침표가 아니다), 또는 마침표 없는 종결 "다" 뒤에 `|`(표 셀)·`)`·닫는 따옴표·줄끝.
+# 실측(2026-09-13, 살아 있는 청크 621): "다." 만 세면 209건 > 1.0, 종결 "다" 기반으로 넓혀도 130건 — 명사형 종결("기각."·
+# "…시점.")과 "…다 (10.3절)." 의 인용 괄호를 놓쳐 대안 양식("**대안** — X 안. 기각 — Y다 (절).")이 전부 걸렸다(대리의
+# 결함, p6-mass-fail-suspects-the-rule). 마침표 종결을 세면 28건이고 대안 양식은 빠진다
+PROSE_SENTENCE_END = re.compile(r"(?:다(?=\**\s*(?:[|)\"”」'’]|$))|\.(?=\**(?:[|)\"”」'’\s]|$)))")
+# 라벨 대시 — 줄·불릿·번호·표 셀 첫머리에서 종결(`다`·`.`) 없는 짧은 라벨(≤40자; 코드 스팬이 지워져 비어 있어도 된다) 바로
+# 뒤의 첫 " — " ("**결론** — …", "- **케이스 저장소** — …", "| 결정 | `d-…` — 결론…", "- 답하는 질문 — …"). 절을 이어 붙인
+# 대시가 아니라 구조적 구분자라 대시 밀도의 분자에서 뺀다 — 라벨 대시를 세면 표·불릿 중심 청크가 상위를 차지했다(28건 중 상위
+# 전부). 절 끝 "…한다 — " 는 `다` 로 끝나므로 라벨이 아니다
+PROSE_LABEL_DASH = re.compile(r"(?:^|\|)[ \t]*(?:[-*+][ \t]+|\d+[.)][ \t]+)?(?:[^—|.\n]{0,40}?[^다\s—|.\n])?[ \t]*—[ \t]")
+
+_MD_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
+_MD_CODE_SPAN = re.compile(r"(`+)(.+?)\1")
+# 따옴표 안 — 같은 줄에서 짝이 맞는 것만 뺀다. 홑따옴표는 영문 소유격·축약(it's)을 피하려고 앞뒤가 영숫자가 아닌 것만 짝으로 본다
+_MD_QUOTED = re.compile(r"\"[^\"]*\"|“[^”]*”|「[^」]*」|(?<![A-Za-z0-9])'[^']*'(?![A-Za-z0-9])|(?<![A-Za-z0-9])‘[^’]*’(?![A-Za-z0-9])")
+
+
+def prose_segments(text: str) -> list[tuple[int, str]]:
+    """(줄 번호, 산문 조각) — frontmatter·코드 펜스·코드 스팬·HTML 주석·따옴표 안을 뺀 나머지.
+
+    표 셀·불릿·제목은 산문으로 남긴다. 뺀 자리는 공백 하나로 메워 앞뒤 낱말이 붙지 않게 한다. 빈 조각은 내지 않는다.
+    """
+    lines = text.splitlines()
+    start = 0
+    if lines and lines[0].strip() == "---":
+        try:
+            start = lines[1:].index("---") + 2
+        except ValueError:
+            start = 0
+    out: list[tuple[int, str]] = []
+    fence: str | None = None
+    in_comment = False
+    for i, line in enumerate(lines[start:], start=start + 1):
+        if in_comment:
+            if "-->" not in line:
+                continue
+            in_comment = False
+            line = line.split("-->", 1)[1]
+        m = _MD_FENCE.match(line)
+        if fence:
+            if m and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence):
+                fence = None
+            continue
+        if m:
+            fence = m.group(1)
+            continue
+        while "<!--" in line:
+            head, _, tail = line.partition("<!--")
+            if "-->" in tail:
+                line = head + " " + tail.split("-->", 1)[1]
+            else:
+                in_comment = True
+                line = head
+        line = _MD_CODE_SPAN.sub(" ", line)
+        line = _MD_QUOTED.sub(" ", line)
+        if line.strip():
+            out.append((i, line))
+    return out
+
+
+def _around(seg: str, start: int, end: int, width: int = 24) -> str:
+    return seg[max(0, start - width):end + width].strip()
+
+
+def check_prose(path: str | Path, text: str, waivers: list[dict] | None = None):
+    """산문 문체 검사 → (errors, hedges, colloquial). 각 원소는 (줄 번호, 내용).
+
+    errors 는 게이트(경어·비격식 종결, 산문의 느낌표) — waivers.md 에 게이트 id `prose`(축 파일)로 면제된 파일이면 비운다.
+    hedges(추측 표현)·colloquial(구어 후보)은 보고용이고 면제와 무관하다 — 판정은 사람 몫이다.
+    """
+    errors: list[tuple[int, str]] = []
+    hedges: list[tuple[int, str]] = []
+    colloquial: list[tuple[int, str]] = []
+    for ln, seg in prose_segments(text):
+        for m in PROSE_FORBIDDEN_ENDINGS.finditer(seg):
+            errors.append((ln, f'경어·비격식 종결 "…{m.group(0)}" — 평서형 "…다"로 쓴다 (STYLEGUIDE §0): {_around(seg, m.start(), m.end())}'))
+        for m in PROSE_EXCLAMATION.finditer(seg):
+            errors.append((ln, f"산문의 느낌표 — 감탄을 쓰지 않는다 (STYLEGUIDE §0): {_around(seg, m.start(), m.end())}"))
+        for m in PROSE_HEDGES.finditer(seg):
+            hedges.append((ln, m.group(0).strip()))
+        for m in PROSE_COLLOQUIAL.finditer(seg):
+            colloquial.append((ln, m.group(0)))
+    if errors and waivers and waived(waivers, PROSE_GATE, str(path), "파일"):
+        errors = []
+    return errors, hedges, colloquial

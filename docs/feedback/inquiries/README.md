@@ -1,7 +1,7 @@
 # 조사 lane — hci → 타 에이전트
 
 유저의 조사 요청("구현된 내용이 어떻게 되어 있는가")을 hci가 조사 질문으로 구체화해
-남기는 곳. 담당 에이전트(주로 inspection)가 사이클마다 `status: open`을 스캔해
+남기는 곳. hci가 사이클마다 `status: open`을 스캔해 직접 조사하고(옛 inspection 역할, 2026-09-13 이관)
 조사하고 같은 파일에 답을 채운다. 규약 원본: [`../README.md`](../README.md).
 
 - 파일명: `{주제-kebab}.md`
@@ -13,7 +13,7 @@
 ```markdown
 ---
 from: hci
-assignee: inspection   # 담당 역할
+assignee: hci          # 담당 역할 — 개발·검증 판단이 필요하면 developer·vnv
 status: open           # open → answered → closed
 ---
 

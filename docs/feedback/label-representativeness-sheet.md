@@ -88,4 +88,6 @@ targets: [docs/feedback/label-representativeness-protocol.md]
 - 메모(절차가 이상했던 점, 라벨을 고치고 싶은 것):
 
 ## 답
-(유저가 채움 — 위 집계를 채우면 그것이 답이다. 절차 자체에 이의가 있으면 여기에 적는다)
+**유저(2026-09-13, orchestrator 세션에 구두 — orchestrator 대필): 이 기록지는 닫는다.** 사람 판정 30건은 집계하지 않는다 — 프로토콜의
+사람 승인은 유저 재판정 10건(개별 이의 없음, 2026-09-11)으로 갈음했고 1단계 "의미 보존" 축은 그 결과로 닫혔다
+(`label-representativeness-protocol.md` "결과 확정", `label-experiment-agent-2026-09-11.md` 답). 절차 자체에 이의 없음. 남는 수행 없음 — refresh 대상.

@@ -10,10 +10,8 @@
 
 id:h-akb a agt:Harness ;
     rdfs:label "agentic-knowledge-base Bazel harness"@en , "agentic-knowledge-base Bazel 하네스"@ko ;
-    agt:hasRole id:role-orchestrator , id:role-developer , id:role-vnv ,
-        id:role-inspection , id:role-hci ;
-    agt:grants id:scope-orchestrator , id:scope-developer , id:scope-vnv ,
-        id:scope-inspection , id:scope-hci .
+    agt:hasRole id:role-orchestrator , id:role-developer , id:role-vnv , id:role-hci ;
+    agt:grants id:scope-orchestrator , id:scope-developer , id:scope-vnv , id:scope-hci .
 
 ### 채널 — 유저 소통은 hci가 전담한다 (docs/feedback/README.md가 규약 원본)
 
@@ -50,12 +48,7 @@ id:role-vnv a agt:Role ;
     agt:executionMode agt:dispatch ;
     agt:maxConcurrent 1 .
 
-id:role-inspection a agt:Role ;
-    rdfs:label "inspection"@en , "조사"@ko ;
-    agt:reads agt:RequirementChunk , agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
-    agt:executionMode agt:sessionPersistent ;
-    agt:maxConcurrent 1 .
-
+# hci 는 유저 소통에 더해 조사와 git 관리를 맡는다 — 옛 inspection 역할을 이관 (유저 결정 2026-09-13)
 id:role-hci a agt:Role ;
     rdfs:label "human-computer interaction"@en , "유저 소통"@ko ;
     agt:reads agt:RequirementChunk , agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
@@ -89,18 +82,10 @@ id:scope-vnv a agt:Scope ;
         id:cond-repo-layout ;
     agt:conditionalRule "판정만 한다 — 판정 대상(artifact·decision)은 수정하지 않는다 (저작·판정 분리). V&V KB(kb/vv/)의 유일한 편집 주체다 — verifies의 주어는 V&V KB 청크뿐이고, 개발 역할은 kb/vv/를 읽기만 한다 (노트 7.1·7.5절)" .
 
-id:scope-inspection a agt:Scope ;
-    rdfs:label "inspection scope"@en , "조사 스코프"@ko ;
-    agt:mode "restrictive" ;
-    agt:subsetOf id:odd-agentic-knowledge-base ;
-    agt:includesCondition id:cond-build-system , id:cond-repo-layout ,
-        id:cond-concurrent-agents ;
-    agt:conditionalRule "git 쓰기(add/commit/push)는 유저가 요청했고 bazel test //... 가 PASS일 때만" .
-
 id:scope-hci a agt:Scope ;
     rdfs:label "human-computer interaction scope"@en , "유저 소통 스코프"@ko ;
     agt:mode "restrictive" ;
     agt:subsetOf id:odd-agentic-knowledge-base ;
     agt:includesCondition id:cond-language-policy , id:cond-repo-layout ,
-        id:cond-concurrent-agents ;
-    agt:conditionalRule "쓰기는 채널(docs/feedback/**)로 한정, 읽기는 저장소 전체. 지식 산출물 반영은 유저의 status: approved 태깅 뒤 담당 역할이 수행한다" .
+        id:cond-build-system , id:cond-concurrent-agents ;
+    agt:conditionalRule "쓰기는 채널(docs/feedback/**)로 한정, 읽기는 저장소 전체. 지식 산출물 반영은 유저의 status: approved 태깅 뒤 담당 역할이 수행한다. 조사는 hci 가 직접 한다. git 쓰기(add/commit/push)는 유저가 요청했고 bazel test //... 가 PASS 일 때만 한다" .

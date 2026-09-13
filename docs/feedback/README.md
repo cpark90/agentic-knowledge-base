@@ -21,12 +21,9 @@
 - **유저 판정 대기**: [`label-representativeness-sheet.md`](label-representativeness-sheet.md) — 라벨 30개 예측 → 정답지 대조 → 판정.
   1단계 "의미 보존" 축의 마지막 조각이다. 프로토콜 [`label-representativeness-protocol.md`](label-representativeness-protocol.md) ·
   정답지 [`label-representativeness-key.md`](label-representativeness-key.md) · 에이전트 판정 대조군 [`label-experiment-agent-2026-09-11.md`](label-experiment-agent-2026-09-11.md)
-- **유저 태깅 대기**(`status: open`, 담당 역할 인수는 끝남): [`external-review-2026-09-11.md`](external-review-2026-09-11.md)
-- **지식이 참조하는 항목**(제거 금지): [`stage-pass-conditions.md`](stage-pass-conditions.md) — 결정 `p14-stage-pass-conditions` 가 채택 표를 원본으로 인용한다
+- **KG 가 인용하는 항목**(제거 보류): [`agrtls-practices-review-2026-09-12.md`](agrtls-practices-review-2026-09-12.md) · [`label-representativeness-protocol.md`](label-representativeness-protocol.md) — `kg/base-kg.ttl` 의 `id:doc-*` 가 `prov:atLocation` 으로 인용. 인용이 결정·노트로 옮겨지면 제거
 - **설계 자료**(반영 단위가 아니라 상시 참조): [`dependency-graph-design.md`](dependency-graph-design.md) ·
   [`bazel-dependency-review.md`](bazel-dependency-review.md) · [`design-detail-review.md`](design-detail-review.md)
-- refresh 2026-09-12: 6건 제거 — `agents/orchestrator-consistency-cleanup`(발신자 closed) · `terminology-profile-retention` ·
-  `label-rejudge` · `english-labels-korean-leak` · `notes-v5-review` · `stage1-pass-measurement`. 반영 흔적은 지식 산출물과 git 이력(`77e0870`·`737655b`)
 
 - hci는 지식 산출물(kb/ontology/·kb/odd/·kg/·chunks/·tools/ 등)을 편집하지 않는다.
 - 다른 에이전트는 이 채널에서 자기 항목 외 어떤 파일도 수정하지 않는다 — 유저 lane
@@ -82,20 +79,12 @@ hci를 제외한 에이전트는 **유저 피드백이 필요할 때, 문제가 
   `status: closed`로 바꾼다. hci는 `closed` 항목을 다음 사이클에 제거한다(refresh).
   **closed 전 제거 금지** (custody transfer — 시간으로 완료를 가정하지 않는다).
 
-### 조사 lane (`inquiries/`) — hci → 타 에이전트
+### 조사 lane (`inquiries/`) — 유저 요청 원문과 hci의 조사 답
 
-유저의 조사 요청을 hci가 조사 질문으로 구체화해 여기에 남긴다. 담당 에이전트
-(주로 inspection)가 사이클마다 `status: open`을 스캔해 조사하고, 같은 파일에
-`## 답`(결론 + 근거 `file:line` 또는 IRI)을 채운 뒤 `status: answered`로 바꾼다.
-hci가 답을 유저 lane으로 중계·소비하면 `status: closed`로 태깅하고, 담당 에이전트가
-다음 사이클에 제거한다.
-
-### 인수인계 lane (`handoff/`) — hci → 담당 역할 (2026-09-12)
-
-승인된 유저 lane 항목마다 hci가 `handoff/{같은 파일명}`을 쓴다 — `source`·`verdict`(apply / apply-with-changes /
-needs-decision)·파급효과(`impact` 출력)·반영 계획(편집 + 검색 키워드)·확인 못 한 것·판정. 담당 역할은 수행 뒤 `agents/`
-항목에 `ref: handoff/…`로 기록하고, hci는 쌍이 닫힌 것만 refresh한다. 유저 lane 항목은 hci 외 읽기 전용으로 돌아간다.
-양식·규칙: [`handoff/README.md`](handoff/README.md).
+유저의 조사 요청 원문이 여기에 남고, hci가 조사 질문으로 구체화한 뒤 **직접 조사한다**(옛 inspection 역할을
+2026-09-13에 hci로 이관). hci는 저장소를 읽어 같은 파일에 `## 답`(결론 + 근거 `file:line` 또는 IRI)을 채우고
+`status: answered`로 바꾼 뒤, 유저 lane으로 중계하거나 대화로 보고하고 `closed`로 태깅한다. 개발·검증 판단이
+필요한 조사만 `assignee`로 developer·vnv에 넘긴다. `closed` 항목은 다음 사이클에 hci가 제거한다.
 
 ## 완료 마커 — 작성 중 문서는 처리 금지
 

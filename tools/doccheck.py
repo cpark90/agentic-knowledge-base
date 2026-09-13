@@ -13,11 +13,15 @@
           `bazel-out` `.wip` 을 포함하거나 `~` 로 시작하는 것. 생성물은 `bazel-bin/` 접두로 적는 것이
           규칙이다 — 표지가 아니라 규칙이므로 `kg/chunks-kg.ttl` 처럼 적힌 생성물은 없는 경로로 잡힌다.
           `파일:줄` 표기는 파일만 본다. 경로에는 ':' 이 없으므로 그 밖의 ':' 은 라벨로 보고 건너뛴다.
+  prose   산문 문체 (STYLEGUIDE §0 단정 서술형, 유저 결정 2026-09-13) — 경어·비격식 종결(습니다·세요·해요·죠 …)이 문장 끝에
+          오거나 산문에 느낌표가 있다 (kb_lib.check_prose 가 단일 정의처). 코드 펜스·코드 스팬·HTML 주석·따옴표 안과 `!=`·`![`
+          는 산문이 아니다. --waivers(docs/waivers.md)에 게이트 id `prose`(축 파일)로 면제된 문서는 세지 않는다. 추측·구어는
+          판정이 필요하므로 게이트가 아니라 consistency ⑦ 보고다.
 
-출력  FAIL [doccheck] <파일>:<줄>: <종류> <대상> — 근거
+출력  FAIL [doccheck|prose] <파일>:<줄>: <종류> <대상> — 근거
 종료  위반 → EXIT_FAIL · 입력 파일 없음/루트 밖/인자 오류 → EXIT_CONFIG · 검사 대상 0건 → EXIT_SKIP (PASS 가 아니다)
 
-사용  doccheck.py [--root DIR] <문서 ...> [--target-only FILE ...]
+사용  doccheck.py [--root DIR] [--waivers FILE] <문서 ...> [--target-only FILE ...]
       bazel run //tools:doccheck -- *.md docs/*.md docs/open-questions/*.md --target-only docs/agent-knowledge-system-notes.md
       루트는 --root, 없으면 BUILD_WORKSPACE_DIRECTORY(bazel run), 없으면 현재 디렉토리(bazel test 의 runfiles).
       실재 판정은 루트 아래 파일계로 한다 — 테스트에서는 선언된 입력(runfiles)만 실재한다.
@@ -45,6 +49,7 @@ EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음·인자 오류�
 EXIT_SKIP = getattr(kb_lib, "EXIT_SKIP", 3)      # 검사 대상 0건 — PASS 가 아니다
 
 TAG = "doccheck"
+PROSE = getattr(kb_lib, "PROSE_GATE", "prose")  # 산문 게이트 id — waivers.md 가 같은 이름으로 면제를 선언한다
 PATH_PREFIXES = ("kb/", "kg/", "tools/", "docs/", "defs/", "chunks/", "space/", ".claude/")
 SKIP_MARKS = ("*", "<", "{", "…", "$", "//", "bazel-bin/", "bazel-out", ".wip")
 SCHEME = re.compile(r"^[A-Za-z][A-Za-z0-9+.\-]*:")
@@ -227,6 +232,8 @@ def main() -> int:
                     help="링크 대상으로만 쓰고 안에서 나가는 링크는 검사하지 않는 문서 (반복 가능, 검사할 문서 뒤에 둔다)")
     ap.add_argument("--empty-dir", action="append", default=[], metavar="DIR",
                     help="파일이 없어 runfiles 에 나타나지 않지만 실재하는 디렉토리(빈 패키지) — kb_doccheck_test 의 empty_dirs")
+    ap.add_argument("--waivers", default="", metavar="FILE",
+                    help="docs/waivers.md — 게이트 id prose(축 파일)로 면제된 문서의 산문 위반은 세지 않는다. 없으면 면제 없음")
     ap.add_argument("files", nargs="*", help="검사할 문서")
     args = ap.parse_args()
 
@@ -245,22 +252,38 @@ def main() -> int:
     if not docs:
         print(f"SKIP [{TAG}] 검사 대상 0건 — PASS 가 아니다")
         return EXIT_SKIP
+    if kb_lib is None:
+        print(f"FAIL [{TAG}] kb_lib 이 없다 — 산문 검사(prose)의 단일 정의처라 없으면 돌릴 수 없다", file=sys.stderr)
+        return EXIT_CONFIG
+    wpath = args.waivers
+    if wpath and not os.path.isabs(wpath) and workdir:
+        wpath = os.path.join(workdir, wpath)
+    try:
+        waivers = kb_lib.load_waivers(wpath) if wpath else []
+    except (OSError, ValueError) as e:
+        print(f"FAIL [{TAG}] waiver 표 — {e}", file=sys.stderr)
+        return EXIT_CONFIG
 
-    errors: list[str] = []
-    links = paths = 0
+    errors: list[tuple[str, str]] = []  # (게이트 id, 메시지) — 링크·경로는 doccheck, 산문은 prose
+    links = paths = segments = 0
     for doc in sorted(set(docs)):
         lines = repo.read(doc.as_posix())
         links += sum(1 for _, l in prose_lines(lines) for _ in find_links(CODE_SPAN.sub(" ", l)))
         paths += sum(1 for _, l in prose_lines(lines) for m in CODE_SPAN.finditer(l) if m.group(2).strip().startswith(PATH_PREFIXES))
-        errors += check_links(doc, lines, repo)
-        errors += check_paths(doc, lines, repo)
+        errors += [(TAG, e) for e in check_links(doc, lines, repo)]
+        errors += [(TAG, e) for e in check_paths(doc, lines, repo)]
+        text = "\n".join(lines)
+        segments += len(kb_lib.prose_segments(text))
+        prose_errors, _, _ = kb_lib.check_prose(doc.as_posix(), text, waivers)
+        errors += [(PROSE, f"{doc}:{ln}: {reason}") for ln, reason in prose_errors]
 
     if errors:
-        for e in errors:
-            print(f"FAIL [{TAG}] {e}")
-        print(f"\nFAIL [{TAG}] — {len(errors)}건 (문서 {len(docs)}개)")
+        for tag, e in errors:
+            print(f"FAIL [{tag}] {e}")
+        n_prose = sum(1 for tag, _ in errors if tag == PROSE)
+        print(f"\nFAIL [{TAG}] — {len(errors)}건 (문서 {len(docs)}개; 링크·경로 {len(errors) - n_prose}, 산문 {n_prose})")
         return EXIT_FAIL
-    print(f"PASS [{TAG}] — 문서 {len(docs)}개, 링크 {links}개, 백틱 경로 {paths}개")
+    print(f"PASS [{TAG}] — 문서 {len(docs)}개, 링크 {links}개, 백틱 경로 {paths}개, 산문 조각 {segments}줄")
     return 0
 
 

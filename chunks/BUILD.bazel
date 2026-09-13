@@ -15,4 +15,5 @@ filegroup(
 kb_chunk_lint_test(
     name = "lint_test",
     chunks = [":bodies"],
+    waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md)
 )
