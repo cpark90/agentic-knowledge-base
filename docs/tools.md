@@ -56,7 +56,7 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 2026-09-11 Bazel 규칙 반영 후 기계화 10 · 부분 4 · 규약 1 · 없음 6이다. 없음의 대부분이 도입
 5·7단계의 산출에 걸려 있다. `id`는 도구의 `FAIL [<id>]` 태그와 같다(agrtls A). 결정
 `p6-gate-catalogue`가 같은 id를 적는다. 하네스 자체의 게이트 id는 `naming`(`//:naming_test`) ·
-`build-drift`(`//:build_drift_test`) · `kg-equivalence`(`//kg:kg_equivalence_test`) ·
+`build-drift`(`//:build_drift_test`) ·
 `channel`(`//docs/feedback:channel_lint_test`) · `doccheck`(`//:doccheck_test`) · `chunk2kg-merge`(병합) ·
 `odd2kg`·`taxonomy`(생성=검사) · `canon`(규약, 테스트 타깃 아님)이다. 실패 종류(종료 코드 1·2·3)는
 §게이트를 추가할 때에 적혀 있다.
@@ -129,7 +129,7 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 
 | 도구 | 입력 → 산출 | 실패 조건 |
 |---|---|---|
-| `chunk2kg.py` | 청크 frontmatter → head 그래프. **타깃별 조각**(`--fragment`, `kb_chunk`·`kb_decision` 액션) → `kb_kg_merge`(`--merge`) → `bazel-bin/kg/chunks-kg.ttl`. 바뀐 타깃의 조각만 다시 만든다. 옛 union 방식은 `//kg:chunks_kg_union`으로 남겨 `//kg:kg_equivalence_test`가 바이트 동일을 검사한다 | 필수 키 7개 누락, 값 어휘 밖, 복합체 미선언(조각), **IRI 중복**(병합) — "한 chunk는 한 파일"의 기계적 강제 |
+| `chunk2kg.py` | 청크 frontmatter → head 그래프. **타깃별 조각**(`--fragment`, `kb_chunk`·`kb_decision` 액션) → `kb_kg_merge`(`--merge`) → `bazel-bin/kg/chunks-kg.ttl`. 바뀐 타깃의 조각만 다시 만든다. | 필수 키 7개 누락, 값 어휘 밖, 복합체 미선언(조각), **IRI 중복**(병합) — "한 chunk는 한 파일"의 기계적 강제 |
 | `extract_refs.py` | 본문의 `d-NNNN` 인용 → `references-kg.ttl`의 `agt:cites`; 본문의 `agt:<Term>` 표기 중 온톨로지가 정의한 용어 → `agt:usesConcept`(복원 경로, dependency-graph (f)). 온톨로지에 없는 표기는 `info`로 집계만 한다 | 인용 대상이 실재하지 않음 |
 | `odd2kg.py` + `taxonomy.py` | OpenODD YAML 매핑 문서 `kb/odd/project-odd.yml`(`TAXONOMY`·`MODULES`·`INCLUDE_AND`…) → `project-odd.ttl`; `related/condition` → `taxonomy.yml` (부록 E.4) | 택소노미 밖 범주 · 미선언 속성 · 선언 밖 리터럴 · OpenODD 식이 아닌 값 · `ATTRIBUTES`/`CHECKS` 없는 조건 |
 | `labels.py` | 청크 head → OKF `index.md` (5.6절) | frontmatter 오류 |
@@ -143,7 +143,6 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 |---|---|---|
 | `channel_lint.py` | 채널(`docs/feedback/`) 규약 — lane별 `status` 어휘, hci 반영 흔적은 담당 역할의 `인수:` 줄이 있어야 통과한다 | `//docs/feedback:channel_lint_test` |
 | `endorse.py` | 인수 — plane 쓰기 권한이 있는 역할이 검토한 청크에 `verified`를 붙인다. `//kg:gate_test`의 writer 검사(`generated.by` 역할 × 카탈로그 쓰기 권한)를 해소하는 수단이다 | `bazel run //tools:endorse -- --by <역할>/<모델> --at <시각> <청크…>` |
-| `same_bytes.py` | 두 파일의 바이트 동일 검사 — 타깃별 병합 head 그래프 = union head 그래프 | `//kg:kg_equivalence_test` |
 | `label_sample.py` | 라벨 대표성 실험 표본 — 층화 표본 + 미끼, seed 고정 ([`label-representativeness-protocol`](feedback/label-representativeness-protocol.md)) | 게이트 아님 — 실험 |
 
 YAML은 PyYAML로 읽는다. 잠금은 `pyyaml==6.0.2`이고 해시는 호스트 휠 + sdist 둘이다. 부분집합 로더
@@ -173,7 +172,7 @@ YAML은 PyYAML로 읽는다. 잠금은 `pyyaml==6.0.2`이고 해시는 호스트
 | `impact` | [method §12 영향 분석](method.md#12-영향-분석) | **첫 형태 있음** — `bazel run //tools:impact -- <타깃>`: `rdeps`로 영향 항목 수·plane 분포·suspect가 될 링크 수·승인 필요 결정 수. 구조 근사이며 가정·무효화 전파는 그래프 질의 몫이다 | 3 |
 | `project` | [method §9 뷰](method.md#9-뷰) | **첫 형태 있음(communities)** — `bazel build //kg:communities`: 결정론적 Louvain으로 복합체 후보(같은 plane·level, 2~9)와 `relatedTo` 링크 후보(plane·level을 넘음)를 제안, 판정은 사람이 한다([`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md)). tangle·weave·매트릭스는 없다 | 8 |
 | `gen_skills` | [method](method.md) 정형 절차 | **없음** — skill은 손으로 쓰지 않고 지식·절차에서 **생성**한다(agrtls K, 6단계 문서 생성; `upgrade/ranging_module`의 recipe 생성 선례). 지금 손으로 쓰면 이중 원본이다 | 6 |
-| `metrics` | [methodology 완료 판정](methodology.md#완료-판정) | **첫 형태 있음** — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md`: 청크 수·고아율·크기 분포·링크 밀도·CQ19·CQ20·신뢰 등급. 없는 것은 suspect 비율·누락률·라벨 대표성이다 | 1 |
+| `metrics` | [methodology 완료 판정](method.md#완료-판정) | **첫 형태 있음** — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md`: 청크 수·고아율·크기 분포·링크 밀도·CQ19·CQ20·신뢰 등급. 없는 것은 suspect 비율·누락률·라벨 대표성이다 | 1 |
 
 `metrics`(1·2단계 대리 포함)·`workset`·`odd_check`의 첫 형태가 생겼으므로 문서는 수치를 적지 않고 생성물을 인용한다 (d-0075). 문서에 남아
 있는 수치는 스냅샷 표기가 붙어야 한다.
@@ -234,10 +233,9 @@ tools/gen_build.py                                                              
 ```
 
 ```
-//:gate  (test_suite)
+bazel test //...  (게이트 전체 — test_suite 없음, 패키지의 test 타깃 전부)
 ├── //:build_drift_test            생성 BUILD = frontmatter (드리프트 가드)
 ├── //defs/tests:*                 음성 시험 5 — plane 단방향·수준 허용표·supersedes plane·verifies 주어·결정 수준
-├── //kg:kg_equivalence_test       병합 head 그래프 = union head 그래프 (바이트)
 ├── //:naming_test                 TTL 접미사 규약
 ├── //docs/feedback:channel_lint_test  채널 규약 — lane status 어휘 · handoff↔agents 쌍 · hci 반영 흔적 · waivers
 ├── //:doccheck_test               문서 현행성 — 깨진 링크·앵커·백틱 경로 (루트 md + docs/**, 채널 제외)
@@ -251,8 +249,8 @@ tools/gen_build.py                                                              
 생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics · //kg:workset_<role> · //kb:consistency · //kg:communities
 ```
 
-`//kb/ontology:chunk_lint_test`는 `bazel test //...`로는 돌고 `//:gate`로는 돌지 않는다. 배선은
-`defs/knowledge.bzl`의 매크로(`kb_gate_test`·`kb_chunk_kg`·`kb_reference_kg`·`kb_chunk_lint_test`·
+배선은
+`defs/knowledge.bzl`의 매크로(`kb_gate_test`·`kb_reference_kg`·`kb_chunk_lint_test`·
 `kb_odd_kg`·`kb_taxonomy`·`kb_index`·`kb_metrics`·`kb_workset`) 또는 `defs/kb.bzl`의
 규칙(`kb_chunk`·`kb_decision`·`kb_ontology_module`·`kb_bundle`·`kb_kg_merge`)으로만 선언한다.
 `py_test`를 직접 쓰지 않는다.

@@ -13,7 +13,7 @@ ODD를 정하고, 그 지식 위에서 시스템을 만들고 운용하는 것�
 | 산출물 | 무엇 | 문서 | 상태 |
 |---|---|---|---|
 | **ontology** | 지식의 코어와 분야 프로파일 | [`docs/ontology.md`](docs/ontology.md) | 코어(모듈 파일 26 · plane 7종 · 수준 허용표) · 프로파일 없음 |
-| **methodology · method · rules** | 순서 · 방법 · 유효한 구조의 규칙 | [`docs/methodology.md`](docs/methodology.md) · [`docs/method.md`](docs/method.md) · [`docs/rules.md`](docs/rules.md) | 규칙은 있음 · 절차는 문서화 진행 중 |
+| **methodology · method · rules** | 순서 · 방법 · 유효한 구조의 규칙 | [`docs/method.md`](docs/method.md) · [`docs/rules.md`](docs/rules.md) | 규칙은 있음 · 절차는 문서화 진행 중 |
 | **tools** | 규칙을 검사하고 방법을 수행하는 도구 | [`docs/tools.md`](docs/tools.md) | 검사·생성 도구 14(온톨로지 검사 3단계 포함) · 실험 1(`label_sample`) · **활용 첫 형태 5**(workset·metrics·impact·handoff·consistency) |
 
 현재 상태와 도입 순서는 [`docs/roadmap.md`](docs/roadmap.md)에, 문서 색인은

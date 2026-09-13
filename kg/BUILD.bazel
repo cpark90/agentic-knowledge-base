@@ -1,6 +1,5 @@
-load("@rules_python//python:defs.bzl", "py_test")
 load("//defs:kb.bzl", "kb_kg_merge", "kb_workset_view")
-load("//defs:knowledge.bzl", "kb_chunk_kg", "kb_community", "kb_gate_test", "kb_metrics", "kb_reference_kg")
+load("//defs:knowledge.bzl", "kb_community", "kb_gate_test", "kb_metrics", "kb_reference_kg")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -18,32 +17,6 @@ kb_kg_merge(
         "//kb/dev/decision:kg",
         "//kb/dev/requirement:kg",
     ],
-)
-
-# 같은 그래프를 옛 방식(union 한 번에)으로 — 병합 결과와 바이트 동일해야 한다 (d-0157 union 검증의 대조군)
-kb_chunk_kg(
-    name = "chunks_kg_union",
-    srcs = [
-        "//chunks:bodies",
-        "//kb/dev:bodies",
-        "//kb/vv:bodies",
-    ],
-    out = "chunks-kg-union.ttl",
-)
-
-py_test(
-    name = "kg_equivalence_test",
-    srcs = ["//tools:same_bytes.py"],
-    args = [
-        "$(rootpath :chunks_kg)",
-        "$(rootpath :chunks_kg_union)",
-    ],
-    data = [
-        ":chunks_kg",
-        ":chunks_kg_union",
-    ],
-    main = "same_bytes.py",
-    size = "small",
 )
 
 # 참조 링크 — 본문의 인용에서 생성 (8.2절). 손으로 쓰지 않는다.

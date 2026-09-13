@@ -10,7 +10,6 @@ exports_files([
     "chunk2kg.py",
     "doccheck.py",
     "gen_build.py",
-    "same_bytes.py",
     "extract_refs.py",
     "kb_lib.py",
     "requirements_lock.txt",

@@ -1,7 +1,7 @@
 ---
 from: user            # 유저 구술을 hci가 옮겨 적음 — 원문은 §1·§2·§3 그대로
 status: approved
-targets: [../purpose.md, ../methodology.md, ../ontology.md, ../rules.md, ../method.md, ../tools.md, ../roadmap.md]
+targets: [../purpose.md, ../ontology.md, ../rules.md, ../method.md, ../tools.md, ../roadmap.md]
 ---
 
 # 목적 진술과 구조도 — 유저 원문과 결정 원장
@@ -158,7 +158,7 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 2 | **chunk는 온톨로지가 말하는 의미**로 사용한다 | [`../rules.md` §1](../rules.md#1-chunk--자립적-최소-지식-단위) · `chunk-definition-unification.md` |
 | 3 | 본래 목적 = 온톨로지 + 활용 방법론 + 도구. 원래 목적으로 정리한다 | [`../purpose.md`](../purpose.md) · [`../roadmap.md`](../roadmap.md) |
 | 4 | 궁극 목적(§1 p.s.) — 분야 업체가 분야 온톨로지를 구축, 프로젝트마다 ODD, 지식을 plane·level로 정리 | [`../purpose.md`](../purpose.md) |
-| 5 | methodology = 전체 절차 / method = 구체적 방법 / rules = 구조 규칙. plane은 판정 방식. 인터페이스 = 기준축. level 5단 유지 | [`../methodology.md`](../methodology.md) · [`../method.md`](../method.md) · [`../rules.md`](../rules.md) |
+| 5 | methodology = 전체 절차 / method = 구체적 방법 / rules = 구조 규칙. plane은 판정 방식. 인터페이스 = 기준축. level 5단 유지 | `methodology.md`(2026-09-13 `method.md` §0 으로 흡수) · [`../method.md`](../method.md) · [`../rules.md`](../rules.md) |
 | 6 | **행위자 층은 두지 않는다** — 분야는 프로파일 층, 프로젝트는 ODD 단위 | [`../purpose.md`](../purpose.md) |
 | 7 | chunk는 포맷이 아니라 구조 규율(온톨로지에도 적용). **지식의 종류는 고유 용어**로 부른다 | [`../rules.md` §1](../rules.md#1-chunk--자립적-최소-지식-단위) · `AGENTS.md` 황금률 5 · `STYLEGUIDE.md` §0 |
 | 8 | LEDGER·LARGER를 참고한 추적성 설계 | `dependency-graph-design.md` (승인 대기) |
@@ -186,6 +186,7 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 25 | 채널 refresh (2026-09-12) — 인수·반영이 끝난 6건 제거: 프로파일 단축형 인정 · 영문 라벨 언어 검사 · 라벨 재판정 · v5 검토 계획 · 1단계 측정 · orchestrator 정합성 정리 | git 이력 `77e0870`·`737655b` |
 | 26 | 채널 refresh (2026-09-13) — external-review · stage-pass-conditions(결정의 채널 인용을 P 로 해소한 뒤) · 첫 handoff 쌍(재판정) 제거. `agrtls-practices-review` 는 `kg/base-kg.ttl` 인용 때문에 보류 | git 이력 `10c75e6`·`ff8307e` |
 | 27 | inspection 역할을 hci 로 이관 (2026-09-13) — 역할은 넷(orchestrator·developer·vnv·hci). 조사와 git 관리가 hci 몫이 된다 | `kg/catalog-kg.ttl`·AGENTS 역할 표·`hci.md` |
+| 28 | 전체 간소화 (2026-09-13) — 문서 통합(`methodology`·`input` 흡수, 역사 기록은 git 이력으로), union 경로·`kg_equivalence_test` 제거(게이트 17→16), 채널 10건 정리. 옛 결정 129청크와 노트 v5는 유지 | `orchestrator-simplification-2026-09-13` |
 
 **아직 유저 답을 기다리는 것**: `dependency-graph-design.md`의 (a)~(j),
 `chunk-definition-unification.md`(반영 완료로 제거 — git 이력)의 D1~D9(온톨로지·ODD 항목의 plane·level 배정).

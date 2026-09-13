@@ -45,7 +45,7 @@ kb_doccheck_test(
     waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md, 게이트 id prose)
 )
 
-# 게이트 전체 = 저장소의 모든 테스트. `bazel test //:gate` 또는 `bazel test //...`
+# 게이트 전체 = 저장소의 모든 테스트 — `bazel test //...` (test_suite 는 두지 않는다: 목록이 낡는다)
 # BUILD 드리프트 가드 (d-0159): 생성기를 다시 돌려 커밋본과 비교 — frontmatter 가 원본, BUILD 는 뷰
 py_test(
     name = "build_drift_test",
@@ -72,16 +72,3 @@ py_test(
     size = "small",
 )
 
-test_suite(
-    name = "gate",
-    tests = [
-        ":build_drift_test",
-        ":naming_test",
-        "//docs/feedback:channel_lint_test",
-        "//kg:kg_equivalence_test",
-        "//chunks:lint_test",
-        "//kg:gate_test",
-        "//kb/odd:gate_test",
-        "//kb/ontology:gate_test",
-    ],
-)

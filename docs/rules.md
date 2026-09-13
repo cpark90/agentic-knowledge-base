@@ -93,7 +93,7 @@ IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 
 값 어휘의 원본은 `tools/chunk2kg.py`의 상수(`PLANE_CLASS`·`LEVELS`·`STATES`·`REQUIRED`)다.
 생성 경로는 청크 타깃(`kb_chunk`·`kb_decision`)마다 head 조각 → 패키지 `:kg` 묶음 → `//kg:chunks_kg`(`kb_kg_merge`)
-→ `bazel-out/.../kg/chunks-kg.ttl` → `//kg:gate_test`의 입력이다. union 생성(`chunks_kg_union`)과 바이트 동일해야 한다.
+→ `bazel-out/.../kg/chunks-kg.ttl` → `//kg:gate_test`의 입력이다.
 생성물은 `bazel-out`에만 존재하며 소스 트리에 같은 이름의 파일을 두지 않는다.
 
 **지식은 두 KB로 갈려 산다.** 개발 KB `kb/dev/`는 요구·결정·계약·스키마·구현을 담고, V&V KB

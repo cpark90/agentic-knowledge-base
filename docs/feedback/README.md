@@ -17,13 +17,12 @@
 | **hci** | `docs/feedback/**` 전체 + 자기 역할 메모리 `.claude/agent-memory/hci/**` — 이 둘이 hci의 유일한 쓰기 범위다 | 저장소 전체 |
 | **다른 에이전트** | `agents/` lane의 **자기 항목만** (유저에게 전달할 내용, 인수 기록 `ref: handoff/…`) | 저장소 전체 (읽기 전용) |
 
-- **유저 판단 대기(2026-09-12)**: [`agrtls-practices-review-2026-09-12.md`](agrtls-practices-review-2026-09-12.md) — agrtls 하네스에서 가져올 후보 열(F·P·N·A·B·C·E·Q·K·M′, 4판 — 하위 9 repo 포함) + V&V 설계 입력
-- **유저 판정 대기**: [`label-representativeness-sheet.md`](label-representativeness-sheet.md) — 라벨 30개 예측 → 정답지 대조 → 판정.
-  1단계 "의미 보존" 축의 마지막 조각이다. 프로토콜 [`label-representativeness-protocol.md`](label-representativeness-protocol.md) ·
-  정답지 [`label-representativeness-key.md`](label-representativeness-key.md) · 에이전트 판정 대조군 [`label-experiment-agent-2026-09-11.md`](label-experiment-agent-2026-09-11.md)
-- **KG 가 인용하는 항목**(제거 보류): [`agrtls-practices-review-2026-09-12.md`](agrtls-practices-review-2026-09-12.md) · [`label-representativeness-protocol.md`](label-representativeness-protocol.md) — `kg/base-kg.ttl` 의 `id:doc-*` 가 `prov:atLocation` 으로 인용. 인용이 결정·노트로 옮겨지면 제거
-- **설계 자료**(반영 단위가 아니라 상시 참조): [`dependency-graph-design.md`](dependency-graph-design.md) ·
-  [`bazel-dependency-review.md`](bazel-dependency-review.md) · [`design-detail-review.md`](design-detail-review.md)
+- **남은 유저 lane 항목 넷** — `docs/` 가 마크다운 링크로 가리켜 아직 제거하지 못한다(링크를 `git:<리비전>:<경로>` 평문 인용으로 바꾸면 제거):
+  [`bazel-dependency-review.md`](bazel-dependency-review.md)(`tools.md`) · [`dependency-graph-design.md`](dependency-graph-design.md)(`open-questions/link-judgement-basis.md`) ·
+  [`design-detail-review.md`](design-detail-review.md)(`decomposition-audit.md`·`docs/README.md`) · [`label-representativeness-protocol.md`](label-representativeness-protocol.md)(`tools.md`·`roadmap.md`)
+- refresh 2026-09-13(2차): 10건 제거 — 유저 lane 4(라벨 실험 기록지·정답지·에이전트 판정 결과·agrtls 관행 검토) ·
+  agents 4(발신자 `closed`) · 조사 lane 2(유저 원문, 답 완료). KG 출처 개체가 `git:<리비전>:<경로>` 를 가리키므로 트리에서 지워도 인용이 산다.
+  기록은 git 이력(`36f6273` 이전).
 
 - hci는 지식 산출물(kb/ontology/·kb/odd/·kg/·chunks/·tools/ 등)을 편집하지 않는다.
 - 다른 에이전트는 이 채널에서 자기 항목 외 어떤 파일도 수정하지 않는다 — 유저 lane

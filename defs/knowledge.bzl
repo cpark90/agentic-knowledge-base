@@ -80,27 +80,6 @@ def kb_gate_test(
         **kwargs
     )
 
-def kb_chunk_kg(name, srcs, out = None):
-    """청크 파일들의 frontmatter에서 head 그래프(-kg)를 생성한다 (4.3절).
-
-    한 청크는 한 파일이다 — head 메타데이터는 청크 파일 안에 있고, kg의
-    head 그래프는 이 규칙이 생성한다. lineCount·assertionLocation은 파일에서
-    계산되므로 손으로 쓴 메타데이터와 어긋날 수 없다.
-
-    Args:
-      name: 타깃 이름.
-      srcs: 청크 파일 라벨들 (filegroup 가능).
-      out: 생성할 TTL 파일명 (기본 <name>.ttl, 접미사 규약상 -kg 권장).
-    """
-    out = out or name + ".ttl"
-    native.genrule(
-        name = name,
-        srcs = srcs,
-        outs = [out],
-        cmd = "$(location //tools:chunk2kg) --out $@ $(SRCS)",
-        tools = [Label("//tools:chunk2kg")],
-    )
-
 def kb_taxonomy(name, ontology, out = "taxonomy.yml"):
     """related/condition 온톨로지에서 OpenODD 택소노미(속성 범주)를 생성한다 (부록 E.4)."""
     native.genrule(

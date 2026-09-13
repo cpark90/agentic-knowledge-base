@@ -118,8 +118,7 @@
   보고 본문을 예측할 수 있어야 한다.
 - **[지킴]** plane별 본문 형식은 다음과 같다.
   - `decision`은 역할 태그 `**결론**` / `**근거**` / `**대안**`을 쓴다. 대안에는 기각 사유를
-    포함한다. *현재 실측은 결론 153 · 근거 150 · 대안 19다. 셋 중 무엇이 필수인지는
-    미정이다([`docs/open-questions.md`](docs/open-questions.md)).*
+    포함한다. 세 청크 전부 필수다 — `kb_decision` 규칙과 `gen_build`가 로드 시점에 강제한다(2026-09-11).
   - `annotation`은 첫 줄에 대상 IRI를 적는다.
   - `memory`는 구조화 관측이다. 시각, 행동, situation 요약을 담는다.
   - `contract`/`schema`/`artifact`는 언어 네이티브 선언·스키마·코드다.
