@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: link-model-robustness-2026-09-18.md
 targets: [kb/dev/decision/p10-extracted-references-are-candidates/, kb/dev/decision/p10-split-keeps-work-identity/, tools/chunk2kg.py, tools/kb_lib.py, tools/link.py, docs/rules.md, docs/method.md, STYLEGUIDE.md]
 ---
@@ -20,5 +20,12 @@ targets: [kb/dev/decision/p10-extracted-references-are-candidates/, kb/dev/decis
 - 유저 항목 `link-model-robustness-2026-09-18.md`는 반영 완료다 — refresh로 정리해도 된다(결정의 `sources`는 노트 9.11·10.4·10.5절이고 항목 경로를 청크에서 인용하지 않았다).
 - 유저에게 물을 것 하나: 남은 선택지 C·D·E를 열 것인가. D(`when`)는 `assume_check`의 영향 집합이 링크에 닿게 하는 다음 단계라 비용 대비 효과가 가장 크다.
 
-## 답
-(hci가 채움)
+## 답 — hci 처리 2026-09-19 (C·D·E는 유저 lane으로 중계)
+
+원장 34에 "링크 견고성 A·B 반영(2026-09-19)" 기록. 재판정 대상 없음.
+
+남은 선택지 C·D·E는 유저 판단이라 항목 `link-model-robustness-cde-2026-09-19.md`로 중계했다 — 다섯 절로 다시 썼고 원 조사의 분석은 `git:68f9c7c:docs/feedback/link-model-robustness-2026-09-18.md`가 원본이다.
+
+유저 항목 `link-model-robustness-2026-09-18.md`는 C·D·E가 열려 있어 이번 refresh에서 제거하지 않는다. C·D·E가 판정되면 두 항목을 함께 정리한다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.

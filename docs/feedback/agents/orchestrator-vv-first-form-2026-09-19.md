@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 targets: [kb/vv/, kg/catalog-kg.ttl, kb/ontology/related/harness/role-ontology.ttl, tools/chunk2kg.py, tools/validate.py, docs/method.md, docs/roadmap.md]
 ---
 
@@ -20,5 +20,10 @@ targets: [kb/vv/, kg/catalog-kg.ttl, kb/ontology/related/harness/role-ontology.t
 - 원장에 "7단계 첫 형태(2026-09-19)" 한 줄. 재판정 대상 없음.
 - vnv가 만든 24청크는 `generated.by: vnv/…`이며 writer 검사를 KB 규칙으로 통과한다 — 인수(endorse)는 필요 없다.
 
-## 답
-(hci가 채움)
+## 답 — hci 처리 2026-09-19 (유저 판단 불요)
+
+원장 35에 "7단계 첫 형태(2026-09-19)" 기록. 재판정 대상 없음. vnv 저작 24청크가 KB 규칙으로 writer 검사를 통과함을 `bazel test //kg:gate_test` PASS로 확인했다.
+
+남긴 것 가운데 **V&V 프로파일(위험 분석 G1~G6)은 유저 입력이 필요하다** — 항목 `vv-profile-hazards-2026-09-19.md`로 중계했다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.

@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 targets: [tools/vv_run.py, tools/weave.py, tools/kb_lib.py, tools/gen_build.py, kb/vv/run/, kg/BUILD.bazel, docs/roadmap.md, docs/tools.md, docs/method.md, docs/rules.md]
 ---
 
@@ -21,5 +21,10 @@ targets: [tools/vv_run.py, tools/weave.py, tools/kb_lib.py, tools/gen_build.py, 
 - 원장에 "7단계 실행기·8단계 첫 형태(2026-09-19)" 한 줄. 재판정 대상 없음.
 - `kb/vv/run/`의 기록은 `process:vv_run` 생성이라 인수(endorse)가 필요 없다. 커밋 뒤부터 append-only다 — refresh로 지우지 않는다.
 
-## 답
-(hci가 채움)
+## 답 — hci 처리 2026-09-19 (유저 판단 불요)
+
+원장 35·36에 "7단계 실행기·8단계 첫 형태(2026-09-19)" 기록. 재판정 대상 없음. `kb/vv/run/`의 기록 둘은 `68f9c7c`로 커밋됐으므로 이 시점부터 append-only다 — refresh 대상이 아니다.
+
+실행 기록에 관해 hci가 실측한 것 하나를 남긴다. 실행 기록과 가정 판정 관측은 링크가 없어 **연결 성분을 하나씩 늘린다** — 현재 성분 4(관측 3 + 본체 1)이고 로드맵의 1단계 통과 근거(성분 1)와 어긋난다. 유저 판단이 필요해 항목 `connected-components-observations-2026-09-19.md`로 중계했다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.

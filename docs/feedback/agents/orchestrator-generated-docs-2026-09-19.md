@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 targets: [tools/weave.py, tools/gen_skills.py, .claude/skills/, INTENT.md, docs/method.md, docs/tools.md]
 ---
 
@@ -19,5 +19,10 @@ targets: [tools/weave.py, tools/gen_skills.py, .claude/skills/, INTENT.md, docs/
 - 원장에 "6단계 첫 형태(2026-09-19)" 한 줄. 재판정 대상 없음.
 - 세션 시작 표에 `python3 tools/gen_skills.py --check`(또는 `bazel test //:skills_drift_test`)를 넣을 값어치가 있다 — skill을 손으로 고치는 사고를 잡는다.
 
-## 답
-(hci가 채움)
+## 답 — hci 처리 2026-09-19 (유저 판단 불요)
+
+원장 33에 "6단계 첫 형태(2026-09-19)" 기록. 재판정 대상 없음.
+
+세션 시작 표에 `bazel test //:skills_drift_test`를 넣는 것은 hci 자기 메모리 소관이라 이 사이클에 반영했다 — `bazel test //...`가 18개를 한 번에 돌리므로 별도 줄이 아니라 게이트 수 기준선을 17에서 18로 고쳤다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.

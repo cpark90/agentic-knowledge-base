@@ -190,8 +190,16 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 29 | 도입 1단계 통과 (2026-09-13) — 연결 성분 5→1(옛 harness 유래 결정 28건을 관심사에 맞는 요구로 `refines`), 규약 게이트 셋 추가(catalog·복합체 이질·순환·결정 역할 표지) | `orchestrator-stage1-closed-2026-09-13` |
 | 30 | 도입 4단계 첫 형태 (2026-09-14) — 가정 판정식·영향 전파(`assume_check`, 인위 파괴 실험 정밀도·재현율 1.0)와 `memory` plane 개통(write 주체 orchestrator). 한계: 가정 2건·suspect 저장 없음 | `orchestrator-stage4-first-form-2026-09-14` |
 | 31 | 역량 질문 질의 도구 `query`·뷰 `//kg:cq` 첫 형태, 가정 좁힘 착수 (2026-09-14) — 질의 27개 전부 실행, 전제 없는 청크 6건 적발·해소. 기본 가정은 "대체"가 아니라 "앞에 더한다" | `orchestrator-query-tool-2026-09-14` |
+| 32 | 첫 분야 프로파일 `development`와 구축 절차 (2026-09-18) — 실체 하위 클래스 7·판정 도구 6·EARS 패턴 6, 요구 33건에 `pattern`, 결정 `pe-anchor-is-bazel-label`, `method.md` §1 절차 | `orchestrator-development-profile-2026-09-18` |
+| 33 | 도입 6단계 첫 형태 (2026-09-19) — `weave` 뷰 셋(ADR·요구 색인·변경 이력)과 `gen_skills`(`.claude/skills/` 생성 트리), `//:skills_drift_test` 추가로 게이트 18 | `orchestrator-generated-docs-2026-09-19` |
+| 34 | 링크 견고성 A·B 반영 (2026-09-19) — 본문 추출 참조 = 후보 링크(`p10-extracted-references-are-candidates`), 분할의 uuid 승계·`specializationOf`(`p10-split-keeps-work-identity`). C·D·E는 유저 결정 대기 | `orchestrator-link-robustness-2026-09-19` |
+| 35 | 도입 7단계 첫 형태 (2026-09-19) — V&V KB 사슬 16(목표·기준·케이스 —`verifies`→ 결정), `agt:writesIn`으로 KB 차원의 쓰기 권한, 실행기 `vv_run`과 append-only 실행 기록. 검증 대응물 있는 요구 10 → 18/33 | `orchestrator-vv-first-form-2026-09-19` · `orchestrator-vv-coverage-restoration-2026-09-19` · `orchestrator-vv-run-audit-2026-09-19` |
+| 36 | 도입 8단계 첫 형태 (2026-09-19) — 감사 보고서 `//kg:audit`가 체계 밖 정보 없이 생성되고, 복원 후보 `//kg:link_candidates`와 `restored` 표시로 복원 비율을 센다(5.0% < 20%) | 같은 세 항목 |
+| 37 | 채널 refresh (2026-09-19) — 발신자가 닫은 agents 3건 제거(`stage1-closed`·`stage4-first-form`·`query-tool`), 오늘 기록 6건 `answered`, 조사 lane `suggestion` `closed`. 기록은 git 이력(`68f9c7c`) | 채널 규약 refresh |
 
-**아직 유저 답을 기다리는 것**: `dependency-graph-design.md`의 (a)~(j),
+**아직 유저 답을 기다리는 것**: `link-model-robustness-2026-09-18.md`의 선택지 C·D·E,
+`connected-components-observations-2026-09-19.md`(관측이 성분을 늘리는 문제), `vv-profile-hazards-2026-09-19.md`(V&V 프로파일 위험 G1~G6),
+`dependency-graph-design.md`의 (a)~(j),
 `chunk-definition-unification.md`(반영 완료로 제거 — git 이력)의 D1~D9(온톨로지·ODD 항목의 plane·level 배정).
 
 > 결정 로그가 인용하는 채널 항목 중 반영 완료로 제거된 것(`chunk-definition-unification.md`·`suggestion-okf-three-layer.md`·`notes-v4-review.md`·`terminology-normalization.md`)은 git 이력에서 본다.

@@ -17,10 +17,16 @@
 | **hci** | `docs/feedback/**` 전체 + 자기 역할 메모리 `.claude/agent-memory/hci/**` — 이 둘이 hci의 유일한 쓰기 범위다 | 저장소 전체 |
 | **다른 에이전트** | `agents/` lane의 **자기 항목만** (유저에게 전달할 내용, 인수 기록 `ref: handoff/…`) | 저장소 전체 (읽기 전용) |
 
-- **유저 판단 대기(2026-09-18)**: [`link-model-robustness-2026-09-18.md`](link-model-robustness-2026-09-18.md) — 링크의 유연성·견고성, 선택지 다섯
+- **유저 판단 대기(2026-09-19)**: [`link-model-robustness-cde-2026-09-19.md`](link-model-robustness-cde-2026-09-19.md) — 남은 선택지 C·D·E ·
+  [`connected-components-observations-2026-09-19.md`](connected-components-observations-2026-09-19.md) — 관측이 연결 성분을 늘린다 ·
+  [`vv-profile-hazards-2026-09-19.md`](vv-profile-hazards-2026-09-19.md) — 위험 분석 G1~G6의 입력
+- **반영 완료·C·D·E 때문에 유지**: [`link-model-robustness-2026-09-18.md`](link-model-robustness-2026-09-18.md) — A·B 반영됨(2026-09-19), 조사 원문은 [`inquiries/suggestion.md`](inquiries/suggestion.md)
 - **남은 유저 lane 항목 넷** — `docs/` 가 마크다운 링크로 가리켜 아직 제거하지 못한다(링크를 `git:<리비전>:<경로>` 평문 인용으로 바꾸면 제거):
   [`bazel-dependency-review.md`](bazel-dependency-review.md)(`tools.md`) · [`dependency-graph-design.md`](dependency-graph-design.md)(`open-questions/link-judgement-basis.md`) ·
   [`design-detail-review.md`](design-detail-review.md)(`decomposition-audit.md`·`docs/README.md`) · [`label-representativeness-protocol.md`](label-representativeness-protocol.md)(`tools.md`·`roadmap.md`)
+- refresh 2026-09-19: agents 3 제거(발신자 `closed` — 1단계 통과·4단계 첫 형태·`query` 도구 기록). 같은 날 기록 6건은 `answered` 로 두었다 —
+  발신자가 `closed` 로 바꾸면 다음 사이클에 제거한다. 조사 lane [`inquiries/suggestion.md`](inquiries/suggestion.md) 는 `closed` 이나
+  유저 lane 항목이 링크로 가리켜 유지한다. 기록은 git 이력(`68f9c7c` 이후).
 - refresh 2026-09-14: agents 2 제거(발신자 `closed` — inspection 이관·간소화 기록). 유저 lane 넷은 `docs/` 링크가 남아 그대로.
 - refresh 2026-09-13(2차): 10건 제거 — 유저 lane 4(라벨 실험 기록지·정답지·에이전트 판정 결과·agrtls 관행 검토) ·
   agents 4(발신자 `closed`) · 조사 lane 2(유저 원문, 답 완료). KG 출처 개체가 `git:<리비전>:<경로>` 를 가리키므로 트리에서 지워도 인용이 산다.

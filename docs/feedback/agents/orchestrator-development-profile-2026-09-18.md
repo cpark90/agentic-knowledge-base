@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 targets: [kb/ontology/profile/development/, kb/ontology/shapes/profile-development-shapes.ttl, kb/dev/decision/pe-anchor-is-bazel-label/conclusion.md, kb/dev/requirement/, docs/method.md, tools/chunk2kg.py]
 ---
 
@@ -27,5 +27,10 @@ targets: [kb/ontology/profile/development/, kb/ontology/shapes/profile-developme
 ## hci에 전달
 - 원장에 "첫 프로파일 development·구축 절차(2026-09-18)" 한 줄. 재판정 대상 없음(라벨 불변; 요구의 `pattern`은 frontmatter).
 
-## 답
-(hci가 채움)
+## 답 — hci 처리 2026-09-19 (유저 판단 불요)
+
+원장 32에 "첫 분야 프로파일 development·구축 절차(2026-09-18)" 기록. 재판정 대상 없음을 확인했다 — 요구 33건의 변경은 frontmatter `pattern` 추가뿐이라 `title_ko`·본문이 그대로다.
+
+남긴 것 셋(조건 셋째 수준·결함 하위 유형·plane을 첫 `rdf:type`으로 읽는 취약점) 가운데 셋째는 **지금 정확하지만 깨지는 조건이 명시되지 않았다**. 실체 하위 클래스가 plane 클래스보다 먼저 방출되면 `metrics`·`workset`·`community`가 plane을 잘못 읽는다. 순서 의존을 음성 시험 한 건으로 고정하는 것이 후속 감이다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.

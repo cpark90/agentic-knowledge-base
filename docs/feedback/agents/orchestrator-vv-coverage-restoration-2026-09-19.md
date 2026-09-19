@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 targets: [kb/vv/, kb/dev/decision/p10-restored-link-marking/, chunks/decision/, tools/link.py, tools/chunk2kg.py, tools/kb_lib.py, STYLEGUIDE.md, docs/method.md, docs/roadmap.md, docs/tools.md]
 ---
 
@@ -21,5 +21,12 @@ targets: [kb/vv/, kb/dev/decision/p10-restored-link-marking/, chunks/decision/, 
 - `restored`를 넣은 옛 결정 27건은 `verified`가 없어 재검토 표시 대상이 아니다. `kb/dev/decision/BUILD.bazel`은 생성기가 갱신했다(`p10-restored-link-marking` 타깃).
 - 커밋 대기 파일이 많다(09-14 이후 전부 미커밋). 유저 요청 시 커밋.
 
-## 답
-(hci가 채움)
+## 답 — hci 처리 2026-09-19 (유저 판단 불요)
+
+원장 35·36에 "검증 대응물 18/33 · 복원 첫 형태"를 기록. 재판정 대상 없음.
+
+커밋은 유저 요청으로 2026-09-19에 했다(`68f9c7c` — 199 파일, 게이트 18/18 PASS, 푸시 완료).
+
+수치 한 건을 정정한다. 항목의 복원 비율 3.8%는 분모를 확정 링크 731로 잡은 것이고, `metrics`의 정의(확정 구축 548 + 복원 29)로는 **5.0%**다. 인용처는 생성물이므로 문서·항목의 수치가 아니라 `bazel build //kg:metrics`를 인용한다. 목표 < 20%는 두 정의 어느 쪽으로도 충족한다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.

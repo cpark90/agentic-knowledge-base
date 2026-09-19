@@ -1,6 +1,6 @@
 ---
 from: user
-status: answered
+status: closed
 ---
 
 노드간의 링크를 좀 더 flexible하고 robust하게 하려면 어떻게 해야할지 조사해줘.
