@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 입력은 명시되고 버전 관리된다
 title: Inputs are explicit and versioned
 status: stable

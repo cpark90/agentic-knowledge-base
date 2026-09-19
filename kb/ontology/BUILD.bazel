@@ -19,6 +19,7 @@ filegroup(
     srcs = [
         ":project",
         "//kb/ontology/entity/knowledge-item",
+        "//kb/ontology/profile/development",
         "//kb/ontology/related/assumption",
         "//kb/ontology/related/channel",
         "//kb/ontology/related/condition",
@@ -61,6 +62,7 @@ filegroup(
     name = "module_builds",
     srcs = [
         "//kb/ontology/entity/knowledge-item:BUILD.bazel",
+        "//kb/ontology/profile/development:BUILD.bazel",
         "//kb/ontology/related/assumption:BUILD.bazel",
         "//kb/ontology/related/channel:BUILD.bazel",
         "//kb/ontology/related/condition:BUILD.bazel",

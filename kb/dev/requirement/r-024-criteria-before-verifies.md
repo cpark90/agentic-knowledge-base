@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46
 type: requirement
 level: functional
+pattern: unwanted-behaviour
 title_ko: 기준 없는 verifies는 거부한다
 title: Reject verifies without pass criteria
 status: stable

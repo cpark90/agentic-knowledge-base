@@ -1,0 +1,230 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
+
+package(default_visibility = ["//kb:vv_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(
+        ["*.md"],
+        allow_empty = True,
+    ),
+)
+
+kb_chunk(
+    name = "audit-self-sufficiency",
+    src = "audit-self-sufficiency.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a3798247-024d-49f1-996e-159100ae3f9e",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:audit-self-sufficiency",
+    ],
+)
+
+kb_chunk(
+    name = "chunk-42-lines",
+    src = "chunk-42-lines.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/07d19d32-971d-4e08-89c4-f4d985d4471b",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:chunk-42-lines",
+    ],
+)
+
+kb_chunk(
+    name = "criteria-before-verifies",
+    src = "criteria-before-verifies.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/23979ee5-fd7a-4e14-9f91-6d3ec2794725",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:criteria-before-verifies",
+    ],
+)
+
+kb_chunk(
+    name = "decision-three-chunks",
+    src = "decision-three-chunks.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/797958ea-3a61-41d1-9a10-d12f1c4d69b3",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:decision-three-chunks",
+    ],
+)
+
+kb_chunk(
+    name = "documents-generated",
+    src = "documents-generated.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c0fb71e0-f5bf-44eb-90f4-542b546bf081",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:documents-generated",
+    ],
+)
+
+kb_chunk(
+    name = "foreign-vocabulary-rejected",
+    src = "foreign-vocabulary-rejected.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f2618270-3e11-40c7-b5d0-36c828923ff0",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:foreign-vocabulary-rejected",
+    ],
+)
+
+kb_chunk(
+    name = "gate-judges-edits",
+    src = "gate-judges-edits.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/47ee0dfa-f035-4220-a756-a447df307de9",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:gate-judges-edits",
+    ],
+)
+
+kb_chunk(
+    name = "generated-build-drift",
+    src = "generated-build-drift.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fdd0b6c0-473b-47d1-b23e-b1e862416964",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:generated-build-drift",
+    ],
+)
+
+kb_chunk(
+    name = "items-declare-assumptions",
+    src = "items-declare-assumptions.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5680c0bc-347b-47f1-a8ad-5b4ef768702f",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:items-declare-assumptions",
+    ],
+)
+
+kb_chunk(
+    name = "observations-append-only",
+    src = "observations-append-only.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6bb376e1-0a34-4ab6-ba78-df2c0b030043",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:observations-append-only",
+    ],
+)
+
+kb_chunk(
+    name = "plane-one-way",
+    src = "plane-one-way.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/68faa51d-47c8-48fb-9cb1-589f793d31a6",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:plane-one-way",
+    ],
+)
+
+kb_chunk(
+    name = "reproducible-runs",
+    src = "reproducible-runs.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/60b9e928-9226-4449-b92f-014597e9ff98",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:reproducible-runs",
+    ],
+)
+
+kb_chunk(
+    name = "residency-matrix",
+    src = "residency-matrix.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/56b4c449-63d5-4f3c-8b25-2983028beab8",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:residency-matrix",
+    ],
+)
+
+kb_chunk(
+    name = "supersedes-same-plane",
+    src = "supersedes-same-plane.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2b1a11cb-160a-45fe-a5cb-4f86f8a42271",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:supersedes-same-plane",
+    ],
+)
+
+kb_chunk(
+    name = "verifies-subject-vv",
+    src = "verifies-subject-vv.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2a7d49b7-e29a-4609-acc5-81608e38324a",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:verifies-subject-vv",
+    ],
+)
+
+kb_chunk(
+    name = "versioned-inputs",
+    src = "versioned-inputs.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6280e8fa-8289-458a-a3c1-9ededacd2478",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:versioned-inputs",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":audit-self-sufficiency",
+        ":chunk-42-lines",
+        ":criteria-before-verifies",
+        ":decision-three-chunks",
+        ":documents-generated",
+        ":foreign-vocabulary-rejected",
+        ":gate-judges-edits",
+        ":generated-build-drift",
+        ":items-declare-assumptions",
+        ":observations-append-only",
+        ":plane-one-way",
+        ":reproducible-runs",
+        ":residency-matrix",
+        ":supersedes-same-plane",
+        ":verifies-subject-vv",
+        ":versioned-inputs",
+    ],
+)

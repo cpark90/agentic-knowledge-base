@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/2c574d24-71bb-4ea1-9812-0b2d0dc22395
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: verifies의 주어는 V&V 청크뿐이다
 title: Only V&V chunks may be the subject of verifies
 status: stable

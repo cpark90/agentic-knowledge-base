@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 모든 산출물은 요구로 거슬러 오른다
 title: Every artifact traces back to a requirement
 status: stable

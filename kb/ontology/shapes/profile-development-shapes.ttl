@@ -1,0 +1,49 @@
+# shape — 개발 프로파일: 청크는 plane 의 실체 하위 클래스여야 하고, 요구 문장은 EARS 패턴 하나를 갖는다 (결정 p7-dev-plane-substance, p2-skeleton-and-domain-profile)
+# 실체 타이핑은 chunk2kg 가 plane 에서 넣는다(tools/chunk2kg.py PROFILE_SUBSTANCE). 프로파일이 한 plane 에 실체를 둘 이상 두면 sh:class 를 sh:or 로 넓힌다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+agt:RequirementSubstanceShape a sh:NodeShape ;
+    sh:targetClass agt:RequirementChunk ;
+    sh:class agt:RequirementStatement ;
+    sh:message "개발 프로파일의 requirement 청크는 요구 문장(agt:RequirementStatement)이어야 한다 — chunk2kg 가 넣는 실체 타이핑이 빠졌다 (p7-dev-plane-substance)" .
+
+agt:DecisionSubstanceShape a sh:NodeShape ;
+    sh:targetClass agt:DecisionChunk ;
+    sh:class agt:DesignDecision ;
+    sh:message "개발 프로파일의 decision 청크는 설계 결정(agt:DesignDecision)이어야 한다 — chunk2kg 가 넣는 실체 타이핑이 빠졌다 (p7-dev-plane-substance)" .
+
+agt:ContractSubstanceShape a sh:NodeShape ;
+    sh:targetClass agt:ContractChunk ;
+    sh:class agt:InterfaceSignature ;
+    sh:message "개발 프로파일의 contract 청크는 인터페이스 시그니처(agt:InterfaceSignature)여야 한다 — chunk2kg 가 넣는 실체 타이핑이 빠졌다 (p7-dev-plane-substance)" .
+
+agt:SchemaSubstanceShape a sh:NodeShape ;
+    sh:targetClass agt:SchemaChunk ;
+    sh:class agt:MessageSchema ;
+    sh:message "개발 프로파일의 schema 청크는 메시지 스키마(agt:MessageSchema)여야 한다 — chunk2kg 가 넣는 실체 타이핑이 빠졌다 (p7-dev-plane-substance)" .
+
+agt:ArtifactSubstanceShape a sh:NodeShape ;
+    sh:targetClass agt:ArtifactChunk ;
+    sh:class agt:FunctionArtifact ;
+    sh:message "개발 프로파일의 artifact 청크는 함수 산출물(agt:FunctionArtifact)이어야 한다 — chunk2kg 가 넣는 실체 타이핑이 빠졌다 (p7-dev-plane-substance)" .
+
+agt:AnnotationSubstanceShape a sh:NodeShape ;
+    sh:targetClass agt:AnnotationChunk ;
+    sh:class agt:ReviewComment ;
+    sh:message "개발 프로파일의 annotation 청크는 리뷰 코멘트(agt:ReviewComment)여야 한다 — chunk2kg 가 넣는 실체 타이핑이 빠졌다 (p7-dev-plane-substance)" .
+
+agt:MemorySubstanceShape a sh:NodeShape ;
+    sh:targetClass agt:MemoryChunk ;
+    sh:class agt:SessionObservation ;
+    sh:message "개발 프로파일의 memory 청크는 세션 관측(agt:SessionObservation)이어야 한다 — chunk2kg 가 넣는 실체 타이핑이 빠졌다 (p7-dev-plane-substance)" .
+
+agt:EarsPatternShape a sh:NodeShape ;
+    sh:targetClass agt:RequirementChunk ;
+    sh:property [
+        sh:path agt:pattern ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ( agt:ubiquitous agt:eventDriven agt:stateDriven agt:unwantedBehaviour agt:optional agt:complex ) ;
+        sh:message "요구 문장은 EARS 패턴을 정확히 하나 갖는다 — frontmatter pattern: 은 ubiquitous | event-driven | state-driven | unwanted-behaviour | optional | complex 중 하나다 (p7-dev-plane-substance, Mavin RE'09)" ;
+    ] .

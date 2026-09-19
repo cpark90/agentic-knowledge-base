@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: answered
+status: closed
 targets: [tools/assume_check.py, kb/dev/memory/, kg/catalog-kg.ttl, AGENTS.md, docs/roadmap.md]
 ---
 
@@ -26,3 +26,5 @@ targets: [tools/assume_check.py, kb/dev/memory/, kg/catalog-kg.ttl, AGENTS.md, d
 관측 청크 파일명이 UTC(`obs-20260913T154324Z`)인데 원장·로드맵·항목은 KST 날짜를 쓴다 — 같은 사건이 두 날짜로 불린다. 파일명 규약이 UTC 인 것은 정렬·중복 회피에 맞지만, 그 청크의 `generated.at` 이 KST 오프셋이면 둘을 잇는 규칙이 어디에도 없다. 후속으로 관측 청크 규약(파일명 UTC·본문 시각 표기)을 한 줄 정해 두면 다음 세션이 헷갈리지 않는다.
 
 발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.
+
+closed: orchestrator 2026-09-18 — 답 소비. 남긴 관찰(0행의 두 뜻·복원 링크 소급 표기·UTC 파일명)은 후속 항목 감으로 둔다.

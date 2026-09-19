@@ -1,0 +1,46 @@
+# 개발 프로파일 — 판정 도구: plane 실체마다 무엇이 청크를 판정하는가 (결정 p7-dev-plane-substance 표의 판정 도구 열, 노트 5.4절·7.2절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:JudgementTool a owl:Class ;
+    rdfs:label "judgement tool"@en , "판정 도구"@ko ;
+    skos:definition "청크가 그 plane의 판정 방식을 통과했는지를 실제로 가리는 도구. plane은 판정 방식으로 정의되고(5.1절) 프로파일이 그 방식의 도구를 채운다 — 도구 없는 plane은 게이트를 통과할 수 없다 (5.4절, 결정 p7-dev-plane-substance)."@ko .
+
+agt:judgedBy a owl:ObjectProperty ;
+    rdfs:domain agt:Chunk ;
+    rdfs:range agt:JudgementTool ;
+    rdfs:label "judged by"@en , "판정 도구"@ko ;
+    skos:definition "청크를 판정하는 도구. 프로파일이 실체 클래스마다 값 제약(owl:hasValue)으로 고정하므로 청크가 개별로 적지 않는다. 클래스 자체에 직접 트리플로 달지 않는 까닭은 게이트의 RDFS 추론이 정의역으로 그 클래스를 청크로 만들기 때문이다 (결정 p7-dev-plane-substance)."@ko .
+
+agt:stakeholderApproval a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "stakeholder approval"@en , "이해관계자 승인"@ko ;
+    skos:definition "요구 문장의 판정 도구. 요구의 합의는 '이것을 원한다'에 대한 동의이므로 도구는 검사기가 아니라 이해관계자의 승인이다 (5.1절, 결정 p7-dev-plane-substance)."@ko .
+
+agt:argumentCheckAndUserApproval a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "argument check and user approval"@en , "논증 구조 검사와 유저 승인"@ko ;
+    skos:definition "설계 결정의 판정 도구. 결론·근거·대안의 구조가 갖춰졌는지를 검사하고 결정 자체는 유저가 승인한다 — 구조 검사만으로는 결정의 옳음을 가릴 수 없다 (결정 p7-dev-plane-substance, 7.4절)."@ko .
+
+agt:typeChecker a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "type checker"@en , "타입 체커"@ko ;
+    skos:definition "인터페이스 시그니처의 판정 도구. 시그니처와 사전·사후조건이 언어 네이티브 선언이라 타입 체커가 기계적으로 판정한다 (결정 p7-dev-plane-substance)."@ko .
+
+agt:schemaValidator a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "schema validator"@en , "스키마 검사기"@ko ;
+    skos:definition "메시지 스키마의 판정 도구. 스키마 언어로 쓴 본문은 스키마 검사기가 적합성을 판정한다 (결정 p7-dev-plane-substance)."@ko .
+
+agt:compilerLinterVerifier a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "compiler, linter and verifier"@en , "컴파일러·린터·검증기"@ko ;
+    skos:definition "함수 산출물의 판정 도구. 컴파일러·린터가 구조를, V&V KB의 검증기가 거동을 판정한다 — 실행 수준의 판정은 실행이다 (6.1절, 결정 p7-dev-plane-substance)."@ko .
+
+agt:resolution a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "resolution"@en , "해소"@ko ;
+    skos:definition "리뷰 코멘트의 판정 도구. 코멘트는 대상이 고쳐지거나 답변되어 해소될 때 판정이 끝난다 (결정 p7-dev-plane-substance)."@ko .
+
+agt:RequirementStatement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:stakeholderApproval ] .
+agt:DesignDecision rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:argumentCheckAndUserApproval ] .
+agt:InterfaceSignature rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:typeChecker ] .
+agt:MessageSchema rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:schemaValidator ] .
+agt:FunctionArtifact rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:compilerLinterVerifier ] .
+agt:ReviewComment rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:resolution ] .

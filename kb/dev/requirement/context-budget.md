@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 작업 집합은 컨텍스트 예산 안에 든다
 title: Worksets fit within the context budget
 status: stable

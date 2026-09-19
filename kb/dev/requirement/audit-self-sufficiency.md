@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/ba638521-e9b0-4c38-b073-44230ac22785
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 감사는 체계의 출력만으로 성립한다
 title: Audit stands on the system output alone
 status: stable

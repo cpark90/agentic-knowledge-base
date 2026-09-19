@@ -1,0 +1,278 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
+
+package(default_visibility = ["//kb:vv_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(
+        ["*.md"],
+        allow_empty = True,
+    ),
+)
+
+kb_chunk(
+    name = "audit-self-sufficiency",
+    src = "audit-self-sufficiency.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/bc8535cb-d771-4f05-a9f8-06150b35de3c",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:audit-self-sufficiency",
+    ],
+    verifies = [
+        "//kb/dev/decision:p12-audit-and-onboarding-self-sufficiency",
+    ],
+)
+
+kb_chunk(
+    name = "chunk-42-lines",
+    src = "chunk-42-lines.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a45a0511-d839-4219-9c67-b417be2d8f51",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:chunk-42-lines",
+    ],
+    verifies = [
+        "//kb/dev/decision:p4-chunk-as-ontology-class",
+    ],
+)
+
+kb_chunk(
+    name = "criteria-before-verifies",
+    src = "criteria-before-verifies.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5d821776-dc19-4202-b184-5efb11d99fcc",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:criteria-before-verifies",
+    ],
+    verifies = [
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "decision-three-chunks",
+    src = "decision-three-chunks.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/0885d278-bf9d-44cc-9484-adc96e64f47f",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:decision-three-chunks",
+    ],
+    verifies = [
+        "//kb/dev/decision:p7-alternatives-mandatory",
+    ],
+)
+
+kb_chunk(
+    name = "documents-generated",
+    src = "documents-generated.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cd63600d-fc05-4577-a84b-62203ac0ed74",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:documents-generated",
+    ],
+    verifies = [
+        "//kb/dev/decision:p12-documents-are-generated",
+    ],
+)
+
+kb_chunk(
+    name = "foreign-vocabulary-rejected",
+    src = "foreign-vocabulary-rejected.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ee329895-169a-4bf2-bd1a-94dcc44345e3",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:foreign-vocabulary-rejected",
+    ],
+    verifies = [
+        "//kb/dev/decision:p2-ontology-as-vocabulary",
+    ],
+)
+
+kb_chunk(
+    name = "gate-judges-edits",
+    src = "gate-judges-edits.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e82398f4-7be6-404a-9a64-b8c359a9180f",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:gate-judges-edits",
+    ],
+    verifies = [
+        "//kb/dev/decision:p6-gate-catalogue",
+    ],
+)
+
+kb_chunk(
+    name = "generated-build-drift",
+    src = "generated-build-drift.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8a85debf-8eaf-433a-bcae-ab485848cc53",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:generated-build-drift",
+    ],
+    verifies = [
+        "//kb/dev/decision:pe-anchor-is-bazel-label",
+    ],
+)
+
+kb_chunk(
+    name = "items-declare-assumptions",
+    src = "items-declare-assumptions.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cdda88c0-dd6f-4d38-8636-427ba3977c40",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:items-declare-assumptions",
+    ],
+    verifies = [
+        "//kb/dev/decision:p0-odd-scope-assumption",
+    ],
+)
+
+kb_chunk(
+    name = "observations-append-only",
+    src = "observations-append-only.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3532a3cf-37a4-4c3e-84d9-360b215786f3",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:observations-append-only",
+    ],
+    verifies = [
+        "//kb/dev/decision:p0-run-as-observation",
+    ],
+)
+
+kb_chunk(
+    name = "plane-one-way",
+    src = "plane-one-way.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/23f7dfe7-7344-434c-96b5-e9f9f6f73dd6",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:plane-one-way",
+    ],
+    verifies = [
+        "//kb/dev/decision:p5-plane-order-one-way-influence",
+    ],
+)
+
+kb_chunk(
+    name = "reproducible-runs",
+    src = "reproducible-runs.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/76dc6470-e7ee-47cd-bc8d-1440c870ebf6",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:reproducible-runs",
+    ],
+    verifies = [
+        "//kb/dev/decision:p8-reproducibility",
+    ],
+)
+
+kb_chunk(
+    name = "residency-matrix",
+    src = "residency-matrix.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e0f0c405-96b7-48cc-8ad3-4a6effe070db",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:residency-matrix",
+    ],
+    verifies = [
+        "//kb/dev/decision:p6-plane-level-occupancy",
+    ],
+)
+
+kb_chunk(
+    name = "supersedes-same-plane",
+    src = "supersedes-same-plane.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6c4f4fc7-bf82-4c93-9b78-58b6a8be2563",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:supersedes-same-plane",
+    ],
+    verifies = [
+        "//kb/dev/decision:p7-decision-supersession",
+    ],
+)
+
+kb_chunk(
+    name = "verifies-subject-vv",
+    src = "verifies-subject-vv.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3a93bc97-0661-4051-877b-55ffd4669809",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:verifies-subject-vv",
+    ],
+    verifies = [
+        "//kb/dev/decision:p6-executable-splits-by-kb",
+    ],
+)
+
+kb_chunk(
+    name = "versioned-inputs",
+    src = "versioned-inputs.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c65e1488-73e9-4508-80f1-96775fa57f65",
+    plane = "schema",
+    level = "concrete",
+    status = "stable",
+    refines = [
+        "//kb/vv/criteria:versioned-inputs",
+    ],
+    verifies = [
+        "//kb/dev/decision:p11-inputs-as-versioned-vocabulary",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":audit-self-sufficiency",
+        ":chunk-42-lines",
+        ":criteria-before-verifies",
+        ":decision-three-chunks",
+        ":documents-generated",
+        ":foreign-vocabulary-rejected",
+        ":gate-judges-edits",
+        ":generated-build-drift",
+        ":items-declare-assumptions",
+        ":observations-append-only",
+        ":plane-one-way",
+        ":reproducible-runs",
+        ":residency-matrix",
+        ":supersedes-same-plane",
+        ":verifies-subject-vv",
+        ":versioned-inputs",
+    ],
+)

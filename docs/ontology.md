@@ -9,16 +9,17 @@
 | 층 | 담는 것 | 누가 만드나 | 위치 |
 |---|---|---|---|
 | **코어** | 분야와 무관한 것 — plane, level, 조건, 가정, 역할, 청크·복합체, 링크 타입 | 이 저장소 | `kb/ontology/` (`agt:`) |
-| **분야 프로파일** | 각 plane의 실체와 판정 도구, 조건 어휘 셋째 수준, 도메인 결함 하위 유형, 앵커 해석기 | 분야마다 | `profile/<분야>` (미구현) |
+| **분야 프로파일** | 각 plane의 실체와 판정 도구, 조건 어휘 셋째 수준, 도메인 결함 하위 유형, 앵커 해석기 | 분야마다 | `profile/development` — 첫 형태(2026-09-18): 실체 7·판정 도구 6·EARS 패턴 6 |
 
 프로파일은 별도 장치가 아니라 **코어를 확장만 하는 온톨로지 모듈**이다. 코어 클래스의
 하위 클래스와 shape만 추가한다. 코어를 수정하는 프로파일은 검사 실패다
 ([`id:chunk-d0057`](../chunks/decision/d-0057-profile-extension-only-module.md)). 한 프로젝트가
 프로파일을 여럿 가질 수 있고, 링크는 프로파일을 넘는다.
 
-**현재 `profile/` 디렉토리는 없다.** 프로파일 구축 절차도 아직 없다.
-[`method.md §1`](method.md#1-프로파일-구축)이 그 자리이고, 첫 프로파일 작성이 다음 산출이다
-([`roadmap.md`](roadmap.md)).
+첫 프로파일 `kb/ontology/profile/development/`가 2026-09-18에 생겼다. plane 7의 실체 하위 클래스, 판정 도구 6 개체와
+`judgedBy` 바인딩(값 제약), EARS 패턴 어휘와 요구의 `pattern` 필드, shape(`profile-development-shapes.ttl`)로 이루어진다.
+`chunk2kg`가 plane을 실체 클래스로 타이핑한다. 구축 절차는 [`method.md §1`](method.md#1-프로파일-구축)이고, 채우지
+않은 확장점(조건 셋째 수준·결함 하위 유형)은 그 절의 표에 있다.
 
 ## 코어의 구성
 
@@ -53,7 +54,7 @@ mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementC
 `CandidateLink`·`ConfirmedLink`, `agt:contentHash`가 추가되었다.
 
 설계가 요구하나 아직 없는 모듈은 `upper`(상위 온톨로지 정렬), `related/policy`,
-`profile/`, `defect`·`defect-rules`다.
+`defect`·`defect-rules`다.
 
 ## 확장 규칙
 
@@ -104,8 +105,8 @@ mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementC
 ## 참조 프로파일 — 소프트웨어 개발
 
 코어를 개발 작업에 특수화한 결정들이며, 다른 프로파일의 템플릿이다. 이 저장소는 이
-프로파일의 부분집합만 쓴다. 현재 `requirement`·`decision` plane이 채워져 있고, 역할은
-노트 10.2절 9역할 중 5개다. design은 developer가 겸한다 (유저 결정 C4).
+프로파일의 부분집합만 쓴다. 현재 `requirement`·`decision`·`memory` plane이 채워져 있고, 역할은
+노트 10.2절 9역할 중 4개다. design은 developer가 겸한다 (유저 결정 C4).
 
 | 코어 항목 | 개발 프로파일의 결정 |
 |---|---|

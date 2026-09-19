@@ -75,6 +75,8 @@ assumes: [<가정 IRI>, ...]      # 선택
 sources: [{resource: <출처 IRI>}, ...]   # 선택 — OKF v0.2 sources: 객체 목록(resource 필수, id·title·author 선택) → prov:wasDerivedFrom. 도입 3단계부터 하네스가 읽기 집합으로 채움
 refines: [<IRI>, ...]           # 선택 — 결정→요구 등
 supersedes: [<IRI>, ...]        # 선택 — 시간축 대체
+restored: [<IRI>, ...]          # 선택 — 위 링크 키의 대상 중 사후에 이은(복원) 것. 증거에 proposal 이 더해진다
+specializationOf: <IRI>         # 선택 — 분할로 생긴 조각이 원 청크(같은 plane)를 가리킨다. 링크 IRI 는 뿌리 uuid 로 계산
 part_of: <복합체 IRI>            # 선택 — 복합체의 부분일 때
 composite: {id: ..., title_ko: ..., title: ...}  # 복합체 선언 — 대표 부분에서 한 번만
 ---
@@ -254,7 +256,8 @@ dcterms·co·obo) 안이어야 한다. prov·skos 용어는 W3C 원문에 실재
 | 복합체 (손) | `comp-` | `composite-kg.ttl` |
 | ODD · 조건 | `odd-` · `cond-` | `project-odd.ttl` |
 | 하네스 · 역할 · 스코프 · 채널 | `h-` · `role-` · `scope-` · `chan-` | `catalog-kg.ttl` |
-| 시나리오 · 실행 기록 | `scn-` · `run-` | (아직 없음) |
+| 시나리오 | `scn-` | (아직 없음) |
+| 실행 기록 | `id/chunk/<uuid4>` — memory 청크(`kb/vv/run/run-<시각>.md`, `process:vv_run`) | (생성) `chunks-kg.ttl` |
 
 IRI는 불투명하게 유지한다. 라벨이나 경로가 바뀌어도 IRI가 유지되어야 시간 정체성이
 성립한다. 그래서 v3부터 uuid다 (유저 결정 Q1). 사람이 읽는 이름은 IRI가 아니라

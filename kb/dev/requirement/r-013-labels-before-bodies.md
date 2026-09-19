@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: 라벨 목록이 본문보다 먼저다
 title: Labels come before bodies
 status: stable

@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: 세션의 경험은 승격 규칙으로 남는다
 title: Session experience survives via promotion rules
 status: stable

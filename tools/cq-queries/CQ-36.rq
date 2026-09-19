@@ -1,0 +1,10 @@
+# 이 프로파일에서 각 plane의 청크는 무엇이고 무엇이 판정하는가.
+# 행 = plane 클래스 × 실체 클래스 × 판정 도구 하나 (kb/ontology/profile/development). 판정 도구는 실체 클래스의 agt:judgedBy 값 제약(owl:hasValue)에서 읽고, memory 는 판정 도구가 없어 빈 칸이다 (p7-dev-plane-substance 표)
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?plane ?substance ?tool WHERE {
+  ?plane rdfs:subClassOf agt:Chunk .
+  ?substance rdfs:subClassOf ?plane .
+  OPTIONAL { ?substance rdfs:subClassOf ?r . ?r owl:onProperty agt:judgedBy ; owl:hasValue ?tool }
+} ORDER BY ?plane ?substance ?tool

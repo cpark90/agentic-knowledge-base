@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 판정 방식이 다른 지식은 섞지 않는다
 title: Knowledge with different verification never mixes
 status: stable

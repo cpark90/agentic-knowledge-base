@@ -96,7 +96,7 @@
 *실측: 링크 개체 0건.*
 
 **CQ-15 ⚠ 후보가 하나로 좁혀졌는가 / 후보가 0인 변수가 있는가(모순).**
-`agt:linkState "candidate"` 집계. *실측: 후보 링크 0건. 아직 아무것도 생성되지 않았다.*
+`agt:linkState "candidate"` 집계. *실측(2026-09-19): 후보 링크 30건 — 본문 추출 `cites`(`p10-extracted-references-are-candidates`).*
 
 ## D. 추적성
 
@@ -121,6 +121,14 @@
 `?a agt:cites ?b`. `tools/extract_refs.py`가 본문에서 뽑아 생성한다.
 *실측: **항목 20개가 27개의 인용 링크**를 만들고 22개 항목이 인용받는다. 링크가 0이 아닌
 첫 지표다. 인용 대상이 실재하지 않으면 생성이 실패한다(참조 무결성).*
+
+**CQ-33 ✅ 이 항목은 무엇을 대체했고 무엇에 대체되었는가 — `supersedes` 이력.**
+`agt:supersedes` 양방향 질의. 질의 `CQ-33.rq`.
+*실측(2026-09-14): 134행 — 옛 결정 126건을 새 결정이 대체한 기록 전부.*
+
+**CQ-34 ✅ 링크가 종류별로 몇 개 있는가.**
+술어별 집계. 질의 `CQ-34.rq`.
+*실측(2026-09-14): 7종 — `assumes`·`refines`·`usesConcept`·`supersedes`·`cites` 등.*
 
 ## D-1. 신뢰 등급
 
@@ -181,6 +189,17 @@ write는 orchestrator=decision · developer=artifact · vnv=annotation로 겹치
 **CQ-30 ❌ 순환 계층·다의어·클래스와 개체 혼동이 있는가.**
 상위 온톨로지 정렬과 추론기가 없어 검사할 수 없다
 ([`open-questions/upper-ontology-alignment.md`](open-questions/upper-ontology-alignment.md)).
+
+**CQ-35 ✅ 이 온톨로지 개념을 본문에서 쓰는 항목은 무엇인가 (개념 검색).**
+`agt:usesConcept` 역방향 — 본문의 `agt:` 표기에서 추출한 링크. 질의 `CQ-35.rq`, `--bind ?concept=agt:<용어>`.
+*실측(2026-09-14): 136행 / 59 청크.*
+
+## I. 프로파일
+
+**CQ-36 ✅ 이 프로파일에서 각 plane의 청크는 무엇이고 무엇이 판정하는가.**
+`kb/ontology/profile/development/`의 실체 하위 클래스와 `agt:judgedBy` 바인딩. 행 = plane 클래스 · 실체 클래스 · 판정 도구.
+질의 `CQ-36.rq`(2026-09-18).
+*실측: 개발 프로파일 첫 형태 — plane 7 중 판정 도구가 있는 6.*
 
 ## 노트 v3 CQ1~20 대응표
 
@@ -256,7 +275,7 @@ write는 orchestrator=decision · developer=artifact · vnv=annotation로 겹치
 ## 실행
 
 지금은 손으로 돌린다. `query` 도구가 생기면 이 목록이 그 도구의 입력이 되고, 상태 표가
-생성물이 된다 ([`tools.md` §활용 도구](tools.md#활용-첫-형태-5)).
+생성물이 된다 ([`tools.md` §활용 도구](tools.md#활용-첫-형태-10)).
 
 ```bash
 python3 - <<'PY'

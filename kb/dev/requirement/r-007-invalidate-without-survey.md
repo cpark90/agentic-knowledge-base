@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366
 type: requirement
 level: functional
+pattern: unwanted-behaviour
 title_ko: 조건이 깨지면 전수조사 없이 무효화한다
 title: Invalidate without exhaustive survey
 status: stable

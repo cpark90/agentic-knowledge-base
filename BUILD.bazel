@@ -1,7 +1,16 @@
 load("@rules_python//python:defs.bzl", "py_test")
-load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_doccheck_test")
+load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_doccheck_test", "kb_skills_drift_test")
 
 package(default_visibility = ["//visibility:public"])
+
+# 생성 skill (로드맵 6단계, agrtls K) — 원본은 도구 docstring 과 kb_lib.SKILLS, 이 파일들은 커밋되는 뷰다 (tools/gen_skills.py)
+filegroup(
+    name = "skills",
+    srcs = glob(
+        [".claude/skills/*/SKILL.md"],
+        allow_empty = True,
+    ),
+)
 
 # 산출물 접미사 규약 (노트 0.2절) — 저장소의 모든 TTL 산출물에 적용
 kb_chunk_lint_test(
@@ -38,7 +47,13 @@ kb_doccheck_test(
         "//kb/odd:project-odd.yml",
     ] + glob([".claude/**"]),
     empty_dirs = [
-        "kb/vv",  # V&V KB — 7단계까지 비어 있다
+        "kb/vv",  # V&V KB — 청크가 들어오기 전까지 runfiles 에 없다. 하위 디렉토리 = plane (pe-storage-layout), BUILD 는 gen_build 생성물
+        "kb/vv/case",
+        "kb/vv/criteria",
+        "kb/vv/goal",
+        "kb/vv/run",  # 실행 기록 — vv_run --record 가 첫 기록을 만들기 전까지 비어 있다
+        "kb/vv/scenario",
+        "kb/vv/verifier",
         "space",  # 설계 공간 — 5단계까지 자리만
     ],
     target_only = ["//docs:notes"],
@@ -65,11 +80,26 @@ py_test(
         "//kb/dev/decision:BUILD.bazel",
         "//kb/dev/memory:BUILD.bazel",
         "//kb/dev/requirement:BUILD.bazel",
+        "//kb/vv:BUILD.bazel",
+        "//kb/vv:bodies",
+        "//kb/vv/case:BUILD.bazel",
+        "//kb/vv/criteria:BUILD.bazel",
+        "//kb/vv/goal:BUILD.bazel",
+        "//kb/vv/run:BUILD.bazel",
+        "//kb/vv/scenario:BUILD.bazel",
+        "//kb/vv/verifier:BUILD.bazel",
         "//kb/ontology:modules",
         "//kb/ontology:modules.bzl",
         "//kb/ontology:module_builds",
     ],
     main = "gen_build.py",
     size = "small",
+)
+
+# skill 드리프트 가드 (6단계): 생성기를 다시 돌려 트리의 .claude/skills 와 비교 — docstring·kb_lib.SKILLS 가 원본, skill 은 뷰
+kb_skills_drift_test(
+    name = "skills_drift_test",
+    docs = ["//docs:docs"],
+    skills = ":skills",
 )
 

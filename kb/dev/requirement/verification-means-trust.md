@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 검증 수단 자체의 신뢰도를 잰다
 title: The trustworthiness of verification means is measured
 status: stable

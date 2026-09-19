@@ -11,6 +11,8 @@ exports_files([
     "chunk2kg.py",
     "doccheck.py",
     "gen_build.py",
+    "gen_skills.py",
+    "weave.py",
     "extract_refs.py",
     "kb_lib.py",
     "requirements_lock.txt",
@@ -169,6 +171,21 @@ py_binary(
     deps = [requirement("rdflib")],
 )
 
+# 복원 후보 생성기 뷰 (로드맵 8단계 복원, p10-link-by-construction · p10-restored-link-marking): frontmatter 링크가 없는 쌍 → 체계 안 증거
+# (cites · verifies 공동 커버 · usesConcept 교집합)로 후보, TIM·단방향 제약 검사, 앵커당 k ≤ 7. 확정은 사람이 restored: 로 — 게이트가 아니다
+py_binary(
+    name = "link",
+    srcs = [
+        "chunk2kg.py",
+        "link.py",
+    ],
+    main = "link.py",
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
+)
+
 # 재검증 후보 (dependency-graph-design §5): bazel run //tools:revalidate -- [--base HEAD]. 본문 해시가 바뀐 청크의 링크·하류 의존자를 재판정 대상으로.
 # git 과 bazel query 를 부르므로 odd_check 처럼 테스트 타깃이 아니다
 py_binary(
@@ -210,6 +227,22 @@ py_binary(
     ],
 )
 
+# V&V executor (8.20절, 7단계 → 8단계): bazel run //tools:vv_run -- [--record] [--case <슬러그>…]
+# 케이스의 `bazel test` 양성 명령을 실행하고 실행 기록(kb/vv/run/, memory plane, append-only)을 쓴다. 케이스·기록은 워크스페이스에서
+# 읽고 쓰며 bazel 을 중첩 실행하므로(odd_check 와 같은 사유) 테스트 타깃이 아니다. 생성자 process:vv_run 은 역할이 아니라 writer 검사 밖이다
+py_binary(
+    name = "vv_run",
+    srcs = [
+        "chunk2kg.py",
+        "vv_run.py",
+    ],
+    main = "vv_run.py",
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
+)
+
 # 라벨 목록 뷰 → index.md (5.6절, 부록 E.2). OKF 예약 파일은 생성물이다
 py_binary(
     name = "labels",
@@ -220,10 +253,14 @@ py_binary(
     main = "labels.py",
 )
 
-# 청크 본문의 인용 → 참조 그래프(-kg) 생성기 (8.2절). 대상이 없으면 실패한다
+# 청크 본문의 인용 → 참조 그래프(-kg) 생성기 (8.2절). 대상이 없으면 실패한다. 후보 링크 개체의 IRI 규칙(뿌리 uuid · link_hash)은 chunk2kg 가 정의처
 py_binary(
     name = "extract_refs",
-    srcs = ["extract_refs.py"],
+    srcs = [
+        "chunk2kg.py",
+        "extract_refs.py",
+    ],
+    main = "extract_refs.py",
     deps = [
         ":kb_lib",
         requirement("rdflib"),
@@ -245,6 +282,37 @@ py_binary(
     name = "canonicalize",
     srcs = ["canonicalize.py"],
     deps = [requirement("rdflib")],
+)
+
+# 문서 뷰 생성기 (4.6절 weave, p12-documents-are-generated): ADR · 요구 색인 · 변경 이력. 생성물은 bazel-bin 에만 (kb_weave: //kb/dev:adr …)
+# 본문 파서(chunk2kg)와 목차 앵커 규칙(doccheck.slug)을 그대로 쓴다 — 단일 정의처
+py_binary(
+    name = "weave",
+    srcs = [
+        "chunk2kg.py",
+        "doccheck.py",
+        "weave.py",
+    ],
+    main = "weave.py",
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
+)
+
+# skill 생성기 (로드맵 6단계, agrtls K): 도구 docstring + kb_lib.SKILLS → .claude/skills/<도구>/SKILL.md (트리, 커밋 대상).
+# 드리프트 검사는 //:skills_drift_test (kb_skills_drift_test). 손으로: python3 tools/gen_skills.py --root .
+py_binary(
+    name = "gen_skills",
+    srcs = [
+        "doccheck.py",
+        "gen_skills.py",
+    ],
+    main = "gen_skills.py",
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
 )
 
 # 문서 현행성 (agrtls-practices-review N): 죽은 링크·앵커·백틱 경로. 게이트는 //:doccheck_test (kb_doccheck_test)

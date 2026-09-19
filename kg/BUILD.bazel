@@ -1,5 +1,5 @@
 load("//defs:kb.bzl", "kb_kg_merge", "kb_workset_view")
-load("//defs:knowledge.bzl", "kb_community", "kb_cq_report", "kb_gate_test", "kb_metrics", "kb_reference_kg")
+load("//defs:knowledge.bzl", "kb_community", "kb_cq_report", "kb_gate_test", "kb_link_candidates", "kb_metrics", "kb_reference_kg", "kb_weave")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -17,6 +17,13 @@ kb_kg_merge(
         "//kb/dev/decision:kg",
         "//kb/dev/memory:kg",  # 관측 (memory plane) — assume_check --record 의 생성물, gen_build 가 타깃으로 만든다
         "//kb/dev/requirement:kg",
+        # V&V KB (7단계) — 디렉토리 = plane (pe-storage-layout), gen_build 가 타깃으로 만든다. 비어 있어도 된다
+        "//kb/vv/case:kg",
+        "//kb/vv/criteria:kg",
+        "//kb/vv/goal:kg",
+        "//kb/vv/run:kg",  # 실행 기록 (memory plane, append-only) — vv_run --record 의 생성물
+        "//kb/vv/scenario:kg",
+        "//kb/vv/verifier:kg",
     ],
 )
 
@@ -72,12 +79,41 @@ kb_metrics(
     notes = "//docs:notes",
 )
 
+# 감사 보고서 (로드맵 8단계 "복원과 감사", 요구 audit-self-sufficiency) — 입력은 그래프 union 과 관측 청크(kb/vv/run/ 실행 기록 ·
+# kb/dev/memory/ 가정 판정)뿐이다. 체계 밖 정보 0. bazel build //kg:audit → bazel-bin/kg/audit.md
+kb_weave(
+    name = "audit",
+    bodies = [
+        "//kb/vv:bodies",
+        "//kb/dev:bodies",
+    ],
+    data = [
+        ":chunks_kg",
+        ":kg",
+        ":references_kg",
+        "//kb/odd:odd",
+        "//kb/ontology:modules",
+    ],
+    kind = "audit",
+)
+
 # 커뮤니티 탐지 뷰 — 복합체 후보·relatedTo 링크 후보 (bazel build //kg:communities → bazel-bin/kg/communities.md). 채택은 사람
 kb_community(
     name = "communities",
     data = [
         ":chunks_kg",
         ":kg",  # composite-kg 의 손으로 쓴 복합체 — 이미 복합체인 부분을 후보로 다시 내지 않기 위해
+        ":references_kg",
+    ],
+)
+
+# 복원 후보 생성기 뷰 (로드맵 8단계 복원) — frontmatter 링크가 없는 쌍의 후보를 체계 안 증거(cites · verifies 공동 커버 · usesConcept)로,
+# 앵커당 k ≤ 7 (bazel build //kg:link_candidates → bazel-bin/kg/link-candidates.md). 확정은 사람이 앵커 청크의 restored: 로 — 게이트가 아니다
+kb_link_candidates(
+    name = "link_candidates",
+    data = [
+        ":chunks_kg",
+        ":kg",  # composite-kg 의 손으로 쓴 복합체 — 형제끼리는 후보가 아니다
         ":references_kg",
     ],
 )

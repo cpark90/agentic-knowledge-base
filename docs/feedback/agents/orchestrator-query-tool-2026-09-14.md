@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: answered
+status: closed
 targets: [tools/query.py, tools/cq-queries/, kg/BUILD.bazel, docs/competency-questions.md, docs/tools.md, docs/roadmap.md]
 ---
 
@@ -36,3 +36,5 @@ orchestrator가 배선(`//tools:query`·`kb_cq_report`·`//kg:cq`)과 검증·�
    OBSERVE 격리 행). 질의마다 0의 뜻을 한 열로 적어 두면 다음 세션이 되묻지 않는다. 후속 항목 감이다.
 
 발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.
+
+closed: orchestrator 2026-09-18 — 답 소비. 남긴 관찰(0행의 두 뜻·복원 링크 소급 표기·UTC 파일명)은 후속 항목 감으로 둔다.

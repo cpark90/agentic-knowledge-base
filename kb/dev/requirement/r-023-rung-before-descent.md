@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/71d2b786-e873-4705-b160-a443603ae0d2
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: 검증 대응물 없이 다음 높이로 내려가지 않는다
 title: No descent without the verification rung
 status: stable

@@ -3,6 +3,7 @@
 
 PROJECT_IMPORTS = [
     "//kb/ontology/entity/knowledge-item",
+    "//kb/ontology/profile/development",
     "//kb/ontology/related/assumption",
     "//kb/ontology/related/channel",
     "//kb/ontology/related/condition",

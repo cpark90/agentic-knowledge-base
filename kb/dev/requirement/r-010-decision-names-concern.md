@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/57a2dca5-8628-4255-a964-9928d2fd14a4
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: 결정은 기여하는 관심사를 명시한다
 title: A decision names the concern it serves
 status: stable

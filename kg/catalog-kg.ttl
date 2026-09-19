@@ -43,7 +43,8 @@ id:role-developer a agt:Role ;
 
 id:role-vnv a agt:Role ;
     rdfs:label "verification and validation"@en , "검증·확인"@ko ;
-    agt:writes agt:AnnotationChunk ;
+    agt:writesIn "kb/vv" ;  # V&V KB(kb/vv/)의 유일한 편집 주체 (7.1·7.5절). writesIn 이 없는 역할은 개발 KB(kb/dev)를 쓴다
+    agt:writes agt:RequirementChunk , agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;  # V&V KB 의 일곱 plane 전부 — 노트 8.20절의 다섯 하위 역할(engineer·검증기 저자·executor·judge·audit)을 이 저장소에서는 vnv 하나가 다른 세션에서 겸한다 (결정 p8-vv-roles, 2026-09-19)
     agt:reads agt:RequirementChunk , agt:ArtifactChunk , agt:DecisionChunk ;
     agt:executionMode agt:dispatch ;
     agt:maxConcurrent 1 .

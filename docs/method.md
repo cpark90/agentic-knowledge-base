@@ -59,14 +59,32 @@
 
 ## 1. 프로파일 구축
 
-**아직 절차가 없다.** 코어가 무엇을 남겨 두었는지만 정해져 있다. 프로파일은 코어 클래스의
-하위 클래스와 shape만 추가하고 코어를 수정하지 않는다
-([`id:chunk-d0057`](../chunks/decision/d-0057-profile-extension-only-module.md)).
+프로파일은 코어를 특정 작업 종류에 맞게 채운 온톨로지 모듈이다(`p2-skeleton-and-domain-profile`). 코어 클래스의
+하위 클래스·개체·프로파일 전용 속성·shape만 더하고 코어를 수정하지 않는다 — boundary 게이트가 재정의를 거부한다
+([`id:chunk-d0057`](../chunks/decision/d-0057-profile-extension-only-module.md)). 절차는 첫 프로파일(`development`,
+2026-09-18)을 만들면서 뽑았다.
 
-절차가 답해야 할 것은 분야의 무엇을 먼저 열거하는가, 역량 질문을 언제 쓰는가, 코어의 어느
-클래스가 확장점인가, 완료를 무엇으로 판정하는가다. 첫째 물음의 후보는 plane별 실체·판정
-도구·조건 어휘다. [`ontology.md`](ontology.md)의 두 층 구분과 참조 프로파일 표가 재료다.
-첫 프로파일을 실제로 하나 만들면서 절차를 뽑는 것이 다음 산출이다 ([`roadmap.md`](roadmap.md)).
+1. **확장점을 코어에서 열거한다.** plane 7의 실체와 판정 도구, level별 assertion 형식, 조건 셋째 수준, 결함 하위
+   유형, 상한 오버라이드, 앵커 해석기다(`p2-skeleton-and-domain-profile` 표). 열거가 곧 완료 판정의 분모다.
+2. **확장점마다 답을 결정에서 읽는다.** 결정이 없으면 먼저 결정을 만든다(유저 승인). 개발 프로파일의 원천은
+   `p7-dev-plane-substance`(실체·판정 도구·EARS 패턴)와 `pe-anchor-is-bazel-label`(앵커 해석기)이다.
+3. **모듈 `kb/ontology/profile/<domain>/`에 적는다.** 파일 하나가 확장점 하나다 — 실체 하위 클래스, 판정 도구
+   개체와 바인딩, 패턴 어휘. `project-ontology.ttl`의 `owl:imports`에 넣고 `gen_build`로 모듈 목록을 재생성한다.
+4. **바인딩한다.** 생성기(`chunk2kg`)가 plane을 실체 클래스로 타이핑하고 프로파일 필드(요구의 `pattern`)를
+   방출하며, 데이터를 채운다(요구 33건의 EARS 패턴). 바인딩 없는 어휘는 고립 개념이다(CQ-28).
+5. **역량 질문을 더한다.** 프로파일이 답해야 할 질문을 [`competency-questions.md`](competency-questions.md)에
+   등재하고 `tools/cq-queries/`에 질의를 만든다(CQ-36 — 각 plane의 청크는 무엇이고 무엇이 판정하는가).
+6. **완료를 판정한다.** 게이트 PASS(boundary·shape) · 새 역량 질문의 답 행 ≥ 1 · 코어 수정 0. 채우지 않은
+   확장점은 아래 표에 "미채움"으로 남긴다.
+
+| 확장점 | 개발 프로파일 | 상태 |
+|---|---|---|
+| plane 실체·판정 도구 | 실체 7 하위 클래스 + 판정 도구 6 개체 + `judgedBy` | 채움(2026-09-18) |
+| level별 assertion 형식 | EARS 패턴 어휘(요구), 결론·근거·대안 표지(결정) | 부분 — contract·schema·artifact는 항목이 생길 때 |
+| 조건 셋째 수준 | ODD 속성 7이 둘째 수준에 직접 | 미채움 — ODD 재배선과 함께 |
+| 결함 하위 유형 | — | 미채움 — 코어 `defect` 모듈(V&V, 7단계) 뒤 |
+| 상한 오버라이드 | 없음(전 plane 42줄) | 채움(오버라이드 없음이 답) |
+| 앵커 해석기 | Bazel 라벨(`pe-anchor-is-bazel-label`) | 채움 |
 
 ## 2. ODD 작성
 
@@ -106,8 +124,10 @@
 
 **분할 신호**는 라벨을 하나로 쓸 수 없는 것, 본문 일부만 재사용·가정·`suspect`의 대상이 되는
 것이다. **병합 신호**는 두 청크가 항상 함께 읽히는 것, 한쪽이 다른 쪽 없이 이해되지 않는 것,
-합쳐도 42줄 이하인 것이다. 분할·병합은 새 IRI를 만들고 옛 IRI를 `prov:wasDerivedFrom`으로
-잇는다 (d-0002 · d-0010).
+합쳐도 42줄 이하인 것이다. 분할은 라벨을 잇는 조각 하나가 원 uuid를 승계하고 나머지 조각은 새 uuid에
+`specializationOf: <원 IRI>`를 적는다. 병합은 한 uuid를 승계하고 나머지를 deprecated로 두어 `supersedes`로
+가리킨다. 링크 IRI는 뿌리 uuid로 계산되므로 조각을 가리키는 링크가 원본의 증거·이력을 잇는다
+([`p10-split-keeps-work-identity`](../kb/dev/decision/p10-split-keeps-work-identity/conclusion.md)). 출처는 `prov:wasDerivedFrom`이다.
 
 ## 4. 정제 전이
 
@@ -148,6 +168,11 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 - 판정 근거는 검사 가능성 순이다. 순서는 구축 기록 > 동시 편집 이력 > 테스트 공동 커버 >
   임베딩 유사도 > 같은 세션에서 읽음이다 (d-0110). 임베딩 유사도는 후보 추림에만 쓴다.
 - **임베딩 유사도를 확정 근거로 쓰지 않는다** (d-0009).
+- 본문에서 추출한 참조(`cites`·`usesConcept`)는 후보 링크 개체(`candidate`, 증거 구축 기록)다. 확정은 링크 키에 적는 행위다
+  ([`p10-extracted-references-are-candidates`](../kb/dev/decision/p10-extracted-references-are-candidates/conclusion.md)).
+- 복원 후보는 `bazel build //kg:link_candidates`(본문 식별자·테스트 공동 커버·개념 공유, TIM 제약 검사, 앵커당 k ≤ 7)가 낸다.
+  사람이 채택하면 링크 키에 적고 같은 청크의 `restored` 목록에 대상을 한 번 더 적는다 — 그 링크의 증거는 `proposal`이고
+  복원 비율은 `metrics`·`audit`가 센다 ([`p10-restored-link-marking`](../kb/dev/decision/p10-restored-link-marking/conclusion.md)).
 
 조건(`when`)·증거 기록·상태 전이 규칙은
 [`p9-conditional-links`](../kb/dev/decision/p9-conditional-links/conclusion.md)·[`p9-evidence-ledger`](../kb/dev/decision/p9-evidence-ledger/conclusion.md)에
@@ -201,6 +226,12 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 | 라벨 목록 | 스코프 안 청크의 `rdfs:label`만 |
 | 작업 집합 | 스코프의 plane과 ODD 조건으로 거른 청크 |
 | 추적 매트릭스 | plane × plane 격자 — **빈 칸이 곧 누락이다** (d-0109) |
+| 결정 기록(ADR) | 결정 복합체 하나 + `refines` 요구 + `supersedes` 연쇄 — `bazel build //kb/dev:adr` (2026-09-19) |
+| 요구 색인 | 요구 라벨 + EARS 패턴 + 정제 결정 수 + 도달 수준 — `//kb/dev:requirements`. `INTENT.md`의 손 목록을 대체한다 |
+| 변경 이력 | `supersedes`·`prov:wasRevisionOf` 연쇄 — `//kb/dev:changelog` |
+| 감사 보고서 | 검증 현황·최근 실행·가정·추적 매트릭스·검증 표시·링크 근거 — 그래프 union과 관측 본문만으로, `bazel build //kg:audit` (2026-09-19) |
+| 복원 후보 | 본문 식별자·테스트 공동 커버·개념 공유에서 링크 후보, TIM 제약, 앵커당 k ≤ 7 — `//kg:link_candidates` (2026-09-19) |
+| skill | 도구 docstring + `kb_lib.SKILLS` → `.claude/skills/*/SKILL.md` — 트리에 두는 생성물, 드리프트 검사 |
 
 ## 10. 일반화
 
@@ -223,6 +254,13 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 v1의 "검증은 응용"(d-0130)은 v3부터 대체되었다. 검증·확인은 **두 번째 지식 베이스**이고, 절차는
 §14 V&V 층에 있다 ([`p12-dev-vv-kb-exchange`](../kb/dev/decision/p12-dev-vv-kb-exchange/conclusion.md)).
 코어가 제공하는 것은 시험 대상·경계(ODD)·결과 축적(실행 기록)·실패 분류(defect)의 단위다.
+
+첫 형태(2026-09-19)의 사슬은 셋이다 — 검증 목표(`kb/vv/goal/`, requirement·functional, 개발 요구에서 `derivesFrom`) ←
+합격 기준(`kb/vv/criteria/`, contract·logical, 판정식 = 게이트) ← 케이스(`kb/vv/case/`, schema·concrete, 자극·기대·실행 명령)
+—`verifies`→ 개발 결정의 결론(concrete). 케이스가 `schema`인 이유는 `refines`가 plane 순서(contract·schema가 decision 뒤)를
+거스르지 못하기 때문이다. 검증기는 기존 게이트와 음성 시험이며 `artifact` 청크는 아직 없다. 실행기 `vv_run`이 케이스의 실행
+명령 중 읽기 전용 검증기를 돌려 실행 기록(`kb/vv/run/`, memory·concrete, append-only, `process:vv_run`)을 남기고, 감사
+보고서 `//kg:audit`가 그래프와 그 기록만으로 검증 현황을 낸다 — V&V 순환의 첫 닫힘이다.
 
 ## 12. 영향 분석
 

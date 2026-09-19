@@ -40,9 +40,9 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 | ODD 경계 | 후보 값·케이스 값이 ODD 범위 밖 | verify | 9.10 | 없음 (5단계 `space_check`) | — | 5단계 |
 | 기여 | `serves` 없는 abstract 결정 | verify | 6.8 | 없음 — abstract 결정 자체가 아직 없다 | — | — |
 | 범위·제약 | 범위 없는 logical 변수, 실행 불가한 사후조건 | shape + test | 6.8 | 없음 (5단계) | — | 5단계 |
-| 검증 대응물 | 같은 높이의 V&V 대응물(목표·기준·검증기) 부재 | verify | 8.3 | 없음 (7단계; 그 전엔 **경고**) | — | 7단계 |
+| 검증 대응물 | 같은 높이의 V&V 대응물(목표·기준·검증기) 부재 | verify | 8.3 | 부분 — 사슬 8(2026-09-19)이 concrete 높이에서 결정 결론을 `verifies`한다. 대응물 부재를 거부하는 게이트는 없음 — `metrics` 7단계 절이 비율을 잰다 | — | 7단계 |
 | 표본 근거 | `sampling` 없는 concrete 값·케이스 | shape | 6.8, 8.23 | 없음 (5·7단계) | — | 5·7단계 |
-| 할당 근거 | 후보가 둘 이상인데 확정된 링크, 배제 근거 없는 기각 | verify | 9.10 | 부분 — 증거 기록 규칙 2 질의(`confirmed-without-evidence`·`confirmed-with-refutation`); 링크 개체 472(전부 구축 기록), 후보 링크 0 | `verify` | 증거 항목을 더하거나 확정을 후보로 되돌린다 — 저작자 |
+| 할당 근거 | 후보가 둘 이상인데 확정된 링크, 배제 근거 없는 기각 | verify | 9.10 | 부분 — 증거 기록 규칙 2 질의(`confirmed-without-evidence`·`confirmed-with-refutation`); 확정 링크 577(구축 548 · 복원 29), 후보 링크 30(본문 추출, 2026-09-19); 상태·클래스 불일치 질의 `link-state-class-mismatch` | `verify` | 증거 항목을 더하거나 확정을 후보로 되돌린다 — 저작자 |
 | 기준 바인딩 | 기준 없는 `verifies`, 판정식 없는 기준 | shape | 8.11 | **있음** — `verifies-without-criteria.rq` | `verify` | vnv가 기준 청크를 만들고 `verifies`를 바인딩한다 |
 | 대안 기록 | 대안 청크 없는 결정 | shape | 7.4 | **있음** — `kb_decision` 의 `alternatives` 가 필수 속성이고, `gen_build` 가 세 청크 없는 디렉토리를 거부한다 (로드 시점) | `gen-build` | `alternatives.md`를 쓴다 — orchestrator |
 | 계약 선행 | 계약보다 먼저 확정된 구현 | verify | 7.5 | 없음 — `contract` plane 항목 0 | — | — |
@@ -131,12 +131,12 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 
 | 도구 | 입력 → 산출 | 실패 조건 |
 |---|---|---|
-| `chunk2kg.py` | 청크 frontmatter → head 그래프. **타깃별 조각**(`--fragment`, `kb_chunk`·`kb_decision` 액션) → `kb_kg_merge`(`--merge`) → `bazel-bin/kg/chunks-kg.ttl`. 바뀐 타깃의 조각만 다시 만든다. | 필수 키 7개 누락, 값 어휘 밖, 복합체 미선언(조각), **IRI 중복**(병합) — "한 chunk는 한 파일"의 기계적 강제 |
+| `chunk2kg.py` | 청크 frontmatter → head 그래프. plane을 개발 프로파일의 실체 클래스로 함께 타이핑하고 요구의 `pattern`을 방출한다(2026-09-18). **타깃별 조각**(`--fragment`, `kb_chunk`·`kb_decision` 액션) → `kb_kg_merge`(`--merge`) → `bazel-bin/kg/chunks-kg.ttl`. 바뀐 타깃의 조각만 다시 만든다. | 필수 키 7개 누락, 값 어휘 밖, 복합체 미선언(조각), **IRI 중복**(병합) — "한 chunk는 한 파일"의 기계적 강제 |
 | `extract_refs.py` | 본문의 `d-NNNN` 인용 → `references-kg.ttl`의 `agt:cites`; 본문의 `agt:<Term>` 표기 중 온톨로지가 정의한 용어 → `agt:usesConcept`(복원 경로, dependency-graph (f)). 온톨로지에 없는 표기는 `info`로 집계만 한다 | 인용 대상이 실재하지 않음 |
 | `odd2kg.py` + `taxonomy.py` | OpenODD YAML 매핑 문서 `kb/odd/project-odd.yml`(`TAXONOMY`·`MODULES`·`INCLUDE_AND`…) → `project-odd.ttl`; `related/condition` → `taxonomy.yml` (부록 E.4) | 택소노미 밖 범주 · 미선언 속성 · 선언 밖 리터럴 · OpenODD 식이 아닌 값 · `ATTRIBUTES`/`CHECKS` 없는 조건 |
 | `labels.py` | 청크 head → OKF `index.md` (5.6절) | frontmatter 오류 |
 | `metrics.py` | 그래프 → `metrics.md` (4.13절 지표, CQ19·CQ20, 14.1 통과 조건; 구축에는 frontmatter 링크 개체와 본문 식별자 추출(`cites`·`usesConcept`)이 들어가고 복원은 후보 파이프라인 산출만(유저 결정 2026-09-12 (b)), 가정 절에 "기본 가정만 가진 청크") | 그래프 파싱 실패 |
-| `gen_build.py` | 청크 frontmatter → `BUILD.bazel`(`kb_chunk`·`kb_decision` 타깃, 링크 = deps). 커밋한다 | 세 청크 없는 결정 디렉토리 · 끊긴 링크 |
+| `gen_build.py` | 청크 frontmatter → `BUILD.bazel`(`kb_chunk`·`kb_decision` 타깃, 링크 = deps; `kb/vv/{goal,scenario,criteria,case,verifier}/`는 디렉토리 = plane). 커밋한다 | 세 청크 없는 결정 디렉토리 · 끊긴 링크 |
 | `consistency.py` | 청크 본문 + 용어집 → `consistency.md` (`bazel build //kb:consistency`): 정확·근사 중복, 묶인 쌍(`coUpdatesWith`)의 응집 저하(본문 5-gram Jaccard < θ/2 — 의미 응집 검사의 첫 형태, 학습 모델 임베딩은 ODD 명시 제외), 라벨 중복, 결론 라벨 형식(결론만 — 근거·대안 라벨은 명사구 관례), 용어집 옛 표기, 중복률. 보고 뷰이며 게이트가 아니지만 `//kb:consistency_build_test`가 `bazel test //...`마다 생성한다(rules.md "커밋마다") ([`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md)) | 파싱 실패 |
 
 #### 하네스 도구 — 역할 규약과 인수
@@ -160,27 +160,36 @@ YAML은 PyYAML로 읽는다. 잠금은 `pyyaml==6.0.2`이고 해시는 호스트
 실험이다. `--record`는 실행 결과를 관측 청크(`kb/dev/memory/obs-<시각>.md`, memory plane, append-only)로 남긴다 — 무효화 이력의
 자리다. 새 어휘는 없다. 가정 자체의 `when` 판정식은 후속이다.
 
+#### `vv_run.py` — V&V 실행기 (8.15절, 도입 7단계 첫 형태, 2026-09-19)
+
+`bazel run //tools:vv_run -- [--record] [--case <슬러그>…]` — 케이스(`kb/vv/case/*.md`) 본문의 `**실행 명령**`을 읽어 읽기 전용
+검증기(`bazel test`·`bazel build`·`bazel query`·`gen_build --check`)만 실행하고 그 밖(임시 파일 자극·`bazel run`)은 SKIP으로
+적는다. 케이스 판정은 실행한 명령의 종료 코드로만 한다 — pass·fail·skip이고 SKIP은 PASS가 아니다(실패 종류 3). 리비전(워킹트리
+변경 여부)·UTC 시각·bazel·python 버전·명령별 종료 코드·소요를 적는다. `--record`는 실행 기록(`kb/vv/run/run-<시각>.md`, memory
+plane, concrete, `generated.by: process:vv_run`)을 append-only로 남긴다 — 도구가 executor 하위 역할을 맡는 첫 형태라 writer
+검사 밖이다. 종료 코드는 fail 1 · pass 0 · skip만 3이다. 기대 문구 대조와 임시 파일 자극의 자동 생성은 후속이다.
+
 #### `odd_check.py` — ODD 모니터링 (3.5절, 도입 2단계)
 
 `bazel run //tools:odd_check`는 ODD 문서 `CHECKS.<속성>.cmd`를 실행해 속성마다 in / out / unverified를
 판정하고 이탈을 보고한다. 종료 1은 이탈이다. 네트워크·호스트 상태를 보므로 테스트 타깃이 아니다.
 첫 모니터링(2026-09-11)은 7속성 전부 in, 이탈 0이었다.
 
-### 활용 (첫 형태 5)
+### 활용 (첫 형태 10)
 
-**첫 형태가 있는 것은 `workset`·`metrics`·`impact`·`handoff`·`consistency`다** (2026-09-11). 없는 것은
-`link`(후보 생성)·`query`·`project`·`propagate`/`revalidate`다. 공통 원인은 하네스가 읽기·쓰기 집합을
-기록하지 않는 것이다. 활용 도구가 없으면 "온톨로지를 활용하는 방법론"이 성립하지 않는다.
+**첫 형태가 있는 것은 `workset`·`metrics`·`impact`·`handoff`·`consistency`(2026-09-11)와
+`query`·`propagate`/`revalidate`(2026-09-14)·`weave`·`gen_skills`(2026-09-19)다.** `link`(복원 후보 생성)도 2026-09-19에 생겼다. 없는 것은
+tangle이다. 구축 쪽 공백의 공통 원인은 하네스가 읽기·쓰기 집합을 기록하지 않는 것이다. 활용 도구가 없으면 "온톨로지를 활용하는 방법론"이 성립하지 않는다.
 
 | 도구 | 대응 절차 | 하는 일 | 단계 |
 |---|---|---|---|
 | `workset` / `labels` | [method §8 조회](method.md#8-조회) | **첫 형태 있음** — `bazel build //kg:workset --//kb:role=<role> --//kb:anchor=<라벨|IRI> --//kb:levels=<창> --//kb:hops=1 --//kb:budget=200` → `bazel-bin/kg/workset-<role>.md`: 역할 스코프(plane) × 수준 창 × 앵커 이웃(상류 ∪ 하류), 족별 우선순위(앵커 ≫ references ≫ semanticallyDependsOn ≫ 구성 관계 ≫ relatedTo ≫ 시간축) 뒤 예산 패킹, 초과분은 라벨만(dependency-graph §4, 2026-09-12). 선택자는 빌드 설정이라 BUILD를 고치지 않는다. 정의(0.5절 정정본)대로 앵커가 양을 거른다 — 앵커 없이 573줄, 앵커를 주면 14줄이다 | 2 |
-| `link` | [method §6 연결](method.md#6-연결) | 구축 기록 → 후보, 복원 파이프라인 k≤7. 첫 형태: frontmatter 링크마다 `agt:Link` + 구축 기록 증거를 `chunk2kg`가 방출, `handoff`가 workset 뷰의 펼친 청크를 `sources`로 옮긴다 (`bazel run //tools:handoff -- --workset bazel-bin/kg/workset-<role>.md <청크>`) | 3·8 |
+| `link` | [method §6 연결](method.md#6-연결) | **첫 형태 있음**(2026-09-19) — 복원 후보 생성기 `bazel build //kg:link_candidates` → `bazel-bin/kg/link-candidates.md`: 그래프 union만으로 본문 식별자(`cites`, 구축 기록)·테스트 공동 커버(`verifies`)·개념 공유(`usesConcept` ≥ 3, `proposal`)에서 후보를 내고 TIM 허용 칸·plane 단방향·수준·복합체 형제로 탈락시키며 앵커당 k ≤ 7이다. 채택은 사람이 링크 키와 `restored` 목록에 적는다([`p10-restored-link-marking`](../kb/dev/decision/p10-restored-link-marking/conclusion.md)) — 복원 비율은 `metrics`·`audit`가 `kb_lib.link_origins`로 센다. 구축 쪽: frontmatter 링크마다 `agt:Link` + 구축 기록 증거를 `chunk2kg`가 방출, `handoff`가 workset 뷰의 펼친 청크를 `sources`로 옮긴다 (`bazel run //tools:handoff -- --workset bazel-bin/kg/workset-<role>.md <청크>`). 없는 것: 동시 편집 이력 근거, `relatedTo` 후보의 복원 표시 | 3·8 |
 | `propagate` / `revalidate` | [method §7 갱신](method.md#7-갱신) | **첫 형태 있음** — `propagate`는 `assume_check`의 전파 절(깨진 가정 → 직접 영향 집합 → 하류 suspect 후보). `revalidate` — `bazel run //tools:revalidate -- --base <rev>`: base 리비전 대비 본문 해시가 바뀐 청크와 그 링크 양 끝·`part_of` 형제·`rdeps` 하류를 재판정 대상 표로 낸다(종료 1 = 대상 있음). head만 바뀐 청크는 제외한다. 무효화 전파 8단계·규칙 카탈로그(`propagate`)는 없다 | 4 |
 | `query` | [competency-questions](competency-questions.md) | **첫 형태 있음** — `bazel run //tools:query -- <CQ> [--labels] [--bind ?v=…]`가 역량 질문 질의 27개(`tools/cq-queries/*.rq`, 하나가 CQ 하나)를 그래프 union 위에서 돌린다. 결과는 라벨 목록이다. 뷰 `bazel build //kg:cq` → `bazel-bin/kg/cq.md`가 CQ마다 행 수와 상위 5행을 낸다(2026-09-14) | 3 |
 | `impact` | [method §12 영향 분석](method.md#12-영향-분석) | **첫 형태 있음** — `bazel run //tools:impact -- <타깃>`: `rdeps`로 영향 항목 수·plane 분포·suspect가 될 링크 수·승인 필요 결정 수. 구조 근사이며 가정·무효화 전파는 그래프 질의 몫이다 | 3 |
-| `project` | [method §9 뷰](method.md#9-뷰) | **첫 형태 있음(communities)** — `bazel build //kg:communities`: 결정론적 Louvain으로 복합체 후보(같은 plane·level, 2~9)와 `relatedTo` 링크 후보(plane·level을 넘음)를 제안, 판정은 사람이 한다([`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md)). tangle·weave·매트릭스는 없다 | 8 |
-| `gen_skills` | [method](method.md) 정형 절차 | **없음** — skill은 손으로 쓰지 않고 지식·절차에서 **생성**한다(agrtls K, 6단계 문서 생성; `upgrade/ranging_module`의 recipe 생성 선례). 지금 손으로 쓰면 이중 원본이다 | 6 |
+| `project` / `weave` | [method §9 뷰](method.md#9-뷰) | **첫 형태 있음** — `weave`(2026-09-19): `bazel build //kb/dev:adr`(결정 복합체의 ADR 뷰) · `//kb/dev:requirements`(요구 색인 — EARS 패턴·정제 수·도달 수준) · `//kb/dev:changelog`(`supersedes` 이력) · `//kg:audit`(감사 보고서 — 검증 현황·최근 실행·가정·추적 매트릭스·검증 표시·링크 근거를 그래프 union과 관측 본문만으로, 8단계 첫 형태). 생성물마다 생성 시각과 질의를 적는다(`p12-documents-are-generated`). `communities` — `bazel build //kg:communities`: 결정론적 Louvain으로 복합체 후보(같은 plane·level, 2~9)와 `relatedTo` 링크 후보(plane·level을 넘음)를 제안, 판정은 사람이 한다([`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md)). tangle은 없다 | 8 |
+| `gen_skills` | [method](method.md) 정형 절차 | **첫 형태 있음**(2026-09-19) — `python3 tools/gen_skills.py --root .`가 도구 docstring과 `kb_lib.SKILLS`(도구·절 앵커·대표 명령)에서 `.claude/skills/<도구>/SKILL.md`를 생성한다. 트리에 두고 커밋하며 `//:skills_drift_test`가 재생성과 비교한다. BUILD와 같은 생성 트리 파일이며 손으로 고치면 다음 생성이 덮어쓴다 | 6 |
 | `metrics` | [methodology 완료 판정](method.md#완료-판정) | **첫 형태 있음** — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md`: 청크 수·고아율·크기 분포·링크 밀도·CQ19·CQ20·신뢰 등급. 없는 것은 suspect 비율·누락률·라벨 대표성이다 | 1 |
 
 `metrics`(1·2단계 대리 포함)·`workset`·`odd_check`의 첫 형태가 생겼으므로 문서는 수치를 적지 않고 생성물을 인용한다 (d-0075). 문서에 남아
@@ -195,11 +204,11 @@ YAML은 PyYAML로 읽는다. 잠금은 `pyyaml==6.0.2`이고 해시는 호스트
 | `feedback` | `-space` → 체크박스 파일 · 되읽기 → 확정 (13.5) | [p9-candidate-storage](../kb/dev/decision/p9-candidate-storage/conclusion.md) |
 | `contract_check` | 계약 선행 · 타입 · 사후조건 CEL 실행 가능성 (7.5) | [p7-contract-first](../kb/dev/decision/p7-contract-first/conclusion.md) |
 | `schema_compat` | 하위 호환 판정, 비호환이면 새 IRI + `supersedes` (7.6) | [p7-schema-derivation](../kb/dev/decision/p7-schema-derivation/conclusion.md) |
-| `adr` | 결정 복합체 뷰 (7.4) | [p7-alternatives-mandatory](../kb/dev/decision/p7-alternatives-mandatory/conclusion.md) |
+| `adr` | 결정 복합체 뷰 (7.4) — **있음**: `weave --kind adr`, `//kb/dev:adr` (2026-09-19) | [p7-alternatives-mandatory](../kb/dev/decision/p7-alternatives-mandatory/conclusion.md) |
 | `tangle` | 구현 청크 → 코드 파일 (4.6) | [method §9](method.md#9-뷰) |
 | `dev_metrics` | 전방 추적 커버리지 · 후방 추적 커버리지 · 결정 완결률 · `-space` 체류 · 계약 선행률 · 대안 기록률 (7.8) | [p7-dev-kb-outputs-and-metrics](../kb/dev/decision/p7-dev-kb-outputs-and-metrics/conclusion.md) |
 
-## V&V 층 — V&V KB의 도구 (노트 Part VIII, 도입 7단계, 전부 미구현)
+## V&V 층 — V&V KB의 도구 (노트 Part VIII, 도입 7단계, `run` 첫 형태 외 미구현)
 
 | 도구 | 하는 일 | 절 |
 |---|---|---|
@@ -208,13 +217,13 @@ YAML은 PyYAML로 읽는다. 잠금은 `pyyaml==6.0.2`이고 해시는 호스트
 | `case_gen` | `keep(범위)` + `cover()` → concrete 케이스. 규칙·seed를 provenance에 | 8.23 |
 | `verifier_bind` | 기준 바인딩 검사. 기준 없는 `verifies` 거부 | 8.11 |
 | `env_assign` | 결함 요인 → 환경 단계, 재현성 조건 | 8.10, 8.12 |
-| `run` | 실행기. 리비전·seed·환경 버전 기록, 실행 기록 append | 8.15 |
+| `run` | **첫 형태 있음** — `vv_run`(2026-09-19): 리비전·환경 버전 기록, 실행 기록 append(`kb/vv/run/`). seed·기대 문구 대조는 없다 | 8.15 |
 | `judge` | 판정. 학습된 판정자면 3지표 검사, 결과를 head `verified` 목록에 | 8.14, 2.12 |
 | `mutate` | 변이 주입 표본 검사 | 8.6 |
 | `coverage` | 정제 완주 · 후방 추적 귀속 · logical 공간 커버, 경계값 별도, 6단계 제외 | 8.7 |
 | `defect_classify` | `defect-rules` 추론: 요인·한정자·트리거·발견 단계 | 8.16~8.18 |
 | `sim_trust` | 시뮬레이션 신뢰도 요인별 상관 | 8.13 |
-| `vv_report` | 검증 상태 · 커버리지 · 결함 · 가정 건전성 · 독립성 | 8.24 |
+| `vv_report` | 검증 상태 · 커버리지 · 결함 · 가정 건전성 · 독립성 — 검증 상태·가정 건전성은 `//kg:audit`(2026-09-19)이 낸다. 결함·독립성은 없다 | 8.24 |
 | `independence_audit` | 개발 역할의 V&V KB 쓰기 흔적 = 0 | 8.5 |
 | `vv_metrics` | 목표 파생률 · 기준 바인딩률 · V&V 완주율 · 실행 통과율 · 변이 검출률 · 재현 실패율 · 검증 대응물 지연 | 8.26 |
 | `diagnose` | 불만족 핵 · 보간 · 최약 전제조건 · 명세 추론. 결과는 관측 청크 | [12.12](../kb/dev/decision/p12-symbolic-diagnosis/conclusion.md) |
@@ -248,14 +257,16 @@ bazel test //...  (게이트 전체 — test_suite 없음, 패키지의 test 타
 ├── //:naming_test                 TTL 접미사 규약
 ├── //docs/feedback:channel_lint_test  채널 규약 — lane status 어휘 · handoff↔agents 쌍 · hci 반영 흔적 · waivers
 ├── //:doccheck_test               문서 현행성 — 깨진 링크·앵커·백틱 경로 (루트 md + docs/**, 채널 제외)
+├── //:skills_drift_test           생성 skill(.claude/skills) = 도구 docstring·kb_lib.SKILLS (드리프트 가드)
 ├── //kb:consistency_build_test    정합성 보고 생성 (build_test — 보고는 게이트 실행마다)
 ├── //chunks:lint_test             `chunks/` 항목 42줄 · 산문 문체(prose)
 ├── //kb/dev:lint_test             개발 KB 청크 42줄 · 산문 문체(prose)
+├── //kb/vv:lint_test              V&V KB 청크 42줄 · 산문 문체 (2026-09-19)
 ├── //kb/ontology:gate_test        labels · boundary · SHACL
 ├── //kb/odd:gate_test             ODD shape  ← //kb/odd:odd (odd2kg) · :taxonomy
 └── //kg:gate_test                 vocab · odd-ref · dangling · verify · SHACL
                                     ← //kg:chunks_kg · //kg:references_kg 를 입력으로
-생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics · //kg:workset_<role> · //kb:consistency · //kg:communities · //kg:cq
+생성물: //kb/odd:odd · //kb/odd:taxonomy · //kb/dev:index · //kg:metrics · //kg:workset_<role> · //kb:consistency · //kg:communities · //kg:cq · //kb/dev:adr · //kb/dev:requirements · //kb/dev:changelog · //kg:audit · //kg:link_candidates
 ```
 
 배선은

@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: dispatch는 작업 집합만 전달한다
 title: Dispatch passes only the workset
 status: stable

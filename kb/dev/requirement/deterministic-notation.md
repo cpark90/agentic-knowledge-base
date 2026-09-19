@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/90fc2df7-0a74-43fe-9c8f-546c7afdf1d3
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 명명과 표기는 결정론적이다
 title: Naming and notation are deterministic
 status: stable

@@ -1,0 +1,39 @@
+# 개발 프로파일 — EARS 패턴: 요구 문장의 형식 여섯 (Mavin et al., RE'09; 결정 p7-dev-plane-substance, 노트 7.2절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:EarsPattern a owl:Class ;
+    rdfs:label "EARS pattern"@en , "EARS 패턴"@ko ;
+    skos:definition "요구 문장의 형식. EARS(Easy Approach to Requirements Syntax, Mavin et al. RE'09)의 다섯 패턴과 그 조합 complex 다. 패턴을 적는 까닭은 요구 문장의 트리거·상태·조건이 형식으로 드러나야 아래 수준의 판정식이 그것을 그대로 옮길 수 있기 때문이다 (결정 p7-dev-plane-substance)."@ko .
+
+agt:pattern a owl:ObjectProperty ;
+    rdfs:domain agt:RequirementChunk ;
+    rdfs:range agt:EarsPattern ;
+    rdfs:label "pattern"@en , "패턴"@ko ;
+    skos:definition "요구 문장이 따르는 EARS 패턴. 요구마다 정확히 하나이고 frontmatter `pattern:` 에서 생성된다. requirement plane 밖에서는 쓰지 않는다 — 패턴은 요구 문장의 형식이지 다른 plane의 속성이 아니다 (결정 p7-dev-plane-substance)."@ko .
+
+agt:ubiquitous a owl:NamedIndividual , agt:EarsPattern ;
+    rdfs:label "ubiquitous"@en , "항상 패턴"@ko ;
+    skos:definition "조건 없이 항상 성립하는 요구. \"The <system> shall <response>\" 형식이며 트리거·상태가 없다 (EARS, Mavin RE'09)."@ko .
+
+agt:eventDriven a owl:NamedIndividual , agt:EarsPattern ;
+    rdfs:label "event-driven"@en , "이벤트 구동 패턴"@ko ;
+    skos:definition "트리거가 일어날 때 성립하는 요구. \"When <trigger>, the <system> shall <response>\" 형식이다 (EARS, Mavin RE'09)."@ko .
+
+agt:stateDriven a owl:NamedIndividual , agt:EarsPattern ;
+    rdfs:label "state-driven"@en , "상태 구동 패턴"@ko ;
+    skos:definition "특정 상태에 있는 동안 성립하는 요구. \"While <state>, the <system> shall <response>\" 형식이다 (EARS, Mavin RE'09)."@ko .
+
+agt:unwantedBehaviour a owl:NamedIndividual , agt:EarsPattern ;
+    rdfs:label "unwanted behaviour"@en , "원치 않는 동작 패턴"@ko ;
+    skos:definition "원치 않는 조건이 생겼을 때의 대응을 적는 요구. \"If <condition>, then the <system> shall <response>\" 형식이다 (EARS, Mavin RE'09)."@ko .
+
+agt:optional a owl:NamedIndividual , agt:EarsPattern ;
+    rdfs:label "optional"@en , "선택 기능 패턴"@ko ;
+    skos:definition "특정 기능이 포함된 경우에만 성립하는 요구. \"Where <feature>, the <system> shall <response>\" 형식이다 (EARS, Mavin RE'09)."@ko .
+
+agt:complex a owl:NamedIndividual , agt:EarsPattern ;
+    rdfs:label "complex"@en , "복합 패턴"@ko ;
+    skos:definition "위 패턴 둘 이상을 한 문장에 조합한 요구. 조합이 필요한 경우에만 쓰고, 나눌 수 있으면 요구 문장을 나눈다 (EARS, Mavin RE'09)."@ko .

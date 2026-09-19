@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: 변경은 링크를 재판정 대상으로 만든다
 title: Edits downgrade affected links to suspect
 status: stable

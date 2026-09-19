@@ -5,7 +5,7 @@ PREFIX id: <https://agentic-knowledge-base.dev/id/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?composite (COUNT(DISTINCT ?part) AS ?parts) (COUNT(DISTINCT ?plane) AS ?planes) (COUNT(DISTINCT ?level) AS ?levels) WHERE {
   ?composite a agt:Composite ; agt:hasDirectPart ?part .
-  ?part a ?plane .
+  ?part a ?plane . ?plane rdfs:subClassOf agt:Chunk .
   OPTIONAL { ?part agt:hasLevel ?level }
 } GROUP BY ?composite
 HAVING (COUNT(DISTINCT ?part) > 9 || COUNT(DISTINCT ?plane) > 1)

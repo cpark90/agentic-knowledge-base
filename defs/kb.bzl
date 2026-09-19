@@ -48,6 +48,11 @@ def _check_residency(label, plane, level):
     if level not in RESIDENCY[plane]:
         fail("%s: 수준 허용표 위반 — plane %s 는 level %s 에 살 수 없다 (6.4절)" % (label, plane, level))
 
+def _is_vv(label):
+    """V&V KB 의 타깃인가 — 패키지 접두 kb/vv (pe-storage-layout). 그 밖(kb/dev·chunks)은 개발 KB 다."""
+    return label.package == "kb/vv" or label.package.startswith("kb/vv/")
+
+
 def _check_links(ctx, plane, level):
     """링크 방향의 구조 판정 — 분석 시점 fail. 의미 판정은 그래프 게이트가 한다."""
     for dep in ctx.attr.refines + ctx.attr.serves:
@@ -62,10 +67,13 @@ def _check_links(ctx, plane, level):
     for dep in ctx.attr.supersedes:
         if dep[ChunkInfo].plane != plane:
             fail("%s: supersedes 는 같은 plane 안에서만 (7.4절): %s → %s" % (ctx.label, plane, dep[ChunkInfo].plane))
+    for dep in ctx.attr.refines + ctx.attr.serves + ctx.attr.supersedes:
+        if _is_vv(ctx.label) != _is_vv(dep.label):
+            fail("%s: refines/serves/supersedes 는 KB 안에서만이다 — KB 를 가로지르는 링크는 verifies 뿐이다 (V&V → 개발, 7.5절): %s" % (ctx.label, dep.label))
     for dep in ctx.attr.verifies:
-        if not ctx.label.package.startswith("kb/vv"):
+        if not _is_vv(ctx.label):
             fail("%s: verifies 의 주어는 V&V KB 청크뿐이다 (8.5절)" % ctx.label)
-        if not dep.label.package.startswith("kb/dev"):
+        if _is_vv(dep.label):
             fail("%s: verifies 의 대상은 개발 KB 청크다: %s" % (ctx.label, dep.label))
         if dep[ChunkInfo].level != level:
             fail("%s: verifies 는 같은 수준끼리 (8.3절 검증 대응물): %s ≠ %s" % (ctx.label, level, dep[ChunkInfo].level))

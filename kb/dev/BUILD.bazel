@@ -1,6 +1,15 @@
 # 개발 KB — 요구에서 실산출물을 생산하기 위한 지식 (노트 7.1절).
 # plane별 하위 패키지(requirement/ decision/ …)의 BUILD 는 tools/gen_build.py 가 frontmatter 에서 생성한다.
-load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_index")
+load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_index", "kb_weave")
+
+# 문서 뷰의 입력 — query·metrics 와 같은 그래프 union (head · 참조 · 시드/카탈로그/복합체 · ODD · 온톨로지 모듈)
+_VIEW_GRAPHS = [
+    "//kg:chunks_kg",
+    "//kg",
+    "//kg:references_kg",
+    "//kb/odd:odd",
+    "//kb/ontology:modules",
+]
 
 package(default_visibility = ["//visibility:public"])
 
@@ -26,4 +35,30 @@ kb_chunk_lint_test(
 kb_index(
     name = "index",
     srcs = [":bodies"],
+)
+
+# 문서 뷰 (4.6절 weave, p12-documents-are-generated) — 저장하지 않고 생성한다. 생성물은 bazel-bin/kb/dev/<kind>.md 이고 머리에 생성 시각과 질의가 있다
+# ADR: 살아 있는 결정 복합체마다 결론·근거·대안 본문 + refines 요구 + supersedes 연쇄 (bazel build //kb/dev:adr)
+kb_weave(
+    name = "adr",
+    bodies = [
+        ":bodies",
+        "//chunks:bodies",  # 단일 파일 결정(v1·harness 유래)의 본문 — 샌드박스에는 선언된 입력만 있다
+    ],
+    data = _VIEW_GRAPHS,
+    kind = "adr",
+)
+
+# 요구 색인: 라벨 · EARS 패턴 · 정제 결정 수 · 도달 최저 수준(CQ19) · IRI — INTENT.md 의 손 목록을 대체한다 (bazel build //kb/dev:requirements)
+kb_weave(
+    name = "requirements",
+    data = _VIEW_GRAPHS,
+    kind = "requirements",
+)
+
+# 변경 이력: supersedes 쌍(새 → 옛)을 새 결정의 generated.at 순으로, wasRevisionOf 가 있으면 함께 (bazel build //kb/dev:changelog)
+kb_weave(
+    name = "changelog",
+    data = _VIEW_GRAPHS,
+    kind = "changelog",
 )

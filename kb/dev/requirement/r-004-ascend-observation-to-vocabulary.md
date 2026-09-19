@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: 반복 관측을 어휘·규칙으로 승격한다
 title: Promote repeated observation into vocabulary and rules
 status: stable

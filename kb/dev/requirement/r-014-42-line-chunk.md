@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 최소 단위는 42줄 자립 청크다
 title: The minimal unit is a self-contained 42-line chunk
 status: stable

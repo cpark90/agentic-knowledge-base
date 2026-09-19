@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 개발 KB와 V&V KB는 분리된다
 title: Development and V&V KBs are separate
 status: stable

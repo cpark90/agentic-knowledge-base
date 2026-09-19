@@ -2,7 +2,7 @@
 """일반 질의 도구 — 역량 질문(docs/competency-questions.md)을 SPARQL 로 노출한다 (로드맵 다음 산출 4, 노트 2.7절).
 
 질의 하나 = 파일 하나 tools/cq-queries/CQ-NN.rq. 머리 주석 첫 줄이 질문 원문, 둘째 줄이 답의 형태(행 = 무엇)다.
-그래프는 metrics 와 같은 union(head·참조·시드·카탈로그·복합체·ODD)에 온톨로지 모듈을 더해 rdflib 에 **한 번** 올린다.
+그래프는 metrics 와 같은 union(head·참조·시드·카탈로그·복합체·ODD)에 온톨로지 모듈을 더해 rdflib 에 **한 번** 올린다 (kb_lib.load_union).
 캐시·직렬화는 두지 않는다 — 원본은 그래프 파일이고 결과는 저장하지 않는 질의 결과다 (competency-questions 4).
 결과는 표이고 --labels 가 IRI 열을 rdfs:label@ko 로 바꾼다 — 라벨이 인터페이스다 (p4-label-is-the-interface,
 p12-knowledge-retrieval-by-label: 결과는 라벨 목록).
@@ -60,33 +60,6 @@ def find_queries(paths: list[str], root: Path) -> list[Path]:
             raise ValueError(f"{p}: 질의 파일·디렉토리가 없다")
         out += sorted(cand.glob("*.rq")) if cand.is_dir() else [cand]
     return out
-
-
-def load_graph(ttls: list[str], root: Path) -> Graph:
-    """TTL 을 하나의 Graph 로 (metrics.py 와 같은 방식). 빈 목록이면 UNION_GRAPH_PATHS + 온톨로지 glob. 없는 파일은 ValueError."""
-    files: list[Path] = []
-    if ttls:
-        for t in ttls:
-            f = kb_lib.resolve_path(t, root)
-            if f is None:
-                raise ValueError(f"{t}: 그래프 파일이 없다 — bazel build //kg:chunks_kg //kg:references_kg //kb/odd:odd")
-            files.append(f)
-    else:
-        for p in kb_lib.UNION_GRAPH_PATHS:
-            f = kb_lib.resolve_path(p, root)
-            if f is None:
-                raise ValueError(f"{p}: 그래프 파일이 없다 — bazel build //kg:chunks_kg //kg:references_kg //kb/odd:odd")
-            files.append(f)
-        for pat in kb_lib.UNION_GRAPH_GLOBS:
-            found = kb_lib.resolve_glob(pat, root)
-            if not found:
-                raise ValueError(f"{pat}: 온톨로지 모듈이 없다")
-            files += found
-    g = Graph()
-    for f in files:
-        if f.suffix == ".ttl":
-            g.parse(str(f), format="turtle")
-    return g
 
 
 def resolve_binding(g: Graph, spec: str):
@@ -214,7 +187,7 @@ def main() -> int:
             return EXIT_CONFIG
 
     try:
-        g = load_graph(a.ttl, root)
+        g = kb_lib.load_union(a.ttl, root)  # 로딩 로직의 단일 정의처 — weave·metrics 와 같은 union
     except ValueError as e:
         print(f"CONFIG {e}", file=sys.stderr)
         return EXIT_CONFIG

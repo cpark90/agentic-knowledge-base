@@ -51,7 +51,7 @@ CHUNK_DIRS = ("kb", "chunks")
 MEMORY_DIR = "kb/dev/memory"
 ODD_IRI = str(ID["odd-agentic-knowledge-base"])  # 관측의 출처 — ODD 개체 (base-kg 에 doc- 개체가 없다)
 DEFAULT_ASSUMPTION = str(ID["asm-chunk-conventions"])
-GENERATOR = "process:assume_check"
+GENERATOR = kb_lib.ASSUME_CHECK_GENERATOR  # 관측의 generated.by — 정의처는 kb_lib (weave audit · metrics 가 같은 값으로 관측을 고른다)
 
 
 def resolve(path: str, root: Path) -> Path | None:

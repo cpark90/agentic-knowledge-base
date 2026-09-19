@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 모든 요구는 실산출물까지 내려간다
 title: Every requirement descends to an executable
 status: stable

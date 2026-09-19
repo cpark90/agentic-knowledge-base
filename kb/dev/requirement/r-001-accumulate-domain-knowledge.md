@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 분야 지식을 어휘로 축적한다
 title: Accumulate domain knowledge as vocabulary
 status: stable

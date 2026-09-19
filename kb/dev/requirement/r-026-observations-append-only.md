@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/8117429b-5245-4a0a-8628-a46fb78dd65d
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: 관측은 append-only 실행 기록이다
 title: Observations are append-only run records
 status: stable

@@ -104,7 +104,11 @@
   새로 만들지 않는다. 가로대·사다리·상승·하강·장부·투영·봉사·거주표가 그런 조어의 예다.
   용어집에 없는 개념은 표준어를 찾아 용어집에 먼저 추가한다(유저 결정 2026-09-10, 원장 19).
 - **[지킴]** frontmatter 필수 키는 `id`, `type`, `level`, `title_ko`, `title`, `status`,
-  `generated`다(OKF v0.2 사상, 노트 E.2). 선택 키는 `verified`, `sources`, `assumes`다.
+  `generated`다(OKF v0.2 사상, 노트 E.2). 선택 키는 `verified`, `sources`, `assumes`, 요구에만 쓰는
+  `pattern`(EARS — `ubiquitous`·`event-driven`·`state-driven`·`unwanted-behaviour`·`optional`·`complex`), 그리고
+  복원 링크의 표시 `restored`(같은 청크의 링크 대상 IRI 목록 — 증거가 `proposal`이 된다,
+  [`p10-restored-link-marking`](kb/dev/decision/p10-restored-link-marking/conclusion.md)), 분할 조각의
+  `specializationOf`(원 청크 IRI 하나 — 같은 plane, [`p10-split-keeps-work-identity`](kb/dev/decision/p10-split-keeps-work-identity/conclusion.md))이다.
   `type`·`status`·`generated`·`verified`는 **OKF v0.2 필드명**이다. 이 저장소의 `chunks/`는
   OKF 번들이다. 값 어휘의 원본은 `tools/chunk2kg.py`의 상수다. 그 상수는
   `PLANE_CLASS`·`LEVELS`·`STATES`·`REQUIRED`다.
@@ -141,7 +145,7 @@
 - **[지킴]** 개체에도 라벨 한/영을 단다. 라벨 목록 읽기가 기본 접근이다.
 - **[지킴]** 파일 상단 배너에 담는 개체 종류와 "손으로 쓰지 않는 것"을 적는다.
 - **[권장]** ID는 재사용하지 않는다. 폐기는 `state`/`deprecated`로 남기고 새 IRI를 만든다.
-  분할·병합은 `prov:wasDerivedFrom`으로 잇는다.
+  분할은 조각 하나가 uuid를 승계하고 나머지는 `specializationOf`로, 병합은 `supersedes`로 잇는다. 출처는 `prov:wasDerivedFrom`이다.
 
 ## §6. Bazel (`BUILD.bazel`, `defs/*.bzl`)
 
@@ -151,7 +155,9 @@
   않는다.
 - **[지킴]** 모듈 디렉토리가 Bazel 패키지다. 패키지의 `filegroup` 이름은 디렉토리 이름과 같게
   한다.
-- **[지킴]** 생성물은 `bazel-out`에만 존재한다. 소스 트리에 같은 이름의 파일을 두지 않는다.
+- **[지킴]** 생성물은 `bazel-out`에만 존재한다. 소스 트리에 같은 이름의 파일을 두지 않는다. 예외는 생성 트리
+  파일 둘 — 생성 BUILD와 `.claude/skills/`의 SKILL.md — 이며, 각각 `//:build_drift_test`·`//:skills_drift_test`가
+  재생성과 비교한다. 손으로 고치지 않는다.
 - **[권장]** `glob`은 패키지 안 한 계층만 대상으로 한다.
 
 ## §7. 도구 (`tools/*.py`)

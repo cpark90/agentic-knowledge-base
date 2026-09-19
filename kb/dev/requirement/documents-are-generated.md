@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 문서는 저장하지 않고 생성한다
 title: Documents are generated, not stored
 status: stable

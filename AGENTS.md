@@ -41,7 +41,7 @@ dispatch 시 이 표와 스코프로 브리핑한다.
 |---|---|---|---|---|---|
 | **orchestrator** (=메인) | 계획·dispatch·통합. 요구(유저 관심사의 EARS 저작 — stable 전이는 유저 승인)·결정 저작. 직접 구현하지 않는다 | `requirement` · `decision` · `memory`(세션·판정 관측, 2026-09-14) | 전 plane | 세션 유지 | ✗ |
 | **developer** (dispatch) | 분배된 산출물(코드·설정·온톨로지 개념) 저작. 노트 10.2절 9역할 중 design(T-Box·ODD 편집)을 겸한다 — 유저 결정 C4 | `artifact` (+T-Box·ODD) | `contract`·`schema`·`decision`. **`kb/vv/`는 읽기 전용** | dispatch | ✗ |
-| **vnv** (dispatch) | 판정 전용: `bazel test //...` PASS 확인 + 결과 주석. **V&V KB(`kb/vv/`)의 유일한 편집 주체** — `verifies`의 주어는 V&V 청크뿐 | `annotation` + `kb/vv/` | `requirement`·`artifact`·`decision` | dispatch | ✗ |
+| **vnv** (dispatch) | 판정 전용: `bazel test //...` PASS 확인 + 결과 주석. **V&V KB(`kb/vv/`)의 유일한 편집 주체** — `verifies`의 주어는 V&V 청크뿐. 노트 8.20절의 다섯 V&V 하위 역할(engineer·검증기 저자·executor·judge·audit)을 겸하되 다른 세션에서 한다 | `kb/vv/`의 전 plane(`agt:writesIn "kb/vv"`, 2026-09-19 — 판정 주석도 V&V KB 안의 annotation plane) | `requirement`·`artifact`·`decision` | dispatch | ✗ |
 | **hci** (별도 세션) | **유저 소통 전담 — 유일한 유저 창구.** 조사 요청 접수·구체화·제안 정리·타 에이전트 피드백 검토·중계. 채널 `docs/feedback/` 관리. **조사와 git 관리**(add/commit/push, 유저 요청 시)를 맡는다 — 옛 inspection 역할을 2026-09-13에 이관 | — (채널만) | `requirement`·전 plane + 저장소 전체 | 세션 유지 | ✓ |
 
 - dispatch 대상에게는 전체 컨텍스트가 아니라 **작업 집합**만 전달한다. 작업 집합은 스코프 ×
@@ -104,4 +104,6 @@ dispatch 시 이 표와 스코프로 브리핑한다.
 ```bash
 bazel test //...        # 게이트 전체. 반드시 PASS
 bazel run //tools:canonicalize -- --write <기계 생성 TTL>   # 커밋 전 정규화
+python3 tools/gen_build.py --root .        # frontmatter 링크를 고쳤으면 BUILD 재생성 (//:build_drift_test)
+python3 tools/gen_skills.py --root .       # 도구 docstring·kb_lib.SKILLS 를 고쳤으면 skill 재생성 (//:skills_drift_test)
 ```

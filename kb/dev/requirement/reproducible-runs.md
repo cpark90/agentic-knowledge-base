@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/2b1e5103-9b9d-43da-9231-6b4027bc370e
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 실행은 같은 리비전과 seed에서 재현된다
 title: Runs reproduce under the same revision and seed
 status: stable

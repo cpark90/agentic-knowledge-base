@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: 프로젝트를 넘는 것은 어휘·공리·코어·교훈이다
 title: Carry vocabulary, axioms, skeleton and lessons across projects
 status: stable

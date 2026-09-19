@@ -18,4 +18,5 @@
         <https://agentic-knowledge-base.dev/ontology/related/trust> ,
         <https://agentic-knowledge-base.dev/ontology/related/channel> ,
         <https://agentic-knowledge-base.dev/ontology/related/state> ,
-        <https://agentic-knowledge-base.dev/ontology/related/tag> .
+        <https://agentic-knowledge-base.dev/ontology/related/tag> ,
+        <https://agentic-knowledge-base.dev/ontology/profile/development> .

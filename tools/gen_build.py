@@ -26,6 +26,12 @@ HEADER ="# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크
 LINKS = ("refines", "serves", "supersedes", "verifies")
 ONTO_BASE = "https://agentic-knowledge-base.dev/ontology/"
 MEMORY_PKG = "kb/dev/memory"  # 관측 패키지 — 비어 있어도 BUILD 는 생성한다 (//kb/dev:bodies·//kg:chunks_kg 의 끝점)
+# V&V KB — 코어의 두 번째 인스턴스 (p8-vv-plane-instances): 디렉토리 = plane 실체 (pe-storage-layout 의 vv/ 번들). 패키지마다 kb_chunk 타깃,
+# 비어 있어도 BUILD 는 생성한다. 편집은 vnv 만(kg/catalog-kg.ttl agt:writesIn "kb/vv"), verifies 링크만 KB 를 가로지른다 (defs/kb.bzl).
+# 경로 접두는 kb_lib.KB_VV 와 같다 — 이 도구는 rdflib 없이 돌므로 자체 상수로 둔다
+VV_ROOT = "kb/vv"
+VV_PKGS = {"goal": "requirement", "scenario": "decision", "criteria": "contract", "case": "schema", "verifier": "artifact",
+           "run": "memory"}  # run = 실행 기록 (agt:Run, append-only) — vv_run --record 가 만든다 (kb_lib.VV_RUN_DIR)
 
 
 def q(s):
@@ -70,6 +76,15 @@ def scan(root: Path):
         lab = f"//{MEMORY_PKG}:{f.stem}"
         items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": MEMORY_PKG}
         iri_to_label[meta["id"]] = lab
+    for sub, plane in VV_PKGS.items():  # V&V KB — 디렉토리가 plane 을 정한다. 없는 디렉토리는 빈 패키지다
+        pkg = f"{VV_ROOT}/{sub}"
+        for f in sorted((root / pkg).glob("*.md")):
+            meta, _ = parse_chunk(str(f))
+            if meta["type"] != plane:
+                raise GenBuildError(f"{f}: {pkg} 의 청크는 type: {plane} 이어야 한다 — 실제 {meta['type']!r} (V&V KB 의 plane 실체, 결정 p8-vv-plane-instances)")
+            lab = f"//{pkg}:{f.stem}"
+            items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": pkg}
+            iri_to_label[meta["id"]] = lab
     return items, iri_to_label
 
 
@@ -127,6 +142,25 @@ def render_decisions(items, iri_to_label):
     return "\n".join(body)
 
 
+def render_vv_root(items):
+    """//kb/vv — 하위 plane 패키지의 bodies 를 모으고, 청크가 하나라도 있으면 lint_test 를 켠다 (빈 filegroup 은 $(rootpaths) 확장이 분석 에러다)."""
+    subs = sorted(VV_PKGS)
+    nonempty = any(it["pkg"].startswith(VV_ROOT + "/") for it in items.values())
+    body = [HEADER]
+    if nonempty:
+        body.append('load("//defs:knowledge.bzl", "kb_chunk_lint_test")\n')
+    body += ["# V&V KB — 시나리오 기반 확인의 지식 (노트 7.1절). 개발 KB 와 같은 코어의 두 번째 인스턴스 (p8-vv-plane-instances): 디렉토리 = plane.\n"
+             "# 편집은 vnv 만(kg/catalog-kg.ttl agt:writesIn \"kb/vv\"), 개발 역할은 읽기만. verifies 링크만 KB 를 가로지른다 (V&V → 개발, 같은 level).",
+             'package(default_visibility = ["//visibility:public"])', "", 'exports_files(["BUILD.bazel"])', "",
+             'filegroup(\n    name = "bodies",\n    srcs = [\n' + "".join(f'        "//{VV_ROOT}/{s}:bodies",\n' for s in subs)
+             + '    ] + glob(\n        ["*.md"],\n        allow_empty = True,\n    ),\n)\n']
+    if nonempty:
+        body.append('kb_chunk_lint_test(\n    name = "lint_test",\n    chunks = [":bodies"],\n    waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md)\n)\n')
+    else:
+        body.append("# lint_test 는 첫 청크가 들어오면 생성기가 켠다 — 빈 filegroup 은 $(rootpaths) 확장이 분석 에러다\n")
+    return "\n".join(body)
+
+
 def ontology(root: Path):
     """모듈 디렉토리 → BUILD, project-ontology.ttl 의 owl:imports → modules.bzl"""
     text = (root / "kb/ontology/project-ontology.ttl").read_text(encoding="utf-8")
@@ -160,7 +194,10 @@ def main() -> int:
             str(root / "kb/dev/decision/BUILD.bazel"): render_decisions(items, iri_to_label),
             str(root / "chunks/decision/BUILD.bazel"): render_chunks("chunks/decision", items, iri_to_label, "//kb:decision_readers"),
             str(root / MEMORY_PKG / "BUILD.bazel"): render_chunks(MEMORY_PKG, items, iri_to_label, "//kb:memory_readers", allow_empty=True),
+            str(root / VV_ROOT / "BUILD.bazel"): render_vv_root(items),
         }
+        for sub in VV_PKGS:  # V&V plane 패키지 — 개발 청크는 볼 수 없다 (//kb:vv_readers, 8.5절 독립성)
+            outputs[str(root / VV_ROOT / sub / "BUILD.bazel")] = render_chunks(f"{VV_ROOT}/{sub}", items, iri_to_label, "//kb:vv_readers", allow_empty=True)
         outputs.update(ontology(root))
     except GenBuildError as e:
         print(f"FAIL [gen-build] {e}")

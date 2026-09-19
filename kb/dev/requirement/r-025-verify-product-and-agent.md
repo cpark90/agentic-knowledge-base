@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 제품과 에이전트 둘 다 검증한다
 title: Verify both the product and the agent
 status: stable

@@ -454,6 +454,20 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p10-extracted-references-are-candidates",
+    conclusion = "p10-extracted-references-are-candidates/conclusion.md",
+    rationale = "p10-extracted-references-are-candidates/rationale.md",
+    alternatives = "p10-extracted-references-are-candidates/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/91fabd55-5c34-4d7e-a663-4dc72e486767",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/55535378-f5cd-4f01-a5ce-54d438529104", "https://agentic-knowledge-base.dev/id/chunk/02294b6e-a9eb-4ee5-8972-ff224087e9a4", "https://agentic-knowledge-base.dev/id/chunk/6dd38a8c-9ce8-40df-9c66-c1254967330c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+)
+
+kb_decision(
     name = "p10-link-attributes",
     conclusion = "p10-link-attributes/conclusion.md",
     rationale = "p10-link-attributes/rationale.md",
@@ -559,6 +573,35 @@ kb_decision(
     ],
     supersedes = [
         "//chunks/decision:d-0010-link-types",
+    ],
+)
+
+kb_decision(
+    name = "p10-restored-link-marking",
+    conclusion = "p10-restored-link-marking/conclusion.md",
+    rationale = "p10-restored-link-marking/rationale.md",
+    alternatives = "p10-restored-link-marking/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/66d847e5-4837-43ea-8498-da00a8fb92f3",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/491041cd-b9d0-4cbd-be0b-97dff25b20c5", "https://agentic-knowledge-base.dev/id/chunk/84731d3e-234e-4938-bfee-125be1dcde19", "https://agentic-knowledge-base.dev/id/chunk/b56b2584-a192-489e-bfed-2b18ca3e03d8"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+)
+
+kb_decision(
+    name = "p10-split-keeps-work-identity",
+    conclusion = "p10-split-keeps-work-identity/conclusion.md",
+    rationale = "p10-split-keeps-work-identity/rationale.md",
+    alternatives = "p10-split-keeps-work-identity/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/a76160fc-059f-437e-8f64-6e6c405cd18b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/57fc48aa-6091-4ee7-9763-13ddab8ac8b1", "https://agentic-knowledge-base.dev/id/chunk/79d5bf07-3d05-4696-acab-2b6fe7b02ed1", "https://agentic-knowledge-base.dev/id/chunk/569bf475-c625-43c7-8b5d-d608b730df60"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-014-42-line-chunk",
     ],
 )
 
@@ -3091,6 +3134,20 @@ kb_decision(
 )
 
 kb_decision(
+    name = "pe-anchor-is-bazel-label",
+    conclusion = "pe-anchor-is-bazel-label/conclusion.md",
+    rationale = "pe-anchor-is-bazel-label/rationale.md",
+    alternatives = "pe-anchor-is-bazel-label/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/a0067e4e-afc9-4817-ac08-3aeba8da718f",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/8a37fa99-3e7e-48b5-8da8-c14ba93f5655", "https://agentic-knowledge-base.dev/id/chunk/9add2be1-9465-45a1-beda-670c3213bb9e", "https://agentic-knowledge-base.dev/id/chunk/f8f3858a-879e-4551-8d9f-556452c1a18b"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:deterministic-notation",
+    ],
+)
+
+kb_decision(
     name = "pe-bazel-rules",
     conclusion = "pe-bazel-rules/conclusion.md",
     rationale = "pe-bazel-rules/rationale.md",
@@ -3208,12 +3265,15 @@ kb_bundle(
         ":p1-three-breaks-common-vocabulary",
         ":p10-candidate-and-confirmed-link",
         ":p10-context-handoff-yields-links",
+        ":p10-extracted-references-are-candidates",
         ":p10-link-attributes",
         ":p10-link-by-construction",
         ":p10-link-decay-states",
         ":p10-link-judgement-evidence",
         ":p10-link-storage-and-anchors",
         ":p10-link-types",
+        ":p10-restored-link-marking",
+        ":p10-split-keeps-work-identity",
         ":p10-standard-trace-queries",
         ":p10-traceability-information-model",
         ":p10-traceability-matrix",
@@ -3365,6 +3425,7 @@ kb_bundle(
         ":p9-preference-partial-order",
         ":p9-same-level-relations",
         ":p9-uncertainty-as-link-uncertainty",
+        ":pe-anchor-is-bazel-label",
         ":pe-bazel-rules",
         ":pe-notation-and-cel",
         ":pe-odd-is-openodd",

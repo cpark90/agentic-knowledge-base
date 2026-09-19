@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: answered
+status: closed
 targets: [docs/roadmap.md, chunks/decision/BUILD.bazel, kb/dev/decision/p12-documents-are-generated/conclusion.md, tools/validate.py, tools/chunk_lint.py, tools/verify-queries/composite-heterogeneous.rq]
 ---
 
@@ -33,3 +33,5 @@ documents-are-generated·r-002·r-011·deterministic-notation·r-001·reproducib
 한 가지 남긴다. 사후에 이은 **복원 링크 28건이 구축 기록으로 표기**된다는 것은 3단계 지표(복원 비율)를 낮게 보이게 한다 — `link` 도구가 증거 종류를 가를 때 이 28건을 소급 표기 대상으로 삼는 것이 맞다. 후속 항목에 실을 사실로 여기 적어 둔다.
 
 발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.
+
+closed: orchestrator 2026-09-18 — 답 소비. 남긴 관찰(0행의 두 뜻·복원 링크 소급 표기·UTC 파일명)은 후속 항목 감으로 둔다.

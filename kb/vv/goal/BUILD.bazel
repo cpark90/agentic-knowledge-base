@@ -1,0 +1,182 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
+
+package(default_visibility = ["//kb:vv_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(
+        ["*.md"],
+        allow_empty = True,
+    ),
+)
+
+kb_chunk(
+    name = "audit-self-sufficiency",
+    src = "audit-self-sufficiency.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/db7470cb-ff9c-45b3-8817-27bf77a30aaf",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "chunk-42-lines",
+    src = "chunk-42-lines.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/14414342-1e2f-4f00-a100-8c18642d0ebd",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "criteria-before-verifies",
+    src = "criteria-before-verifies.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/73d83879-75e4-43f9-a07a-4335711e2ac1",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "decision-three-chunks",
+    src = "decision-three-chunks.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/863a8842-3d1c-4406-99a9-f8d3d755e17a",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "documents-generated",
+    src = "documents-generated.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/06bb9a79-21e8-4eb3-8577-38b9a75002c9",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "foreign-vocabulary-rejected",
+    src = "foreign-vocabulary-rejected.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/50af6125-94e4-4d69-8181-df29db77451d",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "gate-judges-edits",
+    src = "gate-judges-edits.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e815eab2-4c4b-41dc-8b57-6617bb76e566",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "generated-build-drift",
+    src = "generated-build-drift.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e853e578-c267-4a55-8497-739fa3ed863d",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "items-declare-assumptions",
+    src = "items-declare-assumptions.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7e9efd2b-38fd-41d4-8e6a-a98dfc7f24bb",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "observations-append-only",
+    src = "observations-append-only.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/63187a4f-7908-4cad-8128-60b70edb99bd",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "plane-one-way",
+    src = "plane-one-way.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/63c4c14d-87eb-4caf-ad0f-704265706505",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "reproducible-runs",
+    src = "reproducible-runs.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/27096663-5ee0-4958-b91f-db0f394c595a",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "residency-matrix",
+    src = "residency-matrix.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/83c1bb49-81f0-4f0e-a6f9-56b3a2f66924",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "supersedes-same-plane",
+    src = "supersedes-same-plane.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/897a67c4-c07c-4674-a845-dd7841db9c17",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "verifies-subject-vv",
+    src = "verifies-subject-vv.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/98edd71a-023c-446e-a26f-c24bc834a4b5",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "versioned-inputs",
+    src = "versioned-inputs.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/55f7ac49-6b7a-4b63-a02d-b2566f69b562",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":audit-self-sufficiency",
+        ":chunk-42-lines",
+        ":criteria-before-verifies",
+        ":decision-three-chunks",
+        ":documents-generated",
+        ":foreign-vocabulary-rejected",
+        ":gate-judges-edits",
+        ":generated-build-drift",
+        ":items-declare-assumptions",
+        ":observations-append-only",
+        ":plane-one-way",
+        ":reproducible-runs",
+        ":residency-matrix",
+        ":supersedes-same-plane",
+        ":verifies-subject-vv",
+        ":versioned-inputs",
+    ],
+)

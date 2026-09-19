@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: 편집은 게이트가 판정한다
 title: The gate judges every proposed edit
 status: stable

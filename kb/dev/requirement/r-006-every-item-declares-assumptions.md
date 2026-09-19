@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249
 type: requirement
 level: functional
+pattern: complex
 title_ko: 모든 항목은 자기 가정을 명시한다
 title: Every item declares its assumptions
 status: stable

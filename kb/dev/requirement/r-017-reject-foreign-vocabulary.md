@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7
 type: requirement
 level: functional
+pattern: unwanted-behaviour
 title_ko: 어휘 밖 지식은 거부한다
 title: Reject knowledge outside the vocabulary
 status: stable

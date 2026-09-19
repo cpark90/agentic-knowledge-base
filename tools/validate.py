@@ -12,7 +12,10 @@
   odd-ref     agt:refersTo 의 대상은 ODD 그래프에 존재한다 — "ODD에 없는 속성을 참조하는
               스코프나 가정은 존재할 수 없다" (0.4절)
   dangling    저장소 안을 가리키는 링크의 대상이 실재한다. agt:usesConcept 의 대상은
-              온톨로지가 정의한 용어여야 한다 (dependency-graph-design §5 참조 무결성)
+              온톨로지가 정의한 용어여야 한다 (dependency-graph-design §5 참조 무결성).
+              prov:specializationOf(분할 조각 → 원본)의 대상도 포함한다
+  specialization  prov:specializationOf 의 대상은 살아 있는(deprecated 아닌) 같은 plane 의 청크이고 사슬은 순환하지
+              않는다 (p10-split-keeps-work-identity — 청크 uuid 는 work-id, 링크 IRI 는 뿌리 uuid 로 계산)
   catalog     (--data 에 agt:Harness 가 있을 때) 카탈로그 정합성 (AGENTS.md 역할 절 · STYLEGUIDE §5 · 9.2·9.6절):
               하네스가 hasRole 하는 역할마다 대응 스코프(id:role-<x> ↔ id:scope-<x>)가 있고 하네스가 grants 한다 ·
               역할마다 read plane ≥ 1 · write plane 은 역할 사이에 겹치지 않는다 · maxConcurrent 합 ≤ ODD 동적 요소
@@ -195,6 +198,9 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
         kb_lib.AGT.assumes,
         kb_lib.AGT.satisfies,
         kb_lib.AGT.refines,
+        kb_lib.AGT.verifies,     # V&V → 개발 (7.5절)
+        kb_lib.AGT.derivesFrom,  # 검증 목표 → 요구 (8.3절 functional 높이)
+        kb_lib.PROV.specializationOf,  # 분할 조각 → 원본 (p10-split-keeps-work-identity) — 없는 원본을 특수화할 수 없다
     )
     subjects = set(merged.subjects())
     errors = []
@@ -206,6 +212,47 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
     for s, o in merged.subject_objects(kb_lib.AGT.usesConcept):
         if o not in concepts:
             errors.append(f"[dangling] {_chunk_location(merged, s)} 의 agt:usesConcept 대상이 온톨로지에 정의되지 않았다: {o}")
+    return errors
+
+
+def check_specialization(merged: Graph, files: dict[str, Graph]) -> list[str]:
+    """prov:specializationOf 규율 (p10-split-keeps-work-identity, 게이트 id `specialization`).
+
+    분할 조각은 원 청크를 특수화한다 — 같은 것의 다른 입도다. 그래서 대상은 (a) 같은 plane 의 청크이고 (b) 살아 있어야 하며
+    (deprecated 원본의 조각은 원본을 승계했어야 한다), (c) 사슬은 순환하지 않는다 (뿌리 uuid 를 계산할 수 없다). 대상 부재는
+    check_dangling 이 본다. 순환은 성분마다 한 번 보고한다.
+    """
+    gate = kb_lib.SPECIALIZATION_GATE
+    plane = kb_lib.chunk_planes(merged)
+    errors = []
+    spec: dict = {}
+    for s, o in sorted(merged.subject_objects(kb_lib.PROV.specializationOf), key=lambda so: (str(so[0]), str(so[1]))):
+        where = _chunk_location(merged, s)
+        if not isinstance(o, URIRef) or o not in plane:
+            continue  # 청크가 아닌 대상은 dangling 이 보고한다
+        spec[s] = o
+        if s == o:
+            errors.append(f"[{gate}] {where}: prov:specializationOf 가 자기 자신이다 — 조각은 원본을 특수화한다")
+            continue
+        if plane.get(s) != plane[o]:
+            errors.append(f"[{gate}] {where}: prov:specializationOf 대상 {_qname(merged, o)} 의 plane 이 다르다 ({plane.get(s)} ≠ {plane[o]}) — "
+                          f"분할 조각은 같은 plane 의 원본을 특수화한다 (p10-split-keeps-work-identity)")
+        if str(next(merged.objects(o, kb_lib.AGT.status), "")) == "deprecated":
+            errors.append(f"[{gate}] {where}: prov:specializationOf 대상 {_qname(merged, o)} 이 deprecated 다 — 원본은 살아 있는 청크여야 한다 "
+                          f"(폐기된 원본의 조각은 uuid 를 승계했어야 한다)")
+    reported: set = set()
+    for start in sorted(spec, key=str):
+        seen, cur = [], start
+        while cur in spec and cur not in seen:
+            seen.append(cur)
+            cur = spec[cur]
+        if cur in seen:  # 순환 — cur 부터 되돌아온다
+            cycle = tuple(seen[seen.index(cur):])
+            key = min(map(str, cycle))
+            if key not in reported:
+                reported.add(key)
+                errors.append(f"[{gate}] {_chunk_location(merged, cycle[0])}: prov:specializationOf 사슬이 순환한다: "
+                              + " → ".join(_qname(merged, c) for c in cycle + (cycle[0],)) + " — 뿌리 uuid 를 계산할 수 없다")
     return errors
 
 
@@ -256,7 +303,8 @@ def check_catalog(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> 
       (a) hasRole 하는 역할마다 대응 스코프가 실재하고 하네스가 grants 한다. 대응은 슬러그다 — id:role-<x> ↔ id:scope-<x>
           (kb_lib.ROLE_ID_PREFIX·SCOPE_ID_PREFIX, rules §개체 IRI 접두사). 카탈로그에 역할→스코프 술어는 없다.
       (b) 역할마다 agt:reads 가 하나 이상이다 — 읽지 못하는 역할은 작업 집합을 받을 수 없다.
-      (c) agt:writes 의 plane 은 역할 사이에 겹치지 않는다 — 설계·구현·운영 분리 (9.2절).
+      (c) agt:writes 의 plane 은 같은 KB(agt:writesIn — 없으면 kb/dev) 안에서 역할 사이에 겹치지 않는다 — 설계·구현·운영 분리 (9.2절).
+          V&V KB 는 코어의 두 번째 인스턴스라 plane 이름이 같으므로(p8-vv-plane-instances) 겹침은 KB 별로 본다 (2026-09-19). writesIn 값은 kb_lib.KB_ROOTS 안이어야 한다.
       (d) agt:maxConcurrent 합 ≤ ODD 동적 요소 id:cond-concurrent-agents 의 상한. 상한은 --odd 그래프의 agt:conditionValue 에서
           kb_lib.odd_upper_bound 로 뽑는다. ODD 가 없거나 조건·상한을 못 뽑으면 ConfigFailure(EXIT_CONFIG) — 판정 불가지 통과가 아니다.
     첫 실행(2026-09-13): 역할 4 · 스코프 4 · write plane 겹침 0 · 합 4 ≤ 5, FAIL 0.
@@ -271,7 +319,7 @@ def check_catalog(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> 
         where = _where(files, h)
         roles = sorted(r for r in merged.objects(h, AGT_.hasRole) if isinstance(r, URIRef))
         grants = set(merged.objects(h, AGT_.grants))
-        writers: dict[URIRef, list[URIRef]] = {}
+        writers: dict[tuple[str, URIRef], list[URIRef]] = {}  # (KB, plane) → 역할들
         total = 0
         for r in roles:
             rq = _qname(merged, r)
@@ -286,8 +334,12 @@ def check_catalog(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> 
                     errors.append(f"[{gate}] {where}: 하네스 {_qname(merged, h)} 가 역할 {rq} 의 스코프 {_qname(merged, scope)} 를 agt:grants 하지 않는다 (STYLEGUIDE §5)")
             if not any(True for _ in merged.objects(r, AGT_.reads)):
                 errors.append(f"[{gate}] {where}: 역할 {rq} 의 read plane 이 0 이다 — agt:reads 를 하나 이상 선언한다 (AGENTS 표 read 열)")
+            kbs = _writes_in(merged, r)
+            for kb in sorted(kbs - set(kb_lib.KB_ROOTS)):
+                errors.append(f"[{gate}] {where}: 역할 {rq} 의 agt:writesIn {kb!r} 가 KB 경로 접두({' · '.join(kb_lib.KB_ROOTS)})가 아니다 (pe-storage-layout)")
             for plane in merged.objects(r, AGT_.writes):
-                writers.setdefault(plane, []).append(r)
+                for kb in kbs:
+                    writers.setdefault((kb, plane), []).append(r)
             counts = list(merged.objects(r, AGT_.maxConcurrent))
             if not counts:
                 errors.append(f"[{gate}] {where}: 역할 {rq} 에 agt:maxConcurrent 가 없다 — 합을 판정할 수 없다 (9.6절)")
@@ -296,10 +348,10 @@ def check_catalog(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> 
                 total += int(counts[0])
             except (TypeError, ValueError):
                 errors.append(f"[{gate}] {where}: 역할 {rq} 의 agt:maxConcurrent {counts[0]!r} 이 정수가 아니다")
-        for plane, rs in sorted(writers.items(), key=lambda kv: str(kv[0])):
+        for (kb, plane), rs in sorted(writers.items(), key=lambda kv: (kv[0][0], str(kv[0][1]))):
             if len(rs) > 1:
                 names = ", ".join(_qname(merged, r) for r in sorted(rs))
-                errors.append(f"[{gate}] {where}: write plane {_qname(merged, plane)} 을 역할 {names} 이 공유한다 — 설계·구현·운영은 같은 write plane 을 쓰지 않는다 (AGENTS 역할 절, 9.2절)")
+                errors.append(f"[{gate}] {where}: KB {kb} 의 write plane {_qname(merged, plane)} 을 역할 {names} 이 공유한다 — 설계·구현·운영은 같은 KB 안에서 같은 write plane 을 쓰지 않는다 (AGENTS 역할 절, 9.2절; agt:writesIn)")
         cond = kb_lib.CONCURRENT_AGENTS_CONDITION
         if odd is None:
             raise ConfigFailure(f"[{gate}] {where}: maxConcurrent 합의 상한은 ODD 조건 {_qname(merged, cond)} 인데 --odd 그래프가 없다")
@@ -314,15 +366,26 @@ def check_catalog(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> 
     return errors
 
 
-def check_writer(merged: Graph) -> list[str]:
-    """생성자의 쓰기 권한 (AGENTS 표 · kg/catalog-kg.ttl agt:writes) — write plane 경계를 규약에서 기계 검사로.
+def _writes_in(merged: Graph, role: URIRef) -> set[str]:
+    """역할이 쓰는 KB 들 — agt:writesIn 값. 없으면 개발 KB(kb_lib.KB_DEV) 하나다 (role-ontology agt:writesIn 정의)."""
+    return {str(v) for v in merged.objects(role, kb_lib.AGT.writesIn)} or {kb_lib.KB_DEV}
 
-    generated.by 가 `<역할>/<모델>` 이면 그 역할이 청크의 plane 을 쓸 수 있어야 한다. 못 쓰는 역할(hci)이
-    만든 청크는 쓰기 권한이 있는 역할의 verified(인수)가 있어야 통과한다. 역할이 아닌 생성자(`claude/…`)는 검사하지 않는다.
+
+def check_writer(merged: Graph) -> list[str]:
+    """생성자의 쓰기 권한 (AGENTS 표 · kg/catalog-kg.ttl agt:writesIn·agt:writes) — write plane 경계를 규약에서 기계 검사로.
+
+    generated.by 가 `<역할>/<모델>` 이면 그 역할이 청크의 KB 와 plane 을 쓸 수 있어야 한다. KB 는 청크의 assertionLocation 으로
+    가른다(kb_lib.kb_of — kb/vv/ 아래면 V&V KB, 아니면 개발 KB) 그리고 역할의 KB 는 agt:writesIn(없으면 kb/dev)이다 (p8-vv-roles,
+    2026-09-19). 못 쓰는 역할(hci)이 만든 청크는 같은 KB·plane 의 쓰기 권한이 있는 역할의 verified(인수)가 있어야 통과한다.
+    역할이 아닌 생성자(`claude/…`·`process:…`)는 검사하지 않는다.
     """
-    from rdflib import RDF, URIRef
-    AGT, ID = kb_lib.AGT, kb_lib.ID
-    roles = {str(r).split("/")[-1].replace("role-", ""): r for r in merged.subjects(RDF.type, AGT.Role)}
+    AGT = kb_lib.AGT
+    gate = kb_lib.WRITER_GATE
+    roles = {str(r).split("/")[-1].replace(kb_lib.ROLE_ID_PREFIX, ""): r for r in merged.subjects(RDF.type, AGT.Role)}
+
+    def can_write(role: URIRef, kb: str, plane_cls: URIRef) -> bool:
+        return kb in _writes_in(merged, role) and (role, AGT.writes, plane_cls) in merged
+
     errors, unattributed = [], 0
     for chunk, by in merged.subject_objects(AGT.generatedBy):
         producer = str(by).split("/")[0]
@@ -330,16 +393,19 @@ def check_writer(merged: Graph) -> list[str]:
             unattributed += 1
             continue
         plane_cls = next((c for c in merged.objects(chunk, RDF.type) if str(c).endswith("Chunk")), None)
-        if plane_cls is None or (roles[producer], AGT.writes, plane_cls) in merged:
+        if plane_cls is None:
             continue
-        endorsed = any(str(v).split("/")[0] in roles and (roles[str(v).split("/")[0]], AGT.writes, plane_cls) in merged
+        where = _chunk_location(merged, chunk)
+        kb = kb_lib.kb_of(where)
+        if can_write(roles[producer], kb, plane_cls):
+            continue
+        endorsed = any(str(v).split("/")[0] in roles and can_write(roles[str(v).split("/")[0]], kb, plane_cls)
                        for v in merged.objects(chunk, AGT.verifiedBy))
         if not endorsed:
-            where = next((str(l) for l in merged.objects(chunk, AGT.assertionLocation)), merged.qname(chunk))
-            errors.append(f"[writer] {where}: 생성자 {by} 의 역할 {producer} 는 {str(plane_cls).split('/')[-1]} 쓰기 권한이 없다 — "
-                          f"담당 역할의 verified(인수) 또는 되돌림 (AGENTS 표 · 11.2절)")
+            errors.append(f"[{gate}] {where}: 생성자 {by} 의 역할 {producer} 는 KB {kb} 의 {str(plane_cls).split('/')[-1]} 쓰기 권한이 없다 "
+                          f"(agt:writesIn · agt:writes) — 담당 역할의 verified(인수) 또는 되돌림 (AGENTS 표 · 11.2절)")
     if unattributed:
-        print(f"info [writer] 역할 없는 생성자의 청크 {unattributed}개 — 검사 대상 아님 (2026-09-11 이전 표기)")
+        print(f"info [{gate}] 역할 없는 생성자의 청크 {unattributed}개 — 검사 대상 아님 (2026-09-11 이전 표기 · process:)")
     return errors
 
 
@@ -427,6 +493,7 @@ def main() -> int:
         errors += check_odd_refs(merged, odd_merged, located)
     if data_files:
         errors += check_dangling(merged, onto_merged if args.ontology else None, located)
+        errors += check_specialization(merged, located)
         errors += check_writer(merged)
         try:
             errors += check_catalog(merged, odd_merged if args.odd else None, located)

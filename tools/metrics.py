@@ -10,9 +10,7 @@ import argparse
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from rdflib import Graph, Namespace, RDF, RDFS, URIRef
-
-PROV = Namespace("http://www.w3.org/ns/prov#")
+from rdflib import Graph, RDF, RDFS, URIRef
 
 try:
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path에 있다
@@ -21,11 +19,13 @@ except ImportError:
 
 AGT = kb_lib.AGT  # 네임스페이스의 단일 정의처는 kb_lib (STYLEGUIDE §7)
 ID = kb_lib.ID
+PROV = kb_lib.PROV
 DEFAULT_ASSUMPTION = ID["asm-chunk-conventions"]  # 기본 가정 (dependency-graph-design §6 "기본 가정 후 좁힘", docs/rules.md 가정 절)
 LINKS = [AGT[p] for p in ("refines", "serves", "satisfies", "verifies", "cites", "targets", "assumes", "supersedes",
                           "derivesFrom", "constrains", "usesConcept", "allocates", "generates", "coUpdatesWith", "conflictsWith")]
-EXTRACTED = (AGT.cites, AGT.usesConcept)  # 본문 식별자 기록(extract_refs) — 구축 기록으로 센다 (유저 결정 2026-09-12 (b))
-RESTORED = ()  # 복원 링크 — `link` 후보 파이프라인의 산출만. 아직 없다
+# 후보·구축·복원의 구분은 kb_lib.link_origins 하나다 — 후보 = linkState candidate 인 링크 개체(본문 추출 cites, extract_refs),
+# 구축 = 구축 기록 증거뿐인 확정 링크 개체, 복원 = 증거 종류가 구축 기록이 아닌 확정 링크 개체(restored: 표시 → proposal).
+# 복원 비율 = 복원 / (확정 구축 + 복원). weave audit 이 같은 함수를 쓴다 (유저 결정 2026-09-12 (b), p10-extracted-references-are-candidates)
 PLANES = ["requirement", "decision", "contract", "schema", "artifact", "annotation", "memory"]
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]
 GRADES = "ABCD"  # 판정 방법 등급 (3.9절) — 연언의 등급은 최저 = 가장 뒤의 글자 (assume_check 와 같은 정의)
@@ -127,25 +127,10 @@ def main() -> int:
     # 3단계 대리 — 링크마다 근거 · 구축/복원 비율 · plane×plane 매트릭스 채움 (TIM 이 허용하는 칸)
     link_ents = list(g.subjects(RDF.type, AGT.Link))
     with_ev = [l for l in link_ents if (l, AGT.hasEvidence, None) in g]
-    extracted_n = {g.qname(p_): sum(1 for _ in g.subject_objects(p_)) for p_ in EXTRACTED}
-    built_total = len(link_ents) + sum(extracted_n.values())  # 구축 = frontmatter 링크 개체 + 본문 식별자 추출
-    restored_total = sum(1 for p_ in RESTORED for _ in g.subject_objects(p_))
-    TIM = [("refines", "decision", "requirement"), ("serves", "decision", "requirement"), ("supersedes", "decision", "decision"),
-           ("satisfies", "contract", "decision"), ("derivesFrom", "schema", "decision"), ("constrains", "schema", "contract"),
-           ("satisfies", "artifact", "decision"), ("verifies", "requirement", "requirement")]
-    seen_cells = set()
-    for l in link_ents:
-        f_, t_ = next(g.objects(l, AGT.linkFrom), None), next(g.objects(l, AGT.linkTo), None)
-        k_ = str(next(g.objects(l, AGT.linkKind), "")).split("/")[-1]
-        if f_ in plane and t_ in plane:
-            seen_cells.add((k_, plane[f_], plane[t_]))
-    # 복합체 IRI 는 plane 이 없다 — 복합체 부분의 plane 으로 보정
-    for l in link_ents:
-        f_, t_ = next(g.objects(l, AGT.linkFrom), None), next(g.objects(l, AGT.linkTo), None)
-        k_ = str(next(g.objects(l, AGT.linkKind), "")).split("/")[-1]
-        pf = plane.get(f_) or plane.get(next(iter(siblings.get(f_, [])), None))
-        pt = plane.get(t_) or plane.get(next(iter(siblings.get(t_, [])), None))
-        if pf and pt: seen_cells.add((k_, pf, pt))
+    origins = kb_lib.link_origins(g)  # 후보·구축·복원의 단일 정의 — 상태와 증거 종류 기준 (p10-restored-link-marking · p10-extracted-references-are-candidates)
+    extracted_n, built_n, restored_total = origins["extracted"], origins["built"], origins["restored"]
+    TIM = kb_lib.TIM_CELLS  # 허용 칸의 정의처는 kb_lib — weave audit 이 같은 매트릭스를 낸다. 복합체 IRI 의 plane 보정도 kb_lib.link_cells
+    seen_cells = kb_lib.link_cells(g)
     tim_filled = [c for c in TIM if c in seen_cells]
     # 1단계 의미 보존 대리 — 확정 문장 커버리지: [확정]이 있는 절 중 결정이 인용하는 절의 비율
     cov_line = "- 의미 보존: 확정 문장 커버리지 — `--notes` 없음"
@@ -175,7 +160,19 @@ def main() -> int:
     grade_dist = Counter(asm_grade(a_) for a_ in assumptions)
     grade_ab = sum(v for k, v in grade_dist.items() if k in "AB")
     observations = [c for c in live if plane[c] == "memory"]
-    obs_recorded = sum(1 for c in observations if str(next(g.objects(c, AGT.generatedBy), "")) == "process:assume_check")
+    obs_recorded = sum(1 for c in observations if str(next(g.objects(c, AGT.generatedBy), "")) == kb_lib.ASSUME_CHECK_GENERATOR)
+    # 7단계 대리 — V&V KB (p8-vv-plane-instances: 코어의 두 번째 인스턴스, kb/vv/). KB 는 청크 위치(assertionLocation)로 가른다 (kb_lib.kb_of)
+    loc = {c: str(next(g.objects(c, AGT.assertionLocation), "")) for c in chunks}
+    vv = {c for c in live if kb_lib.kb_of(loc[c]) == kb_lib.KB_VV}
+    dev = live - vv
+    vv_by = Counter(plane[c] for c in vv)
+    verifies_links = list(g.subject_objects(AGT.verifies))
+    no_criteria = [s for s, _ in verifies_links if not any((c_, RDF.type, AGT.ContractChunk) in g for c_ in g.objects(s, AGT.refines))]
+    verified_targets = {o for _, o in verifies_links}
+    dev_reqs = {c for c in dev if plane[c] == "requirement"}
+    goals = {c for c in vv if plane[c] == "requirement"}
+    covered_reqs = {o for s, o in g.subject_objects(AGT.derivesFrom) if s in goals and o in dev_reqs}
+    goals_with_criteria = {o for s, o in g.subject_objects(AGT.refines) if o in goals and plane.get(s) == "contract"}
     # 2단계 — 역할별 작업 집합(라벨 목록) 크기와 스코프 파생
     odd_conds = set(g.objects(None, AGT.hasCondition))
     role_rows, scope_bad = [], []
@@ -219,8 +216,9 @@ def main() -> int:
           cov_line,
           "- 의미 보존: 라벨 대표성은 실험 — 이 도구 밖",
           "", "## 3단계 대리 — 링크 구축 (14.1 정정본: 근거 · 한 단계씩 · 매트릭스 · 복원 비율)", "",
-          f"- 의미 보존: 링크 개체 **{len(link_ents)}** 중 증거 기록이 있는 것 {len(with_ev)} = **{pct(len(with_ev), len(link_ents))}** (목표 100%; 지금은 전부 구축 기록)",
-          f"- 의미 보존: 구축 비율 — 구축(frontmatter 링크 개체 {len(link_ents)} + 본문 식별자 추출 " + " · ".join(f"`{k}` {v}" for k, v in extracted_n.items()) + f" = {built_total}) vs 복원 {restored_total} → 복원 비율 **{pct(restored_total, built_total + restored_total)}** (목표 < 20%; 복원은 `link` 후보 파이프라인 산출만 — 유저 결정 2026-09-12 (b))",
+          f"- 의미 보존: 링크 개체 **{len(link_ents)}** (확정 {origins['confirmed']} · 후보 {origins['candidates']}) 중 증거 기록이 있는 것 {len(with_ev)} = **{pct(len(with_ev), len(link_ents))}** (목표 100%; 증거 종류 분포는 `audit` 링크 근거 절)",
+          f"- 의미 보존: 구축 비율 — 확정 링크 개체 중 구축(구축 기록 증거뿐) {built_n} vs 복원 {restored_total}(구축 기록 아닌 증거 `proposal` 을 가진 링크 개체 — frontmatter `restored:` 표시) → 복원 비율 **{pct(restored_total, built_n + restored_total)}** (목표 < 20%; 후보는 `bazel build //kg:link_candidates`, 확정은 `restored:` — p10-restored-link-marking)",
+          f"- 의미 보존: 후보 링크 개체(`agt:CandidateLink`, linkState candidate — 본문 추출, 증거는 구축 기록) **{origins['candidates']}** — " + (" · ".join(f"`{k}` {v}" for k, v in sorted(origins['candidate_kinds'].items())) or "없음") + "; 본문 식별자 추출 직접 트리플 " + " · ".join(f"`{k}` {v}" for k, v in extracted_n.items()) + " (`usesConcept` 는 대상이 온톨로지 용어라 링크 치역 밖 — 후보 개체 없음; p10-extracted-references-are-candidates)",
           f"- 연결: plane×plane 매트릭스 — TIM 허용 {len(TIM)}칸 중 채움 **{len(tim_filled)}** ({', '.join(f'{k}:{a_}→{b_}' for k, a_, b_ in tim_filled) or '없음'}); 빈 칸은 contract·schema·artifact·V&V 항목이 생겨야 찬다",
           "- 구체화: `refines` 한 단계씩 — 위 세 축 절의 건너뜀 수 참조",
           "", "## 2단계 대리 — ODD와 스코프", "",
@@ -231,6 +229,11 @@ def main() -> int:
           f"- 의미 보존: 무효화 이력 — 관측(memory plane) **{len(observations)}**건, 그중 `assume_check --record` 의 판정 관측 {obs_recorded}건 (지금은 판정 관측 수 — 무효화 사건이 생기면 그 이력이 여기 쌓인다. provenance 100% 는 관측이 `generatedBy`·`prov:wasDerivedFrom` 를 갖는 비율로 잰다: {pct(sum(1 for c in observations if (c, AGT.generatedBy, None) in g and (c, PROV.wasDerivedFrom, None) in g), len(observations))})",
           f"- 구체화: 가정 개체 {len(assumptions)} · `assumes` 링크 {assumes} (가정 · 신뢰 등급 절과 같은 수) · 판정식 등급 분포(참조 조건 등급의 최저) " + (" · ".join(f"{k} {v}" for k, v in sorted(grade_dist.items())) or "없음") + f" — A·B 비율 **{pct(grade_ab, len(assumptions))}** (목표 100%), D **{grade_dist.get('D', 0)}**건 (목표 0)",
           "- 연결: 인위 파괴 실험은 `bazel run //tools:assume_check -- --break <cond>` — 계산된 직접 영향 집합과 실제 의존 집합(frontmatter 스캔)의 일치 여부를 그 보고가 낸다. 판정은 호스트 상태를 보므로 이 뷰 밖이다",
+          "", "## 7단계 대리 — V&V (p8-vv-plane-instances · p8-pass-criteria · p8-scenario-ladder-rungs)", "",
+          f"- 구체화: V&V KB(`kb/vv/`) 살아 있는 청크 **{len(vv)}** — 검증 목표(`requirement`) {vv_by['requirement']} · 시나리오(`decision`) {vv_by['decision']} · 합격 기준(`contract`) {vv_by['contract']} · 케이스(`schema`) {vv_by['schema']} · 검증기(`artifact`) {vv_by['artifact']} · 판정 주석(`annotation`) {vv_by['annotation']} · 실행 기록(`memory`) {vv_by['memory']}",
+          f"- 연결: `verifies` 링크 **{len(verifies_links)}** (주어는 V&V 청크, 대상은 같은 수준의 개발 항목 — `defs/kb.bzl` 이 분석 시점에 강제) · 대상이 된 개발 항목 {len(verified_targets)}",
+          f"- 의미 보존: 기준 없는 `verifies` **{len(no_criteria)}**건 (목표 0 — 주어가 합격 기준(`ContractChunk`)을 `refines` 해야 하며 verify 질의 `verifies-without-criteria` 가 거부한다)",
+          f"- 연결: 검증 대응물이 있는 요구(검증 목표가 `derivesFrom` 으로 가리키는 개발 요구) {len(covered_reqs)}/{len(dev_reqs)} = **{pct(len(covered_reqs), len(dev_reqs))}** (목표 100% — 8.3절 functional 높이의 검증 대응물 필수) · 합격 기준이 달린 검증 목표 {len(goals_with_criteria)}/{len(goals)}",
           "", "## 링크 밀도", "", f"- 링크 {sum(link_count.values())} / 살아 있는 청크 {len(live)} = **{sum(link_count.values())/max(len(live),1):.2f}**/청크",
           "- 타입별: " + " · ".join(f"`{k}` {v}" for k, v in link_count.most_common()),
           f"- 링크 개체(`agt:Link`): {sum(1 for _ in g.subjects(RDF.type, AGT.Link))} · 증거 항목: {sum(1 for _ in g.subjects(RDF.type, AGT.Evidence))}",

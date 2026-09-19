@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/20148952-30c4-4f76-8cbf-4d9b32c68b25
 type: requirement
 level: functional
+pattern: ubiquitous
 title_ko: 청크는 프로젝트를 넘지 않는다
 title: Chunks never cross the project boundary
 status: stable

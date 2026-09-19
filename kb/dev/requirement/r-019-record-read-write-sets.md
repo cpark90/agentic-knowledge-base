@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: 하네스는 읽기·쓰기 집합을 기록한다
 title: The harness records read and write sets
 status: stable

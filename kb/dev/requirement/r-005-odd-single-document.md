@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c
 type: requirement
 level: functional
+pattern: event-driven
 title_ko: 프로젝트의 운영 조건은 ODD 문서 하나다
 title: One ODD document per project
 status: stable

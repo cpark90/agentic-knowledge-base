@@ -23,6 +23,12 @@ _DOCCHECK_SRCS = [
     Label("//tools:kb_lib.py"),
 ]
 
+_GEN_SKILLS_SRCS = [
+    Label("//tools:gen_skills.py"),
+    Label("//tools:doccheck.py"),
+    Label("//tools:kb_lib.py"),
+]
+
 _RDF_DEPS = [
     requirement("rdflib"),
     requirement("pyshacl"),
@@ -167,6 +173,29 @@ def kb_community(name, data, out = "communities.md"):
         tools = [Label("//tools:community")],
     )
 
+def kb_link_candidates(name, data, k = 7, min_shared = 3, out = "link-candidates.md"):
+    """그래프(-kg)의 체계 안 증거에서 복원 후보 뷰 link-candidates.md 를 생성한다 (로드맵 8단계 복원, p10-link-by-construction).
+
+    frontmatter 링크가 없는 살아 있는 청크 쌍에 대해 본문 인용(agt:cites)·테스트 공동 커버(같은 V&V 청크의 verifies)·개념 공유
+    (agt:usesConcept 교집합 ≥ min_shared)를 근거로 후보를 내고, TIM 허용 칸(kb_lib.TIM_CELLS)과 defs/kb.bzl 의 단방향 규칙으로 걸러
+    앵커당 k 개 이하로 낸다. 판정란은 비어 있고 확정은 사람이 앵커 청크의 frontmatter(링크 키 + restored:)에 적는다
+    (p10-candidate-and-confirmed-link · p10-restored-link-marking). 뷰이고 게이트가 아니며 생성물은 bazel-bin 에만 있다.
+
+    Args:
+      name: 타깃 이름.
+      data: 그래프 라벨들 — head(:chunks_kg) · 참조(:references_kg) · 손으로 쓴 그래프(:kg, 복합체 형제 판정).
+      k: 앵커(주어)당 후보 상한 (로드맵 입력표 k ≤ 7).
+      min_shared: 개념 공유 후보의 교집합 하한.
+      out: 생성할 파일명.
+    """
+    native.genrule(
+        name = name,
+        srcs = data,
+        outs = [out],
+        cmd = "$(location //tools:link) --out $@ --k %d --min-shared %d %s" % (k, min_shared, " ".join(["$(execpaths %s)" % d for d in data])),
+        tools = [Label("//tools:link")],
+    )
+
 def kb_workset(name, role, data, levels = "", anchor = "", budget = 200, out = None):
     """역할의 작업 집합 뷰 workset-<role>.md — 라벨 목록 + 앵커 이웃, 예산 패킹 (0.5절, 5.6절). 저장하지 않는 질의 결과다."""
     out = out or "workset-%s.md" % role
@@ -176,6 +205,57 @@ def kb_workset(name, role, data, levels = "", anchor = "", budget = 200, out = N
         outs = [out],
         cmd = "$(location //tools:workset) --role %s --levels '%s' --anchor '%s' --budget %d --root . --out $@ %s" % (role, levels, anchor, budget, " ".join(["$(execpaths %s)" % d for d in data])),
         tools = [Label("//tools:workset")],
+    )
+
+def kb_weave(name, kind, data, bodies = [], out = None):
+    """그래프(와 청크 본문)에서 문서 뷰를 생성한다 (4.6절 weave, method §9, p12-documents-are-generated).
+
+    kind 는 adr(결정 복합체의 ADR — bodies 필요) · requirements(요구 색인) · changelog(supersedes 이력) · audit(감사 보고서 —
+    그래프와 관측 청크만으로, bodies 에 //kb/vv:bodies·//kb/dev:bodies; 로드맵 8단계 audit-self-sufficiency) 중 하나다.
+    생성물마다 머리에 생성 시각(UTC)과 질의를 적는다. 뷰이고 게이트가 아니며 생성물은 bazel-bin 에만 있다 —
+    소스 트리에 같은 이름의 파일을 두지 않는다 (STYLEGUIDE §6).
+
+    Args:
+      name: 타깃 이름.
+      kind: adr | requirements | changelog | audit.
+      data: 그래프 라벨들 (-kg · -odd · 온톨로지 모듈) — query·metrics 와 같은 union.
+      bodies: 청크 파일 라벨들 (filegroup 가능). adr 의 결론·근거·대안 본문, audit 의 관측(실행 기록·가정 판정) 본문.
+      out: 생성할 파일명 (기본 <kind>.md).
+    """
+    if kind not in ["adr", "requirements", "changelog", "audit"]:
+        fail("%s: kind 는 adr | requirements | changelog | audit 중 하나다 — 실제 %r" % (name, kind))
+    out = out or kind + ".md"
+    extra = (" --bodies " + " ".join(["$(execpaths %s)" % b for b in bodies])) if bodies else ""
+    native.genrule(
+        name = name,
+        srcs = data + bodies,
+        outs = [out],
+        cmd = "$(location //tools:weave) --kind %s --out $@ %s%s" % (kind, " ".join(["$(execpaths %s)" % d for d in data]), extra),
+        tools = [Label("//tools:weave")],
+    )
+
+def kb_skills_drift_test(name, skills, docs, tools = Label("//tools"), **kwargs):
+    """생성 skill 드리프트 가드 — tools/gen_skills.py --check 로 트리의 .claude/skills/*/SKILL.md 를 재생성과 비교한다.
+
+    원본은 도구 docstring 과 kb_lib.SKILLS, skill 은 커밋되는 뷰다 (BUILD 와 같은 이유 — 도구가 없어도 skill 이 읽혀야 한다).
+    docstring·SKILLS 를 고치고 생성을 안 돌린 경우와 손으로 쓴 skill(이중 원본)을 FAIL [skills-drift] 로 잡는다.
+
+    Args:
+      name: 테스트 이름.
+      skills: 트리의 skill 파일 라벨 (filegroup — .claude/skills/**/SKILL.md).
+      docs: 원본 절 앵커의 실재를 판정할 문서 라벨들 (//docs:docs).
+      tools: 도구 소스·BUILD 의 filegroup (docstring 과 py_binary 목록의 원본).
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = _GEN_SKILLS_SRCS,
+        main = Label("//tools:gen_skills.py"),
+        args = ["--check", "--root", "."],
+        data = [skills, tools] + docs,
+        deps = [requirement("rdflib")],  # kb_lib(SKILLS 표의 단일 정의처)가 요구
+        size = kwargs.pop("size", "small"),
+        **kwargs
     )
 
 def kb_index(name, srcs, out = "index.md"):

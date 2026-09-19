@@ -2,6 +2,7 @@
 id: https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c
 type: requirement
 level: functional
+pattern: state-driven
 title_ko: 근거 없는 할당은 불가능해야 한다
 title: Groundless assignment must be impossible
 status: stable

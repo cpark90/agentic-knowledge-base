@@ -13,6 +13,7 @@ from rdflib import Graph, Namespace, RDF, RDFS, OWL, URIRef
 # 이 체계 고유 어휘 (노트 0.3절, 0.7절)
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
 ID = Namespace("https://agentic-knowledge-base.dev/id/")
+PROV = Namespace("http://www.w3.org/ns/prov#")  # 출처·귀속·특수화는 PROV-O 만 쓴다 (STYLEGUIDE §5)
 
 # 외부 표준 어휘 — 정의를 변경하지 않고 그대로 쓴다 (0.3절)
 WELL_KNOWN_PREFIXES = (
@@ -45,6 +46,17 @@ SCOPE_ID_PREFIX = "scope-"
 # ODD 동적 요소 — 역할별 agt:maxConcurrent 합의 상한 (AGENTS.md 역할 절, kb/odd/project-odd.yml concurrent_agents)
 CONCURRENT_AGENTS_CONDITION = ID["cond-concurrent-agents"]
 CATALOG_GATE = "catalog"  # 게이트 id — FAIL [catalog]
+WRITER_GATE = "writer"    # 게이트 id — FAIL [writer]
+# 두 KB 의 경로 접두 (pe-storage-layout) — 역할의 agt:writesIn 값이자 청크 assertionLocation 의 KB 판정 기준 (p8-vv-roles, 2026-09-19).
+# gen_build 는 rdflib 없이 돌므로 같은 접두를 자체 상수(VV_ROOT)로 갖는다 — chunk2kg 의 PLANE 상수와 같은 사유
+KB_DEV = "kb/dev"
+KB_VV = "kb/vv"
+KB_ROOTS = (KB_DEV, KB_VV)
+
+
+def kb_of(location: str) -> str:
+    """청크 위치(assertionLocation)가 속한 KB — kb/vv/ 아래면 V&V KB, 그 밖(kb/dev·chunks/…)은 개발 KB."""
+    return KB_VV if location.startswith(KB_VV + "/") else KB_DEV
 
 # 온톨로지 모듈이 "정의"로 간주되는 타입 (2.3절 경계 규칙, 2.5절 정의 완전성)
 DEFINING_TYPES = (
@@ -314,13 +326,49 @@ def resolve_path(path: str, root: Path) -> Path | None:
 
 
 def resolve_glob(pattern: str, root: Path) -> list[Path]:
-    """재귀 glob 을 같은 순서로 찾는다 — 첫 번째로 파일이 나오는 뿌리의 결과만."""
+    """재귀 glob 을 같은 순서로 찾는다 — 첫 번째로 파일이 나오는 뿌리의 결과만.
+
+    bazel-bin 아래의 `*.runfiles/` 사본은 뺀다 — 테스트마다 같은 원본이 복제돼 한 파일이 여러 번 적재되고, 빈 노드(owl:Restriction)를
+    가진 파일은 적재마다 다른 노드가 되어 질의 행이 중복된다 (CQ-36 첫 실행 2026-09-18: 7행이 13행으로). IRI 트리플만 있는 파일은
+    중복 적재가 결과를 바꾸지 않아 드러나지 않았다.
+    """
     import glob as _glob
     for base in (Path("."), root / "bazel-bin", root):
-        found = sorted(Path(p) for p in _glob.glob(str(base / pattern), recursive=True))
+        found = sorted(Path(p) for p in _glob.glob(str(base / pattern), recursive=True)
+                       if not any(part.endswith(".runfiles") for part in Path(p).parts))
         if found:
             return found
     return []
+
+
+def load_union(ttls: list[str], root: Path) -> Graph:
+    """TTL 들을 하나의 Graph 로 (query.py·metrics.py 와 같은 방식). 빈 목록이면 UNION_GRAPH_PATHS + 온톨로지 glob.
+
+    없는 파일은 ValueError — 호출자가 EXIT_CONFIG 로 다룬다. .ttl 이 아닌 입력(청크 .md 등)은 건너뛴다.
+    """
+    files: list[Path] = []
+    if ttls:
+        for t in ttls:
+            f = resolve_path(t, root)
+            if f is None:
+                raise ValueError(f"{t}: 그래프 파일이 없다 — bazel build //kg:chunks_kg //kg:references_kg //kb/odd:odd")
+            files.append(f)
+    else:
+        for p in UNION_GRAPH_PATHS:
+            f = resolve_path(p, root)
+            if f is None:
+                raise ValueError(f"{p}: 그래프 파일이 없다 — bazel build //kg:chunks_kg //kg:references_kg //kb/odd:odd")
+            files.append(f)
+        for pat in UNION_GRAPH_GLOBS:
+            found = resolve_glob(pat, root)
+            if not found:
+                raise ValueError(f"{pat}: 온톨로지 모듈이 없다")
+            files += found
+    g = Graph()
+    for f in files:
+        if f.suffix == ".ttl":
+            g.parse(str(f), format="turtle")
+    return g
 
 
 def compact_iri(iri: str) -> str:
@@ -328,6 +376,204 @@ def compact_iri(iri: str) -> str:
         if iri.startswith(ns):
             return prefix + iri[len(ns):]
     return iri
+
+
+def chunk_body(text: str) -> str:
+    """청크 파일의 본문 — frontmatter 를 뺀 나머지, 앞뒤 빈 줄 제거. frontmatter 가 없으면 전문이 본문이다."""
+    lines = text.splitlines()
+    start = 0
+    if lines and lines[0].strip() == "---":
+        try:
+            start = lines[1:].index("---") + 2
+        except ValueError:
+            start = 0
+    return "\n".join(lines[start:]).strip("\n")
+
+
+# ── 문서 뷰 (weave — p12-documents-are-generated: 문서는 저장하지 않고 생성하며 생성 시각과 질의를 적는다) ─────────────────
+WEAVE_KINDS = ("adr", "requirements", "changelog", "audit")
+WEAVE_GATE = "weave"  # 입력 문제의 태그 — CONFIG [weave]
+DECISION_PART_FILES = {"conclusion": "conclusion.md", "rationale": "rationale.md", "alternatives": "alternatives.md"}  # 결정 복합체의 세 부분 (STYLEGUIDE §4)
+
+
+# ── 실행 기록과 관측 (r-026 append-only · p0-run-as-observation · p8-vv-plane-instances memory = 실행 기록) ──────────────
+# 관측은 도구가 쓴다 — 생성자는 역할이 아닌 `process:<도구>` 라 writer 검사 밖이다 (validate check_writer). 카탈로그의 executor
+# 하위 역할을 도구가 맡는 첫 형태다. V&V 실행 기록은 V&V KB 의 memory plane 디렉토리(kb/vv/run — gen_build VV_PKGS), 가정 판정
+# 관측은 개발 KB 의 memory 디렉토리(kb/dev/memory — assume_check)에 놓인다. weave audit 이 두 곳의 최신 관측을 그대로 요약한다
+VV_RUN_DIR = KB_VV + "/run"
+DEV_MEMORY_DIR = KB_DEV + "/memory"
+RUN_GENERATOR = "process:vv_run"                # V&V 실행 기록의 generated.by (tools/vv_run.py --record)
+ASSUME_CHECK_GENERATOR = "process:assume_check"  # 가정 판정 관측의 generated.by (tools/assume_check.py GENERATOR · metrics · weave audit 의 정의처)
+RUN_CASE_TABLE_HEADER = "| 케이스 | 실행 명령 | 결과 | 소요 |"  # 실행 기록 본문의 케이스 표 — audit 이 이 헤더로 표를 찾는다
+ASSUME_CHECK_TABLE_HEADER = "| 가정 | 판정 유형 | 등급 | 상태 | 직접 영향 | suspect 후보(전이) |"  # 가정 판정 관측의 가정 표 (assume_check.observation)
+RUN_VERDICTS = ("pass", "fail", "skip")          # 케이스 판정 — SKIP 은 PASS 가 아니다 (docs/tools.md 실패 종류 3)
+
+
+# ── 추적 매트릭스 (TIM — plane×plane 의 허용 칸; 노트 14.1 정정본 3단계 "매트릭스", metrics 3단계 대리 · weave audit 이 같은 정의) ──
+# (링크 종류, 출발 plane, 도착 plane). 앞 8칸은 개발 KB 안의 정제·대체·만족 링크, 뒤 7칸은 V&V 사슬(p8-scenario-ladder-rungs ·
+# p8-pass-criteria): 목표 derivesFrom 요구 · 기준 refines 목표 · 케이스 refines 기준 · 검증기 refines 케이스, 같은 높이의 verifies —
+# logical 기준 → 결정, concrete 케이스 → 결정, executable 검증기 → 산출물
+TIM_CELLS = (("refines", "decision", "requirement"), ("serves", "decision", "requirement"), ("supersedes", "decision", "decision"),
+             ("satisfies", "contract", "decision"), ("derivesFrom", "schema", "decision"), ("constrains", "schema", "contract"),
+             ("satisfies", "artifact", "decision"), ("verifies", "requirement", "requirement"),
+             ("derivesFrom", "requirement", "requirement"), ("refines", "contract", "requirement"), ("refines", "schema", "contract"),
+             ("refines", "artifact", "schema"), ("verifies", "contract", "decision"), ("verifies", "schema", "decision"),
+             ("verifies", "artifact", "artifact"))
+# 링크의 구축·복원 구분 (유저 결정 2026-09-12 (b), p10-restored-link-marking) — 기준은 술어가 아니라 **증거 종류**다.
+# 구축 = 증거가 구축 기록(constructionRecord)뿐인 확정 agt:Link. 본문 식별자 추출(extract_refs)은 직접 트리플(LINK_EXTRACTED)과
+# 후보 링크 개체(agt:CandidateLink — cites 만, 증거는 구축 기록)로 나가며 구축·복원 어느 쪽에도 세지 않고 후보로 따로 센다.
+# 복원 = 구축 기록이 아닌 증거(proposal — 후보의 출처)를 하나라도 가진 확정 agt:Link. frontmatter `restored:` 표시의 링크에 chunk2kg 가
+# 확정 기록(constructionRecord — 사람이 frontmatter 에 적은 편집 시점 기록)과 proposal 을 함께 낸다: 9.11절 규칙 "구축(+) 또는
+# 실행(+) 없이 확정 불가"를 verify 질의 confirmed-without-evidence 가 강제하므로 proposal 만으로는 확정 링크가 성립하지 않는다.
+# `link` 후보 파이프라인(tools/link.py, //kg:link_candidates)이 후보를 내고 사람이 restored: 로 확정한다
+LINK_EXTRACTED = (AGT.cites, AGT.usesConcept)
+CONSTRUCTION_EVIDENCE = AGT.constructionRecord
+LINK_GATE = "link"          # 후보 생성기 뷰의 태그 — CONFIG [link] (입력 문제만, 판정 실패는 없다)
+RESTORED_GATE = "restored"  # 게이트 id — FAIL [restored]: restored: 의 IRI 가 같은 청크의 링크 키 대상에 없다 (chunk2kg)
+# 링크 상태 (link-state-ontology agt:linkState) — 후보·확정의 값. 본문 추출 참조(extract_refs 의 agt:cites)는 후보 링크 개체
+# (agt:CandidateLink, "candidate")로 나가고 frontmatter 링크는 확정(agt:ConfirmedLink, "confirmed")이다 (p10-extracted-references-are-
+# candidates, 유저 승인 2026-09-19). 상태는 증거 종류가 아니라 "누가 링크 키에 적었는가"로 갈린다 — 둘 다 증거는 구축 기록이다.
+# chunk2kg·extract_refs 는 rdflib 없이 돌므로 같은 문자열을 getattr 폴백으로 갖는다
+LINK_STATE_CANDIDATE = "candidate"
+LINK_STATE_CONFIRMED = "confirmed"
+# 청크 uuid 는 work-id 다 (p10-split-keeps-work-identity, 유저 승인 2026-09-19). 분할 조각은 frontmatter `specializationOf: <원 IRI>`
+# 로 원본을 가리키고 chunk2kg 가 prov:specializationOf 를 방출한다. 링크 IRI 는 양 끝의 뿌리 uuid(사슬을 따라 올라간 work-id)로
+# 계산한다. 대상은 살아 있는 같은 plane 의 청크여야 하고 사슬은 순환하지 않는다 — validate check_specialization 이 FAIL [specialization],
+# 대상 부재는 check_dangling 이 FAIL [dangling] 으로 거부한다. 순환은 chunk2kg 도 (뿌리를 계산할 수 없으므로) 같은 게이트 id 로 거부한다
+SPECIALIZATION_GATE = "specialization"
+
+
+def link_origins(g: Graph) -> dict:
+    """링크 개체(agt:Link)의 후보·구축·복원 구분 — metrics 3단계 대리와 weave audit 링크 근거 절이 이 하나의 정의를 쓴다.
+
+    후보 링크 = linkState 가 candidate 인 agt:Link (본문 추출 참조 — extract_refs). 종류별 수를 candidate_kinds 로 낸다.
+    확정 링크(나머지) 중 복원 링크 = 구축 기록이 아닌 증거 종류를 하나라도 가진 것 (restored: 표시 → proposal 이 확정 기록과 함께 붙는다),
+    구축 링크 = 그 밖(구축 기록 증거뿐 또는 증거 없음). 복원 비율 = 복원 / (확정 구축 + 복원), 분모 0 이면 None —
+    후보는 분모에 들어가지 않는다 (p10-extracted-references-are-candidates). extracted 는 본문 식별자 추출의 직접 트리플 수(참고).
+    반환 키: links · confirmed · candidates · candidate_kinds{축약 술어: 수} · built · restored · restored_links · no_evidence ·
+             extracted{축약 술어: 수} · ratio
+    """
+    links = sorted(g.subjects(RDF.type, AGT.Link), key=str)
+    candidates = [l for l in links if any(str(s) == LINK_STATE_CANDIDATE for s in g.objects(l, AGT.linkState))]
+    confirmed = [l for l in links if l not in set(candidates)]
+    restored, no_ev = [], 0
+    for link in confirmed:
+        kinds = [k for e in g.objects(link, AGT.hasEvidence) for k in g.objects(e, AGT.evidenceKind)]
+        if not kinds:
+            no_ev += 1
+        elif any(k != CONSTRUCTION_EVIDENCE for k in kinds):
+            restored.append(link)
+    candidate_kinds: dict = {}
+    for l in candidates:
+        k = compact_iri(str(next(g.objects(l, AGT.linkKind), "")))
+        candidate_kinds[k] = candidate_kinds.get(k, 0) + 1
+    extracted = {compact_iri(str(p)): sum(1 for _ in g.subject_objects(p)) for p in LINK_EXTRACTED}
+    built = len(confirmed) - len(restored)
+    total = built + len(restored)
+    return {"links": len(links), "confirmed": len(confirmed), "candidates": len(candidates), "candidate_kinds": candidate_kinds,
+            "built": built, "restored": len(restored), "restored_links": restored, "no_evidence": no_ev,
+            "extracted": extracted, "ratio": (len(restored) / total) if total else None}
+
+
+def chunk_planes(g: Graph) -> dict:
+    """청크 → plane 이름 — rdf:type 중 `…Chunk` 로 끝나는 첫 클래스 (metrics·weave 가 같은 규칙으로 plane 을 읽는다)."""
+    out = {}
+    for c in g.subjects(AGT.lineCount, None):
+        for t in g.objects(c, RDF.type):
+            name = str(t).split("/")[-1]
+            if name.endswith("Chunk"):
+                out[c] = name[: -len("Chunk")].lower()
+                break
+    return out
+
+
+def link_cells(g: Graph) -> set:
+    """링크 개체(agt:Link)가 채운 (종류, 출발 plane, 도착 plane) 칸의 집합.
+
+    복합체 IRI 는 plane 이 없으므로 복합체의 부분(agt:hasDirectPart) 하나의 plane 으로 보정한다 — 결정 복합체의 부분은 전부 decision 이다.
+    """
+    plane = chunk_planes(g)
+    part_of_comp = {}
+    for comp, part in g.subject_objects(AGT.hasDirectPart):
+        part_of_comp.setdefault(comp, part)
+
+    def plane_of(node):
+        return plane.get(node) or plane.get(part_of_comp.get(node))
+
+    cells = set()
+    for link in g.subjects(RDF.type, AGT.Link):
+        f, t = next(g.objects(link, AGT.linkFrom), None), next(g.objects(link, AGT.linkTo), None)
+        kind = str(next(g.objects(link, AGT.linkKind), "")).split("/")[-1]
+        pf, pt = plane_of(f), plane_of(t)
+        if kind and pf and pt:
+            cells.add((kind, pf, pt))
+    return cells
+
+
+# ── 생성 skill (gen_skills — agrtls K "skill 은 손으로 쓰지 않고 지식·절차에서 생성한다", 로드맵 6단계) ──────────────────
+# 어떤 도구를 skill 로 내는가와 그 절차의 원본 절은 이 표가 단일 정의처다. 본문(무엇·언제·사용법)은 도구 모듈의 docstring 이
+# 원본이고, 생성기(tools/gen_skills.py)가 둘을 합쳐 .claude/skills/<도구-kebab>/SKILL.md 를 트리에 쓴다. 생성물은 BUILD 와
+# 같은 이유로 커밋 대상이며(도구 없이도 skill 이 읽혀야 한다) //:skills_drift_test 가 재생성과 비교한다.
+#   tool      tools/<tool>.py 이며 tools/BUILD.bazel 에 같은 이름의 py_binary 가 있어야 한다
+#   section   원본 절 — docs/ 아래 문서 `<파일>#<GitHub 앵커>`. 생성기가 앵커 실재를 검사한다
+#   when      언제 쓰는가 한 문장(단정 서술형) — skill frontmatter 의 description
+#   commands  대표 명령 1~3
+SKILLS_DIR = ".claude/skills"
+SKILLS_DRIFT_GATE = "skills-drift"  # 게이트 id — FAIL [skills-drift]
+GEN_SKILLS_GATE = "gen-skills"      # 생성 시점 거부 — FAIL [gen-skills]
+SKILLS = (
+    {"tool": "workset", "section": "method.md#8-조회",
+     "when": "dispatch 전에 역할·수준 창·앵커로 거른 작업 집합(라벨 목록과 이웃 본문)을 컨텍스트 예산 안에서 뽑을 때 쓴다.",
+     "commands": ["bazel build //kg:workset --//kb:role=developer --//kb:anchor='<라벨|IRI>' --//kb:levels=concrete",
+                  "cat bazel-bin/kg/workset-developer.md"]},
+    {"tool": "query", "section": "method.md#8-조회",
+     "when": "역량 질문(CQ)의 답을 그래프에서 라벨 목록으로 얻거나 한 항목이 무엇을 가리키는지 SPARQL 로 확인할 때 쓴다.",
+     "commands": ["bazel run //tools:query", "bazel run //tools:query -- CQ-07 --labels",
+                  "bazel run //tools:query -- CQ-19 --labels --bind '?x=<IRI|id:슬러그|라벨>'"]},
+    {"tool": "impact", "section": "method.md#12-영향-분석",
+     "when": "청크·결정을 고치기 전에 영향 항목 수·plane 분포·suspect 가 될 링크 수·승인이 필요한 결정 수를 계산할 때 쓴다.",
+     "commands": ["bazel run //tools:impact -- //kb/dev/requirement:<타깃>", "bazel run //tools:impact -- //kb/dev/decision:<결정> --universe //kb/..."]},
+    {"tool": "assume_check", "section": "method.md#7-갱신",
+     "when": "가정을 ODD 조건으로 판정해 깨진 가정의 직접 영향 집합과 suspect 후보를 내거나 --break 로 인위 파괴 실험을 할 때 쓴다.",
+     "commands": ["bazel run //tools:assume_check", "bazel run //tools:assume_check -- --break cond-build-system",
+                  "bazel run //tools:assume_check -- --record && python3 tools/gen_build.py --root ."]},
+    {"tool": "revalidate", "section": "method.md#7-갱신",
+     "when": "청크 본문을 고친 뒤 base 리비전 대비 재판정 대상(링크 상대·복합체 형제·하류 의존자)을 표로 낼 때 쓴다.",
+     "commands": ["bazel run //tools:revalidate -- --base HEAD", "bazel run //tools:revalidate -- --base <rev> --out /tmp/revalidate.md"]},
+    {"tool": "odd_check", "section": "method.md#2-odd-작성",
+     "when": "세션 시작이나 환경 변경 뒤에 실제 조건이 ODD 안인지 CHECKS 명령으로 판정해 이탈을 보고할 때 쓴다.",
+     "commands": ["bazel run //tools:odd_check", "bazel run //tools:odd_check -- --out /tmp/odd-check.md"]},
+    {"tool": "endorse", "section": "method.md#13-저작-흐름과-완료",
+     "when": "쓰기 권한 역할이 검토를 마친 청크에 verified 를 붙여 writer 검사를 해소할 때 쓴다.",
+     "commands": ["bazel run //tools:endorse -- --by orchestrator/<모델> --at <ISO 8601> <청크 파일…>"]},
+    {"tool": "term_propose", "section": "method.md#10-일반화",
+     "when": "관측에서 뽑은 개념 후보를 검사를 거쳐 온톨로지 승인 큐(kb/ontology/proposals/)에 제안할 때 쓴다.",
+     "commands": ["bazel run //tools:term_propose -- --id <slug> --kind class --parent agt:<상위> --label-ko '<한글>' --label-en '<english>' --definition '<속+종차>' --cq CQ-NN"]},
+    {"tool": "consistency", "section": "method.md#9-뷰",
+     "when": "커밋 전에 중복·라벨 형식·용어 옛 표기·단정성(추측·구어·대시 밀도) 후보를 보고로 확인할 때 쓴다.",
+     "commands": ["bazel build //kb:consistency && cat bazel-bin/kb/consistency.md"]},
+    {"tool": "metrics", "section": "method.md#완료-판정",
+     "when": "고아율·CQ19·CQ20 커버리지·도입 단계 통과 조건 같은 수치를 문서에 적지 않고 생성물에서 인용할 때 쓴다.",
+     "commands": ["bazel build //kg:metrics && cat bazel-bin/kg/metrics.md"]},
+    {"tool": "gen_build", "section": "method.md#6-연결",
+     "when": "청크를 추가·삭제하거나 frontmatter 링크(refines·serves·supersedes·verifies)를 고친 뒤 BUILD 를 재생성하고 드리프트를 검사할 때 쓴다.",
+     "commands": ["python3 tools/gen_build.py --root .", "python3 tools/gen_build.py --check --root .", "bazel test //:build_drift_test"]},
+    {"tool": "link", "section": "method.md#6-연결",
+     "when": "frontmatter 링크가 없는 청크 쌍의 복원 후보를 체계 안 증거(본문 인용·테스트 공동 커버·개념 공유)로 뽑아 사람이 restored 표시로 확정할 때 쓴다.",
+     "commands": ["bazel build //kg:link_candidates && cat bazel-bin/kg/link-candidates.md",
+                  "python3 tools/gen_build.py --root . && bazel test //...   # 앵커 청크에 링크 키와 restored: 를 적은 뒤"]},
+    {"tool": "vv_run", "section": "method.md#11-검증--vv-층으로",
+     "when": "V&V 케이스의 양성 명령을 실행해 케이스별 pass·fail·skip 을 판정하고 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.",
+     "commands": ["bazel run //tools:vv_run -- --record", "bazel run //tools:vv_run -- --case <슬러그>",
+                  "python3 tools/gen_build.py --root . && bazel test //..."]},
+    {"tool": "weave", "section": "method.md#9-뷰",
+     "when": "결정 기록·요구 색인·변경 이력·감사 보고서를 저장하지 않고 그래프와 관측에서 생성해 인용할 때 쓴다.",
+     "commands": ["bazel build //kg:audit && cat bazel-bin/kg/audit.md", "bazel build //kb/dev:adr //kb/dev:requirements //kb/dev:changelog"]},
+    {"tool": "doccheck", "section": "tools.md#게이트-총람--이-문서가-원본이다",
+     "when": "문서를 고친 뒤 죽은 링크·앵커·백틱 경로·산문 문체를 게이트와 같은 방식으로 검사할 때 쓴다.",
+     "commands": ["bazel run //tools:doccheck -- *.md docs/*.md docs/open-questions/*.md --target-only docs/agent-knowledge-system-notes.md",
+                  "bazel test //:doccheck_test"]},
+)
 
 
 def label_of(g: Graph, node, lang: str = "ko") -> str:
