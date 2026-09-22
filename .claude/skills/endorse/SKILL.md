@@ -3,9 +3,13 @@ name: endorse
 description: 쓰기 권한 역할이 검토를 마친 청크에 verified 를 붙여 writer 검사를 해소할 때 쓴다.
 ---
 
-# endorse — 인수
+# endorse — 인수 (생성 파일)
 
-> 생성 파일 — 손으로 고치지 않는다. 원본은 도구 docstring과 `kb_lib.SKILLS` (`tools/gen_skills.py`). 검사: `//:skills_drift_test`
+- 생성기: `tools/gen_skills.py` · gendoc/1
+- 입력: 원본 파일 3개: `docs/method.md` · `tools/endorse.py` · `tools/kb_lib.py`
+- 질의: 이 도구는 무엇이고(모듈 docstring 첫 문단) 언제 쓰고(`kb_lib.SKILLS`) 어떻게 부르는가(docstring 의 `사용:` 줄)
+- 재현: `python3 tools/gen_skills.py --root .`
+- 생성 파일 — 손으로 고치지 않는다. 원본은 도구 docstring 과 `kb_lib.SKILLS`이다. 검사: `//:skills_drift_test`. 생성 시각·입력 지문은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다
 
 인수 — 쓰기 권한이 있는 역할이 검토한 청크에 OKF verified 를 붙인다 (writer 검사의 해소 수단).
 

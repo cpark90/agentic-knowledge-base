@@ -106,6 +106,30 @@
 국문 명칭이다. OpenODD 모듈 YAML 키는 ASAM 릴리스 발표 slide 8에서 확인했다. 명세 10.3 페이지 자체는
 404다.
 
+### 생성 문서 작성 (가독성·건전성)
+
+에이전트·도구가 내는 생성 문서의 서식 규약(`p12-generated-document-header`·
+`p12-generated-document-form`·`p12-generated-documents-are-gated`)이 딛고 선 원천이다.
+규칙은 게이트 `gendoc`이 강제하고, 구현은 `tools/kb_lib.py`가 단일 정의처다.
+
+| 가져온 구조 | 출처 |
+|---|---|
+| 제목 계층은 한 단계씩, h1은 문서당 하나이고 첫 줄 | markdownlint MD001·MD025·MD041 |
+| 표의 헤더 행·열 수 일치·앞뒤 빈 줄, 펜스의 언어 명시 | markdownlint MD055·MD056·MD058·MD040 |
+| 빈 셀을 비우거나 대시로 두지 않고 "None"을 쓴다 | Microsoft Writing Style Guide, Tables |
+| 온라인 정보에 목차·색인·검색 중 하나를 제공한다 | ISO/IEC/IEEE 26514:2022 9.10.5 |
+| 제목 계층과 표 구조는 접근성 요구다 | WCAG 2.2 SC 1.3.1 Info and Relationships (A) |
+| 시점 의존 표현 대신 버전·날짜로 고정한다 | Google developer documentation style guide, Timeless documentation |
+| 생성 활동·시각·책임 주체와 파생 원천을 명시한다 | W3C PROV-O (`prov:wasGeneratedBy`·`generatedAtTime`·`wasAttributedTo`·`wasDerivedFrom`) |
+| 결과마다 그것을 만든 프로그램·파라미터·입력을 기록한다 | Sandve et al., Ten Simple Rules for Reproducible Computational Research (2013) Rule 1·6 |
+| 같은 입력이면 같은 산출물이 나온다 — 수작업 편집 단계를 두지 않는다 | Reproducible Builds, Definition |
+| 정보 산출물의 식별과 버전 표기 | IEC/IEEE 82079-1:2019 7.2 |
+
+**받지 않은 것**은 셋이다. markdownlint를 의존성으로 들이는 것은 Node 런타임이 ODD 밖이라
+받지 않고 규칙 번호만 출처로 인용한다. `SOURCE_DATE_EPOCH`로 시각을 고정하는 Reproducible
+Builds의 방식은 뷰의 최신성 표시와 상충하므로 재현 판정을 입력 지문으로 옮겼다.
+ASD-STE100의 문장 20단어·문단 6문장 상한은 영어 기술 문서의 수치라 한글 산문에 옮길 근거가 없다.
+
 ## 2. 참조 프로파일
 
 코어를 소프트웨어 개발 작업에 특수화한 결정들은 [`ontology.md`](ontology.md)의 "참조

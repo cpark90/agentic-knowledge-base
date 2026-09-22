@@ -17,6 +17,10 @@
 | **hci** | `docs/feedback/**` 전체 + 자기 역할 메모리 `.claude/agent-memory/hci/**` — 이 둘이 hci의 유일한 쓰기 범위다 | 저장소 전체 |
 | **다른 에이전트** | `agents/` lane의 **자기 항목만** (유저에게 전달할 내용, 인수 기록 `ref: handoff/…`) | 저장소 전체 (읽기 전용) |
 
+- **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-adoption-2026-09-22.md`](spec-writing-standard-adoption-2026-09-22.md) — 공백 열 채우기 + 기존 저작 적용.
+  인수인계는 [`handoff/spec-writing-standard-adoption-2026-09-22.md`](handoff/spec-writing-standard-adoption-2026-09-22.md)
+- **유저 판단 대기(2026-09-21)**: [`generated-requirements-stable-2026-09-21.md`](generated-requirements-stable-2026-09-21.md) — 요구 `r-027`·`r-028` 의 stable 전이 ·
+  [`observation-timestamp-notation-2026-09-21.md`](observation-timestamp-notation-2026-09-21.md) — 관측 청크의 시각 표기
 - **유저 판단 대기(2026-09-19)**: [`link-model-robustness-cde-2026-09-19.md`](link-model-robustness-cde-2026-09-19.md) — 남은 선택지 C·D·E ·
   [`connected-components-observations-2026-09-19.md`](connected-components-observations-2026-09-19.md) — 관측이 연결 성분을 늘린다 ·
   [`vv-profile-hazards-2026-09-19.md`](vv-profile-hazards-2026-09-19.md) — 위험 분석 G1~G6의 입력

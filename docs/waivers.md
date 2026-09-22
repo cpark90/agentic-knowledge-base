@@ -10,3 +10,4 @@
 | channel | docs/feedback/README.md · docs/feedback/TEMPLATE.md · docs/feedback/purpose-statement.md · docs/feedback/agents/README.md · docs/feedback/inquiries/README.md · docs/feedback/handoff/README.md | 파일 | 규약 문서·양식·원장은 반영 항목이 아니다 (옛 `channel_lint.EXEMPT`) | orchestrator | 2026-09-12 |
 | term-drift | kb/dev/decision/pe-storage-layout/conclusion.md | 파일 | 본문의 `verifier/`는 디렉토리명 — 옛 표기가 아니다 (consistency ⑥) | orchestrator | 2026-09-12 |
 | prose | docs/references.md | 파일 | 도구 이름 "OOPS!"의 느낌표 — 고유명사 | orchestrator | 2026-09-13 |
+| empty-value | kb/dev/decision/p9-uncertainty-as-link-uncertainty/conclusion.md | 파일 | 본문의 "값이 미정인 것처럼 보이는 경우"는 빈 값 표기가 아니라 낱말의 산문 용법이다 (⑧ 빈 값 이상 표기) | orchestrator | 2026-09-22 |

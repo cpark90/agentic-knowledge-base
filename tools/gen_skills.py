@@ -24,14 +24,14 @@ try:
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
     import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
-from doccheck import HEADING, slug  # noqa: E402 — GitHub 제목 앵커 규칙의 정의처
+HEADING, slug = kb_lib.MD_HEADING, kb_lib.slug  # GitHub 제목 앵커 규칙의 단일 정의처는 kb_lib (STYLEGUIDE §7)
 
 EXIT_OK, EXIT_FAIL, EXIT_CONFIG = kb_lib.EXIT_OK, kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG
 GEN, DRIFT = kb_lib.GEN_SKILLS_GATE, kb_lib.SKILLS_DRIFT_GATE
 PY_BINARY = re.compile(r'py_binary\(\s*name\s*=\s*"([\w-]+)"')
 # `사용:` 줄 — 줄머리(콜론 없어도 된다: "사용  doccheck.py …") 또는 줄 가운데의 "사용: …". 블록은 뒤따르는 들여쓴 줄까지다
 USAGE = re.compile(r"^사용[:：]?(?=\s|$)|사용[:：]\s*")
-NOTICE = "생성 파일 — 손으로 고치지 않는다. 원본은 도구 docstring과 `kb_lib.SKILLS` (`tools/gen_skills.py`). 검사: `//:skills_drift_test`"
+NOTICE = kb_lib.gendoc_tree_notice("도구 docstring 과 `kb_lib.SKILLS`", "//:skills_drift_test")
 DOCS_DIR = "docs"
 TOOLS_DIR = "tools"
 RESOLVE_ANCHOR = "게이트-총람--이-문서가-원본이다"  # docs/tools.md 의 총람 — `해소` 열이 FAIL [<id>] 의 해소다
@@ -100,11 +100,17 @@ def render(entry: dict, title: str, what: str, usage: str, section_doc: str, sec
     up = "../" * depth
     if ": " in when or " #" in when or when[:1] in "[]{}&*!|>'\"%@`,":
         raise GenSkillsError(f"kb_lib.SKILLS[{tool}].when: YAML 평문 스칼라로 쓸 수 없는 문자(': ' · ' #' · 특수 첫 글자)가 있다")
-    head = f"# {tool}" + (f" — {title}" if title else "")
     cmds = "\n".join(entry["commands"])
+    # 생성 트리 파일이므로 생성 시각·지문을 넣지 않는다 (규약 G3·G4 의 예외) — //:skills_drift_test 의 바이트 비교가
+    # 그 자리의 건전성 장치다. 나머지 머리 블록은 Bazel 뷰와 같은 순서다
+    head = kb_lib.gendoc_header(
+        tool, title or f"{tool} 도구의 skill", "tools/gen_skills.py",
+        f"이 도구는 무엇이고(모듈 docstring 첫 문단) 언제 쓰고(`kb_lib.SKILLS`) 어떻게 부르는가(docstring 의 `사용:` 줄)",
+        "python3 tools/gen_skills.py --root .",
+        [f"{TOOLS_DIR}/{tool}.py", f"{TOOLS_DIR}/kb_lib.py", section_doc],
+        "", NOTICE, input_kind="원본 파일", stamped=False)
     return "\n".join([
-        "---", f"name: {kebab(tool)}", f"description: {when}", "---", "",
-        head, "", f"> {NOTICE}", "",
+        "---", f"name: {kebab(tool)}", f"description: {when}", "---", ""] + head + [
         what, "",
         "## 언제 쓰는가", "", when, "",
         "## 명령", "", "```bash", cmds, "```", "",

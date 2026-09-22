@@ -64,7 +64,7 @@ def classify(cmd: str) -> str | None:
 
 
 def load_cases(root: Path, only: list[str]) -> tuple[list[dict], list[str]]:
-    """케이스 파일 → [{slug, label, iri, commands: [{cmd, skip}]}], 실행 명령 줄이 없는 케이스 목록."""
+    """케이스 파일 → [{slug, path, label, iri, commands: [{cmd, skip}]}], 실행 명령 줄이 없는 케이스 목록."""
     files = sorted((root / CASE_DIR).glob("*.md"))
     if only:
         files = [f for f in files if f.stem in only]
@@ -77,7 +77,7 @@ def load_cases(root: Path, only: list[str]) -> tuple[list[dict], list[str]]:
             missing.append(f.stem)
             continue
         cmds = [c for c in SPLIT.split(line.group(1).strip()) if c]
-        cases.append({"slug": f.stem, "label": meta["title_ko"], "iri": meta["id"], "status": meta["status"],
+        cases.append({"slug": f.stem, "path": f.as_posix(), "label": meta["title_ko"], "iri": meta["id"], "status": meta["status"],
                       "commands": [{"cmd": c, "skip": classify(c)} for c in cmds]})
     return cases, missing
 
@@ -173,31 +173,37 @@ def observation(now: datetime, cases: list[dict], rev: str, dirty: bool, env: st
 def report(now: datetime, cases: list[dict], missing: list[str], rev: str, dirty: bool, env: str) -> str:
     n = counts(cases)
     verdict = ("**fail 있음**" if n["fail"] else "pass 없음 — 전부 skip" if not n["pass"] else "pass" + (" (skip 있음)" if n["skip"] else ""))
-    rep = [f"# vv_run — {now.isoformat(timespec='seconds')}", "",
-           f"결과: {verdict} · 케이스 {len(cases)} (pass {n['pass']} · fail {n['fail']} · skip {n['skip']}) · 리비전 `{rev}` "
-           f"(워킹트리 추적 파일 변경 {'있음' if dirty else '없음'}) · {env}", "",
-           "## 케이스 — 실행 대상은 허용 목록의 양성 명령뿐. SKIP 은 PASS 가 아니다", "",
-           "| 케이스 | 라벨 | 명령 | 결과 | 소요 |", "|---|---|---|---|---|"]
+    rep = kb_lib.gendoc_header(
+        "vv_run", "V&V 케이스 실행 판정", "tools/vv_run.py",
+        "V&V 케이스 청크(`kb/vv/case/`)의 실행 명령 중 허용 목록의 양성 명령만 실제로 돌려 케이스마다 pass·fail·skip 을 — "
+        "SKIP 은 PASS 가 아니다 (8.20절)",
+        "bazel run //tools:vv_run", [c["path"] for c in cases],
+        f"케이스 {len(cases)} (pass {n['pass']} · fail {n['fail']} · skip {n['skip']})",
+        kb_lib.gendoc_view_notice("V&V 케이스 청크의 본문"), input_kind="케이스 파일",
+        extra=[f"- 결과: {verdict}",
+               f"- 초기 상태: 리비전 `{rev}` (워킹트리 추적 파일 변경 {'있음' if dirty else kb_lib.NONE_MARK}) · {env}"])
+    body = ["## 케이스 — 실행 대상은 허용 목록의 양성 명령뿐. SKIP 은 PASS 가 아니다", "",
+            "| 케이스 | 라벨 | 명령 | 결과 | 소요 |", "|---|---|---|---|---|"]
     for c in cases:
         ran = sum(1 for x in c["commands"] if x["skip"] is None)
-        rep.append(f"| `{c['slug']}` | {c['label']} | {ran} 실행 · {len(c['commands']) - ran} 건너뜀 | **{c['verdict']}** | {c['secs']:.1f}s |")
-    rep += ["", "## 명령", "", "| 케이스 | 명령 | 종료 | 소요 | 비고 |", "|---|---|---|---|---|"]
+        body.append(f"| `{c['slug']}` | {c['label']} | {ran} 실행 · {len(c['commands']) - ran} 건너뜀 | **{c['verdict']}** | {c['secs']:.1f}s |")
+    body += ["", "## 명령", "", "| 케이스 | 명령 | 종료 | 소요 | 비고 |", "|---|---|---|---|---|"]
     for c in cases:
         for x in c["commands"]:
             if x["skip"] is None:
                 t = x.get("tests")
                 note = (f"테스트 {t[0]} · 실행 {t[1]} · 캐시 {t[0] - t[1]}" if t else "요약 줄 없음" if x["cmd"].startswith("bazel test ") else "") + ("" if x["rc"] == 0 else " · 실패")
-                rep.append(f"| `{c['slug']}` | `{x['cmd']}` | {x['rc']} | {x['secs']:.1f}s | {note} |")
+                body.append(f"| `{c['slug']}` | `{x['cmd']}` | {x['rc']} | {x['secs']:.1f}s | {note} |")
             else:
-                rep.append(f"| `{c['slug']}` | `{x['cmd']}` | SKIP | — | {x['skip']} |")
+                body.append(f"| `{c['slug']}` | `{x['cmd']}` | SKIP | — | {x['skip']} |")
     failed = [(c["slug"], x) for c in cases for x in c["commands"] if x["skip"] is None and x["rc"] != 0]
     if failed:
-        rep += ["", "## 실패한 명령의 출력 꼬리", ""]
+        body += ["", "## 실패한 명령의 출력 꼬리", ""]
         for slug, x in failed:
-            rep += [f"### `{slug}` — `{x['cmd']}` (종료 {x['rc']})", "", "```", x["tail"], "```", ""]
+            body += [f"### `{slug}` — `{x['cmd']}` (종료 {x['rc']})", "", "```", x["tail"], "```", ""]
     if missing:
-        rep += ["", f"실행 명령 줄이 없는 케이스 {len(missing)}건: " + ", ".join(f"`{m}`" for m in missing) + " — 케이스 본문에 `**실행 명령**` 줄(대시 뒤 코드 스팬 하나)이 있어야 한다"]
-    return "\n".join(rep) + "\n"
+        body += ["", f"실행 명령 줄이 없는 케이스 {len(missing)}건: " + ", ".join(f"`{m}`" for m in missing) + " — 케이스 본문에 `**실행 명령**` 줄(대시 뒤 코드 스팬 하나)이 있어야 한다"]
+    return kb_lib.gendoc_assemble(rep, body, [c["path"] for c in cases], input_kind="케이스 파일")
 
 
 def main() -> int:

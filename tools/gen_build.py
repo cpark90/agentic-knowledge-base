@@ -170,7 +170,8 @@ def ontology(root: Path):
     mod_dirs = sorted(p for p in root.glob("kb/ontology/*/*") if p.is_dir() and list(p.glob("*.ttl")))
     for d in mod_dirs:
         rel = d.relative_to(root / "kb/ontology").as_posix()
-        outputs[str(d / "BUILD.bazel")] = (HEADER + 'load("//defs:kb.bzl", "kb_ontology_module")\n\n'
+        outputs[str(d / "BUILD.bazel")] = (HEADER.replace("각 청크의 frontmatter", "모듈 디렉토리의 온톨로지 TTL")
+                                           + 'load("//defs:kb.bzl", "kb_ontology_module")\n\n'
                                            'package(default_visibility = ["//visibility:public"])\n\n'
                                            f'# 모듈 = 디렉토리, 청크 = 파일 (2.3절). IRI {ONTO_BASE}{rel}\n'
                                            f"kb_ontology_module(\n    name = {q(d.name)},\n    srcs = glob([\"*.ttl\"]),\n    iri = {q(ONTO_BASE + rel)},\n)\n")

@@ -18,6 +18,10 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from tools import kb_lib  # noqa: E402
+except ImportError:
+    import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록)의 단일 정의처
 from chunk2kg import parse_chunk  # noqa: E402
 
 LIVE = {"draft", "stable", "suspect"}
@@ -94,17 +98,22 @@ def main() -> int:
     items = real + decoys
     rng.shuffle(items)
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
-    sheet = ["# 라벨 대표성 판정지 — 라벨만 보고 본문을 예측한다", "",
-             f"항목 {len(items)} · seed {a.seed}. 각 항목에 대해 (1) 라벨만 보고 본문이 무엇을 말할지 한 문장으로 예측하고,",
-             "(2) 본문을 받은 뒤 예측과 대조해 **적합 / 부분 / 부적합** 중 하나와 확신도 0~1을 적는다.", "",
-             "| # | 라벨 (ko) | 라벨 (en) |", "|---|---|---|"]
+    sheet = kb_lib.gendoc_header(
+        "sheet", "라벨 대표성 판정지", "tools/label_sample.py",
+        f"층화 표본 {len(real)}건과 미끼 {len(decoys)}건을 seed {a.seed} 로 섞어 — 각 항목에 대해 (1) 라벨만 보고 본문이 무엇을 말할지 "
+        "한 문장으로 예측하고 (2) 본문을 받은 뒤 예측과 대조해 적합 / 부분 / 부적합 중 하나와 확신도 0~1 을 적는다",
+        f"bazel run //tools:label_sample -- --seed {a.seed} --out {a.out}", [it["path"] for it in items],
+        f"항목 {len(items)}개 · seed {a.seed}", kb_lib.gendoc_view_notice("각 청크의 라벨과 본문"), input_kind="청크 파일")
+    rows = ["| # | 라벨 (ko) | 라벨 (en) |", "|---|---|---|"]
     key = []
     for i, it in enumerate(items, 1):
-        sheet.append(f"| {i} | {it['title_ko']} | {it['title']} |")
+        rows.append(f"| {i} | {it['title_ko']} | {it['title']} |")
         key.append({"n": i, "path": it["path"], "id": it["id"], "stratum": it["stratum"],
                     "title_ko": it["title_ko"], "title": it["title"], "body": it["body"],
                     "decoy": "decoy_body_from" in it, "decoy_body_from": it.get("decoy_body_from")})
-    (out / "sheet.md").write_text("\n".join(sheet) + "\n", encoding="utf-8")
+    rows.append("")
+    (out / "sheet.md").write_text(kb_lib.gendoc_assemble(sheet, rows, [it["path"] for it in items], input_kind="청크 파일"),
+                                  encoding="utf-8")
     (out / "key.json").write_text(json.dumps(key, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"표본 {len(real)} + 미끼 {len(decoys)} → {out}/sheet.md, key.json")
     return 0

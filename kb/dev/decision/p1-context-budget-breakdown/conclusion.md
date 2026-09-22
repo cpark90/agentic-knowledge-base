@@ -7,7 +7,7 @@ title: Decompose the context budget; knowledge body gets the remainder
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-22T19:35:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08, https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8, https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0036, https://agentic-knowledge-base.dev/id/chunk-d0041]
 part_of: https://agentic-knowledge-base.dev/id/composite/ee6bf20f-7b60-4ee8-8681-af13f995682d
@@ -23,4 +23,6 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/ee6bf20f-7b60-4e
 | 작업 집합 (0.5절) | 라벨 목록 + 펼친 청크 | 스코프가 상한 |
 | 툴 출력 | 가변, 위험 | 5.3절 읽기 응답 형태로 제한 |
 | 대화 이력 | 누적 | 실행 모드(10.3절)로 주기적 비우기 |
-| 지식 청크 본문 | **남는 것** | — |
+| 지식 청크 본문 | **남는 것** | 해당 없음 |
+
+미확정: 200줄·42줄 전제가 실측으로 성립하는가. 상세는 `docs/open-questions/context-budget.md`다.

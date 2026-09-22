@@ -7,7 +7,7 @@ title: Split and merge mint new IRIs linked to the old by wasDerivedFrom
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-22T19:35:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 part_of: https://agentic-knowledge-base.dev/id/composite/bef41c67-e767-4eac-8a76-338d9a83913b
 composite: {id: https://agentic-knowledge-base.dev/id/composite/bef41c67-e767-4eac-8a76-338d9a83913b, title_ko: 청크 분할과 병합, title: Chunk split and merge}
@@ -25,7 +25,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/bef41c67-e767-4e
 |---|---|
 | 두 청크가 항상 함께 읽힘 | 분리가 조망만 방해 |
 | 한 청크가 다른 청크 없이 이해 불가 | 자립성 위반 |
-| 합쳐도 42줄 이하 | — |
+| 합쳐도 42줄 이하 | 해당 없음 |
 
 **분할·병합은 새 IRI를 만들고 옛 IRI를 `prov:wasDerivedFrom`으로 잇는다.** 옛
 IRI를 가리키던 링크는 `suspect`가 되어 재판정 큐에 오른다 (4.8절).

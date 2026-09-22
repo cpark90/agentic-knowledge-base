@@ -3,9 +3,13 @@ name: assume-check
 description: 가정을 ODD 조건으로 판정해 깨진 가정의 직접 영향 집합과 suspect 후보를 내거나 --break 로 인위 파괴 실험을 할 때 쓴다.
 ---
 
-# assume_check — 가정 판정과 전파
+# assume_check — 가정 판정과 전파 (생성 파일)
 
-> 생성 파일 — 손으로 고치지 않는다. 원본은 도구 docstring과 `kb_lib.SKILLS` (`tools/gen_skills.py`). 검사: `//:skills_drift_test`
+- 생성기: `tools/gen_skills.py` · gendoc/1
+- 입력: 원본 파일 3개: `docs/method.md` · `tools/assume_check.py` · `tools/kb_lib.py`
+- 질의: 이 도구는 무엇이고(모듈 docstring 첫 문단) 언제 쓰고(`kb_lib.SKILLS`) 어떻게 부르는가(docstring 의 `사용:` 줄)
+- 재현: `python3 tools/gen_skills.py --root .`
+- 생성 파일 — 손으로 고치지 않는다. 원본은 도구 docstring 과 `kb_lib.SKILLS`이다. 검사: `//:skills_drift_test`. 생성 시각·입력 지문은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다
 
 가정 판정과 전파 — 도입 4단계 "가정과 무효화"의 첫 형태 (노트 6.5절·6.9절, method §7, p6-assumption-verification-methods, p6-assumption-invalidation).
 

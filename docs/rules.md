@@ -93,6 +93,14 @@ IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 (필드 사상은 [`pe-three-layer-binding`](../kb/dev/decision/pe-three-layer-binding/conclusion.md)).
 예약 파일명 `index.md`·`log.md`는 **생성물로만** 둔다. 생성 명령은 `bazel build //kb/dev:index`다 (유저 결정 Q4).
 
+**본문의 빈 자리는 세 값으로만 적는다**(유저 승인 2026-09-22 — [`p4-three-empty-values`](../kb/dev/decision/p4-three-empty-values/conclusion.md)).
+`없음`은 찾아봤고 없다, `해당 없음`은 적용되지 않는다, `미확정`은 아직 모른다는 뜻이고 셋만 행동이 갈린다.
+`N/A`·`TBD`·`미정`·단독 대시를 쓰지 않는다. 아직 모르는 것은 선택 슬롯 `미확정:`에 적고, 미결 집계는
+문서가 아니라 그 슬롯에서 생성된다. 슬롯에는 그 슬롯의 질문에 답하는 문장만 쓴다
+([`p4-slot-answers-one-question`](../kb/dev/decision/p4-slot-answers-one-question/conclusion.md)) — 다른 슬롯의 답·메타
+문장·채움은 첨가다. 순서 목록의 모든 항목은 `1.`로 적고 항목 9개·중첩 2단계·항목당 2줄을 넘지 않는다.
+검사는 `consistency` ⑧·⑨ 보고에서 시작해 수치가 0이 된 뒤 `chunk_lint`로 올린다.
+
 값 어휘의 원본은 `tools/chunk2kg.py`의 상수(`PLANE_CLASS`·`LEVELS`·`STATES`·`REQUIRED`)다.
 생성 경로는 청크 타깃(`kb_chunk`·`kb_decision`)마다 head 조각 → 패키지 `:kg` 묶음 → `//kg:chunks_kg`(`kb_kg_merge`)
 → `bazel-out/.../kg/chunks-kg.ttl` → `//kg:gate_test`의 입력이다.

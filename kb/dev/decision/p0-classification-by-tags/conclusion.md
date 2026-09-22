@@ -7,7 +7,7 @@ title: Run records and V&V artifacts are classified by tag sets
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-22T19:05:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/8117429b-5245-4a0a-8628-a46fb78dd65d, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0012]
 part_of: https://agentic-knowledge-base.dev/id/composite/49901d72-dedc-4f2c-a4ca-5ab543eea90c
@@ -18,7 +18,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/49901d72-dedc-4f
 태그 집합의 포함 관계가 범주의 포함 관계가 된다.
 
 **태그는 범주를 갖고, 태그 값은 온톨로지 개념이어야 한다.** 범주 없이 두면
-태그가 무한히 늘고 검색이 불가능해진다. 범주와 값의 출처는 다음과 같다.
+태그가 무한히 늘고 검색이 불가능해진다. 범주는 셋이고 값의 출처가 각각 다르다.
 
 - **행위자** — 에이전트 카탈로그 역할·유저·외부 서비스 (`role:developer`)
 - **조건** — ODD 속성과 값 (`env:offline`)

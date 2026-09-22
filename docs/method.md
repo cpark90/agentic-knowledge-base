@@ -197,8 +197,8 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 ## 8. 조회
 
 **읽기 응답의 기본은 라벨 목록이지 본문이 아니다** (d-0082). 순서는 스코프 → 라벨 목록 →
-필요한 것만 펼치기 → 작업 집합이다. 도구는 `bazel build //kg:workset_<role>`이다. 수준 창·앵커·
-예산은 `kb_workset` 인자로 준다.
+필요한 것만 펼치기 → 작업 집합이다. 도구는 `bazel build //kg:workset_<role>`이다. 수준 창·앵커는
+`defs/kb.bzl`의 규칙 `kb_workset_view` 인자로, 예산은 빌드 설정 `--//kb:budget`으로 준다.
 
 - **작업 집합**(Workset)은 스코프 × 수준 창 × **앵커 이웃**으로 걸러져 에이전트에게 실제로
   보이는 청크 집합이다. 컨텍스트 통제의 단위다 (노트 0.5절,
@@ -232,6 +232,17 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 | 감사 보고서 | 검증 현황·최근 실행·가정·추적 매트릭스·검증 표시·링크 근거 — 그래프 union과 관측 본문만으로, `bazel build //kg:audit` (2026-09-19) |
 | 복원 후보 | 본문 식별자·테스트 공동 커버·개념 공유에서 링크 후보, TIM 제약, 앵커당 k ≤ 7 — `//kg:link_candidates` (2026-09-19) |
 | skill | 도구 docstring + `kb_lib.SKILLS` → `.claude/skills/*/SKILL.md` — 트리에 두는 생성물, 드리프트 검사 |
+| 코어 지표 | plane×level·고아율·세 축 대리·링크 밀도·크기 분포 — `bazel build //kg:metrics`. 문서는 수치를 적지 않고 이것을 인용한다 (d-0075) |
+| 역량 질문 | CQ 질의 28개의 답을 라벨 목록으로 — `//kg:cq`. 개별 질의는 `bazel run //tools:query -- <CQ>` |
+| 정합성 보고 | 정확·근사 중복, 묶인 쌍의 응집 저하, 라벨 중복·형식, 용어 옛 표기 — `//kb:consistency`. 판정은 사람이 한다 |
+| 커뮤니티 탐지 | 결정론적 Louvain으로 복합체 후보와 `relatedTo` 후보 — `//kg:communities`. 채택·기각은 사람이 한다 |
+
+뷰의 **형태**는 생성 전에 고정된다. 머리 블록·본문 서식·수치 표기의 규약은
+[`STYLEGUIDE.md` §9](../STYLEGUIDE.md#9-생성-문서-bazel-binmd--생성-트리-파일)에 있고 게이트
+`gendoc`이 강제한다. 결정은
+[`p12-generated-document-header`](../kb/dev/decision/p12-generated-document-header/conclusion.md) ·
+[`p12-generated-document-form`](../kb/dev/decision/p12-generated-document-form/conclusion.md) ·
+[`p12-generated-documents-are-gated`](../kb/dev/decision/p12-generated-documents-are-gated/conclusion.md)다.
 
 ## 10. 일반화
 

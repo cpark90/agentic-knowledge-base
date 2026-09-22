@@ -7,7 +7,7 @@ title: Link material crosses the boundaries of the retrieval, edit and reasoning
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-22T19:35:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93, https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af]
 part_of: https://agentic-knowledge-base.dev/id/composite/65989bd8-c9ca-4659-8069-5b9913ce7b7e
 composite: {id: https://agentic-knowledge-base.dev/id/composite/65989bd8-c9ca-4659-8069-5b9913ce7b7e, title_ko: 조회·편집·추론 세 컨텍스트의 경계에서 링크 재료가 넘어간다, title: Link material crosses the boundaries of the retrieval, edit and reasoning contexts}
@@ -16,7 +16,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/65989bd8-c9ca-46
 
 | 경계 | 넘어가는 것 | 링크의 재료 |
 |---|---|---|
-| 추론 → 조회 | 질의 (자연어 + 온톨로지 개념) | — |
+| 추론 → 조회 | 질의 (자연어 + 온톨로지 개념) | 없음 |
 | 조회 → 추론 | 읽기 집합 (청크 라벨 + 펼친 본문) | `satisfies`·`derives-from` 후보 |
 | 추론 → 편집 | 대상 청크 IRI + **편집 지시** | `refines` 근거 |
 | 편집 → 추론 | 쓰기 집합 (변경된 청크) | 후보와 대조해 확정 |

@@ -1,0 +1,12 @@
+# 개발 프로파일 — 본문 슬롯: 청크 본문이 쓴 줄 머리 고정 표지 (결정 p4-slot-answers-one-question, p7-dev-plane-substance)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:bodySlot a owl:DatatypeProperty ;
+    rdfs:domain agt:Chunk ;
+    rdfs:range xsd:string ;
+    rdfs:label "body slot"@en , "본문 슬롯"@ko ;
+    skos:definition "청크 본문이 쓴 슬롯 표지. 슬롯은 줄 머리 고정 표지 하나와 그것이 답하는 질문 하나이고, 슬롯에는 그 질문의 답만 적는다 (결정 p4-slot-answers-one-question). 값은 표지의 낱말이고 tools/chunk2kg.py 가 본문에서 찾아 넣는다 — lineCount·contentHash 와 같은 본문 파생 사실이다. 어느 틀이 어떤 슬롯을 어떤 순서로 요구하는지와 슬롯마다 등록된 질문은 shape(kb/ontology/shapes/*-body-shapes.ttl)의 sh:order·sh:description 이 정의처다."@ko .

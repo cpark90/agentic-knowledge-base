@@ -1,0 +1,16 @@
+# 살아 있는 결정 중 요구에 닿지 않는 것은 무엇인가 — 기여 추적의 여집합.
+# 행 = refines ∪ serves 의 상향 폐포(복합체 형제 경유)로 살아 있는 요구에 닿지 않는 결정 하나. 정의는 tools/metrics.py 의 reaches_req 와 같고 deprecated 는 결정·요구 양쪽에서 제외한다. 기대 행 수는 0 이다
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?decision WHERE {
+  ?decision a agt:DecisionChunk ;
+      agt:lineCount ?n ;
+      agt:status ?s .
+  FILTER (?s != "deprecated")
+  FILTER NOT EXISTS {
+    ?decision (agt:refines|agt:serves|(^agt:hasDirectPart/agt:hasDirectPart))+ ?requirement .
+    ?requirement a agt:RequirementChunk ;
+        agt:status ?rs .
+    FILTER (?rs != "deprecated")
+  }
+} ORDER BY ?decision

@@ -79,13 +79,24 @@ def _check_links(ctx, plane, level):
             fail("%s: verifies 는 같은 수준끼리 (8.3절 검증 대응물): %s ≠ %s" % (ctx.label, level, dep[ChunkInfo].level))
 
 def _lint_action(ctx, files):
-    """검증 액션 — bazel build 만으로 42줄·frontmatter 검사가 돈다 (validation output group)."""
+    """검증 액션 — bazel build 만으로 42줄·frontmatter·첨가·목록 검사가 돈다 (validation output group).
+
+    면제 선언(docs/waivers.md)을 함께 읽는다. 면제는 코드가 아니라 그 표에 있고(AGENTS.md·STYLEGUIDE §8),
+    게이트 id 는 prose·addition·empty-value·list-rules 다. 표를 주지 않으면 청크를 겨눈 면제가 이 액션에만
+    적용되지 않아 //kb/...:lint_test 와 판정이 갈린다.
+    """
     marker = ctx.actions.declare_file(ctx.label.name + ".lint.ok")
+    waivers = ctx.file._waivers
     ctx.actions.run_shell(
-        inputs = files,
+        inputs = files + [waivers],
         outputs = [marker],
         tools = [ctx.executable._lint],
-        command = "%s --chunks %s && touch %s" % (ctx.executable._lint.path, " ".join([f.path for f in files]), marker.path),
+        command = "%s --chunks %s --waivers %s && touch %s" % (
+            ctx.executable._lint.path,
+            " ".join([f.path for f in files]),
+            waivers.path,
+            marker.path,
+        ),
         mnemonic = "KbChunkLint",
         progress_message = "청크 검사 %s" % ctx.label,
     )
@@ -110,6 +121,7 @@ _LINK_ATTRS = {
     "supersedes": attr.label_list(providers = [ChunkInfo], doc = "대체 — 같은 plane 의 옛 항목 (7.4절)"),
     "verifies": attr.label_list(providers = [ChunkInfo], doc = "검증 — V&V 청크만 주어 (8.5절)"),
     "_lint": attr.label(default = "//tools:chunk_lint", executable = True, cfg = "exec"),
+    "_waivers": attr.label(default = "//docs:waivers", allow_single_file = True, doc = "게이트 면제 선언 (docs/waivers.md)"),
     "_chunk2kg": attr.label(default = "//tools:chunk2kg", executable = True, cfg = "exec"),
 }
 

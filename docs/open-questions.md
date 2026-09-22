@@ -8,6 +8,29 @@
 파일 하나로 있고 **다섯 절**을 갖는다. 다섯 절은 질문 / 이미 정해진 것 / 현재 상태 / 답이
 가르는 것 / 선택지다. 이 인덱스는 라벨 목록이다.
 
+**집계는 이 문서가 아니라 청크에서 생성된다**(유저 승인 2026-09-22 —
+[`p4-three-empty-values`](../kb/dev/decision/p4-three-empty-values/conclusion.md)). 미결은 답이 오면 가장 먼저
+바뀔 청크의 선택 슬롯 `미확정:`에 한 줄로 있고, 뷰 `//kg:open`이 그 슬롯을 모은다. 손으로 관리하던
+색인이 원본과 어긋나는 것을 그 방식이 막는다. 상세 다섯 절은 계속 `open-questions/`의 파일에 두고
+슬롯이 그 파일을 가리킨다 — 다섯 절은 42줄 청크에 들어가지 않기 때문이다.
+
+2026-09-22 에 슬롯이 달린 것은 열이다. 대표 청크는 답이 오면 본문이 바뀔 자리다.
+
+| 상세 파일 | 대표 청크 (`kb/dev/decision/<슬러그>/conclusion.md`) |
+|---|---|
+| `upper-ontology-alignment` | `p2-upper-ontology-foundation` |
+| `contract-artifact-logical` | `p6-plane-level-occupancy` |
+| `design-argument-formalization` | `p7-decision-spans-three-levels` |
+| `temporal-identity` | `p0-iri-design` |
+| `link-judgement-basis` | `p10-link-judgement-evidence` |
+| `coverage-computation` | `p8-coverage-metrics` |
+| `evaluation-metrics` | `p12-evaluation-metrics` |
+| `failure-cause-statistics` | `p8-unknown-risk-cases` |
+| `odd-right-size` | `p3-odd-maintenance` |
+| `context-budget` | `p1-context-budget-breakdown` |
+
+`decision-role-tags`는 유저 결정 C2로 답이 왔으므로 슬롯 대상이 아니다. 기록으로만 남는다.
+
 > **2026-09-10 재동기화 (유저 결정 C5 — 노트 우선).** 구조도 v4를 근거로 닫았던 13건은
 > 그 근거가 노트 v3로 대체되면서 **다시 열렸다**. 번호는 노트 Part XVII의 30건을 따른다.
 > 아직 파일이 없는 재개 항목은 작업이 닿을 때 다섯 절 파일을 만든다.

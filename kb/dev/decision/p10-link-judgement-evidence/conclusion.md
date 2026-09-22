@@ -7,7 +7,7 @@ title: Prefer link evidence that can be checked
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-22T19:25:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0110]
 part_of: https://agentic-knowledge-base.dev/id/composite/4f68217b-9725-4607-9748-151d55d543a8
@@ -24,3 +24,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/4f68217b-9725-46
 | 한 세션에서 둘 다 읽음 | 낮음 | 구축 기록의 약한 형태 |
 
 낮은 근거로 확정하지 않는다 — 그 근거는 후보를 만드는 데까지만 쓰인다.
+
+미확정: 후보 링크를 확정으로 올리는 권한이 누구에게 있는가. 상세는 `docs/open-questions/link-judgement-basis.md`다.

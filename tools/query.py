@@ -37,6 +37,7 @@ DEFAULT_LIMIT = 50      # 표 상한 — 컨텍스트 예산(anti-rot). 0 이면
 REPORT_TOP = 5          # 뷰 cq.md 의 CQ 별 상위 행 수
 REPORT_CELL = 100       # 뷰의 셀 폭 상한 (문자) — CLI 는 자르지 않는다
 CQ_ID = re.compile(r"^CQ-\d+$")
+FORM_PREFIX = "행 = "  # .rq 머리 주석 둘째 줄의 접두 — 원문에 이미 있으므로 읽을 때 떼고 출력에서 한 번만 붙인다
 
 
 class CqQuery:
@@ -46,7 +47,8 @@ class CqQuery:
         text = path.read_text(encoding="utf-8")
         heads = [ln[1:].strip() for ln in text.splitlines()[:2] if ln.startswith("#")]
         self.question = heads[0] if heads else path.stem
-        self.form = heads[1] if len(heads) > 1 else ""
+        form = heads[1] if len(heads) > 1 else ""
+        self.form = form[len(FORM_PREFIX):].lstrip() if form.startswith(FORM_PREFIX) else form  # 접두는 출력이 한 번만 붙인다
         self.text = text
         self.prepared = prepareQuery(text)  # 파싱 실패는 여기서 예외 — 호출자가 EXIT_CONFIG
 
@@ -94,15 +96,16 @@ def run(g: Graph, q: CqQuery, bindings: dict) -> tuple[list[str], list[tuple]]:
 
 
 def cell(g: Graph, term, labels: bool, width: int = 0) -> str:
+    """표 셀 하나. 빈 값의 표기는 `없음` 하나다 (G14 — 셀을 비우거나 대시를 쓰지 않는다)."""
     if term is None:
-        s = ""
+        s = kb_lib.NONE_MARK
     elif isinstance(term, URIRef):
         s = kb_lib.label_of(g, term) if labels else kb_lib.compact_iri(str(term))
     elif isinstance(term, Literal):
         s = str(term)
     else:
         s = f"_:{term}"
-    s = " ".join(s.split()).replace("|", "\\|")
+    s = " ".join(s.split()).replace("|", "\\|") or kb_lib.NONE_MARK
     if width and len(s) > width:
         s = s[: width - 1] + "…"
     return s
@@ -117,7 +120,7 @@ def table(cols: list[str], rows: list[list[str]]) -> list[str]:
 def render_query(g: Graph, q: CqQuery, bindings: dict, limit: int, labels: bool) -> list[str]:
     cols, rows = run(g, q, bindings)
     shown = rows if limit <= 0 else rows[:limit]
-    out = [f"## {q.id} — {q.question}", f"행 = {q.form}" if q.form else "", ""]
+    out = [f"## {q.id} — {q.question}", f"{FORM_PREFIX}{q.form}" if q.form else "", ""]
     if cols:
         out += table(cols, [[cell(g, t, labels) for t in r] for r in shown])
     tail = f"행 {len(rows)}"
@@ -138,19 +141,26 @@ def summary(g: Graph, queries: list[CqQuery], bindings: dict) -> tuple[list[str]
     return lines, results
 
 
-def report(g: Graph, results: list[tuple[CqQuery, list[str], list[tuple]]], summary_lines: list[str]) -> str:
-    o = ["# cq — 역량 질문 뷰 (생성 파일, tools/query.py)", "",
-         f"질의 {len(results)} · 트리플 {len(g)} · 질문 원문은 tools/cq-queries/*.rq 머리 주석, 등재는 docs/competency-questions.md. "
-         f"행 수는 답이지 판정이 아니다 (게이트가 아니다). CQ 별로 상위 {REPORT_TOP}행을 라벨로 보인다 — 전부는 `bazel run //tools:query -- <CQ> --labels --limit 0`", ""]
-    o += summary_lines + [""]
+def report(g: Graph, results: list[tuple[CqQuery, list[str], list[tuple]]], summary_lines: list[str], inputs: list[str]) -> str:
+    head = kb_lib.gendoc_header(
+        "cq", "역량 질문 뷰", "tools/query.py",
+        f"등재된 역량 질문 {len(results)}건(`docs/competency-questions.md`)을 그래프 union 에 그대로 물어 — 질문 원문은 각 "
+        f"`tools/cq-queries/CQ-NN.rq` 의 머리 주석 첫 줄, 답의 형태는 둘째 줄이다. 행 수는 답이지 판정이 아니다",
+        "bazel build //kg:cq", inputs, f"트리플 {len(g)} · 질의 {len(results)}",
+        kb_lib.gendoc_view_notice("질의 파일 `tools/cq-queries/*.rq` 와 청크"),
+        extra=[f"- CQ 별로 상위 {REPORT_TOP}행을 라벨로 보인다 — 전부는 `bazel run //tools:query -- <CQ> --labels --limit 0`"])
+    o = ["## 요약", ""] + summary_lines + [""]
     for q, cols, rows in results:
-        o += [f"## {q.id} — {q.question}", "", f"- 행 = {q.form}" if q.form else "", f"- 행 수 **{len(rows)}**", ""]
+        o += [f"## {q.id} — {q.question}", "", f"- {FORM_PREFIX}{q.form}" if q.form else f"- {FORM_PREFIX}{kb_lib.NONE_MARK}",
+              f"- 행 수 **{len(rows)}**", ""]
         if cols and rows:
             o += table(cols, [[cell(g, t, True, REPORT_CELL) for t in r] for r in rows[:REPORT_TOP]])
+            o.append("")  # G10 — 표 뒤에 빈 줄 (MD058)
             if len(rows) > REPORT_TOP:
-                o.append(f"… 외 {len(rows) - REPORT_TOP}행")
-        o.append("")
-    return "\n".join(ln for ln in o if ln is not None) + "\n"
+                o += [f"… 외 {len(rows) - REPORT_TOP}행", ""]
+        else:
+            o += [kb_lib.NONE_MARK, ""]
+    return kb_lib.gendoc_assemble(head, o, inputs)
 
 
 def main() -> int:
@@ -203,7 +213,7 @@ def main() -> int:
     try:
         if a.report:
             summary_lines, results = summary(g, queries, bindings)
-            Path(a.report).write_text(report(g, results, summary_lines), encoding="utf-8")
+            Path(a.report).write_text(report(g, results, summary_lines, [str(f) for f in rq_files] + list(a.ttl)), encoding="utf-8")
             return EXIT_OK
         if a.cq:
             for cq in a.cq:
@@ -211,7 +221,11 @@ def main() -> int:
                 print()
             return EXIT_OK
         summary_lines, _ = summary(g, queries, bindings)
-        print(f"# 역량 질문 요약 — 질의 {len(queries)} · 트리플 {len(g)}", "", sep="\n")
+        print("\n".join(kb_lib.gendoc_header(
+            "cq-summary", "역량 질문 행 수 요약", "tools/query.py",
+            f"등재된 역량 질문 {len(queries)}건을 전부 돌려 질문과 행 수만 — 한 질의의 답은 `bazel run //tools:query -- <CQ> --labels`",
+            "bazel run //tools:query", [str(f) for f in rq_files] + list(a.ttl), f"트리플 {len(g)} · 질의 {len(queries)}",
+            kb_lib.gendoc_view_notice("질의 파일 `tools/cq-queries/*.rq` 와 청크"))))
         print("\n".join(summary_lines))
         return EXIT_OK
     except Exception as e:  # 실행 중 실패(질의 결함·바인딩 타입) — 산출물이 아니라 질의를 고친다

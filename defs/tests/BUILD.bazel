@@ -38,4 +38,16 @@ kb_decision(
 )
 failure_test(name = "decision_levels_test", target_under_test = ":bad_decision_levels", expected = "수준 허용표 위반")
 
-# 6. 가시성 — V&V 항목을 개발 쪽에서 의존 (kb/vv 가 생기면 실제 타깃으로 교체)
+# 6. serves 의 대상은 requirement 뿐 — 결정(concrete)이 더 높은 수준의 결정(logical)을 serves (수준·plane 검사는 통과)
+kb_chunk(name = "fx_dec_logical", src = "fx_dec.md", iri = "urn:fx:decl", plane = "decision", level = "logical", tags = ["manual"])
+kb_chunk(name = "bad_serves_target", src = "fx_dec.md", iri = "urn:fx:bad5", plane = "decision", level = "concrete", serves = [":fx_dec_logical"], tags = ["manual"])
+failure_test(name = "serves_target_test", target_under_test = ":bad_serves_target", expected = "serves 의 대상은 requirement 뿐이다")
+
+# 7. refines/serves/supersedes 는 KB 안에서만 — 개발 KB 결정(concrete)이 V&V KB 요구(functional)를 refines.
+# 대상은 실제 V&V 타깃이다 (//kb:vv_readers 가 //defs/... 에 가시성을 준다). vnv 가 그 청크를 지우면 이 고정물의 dep 을 같은 패키지의 다른 요구로 바꾼다.
+kb_chunk(name = "bad_cross_kb", src = "fx_dec.md", iri = "urn:fx:bad6", plane = "decision", level = "concrete", refines = ["//kb/vv/goal:chunk-42-lines"], tags = ["manual"])
+failure_test(name = "cross_kb_link_test", target_under_test = ":bad_cross_kb", expected = "KB 안에서만이다")
+
+# 8. verifies 는 같은 수준끼리 (defs/kb.bzl:78-79) — 고정물 없음.
+# 그 검사에 닿으려면 주어의 label.package 가 kb/vv 여야 한다 (_is_vv, defs/kb.bzl:51-53). 이 패키지의 타깃은 그 앞의
+# "verifies 의 주어는" 에서 먼저 걸린다(고정물 4). kb/vv 는 vnv 의 쓰기 면이라 developer 가 고정물을 둘 수 없다.

@@ -196,8 +196,11 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 35 | 도입 7단계 첫 형태 (2026-09-19) — V&V KB 사슬 16(목표·기준·케이스 —`verifies`→ 결정), `agt:writesIn`으로 KB 차원의 쓰기 권한, 실행기 `vv_run`과 append-only 실행 기록. 검증 대응물 있는 요구 10 → 18/33 | `orchestrator-vv-first-form-2026-09-19` · `orchestrator-vv-coverage-restoration-2026-09-19` · `orchestrator-vv-run-audit-2026-09-19` |
 | 36 | 도입 8단계 첫 형태 (2026-09-19) — 감사 보고서 `//kg:audit`가 체계 밖 정보 없이 생성되고, 복원 후보 `//kg:link_candidates`와 `restored` 표시로 복원 비율을 센다(5.0% < 20%) | 같은 세 항목 |
 | 37 | 채널 refresh (2026-09-19) — 발신자가 닫은 agents 3건 제거(`stage1-closed`·`stage4-first-form`·`query-tool`), 오늘 기록 6건 `answered`, 조사 lane `suggestion` `closed`. 기록은 git 이력(`68f9c7c`) | 채널 규약 refresh |
+| 38 | 생성 문서의 형태 규약과 게이트 `gendoc` (2026-09-21) — 유저 지시(구조화 문서의 작성 규칙 조사·반영, 기준은 TypeSafe `jev`)로 규약 G1~G18, 요구 2(`r-027`·`r-028`, draft)·결정 3, `//:gendoc_test` 신설(게이트 19). 생성물은 리비전 대신 입력 지문을 적는다 | `orchestrator-generated-document-form-2026-09-21` |
+| 39 | 명세 문서 작성 규격의 채택 범위 (2026-09-22) — 유저 제안 922줄 중 **공백 열만** 채운다(선택지 1) **+ 기존 저작에도 적용**. 기정 유지: 중복은 안전율(9.3 불채택) · 상태 어휘 `stable` · 번호 제목과 `N.N절` 인용(2043건) · 결정 3청크·42줄. 기존 저작 위반 실측 33건 | `spec-writing-standard-adoption-2026-09-22` · handoff 동명 |
 
-**아직 유저 답을 기다리는 것**: `link-model-robustness-2026-09-18.md`의 선택지 C·D·E,
+**아직 유저 답을 기다리는 것**: `generated-requirements-stable-2026-09-21.md`(요구 둘의 stable 전이),
+`observation-timestamp-notation-2026-09-21.md`(관측 시각 표기), `link-model-robustness-2026-09-18.md`의 선택지 C·D·E,
 `connected-components-observations-2026-09-19.md`(관측이 성분을 늘리는 문제), `vv-profile-hazards-2026-09-19.md`(V&V 프로파일 위험 G1~G6),
 `dependency-graph-design.md`의 (a)~(j),
 `chunk-definition-unification.md`(반영 완료로 제거 — git 이력)의 D1~D9(온톨로지·ODD 항목의 plane·level 배정).

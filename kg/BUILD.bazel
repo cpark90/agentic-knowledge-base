@@ -1,5 +1,5 @@
 load("//defs:kb.bzl", "kb_kg_merge", "kb_workset_view")
-load("//defs:knowledge.bzl", "kb_community", "kb_cq_report", "kb_gate_test", "kb_link_candidates", "kb_metrics", "kb_reference_kg", "kb_weave")
+load("//defs:knowledge.bzl", "kb_community", "kb_cq_report", "kb_gate_test", "kb_link_candidates", "kb_metrics", "kb_open_questions", "kb_reference_kg", "kb_weave")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -126,5 +126,17 @@ kb_workset_view(
         ":kg",
         ":references_kg",
         "//kb/dev:bodies",
+        "//kb/vv:bodies",  # 앵커의 이웃에 V&V 항목이 있으면 본문을 펼친다 — 없으면 샌드박스에서 FileNotFoundError
     ],
+)
+
+# 미결 집계 뷰 — 청크의 선택 슬롯 `미확정:` 을 모은다 (p4-three-empty-values). 상세 다섯 절은 docs/open-questions.md 색인과
+# 그 아래 문서로 남고 이 뷰는 집계만 맡는다. bazel build //kg:open → bazel-bin/kg/open.md
+kb_open_questions(
+    name = "open",
+    bodies = [
+        "//kb/dev:bodies",
+        "//kb/vv:bodies",
+    ],
+    data = [":chunks_kg"],
 )

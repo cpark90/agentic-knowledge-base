@@ -113,6 +113,21 @@ EARS_PATTERNS = {
     "optional": "agt:optional",
     "complex": "agt:complex",
 }
+# 본문 슬롯 표지 (결정 p4-slot-answers-one-question) — 슬롯은 줄 머리 고정 표지 하나와 그것이 답하는 질문 하나다.
+# 질문·순서·필수 여부의 정의처는 shape(kb/ontology/shapes/*-body-shapes.ttl)이고 여기는 표지 낱말의 정의처다 —
+# 이 도구는 rdflib 없이 타깃마다 돌아 kb_lib 를 의존할 수 없으므로 값 어휘 상수가 PLANE_CLASS 와 함께 여기 있다 (STYLEGUIDE §4).
+# 실물이 있는 일곱 틀의 표지만 둔다. 표지를 늘리면 shape 의 틀도 같은 커밋에서 늘린다
+BODY_SLOT_MARKERS = ("요구", "이해관계자", "관심사", "출처",                    # 개발 요구 (kb/dev/requirement)
+                     "결론", "근거", "대안",                                   # 결정 세 청크 (kb/dev/decision · chunks/decision)
+                     "검증 목표", "무엇을 관측하면 성립하는가",                  # 검증 목표 (kb/vv/goal)
+                     "합격 기준", "판정식", "확인 절차", "등급",                 # 합격 기준 (kb/vv/criteria)
+                     "케이스", "자극", "기대", "실행 명령", "표본 근거")         # 케이스 (kb/vv/case)
+BODY_SLOT_SPAN = re.compile(r"\*\*([^*\n]+?)\*\*")
+# 줄 머리 `키워드: 값` 형 슬롯 (제안 4.1절). 지금 실물은 선택 슬롯 `미확정:` 하나다 — 미결을 문서가 아니라 항목 안에
+# 두면 집계가 생성물이 된다 (p4-three-empty-values). //kg:open 이 이 표지로 미결을 모은다
+BODY_SLOT_KEYWORDS = ("미확정",)
+BODY_SLOT_KEYWORD = re.compile(r"^(" + "|".join(BODY_SLOT_KEYWORDS) + r"):\s")
+BODY_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")  # 코드 펜스 안은 본문 형식이 아니다 — 예시 안의 표지를 슬롯으로 읽지 않는다
 LEVELS = {"functional", "abstract", "logical", "concrete", "executable"}
 STATES = {"draft", "stable", "suspect", "invalidated", "deprecated"}
 HANGUL = re.compile(r"[ㄱ-ㆎ가-힣]")  # 한글 음절·자모 — 라벨 언어 검사 (0.6절 표기 형식)
@@ -126,6 +141,35 @@ PREAMBLE = """\
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 """
+
+
+def body_slots(body: list[str]) -> list[str]:
+    """본문이 쓴 슬롯 표지 — 등록된 표지(BODY_SLOT_MARKERS) 가운데 굵은 span 으로 나타난 것, 첫 등장 순서.
+
+    표지 안의 한정어는 같은 표지로 본다. "**대안 없음**"·"**자극(분석)**" 이 그 예이고 DECISION_ROLE_MARKER 와 같은
+    규칙이다 — 그것은 "대안 없음을 기록하라"는 규칙의 이행이지 표지 누락이 아니다.
+    """
+    seen: list[str] = []
+    fence: str | None = None
+    for line in body:
+        m = BODY_FENCE.match(line)
+        if fence:
+            if m and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence):
+                fence = None
+            continue
+        if m:
+            fence = m.group(1)
+            continue
+        kw = BODY_SLOT_KEYWORD.match(line)
+        if kw and kw.group(1) not in seen:
+            seen.append(kw.group(1))
+        for span in BODY_SLOT_SPAN.finditer(line):
+            for mark in BODY_SLOT_MARKERS:
+                if span.group(1).strip().startswith(mark):
+                    if mark not in seen:
+                        seen.append(mark)
+                    break
+    return seen
 
 
 def parse_chunk(path: str) -> tuple[dict, int]:
@@ -154,6 +198,7 @@ def parse_chunk(path: str) -> tuple[dict, int]:
     while body and not body[0].strip():
         body.pop(0)
     meta["_content_hash"] = hashlib.sha256("\n".join(body).encode("utf-8")).hexdigest()[:12]
+    meta["_body_slots"] = body_slots(body)  # 본문이 쓴 슬롯 표지 (결정 p4-slot-answers-one-question)
 
     for k in REQUIRED:
         if not meta.get(k):
@@ -238,6 +283,7 @@ def emit_chunk(path: str, meta: dict, line_count: int) -> str:
         stmts.append(f"agt:pattern {EARS_PATTERNS[meta['pattern']]}")
     stmts += [
         f"agt:lineCount {line_count}",
+        *(f'agt:bodySlot "{esc(s)}"' for s in meta.get("_body_slots", [])),  # 본문 형태 — 틀의 필수 슬롯은 *-body-shapes.ttl 이 본다
         f'agt:status "{meta["status"]}"',
         f'agt:contentHash "{meta["_content_hash"]}"',
         f'agt:generatedBy "{esc(meta["generated"]["by"])}"',

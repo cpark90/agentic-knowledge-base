@@ -23,6 +23,11 @@ _DOCCHECK_SRCS = [
     Label("//tools:kb_lib.py"),
 ]
 
+_GENDOC_SRCS = [
+    Label("//tools:gendoc.py"),
+    Label("//tools:kb_lib.py"),
+]
+
 _GEN_SKILLS_SRCS = [
     Label("//tools:gen_skills.py"),
     Label("//tools:doccheck.py"),
@@ -173,6 +178,29 @@ def kb_community(name, data, out = "communities.md"):
         tools = [Label("//tools:community")],
     )
 
+def kb_open_questions(name, data, bodies = [], out = "open.md"):
+    """head 그래프의 선택 슬롯 `미확정:` 에서 미결 집계 뷰 open.md 를 생성한다 (p4-three-empty-values).
+
+    미결마다 질문 · 그것을 안은 청크(라벨·IRI) · plane/level · 상세 문서를 낸다. 대상은 `agt:bodySlot "미확정"` 인
+    청크이고 질문은 그 청크의 본문에서 읽는다. **집계만 맡는다** — 미결의 상세 다섯 절은 42줄 청크에 들어가지 않아
+    docs/open-questions.md 색인과 그 아래 문서로 남고 이 뷰가 그것을 대체하지 않는다. 뷰이고 게이트가 아니며
+    생성물은 bazel-bin 에만 있다 (STYLEGUIDE §6).
+
+    Args:
+      name: 타깃 이름.
+      data: 그래프 라벨들 — head(:chunks_kg) 가 있어야 슬롯 표지를 읽는다.
+      bodies: 청크 파일 라벨들 (filegroup 가능). 질문 문장이 여기서 나온다.
+      out: 생성할 파일명.
+    """
+    extra = (" --bodies " + " ".join(["$(execpaths %s)" % b for b in bodies])) if bodies else ""
+    native.genrule(
+        name = name,
+        srcs = data + bodies,
+        outs = [out],
+        cmd = "$(location //tools:open_questions) --out $@ %s%s" % (" ".join(["$(execpaths %s)" % d for d in data]), extra),
+        tools = [Label("//tools:open_questions")],
+    )
+
 def kb_link_candidates(name, data, k = 7, min_shared = 3, out = "link-candidates.md"):
     """그래프(-kg)의 체계 안 증거에서 복원 후보 뷰 link-candidates.md 를 생성한다 (로드맵 8단계 복원, p10-link-by-construction).
 
@@ -194,17 +222,6 @@ def kb_link_candidates(name, data, k = 7, min_shared = 3, out = "link-candidates
         outs = [out],
         cmd = "$(location //tools:link) --out $@ --k %d --min-shared %d %s" % (k, min_shared, " ".join(["$(execpaths %s)" % d for d in data])),
         tools = [Label("//tools:link")],
-    )
-
-def kb_workset(name, role, data, levels = "", anchor = "", budget = 200, out = None):
-    """역할의 작업 집합 뷰 workset-<role>.md — 라벨 목록 + 앵커 이웃, 예산 패킹 (0.5절, 5.6절). 저장하지 않는 질의 결과다."""
-    out = out or "workset-%s.md" % role
-    native.genrule(
-        name = name,
-        srcs = data + ["//kb/dev:bodies"],
-        outs = [out],
-        cmd = "$(location //tools:workset) --role %s --levels '%s' --anchor '%s' --budget %d --root . --out $@ %s" % (role, levels, anchor, budget, " ".join(["$(execpaths %s)" % d for d in data])),
-        tools = [Label("//tools:workset")],
     )
 
 def kb_weave(name, kind, data, bodies = [], out = None):
@@ -304,8 +321,11 @@ def kb_reference_kg(name, srcs, out = None, ontology = []):
 def kb_chunk_lint_test(name, chunks = [], ttl = [], waivers = None, **kwargs):
     """청크 42줄 제한(4.1절)·TTL 접미사 규약(0.2절)·.md 청크의 산문 문체(STYLEGUIDE §0, 게이트 id `prose`) 린트.
 
-    waivers 를 주면(docs/waivers.md, agrtls-practices-review C) 게이트 id `prose`(축 파일)로 면제된 파일의 산문 위반은
-    세지 않는다. TTL 입력은 산문 검사 대상이 아니다 — chunk_lint 가 .md 에만 prose 를 돌린다.
+    살아 있는 .md 청크는 첨가와 목록 규칙도 본다 — 게이트 id `addition`·`empty-value`·`list-rules`(STYLEGUIDE §0,
+    결정 p4-slot-answers-one-question·p4-three-empty-values, 2026-09-22 승격). 검사 함수는 consistency ⑧·⑨ 와 같다.
+
+    waivers 를 주면(docs/waivers.md, agrtls-practices-review C) 그 게이트 id 들(축 파일)로 면제된 파일의 위반은 세지
+    않고 `WAIVED` 줄로만 남긴다. TTL 입력은 산문·첨가·목록 검사 대상이 아니다 — chunk_lint 가 .md 에만 돌린다.
     """
     args = _flag_args("--chunks", chunks) + _flag_args("--ttl", ttl)
     if waivers:
@@ -353,6 +373,34 @@ def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], w
         args = args,
         data = srcs + target_only + data + ([waivers] if waivers else []),
         deps = [requirement("rdflib")],  # kb_lib(종료 코드 규약의 단일 정의처)가 요구
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+def kb_gendoc_test(name, docs, data = [], empty_dirs = [], **kwargs):
+    """생성 문서 게이트 — 에이전트가 만드는 마크다운의 규약 G1~G18 (tools/gendoc.py, 유저 지시 2026-09-21).
+
+    `kb_doccheck_test` 와 달리 검사 대상이 **생성물**이다. 생성 뷰 타깃을 그대로 `docs` 에 주면
+    테스트가 그것을 빌드해 runfiles 에 놓고, 같은 runfiles 로 링크 대상의 실재를 판정한다 —
+    생성물이 가리키는 파일도 `data` 에 선언돼야 실재한다.
+
+    Args:
+      name: 테스트 이름.
+      docs: 검사할 생성 문서 타깃들 (genrule·rule 의 출력, 또는 생성 트리 파일의 filegroup).
+      data: 생성물이 가리키는 파일들의 라벨 — 실재의 근거.
+      empty_dirs: 파일이 없어 runfiles 에 나타나지 않지만 실재하는 디렉토리(빈 패키지).
+      **kwargs: py_test 로 전달.
+    """
+    args = ["$(rootpaths %s)" % d for d in docs]
+    for d in empty_dirs:
+        args += ["--empty-dir", d]
+    py_test(
+        name = name,
+        srcs = _GENDOC_SRCS,
+        main = Label("//tools:gendoc.py"),
+        args = args,
+        data = docs + data,
+        deps = [requirement("rdflib")],  # kb_lib(규약의 단일 정의처)가 요구
         size = kwargs.pop("size", "small"),
         **kwargs
     )

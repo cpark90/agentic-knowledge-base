@@ -7,8 +7,8 @@ title: One requirement becomes an artifact in eight steps, and each requirement 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
+generated: {by: hci/claude-opus-5, at: 2026-09-22T19:35:00+09:00}
+verified: [{by: orchestrator/claude-opus-5, at: 2026-09-22T19:40:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/71d2b786-e873-4705-b160-a443603ae0d2]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/8d167ee6-64e5-48ee-b34d-ed2d994669d1, title_ko: 개발 저작 흐름, title: The development authoring flow}
 part_of: https://agentic-knowledge-base.dev/id/composite/8d167ee6-64e5-48ee-b34d-ed2d994669d1
@@ -18,11 +18,11 @@ part_of: https://agentic-knowledge-base.dev/id/composite/8d167ee6-64e5-48ee-b34d
 | 단계 | 역할 | 만드는 것 | 게이트 | V&V 대응물 (8.3절) |
 |---|---|---|---|---|
 | 1. 요구 작성 | 유저 + design | `requirement` — EARS, 이해관계자·관심사 | 형식 검사 + 승인 | 검증 목표 파생 |
-| 2. 형식화 | design | `decision` abstract — 변수 선언, `serves` | 기여 없는 설계 거부 | — |
-| 3. 계약 선언 | design | `contract` abstract — 시그니처 | 타입 검사 | — |
+| 2. 형식화 | design | `decision` abstract — 변수 선언, `serves` | 기여 없는 설계 거부 | 해당 없음 |
+| 3. 계약 선언 | design | `contract` abstract — 시그니처 | 타입 검사 | 해당 없음 |
 | 4. 전개 | design | `decision` logical(`-space`) / `contract` logical / `schema` logical | 판정식 없는 기준 강등 | 합격 기준 존재 |
 | 5. 확정 | design + 유저 | `decision` concrete — 값, `-space` resolved | 표본·배제 근거 | 케이스 |
-| 6. 스키마 확정 | design | `schema` concrete | 스키마 검사 | — |
+| 6. 스키마 확정 | design | `schema` concrete | 스키마 검사 | 해당 없음 |
 | 7. 구현 | developer | `artifact` executable — 함수 | 컴파일·린터 + `satisfies`·`refines` | 검증기 존재 + 바인딩 |
 | 8. 리뷰 | V&V 또는 다른 developer | `annotation` | 해소 | 판정 주석 |
 

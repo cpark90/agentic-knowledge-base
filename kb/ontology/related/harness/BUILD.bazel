@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 모듈 디렉토리의 온톨로지 TTL (tools/gen_build.py). 검사: //:build_drift_test
 load("//defs:kb.bzl", "kb_ontology_module")
 
 package(default_visibility = ["//visibility:public"])

@@ -21,6 +21,10 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from tools import kb_lib  # noqa: E402
+except ImportError:
+    import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록·빈 값 표기)의 단일 정의처
 from chunk2kg import parse_chunk  # noqa: E402
 
 CHUNK_DIRS = ("kb", "chunks")
@@ -185,19 +189,27 @@ def main() -> int:
             rows.append((path, "verified", "·", "이 청크 자신 — 검증 뒤 본문이 바뀌었다 (writer 검사 대상)", "frontmatter"))
         per_chunk.append((path, kind, m.get("title_ko", ""), len(out_links) + len(in_links), (len(direct or []), len(trans or [])), verified, note))
 
-    rep = [f"# revalidate — base {a.base}", "",
-           f"변경 청크 {len(changed)} (본문 해시 변경·신규·삭제) · head 만 바뀐 청크 {len(head_only)} (해시 동일 — 재판정 대상 아님) · 재판정 대상 {len(rows)}",
-           "", "| 변경 청크 | 변경 | 라벨 | 링크(양방향) | 하류(직접/전이) | verified | 비고 |", "|---|---|---|---|---|---|---|"]
+    rep = kb_lib.gendoc_header(
+        "revalidate", f"base {a.base} 대비 재판정 대상", "tools/revalidate.py",
+        f"base 리비전 `{a.base}` 와 워킹트리 사이에서 본문 해시가 바뀐 청크마다 — (a) frontmatter 링크의 상대(양방향) · "
+        "(b) 복합체 형제 · (c) `bazel query rdeps` 의 하류 의존자를 재판정 대상으로 (dependency-graph-design §5)",
+        f"bazel run //tools:revalidate -- --base {a.base}", [],
+        f"변경 청크 {len(changed)} · 재판정 대상 {len(rows)}",
+        kb_lib.gendoc_view_notice("각 청크의 본문과 frontmatter 링크"),
+        input_note=f"`git show {a.base}:<청크>` 와 워킹트리의 청크 파일, `bazel query` 결과 — 리비전 대비 차이라 지문을 내지 않는다",
+        extra=[f"- head 만 바뀐 청크 {len(head_only)} (본문 해시 동일 — 재판정 대상이 아니다)"])
+    body = ["| 변경 청크 | 변경 | 라벨 | 링크(양방향) | 하류(직접/전이) | verified | 비고 |", "|---|---|---|---|---|---|---|"]
     for path, kind, ko, nl, (nd, nt), v, note in per_chunk:
-        rep.append(f"| `{path}` | {kind} | {ko} | {nl} | {nd}/{nt} | {'있음' if v else '—'} | {note} |")
-    rep += ["", "## 재판정 대상", "", "| 변경 청크 | 종류 | 방향 | 상대 | 출처 |", "|---|---|---|---|---|"]
-    rep += [f"| `{p}` | {k} | {d} | {t} | {src} |" for p, k, d, t, src in rows] or ["| — | | | 없음 | |"]
+        body.append(f"| `{path}` | {kind} | {ko} | {nl} | {nd}/{nt} | {'있음' if v else kb_lib.NONE_MARK} | {note} |")
+    body += ["", "## 재판정 대상", "", "| 변경 청크 | 종류 | 방향 | 상대 | 출처 |", "|---|---|---|---|---|"]
+    body += [f"| `{p}` | {k} | {d} | {t} | {src} |" for p, k, d, t, src in rows] or ["| " + " | ".join([kb_lib.NONE_MARK] * 3 + [f"재판정 대상 {kb_lib.NONE_MARK}", kb_lib.NONE_MARK]) + " |"]
+    body.append("")
     if head_only:
-        rep += ["", "head 만 바뀐 청크 (링크 키 변경이 있으면 표시): " + " · ".join(f"`{p}`" + (f" [{', '.join(ks)}]" if ks else "") for p, ks in head_only[:20])
+        body += ["head 만 바뀐 청크 (링크 키 변경이 있으면 표시): " + " · ".join(f"`{p}`" + (f" [{', '.join(ks)}]" if ks else "") for p, ks in head_only[:20])
                 + (f" … 외 {len(head_only) - 20}" if len(head_only) > 20 else "")]
     if unparsable:
-        rep += ["", "판독 불가 파일: " + " · ".join(unparsable[:10])]
-    text = "\n".join(rep) + "\n"
+        body += ["판독 불가 파일: " + " · ".join(unparsable[:10])]
+    text = kb_lib.gendoc_assemble(rep, body, [])
     print(text)
     if a.out:
         Path(a.out).write_text(text, encoding="utf-8")

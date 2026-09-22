@@ -291,6 +291,24 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "r-027-generated-documents-carry-provenance",
+    src = "r-027-generated-documents-carry-provenance.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4ae7ad6d-fabc-4925-bc6a-4aa518eeab55",
+    plane = "requirement",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "r-028-generated-documents-share-one-form",
+    src = "r-028-generated-documents-share-one-form.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9807be26-ff48-4cca-89c1-129f52e69df4",
+    plane = "requirement",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
     name = "reproducible-runs",
     src = "reproducible-runs.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/2b1e5103-9b9d-43da-9231-6b4027bc370e",
@@ -343,6 +361,8 @@ kb_bundle(
         ":r-024-criteria-before-verifies",
         ":r-025-verify-product-and-agent",
         ":r-026-observations-append-only",
+        ":r-027-generated-documents-carry-provenance",
+        ":r-028-generated-documents-share-one-form",
         ":reproducible-runs",
         ":verification-means-trust",
     ],

@@ -27,7 +27,7 @@ from __future__ import annotations
 import argparse
 import sys
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -274,33 +274,34 @@ def main() -> int:
     kinds = Counter(e[1] for c in candidates for e in c["evs"])
     primary = Counter(c["evs"][0][1] for c in candidates)
     link_kinds = Counter(c["kind"] for c in candidates)
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     ttl = [f for f in (a.files or list(kb_lib.UNION_GRAPH_PATHS)) if f.endswith(".ttl")]
     live_units = [x for x in u.members if u.alive(x)]
-    o = ["# link-candidates — 복원 후보 생성기 뷰 (생성 파일, tools/link.py)", "",
-         f"- 생성 시각: {now}",
-         f"- 질의: 살아 있는 단위(결정 복합체는 결론이 앵커) 쌍 중 frontmatter 링크(`{'`·`'.join(LINK_KEYS)}` + relatedTo 족)가 없는 쌍에 대해 "
-         f"(a) `agt:cites` → constructionRecord · (b) 같은 V&V 청크의 `agt:verifies` → testCoverage · (c) `agt:usesConcept` 교집합 ≥ {a.min_shared} → proposal · "
-         f"(d) 조각 F 가 `prov:specializationOf` O 이면 O 를 가리키던 확정 링크 X→O 마다 X→F → constructionRecord(값 \"승계: O\"). "
-         f"종류는 `kb_lib.TIM_CELLS` 허용 칸(인용 방향 → 역방향 → 없으면 relatedTo), 제약은 `defs/kb.bzl` `_check_links` 와 같다. 앵커당 k ≤ {a.k}",
-         f"- 입력: 그래프 파일 {len(ttl)}개 · 트리플 {len(g)} — 체계 밖 정보 0",
-         "- 이 파일은 뷰다. 저장하지 않고 인용한다. 판정은 사람이 후보마다 하고 확정은 앵커 청크의 frontmatter 에 적는다 (`p10-candidate-and-confirmed-link`, `p10-restored-link-marking`)",
-         f"- 살아 있는 청크 {len(u.live)} · 단위 {len(live_units)} · 증거가 있는 쌍 {len(evidence)}", "",
-         "## 요약", "", "| 항목 | 값 |", "|---|---|",
+    head = kb_lib.gendoc_header(
+        "link-candidates", "복원 후보 생성기 뷰", "tools/link.py",
+        f"살아 있는 단위(결정 복합체는 결론이 앵커) 쌍 중 frontmatter 링크(`{'`·`'.join(LINK_KEYS)}` + relatedTo 족)가 없는 쌍에 대해 "
+        f"(a) `agt:cites` → constructionRecord · (b) 같은 V&V 청크의 `agt:verifies` → testCoverage · (c) `agt:usesConcept` 교집합 ≥ {a.min_shared} → proposal · "
+        f"(d) 조각 F 가 `prov:specializationOf` O 이면 O 를 가리키던 확정 링크 X→O 마다 X→F → constructionRecord(값 \"승계: O\"). "
+        f"종류는 `kb_lib.TIM_CELLS` 허용 칸(인용 방향 → 역방향 → 없으면 relatedTo), 제약은 `defs/kb.bzl` `_check_links` 와 같다. 앵커당 k ≤ {a.k}",
+        "bazel build //kg:link_candidates", ttl, f"트리플 {len(g)} — 체계 밖 정보 0",
+        kb_lib.gendoc_view_notice("앵커 청크의 frontmatter (`p10-candidate-and-confirmed-link` · `p10-restored-link-marking`)"),
+        input_kind="그래프 파일",
+        extra=[f"- 살아 있는 청크 {len(u.live)} · 단위 {len(live_units)} · 증거가 있는 쌍 {len(evidence)}",
+               "- 판정은 사람이 후보마다 하고 확정은 앵커 청크의 frontmatter 에 적는다"])
+    o = ["## 요약", "", "| 항목 | 값 |", "|---|---|",
          f"| 후보 수 | {len(candidates)} |",
-         f"| 근거 종류 분포 (첫 근거 기준) | " + (" · ".join(f"{k} {v}" for k, v in sorted(primary.items(), key=lambda kv: EVIDENCE_RANK[kv[0]])) or "없음") + " |",
-         f"| 근거 종류 분포 (모든 근거) | " + (" · ".join(f"{k} {v}" for k, v in sorted(kinds.items(), key=lambda kv: EVIDENCE_RANK[kv[0]])) or "없음") + " |",
-         f"| 링크 종류 분포 | " + (" · ".join(f"`{k}` {v}" for k, v in sorted(link_kinds.items())) or "없음") + " |",
+         "| 근거 종류 분포 (첫 근거 기준) | " + (" · ".join(f"{k} {v}" for k, v in sorted(primary.items(), key=lambda kv: EVIDENCE_RANK[kv[0]])) or kb_lib.NONE_MARK) + " |",
+         "| 근거 종류 분포 (모든 근거) | " + (" · ".join(f"{k} {v}" for k, v in sorted(kinds.items(), key=lambda kv: EVIDENCE_RANK[kv[0]])) or kb_lib.NONE_MARK) + " |",
+         "| 링크 종류 분포 | " + (" · ".join(f"`{k}` {v}" for k, v in sorted(link_kinds.items())) or kb_lib.NONE_MARK) + " |",
          f"| 앵커 수 | {len(by_anchor)} |",
-         f"| 탈락 수 | {sum(dropped.values())} — " + (" · ".join(f"{k} {v}" for k, v in sorted(dropped.items(), key=lambda kv: (-kv[1], kv[0]))) or "없음") + " |", "",
+         f"| 탈락 수 | {sum(dropped.values())} — " + (" · ".join(f"{k} {v}" for k, v in sorted(dropped.items(), key=lambda kv: (-kv[1], kv[0]))) or kb_lib.NONE_MARK) + " |", "",
          "## 후보", "",
          "| # | 앵커 (ko) | 앵커 파일 | 링크 종류 | 대상 (ko) | 대상 IRI | 근거 종류 | 근거 값 (인용 식별자 / 케이스 슬러그 / 공유 개념 수 / 승계: 원본) | 판정 (채택 / 기각) |",
          "|---|---|---|---|---|---|---|---|---|"]
     for i, c in enumerate(candidates, 1):
         o.append(f"| {i} | {cell(u.ko(c['anchor']))} | `{u.loc.get(c['anchor'], '')}` | `{c['kind']}` | {cell(u.ko(c['target']))} | `{kb_lib.compact_iri(str(c['target']))}` | "
-                 + " · ".join(e[1] for e in c["evs"]) + " | " + " · ".join(cell(e[2]) for e in c["evs"]) + " |  |")
+                 + " · ".join(e[1] for e in c["evs"]) + " | " + " · ".join(cell(e[2]) for e in c["evs"]) + f" | {kb_lib.NONE_MARK} |")
     if not candidates:
-        o.append("| — | 후보 없음 | | | | | | | |")
+        o.append("| " + " | ".join([kb_lib.NONE_MARK] * 2 + [f"후보 {kb_lib.NONE_MARK}"] + [kb_lib.NONE_MARK] * 6) + " |")
     o += ["", "## 확정 절차", "",
           f"1. 후보를 채택하면 앵커 청크의 frontmatter 에 링크 키와 복원 표시를 적는다 — `<링크 종류>: [<대상 IRI>]` 와 `{RESTORED_KEY}: [<대상 IRI>]`. "
           "대상 IRI 는 표의 `id:` 를 `https://agentic-knowledge-base.dev/id/` 로 푼 전체 IRI 다. 결정 복합체의 앵커는 결론 청크다. "
@@ -311,7 +312,7 @@ def main() -> int:
           "relatedTo 족은 복원 표시 없이 직접 트리플만 난다. `verifies` 후보의 앵커는 V&V 청크이므로 vnv 가 적는다 (`kb/vv/` 는 vnv 의 write plane).",
           "4. `python3 tools/gen_build.py --root . && bazel test //...` — 링크 키는 Bazel deps 라 BUILD 를 재생성한다.",
           "5. 기각은 관측 한 줄(memory plane)로 남긴다. 후보는 저장하지 않으므로 다음 생성에서 다시 나온다.", ""]
-    Path(a.out).write_text("\n".join(o) + "\n", encoding="utf-8")
+    Path(a.out).write_text(kb_lib.gendoc_assemble(head, o, ttl, input_kind="그래프 파일"), encoding="utf-8")
     return EXIT_OK
 
 

@@ -7,7 +7,7 @@ title: Vocabulary, constraints, and the ODD skeleton cross projects; chunks do n
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-22T19:35:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/20148952-30c4-4f76-8cbf-4d9b32c68b25]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0149]
 part_of: https://agentic-knowledge-base.dev/id/composite/8dbf8cd0-81dd-478f-b73e-3aeea905768f
@@ -20,6 +20,6 @@ ODD 코어**이고, **청크는 재사용하지 않는다.**
 |---|---|---|
 | 온톨로지 | 공유. 프로젝트별 확장 모듈만 추가 | 코어 수정 금지 |
 | ODD | 복사 후 축소·확장 | 3.6절 변경 유형 |
-| 일반화로 올라간 제약 | 온톨로지 공리로 자동 상속 | — |
-| `defect` 어휘 | 공유 | — |
+| 일반화로 올라간 제약 | 온톨로지 공리로 자동 상속 | 없음 |
+| `defect` 어휘 | 공유 | 없음 |
 | 청크 | 재사용하지 않음 | 프로젝트 ODD 안에서만 유효 |

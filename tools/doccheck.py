@@ -33,117 +33,29 @@ import argparse
 import os
 import re
 import sys
-import unicodedata
 import urllib.parse
 from pathlib import Path
 
-try:  # 종료 코드 규약의 단일 정의처는 kb_lib — 아직 없으면 같은 값의 폴백
+try:  # 규약 상수·마크다운 헬퍼의 단일 정의처는 kb_lib (STYLEGUIDE §7)
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
     try:
         import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
-    except ImportError:
-        kb_lib = None
-EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)      # 판정 실패
-EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음·인자 오류·읽을 수 없는 입력
-EXIT_SKIP = getattr(kb_lib, "EXIT_SKIP", 3)      # 검사 대상 0건 — PASS 가 아니다
+    except ImportError as e:  # 산문 검사·앵커 규칙의 단일 정의처라 없으면 돌릴 수 없다
+        raise SystemExit(f"FAIL [doccheck] kb_lib 을 찾을 수 없다 — {e}")
+EXIT_FAIL = kb_lib.EXIT_FAIL      # 판정 실패
+EXIT_CONFIG = kb_lib.EXIT_CONFIG  # 파일 없음·인자 오류·읽을 수 없는 입력
+EXIT_SKIP = kb_lib.EXIT_SKIP      # 검사 대상 0건 — PASS 가 아니다
 
 TAG = "doccheck"
-PROSE = getattr(kb_lib, "PROSE_GATE", "prose")  # 산문 게이트 id — waivers.md 가 같은 이름으로 면제를 선언한다
+PROSE = kb_lib.PROSE_GATE  # 산문 게이트 id — waivers.md 가 같은 이름으로 면제를 선언한다
 PATH_PREFIXES = ("kb/", "kg/", "tools/", "docs/", "defs/", "chunks/", "space/", ".claude/")
 SKIP_MARKS = ("*", "<", "{", "…", "$", "//", "bazel-bin/", "bazel-out", ".wip")
-SCHEME = re.compile(r"^[A-Za-z][A-Za-z0-9+.\-]*:")
-FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
-HEADING = re.compile(r"^ {0,3}(#{1,6})[ \t]+(.*?)(?:[ \t]+#+)?[ \t]*$")
-CODE_SPAN = re.compile(r"(`+)(.+?)\1")
-MD_LINK = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
-HTML_TAG = re.compile(r"<[^>]+>")
+# 마크다운 구조 헬퍼는 kb_lib 이 원본이다 — doccheck·weave·gen_skills·gendoc 이 같은 앵커 규칙을 쓴다
+SCHEME, FENCE, HEADING, CODE_SPAN = kb_lib.MD_SCHEME, kb_lib.MD_FENCE, kb_lib.MD_HEADING, kb_lib.MD_CODE_SPAN
+MD_LINK, HTML_TAG = kb_lib.MD_LINK_TEXT, kb_lib.MD_HTML_TAG
+prose_lines, slug, anchors, find_links = kb_lib.md_lines, kb_lib.slug, kb_lib.md_anchors, kb_lib.find_links
 FILE_LINE = re.compile(r":\d+(?:-\d+)?$")
-
-
-def prose_lines(lines: list[str]):
-    """(줄 번호, 줄) — 코드 펜스·frontmatter·HTML 주석 안은 산문이 아니므로 건너뛴다."""
-    fence: str | None = None
-    in_comment = False
-    start = 0
-    if lines and lines[0].strip() == "---":
-        try:
-            start = lines[1:].index("---") + 2
-        except ValueError:
-            start = 0
-    for i, line in enumerate(lines[start:], start=start + 1):
-        if in_comment:
-            if "-->" in line:
-                in_comment = False
-                line = line.split("-->", 1)[1]
-            else:
-                continue
-        m = FENCE.match(line)
-        if fence:
-            if m and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence):
-                fence = None
-            continue
-        if m:
-            fence = m.group(1)
-            continue
-        if "<!--" in line:
-            head, _, tail = line.partition("<!--")
-            if "-->" in tail:
-                line = head + tail.split("-->", 1)[1]
-            else:
-                in_comment = True
-                line = head
-        yield i, line
-
-
-def slug(text: str) -> str:
-    """GitHub 제목 앵커 규칙 — 소문자, 공백→'-', 문자·숫자·결합 부호·'-'·'_' 외 제거."""
-    text = MD_LINK.sub(r"\1", text)
-    text = HTML_TAG.sub("", text)
-    out = []
-    for c in text.lower():
-        if c == " ":
-            out.append("-")
-        elif c in "-_" or c.isalnum() or unicodedata.category(c).startswith("M"):
-            out.append(c)
-    return "".join(out)
-
-
-def anchors(lines: list[str]) -> set[str]:
-    """파일의 제목 앵커 집합 — 같은 slug 는 GitHub 처럼 -1, -2 … 로 구분한다."""
-    seen: dict[str, int] = {}
-    out: set[str] = set()
-    for _, line in prose_lines(lines):
-        m = HEADING.match(line)
-        if not m:
-            continue
-        s = slug(m.group(2).strip())
-        n = seen.get(s, 0)
-        seen[s] = n + 1
-        out.add(s if n == 0 else f"{s}-{n}")
-    return out
-
-
-def find_links(line: str):
-    """줄 안의 인라인 링크 목적지 — `](` 뒤에서 괄호 짝을 맞춰 읽는다. 제목("…")은 뗀다."""
-    i = 0
-    while True:
-        j = line.find("](", i)
-        if j < 0:
-            return
-        depth, k = 1, j + 2
-        while k < len(line) and depth:
-            depth += {"(": 1, ")": -1}.get(line[k], 0)
-            k += 1
-        if depth:
-            return
-        dest = line[j + 2 : k - 1].strip()
-        i = k
-        if dest.startswith("<") and ">" in dest:
-            dest = dest[1 : dest.index(">")]
-        else:
-            dest = dest.split()[0] if dest.split() else ""
-        yield dest
 
 
 def resolve(doc: Path, dest_path: str) -> str | None:
@@ -252,9 +164,6 @@ def main() -> int:
     if not docs:
         print(f"SKIP [{TAG}] 검사 대상 0건 — PASS 가 아니다")
         return EXIT_SKIP
-    if kb_lib is None:
-        print(f"FAIL [{TAG}] kb_lib 이 없다 — 산문 검사(prose)의 단일 정의처라 없으면 돌릴 수 없다", file=sys.stderr)
-        return EXIT_CONFIG
     wpath = args.waivers
     if wpath and not os.path.isabs(wpath) and workdir:
         wpath = os.path.join(workdir, wpath)

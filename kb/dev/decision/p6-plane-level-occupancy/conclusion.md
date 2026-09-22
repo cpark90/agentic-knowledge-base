@@ -7,7 +7,7 @@ title: Each plane occupies only its own level band - the grid is sparse
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-22T19:25:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0084]
 part_of: https://agentic-knowledge-base.dev/id/composite/8387ed4f-09c5-48b5-b682-704a045a79a1
@@ -24,3 +24,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/8387ed4f-09c5-48
 - `annotation` — 임의 level의 청크를 `targets` 하고 **자기 level은 대상의 level**
 
 **거주 밖의 조합은 shape 위반이다.** `requirement` 청크에 `level: logical`을 붙이면 검사 게이트가 거부한다.
+
+미확정: `contract`·`schema`의 logical 칸이 실체인가 뷰인가. 상세는 `docs/open-questions/contract-artifact-logical.md`다.

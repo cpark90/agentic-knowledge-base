@@ -201,6 +201,12 @@ write는 orchestrator=decision · developer=artifact · vnv=annotation로 겹치
 질의 `CQ-36.rq`(2026-09-18).
 *실측: 개발 프로파일 첫 형태 — plane 7 중 판정 도구가 있는 6.*
 
+**CQ-37 ✅ 살아 있는 결정 중 요구에 닿지 않는 것은 무엇인가 (기여 추적의 여집합).**
+`refines ∪ serves`의 상향 폐포(복합체 형제 경유)로 살아 있는 요구에 닿지 않는 결정. 정의는 `tools/metrics.py`의
+`reaches_req`와 같고 `deprecated`는 결정·요구 양쪽에서 뺀다. 요구 `r-010`의 검증 케이스
+`kb/vv/case/decision-names-requirement.md`가 이 질의로 닫힌다. 질의 `CQ-37.rq`(2026-09-21).
+*실측: 행 0 — 살아 있는 결정 609 전부가 요구에 닿는다. 기대 행 수는 0이다.*
+
 ## 노트 v3 CQ1~20 대응표
 
 노트 2.7절의 역량 질문 20개와 이 문서의 CQ-01~32는 **번호도 내용도 다르다**.

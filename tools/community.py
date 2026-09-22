@@ -21,6 +21,11 @@ from pathlib import Path
 
 from rdflib import Graph, Namespace, RDF, RDFS
 
+try:
+    from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
+except ImportError:
+    import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
+
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
 # 군집 계산에 쓰는 링크 종류 (족: references · semanticallyDependsOn · relatedTo). 시간축 supersedes 는 뺀다
 EDGE_KINDS = [AGT.refines, AGT.serves, AGT.cites, AGT.usesConcept, AGT.coUpdatesWith, AGT.conflictsWith]
@@ -220,12 +225,20 @@ def main() -> int:
         return " · ".join(f"{k} {v}" for k, v in sorted(c.items()))
 
     n_comp = sum(1 for u in units.values() if u["composite"])
-    lines = ["# communities — 커뮤니티 탐지 뷰 (생성물, 저장하지 않는다)", "",
-             f"살아 있는 청크 {len(chunks)} · 단위 노드 {len(units)} (선언된 복합체 {n_comp} + 단독 청크 {len(units) - n_comp}) · "
-             f"링크 {len(triples)} ({' · '.join(f'{k} {v}' for k, v in sorted(kind_count.items())) or '없음'}) · 모듈러리티 Q = {q:.3f}", "",
-             "방법: 결정론적 Louvain (IRI 정렬, 동점은 작은 IRI). 선언된 복합체의 부분은 한 단위로 묶고 시작하며 복합체의 수준은 결론의 수준이다. "
-             "supersedes 는 시간축이라 제외. 판정(병합 / 묶기 / 유지)은 사람이 후보마다 한다 — 채택은 `kg/composite-kg.ttl` 복합체 선언, 기각은 관측 한 줄.", "",
-             "## 요약", "", "| 항목 | 값 |", "|---|---|",
+    head = kb_lib.gendoc_header(
+        "communities", "커뮤니티 탐지 뷰", "tools/community.py",
+        "살아 있는 청크와 그 링크(`refines`·`serves`·`cites`·`usesConcept`·`coUpdatesWith`·`conflictsWith` + 구성 관계)에 "
+        "결정론적 Louvain 을 돌려 — 같은 plane·level 안의 군집은 복합체 후보, plane·level 을 넘는 군집은 relatedTo 링크 후보. "
+        "후보 생성기이고 판정(병합 / 묶기 / 유지)은 사람이 후보마다 한다",
+        "bazel build //kg:communities", a.files,
+        f"링크 {len(triples)} · 단위 노드 {len(units)}", kb_lib.gendoc_view_notice("청크의 frontmatter 와 `kg/composite-kg.ttl`"),
+        input_kind="그래프 파일",
+        extra=[f"- 살아 있는 청크 {len(chunks)} · 단위 노드 {len(units)} (선언된 복합체 {n_comp} + 단독 청크 {len(units) - n_comp}) · "
+               f"링크 {len(triples)} ({' · '.join(f'{k} {v}' for k, v in sorted(kind_count.items())) or kb_lib.NONE_MARK}) · "
+               f"모듈러리티 Q = {kb_lib.num(q)}",
+               "- 방법: 결정론적 Louvain (IRI 정렬, 동점은 작은 IRI). 선언된 복합체의 부분은 한 단위로 묶고 시작하며 복합체의 수준은 결론의 수준이다. "
+               "supersedes 는 시간축이라 제외. 채택은 `kg/composite-kg.ttl` 복합체 선언, 기각은 관측 한 줄"])
+    lines = ["## 요약", "", "| 항목 | 값 |", "|---|---|",
              f"| 군집 수 | {len(clusters)} |",
              f"| 크기 분포 (청크 수) | 1: {dist.get('1', 0)} · 2–9: {dist.get('2–9', 0)} · 10+: {dist.get('10+', 0)} |",
              f"| 복합체 후보 (같은 plane·level, 2~{MAX_PARTS}, 아직 복합체 아님) | {len(composite_cands)} |",
@@ -236,20 +249,23 @@ def main() -> int:
              "| # | 크기 | plane/level | 부분 (라벨) | 현재 소속 | 판정 (병합 / 묶기 / 유지) |", "|---|---|---|---|---|---|"]
     for i, cl in enumerate(composite_cands, 1):
         u0 = units[cl[0]]
-        lines.append(f"| {i} | {size(cl)} | {u0['plane']}/{u0['level']} | {'<br>'.join(member(u) for u in cl)} | {membership(cl)} |  |")
+        lines.append(f"| {i} | {size(cl)} | {u0['plane']}/{u0['level']} | {'<br>'.join(member(u) for u in cl)} | {membership(cl)} | {kb_lib.NONE_MARK} |")
     if not composite_cands:
-        lines.append("| — | | | 후보 없음 | | |")
+        lines.append(f"| {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | 후보 {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} |")
     lines += ["", "## relatedTo 링크 후보", "",
               "| # | 크기 | plane·level 분포 | 구성 (라벨) | 판정 (묶기 / 유지) |", "|---|---|---|---|---|"]
     for i, cl in enumerate(related_cands, 1):
-        lines.append(f"| {i} | {size(cl)} | {dist_of(cl)} | {'<br>'.join(member(u) for u in cl)} |  |")
+        lines.append(f"| {i} | {size(cl)} | {dist_of(cl)} | {'<br>'.join(member(u) for u in cl)} | {kb_lib.NONE_MARK} |")
     if not related_cands:
-        lines.append("| — | | | 후보 없음 | |")
+        lines.append(f"| {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | 후보 {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} |")
+    lines += ["", f"## 같은 plane·level 이지만 {MAX_PARTS} 초과", ""]
     if oversize:
-        lines += ["", f"## 같은 plane·level 이지만 {MAX_PARTS} 초과", ""]
         for cl in oversize:
             lines.append(f"- 크기 {size(cl)} ({dist_of(cl)}): " + " · ".join(member(u) for u in cl))
-    Path(a.out).write_text("\n".join(lines) + "\n", encoding="utf-8")
+    else:
+        lines.append(f"- {kb_lib.NONE_MARK}")
+    lines.append("")
+    Path(a.out).write_text(kb_lib.gendoc_assemble(head, lines, a.files, input_kind="그래프 파일"), encoding="utf-8")
     return 0
 
 

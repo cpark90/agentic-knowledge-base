@@ -13,6 +13,11 @@ from pathlib import Path
 
 from rdflib import Graph, Namespace, RDF, RDFS, URIRef
 
+try:
+    from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
+except ImportError:
+    import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
+
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
 ID = Namespace("https://agentic-knowledge-base.dev/id/")
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]
@@ -111,11 +116,12 @@ def main() -> int:
         def rank(n): return 0 if n == anchor else 1 if n in sib else 2 if (n, AGT.refines, anchor) in g or (anchor, AGT.refines, n) in g else 3
         expanded = sorted(fam, key=lambda n: (fam[n][0], hop[n], rank(n), str(n)))
 
-    tag = lambda n: f"  [{fam[n][1]}]" if n in fam else ""
-    label_lines = [f"scope: {a.role}   conditions: {', '.join(conds) or '-'}   window: {','.join(l for l in LEVELS if l in window)}"
+    tag = lambda n: f"  [{fam[n][1]}]" if n in fam else ""  # noqa: E731
+    label_lines = [f"scope: {a.role}   conditions: {', '.join(conds) or kb_lib.NONE_MARK}   window: {','.join(l for l in LEVELS if l in window)}"
                    + ("   order: anchor ≫ refs ≫ dep ≫ part ≫ rel ≫ time" if anchor else ""), ""]
     by_plane = defaultdict(list)
-    for c, v in chunks.items(): by_plane[(v[4], v[0])].append((c, v))
+    for c, v in chunks.items():
+        by_plane[(v[4], v[0])].append((c, v))
     shown = set(expanded) if expanded else None  # 앵커가 있으면 이웃만 보이고 나머지는 접는다 (5.6절 "N more")
     for (rw, plane), items in sorted(by_plane.items()):
         vis = [t for t in items if shown is None or t[0] in shown]
@@ -124,14 +130,35 @@ def main() -> int:
             label_lines.append(f"  [{str(c).split('/')[-1][:8]}] {v[3]}  {v[1]}  {v[2]}{tag(c)}")
         if shown is not None and len(items) > len(vis):
             label_lines.append(f"  … {len(items)-len(vis)} more (expand?)")
-    body, used = [], len(label_lines)
+    body, used, read_paths = [], len(label_lines), []
     for n in expanded:
-        lines = body_lines(str(Path(a.root) / chunks[n][5]))
-        if used + len(lines) + 2 > a.budget:
-            body.append(f"… {chunks[n][3]}{tag(n)} (펼치지 않음 — 예산 {a.budget}줄 초과)"); continue
-        body += ["", f"### {chunks[n][3]}  ({chunks[n][0]}/{chunks[n][1]}){tag(n)}", f"<!-- iri: {n} -->"] + lines; used += len(lines) + 3
-    head = [f"# workset — {a.role}: 라벨 {len(chunks)}개({len(label_lines)-2}줄), 펼침 {len([b for b in body if b.startswith('### ')])}개, 합계 {used}줄 / 예산 {a.budget}줄 → {'예산 안' if used <= a.budget else '예산 초과'}", ""]
-    Path(a.out).write_text("\n".join(head + label_lines + body) + "\n", encoding="utf-8")
+        src = str(Path(a.root) / chunks[n][5])
+        read_paths.append(src)
+        lines_ = body_lines(src)
+        if used + len(lines_) + 2 > a.budget:
+            body.append(f"… {chunks[n][3]}{tag(n)} (펼치지 않음 — 예산 {a.budget}줄 초과)")
+            continue
+        # 청크 본문을 그대로 옮긴 자리다 — 원본이 자기 게이트를 통과했으므로 서식 규칙은 이 구역을 판정하지 않는다
+        body += ["", f"### {chunks[n][3]}  ({chunks[n][0]}/{chunks[n][1]}){tag(n)}", f"<!-- iri: {n} -->"] \
+            + kb_lib.gendoc_quote("\n".join(lines_))
+        used += len(lines_) + 3
+    verdict = "예산 안" if used <= a.budget else "예산 초과"
+    inputs = list(a.files) + sorted(set(read_paths))
+    head = kb_lib.gendoc_header(
+        f"workset-{a.role}", f"{a.role} 역할의 작업 집합 뷰", "tools/workset.py",
+        f"카탈로그 역할 `id:role-{a.role}` 이 읽고 쓰는 plane 과 수준 창 `{','.join(l for l in LEVELS if l in window)}` 으로 살아 있는 청크를 거른 라벨 목록, "
+        + (f"앵커 `{a.anchor}` 에서 {a.hops}홉 이웃의 본문을 족 우선순위(anchor ≫ refs ≫ dep ≫ part ≫ rel ≫ time)로 펼쳐 예산 안에 담는다"
+           if anchor else "앵커를 주지 않았으므로 본문은 펼치지 않는다 — 앵커는 `--//kb:anchor` 로 준다"),
+        f"bazel build //kg:workset --//kb:role={a.role}", inputs,
+        f"라벨 {len(chunks)}개 · 펼침 {len([b for b in body if b.startswith('### ')])}개",
+        kb_lib.gendoc_view_notice("청크의 frontmatter 와 본문"), input_kind="입력 파일",
+        extra=[f"- 예산 판정: 이 문서 전체(라벨 목록 {len(label_lines)-2}줄 + 펼친 본문)의 합계 **{used}줄 / 예산 {a.budget}줄 → {verdict}**",
+               f"- 정의: 여기의 예산 판정은 **문서 전체**를 잰다. `bazel build //kg:metrics` 의 역할별 예산 준수율은 "
+               f"**앵커마다** 1홉 이웃을 펼친 줄 수를 재므로 두 수치는 같은 이름이되 다른 것을 센다"])
+    # 라벨은 청크에서 그대로 옮긴 값이다 — 서식 규칙은 이 구역을 판정하지 않는다
+    out = ["## 라벨 목록", "", kb_lib.GENDOC_QUOTE_OPEN] + label_lines + [kb_lib.GENDOC_QUOTE_CLOSE, "", "## 펼친 본문", ""] \
+        + (body or [f"{kb_lib.NONE_MARK} — 앵커가 없어 본문을 펼치지 않았다", ""])
+    Path(a.out).write_text(kb_lib.gendoc_assemble(head, out, inputs), encoding="utf-8")
     return 0
 
 

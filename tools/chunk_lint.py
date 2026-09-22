@@ -11,10 +11,19 @@
                      굵은 표지로 시작해야 한다. conclusion.md·rationale.md·alternatives.md 는 각각 **결론**·**근거**·**대안**,
                      그 밖의 파일명(단일 파일 옛 결정 chunks/decision/d-*.md)은 **결론** 이다. 표지 안의 한정어(**대안 없음**)는
                      같은 표지다(kb_lib.DECISION_ROLE_MARKER). status: deprecated 는 대상이 아니다.
+                     살아 있는 .md 청크(status draft·stable·suspect, kb_lib.LIVE_STATES)는 첨가와 목록 규칙도 본다
+                     (명세 문서 작성 규격 4.1·4.3·9.4, 유저 승인 2026-09-22 — 결정 p4-slot-answers-one-question·
+                     p4-three-empty-values). 게이트 id 셋은 `addition`(메타 문장 "다음과 같다"·채움 문구 "특이사항 없음"),
+                     `empty-value`(세 빈 값 `없음`·`해당 없음`·`미확정` 밖의 `N/A`·`TBD`·`미정`·표의 단독 대시 셀),
+                     `list-rules`(손 번호 `2.` 이상·항목 9개 초과·중첩 3단계 이상·항목당 240자 초과·빈 항목)이다.
+                     검사 함수는 consistency ⑧·⑨ 와 같다(kb_lib.check_addition·check_lists) — 보고와 게이트의 수치가 갈리지 않는다.
   --ttl <files>      TTL 파일명이 산출물 접미사 규약(0.2절)을 따르는지 검사.
-  --waivers <file>   docs/waivers.md — 게이트 id `prose`(축 파일)로 면제된 파일의 산문 위반은 세지 않는다. 없으면 면제 없음.
+  --waivers <file>   docs/waivers.md — 게이트 id `prose`·`addition`·`empty-value`·`list-rules`(축 파일)로 면제된 파일의
+                     위반은 세지 않는다. 면제된 것은 `WAIVED [<게이트 id>]` 줄로 남긴다 (집계에서 빼되 목록에는 남긴다).
+                     없으면 면제 없음.
 
-출력·종료: `FAIL [chunk|naming] <경로>: <메시지>` · `FAIL [prose|decision-role] <경로>:<줄>: <이유>` + EXIT_FAIL.
+출력·종료: `FAIL [chunk|naming] <경로>: <메시지>` ·
+`FAIL [prose|decision-role|addition|empty-value|list-rules] <경로>:<줄>: <이유>` + EXIT_FAIL.
 파일 없음·waiver 표 오류는 EXIT_CONFIG, 대상 0건은 EXIT_SKIP (PASS 아님).
 """
 
@@ -36,6 +45,9 @@ EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음
 EXIT_SKIP = getattr(kb_lib, "EXIT_SKIP", 3)      # 검사 대상 0건
 PROSE = kb_lib.PROSE_GATE                        # 산문 게이트 id — waivers.md 가 같은 이름으로 면제를 선언한다
 DECISION_ROLE = kb_lib.DECISION_ROLE_GATE        # 결정 역할 표지 게이트 id (STYLEGUIDE §4)
+ADDITION = kb_lib.ADDITION_GATE                  # 첨가 게이트 id — 메타 문장·채움 문구 (STYLEGUIDE §0, consistency ⑧)
+EMPTY_VALUE = kb_lib.EMPTY_VALUE_GATE            # 빈 값 게이트 id — 세 빈 값 밖의 표기 (STYLEGUIDE §0, consistency ⑧)
+LIST_RULES = kb_lib.LIST_RULES_GATE              # 목록 게이트 id — 목록 규칙 다섯 (STYLEGUIDE §0, consistency ⑨)
 
 MAX_BODY_LINES = 42  # 4.1절 — 컨텍스트 한계 200줄의 약 1/5
 
@@ -81,6 +93,23 @@ def check_decision_role(path: Path, text: str) -> list[tuple[int, str]]:
     return [(start, f"본문이 비어 **{expected}** 표지가 없다 (STYLEGUIDE §4)")]
 
 
+def check_spec_form(text: str) -> list[tuple[str, int, str]]:
+    """첨가와 목록 규칙 (STYLEGUIDE §0, 결정 p4-slot-answers-one-question·p4-three-empty-values) → [(게이트 id, 줄 번호, 이유)].
+
+    판정은 consistency ⑧·⑨ 와 같은 함수(kb_lib.check_addition·check_lists)가 한다. 여기서 하는 것은 게이트 id 를 붙이고
+    메시지의 인용을 수정 방향으로 만드는 일뿐이다 — 검사를 복제하지 않는다 (STYLEGUIDE §7 단일 정의처).
+    """
+    meta, filler, empty = kb_lib.check_addition(text)
+    out = [(ADDITION, ln, f'메타 문장 "{expr}" — 슬롯에는 그 슬롯의 질문에 답하는 문장만 쓴다 (STYLEGUIDE §0): {quote}')
+           for ln, expr, quote in meta]
+    out += [(ADDITION, ln, f'채움 문구 "{expr}" — 채움 자리에는 세 빈 값 중 하나를 쓰거나 실질 답을 적는다 (STYLEGUIDE §0): {quote}')
+            for ln, expr, quote in filler]
+    out += [(EMPTY_VALUE, ln, f'빈 값 표기 "{expr}" — 빈 자리는 `{"` · `".join(kb_lib.EMPTY_VALUE)}` 셋으로만 적는다 (STYLEGUIDE §0): {quote}')
+            for ln, expr, quote in empty]
+    out += [(LIST_RULES, ln, why) for ln, why in kb_lib.check_lists(text)]
+    return sorted(out, key=lambda t: (t[1], t[0]))
+
+
 def body_lines(path: Path, text: str) -> int:
     """본문 줄 수. head에 해당하는 것(md frontmatter, ttl의 @prefix·주석)은 세지 않는다."""
     lines = text.splitlines()
@@ -109,7 +138,8 @@ def main() -> int:
     ap.add_argument("--chunks", nargs="*", default=[])
     ap.add_argument("--ttl", nargs="*", default=[])
     ap.add_argument("--waivers", default="", metavar="FILE",
-                    help="docs/waivers.md — 게이트 id prose(축 파일)로 면제된 파일의 산문 위반은 세지 않는다. 없으면 면제 없음")
+                    help=f"docs/waivers.md — 게이트 id {PROSE}·{ADDITION}·{EMPTY_VALUE}·{LIST_RULES}(축 파일)로 면제된 "
+                         "파일의 위반은 세지 않는다. 없으면 면제 없음")
     args = ap.parse_args()
 
     if not args.chunks and not args.ttl:
@@ -123,8 +153,10 @@ def main() -> int:
         return EXIT_CONFIG
 
     errors = []
+    waived_notes = []  # 면제된 위반 — 집계에서 빼되 목록에는 남긴다 (docs/waivers.md 머리의 규약, ⑥ 이 선례)
     prose_files = 0
     decision_files = 0  # 역할 표지 검사 대상(살아 있는 결정)의 수 — PASS 줄의 실태
+    live_files = 0      # 첨가·목록 검사 대상(살아 있는 .md 청크)의 수
 
     for f in args.chunks:
         p = Path(f)
@@ -146,6 +178,11 @@ def main() -> int:
             if fields.get("type") == "decision" and fields.get("status") != "deprecated":
                 decision_files += 1
             errors += [f"[{DECISION_ROLE}] {f}:{ln}: {reason}" for ln, reason in check_decision_role(p, text)]
+            if fields.get("status") in kb_lib.LIVE_STATES:  # 보고(consistency)와 같은 대상 집합 — invalidated·deprecated 는 기록이다
+                live_files += 1
+                for gate, ln, reason in check_spec_form(text):
+                    line = f"[{gate}] {f}:{ln}: {reason}"
+                    (waived_notes if kb_lib.waived(waivers, gate, f, "파일") else errors).append(line)
 
     for f in args.ttl:
         stem = Path(f).stem
@@ -154,13 +191,16 @@ def main() -> int:
                 f"[naming] {f}: 접미사 규약 위반 — {', '.join(ALLOWED_TTL_SUFFIXES)} 중 하나로 끝나야 한다 (0.2절)"
             )
 
+    for w in waived_notes:
+        print(f"WAIVED {w} (waivers.md — 집계에서 뺐다)")
     if errors:
         for e in errors:
             print(f"FAIL {e}")
-        print(f"\nFAIL [chunk_lint] — {len(errors)}건")
+        print(f"\nFAIL [chunk_lint] — {len(errors)}건 (면제 {len(waived_notes)}건)")
         return EXIT_FAIL
 
-    print(f"PASS [chunk_lint] — 청크 {len(args.chunks)}개 (산문 검사 {prose_files}개, 결정 역할 표지 {decision_files}개), TTL {len(args.ttl)}개")
+    print(f"PASS [chunk_lint] — 청크 {len(args.chunks)}개 (산문 검사 {prose_files}개, 결정 역할 표지 {decision_files}개, "
+          f"첨가·목록 {live_files}개, 면제 {len(waived_notes)}건), TTL {len(args.ttl)}개")
     return 0
 
 

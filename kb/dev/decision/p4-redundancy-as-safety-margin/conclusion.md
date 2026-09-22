@@ -7,7 +7,7 @@ title: Body redundancy is tolerated as a safety margin, linked by coUpdatesWith,
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-label-representativeness-protocol}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-22T19:05:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08, https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 part_of: https://agentic-knowledge-base.dev/id/composite/6053b67e-afec-4a59-b710-31b6ab85b108
 composite: {id: https://agentic-knowledge-base.dev/id/composite/6053b67e-afec-4a59-b710-31b6ab85b108, title_ko: 중복의 용인과 주기적 정리, title: Redundancy tolerance and periodic consolidation}
@@ -26,7 +26,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/6053b67e-afec-4a
 
 1. **알고 둔 중복은 `coUpdatesWith`로 묶는다.** 한쪽이 바뀌면 다른 쪽이 `suspect`가
    되어 정리 큐에 오른다. **링크 없는 중복은 안전율이 아니라 드리프트**다.
-2. **다른 스코프 사이의 중복은 안전율, 같은 작업 집합 안의 중복은 정리 대상**이다 —
+1. **다른 스코프 사이의 중복은 안전율, 같은 작업 집합 안의 중복은 정리 대상**이다 —
    후자는 같이 펼쳐져 컨텍스트 예산만 먹는다.
-3. **정리는 재검증 시점에서 일괄로 한다** — 편집마다 하지 않는다. `consistency` 보고는
+1. **정리는 재검증 시점에서 일괄로 한다** — 편집마다 하지 않는다. `consistency` 보고는
    커밋마다 자동, 병합·묶기·유지 판정은 도입 단계 끝마다. 판정 근거는 관측으로 남긴다.

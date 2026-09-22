@@ -973,6 +973,48 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p12-generated-document-form",
+    conclusion = "p12-generated-document-form/conclusion.md",
+    rationale = "p12-generated-document-form/rationale.md",
+    alternatives = "p12-generated-document-form/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/6364f6e3-f553-4178-946c-36246fed08a9",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/160ca62a-0dd2-4b06-a5e5-21bb1fc54fbe", "https://agentic-knowledge-base.dev/id/chunk/0341ff56-096f-494a-abca-f0b76153438d", "https://agentic-knowledge-base.dev/id/chunk/4d68f7c4-f8b5-4715-8cdd-8bfa82903b0e"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-028-generated-documents-share-one-form",
+    ],
+)
+
+kb_decision(
+    name = "p12-generated-document-header",
+    conclusion = "p12-generated-document-header/conclusion.md",
+    rationale = "p12-generated-document-header/rationale.md",
+    alternatives = "p12-generated-document-header/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/094466b2-eced-45bf-991f-85eead474058",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/61906023-e4bb-46b1-a6db-4bf4635b631b", "https://agentic-knowledge-base.dev/id/chunk/6a85d937-acfb-44c8-b64b-47927928a7f9", "https://agentic-knowledge-base.dev/id/chunk/792451e0-c2da-44f5-83a6-9551e94c1b05"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-027-generated-documents-carry-provenance",
+    ],
+)
+
+kb_decision(
+    name = "p12-generated-documents-are-gated",
+    conclusion = "p12-generated-documents-are-gated/conclusion.md",
+    rationale = "p12-generated-documents-are-gated/rationale.md",
+    alternatives = "p12-generated-documents-are-gated/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/872f4058-1ca6-432e-a0df-ba39a47b867b",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2314093a-f5e3-4fc0-96a0-6c5d35db03ee", "https://agentic-knowledge-base.dev/id/chunk/fda5bbdc-cddc-4950-a131-ac6173a5e3cd", "https://agentic-knowledge-base.dev/id/chunk/15543daa-568f-4520-a918-066c1904ee6e"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-028-generated-documents-share-one-form",
+    ],
+)
+
+kb_decision(
     name = "p12-incident-postmortem",
     conclusion = "p12-incident-postmortem/conclusion.md",
     rationale = "p12-incident-postmortem/rationale.md",
@@ -1887,6 +1929,34 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p4-slot-answers-one-question",
+    conclusion = "p4-slot-answers-one-question/conclusion.md",
+    rationale = "p4-slot-answers-one-question/rationale.md",
+    alternatives = "p4-slot-answers-one-question/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/f7ac1b83-2f07-479d-a1ac-dfa68858e15f",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97", "https://agentic-knowledge-base.dev/id/chunk/9a4c0545-1d19-4b5d-b3ed-1d04ddb3984c", "https://agentic-knowledge-base.dev/id/chunk/75a36c9b-9230-4545-8b3b-cc469ad883aa"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-014-42-line-chunk",
+    ],
+)
+
+kb_decision(
+    name = "p4-three-empty-values",
+    conclusion = "p4-three-empty-values/conclusion.md",
+    rationale = "p4-three-empty-values/rationale.md",
+    alternatives = "p4-three-empty-values/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/1718358a-d741-45d7-bed6-df7818724e78",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d93492e4-f343-4736-b4a5-d04f48a3a75f", "https://agentic-knowledge-base.dev/id/chunk/d5ab2281-0688-4762-a070-ee3f234f0fb4", "https://agentic-knowledge-base.dev/id/chunk/8e40fad5-ab21-401b-a328-5b96a45ca1cc"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-011-no-groundless-assignment",
+    ],
+)
+
+kb_decision(
     name = "p5-annotation-artifact-separation",
     conclusion = "p5-annotation-artifact-separation/conclusion.md",
     rationale = "p5-annotation-artifact-separation/rationale.md",
@@ -2499,6 +2569,20 @@ kb_decision(
     ],
     supersedes = [
         "//chunks/decision:d-0134-scenario-environment-assignment",
+    ],
+)
+
+kb_decision(
+    name = "p8-judge-question-form",
+    conclusion = "p8-judge-question-form/conclusion.md",
+    rationale = "p8-judge-question-form/rationale.md",
+    alternatives = "p8-judge-question-form/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/a5873a98-652e-4341-b229-b3ef6a05e702",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/11ae001e-2c30-4527-9c01-d19efb779bb1", "https://agentic-knowledge-base.dev/id/chunk/379c3aa1-5979-40ab-8d32-d7ccce656d5c", "https://agentic-knowledge-base.dev/id/chunk/00834b82-cb01-4a17-a3a9-8e349e9846b8"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:verification-means-trust",
     ],
 )
 
@@ -3295,6 +3379,9 @@ kb_bundle(
         ":p12-dev-vv-kb-exchange",
         ":p12-documents-are-generated",
         ":p12-evaluation-metrics",
+        ":p12-generated-document-form",
+        ":p12-generated-document-header",
+        ":p12-generated-documents-are-gated",
         ":p12-incident-postmortem",
         ":p12-knowledge-retrieval-by-label",
         ":p12-operational-monitoring",
@@ -3348,6 +3435,8 @@ kb_bundle(
         ":p4-plane-subclass-level-property",
         ":p4-projection-as-query",
         ":p4-redundancy-as-safety-margin",
+        ":p4-slot-answers-one-question",
+        ":p4-three-empty-values",
         ":p5-annotation-artifact-separation",
         ":p5-plane-addition-criterion",
         ":p5-plane-assignment-tool-surface",
@@ -3386,6 +3475,7 @@ kb_bundle(
         ":p8-coverage-metrics",
         ":p8-defect-factor-taxonomy",
         ":p8-environment-assignment",
+        ":p8-judge-question-form",
         ":p8-learned-environment-and-judge",
         ":p8-mismatch-attribution",
         ":p8-odc-defect-subtypes",

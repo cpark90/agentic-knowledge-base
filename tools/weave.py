@@ -36,7 +36,6 @@ try:
 except ImportError:
     import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
 from chunk2kg import EARS_PATTERNS, parse_chunk  # noqa: E402 — frontmatter 파서와 값 어휘의 단일 정의처
-from doccheck import slug  # noqa: E402 — GitHub 제목 앵커 규칙 (목차 링크)
 
 AGT, ID = kb_lib.AGT, kb_lib.ID
 PROV = Namespace("http://www.w3.org/ns/prov#")
@@ -129,34 +128,26 @@ def load_bodies(paths: list[str]) -> dict:
     return out
 
 
-def head(kind: str, title: str, query: str, g: Graph, files: list[str], extra: list[str]) -> list[str]:
-    """모든 생성물의 머리 — 생성 시각(UTC)과 질의 (p12-documents-are-generated)."""
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    ttl = [f for f in files if f.endswith(".ttl")]
-    return [f"# {kind} — {title} (생성 파일, tools/weave.py)", "",
-            f"- 생성 시각: {now}",
-            f"- 질의: {query}",
-            f"- 입력: 그래프 파일 {len(ttl)}개 · 트리플 {len(g)}",
-            "- 이 파일은 뷰다. 저장하지 않고 인용한다. 고칠 것은 청크다 (`p12-documents-are-generated`)"] + extra + [""]
+# 자기 자신을 다시 만드는 명령 (G6) — kind 마다 하나다
+REPRODUCE = {"adr": "bazel build //kb/dev:adr", "requirements": "bazel build //kb/dev:requirements",
+             "changelog": "bazel build //kb/dev:changelog", "audit": "bazel build //kg:audit"}
+
+
+def head(kind: str, title: str, query: str, g: Graph, inputs: list[str], extra: list[str]) -> list[str]:
+    """모든 생성물의 머리 블록 — 규약 G1~G7 (kb_lib.gendoc_header 가 단일 정의처, p12-documents-are-generated)."""
+    return kb_lib.gendoc_header(kind, title, "tools/weave.py", query, REPRODUCE[kind], inputs,
+                                f"트리플 {len(g)}", kb_lib.gendoc_view_notice("청크"), extra=extra)
 
 
 def refs(m: Model, nodes) -> str:
     return " · ".join(f"{m.ko(n)} (`{kb_lib.compact_iri(str(n))}`)" for n in nodes) or "없음"
 
 
+COMPOSITES_HEADING = "결정 복합체"  # 결론·근거·대안이 세 파일로 갈린 결정 — 단일 파일 결정과 동격이므로 같은 깊이에 둔다
 SINGLES_HEADING = "단일 파일 결정 (v1·harness 유래)"  # chunks/decision/d-*.md — 결론·근거·대안이 한 본문 안에 있다
 
 
-def anchors_of(headings: list[str]) -> list[str]:
-    """제목들의 GitHub 앵커 — 문서 순서로 같은 slug 는 -1, -2 … (doccheck.anchors 와 같은 규칙)."""
-    seen: dict[str, int] = {}
-    out = []
-    for h in headings:
-        s = slug(h)
-        n = seen.get(s, 0)
-        seen[s] = n + 1
-        out.append(s if n == 0 else f"{s}-{n}")
-    return out
+anchors_of = kb_lib.heading_anchors  # GitHub 제목 앵커 규칙의 단일 정의처는 kb_lib (목차 링크, STYLEGUIDE §7)
 
 
 def decision_section(m: Model, bodies: dict, root: Path, level: str, title: str, ref: str, parts: list, levels_note: str, comp_line: str) -> list[str]:
@@ -166,7 +157,7 @@ def decision_section(m: Model, bodies: dict, root: Path, level: str, title: str,
     sources = sorted({t for p in parts for t in m.g.objects(p, PROV.wasDerivedFrom)}, key=str)
     assumes = sorted({t for p in parts for t in m.g.objects(p, AGT.assumes)}, key=str)
     o = [f"{level} {title}", "",
-         f"- 영문: {m.en(con)}",
+         f"- 영문: {m.en(con)} {kb_lib.GENDOC_QUOTE_LINE}",  # 라벨은 그래프에서 그대로 가져온 값이다 — 생성기가 고쳐 쓰지 않는다
          f"- 결정: `{ref}`{comp_line} · 상태 `{m.status[con]}` · 수준 {m.level[con]}{levels_note}",
          f"- 생성: {m.at(con)} ({next(m.g.objects(con, AGT.generatedBy), '')})",
          f"- 정제하는 요구: {refs(m, refines)}",
@@ -177,12 +168,12 @@ def decision_section(m: Model, bodies: dict, root: Path, level: str, title: str,
         body = bodies.get(str(p))
         if body is None:
             f = root / m.location[p]
-            body = kb_lib.chunk_body(f.read_text(encoding="utf-8")) if f.is_file() else f"(본문 없음 — `{m.location[p]}` 가 --bodies 에도 --root 아래에도 없다)"
-        o += [body, ""]
+            body = kb_lib.chunk_body(f.read_text(encoding="utf-8")) if f.is_file() else f"본문 {kb_lib.NONE_MARK} — `{m.location[p]}` 가 --bodies 에도 --root 아래에도 없다"
+        o += kb_lib.gendoc_quote(body)
     return o
 
 
-def render_adr(m: Model, bodies: dict, files: list[str], root: Path) -> str:
+def render_adr(m: Model, bodies: dict, inputs: list[str], root: Path) -> str:
     comps = m.decision_composites()
     live = [(c, r) for c, r in comps if m.status[r["conclusion"]] != "deprecated"]
     deprecated_n = len(comps) - len(live)
@@ -191,30 +182,33 @@ def render_adr(m: Model, bodies: dict, files: list[str], root: Path) -> str:
     singles = [c for c in singles_all if m.live(c)]
     o = head("adr", "결정 기록", "살아 있는 결정 전부 — 결정 복합체(`agt:Composite` 의 부분이 conclusion·rationale·alternatives 청크, 결론의 status ≠ deprecated)마다 "
              "결론 라벨 · 상태 · 수준 · 세 본문, 그 뒤 결정 복합체에 속하지 않는 살아 있는 `agt:DecisionChunk`(단일 파일)마다 라벨 · 상태 · 수준 · 본문. "
-             "둘 다 `agt:refines`/`agt:serves` 대상 · `agt:supersedes` 연쇄 · `prov:wasDerivedFrom` · `agt:assumes` 를 낸다", m.g, files,
+             "둘 다 `agt:refines`/`agt:serves` 대상 · `agt:supersedes` 연쇄 · `prov:wasDerivedFrom` · `agt:assumes` 를 낸다", m.g, inputs,
              [f"- 결정 복합체 {len(live)} (deprecated {deprecated_n} 제외) · 단일 파일 결정 {len(singles)} (v1·harness 유래 `chunks/decision/`, deprecated {len(singles_all) - len(singles)} 제외)"])
     titles_c = [m.ko(r["conclusion"]) for _, r in live]
     titles_s = [m.ko(c) for c in singles]
-    anchors = anchors_of(["목차"] + titles_c + [SINGLES_HEADING] + titles_s)
-    a_c, a_s = anchors[1:1 + len(live)], anchors[2 + len(live):]
-    o += ["## 목차", ""]
-    for (c, _), t, a in zip(live, titles_c, a_c):
-        o.append(f"- [{t}](#{a}) — `{m.unit_ref(c)}`")
-    o.append(f"- [{SINGLES_HEADING}](#{anchors[1 + len(live)]})")
-    for c, t, a in zip(singles, titles_s, a_s):
-        o.append(f"  - [{t}](#{a}) — `{m.unit_ref(c)}`")
-    o.append("")
-    for (comp, r), t in zip(live, titles_c):
+    # 결정은 복합체든 단일 파일이든 동격이므로 같은 깊이(h3)에 두고, 두 무리를 h2 로 묶는다 (G8 — 제목 계층은 한 단계씩)
+    anchors = anchors_of(["목차", COMPOSITES_HEADING] + titles_c + [SINGLES_HEADING] + titles_s)
+    a_comp, a_single = anchors[1], anchors[2 + len(live)]
+    a_c, a_s = anchors[2:2 + len(live)], anchors[3 + len(live):]
+    body = ["## 목차", "", f"- [{COMPOSITES_HEADING}](#{a_comp})"]
+    for (c, _), title, a in zip(live, titles_c, a_c):
+        body.append(f"  - [{title}](#{a}) — `{m.unit_ref(c)}`")
+    body.append(f"- [{SINGLES_HEADING}](#{a_single})")
+    for c, title, a in zip(singles, titles_s, a_s):
+        body.append(f"  - [{title}](#{a}) — `{m.unit_ref(c)}`")
+    body += ["", f"## {COMPOSITES_HEADING}", "",
+             f"결론·근거·대안이 세 파일로 갈린 결정 {len(live)}건이다. 절 하나가 결정 하나이고 세 본문을 그대로 싣는다.", ""]
+    for (comp, r), title in zip(live, titles_c):
         parts = [r[k] for k in ("conclusion", "rationale", "alternatives") if k in r]
         levels = " (" + " · ".join(f"{k} {m.level[r[k]]}" for k in ("rationale", "alternatives") if k in r) + ")"
-        o += decision_section(m, bodies, root, "##", t, m.unit_ref(comp), parts, levels, f" · 복합체 `{kb_lib.compact_iri(str(comp))}`")
-    o += [f"## {SINGLES_HEADING}", "",
-          f"결론·근거·대안이 한 본문 안에 있는 옛 형식의 결정 {len(singles)}건이다. 손으로 쓴 복합체(`kg/composite-kg.ttl`)에 속한 것은 그 복합체를 적는다.", ""]
-    for c, t in zip(singles, titles_s):
+        body += decision_section(m, bodies, root, "###", title, m.unit_ref(comp), parts, levels, f" · 복합체 `{kb_lib.compact_iri(str(comp))}`")
+    body += [f"## {SINGLES_HEADING}", "",
+             f"결론·근거·대안이 한 본문 안에 있는 옛 형식의 결정 {len(singles)}건이다. 손으로 쓴 복합체(`kg/composite-kg.ttl`)에 속한 것은 그 복합체를 적는다.", ""]
+    for c, title in zip(singles, titles_s):
         comp = m.comp_of.get(c)
         comp_line = f" · 복합체 {m.ko(comp)} (`{kb_lib.compact_iri(str(comp))}`)" if comp is not None else ""
-        o += decision_section(m, bodies, root, "###", t, m.unit_ref(c), [c], "", comp_line)
-    return "\n".join(o) + "\n"
+        body += decision_section(m, bodies, root, "###", title, m.unit_ref(c), [c], "", comp_line)
+    return kb_lib.gendoc_assemble(o, body, inputs)
 
 
 def supersedes_chain(m: Model, parts) -> str:
@@ -239,7 +233,7 @@ def source_ref(m: Model, s) -> str:
     return f"{m.ko(s)} (`{kb_lib.compact_iri(str(s))}`" + (f", `{loc}`)" if loc else ")")
 
 
-def render_requirements(m: Model, files: list[str]) -> str:
+def render_requirements(m: Model, inputs: list[str]) -> str:
     reqs = sorted((c for c in m.chunks if m.plane[c] == "requirement" and m.live(c)), key=lambda c: m.location[c])
     down = defaultdict(set)  # metrics.py CQ19 와 같은 정의 — refines/serves 를 거꾸로 내려간다
     for pred in (AGT.refines, AGT.serves):
@@ -272,21 +266,21 @@ def render_requirements(m: Model, files: list[str]) -> str:
     rows, patterns, reach = [], Counter(), Counter()
     for r in reqs:
         pat = next(m.g.objects(r, AGT.pattern), None)
-        pat_s = PATTERN_VALUE.get(pat, str(pat).split("/")[-1]) if pat is not None else "—"
+        pat_s = PATTERN_VALUE.get(pat, str(pat).split("/")[-1]) if pat is not None else kb_lib.NONE_MARK
         d, n = deepest(r), refining_decisions(r)
         patterns[pat_s] += 1
         reach[d] += 1
         rows.append(f"| `{Path(m.location[r]).stem}` | {m.ko(r)} | {m.en(r)} | {pat_s} | {n} | {d} | `{kb_lib.compact_iri(str(r))}` |")
     o = head("requirements", "요구 색인", "살아 있는 `agt:RequirementChunk` 마다 라벨 ko·en · `agt:pattern` · 이 요구를 `agt:refines`/`agt:serves` 하는 살아 있는 결정 단위 수 "
-             "· `refines`/`serves` 하류의 가장 낮은 level (metrics CQ19 와 같은 정의) · IRI", m.g, files,
+             "· `refines`/`serves` 하류의 가장 낮은 level (metrics CQ19 와 같은 정의) · IRI", m.g, inputs,
              [f"- 요구 {len(reqs)} · EARS 패턴: " + (" · ".join(f"{k} {v}" for k, v in patterns.most_common()) or "없음")
               + " · 도달 수준: " + " · ".join(f"{k} {v}" for k, v in sorted(reach.items(), key=lambda kv: LEVELS.index(kv[0]) if kv[0] in LEVELS else 99))
               + f" · 정제 결정 없는 요구 {sum(1 for row in rows if '| 0 |' in row)}"])
-    o += ["| 파일 | 요구 | title | EARS | 정제 결정 | 도달 수준 | IRI |", "|---|---|---|---|---|---|---|"] + rows + [""]
-    return "\n".join(o) + "\n"
+    body = ["| 파일 | 요구 | title | EARS | 정제 결정 | 도달 수준 | IRI |", "|---|---|---|---|---|---|---|"] + rows + [""]
+    return kb_lib.gendoc_assemble(o, body, inputs)
 
 
-def render_changelog(m: Model, files: list[str]) -> str:
+def render_changelog(m: Model, inputs: list[str]) -> str:
     pairs = []
     for new, old in m.g.subject_objects(AGT.supersedes):
         at = m.at(new)
@@ -299,19 +293,18 @@ def render_changelog(m: Model, files: list[str]) -> str:
         pairs.append((key, m.ko(new), new, old, at))
     pairs.sort(key=lambda p: (p[0], p[1], str(p[2]), str(p[3])))
     revisions = sorted(m.g.subject_objects(PROV.wasRevisionOf), key=lambda so: (str(so[0]), str(so[1])))
-    o = head("changelog", "변경 이력", "`agt:supersedes` 쌍(새 → 옛)을 새 결정의 `prov:generatedAtTime` 순으로 · `prov:wasRevisionOf` 쌍 전부", m.g, files,
+    o = head("changelog", "변경 이력", "`agt:supersedes` 쌍(새 → 옛)을 새 결정의 `prov:generatedAtTime` 순으로 · `prov:wasRevisionOf` 쌍 전부", m.g, inputs,
              [f"- supersedes {len(pairs)}쌍 · wasRevisionOf {len(revisions)}쌍"])
-    o += ["## supersedes — 새 결정이 옛 결정을 대체한 순서", "",
+    body = ["## supersedes — 새 결정이 옛 결정을 대체한 순서", "",
           "| 시각 (새 결정 generated.at) | 새 결정 | 자리 | 옛 결정 | 옛 상태 |", "|---|---|---|---|---|"]
     for _, label, new, old, at in pairs:
-        o.append(f"| {at} | {label} | `{m.unit_ref(m.decision_unit(new))}` | {m.ko(old)} (`{kb_lib.compact_iri(str(old))}`) | `{m.status.get(old, '?')}` |")
-    o += ["", "## wasRevisionOf — 같은 정체성의 개정", ""]
+        body.append(f"| {at} | {label} | `{m.unit_ref(m.decision_unit(new))}` | {m.ko(old)} (`{kb_lib.compact_iri(str(old))}`) | `{m.status.get(old, '?')}` |")
+    body += ["", "## wasRevisionOf — 같은 정체성의 개정", ""]
     if revisions:
-        o += ["| 개정 | 이전 |", "|---|---|"] + [f"| {m.ko(s)} (`{kb_lib.compact_iri(str(s))}`) | {m.ko(t)} (`{kb_lib.compact_iri(str(t))}`) |" for s, t in revisions]
+        body += ["| 개정 | 이전 |", "|---|---|"] + [f"| {m.ko(s)} (`{kb_lib.compact_iri(str(s))}`) | {m.ko(t)} (`{kb_lib.compact_iri(str(t))}`) |" for s, t in revisions] + [""]
     else:
-        o.append("없음 — 개정은 아직 `supersedes`(새 IRI)로만 기록됐다")
-    o.append("")
-    return "\n".join(o) + "\n"
+        body += [f"{kb_lib.NONE_MARK} — 개정은 아직 `supersedes`(새 IRI)로만 기록됐다", ""]
+    return kb_lib.gendoc_assemble(o, body, inputs)
 
 
 # ── audit — 감사 보고서 (로드맵 8단계, audit-self-sufficiency: 체계 밖 정보 없이 생성) ──────────────────────────────────────
@@ -344,7 +337,7 @@ def as_dt(value: str):
     return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
 
 
-def render_audit(m: Model, bodies: dict, files: list[str]) -> str:
+def render_audit(m: Model, bodies: dict, inputs: list[str]) -> str:
     g = m.g
     live = {c for c in m.chunks if m.live(c)}
     vv = {c for c in live if kb_lib.kb_of(m.location[c]) == kb_lib.KB_VV}
@@ -359,19 +352,19 @@ def render_audit(m: Model, bodies: dict, files: list[str]) -> str:
     run_body = bodies.get(str(latest_run), "") if latest_run is not None else ""
     asm_body = bodies.get(str(latest_asm), "") if latest_asm is not None else ""
 
-    def pct(n, d):
-        return f"{100 * n / d:.1f}%" if d else "—"
+    pct = kb_lib.pct  # 비율 표기의 단일 정의처 (G15 — metrics 와 같은 정의)
 
     # 1. 리비전 — 그래프는 리비전을 담지 않는다. 실행 기록이 초기 상태(p8-reproducibility)로 담는다
     rev_m = RUN_REVISION.search(run_body)
     rev_line = (f"실행 기록의 리비전 `{rev_m.group(1)}`" + (f" ({rev_m.group(2)})" if rev_m.group(2) else "") + f" — `{Path(m.location[latest_run]).name}`"
                 if rev_m else "실행 기록이 없어 리비전을 알 수 없다 — 그래프는 리비전을 담지 않는다")
-    o = head("audit", "감사 보고서", "그래프 union 과 관측 청크 본문(`kb/vv/run/` 실행 기록 · `kb/dev/memory/` 가정 판정)만으로 — 검증 현황 · 최근 실행 · 가정 · "
-             "추적 매트릭스(`kb_lib.TIM_CELLS`) · 검증 표시 · 링크 근거 · 자족성", g, files,
+    h = head("audit", "감사 보고서", "그래프 union 과 관측 청크 본문(`kb/vv/run/` 실행 기록 · `kb/dev/memory/` 가정 판정)만으로 — 검증 현황 · 최근 실행 · 가정 · "
+             "추적 매트릭스(`kb_lib.TIM_CELLS`) · 검증 표시 · 링크 근거 · 자족성", g, inputs,
              [f"- 리비전: {rev_line}",
               f"- 입력의 종류: 그래프 union(head · 참조 · 시드 · 카탈로그 · 복합체 · ODD · 온톨로지) · 관측 본문 — 실행 기록 {len(runs)}건 · 가정 판정 {len(asm_obs)}건. "
               f"체계 밖 정보 0 (요구 `audit-self-sufficiency`)",
               f"- 살아 있는 청크 {len(live)} — 개발 KB {len(dev)} · V&V KB {len(vv)}"])
+    body: list[str] = []
 
     # 2. 검증 현황
     dev_reqs = {c for c in dev if m.plane[c] == "requirement"}
@@ -393,53 +386,53 @@ def render_audit(m: Model, bodies: dict, files: list[str]) -> str:
     no_criteria = [s for s, _ in verifies if not any((c_, RDF.type, AGT.ContractChunk) in g for c_ in g.objects(s, AGT.refines))]
     units = {m.decision_unit(c) for c in dev if m.plane[c] == "decision"}
     verified_units = {m.decision_unit(t) for _, t in verifies if t in m.chunks and m.plane.get(t) == "decision"}
-    o += ["## 검증 현황 — 요구의 검증 대응물과 V&V 사슬 (p8-scenario-ladder-rungs · p8-pass-criteria)", "",
-          f"- 검증 대응물이 있는 요구(검증 목표가 `agt:derivesFrom` 으로 가리킴): **{len(covered)}/{len(dev_reqs)}** = {pct(len(covered), len(dev_reqs))}",
-          f"- `agt:verifies` 대상이 된 결정 단위: **{len(verified_units)}/{len(units)}** = {pct(len(verified_units), len(units))} · verifies 링크 {len(verifies)}",
+    body += ["## 검증 현황 — 요구의 검증 대응물과 V&V 사슬 (p8-scenario-ladder-rungs · p8-pass-criteria)", "",
+          f"- 검증 대응물이 있는 요구(검증 목표가 `agt:derivesFrom` 으로 가리킴): **{pct(len(covered), len(dev_reqs))}** (목표 100.0%)",
+          f"- `agt:verifies` 대상이 된 결정 단위: **{pct(len(verified_units), len(units))}** · verifies 링크 {len(verifies)}",
           f"- 사슬: 검증 목표 {len(goals)} · 합격 기준이 달린 목표 {sum(1 for gl in goals if criteria_of[gl])} · 케이스까지 이어진 목표 {len(chains)} · "
           f"검증기 {sum(len(v) for v in verifiers_of.values())} (합격 기준 {sum(len(v) for v in criteria_of.values())} · 케이스 {sum(len(v) for v in cases_of.values())})",
           f"- 기준 없는 `verifies`: **{len(no_criteria)}** (목표 0 — verify 질의 `verifies-without-criteria` 와 같은 정의)", ""]
     uncovered = sorted(dev_reqs - covered, key=lambda c: m.location[c])
     if uncovered:
-        o += [f"검증 대응물 없는 요구 {len(uncovered)}건:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)}" for c in uncovered] + [""]
+        body += [f"검증 대응물 없는 요구 {len(uncovered)}건:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)}" for c in uncovered] + [""]
 
     # 3. 최근 실행 — 실행 기록을 그대로 요약한다
-    o += ["## 최근 실행 — `kb/vv/run/` 의 최신 실행 기록 (agt:Run, append-only)", ""]
+    body += ["## 최근 실행 — `kb/vv/run/` 의 최신 실행 기록 (agt:Run, append-only)", ""]
     if latest_run is None:
-        o += ["실행 기록 없음 — `bazel run //tools:vv_run -- --record`", ""]
+        body += ["실행 기록 없음 — `bazel run //tools:vv_run -- --record`", ""]
     else:
         rows = observation_table(run_body, kb_lib.RUN_CASE_TABLE_HEADER)
         verdicts = Counter(r[2] for r in rows if len(r) >= 3)
-        o += [f"- {m.ko(latest_run)} (`{m.location[latest_run]}`, 생성 {m.at(latest_run)}, {by_gen(latest_run)}) — 실행 기록 전체 {len(runs)}건",
+        body += [f"- {m.ko(latest_run)} (`{m.location[latest_run]}`, 생성 {m.at(latest_run)}, {by_gen(latest_run)}) — 실행 기록 전체 {len(runs)}건",
               "- 케이스 " + " · ".join(f"{v} **{verdicts.get(v, 0)}**" for v in kb_lib.RUN_VERDICTS) + " — SKIP 은 PASS 가 아니다", ""]
         first = run_body.split("\n", 1)[0].strip()
         if first:
-            o += [f"> {first}", ""]
+            body += [f"> {first}", ""]
         if rows:
-            o += [kb_lib.RUN_CASE_TABLE_HEADER, "|---|---|---|---|"] + ["| " + " | ".join(r) + " |" for r in rows] + [""]
+            body += [kb_lib.RUN_CASE_TABLE_HEADER, "|---|---|---|---|"] + ["| " + " | ".join(r) + " |" for r in rows] + [""]
         else:
-            o += [f"- 본문에 케이스 표(헤더 `{kb_lib.RUN_CASE_TABLE_HEADER}`)가 없다", ""]
+            body += [f"- 본문에 케이스 표(헤더 `{kb_lib.RUN_CASE_TABLE_HEADER}`)가 없다", ""]
 
     # 4. 가정 — 최신 assume_check 관측
-    o += ["## 가정 — `kb/dev/memory/` 의 최신 가정 판정 관측 (assume_check)", ""]
+    body += ["## 가정 — `kb/dev/memory/` 의 최신 가정 판정 관측 (assume_check)", ""]
     if latest_asm is None:
-        o += ["가정 판정 관측 없음 — `bazel run //tools:assume_check -- --record`", ""]
+        body += ["가정 판정 관측 없음 — `bazel run //tools:assume_check -- --record`", ""]
     else:
         rows = observation_table(asm_body, kb_lib.ASSUME_CHECK_TABLE_HEADER)
         states = Counter(r[3] for r in rows if len(r) >= 4)
-        o += [f"- {m.ko(latest_asm)} (`{m.location[latest_asm]}`, 생성 {m.at(latest_asm)}) — 가정 판정 관측 전체 {len(asm_obs)}건",
-              "- 가정 " + (" · ".join(f"{k} **{v}**" for k, v in sorted(states.items())) or "표 없음"), ""]
+        body += [f"- {m.ko(latest_asm)} (`{m.location[latest_asm]}`, 생성 {m.at(latest_asm)}) — 가정 판정 관측 전체 {len(asm_obs)}건",
+              "- 가정 " + (" · ".join(f"{k} **{v}**" for k, v in sorted(states.items())) or kb_lib.NONE_MARK + " — 본문에 가정 표가 없다"), ""]
         if rows:
-            o += ["| 가정 | 판정 유형 | 등급 | 상태 |", "|---|---|---|---|"] + ["| " + " | ".join(r[:4]) + " |" for r in rows] + [""]
+            body += ["| 가정 | 판정 유형 | 등급 | 상태 |", "|---|---|---|---|"] + ["| " + " | ".join(r[:4]) + " |" for r in rows] + [""]
 
     # 5. 추적 매트릭스 — metrics 와 같은 정의 (kb_lib.TIM_CELLS · link_cells)
     seen = kb_lib.link_cells(g)
     filled = [c for c in kb_lib.TIM_CELLS if c in seen]
     outside = sorted(seen - set(kb_lib.TIM_CELLS))
-    o += [f"## 추적 매트릭스 — plane × plane, TIM 허용 {len(kb_lib.TIM_CELLS)}칸 중 채움 **{len(filled)}** (metrics 3단계 대리와 같은 정의)", "",
+    body += [f"## 추적 매트릭스 — plane × plane, TIM 허용 {len(kb_lib.TIM_CELLS)}칸 중 채움 **{len(filled)}** (metrics 3단계 대리와 같은 정의)", "",
           "| 링크 | 출발 plane | 도착 plane | 채움 |", "|---|---|---|---|"]
-    o += [f"| `{k}` | `{a}` | `{b}` | {'채움' if (k, a, b) in seen else '빈 칸'} |" for k, a, b in kb_lib.TIM_CELLS]
-    o += ["", f"- 허용표 밖에서 관측된 칸: {len(outside)}" + (" — " + ", ".join(f"`{k}`:{a}→{b}" for k, a, b in outside) if outside else ""), ""]
+    body += [f"| `{k}` | `{a}` | `{b}` | {'채움' if (k, a, b) in seen else '빈 칸'} |" for k, a, b in kb_lib.TIM_CELLS]
+    body += ["", f"- 허용표 밖에서 관측된 칸: {len(outside)}" + (" — " + ", ".join(f"`{k}`:{a}→{b}" for k, a, b in outside) if outside else ""), ""]
 
     # 6. 검증 표시 — verified 주체 종류와 검증 뒤 수정 (trust shape)
     kinds = Counter()
@@ -456,7 +449,7 @@ def render_audit(m: Model, bodies: dict, files: list[str]) -> str:
             if gen_at and va and gen_at > va:
                 modified.append(c)
                 break
-    o += ["## 검증 표시 — `verified` 주체 종류별 살아 있는 청크 수 (한 청크가 여러 종류를 가질 수 있다)", "",
+    body += ["## 검증 표시 — `verified` 주체 종류별 살아 있는 청크 수 (한 청크가 여러 종류를 가질 수 있다)", "",
           "| 주체 종류 | 청크 수 |", "|---|---|"] + [f"| `{k}` | {v} |" for k, v in sorted(kinds.items())] + [f"| 없음 (미검증) | {none_n} |", "",
           f"- 검증 뒤 수정(`prov:generatedAtTime` > `agt:verifiedAt`): **{len(modified)}** (목표 0 — `agt:TrustShape` 가 게이트에서 강제)", ""]
 
@@ -471,20 +464,20 @@ def render_audit(m: Model, bodies: dict, files: list[str]) -> str:
     states = Counter(str(next(g.objects(l, AGT.linkState), "")) or "없음" for l in links)
     restored_rows = [f"  - {m.ko(next(g.objects(l, AGT.linkFrom), l))} —`{str(next(g.objects(l, AGT.linkKind), '')).split('/')[-1]}`→ "
                      f"{m.ko(next(g.objects(l, AGT.linkTo), l))}" for l in origins["restored_links"]]
-    o += ["## 링크 근거 — 링크 개체의 증거 종류와 복원 비율", "",
+    body += ["## 링크 근거 — 링크 개체의 증거 종류와 복원 비율", "",
           f"- 링크 개체 `agt:Link` **{len(links)}** · 증거 없는 링크 {no_ev} (목표 0) · 상태 " + (" · ".join(f"`{k}` {v}" for k, v in sorted(states.items())) or "없음"),
           "- 증거 종류: " + (" · ".join(f"`{k}` {v}" for k, v in ev_kinds.most_common()) or "없음"),
           f"- 확정 {origins['confirmed']} = 구축 {built}(구축 기록 증거뿐) + 복원 {restored}(구축 기록 아닌 증거 `proposal` 을 가진 링크 개체 — frontmatter `restored:` 표시, "
-          f"p10-restored-link-marking) → 복원 비율 **{pct(restored, built + restored)}** (목표 < 20%; 후보는 `//kg:link_candidates`)",
+          f"p10-restored-link-marking) → 복원 비율 **{pct(restored, built + restored)}** (목표 20% 미만; 후보는 `//kg:link_candidates`)",
           f"- 후보 {origins['candidates']} (`agt:CandidateLink` — 본문 추출, 증거는 구축 기록; p10-extracted-references-are-candidates): "
           + (" · ".join(f"`{k}` {v}" for k, v in sorted(origins["candidate_kinds"].items())) or "없음")
           + " · 본문 식별자 추출 직접 트리플 " + " · ".join(f"`{k}` {v}" for k, v in origins["extracted"].items())] + restored_rows + [""]
 
     # 8. 자족성 선언
-    o += ["## 자족성 선언", "",
+    body += ["## 자족성 선언", "",
           "이 보고서의 모든 수치는 위 입력(그래프 union · 실행 기록 · 가정 판정 관측)에서 나왔다. 손으로 적은 수치는 없다. "
           "이 보고서를 다시 만드는 명령은 `bazel build //kg:audit` 이고 입력이 같으면 수치가 같다.", ""]
-    return "\n".join(o) + "\n"
+    return kb_lib.gendoc_assemble(h, body, inputs)
 
 
 def main() -> int:
@@ -506,11 +499,11 @@ def main() -> int:
         print(f"CONFIG [{TAG}] {getattr(e, 'filename', '')}: 읽을 수 없다 — {e}", file=sys.stderr)
         return EXIT_CONFIG
     m = Model(g)
-    files = a.ttl or list(kb_lib.UNION_GRAPH_PATHS)
-    text = {"adr": lambda: render_adr(m, bodies, files, root),
-            "requirements": lambda: render_requirements(m, files),
-            "changelog": lambda: render_changelog(m, files),
-            "audit": lambda: render_audit(m, bodies, files)}[a.kind]()
+    inputs = (a.ttl or list(kb_lib.UNION_GRAPH_PATHS)) + list(a.bodies)
+    text = {"adr": lambda: render_adr(m, bodies, inputs, root),
+            "requirements": lambda: render_requirements(m, inputs),
+            "changelog": lambda: render_changelog(m, inputs),
+            "audit": lambda: render_audit(m, bodies, inputs)}[a.kind]()
     Path(a.out).write_text(text, encoding="utf-8")
     return EXIT_OK
 

@@ -123,7 +123,7 @@ def main() -> int:
                  "schema": {"logical", "concrete"}, "artifact": {"concrete", "executable"}, "memory": {"concrete"}}
     residency_bad = [c for c in live if plane[c] in RESIDENCY and level[c] not in RESIDENCY[plane[c]]]
 
-    def pct(n, d): return f"{100*n/d:.1f}%" if d else "—"
+    pct = kb_lib.pct  # 비율 표기의 단일 정의처 (G15 — `n/d = p.p%`, 0 분모는 없음)
     # 3단계 대리 — 링크마다 근거 · 구축/복원 비율 · plane×plane 매트릭스 채움 (TIM 이 허용하는 칸)
     link_ents = list(g.subjects(RDF.type, AGT.Link))
     with_ev = [l for l in link_ents if (l, AGT.hasEvidence, None) in g]
@@ -147,7 +147,7 @@ def main() -> int:
         for b_ in a.bodies:
             cited |= set(_re.findall(r"(?<![\d.])(\d{1,2}\.\d{1,2})절", Path(b_).read_text(encoding="utf-8")))  # "노트 N.N절"과 "(N.N절)" 둘 다
         missing = sorted(with_fixed - cited, key=lambda x: [int(t) for t in x.split(".")])
-        cov_line = (f"- 의미 보존: 확정 문장 커버리지(절 단위) **{len(with_fixed & cited)}/{len(with_fixed)}** = {100*len(with_fixed & cited)/max(len(with_fixed),1):.1f}% — "
+        cov_line = (f"- 의미 보존: 확정 문장 커버리지(절 단위) **{kb_lib.pct(len(with_fixed & cited), len(with_fixed))}** — "
                     f"[확정] {sum(sec.values())}문장, 결정 {sum(1 for c in live if plane[c]=='decision' and c not in parts) + len(siblings)}개. 인용 없는 절: " + (", ".join(missing) or "없음"))
     # 가정 — 기본 가정만 가진 청크 (좁힘 진행률의 역수, docs/rules.md 가정 절)
     default_only = sum(1 for c in live if set(g.objects(c, AGT.assumes)) == {DEFAULT_ASSUMPTION})
@@ -189,68 +189,78 @@ def main() -> int:
             nbs = [n for n in nb.get(anc, ()) if n in lines and n in live and next(g.objects(n, RDF.type)) in planes]
             total = 2 + len({plane[x] for x in [anc] + nbs}) + 1 + len(nbs) + lines[anc] + sum(lines[n] for n in nbs)
             ok += total <= BUDGET
-        role_rows.append(f"`{str(role).split('/')[-1].replace('role-','')}` {ok}/{len(in_scope)} = {pct(ok, len(in_scope))}")
+        role_rows.append(f"`{str(role).split('/')[-1].replace('role-','')}` {pct(ok, len(in_scope))}")
         scope = ID[str(role).split('/')[-1].replace('role-', 'scope-')]
         inc = set(g.objects(scope, AGT.includesCondition))
         if (scope, AGT.subsetOf, None) not in g or not inc or not inc <= odd_conds:
             scope_bad.append(str(scope).split('/')[-1])
 
 
-    o = ["# metrics — 코어 지표 (생성 파일, tools/metrics.py)", "",
-         f"청크 {len(chunks)} (살아 있는 것 {len(live)}, deprecated {len(chunks)-len(live)}) · 복합체 {len(siblings)} · 트리플 {len(g)}", "",
-         "## plane × level (살아 있는 청크)", "", "| plane | " + " | ".join(LEVELS) + " | 합 |", "|---|" + "---|" * (len(LEVELS) + 1)]
+    inputs = list(a.files) + ([a.notes] if a.notes else []) + list(a.bodies)
+    head = kb_lib.gendoc_header(
+        "metrics", "코어 지표", "tools/metrics.py",
+        "그래프 union 과 청크 본문에서 — plane × level 분포 · 고아율 · 도입 단계 세 축의 대리 · 링크 밀도 · 크기 분포 · "
+        "정제 완주(CQ19) · 후방 추적 귀속(CQ20) · 가정과 신뢰 등급. 수치를 문서에 적지 않고 여기서 인용한다 (4.6절 뷰 원칙)",
+        "bazel build //kg:metrics", inputs,
+        f"트리플 {len(g)} · 청크 {len(chunks)}", kb_lib.gendoc_view_notice("청크의 frontmatter 와 본문"),
+        input_kind="입력 파일",
+        extra=[f"- 청크 {len(chunks)} (살아 있는 것 {len(live)}, deprecated {len(chunks)-len(live)}) · 복합체 {len(siblings)} · 트리플 {len(g)}"])
+    o = ["## plane × level (살아 있는 청크)", "", "| plane | " + " | ".join(LEVELS) + " | 합 |", "|---|" + "---|" * (len(LEVELS) + 1)]
     for p in PLANES:
         row = [sum(1 for c in live if plane[c] == p and level[c] == l) for l in LEVELS]
         o.append(f"| `{p}` | " + " | ".join(map(str, row)) + f" | {sum(row)} |")
     o += ["", "## 고아율 (4.13절 — 복합체 부분도 링크도 없는 청크)", "",
-          f"- 전체: {len(orphans)}/{len(chunks)} = **{pct(len(orphans), len(chunks))}**",
-          f"- 살아 있는 청크: {len(orphans & live)}/{len(live)} = **{pct(len(orphans & live), len(live))}** — 도입 1단계 통과 조건 < 10%: **{'통과' if len(live) and len(orphans & live)/len(live) < 0.10 else '미통과'}**"]
+          f"- 전체: **{pct(len(orphans), len(chunks))}**",
+          f"- 살아 있는 청크: **{pct(len(orphans & live), len(live))}** (목표 10% 미만) — 도입 1단계 통과 조건: **{'통과' if len(live) and len(orphans & live)/len(live) < 0.10 else '미통과'}**"]
     for p in PLANES:
         n = sum(1 for c in live if plane[c] == p)
-        if n: o.append(f"  - `{p}`: {sum(1 for c in orphans & live if plane[c] == p)}/{n}")
+        if n: o.append(f"  - `{p}`: {pct(sum(1 for c in orphans & live if plane[c] == p), n)}")
     o += ["", "## 세 축 대리 — 1·3·5단계 (14.1 정정본: 의미 보존 · 구체화 · 유기적 연결)", "",
           f"- 연결: 살아 있는 청크의 연결 성분 **{components}**개 (링크·복합체로 이어진 덩어리. 목표 1)",
-          f"- 연결: level×level `refines` 매트릭스 채움 {len(filled)}/4 — " + (", ".join(f"{a_}→{b_}" for a_, b_ in filled) or "없음") + " (목표 4/4)",
+          f"- 연결: level×level `refines` 매트릭스 채움 {pct(len(filled), 4)} — " + (", ".join(f"{a_}→{b_}" for a_, b_ in filled) or "없음") + " (목표 4/4 = 100.0%)",
           f"- 구체화: level을 한 단계씩 내려가지 않는 `refines` **{len(skips)}**건 (목표 0; 지금은 concrete→functional 직행이 구조적으로 허용됨 — abstract·logical 결정이 생기면 0이어야 한다)",
           f"- 구체화: 수준 허용표 위반 **{len(residency_bad)}**건 (목표 0)",
           cov_line,
           "- 의미 보존: 라벨 대표성은 실험 — 이 도구 밖",
           "", "## 3단계 대리 — 링크 구축 (14.1 정정본: 근거 · 한 단계씩 · 매트릭스 · 복원 비율)", "",
-          f"- 의미 보존: 링크 개체 **{len(link_ents)}** (확정 {origins['confirmed']} · 후보 {origins['candidates']}) 중 증거 기록이 있는 것 {len(with_ev)} = **{pct(len(with_ev), len(link_ents))}** (목표 100%; 증거 종류 분포는 `audit` 링크 근거 절)",
-          f"- 의미 보존: 구축 비율 — 확정 링크 개체 중 구축(구축 기록 증거뿐) {built_n} vs 복원 {restored_total}(구축 기록 아닌 증거 `proposal` 을 가진 링크 개체 — frontmatter `restored:` 표시) → 복원 비율 **{pct(restored_total, built_n + restored_total)}** (목표 < 20%; 후보는 `bazel build //kg:link_candidates`, 확정은 `restored:` — p10-restored-link-marking)",
+          f"- 의미 보존: 링크 개체 **{len(link_ents)}** (확정 {origins['confirmed']} · 후보 {origins['candidates']}) 중 증거 기록이 있는 것 **{pct(len(with_ev), len(link_ents))}** (목표 100.0%; 증거 종류 분포는 `audit` 링크 근거 절)",
+          f"- 의미 보존: 구축 비율 — 확정 링크 개체 중 구축(구축 기록 증거뿐) {built_n} vs 복원 {restored_total}(구축 기록 아닌 증거 `proposal` 을 가진 링크 개체 — frontmatter `restored:` 표시) → 복원 비율 **{pct(restored_total, built_n + restored_total)}** (목표 20% 미만; 후보는 `bazel build //kg:link_candidates`, 확정은 `restored:` — p10-restored-link-marking)",
           f"- 의미 보존: 후보 링크 개체(`agt:CandidateLink`, linkState candidate — 본문 추출, 증거는 구축 기록) **{origins['candidates']}** — " + (" · ".join(f"`{k}` {v}" for k, v in sorted(origins['candidate_kinds'].items())) or "없음") + "; 본문 식별자 추출 직접 트리플 " + " · ".join(f"`{k}` {v}" for k, v in extracted_n.items()) + " (`usesConcept` 는 대상이 온톨로지 용어라 링크 치역 밖 — 후보 개체 없음; p10-extracted-references-are-candidates)",
-          f"- 연결: plane×plane 매트릭스 — TIM 허용 {len(TIM)}칸 중 채움 **{len(tim_filled)}** ({', '.join(f'{k}:{a_}→{b_}' for k, a_, b_ in tim_filled) or '없음'}); 빈 칸은 contract·schema·artifact·V&V 항목이 생겨야 찬다",
+          f"- 연결: plane×plane 매트릭스 — TIM 허용 칸 채움 **{pct(len(tim_filled), len(TIM))}** ({', '.join(f'{k}:{a_}→{b_}' for k, a_, b_ in tim_filled) or '없음'}); 빈 칸은 contract·schema·artifact·V&V 항목이 생겨야 찬다",
           "- 구체화: `refines` 한 단계씩 — 위 세 축 절의 건너뜀 수 참조",
           "", "## 2단계 대리 — ODD와 스코프", "",
-          "- 구체화: 역할·앵커별 작업 집합(스코프 안 청크를 앵커로, 1홉 이웃 라벨 + 본문 펼침)이 예산 200줄 안인 비율: " + " · ".join(role_rows),
+          f"- 정의: 여기의 예산 준수율은 **앵커마다** 센다 — 스코프 안 청크 하나를 앵커로 잡고 그 1홉 이웃의 라벨과 본문을 펼친 줄 수가 "
+          f"{BUDGET}줄 이하인 앵커의 비율이다. `bazel build //kg:workset` 의 예산 판정은 **문서 전체**(앵커 없이 스코프 전체의 라벨 목록)를 재므로 "
+          "두 수치는 같은 이름이되 다른 것을 센다",
+          "- 구체화: 역할·앵커별 작업 집합(스코프 안 청크를 앵커로, 1홉 이웃 라벨 + 본문 펼침)이 예산 안인 비율: " + " · ".join(role_rows),
           f"- 구체화: ODD × plane 권한에서 파생되지 않은 스코프 **{len(scope_bad)}**건" + (f" — {', '.join(scope_bad)}" if scope_bad else "") + " (목표 0)",
           "- 연결: ODD 밖 참조는 게이트(odd-ref)가 0으로 강제. 첫 모니터링 이탈은 `bazel run //tools:odd_check`",
           "", "## 4단계 대리 — 가정과 무효화 (14.1 정정본: 무효화 이력 · 판정식 등급 · 인위 파괴 실험)", "",
-          f"- 의미 보존: 무효화 이력 — 관측(memory plane) **{len(observations)}**건, 그중 `assume_check --record` 의 판정 관측 {obs_recorded}건 (지금은 판정 관측 수 — 무효화 사건이 생기면 그 이력이 여기 쌓인다. provenance 100% 는 관측이 `generatedBy`·`prov:wasDerivedFrom` 를 갖는 비율로 잰다: {pct(sum(1 for c in observations if (c, AGT.generatedBy, None) in g and (c, PROV.wasDerivedFrom, None) in g), len(observations))})",
-          f"- 구체화: 가정 개체 {len(assumptions)} · `assumes` 링크 {assumes} (가정 · 신뢰 등급 절과 같은 수) · 판정식 등급 분포(참조 조건 등급의 최저) " + (" · ".join(f"{k} {v}" for k, v in sorted(grade_dist.items())) or "없음") + f" — A·B 비율 **{pct(grade_ab, len(assumptions))}** (목표 100%), D **{grade_dist.get('D', 0)}**건 (목표 0)",
+          f"- 의미 보존: 무효화 이력 — 관측(memory plane) **{len(observations)}**건, 그중 `assume_check --record` 의 판정 관측 {obs_recorded}건 (지금은 판정 관측 수 — 무효화 사건이 생기면 그 이력이 여기 쌓인다. provenance 는 관측이 `generatedBy`·`prov:wasDerivedFrom` 를 갖는 비율로 잰다 (목표 100.0%): {pct(sum(1 for c in observations if (c, AGT.generatedBy, None) in g and (c, PROV.wasDerivedFrom, None) in g), len(observations))})",
+          f"- 구체화: 가정 개체 {len(assumptions)} · `assumes` 링크 {assumes} (가정 · 신뢰 등급 절과 같은 수) · 판정식 등급 분포(참조 조건 등급의 최저) " + (" · ".join(f"{k} {v}" for k, v in sorted(grade_dist.items())) or "없음") + f" — A·B 비율 **{pct(grade_ab, len(assumptions))}** (목표 100.0%), D **{grade_dist.get('D', 0)}**건 (목표 0)",
           "- 연결: 인위 파괴 실험은 `bazel run //tools:assume_check -- --break <cond>` — 계산된 직접 영향 집합과 실제 의존 집합(frontmatter 스캔)의 일치 여부를 그 보고가 낸다. 판정은 호스트 상태를 보므로 이 뷰 밖이다",
           "", "## 7단계 대리 — V&V (p8-vv-plane-instances · p8-pass-criteria · p8-scenario-ladder-rungs)", "",
           f"- 구체화: V&V KB(`kb/vv/`) 살아 있는 청크 **{len(vv)}** — 검증 목표(`requirement`) {vv_by['requirement']} · 시나리오(`decision`) {vv_by['decision']} · 합격 기준(`contract`) {vv_by['contract']} · 케이스(`schema`) {vv_by['schema']} · 검증기(`artifact`) {vv_by['artifact']} · 판정 주석(`annotation`) {vv_by['annotation']} · 실행 기록(`memory`) {vv_by['memory']}",
           f"- 연결: `verifies` 링크 **{len(verifies_links)}** (주어는 V&V 청크, 대상은 같은 수준의 개발 항목 — `defs/kb.bzl` 이 분석 시점에 강제) · 대상이 된 개발 항목 {len(verified_targets)}",
-          f"- 의미 보존: 기준 없는 `verifies` **{len(no_criteria)}**건 (목표 0 — 주어가 합격 기준(`ContractChunk`)을 `refines` 해야 하며 verify 질의 `verifies-without-criteria` 가 거부한다)",
-          f"- 연결: 검증 대응물이 있는 요구(검증 목표가 `derivesFrom` 으로 가리키는 개발 요구) {len(covered_reqs)}/{len(dev_reqs)} = **{pct(len(covered_reqs), len(dev_reqs))}** (목표 100% — 8.3절 functional 높이의 검증 대응물 필수) · 합격 기준이 달린 검증 목표 {len(goals_with_criteria)}/{len(goals)}",
-          "", "## 링크 밀도", "", f"- 링크 {sum(link_count.values())} / 살아 있는 청크 {len(live)} = **{sum(link_count.values())/max(len(live),1):.2f}**/청크",
+          f"- 의미 보존: 기준 없는 `verifies` **{len(no_criteria)}**건 (목표 0) — ( 주어가 합격 기준(`ContractChunk`)을 `refines` 해야 하며 verify 질의 `verifies-without-criteria` 가 거부한다)",
+          f"- 연결: 검증 대응물이 있는 요구(검증 목표가 `derivesFrom` 으로 가리키는 개발 요구) **{pct(len(covered_reqs), len(dev_reqs))}** (목표 100.0% — 8.3절 functional 높이의 검증 대응물 필수) · 합격 기준이 달린 검증 목표 {pct(len(goals_with_criteria), len(goals))}",
+          "", "## 링크 밀도", "", f"- 링크 {sum(link_count.values())} / 살아 있는 청크 {len(live)} = **{kb_lib.num(sum(link_count.values())/max(len(live),1))}**/청크",
           "- 타입별: " + " · ".join(f"`{k}` {v}" for k, v in link_count.most_common()),
           f"- 링크 개체(`agt:Link`): {sum(1 for _ in g.subjects(RDF.type, AGT.Link))} · 증거 항목: {sum(1 for _ in g.subjects(RDF.type, AGT.Evidence))}",
           "", "## 크기 분포 (본문 줄 수, 살아 있는 청크)", "",
           "| 1–10 | 11–20 | 21–30 | 31–40 | 41–42 |", "|---|---|---|---|---|",
-          "| " + " | ".join(str(hist[i]) for i in range(5)) + " |",
+          "| " + " | ".join(str(hist[i]) for i in range(5)) + " |", "",
           f"- 41–42줄 비율 {pct(hist[4], len(live))} — 42줄 근처에 몰리면 억지 분할 의심 (4.13절)",
           "", "## 정제 완주 (CQ19) · 후방 추적 귀속 (CQ20)", "",
           f"- 요구 {len(reqs)}건이 `refines`/`serves` 연쇄로 닿는 가장 낮은 수준: " + " · ".join(f"{k} {v}" for k, v in reach.most_common()),
-          f"- executable까지 닿은 요구: {reach.get('executable', 0)}/{len(reqs)} = **{pct(reach.get('executable', 0), len(reqs))}** (전방 추적 커버리지, 목표 100%)",
-          f"- 요구로 거슬러 오르는 비요구 청크: {ascribed}/{len(nonreq)} = **{pct(ascribed, len(nonreq))}** (후방 추적 커버리지, 목표 100%)",
+          f"- executable까지 닿은 요구: **{pct(reach.get('executable', 0), len(reqs))}** (전방 추적 커버리지, 목표 100.0%)",
+          f"- 요구로 거슬러 오르는 비요구 청크: **{pct(ascribed, len(nonreq))}** (후방 추적 커버리지, 목표 100.0%)",
           "", "## 가정 · 신뢰 등급", "",
           f"- `assumes` 링크 {assumes} · 가정 개체 {sum(1 for _ in g.subjects(RDF.type, AGT.Assumption))}",
-          f"- 기본 가정만 가진 청크(`assumes` 대상이 `id:asm-chunk-conventions` 하나뿐인 살아 있는 청크): {default_only}/{len(live)} = **{pct(default_only, len(live))}** (좁힘 진행률의 역수 — 목표 0)",
+          f"- 기본 가정만 가진 청크(`assumes` 대상이 `id:asm-chunk-conventions` 하나뿐인 살아 있는 청크): **{pct(default_only, len(live))}** (좁힘 진행률의 역수 — 목표 0)",
           f"- 생성자: " + " · ".join(f"`{k}` {v}" for k, v in gen.most_common()) + f" · **사람 검토(`human:`) {human}건**",
           ""]
-    Path(a.out).write_text("\n".join(o), encoding="utf-8")
+    Path(a.out).write_text(kb_lib.gendoc_assemble(head, o, inputs), encoding="utf-8")
     return 0
 
 

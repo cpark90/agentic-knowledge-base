@@ -256,38 +256,46 @@ def main() -> int:
     n_inv = sum(1 for x in asms if x["status"] == "invalidated")
     n_unv = sum(1 for x in asms if x["status"] == "unverified")
     verdict = ("**무효 가정 있음**" if n_inv else "판정 불가 가정 있음 (unverified)" if n_unv else "정상 — 모든 가정이 valid")
-    rep = [f"# assume_check — {now.isoformat(timespec='seconds')}" + (f" · --break {' '.join(broke_show)}" if broke_names else ""), "",
-           f"결과: {verdict} · 가정 {len(asms)} (valid {len(asms) - n_inv - n_unv} · invalidated {n_inv} · unverified {n_unv}) · 살아 있는 청크 {len(live)}",
-           "", "## 조건 판정 (odd_check 와 같은 판정)", "", "| 조건 | 라벨 | 등급 | 판정 |", "|---|---|---|---|"]
-    rep += [f"| `{local(r['iri'])}` | {r['title_ko']} | {r['grade']} | {r['state']}{' (--break)' if r['name'] in broke_names else ''} |" for r in cond_rows]
-    rep += ["", "## 가정 — 판정식은 참조 조건 판정의 연언, 등급은 그 최저", "",
+    broke_note = (f" · 인위 파괴 `--break {' '.join(broke_show)}`" if broke_names else "")
+    rep = kb_lib.gendoc_header(
+        "assume_check", "가정 판정과 전파", "tools/assume_check.py",
+        f"ODD 조건을 판정 방법으로 실제 판정한 뒤, 가정마다 그 참조 조건 판정의 연언으로 valid·invalidated·unverified 를 정하고 "
+        f"깨진 가정을 `assumes` 하는 살아 있는 청크(직접 영향)와 그 하류(suspect 후보)를 낸다 (6.9절){broke_note}",
+        "bazel run //tools:assume_check", [str(odd_path)] + [str(root / f) for f in (a.ttl or DEFAULT_TTL)],
+        f"가정 {len(asms)} · 살아 있는 청크 {len(live)}",
+        kb_lib.gendoc_view_notice("ODD 조건 정의와 청크의 `assumes` 링크"),
+        extra=[f"- 결과: {verdict} · 가정 {len(asms)} (valid {len(asms) - n_inv - n_unv} · invalidated {n_inv} · unverified {n_unv})"])
+    inputs = [str(odd_path)] + [str(root / f) for f in (a.ttl or DEFAULT_TTL)]
+    body = ["## 조건 판정 (odd_check 와 같은 판정)", "", "| 조건 | 라벨 | 등급 | 판정 |", "|---|---|---|---|"]
+    body += [f"| `{local(r['iri'])}` | {r['title_ko']} | {r['grade']} | {r['state']}{' (--break)' if r['name'] in broke_names else ''} |" for r in cond_rows]
+    body += ["", "## 가정 — 판정식은 참조 조건 판정의 연언, 등급은 그 최저", "",
             "| 가정 | 판정 유형 | 판정식 | 등급 | 상태 | assumes 하는 살아 있는 청크 | 직접 영향 | suspect 후보 (1홉 / 전이) |",
             "|---|---|---|---|---|---|---|---|"]
     for x in asms:
         n_assumes = sum(1 for c in g.subjects(AGT.assumes, x["iri"]) if c in live)
         d, h1, tr = impact[x["iri"]]
-        rep.append(f"| `{local(x['iri'])}` {x['label']} | {x['kind']} | {x['expr']} | {x['grade']} | **{x['status']}** | {n_assumes} | {len(d)} | {len(h1)} / {len(tr)} |")
+        body.append(f"| `{local(x['iri'])}` {x['label']} | {x['kind']} | {x['expr']} | {x['grade']} | **{x['status']}** | {n_assumes} | {len(d)} | {len(h1)} / {len(tr)} |")
     for x in asms:
         d, h1, tr = impact[x["iri"]]
         if not d:
             continue
-        rep += ["", f"### 직접 영향 집합 — `{local(x['iri'])}` ({len(d)}건, suspect 후보 전이 {len(tr)}건)", ""]
-        rep += [f"- {label_of(g, c)} (`{local(c)}`)" for c in sorted(d, key=lambda c: label_of(g, c))[:40]]
+        body += ["", f"### 직접 영향 집합 — `{local(x['iri'])}` ({len(d)}건, suspect 후보 전이 {len(tr)}건)", ""]
+        body += [f"- {label_of(g, c)} (`{local(c)}`)" for c in sorted(d, key=lambda c: label_of(g, c))[:40]]
         if len(d) > 40:
-            rep.append(f"- … 외 {len(d) - 40}건")
+            body.append(f"- … 외 {len(d) - 40}건")
     if check:
-        rep += ["", "## 검증 실험 — 계산된 영향 집합 = 실제 의존 집합 (14.1 정정본 4단계 연결 조건)", "",
+        body += ["", "## 검증 실험 — 계산된 영향 집합 = 실제 의존 집합 (14.1 정정본 4단계 연결 조건)", "",
                 f"- 계산된 직접 영향 집합(그래프 `agt:assumes`): **{check['computed']}** · 실제 의존 집합(청크 파일 frontmatter `assumes` 스캔): **{check['actual']}**",
                 f"- 정밀도 {check['precision']} · 재현율 {check['recall']} → **{'일치' if check['equal'] else '불일치'}**"]
         if check["only_computed"]:
-            rep.append("- 그래프에만 있는 것: " + ", ".join(check["only_computed"][:10]))
+            body.append("- 그래프에만 있는 것: " + ", ".join(check["only_computed"][:10]))
         if check["only_actual"]:
-            rep.append("- 파일에만 있는 것: " + ", ".join(check["only_actual"][:10]))
+            body.append("- 파일에만 있는 것: " + ", ".join(check["only_actual"][:10]))
         if check["unparsable"]:
-            rep.append(f"- 판독 불가 파일 {len(check['unparsable'])}건: " + " · ".join(check["unparsable"][:3]))
+            body.append(f"- 판독 불가 파일 {len(check['unparsable'])}건: " + " · ".join(check["unparsable"][:3]))
     if n_inv:
-        rep += ["", "무효 가정의 직접 영향 집합은 `invalidated`, suspect 후보는 `suspect` 표시 대상이다 — 표시는 재검증 시점에 일괄로 한다 (method §7). 삭제가 아니다."]
-    text = "\n".join(rep) + "\n"
+        body += ["", "무효 가정의 직접 영향 집합은 `invalidated`, suspect 후보는 `suspect` 표시 대상이다 — 표시는 재검증 시점에 일괄로 한다 (method §7). 삭제가 아니다."]
+    text = kb_lib.gendoc_assemble(rep, body, inputs)
     print(text)
     if a.out:
         Path(a.out).write_text(text, encoding="utf-8")

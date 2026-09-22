@@ -7,7 +7,7 @@ title: Coverage is a measurement made with three metrics
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-22T19:25:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0135]
 part_of: https://agentic-knowledge-base.dev/id/composite/205cefbf-aaf5-4b93-9e68-83f242e64e86
@@ -18,3 +18,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/205cefbf-aaf5-4b
 - **전방 추적 커버리지** — executable까지 닿은 requirement 청크 비율. 분모는 requirement 청크 수
 - **후방 추적 커버리지** — functional까지 거슬러 오르는 executable 청크 비율. 분모는 executable 청크 수
 - **logical 공간 커버** — logical 범위 중 concrete 케이스가 표본 추출한 비율. 분모는 ODD 값 범위 × 변수. **경계값 미커버는 별도 집계**
+
+미확정: 커버리지의 분모를 무엇으로 세는가. 상세는 `docs/open-questions/coverage-computation.md`다.

@@ -12,6 +12,7 @@ exports_files([
     "doccheck.py",
     "gen_build.py",
     "gen_skills.py",
+    "gendoc.py",
     "weave.py",
     "extract_refs.py",
     "kb_lib.py",
@@ -127,6 +128,7 @@ py_binary(
         "label_sample.py",
     ],
     main = "label_sample.py",
+    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록)의 단일 정의처
 )
 
 # BUILD 생성기 (bazel-dependency-review 2단계): frontmatter·owl:imports → 패키지 BUILD. 원본은 그래프, BUILD 는 뷰
@@ -155,20 +157,38 @@ py_binary(
 py_binary(
     name = "impact",
     srcs = ["impact.py"],
+    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록)의 단일 정의처
 )
 
 # 작업 집합 뷰 (0.5절, 5.6절): 스코프 × 수준 창 → 라벨 목록 + 앵커 이웃, 예산 패킹
 py_binary(
     name = "workset",
     srcs = ["workset.py"],
-    deps = [requirement("rdflib")],
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
 )
 
 # 커뮤니티 탐지 뷰 (p4-community-detection-proposes-composites): 링크 군집 → 복합체 후보·relatedTo 링크 후보. 채택은 사람 — 게이트가 아니다
 py_binary(
     name = "community",
     srcs = ["community.py"],
-    deps = [requirement("rdflib")],
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
+)
+
+# 미결 집계 뷰 (p4-three-empty-values): head 그래프의 `agt:bodySlot "미확정"` 인 청크 → 질문 · 청크 · plane/level · 상세 문서.
+# 집계만 맡는다 — 상세 다섯 절은 docs/open-questions.md 색인과 그 아래 문서로 남는다. 게이트가 아니다
+py_binary(
+    name = "open_questions",
+    srcs = ["open_questions.py"],
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
 )
 
 # 복원 후보 생성기 뷰 (로드맵 8단계 복원, p10-link-by-construction · p10-restored-link-marking): frontmatter 링크가 없는 쌍 → 체계 안 증거
@@ -195,13 +215,17 @@ py_binary(
         "revalidate.py",
     ],
     main = "revalidate.py",
+    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록·빈 값 표기)의 단일 정의처
 )
 
 # ODD 모니터링 (3.5절): bazel run //tools:odd_check — CHECKS.cmd 실행, 이탈 보고. 네트워크·호스트 상태를 보므로 테스트 타깃이 아니다
 py_binary(
     name = "odd_check",
     srcs = ["odd_check.py"],
-    deps = [requirement("pyyaml")],
+    deps = [
+        ":kb_lib",
+        requirement("pyyaml"),
+    ],
 )
 
 # 가정 판정과 전파 (6.9절, 도입 4단계 첫 형태): bazel run //tools:assume_check -- [--break <cond-id>…] [--record]
@@ -251,6 +275,7 @@ py_binary(
         "labels.py",
     ],
     main = "labels.py",
+    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록·목차·링크)의 단일 정의처
 )
 
 # 청크 본문의 인용 → 참조 그래프(-kg) 생성기 (8.2절). 대상이 없으면 실패한다. 후보 링크 개체의 IRI 규칙(뿌리 uuid · link_hash)은 chunk2kg 가 정의처
@@ -285,12 +310,11 @@ py_binary(
 )
 
 # 문서 뷰 생성기 (4.6절 weave, p12-documents-are-generated): ADR · 요구 색인 · 변경 이력. 생성물은 bazel-bin 에만 (kb_weave: //kb/dev:adr …)
-# 본문 파서(chunk2kg)와 목차 앵커 규칙(doccheck.slug)을 그대로 쓴다 — 단일 정의처
+# 본문 파서(chunk2kg)와 생성 문서 규약(kb_lib.gendoc_header·heading_anchors)을 그대로 쓴다 — 단일 정의처
 py_binary(
     name = "weave",
     srcs = [
         "chunk2kg.py",
-        "doccheck.py",
         "weave.py",
     ],
     main = "weave.py",
@@ -320,5 +344,13 @@ py_binary(
 py_binary(
     name = "doccheck",
     srcs = ["doccheck.py"],
+    deps = [":kb_lib"],
+)
+
+# 생성 문서 게이트 (유저 지시 2026-09-21): 생성 마크다운의 머리 블록·본문 서식·주장 건전성 G1~G18.
+# 규약의 단일 정의처는 kb_lib 이고 게이트는 //:gendoc_test (kb_gendoc_test). 손으로: bazel run //tools:gendoc -- bazel-bin/kg/metrics.md
+py_binary(
+    name = "gendoc",
+    srcs = ["gendoc.py"],
     deps = [":kb_lib"],
 )
