@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [docs/roadmap.md, tools/metrics.py, kb/dev/memory/, kb/vv/run/, kb/dev/decision/p14-stage-pass-conditions/]
 ---
 
@@ -49,4 +49,4 @@ targets: [docs/roadmap.md, tools/metrics.py, kb/dev/memory/, kb/vv/run/, kb/dev/
 3. **통과 조건을 "저작 청크의 최대 성분이 전체의 95% 이상"으로 바꾼다.** 비용: 결정 개정 1건. 관측이 늘어도 조건이 흔들리지 않고, 진짜 고립 덩어리는 여전히 잡힌다. 다만 수치 기준을 새로 정당화해야 한다.
 
 ## 답
-(유저가 채움)
+1.

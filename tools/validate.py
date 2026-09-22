@@ -11,9 +11,13 @@
               실제로 거기 정의돼 있는지까지 본다 — 접두사만 맞는 오타를 잡는다
   odd-ref     agt:refersTo 의 대상은 ODD 그래프에 존재한다 — "ODD에 없는 속성을 참조하는
               스코프나 가정은 존재할 수 없다" (0.4절)
-  dangling    저장소 안을 가리키는 링크의 대상이 실재한다. agt:usesConcept 의 대상은
+  dangling    저장소 안을 가리키는 링크의 대상이 실재한다. 주석의 대상(agt:targets)도 본다 — 링크 개체가
+              아니라 직접 트리플뿐이므로 여기가 유일한 실재 검사다. agt:usesConcept 의 대상은
               온톨로지가 정의한 용어여야 한다 (dependency-graph-design §5 참조 무결성).
               prov:specializationOf(분할 조각 → 원본)의 대상도 포함한다
+  space       설계 공간(agt:Space)의 규율 (p9-candidate-storage, 요구 r-011): 변수의 출발 항목과 후보의 대상이
+              실재하고 · 후보의 출발점·링크 타입이 그 공간의 변수와 같고 · spaceStatus resolved 면 확정 후보가
+              정확히 하나이며 · 배제된 후보에 (−) 증거, 확정된 후보에 구축·실행 (+) 증거가 있다
   specialization  prov:specializationOf 의 대상은 살아 있는(deprecated 아닌) 같은 plane 의 청크이고 사슬은 순환하지
               않는다 (p10-split-keeps-work-identity — 청크 uuid 는 work-id, 링크 IRI 는 뿌리 uuid 로 계산)
   catalog     (--data 에 agt:Harness 가 있을 때) 카탈로그 정합성 (AGENTS.md 역할 절 · STYLEGUIDE §5 · 9.2·9.6절):
@@ -200,6 +204,7 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
         kb_lib.AGT.refines,
         kb_lib.AGT.verifies,     # V&V → 개발 (7.5절)
         kb_lib.AGT.derivesFrom,  # 검증 목표 → 요구 (8.3절 functional 높이)
+        kb_lib.AGT.targets,      # 주석 → 대상 (p7-commentary-form) — 링크 개체가 아니라 직접 트리플뿐이라 여기가 유일한 실재 검사다
         kb_lib.PROV.specializationOf,  # 분할 조각 → 원본 (p10-split-keeps-work-identity) — 없는 원본을 특수화할 수 없다
     )
     subjects = set(merged.subjects())
@@ -212,6 +217,62 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
     for s, o in merged.subject_objects(kb_lib.AGT.usesConcept):
         if o not in concepts:
             errors.append(f"[dangling] {_chunk_location(merged, s)} 의 agt:usesConcept 대상이 온톨로지에 정의되지 않았다: {o}")
+    return errors
+
+
+def check_space(merged: Graph, files: dict[str, Graph]) -> list[str]:
+    """설계 공간(agt:Space)의 규율 (결정 p9-candidate-storage, 요구 r-011-no-groundless-assignment, 게이트 id `space`).
+
+    후보는 확정 링크와 다른 자리에 살고 결코 deps 가 되지 않으므로, Bazel 이 로드 시점에 잡아 주는 것(끝점의 실재·방향)을
+    여기서 그래프로 대신 판정한다. 검사는 다섯이다.
+      (a) 변수의 출발 항목(agt:variableFrom)과 각 후보의 도착점(agt:linkTo)이 실재한다 — 끊긴 후보는 실제 선택지를 오도한다.
+      (b) 후보의 출발점·링크 타입이 그 공간의 변수와 같다 — 다른 변수의 후보가 섞이면 "무엇이 열려 있는가"의 답이 틀린다.
+      (c) agt:spaceStatus 가 resolved 면 확정 후보가 정확히 하나다 — 둘이면 할당이 아니고 0 이면 해소가 아니다.
+      (d) 배제된 후보(linkState invalid)에 (−) 증거가 있다 — 근거 없는 배제 금지가 r-011 의 요지다.
+      (e) 확정 후보(linkState confirmed)에 구축(+) 또는 실행(+) 증거가 있다 — 근거 없는 할당 금지 (9.11절).
+    """
+    AGT_ = kb_lib.AGT
+    gate = kb_lib.SPACE_GATE
+    subjects = set(merged.subjects())
+    errors = []
+    for space in sorted(merged.subjects(RDF.type, AGT_.Space), key=str):
+        where = _chunk_location(merged, space)
+        froms = list(merged.objects(space, AGT_.variableFrom))
+        kinds = list(merged.objects(space, AGT_.variableKind))
+        for o in froms:  # (a) 출발 항목의 실재 — 수는 shape(agt:SpaceShape)가 본다
+            if isinstance(o, URIRef) and str(o).startswith(str(kb_lib.ID)) and o not in subjects:
+                errors.append(f"[{gate}] {where}: 변수의 출발 항목이 없다: {_qname(merged, o)} — 없는 항목에 변수를 걸 수 없다 (참조 무결성 8.2절)")
+        confirmed = 0
+        for link in sorted(merged.objects(space, AGT_.hasCandidate), key=str):
+            to = next(merged.objects(link, AGT_.linkTo), None)
+            state = str(next(merged.objects(link, AGT_.linkState), ""))
+            label = _qname(merged, to) if to is not None else kb_lib.NONE_MARK
+            if isinstance(to, URIRef) and str(to).startswith(str(kb_lib.ID)) and to not in subjects:  # (a)
+                errors.append(f"[{gate}] {where}: 후보의 대상이 없다: {label} — 없는 항목은 후보가 될 수 없다 (참조 무결성 8.2절)")
+            for o in merged.objects(link, AGT_.linkFrom):  # (b)
+                if froms and o not in froms:
+                    errors.append(f"[{gate}] {where}: 후보 {label} 의 출발점 {_qname(merged, o)} 이 변수의 출발 항목 "
+                                  f"{_qname(merged, froms[0])} 과 다르다 — 한 공간은 변수 하나다 (p9-candidate-storage)")
+            for o in merged.objects(link, AGT_.linkKind):  # (b)
+                if kinds and o not in kinds:
+                    errors.append(f"[{gate}] {where}: 후보 {label} 의 링크 타입 {_agt_qname(merged, o)} 이 변수의 타입 "
+                                  f"{_agt_qname(merged, kinds[0])} 과 다르다 — 타입이 다르면 다른 변수다 (p9-uncertainty-as-link-uncertainty)")
+            polarities = {str(pol) for e in merged.objects(link, AGT_.hasEvidence) for pol in merged.objects(e, AGT_.polarity)}
+            if state == kb_lib.LINK_STATE_INVALID and "-" not in polarities:  # (d)
+                errors.append(f"[{gate}] {where}: 배제된 후보 {label} 에 배제 근거가 없다 — 후보를 지우려면 (−) 증거 한 줄이 있어야 한다 "
+                              f"(`eliminated_by`, 요구 r-011-no-groundless-assignment)")
+            if state == kb_lib.LINK_STATE_CONFIRMED:  # (e)
+                confirmed += 1
+                kinds_ok = {str(k).split("/")[-1] for e in merged.objects(link, AGT_.hasEvidence)
+                            for k in merged.objects(e, AGT_.evidenceKind)}
+                if not kinds_ok & set(kb_lib.SPACE_CONFIRMING_EVIDENCE):
+                    errors.append(f"[{gate}] {where}: 확정된 후보 {label} 에 지지 증거가 없다 — 구축 기록 또는 실행 결과"
+                                  f"({' | '.join(kb_lib.SPACE_CONFIRMING_EVIDENCE)}) 없이 확정할 수 없다 "
+                                  f"(9.11절, 요구 r-011-no-groundless-assignment)")
+        status = str(next(merged.objects(space, AGT_.spaceStatus), ""))
+        if status == "resolved" and confirmed != 1:  # (c)
+            errors.append(f"[{gate}] {where}: agt:spaceStatus 가 resolved 인데 확정 후보가 {confirmed}개다 — 정확히 하나여야 한다 "
+                          f"(둘이면 할당이 아니고 0 이면 해소가 아니다, p9-candidate-storage)")
     return errors
 
 
@@ -493,6 +554,7 @@ def main() -> int:
         errors += check_odd_refs(merged, odd_merged, located)
     if data_files:
         errors += check_dangling(merged, onto_merged if args.ontology else None, located)
+        errors += check_space(merged, located)
         errors += check_specialization(merged, located)
         errors += check_writer(merged)
         try:

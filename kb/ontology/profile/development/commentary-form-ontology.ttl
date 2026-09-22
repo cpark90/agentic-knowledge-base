@@ -1,0 +1,30 @@
+# 개발 프로파일 — 논평의 형식: 리뷰 코멘트가 첫 줄과 해소 슬롯으로 주장하는 본문 파생 사실 (결정 p7-commentary-form)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:commentLabel a owl:DatatypeProperty ;
+    rdfs:domain agt:ReviewComment ;
+    rdfs:range xsd:string ;
+    rdfs:label "comment label"@en , "논평 라벨"@ko ;
+    skos:definition "논평이 첫 줄에 단 라벨. 라벨은 읽는 쪽이 요구되는 행동을 즉시 알게 하는 장치이며 어휘는 Conventional Comments 의 일곱으로 닫혀 있다 (결정 p7-commentary-form). 값은 tools/chunk2kg.py 가 첫 줄에서 뽑는 본문 파생 사실이고 닫힌 어휘의 정의처는 shape(kb/ontology/shapes/review-comment-body-shapes.ttl)의 sh:in 이다."@ko .
+
+agt:commentDecoration a owl:DatatypeProperty ;
+    rdfs:domain agt:ReviewComment ;
+    rdfs:range xsd:string ;
+    rdfs:label "comment decoration"@en , "논평 장식"@ko ;
+    skos:definition "논평이 첫 줄의 괄호에 단 장식. 장식은 같은 라벨의 논평 사이에서 진행을 막는 것과 막지 않는 것을 가르며 어휘는 blocking·non-blocking·if-minor 셋으로 닫혀 있다 (결정 p7-commentary-form). 게이트를 막는 조건의 한 축이므로 논평마다 반드시 있다."@ko .
+
+agt:resolutionState a owl:DatatypeProperty ;
+    rdfs:domain agt:ReviewComment ;
+    rdfs:range xsd:string ;
+    rdfs:label "resolution state"@en , "해소 상태"@ko ;
+    skos:definition "논평의 해소 슬롯이 적은 상태. 리뷰 코멘트의 판정 도구는 해소(agt:resolution)이므로 이 값이 곧 판정 결과이고 어휘는 열림·해소·기각 셋으로 닫혀 있다 (결정 p7-commentary-form, p7-dev-plane-substance). 판정 도구는 상태의 존재만 보고 이유의 내용을 보지 않는다."@ko .
+
+agt:commentSentenceCount a owl:DatatypeProperty ;
+    rdfs:domain agt:ReviewComment ;
+    rdfs:range xsd:integer ;
+    rdfs:label "comment sentence count"@en , "논평 본문 문장 수"@ko ;
+    skos:definition "논평의 본문 슬롯이 담은 문장 수. 논평은 읽는 비용이 작아야 반복되는 리뷰에서 쓰이므로 본문에 네 문장의 상한을 둔다 (결정 p7-commentary-form). agt:lineCount 와 같은 본문 파생 사실이며 상한의 정의처는 shape 의 sh:maxInclusive 다."@ko .

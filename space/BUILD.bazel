@@ -1,3 +1,50 @@
-# 설계 공간 (*-space) — 후보 링크 집합 (노트 0.2절, Part VII).
-# Part XII 5단계(정제 계층 완성)에서 채워진다. 지금은 자리만 예약한다.
+# 설계 공간 (`*-space.md`) — 열린 설계 변수 하나와 그 후보 링크 집합 (노트 0.2절, 9.10절).
+# 결정 p9-candidate-storage: 후보는 확정 링크와 **다른 자리**에 살고 **결코 deps 가 되지 않는다**.
+# 그래서 이 패키지는 `kb_chunk` 타깃을 만들지 않는다 — 여기서 나가는 것은 A-Box 그래프(`design-space.ttl`)와
+# 사람이 읽는 체크박스 뷰(`choices.md`) 둘뿐이고, 판정은 `//kg:gate_test` 의 `check_space`(게이트 id `space`)가 한다.
+# BUILD 생성기(tools/gen_build.py)의 대상이 아니다 — 생성 BUILD 는 kb_chunk 를 내므로 여기에 쓸 수 없다.
+load("//defs:knowledge.bzl", "kb_chunk_lint_test")
+
 package(default_visibility = ["//visibility:public"])
+
+# 설계 공간 청크 — 변수 하나가 파일 하나다. 아직 없으면 빈 그래프와 빈 뷰가 나온다
+SPACES = glob(
+    ["*-space.md"],
+    allow_empty = True,
+)
+
+filegroup(
+    name = "bodies",
+    srcs = SPACES,
+)
+
+# 설계 공간 그래프 — `//kg:gate_test` 의 --data 다 (접미사 규약 0.2절의 `-space`)
+genrule(
+    name = "design_space",
+    srcs = SPACES,
+    outs = ["design-space.ttl"],
+    cmd = "$(location //tools:space2kg) --out $@ $(SRCS)",
+    tools = ["//tools:space2kg"],
+)
+
+# 체크박스 뷰 (p9-candidate-storage 13.5절): `[ ]` 열린 후보 · `[-]` 배제 + 근거 · `[x]` 확정.
+# 생성물은 bazel-bin 에만 있다 (STYLEGUIDE §6) — bazel build //space:choices → bazel-bin/space/choices.md
+genrule(
+    name = "choices",
+    srcs = [
+        ":design_space",
+        "//kb/ontology:modules",  # 증거 종류·링크 타입의 라벨 — 라벨이 인터페이스다 (p4-label-is-the-interface)
+        "//kg:chunks_kg",
+    ],
+    outs = ["choices.md"],
+    cmd = "$(location //tools:choices) --out $@ $(SRCS)",
+    tools = ["//tools:choices"],
+)
+
+# 42줄 상한·산문 문체는 설계 공간 청크에도 걸린다 (STYLEGUIDE §0·§4). 첫 청크가 들어오면 켜진다 —
+# 빈 filegroup 은 $(rootpaths) 확장이 분석 에러다 (kb/vv 의 lint_test 와 같은 사유)
+[kb_chunk_lint_test(
+    name = "lint_test",
+    chunks = [":bodies"],
+    waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md)
+) for _ in [1] if SPACES]

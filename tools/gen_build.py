@@ -15,7 +15,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from chunk2kg import EXIT_CONFIG, EXIT_FAIL, parse_chunk  # noqa: E402 — 종료 코드는 chunk2kg 가 kb_lib 에서 가져온 것
+from chunk2kg import EXIT_CONFIG, EXIT_FAIL, SPACE_TYPE, parse_chunk  # noqa: E402 — 종료 코드는 chunk2kg 가 kb_lib 에서 가져온 것
 
 
 class GenBuildError(Exception):
@@ -31,7 +31,23 @@ MEMORY_PKG = "kb/dev/memory"  # 관측 패키지 — 비어 있어도 BUILD 는 
 # 경로 접두는 kb_lib.KB_VV 와 같다 — 이 도구는 rdflib 없이 돌므로 자체 상수로 둔다
 VV_ROOT = "kb/vv"
 VV_PKGS = {"goal": "requirement", "scenario": "decision", "criteria": "contract", "case": "schema", "verifier": "artifact",
-           "run": "memory"}  # run = 실행 기록 (agt:Run, append-only) — vv_run --record 가 만든다 (kb_lib.VV_RUN_DIR)
+           "verdict": "annotation", "run": "memory"}
+# 키는 plane 이름이 아니라 실체 이름이다 — verdict = 판정 주석 (p8-vv-plane-instances 의 annotation 실체). `verdict` 는
+# kb_lib.RUN_VERDICTS(pass·fail·skip)가 이미 쓰는 낱말이라 지어낸 용어가 아니다 (STYLEGUIDE §0 표준어 우선).
+# run = 실행 기록 (agt:Run, append-only) — vv_run --record 가 만든다 (kb_lib.VV_RUN_DIR)
+
+
+def parse_item(path: str):
+    """청크 파일 하나 → (메타, 본문 줄 수). 설계 공간 청크는 여기서 거부한다.
+
+    `-space` 는 청크 패키지에 살지 않는다 — kb_chunk 타깃이 되면 후보 링크가 deps 로 새기 때문이다
+    (결정 p9-candidate-storage). 올리는 곳은 `//space:design_space`(tools/space2kg.py)다.
+    """
+    meta, n = parse_chunk(path)
+    if meta["type"] == SPACE_TYPE:
+        raise GenBuildError(f"{path}: 설계 공간 청크(type: {SPACE_TYPE})는 청크 패키지에 둘 수 없다 — space/ 에 두면 "
+                            f"//space:design_space 가 올린다. 후보는 결코 deps 가 되지 않는다 (p9-candidate-storage)")
+    return meta, n
 
 
 def q(s):
@@ -49,12 +65,12 @@ def scan(root: Path):
     items = {}  # label -> dict
     iri_to_label = {}
     for f in sorted((root / "kb/dev/requirement").glob("*.md")):
-        meta, _ = parse_chunk(str(f))
+        meta, _ = parse_item(str(f))
         lab = f"//kb/dev/requirement:{f.stem}"
         items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": "kb/dev/requirement"}
         iri_to_label[meta["id"]] = lab
     for d in sorted(p for p in (root / "kb/dev/decision").iterdir() if p.is_dir()):
-        parts = {n: parse_chunk(str(d / f"{n}.md"))[0] for n in ("conclusion", "rationale", "alternatives") if (d / f"{n}.md").exists()}
+        parts = {n: parse_item(str(d / f"{n}.md"))[0] for n in ("conclusion", "rationale", "alternatives") if (d / f"{n}.md").exists()}
         if set(parts) != {"conclusion", "rationale", "alternatives"}:
             raise GenBuildError(f"{d}: 결론·근거·대안 세 청크가 있어야 한다 (7.4절 대안 기록) — 있는 것: {sorted(parts)}")
         comp = parts["conclusion"].get("composite") or {}
@@ -65,12 +81,12 @@ def scan(root: Path):
         if comp.get("id"):
             iri_to_label[comp["id"]] = lab
     for f in sorted((root / "chunks/decision").glob("*.md")):
-        meta, _ = parse_chunk(str(f))
+        meta, _ = parse_item(str(f))
         lab = f"//chunks/decision:{f.stem}"
         items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": "chunks/decision"}
         iri_to_label[meta["id"]] = lab
     for f in sorted((root / MEMORY_PKG).glob("*.md")):  # 관측 (memory plane, append-only) — assume_check --record 가 만든다
-        meta, _ = parse_chunk(str(f))
+        meta, _ = parse_item(str(f))
         if meta["type"] != "memory":
             raise GenBuildError(f"{f}: {MEMORY_PKG} 의 청크는 type: memory 여야 한다 — 실제 {meta['type']!r} (수준 허용표 6.4절)")
         lab = f"//{MEMORY_PKG}:{f.stem}"
@@ -79,7 +95,7 @@ def scan(root: Path):
     for sub, plane in VV_PKGS.items():  # V&V KB — 디렉토리가 plane 을 정한다. 없는 디렉토리는 빈 패키지다
         pkg = f"{VV_ROOT}/{sub}"
         for f in sorted((root / pkg).glob("*.md")):
-            meta, _ = parse_chunk(str(f))
+            meta, _ = parse_item(str(f))
             if meta["type"] != plane:
                 raise GenBuildError(f"{f}: {pkg} 의 청크는 type: {plane} 이어야 한다 — 실제 {meta['type']!r} (V&V KB 의 plane 실체, 결정 p8-vv-plane-instances)")
             lab = f"//{pkg}:{f.stem}"

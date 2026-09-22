@@ -135,7 +135,11 @@
 - **[지킴]** plane별 본문 형식은 다음과 같다.
   - `decision`은 역할 태그 `**결론**` / `**근거**` / `**대안**`을 쓴다. 대안에는 기각 사유를
     포함한다. 세 청크 전부 필수다 — `kb_decision` 규칙과 `gen_build`가 로드 시점에 강제한다(2026-09-11).
-  - `annotation`은 첫 줄에 대상 IRI를 적는다.
+  - `annotation`은 논평이다([`p7-commentary-form`](kb/dev/decision/p7-commentary-form/conclusion.md)). 첫 줄이
+    `<라벨> (<장식>): <요지>`이고 라벨 일곱(`praise`·`nitpick`·`suggestion`·`issue`·`question`·`thought`·`chore`)과
+    장식 셋(`blocking`·`non-blocking`·`if-minor`)은 닫힌 어휘다. 이어서 `대상:`(IRI, `targets`와 일치) ·
+    `본문:`(4문장 이하) · `제안:`(선택) · `해소:`(`열림`·`해소`·`기각` + 한 줄 이유)를 적는다.
+    `issue (blocking)`이면서 `해소: 열림`인 것만 게이트를 막는다.
   - `memory`는 구조화 관측이다. 시각, 행동, situation 요약을 담는다.
   - `contract`/`schema`/`artifact`는 언어 네이티브 선언·스키마·코드다.
 - **[지킴]** 아직 모르는 것은 본문의 선택 슬롯 **`미확정:`**에 적는다. 미결은 문서가 아니라 항목

@@ -207,6 +207,23 @@ DECISION_SINGLE_FILE_MARKER = "결론"
 DECISION_ROLE_MARKER = re.compile(r"^\s*\*\*(" + "|".join(sorted(set(DECISION_ROLE_MARKERS.values()))) + r")[^*\n]*\*\*")
 
 
+# ── 논평의 형식 (STYLEGUIDE §4 annotation, 결정 p7-commentary-form — 게이트 id `blocking-comment`: chunk_lint) ────────────
+# annotation 청크는 논평이다. 첫 줄이 `<라벨> (<장식>): <요지>` 이고 이어서 줄 머리 슬롯 넷(대상·본문·제안·해소)이 온다.
+# 라벨 일곱과 장식 셋의 표기 원천은 Conventional Comments 이고 해소 셋은 결정이 정했다 — 셋 다 닫힌 어휘다.
+# **게이트 효과는 하나뿐이다.** `issue (blocking)` 이면서 `해소: 열림` 인 논평이 있으면 게이트가 막는다. 그 밖의 조합은
+# 기록이고 막지 않는다. 형식(첫 줄 꼴·닫힌 어휘·본문 문장 상한)은 shape(review-comment-body-shapes.ttl)가 보고,
+# 이 한 조건만 chunk_lint 가 본다 — 판정 도구는 해소 상태의 존재만 보고 이유의 내용을 보지 않는다 (p5-verification-tools-per-plane).
+# 값 어휘의 정의처는 여기다. chunk2kg 는 rdflib 없이 타깃마다 돌므로 같은 문자열을 getattr 폴백으로 갖는다 (LINK_STATE_* 와 같은 형태)
+BLOCKING_COMMENT_GATE = "blocking-comment"  # 게이트 id — FAIL [blocking-comment]. docs/waivers.md 가 이 이름으로 면제를 선언한다 (축 파일)
+COMMENT_LABELS = ("praise", "nitpick", "suggestion", "issue", "question", "thought", "chore")
+COMMENT_DECORATIONS = ("blocking", "non-blocking", "if-minor")
+COMMENT_RESOLUTIONS = ("열림", "해소", "기각")
+COMMENT_SLOTS = ("대상", "본문", "제안", "해소")  # 줄 머리 `키워드: 값` 슬롯 — chunk2kg.BODY_SLOT_KEYWORDS 가 표지로 읽는다
+COMMENT_OPEN = COMMENT_RESOLUTIONS[0]            # 아직 해소되지 않은 상태
+COMMENT_BLOCKING = (COMMENT_LABELS[3], COMMENT_DECORATIONS[0])  # 막는 (라벨, 장식) 쌍 — issue (blocking)
+COMMENT_MAX_SENTENCES = 4                        # 본문 슬롯의 문장 상한 — shape 의 sh:maxInclusive 와 같은 값
+
+
 # ── 산문 문체 (STYLEGUIDE §0 "산문은 단정 서술형", 유저 결정 2026-09-13) ──────────────────────────
 # 판정 가능한 것만 게이트 `prose`(chunk_lint·doccheck)다 — 경어·비격식 종결과 산문의 감탄. 판단이 필요한 것(추측·구어)은
 # consistency ⑦ 보고다 (p6-mass-fail-suspects-the-rule: 오탐 0 이 게이트의 조건). 코드·따옴표·주석 안은 산문이 아니므로
@@ -555,6 +572,29 @@ LINK_STATE_CONFIRMED = "confirmed"
 # 대상 부재는 check_dangling 이 FAIL [dangling] 으로 거부한다. 순환은 chunk2kg 도 (뿌리를 계산할 수 없으므로) 같은 게이트 id 로 거부한다
 SPECIALIZATION_GATE = "specialization"
 
+# ── 설계 공간 (`-space`) — 열린 설계 변수와 그 후보 (결정 p9-candidate-storage · p9-design-space-file) ───────────
+# 후보 링크는 확정 링크와 다른 자리에 산다: 확정은 청크 head(frontmatter 링크 키 → Bazel deps), 후보는 `-space` 청크다.
+# **후보는 결코 deps 가 되지 않는다** — `-space` 는 kb_chunk 타깃이 아니라 A-Box 그래프(`*-space.ttl`)로만 올라가고
+# 그 그래프는 //kg:gate_test 의 --data 다. type 은 plane 이름이 아니라 온톨로지 클래스 `agt:Space` 이고 level 은 logical 이다.
+# 후보의 표면 상태 어휘 셋은 링크 상태(agt:linkState)의 기존 값으로 내린다 — 새 상태 어휘를 만들지 않는다 (STYLEGUIDE §0 재사용):
+#   open → candidate(agt:CandidateLink) · eliminated → invalid · confirmed → confirmed(agt:ConfirmedLink)
+# 배제 근거는 증거 기록의 (−) 한 줄이다 (agt:Evidence · agt:polarity "-") — 근거 없는 배제 금지가 r-011 의 요지다.
+SPACE_GATE = "space"        # 게이트 id — FAIL [space] (space2kg 의 생성 시점 거부와 validate check_space 가 같이 쓴다)
+SPACE_TYPE = "agt:Space"    # `-space` 청크의 frontmatter type
+SPACE_LEVEL = "logical"     # `-space` 청크의 level — 후보·제약·배제 근거가 사는 수준 (6.4절 수준 허용표)
+SPACE_STATUS = ("open", "resolved")                            # agt:spaceStatus 의 값 어휘
+SPACE_STATES = ("open", "eliminated", "confirmed")             # 후보의 표면 상태 어휘 (본문 `state:`)
+LINK_STATE_INVALID = "invalid"                                 # 배제된 후보의 링크 상태 (link-state-ontology)
+# 표면 상태 → (rdf:type 목록, agt:linkState). CandidateLink·ConfirmedLink 는 linkState 의 클래스 표현이므로
+# 짝이 어긋나면 verify 질의 link-state-class-mismatch 가 잡는다 — 배제는 클래스 없이 상태만 invalid 다
+SPACE_STATE_LINK = {
+    "open": ("agt:Link , agt:CandidateLink", LINK_STATE_CANDIDATE),
+    "eliminated": ("agt:Link", LINK_STATE_INVALID),
+    "confirmed": ("agt:Link , agt:ConfirmedLink", LINK_STATE_CONFIRMED),
+}
+# 확정 근거가 될 수 있는 증거 종류 (9.11절 "구축(+) 또는 실행(+) 없이 확정 불가") — verify 질의 confirmed-without-evidence 와 같은 집합
+SPACE_CONFIRMING_EVIDENCE = ("constructionRecord", "runResult")
+
 
 def link_origins(g: Graph) -> dict:
     """링크 개체(agt:Link)의 후보·구축·복원 구분 — metrics 3단계 대리와 weave audit 링크 근거 절이 이 하나의 정의를 쓴다.
@@ -668,6 +708,9 @@ SKILLS = (
     {"tool": "open_questions", "section": "method.md#9-뷰",
      "when": "무엇이 아직 미결인지 — 청크의 선택 슬롯 `미확정:` 에 든 질문과 그것을 안은 청크를 문서에 적지 않고 집계에서 인용할 때 쓴다.",
      "commands": ["bazel build //kg:open && cat bazel-bin/kg/open.md"]},
+    {"tool": "choices", "section": "method.md#5-후보-관리",
+     "when": "무엇을 아직 고르지 않았는가 — 열린 설계 변수와 그 후보를 체크박스(`[ ]` 열림 · `[-]` 배제 + 근거 · `[x]` 확정)로 확인할 때 쓴다.",
+     "commands": ["bazel build //space:choices && cat bazel-bin/space/choices.md"]},
     {"tool": "metrics", "section": "method.md#완료-판정",
      "when": "고아율·CQ19·CQ20 커버리지·도입 단계 통과 조건 같은 수치를 문서에 적지 않고 생성물에서 인용할 때 쓴다.",
      "commands": ["bazel build //kg:metrics && cat bazel-bin/kg/metrics.md"]},

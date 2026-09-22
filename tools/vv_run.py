@@ -6,7 +6,9 @@ r-026 관측은 append-only 실행 기록, p0-run-as-observation `agt:Run`, p8-v
 `python3 tools/gen_build.py --check`)으로 시작하는 읽기 전용 검증기만 실행한다**. 그 밖(임시 파일 자극 · 그 밖의 `python3 …` · `bazel run …`)은
 실행하지 않고 SKIP 으로 적는다. 임시 파일(`/tmp/vv-*`)을 요구하는 자극은 프로즈에 구조만 있어 자동 생성할 수 없다. **SKIP 은 PASS 가 아니다**
 (docs/tools.md 실패 종류 3).
-케이스 판정: 실행한 명령 전부 종료 0 → pass · 하나라도 비영 → fail · 실행한 명령 없음 → skip.
+케이스 판정: 실행한 명령이 하나라도 비영 종료 → fail · **명령 전부를 실행해** 전부 종료 0 → pass · 그 밖(건너뛴 명령이 있거나 실행한 명령이 없음) → skip.
+건너뛴 쪽이 "게이트가 거부한다" 를 보이는 절반이므로 절반만 실행한 케이스는 pass 가 아니다. 판정 어휘는 셋 그대로이고(kb_lib.RUN_VERDICTS)
+명령 단위 실행·건너뜀 수를 보고와 실행 기록의 요약에 따로 적는다.
 재현성 기록 (p8-reproducibility 초기 상태·환경): 리비전(`git rev-parse --short HEAD`, 워킹트리 변경 여부) · 시각(UTC) · bazel·python 버전 ·
 명령마다 종료 코드·소요. 난수 seed 는 없다 — 명령은 결정적이다.
 
@@ -110,7 +112,11 @@ def execute(cases: list[dict], root: Path) -> None:
             if c["skip"] is None:
                 c.update(run_command(c["cmd"], root))
         ran = [c for c in case["commands"] if c["skip"] is None]
-        case["verdict"] = "skip" if not ran else "fail" if any(c["rc"] != 0 for c in ran) else "pass"
+        skipped = len(case["commands"]) - len(ran)
+        # 건너뛴 명령이 하나라도 있으면 케이스는 pass 가 아니다 — 음성 자극이 건너뛰어진 케이스는 "게이트가 거부한다" 를
+        # 보이는 절반이 빈 채로 남는다. 판정 어휘는 셋 그대로다(kb_lib.RUN_VERDICTS): 실행한 명령의 비영 종료가 fail,
+        # 명령 전부를 실행해 전부 종료 0 이면 pass, 그 밖(건너뜀이 있거나 실행한 명령이 없음)은 skip 이다. SKIP 은 PASS 가 아니다
+        case["verdict"] = "fail" if any(c["rc"] != 0 for c in ran) else "pass" if ran and not skipped else "skip"
         case["secs"] = sum(c["secs"] for c in ran)
 
 
@@ -135,7 +141,12 @@ def environment(root: Path) -> str:
 
 
 def counts(cases: list[dict]) -> dict:
-    return {v: sum(1 for c in cases if c["verdict"] == v) for v in kb_lib.RUN_VERDICTS}
+    """케이스 판정별 수 + 명령 단위 집계. 명령 단위를 따로 내는 까닭은 케이스 판정 하나가 절반만 실행된 사실을 감추기 때문이다."""
+    out = {v: sum(1 for c in cases if c["verdict"] == v) for v in kb_lib.RUN_VERDICTS}
+    out["실행"] = sum(1 for c in cases for x in c["commands"] if x["skip"] is None)
+    out["건너뜀"] = sum(1 for c in cases for x in c["commands"] if x["skip"] is not None)
+    out["명령"] = out["실행"] + out["건너뜀"]
+    return out
 
 
 def observation(now: datetime, cases: list[dict], rev: str, dirty: bool, env: str) -> str:
@@ -147,10 +158,8 @@ def observation(now: datetime, cases: list[dict], rev: str, dirty: bool, env: st
     head = ["---", f"id: {ID}chunk/{uuid.uuid4()}", "type: memory", "level: concrete", f"title_ko: {ko}", f"title: {en}",
             "status: stable", f"sources: [{{resource: {ODD_IRI}}}]", f"assumes: [{', '.join(ASSUMPTIONS)}]",
             f"generated: {{by: {GENERATOR}, at: {now.isoformat(timespec='seconds')}}}", "---"]
-    n_ran = sum(1 for c in cases for x in c["commands"] if x["skip"] is None)
-    n_skipped = sum(1 for c in cases for x in c["commands"] if x["skip"] is not None)
-    body = [f"**관측** — {now.isoformat(timespec='seconds')} 에 `vv_run` 이 케이스 {len(cases)}건의 실행 명령 {n_ran + n_skipped}건 중 "
-            f"허용 목록의 양성 명령 {n_ran}건을 실행했다. 리비전 `{rev}` (워킹트리 추적 파일 변경 {'있음' if dirty else '없음'}) · {env} · seed 없음.", "",
+    body = [f"**관측** — {now.isoformat(timespec='seconds')} 에 `vv_run` 이 케이스 {len(cases)}건의 실행 명령 {n['명령']}건 중 "
+            f"허용 목록의 양성 명령 {n['실행']}건을 실행했다. 리비전 `{rev}` (워킹트리 추적 파일 변경 {'있음' if dirty else '없음'}) · {env} · seed 없음.", "",
             kb_lib.RUN_CASE_TABLE_HEADER, "|---|---|---|---|"]
     for c in cases:
         ran = sum(1 for x in c["commands"] if x["skip"] is None)
@@ -165,22 +174,25 @@ def observation(now: datetime, cases: list[dict], rev: str, dirty: bool, env: st
         if len(rows) > budget:
             rows = rows[:max(budget - 1, 0)] + [f"| … | 외 {len(rows) - max(budget - 1, 0)}건 | 보고(`vv_run` 출력)에 전부 있다 |"]
         body += rows
-    body += ["", f"판정 요약 — pass {n['pass']} · fail {n['fail']} · skip {n['skip']}. SKIP 은 PASS 가 아니다. "
-             f"판정은 실행한 명령의 종료 코드로만 했고 기대 문구는 대조하지 않았다."]
+    body += ["", f"판정 요약 — 케이스 pass {n['pass']} · fail {n['fail']} · skip {n['skip']} · 명령 실행 {n['실행']} · 건너뜀 {n['건너뜀']}. "
+             f"SKIP 은 PASS 가 아니다 — 건너뛴 명령이 있는 케이스는 skip 이다. 판정은 실행한 명령의 종료 코드로만 했고 기대 문구는 대조하지 않았다."]
     return "\n".join(head + body) + "\n"
 
 
 def report(now: datetime, cases: list[dict], missing: list[str], rev: str, dirty: bool, env: str) -> str:
     n = counts(cases)
     verdict = ("**fail 있음**" if n["fail"] else "pass 없음 — 전부 skip" if not n["pass"] else "pass" + (" (skip 있음)" if n["skip"] else ""))
+    skip_note = (f"- 건너뛴 명령: **{n['건너뜀']}** / 명령 {n['명령']} — 건너뛴 명령이 있는 케이스는 pass 가 아니라 skip 이다 "
+                 f"(음성 자극이 건너뛰어지면 \"게이트가 거부한다\" 를 보이는 절반이 빈다)")
     rep = kb_lib.gendoc_header(
         "vv_run", "V&V 케이스 실행 판정", "tools/vv_run.py",
         "V&V 케이스 청크(`kb/vv/case/`)의 실행 명령 중 허용 목록의 양성 명령만 실제로 돌려 케이스마다 pass·fail·skip 을 — "
         "SKIP 은 PASS 가 아니다 (8.20절)",
         "bazel run //tools:vv_run", [c["path"] for c in cases],
-        f"케이스 {len(cases)} (pass {n['pass']} · fail {n['fail']} · skip {n['skip']})",
+        f"케이스 {len(cases)} (pass {n['pass']} · fail {n['fail']} · skip {n['skip']}) · 명령 {n['명령']} "
+        f"(실행 {n['실행']} · 건너뜀 {n['건너뜀']})",
         kb_lib.gendoc_view_notice("V&V 케이스 청크의 본문"), input_kind="케이스 파일",
-        extra=[f"- 결과: {verdict}",
+        extra=[f"- 결과: {verdict}", skip_note,
                f"- 초기 상태: 리비전 `{rev}` (워킹트리 추적 파일 변경 {'있음' if dirty else kb_lib.NONE_MARK}) · {env}"])
     body = ["## 케이스 — 실행 대상은 허용 목록의 양성 명령뿐. SKIP 은 PASS 가 아니다", "",
             "| 케이스 | 라벨 | 명령 | 결과 | 소요 |", "|---|---|---|---|---|"]

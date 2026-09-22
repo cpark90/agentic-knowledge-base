@@ -62,9 +62,15 @@ py_binary(
     ],
 )
 
+# 청크 린트. chunk2kg.py 를 함께 실은 까닭은 논평 본문의 파서(comment_form)가 방출기와 같아야 하기 때문이다 —
+# 게이트와 그래프가 다른 판정을 쓰면 `issue (blocking)` 의 게이트 효과가 방출과 갈린다 (p7-commentary-form)
 py_binary(
     name = "chunk_lint",
-    srcs = ["chunk_lint.py"],
+    srcs = [
+        "chunk2kg.py",
+        "chunk_lint.py",
+    ],
+    main = "chunk_lint.py",
     deps = [":kb_lib"],
 )
 
@@ -72,6 +78,33 @@ py_binary(
 py_binary(
     name = "chunk2kg",
     srcs = ["chunk2kg.py"],
+)
+
+# 설계 공간 청크(`-space`) → 설계 공간 그래프(*-space.ttl) 생성기 (결정 p9-candidate-storage). 변수 하나가 파일 하나다.
+# 후보 링크는 여기서만 그래프가 된다 — kb_chunk 타깃을 만들지 않으므로 **후보는 결코 deps 가 되지 않는다**.
+# frontmatter 파서와 링크 IRI 규칙(link_hash)은 chunk2kg 가 정의처다. PyYAML 은 본문 블록용(odd2kg 와 같은 잠금)
+py_binary(
+    name = "space2kg",
+    srcs = [
+        "chunk2kg.py",
+        "space2kg.py",
+    ],
+    main = "space2kg.py",
+    deps = [
+        ":kb_lib",
+        requirement("pyyaml"),
+    ],
+)
+
+# 설계 공간의 체크박스 뷰 (p9-candidate-storage 13.5절): `[ ]` 열린 후보 · `[-]` 배제 + 근거 · `[x]` 확정.
+# 뷰이고 게이트가 아니다 — 판정은 //kg:gate_test 의 check_space 가 한다 (게이트 id space)
+py_binary(
+    name = "choices",
+    srcs = ["choices.py"],
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
 )
 
 # ODD 택소노미 뷰 (부록 E.4): related/condition → taxonomy.yml

@@ -1,0 +1,30 @@
+# shape — 설계 공간: 변수 하나와 그 후보 집합의 형태 (결정 p9-candidate-storage · p9-design-space-file)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+agt:SpaceShape a sh:NodeShape ;
+    sh:targetClass agt:Space ;
+    sh:property [
+        sh:path agt:spaceStatus ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:in ( "open" "resolved" ) ;
+        sh:message "설계 공간의 상태는 open(후보가 여럿 남았다) 또는 resolved(확정 후보가 하나다) 하나다 (p9-candidate-storage)" ;
+    ] ;
+    sh:property [
+        sh:path agt:variableFrom ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "설계 공간은 변수 하나다 — 출발 항목(agt:variableFrom)이 정확히 하나여야 한다 (변수 하나 = 파일 하나, p9-candidate-storage)" ;
+    ] ;
+    sh:property [
+        sh:path agt:variableKind ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "설계 공간은 링크 타입 하나를 묻는다 — agt:variableKind 가 정확히 하나여야 한다 (p9-uncertainty-as-link-uncertainty)" ;
+    ] ;
+    sh:property [
+        sh:path agt:hasLevel ;
+        sh:in ( agt:logical ) ;
+        sh:message "설계 공간은 logical 전용이다 — 후보·제약·배제 근거가 사는 수준이다 (6.4절 수준 허용표, p9-candidate-storage)" ;
+    ] .

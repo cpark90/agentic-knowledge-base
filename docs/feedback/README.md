@@ -17,8 +17,11 @@
 | **hci** | `docs/feedback/**` 전체 + 자기 역할 메모리 `.claude/agent-memory/hci/**` — 이 둘이 hci의 유일한 쓰기 범위다 | 저장소 전체 |
 | **다른 에이전트** | `agents/` lane의 **자기 항목만** (유저에게 전달할 내용, 인수 기록 `ref: handoff/…`) | 저장소 전체 (읽기 전용) |
 
-- **유저 판단 대기(2026-09-22)**: [`agent-verification-target-2026-09-22.md`](agent-verification-target-2026-09-22.md) — 에이전트 검증의 `verifies` 도착점 ·
-  [`workset-budget-gate-2026-09-22.md`](workset-budget-gate-2026-09-22.md) — 작업 집합 예산 초과를 게이트로 할 것인가
+- **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-remainder-2026-09-22.md`](spec-writing-standard-remainder-2026-09-22.md) — G10 그림 틀 · 출처 개체 위치.
+  인수인계 [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md). 반영되면 제안 원문과 승인 항목을 제거한다
+- **승인됨·인수 대기(2026-09-23)**: 여섯 항목이 한꺼번에 승인됐다 — 링크 C·D·E · 형식화 M1·M5 · 관측과 연결 성분 · 요구 stable 전이 · 관측 시각 표기 · 에이전트 검증 도착점.
+  인수인계는 `handoff/` 의 동명 항목 여섯이고 **수행 순서는 링크 항목이 먼저**다(유저 지정).
+- **유저 판단 대기(2026-09-19)**: [`vv-profile-hazards-2026-09-19.md`](vv-profile-hazards-2026-09-19.md) — 위험 분석 G1~G6 의 입력 · [`workset-budget-gate-2026-09-22.md`](workset-budget-gate-2026-09-22.md) — 예산 초과의 게이트화
 - **반영 완료·출처 개체 때문에 유지(2026-09-22)**: [`spec-writing-standard-adoption-2026-09-22.md`](spec-writing-standard-adoption-2026-09-22.md) — 공백 열 채우기 + 기존 저작 적용.
   인수인계 [`handoff/spec-writing-standard-adoption-2026-09-22.md`](handoff/spec-writing-standard-adoption-2026-09-22.md) 는 `closed` 다.
   제안 원문 [`inquiries/spec-writing-standard-proposal.md`](inquiries/spec-writing-standard-proposal.md) 는 `kg/base-kg.ttl` 의 출처 개체가 트리 경로를 가리켜 유지한다 —

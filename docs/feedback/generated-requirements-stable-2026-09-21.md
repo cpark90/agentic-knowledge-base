@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [kb/dev/requirement/r-027-generated-documents-carry-provenance.md, kb/dev/requirement/r-028-generated-documents-share-one-form.md]
 ---
 
@@ -43,4 +43,4 @@ targets: [kb/dev/requirement/r-027-generated-documents-carry-provenance.md, kb/d
 3. **둘 다 draft로 두고 재검토 시점을 정한다.** 예를 들어 생성 뷰가 15종이 되는 시점이다. 비용: 그때까지 감사 보고서의 과소 보고를 감수한다.
 
 ## 답
-(유저가 채움)
+1.

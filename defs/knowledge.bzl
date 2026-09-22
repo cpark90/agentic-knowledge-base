@@ -15,6 +15,7 @@ _VALIDATE_SRCS = [
 
 _LINT_SRCS = [
     Label("//tools:chunk_lint.py"),
+    Label("//tools:chunk2kg.py"),  # 논평 본문의 파서 comment_form — 게이트와 방출기가 같은 판정을 쓴다 (p7-commentary-form)
     Label("//tools:kb_lib.py"),
 ]
 

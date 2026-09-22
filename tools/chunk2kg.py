@@ -9,7 +9,10 @@ agt:lineCount 와 agt:assertionLocation 은 파일에서 계산되므로 어긋�
 frontmatter 형식 (YAML 부분집합 — key: value, 목록은 [a, b], 인라인 맵은 {k: v}).
 OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필드명을 쓴다:
   iri:          항목 IRI (필수)
-  type:         requirement | decision | contract | schema | artifact | annotation | memory (필수, OKF)
+  type:         requirement | decision | contract | schema | artifact | annotation | memory (필수, OKF).
+                예외 하나가 `agt:Space` 다 — plane 이름이 아니라 온톨로지 클래스 이름이고, 그 청크는 설계 공간(`-space`)이라
+                본문의 후보·제약까지 읽어야 그래프가 된다. 여기서는 frontmatter 만 판정하고(level 은 logical 고정) 방출은
+                tools/space2kg.py 가 한다 — 이 도구에 넘기면 `FAIL [space]` 다 (결정 p9-candidate-storage)
   level:        functional | abstract | logical | concrete | executable (필수)
   title_ko:     한글 라벨 (필수) — OKF 확장 키
   title:        영어 라벨 (필수) — OKF title
@@ -41,6 +44,13 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
   composite:    {id: …, title_ko: …, title: …} (선택) — 복합체 개체 선언
   pattern:      ubiquitous | event-driven | state-driven | unwanted-behaviour | optional | complex (선택, type: requirement 에서만) —
                 요구 문장의 EARS 패턴 (Mavin RE'09, 결정 p7-dev-plane-substance) → agt:pattern agt:<camelCase 개체>. 다른 plane 에 있으면 거부
+  targets:      주석이 관찰하는 대상 IRI 목록 (선택, type: annotation 에서만) → agt:targets 직접 트리플.
+                **링크 키가 아니다** — 링크 개체(agt:Link)도 Bazel deps(gen_build.LINKS)도 만들지 않는다. 주석이 대상의 deps 가
+                되면 논평 하나가 대상의 재빌드를 유발해 리뷰가 빌드 그래프를 오염시킨다. 주석은 대상을 관찰하지 구성하지 않는다
+  논평의 본문:   type: annotation 의 본문은 논평이다 (p7-commentary-form). 첫 줄 `<라벨> (<장식>): <요지>` 와 줄 머리 슬롯 넷
+                (`대상:`·`본문:`·`제안:`·`해소:`)에서 agt:commentLabel·agt:commentDecoration·agt:resolutionState·
+                agt:commentSentenceCount 를 낸다. 닫힌 어휘와 문장 상한의 판정은 shape(review-comment-body-shapes.ttl)이고
+                여기서 거부하는 것은 `대상:` 과 frontmatter `targets` 의 불일치 하나뿐이다
   프로파일 타이핑: 청크마다 plane 클래스 뒤에 개발 프로파일의 실체 클래스를 더 붙인다 (`a agt:RequirementChunk , agt:RequirementStatement`,
                 PROFILE_SUBSTANCE). 살아 있는 청크든 폐기된 청크든 같다 — 폐기된 요구 문장도 요구 문장이다
   라벨 언어:    title 에 한글([ㄱ-ㆎ가-힣])이 있거나 title_ko 에 한글이 없으면 거부 — 영문 라벨에 한글을 섞지 않는다(0.6절).
@@ -77,6 +87,9 @@ SPECIALIZATION_KEY = "specializationOf"  # frontmatter 키 — 분할 조각 →
 SPECIALIZATION_GATE = getattr(kb_lib, "SPECIALIZATION_GATE", "specialization")  # 게이트 id — FAIL [specialization] (정의처 kb_lib)
 LINK_STATE_CANDIDATE = getattr(kb_lib, "LINK_STATE_CANDIDATE", "candidate")  # 후보 — extract_refs 가 낸다 (정의처 kb_lib)
 LINK_STATE_CONFIRMED = getattr(kb_lib, "LINK_STATE_CONFIRMED", "confirmed")  # 확정 — frontmatter 링크 (정의처 kb_lib)
+SPACE_GATE = getattr(kb_lib, "SPACE_GATE", "space")  # 게이트 id — FAIL [space] (정의처 kb_lib)
+SPACE_TYPE = getattr(kb_lib, "SPACE_TYPE", "agt:Space")    # `-space` 청크의 type — plane 이 아니라 클래스다 (p9-candidate-storage)
+SPACE_LEVEL = getattr(kb_lib, "SPACE_LEVEL", "logical")    # 후보·제약·배제 근거가 사는 수준 (6.4절 수준 허용표)
 
 
 class SpecializationError(ValueError):
@@ -113,6 +126,12 @@ EARS_PATTERNS = {
     "optional": "agt:optional",
     "complex": "agt:complex",
 }
+# 논평의 닫힌 어휘 (결정 p7-commentary-form) — 정의처는 kb_lib 이고 여기는 rdflib 없이 도는 폴백이다 (LINK_STATE_* 와 같은 형태)
+COMMENT_LABELS = getattr(kb_lib, "COMMENT_LABELS", ("praise", "nitpick", "suggestion", "issue", "question", "thought", "chore"))
+COMMENT_DECORATIONS = getattr(kb_lib, "COMMENT_DECORATIONS", ("blocking", "non-blocking", "if-minor"))
+COMMENT_RESOLUTIONS = getattr(kb_lib, "COMMENT_RESOLUTIONS", ("열림", "해소", "기각"))
+COMMENT_SLOTS = getattr(kb_lib, "COMMENT_SLOTS", ("대상", "본문", "제안", "해소"))
+TARGETS_KEY = "targets"  # 주석 → 대상 (agt:targets). 링크 키가 아니다 — 판단 근거는 emit_chunk 의 주석에 있다
 # 본문 슬롯 표지 (결정 p4-slot-answers-one-question) — 슬롯은 줄 머리 고정 표지 하나와 그것이 답하는 질문 하나다.
 # 질문·순서·필수 여부의 정의처는 shape(kb/ontology/shapes/*-body-shapes.ttl)이고 여기는 표지 낱말의 정의처다 —
 # 이 도구는 rdflib 없이 타깃마다 돌아 kb_lib 를 의존할 수 없으므로 값 어휘 상수가 PLANE_CLASS 와 함께 여기 있다 (STYLEGUIDE §4).
@@ -123,9 +142,12 @@ BODY_SLOT_MARKERS = ("요구", "이해관계자", "관심사", "출처",        
                      "합격 기준", "판정식", "확인 절차", "등급",                 # 합격 기준 (kb/vv/criteria)
                      "케이스", "자극", "기대", "실행 명령", "표본 근거")         # 케이스 (kb/vv/case)
 BODY_SLOT_SPAN = re.compile(r"\*\*([^*\n]+?)\*\*")
-# 줄 머리 `키워드: 값` 형 슬롯 (제안 4.1절). 지금 실물은 선택 슬롯 `미확정:` 하나다 — 미결을 문서가 아니라 항목 안에
-# 두면 집계가 생성물이 된다 (p4-three-empty-values). //kg:open 이 이 표지로 미결을 모은다
-BODY_SLOT_KEYWORDS = ("미확정",)
+# 줄 머리 `키워드: 값` 형 슬롯 (제안 4.1절). 선택 슬롯 `미확정:` 은 미결을 문서가 아니라 항목 안에 두어 집계를 생성물로
+# 만든다 (p4-three-empty-values) — //kg:open 이 이 표지로 미결을 모은다. 나머지 넷은 논평의 슬롯이다 (p7-commentary-form).
+# 첫 줄 `<라벨> (<장식>): <요지>` 는 표지가 아니라 형식 검사 대상이라 여기 없다 — comment_form 이 읽는다.
+# **표지를 늘리면 shape(kb/ontology/shapes/*-body-shapes.ttl)의 틀도 같은 커밋에서 늘린다** — 표지만 늘리면 방출은
+# 바뀌는데 강제하는 곳이 없어 틀이 거짓이 된다
+BODY_SLOT_KEYWORDS = ("미확정", *COMMENT_SLOTS)
 BODY_SLOT_KEYWORD = re.compile(r"^(" + "|".join(BODY_SLOT_KEYWORDS) + r"):\s")
 BODY_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")  # 코드 펜스 안은 본문 형식이 아니다 — 예시 안의 표지를 슬롯으로 읽지 않는다
 LEVELS = {"functional", "abstract", "logical", "concrete", "executable"}
@@ -172,6 +194,55 @@ def body_slots(body: list[str]) -> list[str]:
     return seen
 
 
+def _alt(words) -> str:
+    """정규식 대안 — 긴 낱말을 앞에 둔다 (`non-blocking` 이 `blocking` 에 가려지지 않게)."""
+    return "|".join(re.escape(w) for w in sorted(words, key=len, reverse=True))
+
+
+COMMENT_HEAD = re.compile(r"^(" + _alt(COMMENT_LABELS) + r")\s*\((" + _alt(COMMENT_DECORATIONS) + r")\)\s*:\s*(\S.*)$")
+COMMENT_RESOLUTION = re.compile(r"^(" + _alt(COMMENT_RESOLUTIONS) + r")(?=$|[\s—.,])")  # 해소 슬롯의 첫 낱말 — 뒤는 한 줄 이유다
+COMMENT_SLOT_HEAD = re.compile(r"^(" + _alt(COMMENT_SLOTS) + r")\s*:\s*(.*)$")
+COMMENT_IRI = re.compile(r"https?://\S+?(?=[\s,)\]`]|$)")
+COMMENT_CODE_SPAN = re.compile(r"`[^`]*`")
+COMMENT_SENTENCE_END = re.compile(r"[.!?](?=\s|$)")  # 문장 끝 — 코드 스팬·IRI 를 지운 뒤 센다 (`4.1절` 의 마침표는 세지 않는다)
+
+
+def count_sentences(text: str) -> int:
+    """문장 수 — 코드 스팬과 IRI 를 지운 뒤 공백·줄끝 앞의 종결 부호를 센다. 논평 본문의 상한(4)을 재는 자다."""
+    return len(COMMENT_SENTENCE_END.findall(COMMENT_IRI.sub(" ", COMMENT_CODE_SPAN.sub(" ", text))))
+
+
+def comment_form(body: list[str]) -> dict:
+    """논평 본문 → {label, decoration, gist, resolution, sentences, targets} (찾은 것만) — 결정 p7-commentary-form.
+
+    첫 산문 줄이 `<라벨> (<장식>): <요지>` 이고 이어서 줄 머리 슬롯이 온다. 없는 것은 넣지 않는다 — 방출이 비면
+    shape(review-comment-body-shapes.ttl)의 sh:minCount 가 무엇이 빠졌는지 말한다. 여기서 형식을 두 번 판정하지 않는다.
+    """
+    form: dict = {}
+    slots: dict[str, list[str]] = {}
+    cur = None
+    for line in body:
+        s = line.strip()
+        if not s:
+            continue
+        if not form and (m := COMMENT_HEAD.match(s)):
+            form.update(label=m.group(1), decoration=m.group(2), gist=m.group(3))
+            continue
+        if m := COMMENT_SLOT_HEAD.match(s):
+            cur = m.group(1)
+            slots.setdefault(cur, []).append(m.group(2))
+            continue
+        if cur:
+            slots[cur].append(s)
+    if "본문" in slots:
+        form["sentences"] = count_sentences(" ".join(slots["본문"]))
+    if "대상" in slots:
+        form["targets"] = COMMENT_IRI.findall(" ".join(slots["대상"]))
+    if "해소" in slots and (m := COMMENT_RESOLUTION.match(" ".join(slots["해소"]).strip())):
+        form["resolution"] = m.group(1)
+    return form
+
+
 def parse_chunk(path: str) -> tuple[dict, int]:
     """frontmatter dict와 본문 줄 수를 돌려준다."""
     lines = Path(path).read_text(encoding="utf-8").splitlines()
@@ -203,8 +274,12 @@ def parse_chunk(path: str) -> tuple[dict, int]:
     for k in REQUIRED:
         if not meta.get(k):
             raise ValueError(f"{path}: frontmatter에 {k} 가 없다")
-    if meta["type"] not in PLANE_CLASS:
-        raise ValueError(f"{path}: 알 수 없는 type {meta['type']!r} — plane 이름이어야 한다")
+    if meta["type"] == SPACE_TYPE:  # 설계 공간 — plane 이 아니라 클래스다. 본문(후보·제약)은 space2kg 가 읽는다 (p9-candidate-storage)
+        if meta["level"] != SPACE_LEVEL:
+            raise ValueError(f"{path}: `-space` 청크의 level 은 {SPACE_LEVEL} 이다 — 후보·제약·배제 근거가 사는 수준이다 "
+                             f"(p9-candidate-storage). 실제 {meta['level']!r}")
+    elif meta["type"] not in PLANE_CLASS:
+        raise ValueError(f"{path}: 알 수 없는 type {meta['type']!r} — plane 이름이거나 `{SPACE_TYPE}` 여야 한다")
     if meta["level"] not in LEVELS:
         raise ValueError(f"{path}: 알 수 없는 level {meta['level']!r}")
     if meta["status"] not in STATES:
@@ -214,6 +289,16 @@ def parse_chunk(path: str) -> tuple[dict, int]:
             raise ValueError(f"{path}: pattern 은 type: requirement 에서만 쓴다 — 실제 type {meta['type']!r} (EARS 패턴은 요구 문장의 형식이다)")
         if meta["pattern"] not in EARS_PATTERNS:
             raise ValueError(f"{path}: 알 수 없는 pattern {meta['pattern']!r} — {' | '.join(EARS_PATTERNS)} 중 하나다 (EARS, Mavin RE'09)")
+    declared = meta.get(TARGETS_KEY) or []
+    if declared and meta["type"] != "annotation":  # agt:targets 의 정의역은 agt:AnnotationChunk 다 — 주석만 대상을 가리킨다
+        raise ValueError(f"{path}: {TARGETS_KEY} 는 type: annotation 에서만 쓴다 — 실제 type {meta['type']!r} "
+                         f"(agt:targets 의 정의역은 agt:AnnotationChunk 다)")
+    if meta["type"] == "annotation":  # 논평 — 첫 줄과 슬롯을 읽는다 (p7-commentary-form). 형식 판정은 shape 가 한다
+        meta["_comment"] = comment_form(body)
+        in_body = meta["_comment"].get("targets")
+        if in_body is not None and sorted(in_body) != sorted(declared):
+            raise ValueError(f"{path}: 논평의 `대상:` 과 frontmatter {TARGETS_KEY} 가 다르다 — 본문 {sorted(in_body)} · "
+                             f"frontmatter {sorted(declared)} (p7-commentary-form: 대상은 둘이 일치해야 한다)")
     if meta["status"] != "deprecated":
         for i, raw in enumerate(lines[end + 1 :], start=end + 2):
             if EPHEMERAL_PATH in raw:
@@ -299,6 +384,17 @@ def emit_chunk(path: str, meta: dict, line_count: int) -> str:
         stmts.append(f"prov:wasDerivedFrom <{res}>")
     if SPECIALIZATION_KEY in meta:  # 같은 것의 다른 입도 — 출처(wasDerivedFrom)와 다르다 (p10-split-keeps-work-identity)
         stmts.append(f"prov:specializationOf <{meta[SPECIALIZATION_KEY]}>")
+    # 주석 → 대상 (agt:targets). **링크 키가 아니다**: 주석이 대상의 deps 가 되면 리뷰가 빌드 그래프를 오염시켜 논평 하나가
+    # 대상의 재빌드를 유발한다. 주석은 대상을 관찰하지 대상을 구성하지 않으므로 agt:cites 처럼 그래프에만 트리플로 남는다 —
+    # LINK_KEYS(링크 개체)에도 gen_build.LINKS(Bazel deps)에도 넣지 않는다. 대상 실재는 validate check_dangling 이 본다
+    for t in meta.get(TARGETS_KEY, []) or []:
+        stmts.append(f"agt:targets <{t}>")
+    c = meta.get("_comment") or {}  # 논평의 본문 파생 사실 (p7-commentary-form) — 닫힌 어휘와 상한은 shape 가 판정한다
+    for key, pred in (("label", "agt:commentLabel"), ("decoration", "agt:commentDecoration"), ("resolution", "agt:resolutionState")):
+        if key in c:
+            stmts.append(f'{pred} "{esc(c[key])}"')
+    if "sentences" in c:
+        stmts.append(f"agt:commentSentenceCount {c['sentences']}")
     for key in LINK_KEYS:  # 링크는 직접 트리플로도 낸다 — CQ-04·16·17·34 와 verify 질의(verifies-without-criteria)·metrics 가 agt:<key> 술어를 본다. 링크 개체는 emit_links
         for to in meta.get(key, []) or []:
             stmts.append(f"agt:{key} <{to}>")
@@ -549,6 +645,7 @@ def main() -> int:
     composites: dict = {}   # iri -> {labels, members[]}
     part_refs: list = []    # (chunk_iri, composite_iri, path)
     errors = []
+    space_errors = []       # 게이트 id `space` — FAIL [space] (설계 공간 청크가 head 생성기로 왔다)
     restored_errors = []    # 게이트 id `restored` — FAIL [restored] (복원 표시가 링크 대상에 없다)
     spec_errors = []        # 게이트 id `specialization` — FAIL [specialization] (자기 참조·사슬 순환)
     spec: dict = {}         # 조각 IRI → 원본 IRI — 링크 IRI 의 뿌리 계산 (단일 실행에서는 여기서, --merge 에서는 블록에서 읽는다)
@@ -568,6 +665,10 @@ def main() -> int:
             errors.append(f"{path}: IRI {meta['id']} 가 {seen[meta['id']]} 와 중복 — 한 청크는 한 파일이다")
             continue
         seen[meta["id"]] = path
+        if meta["type"] == SPACE_TYPE:  # 후보는 head 로 올라가지 않는다 — 그래야 deps 가 되지 않는다 (p9-candidate-storage)
+            space_errors.append(f"{path}: 설계 공간 청크(type: {SPACE_TYPE})는 head 그래프로 올리지 않는다 — 후보 링크는 확정 링크와 자리가 "
+                                f"다르고 결코 deps 가 되지 않는다. tools/space2kg.py 로 올린다 (//space:design_space, p9-candidate-storage)")
+            continue
         restored_errors += check_restored(path, meta)
         if SPECIALIZATION_KEY in meta:
             spec[meta["id"]] = meta[SPECIALIZATION_KEY]
@@ -604,9 +705,11 @@ def main() -> int:
     if not args.fragment:  # 단일 실행은 묶음 전체를 아니 뿌리 uuid 로 링크 IRI 를 계산한다 — --merge 와 같은 결과. 조각은 원 IRI 그대로
         blocks, spec_errors2 = rebase_links(blocks, spec)
         spec_errors += spec_errors2
-    if errors or restored_errors or spec_errors:
+    if errors or restored_errors or spec_errors or space_errors:
         for e in errors:
             print(f"FAIL [{TAG}] {e}", file=sys.stderr)
+        for e in space_errors:
+            print(f"FAIL [{SPACE_GATE}] {e}", file=sys.stderr)
         for e in restored_errors:
             print(f"FAIL [{RESTORED_GATE}] {e}", file=sys.stderr)
         for e in spec_errors:

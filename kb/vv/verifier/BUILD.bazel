@@ -14,8 +14,39 @@ filegroup(
     ),
 )
 
+kb_chunk(
+    name = "gate-test-targets",
+    src = "gate-test-targets.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/069386af-5167-4f76-a275-aeaa120d139a",
+    plane = "artifact",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "negative-failure-test",
+    src = "negative-failure-test.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/32d8d4d5-4249-45cf-89f4-040a59826ee7",
+    plane = "artifact",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "vv-run-executor",
+    src = "vv-run-executor.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4ef1451d-5f8a-4360-8765-f2c24683e0cf",
+    plane = "artifact",
+    level = "executable",
+    status = "draft",
+)
+
 # 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
 kb_bundle(
     name = "kg",
-    items = [],
+    items = [
+        ":gate-test-targets",
+        ":negative-failure-test",
+        ":vv-run-executor",
+    ],
 )

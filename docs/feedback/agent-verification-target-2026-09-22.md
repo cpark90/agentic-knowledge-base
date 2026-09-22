@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [kb/dev/decision/p8-two-verification-targets/conclusion.md, defs/kb.bzl, kb/dev/requirement/r-025-verify-product-and-agent.md, kb/vv/goal/agent-and-product-verified.md]
 ---
 
@@ -42,4 +42,5 @@ targets: [kb/dev/decision/p8-two-verification-targets/conclusion.md, defs/kb.bzl
 3. **지금은 둔다.** `r-025`를 사람 확인으로 유지하고 인지능력 판정 수단이 생길 때 다시 본다. 비용: 케이스 이어진 비율의 상한 고정.
 
 ## 답
-(유저가 채움)
+1.
+이 답과는 별개로 이 저장소의 하네스도 저장소에서 다루는 내용이 개선됨에 따라 진보된 지식들을 반영하여 개선해야함.

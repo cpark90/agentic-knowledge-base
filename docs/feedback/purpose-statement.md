@@ -200,6 +200,13 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 39 | 명세 문서 작성 규격의 채택 범위 (2026-09-22) — 유저 제안 922줄 중 **공백 열만** 채운다(선택지 1) **+ 기존 저작에도 적용**. 기정 유지: 중복은 안전율(9.3 불채택) · 상태 어휘 `stable` · 번호 제목과 `N.N절` 인용(2043건) · 결정 3청크·42줄. 기존 저작 위반 실측 33건 | `spec-writing-standard-adoption-2026-09-22` · handoff 동명 |
 | 40 | 명세 문서 작성 규격의 반영 (2026-09-22) — 결정 3(`p4-three-empty-values`·`p4-slot-answers-one-question`·`p8-judge-question-form`), 본문 슬롯 shape 4, 미결 집계 뷰 `//kg:open`, `consistency` ⑧·⑨ 를 게이트 셋(`addition`·`empty-value`·`list-rules`)으로 승격. 기존 저작 위반 전부 해소, 도장 8건 재판정 | `orchestrator-spec-writing-standard-2026-09-22` · handoff 동명 |
 | 41 | 검증 대응물 채움률 100% (2026-09-21) — 요구 17건에 목표·기준·케이스를 저작해 35/35. 사람 확인만 되는 5건은 케이스를 두지 않았다(억지 케이스는 SKIP 이거나 공허한 pass). 여집합 질의 CQ-37 행 0 | `orchestrator-vv-coverage-complete-2026-09-21` |
+| 42 | 명세 문서 작성 규격의 잔여 둘 (2026-09-22) — 선택지 1: G10 그림 틀을 `STYLEGUIDE.md` §0에 반영하고 출처 개체 `id:doc-spec-writing-standard` 의 위치를 `git:e3b36d2:…` 로 고친다. 그 뒤 채널에서 제안 원문 922줄과 승인 항목을 제거한다 | `spec-writing-standard-remainder-2026-09-22` · handoff 동명 |
+| 43 | 링크 견고성 C·D·E (2026-09-23) — **D → E 순**, C(selector 층) 보류. `when` 평가기와 링크 상태 유도를 켜고 `relatedTo` 아래 약한 잎을 더한다. 자연어 항목의 M2·M3 을 이 항목이 흡수한다 | `link-model-robustness-cde-2026-09-19` · handoff 동명 |
+| 44 | 지식을 형식으로 옮기기 (2026-09-23) — **링크 항목 선행 후 M1(관계의 성질 공리·규칙의 단일 정의처·정의문에 갇힌 규칙 36건 판정) + M5(값의 형·단위)**. 표본 둘이 이미 데이터와 어긋난다: `supersedes` 의 suspect 전파(실물 0)·`refines` 상한 1(2개 119·3개 19청크) | `nl-ambiguity-adoption-2026-09-22` · handoff 동명 |
+| 45 | 관측을 연결 성분 계산에서 제외 (2026-09-23) — CQ20 후방 추적 귀속도 같은 근거로 제외한다. 로드맵 1단계 칸의 낡은 수치를 정정한다 | `connected-components-observations-2026-09-19` · handoff 동명 |
+| 46 | 요구 `r-027`·`r-028` 을 stable 로 (2026-09-23) — 요구 35건의 draft 가 0 이 된다. 검증 대응물은 이미 35/35 라 비율이 낮아지지 않는다 | `generated-requirements-stable-2026-09-21` · handoff 동명 |
+| 47 | 관측 시각 표기를 새 기록부터 G3 으로 (2026-09-23) — 커밋된 기록은 소급하지 않고 그 금지를 규약에 적는다 | `observation-timestamp-notation-2026-09-21` · handoff 동명 |
+| 48 | 에이전트 검증의 도착점을 개발 KB 청크로 (2026-09-23) — 결정 `p8-two-verification-targets` 를 `supersedes` 로 개정한다. 검사 약화가 없다. 같은 답에 붙은 별도 지시 — **하네스도 저장소의 지식 진전을 반영해 개선한다**(요구 한 건으로 세우고 stable 전이는 다시 승인) | `agent-verification-target-2026-09-22` · handoff 동명 |
 
 **아직 유저 답을 기다리는 것**: `agent-verification-target-2026-09-22.md`(에이전트 검증의 `verifies` 도착점), `workset-budget-gate-2026-09-22.md`(예산 초과의 게이트화), `generated-requirements-stable-2026-09-21.md`(요구 둘의 stable 전이),
 `observation-timestamp-notation-2026-09-21.md`(관측 시각 표기), `link-model-robustness-2026-09-18.md`의 선택지 C·D·E,

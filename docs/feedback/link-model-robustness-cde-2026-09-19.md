@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [kb/ontology/related/trace/, tools/assume_check.py, tools/revalidate.py, tools/chunk2kg.py, docs/rules.md]
 ---
 
@@ -46,4 +46,4 @@ E는 **규칙 성문화**다. 비용도 효과도 한 축에 놓이지 않아 "�
 4. **셋 다 보류하고 5단계(정제 계층)를 먼저 한다.** 링크 모델은 현 상태로 고정한다.
 
 ## 답
-(유저가 채움)
+1.

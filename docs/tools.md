@@ -52,6 +52,8 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 | 신뢰 등급 | `generatedBy` 없음, 검증 뒤 수정 | shape | 2.12 | **있음** — `trust-shapes` | `shacl`(trust) | `generated.at` ≤ `verified.at`가 되게 검증 표시를 물리거나 다시 찍는다 |
 | 참조 무결성 | 인용 대상·부분·가정·요구가 실재하지 않음 | verify + 생성 | 4.8 | **있음** — `extract_refs`·`validate` dangling | `dangling` · `extract-refs` | 인용 대상을 정정한다 — 저작자 |
 | 산문 문체 | 경어체 종결(`습니다`·`세요`·`해요` 등), 산문의 느낌표 | test | STYLEGUIDE §0 | **있음** — `chunk_lint`·`doccheck`의 `prose` (2026-09-13). 추측·구어·대시 밀도는 `consistency` ⑦이 보고한다 | `prose` | 문장을 고친다 — 저작자. 고유명사의 느낌표는 `waivers.md` |
+| 해소되지 않은 차단 논평 | `issue (blocking)` 이면서 `해소: 열림` 인 살아 있는 논평 | test | 7.7 | **있음** — `chunk_lint` (2026-09-22). 대상은 살아 있는 `type: annotation` 청크이고 `deprecated`·`invalidated` 는 기록이라 막지 않는다 | `blocking-comment` | 대상을 고친 뒤 `해소: 해소 — <이유>`로, 받지 않기로 했으면 `해소: 기각 — <이유>`로 바꾼다 — 저작자. 면제는 `waivers.md`(축 `파일`) |
+| 설계 공간 | 근거 없는 배제(`eliminated` 인데 `eliminated_by` 없음), 확정 후보가 정확히 하나가 아닌 `resolved`, 후보의 출발점·링크 타입이 변수와 불일치, 실재하지 않는 IRI, 같은 변수를 두 파일이 선언 | analysis + verify | 9.10 | **있음** — `space2kg`(생성 시점) · `validate` `check_space`(그래프 시점) (2026-09-22). `space/*-space.md` 는 `kb_chunk` 타깃이 아니라 A-Box 그래프 `//space:design_space` 로 나간다 | `space` | 후보에 근거를 붙이거나 변수를 고친다 — 저작자. 후보는 결코 `deps` 가 되지 않는다 (`p9-candidate-storage`) |
 | 첨가 | 슬롯의 질문에 답하지 않는 문장 — 메타 문장(`다음과 같다`·`이 절에서는`·`아래에서 설명한다`·`앞서 말했듯`)과 채움 문구(`특이사항 없음`·`일반적인 방식을 따른다`·`추후 결정한다`) | test | STYLEGUIDE §0 | **있음** — `chunk_lint` (2026-09-22 승격, `consistency` ⑧ 수치 0). 대상은 살아 있는 청크이고 `deprecated`는 기록이라 제외한다 | `addition` | 슬롯의 질문에 답하는 문장으로 바꾸거나 지운다. 채움 자리에는 세 빈 값 — 저작자 |
 | 빈 값 표기 | 세 빈 값(`없음`·`해당 없음`·`미확정`) 밖의 `N/A`·`TBD`·`미정`과 표의 단독 대시 셀 | test | STYLEGUIDE §0 | **있음** — `chunk_lint` (2026-09-22 승격) | `empty-value` | 세 값 중 하나로 바꾼다. 낱말의 산문 용법이면 `waivers.md`에 선언한다 — 저작자 |
 | 목록 규칙 | 손 번호 `2.` 이상 · 항목 9개 초과 · 중첩 3단계 이상 · 항목당 240자 초과 · 빈 목록 항목 | test | STYLEGUIDE §0 | **있음** — `chunk_lint` (2026-09-22 승격). 길이는 이어지는 들여쓴 줄을 합치고 공백을 정규화한 뒤 센다 | `list-rules` | 번호를 전부 `1.`로 바꾸고, 항목 수·중첩·길이는 블록을 나누며, 빈 목록은 `없음`으로 적는다 — 저작자 |
@@ -64,7 +66,7 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 5·7단계의 산출에 걸려 있다. `id`는 도구의 `FAIL [<id>]` 태그와 같다(agrtls A). 결정
 `p6-gate-catalogue`가 같은 id를 적는다. 하네스 자체의 게이트 id는 `naming`(`//:naming_test`) ·
 `build-drift`(`//:build_drift_test`) ·
-`channel`(`//docs/feedback:channel_lint_test`) · `doccheck`(`//:doccheck_test`) · `gendoc`(`//:gendoc_test`) · `addition`·`empty-value`·`list-rules`(`chunk_lint`) · `chunk2kg-merge`(병합) ·
+`channel`(`//docs/feedback:channel_lint_test`) · `doccheck`(`//:doccheck_test`) · `gendoc`(`//:gendoc_test`) · `addition`·`empty-value`·`list-rules`·`blocking-comment`(`chunk_lint`) · `space`(`space2kg`·`validate`) · `chunk2kg-merge`(병합) ·
 `odd2kg`·`taxonomy`(생성=검사) · `canon`(규약, 테스트 타깃 아님)이다. 실패 종류(종료 코드 1·2·3)는
 §게이트를 추가할 때에 적혀 있다.
 
@@ -126,6 +128,7 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 | `decision-body-shapes.ttl` | `agt:DecisionChunk` | 결론·근거·대안의 본문 슬롯 |
 | `acceptance-criteria-body-shapes.ttl` | `agt:ContractChunk` | 합격 기준 · 판정식 또는 확인 절차 · 등급 |
 | `verification-case-body-shapes.ttl` | `agt:SchemaChunk` | 케이스 · 자극 · 기대 · 실행 명령 · 표본 근거 |
+| `review-comment-body-shapes.ttl` | `agt:ReviewComment` | 라벨 일곱·장식 셋·해소 셋의 닫힌 어휘, `대상`·`본문`·`해소` 슬롯, 본문 4문장 상한 |
 
 라벨 제약은 `sh:qualifiedValueShape` + `sh:qualifiedMinCount`로 쓴다. `sh:languageIn`은
 모든 값에 적용되어 "한글 하나 + 영어 하나"를 표현하지 못한다.
@@ -173,7 +176,7 @@ YAML은 PyYAML로 읽는다. 잠금은 `pyyaml==6.0.2`이고 해시는 호스트
 
 `bazel run //tools:vv_run -- [--record] [--case <슬러그>…]` — 케이스(`kb/vv/case/*.md`) 본문의 `**실행 명령**`을 읽어 읽기 전용
 검증기(`bazel test`·`bazel build`·`bazel query`·`gen_build --check`)만 실행하고 그 밖(임시 파일 자극·`bazel run`)은 SKIP으로
-적는다. 케이스 판정은 실행한 명령의 종료 코드로만 한다 — pass·fail·skip이고 SKIP은 PASS가 아니다(실패 종류 3). 리비전(워킹트리
+적는다. 케이스 판정은 **명령 전부를 실행해** 전부 0이면 `pass`, 실행분에 실패가 있으면 `fail`, **건너뛴 명령이 하나라도 있으면** `skip`이다(2026-09-22 정정). 건너뛴 쪽이 게이트가 거부한다는 것을 보이는 절반이므로 절반만 실행한 케이스는 기준을 보이지 못한다 — SKIP은 PASS가 아니다(실패 종류 3). 보고는 명령 단위 집계(`실행`·`건너뜀`·`명령`)를 따로 낸다. 리비전(워킹트리
 변경 여부)·UTC 시각·bazel·python 버전·명령별 종료 코드·소요를 적는다. `--record`는 실행 기록(`kb/vv/run/run-<시각>.md`, memory
 plane, concrete, `generated.by: process:vv_run`)을 append-only로 남긴다 — 도구가 executor 하위 역할을 맡는 첫 형태라 writer
 검사 밖이다. 종료 코드는 fail 1 · pass 0 · skip만 3이다. 기대 문구 대조와 임시 파일 자극의 자동 생성은 후속이다.
@@ -199,9 +202,10 @@ tangle이다. 구축 쪽 공백의 공통 원인은 하네스가 읽기·쓰기 
 | `propagate` / `revalidate` | [method §7 갱신](method.md#7-갱신) | **첫 형태 있음** — `propagate`는 `assume_check`의 전파 절(깨진 가정 → 직접 영향 집합 → 하류 suspect 후보). `revalidate` — `bazel run //tools:revalidate -- --base <rev>`: base 리비전 대비 본문 해시가 바뀐 청크와 그 링크 양 끝·`part_of` 형제·`rdeps` 하류를 재판정 대상 표로 낸다(종료 1 = 대상 있음). head만 바뀐 청크는 제외한다. 무효화 전파 8단계·규칙 카탈로그(`propagate`)는 없다 | 4 |
 | `query` | [competency-questions](competency-questions.md) | **첫 형태 있음** — `bazel run //tools:query -- <CQ> [--labels] [--bind ?v=…]`가 역량 질문 질의 27개(`tools/cq-queries/*.rq`, 하나가 CQ 하나)를 그래프 union 위에서 돌린다. 결과는 라벨 목록이다. 뷰 `bazel build //kg:cq` → `bazel-bin/kg/cq.md`가 CQ마다 행 수와 상위 5행을 낸다(2026-09-14) | 3 |
 | `impact` | [method §12 영향 분석](method.md#12-영향-분석) | **첫 형태 있음** — `bazel run //tools:impact -- <타깃>`: `rdeps`로 영향 항목 수·plane 분포·suspect가 될 링크 수·승인 필요 결정 수. 구조 근사이며 가정·무효화 전파는 그래프 질의 몫이다 | 3 |
-| `project` / `weave` | [method §9 뷰](method.md#9-뷰) | **첫 형태 있음** — `weave`(2026-09-19): `bazel build //kb/dev:adr`(결정 복합체의 ADR 뷰) · `//kb/dev:requirements`(요구 색인 — EARS 패턴·정제 수·도달 수준) · `//kb/dev:changelog`(`supersedes` 이력) · `//kg:audit`(감사 보고서 — 검증 현황·최근 실행·가정·추적 매트릭스·검증 표시·링크 근거를 그래프 union과 관측 본문만으로, 8단계 첫 형태). 생성물마다 생성 시각과 질의를 적는다(`p12-documents-are-generated`). `communities` — `bazel build //kg:communities`: 결정론적 Louvain으로 복합체 후보(같은 plane·level, 2~9)와 `relatedTo` 링크 후보(plane·level을 넘음)를 제안, 판정은 사람이 한다([`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md)). tangle은 없다 | 8 |
+| `project` / `weave` | [method §9 뷰](method.md#9-뷰) | **첫 형태 있음** — `weave`(2026-09-19): `bazel build //kb/dev:adr`(결정 복합체의 ADR 뷰) · `//kb/dev:requirements`(요구 색인 — EARS 패턴·정제 수·도달 수준) · `//kb/dev:changelog`(`supersedes` 이력) · `//kg:audit`(감사 보고서 — 검증 현황·최근 실행·**판정 주석**·가정·추적 매트릭스·검증 표시·링크 근거를 그래프 union과 관측 본문만으로, 8단계 첫 형태). 생성물마다 생성 시각과 질의를 적는다(`p12-documents-are-generated`). `communities` — `bazel build //kg:communities`: 결정론적 Louvain으로 복합체 후보(같은 plane·level, 2~9)와 `relatedTo` 링크 후보(plane·level을 넘음)를 제안, 판정은 사람이 한다([`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md)). tangle은 없다 | 8 |
 | `gen_skills` | [method](method.md) 정형 절차 | **첫 형태 있음**(2026-09-19) — `python3 tools/gen_skills.py --root .`가 도구 docstring과 `kb_lib.SKILLS`(도구·절 앵커·대표 명령)에서 `.claude/skills/<도구>/SKILL.md`를 생성한다. 트리에 두고 커밋하며 `//:skills_drift_test`가 재생성과 비교한다. BUILD와 같은 생성 트리 파일이며 손으로 고치면 다음 생성이 덮어쓴다 | 6 |
 | `open_questions` | [method §9 뷰](method.md#9-뷰) | **첫 형태 있음**(2026-09-22) — `bazel build //kg:open` → `bazel-bin/kg/open.md`: 청크의 선택 슬롯 `미확정:`을 head(`agt:bodySlot`)로 골라 질문·청크·plane/level·상세 문서로 집계한다. **집계만 맡는다** — 상세 다섯 절은 42줄 청크에 들어가지 않아 `docs/open-questions.md` 색인과 그 아래 문서로 남는다 ([`p4-three-empty-values`](../kb/dev/decision/p4-three-empty-values/conclusion.md)) | 6 |
+| `space2kg` / `choices` | [method §5 후보 관리](method.md#5-후보-관리) | **첫 형태 있음**(2026-09-22) — `space/*-space.md`(변수 하나 = 파일 하나)를 A-Box `//space:design_space`로 올리고 체크박스 뷰 `//space:choices`를 낸다. 후보는 `kb_chunk` 타깃이 아니므로 **구조적으로 `deps`가 되지 못한다**. 근거 없는 배제와 확정 후보 수를 게이트 `space`가 거부한다 — `r-011`의 실물이다. 없는 것: CEL 평가기(`when`·양립 제약이 문자열) | 5 |
 | `metrics` | [methodology 완료 판정](method.md#완료-판정) | **첫 형태 있음** — `bazel build //kg:metrics` → `bazel-bin/kg/metrics.md`: 청크 수·고아율·크기 분포·링크 밀도·CQ19·CQ20·신뢰 등급. 없는 것은 suspect 비율·누락률·라벨 대표성이다 | 1 |
 
 `metrics`(1·2단계 대리 포함)·`workset`·`odd_check`의 첫 형태가 생겼으므로 문서는 수치를 적지 않고 생성물을 인용한다 (d-0075). 문서에 남아
@@ -269,6 +273,8 @@ bazel test //...  (게이트 전체 — test_suite 없음, 패키지의 test 타
 ├── //:naming_test                 TTL 접미사 규약
 ├── //docs/feedback:channel_lint_test  채널 규약 — lane status 어휘 · handoff↔agents 쌍 · hci 반영 흔적 · waivers
 ├── //:doccheck_test               문서 현행성 — 깨진 링크·앵커·백틱 경로 (루트 md + docs/**, 채널 제외)
+├── //space:design_space           설계 공간 A-Box — 열린 변수와 후보 링크 (게이트 `space`)
+├── //space:choices                후보 체크박스 뷰 (생성 뷰, 게이트 아님)
 ├── //kg:open                      미결 집계 — 청크의 `미확정:` 슬롯 (생성 뷰, 게이트 아님)
 ├── //:gendoc_test                 생성 문서 형태 — 머리 블록·제목 계층·표·목차·링크·비율 표기 (생성 뷰 11종 + SKILL.md)
 ├── //:skills_drift_test           생성 skill(.claude/skills) = 도구 docstring·kb_lib.SKILLS (드리프트 가드)

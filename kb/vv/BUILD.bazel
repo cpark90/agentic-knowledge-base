@@ -16,6 +16,7 @@ filegroup(
         "//kb/vv/goal:bodies",
         "//kb/vv/run:bodies",
         "//kb/vv/scenario:bodies",
+        "//kb/vv/verdict:bodies",
         "//kb/vv/verifier:bodies",
     ] + glob(
         ["*.md"],

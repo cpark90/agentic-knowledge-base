@@ -147,6 +147,15 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 - `-space` 파일에 **변수** · **후보** · **제약**을 쓴다. 변수는 링크가 필요한 항목, 후보는
   도착점 집합, 제약은 양립 조건이다. abstract 단계는 변수까지, logical 단계는 후보와 제약까지
   채운 상태다 (d-0100).
+- **실물 형식**(2026-09-22 첫 형태). 파일은 `space/<슬러그>-space.md`이고 **변수 하나가 파일
+  하나**다. frontmatter는 `type: agt:Space`·`level: logical`이며 plane 이름을 쓰지 않는다. 본문은
+  산문 한두 줄과 `yaml` 펜스 하나이고, 펜스가 `variable`(`from`·`kind`) · `status`(open|resolved) ·
+  `candidates`(`to`·`state`·`when`·`evidence`·`eliminated_by`) · `constraints` · `preferences`를
+  담는다. 후보를 아직 열거하지 않은 공간은 `candidates`를 쓰지 않는다.
+- **후보는 `deps`가 되지 않는다.** `space/`에는 `kb_chunk` 타깃이 없고, 나가는 것은 A-Box
+  그래프 `//space:design_space`와 체크박스 뷰 `//space:choices` 둘이다. 게이트 `space`가
+  근거 없는 배제와 확정 후보 수를 판정한다 — 그것이 `r-011`("근거 없는 할당은 자료구조
+  수준에서 불가능하여야 한다")의 실물이다.
 - 가능성은 확률이 아니라 **가능 / 불가능의 집합**이다. 등급을 매기지 않고, 선호는 후보를
   기각하지 않고 순서만 정한다 (d-0097 · d-0104).
 - **제약 전파는 게이트와 재검증 시점에서만** 실행한다. 편집마다 돌리지 않는다 (d-0101).

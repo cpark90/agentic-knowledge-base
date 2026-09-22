@@ -984,6 +984,9 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-028-generated-documents-share-one-form",
     ],
+    serves = [
+        "//kb/dev/requirement:documents-are-generated",
+    ],
 )
 
 kb_decision(
@@ -998,6 +1001,9 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-027-generated-documents-carry-provenance",
     ],
+    serves = [
+        "//kb/dev/requirement:documents-are-generated",
+    ],
 )
 
 kb_decision(
@@ -1011,6 +1017,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-028-generated-documents-share-one-form",
+    ],
+    serves = [
+        "//kb/dev/requirement:documents-are-generated",
     ],
 )
 
@@ -2340,6 +2349,20 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p7-commentary-form",
+    conclusion = "p7-commentary-form/conclusion.md",
+    rationale = "p7-commentary-form/rationale.md",
+    alternatives = "p7-commentary-form/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/54cd62d1-0efa-4a35-b379-20d8880cc3be",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c0b7f63a-353e-4fdf-9389-961b6f3e130c", "https://agentic-knowledge-base.dev/id/chunk/a471aa31-5149-4d07-9eab-542e19c4e259", "https://agentic-knowledge-base.dev/id/chunk/a5c4792e-7e54-40c3-9a33-47b1164ccbf4"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+)
+
+kb_decision(
     name = "p7-contract-first",
     conclusion = "p7-contract-first/conclusion.md",
     rationale = "p7-contract-first/rationale.md",
@@ -3460,6 +3483,7 @@ kb_bundle(
         ":p6-what-evolves-has-a-home",
         ":p7-alternatives-mandatory",
         ":p7-authoring-flow",
+        ":p7-commentary-form",
         ":p7-contract-first",
         ":p7-decision-spans-three-levels",
         ":p7-decision-supersession",

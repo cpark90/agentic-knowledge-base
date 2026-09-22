@@ -11,7 +11,8 @@
   changelog     supersedes 쌍(새 → 옛)을 새 결정의 generated.at 순으로, prov:wasRevisionOf 가 있으면 함께
   audit         감사 보고서 (로드맵 8단계 "복원과 감사", 요구 audit-self-sufficiency) — 입력은 그래프 union 과 관측 청크 본문(kb/vv/run/ 의
                 실행 기록 · kb/dev/memory/ 의 가정 판정)뿐이다. 체계 밖 정보 0. 절: 리비전·입력 / 검증 현황(요구의 검증 대응물 · verifies 대상
-                결정 · 사슬 수 · 기준 없는 verifies) / 최근 실행(케이스별 pass·fail·skip 그대로) / 가정(최신 assume_check 관측) / 추적 매트릭스
+                결정 · 사슬 수 · 기준 없는 verifies) / 최근 실행(케이스별 pass·fail·skip 그대로) / 판정 주석(논평 수 · 라벨 분포 · 해소 열림 ·
+                그중 게이트를 막는 issue (blocking); p7-commentary-form) / 가정(최신 assume_check 관측) / 추적 매트릭스
                 (kb_lib.TIM_CELLS — metrics 와 같은 정의) / 검증 표시(verified 주체 종류 · 검증 뒤 수정) / 링크 근거(증거 종류 · 복원 비율) /
                 자족성 선언. bodies 에 //kb/vv:bodies·//kb/dev:bodies 를 준다 (//kg:audit)
 그래프는 query·metrics 와 같은 union 을 kb_lib.load_union 으로 올린다. 본문은 --bodies 의 청크 파일에서 frontmatter id 로 찾는다.
@@ -358,8 +359,8 @@ def render_audit(m: Model, bodies: dict, inputs: list[str]) -> str:
     rev_m = RUN_REVISION.search(run_body)
     rev_line = (f"실행 기록의 리비전 `{rev_m.group(1)}`" + (f" ({rev_m.group(2)})" if rev_m.group(2) else "") + f" — `{Path(m.location[latest_run]).name}`"
                 if rev_m else "실행 기록이 없어 리비전을 알 수 없다 — 그래프는 리비전을 담지 않는다")
-    h = head("audit", "감사 보고서", "그래프 union 과 관측 청크 본문(`kb/vv/run/` 실행 기록 · `kb/dev/memory/` 가정 판정)만으로 — 검증 현황 · 최근 실행 · 가정 · "
-             "추적 매트릭스(`kb_lib.TIM_CELLS`) · 검증 표시 · 링크 근거 · 자족성", g, inputs,
+    h = head("audit", "감사 보고서", "그래프 union 과 관측 청크 본문(`kb/vv/run/` 실행 기록 · `kb/dev/memory/` 가정 판정)만으로 — 검증 현황 · 최근 실행 · "
+             "판정 주석 · 가정 · 추적 매트릭스(`kb_lib.TIM_CELLS`) · 검증 표시 · 링크 근거 · 자족성", g, inputs,
              [f"- 리비전: {rev_line}",
               f"- 입력의 종류: 그래프 union(head · 참조 · 시드 · 카탈로그 · 복합체 · ODD · 온톨로지) · 관측 본문 — 실행 기록 {len(runs)}건 · 가정 판정 {len(asm_obs)}건. "
               f"체계 밖 정보 0 (요구 `audit-self-sufficiency`)",
@@ -413,7 +414,31 @@ def render_audit(m: Model, bodies: dict, inputs: list[str]) -> str:
         else:
             body += [f"- 본문에 케이스 표(헤더 `{kb_lib.RUN_CASE_TABLE_HEADER}`)가 없다", ""]
 
-    # 4. 가정 — 최신 assume_check 관측
+    # 4. 판정 주석 — 논평의 라벨 분포와 해소 상태 (p7-commentary-form: issue (blocking) + 해소 열림 만 게이트를 막는다)
+    label_of = lambda c: str(next(g.objects(c, AGT.commentLabel), ""))        # noqa: E731
+    deco_of = lambda c: str(next(g.objects(c, AGT.commentDecoration), ""))    # noqa: E731
+    state_of = lambda c: str(next(g.objects(c, AGT.resolutionState), ""))     # noqa: E731
+    comments = sorted((c for c in live if m.plane[c] == "annotation"), key=lambda c: m.location[c])
+    open_ = [c for c in comments if state_of(c) == kb_lib.COMMENT_OPEN]
+    blocking = [c for c in open_ if (label_of(c), deco_of(c)) == kb_lib.COMMENT_BLOCKING]
+    body += ["## 판정 주석 — 논평의 라벨 분포와 해소 상태 (p7-commentary-form)", ""]
+    if not comments:
+        body += [f"살아 있는 논평 {kb_lib.NONE_MARK} — 판정 주석(`{kb_lib.KB_VV}/verdict/`)이 비어 있다. 게이트 "
+                 f"`{kb_lib.BLOCKING_COMMENT_GATE}` 는 서 있고 막을 논평이 아직 없다.", ""]
+    else:
+        labels = Counter(label_of(c) or kb_lib.NONE_MARK for c in comments)
+        states = Counter(state_of(c) or kb_lib.NONE_MARK for c in comments)
+        body += [f"- 살아 있는 논평 **{len(comments)}** · 해소되지 않은 것(`해소: {kb_lib.COMMENT_OPEN}`) **{pct(len(open_), len(comments))}** · "
+                 f"그중 게이트를 막는 `{kb_lib.COMMENT_BLOCKING[0]} ({kb_lib.COMMENT_BLOCKING[1]})` **{len(blocking)}** "
+                 f"(목표 0 — 게이트 `{kb_lib.BLOCKING_COMMENT_GATE}`)", "",
+                 "| 라벨 | 논평 수 | 그중 해소 열림 |", "|---|---|---|"]
+        body += [f"| `{k}` | {v} | {sum(1 for c in open_ if (label_of(c) or kb_lib.NONE_MARK) == k)} |" for k, v in labels.most_common()]
+        body += ["", "| 해소 상태 | 논평 수 |", "|---|---|"] + [f"| {k} | {v} |" for k, v in states.most_common()] + [""]
+        if blocking:
+            body += ["게이트를 막는 논평:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)} → "
+                     + (" · ".join(m.ko(t) for t in g.objects(c, AGT.targets)) or kb_lib.NONE_MARK) for c in blocking] + [""]
+
+    # 5. 가정 — 최신 assume_check 관측
     body += ["## 가정 — `kb/dev/memory/` 의 최신 가정 판정 관측 (assume_check)", ""]
     if latest_asm is None:
         body += ["가정 판정 관측 없음 — `bazel run //tools:assume_check -- --record`", ""]
@@ -425,7 +450,7 @@ def render_audit(m: Model, bodies: dict, inputs: list[str]) -> str:
         if rows:
             body += ["| 가정 | 판정 유형 | 등급 | 상태 |", "|---|---|---|---|"] + ["| " + " | ".join(r[:4]) + " |" for r in rows] + [""]
 
-    # 5. 추적 매트릭스 — metrics 와 같은 정의 (kb_lib.TIM_CELLS · link_cells)
+    # 6. 추적 매트릭스 — metrics 와 같은 정의 (kb_lib.TIM_CELLS · link_cells)
     seen = kb_lib.link_cells(g)
     filled = [c for c in kb_lib.TIM_CELLS if c in seen]
     outside = sorted(seen - set(kb_lib.TIM_CELLS))
@@ -434,7 +459,7 @@ def render_audit(m: Model, bodies: dict, inputs: list[str]) -> str:
     body += [f"| `{k}` | `{a}` | `{b}` | {'채움' if (k, a, b) in seen else '빈 칸'} |" for k, a, b in kb_lib.TIM_CELLS]
     body += ["", f"- 허용표 밖에서 관측된 칸: {len(outside)}" + (" — " + ", ".join(f"`{k}`:{a}→{b}" for k, a, b in outside) if outside else ""), ""]
 
-    # 6. 검증 표시 — verified 주체 종류와 검증 뒤 수정 (trust shape)
+    # 7. 검증 표시 — verified 주체 종류와 검증 뒤 수정 (trust shape)
     kinds = Counter()
     none_n, modified = 0, []
     for c in live:
@@ -453,7 +478,7 @@ def render_audit(m: Model, bodies: dict, inputs: list[str]) -> str:
           "| 주체 종류 | 청크 수 |", "|---|---|"] + [f"| `{k}` | {v} |" for k, v in sorted(kinds.items())] + [f"| 없음 (미검증) | {none_n} |", "",
           f"- 검증 뒤 수정(`prov:generatedAtTime` > `agt:verifiedAt`): **{len(modified)}** (목표 0 — `agt:TrustShape` 가 게이트에서 강제)", ""]
 
-    # 7. 링크 근거 — 증거 종류 분포와 복원 비율 (metrics 와 같은 구축·복원 정의: kb_lib.link_origins — 증거 종류 기준)
+    # 8. 링크 근거 — 증거 종류 분포와 복원 비율 (metrics 와 같은 구축·복원 정의: kb_lib.link_origins — 증거 종류 기준)
     links = list(g.subjects(RDF.type, AGT.Link))
     ev_kinds = Counter()
     for l in links:
@@ -473,7 +498,7 @@ def render_audit(m: Model, bodies: dict, inputs: list[str]) -> str:
           + (" · ".join(f"`{k}` {v}" for k, v in sorted(origins["candidate_kinds"].items())) or "없음")
           + " · 본문 식별자 추출 직접 트리플 " + " · ".join(f"`{k}` {v}" for k, v in origins["extracted"].items())] + restored_rows + [""]
 
-    # 8. 자족성 선언
+    # 9. 자족성 선언
     body += ["## 자족성 선언", "",
           "이 보고서의 모든 수치는 위 입력(그래프 union · 실행 기록 · 가정 판정 관측)에서 나왔다. 손으로 적은 수치는 없다. "
           "이 보고서를 다시 만드는 명령은 `bazel build //kg:audit` 이고 입력이 같으면 수치가 같다.", ""]

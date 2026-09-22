@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [tools/assume_check.py, tools/vv_run.py, kb/dev/memory/, kb/vv/run/, tools/kb_lib.py]
 ---
 
@@ -44,4 +44,4 @@ targets: [tools/assume_check.py, tools/vv_run.py, kb/dev/memory/, kb/vv/run/, to
 3. **관측도 생성 문서와 같은 게이트에 넣는다.** `gendoc`의 시각 검사를 관측 청크까지 넓힌다. 비용: 기존 기록 셋이 FAIL이 되므로 면제(`docs/waivers.md`) 선언이 따른다.
 
 ## 답
-(유저가 채움)
+1.

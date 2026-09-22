@@ -87,6 +87,7 @@ py_test(
         "//kb/vv/goal:BUILD.bazel",
         "//kb/vv/run:BUILD.bazel",
         "//kb/vv/scenario:BUILD.bazel",
+        "//kb/vv/verdict:BUILD.bazel",
         "//kb/vv/verifier:BUILD.bazel",
         "//kb/ontology:modules",
         "//kb/ontology:modules.bzl",
@@ -106,7 +107,7 @@ kb_skills_drift_test(
 
 # 생성 문서 게이트 (유저 지시 2026-09-21): 에이전트가 만드는 마크다운의 가독성·건전성 규약 G1~G18.
 # 규약의 단일 정의처는 tools/kb_lib.py 이고 생성기와 이 게이트가 같은 것을 import 한다 (STYLEGUIDE §7).
-# 대상은 Bazel 뷰 11종과 생성 트리 파일(.claude/skills/*/SKILL.md)이다 — 생성 BUILD 는 마크다운이 아니라 대상 밖이다.
+# 대상은 Bazel 뷰 12종과 생성 트리 파일(.claude/skills/*/SKILL.md)이다 — 생성 BUILD 는 마크다운이 아니라 대상 밖이다.
 # 생성물이 가리키는 파일은 data 에 선언돼야 링크 검사(G13)에서 실재한다.
 kb_gendoc_test(
     name = "gendoc_test",
@@ -132,6 +133,7 @@ kb_gendoc_test(
         "//kg:metrics",
         "//kg:open",
         "//kg:workset",
+        "//space:choices",
     ],
     empty_dirs = [
         "kb/vv",
