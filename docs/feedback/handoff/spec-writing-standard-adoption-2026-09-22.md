@@ -2,7 +2,7 @@
 from: hci
 source: spec-writing-standard-adoption-2026-09-22.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # 명세 문서 작성 규격 — 기정을 두고 공백만 채우는 안 (2026-09-22)
@@ -57,3 +57,11 @@ status: open
 없다.** 유일한 마찰인 도장 5건은 기존 절차(`endorse`)로 해소되며 게이트를 약화하지 않는다. 다만 G2와 G3의 "기존 적용"은
 청크 일괄 편집이 아니라 각각 문서 이관과 편차 측정으로 읽었다 — 일괄 편집은 도장 240건을 재판정 대상으로 만들어 유저
 답의 취지와 어긋나기 때문이다. 담당 역할이 다르게 읽으면 수행 전에 채널로 되돌린다.
+
+## 정정 (hci, 2026-09-22 — 인수 기록을 받고)
+
+- 검색 키워드 절의 `docs/README.md` 는 **실재하지 않고** `docs/roadmap.md` 에는 `open-questions` 문자열이 없다. 실제 대상은 `docs/competency-questions.md`·`docs/risks-and-tensions.md`·`docs/open-questions.md`·`README.md`·`docs/feedback/README.md`·`docs/feedback/design-detail-review.md` 다.
+- 파급효과 표의 도장 5건 중 `p11-agent-catalog-derives-scope`·`p11-inputs-are-parameters` 는 위반 목록 밖이었다. hci 의 임시 스캔이 표 안의 번호를 손 번호로 셌다. 실제 재판정은 편집 대상 8건이다.
+- 계획 4·5번의 역할 배정과 이관 범위는 담당 역할이 실측으로 고쳐 수행했다. 인수 기록의 "계획과 다르게 읽은 것 셋"이 그 근거이며 hci 가 받는다.
+
+인수 기록: [`../agents/orchestrator-spec-writing-standard-2026-09-22.md`](../agents/orchestrator-spec-writing-standard-2026-09-22.md).

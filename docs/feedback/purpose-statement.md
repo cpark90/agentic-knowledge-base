@@ -198,8 +198,10 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 37 | 채널 refresh (2026-09-19) — 발신자가 닫은 agents 3건 제거(`stage1-closed`·`stage4-first-form`·`query-tool`), 오늘 기록 6건 `answered`, 조사 lane `suggestion` `closed`. 기록은 git 이력(`68f9c7c`) | 채널 규약 refresh |
 | 38 | 생성 문서의 형태 규약과 게이트 `gendoc` (2026-09-21) — 유저 지시(구조화 문서의 작성 규칙 조사·반영, 기준은 TypeSafe `jev`)로 규약 G1~G18, 요구 2(`r-027`·`r-028`, draft)·결정 3, `//:gendoc_test` 신설(게이트 19). 생성물은 리비전 대신 입력 지문을 적는다 | `orchestrator-generated-document-form-2026-09-21` |
 | 39 | 명세 문서 작성 규격의 채택 범위 (2026-09-22) — 유저 제안 922줄 중 **공백 열만** 채운다(선택지 1) **+ 기존 저작에도 적용**. 기정 유지: 중복은 안전율(9.3 불채택) · 상태 어휘 `stable` · 번호 제목과 `N.N절` 인용(2043건) · 결정 3청크·42줄. 기존 저작 위반 실측 33건 | `spec-writing-standard-adoption-2026-09-22` · handoff 동명 |
+| 40 | 명세 문서 작성 규격의 반영 (2026-09-22) — 결정 3(`p4-three-empty-values`·`p4-slot-answers-one-question`·`p8-judge-question-form`), 본문 슬롯 shape 4, 미결 집계 뷰 `//kg:open`, `consistency` ⑧·⑨ 를 게이트 셋(`addition`·`empty-value`·`list-rules`)으로 승격. 기존 저작 위반 전부 해소, 도장 8건 재판정 | `orchestrator-spec-writing-standard-2026-09-22` · handoff 동명 |
+| 41 | 검증 대응물 채움률 100% (2026-09-21) — 요구 17건에 목표·기준·케이스를 저작해 35/35. 사람 확인만 되는 5건은 케이스를 두지 않았다(억지 케이스는 SKIP 이거나 공허한 pass). 여집합 질의 CQ-37 행 0 | `orchestrator-vv-coverage-complete-2026-09-21` |
 
-**아직 유저 답을 기다리는 것**: `generated-requirements-stable-2026-09-21.md`(요구 둘의 stable 전이),
+**아직 유저 답을 기다리는 것**: `agent-verification-target-2026-09-22.md`(에이전트 검증의 `verifies` 도착점), `workset-budget-gate-2026-09-22.md`(예산 초과의 게이트화), `generated-requirements-stable-2026-09-21.md`(요구 둘의 stable 전이),
 `observation-timestamp-notation-2026-09-21.md`(관측 시각 표기), `link-model-robustness-2026-09-18.md`의 선택지 C·D·E,
 `connected-components-observations-2026-09-19.md`(관측이 성분을 늘리는 문제), `vv-profile-hazards-2026-09-19.md`(V&V 프로파일 위험 G1~G6),
 `dependency-graph-design.md`의 (a)~(j),

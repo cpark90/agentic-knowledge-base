@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: question
-status: open
+status: relayed
 targets: [tools/workset.py, kg/BUILD.bazel, docs/roadmap.md, kb/dev/decision/p14-stage-pass-conditions/]
 ---
 
@@ -35,3 +35,7 @@ targets: [tools/workset.py, kg/BUILD.bazel, docs/roadmap.md, kb/dev/decision/p14
 1. **앵커가 있을 때만 비영 종료** — `--//kb:anchor` 가 주어지면 예산 초과 시 `FAIL [workset-budget]` 로 실패하고, 앵커 없는 라벨 목록 뷰는 예산 판정을 하지 않는다. 2단계 조건이 게이트가 되고 기본 빌드는 깨지지 않는다. 비용: `tools/workset.py` 한 갈래, `docs/tools.md` 총람 한 행. orchestrator 권장이다.
 2. **항상 비영 종료** — 앵커 없는 뷰도 실패. 기본 `//kg:workset` 이 깨지므로 `kg/BUILD.bazel` 의 기본 설정을 앵커 있는 것으로 바꿔야 한다.
 3. **두고 `vv_run` 기대 문구 대조로 판정** — 게이트가 아니라 V&V 케이스가 잰다. 비용: `vv_run` 확장(로드맵에 이미 있음).
+
+## 중계 (hci, 2026-09-22)
+
+유저 lane 항목 [`../workset-budget-gate-2026-09-22.md`](../workset-budget-gate-2026-09-22.md)으로 올렸다. 다섯 절을 그대로 옮기고 hci 가 코드·생성물로 확인한 줄을 표시했다. 유저 답이 오면 이 항목에 옮기고 `answered` 로 바꾼다.

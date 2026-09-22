@@ -17,8 +17,12 @@
 | **hci** | `docs/feedback/**` 전체 + 자기 역할 메모리 `.claude/agent-memory/hci/**` — 이 둘이 hci의 유일한 쓰기 범위다 | 저장소 전체 |
 | **다른 에이전트** | `agents/` lane의 **자기 항목만** (유저에게 전달할 내용, 인수 기록 `ref: handoff/…`) | 저장소 전체 (읽기 전용) |
 
-- **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-adoption-2026-09-22.md`](spec-writing-standard-adoption-2026-09-22.md) — 공백 열 채우기 + 기존 저작 적용.
-  인수인계는 [`handoff/spec-writing-standard-adoption-2026-09-22.md`](handoff/spec-writing-standard-adoption-2026-09-22.md)
+- **유저 판단 대기(2026-09-22)**: [`agent-verification-target-2026-09-22.md`](agent-verification-target-2026-09-22.md) — 에이전트 검증의 `verifies` 도착점 ·
+  [`workset-budget-gate-2026-09-22.md`](workset-budget-gate-2026-09-22.md) — 작업 집합 예산 초과를 게이트로 할 것인가
+- **반영 완료·출처 개체 때문에 유지(2026-09-22)**: [`spec-writing-standard-adoption-2026-09-22.md`](spec-writing-standard-adoption-2026-09-22.md) — 공백 열 채우기 + 기존 저작 적용.
+  인수인계 [`handoff/spec-writing-standard-adoption-2026-09-22.md`](handoff/spec-writing-standard-adoption-2026-09-22.md) 는 `closed` 다.
+  제안 원문 [`inquiries/spec-writing-standard-proposal.md`](inquiries/spec-writing-standard-proposal.md) 는 `kg/base-kg.ttl` 의 출처 개체가 트리 경로를 가리켜 유지한다 —
+  `git:<리비전>:<경로>` 로 바뀌면 둘 다 제거한다.
 - **유저 판단 대기(2026-09-21)**: [`generated-requirements-stable-2026-09-21.md`](generated-requirements-stable-2026-09-21.md) — 요구 `r-027`·`r-028` 의 stable 전이 ·
   [`observation-timestamp-notation-2026-09-21.md`](observation-timestamp-notation-2026-09-21.md) — 관측 청크의 시각 표기
 - **유저 판단 대기(2026-09-19)**: [`link-model-robustness-cde-2026-09-19.md`](link-model-robustness-cde-2026-09-19.md) — 남은 선택지 C·D·E ·
@@ -28,6 +32,8 @@
 - **남은 유저 lane 항목 넷** — `docs/` 가 마크다운 링크로 가리켜 아직 제거하지 못한다(링크를 `git:<리비전>:<경로>` 평문 인용으로 바꾸면 제거):
   [`bazel-dependency-review.md`](bazel-dependency-review.md)(`tools.md`) · [`dependency-graph-design.md`](dependency-graph-design.md)(`open-questions/link-judgement-basis.md`) ·
   [`design-detail-review.md`](design-detail-review.md)(`decomposition-audit.md`·`docs/README.md`) · [`label-representativeness-protocol.md`](label-representativeness-protocol.md)(`tools.md`·`roadmap.md`)
+- refresh 2026-09-22: 인수 기록이 돌아온 handoff 1건을 `closed` 로, 기록 2건을 `answered` 로, 질문 2건을 유저 lane 으로 중계했다.
+  제거는 없다 — 2026-09-19 기록 6건과 오늘 기록 2건은 발신자가 닫기 전이고, 승인 항목은 출처 개체가 트리 경로를 가리킨다. 기록은 git 이력(`e3b36d2`).
 - refresh 2026-09-19: agents 3 제거(발신자 `closed` — 1단계 통과·4단계 첫 형태·`query` 도구 기록). 같은 날 기록 6건은 `answered` 로 두었다 —
   발신자가 `closed` 로 바꾸면 다음 사이클에 제거한다. 조사 lane [`inquiries/suggestion.md`](inquiries/suggestion.md) 는 `closed` 이나
   유저 lane 항목이 링크로 가리켜 유지한다. 기록은 git 이력(`68f9c7c` 이후).

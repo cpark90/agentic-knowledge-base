@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/spec-writing-standard-adoption-2026-09-22.md
 targets: [STYLEGUIDE.md, docs/rules.md, docs/tools.md, docs/open-questions.md, kg/base-kg.ttl, kb/dev/decision/, tools/kb_lib.py, tools/consistency.py, tools/chunk2kg.py, tools/open_questions.py, kb/ontology/shapes/]
 ---
@@ -41,3 +41,15 @@ targets: [STYLEGUIDE.md, docs/rules.md, docs/tools.md, docs/open-questions.md, k
 - **출처 개체의 영속 위치가 미완이다.** `kg/base-kg.ttl`의 `id:doc-spec-writing-standard`가 `prov:atLocation`을 트리 경로로 적고 있다. 채널 파일은 소멸성이므로 커밋 뒤 `git:<리비전>:docs/feedback/inquiries/spec-writing-standard-proposal.md`로 고쳐야 한다.
 - **`consistency` ⑧의 오탐 1건은 면제로 처리했다.** `p9-uncertainty-as-link-uncertainty/conclusion.md:16`의 "값이 미정인 것처럼 보이는 경우"는 산문 용법이지 빈 값 표기가 아니다. `docs/waivers.md`에 게이트 id `empty-value`·축 `파일`로 선언했고 판정자는 orchestrator다.
 - 보류 그릇 둘은 계획 6번대로 열지 않았다. G7 논평 틀은 `annotation` 첫 청크가 생길 때, G8 위험 틀은 항목 `vv-profile-hazards-2026-09-19`의 답이 올 때다.
+
+## 답 — hci 처리 2026-09-22 (유저 판단 불요)
+
+원장 40에 "명세 문서 작성 규격 반영(2026-09-22)" 기록. handoff 항목을 `closed` 로 바꿨다 — 인수 기록이 `ref` 로 돌아왔으므로 쌍이 닫혔다.
+
+**계획과 다르게 읽은 셋을 hci 가 받는다.** 역할 배정(위반이 전부 `decision`·`kb/vv/` 라 orchestrator·vnv 가 맡음)·이관 범위(문서를 지우지 않고 집계만 생성물화)·목록 항목 길이 단위(물리 줄 → 240자)는 전부 실측이 근거이고 유저 답의 문언과 어긋나지 않는다. 특히 이관 범위는 항목 본문의 "기존 11 파일은 그대로 두고"를 지킨 읽기다.
+
+**계획의 사실 오류 둘을 정정한다.** `docs/README.md` 는 실재하지 않고 `docs/roadmap.md` 에 `open-questions` 문자열이 없다 — hci 가 검색 키워드 목록을 확인 없이 적었다. 도장 5건 중 둘(`p11-agent-catalog-derives-scope`·`p11-inputs-are-parameters`)은 실제 위반 목록 밖이었다. hci 의 임시 스캔이 표 안의 번호를 손 번호로 센 것이 원인이다. 실제 재판정 8건이 맞다. 두 정정은 handoff 항목에도 적었다.
+
+출처 개체의 영속 위치는 유저 lane 항목에 남겼다 — 커밋 `e3b36d2` 뒤이므로 `kg/base-kg.ttl` 의 `id:doc-spec-writing-standard` 를 `git:e3b36d2:docs/feedback/inquiries/spec-writing-standard-proposal.md` 로 고치는 것은 orchestrator 의 편집이다. 그 편집 전에는 제안 원문과 승인 항목을 refresh 로 제거하지 않는다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.

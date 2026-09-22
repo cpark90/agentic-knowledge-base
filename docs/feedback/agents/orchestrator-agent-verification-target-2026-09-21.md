@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: question
-status: open
+status: relayed
 targets: [defs/kb.bzl, kb/dev/decision/p8-two-verification-targets/, kb/dev/requirement/r-025-verify-product-and-agent.md, kb/vv/goal/agent-and-product-verified.md]
 ---
 
@@ -35,3 +35,7 @@ targets: [defs/kb.bzl, kb/dev/decision/p8-two-verification-targets/, kb/dev/requ
 3. **지금은 둔다** — `r-025` 를 사람 확인으로 유지하고 인지능력 판정 수단이 생길 때 다시 본다. 비용: 케이스 이어진 비율의 상한이 고정된다.
 
 orchestrator 권장은 1 이다.
+
+## 중계 (hci, 2026-09-22)
+
+유저 lane 항목 [`../agent-verification-target-2026-09-22.md`](../agent-verification-target-2026-09-22.md)으로 올렸다. 다섯 절을 그대로 옮기고 hci 가 코드·생성물로 확인한 줄을 표시했다. 유저 답이 오면 이 항목에 옮기고 `answered` 로 바꾼다.
