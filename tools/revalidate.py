@@ -4,8 +4,12 @@
 본문(frontmatter 제외)의 contentHash 가 base 리비전과 다르면 그 IRI 에 붙은 링크는 suspect 후보이고 재검증 시점에서
 재판정한다 — 링크 부패 규칙(p10 link decay)의 첫 형태. 해시는 tools/chunk2kg.py 의 parse_chunk 를 그대로 써서
 head 그래프의 agt:contentHash 와 같다. 재판정 대상은 둘을 합친다:
-  (a) frontmatter 링크의 상대 — refines·serves·supersedes·verifies·assumes·part_of (+ satisfies·constrains·derivesFrom·allocates·coUpdatesWith), 양방향
+  (a) frontmatter 링크의 상대 — refines·serves·supersedes·verifies·assumes·part_of (+ satisfies·constrains·derivesFrom·allocates·
+      coUpdatesWith·overlapsWith), 양방향
   (b) Bazel 하류 의존자 — bazel query rdeps(<universe>, <타깃>) 의 kb_chunk·kb_decision (직접 / 전이)
+  (c) **링크 개체** — 본문 해시가 바뀐 청크를 양 끝 중 하나로 갖는 agt:Link 의 IRI. 그 링크가 suspect 로 유도되는 자리다.
+      IRI 는 chunk2kg 와 같은 함수(link_hash × work_id)로 계산하므로 head 그래프의 링크 개체와 같은 것이다 — 그래서 이 보고의
+      한 줄이 그래프의 한 개체를 가리킨다. 상태는 저장하지 않는다 (노트 9.11절): suspect 는 여기서 물질화된다.
 git 과 bazel query 를 부르므로 odd_check 처럼 테스트 타깃이 아니다. 판정은 사람/승인된 판정자의 몫이다.
 
 사용: bazel run //tools:revalidate -- [--base HEAD] [--universe '//...'] [--out report.md]
@@ -25,11 +29,14 @@ try:
     from tools import kb_lib  # noqa: E402
 except ImportError:
     import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록·빈 값 표기)의 단일 정의처
-from chunk2kg import parse_chunk  # noqa: E402
+from chunk2kg import (ID_BASE, SPECIALIZATION_KEY, SpecializationError, link_hash, parse_chunk,  # noqa: E402
+                      work_id)
+from chunk2kg import LINK_KEYS as OBJECT_LINK_KEYS  # noqa: E402 — 링크 개체(agt:Link)를 내는 키. assumes·part_of 는 개체가 없다
 
 CHUNK_DIRS = ("kb", "chunks")
 # frontmatter 의 링크 키 — 목록 값. part_of 는 스칼라
-LINK_KEYS = ("refines", "serves", "supersedes", "verifies", "assumes", "satisfies", "constrains", "derivesFrom", "allocates", "coUpdatesWith")
+LINK_KEYS = ("refines", "serves", "supersedes", "verifies", "assumes", "satisfies", "constrains", "derivesFrom", "allocates",
+             "coUpdatesWith", "overlapsWith")
 ITEM_KINDS = "kb_chunk|kb_decision"
 
 
@@ -56,6 +63,27 @@ def links_of(meta: dict) -> list:
     out = [(k, t) for k in LINK_KEYS for t in (meta.get(k) or [])]
     if meta.get("part_of"):
         out.append(("part_of", meta["part_of"]))
+    return out
+
+
+def link_objects(index: dict, iris: set) -> list:
+    """본문이 바뀐 청크(iris)를 양 끝 중 하나로 갖는 링크 개체 → [(링크 IRI, 종류, 출발, 도착, 방향)].
+
+    IRI 계산은 chunk2kg 와 같다 — 양 끝을 specializationOf 사슬의 뿌리 uuid(work-id)로 올린 뒤 sha256(출발|종류|도착)[:12] 다.
+    사슬이 순환하면 그 링크는 건너뛴다 (판정은 validate check_specialization 이 한다).
+    """
+    spec = {iri: m[SPECIALIZATION_KEY] for iri, (_rel, m) in index.items() if m.get(SPECIALIZATION_KEY)}
+    out = []
+    for frm, (_rel, meta) in sorted(index.items()):
+        for key in OBJECT_LINK_KEYS:
+            for to in meta.get(key) or []:
+                if frm not in iris and to not in iris:
+                    continue
+                try:
+                    h = link_hash(work_id(frm, spec), key, work_id(to, spec))
+                except SpecializationError:
+                    continue
+                out.append((f"{ID_BASE}link/{h}", key, frm, to, "출발" if frm in iris else "도착"))
     return out
 
 
@@ -189,20 +217,32 @@ def main() -> int:
             rows.append((path, "verified", "·", "이 청크 자신 — 검증 뒤 본문이 바뀌었다 (writer 검사 대상)", "frontmatter"))
         per_chunk.append((path, kind, m.get("title_ko", ""), len(out_links) + len(in_links), (len(direct or []), len(trans or [])), verified, note))
 
+    # 4. 본문 해시 변경 → 링크 재판정. 본문이 바뀐 청크를 양 끝 중 하나로 갖는 링크 개체가 suspect 로 유도된다 (노트 9.11절)
+    body_changed = {iri for _path, kind, iri, _m, _b, _n in changed if kind in ("본문 변경", "변경", "신규", "삭제")}
+    objs = link_objects(index, body_changed)
+
     rep = kb_lib.gendoc_header(
         "revalidate", f"base {a.base} 대비 재판정 대상", "tools/revalidate.py",
         f"base 리비전 `{a.base}` 와 워킹트리 사이에서 본문 해시가 바뀐 청크마다 — (a) frontmatter 링크의 상대(양방향) · "
-        "(b) 복합체 형제 · (c) `bazel query rdeps` 의 하류 의존자를 재판정 대상으로 (dependency-graph-design §5)",
+        "(b) 복합체 형제 · (c) `bazel query rdeps` 의 하류 의존자 · (d) 그 청크를 양 끝 중 하나로 갖는 **링크 개체**(`agt:Link`)를 "
+        "재판정 대상으로 (dependency-graph-design §5). 링크 개체의 상태는 저장하지 않고 여기서 물질화한다",
         f"bazel run //tools:revalidate -- --base {a.base}", [],
-        f"변경 청크 {len(changed)} · 재판정 대상 {len(rows)}",
+        f"변경 청크 {len(changed)} · 재판정 대상 {len(rows)} · 재판정 링크 개체 {len(objs)}",
         kb_lib.gendoc_view_notice("각 청크의 본문과 frontmatter 링크"),
         input_note=f"`git show {a.base}:<청크>` 와 워킹트리의 청크 파일, `bazel query` 결과 — 리비전 대비 차이라 지문을 내지 않는다",
-        extra=[f"- head 만 바뀐 청크 {len(head_only)} (본문 해시 동일 — 재판정 대상이 아니다)"])
+        extra=[f"- head 만 바뀐 청크 {len(head_only)} (본문 해시 동일 — 재판정 대상이 아니다)",
+               f"- 본문이 바뀐 청크에 붙은 링크 개체 {len(objs)} — 유도 상태는 `{kb_lib.LINK_STATE_SUSPECT}` 다"])
     body = ["| 변경 청크 | 변경 | 라벨 | 링크(양방향) | 하류(직접/전이) | verified | 비고 |", "|---|---|---|---|---|---|---|"]
     for path, kind, ko, nl, (nd, nt), v, note in per_chunk:
-        body.append(f"| `{path}` | {kind} | {ko} | {nl} | {nd}/{nt} | {'있음' if v else kb_lib.NONE_MARK} | {note} |")
+        body.append(f"| `{path}` | {kind} | {ko or kb_lib.NONE_MARK} | {nl} | {nd}/{nt} | "
+                    f"{'있음' if v else kb_lib.NONE_MARK} | {note or kb_lib.NONE_MARK} |")  # G14 — 빈 셀을 두지 않는다
     body += ["", "## 재판정 대상", "", "| 변경 청크 | 종류 | 방향 | 상대 | 출처 |", "|---|---|---|---|---|"]
     body += [f"| `{p}` | {k} | {d} | {t} | {src} |" for p, k, d, t, src in rows] or ["| " + " | ".join([kb_lib.NONE_MARK] * 3 + [f"재판정 대상 {kb_lib.NONE_MARK}", kb_lib.NONE_MARK]) + " |"]
+    body += ["", "## 재판정 대상 링크 개체 — 본문 해시 변경 → 링크 재판정 (노트 9.11절: 상태는 평가 결과다)", "",
+             "| 링크 개체 | 종류 | 출발 | 도착 | 바뀐 끝 | 유도 상태 |", "|---|---|---|---|---|---|"]
+    body += [f"| `{kb_lib.compact_iri(l)}` | `{k}` | {label(f)} | {label(t)} | {side} | {kb_lib.LINK_STATE_SUSPECT} |"
+             for l, k, f, t, side in objs] \
+            or ["| " + " | ".join([kb_lib.NONE_MARK] * 4 + [f"재판정 링크 개체 {kb_lib.NONE_MARK}", kb_lib.NONE_MARK]) + " |"]
     body.append("")
     if head_only:
         body += ["head 만 바뀐 청크 (링크 키 변경이 있으면 표시): " + " · ".join(f"`{p}`" + (f" [{', '.join(ks)}]" if ks else "") for p, ks in head_only[:20])
@@ -213,7 +253,7 @@ def main() -> int:
     print(text)
     if a.out:
         Path(a.out).write_text(text, encoding="utf-8")
-    return 1 if rows else 0
+    return 1 if (rows or objs) else 0
 
 
 if __name__ == "__main__":

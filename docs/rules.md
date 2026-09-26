@@ -178,8 +178,18 @@ chunk·복합체의 IRI이고, 링크는 산출물 밖(`-kg`)에 한 방향만 �
 |---|---|---|---|
 | `agt:references` | 본문이 식별자로 가리킴 | `cites` · `targets` | 대상 변경 → 출발점 `suspect` |
 | `agt:semanticallyDependsOn` | 빼면 의미상 불완전 | `refines` · `satisfies` · `constrains` · `verifies` · `derivesFrom` · `usesConcept` · `assumes` · `generates` · `allocates` | 같음. plane 단방향 안에서만 |
-| `agt:relatedTo` | 함께 갱신되어야 함 | `coUpdatesWith` · `conflictsWith` | 대칭 — 양쪽 `suspect` |
+| `agt:relatedTo` | 참조·의미 의존·충족 어느 족에도 들지 않는 관련성 | `coUpdatesWith` · `conflictsWith` · `overlapsWith`(2026-09-26 — 가장 약한 잎, 이름 없는 관련성의 자리) | 대칭 — 양쪽 `suspect` |
 | (구성 관계) | 함께 읽힘·순서 | `hasDirectPart` | 부분이 무효면 전체 `suspect` |
+
+**링크 어휘의 확장 규칙**(유저 승인 2026-09-23, 링크 견고성 E). 새 관계는 위 네 족 가운데 하나의 **잎으로만** 더한다.
+족을 새로 만들지 않는다. 잎은 `rdfs:subPropertyOf`로 족에 속하고, 게이트가 부모 트리플을 함께 생성하므로 족 단위 질의는
+새 잎을 자동으로 본다. 잎의 이름은 추적성 관계 분류(`docs/references.md` §추적성)에서 가져오고 지어내지 않는다 —
+`overlapsWith`가 그 예다. 후보 생성기가 추적 매트릭스에 칸이 없는 쌍을 만나면 `relatedTo`가 아니라 `overlapsWith`로
+낸다. 인용은 겹침의 표지이고 칸 없는 참조는 참조 링크로 확정되지 않는다. 칸이 생기면 그 잎으로 올린다.
+
+frontmatter 링크 키는 두 무리다. Bazel `deps`가 되는 넷(`refines`·`serves`·`supersedes`·`verifies`)과 그래프 트리플과
+링크 개체만 되는 나머지(`satisfies`·`constrains`·`derivesFrom`·`allocates`·`generates`·`overlapsWith`)다. 대칭 속성은
+`deps`가 되면 순환이 생기므로 둘째 무리에만 든다.
 
 `allocates`는 요구→구성요소 할당이고 `generates`는 산출 의존이며, 둘은 v3 9장에서 추가됐다 (유저 결정
 C7). `serves ⊑ refines`는 결정 → 요구·관심사의 링크이며 v4 6.8·7.3의 기여 명시다. `supersedes`는

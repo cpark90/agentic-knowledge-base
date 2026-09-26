@@ -21,6 +21,26 @@ kb_chunk(
     plane = "artifact",
     level = "executable",
     status = "draft",
+    refines = [
+        "//kb/vv/case:chunk-42-lines",
+        "//kb/vv/case:chunk-bound-to-project-odd",
+        "//kb/vv/case:criteria-before-verifies",
+        "//kb/vv/case:decision-three-chunks",
+        "//kb/vv/case:documents-generated",
+        "//kb/vv/case:foreign-vocabulary-rejected",
+        "//kb/vv/case:gate-judges-edits",
+        "//kb/vv/case:generated-document-form",
+        "//kb/vv/case:generated-document-provenance",
+        "//kb/vv/case:invalidation-without-survey",
+        "//kb/vv/case:items-declare-assumptions",
+        "//kb/vv/case:labels-before-bodies",
+        "//kb/vv/case:observations-append-only",
+        "//kb/vv/case:odd-single-document",
+        "//kb/vv/case:read-write-sets-recorded",
+        "//kb/vv/case:reproducible-runs",
+        "//kb/vv/case:residency-matrix",
+        "//kb/vv/case:versioned-inputs",
+    ],
 )
 
 kb_chunk(
@@ -30,6 +50,17 @@ kb_chunk(
     plane = "artifact",
     level = "executable",
     status = "draft",
+    refines = [
+        "//kb/vv/case:decision-names-requirement",
+        "//kb/vv/case:decision-three-chunks",
+        "//kb/vv/case:gate-judges-edits",
+        "//kb/vv/case:mutation-samples-rejected",
+        "//kb/vv/case:plane-one-way",
+        "//kb/vv/case:residency-matrix",
+        "//kb/vv/case:supersedes-same-plane",
+        "//kb/vv/case:verification-rung-same-level",
+        "//kb/vv/case:verifies-subject-vv",
+    ],
 )
 
 kb_chunk(
@@ -39,6 +70,10 @@ kb_chunk(
     plane = "artifact",
     level = "executable",
     status = "draft",
+    refines = [
+        "//kb/vv/case:observations-append-only",
+        "//kb/vv/case:reproducible-runs",
+    ],
 )
 
 # 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다

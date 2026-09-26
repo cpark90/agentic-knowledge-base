@@ -25,7 +25,7 @@ agt:linkKind a owl:ObjectProperty ;
     rdfs:domain agt:Link ;
     rdfs:range rdf:Property ;
     rdfs:label "link kind"@en , "링크 타입"@ko ;
-    skos:definition "이 링크가 어느 타입인가 — 네 족의 잎 속성 중 하나를 가리킨다. 타입이 확정되고 상태가 유효할 때만 그 속성의 직접 트리플이 생성된다 (8.2절)."@ko .
+    skos:definition "이 링크가 어느 타입인가 — 네 족의 잎 속성 중 하나를 가리킨다. 직접 트리플은 링크 타입마다 링크 개체와 함께 항상 생성되고, 상태는 개체의 agt:linkState가 지닌다 (8.2절)."@ko .
 
 agt:CandidateLink a owl:Class ;
     rdfs:subClassOf agt:Link ;
@@ -35,4 +35,4 @@ agt:CandidateLink a owl:Class ;
 agt:ConfirmedLink a owl:Class ;
     rdfs:subClassOf agt:Link ;
     rdfs:label "confirmed link"@en , "확정 링크"@ko ;
-    skos:definition "유저 또는 위임된 에이전트의 확인으로 확정된 링크. 이후 양 끝이 바뀌면 suspect로 내려가 재판정 대상이 된다. linkState confirmed의 클래스 표현이다 (9.4절, 9.6절)."@ko .
+    skos:definition "유저 또는 위임된 에이전트의 확인으로 확정된 링크. 이후 양 끝이 바뀌면 suspect로 유도된다 — 상태는 저장하지 않고 assume_check 보고와 metrics가 물질화한다(2026-09-26) — 재판정 대상이다. linkState confirmed의 클래스 표현이다 (9.4절, 9.6절)."@ko .

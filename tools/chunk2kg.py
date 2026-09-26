@@ -23,8 +23,10 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
   sources:      OKF v0.2 sources — [{resource: IRI, id?, title?, author?}] (선택). resource → prov:wasDerivedFrom
   refines:      이 항목이 정제하는 상위 항목 IRI 목록 (선택, 수직 링크 9.2절)
   supersedes:   이 항목이 대체하는 항목 IRI 목록 (선택)
-  serves·verifies·derivesFrom·satisfies·constrains·allocates·generates: 그 밖의 링크 키(LINK_KEYS) — 대상 IRI 목록 (선택).
-                모든 링크 키는 직접 트리플(agt:<key>)과 링크 개체(agt:Link, emit_links) 둘로 나간다. verifies 의 주어는 kb/vv 청크뿐 (defs/kb.bzl)
+  serves·verifies·derivesFrom·satisfies·constrains·allocates·generates·overlapsWith: 그 밖의 링크 키(LINK_KEYS) — 대상 IRI 목록 (선택).
+                모든 링크 키는 직접 트리플(agt:<key>)과 링크 개체(agt:Link, emit_links) 둘로 나간다. verifies 의 주어는 kb/vv 청크뿐 (defs/kb.bzl).
+                overlapsWith 는 relatedTo 족의 약한 잎이다 — 추적 매트릭스에 칸이 없어 어느 잎도 이름을 주지 못하는 관계의 자리이고,
+                Bazel deps 가 되지 않는다(gen_build.LINKS 밖) 대신 링크 개체와 복원 표시를 받는다 (overlap-ontology)
   restored:     복원 링크의 표시 — 같은 청크의 링크 키(LINK_KEYS) 어딘가에 대상으로 있는 IRI 목록 (선택, p10-restored-link-marking).
                 그 (주어, 링크 키, 대상)의 agt:Link 개체에 증거가 두 줄 붙는다 — 확정 기록 constructionRecord(사람이 frontmatter 에 적은
                 편집 시점 기록; 9.11절 규칙 "구축(+) 또는 실행(+) 없이 확정 불가"를 verify 질의 confirmed-without-evidence 가 강제한다)와
@@ -46,8 +48,8 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
                 요구 문장의 EARS 패턴 (Mavin RE'09, 결정 p7-dev-plane-substance) → agt:pattern agt:<camelCase 개체>. 다른 plane 에 있으면 거부
   targets:      주석이 관찰하는 대상 IRI 목록 (선택, type: annotation 에서만) → agt:targets 직접 트리플.
                 **링크 키가 아니다** — 링크 개체(agt:Link)도 Bazel deps(gen_build.LINKS)도 만들지 않는다. 주석이 대상의 deps 가
-                되면 논평 하나가 대상의 재빌드를 유발해 리뷰가 빌드 그래프를 오염시킨다. 주석은 대상을 관찰하지 구성하지 않는다
-  논평의 본문:   type: annotation 의 본문은 논평이다 (p7-commentary-form). 첫 줄 `<라벨> (<장식>): <요지>` 와 줄 머리 슬롯 넷
+                되면 주석 하나가 대상의 재빌드를 유발해 리뷰가 빌드 그래프를 오염시킨다. 주석은 대상을 관찰하지 구성하지 않는다
+  주석의 본문:   type: annotation 의 본문은 주석이다 (p7-commentary-form). 첫 줄 `<라벨> (<장식>): <요지>` 와 줄 머리 슬롯 넷
                 (`대상:`·`본문:`·`제안:`·`해소:`)에서 agt:commentLabel·agt:commentDecoration·agt:resolutionState·
                 agt:commentSentenceCount 를 낸다. 닫힌 어휘와 문장 상한의 판정은 shape(review-comment-body-shapes.ttl)이고
                 여기서 거부하는 것은 `대상:` 과 frontmatter `targets` 의 불일치 하나뿐이다
@@ -126,7 +128,7 @@ EARS_PATTERNS = {
     "optional": "agt:optional",
     "complex": "agt:complex",
 }
-# 논평의 닫힌 어휘 (결정 p7-commentary-form) — 정의처는 kb_lib 이고 여기는 rdflib 없이 도는 폴백이다 (LINK_STATE_* 와 같은 형태)
+# 주석의 닫힌 어휘 (결정 p7-commentary-form) — 정의처는 kb_lib 이고 여기는 rdflib 없이 도는 폴백이다 (LINK_STATE_* 와 같은 형태)
 COMMENT_LABELS = getattr(kb_lib, "COMMENT_LABELS", ("praise", "nitpick", "suggestion", "issue", "question", "thought", "chore"))
 COMMENT_DECORATIONS = getattr(kb_lib, "COMMENT_DECORATIONS", ("blocking", "non-blocking", "if-minor"))
 COMMENT_RESOLUTIONS = getattr(kb_lib, "COMMENT_RESOLUTIONS", ("열림", "해소", "기각"))
@@ -143,7 +145,7 @@ BODY_SLOT_MARKERS = ("요구", "이해관계자", "관심사", "출처",        
                      "케이스", "자극", "기대", "실행 명령", "표본 근거")         # 케이스 (kb/vv/case)
 BODY_SLOT_SPAN = re.compile(r"\*\*([^*\n]+?)\*\*")
 # 줄 머리 `키워드: 값` 형 슬롯 (제안 4.1절). 선택 슬롯 `미확정:` 은 미결을 문서가 아니라 항목 안에 두어 집계를 생성물로
-# 만든다 (p4-three-empty-values) — //kg:open 이 이 표지로 미결을 모은다. 나머지 넷은 논평의 슬롯이다 (p7-commentary-form).
+# 만든다 (p4-three-empty-values) — //kg:open 이 이 표지로 미결을 모은다. 나머지 넷은 주석의 슬롯이다 (p7-commentary-form).
 # 첫 줄 `<라벨> (<장식>): <요지>` 는 표지가 아니라 형식 검사 대상이라 여기 없다 — comment_form 이 읽는다.
 # **표지를 늘리면 shape(kb/ontology/shapes/*-body-shapes.ttl)의 틀도 같은 커밋에서 늘린다** — 표지만 늘리면 방출은
 # 바뀌는데 강제하는 곳이 없어 틀이 거짓이 된다
@@ -208,12 +210,12 @@ COMMENT_SENTENCE_END = re.compile(r"[.!?](?=\s|$)")  # 문장 끝 — 코드 스
 
 
 def count_sentences(text: str) -> int:
-    """문장 수 — 코드 스팬과 IRI 를 지운 뒤 공백·줄끝 앞의 종결 부호를 센다. 논평 본문의 상한(4)을 재는 자다."""
+    """문장 수 — 코드 스팬과 IRI 를 지운 뒤 공백·줄끝 앞의 종결 부호를 센다. 주석 본문의 상한(4)을 재는 자다."""
     return len(COMMENT_SENTENCE_END.findall(COMMENT_IRI.sub(" ", COMMENT_CODE_SPAN.sub(" ", text))))
 
 
 def comment_form(body: list[str]) -> dict:
-    """논평 본문 → {label, decoration, gist, resolution, sentences, targets} (찾은 것만) — 결정 p7-commentary-form.
+    """주석 본문 → {label, decoration, gist, resolution, sentences, targets} (찾은 것만) — 결정 p7-commentary-form.
 
     첫 산문 줄이 `<라벨> (<장식>): <요지>` 이고 이어서 줄 머리 슬롯이 온다. 없는 것은 넣지 않는다 — 방출이 비면
     shape(review-comment-body-shapes.ttl)의 sh:minCount 가 무엇이 빠졌는지 말한다. 여기서 형식을 두 번 판정하지 않는다.
@@ -293,11 +295,11 @@ def parse_chunk(path: str) -> tuple[dict, int]:
     if declared and meta["type"] != "annotation":  # agt:targets 의 정의역은 agt:AnnotationChunk 다 — 주석만 대상을 가리킨다
         raise ValueError(f"{path}: {TARGETS_KEY} 는 type: annotation 에서만 쓴다 — 실제 type {meta['type']!r} "
                          f"(agt:targets 의 정의역은 agt:AnnotationChunk 다)")
-    if meta["type"] == "annotation":  # 논평 — 첫 줄과 슬롯을 읽는다 (p7-commentary-form). 형식 판정은 shape 가 한다
+    if meta["type"] == "annotation":  # 주석 — 첫 줄과 슬롯을 읽는다 (p7-commentary-form). 형식 판정은 shape 가 한다
         meta["_comment"] = comment_form(body)
         in_body = meta["_comment"].get("targets")
         if in_body is not None and sorted(in_body) != sorted(declared):
-            raise ValueError(f"{path}: 논평의 `대상:` 과 frontmatter {TARGETS_KEY} 가 다르다 — 본문 {sorted(in_body)} · "
+            raise ValueError(f"{path}: 주석의 `대상:` 과 frontmatter {TARGETS_KEY} 가 다르다 — 본문 {sorted(in_body)} · "
                              f"frontmatter {sorted(declared)} (p7-commentary-form: 대상은 둘이 일치해야 한다)")
     if meta["status"] != "deprecated":
         for i, raw in enumerate(lines[end + 1 :], start=end + 2):
@@ -384,12 +386,12 @@ def emit_chunk(path: str, meta: dict, line_count: int) -> str:
         stmts.append(f"prov:wasDerivedFrom <{res}>")
     if SPECIALIZATION_KEY in meta:  # 같은 것의 다른 입도 — 출처(wasDerivedFrom)와 다르다 (p10-split-keeps-work-identity)
         stmts.append(f"prov:specializationOf <{meta[SPECIALIZATION_KEY]}>")
-    # 주석 → 대상 (agt:targets). **링크 키가 아니다**: 주석이 대상의 deps 가 되면 리뷰가 빌드 그래프를 오염시켜 논평 하나가
+    # 주석 → 대상 (agt:targets). **링크 키가 아니다**: 주석이 대상의 deps 가 되면 리뷰가 빌드 그래프를 오염시켜 주석 하나가
     # 대상의 재빌드를 유발한다. 주석은 대상을 관찰하지 대상을 구성하지 않으므로 agt:cites 처럼 그래프에만 트리플로 남는다 —
     # LINK_KEYS(링크 개체)에도 gen_build.LINKS(Bazel deps)에도 넣지 않는다. 대상 실재는 validate check_dangling 이 본다
     for t in meta.get(TARGETS_KEY, []) or []:
         stmts.append(f"agt:targets <{t}>")
-    c = meta.get("_comment") or {}  # 논평의 본문 파생 사실 (p7-commentary-form) — 닫힌 어휘와 상한은 shape 가 판정한다
+    c = meta.get("_comment") or {}  # 주석의 본문 파생 사실 (p7-commentary-form) — 닫힌 어휘와 상한은 shape 가 판정한다
     for key, pred in (("label", "agt:commentLabel"), ("decoration", "agt:commentDecoration"), ("resolution", "agt:resolutionState")):
         if key in c:
             stmts.append(f'{pred} "{esc(c[key])}"')
@@ -411,7 +413,8 @@ def emit_chunk(path: str, meta: dict, line_count: int) -> str:
     return "\n".join(lines)
 
 
-LINK_KEYS = ("refines", "serves", "supersedes", "verifies", "satisfies", "constrains", "derivesFrom", "allocates", "generates")
+LINK_KEYS = ("refines", "serves", "supersedes", "verifies", "satisfies", "constrains", "derivesFrom", "allocates", "generates",
+             "overlapsWith")  # overlapsWith 는 relatedTo 족의 약한 잎 — 링크 키라 링크 개체·복원 표시를 받는다 (overlap-ontology)
 RESTORED_KEY = "restored"  # 복원 링크의 표시 (p10-restored-link-marking) — 값은 같은 청크의 링크 키 대상 IRI 목록
 RESTORED_GATE = getattr(kb_lib, "RESTORED_GATE", "restored")  # 게이트 id — FAIL [restored] (정의처 kb_lib)
 ID_BASE = "https://agentic-knowledge-base.dev/id/"

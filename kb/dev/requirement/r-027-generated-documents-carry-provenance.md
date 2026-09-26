@@ -5,9 +5,11 @@ level: functional
 pattern: ubiquitous
 title_ko: 생성 문서는 자기 출처와 재현 수단을 담아야 한다
 title: A generated document must carry its provenance and the command that rebuilds it
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-generated-document-standards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
+restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-21T21:10:00+09:00}
 ---
 **요구** — 체계가 생성하는 모든 문서는 생성기와 그 버전, 생성 시각, 입력 목록과 그 지문, 질의, 자기를 다시 만드는 명령을 담아야 한다.

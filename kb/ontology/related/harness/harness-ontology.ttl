@@ -6,7 +6,7 @@
 
 agt:Harness a owl:Class ;
     rdfs:label "harness"@en , "하네스"@ko ;
-    skos:definition "에이전트의 실행 환경. 스코프를 부여한다. 하네스가 부여하는 스코프는 ODD의 부분집합이다 (0.4절, 3.3절)."@ko .
+    skos:definition "에이전트의 실행 환경. 스코프를 부여한다. 하네스가 부여하는 스코프는 ODD의 부분집합이다 (0.4절, 3.3절). 게이트: validate check_catalog."@ko .
 
 agt:grants a owl:ObjectProperty ;
     rdfs:domain agt:Harness ;

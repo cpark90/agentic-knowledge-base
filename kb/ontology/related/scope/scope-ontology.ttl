@@ -13,7 +13,7 @@ agt:subsetOf a owl:ObjectProperty ;
     rdfs:domain agt:Scope ;
     rdfs:range agt:ODD ;
     rdfs:label "subset of"@en , "부분집합이다"@ko ;
-    skos:definition "스코프가 어느 ODD의 부분집합인지. ODD에 없는 속성을 참조하는 스코프는 존재할 수 없다 (0.4절)."@ko .
+    skos:definition "스코프가 어느 ODD의 부분집합인지. ODD에 없는 속성을 참조하는 스코프는 존재할 수 없다 (0.4절). 게이트: validate check_catalog(_check_scope_subset)."@ko .
 
 agt:includesCondition a owl:ObjectProperty ;
     rdfs:domain agt:Scope ;

@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: question
-status: open
+status: relayed
 targets: [kb/vv/verdict/, kb/vv/verifier/, tools/chunk2kg.py, defs/kb.bzl, kb/dev/decision/p4-all-knowledge-is-composite/]
 ---
 
@@ -38,3 +38,7 @@ vnv가 검증기 셋에 `verifies`를 **하나도 달지 못했다.** `verifies`
 - **연결 성분 4 → 6.** 새 청크 7건 중 검증기 2개(`gate-test-targets`·`negative-failure-test`)가 링크 없이 고립됐다. vnv는 `refines`로 케이스 하나를 임의로 고르는 것이 사다리를 오염시킨다고 보아 하지 않았다 — 옳은 판단이다. 위 공백 2가 풀리면 `verifies`로 붙는다.
 - **논평이 관측을 묶는 수단이 됐다.** `agt:targets`가 `metrics`의 간선 15종에 들어 있어, 실행 기록 2건을 함께 가리킨 논평 하나가 그 둘을 한 성분으로 묶었다. 관측의 고립을 푸는 길이 하나 생겼다 — 유저 항목 `connected-components-observations`에 더할 실측이다.
 - 고아율은 0/760 = 0.0%로 그대로다. 고아율과 연결 성분은 다른 지표다.
+
+## 중계 (hci, 2026-09-26)
+
+유저 lane 항목으로 올렸다 — [`../composite-beyond-decisions-2026-09-26.md`](../composite-beyond-decisions-2026-09-26.md) · [`../code-as-chunks-2026-09-26.md`](../code-as-chunks-2026-09-26.md). 한 파일에 한 주제 규약대로 질문마다 항목을 따로 세웠고 다섯 절로 썼다. hci 가 실측으로 확인한 줄은 항목에 표시했다. 유저 답이 오면 이 항목에 옮기고 `answered` 로 바꾼다.

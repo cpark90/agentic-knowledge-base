@@ -15,6 +15,15 @@ filegroup(
 )
 
 kb_chunk(
+    name = "bazel-run-loses-relative-paths",
+    src = "bazel-run-loses-relative-paths.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6649e907-2564-4642-8253-1a1a5b3b649f",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
     name = "exit-code-only-judgement",
     src = "exit-code-only-judgement.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/851ddbad-257f-4b76-afec-adc62b374c3a",
@@ -42,6 +51,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "runner-env-leaks-into-case",
+    src = "runner-env-leaks-into-case.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1b6cf1f2-8a75-4a1e-bf1e-62fa0df3b53c",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
     name = "skipped-negative-stimuli",
     src = "skipped-negative-stimuli.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/37e5d11c-da21-4507-ba87-e96d60225f6f",
@@ -50,13 +68,35 @@ kb_chunk(
     status = "draft",
 )
 
+kb_chunk(
+    name = "vocab-stimulus-not-minimal",
+    src = "vocab-stimulus-not-minimal.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6767c763-0377-4daf-9048-c63ddf3cd853",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "when-false-suspect-not-a-case",
+    src = "when-false-suspect-not-a-case.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/bdeee674-eb23-4c3c-a3b5-40716acc8521",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
 # 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
 kb_bundle(
     name = "kg",
     items = [
+        ":bazel-run-loses-relative-paths",
         ":exit-code-only-judgement",
         ":gate-axis-coverage",
         ":run-record-verdict-aggregation",
+        ":runner-env-leaks-into-case",
         ":skipped-negative-stimuli",
+        ":vocab-stimulus-not-minimal",
+        ":when-false-suspect-not-a-case",
     ],
 )

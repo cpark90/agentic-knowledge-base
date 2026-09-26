@@ -1192,6 +1192,20 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p2-definition-names-its-gate",
+    conclusion = "p2-definition-names-its-gate/conclusion.md",
+    rationale = "p2-definition-names-its-gate/rationale.md",
+    alternatives = "p2-definition-names-its-gate/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/fc9c449c-45c7-4951-929d-b201dd7c2d45",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/0ea16a47-6e97-451e-bc6a-93c9154824d6", "https://agentic-knowledge-base.dev/id/chunk/26cc408f-b53a-4c2e-8ac7-57bde2d2f1c8", "https://agentic-knowledge-base.dev/id/chunk/cd539cfa-297e-4adb-b0c4-62d713a0882c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-016-gate-judges-actions",
+    ],
+)
+
+kb_decision(
     name = "p2-judgement-history-in-verified",
     conclusion = "p2-judgement-history-in-verified/conclusion.md",
     rationale = "p2-judgement-history-in-verified/rationale.md",
@@ -2512,6 +2526,23 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p8-agent-verification-target",
+    conclusion = "p8-agent-verification-target/conclusion.md",
+    rationale = "p8-agent-verification-target/rationale.md",
+    alternatives = "p8-agent-verification-target/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/70615ceb-7f52-4c6f-ae72-3d83ab59dbe0",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/889cd3dc-d652-4e79-b911-9a052216801b", "https://agentic-knowledge-base.dev/id/chunk/7bf6ac61-b7c4-45bf-a7b1-438cf6d24079", "https://agentic-knowledge-base.dev/id/chunk/3cbd4ee9-bf86-4244-9922-2d8ba28c8678"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-025-verify-product-and-agent",
+    ],
+    supersedes = [
+        "//kb/dev/decision:p8-two-verification-targets",
+    ],
+)
+
+kb_decision(
     name = "p8-agent-vv",
     conclusion = "p8-agent-vv/conclusion.md",
     rationale = "p8-agent-vv/rationale.md",
@@ -2616,6 +2647,34 @@ kb_decision(
     alternatives = "p8-learned-environment-and-judge/alternatives.md",
     iri = "https://agentic-knowledge-base.dev/id/composite/0b5e9efb-5c56-4cc8-92bf-bc0ba2f4f531",
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c9389c95-3596-453d-9915-6d4a28898afb", "https://agentic-knowledge-base.dev/id/chunk/03615e55-7dff-4d59-ae60-4801dc1c370e", "https://agentic-knowledge-base.dev/id/chunk/acb96c21-27eb-48e4-a842-1c6c31ab36d7"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:verification-means-trust",
+    ],
+)
+
+kb_decision(
+    name = "p8-machine-readable-case",
+    conclusion = "p8-machine-readable-case/conclusion.md",
+    rationale = "p8-machine-readable-case/rationale.md",
+    alternatives = "p8-machine-readable-case/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/e2064625-339c-4cef-8f06-5e775874f177",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b8d74a2d-f94b-4fe7-8b3b-13dca638d338", "https://agentic-knowledge-base.dev/id/chunk/d625e077-8f31-4358-97ed-d61b3e0ed25c", "https://agentic-knowledge-base.dev/id/chunk/1909dc69-9b0b-4cf9-a63d-12d8a65bf5a1"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:verification-means-trust",
+    ],
+)
+
+kb_decision(
+    name = "p8-minimal-negative-stimulus",
+    conclusion = "p8-minimal-negative-stimulus/conclusion.md",
+    rationale = "p8-minimal-negative-stimulus/rationale.md",
+    alternatives = "p8-minimal-negative-stimulus/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/6eea0a91-2e8d-400c-a830-ea653fa104f0",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f9540774-0c1e-4234-b396-818d159ec5d4", "https://agentic-knowledge-base.dev/id/chunk/7aa3c343-6435-4646-8f2b-a0a45fc33d8b", "https://agentic-knowledge-base.dev/id/chunk/90552b15-2600-4517-a0e8-87ac5f3e196a"],
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
@@ -2860,7 +2919,7 @@ kb_decision(
     iri = "https://agentic-knowledge-base.dev/id/composite/e11ea926-9802-41f2-92a9-62dccfa80b4d",
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/1346522d-0e9b-4a3d-9390-082cf9aa47f3", "https://agentic-knowledge-base.dev/id/chunk/d577873b-6b6f-426b-8be3-190a69370562", "https://agentic-knowledge-base.dev/id/chunk/bb95f17b-69e3-4546-9076-ba59c66fc773"],
     part_levels = ["concrete", "logical", "logical"],
-    status = "stable",
+    status = "deprecated",
     refines = [
         "//kb/dev/requirement:r-025-verify-product-and-agent",
     ],
@@ -2915,6 +2974,20 @@ kb_decision(
     ],
     supersedes = [
         "//chunks/decision:d-0132-verification-environment-ladder",
+    ],
+)
+
+kb_decision(
+    name = "p8-verifier-env-isolation",
+    conclusion = "p8-verifier-env-isolation/conclusion.md",
+    rationale = "p8-verifier-env-isolation/rationale.md",
+    alternatives = "p8-verifier-env-isolation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/2a051063-7217-4597-b03f-4a4346e85b0e",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2fa82a3a-2e47-4bf8-8d59-2e02da4270dd", "https://agentic-knowledge-base.dev/id/chunk/82790ce1-27f0-4673-b99d-3ce99e02b308", "https://agentic-knowledge-base.dev/id/chunk/b4f447d2-da8a-4f8c-84df-57e6ad692c77"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:reproducible-runs",
     ],
 )
 
@@ -3415,6 +3488,7 @@ kb_bundle(
         ":p14-adoption-stages",
         ":p14-stage-pass-conditions",
         ":p2-competency-questions",
+        ":p2-definition-names-its-gate",
         ":p2-judgement-history-in-verified",
         ":p2-ontology-as-vocabulary",
         ":p2-ontology-compiler-three-tiers",
@@ -3494,6 +3568,7 @@ kb_bundle(
         ":p7-dev-roles-and-scopes",
         ":p7-developer-requires-concrete",
         ":p7-schema-derivation",
+        ":p8-agent-verification-target",
         ":p8-agent-vv",
         ":p8-case-generation",
         ":p8-coverage-metrics",
@@ -3501,6 +3576,8 @@ kb_bundle(
         ":p8-environment-assignment",
         ":p8-judge-question-form",
         ":p8-learned-environment-and-judge",
+        ":p8-machine-readable-case",
+        ":p8-minimal-negative-stimulus",
         ":p8-mismatch-attribution",
         ":p8-odc-defect-subtypes",
         ":p8-odc-qualifier-and-dimensions",
@@ -3519,6 +3596,7 @@ kb_bundle(
         ":p8-unknown-risk-cases",
         ":p8-verification-and-validation",
         ":p8-verification-environment-ladder",
+        ":p8-verifier-env-isolation",
         ":p8-vv-independence-scope",
         ":p8-vv-plane-instances",
         ":p8-vv-reports",

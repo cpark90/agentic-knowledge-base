@@ -7,7 +7,7 @@
 
 agt:Evidence a owl:Class ;
     rdfs:label "evidence entry"@en , "증거 항목"@ko ;
-    skos:definition "링크 증거 기록의 한 줄 — 종류·참조·극성. 확률로 합산하지 않으며 상태 전이 규칙이 증거 기록을 읽는다: 구축(+) 또는 실행(+)이 있고 반박(−)이 없어야 확정 가능, 실행(−)은 즉시 기각, ±공존은 사람 큐 (9.11절)."@ko .
+    skos:definition "링크 증거 기록의 한 줄 — 종류·참조·극성. 확률로 합산하지 않는다. 구축(+) 또는 실행(+)이 있고 반박(−)이 없어야 확정 가능하다는 판정은 confirmed-without-evidence·confirmed-with-refutation 질의가 하고, 실행(−) 즉시 기각과 ±공존의 사람 큐 유도는 assume_check가 한다 (9.11절)."@ko .
 
 agt:hasEvidence a owl:ObjectProperty ;
     rdfs:domain agt:Link ;

@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 targets: [kb/dev/decision/p12-generated-document-header/, kb/dev/decision/p12-generated-document-form/, kb/dev/decision/p12-generated-documents-are-gated/, docs/roadmap.md]
 ---
 
@@ -41,3 +41,11 @@ targets: [kb/dev/decision/p12-generated-document-header/, kb/dev/decision/p12-ge
 - 같은 관측 3건이 CQ20 후방 추적의 잔여이기도 하다(682/685 = 99.6%). 연결 성분과 후방 추적이 같은 답으로 닫힌다.
 
 부수로 확인한 것 하나. `-space` 청크 2개는 `//kg:metrics`의 입력이 아니라 성분 계산 밖이다(`kg/BUILD.bazel`의 `data` 넷에 `//space:design_space`가 없다). 넣으면 두 개체가 `agt:lineCount`를 가져 청크로 세어지고 성분이 8로 는다. `-space`는 청크가 아니라 A-Box이므로 지금 배치가 맞다.
+
+## 답 — hci 처리 2026-09-26 (유저 판단 불요)
+
+원장 53에 "연결 성분의 원인 분리(2026-09-22)" 기록. 재판정 대상 없음.
+
+이 기록이 유저 항목 `connected-components-observations-2026-09-19` 의 판단을 기다리며 **관측이 아닌 원인을 먼저 갈라낸 것**이 맞는 순서다. 그 항목은 2026-09-23 에 승인됐고(관측을 성분 계산에서 제외) 지표에 반영됐다 — `//kg:metrics` 가 "연결 성분과 후방 추적 귀속은 관측 제외"를 머리에 적는다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.

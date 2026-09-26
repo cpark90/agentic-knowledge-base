@@ -19,6 +19,10 @@
 
 - **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-remainder-2026-09-22.md`](spec-writing-standard-remainder-2026-09-22.md) — G10 그림 틀 · 출처 개체 위치.
   인수인계 [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md). 반영되면 제안 원문과 승인 항목을 제거한다
+- **유저 판단 대기(2026-09-26)**: [`jev-judge-binding-2026-09-26.md`](jev-judge-binding-2026-09-26.md) — 판정자를 System One 모델에 붙일 것인가 ·
+  [`test-hermeticity-2026-09-26.md`](test-hermeticity-2026-09-26.md) — 게이트 하나가 밀폐성에서 벗어난다 ·
+  [`composite-beyond-decisions-2026-09-26.md`](composite-beyond-decisions-2026-09-26.md) — 복합체를 결정 밖으로 ·
+  [`code-as-chunks-2026-09-26.md`](code-as-chunks-2026-09-26.md) — 코드를 청크로 올릴 것인가
 - **승인됨·인수 대기(2026-09-23)**: 여섯 항목이 한꺼번에 승인됐다 — 링크 C·D·E · 형식화 M1·M5 · 관측과 연결 성분 · 요구 stable 전이 · 관측 시각 표기 · 에이전트 검증 도착점.
   인수인계는 `handoff/` 의 동명 항목 여섯이고 **수행 순서는 링크 항목이 먼저**다(유저 지정).
 - **유저 판단 대기(2026-09-19)**: [`vv-profile-hazards-2026-09-19.md`](vv-profile-hazards-2026-09-19.md) — 위험 분석 G1~G6 의 입력 · [`workset-budget-gate-2026-09-22.md`](workset-budget-gate-2026-09-22.md) — 예산 초과의 게이트화
@@ -35,6 +39,8 @@
 - **남은 유저 lane 항목 넷** — `docs/` 가 마크다운 링크로 가리켜 아직 제거하지 못한다(링크를 `git:<리비전>:<경로>` 평문 인용으로 바꾸면 제거):
   [`bazel-dependency-review.md`](bazel-dependency-review.md)(`tools.md`) · [`dependency-graph-design.md`](dependency-graph-design.md)(`open-questions/link-judgement-basis.md`) ·
   [`design-detail-review.md`](design-detail-review.md)(`decomposition-audit.md`·`docs/README.md`) · [`label-representativeness-protocol.md`](label-representativeness-protocol.md)(`tools.md`·`roadmap.md`)
+- refresh 2026-09-26: 돌아온 handoff 둘(`link-model-robustness-cde`·`nl-ambiguity-adoption`)을 `closed` 로, 기록 다섯을 `answered` 로,
+  질문 둘을 유저 lane 항목 셋으로 중계했다. hci 의 조사 오류 둘을 handoff 에 정정으로 남겼다 — 정의문 규칙 36 → 52건, `refines` 상한의 셋째 읽기.
 - refresh 2026-09-22: 인수 기록이 돌아온 handoff 1건을 `closed` 로, 기록 2건을 `answered` 로, 질문 2건을 유저 lane 으로 중계했다.
   제거는 없다 — 2026-09-19 기록 6건과 오늘 기록 2건은 발신자가 닫기 전이고, 승인 항목은 출처 개체가 트리 경로를 가리킨다. 기록은 git 이력(`e3b36d2`).
 - refresh 2026-09-19: agents 3 제거(발신자 `closed` — 1단계 통과·4단계 첫 형태·`query` 도구 기록). 같은 날 기록 6건은 `answered` 로 두었다 —

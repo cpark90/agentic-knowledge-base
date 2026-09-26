@@ -26,7 +26,7 @@ FAMILIES = [
     ("refs", [AGT.cites, AGT.targets]),
     ("dep", [AGT.refines, AGT.serves, AGT.satisfies, AGT.constrains, AGT.verifies, AGT.usesConcept, AGT.derivesFrom, AGT.allocates]),
     ("part", [AGT.hasDirectPart]),
-    ("rel", [AGT.coUpdatesWith, AGT.conflictsWith]),
+    ("rel", [AGT.coUpdatesWith, AGT.conflictsWith, AGT.overlapsWith]),
     ("time", [AGT.supersedes]),
 ]
 FAMILY_OF = {p: (i + 1, tag) for i, (tag, ps) in enumerate(FAMILIES) for p in ps}

@@ -11,3 +11,4 @@
 | term-drift | kb/dev/decision/pe-storage-layout/conclusion.md | 파일 | 본문의 `verifier/`는 디렉토리명 — 옛 표기가 아니다 (consistency ⑥) | orchestrator | 2026-09-12 |
 | prose | docs/references.md | 파일 | 도구 이름 "OOPS!"의 느낌표 — 고유명사 | orchestrator | 2026-09-13 |
 | empty-value | kb/dev/decision/p9-uncertainty-as-link-uncertainty/conclusion.md | 파일 | 본문의 "값이 미정인 것처럼 보이는 경우"는 빈 값 표기가 아니라 낱말의 산문 용법이다 (⑧ 빈 값 이상 표기) | orchestrator | 2026-09-22 |
+| term-drift | kb/vv/verifier/vv-run-executor.md | 파일 | 본문의 `verifier`는 결정 슬러그 `p8-verifier-env-isolation`(식별자)와 영문 `title:`뿐이다 — 옛 표기의 산문 용법이 아니라 부분 문자열 오탐이다 (consistency ⑥) | orchestrator | 2026-09-26 |

@@ -29,7 +29,7 @@ bazel build //kg:metrics && cat bazel-bin/kg/metrics.md
 - 도구: `tools/metrics.py` (`bazel run //tools:metrics`) — 사용법은 docstring 이 원본이다
 
 ```text
-metrics.py --out metrics.md <TTL...>
+metrics.py --out metrics.md --residency defs/kb.bzl <TTL...>
 ```
 
 ## 실패 시

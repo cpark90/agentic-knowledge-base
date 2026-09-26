@@ -1,0 +1,8 @@
+# 안티패턴: 순환 정제 — agt:refines 연쇄가 자기 자신에 닿는다 (노트 6.2절, rules §2 비순환)
+# owl:IrreflexiveProperty(ladder-ontology) 의 질의 대응물이다. //kg:gate_test 는 --reason 없이 돌고 pySHACL 의
+# rdfs·owlrl 추론은 비반사성 위반을 내지 않으므로(2026-09-26 실측) 공리는 선언이고 판정은 여기서 한다.
+# 결과 행 하나 = 위반 하나. 첫 실행(2026-09-26, refines 479): 0 (반사 0 · 길이 2~4 순환 0).
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+SELECT DISTINCT ?chunk WHERE {
+  ?chunk agt:refines+ ?chunk .
+}

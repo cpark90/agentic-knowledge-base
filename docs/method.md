@@ -200,6 +200,14 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 3. **재판정은 즉시 하지 않고 커밋·세션 종료 같은 경계에서 일괄로** 한다. 알려진 변경 패턴은
    규칙으로 자동 갱신하고, 규칙에 없는 변경만 판정으로 보낸다 (d-0106).
 
+**링크 상태는 저장값이 아니라 평가 결과다**(유저 승인 2026-09-23, 링크 견고성 D). 링크의 `when`은 ODD 조건 참조
+(`in(<조건>)`과 `!`·`&&`·`||`, 3값 논리)로 평가되고, 거짓이면 확정 링크는 `suspect`·후보는 `invalid`로 유도된다.
+유도된 상태는 그래프에 쓰지 않고 `bazel run //tools:assume_check`의 보고와 `//kg:metrics`에서만 물질화된다. 전파는
+`tools/kb_lib.py`의 `SUSPECT_TRIGGERS`에 선언된 링크 종류만 돈다 — 지금 `supersedes` 하나이고, 선언에 없는 종류는 돌지
+않는다. 추적 매트릭스가 `suspect`로 포화되는 것을 `metrics`의 포화율 한 줄이 관측한다(경고선 20%).
+**본문 해시 변경 → 링크 재판정** 경로는 `bazel run //tools:revalidate -- --base <rev>`가 닫았다 — 바뀐 청크를 양 끝으로
+갖는 `agt:Link` 개체를 그래프의 같은 IRI로 낸다.
+
 무효화는 삭제가 아니다. 무효화 이력은 일반화의 입력이다. 어떤 가정이 자주 깨지는가는 그
 자체로 일반화 대상이다.
 
@@ -278,9 +286,26 @@ v1의 "검증은 응용"(d-0130)은 v3부터 대체되었다. 검증·확인은 
 첫 형태(2026-09-19)의 사슬은 셋이다 — 검증 목표(`kb/vv/goal/`, requirement·functional, 개발 요구에서 `derivesFrom`) ←
 합격 기준(`kb/vv/criteria/`, contract·logical, 판정식 = 게이트) ← 케이스(`kb/vv/case/`, schema·concrete, 자극·기대·실행 명령)
 —`verifies`→ 개발 결정의 결론(concrete). 케이스가 `schema`인 이유는 `refines`가 plane 순서(contract·schema가 decision 뒤)를
-거스르지 못하기 때문이다. 검증기는 기존 게이트와 음성 시험이며 `artifact` 청크는 아직 없다. 실행기 `vv_run`이 케이스의 실행
-명령 중 읽기 전용 검증기를 돌려 실행 기록(`kb/vv/run/`, memory·concrete, append-only, `process:vv_run`)을 남기고, 감사
-보고서 `//kg:audit`가 그래프와 그 기록만으로 검증 현황을 낸다 — V&V 순환의 첫 닫힘이다.
+거스르지 못하기 때문이다. 검증기(`kb/vv/verifier/`, artifact·executable)와 판정 주석(`kb/vv/verdict/`, annotation)도
+2026-09-22에 실물을 얻었다. 실행기 `vv_run`이 케이스의 실행 명령 중 읽기 전용 검증기를 돌려 실행 기록(`kb/vv/run/`,
+memory·concrete, append-only, `process:vv_run`)을 남기고, 감사 보고서 `//kg:audit`가 그래프와 그 기록만으로 검증
+현황을 낸다 — V&V 순환의 첫 닫힘이다.
+
+**케이스는 자극과 기대를 기계가 읽는 형식으로 적는다**([`p8-machine-readable-case`](../kb/dev/decision/p8-machine-readable-case/conclusion.md),
+2026-09-23). 산문 옆의 `yaml` 펜스가 `files`(이름 → 내용)와 `expect`(명령마다 `exit`·`contains`)를 담고, 검증기가 자극을
+임시 디렉토리에 써서 `{{이름}}`을 실제 경로로 바꾼 뒤 실행하고 지운다. 판정은 종료 코드와 문구가 둘 다 맞아야 통과다 —
+종료 코드만 보면 기대한 사유로 실패했는지 모르고, 다른 이유로 실패한 검증기는 **틀린 것을 검증한다.** 건너뛴 명령이 있는
+케이스는 `pass`가 아니라 `skip`이다. 게이트의 값은 무엇을 통과시키는가가 아니라 무엇을 거부하는가에 있다.
+
+**음성 자극은 검사하려는 규칙 하나만 어긴다**([`p8-minimal-negative-stimulus`](../kb/dev/decision/p8-minimal-negative-stimulus/conclusion.md)).
+둘 이상을 어기면 종료 코드가 어느 규칙을 가리키는지 말하지 못하고 `contains` 문구만이 분기를 고정한다. 게이트 메시지는
+수정 방향이라 개선되며 바뀌므로, 바뀔 때 종료 코드가 받쳐 주지 않으면 고치는 사람이 새 문구를 무엇에 맞출지 모른다.
+`**표본 근거**`에 그 자극이 어기는 규칙을 적고, 최소가 되지 않으면 케이스를 나눈다. 최소성은 자극을 하나씩 빼 보는
+실험으로만 확인되므로 게이트가 아니라 표본 근거의 주장이다.
+
+**검증기는 실행기의 파이썬·runfiles 문맥을 물려받지 않는다**([`p8-verifier-env-isolation`](../kb/dev/decision/p8-verifier-env-isolation/conclusion.md)).
+실행기를 부르는 방식이 케이스의 판정을 바꾸면 재현이 아니다. 게이트 `vv-run-env`(`//tools:vv_run_env_test`)가 그 격리를
+`bazel test //...` 안에서 상시 판정한다 — 판정 대상을 실행기 전체가 아니라 격리의 동작으로 좁혀 중첩 bazel을 피했다.
 
 ## 12. 영향 분석
 

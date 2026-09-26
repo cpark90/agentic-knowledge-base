@@ -1,7 +1,9 @@
 # shape — 설계 결정의 본문 틀 셋: 결론·근거·대안. 세 청크 규칙(kb_decision)이 이미 강제하는 형태를 슬롯 질문과 함께 기술한다 (결정 p4-slot-answers-one-question)
 # 옛 단일 파일 결정(chunks/decision/d-*.md)은 한 파일이 결론과 근거를 함께 담으므로 sh:xone 이 아니라 sh:or 다 — 2026-09-22 실측에서 156건이 둘 이상을 만족했다.
+# 슬롯 표지의 값은 xsd:string 이다 — 형이 없으면 언어 태그가 붙은 리터럴이나 IRI 가 슬롯 표지로 통과한다 (M5 값의 형, 2026-09-26).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 agt:DecisionBodyShape a sh:NodeShape ;
     sh:targetClass agt:DesignDecision ;
@@ -9,16 +11,16 @@ agt:DecisionBodyShape a sh:NodeShape ;
     sh:message "설계 결정의 본문은 역할 표지 **결론**·**근거**·**대안** 중 하나로 시작해야 한다 — 세 청크가 한 결정을 이룬다 (p7-dev-plane-substance, p4-slot-answers-one-question)" .
 
 agt:DecisionConclusionBodyShape a sh:NodeShape ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "결론" ; sh:order 1 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "결론" ; sh:order 1 ;
         sh:description "무엇을 정했는가" ;
         sh:message "슬롯 **결론** 이 없다 — 정한 것을 한 문장으로 적고 근거·대안은 형제 청크에 둔다" ] .
 
 agt:DecisionRationaleBodyShape a sh:NodeShape ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "근거" ; sh:order 1 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "근거" ; sh:order 1 ;
         sh:description "왜 그렇게 정했는가" ;
         sh:message "슬롯 **근거** 가 없다 — 결론을 지지하는 까닭을 적는다" ] .
 
 agt:DecisionAlternativesBodyShape a sh:NodeShape ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "대안" ; sh:order 1 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "대안" ; sh:order 1 ;
         sh:description "무엇을 기각했고 왜 기각했는가" ;
         sh:message "슬롯 **대안** 이 없다 — 기각한 안과 기각 사유를 적고, 없으면 **대안 없음** 으로 적는다" ] .

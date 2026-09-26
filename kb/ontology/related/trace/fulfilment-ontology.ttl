@@ -43,4 +43,4 @@ agt:serves a owl:ObjectProperty ;
     rdfs:domain agt:DecisionChunk ;
     rdfs:range agt:RequirementChunk ;
     rdfs:label "serves"@en , "기여한다"@ko ;
-    skos:definition "결정이 어느 요구의 어느 관심사에 기여하는가. functional → abstract 전이 게이트가 요구하는 명시이며, 기여 없는 설계는 거부된다. refines의 특수형이므로 요구까지의 연쇄 질의에 그대로 걸린다 (6.8절, 7.3절)."@ko .
+    skos:definition "결정이 어느 요구의 어느 관심사에 기여하는가. functional → abstract 전이 게이트가 요구하는 명시다. 기여는 refines 또는 serves 로 요구에 닿는 것이고, 닿지 않는 설계는 거부된다. 게이트: CQ-37 · V&V 케이스 decision-names-requirement(metrics 후방 추적 귀속). refines의 특수형이므로 요구까지의 연쇄 질의에 그대로 걸린다 (6.8절, 7.3절)."@ko .

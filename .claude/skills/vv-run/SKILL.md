@@ -1,6 +1,6 @@
 ---
 name: vv-run
-description: V&V 케이스의 양성 명령을 실행해 케이스별 pass·fail·skip 을 판정하고 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.
+description: V&V 케이스의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 실행해 케이스의 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.
 ---
 
 # vv_run — V&V executor (생성 파일)
@@ -15,7 +15,7 @@ V&V executor — 케이스의 실행 명령 중 허용 목록의 양성 명령�
 
 ## 언제 쓰는가
 
-V&V 케이스의 양성 명령을 실행해 케이스별 pass·fail·skip 을 판정하고 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.
+V&V 케이스의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 실행해 케이스의 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.
 
 ## 명령
 
@@ -31,7 +31,7 @@ python3 tools/gen_build.py --root . && bazel test //...
 - 도구: `tools/vv_run.py` (`bazel run //tools:vv_run`) — 사용법은 docstring 이 원본이다
 
 ```text
-bazel run //tools:vv_run -- [--record] [--case <슬러그>…] [--out report.md]
+bazel run //tools:vv_run -- [--record] [--case <슬러그>…] [--out report.md] [--waivers docs/waivers.md]
 python3 tools/vv_run.py [--record] [--case <슬러그>…]
 ```
 

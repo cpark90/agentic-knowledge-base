@@ -11,7 +11,7 @@
   changelog     supersedes 쌍(새 → 옛)을 새 결정의 generated.at 순으로, prov:wasRevisionOf 가 있으면 함께
   audit         감사 보고서 (로드맵 8단계 "복원과 감사", 요구 audit-self-sufficiency) — 입력은 그래프 union 과 관측 청크 본문(kb/vv/run/ 의
                 실행 기록 · kb/dev/memory/ 의 가정 판정)뿐이다. 체계 밖 정보 0. 절: 리비전·입력 / 검증 현황(요구의 검증 대응물 · verifies 대상
-                결정 · 사슬 수 · 기준 없는 verifies) / 최근 실행(케이스별 pass·fail·skip 그대로) / 판정 주석(논평 수 · 라벨 분포 · 해소 열림 ·
+                결정 · 사슬 수 · 기준 없는 verifies) / 최근 실행(케이스별 pass·fail·skip 그대로) / 판정 주석(주석 수 · 라벨 분포 · 해소 열림 ·
                 그중 게이트를 막는 issue (blocking); p7-commentary-form) / 가정(최신 assume_check 관측) / 추적 매트릭스
                 (kb_lib.TIM_CELLS — metrics 와 같은 정의) / 검증 표시(verified 주체 종류 · 검증 뒤 수정) / 링크 근거(증거 종류 · 복원 비율) /
                 자족성 선언. bodies 에 //kb/vv:bodies·//kb/dev:bodies 를 준다 (//kg:audit)
@@ -414,28 +414,28 @@ def render_audit(m: Model, bodies: dict, inputs: list[str]) -> str:
         else:
             body += [f"- 본문에 케이스 표(헤더 `{kb_lib.RUN_CASE_TABLE_HEADER}`)가 없다", ""]
 
-    # 4. 판정 주석 — 논평의 라벨 분포와 해소 상태 (p7-commentary-form: issue (blocking) + 해소 열림 만 게이트를 막는다)
+    # 4. 판정 주석 — 주석의 라벨 분포와 해소 상태 (p7-commentary-form: issue (blocking) + 해소 열림 만 게이트를 막는다)
     label_of = lambda c: str(next(g.objects(c, AGT.commentLabel), ""))        # noqa: E731
     deco_of = lambda c: str(next(g.objects(c, AGT.commentDecoration), ""))    # noqa: E731
     state_of = lambda c: str(next(g.objects(c, AGT.resolutionState), ""))     # noqa: E731
     comments = sorted((c for c in live if m.plane[c] == "annotation"), key=lambda c: m.location[c])
     open_ = [c for c in comments if state_of(c) == kb_lib.COMMENT_OPEN]
     blocking = [c for c in open_ if (label_of(c), deco_of(c)) == kb_lib.COMMENT_BLOCKING]
-    body += ["## 판정 주석 — 논평의 라벨 분포와 해소 상태 (p7-commentary-form)", ""]
+    body += ["## 판정 주석 — 주석의 라벨 분포와 해소 상태 (p7-commentary-form)", ""]
     if not comments:
-        body += [f"살아 있는 논평 {kb_lib.NONE_MARK} — 판정 주석(`{kb_lib.KB_VV}/verdict/`)이 비어 있다. 게이트 "
-                 f"`{kb_lib.BLOCKING_COMMENT_GATE}` 는 서 있고 막을 논평이 아직 없다.", ""]
+        body += [f"살아 있는 주석 {kb_lib.NONE_MARK} — 판정 주석(`{kb_lib.KB_VV}/verdict/`)이 비어 있다. 게이트 "
+                 f"`{kb_lib.BLOCKING_COMMENT_GATE}` 는 서 있고 막을 주석이 아직 없다.", ""]
     else:
         labels = Counter(label_of(c) or kb_lib.NONE_MARK for c in comments)
         states = Counter(state_of(c) or kb_lib.NONE_MARK for c in comments)
-        body += [f"- 살아 있는 논평 **{len(comments)}** · 해소되지 않은 것(`해소: {kb_lib.COMMENT_OPEN}`) **{pct(len(open_), len(comments))}** · "
+        body += [f"- 살아 있는 주석 **{len(comments)}** · 해소되지 않은 것(`해소: {kb_lib.COMMENT_OPEN}`) **{pct(len(open_), len(comments))}** · "
                  f"그중 게이트를 막는 `{kb_lib.COMMENT_BLOCKING[0]} ({kb_lib.COMMENT_BLOCKING[1]})` **{len(blocking)}** "
                  f"(목표 0 — 게이트 `{kb_lib.BLOCKING_COMMENT_GATE}`)", "",
-                 "| 라벨 | 논평 수 | 그중 해소 열림 |", "|---|---|---|"]
+                 "| 라벨 | 주석 수 | 그중 해소 열림 |", "|---|---|---|"]
         body += [f"| `{k}` | {v} | {sum(1 for c in open_ if (label_of(c) or kb_lib.NONE_MARK) == k)} |" for k, v in labels.most_common()]
-        body += ["", "| 해소 상태 | 논평 수 |", "|---|---|"] + [f"| {k} | {v} |" for k, v in states.most_common()] + [""]
+        body += ["", "| 해소 상태 | 주석 수 |", "|---|---|"] + [f"| {k} | {v} |" for k, v in states.most_common()] + [""]
         if blocking:
-            body += ["게이트를 막는 논평:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)} → "
+            body += ["게이트를 막는 주석:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)} → "
                      + (" · ".join(m.ko(t) for t in g.objects(c, AGT.targets)) or kb_lib.NONE_MARK) for c in blocking] + [""]
 
     # 5. 가정 — 최신 assume_check 관측

@@ -6,7 +6,7 @@
 
 agt:EvidenceKind a owl:Class ;
     rdfs:label "evidence kind"@en , "판정 근거 종류"@ko ;
-    skos:definition "링크가 성립한다고 판정한 근거의 종류. 검사 가능성이 높은 순으로 고정되며, 그 순서가 신뢰도와 확정 권한을 정한다 (10.8절)."@ko .
+    skos:definition "링크가 성립한다고 판정한 근거의 종류. 검사 가능성이 높은 순으로 고정되며, 그 순서가 신뢰도와 확정 권한의 기본 선호를 정한다 — 서열은 리뷰 규범이다 (10.8절)."@ko .
 
 
 agt:constructionRecord a owl:NamedIndividual , agt:EvidenceKind ;
@@ -28,7 +28,7 @@ agt:counterfactualTest a owl:NamedIndividual , agt:EvidenceKind ;
 
 agt:runResult a owl:NamedIndividual , agt:EvidenceKind ;
     rdfs:label "run result"@en , "실행 결과"@ko ;
-    skos:definition "검증기·판정 도구의 통과(+) 또는 실패(−). 실행(−)은 후보를 즉시 기각하고 확정을 invalid로 떨어뜨린다 (9.11절)."@ko .
+    skos:definition "검증기·판정 도구의 통과(+) 또는 실패(−). 실행(−)은 후보 기각과 확정 invalid로 유도된다 — 상태는 저장하지 않고 assume_check 보고와 metrics가 물질화한다(2026-09-26) (9.11절)."@ko .
 
 agt:proposal a owl:NamedIndividual , agt:EvidenceKind ;
     rdfs:label "proposal"@en , "제안"@ko ;

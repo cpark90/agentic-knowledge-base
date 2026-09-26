@@ -1,0 +1,30 @@
+# shape — 태그: 값은 자유 문자열이 아니라 범주에 등록된 온톨로지 개념이다 (노트 0.5절, tag-ontology)
+# 정의문 "값은 반드시 온톨로지 개념이다" 와 "범주마다 값의 출처 어휘가 정해져 있다" 의 실행 자리다.
+# 값의 닫힌 집합은 범주마다 다르고 아직 개체로 선언되지 않았으므로 sh:in 이 아니라 등록 여부(inTagCategory)로 판정한다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+agt:TaggedWithShape a sh:NodeShape ;
+    sh:targetSubjectsOf agt:taggedWith ;
+    sh:property [
+        sh:path agt:taggedWith ;
+        sh:nodeKind sh:IRI ;
+        sh:node agt:TagValueShape ;
+        sh:message "태그 값은 온톨로지가 선언한 개념이어야 한다 — 자유 문자열·빈 노드 태그는 검색 불가능한 태그다 (0.5절)" ;
+    ] .
+
+agt:TagValueShape a sh:NodeShape ;
+    sh:property [
+        sh:path agt:inTagCategory ;
+        sh:minCount 1 ;
+        sh:class agt:TagCategory ;
+        sh:message "태그 값은 agt:inTagCategory 로 범주 아홉(actor·condition·purpose·defectFactor·origin·oddRelation·environment·target·level) 중 하나에 등록돼야 한다 (0.5절)" ;
+    ] .
+
+agt:TagCategoryShape a sh:NodeShape ;
+    sh:targetClass agt:TagCategory ;
+    sh:property [
+        sh:path agt:inTagCategory ;
+        sh:maxCount 0 ;
+        sh:message "범주 자체는 태그 값이 아니다 — 범주는 agt:TagCategory 개체이고 값만 agt:inTagCategory 를 갖는다 (0.5절)" ;
+    ] .

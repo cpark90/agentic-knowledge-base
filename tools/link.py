@@ -13,11 +13,12 @@ frontmatter 에 링크 키와 `restored:` 를 적는다 (p10-restored-link-marki
         (d) 승계 — 조각 F 가 prov:specializationOf O 이면 O 를 가리키던 확정 링크(linkState confirmed, 종류는 LINK_KEYS) X→O 마다
             X→F 후보 → constructionRecord, 값 "승계: O" (p10-split-keeps-work-identity). 종류는 원 링크의 종류를 우선한다
         임베딩 유사도는 쓰지 않는다 (ODD 가 학습 임베딩을 명시 제외). 같은 세션 읽음은 하네스가 아직 기록하지 않는다
-  종류  TIM 허용 칸(kb_lib.TIM_CELLS)에서 고른다 — 인용 방향(대칭 근거는 IRI 순)을 먼저, 다음 역방향, 칸이 없으면 relatedTo.
+  종류  TIM 허용 칸(kb_lib.TIM_CELLS)에서 고른다 — 인용 방향(대칭 근거는 IRI 순)을 먼저, 다음 역방향, 칸이 없으면 overlapsWith
+        (relatedTo 족의 약한 잎 — 관계는 있으나 이름이 아직 없는 자리, overlap-ontology). 그것은 링크 키라 채택이 복원 비율에 든다.
         supersedes 는 시간축이라 후보가 아니다. 한 칸에 종류가 여럿이면 refines > derivesFrom > satisfies > constrains > serves > verifies 순.
         승계 후보는 원 링크의 종류가 제약을 통과하면 그것을 쓴다
   제약  defs/kb.bzl _check_links 와 같은 규칙 — refines·serves 는 더 높은 수준으로·plane 순서 역행 금지·같은 KB, serves 대상은 요구,
-        verifies 는 주어 kb/vv·대상 개발 KB·같은 수준. 자기 자신·deprecated·복합체 형제·이미 링크된 쌍·KB 를 가로지르는 relatedTo 는 탈락
+        verifies 는 주어 kb/vv·대상 개발 KB·같은 수준. 자기 자신·deprecated·복합체 형제·이미 링크된 쌍·KB 를 가로지르는 overlapsWith 는 탈락
   상한  앵커(주어)당 k ≤ --k (기본 7, 로드맵 입력표) — 근거 강도 → 공유 개념 수 → 대상 라벨 순. 넘치는 것은 탈락으로 센다
 사용: link.py --out link-candidates.md [--k 7] [--min-shared 3] <TTL...>   (bazel build //kg:link_candidates)
 종료: 0 생성됨 · 2 입력 문제(그래프 파일 없음·파싱 불가) — 뷰라 판정 실패(1)는 없다. 후보 0건은 빈 표이지 실패가 아니다
@@ -42,15 +43,15 @@ EXIT_OK, EXIT_CONFIG = kb_lib.EXIT_OK, kb_lib.EXIT_CONFIG
 TAG = kb_lib.LINK_GATE
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]  # defs/kb.bzl 와 같은 순서 (6.2절 정제 계층)
 PLANES = ["requirement", "decision", "contract", "schema", "artifact", "annotation", "memory"]  # 5.2절 단방향 순서
-RELATED_KEYS = ("coUpdatesWith", "conflictsWith", "relatedTo")  # relatedTo 족 — 직접 트리플. frontmatter 키는 coUpdatesWith 뿐
-RELATED = "relatedTo"
+RELATED_KEYS = ("coUpdatesWith", "conflictsWith", "relatedTo", "overlapsWith")  # relatedTo 족 — 이미 이어진 쌍을 가리는 데 쓴다
+RELATED = "overlapsWith"  # 칸이 없을 때의 종류 — relatedTo 자신이 아니라 그 아래 약한 잎이다 (overlap-ontology)
 # 증거 종류의 강도 — 검사 가능성 순 (evidence-ontology, p10-link-judgement-evidence). 작을수록 강하다
 EVIDENCE_RANK = {"constructionRecord": 0, "testCoverage": 1, "proposal": 2}
 # 한 TIM 칸에 종류가 여럿일 때의 우선순위 — 정제가 먼저, 다음 의미 의존, serves 는 refines 의 약한 형태, verifies 는 vnv 가 적는다
 KIND_PREFERENCE = ("refines", "derivesFrom", "satisfies", "constrains", "serves", "verifies", "allocates", "generates")
 # 탈락 사유 — 요약의 분포 열쇠
 R_SELF, R_DEPRECATED, R_SIBLING, R_LINKED = "자기 자신(같은 단위)", "deprecated", "복합체 형제", "이미 링크됨"
-R_DIRECTION, R_CROSS_KB, R_CAP = "TIM 칸은 있으나 단방향·수준 규칙 위반", "KB 가로지름 (relatedTo 불가 — verifies 뿐)", "상한 k 초과"
+R_DIRECTION, R_CROSS_KB, R_CAP = "TIM 칸은 있으나 단방향·수준 규칙 위반", "KB 가로지름 (overlapsWith 불가 — verifies 뿐)", "상한 k 초과"
 
 
 class Units:
@@ -130,7 +131,7 @@ def violation(u: Units, kind: str, a, b) -> str | None:
 
 
 def resolve(u: Units, key: frozenset, prefer: dict, hint: dict | None = None):
-    """쌍 → (앵커, 종류, 대상) 또는 탈락 사유. 인용 방향(없으면 IRI 순)을 먼저, 다음 역방향, TIM 칸이 없으면 같은 KB 안에서 relatedTo.
+    """쌍 → (앵커, 종류, 대상) 또는 탈락 사유. 인용 방향(없으면 IRI 순)을 먼저, 다음 역방향, TIM 칸이 없으면 같은 KB 안에서 overlapsWith.
 
     hint(쌍 → 종류)는 승계 후보의 원 링크 종류다 — 인용 방향에서 제약을 통과하면 TIM 우선순위보다 먼저 쓴다.
     """
@@ -281,7 +282,7 @@ def main() -> int:
         f"살아 있는 단위(결정 복합체는 결론이 앵커) 쌍 중 frontmatter 링크(`{'`·`'.join(LINK_KEYS)}` + relatedTo 족)가 없는 쌍에 대해 "
         f"(a) `agt:cites` → constructionRecord · (b) 같은 V&V 청크의 `agt:verifies` → testCoverage · (c) `agt:usesConcept` 교집합 ≥ {a.min_shared} → proposal · "
         f"(d) 조각 F 가 `prov:specializationOf` O 이면 O 를 가리키던 확정 링크 X→O 마다 X→F → constructionRecord(값 \"승계: O\"). "
-        f"종류는 `kb_lib.TIM_CELLS` 허용 칸(인용 방향 → 역방향 → 없으면 relatedTo), 제약은 `defs/kb.bzl` `_check_links` 와 같다. 앵커당 k ≤ {a.k}",
+        f"종류는 `kb_lib.TIM_CELLS` 허용 칸(인용 방향 → 역방향 → 칸이 없으면 `agt:overlapsWith`), 제약은 `defs/kb.bzl` `_check_links` 와 같다. 앵커당 k ≤ {a.k}",
         "bazel build //kg:link_candidates", ttl, f"트리플 {len(g)} — 체계 밖 정보 0",
         kb_lib.gendoc_view_notice("앵커 청크의 frontmatter (`p10-candidate-and-confirmed-link` · `p10-restored-link-marking`)"),
         input_kind="그래프 파일",
@@ -308,9 +309,11 @@ def main() -> int:
           f"`{RESTORED_KEY}` 의 IRI 가 같은 청크의 링크 대상에 없으면 `chunk2kg` 가 `FAIL [{kb_lib.RESTORED_GATE}]` 로 거부한다 (p10-restored-link-marking).",
           "2. 효과 — 그 링크 개체(`agt:Link`)에 후보의 출처 증거 `agt:proposal` 이 확정 기록 `agt:constructionRecord`(사람이 frontmatter 에 적은 행위)와 "
           "함께 붙고, `bazel build //kg:metrics`·`//kg:audit` 의 복원 비율에 복원으로 센다. `linkState` 는 `confirmed` 다 — frontmatter 에 적힌 것은 확정이다.",
-          f"3. `{RELATED}` 후보는 relatedTo 족의 frontmatter 키 `coUpdatesWith` 로 적는다. `{RESTORED_KEY}` 는 링크 키(`{'`·`'.join(LINK_KEYS)}`) 대상만 받으므로 "
-          "relatedTo 족은 복원 표시 없이 직접 트리플만 난다. `verifies` 후보의 앵커는 V&V 청크이므로 vnv 가 적는다 (`kb/vv/` 는 vnv 의 write plane).",
-          "4. `python3 tools/gen_build.py --root . && bazel test //...` — 링크 키는 Bazel deps 라 BUILD 를 재생성한다.",
+          f"3. `{RELATED}` 후보도 다른 후보와 같이 적는다 — `{RELATED}: [<대상 IRI>]` 와 `{RESTORED_KEY}: [<대상 IRI>]` 다. 그 잎은 링크 키(LINK_KEYS)라 "
+          "링크 개체와 복원 표시를 받고 복원 비율에 든다. 함께 갱신할 의무까지 판정했으면 `coUpdatesWith` 로 올려 적는다 — 그 키는 직접 트리플뿐이라 복원 표시를 "
+          "받지 않는다. `verifies` 후보의 앵커는 V&V 청크이므로 vnv 가 적는다 (`kb/vv/` 는 vnv 의 write plane).",
+          "4. `python3 tools/gen_build.py --root . && bazel test //...` — `refines`·`serves`·`supersedes`·`verifies` 는 Bazel deps 라 "
+          "BUILD 를 재생성한다. 나머지 링크 키(`overlapsWith` 를 포함해)는 deps 가 아니라 그래프 트리플뿐이므로 BUILD 가 바뀌지 않는다.",
           "5. 기각은 관측 한 줄(memory plane)로 남긴다. 후보는 저장하지 않으므로 다음 생성에서 다시 나온다.", ""]
     Path(a.out).write_text(kb_lib.gendoc_assemble(head, o, ttl, input_kind="그래프 파일"), encoding="utf-8")
     return EXIT_OK

@@ -9,25 +9,25 @@ agt:hasLevel a owl:ObjectProperty ;
     rdfs:domain agt:KnowledgeItem ;
     rdfs:range agt:Level ;
     rdfs:label "has level"@en , "추상화 수준을 갖는다"@ko ;
-    skos:definition "지식 항목의 추상화 수준. 정확히 하나. 수준 전이는 새 청크와 refines 링크로 한다 (4.2절)."@ko .
+    skos:definition "지식 항목의 추상화 수준. 정확히 하나. 수준 전이는 새 청크와 refines 링크로 한다 (4.2절). 게이트: chunk-shapes(정확히 하나·agt:Level 개체)."@ko .
 
 agt:lineCount a owl:DatatypeProperty ;
     rdfs:domain agt:Chunk ;
     rdfs:range xsd:integer ;
     rdfs:label "line count"@en , "본문 줄 수"@ko ;
-    skos:definition "assertion 본문의 줄 수. 42 이하. 청크 파일에서 자동 계산된다 (4.1절)."@ko .
+    skos:definition "assertion 본문의 줄 수. 42 이하. 청크 파일에서 자동 계산된다 (4.1절). 게이트: chunk-shapes(xsd:integer 0~42)·chunk_lint."@ko .
 
 agt:status a owl:DatatypeProperty ;
     rdfs:domain agt:KnowledgeItem ;
     rdfs:range xsd:string ;
     rdfs:label "status"@en , "상태"@ko ;
-    skos:definition "지식 항목 상태 기계의 현재 값. OKF의 draft / stable / deprecated 를 그대로 쓰고, 무효화 메커니즘이 요구하는 suspect(재검토 필요) / invalidated(가정 거짓) 둘을 확장으로 더한다. stable 은 4.11절의 valid 에 해당한다 (4.11절)."@ko .
+    skos:definition "지식 항목 상태 기계의 현재 값. OKF의 draft / stable / deprecated 를 그대로 쓰고, 무효화 메커니즘이 요구하는 suspect(재검토 필요) / invalidated(가정 거짓) 둘을 확장으로 더한다. stable 은 4.11절의 valid 에 해당한다 (4.11절). 게이트: chunk-shapes(sh:in)."@ko .
 
-agt:hasDirectPart a owl:ObjectProperty ;
+agt:hasDirectPart a owl:ObjectProperty , owl:IrreflexiveProperty ;
     rdfs:domain agt:Composite ;
     rdfs:range agt:KnowledgeItem ;
     rdfs:label "has direct part"@en , "직접 부분을 갖는다"@ko ;
-    skos:definition "복합체의 직접 부분. 최대 9개(7±2). 상위 온톨로지 도입 시 표준 part-of의 하위 속성으로 정렬한다 (4.5절)."@ko .
+    skos:definition "복합체의 직접 부분. 최대 9개다. 상위 온톨로지 도입 시 표준 part-of의 하위 속성으로 정렬한다 (4.5절). 게이트: 최대 9는 composite-shapes(sh:maxCount 9), 비순환은 composite-cycle 질의다. 7±2 근거는 리뷰 규범이다."@ko .
 
 agt:assertionLocation a owl:DatatypeProperty ;
     rdfs:domain agt:Chunk ;
@@ -39,4 +39,4 @@ agt:contentHash a owl:DatatypeProperty ;
     rdfs:domain agt:Chunk ;
     rdfs:range xsd:string ;
     rdfs:label "content hash"@en , "내용 해시"@ko ;
-    skos:definition "본문의 정규화 해시. 지속 IRI(uuid)에 이 해시를 더한 것이 버전 IRI이며, 본문이 바뀌면 해시가 바뀌어 그 IRI를 끝으로 하는 링크가 suspect가 된다 — 변경 감지가 diff가 아니라 해시 비교다 (0.7절, 4.8절)."@ko .
+    skos:definition "본문의 정규화 해시. 지속 IRI(uuid)에 이 해시를 더한 것이 버전 IRI이며, 본문이 바뀌면 해시가 바뀌어 그 IRI를 끝으로 하는 링크가 suspect로 유도된다 — 변경 감지가 diff가 아니라 해시 비교다. 상태는 저장하지 않고 assume_check 보고와 metrics가 물질화한다(2026-09-26) (0.7절, 4.8절)."@ko .

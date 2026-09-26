@@ -31,7 +31,12 @@ KgInfo = provider(
 
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]
 PLANES = ["requirement", "decision", "contract", "schema", "artifact", "annotation", "memory"]  # 5.2절 단방향 순서
-RESIDENCY = {  # 수준 허용표 (6.4절, residency-shapes.ttl 과 같은 내용 — 분석 시점 판정)
+# 수준 허용표 (6.4절) 의 **단일 정의처**다 (M1 단일 정의처, 2026-09-26). 여기 말고 어디에도 표를 손으로 적지 않는다.
+# Starlark 는 파일을 읽지 못하므로 분석 시점 판정에 쓰이는 이 표가 원본이고, 파이썬 쪽은 이 리터럴을 읽어 파생한다
+# (`tools/kb_lib.py` 의 `load_residency`). 파생처는 셋이다 — 분석 시점 `_check_residency` ·
+# `tools/metrics.py` 의 거주 위반 지표 · 게이트 `residency`(`kb/ontology/shapes/residency-shapes.ttl` 이 이 표와 같은지).
+# 값에 주석(`#`)을 쓰지 않는다 — 파서가 주석을 지운 뒤 리터럴로 읽는다.
+RESIDENCY = {
     "requirement": ["functional"],
     "decision": ["abstract", "logical", "concrete"],
     "contract": ["abstract", "logical"],

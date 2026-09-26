@@ -1,21 +1,24 @@
 # shape — 청크: 구조적 글쓰기 원칙의 검사 가능한 형태 (노트 4.4절)
+# 값의 형 — 줄 수는 xsd:integer, 상태·본문 위치는 xsd:string, 수준은 agt:Level 개체다 (M5 값의 형, 2026-09-26).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
-@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 agt:ChunkShape a sh:NodeShape ;
     sh:targetClass agt:Chunk ;
     sh:property [
         sh:path agt:lineCount ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 0 ;
         sh:maxInclusive 42 ;
         sh:message "본문은 42줄 이하여야 한다 (4.1절)" ;
     ] ;
     sh:property [
         sh:path agt:hasLevel ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
+        sh:class agt:Level ;
+        sh:minCount 1 ; sh:maxCount 1 ;
         sh:message "청크는 정확히 하나의 추상화 수준을 갖는다 (4.2절)" ;
     ] ;
     sh:property [
@@ -32,13 +35,14 @@ agt:ChunkShape a sh:NodeShape ;
     ] ;
     sh:property [
         sh:path agt:status ;
-        sh:minCount 1 ;
-        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ; sh:maxCount 1 ;
         sh:in ( "draft" "stable" "suspect" "invalidated" "deprecated" ) ;
         sh:message "상태는 OKF status(draft/stable/deprecated)와 확장 둘(suspect/invalidated) 중 하나다 (4.11절)" ;
     ] ;
     sh:property [
         sh:path agt:assertionLocation ;
+        sh:datatype xsd:string ;
         sh:maxCount 1 ;
         sh:message "본문 위치는 하나다 (4.9절)" ;
     ] .

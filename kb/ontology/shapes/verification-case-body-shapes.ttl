@@ -1,23 +1,25 @@
 # shape — 케이스의 본문 틀: 케이스 · 자극 · 기대 · 실행 명령 · 표본 근거 (kb/vv/case). 슬롯마다 등록 질문 하나 (결정 p4-slot-answers-one-question)
 # 현행 형태를 그대로 기술한다. 2026-09-22 실측에서 케이스 28 이 전부 이 다섯 슬롯을 이 순서로 썼다 — 한정어("**자극(분석)**")는 같은 슬롯으로 본다.
+# 슬롯 표지의 값은 xsd:string 이다 — 형이 없으면 언어 태그가 붙은 리터럴이나 IRI 가 슬롯 표지로 통과한다 (M5 값의 형, 2026-09-26).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 agt:VerificationCaseBodyShape a sh:NodeShape ;
     sh:targetClass agt:MessageSchema ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "케이스" ; sh:order 1 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "케이스" ; sh:order 1 ;
         sh:description "무엇을 자극으로 삼는가" ;
         sh:message "첫 슬롯 **케이스** 가 없다 — 표본의 성격을 한 문장으로 적는다" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "자극" ; sh:order 2 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "자극" ; sh:order 2 ;
         sh:description "입력이 정확히 무엇인가" ;
         sh:message "슬롯 **자극** 이 없다 — 재현 가능한 입력을 값으로 적는다" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "기대" ; sh:order 3 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "기대" ; sh:order 3 ;
         sh:description "그 입력에 체계가 무엇을 내야 하는가" ;
         sh:message "슬롯 **기대** 가 없다 — 기대 출력과 종료 코드를 적는다" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "실행 명령" ; sh:order 4 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "실행 명령" ; sh:order 4 ;
         sh:description "그 관측을 어떤 명령으로 재현하는가" ;
         sh:message "슬롯 **실행 명령** 이 없다 — 관측을 재현하는 명령을 적는다" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "표본 근거" ; sh:order 5 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "표본 근거" ; sh:order 5 ;
         sh:description "왜 이 표본이 기준을 판정하기에 충분한가" ;
         sh:message "슬롯 **표본 근거** 가 없다 — 이 표본이 기준을 판정하는 까닭을 적는다" ] ;
     sh:message "케이스의 본문은 **케이스** · **자극** · **기대** · **실행 명령** · **표본 근거** 순이어야 한다 (p4-slot-answers-one-question)" .

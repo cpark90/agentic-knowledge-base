@@ -8,7 +8,7 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/odd-agentic-knowledge-base}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 targets: [https://agentic-knowledge-base.dev/id/chunk/a45a0511-d839-4219-9c67-b417be2d8f51, https://agentic-knowledge-base.dev/id/chunk/ee329895-169a-4bf2-bd1a-94dcc44345e3]
-generated: {by: vnv/claude-opus-5, at: 2026-09-22T23:46:00+09:00}
+generated: {by: vnv/claude-opus-5, at: 2026-09-23T02:10:00+09:00}
 ---
 issue (non-blocking): 두 케이스의 음성 명령이 실행되지 않아 게이트가 거부한다는 절반이 비어 있다.
 
@@ -18,4 +18,4 @@ issue (non-blocking): 두 케이스의 음성 명령이 실행되지 않아 게�
 
 제안: 케이스 본문의 자극 블록을 `vv_run` 이 읽어 임시 파일로 쓸 수 있는 형식으로 정하고 음성 명령의 기대 종료 코드를 같은 블록에 적는다.
 
-해소: 열림 — 자극 형식을 정하는 일이 케이스 저작 규약과 검증기 양쪽을 건드린다.
+해소: 해소 — 결정 `p8-machine-readable-case` 의 `yaml` 펜스(`files`·`expect`)로 두 케이스의 자극을 옮겨 2026-09-23 실행에서 음성 명령 둘이 실제로 돌고 판정이 skip 에서 pass 로 바뀌었다.

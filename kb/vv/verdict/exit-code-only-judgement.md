@@ -8,7 +8,7 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/odd-agentic-knowledge-base}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 targets: [https://agentic-knowledge-base.dev/id/chunk/4ef1451d-5f8a-4360-8765-f2c24683e0cf]
-generated: {by: vnv/claude-opus-5, at: 2026-09-22T23:48:00+09:00}
+generated: {by: vnv/claude-opus-5, at: 2026-09-23T02:10:00+09:00}
 ---
 thought (non-blocking): 이 검증기는 명령의 종료 코드만 보고 케이스가 적은 기대 문구를 읽지 않는다.
 
@@ -18,4 +18,4 @@ thought (non-blocking): 이 검증기는 명령의 종료 코드만 보고 케�
 
 제안: 케이스의 `**기대**` 절에서 대조할 문구를 코드 스팬으로 표시하고 검증기가 그 문구를 명령 출력에서 찾아 판정에 더한다.
 
-해소: 열림 — 대조할 문구의 표시 형식이 케이스 저작 규약에 아직 없다.
+해소: 해소 — 검증기가 `expect` 의 `contains` 를 출력에서 대조하게 되어 2026-09-23 실행에서 옮긴 케이스 둘의 명령 4 건 전부가 종료 코드와 문구 둘 다로 판정됐다.

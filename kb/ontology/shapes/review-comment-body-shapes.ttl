@@ -1,37 +1,38 @@
 # shape — 논평의 본문 틀: 첫 줄(라벨·장식)과 줄 머리 슬롯 넷 대상·본문·제안·해소 (kb/vv/verdict). 다섯 슬롯의 원본은 결정 p7-commentary-form
 # 라벨 일곱·장식 셋·해소 셋은 닫힌 어휘라 sh:in 이고, 본문 문장 상한 4 는 sh:maxInclusive 다. `제안:` 은 선택이므로 최소 개수를 두지 않는다.
+# 슬롯 표지·라벨·장식·해소의 값은 xsd:string, 대상은 IRI, 문장 수는 xsd:integer 다 (M5 값의 형, 2026-09-26).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 agt:ReviewCommentBodyShape a sh:NodeShape ;
     sh:targetClass agt:ReviewComment ;
-    sh:property [ sh:path agt:commentLabel ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:property [ sh:path agt:commentLabel ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
         sh:in ( "praise" "nitpick" "suggestion" "issue" "question" "thought" "chore" ) ;
         sh:description "이 논평은 읽는 쪽에 무엇을 요구하는가" ;
         sh:message "첫 줄이 `<라벨> (<장식>): <요지>` 여야 하고 라벨은 praise·nitpick·suggestion·issue·question·thought·chore 일곱 중 하나다 (p7-commentary-form)" ] ;
-    sh:property [ sh:path agt:commentDecoration ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:property [ sh:path agt:commentDecoration ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
         sh:in ( "blocking" "non-blocking" "if-minor" ) ;
         sh:description "해소 전에 진행할 수 있는가" ;
         sh:message "첫 줄의 장식은 blocking·non-blocking·if-minor 셋 중 하나다 — 괄호 없는 첫 줄은 논평이 아니다 (p7-commentary-form)" ] ;
-    sh:property [ sh:path agt:targets ; sh:minCount 1 ; sh:order 1 ;
+    sh:property [ sh:path agt:targets ; sh:nodeKind sh:IRI ; sh:minCount 1 ; sh:order 1 ;
         sh:description "무엇을 두고 하는 말인가" ;
         sh:message "슬롯 **대상:** 이 없다 — 검증·리뷰 대상 IRI 를 적고 frontmatter `targets` 와 일치시킨다 (p7-commentary-form)" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "대상" ; sh:order 1 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "대상" ; sh:order 1 ;
         sh:description "대상을 본문에도 적었는가" ;
         sh:message "슬롯 **대상:** 이 본문에 없다 — 논평은 frontmatter 없이 읽어도 대상을 알 수 있어야 한다 (p7-commentary-form)" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "본문" ; sh:order 2 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "본문" ; sh:order 2 ;
         sh:description "무엇이 문제이고 왜 그런가" ;
         sh:message "슬롯 **본문:** 이 없다 — 요지를 넘는 설명을 네 문장 이하로 적는다 (p7-commentary-form)" ] ;
     sh:property [ sh:path agt:commentSentenceCount ; sh:minCount 1 ; sh:maxCount 1 ;
         sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:maxInclusive 4 ; sh:order 2 ;
         sh:description "본문이 네 문장 안인가" ;
         sh:message "슬롯 **본문:** 은 네 문장 이하다 — 넘으면 논평을 나눈다 (p7-commentary-form)" ] ;
-    sh:property [ sh:path agt:resolutionState ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:property [ sh:path agt:resolutionState ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
         sh:in ( "열림" "해소" "기각" ) ; sh:order 4 ;
         sh:description "이 논평은 판정이 끝났는가" ;
         sh:message "슬롯 **해소:** 가 없거나 값이 열림·해소·기각 밖이다 — 해소 상태가 리뷰 코멘트의 판정이다 (p7-commentary-form, p7-dev-plane-substance)" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "해소" ; sh:order 4 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "해소" ; sh:order 4 ;
         sh:description "해소 상태를 본문에 적었는가" ;
         sh:message "슬롯 **해소:** 가 본문에 없다 — 상태 하나와 한 줄 이유를 적는다 (p7-commentary-form)" ] ;
     sh:message "논평의 본문은 첫 줄 `<라벨> (<장식>): <요지>` 와 슬롯 **대상:** · **본문:** · **제안:**(선택) · **해소:** 다 (p7-commentary-form)" .

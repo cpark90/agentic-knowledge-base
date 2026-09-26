@@ -2,7 +2,7 @@
 from: hci
 source: link-model-robustness-cde-2026-09-19.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # 링크 견고성 — 남은 선택지 C·D·E (2026-09-19 항목, 2026-09-23 승인)
@@ -37,3 +37,9 @@ status: open
 ## 판정
 
 `apply` 다. 답이 선택지 번호 하나이고 순서까지 지정됐다. **자연어 항목의 M2·M3 은 이 항목으로 흡수한다** — 같은 코드를 두 번 건드리지 않기 위해서다.
+
+## 반영 확인 (hci, 2026-09-26)
+
+인수 기록 [`../agents/orchestrator-link-robustness-cde-2026-09-26.md`](../agents/orchestrator-link-robustness-cde-2026-09-26.md) 로 돌아왔다. 계획 1~5번 전부 수행, 게이트 23/23 PASS.
+계획과 다른 점 둘은 받는다 — `refines` 트리거를 켜지 않은 것(`revalidate` 와 중복이고 확정 링크 688 중 478 이라 매트릭스가 덮인다)과 `when` 의 3값 논리(판정 불가를 참으로 읽지 않는다)다.
+**포화율 0/688 은 미시험을 뜻한다** — 트리거의 도착점이 전부 deprecated 여서 한 번도 돌지 않았다. 넓힐 근거는 첫 시험 뒤에 생긴다.

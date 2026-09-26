@@ -23,7 +23,12 @@
   catalog     (--data 에 agt:Harness 가 있을 때) 카탈로그 정합성 (AGENTS.md 역할 절 · STYLEGUIDE §5 · 9.2·9.6절):
               하네스가 hasRole 하는 역할마다 대응 스코프(id:role-<x> ↔ id:scope-<x>)가 있고 하네스가 grants 한다 ·
               역할마다 read plane ≥ 1 · write plane 은 역할 사이에 겹치지 않는다 · maxConcurrent 합 ≤ ODD 동적 요소
-              id:cond-concurrent-agents 의 상한(--odd 의 agt:conditionValue). 상한을 못 뽑으면 EXIT_CONFIG
+              id:cond-concurrent-agents 의 상한(--odd 의 agt:conditionValue). 상한을 못 뽑으면 EXIT_CONFIG ·
+              스코프는 ODD 의 부분집합이다 — agt:subsetOf 대상이 ODD 그래프의 agt:ODD 이고 include/exclude 조건이
+              그 ODD 의 agt:hasCondition 에 등록돼 있다 (0.4절, 2026-09-26 metrics 지표에서 게이트로 승격)
+  residency   (--shapes --residency defs/kb.bzl) 수준 허용표가 한 곳에만 적혀 있다 — shape `residency-shapes.ttl` 의
+              plane × level 구간이 `defs/kb.bzl` 의 `RESIDENCY` 와 같다. 원본은 Starlark 리터럴이다(분석 시점
+              판정이 파일을 읽지 못하므로). 갈리면 shape 를 맞춘다 (M1 단일 정의처, 2026-09-26)
   shacl       (--shapes) OWL-RL 추론 후 pySHACL 적합성 (--reason 시 추론 적용)
 
 경고(비영 종료 아님, `warn [검사명]` 접두사)
@@ -204,6 +209,7 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
         kb_lib.AGT.refines,
         kb_lib.AGT.verifies,     # V&V → 개발 (7.5절)
         kb_lib.AGT.derivesFrom,  # 검증 목표 → 요구 (8.3절 functional 높이)
+        kb_lib.AGT.overlapsWith,  # relatedTo 족의 약한 잎 (overlap-ontology) — 링크 키이므로 대상 실재를 여기서 본다
         kb_lib.AGT.targets,      # 주석 → 대상 (p7-commentary-form) — 링크 개체가 아니라 직접 트리플뿐이라 여기가 유일한 실재 검사다
         kb_lib.PROV.specializationOf,  # 분할 조각 → 원본 (p10-split-keeps-work-identity) — 없는 원본을 특수화할 수 없다
     )
@@ -424,6 +430,36 @@ def check_catalog(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> 
             raise ConfigFailure(f"[{gate}] {where}: {_qname(merged, cond)} 의 값 {str(values[0])!r} 에서 정수 상한을 뽑을 수 없다 — Range [a .. b] 또는 UpperBound 식이어야 한다")
         if total > bound:
             errors.append(f"[{gate}] {where}: 역할별 agt:maxConcurrent 합 {total} > ODD 동적 요소 {_qname(merged, cond)} 의 상한 {bound} — 역할을 줄이거나 ODD 한도를 먼저 검토한다 (AGENTS 역할 절, 9.6절)")
+    errors += _check_scope_subset(merged, odd, files)
+    return errors
+
+
+def _check_scope_subset(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> list[str]:
+    """(e) 스코프는 ODD 의 부분집합이다 (0.4절, scope-ontology agt:subsetOf·agt:includesCondition 의 정의문).
+
+    "ODD에 없는 속성을 참조하는 스코프는 존재할 수 없다" 와 "하네스가 부여하는 스코프는 ODD 의 부분집합이다" 의 실행
+    자리다. 지금까지는 `tools/metrics.py` 의 `scope_bad` 지표가 세기만 했다 (2026-09-26 게이트로 승격).
+    스코프마다: agt:subsetOf 가 하나 이상이고 그 대상이 ODD 그래프의 agt:ODD 이며 · include/exclude 조건이 그 ODD 에
+    agt:hasCondition 으로 등록돼 있다. 첫 실행(2026-09-26, 스코프 4 · 조건 참조 14): FAIL 0.
+    """
+    AGT_, gate = kb_lib.AGT, kb_lib.CATALOG_GATE
+    if odd is None:
+        return []
+    errors: list[str] = []
+    for scope in sorted(s for s in merged.subjects(RDF.type, AGT_.Scope) if isinstance(s, URIRef)):
+        where, sq = _where(files, scope), _qname(merged, scope)
+        odds = [o for o in merged.objects(scope, AGT_.subsetOf) if isinstance(o, URIRef)]
+        if not odds:
+            errors.append(f"[{gate}] {where}: 스코프 {sq} 에 agt:subsetOf 가 없다 — 어느 ODD 의 부분집합인지 밝힌다 (0.4절)")
+        registered: set[URIRef] = set()
+        for o in odds:
+            if (o, RDF.type, AGT_.ODD) not in odd:
+                errors.append(f"[{gate}] {where}: 스코프 {sq} 의 agt:subsetOf 대상 {_qname(merged, o)} 가 ODD 그래프에 agt:ODD 로 없다 — ODD 를 먼저 확장한다 (0.4절)")
+            registered |= {c for c in odd.objects(o, AGT_.hasCondition) if isinstance(c, URIRef)}
+        for pred in (AGT_.includesCondition, AGT_.excludesCondition):
+            for c in sorted(x for x in merged.objects(scope, pred) if isinstance(x, URIRef)):
+                if c not in registered:
+                    errors.append(f"[{gate}] {where}: 스코프 {sq} 의 {_qname(merged, pred)} 대상 {_qname(merged, c)} 가 그 ODD 의 agt:hasCondition 목록에 없다 — ODD 밖 조건을 참조하는 스코프는 존재할 수 없다 (0.4절)")
     return errors
 
 
@@ -495,6 +531,48 @@ def check_verify(merged: Graph, query_dir: str) -> list[str]:
     return errors
 
 
+def check_residency(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> list[str]:
+    """수준 허용표의 단일 정의처 — shape 가 `defs/kb.bzl` 의 `RESIDENCY` 와 같은 표인가 (M1 단일 정의처, 2026-09-26).
+
+    같은 규칙을 두 곳에 적는 것을 막는다. 원본은 Starlark 쪽 리터럴이다 — Starlark 는 파일을 읽지 못하므로
+    분석 시점 판정이 쓰는 표가 원본이어야 하고, shape 는 그것의 RDF 표현이다. plane 은 shape 의
+    `sh:targetClass` 지역명 `<X>Chunk` 에서 읽는다(metrics 와 같은 규칙). 표에서 모든 수준을 허용하는 plane
+    (annotation)은 구간 제약이 없어야 한다 — 주석은 대상에서 수준을 물려받고 그 판정은 verify 질의가 한다.
+    첫 실행(2026-09-26, plane 7 · 구간 제약 6): FAIL 0.
+    """
+    from rdflib.collection import Collection
+    from rdflib.namespace import SH
+
+    gate = kb_lib.RESIDENCY_GATE
+    where = ", ".join(shape_paths) or bzl_path
+    try:
+        _planes, levels, table = kb_lib.load_residency(bzl_path)
+    except (OSError, ValueError) as e:
+        raise ConfigFailure(f"[{gate}] {bzl_path}: 수준 허용표를 읽을 수 없다 — {e}") from e
+    declared = {p: set(v) for p, v in table.items() if set(v) != set(levels)}
+    found: dict[str, set[str]] = {}
+    for shape, cls in shapes.subject_objects(SH.targetClass):
+        plane = str(cls).split("/")[-1]
+        if not plane.endswith("Chunk"):
+            continue
+        plane = plane[: -len("Chunk")].lower()
+        for prop in shapes.objects(shape, SH.property):
+            if (prop, SH.path, kb_lib.AGT.hasLevel) not in shapes:
+                continue
+            for lst in shapes.objects(prop, SH["in"]):
+                found.setdefault(plane, set()).update(str(v).split("/")[-1] for v in Collection(shapes, lst))
+    errors = []
+    for plane in sorted(set(declared) | set(found)):
+        want, have = declared.get(plane), found.get(plane)
+        if want is None:
+            errors.append(f"[{gate}] {where}: shape 가 plane {plane} 의 수준 구간을 {sorted(have)} 로 제한하는데 {bzl_path} 의 RESIDENCY 에는 그 제한이 없다 — 표의 원본은 {bzl_path} 다")
+        elif have is None:
+            errors.append(f"[{gate}] {where}: {bzl_path} 의 RESIDENCY 는 plane {plane} 을 {sorted(want)} 로 제한하는데 shape 에 대응 구간이 없다 — `agt:{plane.capitalize()}Chunk` 의 `agt:hasLevel` 에 `sh:in` 을 단다")
+        elif want != have:
+            errors.append(f"[{gate}] {where}: plane {plane} 의 수준 구간이 갈린다 — {bzl_path} 는 {sorted(want)}, shape 는 {sorted(have)} 다. 원본은 {bzl_path} 이므로 shape 를 맞춘다")
+    return errors
+
+
 def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[str]) -> list[str]:
     from pyshacl import validate as shacl_validate
 
@@ -517,6 +595,7 @@ def main() -> int:
     ap.add_argument("--odd", nargs="*", default=[], help="ODD 파일들 (*-odd)")
     ap.add_argument("--data", nargs="*", default=[], help="A-Box 파일들 (*-kg, *-space)")
     ap.add_argument("--reason", action="store_true", help="SHACL 전에 OWL-RL 추론 적용")
+    ap.add_argument("--residency", default="", help="수준 허용표의 원본 defs/kb.bzl — 주면 shape 가 그 표와 같은지 본다")
     ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 계층)")
     ap.add_argument("--standard-vocab", nargs="*", default=[],
                     help="등록 표준 어휘 원문(PROV-O·SKOS 등). 주면 그 네임스페이스의 용어가 원문에 정의돼 있는지까지 본다")
@@ -565,6 +644,12 @@ def main() -> int:
         if args.ontology:
             warnings += check_deprecated_concepts(merged, onto_merged)
     if args.shapes:
+        if args.residency:
+            try:
+                errors += check_residency(shapes_merged, args.residency, args.shapes)
+            except ConfigFailure as e:  # 표를 읽을 수 없다 — 배선 문제
+                print(f"FAIL {e}")
+                return EXIT_CONFIG
         errors += check_shacl(merged, shapes_merged, args.reason, args.shapes)
     if args.verify_queries:
         errors += check_verify(merged, args.verify_queries)

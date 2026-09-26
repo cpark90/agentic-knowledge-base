@@ -15,6 +15,18 @@ filegroup(
 )
 
 kb_chunk(
+    name = "acyclic-relation-axioms",
+    src = "acyclic-relation-axioms.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b2b7a878-a500-4352-976a-e7cdd6ca1d8b",
+    plane = "contract",
+    level = "logical",
+    status = "draft",
+    refines = [
+        "//kb/vv/goal:acyclic-relation-axioms",
+    ],
+)
+
+kb_chunk(
     name = "agent-and-product-verified",
     src = "agent-and-product-verified.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/e1618552-eb22-4d96-9d01-ff6f54e07613",
@@ -23,6 +35,18 @@ kb_chunk(
     status = "stable",
     refines = [
         "//kb/vv/goal:agent-and-product-verified",
+    ],
+)
+
+kb_chunk(
+    name = "agent-catalog-complete",
+    src = "agent-catalog-complete.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/081e9e28-c736-49bc-84ea-6d41f0a1c44a",
+    plane = "contract",
+    level = "logical",
+    status = "draft",
+    refines = [
+        "//kb/vv/goal:agent-catalog-complete",
     ],
 )
 
@@ -414,7 +438,9 @@ kb_chunk(
 kb_bundle(
     name = "kg",
     items = [
+        ":acyclic-relation-axioms",
         ":agent-and-product-verified",
+        ":agent-catalog-complete",
         ":audit-self-sufficiency",
         ":backward-trace-to-requirement",
         ":chunk-42-lines",

@@ -1,5 +1,6 @@
 load("@kb_pip//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_binary", "py_library")
+load("//defs:knowledge.bzl", "kb_runner_env_test")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -16,6 +17,8 @@ exports_files([
     "weave.py",
     "extract_refs.py",
     "kb_lib.py",
+    "vv_run.py",
+    "vv_run_env_test.py",
     "requirements_lock.txt",
 ])
 
@@ -275,6 +278,7 @@ py_binary(
         "//kg",
         "//kg:chunks_kg",
         "//kg:references_kg",
+        "//space:design_space",  # 설계 공간의 후보 링크 `when` 과 양립 제약도 같은 평가기로 판정한다
     ],
     main = "assume_check.py",
     deps = [
@@ -296,8 +300,18 @@ py_binary(
     main = "vv_run.py",
     deps = [
         ":kb_lib",
+        requirement("pyyaml"),  # 케이스 본문의 `yaml` 펜스 — 기계가 읽는 자극·기대 (p8-machine-readable-case)
         requirement("rdflib"),
     ],
+)
+
+# 실행기 환경 격리 게이트: bazel test //tools:vv_run_env_test
+# 실행기 **전체**는 위 주석대로 테스트 타깃이 될 수 없다 — 케이스가 `bazel test` 를 부르므로 중첩 실행이 된다. 그러나 `clean_env()` 와
+# `run_command()` 는 bazel 을 부르지 않는다. 판정 대상을 환경 격리의 동작으로 좁혀 케이스 실행 없이 `bazel test //...` 안에서 잰다
+# (결정 p8-verifier-env-isolation, 논평 runner-env-leaks-into-case). 이름이 vv_run_test 가 아닌 까닭은 실행기 전체를 덮지 않기 때문이다
+kb_runner_env_test(
+    name = "vv_run_env_test",
+    probe = "chunk_lint",
 )
 
 # 라벨 목록 뷰 → index.md (5.6절, 부록 E.2). OKF 예약 파일은 생성물이다

@@ -62,6 +62,38 @@ def kb_of(location: str) -> str:
     """청크 위치(assertionLocation)가 속한 KB — kb/vv/ 아래면 V&V KB, 그 밖(kb/dev·chunks/…)은 개발 KB."""
     return KB_VV if location.startswith(KB_VV + "/") else KB_DEV
 
+
+# 수준 허용표의 단일 정의처 — `defs/kb.bzl` 의 `LEVELS`·`RESIDENCY` 리터럴이다 (M1 단일 정의처, 2026-09-26).
+# Starlark 는 파일을 읽지 못하므로 표는 Starlark 쪽에 있어야 하고, 파이썬은 그 리터럴을 읽어 파생한다.
+# 파생처는 둘이다 — `tools/metrics.py` 의 거주 위반 지표와 `tools/validate.py` 의 게이트 `residency`
+# (shape `residency-shapes.ttl` 이 이 표와 같은지 판정한다).
+RESIDENCY_GATE = "residency"  # 게이트 id — FAIL [residency]
+_BZL_LIST = re.compile(r"^\s*(LEVELS|PLANES)\s*=\s*(\[[^\]]*\])", re.M)
+_BZL_RESIDENCY = re.compile(r"^\s*RESIDENCY\s*=\s*\{(.*?)^\}", re.M | re.S)
+
+
+def load_residency(path: str | Path) -> tuple[list[str], list[str], dict[str, list[str]]]:
+    """`defs/kb.bzl` 의 `PLANES`·`LEVELS`·`RESIDENCY` 를 읽는다 — (plane 순서, 수준 순서, plane → 허용 수준들).
+
+    Starlark 의 값 부분은 파이썬 리터럴과 같은 문법이므로 `ast.literal_eval` 로 읽는다. 표에 쓰인 이름
+    `LEVELS` 는 같은 파일의 리스트로 먼저 치환한다. 표를 못 읽으면 ValueError — 판정 불가지 통과가 아니다.
+    """
+    import ast
+
+    text = Path(path).read_text(encoding="utf-8")
+    names = {m.group(1): ast.literal_eval(m.group(2)) for m in _BZL_LIST.finditer(text)}
+    for want in ("LEVELS", "PLANES"):
+        if want not in names:
+            raise ValueError(f"{path}: {want} 리스트를 찾을 수 없다")
+    body = _BZL_RESIDENCY.search(text)
+    if not body:
+        raise ValueError(f"{path}: RESIDENCY 표를 찾을 수 없다")
+    src = re.sub(r"#[^\n]*", "", body.group(1))  # Starlark 주석 제거 — 값 안에 # 을 쓰지 않는다
+    for name, value in names.items():
+        src = re.sub(rf"(?<![\w\"']){name}(?![\w\"'])", repr(value), src)
+    table = ast.literal_eval("{" + src + "}")
+    return names["PLANES"], names["LEVELS"], {p: list(v) for p, v in table.items()}
+
 # 온톨로지 모듈이 "정의"로 간주되는 타입 (2.3절 경계 규칙, 2.5절 정의 완전성)
 DEFINING_TYPES = (
     OWL.Class,
@@ -207,10 +239,10 @@ DECISION_SINGLE_FILE_MARKER = "결론"
 DECISION_ROLE_MARKER = re.compile(r"^\s*\*\*(" + "|".join(sorted(set(DECISION_ROLE_MARKERS.values()))) + r")[^*\n]*\*\*")
 
 
-# ── 논평의 형식 (STYLEGUIDE §4 annotation, 결정 p7-commentary-form — 게이트 id `blocking-comment`: chunk_lint) ────────────
-# annotation 청크는 논평이다. 첫 줄이 `<라벨> (<장식>): <요지>` 이고 이어서 줄 머리 슬롯 넷(대상·본문·제안·해소)이 온다.
+# ── 주석의 형식 (STYLEGUIDE §4 annotation, 결정 p7-commentary-form — 게이트 id `blocking-comment`: chunk_lint) ────────────
+# annotation 청크는 주석이다. 첫 줄이 `<라벨> (<장식>): <요지>` 이고 이어서 줄 머리 슬롯 넷(대상·본문·제안·해소)이 온다.
 # 라벨 일곱과 장식 셋의 표기 원천은 Conventional Comments 이고 해소 셋은 결정이 정했다 — 셋 다 닫힌 어휘다.
-# **게이트 효과는 하나뿐이다.** `issue (blocking)` 이면서 `해소: 열림` 인 논평이 있으면 게이트가 막는다. 그 밖의 조합은
+# **게이트 효과는 하나뿐이다.** `issue (blocking)` 이면서 `해소: 열림` 인 주석이 있으면 게이트가 막는다. 그 밖의 조합은
 # 기록이고 막지 않는다. 형식(첫 줄 꼴·닫힌 어휘·본문 문장 상한)은 shape(review-comment-body-shapes.ttl)가 보고,
 # 이 한 조건만 chunk_lint 가 본다 — 판정 도구는 해소 상태의 존재만 보고 이유의 내용을 보지 않는다 (p5-verification-tools-per-plane).
 # 값 어휘의 정의처는 여기다. chunk2kg 는 rdflib 없이 타깃마다 돌므로 같은 문자열을 getattr 폴백으로 갖는다 (LINK_STATE_* 와 같은 형태)
@@ -596,6 +628,232 @@ SPACE_STATE_LINK = {
 SPACE_CONFIRMING_EVIDENCE = ("constructionRecord", "runResult")
 
 
+# ── 링크 상태의 물질화 — suspect 는 저장값이 아니라 평가 결과다 (노트 9.11절, link-state-ontology agt:linkState) ────
+# 그래프에 적히는 linkState 는 candidate·confirmed·invalid 셋뿐이다. suspect 는 두 경로의 평가 결과이고 생성물
+# (assume_check 의 보고 · metrics 의 포화율)에서만 물질화된다 — 저장하면 그래프와 판정이 어긋나고 이 저장소의 생성물은
+# bazel-out 에만 있다. 두 경로는 (a) `when` 이 거짓인 확정 링크 · (b) 선언된 트리거가 지목한 확정 링크다.
+LINK_STATE_SUSPECT = "suspect"
+# `when` 판정식의 범위는 **ODD 속성 참조의 판정**이다 (CEL 전체가 아니다). 항은 `in(<ODD 속성명 | cond 슬러그 | 조건 IRI>)`
+# 하나이고 결합은 CEL 연산자 `!`·`&&`·`||` 와 괄호이며 리터럴 `true`·`false` 를 받는다. 비교·산술·함수 호출·ODD 밖 이름은
+# 판정하지 않고 unverified 로 남긴다 — 판정 불가를 참으로 읽으면 무효화가 조용히 멈춘다 (0.4절 restrictive).
+WHEN_TRUE, WHEN_FALSE, WHEN_UNVERIFIED = "true", "false", "unverified"
+# 생성 문서에 그대로 인용되므로 연산자는 코드 스팬으로 감싼다 — 맨 `!` 는 산문의 감탄으로 읽혀 gendoc 이 거부한다
+WHEN_GRAMMAR = "`in(<ODD 속성명 | cond 슬러그 | 조건 IRI>)` · `!` · `&&` · `||` · `( )` · `true` · `false`"
+_WHEN_IN = re.compile(r"in\s*\(\s*([A-Za-z0-9_:\-./]+)\s*\)")
+_WHEN_OP = re.compile(r"&&|\|\||!|\(|\)")
+_WHEN_LIT = re.compile(r"(?:true|false)(?![A-Za-z0-9_])")
+_WHEN_OTHER = re.compile(r"[^\s()!&|]+|.")
+
+
+def _when_tokens(expr: str) -> list:
+    """식 → 토큰 목록. ("in", 이름) · ("op", 기호) · ("lit", True|False) · ("?", 원문) 넷이다."""
+    out, i, n = [], 0, len(expr)
+    while i < n:
+        if expr[i].isspace():
+            i += 1
+            continue
+        for pat, tag in ((_WHEN_IN, "in"), (_WHEN_OP, "op"), (_WHEN_LIT, "lit")):
+            m = pat.match(expr, i)
+            if m:
+                out.append((tag, m.group(1) if tag == "in" else m.group(0) == "true" if tag == "lit" else m.group(0)))
+                i = m.end()
+                break
+        else:
+            m = _WHEN_OTHER.match(expr, i)
+            out.append(("?", m.group(0)))
+            i = m.end()
+    return out
+
+
+def odd_states(cond_rows: list) -> dict:
+    """odd_check.judge_all 의 행들 → when_eval 이 읽는 상태 맵. 한 조건을 네 이름으로 넣는다 — ODD 속성명 ·
+    조건 슬러그 · `id:` 축약 · 조건 IRI 전체. 판정 자체는 odd_check 가 하고 여기서 다시 하지 않는다."""
+    states: dict = {}
+    for r in cond_rows:
+        iri = str(r.get("iri") or "")
+        slug = iri.split("/")[-1] if iri else ""
+        for key in (r.get("name"), slug, ("id:" + slug) if slug else "", iri):
+            if key:
+                states[key] = r["state"]
+    return states
+
+
+def when_eval(expr: str, states: dict) -> tuple:
+    """`when` 식의 판정 → (true|false|unverified, 남긴 것 목록).
+
+    states 는 odd_states 가 만든 {이름: in|out|unverified} 다. 접는 방식은 3값 논리(Kleene)다 — 판정 불가는 참도
+    거짓도 아니므로 `A && false` 는 거짓이고 `A && true` 는 판정 불가다. 남긴 것은 판정하지 못한 항·토큰의 목록이며
+    범위 밖 구문(WHEN_GRAMMAR 밖)이 거기 담긴다.
+    """
+    toks = _when_tokens(expr or "")
+    left: list = []
+    if not toks:
+        return WHEN_UNVERIFIED, ["빈 식"]
+    pos = [0]
+
+    def peek():
+        return toks[pos[0]] if pos[0] < len(toks) else None
+
+    def primary():
+        t = peek()
+        if t is None:
+            left.append("식이 항 없이 끝났다")
+            return None
+        pos[0] += 1
+        if t == ("op", "!"):
+            v = primary()
+            return None if v is None else (not v)
+        if t == ("op", "("):
+            v = disjunction()
+            if peek() == ("op", ")"):
+                pos[0] += 1
+            else:
+                left.append("괄호가 닫히지 않았다")
+            return v
+        if t[0] == "lit":
+            return t[1]
+        if t[0] == "in":
+            st = states.get(t[1])
+            if st is None:
+                left.append(f"in({t[1]}) — ODD 조건이 아니다")
+                return None
+            if st == "unverified":
+                left.append(f"in({t[1]}) — 판정 불가 조건")
+                return None
+            return st == "in"
+        left.append(f"범위 밖 토큰 `{t[1]}`")
+        return None
+
+    def conjunction():
+        v = primary()
+        while peek() == ("op", "&&"):
+            pos[0] += 1
+            r = primary()
+            v = False if (v is False or r is False) else (True if (v is True and r is True) else None)
+        return v
+
+    def disjunction():
+        v = conjunction()
+        while peek() == ("op", "||"):
+            pos[0] += 1
+            r = conjunction()
+            v = True if (v is True or r is True) else (False if (v is False and r is False) else None)
+        return v
+
+    val = disjunction()
+    if pos[0] < len(toks):
+        left.append("남은 토큰 `" + " ".join(str(t[1]) for t in toks[pos[0]:]) + "`")
+        val = None
+    return (WHEN_TRUE if val is True else WHEN_FALSE if val is False else WHEN_UNVERIFIED), left
+
+
+# ── suspect 트리거의 선언 — 링크 타입별로 좁다 (handoff link-model-robustness-cde-2026-09-19 반영 2) ──────────────
+# 자리: 이 상수가 선언의 원본이다 (STYLEGUIDE §7 — 규약 상수의 단일 정의처는 kb_lib).
+# 형식: (링크 종류, 전파 규칙, 켜짐, 근거). **선언에 없는 종류는 돌지 않는다** — 기본이 꺼짐이다.
+# 근거: 외부 실무(Eclipse Capra 와 추적성 유지 연구, docs/references.md 추적성)가 전파를 전 타입에 켜면 추적 매트릭스가
+# suspect 로 포화한다고 보고한다. 그래서 정의문이 이미 전파를 규정한 supersedes 하나로 시작하고 나머지는 포화율
+# (metrics 의 한 줄)을 보고 켠다.
+TRIGGER_INCOMING_OF_TARGET = "incoming-of-target"  # 이 링크의 도착점을 가리키던 다른 확정 링크가 suspect 가 된다
+SUSPECT_TRIGGERS = (
+    ("supersedes", TRIGGER_INCOMING_OF_TARGET, True,
+     "agt:supersedes 의 정의문이 규정한다 — 대체가 일어나면 옛 항목을 충족하던 링크가 전부 suspect 다 (8.11절)"),
+    ("refines", TRIGGER_INCOMING_OF_TARGET, False,
+     "포화 위험 — 확정 링크의 다수가 refines 라 켜면 매트릭스가 suspect 로 덮인다. 본문 변경 경로는 revalidate 가 맡는다"),
+    ("verifies", TRIGGER_INCOMING_OF_TARGET, False,
+     "검증 대응물의 변경은 vnv 의 판정 주석과 실행 기록이 맡는다 (8.20절) — 링크 전파로 겹치지 않는다"),
+)
+
+
+def suspect_triggers_on() -> tuple:
+    """켜진 트리거만 — (링크 종류, 전파 규칙, 근거)."""
+    return tuple((k, rule, basis) for k, rule, on, basis in SUSPECT_TRIGGERS if on)
+
+
+def _confirmed_links(g: Graph) -> list:
+    """확정 링크 개체 → [(링크, 종류, 출발, 도착)]. 후보·배제는 전파의 대상이 아니다."""
+    out = []
+    for link in sorted(g.subjects(RDF.type, AGT.Link), key=str):
+        if str(next(g.objects(link, AGT.linkState), "")) != LINK_STATE_CONFIRMED:
+            continue
+        kind = str(next(g.objects(link, AGT.linkKind), "")).split("/")[-1]
+        f, t = next(g.objects(link, AGT.linkFrom), None), next(g.objects(link, AGT.linkTo), None)
+        if f is not None and t is not None:
+            out.append((link, kind, f, t))
+    return out
+
+
+def suspect_by_trigger(g: Graph) -> dict:
+    """켜진 트리거가 suspect 로 유도하는 확정 링크 → 사유. 저장하지 않는다 (LINK_STATE_SUSPECT 주석)."""
+    links = _confirmed_links(g)
+    incoming: dict = {}
+    for link, kind, f, t in links:
+        incoming.setdefault(t, []).append((link, kind, f))
+    out: dict = {}
+    for kind, rule, _basis in suspect_triggers_on():
+        if rule != TRIGGER_INCOMING_OF_TARGET:
+            continue
+        for link, k, f, t in links:
+            if k != kind:
+                continue
+            for other, ok, of in incoming.get(t, ()):
+                if other == link or ok == kind:  # 자기 자신과 같은 종류의 링크(시간축의 사슬)는 뺀다
+                    continue
+                out.setdefault(other, f"`{kind}` 전파 — {compact_iri(str(t))} 가 대체되었다 (트리거 {rule})")
+    return out
+
+
+def when_verdicts(g: Graph, states: dict) -> list:
+    """`agt:when` 을 가진 링크마다 (링크, 종류, 저장 상태, 판정, 유도 상태, 사유).
+
+    유도 상태는 link-state-ontology 의 규칙 그대로다 — `when` 이 거짓이면 후보는 invalid(eliminated), 확정은
+    suspect 다. 참이면 저장 상태 그대로이고 판정 불가면 유도하지 않는다 (9.11절, 10.6절).
+    """
+    rows = []
+    for link in sorted(g.subjects(RDF.type, AGT.Link), key=str):
+        expr = next(g.objects(link, AGT.when), None)
+        if expr is None:
+            continue
+        kind = str(next(g.objects(link, AGT.linkKind), "")).split("/")[-1]
+        state = str(next(g.objects(link, AGT.linkState), ""))
+        verdict, left = when_eval(str(expr), states)
+        if verdict == WHEN_FALSE:
+            derived = LINK_STATE_INVALID if state == LINK_STATE_CANDIDATE else LINK_STATE_SUSPECT
+            reason = f"`when` 거짓 — `{expr}`"
+        elif verdict == WHEN_TRUE:
+            derived, reason = state, f"`when` 참 — `{expr}`"
+        else:
+            derived, reason = "", f"`when` 판정 불가 — `{expr}`: " + " · ".join(left or ["사유 없음"])
+        rows.append((link, kind, state, verdict, derived, reason))
+    return rows
+
+
+def suspect_by_when(g: Graph, states: dict) -> tuple:
+    """`when` 이 확정 링크를 suspect 로 유도한 것 → 사유, 그리고 판정 불가 → 남긴 것. 참인 링크는 어느 쪽에도 없다."""
+    false_links: dict = {}
+    unverified: dict = {}
+    for link, _kind, _state, verdict, derived, reason in when_verdicts(g, states):
+        if derived == LINK_STATE_SUSPECT:
+            false_links[link] = reason
+        elif verdict == WHEN_UNVERIFIED:
+            unverified[link] = reason
+    return false_links, unverified
+
+
+def suspect_saturation(g: Graph, extra: dict | None = None) -> dict:
+    """suspect 포화율 — 확정 링크 가운데 suspect 로 유도된 것의 비율. extra 는 `when` 경로의 결과다.
+
+    포화율을 보지 않으면 트리거를 좁힌 것이 맞는지 알 수 없다 (handoff 반영 2). 반환 키:
+    confirmed · by_trigger · by_when · suspect · ratio · with_when.
+    """
+    trig = suspect_by_trigger(g)
+    when_side = dict(extra or {})
+    union = set(trig) | set(when_side)
+    confirmed = len(_confirmed_links(g))
+    return {"confirmed": confirmed, "by_trigger": len(trig), "by_when": len(when_side), "suspect": len(union),
+            "ratio": (len(union) / confirmed) if confirmed else None,
+            "with_when": sum(1 for l, _k, _f, _t in _confirmed_links(g) if (l, AGT.when, None) in g)}
+
+
 def link_origins(g: Graph) -> dict:
     """링크 개체(agt:Link)의 후보·구축·복원 구분 — metrics 3단계 대리와 weave audit 링크 근거 절이 이 하나의 정의를 쓴다.
 
@@ -722,7 +980,8 @@ SKILLS = (
      "commands": ["bazel build //kg:link_candidates && cat bazel-bin/kg/link-candidates.md",
                   "python3 tools/gen_build.py --root . && bazel test //...   # 앵커 청크에 링크 키와 restored: 를 적은 뒤"]},
     {"tool": "vv_run", "section": "method.md#11-검증--vv-층으로",
-     "when": "V&V 케이스의 양성 명령을 실행해 케이스별 pass·fail·skip 을 판정하고 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.",
+     "when": "V&V 케이스의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 "
+             "실행해 케이스의 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.",
      "commands": ["bazel run //tools:vv_run -- --record", "bazel run //tools:vv_run -- --case <슬러그>",
                   "python3 tools/gen_build.py --root . && bazel test //..."]},
     {"tool": "weave", "section": "method.md#9-뷰",
@@ -882,9 +1141,18 @@ _GENDOC_PCT_OK = re.compile(r"\d+/\d+ = \*{0,2}$")
 _GENDOC_EMPTY_CELL = re.compile(r"^(?:|-|—|–|N/A|n/a|없음\s*\(\s*\))$")
 
 
+def utc_stamp(when: datetime) -> str:
+    """주어진 시각의 G3 표기 — ISO 8601 UTC 초 해상도.
+
+    관측 생성기(`assume_check`·`vv_run`)가 자기 `now` 를 frontmatter 와 본문 두 자리에 같은 꼴로 적을 때 쓴다.
+    커밋된 관측 기록은 append-only 라 표기가 바뀌어도 소급하지 않는다 (유저 승인 2026-09-23).
+    """
+    return when.astimezone(timezone.utc).strftime(GENDOC_TIME_FORMAT)
+
+
 def now_utc() -> str:
     """G3 의 생성 시각 — ISO 8601 UTC 초 해상도."""
-    return datetime.now(timezone.utc).strftime(GENDOC_TIME_FORMAT)
+    return utc_stamp(datetime.now(timezone.utc))
 
 
 def pct(n: int, d: int) -> str:

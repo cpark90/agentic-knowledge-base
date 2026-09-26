@@ -28,7 +28,7 @@ except ImportError:
 
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
 # 군집 계산에 쓰는 링크 종류 (족: references · semanticallyDependsOn · relatedTo). 시간축 supersedes 는 뺀다
-EDGE_KINDS = [AGT.refines, AGT.serves, AGT.cites, AGT.usesConcept, AGT.coUpdatesWith, AGT.conflictsWith]
+EDGE_KINDS = [AGT.refines, AGT.serves, AGT.cites, AGT.usesConcept, AGT.coUpdatesWith, AGT.conflictsWith, AGT.overlapsWith]
 MAX_PARTS = 9  # 복합체 부분 상한 (7±2, composite-kg 배너)
 
 

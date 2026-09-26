@@ -12,7 +12,7 @@ agt:RequirementStatement a owl:Class ;
 agt:DesignDecision a owl:Class ;
     rdfs:subClassOf agt:DecisionChunk ;
     rdfs:label "design decision"@en , "설계 결정"@ko ;
-    skos:definition "개발 프로파일에서 decision plane의 실체. ADR 형식의 설계 결정이며 결론·근거·대안 각각이 청크 하나다. 세 청크로 나누는 까닭은 판정 도구가 논증 구조 검사와 유저 승인이라 결론과 근거를 따로 검사해야 하기 때문이다 (결정 p7-dev-plane-substance, 노트 7.2절)."@ko .
+    skos:definition "개발 프로파일에서 decision plane의 실체. ADR 형식의 설계 결정이며 결론·근거·대안 각각이 청크 하나다. 세 청크로 나누는 까닭은 판정 도구가 논증 구조 검사와 유저 승인이라 결론과 근거를 따로 검사해야 하기 때문이다 (결정 p7-dev-plane-substance, 노트 7.2절). 게이트: kb_decision·decision-body-shapes·chunk_lint decision-role."@ko .
 
 agt:InterfaceSignature a owl:Class ;
     rdfs:subClassOf agt:ContractChunk ;
@@ -32,9 +32,9 @@ agt:FunctionArtifact a owl:Class ;
 agt:ReviewComment a owl:Class ;
     rdfs:subClassOf agt:AnnotationChunk ;
     rdfs:label "review comment"@en , "리뷰 코멘트"@ko ;
-    skos:definition "개발 프로파일에서 annotation plane의 실체. 코드 리뷰·설계 리뷰의 코멘트 하나가 청크 하나이고 대상의 수준을 물려받는다. 코멘트 단위인 까닭은 판정이 코멘트마다의 해소이기 때문이다 (결정 p7-dev-plane-substance, 노트 7.2절)."@ko .
+    skos:definition "개발 프로파일에서 annotation plane의 실체. 코드 리뷰·설계 리뷰의 코멘트 하나가 청크 하나이고 대상의 수준을 물려받는다. 코멘트 단위인 까닭은 판정이 코멘트마다의 해소이기 때문이다 (결정 p7-dev-plane-substance, 노트 7.2절). 게이트: 수준 상속은 comment-level-not-inherited 질의(대상이 여럿이면 그중 하나의 수준)."@ko .
 
 agt:SessionObservation a owl:Class ;
     rdfs:subClassOf agt:MemoryChunk ;
     rdfs:label "session observation"@en , "세션 관측"@ko ;
-    skos:definition "개발 프로파일에서 memory plane의 실체. 세션에서 일어난 관측 하나(시각·행동·situation 요약)가 청크 하나다. 관측은 판정 도구 없이 append-only 로 쌓이고 승격 규칙으로 주제 plane에 오른다 (결정 p7-dev-plane-substance, 노트 7.2절·9.4절)."@ko .
+    skos:definition "개발 프로파일에서 memory plane의 실체. 세션에서 일어난 관측 하나(시각·행동·situation 요약)가 청크 하나다. 관측은 판정 도구 없이 append-only 로 쌓이고 승격 규칙으로 주제 plane에 오른다 — 승격은 리뷰 규범이다 (결정 p7-dev-plane-substance, 노트 7.2절·9.4절)."@ko .

@@ -12,7 +12,7 @@ agt:TagCategory a owl:Class ;
 agt:taggedWith a owl:ObjectProperty ;
     rdfs:domain agt:KnowledgeItem ;
     rdfs:label "tagged with"@en , "태그된다"@ko ;
-    skos:definition "항목에 붙는 태그. 값은 반드시 온톨로지 개념이다 — 자유 문자열 태그는 검색 불가능한 태그다 (0.5절)."@ko .
+    skos:definition "항목에 붙는 태그. 값은 반드시 온톨로지 개념이다 — 자유 문자열 태그는 검색 불가능한 태그다 (0.5절). 게이트: tag-shapes."@ko .
 
 agt:inTagCategory a owl:ObjectProperty ;
     rdfs:range agt:TagCategory ;
@@ -31,7 +31,7 @@ agt:conditionCategory a owl:NamedIndividual , agt:TagCategory ;
 
 agt:purposeCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "purpose"@en , "목적"@ko ;
-    skos:definition "값의 출처: 고정 어휘 — regression·exploration·acceptance·performance·recovery (0.5절)."@ko .
+    skos:definition "값의 출처: 고정 어휘 — regression·exploration·acceptance·performance·recovery (0.5절). 게이트: tag-shapes."@ko .
 
 agt:defectFactorCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "defect factor"@en , "결함 요인"@ko ;
@@ -39,20 +39,20 @@ agt:defectFactorCategory a owl:NamedIndividual , agt:TagCategory ;
 
 agt:originCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "origin"@en , "출처"@ko ;
-    skos:definition "값의 출처: 고정 어휘 — observed(실행 기록에서 일반화)·designed(설계에서 파생)·imported (0.5절)."@ko .
+    skos:definition "값의 출처: 고정 어휘 — observed(실행 기록에서 일반화)·designed(설계에서 파생)·imported (0.5절). 게이트: tag-shapes."@ko .
 
 agt:oddRelationCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "ODD relation"@en , "ODD 관계"@ko ;
-    skos:definition "값의 출처: 고정 어휘 — inside·boundary·outside. ODD 밖 항목을 안과 섞으면 커버리지가 왜곡된다 (0.5절, 3.3절)."@ko .
+    skos:definition "값의 출처: 고정 어휘 — inside·boundary·outside. ODD 밖 항목을 안과 섞으면 커버리지가 왜곡된다 (0.5절, 3.3절). 게이트: tag-shapes."@ko .
 
 agt:environmentCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "environment"@en , "환경"@ko ;
-    skos:definition "값의 출처: 검증 환경 계층 — unit·model·sil·hil·staging·production (0.5절, 7.9절)."@ko .
+    skos:definition "값의 출처: 검증 환경 계층 — unit·model·sil·hil·staging·production (0.5절, 7.9절). 게이트: tag-shapes."@ko .
 
 agt:targetCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "target"@en , "대상"@ko ;
-    skos:definition "값의 출처: 고정 어휘 — product·agent. 검증의 두 대상 구분 (0.5절, 7.8절)."@ko .
+    skos:definition "값의 출처: 고정 어휘 — product·agent. 검증의 두 대상 구분 (0.5절, 7.8절). 게이트: tag-shapes."@ko .
 
 agt:levelCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "level"@en , "수준"@ko ;
-    skos:definition "값의 출처: 정제 계층의 다섯 개체. 예: level:logical (0.5절)."@ko .
+    skos:definition "값의 출처: 정제 계층의 다섯 개체. 예: level:logical (0.5절). 게이트: tag-shapes."@ko .

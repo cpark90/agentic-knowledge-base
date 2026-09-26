@@ -17,16 +17,16 @@ agt:reads a owl:ObjectProperty ;
 agt:writes a owl:ObjectProperty ;
     rdfs:domain agt:Role ;
     rdfs:label "writes"@en , "쓴다"@ko ;
-    skos:definition "역할이 요구하는 write plane 권한. 값은 plane 청크 클래스. 설계/구현/운영 역할은 같은 write plane을 공유하지 않는다 (9.2절, 9.6절)."@ko .
+    skos:definition "역할이 요구하는 write plane 권한. 값은 plane 청크 클래스. 설계/구현/운영 역할은 같은 write plane을 공유하지 않는다 (9.2절, 9.6절). 게이트: validate check_catalog."@ko .
 
 agt:maxConcurrent a owl:DatatypeProperty ;
     rdfs:domain agt:Role ;
     rdfs:range xsd:integer ;
     rdfs:label "max concurrent"@en , "최대 동시 수"@ko ;
-    skos:definition "역할의 최대 동시 활성 수. 합은 ODD 동적 요소의 한도 안이어야 한다 (9.2절, 9.6절)."@ko .
+    skos:definition "역할의 최대 동시 활성 수. 합은 ODD 동적 요소의 한도 안이어야 한다 (9.2절, 9.6절). 게이트: validate check_catalog."@ko .
 
 agt:writesIn a owl:DatatypeProperty ;
     rdfs:domain agt:Role ;
     rdfs:range xsd:string ;
     rdfs:label "writes in"@en , "쓰는 KB"@ko ;
-    skos:definition "역할이 쓰는 KB. 값은 KB 경로 접두(kb/dev 또는 kb/vv)이고, 없으면 개발 KB다. agt:writes 의 plane 권한은 이 KB 안에서만 유효하고 write plane 비겹침(9.2절)도 같은 KB 안에서만 본다 — V&V KB 는 코어의 두 번째 인스턴스라 같은 plane 이름을 쓴다 (결정 p8-vv-plane-instances·p8-vv-roles, 2026-09-19)."@ko .
+    skos:definition "역할이 쓰는 KB. 값은 KB 경로 접두(kb/dev 또는 kb/vv)이고, 없으면 개발 KB다. agt:writes 의 plane 권한은 이 KB 안에서만 유효하고 write plane 비겹침(9.2절)도 같은 KB 안에서만 본다 — V&V KB 는 코어의 두 번째 인스턴스라 같은 plane 이름을 쓴다 (결정 p8-vv-plane-instances·p8-vv-roles, 2026-09-19). 게이트: validate check_catalog."@ko .

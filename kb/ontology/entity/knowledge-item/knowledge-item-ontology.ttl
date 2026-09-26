@@ -11,10 +11,10 @@ agt:KnowledgeItem a owl:Class ;
 agt:Chunk a owl:Class ;
     rdfs:subClassOf agt:KnowledgeItem ;
     rdfs:label "chunk"@en , "청크"@ko ;
-    skos:definition "본문 42줄 이하의 자립적 최소 지식 단위. 하나의 plane, 하나의 level에 속하고 한 주제만 다룬다. 한 청크는 한 파일이다 (4.1절, 4.9절)."@ko .
+    skos:definition "본문 42줄 이하의 자립적 최소 지식 단위. 하나의 plane, 하나의 level에 속하고 한 파일이다 (4.1절, 4.9절). 게이트: 42줄은 chunk-shapes·chunk_lint, plane·level 하나씩은 chunk-shapes·defs/kb.bzl, 한 파일은 kb_chunk 규칙 구조다. 한 주제는 리뷰 규범이다."@ko .
 
 agt:Composite a owl:Class ;
     rdfs:subClassOf agt:KnowledgeItem ;
     owl:disjointWith agt:Chunk ;
     rdfs:label "composite"@en , "복합체"@ko ;
-    skos:definition "본문 없이 순서 있는 부분(청크·복합체)만 갖는 지식 항목 (4.5절). 부분의 plane·level은 전체와 같아야 한다."@ko .
+    skos:definition "본문 없이 순서 있는 부분(청크·복합체)만 갖는 지식 항목 (4.5절). 부분의 plane은 전체와 같고, 수준은 결정 복합체(결론 concrete·근거·대안 logical)를 제외하고 같다. 게이트: composite-heterogeneous 질의."@ko .

@@ -6,7 +6,7 @@
 
 agt:JudgementTool a owl:Class ;
     rdfs:label "judgement tool"@en , "판정 도구"@ko ;
-    skos:definition "청크가 그 plane의 판정 방식을 통과했는지를 실제로 가리는 도구. plane은 판정 방식으로 정의되고(5.1절) 프로파일이 그 방식의 도구를 채운다 — 도구 없는 plane은 게이트를 통과할 수 없다 (5.4절, 결정 p7-dev-plane-substance)."@ko .
+    skos:definition "청크가 그 plane의 판정 방식을 통과했는지를 실제로 가리는 도구. plane은 판정 방식으로 정의되고(5.1절) 프로파일이 그 방식의 도구를 채운다 — 도구 없는 plane은 게이트를 통과할 수 없다 (5.4절, 결정 p7-dev-plane-substance). 게이트: 실체 클래스마다의 값 제약(owl:hasValue, 같은 파일)."@ko .
 
 agt:judgedBy a owl:ObjectProperty ;
     rdfs:domain agt:Chunk ;

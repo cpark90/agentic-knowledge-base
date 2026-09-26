@@ -64,6 +64,7 @@
 | 추적성 정보 모델 — 대상 유형 × 링크 타입 × 제약 | 요구공학 TIM 문헌 |
 | 링크 타입 의미론, 단방향 저장 | 요구공학 링크 의미론, SysML |
 | 링크 타입 분류 — 의존/정련/진화/충족/근거 | Ramesh & Jarke 참조 모델, SysML |
+| 관계 분류의 overlaps — 참조·의존·충족 어느 잎도 이름을 주지 못하는 관련성의 자리(`agt:overlapsWith`, 2026-09-26) | Ramesh & Jarke 참조 모델 |
 | 구축과 복원 — 복원의 사후성, 중간 단계의 완충 효과 | 추적성 복원 연구 |
 | 읽기·쓰기 인수인계 — 탐색·편집 컨텍스트 분리 | SWE-Edit |
 | 후보 추림과 판정 분리 — 임베딩 검색 → 분류 → 확인 | 추적성 복원 연구 (LiSSA 계열) |
@@ -118,7 +119,7 @@
 | 표의 헤더 행·열 수 일치·앞뒤 빈 줄, 펜스의 언어 명시 | markdownlint MD055·MD056·MD058·MD040 |
 | 빈 셀을 비우거나 대시로 두지 않고 "None"을 쓴다 | Microsoft Writing Style Guide, Tables |
 | 온라인 정보에 목차·색인·검색 중 하나를 제공한다 | ISO/IEC/IEEE 26514:2022 9.10.5 |
-| 논평의 라벨(praise·nitpick·suggestion·issue·question·thought·chore)과 장식(blocking·non-blocking·if-minor) | [Conventional Comments](https://conventionalcomments.org/) |
+| 주석의 라벨(praise·nitpick·suggestion·issue·question·thought·chore)과 장식(blocking·non-blocking·if-minor) | [Conventional Comments](https://conventionalcomments.org/) |
 | 제목 계층과 표 구조는 접근성 요구다 | WCAG 2.2 SC 1.3.1 Info and Relationships (A) |
 | 시점 의존 표현 대신 버전·날짜로 고정한다 | Google developer documentation style guide, Timeless documentation |
 | 생성 활동·시각·책임 주체와 파생 원천을 명시한다 | W3C PROV-O (`prov:wasGeneratedBy`·`generatedAtTime`·`wasAttributedTo`·`wasDerivedFrom`) |

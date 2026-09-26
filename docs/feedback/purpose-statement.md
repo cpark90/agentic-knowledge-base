@@ -207,8 +207,13 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 46 | 요구 `r-027`·`r-028` 을 stable 로 (2026-09-23) — 요구 35건의 draft 가 0 이 된다. 검증 대응물은 이미 35/35 라 비율이 낮아지지 않는다 | `generated-requirements-stable-2026-09-21` · handoff 동명 |
 | 47 | 관측 시각 표기를 새 기록부터 G3 으로 (2026-09-23) — 커밋된 기록은 소급하지 않고 그 금지를 규약에 적는다 | `observation-timestamp-notation-2026-09-21` · handoff 동명 |
 | 48 | 에이전트 검증의 도착점을 개발 KB 청크로 (2026-09-23) — 결정 `p8-two-verification-targets` 를 `supersedes` 로 개정한다. 검사 약화가 없다. 같은 답에 붙은 별도 지시 — **하네스도 저장소의 지식 진전을 반영해 개선한다**(요구 한 건으로 세우고 stable 전이는 다시 승인) | `agent-verification-target-2026-09-22` · handoff 동명 |
+| 49 | 링크 견고성 D·E 반영 (2026-09-26) — `when` 평가기(ODD 조건 판정 재사용, 3값 논리)·`SUSPECT_TRIGGERS` 선언(`supersedes` 만 켬, 포화율 0/688 = 미시험)·`revalidate` 의 링크 재판정·`agt:overlapsWith`(추적성 관계 분류의 빈 칸) | `orchestrator-link-robustness-cde-2026-09-26` · handoff `link-model-robustness-cde-2026-09-19`(closed) |
+| 50 | 정의문 속 규칙 52건의 판정 (2026-09-26) — 실행 29 · 옮김 14 · 절차 규범 9 · **넷째 갈래 0**. 공리 셋 선언(`Irreflexive`·`Transitive`)하되 **판정은 verify 질의**(pySHACL 추론이 비반사성 위반을 보고하지 않는다). 단일 정의처는 `defs/kb.bzl RESIDENCY`, `sh:datatype` 1 → 27 | `orchestrator-definition-rules-2026-09-26` · handoff `nl-ambiguity-adoption-2026-09-22`(closed) |
+| 51 | 도입 5단계 첫 형태 — 설계 공간 `-space` (2026-09-22) — 어휘·파서 `space2kg`·게이트 `space`·`choices` 뷰 | `orchestrator-design-space-first-form-2026-09-22` |
+| 52 | 리뷰 순환 첫 닫힘 (2026-09-23) — 논평이 판정을 낳고 그 판정이 케이스를 고쳤다 | `orchestrator-review-loop-closed-2026-09-23` |
+| 53 | 연결 성분의 원인 분리 (2026-09-22) — 관측이 아닌 원인(새 지식 섬 둘)을 먼저 이어 6 → 4 | `orchestrator-connected-components-2026-09-22` |
 
-**아직 유저 답을 기다리는 것**: `agent-verification-target-2026-09-22.md`(에이전트 검증의 `verifies` 도착점), `workset-budget-gate-2026-09-22.md`(예산 초과의 게이트화), `generated-requirements-stable-2026-09-21.md`(요구 둘의 stable 전이),
+**아직 유저 답을 기다리는 것**: `jev-judge-binding-2026-09-26.md`(판정자를 System One 모델에 붙일 것인가), `test-hermeticity-2026-09-26.md`(게이트 하나의 밀폐성), `composite-beyond-decisions-2026-09-26.md`(복합체를 결정 밖으로), `code-as-chunks-2026-09-26.md`(코드를 청크로), `agent-verification-target-2026-09-22.md`(에이전트 검증의 `verifies` 도착점), `workset-budget-gate-2026-09-22.md`(예산 초과의 게이트화), `generated-requirements-stable-2026-09-21.md`(요구 둘의 stable 전이),
 `observation-timestamp-notation-2026-09-21.md`(관측 시각 표기), `link-model-robustness-2026-09-18.md`의 선택지 C·D·E,
 `connected-components-observations-2026-09-19.md`(관측이 성분을 늘리는 문제), `vv-profile-hazards-2026-09-19.md`(V&V 프로파일 위험 G1~G6),
 `dependency-graph-design.md`의 (a)~(j),

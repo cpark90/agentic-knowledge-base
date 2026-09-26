@@ -296,7 +296,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/4ae7ad6d-fabc-4925-bc6a-4aa518eeab55",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(
@@ -305,7 +305,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/9807be26-ff48-4cca-89c1-129f52e69df4",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(

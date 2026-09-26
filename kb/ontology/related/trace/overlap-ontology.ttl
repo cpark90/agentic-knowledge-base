@@ -1,0 +1,12 @@
+# 추적성 — 이름이 아직 없는 관련성: 서술이 겹치는 관계의 약한 잎 (노트 8.2절, 10.4절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:overlapsWith a owl:ObjectProperty , owl:SymmetricProperty ;
+    rdfs:subPropertyOf agt:relatedTo ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:range agt:KnowledgeItem ;
+    rdfs:label "overlaps with"@en , "겹친다"@ko ;
+    skos:definition "두 항목이 같은 대상의 같은 국면을 함께 서술해 한쪽을 고치면 다른 쪽을 함께 살펴야 하는 관계. relatedTo 족에서 가장 약한 잎이며, 함께 갱신해야 한다는 의무(coUpdatesWith)까지는 아직 판정되지 않은 자리를 맡는다. 근거는 추적성 관계 분류의 overlaps 다 — 이 체계의 다른 잎(의존·정제·대체·충족·상충)이 모두 그 분류에서 왔고 겹침만 빠져 있었다. 쓰는 때는 하나다: 후보 생성기의 근거(본문 인용·테스트 공동 커버·개념 공유)가 관계를 가리키는데 추적 매트릭스에 그 plane 쌍의 칸이 없어 참조·의미 의존·충족 어느 잎도 이름을 주지 못할 때다. 근거가 본문 인용이어도 확정하는 것은 서술의 겹침이다 — 인용은 겹침의 표지이고, 칸 없는 참조는 참조 링크로 확정되지 않는다. 칸이 생기면 그 잎으로 올린다 (8.2절, 10.4절)."@ko .

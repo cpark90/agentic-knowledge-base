@@ -7,6 +7,7 @@
 
 | 표준 용어 (ko) | en | 옛 표기 (2026-09-10 이전) | 출처 | tier |
 |---|---|---|---|---|
+| 겹침 | overlaps | 없음 | 추적성 관계 분류(Ramesh & Jarke) | — |
 | 검증 대응물 | verification counterpart | 가로대 | V-모델 | 1 |
 | 정제 · 정제 계층 · 정제 수준 | refinement · refinement hierarchy · refinement level | 하강 · 사다리 · 정제 높이 | ISO/IEC/IEEE 24765 | 1 |
 | 일반화 | generalization | 상승 | 온톨로지 학습 | 3 |

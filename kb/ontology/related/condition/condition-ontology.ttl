@@ -6,7 +6,7 @@
 
 agt:Condition a owl:Class ;
     rdfs:label "condition"@en , "조건"@ko ;
-    skos:definition "스코프와 가정이 언급할 수 있는 경계 조건의 최상위 클래스. 모든 조건은 객관적 판정 방법을 갖는다 (0.4절)."@ko .
+    skos:definition "스코프와 가정이 언급할 수 있는 경계 조건의 최상위 클래스. 모든 조건은 객관적 판정 방법을 갖는다 (0.4절). 게이트: condition-shapes."@ko .
 
 agt:StaticElement a owl:Class ;
     rdfs:subClassOf agt:Condition ;

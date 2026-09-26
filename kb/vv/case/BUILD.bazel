@@ -15,6 +15,37 @@ filegroup(
 )
 
 kb_chunk(
+    name = "acyclic-relation-axioms",
+    src = "acyclic-relation-axioms.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/66c029ba-ccd2-433b-bcab-5727b26fff9f",
+    plane = "schema",
+    level = "concrete",
+    status = "draft",
+    refines = [
+        "//kb/vv/criteria:acyclic-relation-axioms",
+    ],
+    verifies = [
+        "//kb/dev/decision:p2-definition-names-its-gate",
+    ],
+)
+
+kb_chunk(
+    name = "agent-catalog-complete",
+    src = "agent-catalog-complete.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d7fd4d10-bf68-4374-8e15-66cd2221c822",
+    plane = "schema",
+    level = "concrete",
+    status = "draft",
+    refines = [
+        "//kb/vv/criteria:agent-catalog-complete",
+    ],
+    verifies = [
+        "//kb/dev/decision:p11-agent-catalog-derives-scope",
+        "//kb/dev/decision:p11-dev-profile-role-permissions",
+    ],
+)
+
+kb_chunk(
     name = "audit-self-sufficiency",
     src = "audit-self-sufficiency.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/bc8535cb-d771-4f05-a9f8-06150b35de3c",
@@ -435,10 +466,27 @@ kb_chunk(
     ],
 )
 
+kb_chunk(
+    name = "when-false-suspect",
+    src = "when-false-suspect.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fa3d84ac-38c1-4e08-8638-107fe30915e0",
+    plane = "schema",
+    level = "concrete",
+    status = "draft",
+    refines = [
+        "//kb/vv/criteria:invalidation-without-survey",
+    ],
+    verifies = [
+        "//kb/dev/decision:p9-conditional-links",
+    ],
+)
+
 # 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
 kb_bundle(
     name = "kg",
     items = [
+        ":acyclic-relation-axioms",
+        ":agent-catalog-complete",
         ":audit-self-sufficiency",
         ":backward-trace-to-requirement",
         ":chunk-42-lines",
@@ -467,5 +515,6 @@ kb_bundle(
         ":verification-rung-same-level",
         ":verifies-subject-vv",
         ":versioned-inputs",
+        ":when-false-suspect",
     ],
 )

@@ -1,7 +1,9 @@
 # shape — 요구 문장의 본문 틀 둘: 개발 요구(kb/dev/requirement)와 검증 목표(kb/vv/goal). 슬롯마다 등록 질문 하나 (결정 p4-slot-answers-one-question)
 # 현행 형태를 그대로 기술한다. 새 슬롯을 요구하지 않는다 — 2026-09-22 실측에서 요구 35·검증 목표 33 이 전부 아래 둘 중 하나를 따랐다.
+# 슬롯 표지의 값은 xsd:string 이다 — 형이 없으면 언어 태그가 붙은 리터럴이나 IRI 가 슬롯 표지로 통과한다 (M5 값의 형, 2026-09-26).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 agt:RequirementBodyShape a sh:NodeShape ;
     sh:targetClass agt:RequirementStatement ;
@@ -9,29 +11,29 @@ agt:RequirementBodyShape a sh:NodeShape ;
     sh:message "요구 문장의 본문은 등록된 두 틀 중 하나를 따라야 한다 — 개발 요구는 **요구**·**이해관계자**·**관심사**·**출처**, 검증 목표는 **검증 목표**·**이해관계자**·**관심사**·**무엇을 관측하면 성립하는가** 다 (p4-slot-answers-one-question)" .
 
 agt:DevRequirementBodyShape a sh:NodeShape ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "요구" ; sh:order 1 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "요구" ; sh:order 1 ;
         sh:description "체계는 무엇을 하여야 하는가" ;
         sh:message "개발 요구의 첫 슬롯 **요구** 가 없다 — EARS 패턴 문장 하나를 적는다" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "이해관계자" ; sh:order 2 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "이해관계자" ; sh:order 2 ;
         sh:description "이 요구를 필요로 하는 쪽은 누구인가" ;
         sh:message "슬롯 **이해관계자** 가 없다 — 요구를 승인하는 쪽을 적는다" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "관심사" ; sh:order 3 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "관심사" ; sh:order 3 ;
         sh:description "그 쪽의 어떤 관심사가 이 요구를 낳았는가" ;
         sh:message "슬롯 **관심사** 가 없다 — 요구를 낳은 관심사를 적는다" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "출처" ; sh:order 4 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "출처" ; sh:order 4 ;
         sh:description "이 요구가 어느 입력에서 왔는가" ;
         sh:message "슬롯 **출처** 가 없다 — 요구가 온 입력을 적는다" ] .
 
 agt:VerificationGoalBodyShape a sh:NodeShape ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "검증 목표" ; sh:order 1 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "검증 목표" ; sh:order 1 ;
         sh:description "무엇이 성립함을 보여야 하는가" ;
         sh:message "검증 목표의 첫 슬롯 **검증 목표** 가 없다 — 보여야 할 것 하나를 적는다" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "이해관계자" ; sh:order 2 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "이해관계자" ; sh:order 2 ;
         sh:description "이 검증의 결과를 누가 쓰는가" ;
         sh:message "슬롯 **이해관계자** 가 없다 — 검증 결과를 쓰는 쪽을 적는다" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "관심사" ; sh:order 3 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "관심사" ; sh:order 3 ;
         sh:description "그 쪽의 어떤 관심사를 이 검증이 다루는가" ;
         sh:message "슬롯 **관심사** 가 없다 — 검증이 다루는 관심사를 적는다" ] ;
-    sh:property [ sh:path agt:bodySlot ; sh:hasValue "무엇을 관측하면 성립하는가" ; sh:order 4 ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "무엇을 관측하면 성립하는가" ; sh:order 4 ;
         sh:description "목표가 성립했다고 말하려면 무엇을 관측해야 하는가" ;
         sh:message "슬롯 **무엇을 관측하면 성립하는가** 가 없다 — 관측 가능한 성립 조건을 적는다" ] .

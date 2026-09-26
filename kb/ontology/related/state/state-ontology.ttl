@@ -8,7 +8,7 @@
 
 agt:Workset a owl:Class ;
     rdfs:label "workset"@en , "작업 집합"@ko ;
-    skos:definition "지식 베이스를 스코프 × 수준 창 × 앵커 이웃으로 거른 청크 집합. 질의 결과이며 저장하지 않는다. 인지 측정과 dispatch 전달의 단위다 — 스코프가 plane과 조건을, 수준 창이 계층 높이를 거르고, 앵커 이웃이 양을 거른다 (0.5절, 2026-09-11). 과거 작업 집합은 그 리비전에 같은 질의를 다시 걸어 얻는다."@ko .
+    skos:definition "지식 베이스를 스코프 × 수준 창 × 앵커 이웃으로 거른 청크 집합. 질의 결과이며 저장하지 않는다. 인지 측정과 dispatch 전달의 단위다 — 스코프가 plane과 조건을, 수준 창이 계층 높이를 거르고, 앵커 이웃이 양을 거른다 (0.5절, 2026-09-11). 과거 작업 집합은 그 리비전에 같은 질의를 다시 걸어 얻는다. 게이트: kb_workset_view(저장 타깃 없음)."@ko .
 
 agt:anchor a owl:ObjectProperty ;
     rdfs:domain agt:Workset ;
@@ -18,7 +18,7 @@ agt:anchor a owl:ObjectProperty ;
 
 agt:Run a owl:Class ;
     rdfs:label "run"@en , "실행 기록"@ko ;
-    skos:definition "관측된 실행 기록 — 자극·환경·결과. concrete 전용이고 append-only이며 run-kg에 저장한다. 관측은 이미 일어난 것이라 수준을 갖지 못하고, 일반화의 목적지는 개발 KB에서는 요구·결정·규칙, V&V KB에서는 시나리오·합격 기준이다 (0.5절, 6.3절)."@ko .
+    skos:definition "관측된 실행 기록 — 자극·환경·결과. concrete 전용이고 append-only이며 run-kg에 저장한다. 관측은 이미 일어난 것이라 수준을 갖지 못하고, 일반화의 목적지는 개발 KB에서는 요구·결정·규칙, V&V KB에서는 시나리오·합격 기준이다 (0.5절, 6.3절). 게이트: concrete는 defs/kb.bzl RESIDENCY, append-only는 vv_run."@ko .
 
 agt:Runbook a owl:Class ;
     rdfs:label "runbook"@en , "대응 절차"@ko ;

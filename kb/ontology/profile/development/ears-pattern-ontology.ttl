@@ -12,7 +12,7 @@ agt:pattern a owl:ObjectProperty ;
     rdfs:domain agt:RequirementChunk ;
     rdfs:range agt:EarsPattern ;
     rdfs:label "pattern"@en , "패턴"@ko ;
-    skos:definition "요구 문장이 따르는 EARS 패턴. 요구마다 정확히 하나이고 frontmatter `pattern:` 에서 생성된다. requirement plane 밖에서는 쓰지 않는다 — 패턴은 요구 문장의 형식이지 다른 plane의 속성이 아니다 (결정 p7-dev-plane-substance)."@ko .
+    skos:definition "요구 문장이 따르는 EARS 패턴. 요구마다 정확히 하나이고 frontmatter `pattern:` 에서 생성된다. requirement plane 밖에서는 쓰지 않는다 — 패턴은 요구 문장의 형식이지 다른 plane의 속성이 아니다 (결정 p7-dev-plane-substance). 게이트: profile-development-shapes."@ko .
 
 agt:ubiquitous a owl:NamedIndividual , agt:EarsPattern ;
     rdfs:label "ubiquitous"@en , "항상 패턴"@ko ;
@@ -36,4 +36,4 @@ agt:optional a owl:NamedIndividual , agt:EarsPattern ;
 
 agt:complex a owl:NamedIndividual , agt:EarsPattern ;
     rdfs:label "complex"@en , "복합 패턴"@ko ;
-    skos:definition "위 패턴 둘 이상을 한 문장에 조합한 요구. 조합이 필요한 경우에만 쓰고, 나눌 수 있으면 요구 문장을 나눈다 (EARS, Mavin RE'09)."@ko .
+    skos:definition "위 패턴 둘 이상을 한 문장에 조합한 요구. 조합이 필요한 경우에만 쓰고, 나눌 수 있으면 요구 문장을 나눈다 — 분할은 리뷰 규범이다 (EARS, Mavin RE'09)."@ko .

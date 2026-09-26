@@ -29,6 +29,13 @@ _GENDOC_SRCS = [
     Label("//tools:kb_lib.py"),
 ]
 
+_RUNNER_ENV_SRCS = [
+    Label("//tools:vv_run_env_test.py"),
+    Label("//tools:vv_run.py"),  # 판정 대상 — clean_env·run_command
+    Label("//tools:chunk2kg.py"),  # vv_run 이 케이스 frontmatter 를 그 파서로 읽는다
+    Label("//tools:kb_lib.py"),
+]
+
 _GEN_SKILLS_SRCS = [
     Label("//tools:gen_skills.py"),
     Label("//tools:doccheck.py"),
@@ -55,6 +62,7 @@ def kb_gate_test(
         verify_queries = None,
         reason = False,
         standard_vocab = [],
+        residency = None,
         **kwargs):
     """검사 게이트 테스트 — tools/validate.py 를 지정 그래프들에 대해 돌린다.
 
@@ -65,6 +73,8 @@ def kb_gate_test(
       odd: ODD 라벨들 (*-odd). 주면 agt:refersTo → ODD 참조 게이트가 켜진다.
       data: A-Box 라벨들 (*-kg, *-space). 통제 어휘 검사 대상.
       reason: SHACL 전에 OWL-RL 추론 적용.
+      residency: 수준 허용표의 원본 라벨 (//defs:kb.bzl). 주면 게이트 `residency` 가 켜진다 — shape 의 plane × level
+        구간이 그 파일의 `RESIDENCY` 와 같은지 본다. 표를 두 곳에 적는 것을 막는다 (M1 단일 정의처).
       standard_vocab: 등록 표준 어휘 원문 라벨들 (@prov_o//file · @skos//file, MODULE.bazel http_file 해시 고정).
         주면 그 네임스페이스의 용어가 원문에 정의돼 있는지까지 본다 — 접두사만 맞는 오타를 잡는다.
       **kwargs: py_test 로 전달.
@@ -77,10 +87,13 @@ def kb_gate_test(
         _flag_args("--data", data) +
         _flag_args("--standard-vocab", standard_vocab) +
         (["--verify-queries", "tools/verify-queries"] if verify_queries else []) +
+        (["--residency", "$(rootpath %s)" % residency] if residency else []) +
         (["--reason"] if reason else [])
     )
     if verify_queries:
         graphs = graphs + [verify_queries]
+    if residency:
+        graphs = graphs + [residency]
     py_test(
         name = name,
         srcs = _VALIDATE_SRCS,
@@ -133,13 +146,15 @@ def kb_metrics(name, data, notes = None, bodies = [], out = "metrics.md"):
     """그래프(-kg)에서 코어 지표 metrics.md를 생성한다 (4.13절, 14.1절 통과 조건 세 축의 대리).
 
     notes·bodies를 주면 확정 문장 커버리지(1단계 의미 보존 대리)도 계산한다.
+    plane 순서·수준 순서·수준 허용표는 //defs:kb.bzl 에서 읽는다 — 표의 단일 정의처가 거기다 (M1 단일 정의처).
     """
+    residency = Label("//defs:kb.bzl")
     extra = ((" --notes $(location %s)" % notes) if notes else "") + ((" --bodies " + " ".join(["$(execpaths %s)" % b for b in bodies])) if bodies else "")
     native.genrule(
         name = name,
-        srcs = data + ([notes] if notes else []) + bodies,
+        srcs = data + ([notes] if notes else []) + bodies + [residency],
         outs = [out],
-        cmd = "$(location //tools:metrics) --out $@ %s%s" % (" ".join(["$(execpaths %s)" % d for d in data]), extra),
+        cmd = "$(location //tools:metrics) --out $@ --residency $(location %s) %s%s" % (residency, " ".join(["$(execpaths %s)" % d for d in data]), extra),
         tools = [Label("//tools:metrics")],
     )
 
@@ -402,6 +417,40 @@ def kb_gendoc_test(name, docs, data = [], empty_dirs = [], **kwargs):
         args = args,
         data = docs + data,
         deps = [requirement("rdflib")],  # kb_lib(규약의 단일 정의처)가 요구
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+def kb_runner_env_test(name, probe = "chunk_lint", **kwargs):
+    """실행기 환경 격리 게이트 — 케이스의 명령이 실행기의 파이썬·runfiles 문맥을 물려받지 않는지 판정한다
+    (tools/vv_run_env_test.py, 결정 p8-verifier-env-isolation, 논평 runner-env-leaks-into-case).
+
+    다른 게이트와 달리 검사 대상이 **도구 자신의 동작**이다. 실행기 전체는 케이스가 `bazel test` 를 부르므로
+    테스트 타깃이 될 수 없지만(중첩 실행), `clean_env()` 와 `run_command()` 는 bazel 을 부르지 않는다.
+    대상을 격리의 동작으로 좁히면 중첩 없이 `bazel test //...` 안에 든다.
+
+    자극은 실제 하위 프로세스다 — `probe` 검증기의 소스를 data 로 놓아 runfiles 에서 `python3 tools/<probe>.py`
+    로 부른다. 그 형태가 케이스가 쓰는 형태와 같아야 격리가 케이스에 대해 판정된다.
+
+    Args:
+      name: 테스트 이름.
+      probe: 하위 프로세스로 띄울 읽기 전용 검증기 이름 (vv_run.READ_ONLY_VERIFIERS 안).
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = _RUNNER_ENV_SRCS,
+        main = Label("//tools:vv_run_env_test.py"),
+        args = ["--probe", probe],
+        data = [Label("//tools:%s.py" % probe)],
+        # 검증기는 케이스가 부르는 그대로 워크스페이스 셸의 `python3` 로 돈다 — 그 해석기의 사용자 site-packages 는
+        # HOME 아래에 있고, 실행기가 도는 `bazel run` 은 클라이언트의 HOME 을 그대로 물려준다. 테스트도 같은 조건에
+        # 두어야 자극이 케이스의 자극과 같다. 격리가 깨지면 그 전에 `import kb_lib` 에서 죽는다
+        env_inherit = ["HOME"],
+        deps = [
+            requirement("rdflib"),  # kb_lib(종료 코드 규약의 단일 정의처)가 요구
+            requirement("pyyaml"),  # vv_run 이 케이스 본문의 `yaml` 펜스를 읽는다 — import 에 필요하다
+        ],
         size = kwargs.pop("size", "small"),
         **kwargs
     )

@@ -17,9 +17,9 @@
                      `empty-value`(세 빈 값 `없음`·`해당 없음`·`미확정` 밖의 `N/A`·`TBD`·`미정`·표의 단독 대시 셀),
                      `list-rules`(손 번호 `2.` 이상·항목 9개 초과·중첩 3단계 이상·항목당 240자 초과·빈 항목)이다.
                      검사 함수는 consistency ⑧·⑨ 와 같다(kb_lib.check_addition·check_lists) — 보고와 게이트의 수치가 갈리지 않는다.
-                     살아 있는 type: annotation 인 .md 는 논평이다 (STYLEGUIDE §4, 결정 p7-commentary-form). 게이트 id
+                     살아 있는 type: annotation 인 .md 는 주석이다 (STYLEGUIDE §4, 결정 p7-commentary-form). 게이트 id
                      `blocking-comment` 는 그 결정이 정한 **유일한 게이트 효과**를 강제한다 — 첫 줄이 `issue (blocking)` 이면서
-                     `해소: 열림` 인 논평이 있으면 FAIL 이다. 그 밖의 라벨·장식·해소 상태는 기록이고 막지 않는다. 첫 줄 꼴과
+                     `해소: 열림` 인 주석이 있으면 FAIL 이다. 그 밖의 라벨·장식·해소 상태는 기록이고 막지 않는다. 첫 줄 꼴과
                      닫힌 어휘·본문 문장 상한은 shape(kb/ontology/shapes/review-comment-body-shapes.ttl)가 본다.
   --ttl <files>      TTL 파일명이 산출물 접미사 규약(0.2절)을 따르는지 검사.
   --waivers <file>   docs/waivers.md — 게이트 id `prose`·`addition`·`empty-value`·`list-rules`·`blocking-comment`(축 파일)로 면제된 파일의
@@ -43,7 +43,7 @@ try:
 except ImportError:
     import kb_lib  # 직접 실행
 try:
-    from tools.chunk2kg import comment_form  # 논평 본문의 파서 — 방출(chunk2kg)과 게이트가 같은 판정을 쓴다
+    from tools.chunk2kg import comment_form  # 주석 본문의 파서 — 방출(chunk2kg)과 게이트가 같은 판정을 쓴다
 except ImportError:
     from chunk2kg import comment_form
 
@@ -56,7 +56,7 @@ DECISION_ROLE = kb_lib.DECISION_ROLE_GATE        # 결정 역할 표지 게이�
 ADDITION = kb_lib.ADDITION_GATE                  # 첨가 게이트 id — 메타 문장·채움 문구 (STYLEGUIDE §0, consistency ⑧)
 EMPTY_VALUE = kb_lib.EMPTY_VALUE_GATE            # 빈 값 게이트 id — 세 빈 값 밖의 표기 (STYLEGUIDE §0, consistency ⑧)
 LIST_RULES = kb_lib.LIST_RULES_GATE              # 목록 게이트 id — 목록 규칙 다섯 (STYLEGUIDE §0, consistency ⑨)
-BLOCKING_COMMENT = kb_lib.BLOCKING_COMMENT_GATE  # 논평 게이트 id — 해소되지 않은 issue (blocking) (STYLEGUIDE §4, p7-commentary-form)
+BLOCKING_COMMENT = kb_lib.BLOCKING_COMMENT_GATE  # 주석 게이트 id — 해소되지 않은 issue (blocking) (STYLEGUIDE §4, p7-commentary-form)
 
 MAX_BODY_LINES = 42  # 4.1절 — 컨텍스트 한계 200줄의 약 1/5
 
@@ -103,9 +103,9 @@ def check_decision_role(path: Path, text: str) -> list[tuple[int, str]]:
 
 
 def check_blocking_comment(text: str) -> list[tuple[int, str]]:
-    """해소되지 않은 `issue (blocking)` 논평 (게이트 id `blocking-comment`) → [(줄 번호, 이유)].
+    """해소되지 않은 `issue (blocking)` 주석 (게이트 id `blocking-comment`) → [(줄 번호, 이유)].
 
-    결정 p7-commentary-form 이 정한 **유일한 게이트 효과**다. `issue (blocking)` 이면서 `해소: 열림` 인 논평만 막고
+    결정 p7-commentary-form 이 정한 **유일한 게이트 효과**다. `issue (blocking)` 이면서 `해소: 열림` 인 주석만 막고
     나머지 라벨·장식·해소 상태는 기록이라 막지 않는다. 판정은 해소 상태의 존재만 보고 이유의 내용을 보지 않는다
     (p5-verification-tools-per-plane). 첫 줄 꼴과 닫힌 어휘 자체는 shape(review-comment-body-shapes.ttl)가 본다.
     """
@@ -117,7 +117,7 @@ def check_blocking_comment(text: str) -> list[tuple[int, str]]:
         return []
     ln = start + next((i for i, l in enumerate(body) if l.strip()), 0)
     on = " · ".join(form.get("targets") or []) or kb_lib.EMPTY_UNDECIDED
-    return [(ln, f'해소되지 않은 `{form["label"]} ({form["decoration"]})` 논평이다 — 대상 {on}, 요지 "{form.get("gist", "")}". '
+    return [(ln, f'해소되지 않은 `{form["label"]} ({form["decoration"]})` 주석이다 — 대상 {on}, 요지 "{form.get("gist", "")}". '
                  f'대상을 고친 뒤 `해소: {kb_lib.COMMENT_RESOLUTIONS[1]} — <이유>` 로, 받지 않기로 했으면 '
                  f'`해소: {kb_lib.COMMENT_RESOLUTIONS[2]} — <이유>` 로 바꾼다 (p7-commentary-form)')]
 
@@ -186,7 +186,7 @@ def main() -> int:
     prose_files = 0
     decision_files = 0  # 역할 표지 검사 대상(살아 있는 결정)의 수 — PASS 줄의 실태
     live_files = 0      # 첨가·목록 검사 대상(살아 있는 .md 청크)의 수
-    comment_files = 0   # 논평 검사 대상(살아 있는 annotation 청크)의 수
+    comment_files = 0   # 주석 검사 대상(살아 있는 annotation 청크)의 수
 
     for f in args.chunks:
         p = Path(f)
@@ -210,7 +210,7 @@ def main() -> int:
             errors += [f"[{DECISION_ROLE}] {f}:{ln}: {reason}" for ln, reason in check_decision_role(p, text)]
             if fields.get("type") == "annotation" and fields.get("status") in kb_lib.LIVE_STATES:
                 comment_files += 1
-            for ln, reason in check_blocking_comment(text):  # 해소되지 않은 issue (blocking) — 논평의 유일한 게이트 효과
+            for ln, reason in check_blocking_comment(text):  # 해소되지 않은 issue (blocking) — 주석의 유일한 게이트 효과
                 line = f"[{BLOCKING_COMMENT}] {f}:{ln}: {reason}"
                 (waived_notes if kb_lib.waived(waivers, BLOCKING_COMMENT, f, "파일") else errors).append(line)
             if fields.get("status") in kb_lib.LIVE_STATES:  # 보고(consistency)와 같은 대상 집합 — invalidated·deprecated 는 기록이다
@@ -235,7 +235,7 @@ def main() -> int:
         return EXIT_FAIL
 
     print(f"PASS [chunk_lint] — 청크 {len(args.chunks)}개 (산문 검사 {prose_files}개, 결정 역할 표지 {decision_files}개, "
-          f"첨가·목록 {live_files}개, 논평 {comment_files}개, 면제 {len(waived_notes)}건), TTL {len(args.ttl)}개")
+          f"첨가·목록 {live_files}개, 주석 {comment_files}개, 면제 {len(waived_notes)}건), TTL {len(args.ttl)}개")
     return 0
 
 

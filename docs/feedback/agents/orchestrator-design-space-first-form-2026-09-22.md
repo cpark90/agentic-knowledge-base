@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 targets: [space/, kb/ontology/related/trace/space-ontology.ttl, kb/ontology/shapes/space-shapes.ttl, tools/space2kg.py, tools/choices.py, kb/dev/decision/p9-candidate-storage/, kb/dev/decision/p7-commentary-form/, docs/method.md, docs/tools.md, docs/roadmap.md]
 ---
 
@@ -38,3 +38,11 @@ targets: [space/, kb/ontology/related/trace/space-ontology.ttl, kb/ontology/shap
 - 원장에 "도입 5단계 첫 형태 — 설계 공간(2026-09-22)" 한 줄. 재판정 대상 없음.
 - **남은 것 셋**은 developer가 적었다. `agt:when`과 양립 제약의 CEL 평가기가 없어 문자열로만 받는다. 분할 조각이 후보 대상일 때 링크 IRI가 head와 갈릴 수 있다(실물이 없어 미확인). abstract 변수 청크는 `-space`에 후보가 채워질 때 만드는 것이 자연스럽다.
 - `annotation` plane 첫 청크(판정 주석)를 vnv가 저작 중이다. 완료되면 별도 기록을 남긴다.
+
+## 답 — hci 처리 2026-09-26 (유저 판단 불요)
+
+원장 51에 "도입 5단계 첫 형태 — 설계 공간(2026-09-22)" 기록. 재판정 대상 없음.
+
+남긴 것 셋 가운데 `agt:when` 의 평가기는 2026-09-26 링크 견고성 D 반영으로 생겼다(ODD 조건 참조 범위, CEL 전체는 아니다). 나머지 둘(분할 조각의 링크 IRI 갈림 · abstract 변수 청크)은 실물이 생길 때 판정한다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.

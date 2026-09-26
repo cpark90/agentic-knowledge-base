@@ -18,7 +18,7 @@ agt:hasCondition a owl:ObjectProperty ;
 agt:mode a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:label "mode"@en , "기본 모드"@ko ;
-    skos:definition "명세의 기본 모드: restrictive(명시 포함만 허용) 또는 permissive(명시 제외만 금지). ODD와 스코프가 공유하는 명세 형식 (0.4절)."@ko .
+    skos:definition "명세의 기본 모드: restrictive(명시 포함만 허용) 또는 permissive(명시 제외만 금지). ODD와 스코프가 공유하는 명세 형식 (0.4절). 게이트: condition-shapes·scope-shapes."@ko .
 
 agt:excludes a owl:DatatypeProperty ;
     rdfs:range xsd:string ;

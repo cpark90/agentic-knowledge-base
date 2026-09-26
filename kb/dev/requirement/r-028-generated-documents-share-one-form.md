@@ -5,9 +5,11 @@ level: functional
 pattern: ubiquitous
 title_ko: 생성 문서의 서식은 하나의 규약을 따라야 한다
 title: Generated documents must follow one form convention
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-generated-document-standards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
+restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-21T21:10:00+09:00}
 ---
 **요구** — 체계가 생성하는 모든 문서는 도구마다 다른 서식이 아니라 하나의 규약을 따라야 하고, 그 규약은 생성 전에 고정되어 있어야 한다.

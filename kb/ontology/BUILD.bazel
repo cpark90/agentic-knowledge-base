@@ -38,9 +38,11 @@ filegroup(
 )
 
 # 온톨로지 품질 검사 게이트 (2.5절): 라벨 완전성 + 청크(파일) 단위 정의 경계 + SHACL
+# residency 는 수준 허용표의 단일 정의처 검사다 — shape 가 //defs:kb.bzl 의 RESIDENCY 와 같은 표인지 본다 (M1 단일 정의처)
 kb_gate_test(
     name = "gate_test",
     ontology = [":modules"],
+    residency = "//defs:kb.bzl",
     shapes = [":shapes"],
     standard_vocab = ["@prov_o//file", "@skos//file"],
 )

@@ -23,10 +23,20 @@ kb_chunk(
     status = "stable",
 )
 
+kb_chunk(
+    name = "obs-20260922T164157Z",
+    src = "obs-20260922T164157Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/999fd3a5-73a0-43f5-ba3e-50fb40ba175b",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
 # 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
 kb_bundle(
     name = "kg",
     items = [
         ":obs-20260913T154324Z",
+        ":obs-20260922T164157Z",
     ],
 )
