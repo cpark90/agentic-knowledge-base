@@ -1,0 +1,21 @@
+# 결함 — 실행 요인 중 문서의 현상 둘: 라벨과 문서 표가 내용에서 떨어진다 (위험 분석 G1)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix id: <https://agentic-knowledge-base.dev/id/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:labelRot a owl:NamedIndividual , agt:DocumentationFactor ;
+    rdfs:label "label rot"@en , "라벨 부패"@ko ;
+    skos:definition "본문이 바뀌었는데 라벨이 그대로 남는 현상. 라벨만 보고 본문을 예측하는 조회 방식이 이 현상에서 무너지므로 문서 요인이다. 관측 수단은 내용 해시 변경 시점의 라벨 재검토 여부다."@ko ;
+    skos:notation "P14" ;
+    agt:observationMeans "미확정" ;
+    prov:wasDerivedFrom id:doc-system-notes , id:doc-vv-profile-hazards .
+
+agt:documentLag a owl:NamedIndividual , agt:DocumentationFactor ;
+    rdfs:label "document lag"@en , "문서 지연"@ko ;
+    skos:definition "그래프는 맞고 문서의 표가 낡는 현상. 서술만 틀린 것이므로 문서 요인이다. 참조 저장소의 감사에서 결함군이 전부 이 형태였고 이 저장소에도 실재한다."@ko ;
+    skos:notation "P18" ;
+    agt:observationMeans "미확정" ;
+    prov:wasDerivedFrom id:doc-harness-ontology , id:doc-vv-profile-hazards .

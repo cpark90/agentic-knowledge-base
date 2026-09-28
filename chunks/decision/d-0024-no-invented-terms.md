@@ -7,6 +7,8 @@ title: No invented terminology
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-terminology-rules
+composite: {id: https://agentic-knowledge-base.dev/id/comp-terminology-rules, title_ko: 용어와 표기 규칙, title: terminology and notation rules}
 ---
 **결론** — 확립된 표준어가 있으면 그것을 쓰고, 없을 때만 새로 만든다.
 개념의 **최상위 분류는 상위 온톨로지에서 가져온다** — "결정이 무엇인가"를

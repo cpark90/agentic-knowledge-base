@@ -9,6 +9,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-req-verification
 ---
 **요구** — 검증이 실행되면, 체계는 관측을 실행 기록(Run)으로 concrete 수준에 append-only 저장하여야 한다.
 

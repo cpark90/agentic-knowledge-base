@@ -30,6 +30,7 @@ frontmatter 는 청크와 같고(`tools/chunk2kg.py` 의 REQUIRED) `type: agt:Sp
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
@@ -241,8 +242,16 @@ def render(iri: str, stmts: list) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
+                    help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(design_space 규칙이 명시로 넘긴다)")
     ap.add_argument("files", nargs="*")
     a = ap.parse_args()
+    if a.files:  # parse_chunk 를 실제로 부를 때만 값 어휘가 있어야 한다 — 아직 `-space` 청크가 없으면(빈 grap) 필요 없다
+        try:
+            chunk2kg.apply_plane_level_state(*chunk2kg.load_plane_level_state(a.residency))
+        except (OSError, ValueError) as e:
+            print(f"FAIL [{GATE}] {a.residency}: 읽을 수 없다 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
 
     blocks, errors, seen = [], [], {}
     for path in sorted(a.files):

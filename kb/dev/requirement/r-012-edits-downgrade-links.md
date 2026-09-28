@@ -10,6 +10,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {r
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
+part_of: https://agentic-knowledge-base.dev/id/comp-req-project
 ---
 **요구** — 산출물이 변경되면, 체계는 그 항목을 끝으로 하는 링크를 suspect로 내려 재검증 시점에서 일괄 재판정하여야 한다.
 

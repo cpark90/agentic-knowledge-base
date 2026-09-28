@@ -7,6 +7,8 @@ title: 42-line chunk as minimal knowledge unit
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-knowledge-structure
+composite: {id: https://agentic-knowledge-base.dev/id/comp-knowledge-structure, title_ko: 지식 구조 모델, title: knowledge structure model}
 ---
 **결론** — 모든 지식은 본문 42줄 이하의 자립적 청크를 가장 작은 부품으로
 한다. 한 청크는 하나의 plane, 하나의 level, 한 주제만 다룬다.

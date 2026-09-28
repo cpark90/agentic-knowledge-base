@@ -1,0 +1,28 @@
+# 개발 프로파일 — 확신도 임계 셋: 판정 결과의 처리를 가르는 두 경계 (결정 p8-judge-calibration-binding 임계 셋, 노트 8.14절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:ConfidenceThresholdSet a owl:Class ;
+    rdfs:label "confidence threshold set"@en , "확신도 임계 셋"@ko ;
+    skos:definition "판정 결과를 확신도로 세 처리 — 자동 적용·사람 확인 큐·판정 보류 — 로 가르는 경계의 묶음. 임계를 셋으로 두는 근거는 판정자의 오답 비용이 구간마다 다르다는 것이다 (결정 p8-judge-calibration-binding). 확신도는 집단 수준의 캘리브레이션이라 임계는 개별 답을 보증하지 않는다. 게이트: judge-question-shapes."@ko .
+
+agt:autoApplyThreshold a owl:DatatypeProperty ;
+    rdfs:domain agt:ConfidenceThresholdSet ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "auto apply threshold"@en , "자동 적용 임계"@ko ;
+    skos:definition "이 값 이상의 확신도를 가진 판정만 사람 확인 없이 적용할 수 있는 경계. 구간별 정확도가 측정되기 전에는 이 경계 위에도 자동 적용 구간이 없다 (결정 p8-judge-calibration-binding 규칙 ②). 게이트: judge-question-shapes(0 이상 1 이하, 사람 확인 임계보다 크다)."@ko .
+
+agt:humanReviewThreshold a owl:DatatypeProperty ;
+    rdfs:domain agt:ConfidenceThresholdSet ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "human review threshold"@en , "사람 확인 임계"@ko ;
+    skos:definition "이 값 아래의 확신도를 가진 판정을 적용하지 않고 보류하는 경계. 경계와 자동 적용 임계 사이의 판정은 사람 확인 큐로 간다 (결정 p8-judge-calibration-binding). 게이트: judge-question-shapes(0 이상 1 이하)."@ko .
+
+agt:judgeThresholds a owl:NamedIndividual , agt:ConfidenceThresholdSet ;
+    rdfs:label "judge confidence thresholds"@en , "판정자 확신도 임계"@ko ;
+    skos:definition "이 저장소가 쓰는 확신도 임계 셋 하나. 자동 적용 0.9 이상 · 사람 확인 큐 0.5 이상 0.9 미만 · 그 아래 판정 보류이며 tools/judge.py 가 이 개체에서 값을 읽는다 (결정 p8-judge-calibration-binding). 캘리브레이션 상태는 judge-calibration-ontology 가 같은 개체에 적는다."@ko ;
+    agt:autoApplyThreshold 0.9 ;
+    agt:humanReviewThreshold 0.5 .

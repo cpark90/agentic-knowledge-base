@@ -7,6 +7,7 @@ title: Interaction of the traceability matrix screen
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-editor-ux
 ---
 **결론** — 추적 매트릭스 화면의 행·열은 plane이고, 셀 클릭은 그 셀의 링크
 목록(라벨 + 상태)을 연다. `suspect` 셀과 "TIM 허용 & 0" 칸은 색으로

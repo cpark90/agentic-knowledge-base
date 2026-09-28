@@ -7,6 +7,7 @@ title: Second-level condition subclasses and decidability grade
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-boundary-specification
 ---
 **결론** — 조건 3갈래(정적 요소·환경 조건·동적 요소) 아래 **둘째 수준까지를
 온톨로지 `related/condition`에 고정**하고, ODD의 모든 속성이 그중 하나에

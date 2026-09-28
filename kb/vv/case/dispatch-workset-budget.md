@@ -7,22 +7,24 @@ title: The vnv workset anchored on the decision p11-execution-mode-and-workset e
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-21T22:40:00+09:00}
+generated: {by: vnv/claude-sonnet-5, at: 2026-09-29T01:50:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/7db997bc-4f86-4b0c-aa3f-e941657a94a7]
 verifies: [https://agentic-knowledge-base.dev/id/chunk/82e341ba-c47f-4677-8013-491082b24b6c]
 ---
-**케이스** — 앵커를 준 작업 집합 뷰 하나를 자극으로 쓴다.
+**케이스** — 앵커를 준 뷰·앵커 없는 통제·예산을 좁힌 음성 자극 셋을 종료 코드로 판정한다.
 
-**자극** — `//kg:workset` 을 `--//kb:role=vnv --//kb:anchor=<결정 결론 IRI>` 로 빌드한다. 앵커는 결정 `p11-execution-mode-and-workset` 의 결론(`id:chunk/965f738a-db50-4729-a551-e58a90cd6320`, "dispatch에는 스코프로 거른 작업 집합만 전달한다")이다. 수준 창은 기본(다섯 수준 전부), 홉은 1, 예산은 200 이다.
+**자극** — `//kg:workset` 을 셋으로 빌드한다. 앵커는 결정 `p11-execution-mode-and-workset` 의 결론(`id:chunk/965f738a-db50-4729-a551-e58a90cd6320`, "dispatch에는 스코프로 거른 작업 집합만 전달한다")이다. 첫째는 앵커 + 기본 예산 200, 둘째는 앵커 없는 통제, 셋째는 같은 앵커 + 예산 10(음성 자극)이다.
 
 ```yaml
-role:     vnv                                   # reads: requirement·artifact·decision, writes: kb/vv 의 일곱 plane
-anchor:   id:chunk/965f738a-db50-4729-a551-e58a90cd6320   # 결정 결론 — 이웃은 r-015·r-020·context-budget 과 복합체 형제
-observed: {list_lines: 16, expanded: 6, lines: 78, budget: 200, verdict: "예산 안"}   # 2026-09-21 실측
+expect:
+  - exit: 0
+  - exit: 0
+  - exit: 1
+    contains: "FAIL [workset-budget]"
 ```
 
-**기대** — 빌드가 성공하고 `bazel-bin/kg/workset-vnv.md` 의 머리에 `예산 판정: 이 문서 전체(라벨 목록 16줄 + 펼친 본문)의 합계 **78줄 / 예산 200줄 → 예산 안**` 이 있다. 라벨 목록 첫 줄이 `scope: vnv` 로 시작하고 `[anchor]`·`[dep]`·`[part]` 표시가 이웃마다 붙는다. 이웃 수는 앵커를 `refines` 하는 청크가 늘면 함께 는다.
+**기대** — 첫째·둘째 빌드는 종료 0이다 — 성공한 빌드 액션은 산출물 내용을 표준출력에 내지 않으므로 문구 대조는 실패하는 셋째에만 둔다. 셋째는 예산 10줄이 라벨 목록 길이보다 작아 `FAIL [workset-budget]` 로 실패한다 — 검사하는 규칙은 예산 판정 하나뿐이고 빌드의 성립·앵커 탐색은 그대로 만족한다.
 
-**실행 명령** — `bazel build //kg:workset --//kb:role=vnv --//kb:anchor=https://agentic-knowledge-base.dev/id/chunk/965f738a-db50-4729-a551-e58a90cd6320`
+**실행 명령** — `bazel build //kg:workset --//kb:role=vnv --//kb:anchor=https://agentic-knowledge-base.dev/id/chunk/965f738a-db50-4729-a551-e58a90cd6320; bazel build //kg:workset --//kb:role=vnv; bazel build //kg:workset --//kb:role=vnv --//kb:anchor=https://agentic-knowledge-base.dev/id/chunk/965f738a-db50-4729-a551-e58a90cd6320 --//kb:budget=10`
 
-**표본 근거** — vnv 는 읽기 plane 이 셋뿐이라 스코프 거름이 가장 눈에 띄는 역할이다. 앵커를 요구 `r-015` 자체로 잡는 것이 자연스러우나 그 이웃에 V&V 검증 목표가 있고 `//kg:workset` 의 `data` 에 `//kb/vv:bodies` 가 없어 본문 펼침이 샌드박스에서 실패한다. 그래서 이웃이 전부 개발 KB 인 결정 결론을 앵커로 잡는다. 앵커 없는 경계값은 케이스 `labels-before-bodies` 가 맡는다.
+**표본 근거** — vnv 는 읽기 plane 이 셋뿐이라 스코프 거름이 가장 눈에 띄는 역할이고, 이웃이 개발 KB 결정으로만 이루어지는 까닭은 이전 판단과 같다. 예산 10은 이 앵커의 라벨 목록 길이(20줄대)보다 작게 골라 몸통을 펼치기 전에 이미 초과가 확정되게 한다 — 몸통 패킹의 근사 검사는 편입 항목마다 최대 한 줄만 초과시키므로 근접한 예산으로는 초과가 결정적이지 않다.

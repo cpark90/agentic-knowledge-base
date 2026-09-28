@@ -1,0 +1,37 @@
+# 결함 형식화 — 현상 → 피해 인과 그래프. 위험 분석 G2 의 첫 형태다 (노트 8.21절 G2, 유저 승인 2026-09-29)
+# 값의 원천은 유저가 채택한 질문지(id:doc-vv-profile-hazards)의 피해 열이고, 질문지 열에서 vnv G2 검토로 넷이 달라졌다(2026-09-29).
+# 달라진 넷은 P13→H4 와 P18→H3 을 뺀 것(한 문장의 경로가 서지 않는다)과 P2→H1.1 · P3→H1.1 을 더한 것이다 (kb/vv/verdict/risk-causality-weak-pairs.md).
+# 어휘는 defect 모듈이 정의하고 여기는 배선만 한다.
+# 어휘와 형식화를 나눈 이유는 어휘가 안정적이고 규칙이 자주 바뀌기 때문이다 — 어휘 사용자가 규칙 변경에 영향받지 않는다 (2.3절 (b)).
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+
+### 인지 요인의 현상
+
+agt:outOfVocabularyPredicate agt:hasImpact agt:functionalImpact , agt:traceabilityImpact .
+agt:stepRepetition agt:hasImpact agt:performanceImpact , agt:knowledgeLossImpact .
+agt:brokenAssumption agt:hasImpact agt:assumptionSoundnessImpact .
+agt:skipReadAsPass agt:hasImpact agt:coverageImpact .
+
+### 상호작용 요인의 현상
+
+agt:orphanKnowledge agt:hasImpact agt:traceabilityImpact , agt:knowledgeLossImpact .
+agt:linkWithoutEvidence agt:hasImpact agt:traceabilityImpact , agt:assumptionSoundnessImpact .
+agt:linkToDeprecatedTarget agt:hasImpact agt:functionalImpact .
+agt:roleSpecificationViolation agt:hasImpact agt:functionalImpact .
+agt:taskDerailment agt:hasImpact agt:performanceImpact .
+agt:consumerOutsideGateScope agt:hasImpact agt:functionalImpact .
+agt:concurrentSessionState agt:hasImpact agt:functionalImpact .
+
+### 실행 요인의 현상
+
+agt:levelSkipping agt:hasImpact agt:traceabilityImpact .
+agt:requirementWithoutVerification agt:hasImpact agt:coverageImpact .
+agt:reasoningActionMismatch agt:hasImpact agt:functionalImpact , agt:traceabilityImpact .
+agt:elementWithoutVocabularyDropped agt:hasImpact agt:coverageImpact .
+agt:worksetBudgetOverrun agt:hasImpact agt:performanceImpact .
+agt:unverifiedItemRatio agt:hasImpact agt:coverageImpact .
+agt:unknownStopCondition agt:hasImpact agt:performanceImpact , agt:coverageImpact .
+agt:generatedArtefactDrift agt:hasImpact agt:functionalImpact .
+agt:metricVariesByLoadingOption agt:hasImpact agt:coverageImpact .
+agt:labelRot agt:hasImpact agt:functionalImpact .
+agt:documentLag agt:hasImpact agt:functionalImpact .

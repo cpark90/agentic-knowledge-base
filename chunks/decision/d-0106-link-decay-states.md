@@ -7,6 +7,7 @@ title: Link decay states and batched re-judgement at boundaries
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-link-operation
 ---
 **결론** — 링크는 가정(6.5절)과 같은 상태를 갖는다 — `valid`(양 끝이
 마지막 확정 이후 바뀌지 않음) / `suspect`(양 끝 중 하나가 바뀜) /

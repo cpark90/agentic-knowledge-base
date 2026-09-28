@@ -1,0 +1,29 @@
+# 결함 — ODC 트리거 다섯: 무엇이 결함을 드러냈는가 (노트 8.17절, 결정 p8-odc-qualifier-and-dimensions)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:DefectTrigger a owl:Class ;
+    rdfs:label "defect trigger"@en , "결함 트리거"@ko ;
+    skos:definition "결함을 드러낸 수단을 가르는 차원. 분포가 검사 체계의 효과를 재고 실행 시에만 드러나는 요인이 많으면 게이트가 약한 것이다 (8.17절). 탐지가능성 등급의 근거가 이 분포다."@ko .
+
+agt:gateTrigger a owl:NamedIndividual , agt:DefectTrigger ;
+    rdfs:label "check gate"@en , "검사 게이트"@ko ;
+    skos:definition "게이트가 결함을 드러냈다. 가장 이른 트리거이고 이 자리로 옮기는 것이 검사 설계의 목표다 (8.17절)."@ko .
+
+agt:testTrigger a owl:NamedIndividual , agt:DefectTrigger ;
+    rdfs:label "test"@en , "테스트"@ko ;
+    skos:definition "검증 케이스의 실행이 결함을 드러냈다 (8.17절)."@ko .
+
+agt:reviewTrigger a owl:NamedIndividual , agt:DefectTrigger ;
+    rdfs:label "review"@en , "리뷰"@ko ;
+    skos:definition "사람 또는 판정자의 검토가 결함을 드러냈다. 기계가 판정하지 못하는 자리를 이 트리거가 가리킨다 (8.17절)."@ko .
+
+agt:runtimeTrigger a owl:NamedIndividual , agt:DefectTrigger ;
+    rdfs:label "run time"@en , "실행 시"@ko ;
+    skos:definition "작업 수행 중에 결함이 드러났다. 이 트리거의 비중이 높으면 앞선 검사가 약한 것이다 (8.17절)."@ko .
+
+agt:oddDeviationTrigger a owl:NamedIndividual , agt:DefectTrigger ;
+    rdfs:label "ODD deviation check"@en , "ODD 이탈 대조"@ko ;
+    skos:definition "실제 조건을 ODD 와 대조해 결함이 드러났다. 스코프 밖에서 돌고 있었음을 알리는 트리거다 (3.5절, 8.17절)."@ko .

@@ -7,6 +7,7 @@ title: One word, one concept
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-terminology-rules
 ---
 **결론** — 같은 한글 단어를 두 개념에 쓰지 않는다. 충돌하는 자리마다 한쪽에
 **다른 단어를 배정**해 1:1로 고정한다.

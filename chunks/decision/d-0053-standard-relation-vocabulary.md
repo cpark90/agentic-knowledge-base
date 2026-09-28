@@ -7,6 +7,7 @@ title: Reuse standard relations; hang custom ones under subPropertyOf
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-ontology-hygiene
 ---
 **결론** — 관계도 지어내지 않는다. 상위 온톨로지 계열의 표준 관계
 온톨로지(RO)를 비롯한 표준에 있는 것을 우선 쓰고, 표준에 없는 고유 관계만

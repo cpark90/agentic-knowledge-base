@@ -10,8 +10,10 @@
   본문 서식  G8 제목 계층은 한 단계씩 (MD001) · G9 h1 은 문서당 하나 (MD025) · G10 표의 헤더·열 수·앞뒤 빈 줄
              (MD055·MD056·MD058) · G11 펜스에 언어 (MD040) · G12 본문 120줄 초과면 목차 절 (ISO/IEC/IEEE 26514:2022 9.10.5) ·
              G13 링크의 경로·앵커가 생성물이 놓이는 위치 기준으로 실재 · G14 빈 값은 `없음` 하나.
-  건전성     G15 비율은 `n/d = p.p%` — 분모 없는 백분율을 쓰지 않는다 · G18 산문은 단정 서술형 (STYLEGUIDE §0).
-             G16 목표 표기·G17 시점 의존 표현은 권장이고 게이트가 아니다.
+  건전성     G15 비율은 `n/d = p.p%` — 분모 없는 백분율을 쓰지 않는다 · G16 목표 표기 `(목표 <값>)` 의 통일성(2026-09-29
+             게이트화 — "붙여야 하는가"는 사람 판단으로 남는다) · G18 산문은 단정 서술형 (STYLEGUIDE §0).
+             G17 시점 의존 표현은 권장이고 게이트가 아니다 — 후보만 `kb_lib.check_gendoc` 의 둘째 반환값으로 낸다
+             (2026-09-29 오탐률 실측, 후보 전부가 오탐).
 
 생성 트리 파일(`.claude/skills/*/SKILL.md`)은 `--deterministic` 대상이다 — 생성 시각과 지문을 넣으면 드리프트
 바이트 비교가 매번 깨지므로 그 둘을 빼고, 결정론이 그 자리의 건전성 장치라는 사실을 성격 경고 줄에 적는다.
@@ -81,7 +83,8 @@ def main() -> int:
     errors: list[str] = []
     for doc in sorted(set(docs)):
         text = (root / doc).read_text(encoding="utf-8")
-        errors += [f"{doc}:{ln}: {why}" for ln, why in kb_lib.check_gendoc(doc.as_posix(), text, exists)]
+        doc_errors, _g17 = kb_lib.check_gendoc(doc.as_posix(), text, exists)  # g17 은 보고 전용 — 게이트는 안 본다
+        errors += [f"{doc}:{ln}: {why}" for ln, why in doc_errors]
     if errors:
         for e in errors:
             print(f"FAIL [{TAG}] {e}")

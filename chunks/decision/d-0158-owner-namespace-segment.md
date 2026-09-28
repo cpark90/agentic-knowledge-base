@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/90fc2df7-0a74-43fe-9c8f-546c7afdf1d3]
 restored: [https://agentic-knowledge-base.dev/id/chunk/90fc2df7-0a74-43fe-9c8f-546c7afdf1d3]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-federation-invariants
 ---
 **결론** — 독립 저장소가 각자 개체를 민팅하는 연합에서는 개체 IRI에 **소유자
 세그먼트**를 넣어 `…/id/<owner>/<slug>` 꼴로 민팅한다. 공용 중립 부품용

@@ -7,6 +7,8 @@ title: Testing and verification are an application of the system
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-verification-environment
+composite: {id: https://agentic-knowledge-base.dev/id/comp-verification-environment, title_ko: 검증의 대상과 환경, title: verification targets and environments}
 ---
 **결론** — 테스트·검증은 체계의 구성요소가 아니라 **응용**이다. 체계는
 시험 대상·경계·결과 축적·실패 분류의 단위를 제공하고, 시험 절차 자체는

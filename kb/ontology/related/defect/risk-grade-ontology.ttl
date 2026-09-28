@@ -1,0 +1,24 @@
+# 결함 — 위험 지표 셋: 심각도·노출·탐지가능성. 등급은 정렬용이고 곱하지 않는다 (노트 8.21절 G4)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:severityGrade a owl:DatatypeProperty ;
+    rdfs:domain agt:DefectFactor ;
+    rdfs:range xsd:string ;
+    rdfs:label "severity grade"@en , "심각도 등급"@ko ;
+    skos:definition "현상이 피해에 이를 때 손상의 크기를 나타내는 순서 척도의 등급. HARA 의 S 자리다. 순서 척도이므로 다른 등급과 곱하지 않는다 — 곱은 순위를 왜곡한다. 곱셈 금지는 리뷰 규범이다. 값 어휘는 S0~S3 이고 단계의 판정 조건은 kb/vv/scenario/risk-grade-scale.md 가 정의한다. 게이트: risk-grade-shapes."@ko .
+
+agt:exposureGrade a owl:DatatypeProperty ;
+    rdfs:domain agt:DefectFactor ;
+    rdfs:range xsd:string ;
+    rdfs:label "exposure grade"@en , "노출 등급"@ko ;
+    skos:definition "현상이 일어나는 상황에 체계가 얼마나 자주 놓이는지를 나타내는 순서 척도의 등급. HARA 의 E 자리다. 값 어휘는 E1~E4 이고 곱하지 않는 이유와 판정 조건의 자리는 심각도 등급과 같다. 게이트: risk-grade-shapes."@ko .
+
+agt:detectabilityGrade a owl:DatatypeProperty ;
+    rdfs:domain agt:DefectFactor ;
+    rdfs:range xsd:string ;
+    rdfs:label "detectability grade"@en , "탐지가능성 등급"@ko ;
+    skos:definition "현상을 게이트가 잡는 정도를 나타내는 순서 척도의 등급. 소프트웨어 FMEA 가 HARA 의 제어가능성 C 대신 쓰는 D 자리이고 이 체계에서 D 는 무엇이 현상을 드러내는가다 — 게이트가 FAIL 로 잡으면 D1, 생성 보고서가 수치로 내되 진행을 막지 않으면 D2, 관측 수단이 미확정 이면 D3 이다. 관측 수단의 문자열이 지표 이름이어도 그 뒤에 게이트가 서 있으면 D1 이므로 문자열로 도출하지 않는다. 값 어휘는 D1~D3 이고 곱하지 않는 이유와 판정 조건의 자리는 심각도 등급과 같다. 게이트: risk-grade-shapes."@ko .

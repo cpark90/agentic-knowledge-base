@@ -14,6 +14,13 @@ from pathlib import Path
 
 from rdflib import Graph, Namespace, RDF, RDFS, OWL, URIRef
 
+try:  # PLANES·LEVELS·STATES 리터럴 읽기 함수의 정의처는 chunk2kg 하나다(오케스트레이터 판정, 2026-09-27) —
+    from tools.chunk2kg import load_plane_level_state  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
+    from tools.chunk2kg import BODY_SLOT_MARKERS  # 본문 슬롯 표지 낱말의 정의처(단일) — 겹침 검사(아래)의 입력
+except ImportError:
+    from chunk2kg import load_plane_level_state  # 직접 실행: 스크립트 디렉토리 기준 (chunk2kg.py 가 같은 srcs 에 있어야 한다)
+    from chunk2kg import BODY_SLOT_MARKERS
+
 # 이 체계 고유 어휘 (노트 0.3절, 0.7절)
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
 ID = Namespace("https://agentic-knowledge-base.dev/id/")
@@ -68,31 +75,30 @@ def kb_of(location: str) -> str:
 # 파생처는 둘이다 — `tools/metrics.py` 의 거주 위반 지표와 `tools/validate.py` 의 게이트 `residency`
 # (shape `residency-shapes.ttl` 이 이 표와 같은지 판정한다).
 RESIDENCY_GATE = "residency"  # 게이트 id — FAIL [residency]
-_BZL_LIST = re.compile(r"^\s*(LEVELS|PLANES)\s*=\s*(\[[^\]]*\])", re.M)
 _BZL_RESIDENCY = re.compile(r"^\s*RESIDENCY\s*=\s*\{(.*?)^\}", re.M | re.S)
 
 
 def load_residency(path: str | Path) -> tuple[list[str], list[str], dict[str, list[str]]]:
     """`defs/kb.bzl` 의 `PLANES`·`LEVELS`·`RESIDENCY` 를 읽는다 — (plane 순서, 수준 순서, plane → 허용 수준들).
 
-    Starlark 의 값 부분은 파이썬 리터럴과 같은 문법이므로 `ast.literal_eval` 로 읽는다. 표에 쓰인 이름
-    `LEVELS` 는 같은 파일의 리스트로 먼저 치환한다. 표를 못 읽으면 ValueError — 판정 불가지 통과가 아니다.
+    `PLANES`·`LEVELS` 리터럴은 `tools/chunk2kg.py` 의 `load_plane_level_state` 를 그대로 불러 쓴다 — 리터럴 읽기
+    함수(정규식 + `ast.literal_eval`)의 정의처를 하나로 모은 것이다(`chunk2kg`가 rdflib 없이 타깃마다 돌아 이
+    모듈을 반대로 import할 수 없으므로 방향은 이쪽에서만 간다, `weave`·`extract_refs`가 `chunk2kg.py` 를 srcs 로
+    끌어 쓰는 것과 같은 방식). `RESIDENCY` 표는 이 파일이 정의처인 채로 남는다 — `LEVELS`·`PLANES` 만 참조하는 값
+    치환이라 그 값을 chunk2kg 에서 받아 여기서 마무리한다. 표를 못 읽으면 ValueError — 판정 불가지 통과가 아니다.
     """
     import ast
 
     text = Path(path).read_text(encoding="utf-8")
-    names = {m.group(1): ast.literal_eval(m.group(2)) for m in _BZL_LIST.finditer(text)}
-    for want in ("LEVELS", "PLANES"):
-        if want not in names:
-            raise ValueError(f"{path}: {want} 리스트를 찾을 수 없다")
+    planes, levels, _states = load_plane_level_state(path)
     body = _BZL_RESIDENCY.search(text)
     if not body:
         raise ValueError(f"{path}: RESIDENCY 표를 찾을 수 없다")
     src = re.sub(r"#[^\n]*", "", body.group(1))  # Starlark 주석 제거 — 값 안에 # 을 쓰지 않는다
-    for name, value in names.items():
+    for name, value in {"LEVELS": levels, "PLANES": planes}.items():
         src = re.sub(rf"(?<![\w\"']){name}(?![\w\"'])", repr(value), src)
     table = ast.literal_eval("{" + src + "}")
-    return names["PLANES"], names["LEVELS"], {p: list(v) for p, v in table.items()}
+    return planes, levels, {p: list(v) for p, v in table.items()}
 
 # 온톨로지 모듈이 "정의"로 간주되는 타입 (2.3절 경계 규칙, 2.5절 정의 완전성)
 DEFINING_TYPES = (
@@ -236,7 +242,64 @@ def waived(waivers: list[dict], gate_id: str, target: str, axis: str) -> bool:
 DECISION_ROLE_GATE = "decision-role"
 DECISION_ROLE_MARKERS = {"conclusion": "결론", "rationale": "근거", "alternatives": "대안"}
 DECISION_SINGLE_FILE_MARKER = "결론"
-DECISION_ROLE_MARKER = re.compile(r"^\s*\*\*(" + "|".join(sorted(set(DECISION_ROLE_MARKERS.values()))) + r")[^*\n]*\*\*")
+# V&V 시나리오의 역할 표지 (결정 p8-scenario-authoring) — 시나리오는 `decision`(vv) 복합체이고 결론·근거·대안이 각각
+# 자극·요인·배제 자극이다. 표지 낱말만 갈리고 슬롯은 결정의 셋 그대로다(SCENARIO_ROLE_TO_DECISION_SLOT) — 그래서
+# shape 는 결정의 본문 틀(decision-body-shapes.ttl)에 대안 셋을 더한 것이고 새 틀이 아니다.
+# 파일명 규약은 `<슬러그>-stimulus.md`·`<슬러그>-factors.md`·`<슬러그>-excluded.md` 이고 선언 청크(타깃 이름)는 stimulus 다.
+# **규약이 걸리는 자리를 V&V 시나리오 패키지로 한정한다** — 접미만 보면 옛 결정 `chunks/decision/d-0140-three-defect-factors.md`
+# 의 stem 이 `-factors` 로 끝나 표지가 결론에서 요인으로 뒤바뀐다(실측). 시나리오 실체의 패키지는 kb/vv/scenario 다.
+SCENARIO_DIR = "scenario"  # gen_build.VV_PKGS 의 키 — V&V 시나리오 실체의 패키지 이름
+SCENARIO_ROLE_MARKERS = {"stimulus": "자극", "factors": "요인", "excluded": "배제 자극"}
+SCENARIO_ROLE_TO_DECISION_SLOT = {"자극": "결론", "요인": "근거", "배제 자극": "대안"}
+# 단일 청크 시나리오(부류 셋을 한 파일에 담은 이행기의 형태)는 stem 이 세 접미 밖이므로 결론 표지로 계속 통과한다 —
+# 기존 허용의 유지이고 약화가 아니다. 세 청크로 다시 쓰면 그때부터 세 표지가 강제된다.
+DECISION_ROLE_MARKER = re.compile(
+    r"^\s*\*\*(" + "|".join(sorted(set(DECISION_ROLE_MARKERS.values()) | set(SCENARIO_ROLE_MARKERS.values()),
+                                  key=len, reverse=True)) + r")[^*\n]*\*\*")
+
+
+# ── 본문 슬롯 표지 집합의 정합성 (STYLEGUIDE §4, 2026-09-29 — 표지가 늘어날 때 겹침을 보는 규칙이 없던 공백을 메운다) ──
+# 정의처는 하나(chunk2kg.BODY_SLOT_MARKERS)이지만 표지를 **늘리는** 사람이 그 파일만 보고 기존 표지와 겹치는지
+# 확인할 방법이 없었다 — 어제 자극·요인·배제 자극을 더하면서 본문 중간의 "요인 분류"·"요인별로" 같은 굵은 강조가
+# 슬롯으로 잘못 방출된 사고(2026-09-29 실측)가 그 공백의 증거다. 이 검사는 자리 판정(_body_slot_at_field_head)이
+# 아니라 **표지 낱말 집합 자체**의 두 위험을 본다 — chunk2kg 를 매번 import 하는 도구(kb_lib 의 모든 소비자)가
+# 로드 시점에 자동으로 돈다(단일 정의처의 방어, import 부작용).
+#   1. 중복 등록 — 같은 표지 낱말이 튜플에 두 번 있으면 실수로 다시 추가한 것이다.
+#   2. 접두 겹침 — 표지 A 가 다른 표지 B 의 문자열 **접두**이면(B.startswith(A)), `_body_slot_at_field_head` 의
+#      startswith 매칭이 자리가 같을 때 어느 표지가 이기는지 BODY_SLOT_MARKERS 의 등록 순서에 기대게 된다 — 그
+#      순서 의존은 다음 표지 추가마다 다시 사고를 낼 수 있는 잠복 결함이다.
+# 실측(2026-09-29): 현재 20개 표지는 둘 다 통과한다. `자극` 은 `배제 자극` 의 **부분 문자열**이지만 `배제 자극` 이
+# `배제`로 시작해 `자극`으로 시작하지 않으므로(접두 아님) 위반이 아니다 — `_body_slot_at_field_head` 의 매칭이
+# 자리(줄 머리·불릿·` · ` 다음)로 이미 걸러 `배제 자극` 줄에서 `자극` 이 별도로 잡히지 않는다. 이 검사는 그 사실을
+# 로드 시점에 **단정**해 둔다 — 다음에 표지를 늘릴 때 접두 관계가 생기면 이 자리에서 바로 죽는다.
+def validate_body_slot_markers(markers: tuple[str, ...]) -> None:
+    """표지 집합의 중복·접두 겹침을 검사한다. 위반이면 ValueError로 죽는다(로드 시점, 폴백 없음)."""
+    seen: dict[str, int] = {}
+    for i, m in enumerate(markers):
+        if m in seen:
+            raise ValueError(f"BODY_SLOT_MARKERS 에 표지 {m!r} 가 중복 등록됐다 (자리 {seen[m]}·{i})")
+        seen[m] = i
+    for a in markers:
+        for b in markers:
+            if a != b and b.startswith(a):
+                raise ValueError(
+                    f"BODY_SLOT_MARKERS 의 표지 {a!r} 가 다른 표지 {b!r} 의 접두다 — "
+                    f"줄 머리 매칭이 등록 순서에 기대게 된다. 표지를 다시 고른다"
+                )
+
+
+validate_body_slot_markers(BODY_SLOT_MARKERS)
+
+
+def decision_role_marker(path) -> str:
+    """파일 경로가 요구하는 역할 표지 — 시나리오 패키지의 세 접미가 자극·요인·배제 자극, 결정 세 청크의 stem 이 결론·근거·대안,
+    그 밖(단일 파일 결정·단일 청크 시나리오)이 결론이다."""
+    p = Path(path)
+    if p.parent.name == SCENARIO_DIR:
+        for suffix, mark in SCENARIO_ROLE_MARKERS.items():
+            if p.stem.endswith("-" + suffix):
+                return mark
+    return DECISION_ROLE_MARKERS.get(p.stem, DECISION_SINGLE_FILE_MARKER)
 
 
 # ── 주석의 형식 (STYLEGUIDE §4 annotation, 결정 p7-commentary-form — 게이트 id `blocking-comment`: chunk_lint) ────────────
@@ -555,6 +618,10 @@ def chunk_body(text: str) -> str:
 # ── 문서 뷰 (weave — p12-documents-are-generated: 문서는 저장하지 않고 생성하며 생성 시각과 질의를 적는다) ─────────────────
 WEAVE_KINDS = ("adr", "requirements", "changelog", "audit")
 WEAVE_GATE = "weave"  # 입력 문제의 태그 — CONFIG [weave]
+# 작업 집합 예산 게이트 (도입 2단계 구체화 조건 "역할·앵커별 작업 집합 ≤ 예산", handoff/workset-budget-gate-2026-09-22) —
+# 앵커가 주어졌을 때만 문서 전체(라벨 목록 + 펼친 본문) 줄 수가 예산을 넘으면 FAIL. 앵커 없는 뷰(스코프 전체 라벨
+# 목록, 구조적으로 예산을 넘는다)는 판정 밖이라 `//kg:workset` 기본 빌드는 깨지지 않는다
+WORKSET_BUDGET_GATE = "workset-budget"  # 게이트 id — FAIL [workset-budget]
 DECISION_PART_FILES = {"conclusion": "conclusion.md", "rationale": "rationale.md", "alternatives": "alternatives.md"}  # 결정 복합체의 세 부분 (STYLEGUIDE §4)
 
 
@@ -569,6 +636,35 @@ ASSUME_CHECK_GENERATOR = "process:assume_check"  # 가정 판정 관측의 gener
 RUN_CASE_TABLE_HEADER = "| 케이스 | 실행 명령 | 결과 | 소요 |"  # 실행 기록 본문의 케이스 표 — audit 이 이 헤더로 표를 찾는다
 ASSUME_CHECK_TABLE_HEADER = "| 가정 | 판정 유형 | 등급 | 상태 | 직접 영향 | suspect 후보(전이) |"  # 가정 판정 관측의 가정 표 (assume_check.observation)
 RUN_VERDICTS = ("pass", "fail", "skip")          # 케이스 판정 — SKIP 은 PASS 가 아니다 (docs/tools.md 실패 종류 3)
+
+
+# ── 판정자 (게이트 밖 도구 tools/judge.py — 결정 p8-judge-calibration-binding, 노트 8.14절) ────────────────────────
+# 판정은 `bazel run` 전용이다. 게이트는 판정을 부르지 않고 **판정 로그의 형식과 필수 필드만** 본다(게이트 id judge-log,
+# chunk_lint) — 외부 서비스가 `bazel test` 의 입력이 되면 같은 리비전이 네트워크 상태에 따라 다른 판정을 낸다.
+# 로그의 자리는 V&V KB 의 memory plane 실체, 곧 실행 기록 디렉토리다(vv_run 과 같은 곳, 파일명 접두로 갈린다) —
+# 판정은 노트 8.20절 다섯 V&V 하위 역할 중 judge 의 실행이고 kb/dev/memory 는 개발 KB 쪽 관측의 자리다.
+# 결과 주석은 annotation plane 실체(kb/vv/verdict)에 논평 형식(p7-commentary-form)으로 나간다.
+JUDGE_LOG_GATE = "judge-log"              # 게이트 id — FAIL [judge-log]. docs/waivers.md 가 이 이름으로 면제를 선언한다 (축 파일)
+JUDGE_GATE = "judge"                      # 도구의 입력·설정 문제 태그 — FAIL [judge] + EXIT_CONFIG (판정 실패는 없다)
+JUDGE_GENERATOR = "process:judge"         # 판정 로그·결과 주석의 generated.by — 역할이 아니라 writer 검사 밖이다
+JUDGE_LOG_DIR = VV_RUN_DIR                # 판정 로그의 자리 = 실행 기록 디렉토리 (append-only, r-026)
+JUDGE_LOG_PREFIX = "judge-"               # 파일명 judge-<UTC>.md — vv_run 의 run-<UTC>.md 와 한 디렉토리에서 갈린다
+JUDGE_VERDICT_DIR = KB_VV + "/verdict"    # 결과 주석의 자리 = 판정 주석 (annotation plane 실체)
+# 판정 로그 본문의 판정 표 — 열이 곧 필수 필드다. 열 하나를 지우면 헤더가 달라져 게이트가 거부한다
+JUDGE_LOG_TABLE_HEADER = "| 질문 id | 대상 | 값 | 확신도 | 모델 식별자 | 입력 지문 | 시각 | 처리 |"
+JUDGE_LOG_FIELDS = ("질문 id", "값", "확신도", "모델 식별자", "입력 지문", "시각")  # 결정이 필수로 정한 여섯 — 대상·처리는 읽기 위한 열이다
+JUDGE_FORMS = ("noul", "choice", "score")  # 질문의 형 셋 — judge-question-shapes 의 sh:in 과 같은 집합
+JUDGE_CHOICE_MAX = 255                     # 선택 집합의 상한 (규칙 ③) — 넘으면 점수 → 선택 2단계다
+JUDGE_ROUTES = ("자동 적용", "사람 확인 큐", "판정 보류")  # 임계가 가르는 세 처리 (옛 p8-judge-question-form 의 표)
+JUDGE_QUEUE = JUDGE_ROUTES[1]              # 구간별 정확도를 재기 전의 유일한 처리 (규칙 ②)
+JUDGE_ENV = ("AKB_JUDGE_ENDPOINT", "AKB_JUDGE_API_KEY", "AKB_JUDGE_MODEL")  # 자격은 환경 변수로만 받는다 — 저장소에 두지 않는다
+JUDGE_THRESHOLDS = "judgeThresholds"       # 임계 셋 개체의 지역명 (judge-threshold-ontology) — 도구가 값을 여기서 읽는다
+# 판정 로그·결과 주석이 `assumes:` 로 참조하는 가정 (kg/base-kg.ttl, orchestrator 저작 2026-09-29). 청크 규약 외에
+# 판정 서비스 가정을 함께 든다 — 그 가정이 `id:cond-judge-service` 를 refersTo 하므로 조건이 이탈하면 `assume_check` 가
+# 그 모델로 낸 판정을 suspect 로 전파한다. 자격이 빠진 뒤의 확신도는 뜻을 잃는다 (규칙 ⑤)
+JUDGE_ASSUMPTIONS = ("asm-chunk-conventions", "asm-judge-service")
+JUDGE_FINGERPRINT = re.compile(r"^[0-9a-f]{64}$")           # 입력 지문 = 입력 바이트의 sha256
+JUDGE_CONFIDENCE = re.compile(r"^(?:0(?:\.\d+)?|1(?:\.0+)?)$")  # 확신도 = 0 이상 1 이하의 십진 표기
 
 
 # ── 추적 매트릭스 (TIM — plane×plane 의 허용 칸; 노트 14.1 정정본 3단계 "매트릭스", metrics 3단계 대리 · weave audit 이 같은 정의) ──
@@ -603,6 +699,14 @@ LINK_STATE_CONFIRMED = "confirmed"
 # 계산한다. 대상은 살아 있는 같은 plane 의 청크여야 하고 사슬은 순환하지 않는다 — validate check_specialization 이 FAIL [specialization],
 # 대상 부재는 check_dangling 이 FAIL [dangling] 으로 거부한다. 순환은 chunk2kg 도 (뿌리를 계산할 수 없으므로) 같은 게이트 id 로 거부한다
 SPECIALIZATION_GATE = "specialization"
+
+# ── 위험에서 파생된 항목의 표지 (`exposes`) — 위험 분석 G5 (노트 8.21절, 8.22절 "요인" 청크) ─────────────────
+# 항목이 어느 결함 요인(현상)을 노출하려고 서 있는지를 frontmatter `exposes: [<agt: 현상 IRI>…]` 로 적고
+# chunk2kg 가 agt:exposesFactor 를 방출한다. **링크 키가 아니다**: 대상이 청크가 아니라 온톨로지 개체라
+# 링크 개체(agt:Link)의 치역 밖이고 Bazel deps 도 되지 않는다 — agt:targets 와 같은 자리다.
+# 대상이 agt:DefectFactor 의 하위 개체인지는 shape exposes-factor-shapes.ttl 이 판정한다(없는 개체도 거기서 FAIL).
+EXPOSES_KEY = "exposes"
+EXPOSES_PREDICATE = "agt:exposesFactor"
 
 # ── 설계 공간 (`-space`) — 열린 설계 변수와 그 후보 (결정 p9-candidate-storage · p9-design-space-file) ───────────
 # 후보 링크는 확정 링크와 다른 자리에 산다: 확정은 청크 head(frontmatter 링크 키 → Bazel deps), 후보는 `-space` 청크다.
@@ -886,6 +990,13 @@ def link_origins(g: Graph) -> dict:
             "extracted": extracted, "ratio": (len(restored) / total) if total else None}
 
 
+# ── 연결 지표 제외 plane (유저 승인 2026-09-23 · 2026-09-29 — handoff/verdict-in-metrics-2026-09-27) ──────────────
+# 연결 성분과 CQ20 후방 추적 귀속은 **저작된 지식**만 잰다. `memory`(관측)는 실행의 부산물이고, `annotation`(판정
+# 주석)은 산출물에 대한 리뷰이지 요구를 향해 정제되는 항목이 아니다 — 둘 다 저작된 지식의 고립·귀속을 재는 지표의
+# 대상이 아니다. `metrics.py` 하나가 이 상수로 성분 계산과 `reaches_req` 분모 두 자리를 채운다.
+LINKAGE_EXCLUDED_PLANES = ("memory", "annotation")
+
+
 def chunk_planes(g: Graph) -> dict:
     """청크 → plane 이름 — rdf:type 중 `…Chunk` 로 끝나는 첫 클래스 (metrics·weave 가 같은 규칙으로 plane 을 읽는다)."""
     out = {}
@@ -984,6 +1095,12 @@ SKILLS = (
              "실행해 케이스의 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.",
      "commands": ["bazel run //tools:vv_run -- --record", "bazel run //tools:vv_run -- --case <슬러그>",
                   "python3 tools/gen_build.py --root . && bazel test //..."]},
+    {"tool": "judge", "section": "method.md#11-검증--vv-층으로",
+     "when": "게이트 밖에서 등록된 판정 질문을 청크에 물어 값과 확신도를 받고 판정 로그·결과 주석을 남길 때 쓴다. "
+             "자격이 없으면 `--fixture` 오프라인 모드로만 돈다.",
+     "commands": ["bazel run //tools:judge -- --list",
+                  "bazel run //tools:judge -- --question labelRepresentsBody --record <청크 파일…>",
+                  "bazel run //tools:judge -- --question bodyHasOneClaim --fixture <json> --into /tmp/judge <청크 파일…>"]},
     {"tool": "weave", "section": "method.md#9-뷰",
      "when": "결정 기록·요구 색인·변경 이력·감사 보고서를 저장하지 않고 그래프와 관측에서 생성해 인용할 때 쓴다.",
      "commands": ["bazel build //kg:audit && cat bazel-bin/kg/audit.md", "bazel build //kb/dev:adr //kb/dev:requirements //kb/dev:changelog"]},
@@ -1112,6 +1229,9 @@ def find_links(line: str):
 # ── 생성 문서 규약 G1~G18 — 에이전트가 만드는 마크다운의 형태 (유저 지시 2026-09-21) ─────────────
 # 출력 형태를 생성 전에 고정하고, 파싱·형식 복구를 없애며, 확신 상태(입력 지문·생성 시각·질의)를 값으로 남긴다.
 # 여기가 규약의 단일 정의처다 — 상수·머리 블록 방출·검사가 한 곳에 있고 생성기와 게이트가 같은 것을 import 한다 (STYLEGUIDE §7).
+# G16(표기 통일성)·G17 오탐률 실측(2026-09-29, 생성 뷰 전부 + SKILL.md 19)으로 G16 은 표기 통일성 부분만 게이트로
+# 올렸다(19건 중 1건, 오탐 0) — "목표를 붙여야 하는가"는 여전히 사람 판단이다. G17 은 후보 7건 전부가 오탐이라
+# (CQ 정식 문구·주석 인용·이미 값이 있는 문장의 부연) 게이트로 올리지 않고 check_gendoc 의 둘째 반환값(보고 전용)으로만 낸다.
 GENDOC_GATE = "gendoc"                    # 게이트 id — FAIL [gendoc]
 GENDOC_VERSION = "gendoc/1"               # OKF 행위자 표기의 버전 (docs/rules.md 생성자 표기). 도구별이 아니라 규약 하나의 버전이다
 GENDOC_TIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"  # G3 — ISO 8601 UTC 초 해상도. 오프셋 표기(+00:00)·분 해상도를 쓰지 않는다
@@ -1129,16 +1249,26 @@ GENDOC_VIEW_MARK = "이 파일은 뷰다."              # G7 — Bazel 뷰
 GENDOC_TREE_MARK = "생성 파일 — 손으로 고치지 않는다."  # G7 — 생성 트리 파일 (SKILL·BUILD)
 GENDOC_DETERMINISTIC_NOTE = "생성 시각·입력 지문은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다"
 # 인용 구역 — 생성물이 청크 본문을 그대로 옮긴 자리. 원본 청크가 자기 게이트(chunk_lint prose·42줄)를 이미 통과했고
-# 생성기는 원문을 고쳐 쓰지 않으므로(G17), 서식 규칙 G10·G11·G14·G15·G18 은 이 구역을 판정하지 않는다.
-# 문서 전체에 걸리는 구조 규칙 G8·G9·G12·G13 은 구역 안에도 그대로 적용한다 — 인용이 문서를 깨뜨리면 안 된다.
+# 생성기는 원문을 고쳐 쓰지 않으므로(p12-generated-document-form), 서식 규칙 G10·G11·G14·G15·G16·G18 은 이 구역을
+# 판정하지 않는다. 문서 전체에 걸리는 구조 규칙 G8·G9·G12·G13 은 구역 안에도 그대로 적용한다 — 인용이 문서를 깨뜨리면 안 된다.
 GENDOC_QUOTE_OPEN = "<!-- 인용 시작: 청크에서 그대로 옮긴 값 — 원본이 자기 게이트를 통과했다 -->"
 GENDOC_QUOTE_CLOSE = "<!-- 인용 끝 -->"
 GENDOC_QUOTE_LINE = "<!-- 인용 -->"  # 한 줄짜리 인용 — 라벨처럼 그래프에서 그대로 가져온 값을 담은 줄의 끝에 붙인다
-GENDOC_QUOTE_EXEMPT = ("G10", "G11", "G14", "G15", "G18")
+GENDOC_QUOTE_EXEMPT = ("G10", "G11", "G14", "G15", "G16", "G18")
 _GENDOC_BAZEL_OUT = re.compile(r"^(?:\.\./)*(?:bazel-out/[^/]+/(?:bin|genfiles)/|external/)")
 _GENDOC_PCT = re.compile(r"(?<![\d/.])(\d+(?:\.\d+)?)%")
 _GENDOC_PCT_OK = re.compile(r"\d+/\d+ = \*{0,2}$")
 _GENDOC_EMPTY_CELL = re.compile(r"^(?:|-|—|–|N/A|n/a|없음\s*\(\s*\))$")
+# G16 — 목표 표기(STYLEGUIDE §9 권장, 결정 p12-generated-document-form "목표 표기" 행): 목표가 정의된 수치에는
+# `(목표 <값>)`을 붙이고 표기를 한 꼴로 맞춘다. "붙여야 하는가"(그 수치에 목표가 정의돼 있는가)는 문서 밖 지식이라
+# 사람 판단으로 남긴다 — 여기서 기계 판정하는 것은 이미 쓰인 표기의 통일성뿐이다. 콜론 변형 `(목표: …)`은 그 밖의
+# 전부(`(목표 …)`, 공백 하나 뒤 값)와 갈라진 표기다(2026-09-29 오탐률 실측 — 생성 뷰 전부에서 19건 중 1건, 오탐 0).
+GENDOC_TARGET_BAD_RE = re.compile(r"\(목표:")
+# G17(보고 전용, 게이트 아님) — 시점 의존 표현(STYLEGUIDE §9 권장): "현재·최신·지금"을 값 대신 쓰지 않는다.
+# "값 대신 쓰였는가"는 기계로 못 가른다 — 2026-09-29 오탐률 실측에서 인용·제목·표 헤더를 뺀 후보 7건 전부가
+# CQ 정식 문구·주석 청크 본문의 인용·이미 값이 적힌 문장의 부연이라 오탐이었다(kg/cq.md·kg/metrics.md·kg/open.md).
+# 그래서 게이트로 올리지 않고 후보만 낸다 — 판정은 사람 몫이다.
+GENDOC_TIME_WORD_RE = re.compile(r"현재|최신|지금")
 
 
 def utc_stamp(when: datetime) -> str:
@@ -1331,11 +1461,13 @@ def _gendoc_cells(line: str) -> list[str]:
     return [c.strip() for c in s.strip("|").split("|")]
 
 
-def check_gendoc(path, text: str, exists=None) -> list[tuple[int, str]]:
-    """생성 마크다운 규약 G1~G15·G18 중 기계 판정이 되는 것 → (줄 번호, 근거).
+def check_gendoc(path, text: str, exists=None) -> tuple[list[tuple[int, str]], list[tuple[int, str]]]:
+    """생성 마크다운 규약 G1~G16·G18 중 기계 판정이 되는 것과 G17 후보 → (errors, g17_candidates).
 
-    check_prose 와 같은 모양으로 낸다 — 게이트가 `FAIL [gendoc] <파일>:<줄>: <근거>` 로 찍는다.
-    exists 는 `경로 → bool` 로 링크 대상의 실재를 판정한다 (G13). 없으면 문서 안 앵커만 본다.
+    check_prose 와 같은 모양(게이트/보고 분리)으로 낸다 — errors 는 게이트가 `FAIL [gendoc] <파일>:<줄>: <근거>` 로
+    찍는다. g17_candidates 는 보고 전용이고 게이트는 보지 않는다 — "값 대신 쓰였는가"를 기계로 못 가르기 때문이다
+    (2026-09-29 오탐률 실측, GENDOC_TIME_WORD_RE 주석). exists 는 `경로 → bool` 로 링크 대상의 실재를 판정한다
+    (G13). 없으면 문서 안 앵커만 본다.
     """
     errors: list[tuple[int, str]] = []
     lines = text.split("\n")
@@ -1482,6 +1614,29 @@ def check_gendoc(path, text: str, exists=None) -> list[tuple[int, str]]:
             elif "." not in m.group(1) or len(m.group(1).split(".")[1]) != RATIO_DIGITS:
                 errors.append((ln, f"G15 백분율의 소수 자릿수는 {RATIO_DIGITS} 이다 — `{m.group(0)}` (kb_lib.pct)"))
 
+    # G16 — 목표 표기는 `(목표 <값>)` 한 꼴로 통일한다. "이 수치에 목표를 붙여야 하는가"는 사람 판단으로 남기고
+    # 이미 쓰인 표기가 갈렸는지만 기계 판정한다 — 콜론 변형 `(목표: …)`은 그 밖의 전부와 다른 표기다
+    for ln, seg in prose_segments(text):
+        if ln in quoted:
+            continue
+        if GENDOC_TARGET_BAD_RE.search(seg):
+            errors.append((ln, f"G16 목표 표기가 `(목표 <값>)` 꼴이 아니다 — 콜론 없이 값을 바로 잇는다 (STYLEGUIDE §9): "
+                                f"{seg.strip()[:80]}"))
+
     # G18 — 산문은 단정 서술형이다 (STYLEGUIDE §0). 인용해 옮긴 청크 본문은 원본이 같은 게이트를 이미 통과했다
     errors += [(ln, why) for ln, why in check_prose(path, text)[0] if ln not in quoted]
-    return sorted(errors)
+
+    # G17(보고 전용) — 시점 의존 표현 후보. 제목·표 헤더 행·인용 구역은 이름/원문이지 측정이 아니라서 뺀다
+    # (G15 의 제목·링크 텍스트 제외와 같은 근거). 게이트는 이 목록을 보지 않는다
+    header_row_lines = {block[0][0] for block in _gendoc_tables(rows)
+                        if len(block) >= 2 and re.fullmatch(r"\|[\s:|-]+\|", block[1][1].strip())}
+    g17: list[tuple[int, str]] = []
+    for ln, seg in prose_segments(text):
+        if ln in quoted or ln in heading_lines or ln in header_row_lines:
+            continue
+        seg2 = MD_LINK_TEXT.sub(" ", seg)
+        for m in GENDOC_TIME_WORD_RE.finditer(seg2):
+            g17.append((ln, f"G17 시점 의존 표현 후보 `{m.group(0)}` — 값 대신 쓰였는지 사람이 판단한다 (STYLEGUIDE §9): "
+                            f"{seg2.strip()[:80]}"))
+
+    return sorted(errors), sorted(g17)

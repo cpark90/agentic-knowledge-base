@@ -7,6 +7,7 @@ title: Incident postmortem is where ascent is executed
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-projection-uses
 ---
 **결론** — 사후분석은 이 체계의 상승(6.3절)을 실행하는 자리다. 아래 여섯
 단계를 밟고, **3~5 중 하나도 산출하지 않은 사후분석은 실패로 본다.**

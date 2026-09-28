@@ -7,6 +7,8 @@ title: Inputs and uses lie outside the system
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-system-inputs
+composite: {id: https://agentic-knowledge-base.dev/id/comp-system-inputs, title_ko: 체계의 입력, title: system inputs}
 ---
 **결론** — 체계의 구성요소가 아닌 것을 두 방향으로 나눈다. **입력**은 체계가
 소모하는 사전정보(파라미터)이고, **활용**은 체계의 출력을 소비하는 기능이다.

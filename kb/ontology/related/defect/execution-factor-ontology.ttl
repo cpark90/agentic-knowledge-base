@@ -1,0 +1,35 @@
+# 결함 — 실행 요인의 하위 유형 여섯. ODC 의 결함 유형을 그대로 쓴다 (노트 8.17절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:FunctionFactor a owl:Class ;
+    rdfs:subClassOf agt:ExecutionFactor ;
+    rdfs:label "function"@en , "기능"@ko ;
+    skos:definition "있어야 할 기능이 없거나 틀린 요인. ODC 의 function 이며 한정자 missing 이 많으면 설계가 불완전한 것이다 (8.17절)."@ko .
+
+agt:AssignmentFactor a owl:Class ;
+    rdfs:subClassOf agt:ExecutionFactor ;
+    rdfs:label "assignment"@en , "할당"@ko ;
+    skos:definition "초기화와 값 할당의 오류로 생기는 요인. ODC 의 assignment 이고 고칠 자리는 한 지점의 값이다 (8.17절)."@ko .
+
+agt:CheckingFactor a owl:Class ;
+    rdfs:subClassOf agt:ExecutionFactor ;
+    rdfs:label "checking"@en , "검사"@ko ;
+    skos:definition "조건·경계 검사가 누락된 요인. ODC 의 checking 이고 종료 조건과 예산 상한이 이 자리에 든다 (8.17절)."@ko .
+
+agt:AlgorithmFactor a owl:Class ;
+    rdfs:subClassOf agt:ExecutionFactor ;
+    rdfs:label "algorithm"@en , "알고리즘"@ko ;
+    skos:definition "논리 오류로 생기는 요인. ODC 의 algorithm 이며 인터페이스를 바꾸지 않고 고칠 수 있다는 점이 기능과의 경계다 (8.17절)."@ko .
+
+agt:BuildPackageFactor a owl:Class ;
+    rdfs:subClassOf agt:ExecutionFactor ;
+    rdfs:label "build and package"@en , "빌드·패키지"@ko ;
+    skos:definition "구성·병합·배포의 오류로 생기는 요인. ODC 의 build/package/merge 이고 생성물과 원본의 어긋남이 그 형태다 (8.17절)."@ko .
+
+agt:DocumentationFactor a owl:Class ;
+    rdfs:subClassOf agt:ExecutionFactor ;
+    rdfs:label "documentation"@en , "문서"@ko ;
+    skos:definition "주석과 결정의 서술이 틀린 요인. ODC 의 documentation 이고 그래프는 맞은 채 서술만 낡는 형태가 여기 든다 (8.17절)."@ko .

@@ -7,6 +7,7 @@ title: A profile is an extension-only ontology module
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-domain-profile
 ---
 **결론** — 프로파일은 별도 장치가 아니라 온톨로지 모듈이다. `profile/<domain>`
 에 두고 골격 모듈을 import하며, **골격 클래스의 하위 클래스와 shape만

@@ -7,6 +7,7 @@ title: Traceability matrix as default visualization; empty cells are gaps
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-link-operation
 ---
 **결론** — 기본 시각화는 **추적 매트릭스**다. plane × plane 격자의 각
 셀에 링크 수와 상태(`valid` / `suspect`)를 표시한다. 그래프 시각화는

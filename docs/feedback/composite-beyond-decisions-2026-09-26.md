@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [kb/dev/decision/p4-all-knowledge-is-composite/, tools/chunk2kg.py, defs/kb.bzl, kg/composite-kg.ttl]
 ---
 
@@ -42,4 +42,4 @@ targets: [kb/dev/decision/p4-all-knowledge-is-composite/, tools/chunk2kg.py, def
 3. **손으로 쓴 복합체를 공식 경로로 인정한다.** `kg/composite-kg.ttl` 에 적는 것을 규약으로 정한다. 비용: 규약 한 줄. 다만 생성물과 손 기록이 갈려 드리프트 가드가 없다.
 
 ## 답
-(유저가 채움)
+1.

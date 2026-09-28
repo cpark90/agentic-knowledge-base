@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/90fc2df7-0a74-43fe-9c8f-546c7afdf1d3]
 restored: [https://agentic-knowledge-base.dev/id/chunk/90fc2df7-0a74-43fe-9c8f-546c7afdf1d3]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-reproducible-build
 ---
 **결론** — 생성된 산출물의 이름과 위치는 **명세 쪽 슬롯**에서 파생하고,
 그 슬롯을 실현한 구현에서 파생하지 않는다. 구현을 다른 후보로 바꿔도

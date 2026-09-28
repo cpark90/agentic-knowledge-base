@@ -74,6 +74,7 @@ py_test(
         ".",
     ],
     data = [
+        "//defs:kb.bzl",  # PLANES·LEVELS·STATES 값 어휘의 원본 — gen_build.py 가 parse_chunk 를 통해 읽는다(--residency)
         "//chunks:bodies",
         "//chunks/decision:BUILD.bazel",
         "//kb/dev:bodies",

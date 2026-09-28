@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 restored: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-harness-methodology
 ---
 **결론** — 검색 단위로 뷰에 실리는 노드의 서술 텍스트 합은 260 token을
 넘지 않는다 (측정: 문자수 ÷ 4 — 외부 tokenizer에 의존하지 않아

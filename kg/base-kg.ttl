@@ -20,6 +20,30 @@ id:asm-chunk-conventions a agt:Assumption ;
     agt:proposition "저장소 구조 조건(파일 = 청크, 디렉토리 = 모듈, 부록 E.7 배치)과 언어 정책 조건(산문 한글, 식별자 영어, 라벨 한/영 1:1)이 성립한다 — 둘 중 하나가 깨지면 청크의 IRI↔파일 해석과 라벨 인터페이스가 무효다" ;
     agt:refersTo id:cond-repo-layout , id:cond-language-policy .
 
+# 판정자(게이트 밖 도구)의 전제 — 판정 로그·결과 주석이 assumes 로 참조한다. 조건이 이탈하면 지난 판정이 suspect 로 전파된다 (2026-09-29).
+id:asm-judge-service a agt:Assumption ;
+    rdfs:label "judge service credentials and model are set together"@en , "판정 서비스의 자격과 모델이 함께 설정돼 있다"@ko ;
+    agt:proposition "판정 서비스 조건이 성립한다 — 환경 변수 셋(AKB_JUDGE_ENDPOINT·AKB_JUDGE_API_KEY·AKB_JUDGE_MODEL)이 함께 설정돼 있고 로그의 모델 식별자가 캘리브레이션 표본의 모델과 같다. 깨지면 그 모델로 낸 판정의 확신도가 뜻을 잃는다" ;
+    agt:refersTo id:cond-judge-service .
+
+# V&V 프로파일의 규칙성 가정 셋 — 위험 분석 G1~G6 의 전제 (유저 승인 2026-09-29, 항목 vv-profile-hazards).
+# 프로파일에서 파생되는 kb/vv/ 청크가 assumes: 로 이것을 참조하는 것이 등록이다. A3 은 참조 저장소가 반증한 형태에서 뽑았다.
+id:asm-links-only-interaction a agt:Assumption ;
+    rdfs:label "knowledge items interact only through links"@en , "지식 항목은 링크로만 상호작용한다"@ko ;
+    agt:proposition "지식 항목은 frontmatter 의 링크로만 상호작용한다 — 본문만 읽고 생기는 의존은 후보 링크(//kg:link_candidates)로 드러난다. 거짓이면 영향 집합 계산이 실제 의존을 놓친다" ;
+    agt:refersTo id:cond-repo-layout .
+
+id:asm-finite-factor-types a agt:Assumption ;
+    rdfs:label "failures surface as finitely many factor types"@en , "실패는 유한한 요인 유형으로 드러난다"@ko ;
+    agt:proposition "실패는 유한한 요인 유형으로 드러나고 그 유형은 생성물(지표·감사·게이트)에서 관측된다. 거짓이면 현상 목록의 관측 수단이 닫히지 않는다" ;
+    agt:refersTo id:cond-build-system .
+
+id:asm-missing-vocabulary-is-signal a agt:Assumption ;
+    rdfs:label "an element without vocabulary is an extension signal"@en , "어휘 없는 요소는 확장 신호다"@ko ;
+    agt:proposition "어휘가 없는 요소는 건너뛸 것이 아니라 어휘 확장 신호다. 거짓이면 G1 의 현상 목록이 영원히 불완전하다 — 참조 저장소 R1·R3 이 반증한 형태(어휘 없는 요소를 건너뛴 결과)에서 뽑았다" ;
+    agt:refersTo id:cond-language-policy ;
+    prov:wasDerivedFrom id:doc-harness-ontology .
+
 ### 출처 문서 — 내용을 청크로 승격해 가져오는 원천 (prov:wasDerivedFrom 의 대상)
 
 # v1은 2026-09-01 분해 후 제거되었으나(git ed633cc), v3(2,789줄)가 2026-09-08 돌아왔다.
@@ -71,6 +95,23 @@ id:doc-generated-document-standards
 
 # 명세 문서 작성 규격 — 유저가 2026-09-22 에 제공한 제안 원문(922줄). 채택 범위는 유저 답
 # "1.을 선택하되 추가적으로 기존 저작에도 적용함" 이다. `e3b36d2` 가 원문을 담은 첫 커밋이다.
+# 위험 분석 G1 의 원천 둘 — 질문지(hci 벤치마크판, 유저 답 "1" 2026-09-29)와 MAST 실패 분류 (defect 모듈 현상의 출처).
+id:doc-vv-profile-hazards
+    rdfs:label "V&V profile hazards questionnaire (hci, benchmark edition)"@en ,
+        "V&V 프로파일 위험 질문지 (hci, 벤치마크판)"@ko ;
+    prov:atLocation "git:e3b36d2:docs/feedback/vv-profile-hazards-2026-09-19.md" .
+
+id:doc-mast-failure-taxonomy
+    rdfs:label "MAST — multi-agent system failure taxonomy (Cemri et al., 2025)"@en ,
+        "MAST — 멀티에이전트 시스템 실패 분류 (Cemri 외, 2025)"@ko ;
+    prov:atLocation "https://arxiv.org/abs/2503.13657" .
+
+# jev(TypeSafe AI System One) 조사 — 판정자 결합 결정(p8-judge-calibration-binding)의 원천. 유저 답 "1."(2026-09-29).
+id:doc-jev-system-one
+    rdfs:label "jev System One model inquiry (hci)"@en ,
+        "jev System One 모델 조사 (hci)"@ko ;
+    prov:atLocation "git:b23e35a:docs/feedback/inquiries/jev-system-one-model-2026-09-26.md" .
+
 id:doc-spec-writing-standard
     rdfs:label "specification writing standard (user proposal)"@en ,
         "명세 문서 작성 규격 (유저 제안)"@ko ;

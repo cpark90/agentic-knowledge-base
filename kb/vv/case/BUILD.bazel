@@ -106,6 +106,21 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "composite-order-shape",
+    src = "composite-order-shape.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/34d4c769-f5ee-4412-ba43-94d915cea156",
+    plane = "schema",
+    level = "concrete",
+    status = "draft",
+    refines = [
+        "//kb/vv/criteria:composite-order-shape",
+    ],
+    verifies = [
+        "//kb/dev/decision:p4-all-knowledge-is-composite",
+    ],
+)
+
+kb_chunk(
     name = "criteria-before-verifies",
     src = "criteria-before-verifies.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/5d821776-dc19-4202-b184-5efb11d99fcc",
@@ -491,6 +506,7 @@ kb_bundle(
         ":backward-trace-to-requirement",
         ":chunk-42-lines",
         ":chunk-bound-to-project-odd",
+        ":composite-order-shape",
         ":criteria-before-verifies",
         ":decision-names-requirement",
         ":decision-three-chunks",

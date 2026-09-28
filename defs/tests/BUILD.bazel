@@ -1,5 +1,7 @@
 # 음성 시험 — "이 타깃은 분석에 실패해야 한다" (bazel-dependency-review 3·4단계). 영구 테스트.
-load("//defs:kb.bzl", "kb_chunk", "kb_decision")
+# 복합체 규칙(kb_composite)의 양성 시험도 여기 있다 — 실행 시점 판정이라 analysistest 가 아니라 genrule + build_test 다.
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+load("//defs:kb.bzl", "kb_chunk", "kb_composite", "kb_decision")
 load(":negative.bzl", "failure_test")
 
 package(default_visibility = ["//visibility:private"])
@@ -51,3 +53,277 @@ failure_test(name = "cross_kb_link_test", target_under_test = ":bad_cross_kb", e
 # 8. verifies 는 같은 수준끼리 (defs/kb.bzl:78-79) — 고정물 없음.
 # 그 검사에 닿으려면 주어의 label.package 가 kb/vv 여야 한다 (_is_vv, defs/kb.bzl:51-53). 이 패키지의 타깃은 그 앞의
 # "verifies 의 주어는" 에서 먼저 걸린다(고정물 4). kb/vv 는 vnv 의 쓰기 면이라 developer 가 고정물을 둘 수 없다.
+
+# 9. 복합체의 양성 — kb_chunk 단위 청크 둘이 같은 composite.id·part_of 로 한 묶음이 되면 head 액션이 통과하고
+# 복합체 개체가 조각에 난다 (p4-all-knowledge-is-composite, 2026-09-26 반영). 묶음의 단위는 액션의 입력 집합이다.
+kb_composite(
+    name = "fx_comp",
+    srcs = [
+        "fx_comp_a.md",
+        "fx_comp_b.md",
+    ],
+    iri = "urn:fx:comp",
+    level = "executable",
+    part_iris = [
+        "urn:fx:pa",
+        "urn:fx:pb",
+    ],
+    plane = "artifact",
+    tags = ["manual"],
+)
+
+filegroup(
+    name = "fx_comp_head",
+    srcs = [":fx_comp"],
+    output_group = "kg",
+    tags = ["manual"],
+)
+
+genrule(
+    name = "composite_head",
+    srcs = [":fx_comp_head"],
+    outs = ["composite_head.ok"],
+    cmd = "grep -q 'a agt:Composite' $(location :fx_comp_head) && grep -q 'agt:hasDirectPart <urn:fx:pa>' $(location :fx_comp_head) && " +
+          "grep -q '<urn:fx:pb>' $(location :fx_comp_head) && cp $(location :fx_comp_head) $@",
+    tags = ["manual"],
+)
+
+build_test(
+    name = "composite_positive_test",
+    targets = [":composite_head"],
+)
+
+# 10. 복합체의 부분은 둘 이상 — 부분 하나면 청크다 (4.5절)
+kb_composite(
+    name = "bad_composite_single",
+    srcs = ["fx_comp_a.md"],
+    iri = "urn:fx:comp",
+    level = "executable",
+    part_iris = ["urn:fx:pa"],
+    plane = "artifact",
+    tags = ["manual"],
+)
+
+failure_test(
+    name = "composite_min_parts_test",
+    expected = "부분 둘 이상",
+    target_under_test = ":bad_composite_single",
+)
+
+# 11. 부분이 묶음 밖 — 부분 IRI 가 액션의 입력 집합보다 많다 (분석 시점)
+kb_composite(
+    name = "bad_composite_outside",
+    srcs = ["fx_comp_a.md"],
+    iri = "urn:fx:comp",
+    level = "executable",
+    part_iris = [
+        "urn:fx:pa",
+        "urn:fx:pb",
+    ],
+    plane = "artifact",
+    tags = ["manual"],
+)
+
+failure_test(
+    name = "composite_part_outside_test",
+    expected = "부분이 묶음 밖에 있다",
+    target_under_test = ":bad_composite_outside",
+)
+
+# 12. 묶음 밖의 청크가 복합체를 part_of 로 가리키면 실행 시점 FAIL — vnv 가 받은 거부 그 자체다.
+# 명령은 kb_chunk·kb_composite 의 head 액션과 같다 (chunk2kg --fragment --residency defs/kb.bzl).
+genrule(
+    name = "composite_outside_rejected",
+    srcs = [
+        "fx_comp_outside.md",
+        "//defs:kb.bzl",
+    ],
+    outs = ["composite_outside_rejected.err"],
+    cmd = "! $(execpath //tools:chunk2kg) --fragment --out $${TMPDIR:-/tmp}/fx_outside.head.ttl " +
+          "--residency $(execpath //defs:kb.bzl) $(execpath fx_comp_outside.md) 2> $@ && " +
+          "grep -q '묶음 안에 선언되지 않았다' $@ && grep -q 'urn:fx:comp' $@",
+    tags = ["manual"],
+    tools = ["//tools:chunk2kg"],
+)
+
+build_test(
+    name = "composite_negative_test",
+    targets = [":composite_outside_rejected"],
+)
+
+# 13. 순서의 양성 — 선언 청크의 `composite.ordered` 가 있으면 head 액션이 co:List 와 co:index 를 그 선언 순서로 낸다
+# (p4-composite-order-is-declared). 순서는 IRI 정렬의 역순으로 선언해 정렬이 순서로 읽히지 않는 것을 고정한다.
+kb_composite(
+    name = "fx_ord",
+    srcs = [
+        "fx_ord_a.md",
+        "fx_ord_b.md",
+    ],
+    iri = "urn:fx:ord",
+    level = "executable",
+    part_iris = [
+        "urn:fx:ob",
+        "urn:fx:oa",
+    ],
+    plane = "artifact",
+    tags = ["manual"],
+)
+
+filegroup(
+    name = "fx_ord_head",
+    srcs = [":fx_ord"],
+    output_group = "kg",
+    tags = ["manual"],
+)
+
+genrule(
+    name = "ordered_head",
+    srcs = [":fx_ord_head"],
+    outs = ["ordered_head.ok"],
+    cmd = "grep -q 'a agt:Composite , co:List' $(location :fx_ord_head) && " +
+          "grep -q 'co:index \"1\"^^xsd:positiveInteger ; co:itemContent <urn:fx:ob>' $(location :fx_ord_head) && " +
+          "grep -q 'co:index \"2\"^^xsd:positiveInteger ; co:itemContent <urn:fx:oa>' $(location :fx_ord_head) && " +
+          "cp $(location :fx_ord_head) $@",
+    tags = ["manual"],
+)
+
+build_test(
+    name = "ordered_positive_test",
+    targets = [":ordered_head"],
+)
+
+# 14. 순서의 음성 — `ordered` 가 부분 집합과 어긋나면 실행 시점 FAIL [chunk2kg] 다. 순서 목록은 부분 전부를 빠짐없이
+# 한 번씩 담아야 한다. 명령은 kb_composite 의 head 액션과 같다 (chunk2kg --fragment --residency defs/kb.bzl).
+genrule(
+    name = "ordered_mismatch_rejected",
+    srcs = [
+        "fx_ord_mismatch.md",
+        "//defs:kb.bzl",
+    ],
+    outs = ["ordered_mismatch_rejected.err"],
+    cmd = "! $(execpath //tools:chunk2kg) --fragment --out $${TMPDIR:-/tmp}/fx_ord_mismatch.head.ttl " +
+          "--residency $(execpath //defs:kb.bzl) $(execpath fx_ord_mismatch.md) 2> $@ && " +
+          "grep -q '부분 집합과 다르다' $@ && grep -q 'urn:fx:absent' $@",
+    tags = ["manual"],
+    tools = ["//tools:chunk2kg"],
+)
+
+build_test(
+    name = "ordered_negative_test",
+    targets = [":ordered_mismatch_rejected"],
+)
+
+# 15. 시나리오 역할 표지의 양성·음성 (결정 p8-scenario-authoring, 게이트 id `decision-role`). 고정물은 하위 디렉토리
+# `scenario/` 에 둔다 — 규약이 걸리는 자리가 V&V 시나리오 패키지이고 판정은 파일의 부모 디렉토리 이름으로 푼다
+# (kb_lib.decision_role_marker). BUILD 가 없는 하위 디렉토리라 같은 패키지의 파일이다.
+genrule(
+    name = "scenario_role_accepted",
+    srcs = [
+        "scenario/fx-good-excluded.md",
+        "scenario/fx-good-factors.md",
+        "scenario/fx-good-stimulus.md",
+    ],
+    outs = ["scenario_role_accepted.out"],
+    cmd = "$(execpath //tools:chunk_lint) --chunks $(SRCS) > $@ && grep -qF 'PASS [chunk_lint]' $@",
+    tags = ["manual"],
+    tools = ["//tools:chunk_lint"],
+)
+
+genrule(
+    name = "scenario_role_rejected",
+    srcs = [
+        "scenario/fx-bad-factors.md",
+        "scenario/fx-bad-stimulus.md",
+    ],
+    outs = ["scenario_role_rejected.out"],
+    cmd = "! $(execpath //tools:chunk_lint) --chunks $(SRCS) > $@ && " +
+          "grep -qF '**자극** 표지로 시작해야 한다' $@ && grep -qF '**요인** 표지로 시작해야 한다' $@",
+    tags = ["manual"],
+    tools = ["//tools:chunk_lint"],
+)
+
+build_test(
+    name = "scenario_role_test",
+    targets = [
+        ":scenario_role_accepted",
+        ":scenario_role_rejected",
+    ],
+)
+
+# 16. 시나리오 묶음의 `ordered` 필수 (유저·오케스트레이터 판정 2026-09-29) — 자극 → 요인 → 배제 자극의 읽기 순서가
+# `p8-scenario-authoring` 에서 정해졌으므로 선언 없는 시나리오 묶음은 거짓 무순서다. 판정은 생성 시점
+# `gen_build._check_bundle` 이라 최소 트리(`kb/vv/scenario` + 빈 `kb/dev/decision`)를 임시로 만들어 생성기를 부른다.
+# 두 고정물은 `ordered` 의 유무만 다르다 — 양성은 `kb_composite` 를 내고 음성은 거부된다.
+genrule(
+    name = "scenario_order_accepted",
+    srcs = [
+        "scenario/fx-order-excluded.md",
+        "scenario/fx-order-factors.md",
+        "scenario/fx-order-stimulus.md",
+        "//defs:kb.bzl",
+    ],
+    outs = ["scenario_order_accepted.out"],
+    cmd = "R=$$(mktemp -d) && mkdir -p $$R/kb/vv/scenario $$R/kb/dev/decision $$R/kb/ontology && " +
+          ": > $$R/kb/ontology/project-ontology.ttl && " +
+          "cp $(execpath scenario/fx-order-stimulus.md) $(execpath scenario/fx-order-factors.md) " +
+          "$(execpath scenario/fx-order-excluded.md) $$R/kb/vv/scenario/ && " +
+          "$(execpath //tools:gen_build) --root $$R --residency $(execpath //defs:kb.bzl) > $@ && " +
+          "grep -qF 'kb_composite(' $$R/kb/vv/scenario/BUILD.bazel && " +
+          "grep -qF '\"urn:fx:sc-order-s\", \"urn:fx:sc-order-f\", \"urn:fx:sc-order-x\"' $$R/kb/vv/scenario/BUILD.bazel && " +
+          "rm -rf $$R",
+    tags = ["manual"],
+    tools = ["//tools:gen_build"],
+)
+
+genrule(
+    name = "scenario_order_required_rejected",
+    srcs = [
+        "scenario/fx-noorder-excluded.md",
+        "scenario/fx-noorder-factors.md",
+        "scenario/fx-noorder-stimulus.md",
+        "//defs:kb.bzl",
+    ],
+    outs = ["scenario_order_required_rejected.out"],
+    cmd = "R=$$(mktemp -d) && mkdir -p $$R/kb/vv/scenario $$R/kb/dev/decision && " +
+          "cp $(execpath scenario/fx-noorder-stimulus.md) $(execpath scenario/fx-noorder-factors.md) " +
+          "$(execpath scenario/fx-noorder-excluded.md) $$R/kb/vv/scenario/ && " +
+          "! $(execpath //tools:gen_build) --root $$R --residency $(execpath //defs:kb.bzl) > $@ && " +
+          "grep -qF 'ordered 가 없다' $@ && grep -qF 'p4-composite-order-is-declared' $@ && rm -rf $$R",
+    tags = ["manual"],
+    tools = ["//tools:gen_build"],
+)
+
+build_test(
+    name = "scenario_order_test",
+    targets = [
+        ":scenario_order_accepted",
+        ":scenario_order_required_rejected",
+    ],
+)
+
+# 17. 본문 중간의 굵은 강조는 표지가 아니다(양성, 2026-09-29 실측 — 자극·요인·배제 자극 추가가 드러낸 오탐).
+# 고정물은 첫 산문 줄 머리의 진짜 표지(**결론**) 하나와, 마찬가지로 "요인"으로 시작하지만 자리(문장 중간·불릿 전체를
+# 감싼 문장)가 아니거나 한정어가 문장만큼 긴 굵은 강조 둘을 담는다. `body_slots`(chunk2kg)가 앞만 슬롯으로 낸다.
+kb_chunk(name = "fx_slot_emphasis", src = "fx_slot_emphasis.md", iri = "urn:fx:slotemph", plane = "decision", level = "concrete", tags = ["manual"])
+
+filegroup(
+    name = "fx_slot_emphasis_head",
+    srcs = [":fx_slot_emphasis"],
+    output_group = "kg",
+    tags = ["manual"],
+)
+
+genrule(
+    name = "slot_emphasis_head",
+    srcs = [":fx_slot_emphasis_head"],
+    outs = ["slot_emphasis_head.ok"],
+    cmd = "grep -q 'agt:bodySlot \"결론\"' $(location :fx_slot_emphasis_head) && " +
+          "! grep -q 'agt:bodySlot \"요인\"' $(location :fx_slot_emphasis_head) && " +
+          "cp $(location :fx_slot_emphasis_head) $@",
+    tags = ["manual"],
+)
+
+build_test(
+    name = "slot_emphasis_positive_test",
+    targets = [":slot_emphasis_head"],
+)

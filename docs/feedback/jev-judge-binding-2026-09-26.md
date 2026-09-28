@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [kb/dev/decision/p8-judge-question-form/, kb/odd/project-odd.yml, kb/ontology/profile/development/, docs/tools.md, kb/dev/requirement/verification-means-trust.md]
 ---
 
@@ -52,4 +52,4 @@ targets: [kb/dev/decision/p8-judge-question-form/, kb/odd/project-odd.yml, kb/on
 조건이고 판정 방법은 객관적 관측 수단이어야 한다. **권고는 조건 하나를 ODD 에 추가하고 등급을 매기는 것**이다.
 
 ## 답
-(유저가 채움)
+1.

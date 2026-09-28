@@ -7,6 +7,8 @@ title: Minimum requirements for the chunk editor
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-editor-ux
+composite: {id: https://agentic-knowledge-base.dev/id/comp-editor-ux, title_ko: 편집기와 매트릭스 화면, title: editor and matrix UX}
 ---
 **결론** — 청크를 만드는 도구가 만족해야 할 최소 요구를 다섯으로 고정한다.
 전부 체계의 규칙을 **저장 시점에** 강제하기 위한 것이다.

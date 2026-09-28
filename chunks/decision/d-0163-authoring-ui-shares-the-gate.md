@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 restored: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-authoring-discipline
 ---
 **결론** — 사람용 편집 도구는 상태를 자기 저장소로 fork하지 않는다. 에이전트가
 읽고 쓰는 **같은 파일**을 단일 진실 공급원으로 쓰고, 저장은 에이전트가 통과하는

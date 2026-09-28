@@ -5,10 +5,30 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+# V&V 시나리오도 decision plane 이라 같은 틀에 든다 (결정 p8-scenario-authoring) — 표지 낱말만 자극·요인·배제 자극으로 갈리고
+# 슬롯은 결정의 결론·근거·대안 그대로다. 그래서 새 틀이 아니라 이 sh:or 의 대안 셋이다. 파일명과 표지의 대응
+# (`-stimulus` 자극 · `-factors` 요인 · `-excluded` 배제 자극)은 게이트 `decision-role`(chunk_lint)이 본다 — shape 는 노드만 보고
+# 파일 stem 을 모른다. 단일 청크 시나리오(이행기)는 **결론** 표지로 첫 대안을 만족한다.
 agt:DecisionBodyShape a sh:NodeShape ;
     sh:targetClass agt:DesignDecision ;
-    sh:or ( agt:DecisionConclusionBodyShape agt:DecisionRationaleBodyShape agt:DecisionAlternativesBodyShape ) ;
-    sh:message "설계 결정의 본문은 역할 표지 **결론**·**근거**·**대안** 중 하나로 시작해야 한다 — 세 청크가 한 결정을 이룬다 (p7-dev-plane-substance, p4-slot-answers-one-question)" .
+    sh:or ( agt:DecisionConclusionBodyShape agt:DecisionRationaleBodyShape agt:DecisionAlternativesBodyShape
+            agt:ScenarioStimulusBodyShape agt:ScenarioFactorsBodyShape agt:ScenarioExcludedBodyShape ) ;
+    sh:message "설계 결정의 본문은 역할 표지 **결론**·**근거**·**대안**(V&V 시나리오는 **자극**·**요인**·**배제 자극**) 중 하나로 시작해야 한다 — 세 청크가 한 결정을 이룬다 (p7-dev-plane-substance, p4-slot-answers-one-question, p8-scenario-authoring)" .
+
+agt:ScenarioStimulusBodyShape a sh:NodeShape ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "자극" ; sh:order 1 ;
+        sh:description "무엇을 자극하는가 (결정의 결론 자리)" ;
+        sh:message "슬롯 **자극** 이 없다 — actor·action·순서·`keep()` 를 적고 요인·배제 자극은 형제 청크에 둔다" ] .
+
+agt:ScenarioFactorsBodyShape a sh:NodeShape ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "요인" ; sh:order 1 ;
+        sh:description "무엇을 노출하려 그렇게 자극하는가 (결정의 근거 자리)" ;
+        sh:message "슬롯 **요인** 이 없다 — 노출하려는 결함 요인과 기여하는 검증 목표를 적는다" ] .
+
+agt:ScenarioExcludedBodyShape a sh:NodeShape ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "배제 자극" ; sh:order 1 ;
+        sh:description "무엇을 자극하지 않기로 했고 왜 그런가 (결정의 대안 자리)" ;
+        sh:message "슬롯 **배제 자극** 이 없다 — 다루지 않기로 한 자극과 이유(ODD 밖·다른 시나리오가 덮음)를 적는다" ] .
 
 agt:DecisionConclusionBodyShape a sh:NodeShape ;
     sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "결론" ; sh:order 1 ;

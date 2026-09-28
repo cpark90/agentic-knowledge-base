@@ -7,6 +7,8 @@ title: The design space file holds candidate links and compatibility constraints
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-design-space-operation
+composite: {id: https://agentic-knowledge-base.dev/id/comp-design-space-operation, title_ko: 설계 공간의 운용, title: design space operation}
 ---
 **결론** — `-space` 파일은 **후보 링크 집합과 양립 제약을 담는 파일**이다.
 `variable`(링크가 필요한 항목) 선언, `candidates`(후보 링크),

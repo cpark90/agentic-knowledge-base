@@ -9,6 +9,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-req-agent
 ---
 **요구** — 체계는 판정 방식이 다른 지식(plane)을 한 컨텍스트에 섞지 않아야 하며, 읽기 툴 표면이 plane 할당을 따라야 한다.
 

@@ -7,6 +7,7 @@ title: Register synonyms as SKOS labels instead of removing them
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-terminology-rules
 ---
 **결론** — 0.6절의 "동의어 사용 금지"를 어휘 수준에서 강제하는 방법은
 동의어를 **없애는 것이 아니라 등록하는 것**이다. SKOS 라벨 구분을 쓴다.

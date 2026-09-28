@@ -7,6 +7,7 @@ title: Opaque persistent IRI and content-hash version IRI
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-identifier-conventions
 ---
 **결론** — 청크·구성체·링크·가정은 전부 개체이므로 IRI를 갖는다. 지속성과
 버전을 IRI 구조로 표현한다.

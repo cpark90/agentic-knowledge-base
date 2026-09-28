@@ -10,6 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 restored: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-federation-invariants
+composite: {id: https://agentic-knowledge-base.dev/id/comp-federation-invariants, title_ko: 연합의 불변식, title: federation invariants}
 ---
 **결론** — 여러 저장소에 나뉜 그래프는 **import 선언 + 카탈로그**(문서 IRI →
 로컬 파일)로 하나의 union으로 조립한다. root 문서에서 import를 따라간 폐포가

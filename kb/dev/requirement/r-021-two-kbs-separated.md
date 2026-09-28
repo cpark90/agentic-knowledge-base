@@ -9,6 +9,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-req-verification
+composite: {id: https://agentic-knowledge-base.dev/id/comp-req-verification, title_ko: 요구 — 독립 검증, title: requirements — independent verification}
 ---
 **요구** — 체계는 개발 KB와 V&V KB를 분리하여야 하며, 개발 역할은 V&V KB를 읽기만 할 수 있어야 한다.
 

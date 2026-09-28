@@ -10,6 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/2b1e5103-9b9d-43da-9231-6b4027bc370e]
 restored: [https://agentic-knowledge-base.dev/id/chunk/2b1e5103-9b9d-43da-9231-6b4027bc370e]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-selection-policy
+composite: {id: https://agentic-knowledge-base.dev/id/comp-selection-policy, title_ko: 결정론적 선택, title: deterministic selection}
 ---
 **결론** — 후보가 여럿 남은 채로도 산출을 내야 하는 무인 경로에서는 사람의
 선택을 기다리지 않고 **전순서(total order) 선택 정책**으로 하나를 고른다.

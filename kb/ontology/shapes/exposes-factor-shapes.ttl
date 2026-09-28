@@ -1,0 +1,25 @@
+# shape — 위험에서 파생된 항목의 표지: agt:exposesFactor 의 대상은 defect 모듈이 선언한 현상 개체다 (위험 분석 G5, frontmatter `exposes`)
+# 이 자리가 대상 실재 검사이기도 하다 — agt:exposesFactor 는 링크 개체도 Bazel deps 도 아니라 로드 시점에 끝점이 판정되지 않고,
+# 대상이 id: 가 아니라 agt: 개체라 check_dangling 의 id: 실재 검사에도 걸리지 않는다.
+# 판정을 sh:class 로만 하지 않는 이유는 agt:exposesFactor 의 rdfs:range 가 RDFS 함의로 아무 대상에나 타입을 붙이기 때문이다.
+# 선언된 현상의 표지는 agt:observationMeans 이고 그것은 22 개체에만 있다 — 없는 개체와 요인이 아닌 개체가 둘 다 여기서 걸린다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+agt:ExposesFactorShape a sh:NodeShape ;
+    sh:targetSubjectsOf agt:exposesFactor ;
+    sh:property [
+        sh:path agt:exposesFactor ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:class agt:DefectFactor ;
+        sh:node agt:DeclaredPhenomenonShape ;
+        sh:message "exposes: 의 대상은 defect 모듈이 선언한 결함 요인 개체여야 한다 — 실재하지 않는 IRI 와 요인이 아닌 개체를 둘 다 거부한다. 요인을 노출하지 않는 시나리오는 위험에서 파생되지 않은 것이다 (8.21절 G5)" ;
+    ] .
+
+agt:DeclaredPhenomenonShape a sh:NodeShape ;
+    sh:property [
+        sh:path agt:observationMeans ;
+        sh:minCount 1 ;
+        sh:message "선언된 현상은 agt:observationMeans 를 갖는다 — 이 슬롯의 유무가 defect 모듈이 올린 현상과 그 밖의 개체를 가른다 (8.21절 G1)" ;
+    ] .

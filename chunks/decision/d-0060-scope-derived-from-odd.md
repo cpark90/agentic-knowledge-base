@@ -7,6 +7,7 @@ title: The harness carves scopes out of the ODD
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-odd-document
 ---
 **결론** — 하네스는 ODD에서 스코프를 잘라낸다. 스코프는 ODD 속성을
 `inherit`하고 plane 권한을 `include`할 뿐이며, **ODD에 없는 속성을 스코프에

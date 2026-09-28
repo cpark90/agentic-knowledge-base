@@ -7,6 +7,7 @@ title: Plane permissions per role in the development profile
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-agent-catalog-input
 ---
 **결론** — 참조 프로파일(소프트웨어 개발)의 에이전트 카탈로그를 아홉 역할로
 정하고, 각 역할의 plane 권한을 아래로 고정한다.

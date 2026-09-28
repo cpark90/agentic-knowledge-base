@@ -58,7 +58,7 @@ import yaml  # 케이스 본문의 `yaml` 펜스(자극·기대) — space2kg·o
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kb_lib  # noqa: E402 — 네임스페이스·종료 코드·실행 기록 규약의 단일 정의처
-from chunk2kg import parse_chunk  # noqa: E402 — 케이스의 frontmatter(라벨)는 chunk2kg 의 파서로 읽는다
+from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402 — 케이스의 frontmatter(라벨)는 chunk2kg 의 파서로 읽는다
 
 ID = kb_lib.ID
 EXIT_OK, EXIT_FAIL, EXIT_CONFIG, EXIT_SKIP = kb_lib.EXIT_OK, kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG, kb_lib.EXIT_SKIP
@@ -501,10 +501,16 @@ def main() -> int:
     ap.add_argument("--out", default="", help="보고를 파일로도 쓴다")
     ap.add_argument("--waivers", default=WAIVERS, metavar="FILE",
                     help=f"docs/waivers.md — 게이트 id `{CASE_GATE}`(축 파일·stem)로 면제된 케이스의 형식 오류는 집계에서 빼되 목록에 남긴다")
+    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 워크스페이스 루트 기준")
     a = ap.parse_args()
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     if not (root / CASE_DIR).is_dir():
         print(f"FAIL [vv_run] {CASE_DIR}: 케이스 디렉토리가 없다 — 워크스페이스 루트에서 돌린다")
+        return EXIT_CONFIG
+    try:
+        apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
+    except (OSError, ValueError) as e:
+        print(f"FAIL [vv_run] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}")
         return EXIT_CONFIG
     waiver_path = root / a.waivers
     try:

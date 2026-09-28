@@ -1,0 +1,49 @@
+# shape — 순서 있는 복합체(`co:List`)의 정합성: 색인 1..n 연속·중복 없음·부분 집합과 일치 (결정 p4-composite-order-is-declared, rules §2 순서)
+# 순서가 뜻을 갖는 복합체만 co:List 를 겸한다 — 어휘는 Collections Ontology 원문(co:item / co:ListItem / co:index / co:itemContent)이고
+# 정의를 고치지 않고 그대로 쓴다 (0.3절 등록 표준 어휘, kb_lib.WELL_KNOWN_PREFIXES).
+# 검사 자리를 **shape 로 둔다** — 결정이 그렇게 정했고(순서의 정합성은 shape 가 판정한다), 판정 단위가 복합체 노드 하나라
+# 청크 단위·즉시 계층에 맞는다. verify 질의는 그래프 전체를 훑는 재검증 시점 계층이고 순환처럼 경로를 따라가는 것의 자리다.
+# 색인 자체의 형(양의 정수·하나씩)은 SHACL 코어로 보고, 집합의 성질(연속·중복 없음·부분과 일치)만 sh:sparql 로 본다.
+# 세 수가 같고 색인이 양의 정수이면 색인 집합은 {1..n} 뿐이다 — 서로 다른 n 개의 양의 정수의 최댓값이 n 이면 그것은 1..n 이다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix co: <http://purl.org/co/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:OrderedCompositeShape a sh:NodeShape ;
+    sh:targetClass co:List ;
+    sh:property [ sh:path co:item ; sh:minCount 2 ; sh:node agt:ListItemShape ;
+        sh:message "순서 있는 복합체는 부분마다 co:item 하나를 갖는다 — 부분 둘 미만이면 복합체가 아니다 (4.5절)" ] ;
+    sh:sparql [
+        sh:message "순서 색인이 1..n 연속·중복 없음이 아니거나 부분 집합(agt:hasDirectPart)과 개수가 다르다 — 순서 목록은 부분 전부를 빠짐없이 한 번씩 담는다 (p4-composite-order-is-declared)" ;
+        sh:prefixes agt: ;
+        sh:select """
+            SELECT $this WHERE {
+              { SELECT $this (COUNT(DISTINCT ?i) AS ?n) (MAX(?i) AS ?hi) (COUNT(?it) AS ?items)
+                       (COUNT(DISTINCT ?c) AS ?contents) WHERE {
+                  $this <http://purl.org/co/item> ?it .
+                  ?it <http://purl.org/co/index> ?i ; <http://purl.org/co/itemContent> ?c .
+                } GROUP BY $this }
+              { SELECT $this (COUNT(DISTINCT ?p) AS ?parts) WHERE {
+                  $this <https://agentic-knowledge-base.dev/agt/hasDirectPart> ?p .
+                } GROUP BY $this }
+              FILTER(?n != ?hi || ?n != ?items || ?n != ?contents || ?n != ?parts)
+            }
+        """ ;
+    ] ;
+    sh:sparql [
+        sh:message "순서 항목이 가리키는 것이 이 복합체의 직접 부분이 아니다 — co:itemContent 는 agt:hasDirectPart 와 같은 집합이다 (p4-composite-order-is-declared)" ;
+        sh:prefixes agt: ;
+        sh:select """
+            SELECT $this ?content WHERE {
+              $this <http://purl.org/co/item> ?it . ?it <http://purl.org/co/itemContent> ?content .
+              FILTER NOT EXISTS { $this <https://agentic-knowledge-base.dev/agt/hasDirectPart> ?content }
+            }
+        """ ;
+    ] .
+
+agt:ListItemShape a sh:NodeShape ;
+    sh:property [ sh:path co:index ; sh:datatype xsd:positiveInteger ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "순서 항목은 색인 하나를 갖는다 — 1 부터의 양의 정수다 (co:index)" ] ;
+    sh:property [ sh:path co:itemContent ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+        sh:message "순서 항목은 부분 하나를 가리킨다 (co:itemContent)" ] .

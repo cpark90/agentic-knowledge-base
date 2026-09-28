@@ -7,6 +7,7 @@ title: Execution mode and dispatch re-entry summary
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-agent-catalog-input
 ---
 **결론** — 실행 모드(세션 유지 / dispatch)를 입력으로 받고, dispatch
 대상에게는 전체 컨텍스트가 아니라 **그 역할의 스코프로 거른 situation**

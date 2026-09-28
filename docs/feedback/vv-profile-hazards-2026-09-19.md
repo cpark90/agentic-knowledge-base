@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [kb/ontology/profile/, kb/vv/, kb/odd/project-odd.yml, docs/agent-knowledge-system-notes.md]
 ---
 
@@ -117,4 +117,4 @@ HARA는 심각도 S · 노출 E · 제어가능성 C로 등급을 매긴다. 소
 특히 (2)에서 **`—` 표시 아홉(P14~P21)** 가운데 무엇을 먼저 관측 수단으로 만들지 고르는 것이 이 항목의 핵심이다.
 
 ## 답
-(유저가 채움)
+1

@@ -7,6 +7,8 @@ title: Artifact review shows context before the body
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-projection-uses
+composite: {id: https://agentic-knowledge-base.dev/id/comp-projection-uses, title_ko: 투영 기반 활용, title: projection-based uses}
 ---
 **결론** — 변경된 `artifact` 청크의 리뷰어에게 산출물 본문을 읽기 전에
 **"무엇을 위한 변경이고 무엇이 흔들리는가"** 를 먼저 보여준다.

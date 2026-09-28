@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://age
 refines: [https://agentic-knowledge-base.dev/id/chunk/3532a3cf-37a4-4c3e-84d9-360b215786f3, https://agentic-knowledge-base.dev/id/chunk/76dc6470-e7ee-47cd-bc8d-1440c870ebf6]
 restored: [https://agentic-knowledge-base.dev/id/chunk/3532a3cf-37a4-4c3e-84d9-360b215786f3, https://agentic-knowledge-base.dev/id/chunk/76dc6470-e7ee-47cd-bc8d-1440c870ebf6]
 generated: {by: vnv/claude-opus-5, at: 2026-09-23T02:30:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/composite/ff058e5b-5ef1-474e-b392-3948fb4f04c7
 ---
 **검증기** — 케이스(`kb/vv/case/`)의 `**실행 명령**` 줄을 읽어 명령을 `;`·`&&` 로 나누고 케이스마다 판정을 내는 검증기는 `tools/vv_run.py` 다. 진입점은 `bazel run //tools:vv_run` 이고 보고는 저장하지 않는 생성 문서다.
 

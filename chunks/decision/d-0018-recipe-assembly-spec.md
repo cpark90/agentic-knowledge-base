@@ -10,6 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-recipe-standard
+composite: {id: https://agentic-knowledge-base.dev/id/comp-recipe-standard, title_ko: 레시피 표준, title: recipe standard}
 ---
 **결론** — 중앙 라이브러리와 레시피의 역할을 나눈다. 중앙은 일반화된
 도메인 독립 부품(guardrail·pattern·workflow·prompt·tool·capability·

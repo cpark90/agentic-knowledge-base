@@ -101,9 +101,11 @@ def main() -> int:
             stack.extend(up.get(x, ()))
             if x in comp_of: stack.extend(siblings[comp_of[x]])
         return False
-    # 저작된 지식만 센다 — 관측(memory plane)은 실행의 부산물이라 고립·귀속 지표의 대상이 아니다
-    # (유저 승인 2026-09-23, handoff/connected-components-observations-2026-09-19). 같은 정의를 연결 성분도 쓴다
-    authored = [c for c in live if plane[c] != "memory"]
+    # 저작된 지식만 센다 — 관측(memory plane)은 실행의 부산물, 판정 주석(annotation plane)은 산출물에 대한 리뷰라
+    # 둘 다 고립·귀속 지표의 대상이 아니다 (유저 승인 2026-09-23 · 2026-09-29, handoff/connected-components-
+    # observations-2026-09-19 · handoff/verdict-in-metrics-2026-09-27). 제외 집합의 정의처는 kb_lib 상수 하나다.
+    # 같은 정의를 연결 성분도 쓴다
+    authored = [c for c in live if plane[c] not in kb_lib.LINKAGE_EXCLUDED_PLANES]
     nonreq = [c for c in authored if plane[c] != "requirement"]
     ascribed = sum(1 for c in nonreq if reaches_req(c))
 
@@ -113,7 +115,7 @@ def main() -> int:
     assumes = sum(1 for _ in g.subject_objects(AGT.assumes))
 
     # 세 축 대리 (14.1 정정본, p14-stage-pass-conditions): 연결 성분 · 매트릭스 채움률 · level 건너뜀 · 수준 허용표 위반
-    parent = {c: c for c in authored}  # 관측 제외 — 저작된 지식의 고립을 잰다
+    parent = {c: c for c in authored}  # 관측·주석 제외 — 저작된 지식의 고립을 잰다
     def find(x):
         while parent[x] != x:
             parent[x] = parent[parent[x]]; x = parent[x]
@@ -213,8 +215,9 @@ def main() -> int:
     head = kb_lib.gendoc_header(
         "metrics", "코어 지표", "tools/metrics.py",
         "그래프 union 과 청크 본문에서 — plane × level 분포 · 고아율 · 도입 단계 세 축의 대리 · 링크 밀도 · 크기 분포 · "
-        "정제 완주(CQ19) · 후방 추적 귀속(CQ20) · 가정과 신뢰 등급. 연결 성분과 후방 추적 귀속은 **관측 제외**다 — "
-        "관측(memory plane)은 실행의 부산물이라 저작된 지식의 고립을 재는 지표의 대상이 아니다 (유저 승인 2026-09-23). "
+        "정제 완주(CQ19) · 후방 추적 귀속(CQ20) · 가정과 신뢰 등급. 연결 성분과 후방 추적 귀속은 **관측·주석 제외**다 — "
+        "관측(memory plane)은 실행의 부산물, 판정 주석(annotation plane)은 산출물에 대한 리뷰라 둘 다 저작된 지식의 "
+        "고립을 재는 지표의 대상이 아니다 (유저 승인 2026-09-23 · 2026-09-29, kb_lib.LINKAGE_EXCLUDED_PLANES). "
         "수치를 문서에 적지 않고 여기서 인용한다 (4.6절 뷰 원칙)",
         "bazel build //kg:metrics", inputs,
         f"트리플 {len(g)} · 청크 {len(chunks)}", kb_lib.gendoc_view_notice("청크의 frontmatter 와 본문"),
@@ -231,7 +234,7 @@ def main() -> int:
         n = sum(1 for c in live if plane[c] == p)
         if n: o.append(f"  - `{p}`: {pct(sum(1 for c in orphans & live if plane[c] == p), n)}")
     o += ["", "## 세 축 대리 — 1·3·5단계 (14.1 정정본: 의미 보존 · 구체화 · 유기적 연결)", "",
-          f"- 연결: 저작된 지식의 연결 성분 **{components}**개 (살아 있는 청크 {len(live)} 중 관측 {len(live) - len(authored)}건을 뺀 {len(authored)}개가 링크·복합체로 이어진 덩어리. 목표 1)",
+          f"- 연결: 저작된 지식의 연결 성분 **{components}**개 (살아 있는 청크 {len(live)} 중 관측·주석 {len(live) - len(authored)}건을 뺀 {len(authored)}개가 링크·복합체로 이어진 덩어리. 목표 1)",
           f"- 연결: level×level `refines` 매트릭스 채움 {pct(len(filled), 4)} — " + (", ".join(f"{a_}→{b_}" for a_, b_ in filled) or "없음") + " (목표 4/4 = 100.0%)",
           f"- 구체화: level을 한 단계씩 내려가지 않는 `refines` **{len(skips)}**건 (목표 0; 지금은 concrete→functional 직행이 구조적으로 허용됨 — abstract·logical 결정이 생기면 0이어야 한다)",
           f"- 구체화: 수준 허용표 위반 **{len(residency_bad)}**건 (목표 0)",
@@ -254,7 +257,7 @@ def main() -> int:
           f"- 의미 보존: 무효화 이력 — 관측(memory plane) **{len(observations)}**건, 그중 `assume_check --record` 의 판정 관측 {obs_recorded}건 (지금은 판정 관측 수 — 무효화 사건이 생기면 그 이력이 여기 쌓인다. provenance 는 관측이 `generatedBy`·`prov:wasDerivedFrom` 를 갖는 비율로 잰다 (목표 100.0%): {pct(sum(1 for c in observations if (c, AGT.generatedBy, None) in g and (c, PROV.wasDerivedFrom, None) in g), len(observations))})",
           f"- 구체화: 가정 개체 {len(assumptions)} · `assumes` 링크 {assumes} (가정 · 신뢰 등급 절과 같은 수) · 판정식 등급 분포(참조 조건 등급의 최저) " + (" · ".join(f"{k} {v}" for k, v in sorted(grade_dist.items())) or "없음") + f" — A·B 비율 **{pct(grade_ab, len(assumptions))}** (목표 100.0%), D **{grade_dist.get('D', 0)}**건 (목표 0)",
           f"- 연결: suspect 포화율 — 켜진 트리거({trig_on})가 suspect 로 유도하는 확정 링크 **{pct(sat['by_trigger'], sat['confirmed'])}** "
-          f"(목표: 포화 경고선 20% 미만 — 넘으면 트리거를 더 좁힌다). `agt:when` 을 가진 확정 링크 {sat['with_when']}건의 판정은 호스트 상태를 "
+          f"(목표 포화 경고선 20% 미만 — 넘으면 트리거를 더 좁힌다). `agt:when` 을 가진 확정 링크 {sat['with_when']}건의 판정은 호스트 상태를 "
           "보므로 이 뷰 밖이고 `bazel run //tools:assume_check` 가 낸다. 선언의 원본은 `tools/kb_lib.py` 의 `SUSPECT_TRIGGERS` 이며 선언에 없는 종류는 돌지 않는다",
           "- 연결: 인위 파괴 실험은 `bazel run //tools:assume_check -- --break <cond>` — 계산된 직접 영향 집합과 실제 의존 집합(frontmatter 스캔)의 일치 여부를 그 보고가 낸다. 판정은 호스트 상태를 보므로 이 뷰 밖이다",
           "", "## 7단계 대리 — V&V (p8-vv-plane-instances · p8-pass-criteria · p8-scenario-ladder-rungs)", "",
@@ -272,7 +275,7 @@ def main() -> int:
           "", "## 정제 완주 (CQ19) · 후방 추적 귀속 (CQ20)", "",
           f"- 요구 {len(reqs)}건이 `refines`/`serves` 연쇄로 닿는 가장 낮은 수준: " + " · ".join(f"{k} {v}" for k, v in reach.most_common()),
           f"- executable까지 닿은 요구: **{pct(reach.get('executable', 0), len(reqs))}** (전방 추적 커버리지, 목표 100.0%)",
-          f"- 요구로 거슬러 오르는 비요구 청크(관측 제외): **{pct(ascribed, len(nonreq))}** (후방 추적 커버리지, 목표 100.0%)",
+          f"- 요구로 거슬러 오르는 비요구 청크(관측·주석 제외): **{pct(ascribed, len(nonreq))}** (후방 추적 커버리지, 목표 100.0%)",
           "", "## 가정 · 신뢰 등급", "",
           f"- `assumes` 링크 {assumes} · 가정 개체 {sum(1 for _ in g.subjects(RDF.type, AGT.Assumption))}",
           f"- 기본 가정만 가진 청크(`assumes` 대상이 `id:asm-chunk-conventions` 하나뿐인 살아 있는 청크): **{pct(default_only, len(live))}** (좁힘 진행률의 역수 — 목표 0)",

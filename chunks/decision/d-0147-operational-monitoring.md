@@ -7,6 +7,7 @@ title: What operational monitoring draws from the system
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-utilization-functions
 ---
 **결론** — 전체 시스템을 모니터링하는 에이전트가 이상 신호를 보내면 문제
 지점에 orchestrator를 하네스와 함께 생성해 해결하게 한다. 그 구조의 **지식

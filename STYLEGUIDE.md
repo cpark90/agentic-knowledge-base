@@ -46,6 +46,12 @@
   ([`p4-slot-answers-one-question`](kb/dev/decision/p4-slot-answers-one-question/conclusion.md)). 첨가 셋을
   쓰지 않는다 — 다른 슬롯의 답, 메타 문장("다음과 같다"·"이 절에서는"), 채움("특이사항 없음"·"추후
   결정")이다. 채움 자리에는 세 빈 값을 쓴다. 예산은 상한이지 목표가 아니다.
+- **[지킴]** **슬롯 표지는 자리로 판정한다**(2026-09-29). 굵은 표지(`**결론**`·`**요구**`·`**자극**` …)는 그 줄의
+  **필드 머리**에 있을 때만 슬롯이다 — 줄 시작, 목록 항목 표지(`- `) 바로 다음, 같은 줄에서 앞선 필드를 끝낸 ` · ` 바로
+  다음. 표 셀 뒤·산문 접속 뒤·문장 중간의 굵은 span은 강조이지 표지가 아니다. 표지 뒤의 한정어(`**대안 없음**`)는
+  12자 이하이고 마침표가 없을 때만 같은 표지다 — 길거나 마침표가 있으면 표지 낱말로 시작하는 별개의 문장이다. 일곱 틀
+  전부에 같은 규칙이다(`chunk2kg` 방출 = `decision-role`의 첫 산문 줄 판정과 같은 종류). 표지 낱말끼리 접두가 겹치면
+  `kb_lib`가 로드 시점에 죽는다.
 - **[지킴]** **목록 규칙**은 다섯이다. 순서 목록의 모든 항목을 `1.`로 적는다(`2.` 이상의 손 번호는
   항목을 넣고 뺄 때 어긋나고 내용 변경이 아닌데도 `contentHash`를 바꾼다). 항목 9개 이하, 중첩 2단계
   이하, 항목당 240자 이하다(소스 줄이 아니라 글자로 잰다 — 산문을 110~120자에서 손으로 접기 때문이다). 빈 목록 대신 `없음`을 적는다.
@@ -127,10 +133,14 @@
   `pattern`(EARS — `ubiquitous`·`event-driven`·`state-driven`·`unwanted-behaviour`·`optional`·`complex`), 그리고
   복원 링크의 표시 `restored`(같은 청크의 링크 대상 IRI 목록 — 증거가 `proposal`이 된다,
   [`p10-restored-link-marking`](kb/dev/decision/p10-restored-link-marking/conclusion.md)), 분할 조각의
-  `specializationOf`(원 청크 IRI 하나 — 같은 plane, [`p10-split-keeps-work-identity`](kb/dev/decision/p10-split-keeps-work-identity/conclusion.md))이다.
+  `specializationOf`(원 청크 IRI 하나 — 같은 plane, [`p10-split-keeps-work-identity`](kb/dev/decision/p10-split-keeps-work-identity/conclusion.md)),
+  위험에서 파생된 항목의 `exposes`(그 항목이 노출하려는 결함 요인 개체의 `agt:` IRI 목록 — `agt:exposesFactor`로 나가고 링크 키가 아니다,
+  게이트 `shacl`(exposes-factor))이다.
   `type`·`status`·`generated`·`verified`는 **OKF v0.2 필드명**이다. 이 저장소의 `chunks/`는
-  OKF 번들이다. 값 어휘의 원본은 `tools/chunk2kg.py`의 상수다. 그 상수는
-  `PLANE_CLASS`·`LEVELS`·`STATES`·`REQUIRED`다.
+  OKF 번들이다. 값 어휘의 원본은 둘로 갈린다(2026-09-27). `PLANES`·`LEVELS`·`STATES`는
+  **`defs/kb.bzl`**이 원본이고 `tools/chunk2kg.py`는 그것을 리터럴로 읽어 파생한다 — Starlark는 파일을 읽지 못해
+  분석 시점 판정을 지키려면 표가 거기 있어야 한다. `PLANE_CLASS`·`REQUIRED`는 `chunk2kg.py`가 원본이며 `PLANE_CLASS`의
+  키 집합이 `PLANES`와 다르면 로드 시점에 죽는다. 폴백은 없다 — `defs/kb.bzl`을 입력으로 받지 못한 액션은 `EXIT_CONFIG`다.
 - **[지킴]** `generated: {by, at}`의 `by`는 OKF 행위자 표기다. 도구는 `<생성기>/<버전>`,
   사람은 `human:<id>`로 적는다. **검증하지 않은 것을 `verified`에 적지 않는다.** 미검증이
   정직한 상태다. 검증 뒤 내용을 고치면 게이트가 거부한다.
@@ -151,6 +161,17 @@
     바뀌어도 소급하지 않는다** — append-only이고(`r-026`) 소급은 기록을 다시 쓰는 일이다. 표기 변경은
     앞으로의 기록부터 적용한다.
   - `contract`/`schema`/`artifact`는 언어 네이티브 선언·스키마·코드다.
+- **[지킴]** 복합체를 저작할 때는 부분 중 하나의 frontmatter에 `composite: {id, title_ko, title}`를 한 번 선언하고 부분
+  전부에 `part_of`를 적는다. 부분은 **같은 디렉토리(패키지)**에 두고 plane·level을 같게 한다 — 묶음은 액션의 입력
+  집합이고 입력 집합은 패키지를 넘지 못한다. 부분은 2~9개이고 선언 청크의 파일 이름이 타깃 이름이 된다. 결정은 예외로
+  `<파트>-<슬러그>/` 디렉토리와 세 청크 고정이다(2026-09-29, `kb_composite`).
+- **[지킴]** 순서가 뜻을 갖는 복합체만 선언 청크의 `composite:`에 선택 키 `ordered: [<부분 IRI>…]`를 더한다(부분 전부를
+  빠짐없이 한 번씩, 2026-09-29 — [`p4-composite-order-is-declared`](kb/dev/decision/p4-composite-order-is-declared/conclusion.md)).
+  없으면 순서가 없다. 결정 복합체는 역할이 곧 순서이므로 선언하지 않는다.
+- **[지킴]** V&V 시나리오(`kb/vv/scenario/`)의 세 청크 파일 이름은 `<슬러그>-stimulus.md`·`<슬러그>-factors.md`·
+  `<슬러그>-excluded.md`이고 역할 태그는 각각 `**자극**`·`**요인**`·`**배제 자극**`이며 선언 청크는 `-stimulus`다
+  (2026-09-29, [`p8-scenario-authoring`](kb/dev/decision/p8-scenario-authoring/conclusion.md)). 시나리오 묶음은 읽기
+  순서가 정해져 있으므로 `ordered`가 **필수**다 — 없으면 `gen_build`가 거부한다.
 - **[지킴]** 아직 모르는 것은 본문의 선택 슬롯 **`미확정:`**에 적는다. 미결은 문서가 아니라 항목
   안에 있고 집계는 생성물이다. 답이 오면 고칠 자리가 하나다.
 - **[지킴]** 전제가 있으면 가정을 만들고 `assumes`로 가리킨다. 가정 없는 항목은 전제를 아직
@@ -247,8 +268,10 @@
 - **[지킴]** 제목 줄과 링크 텍스트는 수치 표기 판정 밖이다. 이름에 든 백분율은 측정이 아니다.
 - **[지킴]** 입력 파일이 일곱을 넘으면 머리의 `입력`은 규모와 지문만 적고 목록은 `## 입력 파일`
   절에 둔다. 목록을 생략하지는 않는다.
-- **[권장]** 목표가 정의된 수치에는 `(목표 <값>)`을 붙인다. 표기를 한 꼴로 맞춘다.
-- **[권장]** 시점 의존 표현("현재·최신·지금")을 값 대신 쓰지 않는다. 인용 자리는 예외다.
+- **[권장]** 목표가 정의된 수치에는 `(목표 <값>)`을 붙인다. **[지킴]** 붙였다면 표기는 한 꼴이다 — 통일성은 게이트
+  `gendoc`(G16)이 강제한다(2026-09-29 실측: 위반 1·오탐 0). "목표를 붙여야 하는가"는 게이트 밖 사람 판단이다.
+- **[권장]** 시점 의존 표현("현재·최신·지금")을 값 대신 쓰지 않는다. 인용 자리는 예외다. 게이트화는 보류다(2026-09-29
+  실측: 후보 7/7 오탐 — CQ 정식 문구의 인용, 인용 표시 없이 옮긴 청크 본문, 값과 병기된 부연). `check_gendoc`이 후보만 낸다.
 
 ## 셀프체크
 

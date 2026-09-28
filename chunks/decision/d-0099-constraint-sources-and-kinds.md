@@ -7,6 +7,7 @@ title: Three constraint sources and axiom/constraint/assumption distinction
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-uncertainty-as-csp
 ---
 **결론** — 후보 링크를 깎는 제약의 출처는 셋으로 고정하고, **공리·제약·
 가정은 서로 다른 것**으로 구분해 각각 제 위치에 둔다.

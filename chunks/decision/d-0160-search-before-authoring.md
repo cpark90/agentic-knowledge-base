@@ -10,6 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 restored: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-authoring-discipline
+composite: {id: https://agentic-knowledge-base.dev/id/comp-authoring-discipline, title_ko: 저작 규율, title: authoring discipline}
 ---
 **결론** — 한 노드는 한 가지만 담고(한 페르소나·한 정책·한 능력), 새 노드를
 만들기 전에 **검색 도구로 같은 것이 이미 있는지 먼저 찾는다**. 없어서 만드는

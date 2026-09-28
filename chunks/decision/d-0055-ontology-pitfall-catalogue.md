@@ -7,6 +7,7 @@ title: Periodic ontology evaluation via a pitfall catalogue
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-ontology-hygiene
 ---
 **결론** — 2.5절 위생 검사 외에, 표준 온톨로지 결함 카탈로그(pitfall
 catalogue)로 설계 결함을 주기적으로 검사한다.

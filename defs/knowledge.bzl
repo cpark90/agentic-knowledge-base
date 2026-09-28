@@ -11,6 +11,7 @@ load("@rules_python//python:defs.bzl", "py_test")
 _VALIDATE_SRCS = [
     Label("//tools:validate.py"),
     Label("//tools:kb_lib.py"),
+    Label("//tools:chunk2kg.py"),  # kb_lib.load_residency 가 PLANES·LEVELS 리터럴 읽기를 여기서 import 한다 (오케스트레이터 판정 2026-09-27)
 ]
 
 _LINT_SRCS = [
@@ -22,11 +23,13 @@ _LINT_SRCS = [
 _DOCCHECK_SRCS = [
     Label("//tools:doccheck.py"),
     Label("//tools:kb_lib.py"),
+    Label("//tools:chunk2kg.py"),  # kb_lib.load_residency 가 PLANES·LEVELS 리터럴 읽기를 여기서 import 한다 (오케스트레이터 판정 2026-09-27)
 ]
 
 _GENDOC_SRCS = [
     Label("//tools:gendoc.py"),
     Label("//tools:kb_lib.py"),
+    Label("//tools:chunk2kg.py"),  # kb_lib.load_residency 가 PLANES·LEVELS 리터럴 읽기를 여기서 import 한다 (오케스트레이터 판정 2026-09-27)
 ]
 
 _RUNNER_ENV_SRCS = [
@@ -40,6 +43,7 @@ _GEN_SKILLS_SRCS = [
     Label("//tools:gen_skills.py"),
     Label("//tools:doccheck.py"),
     Label("//tools:kb_lib.py"),
+    Label("//tools:chunk2kg.py"),  # kb_lib.load_residency 가 PLANES·LEVELS 리터럴 읽기를 여기서 import 한다 (오케스트레이터 판정 2026-09-27)
 ]
 
 _RDF_DEPS = [
@@ -165,13 +169,19 @@ def kb_consistency(name, bodies, glossary = None, waivers = None, theta = "0.5",
     병합·묶기·유지 판정은 재검증 시점에 사람/승인된 판정자가 한다.
     보고는 커밋마다 생성돼야 하므로(docs/rules.md) build_test 로 감싸 `bazel test //...` 가 곧 생성이 되게 한다.
     waivers 를 주면(docs/waivers.md, agrtls-practices-review C) 게이트 id `term-drift` 의 면제 파일을 집계에서 빼되 목록에 남긴다.
+    consistency.py 는 chunk2kg.parse_chunk 로 bodies 를 읽으므로 PLANES·LEVELS·STATES 값 어휘의 원본 //defs:kb.bzl 을
+    액션 입력으로 주고 경로를 명시로 넘긴다(M1 단일 정의처, 2026-09-26 — 오케스트레이터 판정 2026-09-27: 폴백 없이,
+    없으면 죽는다). 호출부(kb/BUILD.bazel)를 고치지 않도록 매크로 안에서 고정으로 더한다.
     """
+    residency = Label("//defs:kb.bzl")
     extra = ((" --glossary $(location %s)" % glossary) if glossary else "") + ((" --waivers $(location %s)" % waivers) if waivers else "")
     native.genrule(
         name = name,
-        srcs = bodies + ([glossary] if glossary else []) + ([waivers] if waivers else []),
+        srcs = bodies + ([glossary] if glossary else []) + ([waivers] if waivers else []) + [residency],
         outs = [out],
-        cmd = "$(location //tools:consistency) --out $@ --theta %s%s %s" % (theta, extra, " ".join(["$(execpaths %s)" % b for b in bodies])),
+        cmd = "$(location //tools:consistency) --out $@ --theta %s --residency $(location %s)%s %s" % (
+            theta, residency, extra, " ".join(["$(execpaths %s)" % b for b in bodies])
+        ),
         tools = [Label("//tools:consistency")],
     )
     build_test(
@@ -258,10 +268,14 @@ def kb_weave(name, kind, data, bodies = [], out = None):
     if kind not in ["adr", "requirements", "changelog", "audit"]:
         fail("%s: kind 는 adr | requirements | changelog | audit 중 하나다 — 실제 %r" % (name, kind))
     out = out or kind + ".md"
-    extra = (" --bodies " + " ".join(["$(execpaths %s)" % b for b in bodies])) if bodies else ""
+    # bodies 가 있을 때만 weave.py 가 chunk2kg.parse_chunk 를 부른다 — 그때만 PLANES·LEVELS·STATES 원본(//defs:kb.bzl)이
+    # 액션 입력으로 있어야 한다(M1 단일 정의처 — 오케스트레이터 판정 2026-09-27: 폴백 없이, 없으면 죽는다).
+    residency = [Label("//defs:kb.bzl")] if bodies else []
+    extra = ((" --bodies " + " ".join(["$(execpaths %s)" % b for b in bodies])
+              + " --residency $(location %s)" % residency[0]) if bodies else "")
     native.genrule(
         name = name,
-        srcs = data + bodies,
+        srcs = data + bodies + residency,
         outs = [out],
         cmd = "$(location //tools:weave) --kind %s --out $@ %s%s" % (kind, " ".join(["$(execpaths %s)" % d for d in data]), extra),
         tools = [Label("//tools:weave")],
@@ -301,11 +315,14 @@ def kb_index(name, srcs, out = "index.md"):
       srcs: 청크 파일 라벨들 (filegroup 가능).
       out: 생성할 파일명 (기본 index.md).
     """
+    residency = Label("//defs:kb.bzl")  # labels.py 가 chunk2kg.parse_chunk 를 부른다 — 값 어휘 원본을 액션 입력으로 준다
     native.genrule(
         name = name,
-        srcs = srcs,
+        srcs = srcs + [residency],
         outs = [out],
-        cmd = "$(location //tools:labels) --out $@ $(SRCS)",
+        cmd = "$(location //tools:labels) --out $@ --residency $(location %s) %s" % (
+            residency, " ".join(["$(execpaths %s)" % s for s in srcs])
+        ),
         tools = [Label("//tools:labels")],
     )
 

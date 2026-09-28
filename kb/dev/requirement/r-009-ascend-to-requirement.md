@@ -10,6 +10,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {r
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
+part_of: https://agentic-knowledge-base.dev/id/comp-req-project
 ---
 **요구** — 체계는 모든 산출물이 어느 요구에서 왔는지 refines 연쇄로 거슬러 오를 수 있어야 하며, 요구로 거슬러 오르지 못하는 산출물을 셀 수 있어야 한다.
 

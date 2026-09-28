@@ -9,6 +9,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-req-project
 ---
 **요구** — 후보가 여럿 남아 있는 동안, 체계는 근거 없이 하나를 할당하는 것을 자료구조 수준에서 불가능하게 하여야 한다.
 

@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [defs/knowledge.bzl, tools/BUILD.bazel, kb/odd/project-odd.yml, kb/dev/decision/p8-verifier-env-isolation/]
 ---
 
@@ -46,4 +46,4 @@ targets: [defs/knowledge.bzl, tools/BUILD.bazel, kb/odd/project-odd.yml, kb/dev/
 갖지 않은 커버리지를 주장하기 때문이다. hci 도 같게 읽는다. 다르게 읽으면 답에 적는다.
 
 ## 답
-(유저가 채움)
+1.

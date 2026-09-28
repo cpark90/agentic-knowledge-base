@@ -19,11 +19,13 @@ filegroup(
 )
 
 # 설계 공간 그래프 — `//kg:gate_test` 의 --data 다 (접미사 규약 0.2절의 `-space`)
+# space2kg.py 는 chunk2kg.parse_chunk 로 SPACES 를 읽으므로 PLANES·LEVELS·STATES 원본(//defs:kb.bzl)을 액션 입력으로
+# 준다(M1 단일 정의처 — 오케스트레이터 판정 2026-09-27: 폴백 없이, 없으면 죽는다).
 genrule(
     name = "design_space",
-    srcs = SPACES,
+    srcs = SPACES + ["//defs:kb.bzl"],
     outs = ["design-space.ttl"],
-    cmd = "$(location //tools:space2kg) --out $@ $(SRCS)",
+    cmd = "$(location //tools:space2kg) --out $@ --residency $(location //defs:kb.bzl) %s" % " ".join(["$(execpaths %s)" % s for s in SPACES]),
     tools = ["//tools:space2kg"],
 )
 

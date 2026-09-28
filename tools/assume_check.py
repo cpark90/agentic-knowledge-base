@@ -45,7 +45,7 @@ from rdflib import Graph, RDF, RDFS, URIRef
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kb_lib  # noqa: E402 — 네임스페이스·종료 코드의 단일 정의처
-from chunk2kg import parse_chunk  # noqa: E402 — 실제 의존 집합은 frontmatter 를 그래프와 독립적으로 읽는다
+from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402 — 실제 의존 집합은 frontmatter 를 그래프와 독립적으로 읽는다
 from odd_check import judge_all, load_odd  # noqa: E402 — 조건 판정은 odd_check 와 같은 함수
 
 AGT, ID = kb_lib.AGT, kb_lib.ID
@@ -211,10 +211,16 @@ def main() -> int:
                     help="이 조건(id:cond-… 의 슬러그 또는 ODD 속성명)을 out 으로 가정한다 — 인위 파괴 실험. 반복 가능")
     ap.add_argument("--record", action="store_true", help=f"결과를 관측으로 {MEMORY_DIR}/obs-<UTC>.md 에 append-only 로 쓴다")
     ap.add_argument("--out", default="", help="보고를 파일로도 쓴다")
+    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 워크스페이스 루트 기준")
     ap.add_argument("ttl", nargs="*", help=f"그래프 TTL (기본: {' '.join(DEFAULT_TTL)})")
     a = ap.parse_args()
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     now = datetime.now(timezone.utc).replace(microsecond=0)
+    try:
+        apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
+    except (OSError, ValueError) as e:
+        print(f"FAIL [assume_check] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}")
+        return EXIT_CONFIG
 
     odd_path = root / a.odd
     if not odd_path.is_file():

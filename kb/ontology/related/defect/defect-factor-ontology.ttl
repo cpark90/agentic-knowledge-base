@@ -1,0 +1,24 @@
+# 결함 — 실패 요인의 세 갈래: 에이전트 작업의 입력·조율·수행에 대응한다 (노트 8.16절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:DefectFactor a owl:Class ;
+    rdfs:label "defect factor"@en , "결함 요인"@ko ;
+    skos:definition "실패를 높이는 관측 가능한 요인의 최상위 클래스. 위험 케이스는 요인을 하나 이상 포함하는 케이스이므로 요인의 조합이 시나리오 표본 추출의 근거가 된다 (8.16절). 개체가 곧 위험 분석 G1 의 현상이고 태그 범주 agt:defectFactorCategory 의 값 출처다. 개체의 필수 자리는 skos:definition·agt:observationMeans·출처이며 게이트: defect-factor-shapes."@ko .
+
+agt:CognitiveFactor a owl:Class ;
+    rdfs:subClassOf agt:DefectFactor ;
+    rdfs:label "cognitive factor"@en , "인지 요인"@ko ;
+    skos:definition "입력을 잘못 읽어 생기는 요인. 고칠 자리는 읽기 집합과 스코프 설계다 (8.16절)."@ko .
+
+agt:InteractionFactor a owl:Class ;
+    rdfs:subClassOf agt:DefectFactor ;
+    rdfs:label "interaction factor"@en , "상호작용 요인"@ko ;
+    skos:definition "다른 행위자와의 조율이 실패해 생기는 요인. 고칠 자리는 계약·규약·순서다 (8.16절)."@ko .
+
+agt:ExecutionFactor a owl:Class ;
+    rdfs:subClassOf agt:DefectFactor ;
+    rdfs:label "execution factor"@en , "실행 요인"@ko ;
+    skos:definition "판단은 옳았으나 수행이 실패해 생기는 요인. 고칠 자리는 산출물 자체다 (8.16절)."@ko .

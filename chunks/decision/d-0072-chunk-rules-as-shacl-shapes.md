@@ -7,6 +7,7 @@ title: Chunk rules are written as SHACL shapes
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-chunk-model
 ---
 **결론** — 구조적 글쓰기의 원칙을 산문 지침이 아니라 **SHACL shape**으로
 쓴다. 원칙이 검사 가능한 제약이 되고, 검사 게이트(6.7절)가 이 shape으로

@@ -7,6 +7,7 @@ title: ODD changes are expand, narrow, refine - and the ontology comes first
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-odd-operation
 ---
 **결론** — ODD는 버전 관리되는 살아 있는 문서다. 변경은 확장·축소·정밀화
 셋이며, **확장은 온톨로지 어휘 안에서만** 가능하다. 순서는 언제나

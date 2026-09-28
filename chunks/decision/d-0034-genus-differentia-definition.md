@@ -7,6 +7,7 @@ title: Definitions use genus plus differentia
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-terminology-rules
 ---
 **결론** — 온톨로지의 모든 개념은 텍스트 정의를 갖는다(2.5절 위생). 형식은
 상위 온톨로지 커뮤니티의 관행을 따라 **속(genus) + 종차(differentia)**로

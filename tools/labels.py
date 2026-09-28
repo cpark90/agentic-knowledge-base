@@ -9,6 +9,7 @@ index.md는 OKF 예약 파일이며 손으로 쓰지 않는다 (유저 결정 20
 사용: labels.py --out index.md <청크 파일...>
 """
 import argparse
+import os
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -18,7 +19,7 @@ try:
     from tools import kb_lib  # noqa: E402 — bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
     import kb_lib  # noqa: E402 — 직접 실행: 스크립트 디렉토리 기준
-from chunk2kg import parse_chunk  # noqa: E402
+from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402
 
 
 def plane_of(group: str) -> str:
@@ -29,8 +30,15 @@ def plane_of(group: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
+    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
+                    help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(kb_index 매크로가 명시로 넘긴다)")
     ap.add_argument("files", nargs="+")
     args = ap.parse_args()
+    try:
+        apply_plane_level_state(*load_plane_level_state(args.residency))
+    except (OSError, ValueError) as e:
+        print(f"FAIL [labels] {args.residency}: 읽을 수 없다 — {e}", file=sys.stderr)
+        return kb_lib.EXIT_CONFIG
 
     groups: dict = defaultdict(list)
     for path in args.files:

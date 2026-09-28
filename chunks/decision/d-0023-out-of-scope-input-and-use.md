@@ -7,6 +7,7 @@ title: Outside the system splits into input and use
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-system-definition
 ---
 **결론** — 체계의 구성요소가 아닌 것을 두 방향으로 갈라 둔다.
 **입력**은 체계가 소모하는 사전정보 — 에이전트 카탈로그, 실행 모드, 승격

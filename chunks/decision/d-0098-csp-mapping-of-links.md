@@ -7,6 +7,7 @@ title: Mapping link possibility to a constraint satisfaction problem
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-uncertainty-as-csp
 ---
 **결론** — 링크의 가능성을 **제약 만족 문제(CSP)** 로 다룬다. 변수와
 도메인이 값이 아니라 링크로 정의된다.

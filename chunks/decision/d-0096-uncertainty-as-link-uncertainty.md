@@ -7,6 +7,8 @@ title: All uncertainty is link uncertainty
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-uncertainty-as-csp
+composite: {id: https://agentic-knowledge-base.dev/id/comp-uncertainty-as-csp, title_ko: 미확정의 제약 만족 사상, title: uncertainty as constraint satisfaction}
 ---
 **결론** — 이 체계에서 미확정은 항상 "두 지식 항목이 연결되는가"의
 미확정이다. 값이 미확정인 것처럼 보이는 경우도 연결로 환원한다.

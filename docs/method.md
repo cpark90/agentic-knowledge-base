@@ -82,7 +82,7 @@
 | plane 실체·판정 도구 | 실체 7 하위 클래스 + 판정 도구 6 개체 + `judgedBy` | 채움(2026-09-18) |
 | level별 assertion 형식 | EARS 패턴 어휘(요구), 결론·근거·대안 표지(결정) | 부분 — contract·schema·artifact는 항목이 생길 때 |
 | 조건 셋째 수준 | ODD 속성 7이 둘째 수준에 직접 | 미채움 — ODD 재배선과 함께 |
-| 결함 하위 유형 | — | 미채움 — 코어 `defect` 모듈(V&V, 7단계) 뒤 |
+| 결함 하위 유형 | 코어 `defect` 모듈의 하위 유형 14를 그대로 쓴다 | 채움(2026-09-29 — `kb/ontology/related/defect/`, 현상 22·피해 6) |
 | 상한 오버라이드 | 없음(전 plane 42줄) | 채움(오버라이드 없음이 답) |
 | 앵커 해석기 | Bazel 라벨(`pe-anchor-is-bazel-label`) | 채움 |
 
@@ -307,6 +307,17 @@ memory·concrete, append-only, `process:vv_run`)을 남기고, 감사 보고서 
 실행기를 부르는 방식이 케이스의 판정을 바꾸면 재현이 아니다. 게이트 `vv-run-env`(`//tools:vv_run_env_test`)가 그 격리를
 `bazel test //...` 안에서 상시 판정한다 — 판정 대상을 실행기 전체가 아니라 격리의 동작으로 좁혀 중첩 bazel을 피했다.
 
+판정자는 게이트 밖 도구다(2026-09-29, 유저 답 "게이트 밖 보고로 먼저 붙인다"). `bazel run //tools:judge -- --question <질문 id>
+<청크 파일…>`이 프로파일에 등록된 판정 질문을 청크에 물어 값과 확신도를 받고, 판정 로그(`kb/vv/run/judge-<시각>.md`, memory
+plane, append-only)와 결과 주석(`kb/vv/verdict/`, 주석 형식)을 남긴다. 게이트는 판정을 부르지 않고 로그의 형식과 필수 필드만
+본다 — 외부 서비스가 `bazel test`의 입력이 되면 같은 리비전이 네트워크 상태에 따라 다른 판정을 낸다. 질문의 형은
+noul·choice·score 셋이고 선택 집합은 255 이하이며 넘으면 독립 점수 뒤 명시 선택의 2단계로 묻는다. 자격은 환경 변수
+`AKB_JUDGE_ENDPOINT`·`AKB_JUDGE_API_KEY`·`AKB_JUDGE_MODEL`로만 받고 ODD 조건 `id:cond-judge-service`(조건부 — 하나라도
+설정되면 셋이 다 있어야 한다)가 그 전제를 판정한다. 구간별 정확도를 구간당 20건 이상으로 재기 전에는 자동 적용 구간이 없다 —
+처리는 전부 사람 확인 큐다([`p8-judge-calibration-binding`](../kb/dev/decision/p8-judge-calibration-binding/conclusion.md)).
+측정의 스위치는 프로파일 개체 `agt:judgeThresholds`·`agt:bandAccuracyMeasured`·`agt:calibratedFor`이고 모델 식별자와 같은
+파일에 있어 같은 커밋에서 바뀐다(규칙 ⑤).
+
 ## 12. 영향 분석
 
 "X를 바꾸면 무엇이 영향받는가"를 **변경 전에** 계산한다 (d-0148).
@@ -360,6 +371,14 @@ memory·concrete, append-only, `process:vv_run`)을 남기고, 감사 보고서 
 | 환경 할당 | 판정 가능한 최저 단계. 요인 → 단계. 재현성 조건 | [p8-environment-assignment](../kb/dev/decision/p8-environment-assignment/conclusion.md) |
 | 검증 세 방향 | 수직 완주 · 수평 실행 통과 · 기준의 질(변이 검출) | [p8-three-directions-of-verification](../kb/dev/decision/p8-three-directions-of-verification/conclusion.md) |
 | 검증과 확인 | 검증은 1~5단계 검증기 / 확인은 5~6단계 실환경·유저·이탈 → `requirement` 일반화 | [p8-verification-and-validation](../kb/dev/decision/p8-verification-and-validation/conclusion.md) |
+
+위험 분석 G1의 산출은 `defect` 모듈의 요인 개체다(2026-09-29, 유저 답 — 피해·현상·가정을 질문지 그대로 채택). 현상을
+더할 때는 세 갈래 아래 **잎으로만** 더하고 새 상위 개념을 만들지 않는다. 개체마다 정의·질문지 표기(`skos:notation`)·관측
+수단(`agt:observationMeans`)·출처를 적고, 관측 수단이 아직 없으면 `미확정`을 적는다 — 미확정의 수(지금 9, P14~P22)가 위험
+분석의 산출 후보다. G2의 인과는 `agt:hasImpact`, G3은 `agt:hasTrigger`·`agt:discoveredAtLevel`, G4의 지표는
+`agt:severityGrade`·`agt:exposureGrade`·`agt:detectabilityGrade`, G5의 부류는 `agt:exposesFactor`로 적는다. 판정은 vnv가
+`kb/vv/`에서 하고 T-Box 트리플은 developer가 `defect-rules`(`impact-causation-rules.ttl`)에 옮긴다. 등급을 곱하지 않는다. G6 목표 거동은 술어가 아니라
+V&V 요구·결정의 본문이다.
 | 불일치의 귀속 | 실패 → 기호 진단 → 산출물/지식/둘 다 귀속 → 지침(귀속·조치·배제된 전략) → 조치 | [p8-mismatch-attribution](../kb/dev/decision/p8-mismatch-attribution/conclusion.md) |
 | 보고 5종 | 검증 상태 · 커버리지 · 결함 분포 · 가정 건전성 · 독립성. 저장하지 않고 뷰, 리비전·질의 명기 | [p8-vv-reports](../kb/dev/decision/p8-vv-reports/conclusion.md) |
 | 에이전트 V&V | 목표는 역할 책임, 자극은 작업 집합+요구+의도된 이탈, 기준은 shape·완주·인지 누락률·안전 정지. 3단계 시뮬레이션 프로젝트 중심 | [p8-agent-vv](../kb/dev/decision/p8-agent-vv/conclusion.md) · [p12-cognition-measurement](../kb/dev/decision/p12-cognition-measurement/conclusion.md) |

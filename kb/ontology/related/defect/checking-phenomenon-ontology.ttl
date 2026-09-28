@@ -1,0 +1,31 @@
+# 결함 — 실행 요인 중 검사의 현상 셋: 예산·미검증·종료 조건 (위험 분석 G1)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix id: <https://agentic-knowledge-base.dev/id/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:worksetBudgetOverrun a owl:NamedIndividual , agt:CheckingFactor ;
+    rdfs:label "workset budget overrun"@en , "작업 집합 예산 초과"@ko ;
+    skos:definition "작업 집합이 컨텍스트 예산을 넘겨 답이 완결되지 않는 현상. 경계 검사의 누락이므로 검사 요인이다. 예산은 상한이지 목표가 아니다 (4절 조회)."@ko ;
+    skos:notation "P6" ;
+    agt:observationMeans "게이트 workset-budget" ;
+    prov:wasDerivedFrom id:doc-system-notes , id:doc-vv-profile-hazards .
+
+agt:unverifiedItemRatio a owl:NamedIndividual , agt:CheckingFactor ;
+    rdfs:label "unverified item ratio"@en , "미검증 항목 비율"@ko ;
+    skos:definition "검증 표시가 없는 항목의 비율이 높은 현상. 검사가 수행되지 않은 것이므로 검사 요인이다. 미검증은 정직한 상태이고 비율 자체가 커버리지의 공백을 가리킨다 (1.1절)."@ko ;
+    skos:notation "P11" ;
+    agt:observationMeans "audit 의 검증 표시 집계" ;
+    prov:wasDerivedFrom id:doc-mast-failure-taxonomy , id:doc-vv-profile-hazards ;
+    dcterms:bibliographicCitation "MAST 3.2 검증 없음·불완전 (arXiv:2503.13657)" .
+
+agt:unknownStopCondition a owl:NamedIndividual , agt:CheckingFactor ;
+    rdfs:label "unknown stop condition"@en , "종료 조건 무지"@ko ;
+    skos:definition "강화·검증 라운드에 정지 규칙이 없어 라운드마다 새 결함이 나오고 끝이 서지 않는 현상. 종료 조건의 부재이므로 검사 요인이다. 관측 수단은 라운드 수 대비 신규 결함 수이고 실행 기록이 쌓여야 선다."@ko ;
+    skos:notation "P15" ;
+    agt:observationMeans "미확정" ;
+    prov:wasDerivedFrom id:doc-harness-ontology , id:doc-mast-failure-taxonomy , id:doc-vv-profile-hazards ;
+    dcterms:bibliographicCitation "MAST 1.5 종료 조건 무지 12.4% (arXiv:2503.13657)" .

@@ -11,6 +11,8 @@
     owl:imports
         <https://agentic-knowledge-base.dev/ontology/entity/knowledge-item> ,
         <https://agentic-knowledge-base.dev/ontology/related/condition> ,
+        <https://agentic-knowledge-base.dev/ontology/related/defect> ,
+        <https://agentic-knowledge-base.dev/ontology/related/defect-rules> ,
         <https://agentic-knowledge-base.dev/ontology/related/scope> ,
         <https://agentic-knowledge-base.dev/ontology/related/assumption> ,
         <https://agentic-knowledge-base.dev/ontology/related/harness> ,

@@ -7,6 +7,7 @@ title: Two sources of unknown risk scenarios
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-defect-taxonomy
 ---
 **결론** — 알려지지 않은 위험 시나리오는 둘 중 하나에서 온다. **알려지지
 않은 요인**(`defect` 어휘에 없는 요인)과 **알려진 요인의 알려지지 않은

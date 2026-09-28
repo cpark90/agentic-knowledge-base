@@ -8,6 +8,15 @@
 | 표준 용어 (ko) | en | 옛 표기 (2026-09-10 이전) | 출처 | tier |
 |---|---|---|---|---|
 | 겹침 | overlaps | 없음 | 추적성 관계 분류(Ramesh & Jarke) | — |
+| 결함 요인 | defect factor | 없음 | ODC v5.2 (Chillarege, IBM) | — |
+| 현상 | phenomenon | 없음 | 위험 분석 G1 (HARA 골격) | — |
+| 피해 | harm | 없음 | HARA (ISO 26262) | — |
+| 한정자 | qualifier | 없음 | ODC v5.2 | — |
+| 영향 차원 | impact dimension | 없음 | ODC v5.2 | — |
+| 트리거 | trigger | 없음 | ODC v5.2 | — |
+| 심각도 · 노출 · 탐지가능성 | severity · exposure · detectability | 없음 | HARA(S·E) · 소프트웨어 FMEA(D) | — |
+| 시나리오 부류 | scenario class | 없음 | 위험 분석 G5 | — |
+| 관측 수단 | observation means | 없음 | — (서술어) | — |
 | 검증 대응물 | verification counterpart | 가로대 | V-모델 | 1 |
 | 정제 · 정제 계층 · 정제 수준 | refinement · refinement hierarchy · refinement level | 하강 · 사다리 · 정제 높이 | ISO/IEC/IEEE 24765 | 1 |
 | 일반화 | generalization | 상승 | 온톨로지 학습 | 3 |

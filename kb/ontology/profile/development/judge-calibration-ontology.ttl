@@ -1,0 +1,28 @@
+# 개발 프로파일 — 캘리브레이션의 상태: 임계 셋이 어느 모델에 대해 무엇으로 재졌는가 (결정 p8-judge-calibration-binding 규칙 ①·②·⑤)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:bandAccuracyMeasured a owl:DatatypeProperty ;
+    rdfs:domain agt:ConfidenceThresholdSet ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "band accuracy measured"@en , "구간별 정확도 측정 완료"@ko ;
+    skos:definition "임계가 가르는 구간마다 정확도를 표본으로 쟀는가. 거짓이면 자동 적용 구간이 없고 모든 판정이 사람 확인 큐로 간다 — 확신도가 집단 수준의 캘리브레이션이므로 구간별 정확도 없이는 임계의 뜻이 서지 않는다 (결정 p8-judge-calibration-binding 규칙 ①·②). 게이트: judge-question-shapes(정확히 하나)."@ko .
+
+agt:calibrationSampleFloor a owl:DatatypeProperty ;
+    rdfs:domain agt:ConfidenceThresholdSet ;
+    rdfs:range xsd:integer ;
+    rdfs:label "calibration sample floor"@en , "구간당 표본 하한"@ko ;
+    skos:definition "한 확신도 구간의 정확도를 재는 데 필요한 사람 라벨의 최소 건수. 20 은 전체의 하한이 아니라 구간당 하한이고 구간이 셋이면 60 건이 시작 규모다 (결정 p8-judge-calibration-binding 규칙 ②). 게이트: judge-question-shapes(1 이상)."@ko .
+
+agt:calibratedFor a owl:DatatypeProperty ;
+    rdfs:domain agt:ConfidenceThresholdSet ;
+    rdfs:range xsd:string ;
+    rdfs:label "calibrated for"@en , "캘리브레이션 대상 모델"@ko ;
+    skos:definition "이 임계 셋의 구간별 정확도를 재는 데 쓴 판정자 모델 식별자. 보상 기반 캘리브레이션은 모델별로 학습되므로 모델이 바뀌면 같은 확신도가 다른 정확도를 뜻한다 — 모델 식별자와 캘리브레이션 표본은 함께 버전이 바뀐다 (결정 p8-judge-calibration-binding 규칙 ⑤). 게이트: judge-question-shapes(정확히 하나)."@ko .
+
+agt:judgeThresholds agt:bandAccuracyMeasured false ;
+    agt:calibrationSampleFloor 20 ;
+    agt:calibratedFor "미확정" .

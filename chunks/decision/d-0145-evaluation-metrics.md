@@ -7,6 +7,7 @@ title: Three units of evaluation measurement
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-utilization-functions
 ---
 **결론** — 평가의 측정을 셋으로 둔다. **인지능력**(입력 정보 누락률),
 **추적 커버리지**(링크 없는 항목 비율), **가정 건전성**(`invalidated`·

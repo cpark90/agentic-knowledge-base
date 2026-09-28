@@ -7,6 +7,8 @@ title: Three defect factors and how risk scenarios are composed
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-defect-taxonomy
+composite: {id: https://agentic-knowledge-base.dev/id/comp-defect-taxonomy, title_ko: 결함의 구성과 분류, title: defect composition and taxonomy}
 ---
 **결론** — 실패 요인을 **인지 / 상호작용 / 실행** 세 갈래로 분류한다.
 에이전트 작업의 세 단계에 대응한다. **위험 시나리오는 요인을 하나 이상

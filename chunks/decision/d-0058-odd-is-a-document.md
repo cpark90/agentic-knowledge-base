@@ -7,6 +7,8 @@ title: The ODD is a document, one per project - not a permission region
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-odd-document
+composite: {id: https://agentic-knowledge-base.dev/id/comp-odd-document, title_ko: 문서로서의 ODD, title: ODD as a document}
 ---
 **결론** — ODD는 이 프로젝트의 지식과 작업이 설계된 운영 조건의 명세이며,
 스코프처럼 권한을 나누는 영역 개념이 아니라 **실제로 작성되고 버전 관리되고

@@ -7,6 +7,7 @@ title: Temporal identity is the IRI; state change is wasRevisionOf
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-ontology-hygiene
 ---
 **결론** — scene은 스냅샷이고 개체는 여러 scene을 관통하여 존재한다
 (endurant). 정체성은 개체의 IRI이고, 상태의 변화는 PROV-O

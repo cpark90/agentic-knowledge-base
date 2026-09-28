@@ -13,6 +13,7 @@
 """
 import argparse
 import json
+import os
 import random
 import sys
 from pathlib import Path
@@ -22,7 +23,7 @@ try:
     from tools import kb_lib  # noqa: E402
 except ImportError:
     import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록)의 단일 정의처
-from chunk2kg import parse_chunk  # noqa: E402
+from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402
 
 LIVE = {"draft", "stable", "suspect"}
 
@@ -53,8 +54,11 @@ def main() -> int:
     ap.add_argument("--seed", type=int, default=20260911)
     ap.add_argument("--sizes", default="req=10,conc=20,rat=15,alt=15")
     ap.add_argument("--decoys", type=int, default=10)
+    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
+                    help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다")
     ap.add_argument("chunks", nargs="+")
     a = ap.parse_args()
+    apply_plane_level_state(*load_plane_level_state(a.residency))
     sizes = {k: int(v) for k, v in (kv.split("=") for kv in a.sizes.split(","))}
 
     pool = {k: [] for k in sizes}

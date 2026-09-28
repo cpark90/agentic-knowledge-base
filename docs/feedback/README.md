@@ -19,6 +19,7 @@
 
 - **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-remainder-2026-09-22.md`](spec-writing-standard-remainder-2026-09-22.md) — G10 그림 틀 · 출처 개체 위치.
   인수인계 [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md). 반영되면 제안 원문과 승인 항목을 제거한다
+- **유저 판단 대기(2026-09-27)**: [`verdict-in-metrics-2026-09-27.md`](verdict-in-metrics-2026-09-27.md) — 판정 주석을 연결 성분·CQ20 에서 셀 것인가
 - **유저 판단 대기(2026-09-26)**: [`jev-judge-binding-2026-09-26.md`](jev-judge-binding-2026-09-26.md) — 판정자를 System One 모델에 붙일 것인가 ·
   [`test-hermeticity-2026-09-26.md`](test-hermeticity-2026-09-26.md) — 게이트 하나가 밀폐성에서 벗어난다 ·
   [`composite-beyond-decisions-2026-09-26.md`](composite-beyond-decisions-2026-09-26.md) — 복합체를 결정 밖으로 ·

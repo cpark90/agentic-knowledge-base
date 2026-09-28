@@ -7,6 +7,7 @@ title: Dependency order among inputs
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-system-inputs
 ---
 **결론** — 입력끼리 순서가 있다. 앞의 것이 바뀌면 뒤의 것이 재검토된다.
 세 사슬로 정리한다.

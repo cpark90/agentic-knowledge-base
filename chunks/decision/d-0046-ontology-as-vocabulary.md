@@ -7,6 +7,8 @@ title: The ontology is the whole system's vocabulary, not a ladder rung
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-ontology-role
+composite: {id: https://agentic-knowledge-base.dev/id/comp-ontology-role, title_ko: 기반으로서의 온톨로지, title: ontology as foundation}
 ---
 **결론** — 온톨로지는 이 체계의 세계 모델이다. 개발 작업의 세계에 무엇이
 존재하고(개념), 그것들이 어떤 관계를 맺으며(관계), 무엇이 성립해야 하는지

@@ -7,6 +7,7 @@ title: Defect subtypes: ODC plus agent-specific types
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-defect-taxonomy
 ---
 **결론** — 3갈래 아래에 소프트웨어 결함 분류의 표준인 **직교 결함 분류
 (ODC)** 를 배치하고, 인지·상호작용 갈래에는 ODC에 없는 **에이전트 고유

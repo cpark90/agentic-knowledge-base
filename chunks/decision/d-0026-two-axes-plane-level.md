@@ -7,6 +7,8 @@ title: Knowledge is located by two axes, plane and level
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-identifier-conventions
+composite: {id: https://agentic-knowledge-base.dev/id/comp-identifier-conventions, title_ko: 축과 식별자 규약, title: axes and identifier conventions}
 ---
 **결론** — 모든 지식 **표현**의 위치는 두 축으로 정해진다.
 **plane**(지식의 종류, 한글 "평면"): `annotation`, `decision`, `schema`,

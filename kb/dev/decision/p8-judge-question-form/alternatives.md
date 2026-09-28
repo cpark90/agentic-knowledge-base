@@ -4,7 +4,7 @@ type: decision
 level: logical
 title_ko: 자유 서술 리뷰·단일 임계·즉시 게이트 차단 안은 기각된다
 title: Free-form review, a single threshold, and immediate gate blocking are rejected
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-standard}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-22T19:00:00+09:00}

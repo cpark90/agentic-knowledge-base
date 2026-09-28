@@ -7,6 +7,8 @@ title: Plane assignment must change the tool surface
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-plane-operation
+composite: {id: https://agentic-knowledge-base.dev/id/comp-plane-operation, title_ko: plane의 운용, title: plane operation}
 ---
 **결론** — 에이전트는 자신의 read scope와 write scope에 해당하는 plane만
 배정받는다. 그리고 **툴 표면이 배정에 따라 실제로 달라져야 한다** — 배정된

@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 restored: [https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-spec-content
 ---
 **결론** — 참조는 두 형태 중 하나이고, 단위마다 **어느 쪽을 왜 골랐는지
 기록한다.** 내부(저장소 상대) 참조는 어디서나 해석되지만 그 자체가

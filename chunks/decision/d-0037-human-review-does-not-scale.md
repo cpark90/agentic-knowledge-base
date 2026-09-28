@@ -7,6 +7,7 @@ title: Human review cannot hold quality
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-why-this-system
 ---
 **결론** — **사람의 검토로 품질을 지키는 방식은 처음부터 성립하지 않는다**고
 전제한다. 대신 지식 접근을 **구조로** 통제한다 — 스코프가 무엇을 보는지를

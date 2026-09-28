@@ -7,6 +7,8 @@ title: The 200-line context is the origin of every decision
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-why-this-system
+composite: {id: https://agentic-knowledge-base.dev/id/comp-why-this-system, title_ko: 이 체계가 필요한 이유, title: why this system exists}
 ---
 **결론** — 이 체계는 **에이전트가 한 번에 파악하는 맥락이 200줄 안팎**이라는
 것을 전제하고, 그 위에서 모든 것을 설계한다. 에이전트는 부분관측 행위자이므로

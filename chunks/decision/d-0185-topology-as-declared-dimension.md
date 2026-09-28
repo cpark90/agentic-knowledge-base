@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef]
 restored: [https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-spec-content
 ---
 **결론** — 구성물의 참여자들이 **어떻게 조율하는가**(topology)는 체계
 전역에 하나로 고정하지 않는다. 재사용 가능한 기본 개체로 제공하되, 구성물

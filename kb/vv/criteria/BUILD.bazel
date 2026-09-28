@@ -99,6 +99,18 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "composite-order-shape",
+    src = "composite-order-shape.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a6673077-7796-4803-afe1-299d79fc4d02",
+    plane = "contract",
+    level = "logical",
+    status = "draft",
+    refines = [
+        "//kb/vv/goal:composite-order-shape",
+    ],
+)
+
+kb_chunk(
     name = "criteria-before-verifies",
     src = "criteria-before-verifies.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/23979ee5-fd7a-4e14-9f91-6d3ec2794725",
@@ -107,6 +119,18 @@ kb_chunk(
     status = "stable",
     refines = [
         "//kb/vv/goal:criteria-before-verifies",
+    ],
+)
+
+kb_chunk(
+    name = "decision-and-artifact-agree",
+    src = "decision-and-artifact-agree.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2f69c738-6a24-4c0b-9a14-29a44b25d6ee",
+    plane = "contract",
+    level = "abstract",
+    status = "draft",
+    refines = [
+        "//kb/vv/goal:decision-and-artifact-agree",
     ],
 )
 
@@ -143,6 +167,18 @@ kb_chunk(
     status = "stable",
     refines = [
         "//kb/vv/goal:dispatch-workset-budget",
+    ],
+)
+
+kb_chunk(
+    name = "document-table-matches-generated",
+    src = "document-table-matches-generated.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b173e680-0135-4d83-9e0f-d8fb77d77407",
+    plane = "contract",
+    level = "abstract",
+    status = "draft",
+    refines = [
+        "//kb/vv/goal:document-table-matches-generated",
     ],
 )
 
@@ -399,6 +435,18 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "verification-round-stop-rule",
+    src = "verification-round-stop-rule.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a5dbd9da-c201-45bc-8019-9dbca4b89333",
+    plane = "contract",
+    level = "abstract",
+    status = "draft",
+    refines = [
+        "//kb/vv/goal:verification-round-stop-rule",
+    ],
+)
+
+kb_chunk(
     name = "verification-rung-same-level",
     src = "verification-rung-same-level.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/100e3c7b-9fd4-4b43-bc2a-6068e15bbd27",
@@ -445,10 +493,13 @@ kb_bundle(
         ":backward-trace-to-requirement",
         ":chunk-42-lines",
         ":chunk-bound-to-project-odd",
+        ":composite-order-shape",
         ":criteria-before-verifies",
+        ":decision-and-artifact-agree",
         ":decision-names-requirement",
         ":decision-three-chunks",
         ":dispatch-workset-budget",
+        ":document-table-matches-generated",
         ":documents-generated",
         ":domain-knowledge-as-vocabulary",
         ":foreign-vocabulary-rejected",
@@ -470,6 +521,7 @@ kb_bundle(
         ":session-memory-promotion",
         ":skeleton-carried-across-projects",
         ":supersedes-same-plane",
+        ":verification-round-stop-rule",
         ":verification-rung-same-level",
         ":verifies-subject-vv",
         ":versioned-inputs",

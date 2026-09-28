@@ -29,8 +29,8 @@ try:
     from tools import kb_lib  # noqa: E402
 except ImportError:
     import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록·빈 값 표기)의 단일 정의처
-from chunk2kg import (ID_BASE, SPECIALIZATION_KEY, SpecializationError, link_hash, parse_chunk,  # noqa: E402
-                      work_id)
+from chunk2kg import (ID_BASE, SPECIALIZATION_KEY, SpecializationError, apply_plane_level_state,  # noqa: E402
+                      link_hash, load_plane_level_state, parse_chunk, work_id)
 from chunk2kg import LINK_KEYS as OBJECT_LINK_KEYS  # noqa: E402 — 링크 개체(agt:Link)를 내는 키. assumes·part_of 는 개체가 없다
 
 CHUNK_DIRS = ("kb", "chunks")
@@ -133,9 +133,15 @@ def main() -> int:
     ap.add_argument("--base", default="HEAD", help="비교할 git 리비전 (기본 HEAD)")
     ap.add_argument("--universe", default="//...", help="rdeps 의 우주")
     ap.add_argument("--out", default="")
+    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 --root(워크스페이스) 기준")
     a = ap.parse_args()
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     cwd = str(root)
+    try:
+        apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
+    except (OSError, ValueError) as e:
+        print(f"CONFIG [revalidate] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}", file=sys.stderr)
+        return 2
 
     # 1. 워킹트리 청크 색인 — IRI → (경로, 라벨, meta), 들어오는 링크
     index, incoming, unparsable = {}, defaultdict(list), []

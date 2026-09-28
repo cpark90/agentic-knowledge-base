@@ -1,0 +1,21 @@
+# 결함 — 실행 요인 중 구성·할당의 현상 둘: 생성물과 지표가 구성에 따라 갈린다 (위험 분석 G1)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix id: <https://agentic-knowledge-base.dev/id/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:generatedArtefactDrift a owl:NamedIndividual , agt:BuildPackageFactor ;
+    rdfs:label "generated artefact drift"@en , "생성물 드리프트"@ko ;
+    skos:definition "생성 트리 파일이 원본에서 재생성한 결과와 어긋나는 현상. 구성·병합의 오류이므로 빌드·패키지 요인이다. 손으로 고친 생성물이 그 전형이다 (STYLEGUIDE §6)."@ko ;
+    skos:notation "P8" ;
+    agt:observationMeans "게이트 build_drift 와 skills_drift" ;
+    prov:wasDerivedFrom id:doc-system-notes , id:doc-vv-profile-hazards .
+
+agt:metricVariesByLoadingOption a owl:NamedIndividual , agt:AssignmentFactor ;
+    rdfs:label "metric varies by loading option"@en , "로딩 옵션에 따른 지표 변동"@ko ;
+    skos:definition "같은 그래프를 재는 지표가 추론·필터 옵션에 따라 다른 값을 내는 현상. 그래프 조립의 초기화 차이이므로 할당 요인이다. 관측 수단은 지표 도구들이 같은 합집합을 읽는지의 대조다."@ko ;
+    skos:notation "P21" ;
+    agt:observationMeans "미확정" ;
+    prov:wasDerivedFrom id:doc-harness-ontology , id:doc-vv-profile-hazards .

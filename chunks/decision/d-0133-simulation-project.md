@@ -7,6 +7,7 @@ title: The simulation project is the core of agent verification
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-verification-environment
 ---
 **결론** — 에이전트 검증의 중심을 사다리 3단계의 **시뮬레이션 프로젝트**에
 둔다. 실제 서비스의 서브셋을 게임처럼 격리 구축하고, 미리 정의한 문제

@@ -7,6 +7,7 @@ title: The chunk IRI is the anchor - drift is confined inside the chunk
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-chunk-model
 ---
 **결론** — 별도의 앵커 장치를 두지 않는다. **청크 IRI가 앵커다.** plane별
 식별자(파일 경로, 심볼 ID, 세션 ID)는 IRI를 실제 저장 위치로 해석하는

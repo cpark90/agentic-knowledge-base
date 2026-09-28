@@ -10,6 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef]
 restored: [https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-spec-content
+composite: {id: https://agentic-knowledge-base.dev/id/comp-spec-content, title_ko: 명세가 담는 것, title: what a specification carries}
 ---
 **결론** — 조립 명세 단위가 담는 것은 셋이다: **명세**(부품 식별자와 그
 조립), **설명**(어떤 부품과 방법론으로 무엇을 만들었는가), **참조**(구체

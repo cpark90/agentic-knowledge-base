@@ -7,6 +7,7 @@ title: Restrict reasoning to the OWL 2 RL profile
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-ontology-hygiene
 ---
 **결론** — 허용 추론을 OWL 2 RL로 정한다. 규칙 기반이고 다항 시간이며
 `part-of` 이행성과 `subPropertyOf` 전파를 얻는다. 검사 게이트(6.7절)와

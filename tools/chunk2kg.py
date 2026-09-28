@@ -27,6 +27,9 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
                 모든 링크 키는 직접 트리플(agt:<key>)과 링크 개체(agt:Link, emit_links) 둘로 나간다. verifies 의 주어는 kb/vv 청크뿐 (defs/kb.bzl).
                 overlapsWith 는 relatedTo 족의 약한 잎이다 — 추적 매트릭스에 칸이 없어 어느 잎도 이름을 주지 못하는 관계의 자리이고,
                 Bazel deps 가 되지 않는다(gen_build.LINKS 밖) 대신 링크 개체와 복원 표시를 받는다 (overlap-ontology)
+  exposes:      이 항목이 노출하려는 결함 요인(현상) 개체의 agt: IRI 목록 (선택, 위험 분석 G5 — 노트 8.21절).
+                agt:exposesFactor 로 나간다. 링크 키가 아니다 — 대상이 청크가 아니라 온톨로지 개체이므로 링크 개체의
+                치역 밖이고 Bazel deps 도 되지 않는다. 대상의 종류는 shape exposes-factor-shapes.ttl 이 판정한다
   restored:     복원 링크의 표시 — 같은 청크의 링크 키(LINK_KEYS) 어딘가에 대상으로 있는 IRI 목록 (선택, p10-restored-link-marking).
                 그 (주어, 링크 키, 대상)의 agt:Link 개체에 증거가 두 줄 붙는다 — 확정 기록 constructionRecord(사람이 frontmatter 에 적은
                 편집 시점 기록; 9.11절 규칙 "구축(+) 또는 실행(+) 없이 확정 불가"를 verify 질의 confirmed-without-evidence 가 강제한다)와
@@ -43,7 +46,15 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
                 블록을 하나로 합친다(양 끝·증거의 합집합). 증거 IRI 는 같은 해시에 접미(-proposal)다
   coUpdatesWith: 같은 내용을 담아 함께 갱신되어야 하는 청크 IRI 목록 (선택, relatedTo 족 — 안전율 중복의 표시)
   part_of:      소속 복합체 IRI (선택) — 복합체는 멤버 중 하나가 composite: 로 선언
-  composite:    {id: …, title_ko: …, title: …} (선택) — 복합체 개체 선언
+  composite:    {id: …, title_ko: …, title: …, ordered: [<부분 IRI>…]} (선택) — 복합체 개체 선언. `ordered` 는 선택 키이고
+                순서가 뜻을 갖는 복합체만 적는다 (결정 p4-composite-order-is-declared). 있으면 `agt:Composite , co:List` 로
+                타이핑하고 부분마다 `co:item [ a co:ListItem ; co:index "<1..n>"^^xsd:positiveInteger ; co:itemContent <부분> ]`
+                을 그 순서로 낸다. 없으면 `agt:hasDirectPart` 만 낸다(순서 없음) — 순서를 요구하지 않는 것에 순서를 붙이면
+                거짓 정보다. 목록이 부분 전부를 빠짐없이 한 번씩 담지 않으면 거부한다. 결정 복합체(파일 stem 이 conclusion·
+                rationale·alternatives 셋)만 선언 없이 고정 순서로 co:List 를 낸다 — 역할이 곧 순서다.
+                **묶음의 단위는 파일이 아니라 이 실행의 입력 집합**이다 (2026-09-26 반영). part_of 대상은 같은 실행의 파일 어딘가에서
+                composite: 로 선언돼야 한다. 그 입력 집합을 만드는 것이 defs/kb.bzl 의 kb_decision(결론·근거·대안 셋)과
+                kb_composite(부분 2~9 가변)이고, 청크 하나만 받는 kb_chunk 로는 복합체가 서지 않는다
   pattern:      ubiquitous | event-driven | state-driven | unwanted-behaviour | optional | complex (선택, type: requirement 에서만) —
                 요구 문장의 EARS 패턴 (Mavin RE'09, 결정 p7-dev-plane-substance) → agt:pattern agt:<camelCase 개체>. 다른 plane 에 있으면 거부
   targets:      주석이 관찰하는 대상 IRI 목록 (선택, type: annotation 에서만) → agt:targets 직접 트리플.
@@ -62,12 +73,13 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
 
 출력·종료: 위반은 `FAIL [chunk2kg] <경로>: <메시지>` (병합은 `FAIL [chunk2kg-merge]`, 특수화 사슬은 `FAIL [specialization]`) + EXIT_FAIL,
            읽을 수 없는 입력은 EXIT_CONFIG. 생성기이므로 입력 0건은 빈 그래프(SKIP 아님).
-사용: chunk2kg.py --out <생성.ttl> <청크 파일들...>
+사용: chunk2kg.py --out <생성.ttl> --residency defs/kb.bzl <청크 파일들...> (--merge 는 --residency 없이 조각을 잇기만 한다)
 """
 
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import re
 import sys
@@ -106,6 +118,53 @@ PLANE_CLASS = {
     "annotation": "agt:AnnotationChunk",
     "memory": "agt:MemoryChunk",
 }
+# plane 이름 → agt:...Chunk 클래스의 사상(mapping)이다. defs/kb.bzl 은 Starlark 라 클래스 이름을 모르므로 이 표는
+# defs/kb.bzl 에 없고 여기가 정의처다(M1 단일 정의처, 2026-09-26 — 아래 PLANES 파생과 같은 결정). 대신 이 표의 키
+# 집합은 defs/kb.bzl 의 PLANES 와 같아야 하므로 apply_plane_level_state 가 로드 시점에 단정한다.
+
+_KB_BZL_LIST = re.compile(r"^\s*(LEVELS|PLANES|STATES)\s*=\s*(\[[^\]]*\])", re.M)  # kb_lib.load_residency 와 같은 수법
+
+
+def load_plane_level_state(path) -> tuple[list[str], list[str], list[str]]:
+    """`defs/kb.bzl` 의 `PLANES`·`LEVELS`·`STATES` 리터럴을 읽어 값 어휘를 선언 순서 그대로 돌려준다.
+
+    수준 허용표(RESIDENCY)와 같은 결정(M1 단일 정의처, 2026-09-26)이다 — Starlark 는 파일을 읽지 못해 분석 시점
+    판정(`_check_residency`)에 쓰이는 그 표가 원본이고, 파이썬 쪽은 `ast.literal_eval` 로 리터럴을 읽어 파생한다.
+    이 도구는 rdflib 없이 타깃마다 돌아(head 액션, kb.bzl 의 kb_chunk·kb_decision) kb_lib 를 import 할 수 없으므로
+    (위 try/except) 표준 라이브러리만으로 그 리터럴을 여기서 읽는다 — 리터럴 읽기 함수의 정의처는 이 도구 하나이고,
+    `tools/kb_lib.py` 의 `load_residency` 는 PLANES·LEVELS 를 구할 때 이 함수를 import 해 쓴다(정의처를 하나로 모은
+    형태 — `weave`·`extract_refs` 가 이 파일을 srcs 로 끌어 쓰는 것과 같은 방식). 경로가 없거나 못 읽으면
+    OSError(운영체제가 낸다), 표를 못 읽으면 ValueError — 둘 다 판정 불가지 통과가 아니라 호출자가 그대로 죽는다.
+    호출자는 이 결과를 **자기 상태에 반영해야만** 쓰인다 — 이 함수는 읽기만 하고 아무 전역도 바꾸지 않는다
+    (chunk2kg 자신은 apply_plane_level_state 로 반영한다).
+    """
+    text = Path(path).read_text(encoding="utf-8")
+    names = {m.group(1): ast.literal_eval(m.group(2)) for m in _KB_BZL_LIST.finditer(text)}
+    missing = [w for w in ("PLANES", "LEVELS", "STATES") if w not in names]
+    if missing:
+        raise ValueError(f"{path}: {', '.join(missing)} 리스트를 찾을 수 없다")
+    return names["PLANES"], names["LEVELS"], names["STATES"]
+
+
+def apply_plane_level_state(planes: list[str], levels: list[str], states: list[str]) -> None:
+    """전역 PLANES·LEVELS·STATES 를 교체하고 PLANE_CLASS 의 키 집합과 즉시 대조한다.
+
+    이 도구가 아는 plane 이름(PLANE_CLASS 의 키)과 defs/kb.bzl 의 PLANES 가 갈리면 이 자리에서 죽는다 — 두 곳이
+    말없이 갈라지는 것(anti-drift)이 판정 불가지 통과보다 나쁘다. `load_plane_level_state` 는 값을 읽기만 하므로
+    반영은 항상 이 함수를 거친다 — `main()`이 `--residency` 를 받았을 때, 또는 `parse_chunk` 를 직접 부르는 다른
+    도구가 자기 진입점에서 부른다(defs/knowledge.bzl 의 매크로·각 도구의 --residency 인자).
+    """
+    global PLANES, LEVELS, STATES
+    assert set(PLANE_CLASS) == set(planes), (
+        f"PLANE_CLASS 의 키 {sorted(PLANE_CLASS)} 가 defs/kb.bzl 의 PLANES {sorted(planes)} 와 다르다 — "
+        f"두 곳을 같은 집합으로 맞춘다(STYLEGUIDE §7 단일 정의처)"
+    )
+    PLANES, LEVELS, STATES = planes, levels, states
+
+# PLANES·LEVELS·STATES 는 여기서 기본값을 선언하지 않는다 — 자기 위치 기준 추정(예: __file__)이나 폴백은 두지 않는다
+# (오케스트레이터 판정, 2026-09-27): defs/kb.bzl 을 못 찾으면 조용히 도는 것보다 즉시 죽는 것이 낫다. 이 세 이름은
+# apply_plane_level_state 가 실제로 불릴 때만 생긴다 — 그전에 parse_chunk 를 부르면 NameError 로 죽는다(같은 원칙).
+
 # 개발 프로파일 — plane → 실체 클래스 (결정 p7-dev-plane-substance; kb/ontology/profile/development/plane-substance-ontology.ttl).
 # 프로파일 바인딩 입력의 첫 형태다: 프로파일이 하나뿐이라 입력 파라미터 없이 고정한다. 프로파일이 둘 이상이 되면 이 표가 입력이 된다.
 # 이 도구는 rdflib 없이 타깃마다 돌므로(kb.bzl 의 head 액션) 값 어휘 상수는 PLANE_CLASS 와 함께 여기가 정의처다 (STYLEGUIDE §4).
@@ -134,6 +193,8 @@ COMMENT_DECORATIONS = getattr(kb_lib, "COMMENT_DECORATIONS", ("blocking", "non-b
 COMMENT_RESOLUTIONS = getattr(kb_lib, "COMMENT_RESOLUTIONS", ("열림", "해소", "기각"))
 COMMENT_SLOTS = getattr(kb_lib, "COMMENT_SLOTS", ("대상", "본문", "제안", "해소"))
 TARGETS_KEY = "targets"  # 주석 → 대상 (agt:targets). 링크 키가 아니다 — 판단 근거는 emit_chunk 의 주석에 있다
+EXPOSES_KEY = getattr(kb_lib, "EXPOSES_KEY", "exposes")            # 위험에서 파생된 항목 → 현상 (agt:exposesFactor). 링크 키가 아니다 (정의처 kb_lib)
+EXPOSES_PREDICATE = getattr(kb_lib, "EXPOSES_PREDICATE", "agt:exposesFactor")
 # 본문 슬롯 표지 (결정 p4-slot-answers-one-question) — 슬롯은 줄 머리 고정 표지 하나와 그것이 답하는 질문 하나다.
 # 질문·순서·필수 여부의 정의처는 shape(kb/ontology/shapes/*-body-shapes.ttl)이고 여기는 표지 낱말의 정의처다 —
 # 이 도구는 rdflib 없이 타깃마다 돌아 kb_lib 를 의존할 수 없으므로 값 어휘 상수가 PLANE_CLASS 와 함께 여기 있다 (STYLEGUIDE §4).
@@ -142,8 +203,34 @@ BODY_SLOT_MARKERS = ("요구", "이해관계자", "관심사", "출처",        
                      "결론", "근거", "대안",                                   # 결정 세 청크 (kb/dev/decision · chunks/decision)
                      "검증 목표", "무엇을 관측하면 성립하는가",                  # 검증 목표 (kb/vv/goal)
                      "합격 기준", "판정식", "확인 절차", "등급",                 # 합격 기준 (kb/vv/criteria)
-                     "케이스", "자극", "기대", "실행 명령", "표본 근거")         # 케이스 (kb/vv/case)
+                     "케이스", "자극", "기대", "실행 명령", "표본 근거",         # 케이스 (kb/vv/case)
+                     "요인", "배제 자극")                                       # 시나리오 (kb/vv/scenario) — 자극은 위에 이미 있다
+# 시나리오의 세 표지(자극·요인·배제 자극)는 결정의 세 슬롯(결론·근거·대안)에 **사상**된다 (결정 p8-scenario-authoring,
+# kb_lib.SCENARIO_ROLE_TO_DECISION_SLOT). 새 틀이 아니라 결정 틀의 표지 낱말이 갈린 것이므로 shape 도
+# decision-body-shapes.ttl 의 sh:or 에 대안 셋으로 들어간다. `자극` 은 케이스 틀이 이미 쓰는 표지라 여기 한 번만 적는다.
 BODY_SLOT_SPAN = re.compile(r"\*\*([^*\n]+?)\*\*")
+# 표지는 **자리**로 판정한다(2026-09-29 실측 — 본문 중간의 강조가 표지로 잘못 잡히는 오탐 4건: d-0134·p8-scenario-authoring·
+# p8-simulation-credibility·p8-two-verification-targets). 굵은 span 이 슬롯이려면 그 줄에서 "필드 자리"에 있어야 한다 —
+# 자리는 줄 머리(불릿 `- ` 다음)이거나, 같은 줄에서 이미 읽은 필드 뒤의 ` · ` 구분자 다음이다. 표 셀(`| `)·산문 접속사
+# 뒤·목록 항목 전체를 감싼 굵기는 자리가 아니다 — `chunk_lint`의 `decision-role`이 이미 같은 판정("본문 첫 산문 줄이
+# 굵은 표지로 시작")을 쓰므로 방출도 그것과 같게 맞춘다. 표지 뒤에 오는 한정어(`대안 없음`)는 같은 표지이지만 그
+# 한정어가 문장 하나만큼 길면(마침표를 포함하거나 BODY_SLOT_QUALIFIER_MAX 를 넘으면) 한정어가 아니라 표지 낱말로
+# 시작하는 별개의 문장이다 — "요인 분류가 환경 배정을 결정한다."가 그 예다.
+BODY_SLOT_BULLET = re.compile(r"^\s*-\s+")  # 목록 항목의 머리 — 이 뒤가 첫 필드의 자리다
+BODY_SLOT_FIELD_SEP = " · "  # 한 줄에 여러 필드를 담을 때(요구·검증 목표의 이해관계자·관심사)의 구분자
+BODY_SLOT_QUALIFIER_MAX = 12  # 표지 뒤 한정어의 최대 길이 — 넘으면 한정어가 아니라 문장이다
+
+
+def _body_slot_at_field_head(line: str, start: int) -> bool:
+    """`start` 위치의 굵은 span 이 그 줄의 "필드 자리"에 있는가 — 줄 머리(불릿 다음) 또는 앞선 필드의
+    ` · ` 구분자 다음. 표 셀·산문 접속·목록 항목 전체를 감싼 굵기는 이 자리가 아니다(위 BODY_SLOT_SPAN 주석)."""
+    prefix = BODY_SLOT_BULLET.sub("", line[:start], count=1)
+    while True:
+        idx = prefix.find(BODY_SLOT_FIELD_SEP)
+        if idx == -1:
+            break
+        prefix = prefix[idx + len(BODY_SLOT_FIELD_SEP):]
+    return prefix.strip() == ""
 # 줄 머리 `키워드: 값` 형 슬롯 (제안 4.1절). 선택 슬롯 `미확정:` 은 미결을 문서가 아니라 항목 안에 두어 집계를 생성물로
 # 만든다 (p4-three-empty-values) — //kg:open 이 이 표지로 미결을 모은다. 나머지 넷은 주석의 슬롯이다 (p7-commentary-form).
 # 첫 줄 `<라벨> (<장식>): <요지>` 는 표지가 아니라 형식 검사 대상이라 여기 없다 — comment_form 이 읽는다.
@@ -152,8 +239,25 @@ BODY_SLOT_SPAN = re.compile(r"\*\*([^*\n]+?)\*\*")
 BODY_SLOT_KEYWORDS = ("미확정", *COMMENT_SLOTS)
 BODY_SLOT_KEYWORD = re.compile(r"^(" + "|".join(BODY_SLOT_KEYWORDS) + r"):\s")
 BODY_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")  # 코드 펜스 안은 본문 형식이 아니다 — 예시 안의 표지를 슬롯으로 읽지 않는다
-LEVELS = {"functional", "abstract", "logical", "concrete", "executable"}
-STATES = {"draft", "stable", "suspect", "invalidated", "deprecated"}
+# ── 복합체의 순서 (결정 p4-composite-order-is-declared) ────────────────────────────────────────────────
+# 순서는 **선언**이다. 선언 청크의 `composite:` 에 선택 키 `ordered: [<부분 IRI>…]` 가 있을 때만 co:List 와 co:index 를
+# 방출하고, 없으면 hasDirectPart 만 낸다(순서 없음) — 순서를 요구하지 않는 것에 순서를 붙이면 거짓 정보다(d-0073).
+# 목록은 부분 전부를 빠짐없이 한 번씩 담아야 하고 어긋나면 이 게이트가 거부한다. 예외는 결정 복합체 하나다 —
+# 결론·근거·대안은 역할이 곧 순서(결론 없이 근거를 읽지 않고 대안은 결론을 전제한다)이므로 선언 없이 고정 순서를 낸다.
+# 판별은 파일 stem 셋이다: gen_build 가 kb/dev/decision/<파트>-<슬러그>/ 의 세 파일 이름을 이미 강제하므로 묶음의
+# stem 집합이 그 셋과 같을 때만 고정 순서다. 손 복합체·시나리오 복합체는 stem 이 다르니 걸리지 않는다.
+# hasDirectPart 는 순서와 무관하게 IRI 순으로 낸다 — community·weave·audit 이 그 술어를 읽고 순서 트리플은 추가일 뿐이다.
+ORDERED_KEY = "ordered"
+DECISION_PART_STEMS = ("conclusion", "rationale", "alternatives")
+
+
+def fixed_part_order(members: list) -> list | None:
+    """결정 복합체의 고정 순서 — 묶음의 파일 stem 이 결론·근거·대안 셋과 같으면 그 순서의 IRI 목록, 아니면 None."""
+    by_stem = {Path(p).stem: iri for iri, p in members}
+    if len(by_stem) == len(members) and set(by_stem) == set(DECISION_PART_STEMS):
+        return [by_stem[s] for s in DECISION_PART_STEMS]
+    return None
+# LEVELS·STATES(값 어휘)는 위에서 defs/kb.bzl 에서 파생된다(load_plane_level_state) — 여기서 다시 선언하지 않는다.
 HANGUL = re.compile(r"[ㄱ-ㆎ가-힣]")  # 한글 음절·자모 — 라벨 언어 검사 (0.6절 표기 형식)
 REQUIRED = ("id", "type", "level", "title_ko", "title", "status", "generated")
 
@@ -161,6 +265,7 @@ PREAMBLE = """\
 # 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크 파일의 frontmatter다.
 # 생성: tools/chunk2kg.py (bazel build //kg:chunks_kg)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix co: <http://purl.org/co/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -170,8 +275,14 @@ PREAMBLE = """\
 def body_slots(body: list[str]) -> list[str]:
     """본문이 쓴 슬롯 표지 — 등록된 표지(BODY_SLOT_MARKERS) 가운데 굵은 span 으로 나타난 것, 첫 등장 순서.
 
+    표지는 **자리**로 판정한다(2026-09-29, BODY_SLOT_SPAN 주석) — 굵은 span 이 그 줄의 필드 자리
+    (`_body_slot_at_field_head`: 줄 머리·불릿 다음·앞선 필드의 ` · ` 다음)에 있어야 슬롯이다. 문장 중간·표
+    셀·목록 항목 전체를 감싼 굵기는 강조이지 표지가 아니다.
+
     표지 안의 한정어는 같은 표지로 본다. "**대안 없음**"·"**자극(분석)**" 이 그 예이고 DECISION_ROLE_MARKER 와 같은
-    규칙이다 — 그것은 "대안 없음을 기록하라"는 규칙의 이행이지 표지 누락이 아니다.
+    규칙이다 — 그것은 "대안 없음을 기록하라"는 규칙의 이행이지 표지 누락이 아니다. 한정어는 짧아야 한다
+    (BODY_SLOT_QUALIFIER_MAX, 마침표 없음) — 길거나 마침표가 있으면 한정어가 아니라 표지 낱말로 시작하는
+    별개의 문장이다("요인 분류가 환경 배정을 결정한다."가 그 예 — 표지가 아니다).
     """
     seen: list[str] = []
     fence: str | None = None
@@ -188,11 +299,18 @@ def body_slots(body: list[str]) -> list[str]:
         if kw and kw.group(1) not in seen:
             seen.append(kw.group(1))
         for span in BODY_SLOT_SPAN.finditer(line):
+            cand = span.group(1).strip()
             for mark in BODY_SLOT_MARKERS:
-                if span.group(1).strip().startswith(mark):
-                    if mark not in seen:
-                        seen.append(mark)
+                if not cand.startswith(mark):
+                    continue
+                if not _body_slot_at_field_head(line, span.start()):
                     break
+                qualifier = cand[len(mark):]
+                if len(qualifier) > BODY_SLOT_QUALIFIER_MAX or "." in qualifier:
+                    break
+                if mark not in seen:
+                    seen.append(mark)
+                break
     return seen
 
 
@@ -316,6 +434,14 @@ def parse_chunk(path: str) -> tuple[dict, int]:
             raise ValueError(f"{path}: composite.title {comp['title']!r} 에 한글이 있다 — 복합체 라벨도 한/영 1:1(0.6절)")
         if comp.get("title_ko") and not HANGUL.search(comp["title_ko"]):
             raise ValueError(f"{path}: composite.title_ko {comp['title_ko']!r} 에 한글이 없다 — 복합체 라벨도 한/영 1:1(0.6절)")
+        if ORDERED_KEY in comp:  # 순서의 선언 — 부분 집합과의 일치는 묶음 전체를 아는 main 이 본다 (p4-composite-order-is-declared)
+            order = comp[ORDERED_KEY]
+            if not isinstance(order, list) or not all(isinstance(o, str) and o for o in order):
+                raise ValueError(f"{path}: composite.{ORDERED_KEY} 는 부분 IRI 목록 [<IRI>, …] 이어야 한다 — 실제 {order!r} "
+                                 f"(p4-composite-order-is-declared)")
+            dups = sorted({o for o in order if order.count(o) > 1})
+            if dups:
+                raise ValueError(f"{path}: composite.{ORDERED_KEY} 에 같은 부분이 두 번 있다 — 부분마다 색인 하나다: {dups}")
     gen = meta["generated"]
     if not isinstance(gen, dict) or not gen.get("by") or not gen.get("at"):
         raise ValueError(f"{path}: generated 는 {{by: …, at: …}} 여야 한다 (OKF 행위자 표기)")
@@ -332,14 +458,32 @@ def parse_chunk(path: str) -> tuple[dict, int]:
     return meta, len(body)
 
 
+def split_outside_brackets(text: str) -> list:
+    """콤마로 나누되 `[...]` 안의 콤마는 세지 않는다 — 인라인 맵의 목록 값(`composite: {…, ordered: [a, b]}`)."""
+    parts, depth, cur = [], 0, []
+    for ch in text:
+        if ch == "[":
+            depth += 1
+        elif ch == "]":
+            depth -= 1
+        if ch == "," and depth <= 0:
+            parts.append("".join(cur))
+            cur = []
+        else:
+            cur.append(ch)
+    parts.append("".join(cur))
+    return parts
+
+
 def parse_map(text: str) -> dict:
-    """인라인 맵 {k: v, k: v} — 값에 콤마·콜론이 없다는 전제."""
+    """인라인 맵 {k: v, k: v} — 값에 콜론이 없다는 전제. 값이 `[...]` 면 목록으로 읽는다(`ordered`)."""
     out = {}
-    for part in text.strip().strip("{}").split(","):
+    for part in split_outside_brackets(text.strip().strip("{}")):
         if not part.strip():
             continue
         k, _, v = part.partition(":")
-        out[k.strip()] = v.strip().strip("'\"")
+        v = v.strip()
+        out[k.strip()] = parse_value(v) if v.startswith("[") else v.strip("'\"")
     return out
 
 
@@ -391,6 +535,11 @@ def emit_chunk(path: str, meta: dict, line_count: int) -> str:
     # LINK_KEYS(링크 개체)에도 gen_build.LINKS(Bazel deps)에도 넣지 않는다. 대상 실재는 validate check_dangling 이 본다
     for t in meta.get(TARGETS_KEY, []) or []:
         stmts.append(f"agt:targets <{t}>")
+    # 위험에서 파생된 항목 → 그것이 노출하려는 결함 요인 (agt:exposesFactor, 위험 분석 G5). 대상은 청크가 아니라 온톨로지 개체이므로
+    # LINK_KEYS 도 gen_build.LINKS 도 아니다 — 링크 개체의 치역 밖이고 deps 가 되면 T-Box 가 청크의 빌드 입력이 된다.
+    # 대상이 agt:DefectFactor 하위 개체인지는 shape 가 본다 (exposes-factor-shapes.ttl)
+    for f in meta.get(EXPOSES_KEY, []) or []:
+        stmts.append(f"{EXPOSES_PREDICATE} <{f}>")
     c = meta.get("_comment") or {}  # 주석의 본문 파생 사실 (p7-commentary-form) — 닫힌 어휘와 상한은 shape 가 판정한다
     for key, pred in (("label", "agt:commentLabel"), ("decoration", "agt:commentDecoration"), ("resolution", "agt:resolutionState")):
         if key in c:
@@ -639,10 +788,21 @@ def main() -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--fragment", action="store_true", help="타깃 하나의 조각 — 전문(preamble) 없이 블록만 (kb_chunk·kb_decision 액션)")
     ap.add_argument("--merge", action="store_true", help="조각들을 병합해 -kg 를 만든다 (kb_kg_merge)")
+    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — --merge 가 아니면 필수다"
+                                                      "(kb_chunk·kb_decision 의 head 액션이 --residency defs/kb.bzl 로 넘긴다)")
     ap.add_argument("files", nargs="*")
     args = ap.parse_args()
-    if args.merge:
+    if args.merge:  # 병합은 이미 방출된 조각을 잇기만 한다 — parse_chunk 를 부르지 않으므로 값 어휘가 필요 없다
         return merge(args.out, args.files)
+    if not args.residency:
+        print(f"FAIL [{TAG}] --residency 가 없다 — defs/kb.bzl 이 이 액션의 입력이 아니다. 매크로·BUILD 에 //defs:kb.bzl 를 더한다",
+              file=sys.stderr)
+        return EXIT_CONFIG
+    try:
+        apply_plane_level_state(*load_plane_level_state(args.residency))
+    except (OSError, ValueError) as e:
+        print(f"FAIL [{TAG}] {args.residency}: 읽을 수 없다 — {e}", file=sys.stderr)
+        return EXIT_CONFIG
 
     blocks, seen = [], {}
     composites: dict = {}   # iri -> {labels, members[]}
@@ -682,28 +842,41 @@ def main() -> int:
             elif comp["id"] in composites:
                 errors.append(f"{path}: 복합체 {comp['id']} 가 {composites[comp['id']]['path']} 와 중복 선언됨")
             else:
-                composites[comp["id"]] = {"ko": comp["title_ko"], "en": comp["title"], "members": [], "path": path}
+                composites[comp["id"]] = {"ko": comp["title_ko"], "en": comp["title"], "members": [], "path": path,
+                                          "order": comp.get(ORDERED_KEY)}  # 선언된 순서 — 없으면 None
         if meta.get("part_of"):
             part_refs.append((meta["id"], meta["part_of"], path))
         blocks.append((meta["id"], emit_chunk(path, meta, n)))
         blocks.extend(emit_links(meta))
     for chunk_iri, comp_iri, path in part_refs:
         if comp_iri not in composites:
-            errors.append(f"{path}: part_of 대상 복합체 {comp_iri} 가 이 묶음 안에 선언되지 않았다")
+            errors.append(f"{path}: part_of 대상 복합체 {comp_iri} 가 이 묶음 안에 선언되지 않았다 — 묶음은 이 실행의 입력 집합이고 "
+                          f"액션 하나가 부분 청크 전부와 선언 청크를 함께 받아야 한다 (defs/kb.bzl 의 kb_composite·kb_decision)")
         else:
-            composites[comp_iri]["members"].append(chunk_iri)
+            composites[comp_iri]["members"].append((chunk_iri, path))
     comp_blocks = []
     for iri, c in sorted(composites.items()):
         if not c["members"]:
             errors.append(f"{c['path']}: 복합체 {iri} 에 부분이 없다 — 멤버 청크가 part_of 로 가리켜야 한다")
             continue
-        parts = " ,\n        ".join(f"<{m}>" for m in sorted(c["members"]))
-        comp_blocks.append(
-            f"<{iri}>\n    a agt:Composite ;\n"
-            f'    rdfs:label "{esc(c["en"])}"@en ;\n'
-            f'    rdfs:label "{esc(c["ko"])}"@ko ;\n'
-            f"    agt:hasDirectPart {parts} ."
-        )
+        part_iris = sorted(m for m, _ in c["members"])
+        order = c["order"]
+        if order is not None and sorted(order) != part_iris:
+            errors.append(f"{c['path']}: composite.{ORDERED_KEY} 가 부분 집합과 다르다 — 선언 {sorted(order)} · 부분 {part_iris}. "
+                          f"순서 목록은 부분 전부를 빠짐없이 한 번씩 담는다 (p4-composite-order-is-declared)")
+            continue
+        if order is None:  # 결정 복합체만 선언 없이 고정 순서다 — 역할이 곧 순서다
+            order = fixed_part_order(c["members"])
+        parts = " ,\n        ".join(f"<{m}>" for m in part_iris)
+        block = (f"<{iri}>\n    a agt:Composite{' , co:List' if order else ''} ;\n"
+                 f'    rdfs:label "{esc(c["en"])}"@en ;\n'
+                 f'    rdfs:label "{esc(c["ko"])}"@ko ;\n'
+                 f"    agt:hasDirectPart {parts}")
+        if order:  # co:List — 색인은 1 부터의 양의 정수다 (Collections Ontology: co:item / co:ListItem / co:index / co:itemContent)
+            items = " ,\n        ".join(f'[ a co:ListItem ; co:index "{n}"^^xsd:positiveInteger ; co:itemContent <{m}> ]'
+                                       for n, m in enumerate(order, start=1))
+            block += f" ;\n    co:item {items}"
+        comp_blocks.append(block + " .")
 
     if not args.fragment:  # 단일 실행은 묶음 전체를 아니 뿌리 uuid 로 링크 IRI 를 계산한다 — --merge 와 같은 결과. 조각은 원 IRI 그대로
         blocks, spec_errors2 = rebase_links(blocks, spec)

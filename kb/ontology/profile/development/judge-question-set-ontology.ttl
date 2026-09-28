@@ -1,0 +1,25 @@
+# 개발 프로파일 — 등록된 판정 질문 셋: 게이트가 판정할 수 없어 규약으로 남은 규칙과 논평 라벨을 판정자에게 묻는 질문 (결정 p8-judge-calibration-binding, docs/tools.md 게이트 밖)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:labelRepresentsBody a owl:NamedIndividual , agt:JudgeQuestion ;
+    rdfs:label "does the label represent the body"@en , "라벨이 본문을 대표하는가"@ko ;
+    skos:definition "청크의 한글 라벨이 본문의 주장을 대표하는 정도를 세 단계로 묻는다. 이 규칙은 기계가 판정할 수 없어 게이트 밖 규약으로 남아 있었다 (STYLEGUIDE §4, docs/tools.md 게이트 밖). 입력은 라벨과 본문이고 답은 단계와 확신도다."@ko ;
+    agt:questionForm "score" ;
+    agt:scaleSituation "0 — 라벨의 낱말이 본문에 하나도 없다" ;
+    agt:scaleSituation "1 — 라벨의 낱말이 본문에 있으나 주장 대신 소재만 가리킨다" ;
+    agt:scaleSituation "2 — 라벨이 본문 첫 문장의 주장을 그대로 담는다" .
+
+agt:bodyHasOneClaim a owl:NamedIndividual , agt:JudgeQuestion ;
+    rdfs:label "does the body hold one claim"@en , "본문이 한 주장만 담는가"@ko ;
+    skos:definition "청크 본문의 문장 전부가 한 주장을 지지하는지 묻는다. 둘 이상의 독립된 주장이 있으면 아니다. 이 규칙도 게이트 밖 규약이고 42줄과 분할 신호가 대리 지표였다 (STYLEGUIDE §0, docs/tools.md 게이트 밖). 입력은 본문이고 답은 예·아니오와 '예'의 확률이다."@ko ;
+    agt:questionForm "noul" .
+
+agt:commentLabelChoice a owl:NamedIndividual , agt:JudgeQuestion ;
+    rdfs:label "which comment label fits"@en , "어느 논평 라벨이 맞는가"@ko ;
+    skos:definition "주석의 첫 줄이 단 라벨이 본문과 맞는지를 닫힌 어휘 일곱에서 하나 고르게 묻는다 (결정 p7-commentary-form). 집합의 크기는 일곱이라 선택의 상한 255 안이다. 입력은 주석의 첫 줄과 본문이고 답은 라벨 하나와 확신도다."@ko ;
+    agt:questionForm "choice" ;
+    agt:choiceOption "praise" , "nitpick" , "suggestion" , "issue" ;
+    agt:choiceOption "question" , "thought" , "chore" .

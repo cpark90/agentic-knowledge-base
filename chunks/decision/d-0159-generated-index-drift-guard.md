@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-federation-invariants
 ---
 **결론** — 같은 목록(색인·카탈로그·매니페스트)이 두 곳 이상에 필요하면 손으로
 복제하지 않고 **디스크의 실물에서 결정론적으로 생성**하며, CI가 생성기를 검사

@@ -10,6 +10,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {r
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
 verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
+part_of: https://agentic-knowledge-base.dev/id/comp-req-agent
 ---
 **요구** — 지식이 온톨로지 밖 어휘로 저작되면, 체계는 그것을 거부하여야 한다.
 

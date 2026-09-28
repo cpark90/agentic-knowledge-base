@@ -7,6 +7,7 @@ title: Deprecate, never delete
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-terminology-rules
 ---
 **결론** — 개념·청크·링크 타입은 삭제하지 않고 **폐기(deprecate)** 한다.
 - `owl:deprecated true` + 대체 개념을 `agt:replacedBy`로 지정

@@ -7,6 +7,7 @@ title: Traceability information model and link types
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-traceability
 ---
 **결론** — 링크가 무엇을 무엇에 어떻게 이을 수 있는지를 추적성 정보
 모델(TIM)로 고정한다. TIM은 온톨로지의 일부(related/trace 모듈)이며,

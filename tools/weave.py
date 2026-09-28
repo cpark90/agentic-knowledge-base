@@ -29,14 +29,14 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
-from rdflib import Graph, Namespace, RDF, URIRef
+from rdflib import Graph, Namespace, RDF, RDFS, URIRef
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
     import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
-from chunk2kg import EARS_PATTERNS, parse_chunk  # noqa: E402 — frontmatter 파서와 값 어휘의 단일 정의처
+from chunk2kg import EARS_PATTERNS, apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402 — frontmatter 파서와 값 어휘의 단일 정의처
 
 AGT, ID = kb_lib.AGT, kb_lib.ID
 PROV = Namespace("http://www.w3.org/ns/prov#")
@@ -144,6 +144,9 @@ def refs(m: Model, nodes) -> str:
     return " · ".join(f"{m.ko(n)} (`{kb_lib.compact_iri(str(n))}`)" for n in nodes) or "없음"
 
 
+SKOS_NOTATION = URIRef("http://www.w3.org/2004/02/skos/core#notation")  # 현상의 질문지 표기(P1~P22)
+RISK_MARK_DECLARED = "선언"   # frontmatter `exposes` — 저자가 적은 표지
+RISK_MARK_EXTRACTED = "인용"  # 본문의 현상 IRI — extract_refs 가 뽑은 표지
 COMPOSITES_HEADING = "결정 복합체"  # 결론·근거·대안이 세 파일로 갈린 결정 — 단일 파일 결정과 동격이므로 같은 깊이에 둔다
 SINGLES_HEADING = "단일 파일 결정 (v1·harness 유래)"  # chunks/decision/d-*.md — 결론·근거·대안이 한 본문 안에 있다
 
@@ -397,6 +400,30 @@ def render_audit(m: Model, bodies: dict, inputs: list[str]) -> str:
     if uncovered:
         body += [f"검증 대응물 없는 요구 {len(uncovered)}건:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)}" for c in uncovered] + [""]
 
+    # 2.5 위험에서 파생된 목표 — 검증 목표가 defect 요인(현상)을 가리키는가 (위험 분석 G1·G5, 노트 8.21·8.22절)
+    # 파생의 표지는 둘이다. frontmatter `exposes`(agt:exposesFactor)는 저자가 선언한 것이고 본문의 현상 IRI 인용
+    # (agt:usesConcept, extract_refs)은 추출된 것이다. 둘 다 있으면 선언을 적는다 — 선언이 더 검사 가능한 근거다.
+    factor_classes = set(g.transitive_subjects(RDFS.subClassOf, AGT.DefectFactor))
+    factors = {i for cl in factor_classes for i in g.subjects(RDF.type, cl)}
+    exposed: dict = defaultdict(dict)
+    for pred, mark in ((AGT.exposesFactor, RISK_MARK_DECLARED), (AGT.usesConcept, RISK_MARK_EXTRACTED)):
+        for s, o in g.subject_objects(pred):
+            if s in goals and o in factors:
+                exposed[s].setdefault(o, mark)
+    named = {f for fs in exposed.values() for f in fs}
+    body += [f"## 위험에서 파생된 목표 — 검증 목표가 노출하는 결함 요인 (표지 둘 — {RISK_MARK_DECLARED}: `exposes` · {RISK_MARK_EXTRACTED}: 본문의 현상 IRI, 8.21절 G1·G5)", "",
+             f"- 위험에서 파생된 검증 목표: **{pct(len(exposed), len(goals))}** — 나머지는 게이트·음성 시험을 사슬로 묶은 것이다",
+             f"- 어느 목표에도 가리켜지지 않은 현상: **{pct(len(factors) - len(named), len(factors))}**", ""]
+    if not exposed:
+        body += [f"위험에서 파생된 검증 목표 {kb_lib.NONE_MARK} — 현상을 가리키는 목표가 없다. `exposes:` 또는 본문의 현상 IRI 인용이 표지다.", ""]
+    else:
+        body += ["| 검증 목표 | 노출하는 현상 | 표기 | 표지 |", "|---|---|---|---|"]
+        for c in sorted(exposed, key=lambda c: m.location[c]):
+            for f in sorted(exposed[c], key=lambda f: str(f)):
+                note = str(next(g.objects(f, SKOS_NOTATION), "")) or kb_lib.NONE_MARK
+                body += [f"| `{Path(m.location[c]).stem}` {m.ko(c)} | {m.ko(f)} (`{kb_lib.compact_iri(str(f))}`) | {note} | {exposed[c][f]} |"]
+        body += [""]
+
     # 3. 최근 실행 — 실행 기록을 그대로 요약한다
     body += ["## 최근 실행 — `kb/vv/run/` 의 최신 실행 기록 (agt:Run, append-only)", ""]
     if latest_run is None:
@@ -511,9 +538,18 @@ def main() -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--root", default=os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     ap.add_argument("--bodies", nargs="*", default=[], metavar="MD", help="청크 파일들 — adr 의 결론·근거·대안 본문, audit 의 관측 본문")
+    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — bodies 를 읽을 때만 쓴다"
+                                                      "(load_bodies → parse_chunk). 안 주면 --root 기준 defs/kb.bzl 를 쓴다")
     ap.add_argument("ttl", nargs="*", help="그래프 파일들 (없으면 kb_lib.UNION_GRAPH_PATHS + 온톨로지 모듈)")
     a = ap.parse_args()
     root = Path(a.root)
+    if a.bodies:  # load_bodies 가 parse_chunk 를 부르므로 그때만 값 어휘가 있어야 한다
+        residency = a.residency or str(root / "defs" / "kb.bzl")
+        try:
+            apply_plane_level_state(*load_plane_level_state(residency))
+        except (OSError, ValueError) as e:
+            print(f"CONFIG [{TAG}] {residency}: 읽을 수 없다 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
     try:
         g = kb_lib.load_union(a.ttl, root)
         bodies = load_bodies(a.bodies) if a.kind in ("adr", "audit") else {}

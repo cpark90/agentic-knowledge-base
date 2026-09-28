@@ -42,6 +42,24 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "risk-causality-weak-pairs",
+    src = "risk-causality-weak-pairs.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8aa5baf8-3c38-4f46-b7bc-00a2f292a980",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "risk-phenomena-observed-counts",
+    src = "risk-phenomena-observed-counts.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c386ece1-e7ab-4e4b-9c0d-74f04335e7ad",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "run-record-verdict-aggregation",
     src = "run-record-verdict-aggregation.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/9ec56309-7174-4310-bbba-c0e84cdcc496",
@@ -93,6 +111,8 @@ kb_bundle(
         ":bazel-run-loses-relative-paths",
         ":exit-code-only-judgement",
         ":gate-axis-coverage",
+        ":risk-causality-weak-pairs",
+        ":risk-phenomena-observed-counts",
         ":run-record-verdict-aggregation",
         ":runner-env-leaks-into-case",
         ":skipped-negative-stimuli",

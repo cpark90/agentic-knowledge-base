@@ -1,6 +1,6 @@
 # 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
-load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
 package(default_visibility = ["//kb:vv_readers"])
 
@@ -14,10 +14,15 @@ filegroup(
     ),
 )
 
-kb_chunk(
+kb_composite(
     name = "gate-test-targets",
-    src = "gate-test-targets.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/069386af-5167-4f76-a275-aeaa120d139a",
+    srcs = [
+        "gate-test-targets.md",
+        "negative-failure-test.md",
+        "vv-run-executor.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/ff058e5b-5ef1-474e-b392-3948fb4f04c7",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/069386af-5167-4f76-a275-aeaa120d139a", "https://agentic-knowledge-base.dev/id/chunk/32d8d4d5-4249-45cf-89f4-040a59826ee7", "https://agentic-knowledge-base.dev/id/chunk/4ef1451d-5f8a-4360-8765-f2c24683e0cf"],
     plane = "artifact",
     level = "executable",
     status = "draft",
@@ -25,6 +30,7 @@ kb_chunk(
         "//kb/vv/case:chunk-42-lines",
         "//kb/vv/case:chunk-bound-to-project-odd",
         "//kb/vv/case:criteria-before-verifies",
+        "//kb/vv/case:decision-names-requirement",
         "//kb/vv/case:decision-three-chunks",
         "//kb/vv/case:documents-generated",
         "//kb/vv/case:foreign-vocabulary-rejected",
@@ -34,45 +40,17 @@ kb_chunk(
         "//kb/vv/case:invalidation-without-survey",
         "//kb/vv/case:items-declare-assumptions",
         "//kb/vv/case:labels-before-bodies",
+        "//kb/vv/case:mutation-samples-rejected",
         "//kb/vv/case:observations-append-only",
         "//kb/vv/case:odd-single-document",
+        "//kb/vv/case:plane-one-way",
         "//kb/vv/case:read-write-sets-recorded",
         "//kb/vv/case:reproducible-runs",
-        "//kb/vv/case:residency-matrix",
-        "//kb/vv/case:versioned-inputs",
-    ],
-)
-
-kb_chunk(
-    name = "negative-failure-test",
-    src = "negative-failure-test.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/32d8d4d5-4249-45cf-89f4-040a59826ee7",
-    plane = "artifact",
-    level = "executable",
-    status = "draft",
-    refines = [
-        "//kb/vv/case:decision-names-requirement",
-        "//kb/vv/case:decision-three-chunks",
-        "//kb/vv/case:gate-judges-edits",
-        "//kb/vv/case:mutation-samples-rejected",
-        "//kb/vv/case:plane-one-way",
         "//kb/vv/case:residency-matrix",
         "//kb/vv/case:supersedes-same-plane",
         "//kb/vv/case:verification-rung-same-level",
         "//kb/vv/case:verifies-subject-vv",
-    ],
-)
-
-kb_chunk(
-    name = "vv-run-executor",
-    src = "vv-run-executor.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/4ef1451d-5f8a-4360-8765-f2c24683e0cf",
-    plane = "artifact",
-    level = "executable",
-    status = "draft",
-    refines = [
-        "//kb/vv/case:observations-append-only",
-        "//kb/vv/case:reproducible-runs",
+        "//kb/vv/case:versioned-inputs",
     ],
 )
 
@@ -81,7 +59,5 @@ kb_bundle(
     name = "kg",
     items = [
         ":gate-test-targets",
-        ":negative-failure-test",
-        ":vv-run-executor",
     ],
 )

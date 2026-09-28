@@ -7,6 +7,7 @@ title: The eight-step invalidation propagation procedure
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-ladder-mechanism
 ---
 **결론** — "가정이 깨지면 자동으로 무효화 표시된다"(6.5절)를 다음 절차로
 실행한다.

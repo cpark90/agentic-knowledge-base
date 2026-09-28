@@ -78,12 +78,30 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "composite-order-shape",
+    src = "composite-order-shape.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f0fdfa51-3dd6-4e7f-adee-88b3ad41b93a",
+    plane = "requirement",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
     name = "criteria-before-verifies",
     src = "criteria-before-verifies.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/73d83879-75e4-43f9-a07a-4335711e2ac1",
     plane = "requirement",
     level = "functional",
     status = "stable",
+)
+
+kb_chunk(
+    name = "decision-and-artifact-agree",
+    src = "decision-and-artifact-agree.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9e1150bc-5668-4f5d-aa95-684f45b7bf4a",
+    plane = "requirement",
+    level = "functional",
+    status = "draft",
 )
 
 kb_chunk(
@@ -111,6 +129,15 @@ kb_chunk(
     plane = "requirement",
     level = "functional",
     status = "stable",
+)
+
+kb_chunk(
+    name = "document-table-matches-generated",
+    src = "document-table-matches-generated.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d5257525-c3ef-4680-a611-ed964eff79c0",
+    plane = "requirement",
+    level = "functional",
+    status = "draft",
 )
 
 kb_chunk(
@@ -303,6 +330,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "verification-round-stop-rule",
+    src = "verification-round-stop-rule.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1467d7fe-f090-46b6-974d-e8d33bbcfd78",
+    plane = "requirement",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
     name = "verification-rung-same-level",
     src = "verification-rung-same-level.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/6ee940e6-b69f-4f62-93e2-924829542e3f",
@@ -340,10 +376,13 @@ kb_bundle(
         ":backward-trace-to-requirement",
         ":chunk-42-lines",
         ":chunk-bound-to-project-odd",
+        ":composite-order-shape",
         ":criteria-before-verifies",
+        ":decision-and-artifact-agree",
         ":decision-names-requirement",
         ":decision-three-chunks",
         ":dispatch-workset-budget",
+        ":document-table-matches-generated",
         ":documents-generated",
         ":domain-knowledge-as-vocabulary",
         ":foreign-vocabulary-rejected",
@@ -365,6 +404,7 @@ kb_bundle(
         ":session-memory-promotion",
         ":skeleton-carried-across-projects",
         ":supersedes-same-plane",
+        ":verification-round-stop-rule",
         ":verification-rung-same-level",
         ":verifies-subject-vv",
         ":versioned-inputs",

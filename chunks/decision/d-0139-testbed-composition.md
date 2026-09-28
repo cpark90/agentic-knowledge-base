@@ -7,6 +7,7 @@ title: Testbed composition and the ODD-subset constraint
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-verification-criteria
 ---
 **결론** — 테스트베드는 **3~4단계 환경의 영속적 구현**이며, 그 환경 정의는
 **ODD의 부분집합**이어야 한다.

@@ -7,6 +7,7 @@ title: ODC qualifier, dimensions, and distribution as diagnosis
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-defect-taxonomy
 ---
 **결론** — 각 결함에 ODC **한정자**(`missing` 있어야 할 것이 없음 /
 `incorrect` 있으나 틀림)를 붙이고, **트리거·영향·발견 단계** 세 차원을 결함

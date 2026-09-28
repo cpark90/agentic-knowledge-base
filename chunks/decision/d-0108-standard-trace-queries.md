@@ -7,6 +7,7 @@ title: Four standard queries the link model must answer
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-link-operation
 ---
 **결론** — 링크 모델은 네 표준 질의에 답할 수 있어야 한다.
 

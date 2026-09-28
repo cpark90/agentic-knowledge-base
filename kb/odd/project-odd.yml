@@ -13,9 +13,11 @@ TAXONOMY:                            # 프로젝트 확장 — 범주 아래 속
     python_runtime: [hermetic_python_3_11]
     repository_layout: [kb_layout_appendix_e7]
     language_policy: [korean_prose_english_identifiers]
+    host_env_inherit: int targets   # env_inherit 을 쓰는 테스트 타깃 수 — 밀폐성 벗어남의 선언된 예외 (test-hermeticity-2026-09-26)
   environmental_condition:
     dependency_lock: [hash_locked_closure]
     network_connectivity: [initial_fetch_then_offline]
+    judge_service: [credentials_set_or_judge_unused]   # 판정 서비스(구조화 출력 전용 모델) — 게이트 밖 도구 tools/judge.py 의 전제 (p8-judge-calibration-binding)
   dynamic_element:
     concurrent_agents: int count
 
@@ -32,6 +34,13 @@ MODULES:
       dependency_lock: hash_locked_closure
       network_connectivity: initial_fetch_then_offline
       concurrent_agents: "[0 .. 5] count"
+      host_env_inherit: "<= 1 targets"
+  judge_service_binding:             # 게이트 밖 도구(bazel run //tools:judge)를 쓸 때만 걸리는 조건부 모듈 — is_active false 가 "지금 쓰지 않는다" 다
+    title: {en: "judge service binding", ko: "판정 서비스 결합"}
+    is_root: false
+    is_active: false
+    INCLUDE_AND:
+      judge_service: credentials_set_or_judge_unused
 
 EXCLUDE_WHEN_UNKNOWN: true           # 값이 unknown 인 속성은 ODD 밖으로 본다 (= restrictive)
 
@@ -43,6 +52,8 @@ ATTRIBUTES:                          # 속성 ↔ 그래프 개체. 스코프·�
   dependency_lock:      {iri: "id:cond-dependency-lock",   title: dependency lock,      title_ko: 의존성 고정}
   network_connectivity: {iri: "id:cond-network",           title: network connectivity, title_ko: 네트워크 연결성}
   concurrent_agents:    {iri: "id:cond-concurrent-agents", title: concurrent agents,    title_ko: 동시 에이전트 수}
+  host_env_inherit:     {iri: "id:cond-host-env-inherit",  title: host env inherit,     title_ko: 호스트 환경 상속}
+  judge_service:        {iri: "id:cond-judge-service",     title: judge service,        title_ko: 판정 서비스}
 
 LITERALS:                            # 범주 리터럴의 뜻 (사람이 읽는 값). agt:conditionValue 에 들어간다
   bazel_9_2_bzlmod:                  "Bazel 9.2.0 + bzlmod, rules_python 2.3.2"
@@ -51,6 +62,7 @@ LITERALS:                            # 범주 리터럴의 뜻 (사람이 읽는
   korean_prose_english_identifiers:  "산문 한글, 식별자 영어 케밥, 라벨 한/영 1:1 (0.6절)"
   hash_locked_closure:               "rdflib 7.6.0, pyshacl 0.40.0, owlrl 7.6.2, pyyaml 6.0.2 — 전체 폐포 해시 고정. 플랫폼 휠은 호스트 휠 + sdist 두 해시"
   initial_fetch_then_offline:        "최초 fetch 시 BCR·PyPI 접근 필요, 이후 오프라인 빌드 가능"
+  credentials_set_or_judge_unused:   "판정 서비스의 주소·자격·모델 식별자가 환경 변수 AKB_JUDGE_ENDPOINT·AKB_JUDGE_API_KEY·AKB_JUDGE_MODEL 에 셋 다 있거나, 셋 다 없어 판정자를 쓰지 않는 상태다. 게이트는 판정을 부르지 않으므로 자격이 없는 상태도 ODD 안이다 — 조건이 걸리는 것은 게이트 밖 도구 `bazel run //tools:judge` 를 쓸 때뿐이다 (p8-judge-calibration-binding)"
 
 CHECKS:                              # 판정 방법·등급 (3.2절, 3.9절) + cmd(실행 가능한 판정, 종료 0 = ODD 안 / 1 = 이탈). cel 은 도입 5단계
   build_system:         {grade: A, method: ".bazelversion 파일 내용 = 9.2.0; bazel test //... 성공", cmd: 'test "$(tr -d ''[:space:]'' < .bazelversion)" = 9.2.0'}
@@ -60,6 +72,8 @@ CHECKS:                              # 판정 방법·등급 (3.2절, 3.9절) + 
   dependency_lock:      {grade: A, method: "tools/requirements_lock.txt 존재 + bazel fetch 성공", cmd: 'test -f tools/requirements_lock.txt && grep -q ''^rdflib==7.6.0'' tools/requirements_lock.txt && grep -q ''^pyshacl==0.40.0'' tools/requirements_lock.txt'}
   network_connectivity: {grade: A, method: "curl -sI https://bcr.bazel.build → 200 (최초 1회)", cmd: 'curl -sI --max-time 5 https://bcr.bazel.build | head -1 | grep -q '' 200'''}
   concurrent_agents:    {grade: B, method: "kg/catalog-kg.ttl 의 agt:maxConcurrent 합 ≤ 5 (orchestrator·developer·vnv·hci 각 1), 그리고 실행 중 활성 세션·dispatch 수 확인", cmd: 'test "$(grep -o ''agt:maxConcurrent [0-9]*'' kg/catalog-kg.ttl | awk ''{s+=$2} END{print s+0}'')" -le 5'}
+  host_env_inherit:     {grade: A, method: "bazel query 'attr(env_inherit, \"HOME\", tests(//...))' 의 행 수 ≤ 1 — `\".+\"`는 빈 목록 `[]`에도 걸려 실측 15행을 내므로 쓰지 않는다", cmd: 'test "$(bazel query ''attr(env_inherit, "HOME", tests(//...))'' 2>/dev/null | wc -l)" -le 1'}
+  judge_service:        {grade: B, method: "환경 변수 AKB_JUDGE_ENDPOINT·AKB_JUDGE_API_KEY·AKB_JUDGE_MODEL 이 셋 다 비어 있으면 in(판정자를 쓰지 않는 상태라 어느 항목도 서비스에 의존하지 않는다), 하나라도 설정돼 있으면 셋 다 설정돼 있어야 in — 게이트 밖 도구를 쓸 때만 걸리는 조건부다. 서비스 도달은 이 명령이 재지 않는다: 세션 시작 모니터링이 네트워크를 부르지 않게 하려는 것이고, 도달과 실제 모델 버전은 tools/judge.py 가 호출 시점에 판정해 판정 로그의 `모델 식별자` 열에 적는다. 등급이 A 가 아닌 까닭이 그 미관측이다", cmd: 'if [ -z "${AKB_JUDGE_ENDPOINT:-}" ] && [ -z "${AKB_JUDGE_API_KEY:-}" ] && [ -z "${AKB_JUDGE_MODEL:-}" ]; then exit 0; fi; [ -n "${AKB_JUDGE_ENDPOINT:-}" ] && [ -n "${AKB_JUDGE_API_KEY:-}" ] && [ -n "${AKB_JUDGE_MODEL:-}" ]'}
 
 EXCLUSIONS_REVIEWED:                 # 검토 뒤 명시 제외 (3.2절)
   - {concept: "원격 실행·원격 캐시(RBE)", reviewed: 2026-09, reason: "로컬 개발 전용 단계"}

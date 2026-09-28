@@ -7,6 +7,7 @@ title: Every knowledge item is a composite of chunks
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-composite-projection
 ---
 **결론** — 이 체계에 "청크가 아닌 지식 항목"은 없다. 모든 지식 항목은
 청크이거나 청크의 구성체다. 결정은 결론·근거·대안 세 `agt:DecisionChunk`의

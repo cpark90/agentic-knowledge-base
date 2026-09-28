@@ -9,6 +9,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-req-agent
+composite: {id: https://agentic-knowledge-base.dev/id/comp-req-agent, title_ko: 요구 — 에이전트 관측과 통제, title: requirements — agent observation and control}
 ---
 **요구** — 에이전트가 판단할 때, 체계는 판단에 필요한 지식을 청크 라벨 목록으로 먼저 보여주고 요청된 본문만 펼쳐야 한다.
 

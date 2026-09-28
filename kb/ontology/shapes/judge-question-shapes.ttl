@@ -1,0 +1,47 @@
+# shape — 판정 질문과 확신도 임계 셋의 형식: 질문 id(IRI)·형 셋·척도의 상황 문장·선택 집합 255 이하·임계 둘 (결정 p8-judge-calibration-binding)
+# 형마다 더 요구되는 것이 달라 sh:or 세 갈래로 적는다 — choice 는 원소 둘 이상, score 는 상황 문장 둘 이상, noul 은 답 공간이 고정이라 더 없다.
+# 판정자 실물이 shape 를 읽는다 (tools/judge.py) — 질문·척도·임계의 원본이 여기이고 도구는 상수를 갖지 않는다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:JudgeQuestionShape a sh:NodeShape ;
+    sh:targetClass agt:JudgeQuestion ;
+    sh:property [ sh:path skos:definition ; sh:minCount 1 ;
+        sh:description "이 질문은 무엇을 묻는가" ;
+        sh:message "판정 질문에 `skos:definition` 이 없다 — 질문 본문이 정의 자리에 있고 IRI 가 질문 id 다 (p8-judge-calibration-binding)" ] ;
+    sh:property [ sh:path agt:questionForm ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( "noul" "choice" "score" ) ;
+        sh:description "답 공간이 셋 중 무엇인가" ;
+        sh:message "질문의 형은 noul·choice·score 셋 중 정확히 하나다 — 자유 서술은 판정이 아니다 (p8-judge-calibration-binding)" ] ;
+    sh:property [ sh:path agt:choiceOption ; sh:datatype xsd:string ; sh:maxCount 255 ;
+        sh:description "닫힌 집합이 상한 안인가" ;
+        sh:message "선택 집합의 원소가 255 를 넘는다 — 독립 점수(score) 뒤 명시 선택의 2단계로 나눈다 (p8-judge-calibration-binding 규칙 ③)" ] ;
+    sh:or (
+        [ sh:property [ sh:path agt:questionForm ; sh:hasValue "noul" ] ]
+        [ sh:property [ sh:path agt:questionForm ; sh:hasValue "choice" ] ;
+          sh:property [ sh:path agt:choiceOption ; sh:minCount 2 ] ]
+        [ sh:property [ sh:path agt:questionForm ; sh:hasValue "score" ] ;
+          sh:property [ sh:path agt:scaleSituation ; sh:minCount 2 ] ] ) ;
+    sh:message "choice 형은 `agt:choiceOption` 둘 이상, score 형은 `agt:scaleSituation` 둘 이상을 갖는다 — 단계는 정도가 아니라 확인 가능한 상황으로 적는다 (p8-judge-calibration-binding)" .
+
+agt:ConfidenceThresholdSetShape a sh:NodeShape ;
+    sh:targetClass agt:ConfidenceThresholdSet ;
+    sh:property [ sh:path agt:autoApplyThreshold ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ; sh:description "자동 적용 경계가 확률인가" ;
+        sh:message "`agt:autoApplyThreshold` 는 0 이상 1 이하의 값 하나다 — 확신도는 확률이다 (p8-judge-calibration-binding)" ] ;
+    sh:property [ sh:path agt:humanReviewThreshold ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ; sh:lessThan agt:autoApplyThreshold ;
+        sh:description "사람 확인 경계가 자동 적용 경계 아래인가" ;
+        sh:message "`agt:humanReviewThreshold` 는 0 이상 1 이하이고 자동 적용 임계보다 작다 — 두 경계가 세 구간을 만든다 (p8-judge-calibration-binding)" ] ;
+    sh:property [ sh:path agt:bandAccuracyMeasured ; sh:datatype xsd:boolean ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:description "구간별 정확도를 쟀는가" ;
+        sh:message "`agt:bandAccuracyMeasured` 가 없다 — 구간별 측정 여부가 자동 적용 구간의 존재를 가른다 (p8-judge-calibration-binding 규칙 ②)" ] ;
+    sh:property [ sh:path agt:calibrationSampleFloor ; sh:datatype xsd:integer ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 1 ;
+        sh:description "구간당 표본 하한이 얼마인가" ;
+        sh:message "`agt:calibrationSampleFloor` 는 1 이상의 정수 하나다 — 20 은 전체가 아니라 구간당 하한이다 (p8-judge-calibration-binding 규칙 ②)" ] ;
+    sh:property [ sh:path agt:calibratedFor ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:description "어느 모델에 대해 쟀는가" ;
+        sh:message "`agt:calibratedFor` 가 없다 — 모델 식별자와 캘리브레이션 표본은 함께 버전이 바뀐다 (p8-judge-calibration-binding 규칙 ⑤)" ] ;
+    sh:message "확신도 임계 셋은 자동 적용 임계·사람 확인 임계·구간별 측정 여부·구간당 표본 하한·캘리브레이션 대상 모델을 각각 하나씩 갖는다 (p8-judge-calibration-binding)" .

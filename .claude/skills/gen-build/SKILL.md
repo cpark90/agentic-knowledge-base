@@ -31,7 +31,7 @@ bazel test //:build_drift_test
 - 도구: `tools/gen_build.py` (`bazel run //tools:gen_build`) — 사용법은 docstring 이 원본이다
 
 ```text
-gen_build.py [--check] [--root .]
+gen_build.py [--check] [--root .] [--residency defs/kb.bzl]
 ```
 
 ## 실패 시

@@ -7,6 +7,7 @@ title: A child ODD only narrows the parent; exit propagation is asymmetric
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-odd-operation
 ---
 **결론** — 하위 ODD는 상위 ODD를 `import`하고 속성 값 범위를 **좁히기만**
 한다. 넓히거나 새 속성을 추가하면 검사 실패다. 이탈 전파는 비대칭이다 —

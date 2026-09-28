@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d]
 restored: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-recipe-standard
 ---
 **결론** — 레시피의 필수 형태는 두 층으로 강제한다. shape(SHACL)는
 의도·완결성의 최소만 구조적으로 강제하고(라벨 + 도메인·과업·프롬프트·

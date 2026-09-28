@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 restored: [https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-authoring-discipline
 ---
 **결론** — 노드의 정의·주석에는 그래프 구조가 이미 말하는 것을 반복하지 않고,
 구조가 보여주지 못하는 것만 적는다: **왜 존재하고 언제 이것을 고르는가**,

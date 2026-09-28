@@ -1,0 +1,25 @@
+# 결함 — 인지 요인의 하위 유형 넷. ODC 에 없는 에이전트 고유 유형이다 (노트 8.17절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:MisreadingFactor a owl:Class ;
+    rdfs:subClassOf agt:CognitiveFactor ;
+    rdfs:label "misreading"@en , "오독"@ko ;
+    skos:definition "입력이 있었으나 잘못 읽은 요인. 입력의 부재가 아니라 해석의 오류이므로 고칠 자리는 판정 결과의 표기와 읽기 규약이다 (8.17절)."@ko .
+
+agt:OmittedInputFactor a owl:Class ;
+    rdfs:subClassOf agt:CognitiveFactor ;
+    rdfs:label "omitted input"@en , "누락"@ko ;
+    skos:definition "필요한 입력이 작업 집합 밖에 있어 생기는 요인. 스코프 설계 문제이고 실행 요인의 한정자 missing 과 다르다 — 전자는 입력의 부재, 후자는 산출물의 부재다 (8.17절)."@ko .
+
+agt:StaleInputFactor a owl:Class ;
+    rdfs:subClassOf agt:CognitiveFactor ;
+    rdfs:label "stale input"@en , "낡음"@ko ;
+    skos:definition "입력이 suspect·invalidated 인데 valid 로 취급된 요인. 고칠 자리는 무효화 전파와 재판정이다 (8.17절)."@ko .
+
+agt:MisrecognitionFactor a owl:Class ;
+    rdfs:subClassOf agt:CognitiveFactor ;
+    rdfs:label "misrecognition"@en , "오인"@ko ;
+    skos:definition "낯선 것을 아는 것으로 취급한 요인. 학습자료에서 온 표기를 이 저장소의 어휘로 착각하는 형태이므로 고칠 자리는 통제 어휘다 (1.2절, 8.17절)."@ko .

@@ -1,0 +1,28 @@
+# 개발 프로파일 — 판정 질문의 형: 판정자가 고정된 입력에 무엇을 묻고 어떤 답 공간을 받는가 (결정 p8-judge-calibration-binding, 옛 p8-judge-question-form, 노트 8.14절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:JudgeQuestion a owl:Class ;
+    rdfs:label "judge question"@en , "판정 질문"@ko ;
+    skos:definition "판정자가 고정된 입력에 대해 값과 확신도로 답하는 원자 질문. 질문 하나가 판단 하나이고 복합 질문은 나눠 같은 입력에 병렬로 묻는다 (결정 p8-judge-calibration-binding). 질문의 본문은 skos:definition 이고 식별자는 이 개체의 IRI 다 — 판정 로그의 `질문 id` 열이 그 축약 표기다. 게이트: judge-question-shapes."@ko .
+
+agt:questionForm a owl:DatatypeProperty ;
+    rdfs:domain agt:JudgeQuestion ;
+    rdfs:range xsd:string ;
+    rdfs:label "question form"@en , "질문의 형"@ko ;
+    skos:definition "판정 질문의 답 공간. 어휘는 noul(예/아니오와 '예'의 확률)·choice(닫힌 집합에서 하나)·score(구간 안의 수치) 셋으로 닫혀 있다 — 자유 서술은 판정이 아니다 (결정 p8-judge-calibration-binding). 이름은 System One 모델의 질문 형 셋을 그대로 쓴다. 게이트: judge-question-shapes(sh:in)."@ko .
+
+agt:scaleSituation a owl:DatatypeProperty ;
+    rdfs:domain agt:JudgeQuestion ;
+    rdfs:range xsd:string ;
+    rdfs:label "scale situation"@en , "척도의 상황 문장"@ko ;
+    skos:definition "score 형 질문의 단계 하나를 정도가 아니라 확인 가능한 상황으로 적은 문장. '매우 그렇다'는 판정자마다 다른 지점에서 갈리지만 '입력에 같은 문장이 있다'는 확인할 수 있다 (결정 p8-judge-calibration-binding). ODD 조건의 판정 방법을 명령으로 적게 한 규칙과 같은 사상이다. 게이트: judge-question-shapes(score 형은 둘 이상)."@ko .
+
+agt:choiceOption a owl:DatatypeProperty ;
+    rdfs:domain agt:JudgeQuestion ;
+    rdfs:range xsd:string ;
+    rdfs:label "choice option"@en , "선택 집합의 원소"@ko ;
+    skos:definition "choice 형 질문이 답으로 받는 닫힌 집합의 원소 하나. 집합의 크기는 255 이하이고 넘으면 독립 점수(score) 뒤 명시 선택의 2단계로 묻는다 — 모델의 cardinality 상한이 그 근거다 (결정 p8-judge-calibration-binding 규칙 ③). 게이트: judge-question-shapes(sh:maxCount 255)."@ko .

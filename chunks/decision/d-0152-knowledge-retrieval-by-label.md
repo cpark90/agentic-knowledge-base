@@ -7,6 +7,7 @@ title: Retrieval is indexed by labels and concepts
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-projection-uses
 ---
 **결론** — 검색의 단위는 청크이고 인덱스는 **라벨과 온톨로지 개념**이다.
 본문 전문 검색은 마지막 수단이다.

@@ -8,11 +8,11 @@ Bazel이 맡는 것은 링크의 **구조** — 끝점의 존재(로드 시점),
 """
 
 ChunkInfo = provider(
-    doc = "지식 항목(청크 또는 결정 복합체)이 의존자에게 내보내는 것 — 링크의 끝점은 파일이 아니라 plane·level을 아는 타깃이다.",
+    doc = "지식 항목(청크 또는 복합체)이 의존자에게 내보내는 것 — 링크의 끝점은 파일이 아니라 plane·level을 아는 타깃이다.",
     fields = {
         "iri": "항목 IRI (복합체면 복합체 IRI)",
         "plane": "requirement | decision | contract | schema | artifact | annotation | memory",
-        "level": "functional | abstract | logical | concrete | executable (복합체면 결론의 수준)",
+        "level": "functional | abstract | logical | concrete | executable (결정 복합체면 결론의 수준, 그 밖의 복합체면 부분 전부의 수준)",
         "status": "draft | stable | suspect | invalidated | deprecated",
         "srcs": "청크 파일들 (depset)",
         "parts": "복합체의 부분 IRI 목록 (청크면 빈 목록)",
@@ -108,12 +108,18 @@ def _lint_action(ctx, files):
     return marker
 
 def _head_action(ctx, files):
-    """타깃 하나의 head 그래프 조각 — chunk2kg --fragment. 프런트매터 오류·복합체 불일치는 여기서 실패한다."""
+    """타깃 하나의 head 그래프 조각 — chunk2kg --fragment. 프런트매터 오류·복합체 불일치는 여기서 실패한다.
+
+    PLANES·LEVELS·STATES 값 어휘의 원본은 //defs:kb.bzl 이다(M1 단일 정의처, 2026-09-26). chunk2kg 가 그 리터럴을
+    읽으려면 샌드박스에 파일이 있어야 하므로 _residency 를 명시 입력으로 준다 — _waivers 를 //docs:waivers 로 준
+    것과 같은 방식이다. 경로는 하드코딩하지 않고 --residency 인자로 넘긴다.
+    """
     out = ctx.actions.declare_file(ctx.label.name + ".head.ttl")
+    residency = ctx.file._residency
     ctx.actions.run(
         executable = ctx.executable._chunk2kg,
-        arguments = ["--fragment", "--out", out.path] + [f.path for f in files],
-        inputs = files,
+        arguments = ["--fragment", "--out", out.path, "--residency", residency.path] + [f.path for f in files],
+        inputs = files + [residency],
         outputs = [out],
         mnemonic = "KbHead",
         progress_message = "head 그래프 조각 %s" % ctx.label,
@@ -128,6 +134,7 @@ _LINK_ATTRS = {
     "_lint": attr.label(default = "//tools:chunk_lint", executable = True, cfg = "exec"),
     "_waivers": attr.label(default = "//docs:waivers", allow_single_file = True, doc = "게이트 면제 선언 (docs/waivers.md)"),
     "_chunk2kg": attr.label(default = "//tools:chunk2kg", executable = True, cfg = "exec"),
+    "_residency": attr.label(default = "//defs:kb.bzl", allow_single_file = True, doc = "PLANES·LEVELS·STATES 값 어휘의 원본 (M1 단일 정의처)"),
 }
 
 def _kb_chunk_impl(ctx):
@@ -156,6 +163,58 @@ kb_chunk = rule(
     }, **_LINK_ATTRS),
 )
 
+MAX_PARTS = 9  # 직접 부분의 상한 (7±2, 4.5절) — shape kb/ontology/shapes/composite-shapes.ttl 의 sh:maxCount 와 같은 수
+
+def _composite_outputs(ctx, plane, level, files, part_iris):
+    """복합체 규칙 둘(kb_decision·kb_composite)이 공유하는 산출 — head 조각 하나·검사 액션 하나·provider.
+
+    묶음의 단위가 **액션의 입력 집합**이다. 부분 청크 전부와 composite: 선언 청크가 한 액션의 입력이라
+    chunk2kg --fragment 가 그 안에서 part_of 대상을 찾아 복합체 개체를 방출한다 (파일 하나 = 묶음 하나가 아니다).
+    """
+    head = _head_action(ctx, files)
+    return [
+        DefaultInfo(files = depset(files)),
+        ChunkInfo(iri = ctx.attr.iri, plane = plane, level = level, status = ctx.attr.status, srcs = depset(files), parts = part_iris),
+        KgInfo(ttl = depset([head])),
+        OutputGroupInfo(_validation = depset([_lint_action(ctx, files)]), kg = depset([head])),
+    ]
+
+def _kb_composite_impl(ctx):
+    n = len(ctx.attr.part_iris)
+    if n < 2:
+        fail("%s: 복합체는 부분 둘 이상의 묶음이다 — 부분 하나면 청크다 (4.5절): 부분 %d" % (ctx.label, n))
+    if n > MAX_PARTS:
+        fail("%s: 직접 부분은 최대 %d개(7±2)다 (4.5절): 부분 %d" % (ctx.label, MAX_PARTS, n))
+    if len(ctx.files.srcs) < n:
+        fail("%s: 부분이 묶음 밖에 있다 — 부분 청크는 이 액션의 입력 집합 안에 있어야 한다 (4.5절): 파일 %d · 부분 %d" %
+             (ctx.label, len(ctx.files.srcs), n))
+    _check_residency(ctx.label, ctx.attr.plane, ctx.attr.level)
+    if ctx.attr.status not in STATES:
+        fail("%s: 알 수 없는 status %r" % (ctx.label, ctx.attr.status))
+    _check_links(ctx, ctx.attr.plane, ctx.attr.level)
+    return _composite_outputs(ctx, ctx.attr.plane, ctx.attr.level, ctx.files.srcs, ctx.attr.part_iris)
+
+kb_composite = rule(
+    implementation = _kb_composite_impl,
+    doc = """복합체 = 타깃 하나 (부분 2~9개의 가변 묶음). 결정 밖 plane 의 복합체가 이 규칙으로 선다 (p4-all-knowledge-is-composite).
+
+    kb_decision 과 다른 것은 둘이다. 첫째, 부분의 수가 가변이라 역할 이름 붙은 인자(conclusion·rationale·alternatives)가 아니라
+    srcs 목록을 받는다. 둘째, **동질성**이 구조로 강제된다 — plane·level 을 복합체 하나가 한 쌍만 갖고 gen_build 가 부분들의
+    frontmatter 가 그 쌍에 일치할 때만 이 규칙을 생성한다. 결정 복합체의 수준 혼합(결론 concrete·근거/대안 logical)은
+    kb_decision 의 예외로 남는다 (p7-decision-spans-three-levels).
+
+    순서는 선언에서만 온다 (p4-composite-order-is-declared) — 선언 청크의 `composite.ordered` 가 있으면 part_iris 가 그 순서로
+    생성되고 head 액션이 `co:List` + `co:index` 를 낸다. 없으면 part_iris 는 srcs 순서일 뿐 뜻을 갖지 않는다.""",
+    attrs = dict({
+        "srcs": attr.label_list(allow_files = [".md"], mandatory = True, doc = "부분 청크 파일들 + composite: 선언 청크 — 이 액션의 입력 집합이 묶음이다"),
+        "iri": attr.string(mandatory = True, doc = "복합체 IRI"),
+        "part_iris": attr.string_list(mandatory = True, doc = "부분 청크 IRI — 선언 청크에 `composite.ordered` 가 있으면 그 순서, 없으면 srcs 순서(뜻 없음)"),
+        "plane": attr.string(mandatory = True, values = PLANES, doc = "복합체와 부분 전부의 plane (동질성)"),
+        "level": attr.string(mandatory = True, values = LEVELS, doc = "복합체와 부분 전부의 level (동질성)"),
+        "status": attr.string(default = "stable", values = STATES),
+    }, **_LINK_ATTRS),
+)
+
 def _kb_decision_impl(ctx):
     levels = ctx.attr.part_levels
     if len(levels) != 3 or len(ctx.attr.part_iris) != 3:
@@ -166,17 +225,17 @@ def _kb_decision_impl(ctx):
         fail("%s: 알 수 없는 status %r" % (ctx.label, ctx.attr.status))
     _check_links(ctx, "decision", levels[0])
     files = [ctx.file.conclusion, ctx.file.rationale, ctx.file.alternatives]
-    head = _head_action(ctx, files)
-    return [
-        DefaultInfo(files = depset(files)),
-        ChunkInfo(iri = ctx.attr.iri, plane = "decision", level = levels[0], status = ctx.attr.status, srcs = depset(files), parts = ctx.attr.part_iris),
-        KgInfo(ttl = depset([head])),
-        OutputGroupInfo(_validation = depset([_lint_action(ctx, files)]), kg = depset([head])),
-    ]
+    return _composite_outputs(ctx, "decision", levels[0], files, ctx.attr.part_iris)
 
 kb_decision = rule(
     implementation = _kb_decision_impl,
-    doc = "결정 복합체 = 타깃 하나 (결론·근거·대안). 대안이 없으면 로드 시점에 실패한다 — 대안 청크 필수(7.4절)의 구조 형태.",
+    doc = """결정 복합체 = 타깃 하나 (결론·근거·대안 셋 고정). 대안이 없으면 로드 시점에 실패한다 — 대안 청크 필수(7.4절)의 구조 형태.
+
+    결정 밖의 복합체는 kb_composite 다. 두 규칙은 _composite_outputs 로 같은 head 액션·검사 액션·provider 를 쓰고,
+    부분의 수(셋 고정 대 2~9 가변)와 동질성 예외(결정만 수준 혼합)에서만 갈린다.
+
+    순서도 갈린다 — 결정은 역할이 곧 순서이므로(결론 없이 근거를 읽지 않고 대안은 결론을 전제한다) 선언 없이 결론·근거·대안
+    고정 순서의 `co:List` 를 낸다 (p4-composite-order-is-declared). kb_composite 는 `composite.ordered` 선언이 있을 때만 낸다.""",
     attrs = dict({
         "conclusion": attr.label(allow_single_file = [".md"], mandatory = True),
         "rationale": attr.label(allow_single_file = [".md"], mandatory = True),

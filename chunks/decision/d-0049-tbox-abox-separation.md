@@ -7,6 +7,7 @@ title: T-Box and A-Box live in separate files
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-ontology-role
 ---
 **결론** — 개념 정의(T-Box)와 개체(A-Box)를 다른 파일에 둔다. `*-ontology`·
 `*-rules`가 T-Box, `*-kg`·`*-space`가 A-Box이며, 0.2절 접미사 규약이 이

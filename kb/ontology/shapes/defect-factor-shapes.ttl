@@ -1,0 +1,36 @@
+# shape — 결함 요인: 현상 개체는 정의·표기·관측 수단·출처를 갖는다 (노트 8.17절, 8.21절 G1)
+# defect-factor-ontology 의 정의문 "개체의 필수 자리는 skos:definition·agt:observationMeans·출처이며 게이트: defect-factor-shapes" 의 실행 자리다.
+# 출처를 둘 중 하나로 받는 이유는 그래프 안에 개체가 있는 원천(prov:wasDerivedFrom)과 개체가 없는 외부 간행물(dcterms:bibliographicCitation)이 섞이기 때문이다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:DefectFactorShape a sh:NodeShape ;
+    sh:targetClass agt:DefectFactor ;
+    sh:property [
+        sh:path skos:definition ;
+        sh:minCount 1 ;
+        sh:message "현상 개체는 skos:definition 을 갖는다 — 정의 없는 요인은 관측자마다 다른 것을 세게 되고 요인 분포가 진단이 되지 못한다 (8.17절)" ;
+    ] ;
+    sh:property [
+        sh:path skos:notation ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "현상 개체는 질문지의 표기(P1~P22)를 skos:notation 으로 정확히 하나 갖는다 — 유저가 준 현상 목록과 어휘를 잇는 자리다 (8.21절 G1)" ;
+    ] ;
+    sh:property [
+        sh:path agt:observationMeans ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "현상 개체는 agt:observationMeans 를 정확히 하나 갖는다 — 지표·게이트의 이름을 적고 아직 없으면 미확정 을 적는다. 자리를 비우면 공백이 집계되지 않는다 (8.21절 G1)" ;
+    ] ;
+    sh:or (
+        [ sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:nodeKind sh:IRI ; ] ]
+        [ sh:property [ sh:path dcterms:bibliographicCitation ; sh:minCount 1 ; sh:datatype xsd:string ; ] ]
+    ) ;
+    sh:message "현상 개체는 출처를 갖는다 — 그래프 안 원천은 prov:wasDerivedFrom 의 IRI 로, 외부 간행물은 dcterms:bibliographicCitation 의 문자열로 적는다 (STYLEGUIDE §5)" .

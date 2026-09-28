@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 restored: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-recipe-standard
 ---
 **결론** — 실행 거동 축(실행 모드·테스트 시나리오·실패 정책)은 **원천이
 뒷받침할 때만 필수**다(source-gated). 원천이 진짜로 그 축을 갖지 않으면

@@ -7,6 +7,7 @@ title: Reproducibility is a condition of rung assignment
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-verification-criteria
 ---
 **결론** — 1~4단계 시나리오는 재현 가능해야 한다. 재현성은 시나리오의
 속성이 아니라 **환경 배정의 조건**이며, 재현되지 않는 시나리오는 5~6단계로

@@ -7,6 +7,7 @@ title: The inspection gate checks the A-Box with SHACL
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-ladder-mechanism
 ---
 **결론** — 에이전트가 A-Box와 설계 공간을 채우게 하려면 기계적 검사가
 필수다. **SHACL 제약**으로 카디널리티, 타입 일관성, 필수 필드를 검사하는

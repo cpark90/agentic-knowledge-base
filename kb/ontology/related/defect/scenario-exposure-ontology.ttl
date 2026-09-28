@@ -1,0 +1,11 @@
+# 결함 — 시나리오 부류가 노출하려는 요인 (노트 8.21절 G5, 8.22절 요인 청크)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:exposesFactor a owl:ObjectProperty ;
+    rdfs:domain agt:KnowledgeItem ;
+    rdfs:range agt:DefectFactor ;
+    rdfs:label "exposes factor"@en , "요인을 노출한다"@ko ;
+    skos:definition "시나리오가 드러내려는 결함 요인을 잇는다. 위험 분석 G5 의 시나리오 부류는 현상의 조합이므로 이 술어의 값 집합이 부류의 정체이고, 요인을 하나도 노출하지 않는 시나리오는 위험에서 파생되지 않은 것이다. 주어는 V&V KB 의 시나리오 항목이고 abstract 부류와 그것을 정련한 항목이 같은 술어를 쓴다 (8.21절, 8.22절)."@ko .

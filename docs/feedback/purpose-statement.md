@@ -212,11 +212,14 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 51 | 도입 5단계 첫 형태 — 설계 공간 `-space` (2026-09-22) — 어휘·파서 `space2kg`·게이트 `space`·`choices` 뷰 | `orchestrator-design-space-first-form-2026-09-22` |
 | 52 | 리뷰 순환 첫 닫힘 (2026-09-23) — 논평이 판정을 낳고 그 판정이 케이스를 고쳤다 | `orchestrator-review-loop-closed-2026-09-23` |
 | 53 | 연결 성분의 원인 분리 (2026-09-22) — 관측이 아닌 원인(새 지식 섬 둘)을 먼저 이어 6 → 4 | `orchestrator-connected-components-2026-09-22` |
+| 54 | V&V 위험 분석 G1~G6 의 입력 (2026-09-29) — 선택지 1. 벤치마크판 질문지의 셋을 그대로 채택: 피해 H1~H5(ODC 영향 차원) · 현상 P1~P22(관측 수단 있는 13 · 공백 아홉) · 규칙성 가정 A1~A3. "지식 유실·재생산"은 H1 하위로 읽었다 | `vv-profile-hazards-2026-09-19` · handoff 동명 |
+| 55 | 판정 주석을 연결 성분·CQ20 에서 제외 (2026-09-29) — 관측 제외와 같은 근거(요구를 향해 정제되는 항목이 아니다). 성분 2 → 1 · CQ20 99.0% → 100%, **도입 1단계의 마지막 조건이 닫힌다** | `verdict-in-metrics-2026-09-27` · handoff 동명 |
+| 56 | 작업 집합 예산 초과를 앵커가 있을 때만 게이트로 (2026-09-29) — 2단계 조건이 `bazel test` 안으로 들어오고 기본 뷰는 깨지지 않는다 | `workset-budget-gate-2026-09-22` · handoff 동명 |
+| 57 | 게이트 하나의 밀폐 예외를 받고 ODD 조건으로 판정 (2026-09-29) — `env_inherit` 을 쓰는 타깃 수 ≤ 1 을 ODD 가 센다. 실측 일치를 밀폐성 앞에 둔 판단 | `test-hermeticity-2026-09-26` · handoff 동명 |
+| 58 | 판정자를 System One 모델에 붙인다 — 게이트 밖 보고로 (2026-09-26) — 결정 개정으로 J1~J5 반영: 확신도는 집단 수준 캘리브레이션 · 구간별 표본 · Choice 255 상한과 2단계 · 논평 본문은 판정자가 쓰지 않는다 · 모델 버전과 캘리브레이션은 함께 바뀐다 | `jev-judge-binding-2026-09-26` · handoff 동명 |
+| 59 | 결정 밖의 복합체 — 도구를 고친다 (2026-09-26) — `kb_chunk` 묶음 복합체 규칙을 만들어 요구·기준·시나리오·검증기가 결정과 같은 형식을 얻는다 | `composite-beyond-decisions-2026-09-26` · handoff 동명 |
 
-**아직 유저 답을 기다리는 것**: `jev-judge-binding-2026-09-26.md`(판정자를 System One 모델에 붙일 것인가), `test-hermeticity-2026-09-26.md`(게이트 하나의 밀폐성), `composite-beyond-decisions-2026-09-26.md`(복합체를 결정 밖으로), `code-as-chunks-2026-09-26.md`(코드를 청크로), `agent-verification-target-2026-09-22.md`(에이전트 검증의 `verifies` 도착점), `workset-budget-gate-2026-09-22.md`(예산 초과의 게이트화), `generated-requirements-stable-2026-09-21.md`(요구 둘의 stable 전이),
-`observation-timestamp-notation-2026-09-21.md`(관측 시각 표기), `link-model-robustness-2026-09-18.md`의 선택지 C·D·E,
-`connected-components-observations-2026-09-19.md`(관측이 성분을 늘리는 문제), `vv-profile-hazards-2026-09-19.md`(V&V 프로파일 위험 G1~G6),
-`dependency-graph-design.md`의 (a)~(j),
-`chunk-definition-unification.md`(반영 완료로 제거 — git 이력)의 D1~D9(온톨로지·ODD 항목의 plane·level 배정).
+**아직 유저 답을 기다리는 것**(2026-09-29): `code-as-chunks-2026-09-26.md` — 코드를 청크로 올리는 방식의 확인 둘(생성 방향 · 표본 먼저).
+그 밖의 유저 lane 항목은 전부 `approved` 이고 인수인계로 넘어갔다. 옛 미결(`dependency-graph-design` 의 (a)~(j) 등)은 git 이력에서 본다.
 
 > 결정 로그가 인용하는 채널 항목 중 반영 완료로 제거된 것(`chunk-definition-unification.md`·`suggestion-okf-three-layer.md`·`notes-v4-review.md`·`terminology-normalization.md`)은 git 이력에서 본다.

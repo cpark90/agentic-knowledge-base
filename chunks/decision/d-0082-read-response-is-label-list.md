@@ -7,6 +7,7 @@ title: The label is the interface - reads return a label list by default
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-plane-operation
 ---
 **결론** — **라벨이 청크의 인터페이스다.** 읽기 응답의 기본은 본문이 아니라
 **청크 라벨 목록**이고, 에이전트는 라벨 목록을 먼저 받아 필요한 청크만

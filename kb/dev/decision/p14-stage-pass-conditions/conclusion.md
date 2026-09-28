@@ -7,8 +7,8 @@ title: Stage pass conditions are three axes: meaning preserved, concretisation, 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-24T09:00:00+09:00}
-verified: [{by: orchestrator/claude-opus-5, at: 2026-09-24T09:05:00+09:00}]
+generated: {by: hci/claude-opus-5, at: 2026-09-29T01:22:00+09:00}
+verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-29T01:25:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk/7ffcce18-39d0-45b3-90f7-6ac8d1528254]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/6878b566-73c2-462f-a524-5203c4c3832e, title_ko: 단계별 통과 조건 — 세 축, title: Stage pass conditions — three axes}
@@ -22,6 +22,6 @@ part_of: https://agentic-knowledge-base.dev/id/composite/6878b566-73c2-462f-a524
 | **구체화** (가상화 단계 = 수준 계층) | 각 수준이 상위를 정제해 더 구체적인 것을 더했는가 | 수준 허용표 위반 0, `refines` 한 단계씩, 빈 수준 0, 결정 완결률, 수기 케이스 0 | 미확정 |
 | **유기적 연결** | 지식이 고립되지 않고 질의로 서로 닿는가 | 연결 성분 수, 매트릭스 채움률, ODD 밖 참조 0, 검증 대응물 채움률, 영향 집합 = 실제 의존 | 무효화 실험(정밀도·재현율) |
 
-**연결 성분은 저작된 지식만 센다.** 관측(`memory`)은 실행의 부산물이고 append-only라 사후에 링크를 이을 길이 없으며, 추적 매트릭스 15칸 중 `memory`를 출발·도착으로 갖는 칸이 0개다. 관측을 세면 실행할수록 지표가 나빠진다 — 그것은 고립이 아니라 기록의 축적이다(유저 승인 2026-09-23).
+**연결 성분은 저작된 지식만 센다.** 관측(`memory`)은 실행의 부산물이고 append-only라 사후에 링크를 이을 길이 없으며, 추적 매트릭스 15칸 중 `memory`를 출발·도착으로 갖는 칸이 0개다. 관측을 세면 실행할수록 지표가 나빠진다 — 그것은 고립이 아니라 기록의 축적이다(유저 승인 2026-09-23). **판정 주석(`annotation`)도 같은 지표에서 뺀다**(유저 승인 2026-09-29) — 뺀 이유는 다르다. 관측은 실행의 부산물이고, 주석은 산출물에 대한 리뷰다. 둘 다 저작된 지식이되 요구를 향해 정제되는 항목이 아니므로 성분·CQ20의 대상이 아니다. 지표를 맞추려 없는 관계를 적지 않는다.
 
 단계별 조건은 노트 14.1 표(정정본)가 원본이다 — 채택 경위(유저 결정 2026-09-10 "표대로 채택")는 원장(purpose-statement §4)과 git 이력에 있다. 이 저장소의 1단계: 고아율 0%·예산 이내는 통과, 확정 문장 커버리지와 라벨 대표성 실험이 남았다.

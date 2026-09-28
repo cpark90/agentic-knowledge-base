@@ -7,6 +7,7 @@ title: The three breaks share one cause, no common vocabulary
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-why-this-system
 ---
 **결론** — 좁게 보고 자기 방향으로 틀리는 행위자 여럿이 한 프로젝트를 만들면
 **세 곳에서 끊어지며, 공통 원인은 공통 어휘의 부재다.** 그래서 이 체계는

@@ -32,7 +32,7 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 |---|---|---|---|---|---|---|
 | 청크 형식 | 42줄 초과, 라벨 누락, plane·level 유일성 위반, `type`이 온톨로지 밖 | shape | 4.4 | **있음** — `chunk_lint` + `chunk2kg` + `chunk-shapes` | `chunk` · `chunk2kg` | 청크를 고친다 — plane의 write 역할(요구·결정 orchestrator, 산출물 developer) |
 | 수준 허용표 | plane에 허용되지 않는 level | shape | 6.4 | **있음** — `residency-shapes` | `shacl`(residency) | level 또는 plane을 고친다 — 저작자 |
-| 복합체 | 부분의 plane·level 불일치, 직접 부분 > 9, 순환 | analysis + verify | 4.5 | **있음** — `composite-shapes`(≤9) · `kb_decision`(결정의 세 부분·수준, 분석 시점) · verify 질의 `composite-heterogeneous`·`composite-cycle`(전체 복합체, 2026-09-13; 수준 동질성은 결정 복합체 제외) | `shacl`·`gen-build`·`verify` | 복합체 선언·세 청크를 고친다 — 저작자 |
+| 복합체 | 부분의 plane·level 불일치, 직접 부분 > 9, 순환 | analysis + verify | 4.5 | **있음** — `composite-shapes`(≤9) · `kb_decision`(결정의 세 부분·수준, 분석 시점) · verify 질의 `composite-heterogeneous`·`composite-cycle`(전체 복합체, 2026-09-13; 수준 동질성은 결정 복합체 제외) · `kb_composite`(부분 2~9 · plane·level 한 쌍, 분석 시점, 2026-09-29) · `gen_build._check_bundle`(묶음 = 패키지 × `composite.id`, 생성 시점 — 패키지 밖 부분·중복 선언·이질·상한·`ordered`와 부분 집합의 불일치) · `composite-order-shapes`(순서 있는 복합체의 색인 1..n 연속·중복 없음·부분 집합과 일치, 2026-09-29) | `shacl`·`gen-build`·`verify` | 복합체 선언·세 청크를 고친다 — 저작자 |
 | 통제 어휘 | 온톨로지에 없는 술어·개체, 표준 어휘 원문에 없는 prov·skos 용어 | verify | 0.0, 2.12 | **있음** — `validate` vocab (+ `--standard-vocab`, 2026-09-12) | `vocab` | 온톨로지에 개념을 먼저 더하거나(`term_propose` → 승인) 술어를 정정한다 — developer(T-Box) |
 | 출처 | `sources`가 빈 청크, 파생 연쇄 전체가 외부 유입인 확정 청크 | verify | 4.3, 2.12 | **있음** — `sources-empty.rq`·`imported-chain-confirmed.rq` | `verify` | `sources`를 보강한다 — 저작자 |
 | TIM | 링크 타입의 정의역·치역 밖 plane, 카디널리티 초과, 단방향 규칙 위반 | analysis | 10.1 | **부분** — `defs/kb.bzl` 규칙이 `refines`(상위 수준·plane 단방향)·`serves`(요구만)·`supersedes`(같은 plane)·`verifies`(V&V 주어·같은 수준)를 분석 시점 `fail()`로, 끊긴 링크는 로드 에러, 방향은 `package_group` 가시성 (2026-09-11) | `tim`(`defs/kb.bzl` 분석 시점) | 링크의 방향·수준을 고친다 — 저작자. 규칙 변경은 유저 승인 사항이다 |
@@ -56,24 +56,26 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 | 링크 비순환 | `refines`·`supersedes`·`hasDirectPart` 의 반사·순환 | verify | 6.2·7.4·4.5 | **있음** — 질의 `refines-cycle`·`supersedes-cycle`(2026-09-26 신설)·`composite-cycle`. 공리(`owl:IrreflexiveProperty`·`TransitiveProperty`)는 선언이고 판정은 질의다 — pySHACL 의 rdfs·owlrl 추론이 비반사성 위반을 보고하지 않는다(고정물로 실측) | `verify` | 순환을 끊는다 — 저작자 |
 | 주석의 수준 상속 | 주석의 `hasLevel` 이 `targets` 대상 어느 것의 수준과도 다름 | verify | 7.7 | **있음** — 질의 `comment-level-not-inherited`(2026-09-26). 대상이 여럿이면 그중 하나와 같으면 통과 | `verify` | 주석의 수준을 대상에 맞춘다 — vnv |
 | 태그 값 | `taggedWith` 값이 온톨로지 개념이 아니거나 범주에 미등록 | shape | 0.5 | **있음** — `tag-shapes.ttl`(2026-09-26). 사용 0 이라 위반 0 | `shacl`(tag) | 값을 개념으로 바꾼다 — 저작자 |
-| 실행기 환경 격리 | 케이스의 명령이 실행기의 파이썬·runfiles 문맥을 물려받음 — 걷어내는 변수가 다섯과 다르거나, `clean_env()` 뒤에 남거나, 작업 디렉토리가 워크스페이스 루트가 아님 | test | 8.15 | **있음** — `//tools:vv_run_env_test` (2026-09-23). 판정 대상을 실행기 전체가 아니라 격리의 동작으로 좁혀 **중첩 bazel 을 피했다** | `vv-run-env` | 걷어낼 변수를 바꾸려면 결정 [`p8-verifier-env-isolation`](../kb/dev/decision/p8-verifier-env-isolation/conclusion.md)과 검사의 기대를 같은 커밋에서 고친다 — developer |
+| 실행기 환경 격리 | 케이스의 명령이 실행기의 파이썬·runfiles 문맥을 물려받음 — 걷어내는 변수가 다섯과 다르거나, `clean_env()` 뒤에 남거나, 작업 디렉토리가 워크스페이스 루트가 아님 | test | 8.15 | **있음** — `//tools:vv_run_env_test` (2026-09-23). 판정 대상을 실행기 전체가 아니라 격리의 동작으로 좁혀 **중첩 bazel 을 피했다**. **선언된 예외 하나** — `//tools:vv_run_env_test` 자신이 `env_inherit = ["HOME"]`(실측 일치를 위해 호스트 `HOME`을 물려받는다). 그 수(≤1)는 ODD 조건 [`id:cond-host-env-inherit`](../kb/odd/project-odd.yml)가 `bazel query 'attr(env_inherit, "HOME", tests(//...))'` 의 행 수로 판정한다(2026-09-29) | `vv-run-env` | 걷어낼 변수를 바꾸려면 결정 [`p8-verifier-env-isolation`](../kb/dev/decision/p8-verifier-env-isolation/conclusion.md)과 검사의 기대를 같은 커밋에서 고친다 — developer |
+| 작업 집합 예산 | 앵커가 있는 작업 집합 뷰(라벨 목록 + 펼친 본문)가 문서 전체로 예산(200줄)을 넘음 — **앵커가 있을 때만** 판정한다. 앵커 없는 뷰(스코프 전체 라벨 목록)는 구조적으로 예산을 넘어 판정 밖이다 | analysis | 5.6, 11.3 | **있음** — `tools/workset.py`(2026-09-29). `bazel build //kg:workset --//kb:anchor=…`가 종료 코드로 판정한다 | `workset-budget` | 앵커의 이웃 구성이나 청크 크기를 줄인다 — 저작자. 예산 값(200줄)은 결정 `p1-context-budget-breakdown`이 정한다 |
 | V&V 케이스 형식 | 기계가 읽는 자극·기대의 규약 위반 — `files`·`expect` 밖의 키, `expect` 수가 명령 수와 다름, 이름에 경로, 명령이 가리키지 않는 자극, 미해결 `{{이름}}`, 검증기를 `bazel run`으로 부르는 명령 | analysis | 8.20 | **있음** — `vv_run` (2026-09-23). `bazel test //...` 밖이고 `bazel run //tools:vv_run` 이 판정한다 — 케이스가 `bazel test` 를 부르므로 실행기 전체는 테스트 타깃이 될 수 없다. 다만 **환경 격리는 `//tools:vv_run_env_test` 로 테스트 안에 있다** — 그 검사는 케이스를 하나도 돌리지 않는다 | `vv-case` | 케이스의 `yaml` 펜스를 규약(`files`·`expect`)에 맞춘다 — vnv. 면제는 `waivers.md`(축 `파일`·`stem`) |
 | 해소되지 않은 차단 주석 | `issue (blocking)` 이면서 `해소: 열림` 인 살아 있는 주석 | test | 7.7 | **있음** — `chunk_lint` (2026-09-22). 대상은 살아 있는 `type: annotation` 청크이고 `deprecated`·`invalidated` 는 기록이라 막지 않는다 | `blocking-comment` | 대상을 고친 뒤 `해소: 해소 — <이유>`로, 받지 않기로 했으면 `해소: 기각 — <이유>`로 바꾼다 — 저작자. 면제는 `waivers.md`(축 `파일`) |
 | 설계 공간 | 근거 없는 배제(`eliminated` 인데 `eliminated_by` 없음), 확정 후보가 정확히 하나가 아닌 `resolved`, 후보의 출발점·링크 타입이 변수와 불일치, 실재하지 않는 IRI, 같은 변수를 두 파일이 선언 | analysis + verify | 9.10 | **있음** — `space2kg`(생성 시점) · `validate` `check_space`(그래프 시점) (2026-09-22). `space/*-space.md` 는 `kb_chunk` 타깃이 아니라 A-Box 그래프 `//space:design_space` 로 나간다 | `space` | 후보에 근거를 붙이거나 변수를 고친다 — 저작자. 후보는 결코 `deps` 가 되지 않는다 (`p9-candidate-storage`) |
 | 첨가 | 슬롯의 질문에 답하지 않는 문장 — 메타 문장(`다음과 같다`·`이 절에서는`·`아래에서 설명한다`·`앞서 말했듯`)과 채움 문구(`특이사항 없음`·`일반적인 방식을 따른다`·`추후 결정한다`) | test | STYLEGUIDE §0 | **있음** — `chunk_lint` (2026-09-22 승격, `consistency` ⑧ 수치 0). 대상은 살아 있는 청크이고 `deprecated`는 기록이라 제외한다 | `addition` | 슬롯의 질문에 답하는 문장으로 바꾸거나 지운다. 채움 자리에는 세 빈 값 — 저작자 |
 | 빈 값 표기 | 세 빈 값(`없음`·`해당 없음`·`미확정`) 밖의 `N/A`·`TBD`·`미정`과 표의 단독 대시 셀 | test | STYLEGUIDE §0 | **있음** — `chunk_lint` (2026-09-22 승격) | `empty-value` | 세 값 중 하나로 바꾼다. 낱말의 산문 용법이면 `waivers.md`에 선언한다 — 저작자 |
 | 목록 규칙 | 손 번호 `2.` 이상 · 항목 9개 초과 · 중첩 3단계 이상 · 항목당 240자 초과 · 빈 목록 항목 | test | STYLEGUIDE §0 | **있음** — `chunk_lint` (2026-09-22 승격). 길이는 이어지는 들여쓴 줄을 합치고 공백을 정규화한 뒤 센다 | `list-rules` | 번호를 전부 `1.`로 바꾸고, 항목 수·중첩·길이는 블록을 나누며, 빈 목록은 `없음`으로 적는다 — 저작자 |
-| 본문 슬롯 | 틀이 요구하는 슬롯 표지 누락 — 요구·검증 목표·결정 세 청크·합격 기준·케이스의 일곱 틀 | shape | STYLEGUIDE §0 | **있음** — `*-body-shapes.ttl` 넷 (2026-09-22). `chunk2kg`가 본문에서 표지를 찾아 `agt:bodySlot`으로 내고 shape가 판정한다. 슬롯마다 등록 질문이 `sh:description`에 있다 | `shacl`(body-slot) | 빠진 슬롯을 채운다 — plane의 write 역할 |
-| 생성 문서 형태 | 생성 마크다운의 머리 블록 누락(생성기·시각·입력·질의·재현·성격), 제목 계층 건너뜀, h1 복수, 표의 헤더 행·열 수·앞뒤 빈 줄, 언어 없는 펜스, 120줄 초과인데 목차 없음, 깨진 링크, 빈 표 셀, 분모 없는 백분율 | test | STYLEGUIDE §9 | **있음** — `gendoc`(`//:gendoc_test`, 2026-09-21). 생성 뷰 11종 + SKILL.md 가 입력이다. 검사 함수는 `kb_lib.check_gendoc` 이고 생성기가 같은 함수를 쓴다 | `gendoc` | 생성기(`tools/*.py`)의 출력 문자열을 고친다 — developer. 면제는 `waivers.md` |
+| 본문 슬롯 | 틀이 요구하는 슬롯 표지 누락 — 요구·검증 목표·결정 세 청크·합격 기준·케이스의 일곱 틀 | shape | STYLEGUIDE §0 | **있음** — `*-body-shapes.ttl` 넷 (2026-09-22). `chunk2kg`가 본문에서 표지를 찾아 `agt:bodySlot`으로 내고 shape가 판정한다. 슬롯마다 등록 질문이 `sh:description`에 있다. V&V 시나리오의 **자극**·**요인**·**배제 자극**은 새 틀이 아니라 결정 틀의 세 슬롯에 사상된 표지다 (2026-09-29). **표지는 자리로 판정한다**(2026-09-29 실측 — 본문 중간의 굵은 강조가 표지로 잘못 잡힌 오탐 4건). 굵은 span 이 그 줄의 필드 자리(줄 머리·불릿 다음·앞선 필드의 ` · ` 다음)에 있고 표지 뒤 한정어가 짧을 때(마침표 없음, `BODY_SLOT_QUALIFIER_MAX` 이하)만 슬롯이다 — `chunk_lint`의 `decision-role`이 이미 쓰는 "본문 첫 산문 줄이 굵은 표지로 시작"과 같은 판정이다. 표지 집합 자체의 중복·접두 겹침은 `kb_lib.validate_body_slot_markers`가 로드 시점에 본다 | `shacl`(body-slot) | 빠진 슬롯을 채운다 — plane의 write 역할 |
+| 생성 문서 형태 | 생성 마크다운의 머리 블록 누락(생성기·시각·입력·질의·재현·성격), 제목 계층 건너뜀, h1 복수, 표의 헤더 행·열 수·앞뒤 빈 줄, 언어 없는 펜스, 120줄 초과인데 목차 없음, 깨진 링크, 빈 표 셀, 분모 없는 백분율, `(목표 <값>)` 표기 불일치(G16) | test | STYLEGUIDE §9 | **있음** — `gendoc`(`//:gendoc_test`, 2026-09-21 · G16 표기 통일성 2026-09-29 추가). 생성 뷰 14종(SKILL.md 19 포함)이 입력이다. 검사 함수는 `kb_lib.check_gendoc` 이고 생성기가 같은 함수를 쓴다. G16 은 표기 통일성만 게이트다 — "목표를 붙여야 하는가"는 사람 판단이다. G17(시점 의존 표현)은 오탐률 실측(후보 7건 전부 오탐)으로 게이트로 올리지 않고 `check_gendoc`의 둘째 반환값(보고 전용)으로만 낸다 | `gendoc` | 생성기(`tools/*.py`)의 출력 문자열을 고친다 — developer. 면제는 `waivers.md` |
 | 카탈로그 정합성 | 스코프 없는 역할, 미부여 스코프, read plane 0, write plane 공유, `maxConcurrent` 합 > ODD 상한 | verify | 10.2 | **있음** — `validate` `check_catalog`(2026-09-13) | `catalog` | `kg/catalog-kg.ttl`·ODD를 고친다 — orchestrator(문서·그래프 같은 커밋) |
 | 결정 역할 표지 | 결론·근거·대안 청크의 첫 산문 줄에 `**결론**`·`**근거**`·`**대안**`("대안 없음" 변형 허용) 없음 | test | 7.4 | **있음** — `chunk_lint` `decision-role`(2026-09-13) | `decision-role` | 본문 첫 줄을 고친다 — orchestrator |
+| 판정 로그 | 판정 로그의 형식·필수 필드 위반 — 판정 표의 헤더가 규약(`kb_lib.JUDGE_LOG_TABLE_HEADER`)과 다름, 행의 질문 id·값·확신도·모델 식별자·입력 지문·시각 중 하나가 빔, 지문이 sha256(소문자 16진 64자)이 아님, 시각이 ISO 8601 UTC 초 해상도가 아님, 처리가 임계의 세 값 밖, 판정 행 0건 | test | 8.14 | **있음** — `chunk_lint` `judge-log`(2026-09-29). 대상은 `generated.by` 가 `process:judge` 이고 `type: memory` 인 청크다. **판정 자체는 게이트 밖 도구**(`bazel run //tools:judge`)가 하고 게이트는 로그만 본다 — 외부 서비스가 `bazel test` 의 입력이 되면 같은 리비전이 네트워크 상태에 따라 다른 판정을 낸다 ([`p8-judge-calibration-binding`](../kb/dev/decision/p8-judge-calibration-binding/conclusion.md)). **PASS 조건은 "위반 0건"이고 판정 로그가 0건이면 거부할 것이 없어 그대로 PASS 다** — 로그의 존재를 요구하는 것은 이 게이트의 몫이 아니라서 SKIP 으로 내리지 않는다 | `judge-log` | 로그를 다시 낸다(`bazel run //tools:judge -- --record`) 또는 빠진 필수 필드를 채운다 — developer(도구)·vnv(판정). 면제는 `waivers.md`(축 `파일`) |
 
 2026-09-11 Bazel 규칙 반영 후 기계화 10 · 부분 4 · 규약 1 · 없음 6이다. 없음의 대부분이 도입
 5·7단계의 산출에 걸려 있다. `id`는 도구의 `FAIL [<id>]` 태그와 같다(agrtls A). 결정
 `p6-gate-catalogue`가 같은 id를 적는다. 하네스 자체의 게이트 id는 `naming`(`//:naming_test`) ·
 `build-drift`(`//:build_drift_test`) ·
-`channel`(`//docs/feedback:channel_lint_test`) · `doccheck`(`//:doccheck_test`) · `gendoc`(`//:gendoc_test`) · `addition`·`empty-value`·`list-rules`·`blocking-comment`(`chunk_lint`) · `space`(`space2kg`·`validate`) · `vv-case`(`vv_run`) · `vv-run-env`(`//tools:vv_run_env_test`) · `residency`(`validate`) · `chunk2kg-merge`(병합) ·
-`odd2kg`·`taxonomy`(생성=검사) · `canon`(규약, 테스트 타깃 아님)이다. 실패 종류(종료 코드 1·2·3)는
+`channel`(`//docs/feedback:channel_lint_test`) · `doccheck`(`//:doccheck_test`) · `gendoc`(`//:gendoc_test`) · `addition`·`empty-value`·`list-rules`·`blocking-comment`·`judge-log`(`chunk_lint`) · `space`(`space2kg`·`validate`) · `vv-case`(`vv_run`) · `vv-run-env`(`//tools:vv_run_env_test`) · `residency`(`validate`) · `chunk2kg-merge`(병합) ·
+`odd2kg`·`taxonomy`(생성=검사) · `workset-budget`(`//kg:workset`, 앵커가 있을 때만) · `canon`(규약, 테스트 타깃 아님)이다. 실패 종류(종료 코드 1·2·3)는
 §게이트를 추가할 때에 적혀 있다.
 
 ## 코어 층 — 두 KB가 공유하는 도구
@@ -125,6 +127,7 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 |---|---|---|
 | `chunk-shapes.ttl` | `agt:Chunk` | `lineCount` ≤ 42 · `hasLevel` 정확히 1 · 한/영 라벨 각 1 · `status` 값 |
 | `composite-shapes.ttl` | `agt:Composite` | `hasDirectPart` ≤ 9 |
+| `composite-order-shapes.ttl` | `co:List` | 순서 있는 복합체의 색인 1..n 연속·중복 없음, `co:itemContent` 집합이 `hasDirectPart`와 일치 (2026-09-29) |
 | `residency-shapes.ttl` | plane별 | plane×level 수준 허용표 |
 | `condition-shapes.ttl` | `agt:Condition`·`agt:ODD` | 조건마다 `checkMethod` 필수 · 등급 A–D · ODD는 조건 ≥ 1 |
 | `assumption-shapes.ttl` | `agt:Assumption` | ODD 조건을 `refersTo` ≥ 1 · `proposition` 필수 |
@@ -132,10 +135,13 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 | `trust-shapes.ttl` | `agt:Chunk` | `generatedBy` 필수 · `generatedAtTime ≤ verifiedAt`(검증 뒤 수정 금지) |
 | `tag-shapes.ttl` | `agt:taggedWith` 대상 | 태그 값은 온톨로지 개념이고 범주에 등록돼 있다 (2026-09-26) |
 | `requirement-body-shapes.ttl` | `agt:RequirementChunk` | 요구·검증 목표의 본문 슬롯과 순서 (2026-09-22) |
-| `decision-body-shapes.ttl` | `agt:DecisionChunk` | 결론·근거·대안의 본문 슬롯 |
+| `decision-body-shapes.ttl` | `agt:DecisionChunk` | 결론·근거·대안의 본문 슬롯. V&V 시나리오의 **자극**·**요인**·**배제 자극**이 그 세 슬롯에 사상된 대안 셋이다 (2026-09-29) |
 | `acceptance-criteria-body-shapes.ttl` | `agt:ContractChunk` | 합격 기준 · 판정식 또는 확인 절차 · 등급 |
 | `verification-case-body-shapes.ttl` | `agt:SchemaChunk` | 케이스 · 자극 · 기대 · 실행 명령 · 표본 근거 |
 | `review-comment-body-shapes.ttl` | `agt:ReviewComment` | 라벨 일곱·장식 셋·해소 셋의 닫힌 어휘, `대상`·`본문`·`해소` 슬롯, 본문 4문장 상한 |
+| `defect-factor-shapes.ttl` | `agt:DefectFactor` 인스턴스 | 현상 개체의 정의·표기·관측 수단·출처 (2026-09-29) |
+| `risk-grade-shapes.ttl` | 같음 | 위험 등급 셋의 형·개수와 닫힌 값 어휘 `S0~S3`·`E1~E4`·`D1~D3`. 단계의 판정 조건은 [`risk-grade-scale`](../kb/vv/scenario/risk-grade-scale.md)이 정의한다 (2026-09-29) |
+| `exposes-factor-shapes.ttl` | `agt:exposesFactor` 주어 | frontmatter `exposes`의 대상이 `defect` 모듈이 선언한 현상 개체다. 없는 개체와 요인 아닌 개체를 둘 다 거부한다 — 링크 개체도 deps도 아니라 여기가 유일한 실재 검사다 (2026-09-29) |
 
 라벨 제약은 `sh:qualifiedValueShape` + `sh:qualifiedMinCount`로 쓴다. `sh:languageIn`은
 모든 값에 적용되어 "한글 하나 + 영어 하나"를 표현하지 못한다.
@@ -146,16 +152,20 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 제외한다. `naming`은 파일명 접미사 규약(`-ontology`/`-rules`/`-shapes`/`-space`/`-kg`/`-odd`)을 강제한다.
 **온톨로지 파일도 42줄 규칙을 받는다.** chunk는 포맷이 아니라 구조 규칙이기 때문이다.
 
+`decision-role`의 표지는 파일 경로가 정한다. `conclusion`·`rationale`·`alternatives`가 **결론**·**근거**·**대안**이고, V&V 시나리오 패키지(`kb/vv/scenario/`)의 `<슬러그>-stimulus.md`·`<슬러그>-factors.md`·`<슬러그>-excluded.md`가 **자극**·**요인**·**배제 자극**이며(선언 청크 = `-stimulus`, 타깃 이름도 그것이다), 그 밖(단일 파일 옛 결정·단일 청크 시나리오)이 **결론**이다(2026-09-29, [`p8-scenario-authoring`](../kb/dev/decision/p8-scenario-authoring/conclusion.md)). 접미 판정을 시나리오 패키지로 한정한 것은 `chunks/decision/d-0140-three-defect-factors.md`처럼 stem이 `-factors`로 끝나는 옛 결정이 있기 때문이다.
+
+청크를 파싱하는 도구는 전부 `--residency <defs/kb.bzl>` 를 받는다(2026-09-27 — `chunk2kg`·`consistency`·`weave`·`labels`·`space2kg`·`revalidate`·`vv_run`·`assume_check`·`label_sample`·`gen_build`). 인자가 없으면 `EXIT_CONFIG` 다. 직접 실행은 `--residency defs/kb.bzl` 을 명시한다.
+
 #### 생성기 = 검사기
 
 | 도구 | 입력 → 산출 | 실패 조건 |
 |---|---|---|
-| `chunk2kg.py` | 청크 frontmatter → head 그래프. plane을 개발 프로파일의 실체 클래스로 함께 타이핑하고 요구의 `pattern`을 방출한다(2026-09-18). **타깃별 조각**(`--fragment`, `kb_chunk`·`kb_decision` 액션) → `kb_kg_merge`(`--merge`) → `bazel-bin/kg/chunks-kg.ttl`. 바뀐 타깃의 조각만 다시 만든다. | 필수 키 7개 누락, 값 어휘 밖, 복합체 미선언(조각), **IRI 중복**(병합) — "한 chunk는 한 파일"의 기계적 강제 |
+| `chunk2kg.py` | 청크 frontmatter → head 그래프. plane을 개발 프로파일의 실체 클래스로 함께 타이핑하고 요구의 `pattern`을 방출한다(2026-09-18). **타깃별 조각**(`--fragment`, `kb_chunk`·`kb_decision` 액션) → `kb_kg_merge`(`--merge`) → `bazel-bin/kg/chunks-kg.ttl`. 바뀐 타깃의 조각만 다시 만든다. 묶음의 단위는 파일이 아니라 **액션의 입력 집합**이다 — `kb_decision`(셋 고정)·`kb_composite`(2~9 가변)가 그 집합을 만들고 `kb_chunk` 하나로는 복합체가 서지 않는다. 위험에서 파생된 항목의 선택 키 `exposes: [<agt: 현상 IRI>…]`를 `agt:exposesFactor`로 방출한다(2026-09-29) — 링크 키가 아니라 `targets`와 같은 자리이고 Bazel deps가 되지 않는다. 복합체 선언의 선택 키 `composite: {…, ordered: [<부분 IRI>…]}`가 있으면 `agt:Composite , co:List`로 타이핑하고 부분마다 `co:item [ a co:ListItem ; co:index "<1..n>"^^xsd:positiveInteger ; co:itemContent <부분> ]`을 그 순서로 낸다(2026-09-29). 없으면 `hasDirectPart`만 낸다 — 순서를 요구하지 않는 것에 순서를 붙이면 거짓 정보다. 결정 복합체(파일 stem이 `conclusion`·`rationale`·`alternatives`)만 선언 없이 결론·근거·대안 고정 순서를 낸다 ([`p4-composite-order-is-declared`](../kb/dev/decision/p4-composite-order-is-declared/conclusion.md)). 본문 슬롯 표지(`agt:bodySlot`)는 굵은 span 이 그 줄의 필드 자리(줄 머리·불릿 `- ` 다음·앞선 필드의 ` · ` 다음)에 있고 표지 뒤 한정어가 짧을 때(마침표 없음, 길이 `BODY_SLOT_QUALIFIER_MAX` 이하)만 방출한다(`body_slots`, 2026-09-29) — 표 셀·산문 접속·목록 항목 전체를 감싼 굵은 강조는 자리가 아니라 표지로 방출하지 않는다. | 필수 키 7개 누락, 값 어휘 밖, 복합체 미선언(조각), `ordered`가 목록이 아님·부분 중복·**부분 집합과 불일치**, **IRI 중복**(병합) — "한 chunk는 한 파일"의 기계적 강제 |
 | `extract_refs.py` | 본문의 `d-NNNN` 인용 → `references-kg.ttl`의 `agt:cites`; 본문의 `agt:<Term>` 표기 중 온톨로지가 정의한 용어 → `agt:usesConcept`(복원 경로, dependency-graph (f)). 온톨로지에 없는 표기는 `info`로 집계만 한다 | 인용 대상이 실재하지 않음 |
 | `odd2kg.py` + `taxonomy.py` | OpenODD YAML 매핑 문서 `kb/odd/project-odd.yml`(`TAXONOMY`·`MODULES`·`INCLUDE_AND`…) → `project-odd.ttl`; `related/condition` → `taxonomy.yml` (부록 E.4) | 택소노미 밖 범주 · 미선언 속성 · 선언 밖 리터럴 · OpenODD 식이 아닌 값 · `ATTRIBUTES`/`CHECKS` 없는 조건 |
 | `labels.py` | 청크 head → OKF `index.md` (5.6절) | frontmatter 오류 |
 | `metrics.py` | 그래프 → `metrics.md` (4.13절 지표, CQ19·CQ20, 14.1 통과 조건; 구축에는 frontmatter 링크 개체와 본문 식별자 추출(`cites`·`usesConcept`)이 들어가고 복원은 후보 파이프라인 산출만(유저 결정 2026-09-12 (b)), 가정 절에 "기본 가정만 가진 청크") | 그래프 파싱 실패 |
-| `gen_build.py` | 청크 frontmatter → `BUILD.bazel`(`kb_chunk`·`kb_decision` 타깃, 링크 = deps; `kb/vv/{goal,scenario,criteria,case,verifier}/`는 디렉토리 = plane). 커밋한다 | 세 청크 없는 결정 디렉토리 · 끊긴 링크 |
+| `gen_build.py` | 청크 frontmatter → `BUILD.bazel`(`kb_chunk`·`kb_decision`·`kb_composite` 타깃, 링크 = deps; `kb/vv/{goal,scenario,criteria,case,verifier}/`는 디렉토리 = plane). `kb_composite`의 `part_iris`는 선언 청크에 `composite.ordered`가 있으면 그 순서이고 없으면 `srcs` 순서로 뜻을 갖지 않는다(2026-09-29). 커밋한다 | 세 청크 없는 결정 디렉토리 · 끊긴 링크 · `_check_bundle`(패키지 밖 부분·부분 수·이질·`ordered`가 부분 집합과 불일치·**시나리오 묶음(`kb/vv/scenario/`의 `-stimulus`·`-factors`·`-excluded`)에 `ordered` 없음** — 자극 → 요인 → 배제 자극의 읽기 순서가 정해져 있어 선언 없는 묶음은 거짓 무순서다) |
 | `consistency.py` | 청크 본문 + 용어집 → `consistency.md` (`bazel build //kb:consistency`): 정확·근사 중복, 묶인 쌍(`coUpdatesWith`)의 응집 저하(본문 5-gram Jaccard < θ/2 — 의미 응집 검사의 첫 형태, 학습 모델 임베딩은 ODD 명시 제외), 라벨 중복, 결론 라벨 형식(결론만 — 근거·대안 라벨은 명사구 관례), 용어집 옛 표기, 중복률, ⑧ 첨가(메타 문장·채움 문구·빈 값 이상 표기 — `p4-three-empty-values`), ⑨ 목록 규칙(손 번호·항목 수·중첩·항목 길이 — `p4-slot-answers-one-question`). ⑧·⑨는 2026-09-22에 더했고 **게이트가 아니라 보고**다. 수치가 0이 된 뒤 `chunk_lint`로 올린다. 보고 뷰이며 게이트가 아니지만 `//kb:consistency_build_test`가 `bazel test //...`마다 생성한다(rules.md "커밋마다") ([`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md)) | 파싱 실패 |
 
 #### 하네스 도구 — 역할 규약과 인수
@@ -241,7 +251,7 @@ tangle이다. 구축 쪽 공백의 공통 원인은 하네스가 읽기·쓰기 
 | `verifier_bind` | 기준 바인딩 검사. 기준 없는 `verifies` 거부 | 8.11 |
 | `env_assign` | 결함 요인 → 환경 단계, 재현성 조건 | 8.10, 8.12 |
 | `run` | **첫 형태 있음** — `vv_run`(2026-09-19): 리비전·환경 버전 기록, 실행 기록 append(`kb/vv/run/`). **기대 문구 대조 있음**(2026-09-23, `contains`) · **환경 격리 상시 판정 있음**(`//tools:vv_run_env_test`) · seed 고정은 없다 | 8.15 |
-| `judge` | 판정. 학습된 판정자면 3지표 검사, 결과를 head `verified` 목록에 | 8.14, 2.12 |
+| `judge` | **첫 형태 있음** — `bazel run //tools:judge -- --question <질문 id> [--fixture <json>] [--record] [--into <디렉토리>]`(2026-09-29): **게이트 밖 도구다.** 질문·척도·임계를 프로파일(`kb/ontology/profile/development/judge-question-ontology.ttl`·`judge-question-set-ontology.ttl`·`judge-threshold-ontology.ttl`·`judge-calibration-ontology.ttl` + `kb/ontology/shapes/judge-question-shapes.ttl`)에서 읽어 청크에 묻고, 판정 로그(`kb/vv/run/judge-<시각>.md`, memory plane, append-only — 필수 필드 질문 id·값·확신도·모델 식별자·입력 지문(sha256)·시각)와 결과 주석(`kb/vv/verdict/`, 논평 형식 — `본문:` 은 판정자가 쓰지 못해 `해당 없음`)을 낸다. 형은 noul·choice·score 셋이고 선택 집합 255 초과는 `FAIL [judge]` 로 거부하며 점수 → 선택 2단계를 안내한다. 외부 호출은 함수 하나(`call_service`)에 갇혀 있고 자격은 환경 변수 `AKB_JUDGE_ENDPOINT`·`AKB_JUDGE_API_KEY`·`AKB_JUDGE_MODEL` 로만 받는다 — 없으면 호출하지 않고 `EXIT_CONFIG` 로 멈춘다. `--fixture` 는 기록된 응답으로 같은 경로를 도는 오프라인 모드다. 구간별 정확도를 재기 전이라 처리는 전부 사람 확인 큐다 ([`p8-judge-calibration-binding`](../kb/dev/decision/p8-judge-calibration-binding/conclusion.md), ODD 조건 `id:cond-judge-service`). 로그·주석은 가정 `id:asm-judge-service` 를 `assumes` 하므로 조건이 이탈하면 `assume_check` 가 그 모델로 낸 판정을 직접 영향 집합으로 낸다. 없는 것: 3지표(정확도·판별력·캘리브레이션) 측정과 head `verified` 반영 | 8.14, 2.12 |
 | `mutate` | 변이 주입 표본 검사 | 8.6 |
 | `coverage` | 정제 완주 · 후방 추적 귀속 · logical 공간 커버, 경계값 별도, 6단계 제외 | 8.7 |
 | `defect_classify` | `defect-rules` 추론: 요인·한정자·트리거·발견 단계 | 8.16~8.18 |
@@ -256,7 +266,7 @@ tangle이다. 구축 쪽 공백의 공통 원인은 하네스가 읽기·쓰기 
 ## Bazel 배선
 
 **지식 항목은 타깃이다** (2026-09-11, [`bazel-dependency-review`](feedback/bazel-dependency-review.md) B + 연결성).
-`defs/kb.bzl`의 규칙 `kb_chunk`(청크 = 타깃)·`kb_decision`(결정 복합체 = 타깃, 대안 필수)·
+`defs/kb.bzl`의 규칙 `kb_chunk`(청크 = 타깃)·`kb_decision`(결정 복합체 = 타깃, 대안 필수)·`kb_composite`(결정 밖 복합체 = 타깃, 부분 2~9 동질)·
 `kb_ontology_module`(모듈 = 타깃, `owl:imports` = deps)이 `ChunkInfo`·`OntologyModuleInfo` provider를
 내보낸다. frontmatter의 `refines`·`serves`·`supersedes`·`verifies`가 **deps**다. BUILD는
 `tools/gen_build.py`가 frontmatter에서 **생성**하고 커밋한다. `//:build_drift_test`가 원본과 비교한다
@@ -337,8 +347,8 @@ bazel test //...  (게이트 전체 — test_suite 없음, 패키지의 test 타
 
 | 규칙 | 왜 게이트가 아닌가 | 어디에 |
 |---|---|---|
-| 라벨이 본문을 대표한다 | 판정 불가 | `STYLEGUIDE.md` §4 |
-| 한 chunk는 한 주제 | 판정 불가. 42줄과 분할 신호가 대리 지표 | `STYLEGUIDE.md` §0 |
+| 라벨이 본문을 대표한다 | 판정 불가 — 게이트로 만들지 않는다 | `STYLEGUIDE.md` §4. 보고는 게이트 밖 판정자의 질문 `agt:labelRepresentsBody`(score)다(2026-09-29) |
+| 한 chunk는 한 주제 | 판정 불가. 42줄과 분할 신호가 대리 지표 | `STYLEGUIDE.md` §0. 보고는 게이트 밖 판정자의 질문 `agt:bodyHasOneClaim`(noul)다(2026-09-29) |
 
 카탈로그 정합성 검사가 없어 ODD의 동시 에이전트 한도와 카탈로그의 합이 한동안 어긋난 채
 지나간 적이 있다. 규약만으로는 지켜지지 않는다는 증거다.

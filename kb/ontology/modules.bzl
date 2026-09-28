@@ -7,6 +7,8 @@ PROJECT_IMPORTS = [
     "//kb/ontology/related/assumption",
     "//kb/ontology/related/channel",
     "//kb/ontology/related/condition",
+    "//kb/ontology/related/defect",
+    "//kb/ontology/related/defect-rules",
     "//kb/ontology/related/harness",
     "//kb/ontology/related/scope",
     "//kb/ontology/related/state",

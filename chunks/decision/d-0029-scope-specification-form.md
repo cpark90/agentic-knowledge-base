@@ -7,6 +7,8 @@ title: Scope is written as four statement kinds
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-boundary-specification
+composite: {id: https://agentic-knowledge-base.dev/id/comp-boundary-specification, title_ko: 경계의 명세 형식, title: boundary specification form}
 ---
 **결론** — 스코프는 네 종류의 문장으로 쓴다. **mode**(기본 모드:
 `restrictive` = 명시 포함만 허용 / `permissive` = 명시 제외만 금지),

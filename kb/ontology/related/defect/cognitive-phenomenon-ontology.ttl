@@ -1,0 +1,37 @@
+# 결함 — 인지 요인의 현상 넷: 어휘 오인·재생산·낡은 가정·건너뜀 오독 (위험 분석 G1, 유저 승인 2026-09-29)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix id: <https://agentic-knowledge-base.dev/id/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:outOfVocabularyPredicate a owl:NamedIndividual , agt:MisrecognitionFactor ;
+    rdfs:label "out-of-vocabulary predicate attempt"@en , "어휘 밖 술어 시도"@ko ;
+    skos:definition "데이터의 술어가 agt: 온톨로지와 등록 표준 어휘 밖에 있는 현상. 학습자료에서 온 표기를 이 저장소의 어휘로 취급한 결과이므로 오인이다. 어휘 우회를 막지 못하면 나머지 규칙이 전부 우회되므로 이 현상의 관측이 방어선이다 (0.0절)."@ko ;
+    skos:notation "P1" ;
+    agt:observationMeans "게이트 vocab — validate.py 의 check_vocab" ;
+    prov:wasDerivedFrom id:doc-system-notes , id:doc-vv-profile-hazards .
+
+agt:stepRepetition a owl:NamedIndividual , agt:OmittedInputFactor ;
+    rdfs:label "step repetition"@en , "단계 반복"@ko ;
+    skos:definition "이미 있는 항목을 찾지 못해 같은 단계를 다시 밟고 근사 중복을 만드는 현상. 필요한 입력이 작업 집합 밖에 있어 일어나므로 누락이다. 멀티에이전트 실패 분류에서 가장 흔한 유형이다. 관측 수단은 근사 중복(consistency ③)이라 이름과 재는 것이 다르다 — 반복한 단계를 세지 않고 반복의 산물을 센다."@ko ;
+    skos:notation "P3" ;
+    agt:observationMeans "consistency ③ 의 근사 중복 보고" ;
+    prov:wasDerivedFrom id:doc-system-notes , id:doc-mast-failure-taxonomy , id:doc-vv-profile-hazards ;
+    dcterms:bibliographicCitation "MAST 1.3 단계 반복 15.7% (arXiv:2503.13657)" .
+
+agt:brokenAssumption a owl:NamedIndividual , agt:StaleInputFactor ;
+    rdfs:label "broken assumption"@en , "가정 깨짐"@ko ;
+    skos:definition "가정이 깨졌는데 그 가정에 의존하는 항목이 valid 로 남는 현상. 깨진 전제 위의 지식이 그대로 쓰이므로 낡음이다. 무효화 전파가 이 현상을 없애는 장치이고 관측은 그 장치가 도는지를 잰다 (0.4절)."@ko ;
+    skos:notation "P7" ;
+    agt:observationMeans "assume_check 의 무효 가정 집계" ;
+    prov:wasDerivedFrom id:doc-system-notes , id:doc-vv-profile-hazards .
+
+agt:skipReadAsPass a owl:NamedIndividual , agt:MisreadingFactor ;
+    rdfs:label "skip read as pass"@en , "건너뜀을 통과로 읽음"@ko ;
+    skos:definition "검증 실행이 낸 건너뜀을 통과로 읽는 현상. 결과가 있었으나 잘못 읽은 것이므로 오독이다. 건너뜀은 통과가 아니고 커버리지의 분자에 들지 않는다 (8.7절)."@ko ;
+    skos:notation "P12" ;
+    agt:observationMeans "vv_run 의 skip 집계" ;
+    prov:wasDerivedFrom id:doc-system-notes , id:doc-vv-profile-hazards .

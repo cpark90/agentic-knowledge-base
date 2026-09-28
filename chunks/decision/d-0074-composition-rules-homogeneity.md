@@ -7,6 +7,7 @@ title: Composition rules - acyclic, 7+-2, homogeneity, reference reuse
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-composite-projection
 ---
 **결론** — 구성 규칙 넷을 shape으로 쓴다. 비순환은 `part-of`의 반대칭
 공리로 추론되고, 직접 부분은 최대 9개(`agt:hasDirectPart` `sh:maxCount 9`),

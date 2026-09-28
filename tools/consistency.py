@@ -41,6 +41,7 @@
 사용: consistency.py --out consistency.md [--theta 0.5] [--theta-cohesion θ/2] [--glossary docs/glossary.md] [--waivers docs/waivers.md] <청크 .md …>
 """
 import argparse
+import os
 import re
 import sys
 from collections import defaultdict
@@ -48,7 +49,7 @@ from itertools import combinations
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from chunk2kg import parse_chunk  # noqa: E402
+from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402
 import kb_lib  # noqa: E402 — 규약 상수·머리 블록·비율 표기의 단일 정의처 (STYLEGUIDE §7)
 from kb_lib import (ADDITION_GATE, EMPTY_VALUE_GATE, EXIT_CONFIG, EXIT_OK, LIST_MAX_DEPTH, LIST_MAX_ITEM_CHARS,  # noqa: E402
                     LIST_MAX_ITEMS, LIST_RULES_GATE, LIVE_STATES, PROSE_LABEL_DASH, PROSE_SENTENCE_END,
@@ -111,6 +112,8 @@ def main() -> int:
     ap.add_argument("--glossary", default="")
     ap.add_argument("--waivers", default="",
                     help=f"docs/waivers.md — 게이트 id {GATE_TERM}·{ADDITION_GATE}·{EMPTY_VALUE_GATE}·{LIST_RULES_GATE}, 축 파일")
+    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
+                    help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(kb_consistency 매크로가 명시로 넘긴다)")
     ap.add_argument("chunks", nargs="+")
     a = ap.parse_args()
     theta_c = a.theta_cohesion if a.theta_cohesion is not None else a.theta / 2
@@ -119,6 +122,10 @@ def main() -> int:
         print(f"CONFIG [consistency] {msg}", file=sys.stderr)
         return EXIT_CONFIG
 
+    try:
+        apply_plane_level_state(*load_plane_level_state(a.residency))
+    except (OSError, ValueError) as e:
+        return config_fail(f"{a.residency}: 읽을 수 없다 — {e}")
     try:
         waivers = load_waivers(a.waivers) if a.waivers else []
     except (OSError, ValueError) as e:

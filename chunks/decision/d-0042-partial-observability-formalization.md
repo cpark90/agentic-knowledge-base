@@ -7,6 +7,7 @@ title: Map concepts onto the partial-observability model
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-why-this-system
 ---
 **결론** — "에이전트는 **부분관측 분산 시스템의 행위자**"라는 전제를
 형식화하고, 그 모델의 요소마다 이 체계의 개념을 하나씩 대응시켜 각 개념의

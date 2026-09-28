@@ -7,6 +7,8 @@ title: Store links outside artifacts, anchored by chunk ID
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-link-operation
+composite: {id: https://agentic-knowledge-base.dev/id/comp-link-operation, title_ko: 링크의 운용, title: link operation}
 ---
 **결론** — 링크는 **산출물 안에 쓰지 않는다.** 별도 링크 모델(A-Box이므로
 `-kg` 파일)에 두고, 양 끝은 각 plane의 네이티브 앵커로 가리킨다. **앵커는

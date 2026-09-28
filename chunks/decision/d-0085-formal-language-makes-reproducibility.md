@@ -7,6 +7,8 @@ title: Reproducibility comes from a formal language, not an interpreter
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-ladder-mechanism
+composite: {id: https://agentic-knowledge-base.dev/id/comp-ladder-mechanism, title_ko: 사다리 메커니즘의 세부, title: ladder mechanism detail}
 ---
 **결론** — 온톨로지에 대응하는 **형식 언어를 정의하고 그 파일 자체를
 산출물로 삼는다.** 온톨로지를 읽어 자유형 문서를 생성하는 방식은 쓰지

@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 restored: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-federation-invariants
 ---
 **결론** — 반-고아·반-drift·조립가능 같은 보장은 **합쳐 추론한 그래프**에서만
 판정되므로, 검증은 언제나 조립된 union을 대상으로 하고 파일 하나를 홀로

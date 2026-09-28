@@ -21,11 +21,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0028-agt-namespace",
+        "//chunks/decision:d-0026-two-axes-plane-level",
     ],
 )
 
@@ -39,11 +39,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-016-gate-judges-actions",
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0027-artifact-filename-suffix",
+        "//chunks/decision:d-0026-two-axes-plane-level",
     ],
 )
 
@@ -57,11 +56,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
-        "//kb/dev/requirement:r-026-observations-append-only",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
-        "//chunks/decision:d-0012-scene-situation-scenario",
+        "//chunks/decision:d-0008-odd-foundation",
     ],
 )
 
@@ -76,10 +75,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
     ],
     supersedes = [
-        "//chunks/decision:d-0030-condition-subclasses",
+        "//chunks/decision:d-0029-scope-specification-form",
     ],
 )
 
@@ -93,11 +91,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0035-deprecate-not-delete",
+        "//chunks/decision:d-0024-no-invented-terms",
     ],
 )
 
@@ -112,10 +109,10 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0034-genus-differentia-definition",
+        "//chunks/decision:d-0024-no-invented-terms",
     ],
 )
 
@@ -129,11 +126,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0032-iri-design",
+        "//chunks/decision:d-0026-two-axes-plane-level",
     ],
 )
 
@@ -147,7 +143,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0024-no-invented-terms",
@@ -165,10 +161,10 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0031-notation-format",
+        "//chunks/decision:d-0024-no-invented-terms",
     ],
 )
 
@@ -183,8 +179,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
     ],
     supersedes = [
         "//chunks/decision:d-0008-odd-foundation",
@@ -201,10 +195,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0025-one-word-one-concept",
+        "//chunks/decision:d-0024-no-invented-terms",
     ],
 )
 
@@ -218,11 +212,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
-        "//kb/dev/requirement:r-026-observations-append-only",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
-        "//chunks/decision:d-0012-scene-situation-scenario",
+        "//chunks/decision:d-0008-odd-foundation",
     ],
 )
 
@@ -237,7 +231,7 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0029-scope-specification-form",
@@ -255,10 +249,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
     ],
     supersedes = [
-        "//chunks/decision:d-0033-skos-label-synonyms",
+        "//chunks/decision:d-0024-no-invented-terms",
     ],
 )
 
@@ -272,10 +265,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0012-scene-situation-scenario",
+        "//chunks/decision:d-0008-odd-foundation",
     ],
 )
 
@@ -290,7 +283,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-008-descend-to-executable",
     ],
 )
 
@@ -304,9 +296,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0026-two-axes-plane-level",
@@ -323,12 +314,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0022-two-foundations-five-mechanisms",
-        "//chunks/decision:d-0023-out-of-scope-input-and-use",
+        "//chunks/decision:d-0021-domain-neutral-skeleton",
     ],
 )
 
@@ -343,7 +332,7 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:context-budget",
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -357,12 +346,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0038-agent-errors-have-direction",
-        "//chunks/decision:d-0039-bias-structural-mitigation",
+        "//chunks/decision:d-0036-agent-narrow-context-premise",
     ],
 )
 
@@ -378,11 +366,9 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:context-budget",
         "//kb/dev/requirement:r-013-labels-before-bodies",
-        "//kb/dev/requirement:r-014-42-line-chunk",
     ],
     supersedes = [
         "//chunks/decision:d-0036-agent-narrow-context-premise",
-        "//chunks/decision:d-0041-context-budget-breakdown",
     ],
 )
 
@@ -396,12 +382,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0037-human-review-does-not-scale",
-        "//chunks/decision:d-0042-partial-observability-formalization",
+        "//chunks/decision:d-0036-agent-narrow-context-premise",
     ],
 )
 
@@ -416,10 +400,10 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0040-three-breaks-common-vocabulary",
+        "//chunks/decision:d-0036-agent-narrow-context-premise",
     ],
 )
 
@@ -433,8 +417,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -448,8 +431,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
-        "//kb/dev/requirement:r-019-record-read-write-sets",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -463,7 +445,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -477,11 +459,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0111-link-attributes",
+        "//chunks/decision:d-0105-link-storage-and-anchors",
     ],
 )
 
@@ -495,8 +476,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-019-record-read-write-sets",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0009-link-by-construction",
@@ -513,12 +494,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0106-link-decay-states",
-        "//chunks/decision:d-0107-rejudgement-rule-catalog",
+        "//chunks/decision:d-0105-link-storage-and-anchors",
     ],
 )
 
@@ -532,10 +511,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0110-link-judgement-evidence",
+        "//chunks/decision:d-0105-link-storage-and-anchors",
     ],
 )
 
@@ -549,8 +528,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
         "//chunks/decision:d-0105-link-storage-and-anchors",
@@ -567,12 +545,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-010-decision-names-concern",
-        "//kb/dev/requirement:r-022-verifies-subject-is-vv",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
-        "//chunks/decision:d-0010-link-types",
+        "//chunks/decision:d-0009-link-by-construction",
     ],
 )
 
@@ -586,7 +563,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -600,8 +577,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
-        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -615,11 +592,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0108-standard-trace-queries",
+        "//chunks/decision:d-0105-link-storage-and-anchors",
     ],
 )
 
@@ -633,11 +609,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0010-link-types",
+        "//chunks/decision:d-0009-link-by-construction",
     ],
 )
 
@@ -651,11 +626,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0109-traceability-matrix",
+        "//chunks/decision:d-0105-link-storage-and-anchors",
     ],
 )
 
@@ -669,11 +643,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0112-traceability-metrics",
+        "//chunks/decision:d-0105-link-storage-and-anchors",
     ],
 )
 
@@ -687,7 +660,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0124-agent-catalog-scope",
@@ -704,11 +677,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
         "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
-        "//chunks/decision:d-0125-dev-profile-role-permissions",
+        "//chunks/decision:d-0124-agent-catalog-scope",
     ],
 )
 
@@ -723,11 +696,10 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:context-budget",
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
-        "//kb/dev/requirement:r-020-session-memory-promotes",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0126-execution-mode-and-reentry",
+        "//chunks/decision:d-0124-agent-catalog-scope",
     ],
 )
 
@@ -744,7 +716,7 @@ kb_decision(
         "//kb/dev/requirement:explicit-versioned-inputs",
     ],
     supersedes = [
-        "//chunks/decision:d-0129-input-dependency-order",
+        "//chunks/decision:d-0121-inputs-and-uses-are-outside",
     ],
 )
 
@@ -758,10 +730,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0128-input-validation-shapes",
+        "//chunks/decision:d-0124-agent-catalog-scope",
     ],
 )
 
@@ -779,7 +751,6 @@ kb_decision(
     ],
     supersedes = [
         "//chunks/decision:d-0121-inputs-and-uses-are-outside",
-        "//chunks/decision:d-0122-required-input-inventory",
     ],
 )
 
@@ -794,10 +765,10 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:explicit-versioned-inputs",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0123-inputs-in-ontology-vocabulary",
+        "//chunks/decision:d-0121-inputs-and-uses-are-outside",
     ],
 )
 
@@ -811,10 +782,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-020-session-memory-promotes",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0127-memory-promotion-rule",
+        "//chunks/decision:d-0124-agent-catalog-scope",
     ],
 )
 
@@ -828,8 +799,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
-        "//kb/dev/requirement:r-020-session-memory-promotes",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -843,7 +814,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
@@ -865,7 +836,7 @@ kb_decision(
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0146-audit-and-onboarding-self-sufficiency",
+        "//chunks/decision:d-0144-user-feedback-loop-space-file",
     ],
 )
 
@@ -879,11 +850,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0148-change-impact-analysis",
+        "//chunks/decision:d-0144-user-feedback-loop-space-file",
     ],
 )
 
@@ -897,8 +867,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -912,11 +882,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
-        "//kb/dev/requirement:r-003-chunks-stay-inside-project",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
     supersedes = [
-        "//chunks/decision:d-0149-cross-project-reuse",
+        "//chunks/decision:d-0144-user-feedback-loop-space-file",
     ],
 )
 
@@ -950,7 +919,7 @@ kb_decision(
         "//kb/dev/requirement:documents-are-generated",
     ],
     supersedes = [
-        "//chunks/decision:d-0151-documents-are-generated",
+        "//chunks/decision:d-0150-artifact-review-support",
     ],
 )
 
@@ -964,11 +933,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
-        "//chunks/decision:d-0145-evaluation-metrics",
+        "//chunks/decision:d-0144-user-feedback-loop-space-file",
     ],
 )
 
@@ -1033,11 +1002,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
-        "//kb/dev/requirement:r-020-session-memory-promotes",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0153-incident-postmortem",
+        "//chunks/decision:d-0150-artifact-review-support",
     ],
 )
 
@@ -1054,7 +1023,7 @@ kb_decision(
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0152-knowledge-retrieval-by-label",
+        "//chunks/decision:d-0150-artifact-review-support",
     ],
 )
 
@@ -1068,11 +1037,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0147-operational-monitoring",
+        "//chunks/decision:d-0144-user-feedback-loop-space-file",
     ],
 )
 
@@ -1086,8 +1055,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -1101,7 +1070,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
         "//chunks/decision:d-0144-user-feedback-loop-space-file",
@@ -1119,8 +1088,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-        "//kb/dev/requirement:r-014-42-line-chunk",
-        "//kb/dev/requirement:r-019-record-read-write-sets",
     ],
     supersedes = [
         "//chunks/decision:d-0154-chunk-editor-requirements",
@@ -1137,11 +1104,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0155-traceability-matrix-screen",
+        "//chunks/decision:d-0154-chunk-editor-requirements",
     ],
 )
 
@@ -1166,7 +1132,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
         "//kb/dev/decision:p14-adoption-stages",
@@ -1183,11 +1149,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0052-competency-questions",
+        "//chunks/decision:d-0050-ontology-hygiene-checks",
     ],
 )
 
@@ -1201,7 +1166,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -1215,8 +1180,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-016-gate-judges-actions",
-        "//kb/dev/requirement:r-026-observations-append-only",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -1231,8 +1196,7 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0046-ontology-as-vocabulary",
@@ -1249,8 +1213,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-016-gate-judges-actions",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0050-ontology-hygiene-checks",
@@ -1267,11 +1230,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0048-ontology-module-structure",
+        "//chunks/decision:d-0046-ontology-as-vocabulary",
     ],
 )
 
@@ -1288,7 +1251,7 @@ kb_decision(
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
     supersedes = [
-        "//chunks/decision:d-0055-ontology-pitfall-catalogue",
+        "//chunks/decision:d-0050-ontology-hygiene-checks",
     ],
 )
 
@@ -1302,11 +1265,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0054-owl2-rl-profile",
+        "//chunks/decision:d-0050-ontology-hygiene-checks",
     ],
 )
 
@@ -1321,12 +1284,10 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
     ],
     supersedes = [
         "//chunks/decision:d-0021-domain-neutral-skeleton",
         "//chunks/decision:d-0056-skeleton-and-domain-profile",
-        "//chunks/decision:d-0057-profile-extension-only-module",
     ],
 )
 
@@ -1341,10 +1302,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
     ],
     supersedes = [
-        "//chunks/decision:d-0053-standard-relation-vocabulary",
+        "//chunks/decision:d-0050-ontology-hygiene-checks",
     ],
 )
 
@@ -1358,11 +1318,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
-        "//kb/dev/requirement:r-003-chunks-stay-inside-project",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
     supersedes = [
-        "//chunks/decision:d-0049-tbox-abox-separation",
+        "//chunks/decision:d-0046-ontology-as-vocabulary",
     ],
 )
 
@@ -1376,10 +1335,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0051-temporal-identity-iri",
+        "//chunks/decision:d-0050-ontology-hygiene-checks",
     ],
 )
 
@@ -1394,8 +1353,7 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -1409,8 +1367,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -1425,10 +1383,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
     ],
     supersedes = [
-        "//chunks/decision:d-0047-upper-ontology-foundation",
+        "//chunks/decision:d-0046-ontology-as-vocabulary",
     ],
 )
 
@@ -1443,10 +1400,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
     ],
     supersedes = [
-        "//chunks/decision:d-0064-measurement-method-grades",
+        "//chunks/decision:d-0061-odd-exit-is-a-signal",
     ],
 )
 
@@ -1461,7 +1417,7 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -1476,7 +1432,7 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0008-odd-foundation",
@@ -1494,7 +1450,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
     ],
     supersedes = [
         "//chunks/decision:d-0061-odd-exit-is-a-signal",
@@ -1512,10 +1467,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
     ],
     supersedes = [
-        "//chunks/decision:d-0063-odd-first-authoring-procedure",
+        "//chunks/decision:d-0061-odd-exit-is-a-signal",
     ],
 )
 
@@ -1530,10 +1484,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
     ],
     supersedes = [
-        "//chunks/decision:d-0066-odd-hierarchy-narrowing",
+        "//chunks/decision:d-0061-odd-exit-is-a-signal",
     ],
 )
 
@@ -1565,10 +1518,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
     ],
     supersedes = [
-        "//chunks/decision:d-0062-odd-maintenance-changes",
+        "//chunks/decision:d-0061-odd-exit-is-a-signal",
     ],
 )
 
@@ -1583,10 +1535,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
     ],
     supersedes = [
-        "//chunks/decision:d-0059-odd-required-sections",
+        "//chunks/decision:d-0058-odd-is-a-document",
     ],
 )
 
@@ -1601,7 +1552,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
     ],
 )
 
@@ -1618,7 +1568,7 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0067-out-of-odd-scenario-tagging",
+        "//chunks/decision:d-0058-odd-is-a-document",
     ],
 )
 
@@ -1632,11 +1582,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
-        "//kb/dev/requirement:r-019-record-read-write-sets",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0065-safe-stop-state",
+        "//chunks/decision:d-0061-odd-exit-is-a-signal",
     ],
 )
 
@@ -1651,10 +1601,10 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0060-scope-derived-from-odd",
+        "//chunks/decision:d-0058-odd-is-a-document",
     ],
 )
 
@@ -1668,10 +1618,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0076-all-knowledge-is-composite",
+        "//chunks/decision:d-0073-composite-standard-part-of",
     ],
 )
 
@@ -1686,10 +1636,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-        "//kb/dev/requirement:r-018-planes-stay-separate",
     ],
     supersedes = [
-        "//chunks/decision:d-0079-assertion-format-per-plane",
+        "//chunks/decision:d-0071-plane-class-level-property",
     ],
 )
 
@@ -1703,11 +1652,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
-        "//kb/dev/requirement:r-019-record-read-write-sets",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0011-chunk-four-graphs",
+        "//chunks/decision:d-0002-chunk-42-line-unit",
     ],
 )
 
@@ -1722,8 +1671,7 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:context-budget",
-        "//kb/dev/requirement:r-014-42-line-chunk",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0002-chunk-42-line-unit",
@@ -1741,10 +1689,10 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:deterministic-notation",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0077-chunk-iri-is-the-anchor",
+        "//chunks/decision:d-0071-plane-class-level-property",
     ],
 )
 
@@ -1759,10 +1707,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-        "//kb/dev/requirement:r-014-42-line-chunk",
     ],
     supersedes = [
-        "//chunks/decision:d-0080-chunk-quality-metrics",
+        "//chunks/decision:d-0071-plane-class-level-property",
     ],
 )
 
@@ -1776,11 +1723,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-014-42-line-chunk",
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0072-chunk-rules-as-shacl-shapes",
+        "//chunks/decision:d-0071-plane-class-level-property",
     ],
 )
 
@@ -1794,8 +1740,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
-        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -1809,11 +1755,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0078-chunk-state-machine",
+        "//chunks/decision:d-0071-plane-class-level-property",
     ],
 )
 
@@ -1827,7 +1772,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -1841,11 +1786,24 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-014-42-line-chunk",
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0073-composite-standard-part-of",
+    ],
+)
+
+kb_decision(
+    name = "p4-composite-order-is-declared",
+    conclusion = "p4-composite-order-is-declared/conclusion.md",
+    rationale = "p4-composite-order-is-declared/rationale.md",
+    alternatives = "p4-composite-order-is-declared/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/c15bc5d0-4f85-4d7b-bdd2-85cca14af3ba",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c", "https://agentic-knowledge-base.dev/id/chunk/85034442-9338-421a-b5d6-8d90d4e16603", "https://agentic-knowledge-base.dev/id/chunk/4ac5d37d-7107-4de6-9dbf-f7adce3349b9"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "draft",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -1859,11 +1817,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-014-42-line-chunk",
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0074-composition-rules-homogeneity",
+        "//chunks/decision:d-0073-composite-standard-part-of",
     ],
 )
 
@@ -1877,7 +1834,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -1894,7 +1851,7 @@ kb_decision(
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0082-read-response-is-label-list",
+        "//chunks/decision:d-0081-plane-assignment-tool-surface",
     ],
 )
 
@@ -1908,8 +1865,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0071-plane-class-level-property",
@@ -1928,10 +1885,9 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:documents-are-generated",
         "//kb/dev/requirement:r-013-labels-before-bodies",
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
     ],
     supersedes = [
-        "//chunks/decision:d-0075-projection-as-query",
+        "//chunks/decision:d-0073-composite-standard-part-of",
     ],
 )
 
@@ -1946,8 +1902,8 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:context-budget",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
-        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -1961,7 +1917,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -1975,7 +1931,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -1989,7 +1945,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -2003,11 +1959,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0003-plane-by-verification",
+        "//chunks/decision:d-0002-chunk-42-line-unit",
     ],
 )
 
@@ -2022,12 +1977,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
-        "//kb/dev/requirement:r-018-planes-stay-separate",
     ],
     supersedes = [
         "//chunks/decision:d-0081-plane-assignment-tool-surface",
-        "//chunks/decision:d-0082-read-response-is-label-list",
     ],
 )
 
@@ -2041,11 +1993,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0003-plane-by-verification",
+        "//chunks/decision:d-0002-chunk-42-line-unit",
     ],
 )
 
@@ -2059,11 +2011,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0004-plane-one-way-influence",
+        "//chunks/decision:d-0002-chunk-42-line-unit",
     ],
 )
 
@@ -2077,11 +2029,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-016-gate-judges-actions",
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0083-verification-tools-per-plane",
+        "//chunks/decision:d-0081-plane-assignment-tool-surface",
     ],
 )
 
@@ -2095,10 +2046,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0086-abox-inspection-gate",
+        "//chunks/decision:d-0085-formal-language-makes-reproducibility",
     ],
 )
 
@@ -2112,11 +2063,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
-        "//kb/dev/requirement:r-020-session-memory-promotes",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0089-ascent-trigger-candidates",
+        "//chunks/decision:d-0085-formal-language-makes-reproducibility",
     ],
 )
 
@@ -2130,11 +2081,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
     supersedes = [
-        "//chunks/decision:d-0006-ascent-generalization",
+        "//chunks/decision:d-0005-abstraction-ladder",
     ],
 )
 
@@ -2148,11 +2098,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0007-assumption-invalidation",
+        "//chunks/decision:d-0005-abstraction-ladder",
     ],
 )
 
@@ -2166,10 +2115,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0087-assumption-verification-methods",
+        "//chunks/decision:d-0085-formal-language-makes-reproducibility",
     ],
 )
 
@@ -2183,8 +2132,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -2199,7 +2147,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-021-two-kbs-separated",
-        "//kb/dev/requirement:r-022-verifies-subject-is-vv",
     ],
 )
 
@@ -2213,7 +2160,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-017-reject-foreign-vocabulary",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
         "//chunks/decision:d-0085-formal-language-makes-reproducibility",
@@ -2230,7 +2177,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -2244,11 +2191,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0088-invalidation-propagation-procedure",
+        "//chunks/decision:d-0085-formal-language-makes-reproducibility",
     ],
 )
 
@@ -2262,7 +2208,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -2276,11 +2222,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0084-plane-level-grid",
+        "//chunks/decision:d-0081-plane-assignment-tool-surface",
     ],
 )
 
@@ -2294,8 +2240,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
         "//chunks/decision:d-0005-abstraction-ladder",
@@ -2312,9 +2257,9 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
-        "//kb/dev/requirement:r-016-gate-judges-actions",
-        "//kb/dev/requirement:r-024-criteria-before-verifies",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -2328,8 +2273,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
-        "//kb/dev/requirement:r-020-session-memory-promotes",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -2343,7 +2288,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -2357,8 +2302,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-023-rung-before-descent",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -2372,7 +2317,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -2386,8 +2331,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-024-criteria-before-verifies",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -2401,8 +2346,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -2416,7 +2360,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -2430,9 +2374,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-023-rung-before-descent",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -2447,7 +2390,7 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:documents-are-generated",
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -2461,7 +2404,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
+        "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
@@ -2476,7 +2419,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -2490,7 +2433,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
         "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
@@ -2505,8 +2448,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -2520,8 +2463,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -2535,7 +2477,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
         "//kb/dev/decision:p8-two-verification-targets",
@@ -2552,8 +2494,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-015-dispatch-workset-only",
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -2568,7 +2510,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
         "//kb/dev/requirement:reproducible-runs",
     ],
 )
@@ -2583,11 +2524,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0135-coverage-definition",
+        "//chunks/decision:d-0130-testing-as-application",
     ],
 )
 
@@ -2601,7 +2541,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
     supersedes = [
         "//chunks/decision:d-0140-three-defect-factors",
@@ -2618,11 +2558,28 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
-        "//chunks/decision:d-0134-scenario-environment-assignment",
+        "//chunks/decision:d-0130-testing-as-application",
+    ],
+)
+
+kb_decision(
+    name = "p8-judge-calibration-binding",
+    conclusion = "p8-judge-calibration-binding/conclusion.md",
+    rationale = "p8-judge-calibration-binding/rationale.md",
+    alternatives = "p8-judge-calibration-binding/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/0524cc2d-1d9f-4d40-8a7a-502e6af0e4c5",
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/1f335a27-9cd0-47d1-9483-b9a787eaf07e", "https://agentic-knowledge-base.dev/id/chunk/07a8e14d-7b0a-4fca-904c-835f31e37185", "https://agentic-knowledge-base.dev/id/chunk/bb6e6a51-c243-4437-a3a7-d458dc547112"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:verification-means-trust",
+    ],
+    supersedes = [
+        "//kb/dev/decision:p8-judge-question-form",
     ],
 )
 
@@ -2634,7 +2591,7 @@ kb_decision(
     iri = "https://agentic-knowledge-base.dev/id/composite/a5873a98-652e-4341-b229-b3ef6a05e702",
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/11ae001e-2c30-4527-9c01-d19efb779bb1", "https://agentic-knowledge-base.dev/id/chunk/379c3aa1-5979-40ab-8d32-d7ccce656d5c", "https://agentic-knowledge-base.dev/id/chunk/00834b82-cb01-4a17-a3a9-8e349e9846b8"],
     part_levels = ["concrete", "logical", "logical"],
-    status = "stable",
+    status = "deprecated",
     refines = [
         "//kb/dev/requirement:verification-means-trust",
     ],
@@ -2692,8 +2649,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -2707,10 +2664,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
     supersedes = [
-        "//chunks/decision:d-0141-odc-defect-subtypes",
+        "//chunks/decision:d-0140-three-defect-factors",
     ],
 )
 
@@ -2724,10 +2681,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
     supersedes = [
-        "//chunks/decision:d-0142-odc-qualifier-and-dimensions",
+        "//chunks/decision:d-0140-three-defect-factors",
     ],
 )
 
@@ -2741,7 +2698,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-024-criteria-before-verifies",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
         "//chunks/decision:d-0136-pass-criteria-separate-chunk",
@@ -2758,8 +2715,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -2773,11 +2730,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-026-observations-append-only",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
         "//kb/dev/requirement:reproducible-runs",
     ],
     supersedes = [
-        "//chunks/decision:d-0137-reproducibility-as-assignment-condition",
+        "//chunks/decision:d-0136-pass-criteria-separate-chunk",
     ],
 )
 
@@ -2792,7 +2749,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-        "//kb/dev/requirement:r-002-carry-skeleton-across-projects",
     ],
 )
 
@@ -2807,7 +2763,7 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -2821,8 +2777,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-008-descend-to-executable",
-        "//kb/dev/requirement:r-023-rung-before-descent",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -2839,7 +2795,7 @@ kb_decision(
         "//kb/dev/requirement:verification-means-trust",
     ],
     supersedes = [
-        "//chunks/decision:d-0138-simulation-credibility",
+        "//chunks/decision:d-0136-pass-criteria-separate-chunk",
     ],
 )
 
@@ -2853,10 +2809,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
-        "//chunks/decision:d-0133-simulation-project",
+        "//chunks/decision:d-0130-testing-as-application",
     ],
 )
 
@@ -2870,10 +2826,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-026-observations-append-only",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
-        "//chunks/decision:d-0139-testbed-composition",
+        "//chunks/decision:d-0136-pass-criteria-separate-chunk",
     ],
 )
 
@@ -2887,8 +2843,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
-        "//kb/dev/requirement:r-024-criteria-before-verifies",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
         "//kb/dev/requirement:verification-means-trust",
     ],
 )
@@ -2904,7 +2860,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-021-two-kbs-separated",
-        "//kb/dev/requirement:r-023-rung-before-descent",
     ],
     supersedes = [
         "//chunks/decision:d-0130-testing-as-application",
@@ -2921,10 +2876,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "deprecated",
     refines = [
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
-        "//chunks/decision:d-0131-two-verification-targets",
+        "//chunks/decision:d-0130-testing-as-application",
     ],
 )
 
@@ -2938,10 +2893,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
     supersedes = [
-        "//chunks/decision:d-0143-unknown-risk-scenarios",
+        "//chunks/decision:d-0140-three-defect-factors",
     ],
 )
 
@@ -2955,8 +2910,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -2970,10 +2925,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
     supersedes = [
-        "//chunks/decision:d-0132-verification-environment-ladder",
+        "//chunks/decision:d-0130-testing-as-application",
     ],
 )
 
@@ -3015,7 +2970,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-018-planes-stay-separate",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
         "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
@@ -3031,7 +2986,7 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:documents-are-generated",
-        "//kb/dev/requirement:r-009-ascend-to-requirement",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -3047,7 +3002,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:audit-self-sufficiency",
         "//kb/dev/requirement:r-021-two-kbs-separated",
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
     ],
 )
 
@@ -3061,8 +3015,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-022-verifies-subject-is-vv",
-        "//kb/dev/requirement:r-023-rung-before-descent",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -3076,11 +3029,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0102-candidate-generation-limits",
+        "//chunks/decision:d-0100-design-space-file",
     ],
 )
 
@@ -3094,8 +3047,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
-        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -3110,7 +3063,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
     ],
 )
 
@@ -3125,8 +3077,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
-        "//kb/dev/requirement:r-007-invalidate-without-survey",
     ],
 )
 
@@ -3140,11 +3090,11 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
     supersedes = [
-        "//chunks/decision:d-0101-constraint-propagation-timing",
+        "//chunks/decision:d-0100-design-space-file",
     ],
 )
 
@@ -3159,10 +3109,9 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
     ],
     supersedes = [
-        "//chunks/decision:d-0099-constraint-sources-and-kinds",
+        "//chunks/decision:d-0096-uncertainty-as-link-uncertainty",
     ],
 )
 
@@ -3176,10 +3125,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0103-contradiction-handling",
+        "//chunks/decision:d-0100-design-space-file",
     ],
 )
 
@@ -3193,10 +3142,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0098-csp-mapping-of-links",
+        "//chunks/decision:d-0096-uncertainty-as-link-uncertainty",
     ],
 )
 
@@ -3210,7 +3159,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
         "//chunks/decision:d-0100-design-space-file",
@@ -3227,9 +3176,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
-        "//kb/dev/requirement:r-022-verifies-subject-is-vv",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -3243,7 +3191,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -3257,10 +3205,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0097-possibility-as-feasible-set",
+        "//chunks/decision:d-0096-uncertainty-as-link-uncertainty",
     ],
 )
 
@@ -3274,10 +3222,10 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
-        "//chunks/decision:d-0104-preference-partial-order",
+        "//chunks/decision:d-0100-design-space-file",
     ],
 )
 
@@ -3291,8 +3239,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-004-ascend-observation-to-vocabulary",
-        "//kb/dev/requirement:r-014-42-line-chunk",
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -3306,7 +3254,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-011-no-groundless-assignment",
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
     supersedes = [
         "//chunks/decision:d-0096-uncertainty-as-link-uncertainty",
@@ -3337,8 +3285,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-012-edits-downgrade-links",
-        "//kb/dev/requirement:r-016-gate-judges-actions",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -3352,8 +3300,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-006-every-item-declares-assumptions",
-        "//kb/dev/requirement:r-024-criteria-before-verifies",
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -3381,8 +3329,7 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
-        "//kb/dev/requirement:r-024-criteria-before-verifies",
-        "//kb/dev/requirement:r-025-verify-product-and-agent",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -3412,7 +3359,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-        "//kb/dev/requirement:r-016-gate-judges-actions",
     ],
 )
 
@@ -3526,6 +3472,7 @@ kb_bundle(
         ":p4-chunk-state-machine",
         ":p4-community-detection-proposes-composites",
         ":p4-composite-as-part-of",
+        ":p4-composite-order-is-declared",
         ":p4-composition-rules",
         ":p4-compression-repeat-is-split-signal",
         ":p4-label-is-the-interface",
@@ -3574,6 +3521,7 @@ kb_bundle(
         ":p8-coverage-metrics",
         ":p8-defect-factor-taxonomy",
         ":p8-environment-assignment",
+        ":p8-judge-calibration-binding",
         ":p8-judge-question-form",
         ":p8-learned-environment-and-judge",
         ":p8-machine-readable-case",

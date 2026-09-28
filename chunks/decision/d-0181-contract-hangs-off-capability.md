@@ -10,6 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 restored: [https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-verifiable-spec
+composite: {id: https://agentic-knowledge-base.dev/id/comp-verifiable-spec, title_ko: 검증 가능한 명세, title: specification as verifiable contract}
 ---
 **결론** — 산출물의 합격 기준(계약)은 그것을 실현한 **구현이 아니라 명세
 쪽 능력(capability)** 에 매단다. 어느 구현이 그 능력을 실현하든 판정

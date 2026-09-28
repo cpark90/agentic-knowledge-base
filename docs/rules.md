@@ -99,7 +99,17 @@ IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 문서가 아니라 그 슬롯에서 생성된다. 슬롯에는 그 슬롯의 질문에 답하는 문장만 쓴다
 ([`p4-slot-answers-one-question`](../kb/dev/decision/p4-slot-answers-one-question/conclusion.md)) — 다른 슬롯의 답·메타
 문장·채움은 첨가다. 순서 목록의 모든 항목은 `1.`로 적고 항목 9개·중첩 2단계·항목당 2줄을 넘지 않는다.
-검사는 `consistency` ⑧·⑨ 보고에서 시작해 수치가 0이 된 뒤 `chunk_lint`로 올린다.
+검사는 `consistency` ⑧·⑨ 보고에서 시작해 수치가 0이 된 뒤 `chunk_lint`로 올린다. 슬롯 표지는 **자리**로 판정한다 —
+그 줄의 필드 머리(줄 시작·`- ` 다음·` · ` 다음)에 있는 굵은 span만 슬롯이고 표 셀·문장 중간의 굵은 span은 강조다; 한정어는
+12자 이하·마침표 없음일 때만 같은 표지다(2026-09-29 — 시나리오 표지를 더하자 옛 청크 32파일 60건의 강조가 슬롯으로
+방출됐고 이 규칙으로 0이 됐다). 표지 낱말의 접두 겹침은 `kb_lib.validate_body_slot_markers`가 로드 시점에 거부한다.
+
+**값 어휘와 수준 허용표의 단일 정의처는 `defs/kb.bzl`이다**(2026-09-26·27). `PLANES`·`LEVELS`·`STATES`·`RESIDENCY`를 거기에만
+적고, 파이썬 쪽(`chunk2kg`·`kb_lib`)은 그 리터럴을 읽어 파생한다. 청크를 파싱하는 모든 액션이 `//defs:kb.bzl`을 입력으로
+받는다 — `kb_chunk`·`kb_decision`의 head 액션, `kb_consistency`·`kb_weave`·`kb_index`, `//space:design_space`,
+`//:build_drift_test`이고, `bazel run` 도구는 `BUILD_WORKSPACE_DIRECTORY`로 푼다. 폴백값은 두지 않는다 — 값이 같아도
+정의처가 둘이면 어느 날 하나만 고쳐진다. shape(`residency-shapes.ttl`)는 소스로 남되 게이트 `residency`가 원본과의
+동일성을 강제한다.
 
 값 어휘의 원본은 `tools/chunk2kg.py`의 상수(`PLANE_CLASS`·`LEVELS`·`STATES`·`REQUIRED`)다.
 생성 경로는 청크 타깃(`kb_chunk`·`kb_decision`)마다 head 조각 → 패키지 `:kg` 묶음 → `//kg:chunks_kg`(`kb_kg_merge`)
@@ -124,7 +134,7 @@ IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 |---|---|---|
 | 동질성 | 부분의 plane 클래스가 전체와 같다. level도 같되 결정 복합체는 예외다 — 결론 concrete·근거/대안 logical(`p7-decision-spans-three-levels`). plane·level을 넘는 관계는 전부 링크다. verify 질의 `composite-heterogeneous`가 검사한다 (2026-09-13) | d-0074 |
 | 크기 | 직접 부분 최대 9개(7±2) | d-0074 |
-| 순서 | 순서가 뜻을 갖는 복합체만 `co:List` + `co:index`. 순서를 요구하지 않는 것에 순서를 붙이면 거짓 정보다 | d-0073 |
+| 순서 | 순서가 뜻을 갖는 복합체만 `co:List` + `co:index`. 순서의 원본은 **선언**이다 — 선언 청크의 `composite:`에 선택 키 `ordered: [<부분 IRI>…]`(부분 전부를 빠짐없이 한 번씩)가 있을 때만 생성기가 낸다. 결정 복합체는 역할이 곧 순서이므로 선언 없이 결론·근거·대안 고정 순서를 낸다. 시나리오 복합체는 `ordered`가 필수다. 순서를 요구하지 않는 것에 순서를 붙이면 거짓 정보다 | d-0073 · [p4-composite-order-is-declared](../kb/dev/decision/p4-composite-order-is-declared/conclusion.md) |
 | 비순환 | `part-of`의 반대칭 공리로 추론된다 | d-0074 |
 | 상태 | 부분에서 추론된다 — 부분 하나가 `invalidated`면 복합체는 `suspect` | d-0074 |
 
@@ -139,6 +149,24 @@ d-0002)이고, 둘째는 **순서가 뜻을 갖는가**(d-0073)다. 셋째 기�
 `kb/dev/decision/<파트>-<슬러그>/` 디렉토리 하나에 살고, 복합체 개체는 conclusion의 frontmatter
 선언에서 `chunk2kg`가 생성한다. 이 복합체는 level이 섞이므로 동질성 규칙과 긴장한다. 이것은
 등록된 미해결이다 ([`open-questions.md`](open-questions.md) "이 저장소가 관찰한 추가 긴장").
+
+**결정 밖의 복합체는 `kb_composite`로 선다** (유저 답 2026-09-26, 도구를 고친다). 묶음의 단위는 파일이 아니라
+**액션의 입력 집합**이다 — 같은 패키지에서 `composite.id`를 공유하는 청크 2~9개가 타깃 하나가 되고 부분 청크의
+개별 `kb_chunk` 타깃은 사라진다. 타깃 이름은 `composite:`를 선언한 청크의 파일 이름이다. 부분과 선언은 같은
+패키지에 있어야 하고 부분의 plane·level은 서로 같아야 한다. 판정은 세 시점이다 — 생성 시점 `tools/gen_build.py`의
+`_check_bundle`, 분석 시점 `kb_composite`(`plane`·`level`을 한 쌍만 받으므로 이질 복합체를 표현할 수 없다), 그래프
+verify 질의 `composite-heterogeneous`. 수준 혼합은 결정 복합체의 예외뿐이다. 손으로 쓴 `kg/composite-kg.ttl`의
+복합체는 이 경로로 옮기고, 부분이 하나인 것은 복합체가 아니므로 남기지 않는다. 복합체 IRI는 지속 IRI 원칙대로
+기존 `id:comp-*`를 유지한다.
+
+**순서는 선언에서만 나온다** ([`p4-composite-order-is-declared`](../kb/dev/decision/p4-composite-order-is-declared/conclusion.md) —
+유저 승인 대기, 도구 반영 2026-09-29). 선언 청크의 `composite:`에 `ordered: [<부분 IRI>…]`가 있으면 `kb_composite`·`gen_build`가
+`part_iris`를 그 순서로 내고 `chunk2kg`가 `<복합체> a agt:Composite, co:List ; co:item [ a co:ListItem ; co:index
+"<1..n>"^^xsd:positiveInteger ; co:itemContent <부분> ] …`을 방출한다. 없으면 `hasDirectPart`만 낸다 — `hasDirectPart`는 순서와
+무관하게 남으므로 순서 트리플은 추가일 뿐이다. 목록이 부분 집합과 어긋나면 생성 시점 `gen-build`와 실행 시점 `chunk2kg`가
+거부하고, 색인 1..n 연속·중복 없음·부분 집합과의 일치는 shape `composite-order-shapes`(`sh:sparql` — 이 저장소의 첫
+사용)가 판정한다. 판정 단위가 복합체 노드 하나라 verify 계층이 아니라 shape 계층이다. `ordered`는 frontmatter의 메타데이터이므로
+더하거나 고쳐도 `generated.at`·`verified`를 건드리지 않는다.
 
 ## 3. plane — 판정 방식으로 나뉜 종류
 
@@ -330,7 +358,9 @@ V&V KB는 코어의 두 번째 인스턴스다. 새 plane을 만들지 않고 �
 | 독립성 | 개발 역할은 V&V KB 쓰기 불가. 기준 수정은 요구 수정으로만. 저장 분리(`kb/vv/`), V&V → 개발 단방향 의존 | [p8-vv-independence-scope](../kb/dev/decision/p8-vv-independence-scope/conclusion.md) |
 | 검증 대응물 필수 | f→a에 검증 목표 / l→c에 합격 기준 / c→e에 검증기. 없으면 개발 게이트 실패(7단계 전엔 경고) | [p8-scenario-ladder-rungs](../kb/dev/decision/p8-scenario-ladder-rungs/conclusion.md) |
 | `verifies` | KB를 가로지르는 유일한 링크. 방향은 V&V → 개발, 같은 level끼리 | [p6-executable-splits-by-kb](../kb/dev/decision/p6-executable-splits-by-kb/conclusion.md) |
-| 시나리오 | `decision`(vv) 복합체 — 자극·요인·배제 자극. 변수는 ODD 속성만, ODD 밖은 `odd:outside`로 커버리지 제외 | [p8-scenario-authoring](../kb/dev/decision/p8-scenario-authoring/conclusion.md) |
+| 시나리오 | `decision`(vv) 복합체 — 자극·요인·배제 자극. 변수는 ODD 속성만, ODD 밖은 `odd:outside`로 커버리지 제외. 세 청크의 파일 이름은 `<슬러그>-stimulus.md`·`<슬러그>-factors.md`·`<슬러그>-excluded.md`이고 역할 표지 **자극**·**요인**·**배제 자극**이 결정의 결론·근거·대안 슬롯에 사상되며 선언 청크는 `-stimulus`, `ordered`는 필수다(게이트 `decision-role`·`shacl`, 2026-09-29). 접미 판정은 `kb/vv/scenario/`에서만 걸린다 — 옛 결정에 stem이 `-factors`로 끝나는 것이 있다. 단일 청크 시나리오는 이행 기간 동안 **결론** 표지로 통과한다 | [p8-scenario-authoring](../kb/dev/decision/p8-scenario-authoring/conclusion.md) |
+| 판정 로그 | 판정 로그는 실행 기록이다 — `kb/vv/run/judge-<시각>.md`에 append-only로 쌓이고 생성자는 `process:judge`다(역할이 아니므로 writer 검사 밖). 판정 표의 열이 곧 필수 필드다: 질문 id·값·확신도·모델 식별자·입력 지문(보낸 바이트의 sha256 — 같은 입력에 같은 답이 나왔는지 대조하는 유일한 키)·시각. 확신도는 집단 수준의 캘리브레이션이라 개별 답을 보증하지 않는다. 결과 주석의 `본문:`은 판정자가 쓰지 못하므로 `해당 없음`이고 사람 또는 System 2 에이전트가 채운다. 게이트 `judge-log`(`chunk_lint`) — **로그가 0건이면 검사 대상이 없어 PASS**, 로그의 존재를 요구하는 것은 이 게이트의 몫이 아니다(2026-09-29) | [p8-judge-calibration-binding](../kb/dev/decision/p8-judge-calibration-binding/conclusion.md) |
+| 위험 분석의 어휘 | 현상은 `defect` 모듈(`kb/ontology/related/defect/`)의 요인 개체다. 하위 유형 14는 인지·상호작용·실행 세 갈래 아래 ODC 유형이고, 피해는 ODC 영향 차원 다섯(`agt:DefectImpact`)이며 "지식 유실·재생산"은 H1 하위다. 현상 개체는 정의·표기(P번호)·관측 수단·출처를 갖는다(게이트 `shacl`, `defect-factor-shapes`). 위험 지표 S·노출·탐지가능성은 순서 척도이고 **곱하지 않는다** — 등급은 정렬용이고 합격 기준은 케이스가 정한다. 규칙성 가정 A1~A3(`id:asm-links-only-interaction`·`asm-finite-factor-types`·`asm-missing-vocabulary-is-signal`)은 프로파일에서 파생되는 항목이 `assumes`로 참조한다(2026-09-29). 현상 → 피해 인과는 `defect-rules` 모듈의 `agt:hasImpact` 트리플(첫 형태 28건 = 질문지의 피해 열)이다 — 어휘(`defect`)와 형식화(`defect-rules`)를 나눈 이유는 어휘가 안정적이고 규칙이 자주 바뀌므로 어휘 사용자가 규칙 변경에 영향받지 않아야 한다는 것이다(노트 2.3절 (b)) | [p8-odc-defect-subtypes](../kb/dev/decision/p8-odc-defect-subtypes/conclusion.md) · [p8-risk-analysis-profile](../kb/dev/decision/p8-risk-analysis-profile/conclusion.md) |
 | 기준 ≠ 자극 | 기준은 `contract`(vv) 별도 청크, `verifies` 속성으로 바인딩. 판정식 없는 기준은 abstract로 강등 | [p8-pass-criteria](../kb/dev/decision/p8-pass-criteria/conclusion.md) |
 | 케이스 | concrete 케이스는 사람이 쓰지 않는다 — `keep`+`cover`에서 생성. 표본 근거 없는 케이스 거부 | [p8-case-generation](../kb/dev/decision/p8-case-generation/conclusion.md) |
 | 역할 | 검증기 저자 ≠ V&V engineer (또는 다른 세션). audit은 쓰기 없음 | [p8-vv-roles](../kb/dev/decision/p8-vv-roles/conclusion.md) |

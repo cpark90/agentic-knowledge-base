@@ -4,7 +4,7 @@ type: decision
 level: concrete
 title_ko: 판정자의 질문은 예아니오·선택·척도 셋뿐이고 확신도 임계가 처리를 가른다
 title: A judge asks only yes/no, choice, or scale, and the confidence threshold routes the result
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-standard}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]

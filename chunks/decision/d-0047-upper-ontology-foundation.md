@@ -7,6 +7,7 @@ title: Build on a standard upper ontology
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-ontology-role
 ---
 **결론** — 프로젝트 온톨로지를 맨바닥에서 짓지 않고 표준 상위 온톨로지 위에
 구축한다. 후보는 ISO/IEC 21838-2로 표준화된 BFO다.

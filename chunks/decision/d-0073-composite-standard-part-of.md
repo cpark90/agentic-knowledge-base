@@ -7,6 +7,8 @@ title: Composites use standard part-of and ordered collections
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-composite-projection
+composite: {id: https://agentic-knowledge-base.dev/id/comp-composite-projection, title_ko: 구성체와 투영, title: composite and projection}
 ---
 **결론** — 구성체(`agt:Composite`)는 청크 또는 다른 구성체를 부분으로 갖는
 개체다. **assertion 그래프가 없고**, 라벨과 순서 있는 부분 목록이 전부다.

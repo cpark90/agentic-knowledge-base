@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b]
 restored: [https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-harness-methodology
 ---
 **결론** — 시도가 실패·기각되거나 수정을 요구받으면 그 자체가 기록
 트리거다: 무엇을 시도했고, 왜 실패했고, 대신 무엇을 하는지를 세션 종료

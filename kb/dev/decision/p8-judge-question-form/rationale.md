@@ -4,7 +4,7 @@ type: decision
 level: logical
 title_ko: 자유 서술 판정은 재현되지 않고 정확도를 잴 수 없다
 title: A free-form verdict is not reproducible and its accuracy cannot be measured
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-standard}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-22T19:00:00+09:00}

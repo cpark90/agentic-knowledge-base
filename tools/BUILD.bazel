@@ -47,9 +47,12 @@ filegroup(
     srcs = glob(["cq-queries/*.rq"]),
 )
 
+# chunk2kg.py 를 함께 싣는 까닭: load_residency 가 PLANES·LEVELS 리터럴 읽기를 chunk2kg.load_plane_level_state 에서
+# import 해 쓴다 — 리터럴 읽기 함수의 정의처를 하나로 모은 형태다(오케스트레이터 판정, 2026-09-27). 방향은 이쪽
+# 뿐이다 — chunk2kg 는 rdflib 없이 타깃마다 돌아 kb_lib 를 반대로 import 하지 않는다.
 py_library(
     name = "kb_lib",
-    srcs = ["kb_lib.py"],
+    srcs = ["kb_lib.py", "chunk2kg.py"],
     deps = [requirement("rdflib")],
 )
 
@@ -301,6 +304,27 @@ py_binary(
     deps = [
         ":kb_lib",
         requirement("pyyaml"),  # 케이스 본문의 `yaml` 펜스 — 기계가 읽는 자극·기대 (p8-machine-readable-case)
+        requirement("rdflib"),
+    ],
+)
+
+# 판정자 (8.14절, 결정 p8-judge-calibration-binding): bazel run //tools:judge -- --question <질문 id> [--fixture <json>] [--record]
+# **게이트 밖 도구다** — 외부 서비스(구조화 출력 전용 모델)를 부르므로 테스트 타깃이 될 수 없다. 게이트는 판정 로그의 형식만
+# 본다(게이트 id judge-log, chunk_lint). 질문·척도·임계는 프로파일 온톨로지와 shape 가 원본이라 data 로 놓아 runfiles 에서 읽는다.
+# 자격은 환경 변수로만 받고 없으면 호출하지 않는다. 생성자 process:judge 는 역할이 아니라 writer 검사 밖이다
+py_binary(
+    name = "judge",
+    srcs = [
+        "chunk2kg.py",
+        "judge.py",
+    ],
+    data = [
+        "//kb/ontology:shapes",
+        "//kb/ontology/profile/development",
+    ],
+    main = "judge.py",
+    deps = [
+        ":kb_lib",
         requirement("rdflib"),
     ],
 )

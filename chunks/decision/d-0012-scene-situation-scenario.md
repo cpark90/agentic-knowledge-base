@@ -7,6 +7,7 @@ title: Scene, situation, scenario separation
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-boundary-model
 ---
 **결론** — 인접한 세 개념을 관측자 관점의 유무로 분리한다.
 scene은 특정 시점의 시스템 상태 스냅샷(관측자 없음), situation은 scene

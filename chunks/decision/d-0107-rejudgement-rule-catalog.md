@@ -7,6 +7,7 @@ title: Re-judgement rule catalog
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-link-operation
 ---
 **결론** — 8.6절이 "규칙으로 자동 갱신"이라 한 변경 패턴의 초기 목록.
 이 목록에 있는 변경은 링크 상태를 규칙으로 바꾸고, 없는 변경만 판정

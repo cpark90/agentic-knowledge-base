@@ -7,6 +7,7 @@ title: Planes are defined by verification mechanism
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-knowledge-structure
 ---
 **결론** — 종류가 다른 지식을 하나의 컨텍스트에 섞지 않는다. plane의 분류
 기준은 저장 위치나 파일 형식이 아니라 **"맞다"고 판정되는 메커니즘**이다.

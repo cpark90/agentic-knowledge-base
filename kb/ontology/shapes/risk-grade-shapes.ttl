@@ -1,0 +1,29 @@
+# shape — 위험 등급: 심각도·노출·탐지가능성은 값 하나이고 닫힌 순서 척도다 (노트 8.21절 G4)
+# 값 어휘와 각 등급의 판정 조건의 정의 원본은 kb/vv/scenario/risk-grade-scale.md 다. 등급을 곱하지 않는 규범은 온톨로지 정의문에 있다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:RiskGradeShape a sh:NodeShape ;
+    sh:targetClass agt:DefectFactor ;
+    sh:property [
+        sh:path agt:severityGrade ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:in ( "S0" "S1" "S2" "S3" ) ;
+        sh:message "심각도 등급은 S0·S1·S2·S3 중 하나다 — 단계의 판정 조건은 kb/vv/scenario/risk-grade-scale.md 가 정의한다. 등급은 정렬용이고 곱하지 않는다 (8.21절 G4)" ;
+    ] ;
+    sh:property [
+        sh:path agt:exposureGrade ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:in ( "E1" "E2" "E3" "E4" ) ;
+        sh:message "노출 등급은 E1·E2·E3·E4 중 하나다 — 단계의 판정 조건은 kb/vv/scenario/risk-grade-scale.md 가 정의한다. 등급은 정렬용이고 곱하지 않는다 (8.21절 G4)" ;
+    ] ;
+    sh:property [
+        sh:path agt:detectabilityGrade ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:in ( "D1" "D2" "D3" ) ;
+        sh:message "탐지가능성 등급은 D1·D2·D3 중 하나다 — 단계의 판정 조건은 kb/vv/scenario/risk-grade-scale.md 가 정의하고 값은 현상의 agt:observationMeans 에서 도출된다 (8.21절 G4)" ;
+    ] .

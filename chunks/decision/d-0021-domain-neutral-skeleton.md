@@ -7,6 +7,8 @@ title: Domain-neutral skeleton and domain profile
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-system-definition
+composite: {id: https://agentic-knowledge-base.dev/id/comp-system-definition, title_ko: 체계의 정의와 범위, title: system definition and scope}
 ---
 **결론** — 체계는 작업의 종류를 가리지 않는다. 대신 **도메인 중립 골격**과
 **도메인 프로파일**로 나누고, 작업 종류마다 달라지는 것 — 판정 방식·판정

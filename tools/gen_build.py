@@ -3,8 +3,9 @@
 
 원본은 그래프(frontmatter 링크, owl:imports)이고 BUILD 는 커밋되는 뷰다. 링크 변화가 PR diff 에 보이도록
 커밋하며, //:build_drift_test 가 생성기를 다시 돌려 커밋본과 비교한다 — frontmatter 를 고치고 BUILD 를 안 돌린
-경우를 잡는다. 사용: gen_build.py [--check] [--root .]
-출력·종료: 생성 시점 거부(세 청크 없는 결정 디렉토리·끊긴 링크)는 `FAIL [gen-build] <경로>: …`, frontmatter 위반은
+경우를 잡는다. 사용: gen_build.py [--check] [--root .] [--residency defs/kb.bzl]
+출력·종료: 생성 시점 거부(세 청크 없는 결정 디렉토리·끊긴 링크·`_check_bundle` 의 패키지 밖 부분·중복 선언·이질·상한·
+`composite.ordered` 와 부분 집합의 불일치)는 `FAIL [gen-build] <경로>: …`, frontmatter 위반은
 chunk2kg 의 규칙이므로 `FAIL [chunk2kg] …`, --check 의 어긋남은 `FAIL [build-drift] <BUILD>: …` — 모두 EXIT_FAIL.
 읽을 수 없는 입력은 EXIT_CONFIG.
 """
@@ -15,7 +16,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from chunk2kg import EXIT_CONFIG, EXIT_FAIL, SPACE_TYPE, parse_chunk  # noqa: E402 — 종료 코드는 chunk2kg 가 kb_lib 에서 가져온 것
+from chunk2kg import (EXIT_CONFIG, EXIT_FAIL, ORDERED_KEY, SPACE_TYPE, apply_plane_level_state,  # noqa: E402 — 종료 코드는 chunk2kg 가 kb_lib 에서 가져온 것
+                      load_plane_level_state, parse_chunk)
 
 
 class GenBuildError(Exception):
@@ -32,6 +34,10 @@ MEMORY_PKG = "kb/dev/memory"  # 관측 패키지 — 비어 있어도 BUILD 는 
 VV_ROOT = "kb/vv"
 VV_PKGS = {"goal": "requirement", "scenario": "decision", "criteria": "contract", "case": "schema", "verifier": "artifact",
            "verdict": "annotation", "run": "memory"}
+SCENARIO_PKG = f"{VV_ROOT}/scenario"  # 시나리오 실체의 패키지 — 역할 접미 규약이 걸리는 자리다
+# 시나리오 세 청크의 파일 접미 — 정의처는 kb_lib.SCENARIO_ROLE_MARKERS 의 키이고 이 도구는 rdflib 없이 돌아 kb_lib 를
+# 의존할 수 없으므로 VV_ROOT 와 같은 사유로 자체 상수를 갖는다. 표지 낱말(자극·요인·배제 자극)은 게이트 `decision-role` 의 몫이다
+SCENARIO_ROLE_SUFFIXES = ("stimulus", "factors", "excluded")
 # 키는 plane 이름이 아니라 실체 이름이다 — verdict = 판정 주석 (p8-vv-plane-instances 의 annotation 실체). `verdict` 는
 # kb_lib.RUN_VERDICTS(pass·fail·skip)가 이미 쓰는 낱말이라 지어낸 용어가 아니다 (STYLEGUIDE §0 표준어 우선).
 # run = 실행 기록 (agt:Run, append-only) — vv_run --record 가 만든다 (kb_lib.VV_RUN_DIR)
@@ -101,7 +107,89 @@ def scan(root: Path):
             lab = f"//{pkg}:{f.stem}"
             items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": pkg}
             iri_to_label[meta["id"]] = lab
+    return group_composites(items, iri_to_label)  # 청크 전부를 본 뒤에 묶는다 — 묶음은 패키지 × composite.id 다
+
+
+MAX_PARTS = 9  # 직접 부분의 상한 (7±2, 4.5절) — defs/kb.bzl 의 MAX_PARTS·composite-shapes.ttl 과 같은 수
+
+
+def group_composites(items, iri_to_label):
+    """같은 패키지에서 `composite.id` 를 공유하는 청크들 → 복합체 항목 하나 (kb_composite).
+
+    묶음의 판별 기준은 **같은 패키지 + 같은 `composite.id`** 다. 디렉토리가 기준인 결정(kb_decision)과 달리 일반
+    복합체는 평평한 패키지 하나에 여러 개 설 수 있어 디렉토리로는 가를 수 없고, `composite.id` 는 이미 선언이 한 번뿐임을
+    chunk2kg 가 강제하는 값이다. 패키지가 기준의 한 축인 것은 Bazel 타깃의 `srcs` 가 자기 패키지 안에만 있을 수 있기
+    때문이다 — 묶음은 액션의 입력 집합이고 입력 집합은 패키지를 넘지 못한다.
+
+    부분 청크의 개별 `kb_chunk` 타깃은 사라지고 복합체 타깃 하나가 그 파일 전부를 갖는다 (결정과 같은 형식). 링크는
+    부분들의 것을 복합체 타깃으로 올린다. 타깃 이름은 `composite:` 를 선언한 청크의 파일 이름이다.
+    """
+    decl, members = {}, {}
+    for lab, it in items.items():
+        if it["kind"] != "chunk":
+            continue
+        comp = it["meta"].get("composite") or {}
+        if comp.get("id"):
+            if comp["id"] in decl:  # chunk2kg 는 한 묶음 안의 중복만 본다 — 패키지를 가로지르는 중복은 여기서 거부한다
+                raise GenBuildError(f"{it['pkg']}/{it['src']}: 복합체 {comp['id']} 가 {items[decl[comp['id']]]['pkg']}/"
+                                    f"{items[decl[comp['id']]]['src']} 와 중복 선언됐다 — 선언은 복합체마다 한 번이다 (4.5절)")
+            decl[comp["id"]] = lab
+        if it["meta"].get("part_of"):
+            members.setdefault(it["meta"]["part_of"], []).append(lab)
+    for comp_iri, labs in sorted(members.items()):
+        if comp_iri not in decl:
+            raise GenBuildError(f"{items[sorted(labs)[0]]['pkg']}/{items[sorted(labs)[0]]['src']}: part_of 대상 복합체 {comp_iri} 를 "
+                                f"선언한 청크(composite:)가 없다 — 선언은 부분 중 하나의 frontmatter 에 둔다 (4.5절)")
+    for comp_iri, dlab in sorted(decl.items()):
+        labs = sorted(set(members.get(comp_iri, []) + [dlab]))
+        pkg = items[dlab]["pkg"]
+        _check_bundle(comp_iri, dlab, labs, items, pkg)
+        parts = [l for l in labs if items[l]["meta"].get("part_of") == comp_iri]
+        order = (items[dlab]["meta"].get("composite") or {}).get(ORDERED_KEY)
+        part_iris = [items[l]["meta"]["id"] for l in parts]
+        if order:  # 순서가 선언됐으면 part_iris 가 그 순서다 — BUILD 가 순서를 보이는 뷰다 (p4-composite-order-is-declared)
+            part_iris = sorted(part_iris, key=order.index)
+        comp = {"kind": "composite", "pkg": pkg, "comp_iri": comp_iri,
+                "srcs": [items[l]["src"] for l in labs], "metas": [items[l]["meta"] for l in labs],
+                "part_iris": part_iris, "status": items[dlab]["meta"]["status"],
+                "plane": items[parts[0]]["meta"]["type"], "level": items[parts[0]]["meta"]["level"]}
+        for l in labs:  # 부분의 개별 청크 타깃은 사라진다 — 복합체 타깃 하나가 그 파일 전부를 갖는다
+            iri_to_label[items[l]["meta"]["id"]] = dlab
+            del items[l]
+        items[dlab] = comp  # 타깃 이름 = 선언 청크의 파일 이름이라 라벨이 바뀌지 않는다
+        iri_to_label[comp_iri] = dlab
     return items, iri_to_label
+
+
+def _check_bundle(comp_iri, dlab, labs, items, pkg):
+    """묶음의 생성 시점 거부 — 패키지 밖 부분·부분 수·동질성·선언된 순서. 동질성이 여기서 판정되므로 규칙은 plane·level 을 한 쌍만 받는다."""
+    for l in labs:
+        if items[l]["pkg"] != pkg:
+            raise GenBuildError(f"{items[l]['pkg']}/{items[l]['src']}: 복합체 {comp_iri} 의 선언은 {pkg} 에 있다 — 부분과 선언은 같은 "
+                                f"패키지여야 한다 (묶음 = 액션의 입력 집합, defs/kb.bzl kb_composite)")
+    parts = [l for l in labs if items[l]["meta"].get("part_of") == comp_iri]
+    if len(parts) < 2:
+        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 부분이 {len(parts)}개다 — 복합체는 부분 둘 이상의 "
+                            f"묶음이고 부분 하나면 청크다 (4.5절)")
+    if len(parts) > MAX_PARTS:
+        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 직접 부분이 {len(parts)}개다 — 최대 {MAX_PARTS}개(7±2, 4.5절)")
+    order = (items[dlab]["meta"].get("composite") or {}).get(ORDERED_KEY)
+    if order is None and pkg == SCENARIO_PKG and any(
+            Path(items[l]["src"]).stem.endswith("-" + s) for l in parts for s in SCENARIO_ROLE_SUFFIXES):
+        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 에 composite.{ORDERED_KEY} 가 없다 — 시나리오는 "
+                            f"자극 → 요인 → 배제 자극의 읽기 순서를 가지므로(p8-scenario-authoring) 선언 없는 시나리오 묶음은 거짓 "
+                            f"무순서다. 선언 청크(`-{SCENARIO_ROLE_SUFFIXES[0]}`)의 composite: 에 "
+                            f"`{ORDERED_KEY}: [<자극 IRI>, <요인 IRI>, <배제 자극 IRI>]` 를 적는다 (p4-composite-order-is-declared)")
+    if order is not None and sorted(order) != sorted(items[l]["meta"]["id"] for l in parts):
+        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 composite.{ORDERED_KEY} 가 부분 집합과 다르다 — "
+                            f"선언 {sorted(order)} · 부분 {sorted(items[l]['meta']['id'] for l in parts)}. 순서 목록은 부분 전부를 "
+                            f"빠짐없이 한 번씩 담는다 (p4-composite-order-is-declared)")
+    planes = sorted({items[l]["meta"]["type"] for l in parts})
+    levels = sorted({items[l]["meta"]["level"] for l in parts})
+    if len(planes) > 1 or len(levels) > 1:
+        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 부분이 이질이다 — plane {planes} · level {levels}. "
+                            f"부분의 plane·level 은 서로 같다 (동질성 4.5절). 수준 혼합은 결정 복합체의 예외뿐이다 "
+                            f"(p7-decision-spans-three-levels)")
 
 
 def links_of(meta, iri_to_label, where):
@@ -117,12 +205,31 @@ def links_of(meta, iri_to_label, where):
     return out
 
 
+def render_composite(lab, it, iri_to_label):
+    """복합체 묶음 하나 → kb_composite 호출. 형식은 kb_decision 과 같다 — 부분의 링크를 타깃 하나로 올린다."""
+    links = {}
+    for m in it["metas"]:
+        for k, v in links_of(m, iri_to_label, lab).items():
+            links.setdefault(k, []).extend(v)
+    return ("kb_composite(\n" + f"    name = {q(lab.split(':')[1])},\n"
+            + label_list("srcs", it["srcs"])
+            + f"    iri = {q(it['comp_iri'])},\n"
+            + "    part_iris = [" + ", ".join(q(i) for i in it["part_iris"]) + "],\n"
+            + f"    plane = {q(it['plane'])},\n" + f"    level = {q(it['level'])},\n" + f"    status = {q(it['status'])},\n"
+            + "".join(label_list(k, sorted(set(v))) for k, v in sorted(links.items())) + ")\n")
+
+
 def render_chunks(pkg, items, iri_to_label, visibility, allow_empty=False):
     glob_ = 'glob(\n        ["*.md"],\n        allow_empty = True,\n    )' if allow_empty else 'glob(["*.md"])'
-    body = [HEADER, 'load("//defs:kb.bzl", "kb_bundle", "kb_chunk")', "", f"package(default_visibility = [{q(visibility)}])", "",
+    rules = ["kb_bundle", "kb_chunk"] + (["kb_composite"] if any(it["pkg"] == pkg and it["kind"] == "composite" for it in items.values()) else [])
+    body = [HEADER, 'load("//defs:kb.bzl", ' + ", ".join(q(r) for r in sorted(rules)) + ")", "",
+            f"package(default_visibility = [{q(visibility)}])", "",
             'exports_files(["BUILD.bazel"])', "", f'filegroup(\n    name = "bodies",\n    srcs = {glob_},\n)', ""]
     for lab, it in sorted(items.items()):
         if it["pkg"] != pkg:
+            continue
+        if it["kind"] == "composite":  # 복합체 = 타깃 하나, 부분 청크의 개별 타깃은 없다 (p4-all-knowledge-is-composite)
+            body.append(render_composite(lab, it, iri_to_label))
             continue
         m = it["meta"]
         links = links_of(m, iri_to_label, lab)
@@ -202,8 +309,14 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--check", action="store_true", help="생성하지 않고 커밋본과 비교. 어긋나면 1")
+    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 --root 기준")
     a = ap.parse_args()
     root = Path(a.root)
+    try:
+        apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
+    except (OSError, ValueError) as e:
+        print(f"FAIL [chunk2kg] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}")
+        return EXIT_CONFIG
     try:
         items, iri_to_label = scan(root)
         outputs = {

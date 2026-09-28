@@ -7,6 +7,7 @@ title: Notation format and where the glossary lives
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-terminology-rules
 ---
 **결론** — 표기를 다음으로 고정한다.
 - **식별자**: 영어 단수 소문자 케밥 (`design-space`)

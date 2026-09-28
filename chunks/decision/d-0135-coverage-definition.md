@@ -7,6 +7,7 @@ title: Coverage denominator and cross-rung accumulation
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-verification-environment
 ---
 **결론** — 커버리지는 **측정 지표**이며 분모는 ODD다. 단계별로 합산하되
 6단계(실환경) 관측은 넣지 않는다. **완전성을 전제한 무인 운영은 성립하지

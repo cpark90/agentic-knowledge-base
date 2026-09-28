@@ -7,6 +7,8 @@ title: User feedback loop and the -space file format
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-utilization-functions
+composite: {id: https://agentic-knowledge-base.dev/id/comp-utilization-functions, title_ko: 활용 기능, title: utilization functions}
 ---
 **결론** — 유저는 적은 선택지 중 고르지 않는다. **리포트를 받고 거기에
 피드백을 입력해 결정한다.** logical 단계의 `-space` 파일이 그대로 리포트이며,

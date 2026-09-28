@@ -7,6 +7,8 @@ title: Pass criteria live in a chunk separate from the scenario
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-verification-criteria
+composite: {id: https://agentic-knowledge-base.dev/id/comp-verification-criteria, title_ko: 합격 기준과 신뢰도, title: pass criteria and credibility}
 ---
 **결론** — 시나리오마다 합격 기준을 **별도 청크로** 두고, `verifies` 링크의
 속성으로 시나리오에 붙인다. 기준 없는 `verifies` 링크는 검사 게이트가

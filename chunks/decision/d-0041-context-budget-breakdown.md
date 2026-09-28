@@ -7,6 +7,7 @@ title: Break down the context budget and control each item
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-why-this-system
 ---
 **결론** — 1.1절의 200줄은 전부 지식에 쓰이지 않는다. 예산을 항목으로
 분해하고 **각 항목에 통제 수단을 붙이며, 지식 청크 본문은 나머지를 받는

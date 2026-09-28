@@ -1,0 +1,21 @@
+# 결함 — ODC 한정자 셋. 요인마다 하나를 갖는다 (노트 8.17절, ODC v5.2)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:DefectQualifier a owl:Class ;
+    rdfs:label "defect qualifier"@en , "결함 한정자"@ko ;
+    skos:definition "결함이 부재·오류·잉여 중 무엇인지를 가르는 닫힌 값 셋의 클래스. 같은 유형이라도 한정자가 다르면 고치는 방법이 다르므로 유형만으로는 진단이 서지 않는다 (8.17절, ODC v5.2)."@ko .
+
+agt:missingQualifier a owl:NamedIndividual , agt:DefectQualifier ;
+    rdfs:label "missing"@en , "부재"@ko ;
+    skos:definition "있어야 할 것이 산출물에 없다. 인지 요인의 누락과 다르다 — 그쪽은 입력의 부재다 (8.17절)."@ko .
+
+agt:incorrectQualifier a owl:NamedIndividual , agt:DefectQualifier ;
+    rdfs:label "incorrect"@en , "오류"@ko ;
+    skos:definition "산출물에 있으나 틀렸다. 고칠 자리가 있다는 점이 부재와 다르다 (8.17절)."@ko .
+
+agt:extraneousQualifier a owl:NamedIndividual , agt:DefectQualifier ;
+    rdfs:label "extraneous"@en , "잉여"@ko ;
+    skos:definition "없어야 할 것이 산출물에 있다. ODC v5.2 가 더한 셋째 값이고 고침은 제거다 (8.17절)."@ko .

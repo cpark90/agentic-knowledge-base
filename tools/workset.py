@@ -6,8 +6,12 @@
 링크 족의 우선순위다 — 앵커 ≫ references ≫ semanticallyDependsOn ≫ 구성 관계 ≫ relatedTo
 (dependency-graph-design §4, p0-workset-anchor-neighbourhood). 예산을 넘는 이웃은 라벨만 남는다.
 사용: workset.py --role developer [--levels logical,concrete] [--anchor <IRI|라벨 부분>] [--budget 200] --out workset.md <TTL...>
+종료: 앵커가 있을 때만 예산 판정이 게이트다 — 문서 전체(라벨 목록 + 펼친 본문)가 예산을 넘으면
+  `FAIL [workset-budget]` + 1(도입 2단계 구체화 조건, handoff/workset-budget-gate-2026-09-22). 앵커가 없으면
+  지금처럼 뷰에 판정만 적고 0 — 앵커 없는 뷰(스코프 전체 라벨 목록)는 구조적으로 예산을 넘어 판정 대상이 아니다.
 """
 import argparse
+import sys
 from collections import defaultdict
 from pathlib import Path
 
@@ -31,6 +35,9 @@ FAMILIES = [
 ]
 FAMILY_OF = {p: (i + 1, tag) for i, (tag, ps) in enumerate(FAMILIES) for p in ps}
 PART = FAMILY_OF[AGT.hasDirectPart]
+# 펼친 항목 하나가 본문 앞에 더하는 비-본문 줄 수(빈 줄·제목·iri 주석) — 예산 검사식과 회계식이
+# 같은 값을 써야 한다. 둘이 갈리면(검사 +2, 회계 +3) 검사를 통과한 항목이 회계에서 예산을 넘길 수 있다
+ENTRY_OVERHEAD = 3
 
 
 def body_lines(path: str) -> list[str]:
@@ -135,13 +142,13 @@ def main() -> int:
         src = str(Path(a.root) / chunks[n][5])
         read_paths.append(src)
         lines_ = body_lines(src)
-        if used + len(lines_) + 2 > a.budget:
+        if used + len(lines_) + ENTRY_OVERHEAD > a.budget:
             body.append(f"… {chunks[n][3]}{tag(n)} (펼치지 않음 — 예산 {a.budget}줄 초과)")
             continue
         # 청크 본문을 그대로 옮긴 자리다 — 원본이 자기 게이트를 통과했으므로 서식 규칙은 이 구역을 판정하지 않는다
         body += ["", f"### {chunks[n][3]}  ({chunks[n][0]}/{chunks[n][1]}){tag(n)}", f"<!-- iri: {n} -->"] \
             + kb_lib.gendoc_quote("\n".join(lines_))
-        used += len(lines_) + 3
+        used += len(lines_) + ENTRY_OVERHEAD
     verdict = "예산 안" if used <= a.budget else "예산 초과"
     inputs = list(a.files) + sorted(set(read_paths))
     head = kb_lib.gendoc_header(
@@ -159,7 +166,11 @@ def main() -> int:
     out = ["## 라벨 목록", "", kb_lib.GENDOC_QUOTE_OPEN] + label_lines + [kb_lib.GENDOC_QUOTE_CLOSE, "", "## 펼친 본문", ""] \
         + (body or [f"{kb_lib.NONE_MARK} — 앵커가 없어 본문을 펼치지 않았다", ""])
     Path(a.out).write_text(kb_lib.gendoc_assemble(head, out, inputs), encoding="utf-8")
-    return 0
+    if anchor is not None and used > a.budget:
+        print(f"FAIL [{kb_lib.WORKSET_BUDGET_GATE}] 앵커 {a.anchor!r}: 문서 전체 {used}줄 > 예산 {a.budget}줄 "
+              f"— 앵커 없는 뷰는 판정 밖이다", file=sys.stderr)
+        return kb_lib.EXIT_FAIL
+    return kb_lib.EXIT_OK
 
 
 if __name__ == "__main__":

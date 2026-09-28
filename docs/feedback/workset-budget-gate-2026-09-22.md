@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [tools/workset.py, kg/BUILD.bazel, kb/dev/decision/p14-stage-pass-conditions/, docs/roadmap.md]
 ---
 
@@ -42,4 +42,5 @@ targets: [tools/workset.py, kg/BUILD.bazel, kb/dev/decision/p14-stage-pass-condi
 3. **두고 `vv_run` 기대 문구 대조로 판정한다.** 게이트가 아니라 V&V 케이스가 잰다. 비용: `vv_run` 확장(로드맵 7단계에 이미 있다).
 
 ## 답
-(유저가 채움)
+
+1.

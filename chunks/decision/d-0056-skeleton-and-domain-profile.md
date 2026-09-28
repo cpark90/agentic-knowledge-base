@@ -7,6 +7,8 @@ title: Split the system into a domain-neutral skeleton and domain profiles
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-domain-profile
+composite: {id: https://agentic-knowledge-base.dev/id/comp-domain-profile, title_ko: 도메인 프로파일, title: domain profile}
 ---
 **결론** — 체계를 작업 종류와 무관한 **도메인 중립 골격**과, 그것을 특정 작업
 종류에 맞게 채우는 **도메인 프로파일**로 나눈다.

@@ -7,6 +7,7 @@ title: Two verification targets: product and agent
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-verification-environment
 ---
 **결론** — 검증 대상이 둘이다. **제품**(에이전트가 만든 소프트웨어)과
 **에이전트**(소프트웨어를 만드는 주체) 자체. 둘을 섞으면 "무엇이 틀렸는가"가

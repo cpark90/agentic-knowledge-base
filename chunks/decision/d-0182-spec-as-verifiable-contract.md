@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46]
 restored: [https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-verifiable-spec
 ---
 **결론** — 명세는 "이렇게 되어 있다"는 주장이 아니라 **기계가 판정할 수
 있는 계약**으로 쓴다. 같은 명세가 생성의 입력이자 검증의 기준이 된다.

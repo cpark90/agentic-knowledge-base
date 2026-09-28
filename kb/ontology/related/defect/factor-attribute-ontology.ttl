@@ -1,0 +1,36 @@
+# 결함 — 요인 개체가 갖는 술어: 관측 수단과 ODC 한정자·세 차원 (노트 8.17절, 결정 p8-odc-qualifier-and-dimensions)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:observationMeans a owl:DatatypeProperty ;
+    rdfs:domain agt:DefectFactor ;
+    rdfs:range xsd:string ;
+    rdfs:label "observation means"@en , "관측 수단"@ko ;
+    skos:definition "요인이 일어났음을 재는 지표 또는 게이트의 이름. 조건의 agt:checkMethod 와 대상이 다르다 — 그쪽은 ODD 조건의 성립을 재고 이쪽은 현상의 발생을 잰다. 수단이 아직 없는 현상은 미확정으로 적고 그 자리가 위험 분석의 산출 후보다 (8.21절 G1). 게이트: defect-factor-shapes."@ko .
+
+agt:hasQualifier a owl:ObjectProperty ;
+    rdfs:domain agt:DefectFactor ;
+    rdfs:range agt:DefectQualifier ;
+    rdfs:label "has qualifier"@en , "한정자를 갖는다"@ko ;
+    skos:definition "요인이 부재·오류·잉여 중 무엇인지를 잇는다. 관측된 결함마다 값이 하나이고 그 분포가 진단이다 — 실행 요인의 기능·부재가 많으면 설계가 불완전한 것이다 (8.17절)."@ko .
+
+agt:hasImpact a owl:ObjectProperty ;
+    rdfs:domain agt:DefectFactor ;
+    rdfs:range agt:DefectImpact ;
+    rdfs:label "has impact"@en , "영향을 갖는다"@ko ;
+    skos:definition "현상이 어느 피해에 이른다는 인과 가설을 잇는다. 위험 분석 G2 의 인과 그래프가 이 술어의 값 집합이며 한 현상이 피해 여럿에 이를 수 있다. 값은 V&V KB 가 적는다 (8.21절)."@ko .
+
+agt:hasTrigger a owl:ObjectProperty ;
+    rdfs:domain agt:DefectFactor ;
+    rdfs:range agt:DefectTrigger ;
+    rdfs:label "has trigger"@en , "트리거를 갖는다"@ko ;
+    skos:definition "요인을 드러낸 수단을 잇는다. 이 술어의 분포가 검사 체계의 효과 측정이고 탐지가능성 등급의 근거다 (8.17절)."@ko .
+
+agt:discoveredAtLevel a owl:ObjectProperty ;
+    rdfs:domain agt:DefectFactor ;
+    rdfs:range agt:Level ;
+    rdfs:label "discovered at level"@en , "발견 단계"@ko ;
+    skos:definition "요인이 정제 계층의 어느 단계에서 발견됐는지를 잇는다. concrete 에서만 발견되면 상위 게이트가 약한 것이므로 이 분포가 정제 단절 지점의 측정이다 (8.17절)."@ko .

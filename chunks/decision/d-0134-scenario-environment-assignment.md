@@ -7,6 +7,7 @@ title: Assign each scenario to the lowest rung that can judge it
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-verification-environment
 ---
 **결론** — 각 시나리오는 그것을 판정할 수 있는 **가장 낮은 단계**에 배정하고,
 배정을 시나리오 태그(0.5절)에 `env:` 범주로 기록한다. 배정 근거는 그

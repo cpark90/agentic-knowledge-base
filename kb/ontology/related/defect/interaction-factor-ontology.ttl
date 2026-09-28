@@ -1,0 +1,25 @@
+# 결함 — 상호작용 요인의 하위 유형 넷. 셋은 ODC, 채널은 고유다 (노트 8.17절)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:TimingFactor a owl:Class ;
+    rdfs:subClassOf agt:InteractionFactor ;
+    rdfs:label "timing and serialization"@en , "순서·동기화"@ko ;
+    skos:definition "타이밍·경합·순서의 오류로 생기는 요인. ODC 의 timing/serialization 이고 고칠 자리는 동시성 한도와 순서 규약이다 (8.17절)."@ko .
+
+agt:InterfaceFactor a owl:Class ;
+    rdfs:subClassOf agt:InteractionFactor ;
+    rdfs:label "interface"@en , "인터페이스"@ko ;
+    skos:definition "모듈·에이전트 간 계약이 어긋나 생기는 요인. ODC 의 interface 이고 고칠 자리는 계약 선언이다 (8.17절)."@ko .
+
+agt:RelationshipFactor a owl:Class ;
+    rdfs:subClassOf agt:InteractionFactor ;
+    rdfs:label "relationship"@en , "관계"@ko ;
+    skos:definition "개체 간 관계의 오류로 생기는 요인. 잘못된 링크와 잘못된 part-of 가 그 형태이며 ODC 의 relationship 이다 (8.17절)."@ko .
+
+agt:ChannelFactor a owl:Class ;
+    rdfs:subClassOf agt:InteractionFactor ;
+    rdfs:label "channel factor"@en , "채널 요인"@ko ;
+    skos:definition "통신 규약 위반과 메시지 오해로 생기는 요인. ODC 에 없는 고유 유형이고 고칠 자리는 채널 규약과 브리핑이다. 노트는 이 하위 유형을 채널이라 부르며 라벨에 요인을 붙인 것은 agt:Channel 과의 라벨 중복을 피하기 위해서다 (8.17절)."@ko .

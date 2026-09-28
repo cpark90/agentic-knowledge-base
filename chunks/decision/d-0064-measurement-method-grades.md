@@ -7,6 +7,7 @@ title: Grade measurement methods A-D; grade D stays out of the ODD
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+part_of: https://agentic-knowledge-base.dev/id/comp-odd-operation
 ---
 **결론** — ODD 속성의 판정 방법을 A~D로 등급화하고, **판정 불가(D) 속성은
 ODD에 넣지 않는다.** D는 가정으로만 기록하되 무효화 트리거가 될 수 없음을

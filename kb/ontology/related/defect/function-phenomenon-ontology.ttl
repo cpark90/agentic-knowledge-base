@@ -1,0 +1,38 @@
+# 결함 — 실행 요인 중 기능의 현상 넷: 건너뜀·대응물 부재·불일치·탈락 (위험 분석 G1)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix id: <https://agentic-knowledge-base.dev/id/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:levelSkipping a owl:NamedIndividual , agt:FunctionFactor ;
+    rdfs:label "level skipping"@en , "수준 건너뜀"@ko ;
+    skos:definition "정제 계층의 중간 수준을 건너뛰어 있어야 할 항목이 없는 현상. functional 에서 곧바로 executable 로 가는 것이 에이전트의 기본 동작이고 그것이 계층 단절의 원인이다 (6.1절)."@ko ;
+    skos:notation "P4" ;
+    agt:observationMeans "metrics 의 수준 건너뜀 집계" ;
+    prov:wasDerivedFrom id:doc-system-notes , id:doc-vv-profile-hazards .
+
+agt:requirementWithoutVerification a owl:NamedIndividual , agt:FunctionFactor ;
+    rdfs:label "requirement without a verification counterpart"@en , "검증 대응물 없는 요구"@ko ;
+    skos:definition "요구에 대응하는 검증 목표·기준·검증기가 없는 현상. 있어야 할 산출물의 부재이므로 기능 요인이다. 개발 KB 만으로는 완료를 선언할 수 없다는 규칙이 이 현상을 막는 자리다 (8.3절)."@ko ;
+    skos:notation "P10" ;
+    agt:observationMeans "audit 의 검증 대응물 집계" ;
+    prov:wasDerivedFrom id:doc-system-notes , id:doc-mast-failure-taxonomy , id:doc-vv-profile-hazards ;
+    dcterms:bibliographicCitation "MAST 3.2 검증 없음·불완전 (arXiv:2503.13657)" .
+
+agt:reasoningActionMismatch a owl:NamedIndividual , agt:FunctionFactor ;
+    rdfs:label "reasoning-action mismatch"@en , "추론-행동 불일치"@ko ;
+    skos:definition "결정의 본문과 구현이 어긋나는 현상. 판단은 옳았으나 수행이 그것을 따르지 않은 형태이므로 실행 요인이고 고칠 자리는 산출물이다. 멀티에이전트 실패 분류에서 둘째로 흔하다."@ko ;
+    skos:notation "P16" ;
+    agt:observationMeans "미확정" ;
+    prov:wasDerivedFrom id:doc-harness-ontology , id:doc-mast-failure-taxonomy , id:doc-vv-profile-hazards ;
+    dcterms:bibliographicCitation "MAST 2.6 추론-행동 불일치 13.2% (arXiv:2503.13657)" .
+
+agt:elementWithoutVocabularyDropped a owl:NamedIndividual , agt:FunctionFactor ;
+    rdfs:label "element without vocabulary silently dropped"@en , "어휘 없는 요소의 조용한 탈락"@ko ;
+    skos:definition "반영이 알려진 요소 집합에서 조립되는 방식이라 어휘가 없는 소스 요소가 슬롯을 얻지 못해 산출물에서 빠지는 현상. 고침은 어휘 확장이므로 기능 요인이다. 규칙성 가정 id:asm-missing-vocabulary-is-signal 이 이 현상에 대한 규범이다."@ko ;
+    skos:notation "P19" ;
+    agt:observationMeans "미확정" ;
+    prov:wasDerivedFrom id:doc-harness-ontology , id:doc-vv-profile-hazards .
