@@ -26,6 +26,11 @@
               id:cond-concurrent-agents 의 상한(--odd 의 agt:conditionValue). 상한을 못 뽑으면 EXIT_CONFIG ·
               스코프는 ODD 의 부분집합이다 — agt:subsetOf 대상이 ODD 그래프의 agt:ODD 이고 include/exclude 조건이
               그 ODD 의 agt:hasCondition 에 등록돼 있다 (0.4절, 2026-09-26 metrics 지표에서 게이트로 승격)
+  element-drop 소스 요소의 전수와 방출 전수의 차가 공집합이다 (현상 P19 의 관측 수단, 8.21절 G1). 둘을 본다 —
+              (a) --chunk-files 를 주면 청크 frontmatter 의 최상위 키 집합에서 chunk2kg 가 소비하는 키 집합
+              (REQUIRED ∪ LINK_KEYS ∪ kb_lib.CHUNK_OPTIONAL_KEYS)을 뺀 차. 모르는 키는 조용히 버려지는 요소다.
+              (b) 프로파일이 선언한 plane 실체 클래스 집합과 chunk2kg.PROFILE_SUBSTANCE 치역의 대칭차. 어휘에만
+              있으면 데이터가 그 클래스를 못 받고, 생성기에만 있으면 정의 없는 클래스가 그래프에 나타난다
   residency   (--shapes --residency defs/kb.bzl) 수준 허용표가 한 곳에만 적혀 있다 — shape `residency-shapes.ttl` 의
               plane × level 구간이 `defs/kb.bzl` 의 `RESIDENCY` 와 같다. 원본은 Starlark 리터럴이다(분석 시점
               판정이 파일을 읽지 못하므로). 갈리면 shape 를 맞춘다 (M1 단일 정의처, 2026-09-26)
@@ -43,17 +48,22 @@
 from __future__ import annotations
 
 import argparse
+import re
 import sys
+from pathlib import Path
 
 from rdflib import OWL, RDF, RDFS, XSD, Graph, URIRef
 from rdflib.namespace import SKOS
 
 try:
+    from tools import chunk2kg  # 소비되는 frontmatter 키·plane 실체 사상의 정의처 (element-drop)
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path에 있다
 except ImportError:
+    import chunk2kg
     import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
 
 AGT = kb_lib.AGT
+_FM_KEY = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*):")  # frontmatter 의 최상위 키 (element-drop)
 EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)      # 판정 실패 (단일 정의처 kb_lib — 없으면 같은 값)
 EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음·파싱 불가 입력
 EXIT_SKIP = getattr(kb_lib, "EXIT_SKIP", 3)      # 검사 대상 0건
@@ -223,6 +233,42 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
     for s, o in merged.subject_objects(kb_lib.AGT.usesConcept):
         if o not in concepts:
             errors.append(f"[dangling] {_chunk_location(merged, s)} 의 agt:usesConcept 대상이 온톨로지에 정의되지 않았다: {o}")
+    return errors
+
+
+def _frontmatter_keys(path: str) -> set[str]:
+    """청크 파일의 최상위 frontmatter 키 — 중첩 키(`composite.ordered` 등)는 그 부모가 대표한다."""
+    text = Path(path).read_text(encoding="utf-8")
+    if not text.startswith("---\n"):
+        return set()
+    return {m.group(1) for m in (_FM_KEY.match(l) for l in text.split("---\n", 2)[1].splitlines()) if m}
+
+
+def check_element_drop(ontology: Graph | None, chunk_files: list[str]) -> list[str]:
+    """소스 요소의 전수와 방출 전수의 차 (게이트 id `element-drop`, 현상 P19 의 관측 수단).
+
+    참조 저장소 R3 이 남긴 형태 — 반영이 알려진 요소 집합에서 조립되므로 어휘가 없는 소스 요소는 슬롯을 얻지
+    못해 조용히 빠진다. 그것을 잡으려면 소스를 전수로 세고 방출과 대조하는 수밖에 없다. 차가 나오면 대응은
+    요소를 버리는 것이 아니라 어휘를 넓히는 것이다 (가정 id:asm-missing-vocabulary-is-signal).
+    """
+    errors = []
+    consumed = set(chunk2kg.REQUIRED) | set(chunk2kg.LINK_KEYS) | set(kb_lib.CHUNK_OPTIONAL_KEYS)
+    for path in sorted(chunk_files):
+        for key in sorted(_frontmatter_keys(path) - consumed):
+            errors.append(f"[{kb_lib.ELEMENT_DROP_GATE}] {path}: frontmatter 키 {key!r} 를 chunk2kg 가 소비하지 않는다 — "
+                          f"방출되지 않는 키는 조용히 버려지는 소스 요소다. 키를 쓰려면 chunk2kg 가 읽고 "
+                          f"kb_lib.CHUNK_OPTIONAL_KEYS 에 등재해야 한다 (8.21절 G1 현상 P19)")
+    if ontology is None:
+        return errors
+    plane_classes = {URIRef(str(AGT) + q.split(":", 1)[1]) for q in chunk2kg.PLANE_CLASS.values()}
+    declared = {s for s, o in ontology.subject_objects(RDFS.subClassOf) if o in plane_classes}
+    emitted = {URIRef(str(AGT) + q.split(":", 1)[1]) for q in chunk2kg.PROFILE_SUBSTANCE.values()}
+    for term in sorted(declared - emitted, key=str):
+        errors.append(f"[{kb_lib.ELEMENT_DROP_GATE}] {_where({}, term)}: 실체 클래스 {ontology.qname(term)} 가 어휘에만 있다 — "
+                      f"chunk2kg.PROFILE_SUBSTANCE 가 어느 plane 도 이 클래스로 타이핑하지 않아 데이터가 닿지 않는다 (CQ-28 고립 개념)")
+    for term in sorted(emitted - declared, key=str):
+        errors.append(f"[{kb_lib.ELEMENT_DROP_GATE}] chunk2kg.PROFILE_SUBSTANCE: 실체 클래스 {term} 가 생성기에만 있다 — "
+                      f"프로파일이 plane 청크 클래스의 하위로 선언하지 않았다. 정의 없는 클래스는 어휘 밖이다 (2.3절 경계 규칙)")
     return errors
 
 
@@ -597,6 +643,8 @@ def main() -> int:
     ap.add_argument("--reason", action="store_true", help="SHACL 전에 OWL-RL 추론 적용")
     ap.add_argument("--residency", default="", help="수준 허용표의 원본 defs/kb.bzl — 주면 shape 가 그 표와 같은지 본다")
     ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 계층)")
+    ap.add_argument("--chunk-files", nargs="*", default=[],
+                    help="청크 파일들(*.md) — 주면 element-drop 의 frontmatter 키 전수 대조가 켜진다")
     ap.add_argument("--standard-vocab", nargs="*", default=[],
                     help="등록 표준 어휘 원문(PROV-O·SKOS 등). 주면 그 네임스페이스의 용어가 원문에 정의돼 있는지까지 본다")
     args = ap.parse_args()
@@ -651,6 +699,7 @@ def main() -> int:
                 print(f"FAIL {e}")
                 return EXIT_CONFIG
         errors += check_shacl(merged, shapes_merged, args.reason, args.shapes)
+    errors += check_element_drop(onto_merged if args.ontology else None, args.chunk_files)
     if args.verify_queries:
         errors += check_verify(merged, args.verify_queries)
 

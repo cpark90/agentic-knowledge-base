@@ -134,7 +134,7 @@ IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 |---|---|---|
 | 동질성 | 부분의 plane 클래스가 전체와 같다. level도 같되 결정 복합체는 예외다 — 결론 concrete·근거/대안 logical(`p7-decision-spans-three-levels`). plane·level을 넘는 관계는 전부 링크다. verify 질의 `composite-heterogeneous`가 검사한다 (2026-09-13) | d-0074 |
 | 크기 | 직접 부분 최대 9개(7±2) | d-0074 |
-| 순서 | 순서가 뜻을 갖는 복합체만 `co:List` + `co:index`. 순서의 원본은 **선언**이다 — 선언 청크의 `composite:`에 선택 키 `ordered: [<부분 IRI>…]`(부분 전부를 빠짐없이 한 번씩)가 있을 때만 생성기가 낸다. 결정 복합체는 역할이 곧 순서이므로 선언 없이 결론·근거·대안 고정 순서를 낸다. 시나리오 복합체는 `ordered`가 필수다. 순서를 요구하지 않는 것에 순서를 붙이면 거짓 정보다 | d-0073 · [p4-composite-order-is-declared](../kb/dev/decision/p4-composite-order-is-declared/conclusion.md) |
+| 순서 | 순서가 뜻을 갖는 복합체만 `co:List` + `co:index`. 순서의 원본은 **선언**이다 — 선언 청크의 `composite:`에 선택 키 `ordered: [<부분 IRI>…]`(부분 전부를 빠짐없이 한 번씩)가 있을 때만 생성기가 낸다. 결정 복합체도 예외가 아니다 — 생성기가 결론·근거·대안 순서를 `ordered` 인자로 선언한다(유저 답 2026-09-29). 시나리오 복합체는 `ordered`가 필수다. 순서를 요구하지 않는 것에 순서를 붙이면 거짓 정보다 | d-0073 · [p4-composite-order-is-declared](../kb/dev/decision/p4-composite-order-is-declared/conclusion.md) |
 | 비순환 | `part-of`의 반대칭 공리로 추론된다 | d-0074 |
 | 상태 | 부분에서 추론된다 — 부분 하나가 `invalidated`면 복합체는 `suspect` | d-0074 |
 
@@ -160,7 +160,7 @@ verify 질의 `composite-heterogeneous`. 수준 혼합은 결정 복합체의 �
 기존 `id:comp-*`를 유지한다.
 
 **순서는 선언에서만 나온다** ([`p4-composite-order-is-declared`](../kb/dev/decision/p4-composite-order-is-declared/conclusion.md) —
-유저 승인 대기, 도구 반영 2026-09-29). 선언 청크의 `composite:`에 `ordered: [<부분 IRI>…]`가 있으면 `kb_composite`·`gen_build`가
+유저 승인 2026-09-29 — 결정도 예외 없이, 도구 반영 같은 날). 선언 청크의 `composite:`에 `ordered: [<부분 IRI>…]`가 있으면 `kb_composite`·`gen_build`가
 `part_iris`를 그 순서로 내고 `chunk2kg`가 `<복합체> a agt:Composite, co:List ; co:item [ a co:ListItem ; co:index
 "<1..n>"^^xsd:positiveInteger ; co:itemContent <부분> ] …`을 방출한다. 없으면 `hasDirectPart`만 낸다 — `hasDirectPart`는 순서와
 무관하게 남으므로 순서 트리플은 추가일 뿐이다. 목록이 부분 집합과 어긋나면 생성 시점 `gen-build`와 실행 시점 `chunk2kg`가

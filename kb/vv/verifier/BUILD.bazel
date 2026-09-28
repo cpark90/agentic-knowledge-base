@@ -22,6 +22,7 @@ kb_composite(
         "vv-run-executor.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/ff058e5b-5ef1-474e-b392-3948fb4f04c7",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/069386af-5167-4f76-a275-aeaa120d139a", "https://agentic-knowledge-base.dev/id/chunk/32d8d4d5-4249-45cf-89f4-040a59826ee7", "https://agentic-knowledge-base.dev/id/chunk/4ef1451d-5f8a-4360-8765-f2c24683e0cf"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/069386af-5167-4f76-a275-aeaa120d139a", "https://agentic-knowledge-base.dev/id/chunk/32d8d4d5-4249-45cf-89f4-040a59826ee7", "https://agentic-knowledge-base.dev/id/chunk/4ef1451d-5f8a-4360-8765-f2c24683e0cf"],
     plane = "artifact",
     level = "executable",

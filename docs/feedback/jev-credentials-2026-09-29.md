@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [tools/judge.py, kb/odd/project-odd.yml, kb/dev/decision/p8-judge-question-form/]
 ---
 
@@ -42,4 +42,4 @@ targets: [tools/judge.py, kb/odd/project-odd.yml, kb/dev/decision/p8-judge-quest
 3. **에이전트 세션을 판정자로 계속 쓴다.** 확신도를 자기 보고로 받는다. 비용: 없음. 캘리브레이션 축은 판정 불가로 남는다.
 
 ## 답
-(유저가 채움)
+1.

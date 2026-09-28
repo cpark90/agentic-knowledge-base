@@ -22,6 +22,7 @@ kb_composite(
         "decision-and-artifact-agree-stimulus.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/65c71b3f-efa7-47bb-b4fa-f7b491e99078",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/fb826dc5-88fa-4bbb-bf98-7536fc095df7", "https://agentic-knowledge-base.dev/id/chunk/6aca2592-1d64-42f7-b6df-f4437224c90a", "https://agentic-knowledge-base.dev/id/chunk/5e0b0569-58c0-4450-83b6-62841414f57e"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/fb826dc5-88fa-4bbb-bf98-7536fc095df7", "https://agentic-knowledge-base.dev/id/chunk/6aca2592-1d64-42f7-b6df-f4437224c90a", "https://agentic-knowledge-base.dev/id/chunk/5e0b0569-58c0-4450-83b6-62841414f57e"],
     plane = "decision",
     level = "abstract",
@@ -39,12 +40,49 @@ kb_composite(
         "document-table-matches-generated-stimulus.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/d71fb313-ed12-47c0-87f8-3c79d7531adf",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/31b9d3b9-577d-486a-8792-1146783508ae", "https://agentic-knowledge-base.dev/id/chunk/c4972f95-7e4e-43f6-b1fa-45426d0ca688", "https://agentic-knowledge-base.dev/id/chunk/15d8c8e5-5bd9-44ba-ae32-7580a70fc20c"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/31b9d3b9-577d-486a-8792-1146783508ae", "https://agentic-knowledge-base.dev/id/chunk/c4972f95-7e4e-43f6-b1fa-45426d0ca688", "https://agentic-knowledge-base.dev/id/chunk/15d8c8e5-5bd9-44ba-ae32-7580a70fc20c"],
     plane = "decision",
     level = "abstract",
     status = "draft",
     refines = [
         "//kb/vv/goal:document-table-matches-generated",
+    ],
+)
+
+kb_composite(
+    name = "element-without-vocabulary-dropped-stimulus",
+    srcs = [
+        "element-without-vocabulary-dropped-excluded.md",
+        "element-without-vocabulary-dropped-factors.md",
+        "element-without-vocabulary-dropped-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/886c9bad-f13a-48af-bd5e-aa6afa92a572",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/4add0b57-4550-4459-9513-179a53525343", "https://agentic-knowledge-base.dev/id/chunk/40b0436b-4cd7-4fc2-abce-c2daa47e5b18", "https://agentic-knowledge-base.dev/id/chunk/013324e4-24e4-4e3e-8fd9-49379692450c"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/4add0b57-4550-4459-9513-179a53525343", "https://agentic-knowledge-base.dev/id/chunk/40b0436b-4cd7-4fc2-abce-c2daa47e5b18", "https://agentic-knowledge-base.dev/id/chunk/013324e4-24e4-4e3e-8fd9-49379692450c"],
+    plane = "decision",
+    level = "abstract",
+    status = "draft",
+    refines = [
+        "//kb/vv/goal:element-without-vocabulary-dropped",
+    ],
+)
+
+kb_composite(
+    name = "metric-varies-by-loading-option-stimulus",
+    srcs = [
+        "metric-varies-by-loading-option-excluded.md",
+        "metric-varies-by-loading-option-factors.md",
+        "metric-varies-by-loading-option-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/14e499e9-6a33-4c4b-8832-e4e3edbdd924",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/40fe7c24-903a-49b6-9cfa-c97404641dc2", "https://agentic-knowledge-base.dev/id/chunk/a0d074b3-52e3-4233-a75d-696cd28faef4", "https://agentic-knowledge-base.dev/id/chunk/045a2d31-d37b-411e-8d97-92d9611a0eab"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/40fe7c24-903a-49b6-9cfa-c97404641dc2", "https://agentic-knowledge-base.dev/id/chunk/a0d074b3-52e3-4233-a75d-696cd28faef4", "https://agentic-knowledge-base.dev/id/chunk/045a2d31-d37b-411e-8d97-92d9611a0eab"],
+    plane = "decision",
+    level = "abstract",
+    status = "draft",
+    refines = [
+        "//kb/vv/goal:metric-varies-by-loading-option",
     ],
 )
 
@@ -70,6 +108,7 @@ kb_composite(
         "verification-round-stop-rule-stimulus.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/ba04ada0-2f37-4bc2-ad15-c2ac77fbe18e",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/c1ad3b4a-d86c-4c63-ab91-7294a56a76e2", "https://agentic-knowledge-base.dev/id/chunk/8c9efac1-c449-42bf-9a95-94c571603b41", "https://agentic-knowledge-base.dev/id/chunk/b3507553-ac86-49c8-b418-34672c646729"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c1ad3b4a-d86c-4c63-ab91-7294a56a76e2", "https://agentic-knowledge-base.dev/id/chunk/8c9efac1-c449-42bf-9a95-94c571603b41", "https://agentic-knowledge-base.dev/id/chunk/b3507553-ac86-49c8-b418-34672c646729"],
     plane = "decision",
     level = "abstract",
@@ -85,6 +124,8 @@ kb_bundle(
     items = [
         ":decision-and-artifact-agree-stimulus",
         ":document-table-matches-generated-stimulus",
+        ":element-without-vocabulary-dropped-stimulus",
+        ":metric-varies-by-loading-option-stimulus",
         ":risk-grade-scale",
         ":verification-round-stop-rule-stimulus",
     ],

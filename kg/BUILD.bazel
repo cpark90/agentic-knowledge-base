@@ -51,6 +51,14 @@ kb_gate_test(
         ":references_kg",
         "//space:design_space",
     ],
+    # 게이트 element-drop 의 키 전수 대조 입력 — 청크 본문의 frontmatter 를 그래프가 아니라 파일로 읽는다.
+    # 소비되지 않는 키는 head 그래프에 나타나지 않으므로 생성물만 보면 조용히 버려진 요소를 볼 수 없다 (현상 P19)
+    chunk_files = [
+        "//chunks:bodies",
+        "//kb/dev:bodies",
+        "//kb/vv:bodies",
+        "//space:bodies",
+    ],
     odd = ["//kb/odd:odd"],
     ontology = ["//kb/ontology:modules"],
     shapes = ["//kb/ontology:shapes"],

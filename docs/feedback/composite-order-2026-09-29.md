@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [kb/dev/decision/p4-composite-order-is-declared/, tools/chunk2kg.py, tools/gen_build.py, kb/ontology/shapes/composite-order-shapes.ttl]
 ---
 
@@ -41,4 +41,4 @@ targets: [kb/dev/decision/p4-composite-order-is-declared/, tools/chunk2kg.py, to
 3. **보류한다.** 옛 규칙으로 두고 다음 사례를 본다. 비용: 시나리오·검증기의 순서가 다시 추측된다.
 
 ## 답
-(유저가 채움)
+2.

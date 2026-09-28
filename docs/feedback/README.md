@@ -19,10 +19,8 @@
 
 - **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-remainder-2026-09-22.md`](spec-writing-standard-remainder-2026-09-22.md) — G10 그림 틀 · 출처 개체 위치.
   인수인계 [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md). 반영되면 제안 원문과 승인 항목을 제거한다
-- **유저 판단 대기(2026-09-29)**: [`code-as-chunks-2026-09-26.md`](code-as-chunks-2026-09-26.md) — 코드를 청크로. 유저가 2안(전부)을 원했고 hci 가 강인성 방안 다섯을 붙였다. 확인 둘(생성 방향 · 표본 먼저) ·
-  [`composite-order-2026-09-29.md`](composite-order-2026-09-29.md) — 복합체 순서 결정의 stable 승인 ·
-  [`jev-credentials-2026-09-29.md`](jev-credentials-2026-09-29.md) — 판정 서비스의 자격과 비용 ·
-  [`hazard-grades-confirm-2026-09-29.md`](hazard-grades-confirm-2026-09-29.md) — 위험 등급·인과의 변경 확인
+- **태깅 대기(2026-09-29)**: [`code-as-chunks-2026-09-26.md`](code-as-chunks-2026-09-26.md) — 답("권고대로 진행")은 들어왔으나 `status: open` 이다. **승인 태깅이 유일한 반영 신호**이므로 그 전에는 인수인계로 넘기지 않는다
+- **승인됨·인수 대기(2026-09-29)**: [`composite-order-2026-09-29.md`](composite-order-2026-09-29.md) · [`jev-credentials-2026-09-29.md`](jev-credentials-2026-09-29.md) · [`hazard-grades-confirm-2026-09-29.md`](hazard-grades-confirm-2026-09-29.md) — handoff 셋을 썼다
 - **반영 완료·인수 기록 대기**: 유저 lane 항목 10과 그 handoff 10이 `closed` 다. **제거는 한 사슬로 함께 한다** — 인수 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구하므로 발신자가 기록을 `closed` 로 바꾼 뒤 유저 lane·handoff·기록을 같은 사이클에 지운다(2026-09-29 에 순서를 잘못 잡아 `channel_lint` 가 잡았다).
 - **담당 역할 반영 대기**: [`label-representativeness-protocol.md`](label-representativeness-protocol.md) · [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md)
 - refresh 2026-09-29: 돌아온 handoff **10**을 `closed` 로, 인수 기록 10과 단일 정의처 기록 1에 답을 채워 `answered` 로, 질문 셋(복합체 순서 · 판정 자격 · 위험 등급 확인)을 유저 lane 으로 중계했다. **제거는 0건** — 사슬 순서 때문이다.

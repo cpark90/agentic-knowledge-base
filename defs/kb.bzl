@@ -107,18 +107,25 @@ def _lint_action(ctx, files):
     )
     return marker
 
-def _head_action(ctx, files):
+def _head_action(ctx, files, ordered = []):
     """타깃 하나의 head 그래프 조각 — chunk2kg --fragment. 프런트매터 오류·복합체 불일치는 여기서 실패한다.
 
     PLANES·LEVELS·STATES 값 어휘의 원본은 //defs:kb.bzl 이다(M1 단일 정의처, 2026-09-26). chunk2kg 가 그 리터럴을
     읽으려면 샌드박스에 파일이 있어야 하므로 _residency 를 명시 입력으로 준다 — _waivers 를 //docs:waivers 로 준
     것과 같은 방식이다. 경로는 하드코딩하지 않고 --residency 인자로 넘긴다.
+
+    `ordered` 는 이 묶음의 복합체가 선언한 부분의 순서다 (p4-composite-order-is-declared, 유저 승인 2026-09-29 — 예외 없음).
+    비어 있으면 순서를 넘기지 않고 생성기도 추측하지 않는다. 결정 복합체의 선언이 이 자리로 들어온다 — 손으로 205개
+    frontmatter 를 고치지 않고 생성 BUILD 의 명시 인자를 원본으로 둔다.
     """
     out = ctx.actions.declare_file(ctx.label.name + ".head.ttl")
     residency = ctx.file._residency
+    args = ["--fragment", "--out", out.path, "--residency", residency.path]
+    for iri in ordered:  # 부분마다 한 번 — 목록형 인자는 위치 인자인 청크 파일을 삼킨다
+        args = args + ["--ordered", iri]
     ctx.actions.run(
         executable = ctx.executable._chunk2kg,
-        arguments = ["--fragment", "--out", out.path, "--residency", residency.path] + [f.path for f in files],
+        arguments = args + [f.path for f in files],
         inputs = files + [residency],
         outputs = [out],
         mnemonic = "KbHead",
@@ -165,13 +172,21 @@ kb_chunk = rule(
 
 MAX_PARTS = 9  # 직접 부분의 상한 (7±2, 4.5절) — shape kb/ontology/shapes/composite-shapes.ttl 의 sh:maxCount 와 같은 수
 
-def _composite_outputs(ctx, plane, level, files, part_iris):
+def _check_order(label, ordered, part_iris):
+    """선언된 순서가 부분 전부를 빠짐없이 한 번씩 담는가 — 분석 시점 fail. 색인 1..n 의 정합성은 shape 가 본다."""
+    if sorted(ordered) != sorted(part_iris):
+        fail("%s: ordered 가 부분 집합과 다르다 — 순서 목록은 부분 전부를 빠짐없이 한 번씩 담는다 (p4-composite-order-is-declared): %s ≠ %s" %
+             (label, ordered, part_iris))
+
+def _composite_outputs(ctx, plane, level, files, part_iris, ordered = []):
     """복합체 규칙 둘(kb_decision·kb_composite)이 공유하는 산출 — head 조각 하나·검사 액션 하나·provider.
 
     묶음의 단위가 **액션의 입력 집합**이다. 부분 청크 전부와 composite: 선언 청크가 한 액션의 입력이라
     chunk2kg --fragment 가 그 안에서 part_of 대상을 찾아 복합체 개체를 방출한다 (파일 하나 = 묶음 하나가 아니다).
+
+    `ordered` 가 있으면 head 액션이 co:List 와 co:index 를 그 순서로 낸다. 없으면 순서가 없다 — 추측하지 않는다.
     """
-    head = _head_action(ctx, files)
+    head = _head_action(ctx, files, ordered)
     return [
         DefaultInfo(files = depset(files)),
         ChunkInfo(iri = ctx.attr.iri, plane = plane, level = level, status = ctx.attr.status, srcs = depset(files), parts = part_iris),
@@ -192,7 +207,9 @@ def _kb_composite_impl(ctx):
     if ctx.attr.status not in STATES:
         fail("%s: 알 수 없는 status %r" % (ctx.label, ctx.attr.status))
     _check_links(ctx, ctx.attr.plane, ctx.attr.level)
-    return _composite_outputs(ctx, ctx.attr.plane, ctx.attr.level, ctx.files.srcs, ctx.attr.part_iris)
+    if ctx.attr.ordered:
+        _check_order(ctx.label, ctx.attr.ordered, ctx.attr.part_iris)
+    return _composite_outputs(ctx, ctx.attr.plane, ctx.attr.level, ctx.files.srcs, ctx.attr.part_iris, ctx.attr.ordered)
 
 kb_composite = rule(
     implementation = _kb_composite_impl,
@@ -203,12 +220,14 @@ kb_composite = rule(
     frontmatter 가 그 쌍에 일치할 때만 이 규칙을 생성한다. 결정 복합체의 수준 혼합(결론 concrete·근거/대안 logical)은
     kb_decision 의 예외로 남는다 (p7-decision-spans-three-levels).
 
-    순서는 선언에서만 온다 (p4-composite-order-is-declared) — 선언 청크의 `composite.ordered` 가 있으면 part_iris 가 그 순서로
-    생성되고 head 액션이 `co:List` + `co:index` 를 낸다. 없으면 part_iris 는 srcs 순서일 뿐 뜻을 갖지 않는다.""",
+    순서는 선언에서만 온다 (p4-composite-order-is-declared, 유저 승인 2026-09-29 — 예외 없음) — 선언 청크의
+    `composite.ordered` 가 있으면 gen_build 가 그것을 `ordered` 인자와 `part_iris` 순서로 옮기고 head 액션이 `co:List` +
+    `co:index` 를 낸다. 없으면 순서가 없고 part_iris 는 srcs 순서일 뿐 뜻을 갖지 않는다.""",
     attrs = dict({
         "srcs": attr.label_list(allow_files = [".md"], mandatory = True, doc = "부분 청크 파일들 + composite: 선언 청크 — 이 액션의 입력 집합이 묶음이다"),
         "iri": attr.string(mandatory = True, doc = "복합체 IRI"),
         "part_iris": attr.string_list(mandatory = True, doc = "부분 청크 IRI — 선언 청크에 `composite.ordered` 가 있으면 그 순서, 없으면 srcs 순서(뜻 없음)"),
+        "ordered": attr.string_list(doc = "선언된 부분의 순서 (선택) — 선언 청크의 `composite.ordered` 를 gen_build 가 옮긴 뷰다. 비어 있으면 순서가 없다"),
         "plane": attr.string(mandatory = True, values = PLANES, doc = "복합체와 부분 전부의 plane (동질성)"),
         "level": attr.string(mandatory = True, values = LEVELS, doc = "복합체와 부분 전부의 level (동질성)"),
         "status": attr.string(default = "stable", values = STATES),
@@ -224,8 +243,9 @@ def _kb_decision_impl(ctx):
     if ctx.attr.status not in STATES:
         fail("%s: 알 수 없는 status %r" % (ctx.label, ctx.attr.status))
     _check_links(ctx, "decision", levels[0])
+    _check_order(ctx.label, ctx.attr.ordered, ctx.attr.part_iris)  # 결정도 예외가 없다 — 순서는 선언이고 인자가 필수다
     files = [ctx.file.conclusion, ctx.file.rationale, ctx.file.alternatives]
-    return _composite_outputs(ctx, "decision", levels[0], files, ctx.attr.part_iris)
+    return _composite_outputs(ctx, "decision", levels[0], files, ctx.attr.part_iris, ctx.attr.ordered)
 
 kb_decision = rule(
     implementation = _kb_decision_impl,
@@ -234,14 +254,17 @@ kb_decision = rule(
     결정 밖의 복합체는 kb_composite 다. 두 규칙은 _composite_outputs 로 같은 head 액션·검사 액션·provider 를 쓰고,
     부분의 수(셋 고정 대 2~9 가변)와 동질성 예외(결정만 수준 혼합)에서만 갈린다.
 
-    순서도 갈린다 — 결정은 역할이 곧 순서이므로(결론 없이 근거를 읽지 않고 대안은 결론을 전제한다) 선언 없이 결론·근거·대안
-    고정 순서의 `co:List` 를 낸다 (p4-composite-order-is-declared). kb_composite 는 `composite.ordered` 선언이 있을 때만 낸다.""",
+    순서는 갈리지 않는다 — 결정도 예외가 아니고 선언으로만 순서를 갖는다 (유저 승인 2026-09-29, p4-composite-order-is-declared).
+    다만 선언의 자리가 다르다: `kb_composite` 는 선언 청크의 frontmatter 를 gen_build 가 옮기고, 결정은 역할이 순서를 정하므로
+    gen_build 가 결론·근거·대안 순서를 `ordered` 인자로 **넣는다**(필수). 205개 conclusion.md 를 손으로 고치는 것이 첨가이기
+    때문이고, 그래도 순서의 원본은 추측이 아니라 생성 BUILD 의 명시 인자다.""",
     attrs = dict({
         "conclusion": attr.label(allow_single_file = [".md"], mandatory = True),
         "rationale": attr.label(allow_single_file = [".md"], mandatory = True),
         "alternatives": attr.label(allow_single_file = [".md"], mandatory = True),
         "iri": attr.string(mandatory = True, doc = "복합체 IRI"),
         "part_iris": attr.string_list(mandatory = True, doc = "결론·근거·대안 청크 IRI"),
+        "ordered": attr.string_list(mandatory = True, doc = "선언된 읽기 순서 — 결론·근거·대안. gen_build 가 넣는다(유저 승인 2026-09-29: 결정도 예외 없이 선언한다)"),
         "part_levels": attr.string_list(mandatory = True, doc = "결론·근거·대안의 수준"),
         "status": attr.string(default = "stable", values = STATES),
     }, **_LINK_ATTRS),

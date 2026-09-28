@@ -34,6 +34,7 @@ kb_decision(
     rationale = "fx_dec.md",
     alternatives = "fx_dec.md",
     iri = "urn:fx:comp",
+    ordered = ["urn:fx:c", "urn:fx:r", "urn:fx:a"],
     part_iris = ["urn:fx:c", "urn:fx:r", "urn:fx:a"],
     part_levels = ["executable", "logical", "logical"],
     tags = ["manual"],
@@ -326,4 +327,23 @@ genrule(
 build_test(
     name = "slot_emphasis_positive_test",
     targets = [":slot_emphasis_head"],
+)
+
+# 18. 선언 없는 복합체는 순서를 방출하지 않는다 (유저 승인 2026-09-29 — 예외 없음, handoff composite-order-2026-09-29 5번).
+# 고정물 9 의 묶음(`fx_comp`)에는 frontmatter `composite.ordered` 도 `kb_composite.ordered` 인자도 없다. 생성기가 역할 이름·
+# 파일 stem 으로 순서를 추측하지 않는다는 것이 이 시험의 대상이고, 추측하면 `co:List` 가 나 이 시험이 깨진다.
+genrule(
+    name = "unordered_has_no_order",
+    srcs = [":fx_comp_head"],
+    outs = ["unordered_has_no_order.ok"],
+    cmd = "grep -q 'a agt:Composite ;' $(location :fx_comp_head) && " +
+          "! grep -q 'co:List' $(location :fx_comp_head) && " +
+          "! grep -q 'co:item' $(location :fx_comp_head) && " +
+          "! grep -q 'co:index' $(location :fx_comp_head) && cp $(location :fx_comp_head) $@",
+    tags = ["manual"],
+)
+
+build_test(
+    name = "unordered_no_order_test",
+    targets = [":unordered_has_no_order"],
 )

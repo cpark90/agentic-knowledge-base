@@ -38,6 +38,9 @@ SCENARIO_PKG = f"{VV_ROOT}/scenario"  # 시나리오 실체의 패키지 — 역
 # 시나리오 세 청크의 파일 접미 — 정의처는 kb_lib.SCENARIO_ROLE_MARKERS 의 키이고 이 도구는 rdflib 없이 돌아 kb_lib 를
 # 의존할 수 없으므로 VV_ROOT 와 같은 사유로 자체 상수를 갖는다. 표지 낱말(자극·요인·배제 자극)은 게이트 `decision-role` 의 몫이다
 SCENARIO_ROLE_SUFFIXES = ("stimulus", "factors", "excluded")
+# 결정 복합체의 읽기 순서 — 결론 없이 근거를 읽지 않고 대안은 결론을 전제한다. 이것을 생성기가 `ordered` 인자로 **선언**하고
+# chunk2kg 는 추측하지 않는다 (유저 승인 2026-09-29, p4-composite-order-is-declared). ADR 뷰(weave)의 조립 순서와 같다
+DECISION_READING_ORDER = ("conclusion", "rationale", "alternatives")
 # 키는 plane 이름이 아니라 실체 이름이다 — verdict = 판정 주석 (p8-vv-plane-instances 의 annotation 실체). `verdict` 는
 # kb_lib.RUN_VERDICTS(pass·fail·skip)가 이미 쓰는 낱말이라 지어낸 용어가 아니다 (STYLEGUIDE §0 표준어 우선).
 # run = 실행 기록 (agt:Run, append-only) — vv_run --record 가 만든다 (kb_lib.VV_RUN_DIR)
@@ -149,7 +152,7 @@ def group_composites(items, iri_to_label):
         part_iris = [items[l]["meta"]["id"] for l in parts]
         if order:  # 순서가 선언됐으면 part_iris 가 그 순서다 — BUILD 가 순서를 보이는 뷰다 (p4-composite-order-is-declared)
             part_iris = sorted(part_iris, key=order.index)
-        comp = {"kind": "composite", "pkg": pkg, "comp_iri": comp_iri,
+        comp = {"kind": "composite", "pkg": pkg, "comp_iri": comp_iri, "ordered": order or [],
                 "srcs": [items[l]["src"] for l in labs], "metas": [items[l]["meta"] for l in labs],
                 "part_iris": part_iris, "status": items[dlab]["meta"]["status"],
                 "plane": items[parts[0]]["meta"]["type"], "level": items[parts[0]]["meta"]["level"]}
@@ -206,7 +209,11 @@ def links_of(meta, iri_to_label, where):
 
 
 def render_composite(lab, it, iri_to_label):
-    """복합체 묶음 하나 → kb_composite 호출. 형식은 kb_decision 과 같다 — 부분의 링크를 타깃 하나로 올린다."""
+    """복합체 묶음 하나 → kb_composite 호출. 형식은 kb_decision 과 같다 — 부분의 링크를 타깃 하나로 올린다.
+
+    `ordered` 는 선언 청크 frontmatter 의 `composite.ordered` 를 그대로 옮긴 뷰다 (p4-composite-order-is-declared).
+    선언이 없으면 인자도 없다 — 생성기는 순서를 추측하지 않는다.
+    """
     links = {}
     for m in it["metas"]:
         for k, v in links_of(m, iri_to_label, lab).items():
@@ -214,6 +221,7 @@ def render_composite(lab, it, iri_to_label):
     return ("kb_composite(\n" + f"    name = {q(lab.split(':')[1])},\n"
             + label_list("srcs", it["srcs"])
             + f"    iri = {q(it['comp_iri'])},\n"
+            + ("    ordered = [" + ", ".join(q(i) for i in it["ordered"]) + "],\n" if it["ordered"] else "")
             + "    part_iris = [" + ", ".join(q(i) for i in it["part_iris"]) + "],\n"
             + f"    plane = {q(it['plane'])},\n" + f"    level = {q(it['level'])},\n" + f"    status = {q(it['status'])},\n"
             + "".join(label_list(k, sorted(set(v))) for k, v in sorted(links.items())) + ")\n")
@@ -256,6 +264,9 @@ def render_decisions(items, iri_to_label):
         body.append("kb_decision(\n" + f"    name = {q(it['dir'])},\n"
                     + "".join(f"    {n} = {q(it['dir'] + '/' + n + '.md')},\n" for n in ("conclusion", "rationale", "alternatives"))
                     + f"    iri = {q(it['comp_iri'])},\n"
+                    # 순서는 선언이다 (유저 승인 2026-09-29: 결정도 예외 없음). 결정은 역할이 순서를 정하므로 생성기가 그 선언을
+                    # 넣는다 — 205개 conclusion.md 의 frontmatter 를 손으로 고치는 것은 첨가이고, 순서의 원본은 추측이 아니라 이 인자다
+                    + "    ordered = [" + ", ".join(q(p[n]["id"]) for n in DECISION_READING_ORDER) + "],\n"
                     + "    part_iris = [" + ", ".join(q(p[n]["id"]) for n in ("conclusion", "rationale", "alternatives")) + "],\n"
                     + "    part_levels = [" + ", ".join(q(p[n]["level"]) for n in ("conclusion", "rationale", "alternatives")) + "],\n"
                     + f"    status = {q(p['conclusion']['status'])},\n"

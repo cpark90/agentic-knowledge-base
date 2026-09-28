@@ -34,5 +34,5 @@ agt:elementWithoutVocabularyDropped a owl:NamedIndividual , agt:FunctionFactor ;
     rdfs:label "element without vocabulary silently dropped"@en , "어휘 없는 요소의 조용한 탈락"@ko ;
     skos:definition "반영이 알려진 요소 집합에서 조립되는 방식이라 어휘가 없는 소스 요소가 슬롯을 얻지 못해 산출물에서 빠지는 현상. 고침은 어휘 확장이므로 기능 요인이다. 규칙성 가정 id:asm-missing-vocabulary-is-signal 이 이 현상에 대한 규범이다."@ko ;
     skos:notation "P19" ;
-    agt:observationMeans "미확정" ;
+    agt:observationMeans "소스 요소 전수와 방출 전수의 차 둘 — (a) kb/**/*.md 최상위 frontmatter 키 집합에서 chunk2kg 가 소비하는 키 집합을 뺀 차, (b) plane-substance-ontology.ttl 이 선언한 실체 클래스 집합과 chunk2kg.PROFILE_SUBSTANCE 치역의 대칭차. 둘 다 공집합이어야 한다 — 게이트 validate 의 element-drop (실측 2026-09-29: 23·28·공집합 / 7·7·공집합)" ;
     prov:wasDerivedFrom id:doc-harness-ontology , id:doc-vv-profile-hazards .

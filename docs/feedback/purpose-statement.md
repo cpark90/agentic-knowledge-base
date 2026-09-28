@@ -220,8 +220,11 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 59 | 결정 밖의 복합체 — 도구를 고친다 (2026-09-26) — `kb_chunk` 묶음 복합체 규칙을 만들어 요구·기준·시나리오·검증기가 결정과 같은 형식을 얻는다 | `composite-beyond-decisions-2026-09-26` · handoff 동명 |
 | 60 | 값 어휘·수준 허용표의 단일 정의처를 `defs/kb.bzl` 로 (2026-09-27) — `chunk2kg` 의 사본 제거. 자연어 항목 M1 의 "규칙의 단일 정의처"가 여기서 닫혔다 | `orchestrator-single-source-kb-bzl-2026-09-27` |
 | 61 | 승인 열의 반영 완료 (2026-09-29) — 판정자 도구 `judge`(게이트 밖)·복합체 규칙·위험 분석 G1~G6 첫 형태(defect 22·피해 6·인과 28·등급 66·부류 3)·예산 게이트·밀폐 ODD 조건·주석 제외. 게이트 23 → **32**. handoff 10이 인수 기록과 함께 닫혔다 | `orchestrator-accept-*` 열 |
+| 62 | 복합체 순서 = 선언, **예외 없음** (2026-09-29) — 선택지 2. 결정 복합체도 `ordered` 선언으로 돌린다(생성기가 넣는다). 결정 본문의 예외 조항을 빼고 `stable` 로 올린다 | `composite-order-2026-09-29` · handoff 동명 |
+| 63 | 판정 서비스의 자격을 주고 첫 측정 (2026-09-29) — 자격은 환경 변수로만 주고 저장소·채널·로그에 키를 적지 않는다. 구간당 표본 20으로 3지표를 잰다. ODD 조건 하나가 따라온다 | `jev-credentials-2026-09-29` · handoff 동명 |
+| 64 | 위험 인과의 변경을 받고 **부류 순서는 등급 정렬이 정한다** (2026-09-29) — 다음 부류는 P19·P21(S3∧D3, 참조 저장소의 실측 실패). 유저가 자기 우선순위를 등급 실측에 양보한 규범이다 | `hazard-grades-confirm-2026-09-29` · handoff 동명 |
 
-**아직 유저 답을 기다리는 것**(2026-09-29): `code-as-chunks-2026-09-26.md`(코드를 청크로 — 확인 둘) · `composite-order-2026-09-29.md`(복합체 순서 결정의 stable 승인) · `jev-credentials-2026-09-29.md`(판정 서비스의 자격) · `hazard-grades-confirm-2026-09-29.md`(위험 등급·인과의 변경 확인).
+**아직 유저 답을 기다리는 것**(2026-09-29): `code-as-chunks-2026-09-26.md`(코드를 청크로 — 확인 둘) · **`code-as-chunks-2026-09-26.md`는 답이 있으나 `status: open` 이다 — 태깅 전에는 반영하지 않는다.**
 그 밖의 유저 lane 항목은 전부 `approved` 이고 인수인계로 넘어갔다. 옛 미결(`dependency-graph-design` 의 (a)~(j) 등)은 git 이력에서 본다.
 
 > 결정 로그가 인용하는 채널 항목 중 반영 완료로 제거된 것(`chunk-definition-unification.md`·`suggestion-okf-three-layer.md`·`notes-v4-review.md`·`terminology-normalization.md`)은 git 이력에서 본다.

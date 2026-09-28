@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [kb/vv/scenario/, kb/ontology/profile/development/defect-rules/, kb/vv/goal/]
 ---
 
@@ -42,4 +42,4 @@ targets: [kb/vv/scenario/, kb/ontology/profile/development/defect-rules/, kb/vv/
 3. **기각된 인과 둘을 되살린다.** `P13 → H4` · `P18 → H3` 를 유지한다. 비용: vnv 가 끊긴 경로를 어떻게 이을지 다시 설계한다.
 
 ## 답
-(유저가 채움)
+1.

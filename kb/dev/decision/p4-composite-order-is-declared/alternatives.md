@@ -4,13 +4,14 @@ type: decision
 level: logical
 title_ko: 파일명 순서·전 복합체 순서 부여·별도 순서 파일은 기각된다
 title: File-name order, order on every composite, and a separate order file are rejected
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-29T11:00:00+09:00}
+generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-30T09:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-30T09:05:00+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/c15bc5d0-4f85-4d7b-bdd2-85cca14af3ba
 ---
-**대안** — 셋을 기각한다.
+**대안** — 셋을 기각한다. 넷째(결정 복합체만 예외 — orchestrator 권장)는 유저가 2026-09-29에 기각했다: 예외 없는 규칙이 단순하고 선언은 생성기가 넣는다.
 
 | 대안 | 기각 이유 |
 |---|---|

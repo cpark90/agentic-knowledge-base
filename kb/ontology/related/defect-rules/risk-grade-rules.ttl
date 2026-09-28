@@ -2,6 +2,8 @@
 # 값의 원본은 vnv 판정이다 — kb/vv/scenario/risk-grade-scale.md 의 등급 조건을 vnv 가 현상마다 적용한 표이고
 # 인수 기록은 orchestrator-accept-vv-profile-hazards 다. developer 는 그 표를 트리플로 옮기기만 한다.
 # 등급의 뜻과 단계의 판정 조건을 고칠 자리는 여기가 아니라 그 결정 청크다.
+# P19 의 D 는 D3 에서 D1 로 올랐다 — vnv 가 관측 수단을 설계하고 게이트 validate 의 element-drop 이 그것을 FAIL 로 잡게 됐다(2026-09-29).
+# P21 의 D 는 D3 에서 D2 로 옮겼다 — 관측 수단이 생성 보고서 머리의 수치 대조이고 진행을 막지 않는다. vnv 의 D 규칙을 기계로 적용한 것이고 orchestrator 승인이다(2026-09-29).
 # 등급은 정렬에만 쓰고 곱하지 않는다 — 순서 척도의 곱이 순위를 왜곡한다. 한 현상이 한 줄이라 표로 읽힌다.
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 
@@ -27,11 +29,11 @@ agt:concurrentSessionState agt:severityGrade "S2" ; agt:exposureGrade "E4" ; agt
 agt:levelSkipping agt:severityGrade "S2" ; agt:exposureGrade "E4" ; agt:detectabilityGrade "D2" .
 agt:requirementWithoutVerification agt:severityGrade "S3" ; agt:exposureGrade "E1" ; agt:detectabilityGrade "D2" .
 agt:reasoningActionMismatch agt:severityGrade "S3" ; agt:exposureGrade "E3" ; agt:detectabilityGrade "D3" .
-agt:elementWithoutVocabularyDropped agt:severityGrade "S3" ; agt:exposureGrade "E2" ; agt:detectabilityGrade "D3" .
+agt:elementWithoutVocabularyDropped agt:severityGrade "S3" ; agt:exposureGrade "E2" ; agt:detectabilityGrade "D1" .
 agt:worksetBudgetOverrun agt:severityGrade "S1" ; agt:exposureGrade "E3" ; agt:detectabilityGrade "D1" .
 agt:unverifiedItemRatio agt:severityGrade "S1" ; agt:exposureGrade "E4" ; agt:detectabilityGrade "D2" .
 agt:unknownStopCondition agt:severityGrade "S2" ; agt:exposureGrade "E3" ; agt:detectabilityGrade "D3" .
 agt:generatedArtefactDrift agt:severityGrade "S1" ; agt:exposureGrade "E1" ; agt:detectabilityGrade "D1" .
-agt:metricVariesByLoadingOption agt:severityGrade "S3" ; agt:exposureGrade "E2" ; agt:detectabilityGrade "D3" .
+agt:metricVariesByLoadingOption agt:severityGrade "S3" ; agt:exposureGrade "E2" ; agt:detectabilityGrade "D2" .
 agt:labelRot agt:severityGrade "S2" ; agt:exposureGrade "E3" ; agt:detectabilityGrade "D3" .
 agt:documentLag agt:severityGrade "S1" ; agt:exposureGrade "E4" ; agt:detectabilityGrade "D3" .

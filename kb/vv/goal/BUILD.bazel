@@ -159,6 +159,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "element-without-vocabulary-dropped",
+    src = "element-without-vocabulary-dropped.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b055c55f-c77b-421f-8cc0-d1e832f7b207",
+    plane = "requirement",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
     name = "foreign-vocabulary-rejected",
     src = "foreign-vocabulary-rejected.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/50af6125-94e4-4d69-8181-df29db77451d",
@@ -228,6 +237,15 @@ kb_chunk(
     plane = "requirement",
     level = "functional",
     status = "stable",
+)
+
+kb_chunk(
+    name = "metric-varies-by-loading-option",
+    src = "metric-varies-by-loading-option.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/91d72e63-e72e-4803-aaf3-281a81994a31",
+    plane = "requirement",
+    level = "functional",
+    status = "draft",
 )
 
 kb_chunk(
@@ -385,6 +403,7 @@ kb_bundle(
         ":document-table-matches-generated",
         ":documents-generated",
         ":domain-knowledge-as-vocabulary",
+        ":element-without-vocabulary-dropped",
         ":foreign-vocabulary-rejected",
         ":gate-judges-edits",
         ":generated-build-drift",
@@ -393,6 +412,7 @@ kb_bundle(
         ":invalidation-without-survey",
         ":items-declare-assumptions",
         ":labels-before-bodies",
+        ":metric-varies-by-loading-option",
         ":mutation-samples-rejected",
         ":observation-promoted-to-vocabulary",
         ":observations-append-only",

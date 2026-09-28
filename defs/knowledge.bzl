@@ -63,6 +63,7 @@ def kb_gate_test(
         shapes = [],
         odd = [],
         data = [],
+        chunk_files = [],
         verify_queries = None,
         reason = False,
         standard_vocab = [],
@@ -76,6 +77,8 @@ def kb_gate_test(
       shapes: SHACL shape 라벨들 (*-shapes).
       odd: ODD 라벨들 (*-odd). 주면 agt:refersTo → ODD 참조 게이트가 켜진다.
       data: A-Box 라벨들 (*-kg, *-space). 통제 어휘 검사 대상.
+      chunk_files: 청크 본문 라벨들 (`:bodies`). 주면 게이트 `element-drop` 의 frontmatter 키 전수 대조가 켜진다 —
+        소비되지 않는 키는 조용히 버려지는 소스 요소다 (현상 P19, 8.21절 G1).
       reason: SHACL 전에 OWL-RL 추론 적용.
       residency: 수준 허용표의 원본 라벨 (//defs:kb.bzl). 주면 게이트 `residency` 가 켜진다 — shape 의 plane × level
         구간이 그 파일의 `RESIDENCY` 와 같은지 본다. 표를 두 곳에 적는 것을 막는다 (M1 단일 정의처).
@@ -83,12 +86,13 @@ def kb_gate_test(
         주면 그 네임스페이스의 용어가 원문에 정의돼 있는지까지 본다 — 접두사만 맞는 오타를 잡는다.
       **kwargs: py_test 로 전달.
     """
-    graphs = ontology + shapes + odd + data + standard_vocab
+    graphs = ontology + shapes + odd + data + standard_vocab + chunk_files
     args = (
         _flag_args("--ontology", ontology) +
         _flag_args("--shapes", shapes) +
         _flag_args("--odd", odd) +
         _flag_args("--data", data) +
+        _flag_args("--chunk-files", chunk_files) +
         _flag_args("--standard-vocab", standard_vocab) +
         (["--verify-queries", "tools/verify-queries"] if verify_queries else []) +
         (["--residency", "$(rootpath %s)" % residency] if residency else []) +

@@ -708,6 +708,16 @@ SPECIALIZATION_GATE = "specialization"
 EXPOSES_KEY = "exposes"
 EXPOSES_PREDICATE = "agt:exposesFactor"
 
+# ── 요소 탈락 검사 (`element-drop`) — 현상 P19 의 관측 수단 (위험 분석 G1, vnv 설계 2026-09-29) ────────────────
+# "어휘가 없는 소스 요소는 슬롯이 없어 조용히 빠진다"(참조 저장소 R3)를 소스 전수와 방출 전수의 차로 잡는다.
+# 차가 공집합이 아니면 FAIL 이다 — 조용히 버려진 요소가 있다는 뜻이고, 대응은 어휘 확장이다(가정 asm-missing-vocabulary-is-signal).
+# 검사 둘의 소스 집합은 (a) 청크 frontmatter 의 최상위 키, (b) 프로파일이 선언한 plane 실체 클래스다.
+ELEMENT_DROP_GATE = "element-drop"  # 게이트 id — FAIL [element-drop]
+# chunk2kg 가 emit_chunk 에서 직접 읽는 선택 키. 필수 키는 chunk2kg.REQUIRED, 링크 키는 chunk2kg.LINK_KEYS 가 정의처이고
+# 이 셋의 합집합이 "소비되는 키"다. chunk2kg 가 새 키를 읽으면 여기에 등재한다 — 등재 없이 쓰인 키는 이 게이트가 잡는다.
+CHUNK_OPTIONAL_KEYS = ("verified", "sources", "assumes", "pattern", "coUpdatesWith", "part_of", "composite",
+                       "restored", "specializationOf", "targets", EXPOSES_KEY)
+
 # ── 설계 공간 (`-space`) — 열린 설계 변수와 그 후보 (결정 p9-candidate-storage · p9-design-space-file) ───────────
 # 후보 링크는 확정 링크와 다른 자리에 산다: 확정은 청크 head(frontmatter 링크 키 → Bazel deps), 후보는 `-space` 청크다.
 # **후보는 결코 deps 가 되지 않는다** — `-space` 는 kb_chunk 타깃이 아니라 A-Box 그래프(`*-space.ttl`)로만 올라가고
@@ -1298,6 +1308,35 @@ def num(x: float) -> str:
 def gendoc_input_name(path: str) -> str:
     """입력 파일의 표기 — 샌드박스의 bazel-out·external 접두를 떼어 워크스페이스 상대 경로로 보인다."""
     return _GENDOC_BAZEL_OUT.sub("", str(path).replace(os.sep, "/"))
+
+
+# union 구성의 이름 — 같은 이름의 수치가 도구마다 갈리는 이유를 머리 블록 안에 남긴다 (현상 P21 의 관측 수단, vnv 설계 2026-09-29).
+# 구성을 밝히지 않으면 트리플 수가 다른 것이 결함인지 구성 차이인지 문서만 보고 가릴 수 없다 — 참조 저장소 R5 가 그 형태다.
+# 순서는 선언 순서이고(경로 정렬이 아니다) 표에 없는 그래프 파일은 stem 으로 뒤에 붙는다 — 구성원을 숨기지 않는다.
+GENDOC_UNION_MEMBERS = (
+    ("kg/chunks-kg.ttl", "chunks"),
+    ("kg/base-kg.ttl", "base"),
+    ("kg/catalog-kg.ttl", "catalog"),
+    ("kg/composite-kg.ttl", "composite"),
+    ("kg/references-kg.ttl", "references"),
+    ("kb/odd/", "odd"),
+    ("kb/ontology/", "ontology"),
+    ("space/", "space"),
+)
+
+
+def gendoc_union(paths) -> str:
+    """머리 블록의 규모 자리에 붙는 union 구성 — `union: chunks·base·…` 꼴. 그래프 파일(`.ttl`)만 센다."""
+    names = [gendoc_input_name(p) for p in paths]
+    graphs = [n for n in names if n.endswith(".ttl")]
+    labels, matched = [], set()
+    for frag, label in GENDOC_UNION_MEMBERS:
+        hit = [n for n in graphs if frag in n]
+        if hit:
+            labels.append(label)
+            matched.update(hit)
+    labels += sorted({n.rsplit("/", 1)[-1][:-4] for n in graphs if n not in matched})
+    return "union: " + ("\u00b7".join(labels) if labels else NONE_MARK)
 
 
 def input_fingerprint(paths) -> str:

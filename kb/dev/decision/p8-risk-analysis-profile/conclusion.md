@@ -7,8 +7,8 @@ title: The V&V profile is built once per domain by risk analysis G1–G6
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
+generated: {by: hci/claude-opus-5, at: 2026-09-30T09:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-30T09:05:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/a9889acc-3e51-4428-8dff-b9bce3e26ce5, title_ko: 위험 분석에 의한 V&V 프로파일, title: V&V profile by risk analysis}
 part_of: https://agentic-knowledge-base.dev/id/composite/a9889acc-3e51-4428-8dff-b9bce3e26ce5
@@ -18,3 +18,5 @@ part_of: https://agentic-knowledge-base.dev/id/composite/a9889acc-3e51-4428-8dff
 G1 현상 추출 → ODD 조건 어휘 + `defect` 요인 · G2 인과 모델 → `defect-rules` · G3 데이터로 타당성 검토 → 실행 기록·사후분석 · G4 위험 지표 → 학습 판정자 입력, 평가 · G5 추상화·정련 → 시나리오 abstract 라이브러리 (V&V `decision` abstract, 프로젝트를 넘어 재사용) · G6 목표 거동 → Runbook, 안전 정지.
 
 위험의 정의는 도메인에 맞게 바꾼다 — 소프트웨어면 행위자는 에이전트·유저·외부 서비스, 피해는 실패·회귀·데이터 손상·추적성 상실. **규칙성 가정을 먼저 적는다** (ODD 정적 갈래 또는 프로파일 전제). G1~G3은 전문가 기반으로 시작하고 실행 기록이 쌓이면 데이터 기반으로 보정한다.
+
+**부류의 순서는 등급 정렬이 정한다**(유저 답 2026-09-29). 다음에 저작할 시나리오 부류는 사람의 지목이 아니라 S·E·D의 정렬 머리(S3 ∧ E ≥ E2 ∧ D3)에서 고른다 — 현상이 늘어 정렬이 바뀌면 순서도 바뀐다. 첫 적용이 P19·P21이다.

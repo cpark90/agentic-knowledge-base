@@ -50,8 +50,8 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
                 순서가 뜻을 갖는 복합체만 적는다 (결정 p4-composite-order-is-declared). 있으면 `agt:Composite , co:List` 로
                 타이핑하고 부분마다 `co:item [ a co:ListItem ; co:index "<1..n>"^^xsd:positiveInteger ; co:itemContent <부분> ]`
                 을 그 순서로 낸다. 없으면 `agt:hasDirectPart` 만 낸다(순서 없음) — 순서를 요구하지 않는 것에 순서를 붙이면
-                거짓 정보다. 목록이 부분 전부를 빠짐없이 한 번씩 담지 않으면 거부한다. 결정 복합체(파일 stem 이 conclusion·
-                rationale·alternatives 셋)만 선언 없이 고정 순서로 co:List 를 낸다 — 역할이 곧 순서다.
+                거짓 정보다. 목록이 부분 전부를 빠짐없이 한 번씩 담지 않으면 거부한다. **예외는 없다** — 결정 복합체도 선언으로만
+                순서를 갖고(유저 승인 2026-09-29) 그 선언은 `--ordered` 인자로 들어온다. 이 도구는 역할 이름으로 순서를 추측하지 않는다.
                 **묶음의 단위는 파일이 아니라 이 실행의 입력 집합**이다 (2026-09-26 반영). part_of 대상은 같은 실행의 파일 어딘가에서
                 composite: 로 선언돼야 한다. 그 입력 집합을 만드는 것이 defs/kb.bzl 의 kb_decision(결론·근거·대안 셋)과
                 kb_composite(부분 2~9 가변)이고, 청크 하나만 받는 kb_chunk 로는 복합체가 서지 않는다
@@ -68,6 +68,9 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
                 PROFILE_SUBSTANCE). 살아 있는 청크든 폐기된 청크든 같다 — 폐기된 요구 문장도 요구 문장이다
   라벨 언어:    title 에 한글([ㄱ-ㆎ가-힣])이 있거나 title_ko 에 한글이 없으면 거부 — 영문 라벨에 한글을 섞지 않는다(0.6절).
                 composite 의 title·title_ko 도 같은 @en/@ko 라벨이므로 같은 규칙으로 거부한다
+  --ordered:    묶음의 복합체가 선언한 부분의 순서 (인자, 선택) — 생성 BUILD 의 `kb_decision.ordered`·`kb_composite.ordered` 가 넘긴다.
+                결정 복합체 205개의 선언이 이 자리다 (유저 승인 2026-09-29: 예외 없음, 손으로 frontmatter 를 고치지 않는다).
+                frontmatter `composite.ordered` 와 함께 있으면 같아야 한다 — BUILD 는 뷰이고 frontmatter 가 원본이다
   인용원:       본문(frontmatter 제외)에 소멸성 채널 경로 `docs/feedback/` 가 있으면 거부 — 규칙·근거는 영속 지식
                 (노트·결정)에 둔다 (agrtls-practices-review P). status: deprecated 청크는 제외
 
@@ -239,24 +242,24 @@ def _body_slot_at_field_head(line: str, start: int) -> bool:
 BODY_SLOT_KEYWORDS = ("미확정", *COMMENT_SLOTS)
 BODY_SLOT_KEYWORD = re.compile(r"^(" + "|".join(BODY_SLOT_KEYWORDS) + r"):\s")
 BODY_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")  # 코드 펜스 안은 본문 형식이 아니다 — 예시 안의 표지를 슬롯으로 읽지 않는다
-# ── 복합체의 순서 (결정 p4-composite-order-is-declared) ────────────────────────────────────────────────
-# 순서는 **선언**이다. 선언 청크의 `composite:` 에 선택 키 `ordered: [<부분 IRI>…]` 가 있을 때만 co:List 와 co:index 를
-# 방출하고, 없으면 hasDirectPart 만 낸다(순서 없음) — 순서를 요구하지 않는 것에 순서를 붙이면 거짓 정보다(d-0073).
-# 목록은 부분 전부를 빠짐없이 한 번씩 담아야 하고 어긋나면 이 게이트가 거부한다. 예외는 결정 복합체 하나다 —
-# 결론·근거·대안은 역할이 곧 순서(결론 없이 근거를 읽지 않고 대안은 결론을 전제한다)이므로 선언 없이 고정 순서를 낸다.
-# 판별은 파일 stem 셋이다: gen_build 가 kb/dev/decision/<파트>-<슬러그>/ 의 세 파일 이름을 이미 강제하므로 묶음의
-# stem 집합이 그 셋과 같을 때만 고정 순서다. 손 복합체·시나리오 복합체는 stem 이 다르니 걸리지 않는다.
+# ── 복합체의 순서 (결정 p4-composite-order-is-declared, 유저 승인 2026-09-29 — 예외 없음) ─────────────────
+# 순서는 **선언**이다. 선언이 있을 때만 co:List 와 co:index 를 방출하고, 없으면 hasDirectPart 만 낸다(순서 없음) —
+# 순서를 요구하지 않는 것에 순서를 붙이면 거짓 정보다(d-0073). 목록은 부분 전부를 빠짐없이 한 번씩 담아야 하고
+# 어긋나면 이 게이트가 거부한다. **도구는 역할 이름·파일 stem 으로 순서를 추측하지 않는다** — 추측 갈래는 유저 판정
+# (2026-09-29, 선택지 2)으로 삭제됐다. 결정 복합체 205개도 예외가 아니고 선언을 gen_build 가 생성 BUILD 의 명시 인자
+# (`kb_decision.ordered`)로 넣어 `--ordered` 로 이 도구에 들어온다 — 손으로 205개 frontmatter 를 고치는 것이 첨가이기 때문이다.
+# 선언의 자리는 둘이고 둘 다 명시다: 저작한 복합체는 frontmatter `composite.ordered`, 생성된 결정 복합체는 `--ordered` 인자다.
+# 둘이 함께 있으면 같아야 한다 — 생성 BUILD 는 뷰이고 frontmatter 가 원본이므로 불일치는 드리프트다.
 # hasDirectPart 는 순서와 무관하게 IRI 순으로 낸다 — community·weave·audit 이 그 술어를 읽고 순서 트리플은 추가일 뿐이다.
 ORDERED_KEY = "ordered"
-DECISION_PART_STEMS = ("conclusion", "rationale", "alternatives")
 
 
-def fixed_part_order(members: list) -> list | None:
-    """결정 복합체의 고정 순서 — 묶음의 파일 stem 이 결론·근거·대안 셋과 같으면 그 순서의 IRI 목록, 아니면 None."""
-    by_stem = {Path(p).stem: iri for iri, p in members}
-    if len(by_stem) == len(members) and set(by_stem) == set(DECISION_PART_STEMS):
-        return [by_stem[s] for s in DECISION_PART_STEMS]
-    return None
+def order_errors(where: str, order, source: str) -> list:
+    """순서 목록 자체의 형 검사 — 목록인가·빈 문자열이 없는가·중복이 없는가. 부분 집합과의 일치는 묶음 전체를 아는 곳이 본다."""
+    if not isinstance(order, list) or not all(isinstance(o, str) and o for o in order):
+        return [f"{where}: {source} 는 부분 IRI 목록 [<IRI>, …] 이어야 한다 — 실제 {order!r} (p4-composite-order-is-declared)"]
+    dups = sorted({o for o in order if order.count(o) > 1})
+    return [f"{where}: {source} 에 같은 부분이 두 번 있다 — 부분마다 색인 하나다: {dups}"] if dups else []
 # LEVELS·STATES(값 어휘)는 위에서 defs/kb.bzl 에서 파생된다(load_plane_level_state) — 여기서 다시 선언하지 않는다.
 HANGUL = re.compile(r"[ㄱ-ㆎ가-힣]")  # 한글 음절·자모 — 라벨 언어 검사 (0.6절 표기 형식)
 REQUIRED = ("id", "type", "level", "title_ko", "title", "status", "generated")
@@ -435,13 +438,8 @@ def parse_chunk(path: str) -> tuple[dict, int]:
         if comp.get("title_ko") and not HANGUL.search(comp["title_ko"]):
             raise ValueError(f"{path}: composite.title_ko {comp['title_ko']!r} 에 한글이 없다 — 복합체 라벨도 한/영 1:1(0.6절)")
         if ORDERED_KEY in comp:  # 순서의 선언 — 부분 집합과의 일치는 묶음 전체를 아는 main 이 본다 (p4-composite-order-is-declared)
-            order = comp[ORDERED_KEY]
-            if not isinstance(order, list) or not all(isinstance(o, str) and o for o in order):
-                raise ValueError(f"{path}: composite.{ORDERED_KEY} 는 부분 IRI 목록 [<IRI>, …] 이어야 한다 — 실제 {order!r} "
-                                 f"(p4-composite-order-is-declared)")
-            dups = sorted({o for o in order if order.count(o) > 1})
-            if dups:
-                raise ValueError(f"{path}: composite.{ORDERED_KEY} 에 같은 부분이 두 번 있다 — 부분마다 색인 하나다: {dups}")
+            for e in order_errors(path, comp[ORDERED_KEY], f"composite.{ORDERED_KEY}"):
+                raise ValueError(e)
     gen = meta["generated"]
     if not isinstance(gen, dict) or not gen.get("by") or not gen.get("at"):
         raise ValueError(f"{path}: generated 는 {{by: …, at: …}} 여야 한다 (OKF 행위자 표기)")
@@ -788,6 +786,11 @@ def main() -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--fragment", action="store_true", help="타깃 하나의 조각 — 전문(preamble) 없이 블록만 (kb_chunk·kb_decision 액션)")
     ap.add_argument("--merge", action="store_true", help="조각들을 병합해 -kg 를 만든다 (kb_kg_merge)")
+    ap.add_argument("--ordered", action="append", default=[], metavar="IRI",
+                    help="이 묶음의 복합체가 선언한 부분의 순서 — 부분마다 한 번, 선언 순서대로 반복해 준다(`--ordered A --ordered B`). "
+                         "목록형(nargs)이 아닌 이유는 청크 파일이 위치 인자라 목록이 그것을 삼키기 때문이다. 생성 BUILD 의 명시 "
+                         "인자(kb_decision·kb_composite 의 ordered)가 넘긴다. 복합체 하나를 선언하는 실행에만 준다. "
+                         "frontmatter composite.ordered 와 함께 있으면 같아야 한다")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — --merge 가 아니면 필수다"
                                                       "(kb_chunk·kb_decision 의 head 액션이 --residency defs/kb.bzl 로 넘긴다)")
     ap.add_argument("files", nargs="*")
@@ -854,6 +857,17 @@ def main() -> int:
                           f"액션 하나가 부분 청크 전부와 선언 청크를 함께 받아야 한다 (defs/kb.bzl 의 kb_composite·kb_decision)")
         else:
             composites[comp_iri]["members"].append((chunk_iri, path))
+    if args.ordered:  # 생성 BUILD 의 명시 인자 — 묶음마다 복합체 하나이므로 어느 복합체의 순서인지 모호하지 않다
+        errors += order_errors(args.out, args.ordered, "--ordered")
+        if len(composites) != 1:
+            errors.append(f"{args.out}: --ordered 는 복합체 하나를 선언하는 실행에만 준다 — 이 실행이 선언한 복합체는 "
+                          f"{len(composites)}개다 (defs/kb.bzl 의 kb_decision·kb_composite 가 묶음마다 한 번 넘긴다)")
+        else:
+            c = next(iter(composites.values()))
+            if c["order"] is not None and c["order"] != args.ordered:
+                errors.append(f"{c['path']}: --ordered 인자와 frontmatter composite.{ORDERED_KEY} 가 다르다 — 생성 BUILD 는 뷰이고 "
+                              f"frontmatter 가 원본이므로 불일치는 드리프트다: 인자 {args.ordered} · frontmatter {c['order']}")
+            c["order"] = args.ordered
     comp_blocks = []
     for iri, c in sorted(composites.items()):
         if not c["members"]:
@@ -865,8 +879,6 @@ def main() -> int:
             errors.append(f"{c['path']}: composite.{ORDERED_KEY} 가 부분 집합과 다르다 — 선언 {sorted(order)} · 부분 {part_iris}. "
                           f"순서 목록은 부분 전부를 빠짐없이 한 번씩 담는다 (p4-composite-order-is-declared)")
             continue
-        if order is None:  # 결정 복합체만 선언 없이 고정 순서다 — 역할이 곧 순서다
-            order = fixed_part_order(c["members"])
         parts = " ,\n        ".join(f"<{m}>" for m in part_iris)
         block = (f"<{iri}>\n    a agt:Composite{' , co:List' if order else ''} ;\n"
                  f'    rdfs:label "{esc(c["en"])}"@en ;\n'

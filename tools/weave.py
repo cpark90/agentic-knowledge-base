@@ -137,7 +137,7 @@ REPRODUCE = {"adr": "bazel build //kb/dev:adr", "requirements": "bazel build //k
 def head(kind: str, title: str, query: str, g: Graph, inputs: list[str], extra: list[str]) -> list[str]:
     """모든 생성물의 머리 블록 — 규약 G1~G7 (kb_lib.gendoc_header 가 단일 정의처, p12-documents-are-generated)."""
     return kb_lib.gendoc_header(kind, title, "tools/weave.py", query, REPRODUCE[kind], inputs,
-                                f"트리플 {len(g)}", kb_lib.gendoc_view_notice("청크"), extra=extra)
+                                f"트리플 {len(g)} ({kb_lib.gendoc_union(inputs)})", kb_lib.gendoc_view_notice("청크"), extra=extra)
 
 
 def refs(m: Model, nodes) -> str:

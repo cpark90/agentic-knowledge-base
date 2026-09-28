@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [tools/, kb/dev/decision/p7-dev-plane-substance/, defs/kb.bzl, docs/roadmap.md]
 ---
 
