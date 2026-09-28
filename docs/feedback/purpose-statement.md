@@ -225,6 +225,7 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 64 | 위험 인과의 변경을 받고 **부류 순서는 등급 정렬이 정한다** (2026-09-29) — 다음 부류는 P19·P21(S3∧D3, 참조 저장소의 실측 실패). 유저가 자기 우선순위를 등급 실측에 양보한 규범이다 | `hazard-grades-confirm-2026-09-29` · handoff 동명 |
 | 65 | 승인 셋의 반영 완료 (2026-09-30) — 복합체 순서 예외 삭제와 선언 205 · 부류 P19·P21 · 그림 규칙과 출처 개체의 `git:` 위치. 게이트 **33**. 되돌아오지 않은 handoff 0 | `orchestrator-accept-composite-order-2026-09-29` 외 둘 |
 | 66 | 판정 서비스 자격 대기 (2026-09-30) — 환경 변수는 `AKB_JUDGE_ENDPOINT`·`AKB_JUDGE_API_KEY`·`AKB_JUDGE_MODEL` 셋이다. 없으면 도구가 `EXIT_CONFIG` 로 끝나고 `--fixture` 만 돈다. **유저 작업 대기** | `orchestrator-jev-credentials-waiting-2026-09-30` |
+| 67 | 코드를 청크로 — **추출 방향·표본 먼저** (2026-09-30) — 코드 파일이 원본이고 함수 청크는 생성물이다(tangle 반대). 링크는 파일 복합체가 갖고 `artifact` 도장은 테스트 통과다. 표본 `kb_lib.py`(1,681줄·함수 68)로 churn 을 재고 34 파일로 넓힌다. 로드맵 6단계의 tangle 을 고친다 | `code-as-chunks-2026-09-26` · handoff 동명 |
 
 **아직 유저 답을 기다리는 것**(2026-09-29): `code-as-chunks-2026-09-26.md`(코드를 청크로 — 확인 둘) · **`code-as-chunks-2026-09-26.md`는 답이 있으나 `status: open` 이다 — 태깅 전에는 반영하지 않는다.**
 그 밖의 유저 lane 항목은 전부 `approved` 이고 인수인계로 넘어갔다. 옛 미결(`dependency-graph-design` 의 (a)~(j) 등)은 git 이력에서 본다.

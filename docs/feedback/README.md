@@ -19,8 +19,8 @@
 
 - **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-remainder-2026-09-22.md`](spec-writing-standard-remainder-2026-09-22.md) — G10 그림 틀 · 출처 개체 위치.
   인수인계 [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md). 반영되면 제안 원문과 승인 항목을 제거한다
-- **유저 작업 대기(2026-09-30)**: [`code-as-chunks-2026-09-26.md`](code-as-chunks-2026-09-26.md) — 답("권고대로 진행")은 있으나 `status: open` 이다. **승인 태깅이 유일한 반영 신호**다 ·
-  [`jev-credentials-2026-09-29.md`](jev-credentials-2026-09-29.md) — 승인됐고 handoff 는 열려 있다. 환경 변수 `AKB_JUDGE_ENDPOINT`·`AKB_JUDGE_API_KEY`·`AKB_JUDGE_MODEL` 셋이 셸에 설정되면 측정이 시작된다
+- **승인됨·인수 대기(2026-09-30)**: [`code-as-chunks-2026-09-26.md`](code-as-chunks-2026-09-26.md) — 추출 방향·표본 먼저. handoff 를 썼다
+- **유저 작업 대기(2026-09-30)**: [`jev-credentials-2026-09-29.md`](jev-credentials-2026-09-29.md) — 승인됐고 handoff 는 열려 있다. 환경 변수 `AKB_JUDGE_ENDPOINT`·`AKB_JUDGE_API_KEY`·`AKB_JUDGE_MODEL` 셋이 셸에 설정되면 측정이 시작된다
 - **반영 완료·인수 기록 대기**: 유저 lane 항목 13과 그 handoff 13이 `closed` 다. 인수 기록 24가 `answered` 이고 **발신자가 닫으면 사슬로 함께 제거**한다 — 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구한다. 채널이 80항목까지 커진 이유가 이것이다
 - **담당 역할 반영 대기**: [`label-representativeness-protocol.md`](label-representativeness-protocol.md)
 - refresh 2026-09-30: 돌아온 handoff 셋을 `closed` 로, 인수 기록 셋과 자격 대기 기록 하나에 답을 채웠다. **되돌아오지 않은 handoff 0**. 제거는 0건(사슬 순서).
