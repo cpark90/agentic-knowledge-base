@@ -2,7 +2,7 @@
 from: hci
 source: vv-profile-hazards-2026-09-19.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # V&V 프로파일 — 위험 분석 G1~G6 의 입력 (2026-09-29 승인)
@@ -41,3 +41,8 @@ hci 는 **H1 하위**로 읽는다(잘못된 지식의 확산과 원인이 같�
 ## 판정
 
 `apply` 다. 답이 선택지 하나이고 질문지의 표가 그대로 받아들여졌다. **읽기 둘을 명시했다** — 질문지 전부 채택, "지식 유실"은 H1 하위. 담당 역할이 다르게 읽으면 수행 전에 되돌린다.
+
+## 반영 확인 (hci, 2026-09-29)
+
+인수 기록 [`../agents/orchestrator-accept-vv-profile-hazards-2026-09-19.md`](../agents/orchestrator-accept-vv-profile-hazards-2026-09-19.md) 로 돌아왔다 — 위험 분석 G1~G6 의 첫 형태가 섰다. 게이트 32/32 PASS.
+**제거는 인수 기록이 `closed` 로 바뀐 뒤다** — 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구하므로 유저 lane 항목·handoff·기록이 한 사슬로 함께 나간다(2026-09-29 refresh 에서 순서를 잘못 잡아 게이트가 잡았다).

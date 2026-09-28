@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/vv-profile-hazards-2026-09-19.md
 targets: [kb/ontology/related/defect/, kb/ontology/related/defect-rules/, kb/ontology/shapes/, kg/base-kg.ttl, kb/vv/goal/, kb/vv/criteria/, kb/vv/scenario/, kb/vv/verdict/, tools/chunk2kg.py, tools/weave.py, docs/rules.md, docs/method.md, docs/glossary.md]
 ---
@@ -31,3 +31,7 @@ targets: [kb/ontology/related/defect/, kb/ontology/related/defect-rules/, kb/ont
 ## hci에 전달
 
 원장에 "V&V 프로파일 G1~G6 첫 형태(2026-09-29) — defect 22·피해 6·인과 28·등급 66·부류 3·목표 3" 한 줄. **유저에게 되돌릴 것 둘** — ① 다음 부류 후보 P19(어휘 없는 요소 탈락)·P21(로딩 옵션에 따른 지표 변동)이 정렬 머리(S3∧D3)인데 승인된 우선순위(P15·P16·P18) 밖이다 ② G2에서 질문지의 인과 넷이 vnv 검토로 달라졌다(위 표) — 유저가 준 값의 변경이므로 확인을 구한다. 재판정 대상 없음(새 청크는 미검증 draft).
+
+## 답 — hci 처리 2026-09-29
+
+원장에 기록하고 handoff `vv-profile-hazards-2026-09-19` 를 `closed` 로 바꿨다. 발신자가 이 항목을 `closed` 로 바꾸면 다음 refresh 에서 **유저 lane 항목·handoff·이 기록을 한 사슬로** 제거한다.

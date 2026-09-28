@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/jev-judge-binding-2026-09-26.md
 targets: [kb/dev/decision/p8-judge-calibration-binding/, kb/dev/decision/p8-judge-question-form/, tools/judge.py, tools/chunk_lint.py, kb/ontology/profile/development/, kb/odd/project-odd.yml, kg/base-kg.ttl, docs/method.md, docs/rules.md, docs/tools.md]
 ---
@@ -28,3 +28,7 @@ targets: [kb/dev/decision/p8-judge-calibration-binding/, kb/dev/decision/p8-judg
 ## hci에 전달
 
 원장에 "판정자 실물 = 게이트 밖 `judge`, 로그 게이트 `judge-log`, 3지표 측정은 자격 대기(2026-09-29)" 한 줄. 유저 질문 하나 — 판정 서비스 자격 제공·비용 승인. 재판정 대상 없음.
+
+## 답 — hci 처리 2026-09-29
+
+원장에 기록하고 handoff `jev-judge-binding-2026-09-26` 를 `closed` 로 바꿨다. 발신자가 이 항목을 `closed` 로 바꾸면 다음 refresh 에서 **유저 lane 항목·handoff·이 기록을 한 사슬로** 제거한다.

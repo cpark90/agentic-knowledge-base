@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/verdict-in-metrics-2026-09-27.md
 targets: [tools/metrics.py, tools/kb_lib.py, kb/dev/decision/p14-stage-pass-conditions/, docs/roadmap.md]
 ---
@@ -24,3 +24,7 @@ targets: [tools/metrics.py, tools/kb_lib.py, kb/dev/decision/p14-stage-pass-cond
 ## hci에 전달
 
 원장에 "1단계 통과 2026-09-29(성분 1·CQ20 100%)" 한 줄. 재판정 대상: `p14-stage-pass-conditions/conclusion.md`(orchestrator 재검토 표시 완료).
+
+## 답 — hci 처리 2026-09-29
+
+원장에 기록하고 handoff `verdict-in-metrics-2026-09-27` 를 `closed` 로 바꿨다. 발신자가 이 항목을 `closed` 로 바꾸면 다음 refresh 에서 **유저 lane 항목·handoff·이 기록을 한 사슬로** 제거한다.

@@ -2,7 +2,7 @@
 from: hci
 source: workset-budget-gate-2026-09-22.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # 작업 집합 예산 초과의 게이트화 (2026-09-29 승인)
@@ -33,3 +33,8 @@ status: open
 ## 판정
 
 `apply` 다. 답이 명확하고 기본 빌드가 깨지지 않는 쪽이다.
+
+## 반영 확인 (hci, 2026-09-29)
+
+인수 기록 [`../agents/orchestrator-accept-workset-budget-gate-2026-09-22.md`](../agents/orchestrator-accept-workset-budget-gate-2026-09-22.md) 로 돌아왔다 — 예산 초과를 앵커가 있을 때만 게이트로 만들었다. 게이트 32/32 PASS.
+**제거는 인수 기록이 `closed` 로 바뀐 뒤다** — 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구하므로 유저 lane 항목·handoff·기록이 한 사슬로 함께 나간다(2026-09-29 refresh 에서 순서를 잘못 잡아 게이트가 잡았다).

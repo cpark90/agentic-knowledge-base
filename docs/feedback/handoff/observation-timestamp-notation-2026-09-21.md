@@ -2,7 +2,7 @@
 from: hci
 source: observation-timestamp-notation-2026-09-21.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # 관측 청크의 시각 표기 (2026-09-21 항목, 2026-09-23 승인)
@@ -34,3 +34,8 @@ status: open
 ## 판정
 
 `apply` 다. 답이 명확하고 편집이 네 줄이며 append-only 규율을 깨지 않는다.
+
+## 반영 확인 (hci, 2026-09-29)
+
+인수 기록 [`../agents/orchestrator-accept-observation-timestamp-notation-2026-09-21.md`](../agents/orchestrator-accept-observation-timestamp-notation-2026-09-21.md) 로 돌아왔다 — 관측 시각 표기를 새 기록부터 G3 으로 바꿨다. 게이트 32/32 PASS.
+**제거는 인수 기록이 `closed` 로 바뀐 뒤다** — 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구하므로 유저 lane 항목·handoff·기록이 한 사슬로 함께 나간다(2026-09-29 refresh 에서 순서를 잘못 잡아 게이트가 잡았다).

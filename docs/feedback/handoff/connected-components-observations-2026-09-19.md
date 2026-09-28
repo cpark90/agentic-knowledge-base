@@ -2,7 +2,7 @@
 from: hci
 source: connected-components-observations-2026-09-19.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # 관측이 연결 성분을 늘린다 (2026-09-19 항목, 2026-09-23 승인)
@@ -33,3 +33,8 @@ status: open
 ## 판정
 
 `apply` 다. 선택지 하나이고 정의 변경의 범위가 좁다. **4번은 이 항목의 승인 범위 밖**이므로 권고로만 적는다 — 링크 구축은 승인 사항이 아니다.
+
+## 반영 확인 (hci, 2026-09-29)
+
+인수 기록 [`../agents/orchestrator-accept-connected-components-observations-2026-09-19.md`](../agents/orchestrator-accept-connected-components-observations-2026-09-19.md) 로 돌아왔다 — 관측을 성분·CQ20 계산에서 제외했다. 게이트 32/32 PASS.
+**제거는 인수 기록이 `closed` 로 바뀐 뒤다** — 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구하므로 유저 lane 항목·handoff·기록이 한 사슬로 함께 나간다(2026-09-29 refresh 에서 순서를 잘못 잡아 게이트가 잡았다).

@@ -19,27 +19,13 @@
 
 - **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-remainder-2026-09-22.md`](spec-writing-standard-remainder-2026-09-22.md) — G10 그림 틀 · 출처 개체 위치.
   인수인계 [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md). 반영되면 제안 원문과 승인 항목을 제거한다
-- **유저 판단 대기(2026-09-27)**: [`verdict-in-metrics-2026-09-27.md`](verdict-in-metrics-2026-09-27.md) — 판정 주석을 연결 성분·CQ20 에서 셀 것인가
-- **유저 판단 대기(2026-09-26)**: [`jev-judge-binding-2026-09-26.md`](jev-judge-binding-2026-09-26.md) — 판정자를 System One 모델에 붙일 것인가 ·
-  [`test-hermeticity-2026-09-26.md`](test-hermeticity-2026-09-26.md) — 게이트 하나가 밀폐성에서 벗어난다 ·
-  [`composite-beyond-decisions-2026-09-26.md`](composite-beyond-decisions-2026-09-26.md) — 복합체를 결정 밖으로 ·
-  [`code-as-chunks-2026-09-26.md`](code-as-chunks-2026-09-26.md) — 코드를 청크로 올릴 것인가
-- **승인됨·인수 대기(2026-09-23)**: 여섯 항목이 한꺼번에 승인됐다 — 링크 C·D·E · 형식화 M1·M5 · 관측과 연결 성분 · 요구 stable 전이 · 관측 시각 표기 · 에이전트 검증 도착점.
-  인수인계는 `handoff/` 의 동명 항목 여섯이고 **수행 순서는 링크 항목이 먼저**다(유저 지정).
-- **유저 판단 대기(2026-09-19)**: [`vv-profile-hazards-2026-09-19.md`](vv-profile-hazards-2026-09-19.md) — 위험 분석 G1~G6 의 입력 · [`workset-budget-gate-2026-09-22.md`](workset-budget-gate-2026-09-22.md) — 예산 초과의 게이트화
-- **반영 완료·출처 개체 때문에 유지(2026-09-22)**: [`spec-writing-standard-adoption-2026-09-22.md`](spec-writing-standard-adoption-2026-09-22.md) — 공백 열 채우기 + 기존 저작 적용.
-  인수인계 [`handoff/spec-writing-standard-adoption-2026-09-22.md`](handoff/spec-writing-standard-adoption-2026-09-22.md) 는 `closed` 다.
-  제안 원문 [`inquiries/spec-writing-standard-proposal.md`](inquiries/spec-writing-standard-proposal.md) 는 `kg/base-kg.ttl` 의 출처 개체가 트리 경로를 가리켜 유지한다 —
-  `git:<리비전>:<경로>` 로 바뀌면 둘 다 제거한다.
-- **유저 판단 대기(2026-09-21)**: [`generated-requirements-stable-2026-09-21.md`](generated-requirements-stable-2026-09-21.md) — 요구 `r-027`·`r-028` 의 stable 전이 ·
-  [`observation-timestamp-notation-2026-09-21.md`](observation-timestamp-notation-2026-09-21.md) — 관측 청크의 시각 표기
-- **유저 판단 대기(2026-09-19)**: [`link-model-robustness-cde-2026-09-19.md`](link-model-robustness-cde-2026-09-19.md) — 남은 선택지 C·D·E ·
-  [`connected-components-observations-2026-09-19.md`](connected-components-observations-2026-09-19.md) — 관측이 연결 성분을 늘린다 ·
-  [`vv-profile-hazards-2026-09-19.md`](vv-profile-hazards-2026-09-19.md) — 위험 분석 G1~G6의 입력
-- **반영 완료·C·D·E 때문에 유지**: [`link-model-robustness-2026-09-18.md`](link-model-robustness-2026-09-18.md) — A·B 반영됨(2026-09-19), 조사 원문은 [`inquiries/suggestion.md`](inquiries/suggestion.md)
-- **남은 유저 lane 항목 넷** — `docs/` 가 마크다운 링크로 가리켜 아직 제거하지 못한다(링크를 `git:<리비전>:<경로>` 평문 인용으로 바꾸면 제거):
-  [`bazel-dependency-review.md`](bazel-dependency-review.md)(`tools.md`) · [`dependency-graph-design.md`](dependency-graph-design.md)(`open-questions/link-judgement-basis.md`) ·
-  [`design-detail-review.md`](design-detail-review.md)(`decomposition-audit.md`·`docs/README.md`) · [`label-representativeness-protocol.md`](label-representativeness-protocol.md)(`tools.md`·`roadmap.md`)
+- **유저 판단 대기(2026-09-29)**: [`code-as-chunks-2026-09-26.md`](code-as-chunks-2026-09-26.md) — 코드를 청크로. 유저가 2안(전부)을 원했고 hci 가 강인성 방안 다섯을 붙였다. 확인 둘(생성 방향 · 표본 먼저) ·
+  [`composite-order-2026-09-29.md`](composite-order-2026-09-29.md) — 복합체 순서 결정의 stable 승인 ·
+  [`jev-credentials-2026-09-29.md`](jev-credentials-2026-09-29.md) — 판정 서비스의 자격과 비용 ·
+  [`hazard-grades-confirm-2026-09-29.md`](hazard-grades-confirm-2026-09-29.md) — 위험 등급·인과의 변경 확인
+- **반영 완료·인수 기록 대기**: 유저 lane 항목 10과 그 handoff 10이 `closed` 다. **제거는 한 사슬로 함께 한다** — 인수 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구하므로 발신자가 기록을 `closed` 로 바꾼 뒤 유저 lane·handoff·기록을 같은 사이클에 지운다(2026-09-29 에 순서를 잘못 잡아 `channel_lint` 가 잡았다).
+- **담당 역할 반영 대기**: [`label-representativeness-protocol.md`](label-representativeness-protocol.md) · [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md)
+- refresh 2026-09-29: 돌아온 handoff **10**을 `closed` 로, 인수 기록 10과 단일 정의처 기록 1에 답을 채워 `answered` 로, 질문 셋(복합체 순서 · 판정 자격 · 위험 등급 확인)을 유저 lane 으로 중계했다. **제거는 0건** — 사슬 순서 때문이다.
 - refresh 2026-09-26: 돌아온 handoff 둘(`link-model-robustness-cde`·`nl-ambiguity-adoption`)을 `closed` 로, 기록 다섯을 `answered` 로,
   질문 둘을 유저 lane 항목 셋으로 중계했다. hci 의 조사 오류 둘을 handoff 에 정정으로 남겼다 — 정의문 규칙 36 → 52건, `refines` 상한의 셋째 읽기.
 - refresh 2026-09-22: 인수 기록이 돌아온 handoff 1건을 `closed` 로, 기록 2건을 `answered` 로, 질문 2건을 유저 lane 으로 중계했다.

@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/composite-beyond-decisions-2026-09-26.md
 targets: [defs/kb.bzl, tools/gen_build.py, tools/chunk2kg.py, kg/composite-kg.ttl, chunks/decision/, kb/dev/requirement/, kb/vv/verifier/, docs/rules.md, docs/tools.md, STYLEGUIDE.md]
 ---
@@ -29,3 +29,7 @@ targets: [defs/kb.bzl, tools/gen_build.py, tools/chunk2kg.py, kg/composite-kg.tt
 ## hci에 전달
 
 원장에 "복합체는 전부 생성 경로(2026-09-29 — `kb_composite`, 손 기록 0)" 한 줄. 재판정 대상 없음(frontmatter만 바뀌었다 — 메타데이터).
+
+## 답 — hci 처리 2026-09-29
+
+원장에 기록하고 handoff `composite-beyond-decisions-2026-09-26` 를 `closed` 로 바꿨다. 발신자가 이 항목을 `closed` 로 바꾸면 다음 refresh 에서 **유저 lane 항목·handoff·이 기록을 한 사슬로** 제거한다.

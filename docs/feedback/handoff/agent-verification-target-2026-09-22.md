@@ -2,7 +2,7 @@
 from: hci
 source: agent-verification-target-2026-09-22.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # 에이전트 검증의 `verifies` 도착점 (2026-09-22 항목, 2026-09-23 승인)
@@ -48,3 +48,8 @@ status: open
 ## 판정
 
 `apply` 다. 답이 명확하고 검사 약화가 없다. 범위 밖 지시는 **별도 요구로 세우는 것까지**가 이 handoff 의 몫이고, 그 요구의 stable 전이와 반영 계획은 새 항목에서 다룬다.
+
+## 반영 확인 (hci, 2026-09-29)
+
+인수 기록 [`../agents/orchestrator-accept-agent-verification-target-2026-09-22.md`](../agents/orchestrator-accept-agent-verification-target-2026-09-22.md) 로 돌아왔다 — 결정을 좁혀 에이전트 검증의 도착점을 개발 KB 청크로 옮겼다. 게이트 32/32 PASS.
+**제거는 인수 기록이 `closed` 로 바뀐 뒤다** — 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구하므로 유저 lane 항목·handoff·기록이 한 사슬로 함께 나간다(2026-09-29 refresh 에서 순서를 잘못 잡아 게이트가 잡았다).

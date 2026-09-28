@@ -2,7 +2,7 @@
 from: hci
 source: verdict-in-metrics-2026-09-27.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # 판정 주석을 연결 성분·CQ20 에서 제외한다 (2026-09-29 승인)
@@ -34,3 +34,8 @@ status: open
 ## 판정
 
 `apply` 다. 편집이 좁고 1단계 통과가 여기서 닫힌다.
+
+## 반영 확인 (hci, 2026-09-29)
+
+인수 기록 [`../agents/orchestrator-accept-verdict-in-metrics-2026-09-27.md`](../agents/orchestrator-accept-verdict-in-metrics-2026-09-27.md) 로 돌아왔다 — 판정 주석을 성분·CQ20 에서 제외했다. 게이트 32/32 PASS.
+**제거는 인수 기록이 `closed` 로 바뀐 뒤다** — 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구하므로 유저 lane 항목·handoff·기록이 한 사슬로 함께 나간다(2026-09-29 refresh 에서 순서를 잘못 잡아 게이트가 잡았다).

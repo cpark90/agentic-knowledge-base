@@ -218,8 +218,10 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 57 | 게이트 하나의 밀폐 예외를 받고 ODD 조건으로 판정 (2026-09-29) — `env_inherit` 을 쓰는 타깃 수 ≤ 1 을 ODD 가 센다. 실측 일치를 밀폐성 앞에 둔 판단 | `test-hermeticity-2026-09-26` · handoff 동명 |
 | 58 | 판정자를 System One 모델에 붙인다 — 게이트 밖 보고로 (2026-09-26) — 결정 개정으로 J1~J5 반영: 확신도는 집단 수준 캘리브레이션 · 구간별 표본 · Choice 255 상한과 2단계 · 논평 본문은 판정자가 쓰지 않는다 · 모델 버전과 캘리브레이션은 함께 바뀐다 | `jev-judge-binding-2026-09-26` · handoff 동명 |
 | 59 | 결정 밖의 복합체 — 도구를 고친다 (2026-09-26) — `kb_chunk` 묶음 복합체 규칙을 만들어 요구·기준·시나리오·검증기가 결정과 같은 형식을 얻는다 | `composite-beyond-decisions-2026-09-26` · handoff 동명 |
+| 60 | 값 어휘·수준 허용표의 단일 정의처를 `defs/kb.bzl` 로 (2026-09-27) — `chunk2kg` 의 사본 제거. 자연어 항목 M1 의 "규칙의 단일 정의처"가 여기서 닫혔다 | `orchestrator-single-source-kb-bzl-2026-09-27` |
+| 61 | 승인 열의 반영 완료 (2026-09-29) — 판정자 도구 `judge`(게이트 밖)·복합체 규칙·위험 분석 G1~G6 첫 형태(defect 22·피해 6·인과 28·등급 66·부류 3)·예산 게이트·밀폐 ODD 조건·주석 제외. 게이트 23 → **32**. handoff 10이 인수 기록과 함께 닫혔다 | `orchestrator-accept-*` 열 |
 
-**아직 유저 답을 기다리는 것**(2026-09-29): `code-as-chunks-2026-09-26.md` — 코드를 청크로 올리는 방식의 확인 둘(생성 방향 · 표본 먼저).
+**아직 유저 답을 기다리는 것**(2026-09-29): `code-as-chunks-2026-09-26.md`(코드를 청크로 — 확인 둘) · `composite-order-2026-09-29.md`(복합체 순서 결정의 stable 승인) · `jev-credentials-2026-09-29.md`(판정 서비스의 자격) · `hazard-grades-confirm-2026-09-29.md`(위험 등급·인과의 변경 확인).
 그 밖의 유저 lane 항목은 전부 `approved` 이고 인수인계로 넘어갔다. 옛 미결(`dependency-graph-design` 의 (a)~(j) 등)은 git 이력에서 본다.
 
 > 결정 로그가 인용하는 채널 항목 중 반영 완료로 제거된 것(`chunk-definition-unification.md`·`suggestion-okf-three-layer.md`·`notes-v4-review.md`·`terminology-normalization.md`)은 git 이력에서 본다.

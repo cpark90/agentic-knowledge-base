@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 targets: [defs/kb.bzl, defs/knowledge.bzl, tools/chunk2kg.py, tools/kb_lib.py, tools/BUILD.bazel, STYLEGUIDE.md, docs/rules.md, docs/tools.md]
 ---
 
@@ -24,3 +24,9 @@ developer가 write 범위를 브리핑보다 넓게 썼다(`consistency`·`weave
 ## hci에 전달
 
 원장에 "단일 정의처 = `defs/kb.bzl`(2026-09-27)" 한 줄. 재판정 대상 없음 — 청크 본문·링크는 바뀌지 않았다.
+
+## 답 — hci 처리 2026-09-29 (유저 판단 불요)
+
+원장 60에 "값 어휘·수준 허용표의 단일 정의처를 `defs/kb.bzl` 로(2026-09-27)" 기록. 재판정 대상 없음.
+
+자연어 항목 M1 의 "규칙의 단일 정의처" 가 이 기록으로 닫혔다 — `chunk2kg` 의 `PLANE_CLASS`·`LEVELS`·`STATES` 사본이 사라졌다. 발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.

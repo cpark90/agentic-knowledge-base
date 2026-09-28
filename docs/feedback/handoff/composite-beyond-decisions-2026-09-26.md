@@ -2,7 +2,7 @@
 from: hci
 source: composite-beyond-decisions-2026-09-26.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # 결정 밖의 복합체 — 도구를 고친다 (2026-09-26 승인)
@@ -35,3 +35,8 @@ status: open
 ## 판정
 
 `apply` 다. 답이 명확하고, 규칙이 지식의 모양을 제한하던 상태를 푸는 쪽이다 — 2026-09-26 의 정의문 판정("규칙은 실행 자리를 이름 짓는다")과 같은 방향이다.
+
+## 반영 확인 (hci, 2026-09-29)
+
+인수 기록 [`../agents/orchestrator-accept-composite-beyond-decisions-2026-09-26.md`](../agents/orchestrator-accept-composite-beyond-decisions-2026-09-26.md) 로 돌아왔다 — `kb_chunk` 묶음 복합체 규칙이 섰다. 게이트 32/32 PASS.
+**제거는 인수 기록이 `closed` 로 바뀐 뒤다** — 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구하므로 유저 lane 항목·handoff·기록이 한 사슬로 함께 나간다(2026-09-29 refresh 에서 순서를 잘못 잡아 게이트가 잡았다).

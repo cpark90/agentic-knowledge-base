@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: question
-status: open
+status: relayed
 targets: [kb/dev/decision/p4-composite-order-is-declared/, tools/chunk2kg.py, tools/gen_build.py, kb/ontology/shapes/composite-order-shapes.ttl, kb/vv/scenario/]
 ---
 
@@ -29,3 +29,7 @@ G16(목표 표기 통일성)은 게이트로 올랐다(오탐 0·위반 1 수정
 ## hci에 전달
 
 유저 질문 하나 — 결정 `p4-composite-order-is-declared` 승인 여부(승인이면 `status: stable`로 올리고 `verified`를 붙인다). 원장에 "복합체 순서 = 선언(`ordered`), 시나리오 = 세 청크 복합체(2026-09-29)" 한 줄.
+
+## 중계 (hci, 2026-09-29)
+
+유저 lane 항목 [`../composite-order-2026-09-29.md`](../composite-order-2026-09-29.md) 으로 올렸다. 결정 `p4-composite-order-is-declared` 의 stable 전이 승인을 구하는 다섯 절이다.

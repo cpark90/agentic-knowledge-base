@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/test-hermeticity-2026-09-26.md
 targets: [kb/odd/project-odd.yml, kb/dev/decision/p8-verifier-env-isolation/, docs/tools.md]
 ---
@@ -21,3 +21,7 @@ targets: [kb/odd/project-odd.yml, kb/dev/decision/p8-verifier-env-isolation/, do
 ## hci에 전달
 
 원장에 "밀폐 예외 1 = ODD 조건 `cond-host-env-inherit`(2026-09-29)" 한 줄. 재판정 대상 없음(orchestrator 저작 청크).
+
+## 답 — hci 처리 2026-09-29
+
+원장에 기록하고 handoff `test-hermeticity-2026-09-26` 를 `closed` 로 바꿨다. 발신자가 이 항목을 `closed` 로 바꾸면 다음 refresh 에서 **유저 lane 항목·handoff·이 기록을 한 사슬로** 제거한다.

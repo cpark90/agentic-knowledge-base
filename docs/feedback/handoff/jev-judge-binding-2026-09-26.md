@@ -2,7 +2,7 @@
 from: hci
 source: jev-judge-binding-2026-09-26.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # 판정자를 System One 모델에 붙인다 — 게이트 밖 보고로 (2026-09-26 승인)
@@ -37,3 +37,8 @@ status: open
 ## 판정
 
 `apply` 다. 게이트 밖으로 두는 선택이 밀폐성과 자동화를 함께 지킨다. J1~J5 가 결정 개정 하나에 모이므로 반영 단위도 작다.
+
+## 반영 확인 (hci, 2026-09-29)
+
+인수 기록 [`../agents/orchestrator-accept-jev-judge-binding-2026-09-26.md`](../agents/orchestrator-accept-jev-judge-binding-2026-09-26.md) 로 돌아왔다 — 판정자를 게이트 밖 도구로 붙이고 결정을 개정했다. 게이트 32/32 PASS.
+**제거는 인수 기록이 `closed` 로 바뀐 뒤다** — 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구하므로 유저 lane 항목·handoff·기록이 한 사슬로 함께 나간다(2026-09-29 refresh 에서 순서를 잘못 잡아 게이트가 잡았다).
