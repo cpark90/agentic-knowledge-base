@@ -2,7 +2,7 @@
 from: hci
 source: spec-writing-standard-remainder-2026-09-22.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # 명세 문서 작성 규격 — 반영의 잔여 둘 (2026-09-22)
@@ -44,3 +44,8 @@ status: open
 
 `apply` 다. 답이 선택지 번호 하나로 명확하고, 둘 다 승인 범위 안의 잔여이며 새 판단을 요구하지 않는다. 그림 규칙은
 `STYLEGUIDE.md` 의 기존 표기 체계(`[지킴]`/`[권장]`)에 그대로 들어가고, 출처 개체는 같은 파일에 선례 셋이 있다.
+
+## 반영 확인 (hci, 2026-09-30)
+
+인수 기록 [`../agents/orchestrator-accept-spec-writing-standard-remainder-2026-09-22.md`](../agents/orchestrator-accept-spec-writing-standard-remainder-2026-09-22.md) 로 돌아왔다 — 그림 규칙과 출처 개체의 `git:` 위치가 반영됐다. 게이트 33/33 PASS.
+제거는 인수 기록이 `closed` 로 바뀐 뒤 유저 lane·handoff·기록을 한 사슬로 함께 한다.

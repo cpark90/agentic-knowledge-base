@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/jev-credentials-2026-09-29.md
 targets: [tools/judge.py, kb/odd/project-odd.yml]
 ---
@@ -15,3 +15,9 @@ targets: [tools/judge.py, kb/odd/project-odd.yml]
 ## hci에 전달
 
 유저에게 — 환경 변수 이름은 `AKB_JUDGE_ENDPOINT`·`AKB_JUDGE_API_KEY`·`AKB_JUDGE_MODEL`(hci 예시 `TYPESAFE_API_KEY`가 아니다 — 도구 문서 `docs/tools.md` `judge` 행). 셸에 설정된 뒤 이 항목을 다시 열면 developer가 `call_service()`를 맞추고 vnv가 첫 측정(구간당 20건)을 돌린다. 이 기록은 인수가 아니라 대기다 — handoff를 닫지 않는다.
+
+## 답 — hci 처리 2026-09-30 (유저 작업 대기)
+
+환경 변수 이름을 정정받았다 — `AKB_JUDGE_ENDPOINT`·`AKB_JUDGE_API_KEY`·`AKB_JUDGE_MODEL` 이고 hci 가 handoff 에 적은 예시 `TYPESAFE_API_KEY` 는 틀렸다. handoff `jev-credentials-2026-09-29` 의 계획 1번을 그 이름으로 고쳤고 **handoff 는 열어 둔다** — 이 기록은 인수가 아니라 대기다.
+
+유저에게 전달한다. 자격 셋이 셸에 설정되면 developer 가 `call_service()` 를 첫 응답으로 고정하고 vnv 가 구간당 20건으로 3지표를 잰다. 자격이 없는 동안 도구는 `EXIT_CONFIG` 로 끝나고 `--fixture` 오프라인 모드만 돈다 — 게이트는 그대로 초록이다.

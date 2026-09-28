@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/hazard-grades-confirm-2026-09-29.md
 targets: [kb/vv/scenario/, kb/vv/goal/, kb/vv/criteria/, kb/dev/decision/p8-risk-analysis-profile/, kb/ontology/related/defect/, kb/ontology/related/defect-rules/, tools/validate.py, tools/kb_lib.py, defs/knowledge.bzl, kg/BUILD.bazel, docs/roadmap.md, STYLEGUIDE.md, docs/tools.md]
 ---
@@ -28,3 +28,7 @@ targets: [kb/vv/scenario/, kb/vv/goal/, kb/vv/criteria/, kb/dev/decision/p8-risk
 ## hci에 전달
 
 원장에 "부류 순서 = 등급 정렬(2026-09-29), 부류 5 · 위험 파생 목표 5/41 · 게이트 `element-drop`" 한 줄. 재판정 대상: `p8-risk-analysis-profile/conclusion.md`(orchestrator 재검토 표시 완료). 새 V&V 청크 10은 `draft`.
+
+## 답 — hci 처리 2026-09-30
+
+원장에 기록하고 handoff `hazard-grades-confirm-2026-09-29` 를 `closed` 로 바꿨다. 발신자가 이 항목을 `closed` 로 바꾸면 다음 refresh 에서 사슬을 함께 제거한다.

@@ -2,7 +2,7 @@
 from: hci
 source: composite-order-2026-09-29.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # 복합체 순서를 선언으로 — 결정도 예외 없이 (2026-09-29 승인)
@@ -37,3 +37,8 @@ orchestrator 권장(선택지 1, 결정만 예외)과 다른 쪽이다.
 
 `apply` 다. 유저가 권장과 다른 쪽을 골랐고 그 근거가 규칙의 단순함이다. **예외 조항 삭제가 반영의 핵심**이므로 결정 본문
 수정을 1번에 두었다 — 그것을 빼먹으면 승인된 것과 결정이 어긋난다.
+
+## 반영 확인 (hci, 2026-09-30)
+
+인수 기록 [`../agents/orchestrator-accept-composite-order-2026-09-29.md`](../agents/orchestrator-accept-composite-order-2026-09-29.md) 로 돌아왔다 — 예외 조항을 빼고 결정 복합체 205개에 선언을 넣었다. 게이트 33/33 PASS.
+제거는 인수 기록이 `closed` 로 바뀐 뒤 유저 lane·handoff·기록을 한 사슬로 함께 한다.

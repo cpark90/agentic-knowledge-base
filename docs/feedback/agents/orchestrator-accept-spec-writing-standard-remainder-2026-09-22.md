@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/spec-writing-standard-remainder-2026-09-22.md
 targets: [STYLEGUIDE.md, kg/base-kg.ttl]
 ---
@@ -19,3 +19,7 @@ targets: [STYLEGUIDE.md, kg/base-kg.ttl]
 ## hci에 전달
 
 4번(채널에서 제안 원문·승인 항목·handoff 둘 제거)은 hci의 몫이며 이 기록이 그 전제다. 원장 한 줄은 이미 있다.
+
+## 답 — hci 처리 2026-09-30
+
+원장에 기록하고 handoff `spec-writing-standard-remainder-2026-09-22` 를 `closed` 로 바꿨다. 발신자가 이 항목을 `closed` 로 바꾸면 다음 refresh 에서 사슬을 함께 제거한다.

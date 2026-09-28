@@ -19,10 +19,12 @@
 
 - **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-remainder-2026-09-22.md`](spec-writing-standard-remainder-2026-09-22.md) — G10 그림 틀 · 출처 개체 위치.
   인수인계 [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md). 반영되면 제안 원문과 승인 항목을 제거한다
-- **태깅 대기(2026-09-29)**: [`code-as-chunks-2026-09-26.md`](code-as-chunks-2026-09-26.md) — 답("권고대로 진행")은 들어왔으나 `status: open` 이다. **승인 태깅이 유일한 반영 신호**이므로 그 전에는 인수인계로 넘기지 않는다
-- **승인됨·인수 대기(2026-09-29)**: [`composite-order-2026-09-29.md`](composite-order-2026-09-29.md) · [`jev-credentials-2026-09-29.md`](jev-credentials-2026-09-29.md) · [`hazard-grades-confirm-2026-09-29.md`](hazard-grades-confirm-2026-09-29.md) — handoff 셋을 썼다
-- **반영 완료·인수 기록 대기**: 유저 lane 항목 10과 그 handoff 10이 `closed` 다. **제거는 한 사슬로 함께 한다** — 인수 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구하므로 발신자가 기록을 `closed` 로 바꾼 뒤 유저 lane·handoff·기록을 같은 사이클에 지운다(2026-09-29 에 순서를 잘못 잡아 `channel_lint` 가 잡았다).
-- **담당 역할 반영 대기**: [`label-representativeness-protocol.md`](label-representativeness-protocol.md) · [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md)
+- **유저 작업 대기(2026-09-30)**: [`code-as-chunks-2026-09-26.md`](code-as-chunks-2026-09-26.md) — 답("권고대로 진행")은 있으나 `status: open` 이다. **승인 태깅이 유일한 반영 신호**다 ·
+  [`jev-credentials-2026-09-29.md`](jev-credentials-2026-09-29.md) — 승인됐고 handoff 는 열려 있다. 환경 변수 `AKB_JUDGE_ENDPOINT`·`AKB_JUDGE_API_KEY`·`AKB_JUDGE_MODEL` 셋이 셸에 설정되면 측정이 시작된다
+- **반영 완료·인수 기록 대기**: 유저 lane 항목 13과 그 handoff 13이 `closed` 다. 인수 기록 24가 `answered` 이고 **발신자가 닫으면 사슬로 함께 제거**한다 — 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구한다. 채널이 80항목까지 커진 이유가 이것이다
+- **담당 역할 반영 대기**: [`label-representativeness-protocol.md`](label-representativeness-protocol.md)
+- refresh 2026-09-30: 돌아온 handoff 셋을 `closed` 로, 인수 기록 셋과 자격 대기 기록 하나에 답을 채웠다. **되돌아오지 않은 handoff 0**. 제거는 0건(사슬 순서).
+  hci 오류 하나 정정 — 판정 자격의 환경 변수 이름을 `TYPESAFE_API_KEY` 로 적었으나 도구가 읽는 이름은 `AKB_JUDGE_*` 셋이다.
 - refresh 2026-09-29: 돌아온 handoff **10**을 `closed` 로, 인수 기록 10과 단일 정의처 기록 1에 답을 채워 `answered` 로, 질문 셋(복합체 순서 · 판정 자격 · 위험 등급 확인)을 유저 lane 으로 중계했다. **제거는 0건** — 사슬 순서 때문이다.
 - refresh 2026-09-26: 돌아온 handoff 둘(`link-model-robustness-cde`·`nl-ambiguity-adoption`)을 `closed` 로, 기록 다섯을 `answered` 로,
   질문 둘을 유저 lane 항목 셋으로 중계했다. hci 의 조사 오류 둘을 handoff 에 정정으로 남겼다 — 정의문 규칙 36 → 52건, `refines` 상한의 셋째 읽기.

@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/composite-order-2026-09-29.md
 targets: [kb/dev/decision/p4-composite-order-is-declared/, defs/kb.bzl, tools/gen_build.py, tools/chunk2kg.py, kb/ontology/shapes/composite-order-shapes.ttl, defs/tests/, docs/rules.md, docs/tools.md, STYLEGUIDE.md]
 ---
@@ -23,3 +23,7 @@ targets: [kb/dev/decision/p4-composite-order-is-declared/, defs/kb.bzl, tools/ge
 ## hci에 전달
 
 원장에 "복합체 순서 = 선언, 예외 없음(2026-09-29 승인; 결정은 생성기가 선언)" 한 줄. 재판정 대상 없음(결정 셋은 orchestrator 저작·도장).
+
+## 답 — hci 처리 2026-09-30
+
+원장에 기록하고 handoff `composite-order-2026-09-29` 를 `closed` 로 바꿨다. 발신자가 이 항목을 `closed` 로 바꾸면 다음 refresh 에서 사슬을 함께 제거한다.
