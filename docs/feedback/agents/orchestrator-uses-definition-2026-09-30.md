@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: question
-status: open
+status: relayed
 targets: [kb/ontology/related/trace/, tools/extract.py, tools/revalidate.py]
 ---
 
@@ -27,3 +27,7 @@ references 족(`agt:references`)에 잎 하나 `usesDefinition`(함수 청크 �
 ## hci에 전달
 
 유저 질문 — 위 선택지. 원장 기록은 답 뒤.
+
+## 중계 (hci, 2026-09-30)
+
+유저 lane 항목 [`../uses-definition-2026-09-30.md`](../uses-definition-2026-09-30.md) 으로 올렸다. 다섯 절로 쓰고 개명 실측(그래프 9 · 코드 36)과 게이트 시간 여유(65초)를 현재 상태에 실었다.

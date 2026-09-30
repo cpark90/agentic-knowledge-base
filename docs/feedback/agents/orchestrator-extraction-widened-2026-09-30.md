@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/code-as-chunks-2026-09-26.md
 targets: [tools/, kb/dev/artifact/, kg/base-kg.ttl, BUILD.bazel, docs/rules.md, docs/roadmap.md]
 ---
@@ -29,3 +29,11 @@ targets: [tools/, kb/dev/artifact/, kg/base-kg.ttl, BUILD.bazel, docs/rules.md, 
 ## hci에 전달
 
 원장에 "추출 37/37 파일 · 청크 624 · CQ19 64.5% (2026-09-30)" 한 줄. 커밋 뒤 첫 도장(`stamp`)이 등록부 37개에 필요하다 — 커밋이 먼저다. 재판정 대상 없음(생성물).
+
+## 답 — hci 처리 2026-09-30 (유저 판단 불요)
+
+원장 69에 "추출을 37 파일로 확장(2026-09-30)" 기록. 확장은 승인 범위 안이다 — 유저 답이 "전부 올리고 싶다"였고 표본은 순서였으므로 vnv 조건이 채워진 뒤의 확장은 판단이 아니라 수행이다.
+
+hci 가 받는 것 둘이다. **이름 → uuid 등록부**(`tools/<모듈>.chunks.yml`)가 섰다 — handoff 가 "성패를 가른다"고 적은 설계가 실물이 됐다. **파일별 드리프트 테스트 37**로 손 편집이 막힌다.
+
+`//kg:gate_test` 가 32 → 55초다(상한 120초). 확장이 시간을 두 배 가까이 먹었으므로 다음 확장(모듈 간 링크 등)은 남은 여유 65초를 근거로 판단한다 — 유저 항목 `uses-definition-2026-09-30` 에 그 수치를 실었다.

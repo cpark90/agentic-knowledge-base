@@ -19,11 +19,10 @@
 
 - **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-remainder-2026-09-22.md`](spec-writing-standard-remainder-2026-09-22.md) — G10 그림 틀 · 출처 개체 위치.
   인수인계 [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md). 반영되면 제안 원문과 승인 항목을 제거한다
-- **승인됨·인수 대기(2026-09-30)**: [`code-as-chunks-2026-09-26.md`](code-as-chunks-2026-09-26.md) — 추출 방향·표본 먼저. handoff 를 썼다
-- **철회(2026-09-30)**: [`jev-credentials-2026-09-29.md`](jev-credentials-2026-09-29.md) — 유저가 "`jev` 를 직접 쓰지 않음" 으로 답을 고쳤고 hci 가 그것을 읽지 않은 채 handoff 를 썼다. 대체 항목 [`judge-without-service-2026-09-30.md`](judge-without-service-2026-09-30.md) 가 승인돼 인수인계로 넘어갔다
-- **옛 참고**: [`jev-credentials-2026-09-29.md`](jev-credentials-2026-09-29.md) — 승인됐고 handoff 는 열려 있다. 환경 변수 `AKB_JUDGE_ENDPOINT`·`AKB_JUDGE_API_KEY`·`AKB_JUDGE_MODEL` 셋이 셸에 설정되면 측정이 시작된다
-- **반영 완료·인수 기록 대기**: 유저 lane 항목 13과 그 handoff 13이 `closed` 다. 인수 기록 24가 `answered` 이고 **발신자가 닫으면 사슬로 함께 제거**한다 — 기록의 `ref` 와 handoff 의 `source` 가 실재를 요구한다. 채널이 80항목까지 커진 이유가 이것이다
+- **유저 판단 대기(2026-09-30)**: [`uses-definition-2026-09-30.md`](uses-definition-2026-09-30.md) — 코드의 호출 관계를 링크로 낼 것인가. 개명 실측이 그래프 9 · 코드 36 이라 그래프가 churn 을 과소 보고한다. 새 어휘 잎이라 승인이 필요하다
+- **반영 완료·인수 기록 대기**: 유저 lane 항목 16과 그 handoff 16이 `closed` 다. 인수 기록 27이 `answered` 이고 발신자가 닫으면 **사슬로 함께** 제거한다
 - **담당 역할 반영 대기**: [`label-representativeness-protocol.md`](label-representativeness-protocol.md)
+- refresh 2026-09-30(2차): 돌아온 handoff 둘(`code-as-chunks`·`judge-without-service`)을 `closed` 로, 확장 기록에 답을 채우고, 질문 하나(`usesDefinition`)를 유저 lane 으로 중계했다. **되돌아오지 않은 handoff 0**.
 - refresh 2026-09-30: 돌아온 handoff 셋을 `closed` 로, 인수 기록 셋과 자격 대기 기록 하나에 답을 채웠다. **되돌아오지 않은 handoff 0**. 제거는 0건(사슬 순서).
   hci 오류 하나 정정 — 판정 자격의 환경 변수 이름을 `TYPESAFE_API_KEY` 로 적었으나 도구가 읽는 이름은 `AKB_JUDGE_*` 셋이다.
 - refresh 2026-09-29: 돌아온 handoff **10**을 `closed` 로, 인수 기록 10과 단일 정의처 기록 1에 답을 채워 `answered` 로, 질문 셋(복합체 순서 · 판정 자격 · 위험 등급 확인)을 유저 lane 으로 중계했다. **제거는 0건** — 사슬 순서 때문이다.

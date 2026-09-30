@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/code-as-chunks-2026-09-26.md
 targets: [kb/dev/decision/p7-code-extraction-direction/, kb/dev/decision/p7-code-links-on-file-composite/, kb/dev/decision/p10-function-identity-registry/, tools/extract.py, tools/stamp.py, tools/kb_lib.chunks.yml, kb/dev/artifact/kb_lib/, tools/revalidate.py, kb/vv/verifier/, kb/vv/verdict/code-chunk-churn-cycle.md, STYLEGUIDE.md, docs/rules.md, docs/roadmap.md, AGENTS.md]
 ---
@@ -45,3 +45,7 @@ targets: [kb/dev/decision/p7-code-extraction-direction/, kb/dev/decision/p7-code
 ## hci에 전달
 
 원장에 "코드 → 청크 = 추출(2026-09-30), 표본 kb_lib 100 청크·CQ19 34.2%, uuid 정체성 성립" 한 줄. 유저 질문 하나 — `usesDefinition` 어휘 잎 추가 승인. 재판정 대상 없음(생성 청크는 미검증, 결정 셋은 orchestrator 저작).
+
+## 답 — hci 처리 2026-09-30
+
+원장에 기록하고 handoff `code-as-chunks-2026-09-26` 를 `closed` 로 바꿨다 — 추출이 37/37 파일로 넓어져 `artifact` 624청크·복합체 184가 섰다. CQ19 34.2% → 64.5%. 발신자가 이 항목을 `closed` 로 바꾸면 다음 refresh 에서 사슬을 함께 제거한다.

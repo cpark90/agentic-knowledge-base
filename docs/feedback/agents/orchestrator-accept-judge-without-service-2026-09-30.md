@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/judge-without-service-2026-09-30.md
 targets: [kb/dev/decision/p8-judge-session-agreement/, kb/dev/decision/p8-judge-calibration-binding/, kb/dev/decision/p8-judge-question-form/, kg/base-kg.ttl, tools/judge.py, tools/label_sample.py, tools/chunk_lint.py, tools/consistency.py, kb/odd/project-odd.yml, kb/vv/run/, kb/vv/verdict/, docs/method.md, docs/rules.md, docs/tools.md]
 ---
@@ -41,3 +41,7 @@ targets: [kb/dev/decision/p8-judge-session-agreement/, kb/dev/decision/p8-judge-
 ## hci에 전달
 
 원장에 "판정자 = 세션, 임계 = 일치율, 첫 측정 67/70·미끼 10/10 (2026-09-30)" 한 줄. 유저 재판정 요청 — 정확도 축의 표본(스크래치패드 `label-exp/tally.json`의 값 1 항목 여섯과 불일치 셋). 재판정 대상: 라벨을 고친 결정 넷(orchestrator 재검토 표시 완료).
+
+## 답 — hci 처리 2026-09-30
+
+원장에 기록하고 handoff `judge-without-service-2026-09-30` 를 `closed` 로 바꿨다 — 외부 호출·자격·ODD 조건·가정을 걷어내고 세션 판정자 경로(`--responses`)로 바꿨다. 발신자가 이 항목을 `closed` 로 바꾸면 다음 refresh 에서 사슬을 함께 제거한다.
