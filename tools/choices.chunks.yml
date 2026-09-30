@@ -11,7 +11,10 @@ source_hash: b12147ae59a90818
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/7c9d74e6-1a77-4d52-a126-644a65bfab93
 serves: []
-tested: {}
+tested:
+  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
+  at: 2026-09-30T10:45:28Z
+  source_hash: b12147ae59a90818
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/01f84457-55b4-40d7-9996-d01be5f6ad5d
   composite:sec:one: https://agentic-knowledge-base.dev/id/composite/6c9da832-fd4f-4fba-a0f6-33561303de46

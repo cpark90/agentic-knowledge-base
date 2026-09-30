@@ -779,6 +779,19 @@ SPECIALIZATION_GATE = "specialization"
 EXPOSES_KEY = "exposes"
 EXPOSES_PREDICATE = "agt:exposesFactor"
 
+# ── 정의 청크의 호출 관계 (`uses`) — references 족의 잎 agt:usesDefinition (유저 답 2026-09-30, 채널 uses-definition) ────
+# 코드 청크가 같은 모듈의 어느 최상위 정의를 이름으로 쓰는지를 frontmatter `uses: [<청크 IRI>…]` 로 적고
+# chunk2kg 가 agt:usesDefinition 을 방출한다. 값의 원본은 손이 아니라 추출기다 — tools/extract.py 가 정의의 AST 에서 낸다.
+# **링크 키가 아니다**(references 족, 확장 규칙 2026-09-26): Bazel deps(gen_build.LINKS)도 링크 개체(agt:Link)도 되지 않아
+# 함수 churn 이 빌드 그래프를 움직이지 않는다 — 링크는 파일 복합체의 것이다 (p7-code-links-on-file-composite).
+# 대상 실재는 validate check_dangling 이 보고, 본문이 바뀐 대상을 가리키는 출발점은 revalidate 가 `호출부` 열로 낸다.
+USES_KEY = "uses"
+USES_PREDICATE = "agt:usesDefinition"
+# 방출의 경계 — 이 표에 든 소스에서만 `uses` 를 낸다 (유저 답 2026-09-30: 표본 하나에서 먼저 내고 링크 밀도·게이트
+# 시간을 잰 뒤 넓힌다). 추출기는 하나이므로 경계를 두지 않으면 37 파일이 한꺼번에 들어온다 — 그것이 배제된 선택지 3이다.
+# 넓히기는 이 표에 소스를 **더하는** 것이다: 표를 지워 "전부"로 읽게 하지 않는다 — 어디까지 쟀는지가 표에 남아야 한다.
+USES_SOURCES = ("tools/kb_lib.py",)
+
 # ── 요소 탈락 검사 (`element-drop`) — 현상 P19 의 관측 수단 (위험 분석 G1, vnv 설계 2026-09-29) ────────────────
 # "어휘가 없는 소스 요소는 슬롯이 없어 조용히 빠진다"(참조 저장소 R3)를 소스 전수와 방출 전수의 차로 잡는다.
 # 차가 공집합이 아니면 FAIL 이다 — 조용히 버려진 요소가 있다는 뜻이고, 대응은 어휘 확장이다(가정 asm-missing-vocabulary-is-signal).
@@ -787,7 +800,7 @@ ELEMENT_DROP_GATE = "element-drop"  # 게이트 id — FAIL [element-drop]
 # chunk2kg 가 emit_chunk 에서 직접 읽는 선택 키. 필수 키는 chunk2kg.REQUIRED, 링크 키는 chunk2kg.LINK_KEYS 가 정의처이고
 # 이 셋의 합집합이 "소비되는 키"다. chunk2kg 가 새 키를 읽으면 여기에 등재한다 — 등재 없이 쓰인 키는 이 게이트가 잡는다.
 CHUNK_OPTIONAL_KEYS = ("verified", "sources", "assumes", "pattern", "coUpdatesWith", "part_of", "composite",
-                       "restored", "specializationOf", "targets", EXPOSES_KEY)
+                       "restored", "specializationOf", "targets", EXPOSES_KEY, USES_KEY)
 
 # ── 설계 공간 (`-space`) — 열린 설계 변수와 그 후보 (결정 p9-candidate-storage · p9-design-space-file) ───────────
 # 후보 링크는 확정 링크와 다른 자리에 산다: 확정은 청크 head(frontmatter 링크 키 → Bazel deps), 후보는 `-space` 청크다.

@@ -13,7 +13,10 @@ refines:
   - https://agentic-knowledge-base.dev/id/chunk/828f6e56-8841-4778-94b7-fe42d706243f
   - https://agentic-knowledge-base.dev/id/chunk/5b6ac70d-af5e-48ed-8e23-c7a66921493f
 serves: []
-tested: {}
+tested:
+  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
+  at: 2026-09-30T10:45:28Z
+  source_hash: 24203d50fc0347a9
 ids:
   cls:SpaceError: https://agentic-knowledge-base.dev/id/chunk/9875f781-35a4-413a-beae-89f20bb6ea33
   composite:head: https://agentic-knowledge-base.dev/id/composite/702998a5-0565-4bb5-9d8c-dc9f14efca4f

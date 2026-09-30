@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run-env-test}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-26T10:39:33Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/2fa82a3a-2e47-4bf8-8d59-2e02da4270dd]
 part_of: https://agentic-knowledge-base.dev/id/composite/3c8e6ba3-aa11-4e78-b59f-c1aac562f7ce
 ---

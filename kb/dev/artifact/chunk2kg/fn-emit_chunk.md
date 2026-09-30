@@ -7,7 +7,7 @@ title: function emit_chunk in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 part_of: https://agentic-knowledge-base.dev/id/composite/094f7e14-ed5b-4c40-83f8-782d9f4161b0
 ---
 **함수** — `emit_chunk(path, meta, line_count)` 다.
@@ -51,6 +51,11 @@ def emit_chunk(path: str, meta: dict, line_count: int) -> str:
     # 대상이 agt:DefectFactor 하위 개체인지는 shape 가 본다 (exposes-factor-shapes.ttl)
     for f in meta.get(EXPOSES_KEY, []) or []:
         stmts.append(f"{EXPOSES_PREDICATE} <{f}>")
+    # 정의 → 같은 모듈의 정의 (agt:usesDefinition, references 족의 잎). 추출기가 AST 에서 낸 값이고 손으로 쓰지 않는다.
+    # LINK_KEYS 도 gen_build.LINKS 도 아니다 — 링크는 파일 복합체의 것이고(p7-code-links-on-file-composite) 함수 churn 이
+    # 빌드 그래프를 움직이면 안 된다. 대상 실재는 validate check_dangling 이 본다
+    for u in meta.get(USES_KEY, []) or []:
+        stmts.append(f"{USES_PREDICATE} <{u}>")
     c = meta.get("_comment") or {}  # 주석의 본문 파생 사실 (p7-commentary-form) — 닫힌 어휘와 상한은 shape 가 판정한다
     for key, pred in (("label", "agt:commentLabel"), ("decoration", "agt:commentDecoration"), ("resolution", "agt:resolutionState")):
         if key in c:

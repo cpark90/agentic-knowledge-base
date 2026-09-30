@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 part_of: https://agentic-knowledge-base.dev/id/composite/570df80b-916d-466e-a9fe-8a9ac66eea54
 ---
 **클래스** — `class Units` 다. 살아 있는 청크를 단위로 — 결정 복합체(결론 부분이 있는 것)는 결론이 대표하고, 나머지 청크는 자기 자신이 단위다.

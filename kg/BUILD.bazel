@@ -64,6 +64,9 @@ kb_gate_test(
     ontology = ["//kb/ontology:modules"],
     shapes = ["//kb/ontology:shapes"],
     standard_vocab = ["@prov_o//file", "@skos//file"],
+    # size = "small" 의 기본 제한 60초에 실측 59~64초가 부딪혀 오늘 TIMEOUT 플레이크가 두 번 났다 — 판정 내용이 아니라
+    # 예산이 문제이므로 검사를 줄이지 않고 제한만 300초로 올린다 (timeout 은 kb_gate_test 의 **kwargs 로 py_test 에 간다)
+    timeout = "moderate",
     verify_queries = "//tools:verify_queries",
 )
 

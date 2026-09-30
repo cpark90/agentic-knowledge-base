@@ -6,14 +6,17 @@
 source: tools/extract.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-extract
 package: kb/dev/artifact/extract
-at: 2026-09-30T07:59:21Z
-source_hash: 9334d1e454be5504
+at: 2026-09-30T08:07:48Z
+source_hash: 8037d068eb62265a
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd
   - https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23
   - https://agentic-knowledge-base.dev/id/chunk/ab6eb286-d87b-43a5-88f0-e32ffdd54acc
 serves: []
-tested: {}
+tested:
+  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
+  at: 2026-09-30T10:45:28Z
+  source_hash: 9334d1e454be5504
 ids:
   cls:Builder: https://agentic-knowledge-base.dev/id/chunk/33680335-f485-4267-aa96-2bb505425eaa
   cls:Chunk: https://agentic-knowledge-base.dev/id/chunk/cea6fcfc-b3e0-4dab-b8f5-e0727ee9c70d
@@ -31,6 +34,7 @@ ids:
   fn:_key_regions: https://agentic-knowledge-base.dev/id/chunk/37924901-a32a-4452-97a3-3e3201ef5117
   fn:_own_lines: https://agentic-knowledge-base.dev/id/chunk/829ed4f8-dab5-4026-a1d3-0bd17bb6c708
   fn:_place: https://agentic-knowledge-base.dev/id/chunk/09909df0-d231-4cd6-ae92-f2867a75a9f9
+  fn:bound_names: https://agentic-knowledge-base.dev/id/chunk/d767b795-a891-45b2-93cd-f2fb728b749a
   fn:collect: https://agentic-knowledge-base.dev/id/chunk/0f9149bc-d39d-4624-bdc2-d97603407e8c
   fn:def_kind: https://agentic-knowledge-base.dev/id/chunk/21d36097-2599-4a14-8057-733c634ae0b6
   fn:dump_registry: https://agentic-knowledge-base.dev/id/chunk/a83e5a5d-15ff-4e18-80b5-2c88dead1cfc
@@ -53,6 +57,7 @@ ids:
   fn:source_stamp: https://agentic-knowledge-base.dev/id/chunk/745c745f-7657-4a5c-8c72-ce2f06a4af0e
   fn:stamped: https://agentic-knowledge-base.dev/id/chunk/719f0696-c0dc-4eff-aa6d-bb4dcdf148ce
   fn:trim: https://agentic-knowledge-base.dev/id/chunk/2d2767c3-e91e-464b-8f72-7fabdd6cca14
+  fn:used_defs: https://agentic-knowledge-base.dev/id/chunk/890c6310-9982-474d-831e-9d0a0fc2a114
   head: https://agentic-knowledge-base.dev/id/chunk/06a17fc9-3add-4cb8-9ebd-9c036e43869b
   module: https://agentic-knowledge-base.dev/id/chunk/12a44438-6b75-4c5f-80b4-c717d7648b5b
   sec:chunk: https://agentic-knowledge-base.dev/id/chunk/0dfda195-f8da-4d6c-9447-634b8aa649c5

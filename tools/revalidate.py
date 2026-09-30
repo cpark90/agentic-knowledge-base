@@ -3,11 +3,14 @@
 
 본문(frontmatter 제외)의 contentHash 가 base 리비전과 다르면 그 IRI 에 붙은 링크는 suspect 후보이고 재검증 시점에서
 재판정한다 — 링크 부패 규칙(p10 link decay)의 첫 형태. 해시는 tools/chunk2kg.py 의 parse_chunk 를 그대로 써서
-head 그래프의 agt:contentHash 와 같다. 재판정 대상은 둘을 합친다:
+head 그래프의 agt:contentHash 와 같다. 재판정 대상은 다섯 갈래를 합친다:
   (a) frontmatter 링크의 상대 — refines·serves·supersedes·verifies·assumes·part_of (+ satisfies·constrains·derivesFrom·allocates·
       coUpdatesWith·overlapsWith), 양방향
   (b) Bazel 하류 의존자 — bazel query rdeps(<universe>, <타깃>) 의 kb_chunk·kb_decision (직접 / 전이)
-  (c) **링크 개체** — 본문 해시가 바뀐 청크를 양 끝 중 하나로 갖는 agt:Link 의 IRI. 그 링크가 suspect 로 유도되는 자리다.
+  (c) **호출부** — 본문 해시가 바뀐 정의 청크를 `uses`(agt:usesDefinition)로 가리키는 출발점. 그 수가 **코드 호출부
+      파손의 상한**이다: 같은 모듈의 최상위 이름 참조만 세므로 모듈 간 호출은 여기 들어오지 않고 실제 파손은 이 수보다
+      크다 (유저 답 2026-09-30, 채널 uses-definition). 링크 개체가 아니라 직접 트리플이므로 (d) 의 표에는 오르지 않는다
+  (d) **링크 개체** — 본문 해시가 바뀐 청크를 양 끝 중 하나로 갖는 agt:Link 의 IRI. 그 링크가 suspect 로 유도되는 자리다.
       IRI 는 chunk2kg 와 같은 함수(link_hash × work_id)로 계산하므로 head 그래프의 링크 개체와 같은 것이다 — 그래서 이 보고의
       한 줄이 그래프의 한 개체를 가리킨다. 상태는 저장하지 않는다 (노트 9.11절): suspect 는 여기서 물질화된다.
 **정체성은 uuid(frontmatter `id`)이고 경로는 주소다** (p10-split-keeps-work-identity · p10-function-identity-registry).
@@ -39,6 +42,7 @@ from chunk2kg import (ID_BASE, SPECIALIZATION_KEY, SpecializationError, apply_pl
 from chunk2kg import LINK_KEYS as OBJECT_LINK_KEYS  # noqa: E402 — 링크 개체(agt:Link)를 내는 키. assumes·part_of 는 개체가 없다
 
 CHUNK_DIRS = ("kb", "chunks")
+USES_KEY = kb_lib.USES_KEY  # 정의 → 같은 모듈의 정의 (agt:usesDefinition). 링크 키가 아니라 `호출부` 열의 입력이다
 # frontmatter 의 링크 키 — 목록 값. part_of 는 스칼라
 LINK_KEYS = ("refines", "serves", "supersedes", "verifies", "assumes", "satisfies", "constrains", "derivesFrom", "allocates",
              "coUpdatesWith", "overlapsWith")
@@ -174,6 +178,13 @@ def main() -> int:
     for iri, (rel, meta) in index.items():
         if meta.get("part_of"):
             composite_parts[meta["part_of"]].append(iri)
+    # 호출부 — 대상 정의 IRI → 그것을 `uses` 로 가리키는 출발점들. 링크 키가 아니므로 links_of 와 섞지 않는다:
+    # 그래야 `링크(양방향)` 열이 링크 개체의 수를 계속 뜻하고 `호출부` 열이 코드 파손의 상한을 따로 뜻한다
+    callers = defaultdict(list)
+    for iri, (rel, meta) in index.items():
+        for t in meta.get(USES_KEY) or []:
+            if t != iri:
+                callers[t].append(iri)
 
     # 2. base 와의 차이 — 상태 M/A/D/R 인 청크 파일 + 미추적 파일
     status = {}
@@ -240,6 +251,9 @@ def main() -> int:
             rows.append((path, k, "→", label(t), "frontmatter"))
         for k, s in in_links:
             rows.append((path, k, "←", label(s), "frontmatter"))
+        called_by = sorted(callers.get(iri, ())) if kind in ("본문 변경", "삭제") else []
+        for caller in called_by:  # 본문이 바뀐 정의를 이름으로 쓰는 출발점 — 코드 호출부 파손의 상한이다
+            rows.append((path, USES_KEY, "←", label(caller), "frontmatter uses"))
         direct, trans = rd.get(iri_to_label.get(iri, ""), (None, None)) if kind != "삭제" else ([], [])
         for t in direct or []:
             rows.append((path, "deps", "←", f"`{t}`", "bazel rdeps 직접"))
@@ -248,7 +262,8 @@ def main() -> int:
         verified = bool((meta or {}).get("verified"))
         if verified:
             rows.append((path, "verified", "·", "이 청크 자신 — 검증 뒤 본문이 바뀌었다 (writer 검사 대상)", "frontmatter"))
-        per_chunk.append((path, kind, m.get("title_ko", ""), len(out_links) + len(in_links), (len(direct or []), len(trans or [])), verified, note))
+        per_chunk.append((path, kind, m.get("title_ko", ""), len(out_links) + len(in_links), (len(direct or []), len(trans or [])),
+                          len(called_by), verified, note))
 
     # 4. 본문 해시 변경 → 링크 재판정. 본문이 바뀐 청크를 양 끝 중 하나로 갖는 링크 개체가 suspect 로 유도된다 (노트 9.11절)
     body_changed = {iri for _path, kind, iri, _m, _b, _n in changed if kind in ("본문 변경", "변경", "신규", "삭제")}
@@ -257,17 +272,21 @@ def main() -> int:
     rep = kb_lib.gendoc_header(
         "revalidate", f"base {a.base} 대비 재판정 대상", "tools/revalidate.py",
         f"base 리비전 `{a.base}` 와 워킹트리 사이에서 본문 해시가 바뀐 청크마다 — (a) frontmatter 링크의 상대(양방향) · "
-        "(b) 복합체 형제 · (c) `bazel query rdeps` 의 하류 의존자 · (d) 그 청크를 양 끝 중 하나로 갖는 **링크 개체**(`agt:Link`)를 "
-        "재판정 대상으로 (dependency-graph-design §5). 링크 개체의 상태는 저장하지 않고 여기서 물질화한다",
+        "(b) 복합체 형제 · (c) `bazel query rdeps` 의 하류 의존자 · (d) 그 정의를 `uses` 로 가리키는 **호출부** · "
+        "(e) 그 청크를 양 끝 중 하나로 갖는 **링크 개체**(`agt:Link`)를 재판정 대상으로 (dependency-graph-design §5). 링크 개체의 상태는 저장하지 않고 여기서 물질화한다",
         f"bazel run //tools:revalidate -- --base {a.base}", [],
-        f"변경 청크 {len(changed)} · 재판정 대상 {len(rows)} · 재판정 링크 개체 {len(objs)}",
+        f"변경 청크 {len(changed)} · 재판정 대상 {len(rows)} · 호출부 {sum(r[4] == 'frontmatter uses' for r in rows)} · "
+        f"재판정 링크 개체 {len(objs)}",
         kb_lib.gendoc_view_notice("각 청크의 본문과 frontmatter 링크"),
         input_note=f"`git show {a.base}:<청크>` 와 워킹트리의 청크 파일, `bazel query` 결과 — 리비전 대비 차이라 지문을 내지 않는다",
-        extra=[f"- head 만 바뀐 청크 {len(head_only)} (본문 해시 동일 — 재판정 대상이 아니다)",
+        extra=[f"- 호출부 {sum(r[4] == 'frontmatter uses' for r in rows)} — 본문이 바뀐 정의를 `uses`(agt:usesDefinition)로 "
+               "가리키는 출발점이고 **코드 호출부 파손의 상한**이다. 모듈 안 호출만 세므로 모듈 간 호출은 빠진다",
+               f"- head 만 바뀐 청크 {len(head_only)} (본문 해시 동일 — 재판정 대상이 아니다)",
                f"- 본문이 바뀐 청크에 붙은 링크 개체 {len(objs)} — 유도 상태는 `{kb_lib.LINK_STATE_SUSPECT}` 다"])
-    body = ["| 변경 청크 | 변경 | 라벨 | 링크(양방향) | 하류(직접/전이) | verified | 비고 |", "|---|---|---|---|---|---|---|"]
-    for path, kind, ko, nl, (nd, nt), v, note in per_chunk:
-        body.append(f"| `{path}` | {kind} | {ko or kb_lib.NONE_MARK} | {nl} | {nd}/{nt} | "
+    body = ["| 변경 청크 | 변경 | 라벨 | 링크(양방향) | 하류(직접/전이) | 호출부 | verified | 비고 |",
+            "|---|---|---|---|---|---|---|---|"]
+    for path, kind, ko, nl, (nd, nt), nc, v, note in per_chunk:
+        body.append(f"| `{path}` | {kind} | {ko or kb_lib.NONE_MARK} | {nl} | {nd}/{nt} | {nc} | "
                     f"{'있음' if v else kb_lib.NONE_MARK} | {note or kb_lib.NONE_MARK} |")  # G14 — 빈 셀을 두지 않는다
     body += ["", "## 재판정 대상", "", "| 변경 청크 | 종류 | 방향 | 상대 | 출처 |", "|---|---|---|---|---|"]
     body += [f"| `{p}` | {k} | {d} | {t} | {src} |" for p, k, d, t, src in rows] or ["| " + " | ".join([kb_lib.NONE_MARK] * 3 + [f"재판정 대상 {kb_lib.NONE_MARK}", kb_lib.NONE_MARK]) + " |"]

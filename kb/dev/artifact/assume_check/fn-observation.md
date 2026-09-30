@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-assume-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 part_of: https://agentic-knowledge-base.dev/id/composite/aa693393-615e-4f00-ada2-34df72e2832e
 ---
 **함수** — `observation(now, cond_rows, asms, impact, live_n, broke, broke_show, check, sat)` 다. 관측 청크 본문 — 시각·행동·situation 요약 (STYLEGUIDE §4 memory).

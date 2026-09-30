@@ -7,7 +7,7 @@ title: function parse_chunk in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 part_of: https://agentic-knowledge-base.dev/id/composite/ee14f038-7ba4-416d-8e2c-3314fe17ab94
 ---
 **함수** — `parse_chunk(path)` 다. frontmatter dict와 본문 줄 수를 돌려준다.
@@ -64,6 +64,9 @@ def parse_chunk(path: str) -> tuple[dict, int]:
     if declared and meta["type"] != "annotation":  # agt:targets 의 정의역은 agt:AnnotationChunk 다 — 주석만 대상을 가리킨다
         raise ValueError(f"{path}: {TARGETS_KEY} 는 type: annotation 에서만 쓴다 — 실제 type {meta['type']!r} "
                          f"(agt:targets 의 정의역은 agt:AnnotationChunk 다)")
+    if (meta.get(USES_KEY) or []) and meta["type"] != "artifact":  # agt:usesDefinition 의 정의역은 agt:ArtifactChunk 다
+        raise ValueError(f"{path}: {USES_KEY} 는 type: artifact 에서만 쓴다 — 실제 type {meta['type']!r} "
+                         f"(agt:usesDefinition 의 정의역·치역은 agt:ArtifactChunk 이고 값의 원본은 추출기다)")
     if meta["type"] == "annotation":  # 주석 — 첫 줄과 슬롯을 읽는다 (p7-commentary-form). 형식 판정은 shape 가 한다
         meta["_comment"] = comment_form(body)
         in_body = meta["_comment"].get("targets")

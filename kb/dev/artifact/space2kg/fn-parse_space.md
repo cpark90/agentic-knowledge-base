@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-space2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 part_of: https://agentic-knowledge-base.dev/id/composite/fc3f9858-3941-435d-b741-071b871ce613
 ---
 **함수** — `parse_space(path)` 다. `-space` 청크 하나 → 방출에 필요한 값들.

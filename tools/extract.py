@@ -11,6 +11,12 @@ docstring 과 import)이고 링크(`refines`·`serves`)와 검증기의 `verifie
 직접 부분은 9개를 넘을 수 없으므로(4.5절) 넘는 절은 잘라 맞추지 않고 절 주석을 요구한다 — 순서에 뜻이 없는 묶음을
 만들지 않는다.
 
+정의 청크는 선택 키 `uses: [<청크 IRI>…]` 를 갖는다 — 같은 모듈의 최상위 정의를 이름으로 쓰는 관계이고 `chunk2kg` 가
+`agt:usesDefinition`(references 족의 잎)으로 방출한다. 해소는 AST 의 이름 참조뿐이며 제외는 `used_defs` 에 적혀 있다.
+링크 키가 아니므로 Bazel `deps` 도 링크 개체도 되지 않는다 — 링크는 파일 복합체의 것이다. 모듈 간 호출은 이 잎이 잡지
+않고, 방출은 표본 경계 `kb_lib.USES_SOURCES` 안의 소스에서만 한다 (유저 답 2026-09-30: 표본 하나에서 모듈 안 호출만
+먼저 내고 링크 밀도·게이트 시간을 잰 뒤 넓힌다).
+
 청크의 `generated.at` 은 **그 청크의 본문이 바뀐 추출에서만** 갱신된다(`previous_bodies`) — 소스 시각을 모든 청크에
 다시 찍으면 실제 변경 한 건이 diff 96건이 되어 무엇이 바뀌었는지 보이지 않는다. 값의 원본은 트리이므로 `--check` 는
 그대로 결정론이다.
@@ -254,6 +260,43 @@ def signature(node) -> str:
     return f"{node.name}({', '.join(names)})"
 
 
+def bound_names(node) -> set:
+    """정의 안에서 이름을 새로 묶는 자리 전부 — 인자·대입 대상·중첩 정의·comprehension 변수·import 별칭·except 이름.
+
+    여기 묶인 이름은 철자가 모듈 최상위 정의와 같아도 그 정의를 가리키지 않는다(섀도잉). 이것이 `uses` 의 제외
+    목록 가운데 지역 변수·인자·모듈 안 import 를 거르는 자리다.
+    """
+    out = set()
+    for n in ast.walk(node):
+        if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
+            a = n.args
+            out |= {x.arg for x in a.posonlyargs + a.args + a.kwonlyargs}
+            out |= {x.arg for x in (a.vararg, a.kwarg) if x}
+        if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) and n is not node:
+            out.add(n.name)
+        elif isinstance(n, ast.Name) and isinstance(n.ctx, (ast.Store, ast.Del)):
+            out.add(n.id)
+        elif isinstance(n, ast.alias):
+            out.add((n.asname or n.name).split(".")[0])
+        elif isinstance(n, ast.ExceptHandler) and n.name:
+            out.add(n.name)
+    return out
+
+
+def used_defs(node, top_names: set) -> list:
+    """정의가 이름으로 쓰는 **같은 모듈의 최상위 정의** 이름들 — `uses` 의 해소 규칙이다 (agt:usesDefinition).
+
+    해소는 AST 의 이름 참조뿐이다. `ast.Name` 의 `id` 와 `ast.Attribute` 의 뿌리 이름(그 사슬의 `ast.Name`)을 보고
+    모듈 최상위의 함수·클래스 이름과 철자가 같은 것만 남긴다. 제외는 다섯이다 — 자기 자신, 섀도잉된 이름(지역 변수·
+    인자·중첩 정의·import 별칭, `bound_names`), 최상위 정의가 아닌 이름(상수·모듈·import), `ast.Attribute` 의
+    뒤쪽 이름(`attr` — 인스턴스·모듈의 속성이라 모듈 최상위 정의가 아니다), 그리고 다른 모듈의 이름
+    (`kb_lib.pct` 의 뿌리는 import 이름 `kb_lib` 이므로 거기서 걸린다).
+    """
+    bound = bound_names(node)
+    seen = {n.id for n in ast.walk(node) if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load)}
+    return sorted((seen & top_names) - bound - {getattr(node, "name", "")})
+
+
 def first_sentence(node) -> str:
     doc = (ast.get_docstring(node) or "").strip()
     if not doc:
@@ -273,6 +316,7 @@ class Chunk:
         self.part_of = ""
         self.composite: dict = {}
         self.links: dict = {}
+        self.uses: list = []  # 같은 모듈의 최상위 정의 IRI (agt:usesDefinition) — 정의 청크만 갖는다
 
 
 def region_qname(r: Region) -> str:
@@ -299,6 +343,9 @@ class Builder:
     def __init__(self, src_rel: str, lines: list[str], head_end: int, top: list[Region], ids):
         self.src, self.lines, self.head_end, self.top, self.ids = src_rel, lines, head_end, top, ids
         self.chunks: list[Chunk] = []
+        # 같은 모듈의 최상위 정의 이름 → 한정 이름. `uses` 의 치역이 이 사상의 값이다 — 모듈 밖 이름은 여기 없으므로
+        # 해소에서 저절로 빠진다 (모듈 간 호출은 이 잎이 잡지 않는다, 채널 uses-definition 2026-09-30)
+        self.top_defs = {n.name: qualified(def_kind(n), n.name) for n in self._all_defs(top)}
 
     def span(self, spans: list[tuple[int, int]]) -> list[str]:
         out: list[str] = []
@@ -380,6 +427,11 @@ class Builder:
                   f"{kind} {node.name} ({self.src})",
                   f"{'class' if isinstance(node, ast.ClassDef) else 'function'} {node.name} in {self.src}", body)
         c.part_of = parent
+        # 호출 관계는 정의 청크가 갖는다 — 정렬은 IRI 순이다. 정체성이 uuid 이므로(p10-function-identity-registry)
+        # 개명이 순서를 움직이지 않는다. 이름 순으로 정렬하면 개명 하나가 형제 전부의 frontmatter 를 흔든다.
+        # 방출은 표본 경계(`kb_lib.USES_SOURCES`) 안에서만 한다 — 추출기가 하나라 경계가 없으면 37 파일이 한꺼번에 든다
+        if self.src in kb_lib.USES_SOURCES:
+            c.uses = sorted(self.ids.get(self.top_defs[n], CHUNK_IRI) for n in used_defs(node, set(self.top_defs)))
         self.chunks.append(c)
         return c.iri
 
@@ -424,6 +476,8 @@ def render(c: Chunk, reg: dict, at: str = "") -> str:
     for key in ("refines", "serves"):
         if c.links.get(key):
             fm.append(f"{key}: [" + ", ".join(c.links[key]) + "]")
+    if c.uses:  # agt:usesDefinition — 링크 키가 아니다(references 족): deps 도 링크 개체도 아니고 직접 트리플만 남는다
+        fm.append(f"{kb_lib.USES_KEY}: [" + ", ".join(c.uses) + "]")
     if c.part_of:
         fm.append(f"part_of: {c.part_of}")
     if c.composite:

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 part_of: https://agentic-knowledge-base.dev/id/composite/95c4ded8-afa7-4840-953a-949e4af4f137
 ---
 **함수** — `main()` 다.

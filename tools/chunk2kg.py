@@ -27,6 +27,10 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
                 모든 링크 키는 직접 트리플(agt:<key>)과 링크 개체(agt:Link, emit_links) 둘로 나간다. verifies 의 주어는 kb/vv 청크뿐 (defs/kb.bzl).
                 overlapsWith 는 relatedTo 족의 약한 잎이다 — 추적 매트릭스에 칸이 없어 어느 잎도 이름을 주지 못하는 관계의 자리이고,
                 Bazel deps 가 되지 않는다(gen_build.LINKS 밖) 대신 링크 개체와 복원 표시를 받는다 (overlap-ontology)
+  uses:         이 정의가 이름으로 쓰는 **같은 모듈의 최상위 정의** 청크 IRI 목록 (선택, type: artifact 에서만 —
+                agt:usesDefinition 의 정의역이 agt:ArtifactChunk 다). agt:usesDefinition 으로 나간다. 링크 키가 아니다 —
+                Bazel deps 도 링크 개체도 되지 않는다(링크는 파일 복합체의 것이다, p7-code-links-on-file-composite).
+                값의 원본은 손이 아니라 tools/extract.py 이고 대상 실재는 validate check_dangling 이 본다
   exposes:      이 항목이 노출하려는 결함 요인(현상) 개체의 agt: IRI 목록 (선택, 위험 분석 G5 — 노트 8.21절).
                 agt:exposesFactor 로 나간다. 링크 키가 아니다 — 대상이 청크가 아니라 온톨로지 개체이므로 링크 개체의
                 치역 밖이고 Bazel deps 도 되지 않는다. 대상의 종류는 shape exposes-factor-shapes.ttl 이 판정한다
@@ -202,6 +206,8 @@ COMMENT_SLOTS = getattr(kb_lib, "COMMENT_SLOTS", ("대상", "본문", "제안", 
 TARGETS_KEY = "targets"  # 주석 → 대상 (agt:targets). 링크 키가 아니다 — 판단 근거는 emit_chunk 의 주석에 있다
 EXPOSES_KEY = getattr(kb_lib, "EXPOSES_KEY", "exposes")            # 위험에서 파생된 항목 → 현상 (agt:exposesFactor). 링크 키가 아니다 (정의처 kb_lib)
 EXPOSES_PREDICATE = getattr(kb_lib, "EXPOSES_PREDICATE", "agt:exposesFactor")
+USES_KEY = getattr(kb_lib, "USES_KEY", "uses")                     # 정의 → 같은 모듈의 정의 (agt:usesDefinition). 링크 키가 아니다 (정의처 kb_lib)
+USES_PREDICATE = getattr(kb_lib, "USES_PREDICATE", "agt:usesDefinition")
 # 본문 슬롯 표지 (결정 p4-slot-answers-one-question) — 슬롯은 줄 머리 고정 표지 하나와 그것이 답하는 질문 하나다.
 # 질문·순서·필수 여부의 정의처는 shape(kb/ontology/shapes/*-body-shapes.ttl)이고 여기는 표지 낱말의 정의처다 —
 # 이 도구는 rdflib 없이 타깃마다 돌아 kb_lib 를 의존할 수 없으므로 값 어휘 상수가 PLANE_CLASS 와 함께 여기 있다 (STYLEGUIDE §4).
@@ -431,6 +437,9 @@ def parse_chunk(path: str) -> tuple[dict, int]:
     if declared and meta["type"] != "annotation":  # agt:targets 의 정의역은 agt:AnnotationChunk 다 — 주석만 대상을 가리킨다
         raise ValueError(f"{path}: {TARGETS_KEY} 는 type: annotation 에서만 쓴다 — 실제 type {meta['type']!r} "
                          f"(agt:targets 의 정의역은 agt:AnnotationChunk 다)")
+    if (meta.get(USES_KEY) or []) and meta["type"] != "artifact":  # agt:usesDefinition 의 정의역은 agt:ArtifactChunk 다
+        raise ValueError(f"{path}: {USES_KEY} 는 type: artifact 에서만 쓴다 — 실제 type {meta['type']!r} "
+                         f"(agt:usesDefinition 의 정의역·치역은 agt:ArtifactChunk 이고 값의 원본은 추출기다)")
     if meta["type"] == "annotation":  # 주석 — 첫 줄과 슬롯을 읽는다 (p7-commentary-form). 형식 판정은 shape 가 한다
         meta["_comment"] = comment_form(body)
         in_body = meta["_comment"].get("targets")
@@ -564,6 +573,11 @@ def emit_chunk(path: str, meta: dict, line_count: int) -> str:
     # 대상이 agt:DefectFactor 하위 개체인지는 shape 가 본다 (exposes-factor-shapes.ttl)
     for f in meta.get(EXPOSES_KEY, []) or []:
         stmts.append(f"{EXPOSES_PREDICATE} <{f}>")
+    # 정의 → 같은 모듈의 정의 (agt:usesDefinition, references 족의 잎). 추출기가 AST 에서 낸 값이고 손으로 쓰지 않는다.
+    # LINK_KEYS 도 gen_build.LINKS 도 아니다 — 링크는 파일 복합체의 것이고(p7-code-links-on-file-composite) 함수 churn 이
+    # 빌드 그래프를 움직이면 안 된다. 대상 실재는 validate check_dangling 이 본다
+    for u in meta.get(USES_KEY, []) or []:
+        stmts.append(f"{USES_PREDICATE} <{u}>")
     c = meta.get("_comment") or {}  # 주석의 본문 파생 사실 (p7-commentary-form) — 닫힌 어휘와 상한은 shape 가 판정한다
     for key, pred in (("label", "agt:commentLabel"), ("decoration", "agt:commentDecoration"), ("resolution", "agt:resolutionState")):
         if key in c:

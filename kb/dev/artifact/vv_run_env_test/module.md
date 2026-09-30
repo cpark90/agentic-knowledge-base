@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run-env-test}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-26T10:39:33Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/2fa82a3a-2e47-4bf8-8d59-2e02da4270dd]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/3c8e6ba3-aa11-4e78-b59f-c1aac562f7ce, title_ko: 파일 복합체 tools/vv_run_env_test.py, title: file composite tools/vv_run_env_test.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/585ec158-a9d6-48ce-8ecb-f52c92d2544b, https://agentic-knowledge-base.dev/id/composite/78211421-fa91-4809-8250-0a840db49298, https://agentic-knowledge-base.dev/id/composite/491eacc1-0150-4673-96c8-52951bec7409]}
 ---

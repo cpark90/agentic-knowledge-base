@@ -6,14 +6,17 @@
 source: tools/validate.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-validate
 package: kb/dev/artifact/validate
-at: 2026-09-28T22:13:05Z
-source_hash: 1bbcda145900d425
+at: 2026-09-30T08:07:48Z
+source_hash: 2c4c48e0c2ebb96d
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc
   - https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328
   - https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5
 serves: []
-tested: {}
+tested:
+  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
+  at: 2026-09-30T10:45:28Z
+  source_hash: 1bbcda145900d425
 ids:
   ch:-qname: https://agentic-knowledge-base.dev/id/chunk/b9dccd16-790a-4998-b3ce-f6fabc7498c7
   ch:check-odd-refs: https://agentic-knowledge-base.dev/id/chunk/d8c6ad64-0e26-4265-8808-319c8d7ba2c9

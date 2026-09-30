@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-canonicalize}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-12T07:47:38Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/a9cc1a02-29b3-4f53-8711-8d60a4bea3cf]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/cf91a784-b983-40fa-afff-ff9105164656, title_ko: 파일 복합체 tools/canonicalize.py, title: file composite tools/canonicalize.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/811c8a9a-7991-488b-927b-a703841a532b, https://agentic-knowledge-base.dev/id/composite/29d788bd-8690-47f5-8a29-184a6e40d389]}
 ---

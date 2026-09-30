@@ -7,11 +7,11 @@ title: file tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 refines: [https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc, https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328, https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/fb7cffc9-e5b5-4ed5-af22-40aa50e3c6aa, title_ko: 파일 복합체 tools/validate.py, title: file composite tools/validate.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/f78b9e0e-d84b-4087-9f1d-29bcf769d844, https://agentic-knowledge-base.dev/id/composite/56ab8e29-8a32-4148-bee8-85b8eabe8488, https://agentic-knowledge-base.dev/id/composite/dfafb084-58ea-49a9-9fe2-20457fba4997, https://agentic-knowledge-base.dev/id/composite/4d158385-e139-4042-8477-a87c3deeefe2]}
 ---
-**파일** — `tools/validate.py` 다. 789줄 · 최상위 정의 30개 · 최상위 절 4개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/validate.py` 다. 794줄 · 최상위 정의 30개 · 최상위 절 4개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -30,7 +30,8 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/fb7cffc9-e5b5-4e
               실제로 거기 정의돼 있는지까지 본다 — 접두사만 맞는 오타를 잡는다
   odd-ref     agt:refersTo 의 대상은 ODD 그래프에 존재한다 — "ODD에 없는 속성을 참조하는
               스코프나 가정은 존재할 수 없다" (0.4절)
-  dangling    저장소 안을 가리키는 링크의 대상이 실재한다. 주석의 대상(agt:targets)도 본다 — 링크 개체가
+  dangling    저장소 안을 가리키는 링크의 대상이 실재한다. 주석의 대상(agt:targets)과 정의의 호출 대상
+              (agt:usesDefinition — 추출기가 낸 frontmatter `uses`)도 본다 — 링크 개체가
               아니라 직접 트리플뿐이므로 여기가 유일한 실재 검사다. agt:usesConcept 의 대상은
               온톨로지가 정의한 용어여야 한다 (dependency-graph-design §5 참조 무결성).
               prov:specializationOf(분할 조각 → 원본)의 대상도 포함한다

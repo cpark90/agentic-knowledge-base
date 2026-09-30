@@ -7,7 +7,7 @@ title: module head chunk-dirs in tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 refines: [https://agentic-knowledge-base.dev/id/chunk/651e2c44-9a19-4a3e-b04a-ed1226aeef23, https://agentic-knowledge-base.dev/id/chunk/57fc48aa-6091-4ee7-9763-13ddab8ac8b1, https://agentic-knowledge-base.dev/id/chunk/ab6eb286-d87b-43a5-88f0-e32ffdd54acc]
 part_of: https://agentic-knowledge-base.dev/id/composite/974f7eff-3756-4a18-af98-04c75441cd70
 ---
@@ -27,6 +27,7 @@ from chunk2kg import (ID_BASE, SPECIALIZATION_KEY, SpecializationError, apply_pl
 from chunk2kg import LINK_KEYS as OBJECT_LINK_KEYS  # noqa: E402 — 링크 개체(agt:Link)를 내는 키. assumes·part_of 는 개체가 없다
 
 CHUNK_DIRS = ("kb", "chunks")
+USES_KEY = kb_lib.USES_KEY  # 정의 → 같은 모듈의 정의 (agt:usesDefinition). 링크 키가 아니라 `호출부` 열의 입력이다
 # frontmatter 의 링크 키 — 목록 값. part_of 는 스칼라
 LINK_KEYS = ("refines", "serves", "supersedes", "verifies", "assumes", "satisfies", "constrains", "derivesFrom", "allocates",
              "coUpdatesWith", "overlapsWith")

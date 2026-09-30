@@ -11,7 +11,10 @@ source_hash: 285909e4ea4cfec6
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/822db955-483e-47ed-ad68-fec783bc825b
 serves: []
-tested: {}
+tested:
+  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
+  at: 2026-09-30T10:45:28Z
+  source_hash: 285909e4ea4cfec6
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/72c19c58-8f79-4625-8e8e-ad52594b7efb
   composite:sec:label-ko: https://agentic-knowledge-base.dev/id/composite/29733e84-623f-4e11-b466-6c084c8510a5

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-skills}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 part_of: https://agentic-knowledge-base.dev/id/composite/210e1533-9390-4961-914e-3e556e96fe3d
 ---
 **함수** — `docstring_parts(path)` 다. 모듈 docstring → (첫 줄의 제목, 첫 문단, 사용법 블록).

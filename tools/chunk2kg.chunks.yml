@@ -6,14 +6,17 @@
 source: tools/chunk2kg.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg
 package: kb/dev/artifact/chunk2kg
-at: 2026-09-28T22:13:05Z
-source_hash: c8bd086a11baff07
+at: 2026-09-30T08:07:48Z
+source_hash: 5584f83e5eea5b18
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/ab66f02d-6126-4507-b73a-c29429769f11
   - https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2
   - https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c
 serves: []
-tested: {}
+tested:
+  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
+  at: 2026-09-30T10:45:28Z
+  source_hash: c8bd086a11baff07
 ids:
   cls:SpecializationError: https://agentic-knowledge-base.dev/id/chunk/9081dacd-219d-4944-b3c6-d5d9a6955f49
   composite:head: https://agentic-knowledge-base.dev/id/composite/b1903be2-0bdb-4f11-9c2b-cc59cc7e9a24

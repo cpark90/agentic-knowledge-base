@@ -13,7 +13,10 @@ refines:
   - https://agentic-knowledge-base.dev/id/chunk/79bcc1dd-4036-43ef-b30d-f4dff07be513
   - https://agentic-knowledge-base.dev/id/chunk/b36581f8-2688-46dc-9b44-3e1019a37d66
 serves: []
-tested: {}
+tested:
+  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
+  at: 2026-09-30T10:45:28Z
+  source_hash: cbb4603ff05567f7
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/562ded08-b5ff-4327-930d-e3a102a88a45
   composite:sec:dependents: https://agentic-knowledge-base.dev/id/composite/aa693393-615e-4f00-ada2-34df72e2832e

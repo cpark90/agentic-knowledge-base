@@ -205,7 +205,7 @@ chunk·복합체의 IRI이고, 링크는 산출물 밖(`-kg`)에 한 방향만 �
 
 | 족 | 뜻 | 잎 | 전파 |
 |---|---|---|---|
-| `agt:references` | 본문이 식별자로 가리킴 | `cites` · `targets` | 대상 변경 → 출발점 `suspect` |
+| `agt:references` | 본문이 식별자로 가리킴 | `cites` · `targets` · `usesDefinition`(2026-09-30 — 정의 → 같은 모듈의 정의, 추출기가 AST 의 최상위 이름 참조에서 낸다) | 대상 변경 → 출발점 `suspect`. `usesDefinition` 은 `revalidate` 의 `호출부` 열이고 그 수가 코드 호출부 파손의 상한이다 |
 | `agt:semanticallyDependsOn` | 빼면 의미상 불완전 | `refines` · `satisfies` · `constrains` · `verifies` · `derivesFrom` · `usesConcept` · `assumes` · `generates` · `allocates` | 같음. plane 단방향 안에서만 |
 | `agt:relatedTo` | 참조·의미 의존·충족 어느 족에도 들지 않는 관련성 | `coUpdatesWith` · `conflictsWith` · `overlapsWith`(2026-09-26 — 가장 약한 잎, 이름 없는 관련성의 자리) | 대칭 — 양쪽 `suspect` |
 | (구성 관계) | 함께 읽힘·순서 | `hasDirectPart` | 부분이 무효면 전체 `suspect` |
@@ -340,7 +340,11 @@ uuid`이고 신설만 자동이다 — 개명·삭제는 등록부 편집이다(
 링크는 파일 복합체가 갖는다([`p7-code-links-on-file-composite`](../kb/dev/decision/p7-code-links-on-file-composite/conclusion.md)) — 등록부의
 `refines`를 추출기가 파일 청크와 절 청크로 옮기고 정의 청크는 `part_of`만 갖는다. `serves`는 정의역이 `agt:DecisionChunk`이므로
 `artifact` 청크가 요구를 직접 `serves`하지 않는다 — 결정을 `refines`하고 그 결정이 요구에 닿는다. `artifact`의 `verified`는
-테스트 통과 도장이다(`STYLEGUIDE.md` §4). 표본 `tools/kb_lib.py`(청크 100·복합체 25)의 churn 실측(uuid 정체성 성립)을 근거로 같은 날 `tools/*.py` 전부로 넓혔다 — **37 파일 전부** · 청크 624 · 복합체 184, 파일마다 드리프트 테스트 `//:extract_drift_<모듈>`(묶음 `//:extract_drift_test`). 절 주석은 최소 하나다(파일 복합체의 부분이 둘 이상). 클래스는 정의 청크 하나이고 실측 최대 85줄이다. 200줄을 넘던 `main` 둘(`consistency`·`metrics`)은 상한을 올리지 않고 나눴다 — 산출물 바이트 동일.
+테스트 통과 도장이다(`STYLEGUIDE.md` §4). **정의 사이의 호출은 `usesDefinition`으로 올라온다**(유저 답 2026-09-30). 정의 청크의
+선택 키 `uses`가 같은 모듈의 최상위 정의를 가리키고 추출기가 AST의 이름 참조에서 낸다 — `references` 족의 잎이라 Bazel `deps`도
+링크 개체도 아니고 링크는 그대로 파일 복합체의 것이다. 방출의 경계는 `kb_lib.USES_SOURCES`이고 첫 형태는 표본 하나(`tools/kb_lib.py`,
+트리플 54)다. 넓히기는 그 표에 소스를 더하는 것이며 37 파일 전부의 실측 비용은 465 트리플이다. **모듈 간 호출은 이 잎이 잡지
+않는다** — 실측 274/739 간선이 사각지대이고, 채널이 든 사례(`pct` 개명 → 호출부 36)는 전부 모듈 간이라 이 잎으로 0이다. 표본 `tools/kb_lib.py`(청크 100·복합체 25)의 churn 실측(uuid 정체성 성립)을 근거로 같은 날 `tools/*.py` 전부로 넓혔다 — **37 파일 전부** · 청크 624 · 복합체 184, 파일마다 드리프트 테스트 `//:extract_drift_<모듈>`(묶음 `//:extract_drift_test`). 절 주석은 최소 하나다(파일 복합체의 부분이 둘 이상). 클래스는 정의 청크 하나이고 실측 최대 85줄이다. 200줄을 넘던 `main` 둘(`consistency`·`metrics`)은 상한을 올리지 않고 나눴다 — 산출물 바이트 동일.
 
 | 규칙 | 내용 | 결정 |
 |---|---|---|

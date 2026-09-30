@@ -110,6 +110,7 @@ kb_composite(
         "sec-tim-cells.md",
         "sec-trigger-incoming-of-target.md",
         "sec-union-graph-paths.md",
+        "sec-uses-key.md",
         "sec-validate-body-slot-markers.md",
         "sec-vv-run-dir.md",
         "sec-waiver-columns.md",

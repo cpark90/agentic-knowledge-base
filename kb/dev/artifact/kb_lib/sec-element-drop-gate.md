@@ -7,7 +7,7 @@ title: section element-drop-gate in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b-5fcc2cc9f893
 ---
 **절** — `tools/kb_lib.py` 의 절 `element-drop-gate` 다. 요소 탈락 검사 (`element-drop`) — 현상 P19 의 관측 수단 (위험 분석 G1, vnv 설계 2026-09-29)
@@ -24,6 +24,6 @@ ELEMENT_DROP_GATE = "element-drop"  # 게이트 id — FAIL [element-drop]
 # chunk2kg 가 emit_chunk 에서 직접 읽는 선택 키. 필수 키는 chunk2kg.REQUIRED, 링크 키는 chunk2kg.LINK_KEYS 가 정의처이고
 # 이 셋의 합집합이 "소비되는 키"다. chunk2kg 가 새 키를 읽으면 여기에 등재한다 — 등재 없이 쓰인 키는 이 게이트가 잡는다.
 CHUNK_OPTIONAL_KEYS = ("verified", "sources", "assumes", "pattern", "coUpdatesWith", "part_of", "composite",
-                       "restored", "specializationOf", "targets", EXPOSES_KEY)
+                       "restored", "specializationOf", "targets", EXPOSES_KEY, USES_KEY)
 ```
 <!-- 인용 끝 -->

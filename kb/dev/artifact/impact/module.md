@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-impact}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/05cabe0e-10b0-4e02-81b1-8f5154a94fcc]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/711360b7-62ed-4bfc-9088-27974668e958, title_ko: 파일 복합체 tools/impact.py, title: file composite tools/impact.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/e3651d6a-824c-47cd-bd83-2db367e84196, https://agentic-knowledge-base.dev/id/composite/44b63663-ac34-40f1-92c6-a6281c93c7a6]}
 ---

@@ -11,7 +11,10 @@ source_hash: 282f4316c9ee2f22
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0
 serves: []
-tested: {}
+tested:
+  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
+  at: 2026-09-30T10:45:28Z
+  source_hash: 282f4316c9ee2f22
 ids:
   cls:JudgeError: https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b
   composite:head: https://agentic-knowledge-base.dev/id/composite/9b099dc3-facc-4593-9927-5f2afdd09add

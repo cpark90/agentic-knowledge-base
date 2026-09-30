@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/9d3f4240-66d0-4dfd-9124-9499e65cb57a, https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97, https://agentic-knowledge-base.dev/id/chunk/5287133e-f7a3-4913-8aaf-062647cf5491]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/6cf102de-daa9-4edc-bd55-b2dab0f902b8, title_ko: 파일 복합체 tools/consistency.py, title: file composite tools/consistency.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/fa1732a8-9290-48de-8e7f-90f31527d6e6, https://agentic-knowledge-base.dev/id/composite/d7a2d774-2413-46e9-bd6d-6281509faf4c, https://agentic-knowledge-base.dev/id/composite/65bc7b55-1885-496f-8600-24e609326f5f, https://agentic-knowledge-base.dev/id/composite/cad544bc-3441-4d9e-849e-71609044a7e7]}
 ---

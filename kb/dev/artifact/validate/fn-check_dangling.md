@@ -7,7 +7,7 @@ title: function check_dangling in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 part_of: https://agentic-knowledge-base.dev/id/composite/621b8722-ef63-42b3-8470-9560e072a62a
 ---
 **함수** — `check_dangling(merged, ontology, files)` 다. 저장소 안을 가리키는 링크의 대상이 실재하는가 (참조 무결성, 8.2절).
@@ -20,6 +20,9 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
     인용·복합체 부분·가정·출처처럼 id: 개체를 가리키는 술어의 목적어는 그래프에
     주어로 나타나야 한다. 나타나지 않으면 끊어진 링크이고, 끊어진 링크는 실제
     구조를 오도하므로 없는 것보다 해롭다 (8.6절).
+
+    agt:usesDefinition 은 추출기가 정의의 AST 에서 낸 같은 모듈의 정의를 가리킨다 — 링크 개체가 없으므로
+    대상 실재를 판정하는 자리가 여기뿐이다 (채널 uses-definition, 유저 답 2026-09-30).
 
     agt:usesConcept 은 개념 IRI를 바로 가리킨다(dependency-graph-design (f)) — 대상은
     온톨로지가 정의한 agt: 용어여야 한다. 온톨로지를 안 주면 병합 그래프의 주어로 대신한다.
@@ -34,6 +37,7 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
         kb_lib.AGT.derivesFrom,  # 검증 목표 → 요구 (8.3절 functional 높이)
         kb_lib.AGT.overlapsWith,  # relatedTo 족의 약한 잎 (overlap-ontology) — 링크 키이므로 대상 실재를 여기서 본다
         kb_lib.AGT.targets,      # 주석 → 대상 (p7-commentary-form) — 링크 개체가 아니라 직접 트리플뿐이라 여기가 유일한 실재 검사다
+        kb_lib.AGT.usesDefinition,  # 정의 → 같은 모듈의 정의 (references 족의 잎) — 링크 개체가 없으므로 여기가 유일한 실재 검사다
         kb_lib.PROV.specializationOf,  # 분할 조각 → 원본 (p10-split-keeps-work-identity) — 없는 원본을 특수화할 수 없다
     )
     subjects = set(merged.subjects())

@@ -1,6 +1,6 @@
 ---
 from: hci
-status: open
+status: approved
 targets: [kb/ontology/related/trace/reference-ontology.ttl, tools/extract.py, tools/revalidate.py, docs/rules.md]
 ---
 
@@ -44,4 +44,4 @@ targets: [kb/ontology/related/trace/reference-ontology.ttl, tools/extract.py, to
 3. **37 파일에 한꺼번에 넣는다.** 비용: 링크 수백 개가 한 번에 들어오고 게이트 시간의 여유(65초)를 얼마나 먹는지 모른 채 커밋한다.
 
 ## 답
-(유저가 채움)
+1.

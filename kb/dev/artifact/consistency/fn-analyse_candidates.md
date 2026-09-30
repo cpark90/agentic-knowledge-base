@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 part_of: https://agentic-knowledge-base.dev/id/composite/c5f10c9e-1f63-4c4a-82da-957ca0cb0e28
 ---
 **함수** — `analyse_candidates(items, exact, near, linked)` 다. ⑩ 중복 확정 후보 — ①·③의 미묶음 쌍을 판정자 질문("이 두 블록은 같은 주장을 담는가?")의 입력으로 다시 낸다.

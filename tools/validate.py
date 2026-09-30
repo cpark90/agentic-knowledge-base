@@ -11,7 +11,8 @@
               실제로 거기 정의돼 있는지까지 본다 — 접두사만 맞는 오타를 잡는다
   odd-ref     agt:refersTo 의 대상은 ODD 그래프에 존재한다 — "ODD에 없는 속성을 참조하는
               스코프나 가정은 존재할 수 없다" (0.4절)
-  dangling    저장소 안을 가리키는 링크의 대상이 실재한다. 주석의 대상(agt:targets)도 본다 — 링크 개체가
+  dangling    저장소 안을 가리키는 링크의 대상이 실재한다. 주석의 대상(agt:targets)과 정의의 호출 대상
+              (agt:usesDefinition — 추출기가 낸 frontmatter `uses`)도 본다 — 링크 개체가
               아니라 직접 트리플뿐이므로 여기가 유일한 실재 검사다. agt:usesConcept 의 대상은
               온톨로지가 정의한 용어여야 한다 (dependency-graph-design §5 참조 무결성).
               prov:specializationOf(분할 조각 → 원본)의 대상도 포함한다
@@ -220,6 +221,9 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
     주어로 나타나야 한다. 나타나지 않으면 끊어진 링크이고, 끊어진 링크는 실제
     구조를 오도하므로 없는 것보다 해롭다 (8.6절).
 
+    agt:usesDefinition 은 추출기가 정의의 AST 에서 낸 같은 모듈의 정의를 가리킨다 — 링크 개체가 없으므로
+    대상 실재를 판정하는 자리가 여기뿐이다 (채널 uses-definition, 유저 답 2026-09-30).
+
     agt:usesConcept 은 개념 IRI를 바로 가리킨다(dependency-graph-design (f)) — 대상은
     온톨로지가 정의한 agt: 용어여야 한다. 온톨로지를 안 주면 병합 그래프의 주어로 대신한다.
     """
@@ -233,6 +237,7 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
         kb_lib.AGT.derivesFrom,  # 검증 목표 → 요구 (8.3절 functional 높이)
         kb_lib.AGT.overlapsWith,  # relatedTo 족의 약한 잎 (overlap-ontology) — 링크 키이므로 대상 실재를 여기서 본다
         kb_lib.AGT.targets,      # 주석 → 대상 (p7-commentary-form) — 링크 개체가 아니라 직접 트리플뿐이라 여기가 유일한 실재 검사다
+        kb_lib.AGT.usesDefinition,  # 정의 → 같은 모듈의 정의 (references 족의 잎) — 링크 개체가 없으므로 여기가 유일한 실재 검사다
         kb_lib.PROV.specializationOf,  # 분할 조각 → 원본 (p10-split-keeps-work-identity) — 없는 원본을 특수화할 수 없다
     )
     subjects = set(merged.subjects())

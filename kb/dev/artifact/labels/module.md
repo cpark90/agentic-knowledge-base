@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-labels}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/8d962172-f5b0-4fe3-8c9c-8598334847e4, https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f367e186-3a1a-4660-aeb4-7473d4b28b2a, title_ko: 파일 복합체 tools/labels.py, title: file composite tools/labels.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/019a25f2-901b-47ff-94e4-2449c78f7e2b, https://agentic-knowledge-base.dev/id/composite/fba87a37-4ad2-4ccb-b556-a27d4ef6b9d2]}
 ---

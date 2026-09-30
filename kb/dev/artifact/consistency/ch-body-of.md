@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/9d3f4240-66d0-4dfd-9124-9499e65cb57a, https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97, https://agentic-knowledge-base.dev/id/chunk/5287133e-f7a3-4913-8aaf-062647cf5491]
 part_of: https://agentic-knowledge-base.dev/id/composite/d7a2d774-2413-46e9-bd6d-6281509faf4c
 composite: {id: https://agentic-knowledge-base.dev/id/composite/d7a2d774-2413-46e9-bd6d-6281509faf4c, title_ko: 장 복합체 body-of (tools/consistency.py), title: chapter composite body-of in tools/consistency.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/a9be243d-611d-4b3e-82ea-858313873004, https://agentic-knowledge-base.dev/id/composite/d9f90265-3bbb-4012-993c-a471cd52933e, https://agentic-knowledge-base.dev/id/composite/38dd33c9-2317-4c0a-a596-5bb97eecca1b], part_of: https://agentic-knowledge-base.dev/id/composite/6cf102de-daa9-4edc-bd55-b2dab0f902b8}

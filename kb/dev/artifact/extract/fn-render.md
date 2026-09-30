@@ -7,7 +7,7 @@ title: function render in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 part_of: https://agentic-knowledge-base.dev/id/composite/bdbaec34-7407-4d5e-83f8-0706026f0b98
 ---
 **함수** — `render(c, reg, at)` 다.
@@ -23,6 +23,8 @@ def render(c: Chunk, reg: dict, at: str = "") -> str:
     for key in ("refines", "serves"):
         if c.links.get(key):
             fm.append(f"{key}: [" + ", ".join(c.links[key]) + "]")
+    if c.uses:  # agt:usesDefinition — 링크 키가 아니다(references 족): deps 도 링크 개체도 아니고 직접 트리플만 남는다
+        fm.append(f"{kb_lib.USES_KEY}: [" + ", ".join(c.uses) + "]")
     if c.part_of:
         fm.append(f"part_of: {c.part_of}")
     if c.composite:

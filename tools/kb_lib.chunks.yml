@@ -6,14 +6,17 @@
 source: tools/kb_lib.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib
 package: kb/dev/artifact/kb_lib
-at: 2026-09-28T22:13:05Z
-source_hash: 2bac1d03e554dff8
+at: 2026-09-30T08:07:48Z
+source_hash: 6cfaec7a660d2583
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869
   - https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd
   - https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23
 serves: []
-tested: {}
+tested:
+  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
+  at: 2026-09-30T10:45:28Z
+  source_hash: 2bac1d03e554dff8
 ids:
   ch:-odd-range: https://agentic-knowledge-base.dev/id/chunk/3d21404c-787a-4bc3-a226-66733931a493
   ch:decision-role-gate: https://agentic-knowledge-base.dev/id/chunk/fe37a325-f8c5-42e5-9221-0f1209d7b109
@@ -52,6 +55,7 @@ ids:
   composite:sec:tim-cells: https://agentic-knowledge-base.dev/id/composite/74d7f98b-d830-4dec-9568-78cf3c8f2051
   composite:sec:trigger-incoming-of-target: https://agentic-knowledge-base.dev/id/composite/bfce2c4b-b446-4dc4-897c-a67193985671
   composite:sec:union-graph-paths: https://agentic-knowledge-base.dev/id/composite/6d4f42a2-870a-44fb-9a63-05749c2b9dcd
+  composite:sec:uses-key: https://agentic-knowledge-base.dev/id/composite/e5ac0bbc-4e0c-476c-8572-9624d6c2d90b
   composite:sec:validate-body-slot-markers: https://agentic-knowledge-base.dev/id/composite/efdfa170-bf07-4ef8-9d31-b554c7e26f8c
   composite:sec:vv-run-dir: https://agentic-knowledge-base.dev/id/composite/a899d99b-79cd-41e3-90a9-81bd196cb7fd
   composite:sec:waiver-columns: https://agentic-knowledge-base.dev/id/composite/ee34751d-8520-4de7-a22b-b2a1136b9dbf
@@ -146,6 +150,7 @@ ids:
   sec:tim-cells: https://agentic-knowledge-base.dev/id/chunk/1a5c517a-088b-47c7-b29a-b4a044c84946
   sec:trigger-incoming-of-target: https://agentic-knowledge-base.dev/id/chunk/81e13e64-2189-4bfa-b7ab-60f2c59898b1
   sec:union-graph-paths: https://agentic-knowledge-base.dev/id/chunk/fd21796e-0d7a-4cf4-b8bf-9b2f659a1853
+  sec:uses-key: https://agentic-knowledge-base.dev/id/chunk/8cbfc00d-5819-4b78-a0a8-ad654ef6a56c
   sec:validate-body-slot-markers: https://agentic-knowledge-base.dev/id/chunk/84e79c94-fc03-485c-906a-edaae9c6f07f
   sec:vv-run-dir: https://agentic-knowledge-base.dev/id/chunk/01222bd2-207a-4927-af92-878cc4e516f8
   sec:waiver-columns: https://agentic-knowledge-base.dev/id/chunk/9c5d9700-a87b-4566-945f-2b4dc268cd55

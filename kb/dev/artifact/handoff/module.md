@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-handoff}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-11T09:15:09Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/92762c1c-18df-4b8e-9b9d-9d43e4811e0f]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/b1ea15c6-7e5e-4365-91b4-7b2f4ad29839, title_ko: 파일 복합체 tools/handoff.py, title: file composite tools/handoff.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/e027fd98-2f7d-435e-92e6-27671aefb3ca, https://agentic-knowledge-base.dev/id/composite/0b8984a8-4b3a-4b30-9c38-041302b18093]}
 ---

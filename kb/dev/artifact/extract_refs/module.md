@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract-refs}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-19T14:57:33Z}
+verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/55535378-f5cd-4f01-a5ce-54d438529104, https://agentic-knowledge-base.dev/id/chunk/8d09b0e4-44b4-47b2-9ff6-5da9f3b22e12]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/1ddb8a02-e2d5-48e7-a66d-3c960e6a523a, title_ko: 파일 복합체 tools/extract_refs.py, title: file composite tools/extract_refs.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/1a3482f6-0687-482a-848a-544cab7ed57b, https://agentic-knowledge-base.dev/id/composite/444fc7bd-680b-4c09-aec8-0e5de0cc1175]}
 ---
