@@ -42,6 +42,8 @@ KIND_PARENT_PRED = {
 }
 
 
+# ── 용어 후보를 검사해 승인 큐에 제안한다 ────────────────────
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--id", required=True, help="영어 소문자 케밥 슬러그")

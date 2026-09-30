@@ -1,0 +1,41 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "fn-main.md",
+        "head.md",
+        "module.md",
+        "sec-main.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/f2a94f2c-1866-41da-848c-d018a7dfc647",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/c0b686cd-daa8-4f89-8cb1-9e142f072f04", "https://agentic-knowledge-base.dev/id/composite/b6587551-3784-48fb-ae97-e98493afa24b"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c0b686cd-daa8-4f89-8cb1-9e142f072f04", "https://agentic-knowledge-base.dev/id/composite/b6587551-3784-48fb-ae97-e98493afa24b"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p12-generated-document-form",
+        "//kb/dev/decision:p12-generated-document-header",
+        "//kb/dev/decision:p12-generated-documents-are-gated",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

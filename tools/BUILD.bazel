@@ -12,6 +12,8 @@ exports_files([
     "chunk2kg.py",
     "doccheck.py",
     "gen_build.py",
+    "extract.py",
+    "stamp.py",
     "gen_skills.py",
     "gendoc.py",
     "weave.py",
@@ -21,6 +23,10 @@ exports_files([
     "vv_run_env_test.py",
     "requirements_lock.txt",
 ])
+
+# 등록부 사이드카 — 한정 이름 → uuid 가 코드 청크의 정체성이다 (p10-function-identity-registry).
+# //:extract_drift_* 가 파일마다 자기 등록부를 runfiles 로 읽는다.
+exports_files(glob(["*.chunks.yml"]))
 
 # 이 패키지의 소스 전부 — 문서 현행성 게이트(//:doccheck_test)가 문서의 `tools/…` 경로 실재를 runfiles 로 판정한다
 filegroup(
@@ -389,6 +395,32 @@ py_binary(
         "weave.py",
     ],
     main = "weave.py",
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
+)
+
+# 코드 추출기 (코드를 청크로, 유저 승인 2026-09-30): tools/*.py + 등록부 → kb/dev/artifact/<모듈>/ 의 청크 트리.
+# 드리프트 검사는 //:extract_drift_test (kb_extract_drift_test). 손으로: bazel run //tools:extract -- tools/kb_lib.py
+py_binary(
+    name = "extract",
+    srcs = ["extract.py"],
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
+)
+
+# 테스트 통과 도장 (p7-code-extraction-direction "도장"): 등록부의 `tested` 를 갱신한다. `bazel test //...` PASS 뒤에만 돈다.
+# 손으로: bazel run //tools:stamp -- tools/kb_lib.chunks.yml
+py_binary(
+    name = "stamp",
+    srcs = [
+        "extract.py",
+        "stamp.py",
+    ],
+    main = "stamp.py",
     deps = [
         ":kb_lib",
         requirement("rdflib"),

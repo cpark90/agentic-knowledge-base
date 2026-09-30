@@ -26,6 +26,8 @@ AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
 KEYS = {AGT.StaticElement: "static_element", AGT.EnvironmentalCondition: "environmental_condition", AGT.DynamicElement: "dynamic_element"}
 
 
+# ── condition 온톨로지에서 OpenODD 택소노미를 낸다 ────────────────────
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)

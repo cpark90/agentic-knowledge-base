@@ -1,0 +1,32 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/revalidate/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/revalidate.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate
+package: kb/dev/artifact/revalidate
+at: 2026-09-28T20:48:33Z
+source_hash: 03d9e316d6f4585d
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/651e2c44-9a19-4a3e-b04a-ed1226aeef23
+  - https://agentic-knowledge-base.dev/id/chunk/57fc48aa-6091-4ee7-9763-13ddab8ac8b1
+  - https://agentic-knowledge-base.dev/id/chunk/ab6eb286-d87b-43a5-88f0-e32ffdd54acc
+serves: []
+tested: {}
+ids:
+  composite:head: https://agentic-knowledge-base.dev/id/composite/2dc6ded5-173e-4aca-aa85-40594bf3ca6e
+  composite:sec:owner-labels: https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f
+  composite:sec:run: https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68
+  file: https://agentic-knowledge-base.dev/id/composite/974f7eff-3756-4a18-af98-04c75441cd70
+  fn:bazel_rdeps: https://agentic-knowledge-base.dev/id/chunk/98b89c74-895c-4fc5-94d8-8db422c2b0f4
+  fn:link_objects: https://agentic-knowledge-base.dev/id/chunk/4d7ba4f8-3559-4026-8352-97c8b9835a2b
+  fn:links_of: https://agentic-knowledge-base.dev/id/chunk/e7c83ee2-f6d7-442d-98f1-d053996cdfd4
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/8737dba4-7aa0-467f-add3-14901ba38236
+  fn:owner_labels: https://agentic-knowledge-base.dev/id/chunk/cf1b3c55-9f8f-446c-87d0-87ab5c66320f
+  fn:parse_text: https://agentic-knowledge-base.dev/id/chunk/1d01a493-eef5-4980-970b-5ba70be5e80e
+  fn:run: https://agentic-knowledge-base.dev/id/chunk/0deeb79a-02b2-44fa-9441-ad82b1ed51af
+  head: https://agentic-knowledge-base.dev/id/chunk/8013f604-8091-4bcf-aa5e-9a4a96aa15f1
+  module: https://agentic-knowledge-base.dev/id/chunk/6bb7181c-bb07-4fff-a7da-c5f6c82427f1
+  sec:owner-labels: https://agentic-knowledge-base.dev/id/chunk/0c3ac9aa-e882-45d4-9d58-797941bc502a
+  sec:run: https://agentic-knowledge-base.dev/id/chunk/0013f21d-7725-49b0-a8b7-0fc2e72ba697

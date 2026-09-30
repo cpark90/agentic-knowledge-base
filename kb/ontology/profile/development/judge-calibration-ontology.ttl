@@ -1,4 +1,4 @@
-# 개발 프로파일 — 캘리브레이션의 상태: 임계 셋이 어느 모델에 대해 무엇으로 재졌는가 (결정 p8-judge-calibration-binding 규칙 ①·②·⑤)
+# 개발 프로파일 — 캘리브레이션의 상태: 임계 셋이 어느 판정자에 대해 무엇으로 재졌는가 (결정 p8-judge-calibration-binding 규칙 ①·②·⑤)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -20,8 +20,8 @@ agt:calibrationSampleFloor a owl:DatatypeProperty ;
 agt:calibratedFor a owl:DatatypeProperty ;
     rdfs:domain agt:ConfidenceThresholdSet ;
     rdfs:range xsd:string ;
-    rdfs:label "calibrated for"@en , "캘리브레이션 대상 모델"@ko ;
-    skos:definition "이 임계 셋의 구간별 정확도를 재는 데 쓴 판정자 모델 식별자. 보상 기반 캘리브레이션은 모델별로 학습되므로 모델이 바뀌면 같은 확신도가 다른 정확도를 뜻한다 — 모델 식별자와 캘리브레이션 표본은 함께 버전이 바뀐다 (결정 p8-judge-calibration-binding 규칙 ⑤). 게이트: judge-question-shapes(정확히 하나)."@ko .
+    rdfs:label "calibrated for"@en , "캘리브레이션 대상 판정자"@ko ;
+    skos:definition "이 임계 셋의 구간별 정확도를 재는 데 쓴 판정자 식별자 — 세션 판정자면 역할/모델 또는 세션 식별자다(외부 서비스가 아니다, 2026-09-30). 보상 기반 캘리브레이션은 판정자별로 학습·형성되므로 판정자가 바뀌면 같은 확신도가 다른 정확도를 뜻한다 — 판정자 식별자와 캘리브레이션 표본은 함께 버전이 바뀐다 (결정 p8-judge-calibration-binding 규칙 ⑤). 게이트: judge-question-shapes(정확히 하나)."@ko .
 
 agt:judgeThresholds agt:bandAccuracyMeasured false ;
     agt:calibrationSampleFloor 20 ;

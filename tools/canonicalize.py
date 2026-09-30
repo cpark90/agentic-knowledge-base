@@ -50,6 +50,8 @@ STANDARD_PREFIXES = {
 _PN_LOCAL = re.compile(r"^[A-Za-z_][A-Za-z0-9_.-]*$")
 
 
+# ── 정규 직렬화 — 출력 순서를 고정한다 ────────────────────
+
 def _shorten(iri: str, prefixes: dict[str, str]) -> str:
     for p, ns in prefixes.items():
         if iri.startswith(ns):

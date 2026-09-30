@@ -476,6 +476,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p10-function-identity-registry",
+    conclusion = "p10-function-identity-registry/conclusion.md",
+    rationale = "p10-function-identity-registry/rationale.md",
+    alternatives = "p10-function-identity-registry/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/fa336de6-3b07-45c0-9b66-b41ce2cdbcba",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/ab6eb286-d87b-43a5-88f0-e32ffdd54acc", "https://agentic-knowledge-base.dev/id/chunk/1f33f219-a2fa-43e8-b3b6-8c4f735139ee", "https://agentic-knowledge-base.dev/id/chunk/216c6b43-98ab-4866-a800-b21e41211206"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ab6eb286-d87b-43a5-88f0-e32ffdd54acc", "https://agentic-knowledge-base.dev/id/chunk/1f33f219-a2fa-43e8-b3b6-8c4f735139ee", "https://agentic-knowledge-base.dev/id/chunk/216c6b43-98ab-4866-a800-b21e41211206"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+)
+
+kb_decision(
     name = "p10-link-attributes",
     conclusion = "p10-link-attributes/conclusion.md",
     rationale = "p10-link-attributes/rationale.md",
@@ -2446,6 +2461,36 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p7-code-extraction-direction",
+    conclusion = "p7-code-extraction-direction/conclusion.md",
+    rationale = "p7-code-extraction-direction/rationale.md",
+    alternatives = "p7-code-extraction-direction/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/cfdffdf2-c863-4f22-bdfc-2d58e26550be",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd", "https://agentic-knowledge-base.dev/id/chunk/ed84261a-c592-4e50-85bf-80613f78957e", "https://agentic-knowledge-base.dev/id/chunk/47d04ec1-666e-4532-86d9-807b2a2be6dd"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd", "https://agentic-knowledge-base.dev/id/chunk/ed84261a-c592-4e50-85bf-80613f78957e", "https://agentic-knowledge-base.dev/id/chunk/47d04ec1-666e-4532-86d9-807b2a2be6dd"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+)
+
+kb_decision(
+    name = "p7-code-links-on-file-composite",
+    conclusion = "p7-code-links-on-file-composite/conclusion.md",
+    rationale = "p7-code-links-on-file-composite/rationale.md",
+    alternatives = "p7-code-links-on-file-composite/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/b9ff4ae2-fb83-447d-9aae-73d5264cfae3",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23", "https://agentic-knowledge-base.dev/id/chunk/e79c780e-4a2d-4bb4-b36b-65fe33b906f2", "https://agentic-knowledge-base.dev/id/chunk/84edf144-5585-40a3-af74-67eb25e0f52c"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23", "https://agentic-knowledge-base.dev/id/chunk/e79c780e-4a2d-4bb4-b36b-65fe33b906f2", "https://agentic-knowledge-base.dev/id/chunk/84edf144-5585-40a3-af74-67eb25e0f52c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+)
+
+kb_decision(
     name = "p7-commentary-form",
     conclusion = "p7-commentary-form/conclusion.md",
     rationale = "p7-commentary-form/rationale.md",
@@ -2730,7 +2775,7 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/1f335a27-9cd0-47d1-9483-b9a787eaf07e", "https://agentic-knowledge-base.dev/id/chunk/07a8e14d-7b0a-4fca-904c-835f31e37185", "https://agentic-knowledge-base.dev/id/chunk/bb6e6a51-c243-4437-a3a7-d458dc547112"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/1f335a27-9cd0-47d1-9483-b9a787eaf07e", "https://agentic-knowledge-base.dev/id/chunk/07a8e14d-7b0a-4fca-904c-835f31e37185", "https://agentic-knowledge-base.dev/id/chunk/bb6e6a51-c243-4437-a3a7-d458dc547112"],
     part_levels = ["concrete", "logical", "logical"],
-    status = "stable",
+    status = "deprecated",
     refines = [
         "//kb/dev/requirement:verification-means-trust",
     ],
@@ -2751,6 +2796,24 @@ kb_decision(
     status = "deprecated",
     refines = [
         "//kb/dev/requirement:verification-means-trust",
+    ],
+)
+
+kb_decision(
+    name = "p8-judge-session-agreement",
+    conclusion = "p8-judge-session-agreement/conclusion.md",
+    rationale = "p8-judge-session-agreement/rationale.md",
+    alternatives = "p8-judge-session-agreement/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/abf9e76a-0b1d-42c4-b70c-f77c7902f8db",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0", "https://agentic-knowledge-base.dev/id/chunk/487f2dda-e832-44f5-abbd-3b904b678c6f", "https://agentic-knowledge-base.dev/id/chunk/923991f6-9383-4218-bd4f-257b0d11f12c"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0", "https://agentic-knowledge-base.dev/id/chunk/487f2dda-e832-44f5-abbd-3b904b678c6f", "https://agentic-knowledge-base.dev/id/chunk/923991f6-9383-4218-bd4f-257b0d11f12c"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:verification-means-trust",
+    ],
+    supersedes = [
+        "//kb/dev/decision:p8-judge-calibration-binding",
     ],
 )
 
@@ -3598,6 +3661,7 @@ kb_bundle(
         ":p10-candidate-and-confirmed-link",
         ":p10-context-handoff-yields-links",
         ":p10-extracted-references-are-candidates",
+        ":p10-function-identity-registry",
         ":p10-link-attributes",
         ":p10-link-by-construction",
         ":p10-link-decay-states",
@@ -3710,6 +3774,8 @@ kb_bundle(
         ":p6-what-evolves-has-a-home",
         ":p7-alternatives-mandatory",
         ":p7-authoring-flow",
+        ":p7-code-extraction-direction",
+        ":p7-code-links-on-file-composite",
         ":p7-commentary-form",
         ":p7-contract-first",
         ":p7-decision-spans-three-levels",
@@ -3729,6 +3795,7 @@ kb_bundle(
         ":p8-environment-assignment",
         ":p8-judge-calibration-binding",
         ":p8-judge-question-form",
+        ":p8-judge-session-agreement",
         ":p8-learned-environment-and-judge",
         ":p8-machine-readable-case",
         ":p8-minimal-negative-stimulus",

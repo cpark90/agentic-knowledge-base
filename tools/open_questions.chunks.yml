@@ -1,0 +1,25 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/open_questions/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/open_questions.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-open-questions
+package: kb/dev/artifact/open_questions
+at: 2026-09-22T11:38:01Z
+source_hash: 0e9c61defc381351
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/d93492e4-f343-4736-b4a5-d04f48a3a75f
+  - https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97
+serves: []
+tested: {}
+ids:
+  composite:head: https://agentic-knowledge-base.dev/id/composite/58e98849-0ae6-42ef-bff7-e52426d4bbe4
+  composite:sec:cell: https://agentic-knowledge-base.dev/id/composite/ee1861ba-64c4-4bbb-8da8-cfc4336823c0
+  file: https://agentic-knowledge-base.dev/id/composite/4fe6beea-c6ab-454b-bad0-2cfede25066c
+  fn:cell: https://agentic-knowledge-base.dev/id/chunk/524a116b-45f4-4802-ba70-3d9426371ad6
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/9be2f024-78e1-424a-926b-c50d75da9888
+  fn:question_of: https://agentic-knowledge-base.dev/id/chunk/1d3aee1d-549c-4ef9-be65-508014ca8f93
+  head: https://agentic-knowledge-base.dev/id/chunk/611551cc-ec21-4187-a12d-6a843751700f
+  module: https://agentic-knowledge-base.dev/id/chunk/f0c14e8d-c15c-4c5f-863a-3efb1b2f381a
+  sec:cell: https://agentic-knowledge-base.dev/id/chunk/43b7143b-3078-49ce-bbe6-d8f4b777749d

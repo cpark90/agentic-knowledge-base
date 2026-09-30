@@ -1,0 +1,82 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "ch-analyse-duplicates.md",
+        "ch-body-of.md",
+        "ch-parse-args.md",
+        "fn-_legitimate_spans.md",
+        "fn-_placement_regex.md",
+        "fn-analyse_candidates.md",
+        "fn-analyse_cohesion.md",
+        "fn-analyse_duplicates.md",
+        "fn-analyse_label_form.md",
+        "fn-analyse_prose.md",
+        "fn-analyse_terms.md",
+        "fn-body_of.md",
+        "fn-cite.md",
+        "fn-jaccard.md",
+        "fn-list_rule_counts.md",
+        "fn-listing.md",
+        "fn-load_items.md",
+        "fn-main.md",
+        "fn-old_terms.md",
+        "fn-parse_args.md",
+        "fn-placement_candidates.md",
+        "fn-render_addition_sections.md",
+        "fn-render_candidate_sections.md",
+        "fn-render_duplicate_sections.md",
+        "fn-render_head.md",
+        "fn-render_prose_sections.md",
+        "fn-render_summary.md",
+        "fn-shingles.md",
+        "fn-slot_regions.md",
+        "fn-waived_tail.md",
+        "head.md",
+        "module.md",
+        "sec-analyse-candidates.md",
+        "sec-analyse-cohesion.md",
+        "sec-analyse-duplicates.md",
+        "sec-analyse-prose.md",
+        "sec-body-of.md",
+        "sec-listing.md",
+        "sec-main.md",
+        "sec-parse-args.md",
+        "sec-render-candidate-sections.md",
+        "sec-render-duplicate-sections.md",
+        "sec-render-head.md",
+        "sec-render-prose-sections.md",
+        "sec-slot-regions.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/6cf102de-daa9-4edc-bd55-b2dab0f902b8",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/fa1732a8-9290-48de-8e7f-90f31527d6e6", "https://agentic-knowledge-base.dev/id/composite/d7a2d774-2413-46e9-bd6d-6281509faf4c", "https://agentic-knowledge-base.dev/id/composite/65bc7b55-1885-496f-8600-24e609326f5f", "https://agentic-knowledge-base.dev/id/composite/cad544bc-3441-4d9e-849e-71609044a7e7"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/fa1732a8-9290-48de-8e7f-90f31527d6e6", "https://agentic-knowledge-base.dev/id/composite/d7a2d774-2413-46e9-bd6d-6281509faf4c", "https://agentic-knowledge-base.dev/id/composite/65bc7b55-1885-496f-8600-24e609326f5f", "https://agentic-knowledge-base.dev/id/composite/cad544bc-3441-4d9e-849e-71609044a7e7"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p10-candidate-and-confirmed-link",
+        "//kb/dev/decision:p4-redundancy-as-safety-margin",
+        "//kb/dev/decision:p4-slot-answers-one-question",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

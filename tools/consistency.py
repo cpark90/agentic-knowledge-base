@@ -31,11 +31,21 @@
      소스 줄이 아니라 **글자**로 잰다 — 이어지는 들여쓴 줄을 합치고 연속 공백을 하나로 줄인 뒤 센다. 손 줄바꿈이
      110~120자라 소스 줄을 세면 접힌 자리가 그대로 위반이 된다 (STYLEGUIDE §0, 유저 승인 2026-09-22). 정의처는
      kb_lib(LIST_MAX_ITEMS·LIST_MAX_DEPTH·LIST_MAX_ITEM_CHARS·check_lists)
+  ⑩ 중복 확정 후보 — ③의 근사 중복 중 `coUpdatesWith` 미묶음 쌍(+①의 미묶음 정확 중복)을 판정자 질문("이 두 블록은
+     같은 주장을 담는가?")의 입력 후보로 다시 낸다(judge-without-service-2026-09-30 기계 환원 ②). 후보 생성까지이고
+     병합·묶기·유지의 확정은 판정자(사람 또는 세션 판정자) 몫이다 — ③과 같은 데이터를 판정 관점으로 다시 읽은 것이라
+     수치가 갈리지 않는다.
+  ⑪ 자리 후보 — 둘 이상의 등록 본문 슬롯(`agt:bodySlot`)을 가진 청크에서, 한 슬롯의 영역 안에 **다른** 슬롯의 표지
+     낱말이 한글 음절 경계 밖(조사가 붙지 않은 자리)으로 등장하면 후보로 낸다 — "이 문장이 그 슬롯에 있어야 하는가"의
+     판정자 질문 입력이다(judge-without-service-2026-09-30 기계 환원 ②). 슬롯이 하나뿐인 청크(결정 세 청크·V&V
+     시나리오 세 청크)는 대상이 아니다. 확정은 판정자 몫이고 이 축은 후보만 낸다 — 낱말 재등장이 전부 오배치는
+     아니므로 오탐이 있을 수 있다(게이트가 아니라 보고인 이유).
 
 ⑧·⑨ 의 **판정은 게이트 `chunk_lint`** 가 한다 — 게이트 id 는 `addition`(메타 문장·채움 문구)·`empty-value`(빈 값 표기)·
 `list-rules`(목록 규칙)이고, 보고 수치가 0 이 된 2026-09-22 에 올렸다(반영 계획 7번, STYLEGUIDE §2 — 강화는 약화가 아니다).
 이 절은 목록과 맥락을 주는 보고로 남는다. 둘이 같은 함수(kb_lib.check_addition·check_lists)를 쓰므로 수치가 갈리지 않는다.
-⑥ 과 같은 규약으로 waivers.md 의 면제는 집계에서 빼되 목록에 남긴다.
+⑥ 과 같은 규약으로 waivers.md 의 면제는 집계에서 빼되 목록에 남긴다. ⑩·⑪ 은 후보 생성까지이고 게이트가 아니다 —
+확정에는 판정자(세션 판정자 또는 사람)가 필요하다(`tools/judge.py`).
 
 종료 코드(kb_lib): 0 생성됨 · 2 설정·입력 문제(용어집·waiver 표·청크 파싱 불가). 보고 뷰라 판정 실패(1)는 없다
 사용: consistency.py --out consistency.md [--theta 0.5] [--theta-cohesion θ/2] [--glossary docs/glossary.md] [--waivers docs/waivers.md] <청크 .md …>
@@ -49,7 +59,8 @@ from itertools import combinations
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402
+from chunk2kg import (BODY_FENCE, BODY_SLOT_KEYWORD, BODY_SLOT_MARKERS, BODY_SLOT_QUALIFIER_MAX, BODY_SLOT_SPAN,  # noqa: E402
+                      _body_slot_at_field_head, apply_plane_level_state, load_plane_level_state, parse_chunk)
 import kb_lib  # noqa: E402 — 규약 상수·머리 블록·비율 표기의 단일 정의처 (STYLEGUIDE §7)
 from kb_lib import (ADDITION_GATE, EMPTY_VALUE_GATE, EXIT_CONFIG, EXIT_OK, LIST_MAX_DEPTH, LIST_MAX_ITEM_CHARS,  # noqa: E402
                     LIST_MAX_ITEMS, LIST_RULES_GATE, LIVE_STATES, PROSE_LABEL_DASH, PROSE_SENTENCE_END,
@@ -57,8 +68,13 @@ from kb_lib import (ADDITION_GATE, EMPTY_VALUE_GATE, EXIT_CONFIG, EXIT_OK, LIST_
 
 GATE_TERM = "term-drift"  # ⑥ 의 게이트 id — waivers.md 가 이 이름으로 면제를 선언한다
 LIVE = set(LIVE_STATES)  # 게이트 chunk_lint 와 같은 대상 집합 (kb_lib 단일 정의처)
+_PLACEMENT_RE_CACHE: dict[str, re.Pattern] = {}  # ⑪ 자리 후보 — 표지 낱말별 정규식 캐시
 
 
+# ══ 본문과 슬롯의 읽기 ════════════════════
+# 청크 본문의 조각·shingle, 본문 슬롯의 영역과 자리 후보, 용어집의 옛 표기를 읽는 자리다.
+
+# ── 본문 조각과 shingle ────────────────────
 def body_of(path: str) -> str:
     lines = Path(path).read_text(encoding="utf-8").splitlines()
     end = lines[1:].index("---") + 1
@@ -73,6 +89,101 @@ def shingles(text: str, n: int = 5) -> set:
 def jaccard(a: set, b: set) -> float:
     u = a | b
     return len(a & b) / len(u) if u else 1.0
+
+
+# ── 슬롯 영역·자리 후보·용어집 ────────────────────
+def slot_regions(body_text: str) -> dict[str, list[int]]:
+    """등록된 슬롯 표지(chunk2kg.BODY_SLOT_MARKERS 의 굵은 span·BODY_SLOT_KEYWORD 의 줄 머리 `키워드:`)로 본문을
+    나눈 조각의 줄 인덱스 — {표지: [줄 인덱스, …]}. 두 표지 종류(굵은 span·키워드 콜론)를 다 본다 — 어느 한쪽만
+    보면 `미확정:` 같은 키워드 슬롯의 줄이 앞선 굵은 슬롯의 영역으로 잘못 편입된다(실측 2026-09-30).
+
+    자리 판정은 chunk2kg.body_slots 와 같은 규칙(표지는 자리로 판정한다, `_body_slot_at_field_head`)을 재사용한다 —
+    표지가 늘어나면 두 곳이 같이 늘어난다(STYLEGUIDE §7 단일 정의처, 이 함수는 그 판정을 구간으로만 편다).
+    """
+    lines = body_text.splitlines()
+    regions: dict[str, list[int]] = {}
+    fence: str | None = None
+    current: str | None = None
+    for i, line in enumerate(lines):
+        m = BODY_FENCE.match(line)
+        if fence:
+            if m and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence):
+                fence = None
+            if current:
+                regions[current].append(i)
+            continue
+        if m:
+            fence = m.group(1)
+            if current:
+                regions[current].append(i)
+            continue
+        kw = BODY_SLOT_KEYWORD.match(line)
+        hit = kw.group(1) if kw else None
+        if not hit:
+            for span in BODY_SLOT_SPAN.finditer(line):
+                cand = span.group(1).strip()
+                for mark in BODY_SLOT_MARKERS:
+                    if not cand.startswith(mark) or not _body_slot_at_field_head(line, span.start()):
+                        continue
+                    qualifier = cand[len(mark):]
+                    if len(qualifier) > BODY_SLOT_QUALIFIER_MAX or "." in qualifier:
+                        continue
+                    hit = mark
+                    break
+                if hit:
+                    break
+        if hit:
+            current = hit
+            regions.setdefault(current, [])
+        if current:
+            regions[current].append(i)
+    return regions
+
+
+def _placement_regex(mark: str):
+    """표지 낱말이 한글 음절에 붙지 않은 자리(조사가 붙지 않은 자리)에서 발견되는가의 정규식 — 캐시로 재사용한다."""
+    if mark not in _PLACEMENT_RE_CACHE:
+        _PLACEMENT_RE_CACHE[mark] = re.compile(r"(?<![가-힣])" + re.escape(mark) + r"(?![가-힣])")
+    return _PLACEMENT_RE_CACHE[mark]
+
+
+def _legitimate_spans(line: str) -> list[tuple[int, int]]:
+    """이 줄에서 필드 자리에 정당하게 선언된 굵은 슬롯 표지의 문자 구간 — 한 줄에 여러 필드(이해관계자 · 관심사)가
+    ` · ` 로 이어질 때 뒤 필드의 표지어를 "다른 슬롯이 자리 밖에서 발견됨"으로 오판하지 않게 뺀다."""
+    spans = []
+    for span in BODY_SLOT_SPAN.finditer(line):
+        cand = span.group(1).strip()
+        for mark in BODY_SLOT_MARKERS:
+            if not cand.startswith(mark) or not _body_slot_at_field_head(line, span.start()):
+                continue
+            qualifier = cand[len(mark):]
+            if len(qualifier) > BODY_SLOT_QUALIFIER_MAX or "." in qualifier:
+                continue
+            spans.append(span.span())
+            break
+    return spans
+
+
+def placement_candidates(it: dict) -> list[tuple[str, str, str]]:
+    """자리 후보 — [(현재 슬롯, 발견된 다른 슬롯 표지, 그 줄)]. 슬롯이 둘 미만인 청크는 대상이 아니다 (⑪)."""
+    slots = it.get("slots") or []
+    if len(slots) < 2:
+        return []
+    lines = it["body"].splitlines()
+    regions = slot_regions(it["body"])
+    out = []
+    for own, idxs in regions.items():
+        others = [m for m in slots if m != own]
+        for i in idxs:
+            line = lines[i]
+            legit = _legitimate_spans(line)
+            for other in others:
+                for m in _placement_regex(other).finditer(line):
+                    if any(a <= m.start() < b for a, b in legit):
+                        continue  # 이 줄의 정당한 필드 선언이다 — 자리 밖 출현이 아니다
+                    out.append((own, other, line.strip()[:160]))
+                    break
+    return out
 
 
 def old_terms(glossary: str) -> tuple[list, bool]:
@@ -104,56 +215,12 @@ def old_terms(glossary: str) -> tuple[list, bool]:
     return out, tier_col is not None
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--out", required=True)
-    ap.add_argument("--theta", type=float, default=0.5)
-    ap.add_argument("--theta-cohesion", type=float, default=None, help="묶인 쌍의 응집 하한 (기본 θ/2)")
-    ap.add_argument("--glossary", default="")
-    ap.add_argument("--waivers", default="",
-                    help=f"docs/waivers.md — 게이트 id {GATE_TERM}·{ADDITION_GATE}·{EMPTY_VALUE_GATE}·{LIST_RULES_GATE}, 축 파일")
-    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
-                    help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(kb_consistency 매크로가 명시로 넘긴다)")
-    ap.add_argument("chunks", nargs="+")
-    a = ap.parse_args()
-    theta_c = a.theta_cohesion if a.theta_cohesion is not None else a.theta / 2
+# ══ 축 ①~⑪ 의 판정 ════════════════════
+# 살아 있는 청크의 본문 사이에서 중복·응집·라벨 형식·용어·단정성·첨가·목록·후보를 센다.
 
-    def config_fail(msg: str) -> int:
-        print(f"CONFIG [consistency] {msg}", file=sys.stderr)
-        return EXIT_CONFIG
-
-    try:
-        apply_plane_level_state(*load_plane_level_state(a.residency))
-    except (OSError, ValueError) as e:
-        return config_fail(f"{a.residency}: 읽을 수 없다 — {e}")
-    try:
-        waivers = load_waivers(a.waivers) if a.waivers else []
-    except (OSError, ValueError) as e:
-        return config_fail(str(e))
-    try:
-        terms, has_tier = old_terms(a.glossary) if a.glossary else ([], True)
-    except OSError as e:
-        return config_fail(f"용어집을 읽을 수 없다 — {e}")
-
-    items = []
-    for p in a.chunks:
-        if not p.endswith(".md"):
-            continue
-        try:
-            meta, n = parse_chunk(p)
-        except ValueError as e:
-            return config_fail(f"청크를 파싱할 수 없다 — {e}")
-        if meta.get("status") not in LIVE:
-            continue
-        items.append({"path": p, "id": meta["id"], "type": meta["type"], "level": meta["level"],
-                      "title_ko": str(meta.get("title_ko", "")), "title": str(meta.get("title", "")),
-                      "hash": meta["_content_hash"], "body": body_of(p), "lines": n,
-                      "co": set(meta.get("coUpdatesWith", []) or [])})
-    by_id = {it["id"]: it for it in items}
-
-    def linked(x, y):
-        return y["id"] in x["co"] or x["id"] in y["co"]
-
+# ── 축 ①~③ 중복 — 정확·라벨·근사 ────────────────────
+def analyse_duplicates(items, theta):
+    """① 정확 중복 · ② 라벨 중복 · ③ 근사 중복 후보와 shingle 집합을 돌려준다."""
     # ① 정확 중복
     by_hash = defaultdict(list)
     for it in items:
@@ -178,36 +245,53 @@ def main() -> int:
         if not sx or not sy:
             continue
         j = jaccard(sx, sy)
-        if j >= a.theta:
+        if j >= theta:
             near.append((j, x, y))
     near.sort(key=lambda t: -t[0])
+    return exact, label_dups, near, sh
 
-    # ④ 묶임과 응집 — coUpdatesWith 로 묶인 쌍(살아 있는 입력 안의 것만)의 현재 본문 Jaccard 가 θ_cohesion 미만이면
-    #    응집 저하 후보. 이전 값과 비교하지 않는다 — 뷰는 저장하지 않으므로 캐시가 없다 (4.6절). 절대 임계
+
+# ── 축 ④~⑥ 응집·라벨 형식·용어 ────────────────────
+def analyse_cohesion(items, by_id, sh, theta_c):
+    """④ 묶임과 응집 — coUpdatesWith 로 묶인 쌍(살아 있는 입력 안의 것만)의 현재 본문 Jaccard 가 θ_cohesion 미만이면
+    응집 저하 후보. 이전 값과 비교하지 않는다 — 뷰는 저장하지 않으므로 캐시가 없다 (4.6절). 절대 임계
+    """
     bound = sorted({tuple(sorted((x["id"], c))) for x in items for c in x["co"] if c in by_id and c != x["id"]})
     cohesion = [(jaccard(sh[xi], sh[yi]), by_id[xi], by_id[yi]) for xi, yi in bound]
     cohesion_low = sorted((t for t in cohesion if t[0] < theta_c), key=lambda t: t[0])
+    return bound, cohesion_low
 
-    # ⑤ 결론 라벨 형식 — 결정의 결론만 문장형. 판정은 경로 basename: conclusion.md 이거나
-    #    근거·대안(rationale.md·alternatives.md)이 아닌 단일 파일 결정(chunks/decision/d-*.md)
+
+def analyse_label_form(items):
+    """⑤ 결론 라벨 형식 — 결정의 결론만 문장형. 판정은 경로 basename: conclusion.md 이거나
+    근거·대안(rationale.md·alternatives.md)이 아닌 단일 파일 결정(chunks/decision/d-*.md)
+    """
     def is_conclusion(it):
         return it["type"] == "decision" and Path(it["path"]).name not in ("rationale.md", "alternatives.md")
 
-    bad_form = [it for it in items if is_conclusion(it) and not re.search(r"(다|음|함|없음|있음)$", it["title_ko"])]
+    return [it for it in items if is_conclusion(it) and not re.search(r"(다|음|함|없음|있음)$", it["title_ko"])]
 
-    # ⑥ 용어 — tier 1 만. 면제 파일(waivers.md, term-drift)의 히트는 집계에서 빼되 목록에 남긴다
+
+def analyse_terms(items, terms, waivers):
+    """⑥ 용어 — tier 1 만. 면제 파일(waivers.md, term-drift)의 히트는 집계에서 빼되 목록에 남긴다."""
     term_hits, term_waived = [], []
     for old, std in terms:
         for it in items:
             if old in it["body"] or old in it["title_ko"]:
                 (term_waived if waived(waivers, GATE_TERM, it["path"], "파일") else term_hits).append((old, std, it))
+    return term_hits, term_waived
 
-    # ⑦ 단정성 — 게이트 prose 가 거부하지 않는 나머지(추측·구어·대시 밀도)를 보고한다. 판정은 사람 몫이다.
-    #    대시 밀도 = 산문 조각 안의 " — " 수 / max(1, 문장 수). 문장 = PROSE_SENTENCE_END(마침표 종결, 또는 마침표 없는 종결 "다" +
-    #    | ) 닫는 따옴표 줄끝). "다." 만 세면 209/621, 종결 "다" 기반은 130 — 명사형 종결·인용 괄호를 놓쳐 대안 양식이 전부
-    #    걸렸다(대리의 결함). 마침표 종결까지 세면 28 — 그 상위는 라벨 대시("- 라벨 — 설명", "| 셀 | `id` — 설명")의 불릿·표
-    #    청크라 라벨 대시를 뺀다(PROSE_LABEL_DASH) → 1. 문장 없이 절 대시만 있는 청크는 여전히 잡힌다
-    # ⑧ 첨가 · ⑨ 목록 — 같은 본문을 한 번만 읽어 ⑦ 과 함께 센다. 셋 다 보고이고 판정은 사람 몫이다
+
+# ── 축 ⑦~⑨ 단정성·첨가·목록 — 본문을 한 번만 읽는다 ────────────────────
+def analyse_prose(items, waivers):
+    """⑦ 단정성 — 게이트 prose 가 거부하지 않는 나머지(추측·구어·대시 밀도)를 보고한다. 판정은 사람 몫이다.
+
+    대시 밀도 = 산문 조각 안의 " — " 수 / max(1, 문장 수). 문장 = PROSE_SENTENCE_END(마침표 종결, 또는 마침표 없는 종결 "다" +
+    | ) 닫는 따옴표 줄끝). "다." 만 세면 209/621, 종결 "다" 기반은 130 — 명사형 종결·인용 괄호를 놓쳐 대안 양식이 전부
+    걸렸다(대리의 결함). 마침표 종결까지 세면 28 — 그 상위는 라벨 대시("- 라벨 — 설명", "| 셀 | `id` — 설명")의 불릿·표
+    청크라 라벨 대시를 뺀다(PROSE_LABEL_DASH) → 1. 문장 없이 절 대시만 있는 청크는 여전히 잡힌다.
+    ⑧ 첨가 · ⑨ 목록 — 같은 본문을 한 번만 읽어 ⑦ 과 함께 센다. 셋 다 보고이고 판정은 사람 몫이다.
+    """
     hedge_hits, colloq_hits, dash_dense = [], [], []
     meta_hits, filler_hits, empty_hits, list_hits = [], [], [], []
     meta_waived, filler_waived, empty_waived, list_waived = [], [], [], []
@@ -232,51 +316,116 @@ def main() -> int:
         if density > 1.0:
             dash_dense.append((density, dashes, sentences, it))
     dash_dense.sort(key=lambda t: (-t[0], t[3]["path"]))
-    # ⑨ 의 위반을 규칙별로 센다 — 규칙마다 다음 행동이 다르다(번호는 치환, 줄 수·항목 수는 분할)
+    return {"hedge_hits": hedge_hits, "colloq_hits": colloq_hits, "dash_dense": dash_dense,
+            "meta_hits": meta_hits, "filler_hits": filler_hits, "empty_hits": empty_hits, "list_hits": list_hits,
+            "meta_waived": meta_waived, "filler_waived": filler_waived, "empty_waived": empty_waived,
+            "list_waived": list_waived, "list_kinds": list_rule_counts(list_hits)}
+
+
+def list_rule_counts(list_hits):
+    """⑨ 의 위반을 규칙별로 센다 — 규칙마다 다음 행동이 다르다(번호는 치환, 줄 수·항목 수는 분할)."""
     LIST_KINDS = (("손 번호", "손 번호"), ("항목 수", "개다"), ("중첩", "중첩"), ("항목 길이", "자다"), ("빈 항목", "빈 목록"))
     list_kinds = [(name, sum(1 for _, _, why in list_hits if key in why)) for name, key in LIST_KINDS]
-    list_kinds = [(k, v) for k, v in list_kinds if v]
+    return [(k, v) for k, v in list_kinds if v]
 
-    def ref(it):
-        return f"`{it['path']}` — {it['title_ko']}"
 
+# ── 축 ⑩~⑪ 판정자에게 넘길 후보 ────────────────────
+def analyse_candidates(items, exact, near, linked):
+    """⑩ 중복 확정 후보 — ①·③의 미묶음 쌍을 판정자 질문("이 두 블록은 같은 주장을 담는가?")의 입력으로 다시 낸다.
+
+    ⑪ 자리 후보 — 슬롯 표지가 둘 이상인 청크에서, 다른 슬롯의 표지 낱말이 자리 밖으로 등장하는 문장.
+    """
     total_pairs = len(exact) and sum(len(g) * (len(g) - 1) // 2 for g in exact)
     unlinked_exact = [g for g in exact if not all(linked(x, y) for x, y in combinations(g, 2))]
     unlinked_near = [(j, x, y) for j, x, y in near if not linked(x, y)]
+    dup_candidates = ([(1.0, x, y) for g in unlinked_exact for x, y in combinations(g, 2)]
+                      + [(j, x, y) for j, x, y in unlinked_near])
+    dup_candidates.sort(key=lambda t: -t[0])
+    placement = [(it, own, other, quote) for it in items for own, other, quote in placement_candidates(it)]
+    return total_pairs, unlinked_exact, unlinked_near, dup_candidates, placement
 
-    dup_ids = {i["id"] for g in exact for i in g} | {i["id"] for _, x, y in near for i in (x, y)}
-    head = kb_lib.gendoc_header(
+
+# ══ 입력과 보고 ════════════════════
+# 인자와 청크를 읽고 머리·요약·절을 조립해 생성 문서를 쓴다.
+
+# ── 입력 — 인자와 살아 있는 청크 ────────────────────
+def parse_args():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--out", required=True)
+    ap.add_argument("--theta", type=float, default=0.5)
+    ap.add_argument("--theta-cohesion", type=float, default=None, help="묶인 쌍의 응집 하한 (기본 θ/2)")
+    ap.add_argument("--glossary", default="")
+    ap.add_argument("--waivers", default="",
+                    help=f"docs/waivers.md — 게이트 id {GATE_TERM}·{ADDITION_GATE}·{EMPTY_VALUE_GATE}·{LIST_RULES_GATE}, 축 파일")
+    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
+                    help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(kb_consistency 매크로가 명시로 넘긴다)")
+    ap.add_argument("chunks", nargs="+")
+    return ap.parse_args()
+
+
+def load_items(paths):
+    """청크 경로 → 살아 있는 항목 목록. 파싱 실패는 ValueError 로 올라가 main 이 CONFIG 로 바꾼다."""
+    items = []
+    for p in paths:
+        if not p.endswith(".md"):
+            continue
+        meta, n = parse_chunk(p)
+        if meta.get("status") not in LIVE:
+            continue
+        items.append({"path": p, "id": meta["id"], "type": meta["type"], "level": meta["level"],
+                      "title_ko": str(meta.get("title_ko", "")), "title": str(meta.get("title", "")),
+                      "hash": meta["_content_hash"], "body": body_of(p), "lines": n,
+                      "co": set(meta.get("coUpdatesWith", []) or []), "slots": meta.get("_body_slots", [])})
+    return items
+
+
+# ── 보고 — 머리와 요약 ────────────────────
+def render_head(a, theta_c, items):
+    return kb_lib.gendoc_header(
         "consistency", "정합성 보고", "tools/consistency.py",
         f"살아 있는 청크의 본문 사이에서 — 정확 중복(contentHash 동일) · 라벨 중복 · 근사 중복 후보(5-shingle Jaccard ≥ {a.theta}) · "
         f"coUpdatesWith 로 묶인 쌍의 응집 저하(Jaccard < {theta_c:g}) · 결론 라벨 형식 · 용어집 옛 표기 · 단정성(추측·구어·대시 밀도) · "
-        "첨가(메타 문장·채움 문구·빈 값 이상 표기) · 목록 규칙(손 번호·항목 수·중첩·항목 길이·빈 항목). "
-        "병합·묶기·유지 판정은 사람이 하고, ⑧·⑨ 의 통과·실패 판정은 게이트 chunk_lint 가 한다",
+        "첨가(메타 문장·채움 문구·빈 값 이상 표기) · 목록 규칙(손 번호·항목 수·중첩·항목 길이·빈 항목) · "
+        "중복 확정 후보(⑩) · 자리 후보(⑪, 다른 슬롯 표지어 재등장). "
+        "병합·묶기·유지 판정은 사람이 하고, ⑧·⑨ 의 통과·실패 판정은 게이트 chunk_lint 가 한다. ⑩·⑪ 은 판정자(사람 또는 "
+        "세션 판정자, `tools/judge.py`)에게 넘길 후보 생성까지다",
         "bazel build //kb:consistency", a.chunks,
         f"청크 {len(items)}개 · θ = {a.theta} · θ_cohesion = {theta_c:g}",
         kb_lib.gendoc_view_notice("각 청크의 본문"), input_kind="청크 파일")
-    lines = ["## 요약", "",
-             "| 항목 | 값 |", "|---|---|",
-             f"| 정확 중복 묶음 | {len(exact)} (쌍 {total_pairs}) — coUpdatesWith 미묶음 {len(unlinked_exact)} |",
-             f"| 라벨 중복 | {len(label_dups)} (용인 불가) |",
-             f"| 근사 중복 후보 (Jaccard ≥ θ) | {len(near)} — 미묶음 {len(unlinked_near)} |",
-             f"| 묶인 쌍 중 응집 저하 (coUpdatesWith, Jaccard < θ_cohesion) | {len(cohesion_low)} / 묶인 쌍 {len(bound)} |",
-             f"| 결론 라벨 형식 위반 | {len(bad_form)} |",
-             f"| 용어집 옛 표기 잔존 (tier 1) | {len(term_hits)} — 면제 {len(term_waived)}건(waivers.md) |",
-             f"| 추측 표현 (⑦, 보고) | {len(hedge_hits)}건 / 청크 {len({h[0]['id'] for h in hedge_hits})} |",
-             f"| 구어 후보 (⑦, 보고) | {len(colloq_hits)}건 / 청크 {len({h[0]['id'] for h in colloq_hits})} |",
-             f"| 대시 밀도 > 1.0 (⑦, 문장당 \" — \") | {len(dash_dense)} / {len(items)} |",
-             f"| 메타 문장 (⑧, 게이트 `{ADDITION_GATE}`) | {len(meta_hits)}건 / 청크 {len({h[0]['id'] for h in meta_hits})}"
-             f" — 면제 {len(meta_waived)}건(waivers.md) |",
-             f"| 채움 문구 (⑧, 게이트 `{ADDITION_GATE}`) | {len(filler_hits)}건 / 청크 {len({h[0]['id'] for h in filler_hits})}"
-             f" — 면제 {len(filler_waived)}건(waivers.md) |",
-             f"| 빈 값 이상 표기 (⑧, 게이트 `{EMPTY_VALUE_GATE}`) | {len(empty_hits)}건 / 청크 {len({h[0]['id'] for h in empty_hits})}"
-             f" — 면제 {len(empty_waived)}건(waivers.md) |",
-             f"| 목록 규칙 위반 (⑨, 게이트 `{LIST_RULES_GATE}`) | {len(list_hits)}건 / 청크 {len({h[0]['id'] for h in list_hits})}"
-             f" — 면제 {len(list_waived)}건(waivers.md) — " +
-             (" · ".join(f"{k} {v}" for k, v in list_kinds) or kb_lib.NONE_MARK) + " |",
-             f"| **중복률** (정확·근사 관련 청크 / 전체) | {kb_lib.pct(len(dup_ids), len(items))} |",
-             ""]
-    lines += ["## ① 정확 중복 (contentHash 동일)", ""]
+
+
+def render_summary(items, exact, total_pairs, unlinked_exact, label_dups, near, unlinked_near,
+                   cohesion_low, bound, bad_form, term_hits, term_waived, p, dup_candidates, placement, dup_ids):
+    return ["## 요약", "",
+            "| 항목 | 값 |", "|---|---|",
+            f"| 정확 중복 묶음 | {len(exact)} (쌍 {total_pairs}) — coUpdatesWith 미묶음 {len(unlinked_exact)} |",
+            f"| 라벨 중복 | {len(label_dups)} (용인 불가) |",
+            f"| 근사 중복 후보 (Jaccard ≥ θ) | {len(near)} — 미묶음 {len(unlinked_near)} |",
+            f"| 묶인 쌍 중 응집 저하 (coUpdatesWith, Jaccard < θ_cohesion) | {len(cohesion_low)} / 묶인 쌍 {len(bound)} |",
+            f"| 결론 라벨 형식 위반 | {len(bad_form)} |",
+            f"| 용어집 옛 표기 잔존 (tier 1) | {len(term_hits)} — 면제 {len(term_waived)}건(waivers.md) |",
+            f"| 추측 표현 (⑦, 보고) | {len(p['hedge_hits'])}건 / 청크 {len({h[0]['id'] for h in p['hedge_hits']})} |",
+            f"| 구어 후보 (⑦, 보고) | {len(p['colloq_hits'])}건 / 청크 {len({h[0]['id'] for h in p['colloq_hits']})} |",
+            f"| 대시 밀도 > 1.0 (⑦, 문장당 \" — \") | {len(p['dash_dense'])} / {len(items)} |",
+            f"| 메타 문장 (⑧, 게이트 `{ADDITION_GATE}`) | {len(p['meta_hits'])}건 / 청크 {len({h[0]['id'] for h in p['meta_hits']})}"
+            f" — 면제 {len(p['meta_waived'])}건(waivers.md) |",
+            f"| 채움 문구 (⑧, 게이트 `{ADDITION_GATE}`) | {len(p['filler_hits'])}건 / 청크 {len({h[0]['id'] for h in p['filler_hits']})}"
+            f" — 면제 {len(p['filler_waived'])}건(waivers.md) |",
+            f"| 빈 값 이상 표기 (⑧, 게이트 `{EMPTY_VALUE_GATE}`) | {len(p['empty_hits'])}건 / 청크 {len({h[0]['id'] for h in p['empty_hits']})}"
+            f" — 면제 {len(p['empty_waived'])}건(waivers.md) |",
+            f"| 목록 규칙 위반 (⑨, 게이트 `{LIST_RULES_GATE}`) | {len(p['list_hits'])}건 / 청크 {len({h[0]['id'] for h in p['list_hits']})}"
+            f" — 면제 {len(p['list_waived'])}건(waivers.md) — " +
+            (" · ".join(f"{k} {v}" for k, v in p["list_kinds"]) or kb_lib.NONE_MARK) + " |",
+            f"| **중복률** (정확·근사 관련 청크 / 전체) | {kb_lib.pct(len(dup_ids), len(items))} |",
+            f"| 중복 확정 후보 (⑩, 판정자 몫) | {len(dup_candidates)} |",
+            f"| 자리 후보 (⑪, 판정자 몫) | {len(placement)}건 / 청크 {len({q[0]['id'] for q in placement})} |",
+            ""]
+
+
+# ── 보고 — 절 ①~⑥ ────────────────────
+def render_duplicate_sections(a, exact, label_dups, near, theta_c, bound, cohesion_low, bad_form,
+                              term_hits, term_waived, has_tier, linked, ref):
+    lines = ["## ① 정확 중복 (contentHash 동일)", ""]
     for g in exact:
         tag = "묶임" if all(linked(x, y) for x, y in combinations(g, 2)) else "**미묶음 — 드리프트 후보**"
         lines.append(f"- {tag}: " + " / ".join(ref(i) for i in g))
@@ -319,8 +468,13 @@ def main() -> int:
     if term_waived:
         lines.append(f"- 면제 {len(term_waived)}건(waivers.md, `{GATE_TERM}`) — 집계에서 뺐다:")
         lines += [f"  - `{old}` → `{std}`: `{it['path']}`" for old, std, it in term_waived[:80]]
-    lines += ["", "## ⑦ 단정성 — 추측·구어·대시 밀도 (보고; 경어·감탄은 게이트 `prose` 가 거부한다)", "",
-              "### 추측 표현 (것 같·듯하·듯싶·아닐까·않을까·수도 있·아마도·아마) — 판정: 단정으로 고침 / 삭제 / 유지", ""]
+    return lines
+
+
+# ── 보고 — 절 ⑦ 단정성 ────────────────────
+def render_prose_sections(hedge_hits, colloq_hits, dash_dense, ref):
+    lines = ["", "## ⑦ 단정성 — 추측·구어·대시 밀도 (보고; 경어·감탄은 게이트 `prose` 가 거부한다)", "",
+             "### 추측 표현 (것 같·듯하·듯싶·아닐까·않을까·수도 있·아마도·아마) — 판정: 단정으로 고침 / 삭제 / 유지", ""]
     for it, ln, expr in hedge_hits[:50]:
         lines.append(f"- `{expr}`: `{it['path']}:{ln}` — {it['title_ko']}")
     if not hedge_hits:
@@ -341,33 +495,111 @@ def main() -> int:
         lines.append("- 없음")
     if len(dash_dense) > 20:
         lines.append(f"- … {len(dash_dense) - 20}건 더")
+    return lines
 
-    def listing(hits, limit, render):
-        out = [render(h) for h in hits[:limit]] or [f"- {kb_lib.NONE_MARK}"]
-        return out + ([f"- … {len(hits) - limit}건 더"] if len(hits) > limit else [])
 
-    def cite(it, ln, expr, quote):
-        return f"- `{expr}`: `{it['path']}:{ln}` — {quote}"
+# ── 보고 — 절 ⑧~⑨ 첨가와 목록 ────────────────────
+def listing(hits, limit, render):
+    out = [render(h) for h in hits[:limit]] or [f"- {kb_lib.NONE_MARK}"]
+    return out + ([f"- … {len(hits) - limit}건 더"] if len(hits) > limit else [])
 
-    def waived_tail(hits, gate, render):
-        if not hits:
-            return []
-        return [f"- 면제 {len(hits)}건(waivers.md, `{gate}`) — 집계에서 뺐다:"] + ["  " + render(h) for h in hits[:50]]
 
-    lines += ["", "## ⑧ 첨가 — 슬롯의 질문에 답하지 않는 문장과 빈 값의 이상 표기 (보고)", "",
-              "### 메타 문장 (다음과 같다 · 이 절에서는 · 아래에서 설명한다 · 앞서 말했듯) — 판정: 주장 문장으로 바꿈 / 삭제", ""]
-    lines += listing(meta_hits, 50, lambda h: cite(*h)) + waived_tail(meta_waived, ADDITION_GATE, lambda h: cite(*h))
+def cite(it, ln, expr, quote):
+    return f"- `{expr}`: `{it['path']}:{ln}` — {quote}"
+
+
+def waived_tail(hits, gate, render):
+    if not hits:
+        return []
+    return [f"- 면제 {len(hits)}건(waivers.md, `{gate}`) — 집계에서 뺐다:"] + ["  " + render(h) for h in hits[:50]]
+
+
+def render_addition_sections(p):
+    lines = ["", "## ⑧ 첨가 — 슬롯의 질문에 답하지 않는 문장과 빈 값의 이상 표기 (보고)", "",
+             "### 메타 문장 (다음과 같다 · 이 절에서는 · 아래에서 설명한다 · 앞서 말했듯) — 판정: 주장 문장으로 바꿈 / 삭제", ""]
+    lines += listing(p["meta_hits"], 50, lambda h: cite(*h)) + waived_tail(p["meta_waived"], ADDITION_GATE, lambda h: cite(*h))
     lines += ["", "### 채움 문구 (특이사항 없음 · 일반적인 방식을 따른다 · 추후 결정한다) — 판정: 세 빈 값 중 하나로 바꿈 / 실질 답으로 채움", ""]
-    lines += listing(filler_hits, 50, lambda h: cite(*h)) + waived_tail(filler_waived, ADDITION_GATE, lambda h: cite(*h))
+    lines += listing(p["filler_hits"], 50, lambda h: cite(*h)) + waived_tail(p["filler_waived"], ADDITION_GATE, lambda h: cite(*h))
     lines += ["", f"### 빈 값 이상 표기 — 빈 자리는 `{'` · `'.join(kb_lib.EMPTY_VALUE)}` 셋으로만 적는다 (p4-three-empty-values)", ""]
-    lines += listing(empty_hits, 50, lambda h: cite(*h)) + waived_tail(empty_waived, EMPTY_VALUE_GATE, lambda h: cite(*h))
+    lines += listing(p["empty_hits"], 50, lambda h: cite(*h)) + waived_tail(p["empty_waived"], EMPTY_VALUE_GATE, lambda h: cite(*h))
     lines += ["", f"## ⑨ 목록 — 손 번호 · 항목 {LIST_MAX_ITEMS}개 이하 · 중첩 {LIST_MAX_DEPTH}단계 이하 · 항목당 {LIST_MAX_ITEM_CHARS}자 이하 · 빈 항목 (보고)", "",
               "| 규칙 | 위반 |", "|---|---|"]
-    lines += [f"| {name} | {count} |" for name, count in list_kinds] or [f"| {kb_lib.NONE_MARK} | 0 |"]
+    lines += [f"| {name} | {count} |" for name, count in p["list_kinds"]] or [f"| {kb_lib.NONE_MARK} | 0 |"]
     lines += ["", "### 위반 목록 (항목 길이는 이어지는 들여쓴 줄을 합치고 공백을 정규화한 뒤 센 글자 수다)", ""]
     _list_ref = lambda h: f"- `{h[0]['path']}:{h[1]}` — {h[2]}"  # noqa: E731
-    lines += listing(list_hits, 60, _list_ref) + waived_tail(list_waived, LIST_RULES_GATE, _list_ref)
+    lines += listing(p["list_hits"], 60, _list_ref) + waived_tail(p["list_waived"], LIST_RULES_GATE, _list_ref)
+    return lines
+
+
+# ── 보고 — 절 ⑩~⑪ 후보 ────────────────────
+def render_candidate_sections(dup_candidates, placement, ref):
+    lines = ["", "## ⑩ 중복 확정 후보 (①·③의 미묶음 쌍 — 판정자 질문: 이 두 블록은 같은 주장을 담는가?)", ""]
+    for j, x, y in dup_candidates[:50]:
+        lines.append(f"- {kb_lib.num(j)}: {ref(x)}  ↔  {ref(y)}")
+    if not dup_candidates:
+        lines.append("- 없음")
+    if len(dup_candidates) > 50:
+        lines.append(f"- … {len(dup_candidates) - 50}건 더")
+    lines += ["", "## ⑪ 자리 후보 (다른 슬롯 표지어 재등장 — 판정자 질문: 이 문장이 그 슬롯에 있어야 하는가?)", ""]
+    for it, own, other, quote in placement[:50]:
+        lines.append(f"- `{own}` 영역에서 `{other}` 발견: {ref(it)} — \"{quote}\"")
+    if not placement:
+        lines.append("- 없음")
+    if len(placement) > 50:
+        lines.append(f"- … {len(placement) - 50}건 더")
     lines.append("")
+    return lines
+
+
+# ── 실행 ────────────────────
+def main() -> int:
+    a = parse_args()
+    theta_c = a.theta_cohesion if a.theta_cohesion is not None else a.theta / 2
+
+    def config_fail(msg: str) -> int:
+        print(f"CONFIG [consistency] {msg}", file=sys.stderr)
+        return EXIT_CONFIG
+
+    try:
+        apply_plane_level_state(*load_plane_level_state(a.residency))
+    except (OSError, ValueError) as e:
+        return config_fail(f"{a.residency}: 읽을 수 없다 — {e}")
+    try:
+        waivers = load_waivers(a.waivers) if a.waivers else []
+    except (OSError, ValueError) as e:
+        return config_fail(str(e))
+    try:
+        terms, has_tier = old_terms(a.glossary) if a.glossary else ([], True)
+    except OSError as e:
+        return config_fail(f"용어집을 읽을 수 없다 — {e}")
+    try:
+        items = load_items(a.chunks)
+    except ValueError as e:
+        return config_fail(f"청크를 파싱할 수 없다 — {e}")
+    by_id = {it["id"]: it for it in items}
+
+    def linked(x, y):
+        return y["id"] in x["co"] or x["id"] in y["co"]
+
+    def ref(it):
+        return f"`{it['path']}` — {it['title_ko']}"
+
+    exact, label_dups, near, sh = analyse_duplicates(items, a.theta)
+    bound, cohesion_low = analyse_cohesion(items, by_id, sh, theta_c)
+    bad_form = analyse_label_form(items)
+    term_hits, term_waived = analyse_terms(items, terms, waivers)
+    p = analyse_prose(items, waivers)
+    total_pairs, unlinked_exact, unlinked_near, dup_candidates, placement = analyse_candidates(items, exact, near, linked)
+
+    dup_ids = {i["id"] for g in exact for i in g} | {i["id"] for _, x, y in near for i in (x, y)}
+    head = render_head(a, theta_c, items)
+    lines = render_summary(items, exact, total_pairs, unlinked_exact, label_dups, near, unlinked_near,
+                           cohesion_low, bound, bad_form, term_hits, term_waived, p, dup_candidates, placement, dup_ids)
+    lines += render_duplicate_sections(a, exact, label_dups, near, theta_c, bound, cohesion_low, bad_form,
+                                       term_hits, term_waived, has_tier, linked, ref)
+    lines += render_prose_sections(p["hedge_hits"], p["colloq_hits"], p["dash_dense"], ref)
+    lines += render_addition_sections(p)
+    lines += render_candidate_sections(dup_candidates, placement, ref)
     Path(a.out).write_text(kb_lib.gendoc_assemble(head, lines, a.chunks, input_kind="청크 파일"), encoding="utf-8")
     return EXIT_OK
 

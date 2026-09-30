@@ -1,0 +1,52 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/judge/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/judge.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-judge
+package: kb/dev/artifact/judge
+at: 2026-09-28T20:48:33Z
+source_hash: 282f4316c9ee2f22
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0
+serves: []
+tested: {}
+ids:
+  cls:JudgeError: https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b
+  composite:head: https://agentic-knowledge-base.dev/id/composite/9b099dc3-facc-4593-9927-5f2afdd09add
+  composite:sec:-leading-int: https://agentic-knowledge-base.dev/id/composite/25ad6efd-997a-44a7-b5c4-dc61c13b63ed
+  composite:sec:judge-rows: https://agentic-knowledge-base.dev/id/composite/8f3b4eaf-dced-410d-98cc-6771157e17c6
+  composite:sec:load-profile: https://agentic-knowledge-base.dev/id/composite/459184ba-3aec-453b-a423-9345d0975436
+  composite:sec:load-responses: https://agentic-knowledge-base.dev/id/composite/97e93b30-be59-4c26-b322-176b8e0f350e
+  composite:sec:log-chunk: https://agentic-knowledge-base.dev/id/composite/3723c1d5-0d22-4da6-86ca-1b408cdc80dc
+  composite:sec:report: https://agentic-knowledge-base.dev/id/composite/d3829a12-5161-4435-a412-0e94e23dc6ac
+  file: https://agentic-knowledge-base.dev/id/composite/85cd0960-2c5b-4a4c-b5be-bcf71f036c54
+  fn:_leading_int: https://agentic-knowledge-base.dev/id/chunk/a2001d9e-7d53-4d25-b643-9825bd271d97
+  fn:agreement: https://agentic-knowledge-base.dev/id/chunk/d1ca967e-c2f5-4f0e-8d10-03adbb6b5c13
+  fn:at: https://agentic-knowledge-base.dev/id/chunk/50114263-78e9-4af8-9078-cd158d3f76eb
+  fn:check_question: https://agentic-knowledge-base.dev/id/chunk/8d5e7694-cb0b-42c7-a734-a6f0e8782caf
+  fn:counts: https://agentic-knowledge-base.dev/id/chunk/25d46f37-11ee-4e27-92e7-9584f2dcb1a0
+  fn:decoy_detection_rate: https://agentic-knowledge-base.dev/id/chunk/f804ba0b-8ec8-42b5-b53e-733d51e50546
+  fn:judge_rows: https://agentic-knowledge-base.dev/id/chunk/136a10e2-560c-4817-b3e1-630cbe303a57
+  fn:load_profile: https://agentic-knowledge-base.dev/id/chunk/473ab4af-5806-45ea-a923-d7f635544fdb
+  fn:load_responses: https://agentic-knowledge-base.dev/id/chunk/21357a69-21e9-470e-8d6c-43908a9308d7
+  fn:log_chunk: https://agentic-knowledge-base.dev/id/chunk/a82c512c-7648-4b7c-b506-56a5a18e9cd5
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/988b5551-bcb2-4776-83ce-290f44c435f7
+  fn:normalize: https://agentic-knowledge-base.dev/id/chunk/9e72d875-7a97-411f-a264-49bd2a07e2d5
+  fn:questions: https://agentic-knowledge-base.dev/id/chunk/8a58cf85-fc7e-418d-91fc-ce025cf2cff9
+  fn:report: https://agentic-knowledge-base.dev/id/chunk/39f2a0d8-63e6-48ef-a57b-5291a656e915
+  fn:route: https://agentic-knowledge-base.dev/id/chunk/25dbde8d-3165-4a6e-bda8-313cc2ef674b
+  fn:slug: https://agentic-knowledge-base.dev/id/chunk/81e5e72c-14de-43e1-ac54-19566c8df95e
+  fn:take_response: https://agentic-knowledge-base.dev/id/chunk/3cfd5bbf-40af-4597-b129-32f4c73b27ab
+  fn:thresholds: https://agentic-knowledge-base.dev/id/chunk/568c9c47-0d5f-4372-a395-b07605eaeedd
+  fn:verdict_chunk: https://agentic-knowledge-base.dev/id/chunk/29c0f765-ca46-4758-8671-e2013c8c7e8a
+  fn:write_records: https://agentic-knowledge-base.dev/id/chunk/0b44a7ed-753e-4f76-bfba-efd520b3c3f1
+  head: https://agentic-knowledge-base.dev/id/chunk/8be49e66-32e1-48fa-8df2-5e42684f3eea
+  module: https://agentic-knowledge-base.dev/id/chunk/8f62ee13-60ea-4dac-be12-36fb38b24515
+  sec:-leading-int: https://agentic-knowledge-base.dev/id/chunk/9d46d800-6522-4036-a51f-b502e395a0bb
+  sec:judge-rows: https://agentic-knowledge-base.dev/id/chunk/8692fce5-5113-4141-96f0-32d34b7c95a9
+  sec:load-profile: https://agentic-knowledge-base.dev/id/chunk/86872920-200f-4ccb-b934-238d1c64bab3
+  sec:load-responses: https://agentic-knowledge-base.dev/id/chunk/6a2bb9a4-ccd6-4c8e-831a-bdf2468928e0
+  sec:log-chunk: https://agentic-knowledge-base.dev/id/chunk/d6374306-5bb1-48bc-b7de-6210c7805098
+  sec:report: https://agentic-knowledge-base.dev/id/chunk/170365c8-0ebc-4b16-8f77-d26fdd7f9fff

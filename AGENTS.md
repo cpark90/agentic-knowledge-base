@@ -106,4 +106,5 @@ bazel test //...        # 게이트 전체. 반드시 PASS
 bazel run //tools:canonicalize -- --write <기계 생성 TTL>   # 커밋 전 정규화
 python3 tools/gen_build.py --root .        # frontmatter 링크를 고쳤으면 BUILD 재생성 (//:build_drift_test)
 python3 tools/gen_skills.py --root .       # 도구 docstring·kb_lib.SKILLS 를 고쳤으면 skill 재생성 (//:skills_drift_test)
+bazel run //tools:extract -- <소스>       # 소스를 고쳤으면 코드 청크 재추출 (//:extract_drift_test)
 ```

@@ -20,6 +20,8 @@ except ImportError:
     import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록)의 단일 정의처
 
 
+# ── Bazel 의존 그래프로 영향 항목을 센다 ────────────────────
+
 def q(expr: str, cwd: str) -> list[str]:
     r = subprocess.run(["bazel", "query", expr, "--noshow_progress", "--output=label"], cwd=cwd, capture_output=True, text=True)
     if r.returncode != 0:

@@ -1,0 +1,6 @@
+# 음성 시험 고정물의 등록부 — 추출이 `resource` 검사를 지나 부분 수 검사에 닿게 하는 최소 내용이다.
+source: defs/tests/fx_extract_parts.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib
+package: kb/dev/artifact/fx_extract_parts
+refines: []
+serves: []

@@ -1,0 +1,29 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/label_sample/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/label_sample.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-label-sample
+package: kb/dev/artifact/label_sample
+at: 2026-09-28T20:48:33Z
+source_hash: e445d7db8cdd152e
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/8d962172-f5b0-4fe3-8c9c-8598334847e4
+  - https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0
+serves: []
+tested: {}
+ids:
+  composite:head: https://agentic-knowledge-base.dev/id/composite/8d6ec7cd-9a26-470f-acd9-6871cb8ce9bd
+  composite:sec:body-of: https://agentic-knowledge-base.dev/id/composite/f8d4f7c1-457b-4464-a913-96c62e1fcb28
+  composite:sec:require-outside-workspace: https://agentic-knowledge-base.dev/id/composite/fff3d0e5-ad0f-4eb4-b8c9-e9ae7d1ce791
+  file: https://agentic-knowledge-base.dev/id/composite/06cd565d-e749-42fe-88da-1a56fd71a2a5
+  fn:body_of: https://agentic-knowledge-base.dev/id/chunk/38526768-723a-44ce-a114-eb98395d5c68
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/81b17e03-73ce-4c98-82c3-5847b168ced5
+  fn:require_outside_workspace: https://agentic-knowledge-base.dev/id/chunk/68ed1ed6-9607-4a24-b3d7-5631a30d0616
+  fn:stratum: https://agentic-knowledge-base.dev/id/chunk/e4f07e46-7a6b-4f61-81c0-8bec7cc4a0f7
+  fn:write_judge_sheet: https://agentic-knowledge-base.dev/id/chunk/843527db-1776-4186-b34b-1b9da6b107be
+  head: https://agentic-knowledge-base.dev/id/chunk/0642de89-2ca0-4a05-b091-a2adf00d4e0e
+  module: https://agentic-knowledge-base.dev/id/chunk/b18ba980-389e-4fda-b1e5-852db74c491e
+  sec:body-of: https://agentic-knowledge-base.dev/id/chunk/683f7c03-7a3b-4aef-8dd2-7ee4ea47c49c
+  sec:require-outside-workspace: https://agentic-knowledge-base.dev/id/chunk/870e4d1a-ff60-4d88-acfd-6c62a3ab04af

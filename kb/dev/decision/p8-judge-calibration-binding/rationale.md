@@ -4,7 +4,7 @@ type: decision
 level: logical
 title_ko: 게이트 밖에 두면 밀폐성과 자동화를 함께 지키고 집단 캘리브레이션은 개별 보증이 아니다
 title: Outside the gates keeps hermeticity and automation; population calibration is not a per-answer guarantee
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-jev-system-one}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-29T01:20:00+09:00}

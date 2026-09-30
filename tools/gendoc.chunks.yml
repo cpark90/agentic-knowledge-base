@@ -1,0 +1,24 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/gendoc/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/gendoc.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-gendoc
+package: kb/dev/artifact/gendoc
+at: 2026-09-28T20:48:33Z
+source_hash: ef00c1b8dff0344f
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/160ca62a-0dd2-4b06-a5e5-21bb1fc54fbe
+  - https://agentic-knowledge-base.dev/id/chunk/61906023-e4bb-46b1-a6db-4bf4635b631b
+  - https://agentic-knowledge-base.dev/id/chunk/2314093a-f5e3-4fc0-96a0-6c5d35db03ee
+serves: []
+tested: {}
+ids:
+  composite:head: https://agentic-knowledge-base.dev/id/composite/60114dcb-01dd-425c-a171-33aa04f3a4b6
+  composite:sec:main: https://agentic-knowledge-base.dev/id/composite/b6587551-3784-48fb-ae97-e98493afa24b
+  file: https://agentic-knowledge-base.dev/id/composite/f2a94f2c-1866-41da-848c-d018a7dfc647
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/20316b94-1015-4306-8624-0463e63dd849
+  head: https://agentic-knowledge-base.dev/id/chunk/c0b686cd-daa8-4f89-8cb1-9e142f072f04
+  module: https://agentic-knowledge-base.dev/id/chunk/0a421535-c9ff-40ab-a04f-cd96deb799a9
+  sec:main: https://agentic-knowledge-base.dev/id/chunk/5da3c712-5990-4584-8692-01c92cb88b80

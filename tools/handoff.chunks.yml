@@ -1,0 +1,22 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/handoff/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/handoff.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-handoff
+package: kb/dev/artifact/handoff
+at: 2026-09-11T09:15:09Z
+source_hash: acc826c6e2a5e951
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/92762c1c-18df-4b8e-9b9d-9d43e4811e0f
+serves: []
+tested: {}
+ids:
+  composite:head: https://agentic-knowledge-base.dev/id/composite/4bb362f4-c68c-48b4-bfbe-b9fb51efa910
+  composite:sec:main: https://agentic-knowledge-base.dev/id/composite/0b8984a8-4b3a-4b30-9c38-041302b18093
+  file: https://agentic-knowledge-base.dev/id/composite/b1ea15c6-7e5e-4365-91b4-7b2f4ad29839
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/d2c6d26d-171a-421d-93af-57b68ab462fc
+  head: https://agentic-knowledge-base.dev/id/chunk/e027fd98-2f7d-435e-92e6-27671aefb3ca
+  module: https://agentic-knowledge-base.dev/id/chunk/db6433c7-428f-434f-8aa1-abbcaec51063
+  sec:main: https://agentic-knowledge-base.dev/id/chunk/d4b905ee-7efb-48b3-8e28-41d33ddb1f99

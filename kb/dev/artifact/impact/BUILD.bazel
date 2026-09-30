@@ -1,0 +1,41 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "fn-main.md",
+        "fn-plane_of.md",
+        "fn-q.md",
+        "head.md",
+        "module.md",
+        "sec-q.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/711360b7-62ed-4bfc-9088-27974668e958",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/e3651d6a-824c-47cd-bd83-2db367e84196", "https://agentic-knowledge-base.dev/id/composite/44b63663-ac34-40f1-92c6-a6281c93c7a6"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e3651d6a-824c-47cd-bd83-2db367e84196", "https://agentic-knowledge-base.dev/id/composite/44b63663-ac34-40f1-92c6-a6281c93c7a6"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p12-change-impact-analysis",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

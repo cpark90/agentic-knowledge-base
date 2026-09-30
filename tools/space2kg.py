@@ -62,6 +62,8 @@ PREAMBLE = """\
 """
 
 
+# ── 설계 공간 본문 파싱 ────────────────────
+
 class SpaceError(ValueError):
     """설계 공간의 형식 위반 — 메시지가 `<경로>: <근거>` 다. 게이트 id 는 GATE."""
 
@@ -178,6 +180,8 @@ def parse_space(path: str) -> dict:
     return {"meta": meta, "lines": n, "path": path, "var": (str(var["from"]), kind), "status": status,
             "candidates": candidates, "constraints": constraints, "preferences": prefs}
 
+
+# ── 그래프 방출과 보고 ────────────────────
 
 def emit(space: dict) -> list[tuple[str, str]]:
     """설계 공간 하나 → (IRI, 블록) 목록 — 공간 개체 · 후보 링크 개체 · 증거 항목."""

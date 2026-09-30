@@ -16,9 +16,11 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from chunk2kg import (EXIT_CONFIG, EXIT_FAIL, ORDERED_KEY, SPACE_TYPE, apply_plane_level_state,  # noqa: E402 — 종료 코드는 chunk2kg 가 kb_lib 에서 가져온 것
-                      load_plane_level_state, parse_chunk)
+from chunk2kg import (EXIT_CONFIG, EXIT_FAIL, ORDERED_KEY, PART_OF_KEY, SPACE_TYPE,  # noqa: E402 — 종료 코드는 chunk2kg 가 kb_lib 에서 가져온 것
+                      apply_plane_level_state, load_plane_level_state, parse_chunk)
 
+
+# ── 청크 읽기와 항목 수집 ────────────────────
 
 class GenBuildError(Exception):
     """생성 시점 거부 — 메시지가 `<경로>: <근거>` 다."""
@@ -28,6 +30,11 @@ HEADER ="# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크
 LINKS = ("refines", "serves", "supersedes", "verifies")
 ONTO_BASE = "https://agentic-knowledge-base.dev/ontology/"
 MEMORY_PKG = "kb/dev/memory"  # 관측 패키지 — 비어 있어도 BUILD 는 생성한다 (//kb/dev:bodies·//kg:chunks_kg 의 끝점)
+# 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나다. 패키지 이름은 소스의 stem 이고
+# 그 안의 청크 전부는 tools/extract.py 의 생성물이다(손으로 고치면 //:extract_drift_test 가 거부한다). 묶음은 중첩
+# 복합체이므로 뿌리(파일 복합체)를 선언한 `module.md` 가 타깃 이름이 된다. 경로 접두는 kb_lib.EXTRACT_ROOT 와 같다 —
+# 이 도구는 rdflib 없이 돌므로 VV_ROOT 와 같은 사유로 자체 상수를 갖는다
+ARTIFACT_ROOT = "kb/dev/artifact"
 # V&V KB — 코어의 두 번째 인스턴스 (p8-vv-plane-instances): 디렉토리 = plane 실체 (pe-storage-layout 의 vv/ 번들). 패키지마다 kb_chunk 타깃,
 # 비어 있어도 BUILD 는 생성한다. 편집은 vnv 만(kg/catalog-kg.ttl agt:writesIn "kb/vv"), verifies 링크만 KB 를 가로지른다 (defs/kb.bzl).
 # 경로 접두는 kb_lib.KB_VV 와 같다 — 이 도구는 rdflib 없이 돌므로 자체 상수로 둔다
@@ -101,6 +108,16 @@ def scan(root: Path):
         lab = f"//{MEMORY_PKG}:{f.stem}"
         items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": MEMORY_PKG}
         iri_to_label[meta["id"]] = lab
+    for d in sorted(p for p in (root / ARTIFACT_ROOT).iterdir() if p.is_dir()) if (root / ARTIFACT_ROOT).is_dir() else []:
+        pkg = f"{ARTIFACT_ROOT}/{d.name}"  # 추출된 코드 청크 — 소스 파일 하나 = 패키지 하나 (tools/extract.py 의 생성물)
+        for f in sorted(d.glob("*.md")):
+            meta, _ = parse_item(str(f))
+            if meta["type"] != "artifact":
+                raise GenBuildError(f"{f}: {ARTIFACT_ROOT}/ 의 청크는 type: artifact 여야 한다 — 실제 {meta['type']!r} "
+                                    f"(추출된 코드 청크, p7-code-extraction-direction)")
+            lab = f"//{pkg}:{f.stem}"
+            items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": pkg}
+            iri_to_label[meta["id"]] = lab
     for sub, plane in VV_PKGS.items():  # V&V KB — 디렉토리가 plane 을 정한다. 없는 디렉토리는 빈 패키지다
         pkg = f"{VV_ROOT}/{sub}"
         for f in sorted((root / pkg).glob("*.md")):
@@ -116,18 +133,25 @@ def scan(root: Path):
 MAX_PARTS = 9  # 직접 부분의 상한 (7±2, 4.5절) — defs/kb.bzl 의 MAX_PARTS·composite-shapes.ttl 과 같은 수
 
 
+# ── 복합체 묶기와 생성 시점 판정 ────────────────────
+
 def group_composites(items, iri_to_label):
-    """같은 패키지에서 `composite.id` 를 공유하는 청크들 → 복합체 항목 하나 (kb_composite).
+    """같은 패키지에서 `composite.id` 로 묶인 청크들 → 복합체 항목 하나 (kb_composite). 중첩 복합체는 뿌리 하나로 모은다.
 
-    묶음의 판별 기준은 **같은 패키지 + 같은 `composite.id`** 다. 디렉토리가 기준인 결정(kb_decision)과 달리 일반
-    복합체는 평평한 패키지 하나에 여러 개 설 수 있어 디렉토리로는 가를 수 없고, `composite.id` 는 이미 선언이 한 번뿐임을
-    chunk2kg 가 강제하는 값이다. 패키지가 기준의 한 축인 것은 Bazel 타깃의 `srcs` 가 자기 패키지 안에만 있을 수 있기
-    때문이다 — 묶음은 액션의 입력 집합이고 입력 집합은 패키지를 넘지 못한다.
+    묶음의 판별 기준은 **같은 패키지 + 같은 뿌리 복합체**다. 디렉토리가 기준인 결정(kb_decision)과 달리 일반 복합체는
+    평평한 패키지 하나에 여러 개 설 수 있어 디렉토리로는 가를 수 없고, `composite.id` 는 이미 선언이 한 번뿐임을 chunk2kg 가
+    강제하는 값이다. 패키지가 기준의 한 축인 것은 Bazel 타깃의 `srcs` 가 자기 패키지 안에만 있을 수 있기 때문이다 —
+    묶음은 액션의 입력 집합이고 입력 집합은 패키지를 넘지 못한다.
 
-    부분 청크의 개별 `kb_chunk` 타깃은 사라지고 복합체 타깃 하나가 그 파일 전부를 갖는다 (결정과 같은 형식). 링크는
-    부분들의 것을 복합체 타깃으로 올린다. 타깃 이름은 `composite:` 를 선언한 청크의 파일 이름이다.
+    복합체는 청크뿐 아니라 **다른 복합체**를 부분으로 갖는다 (p4-composite-as-part-of). 선언 청크의 `composite.part_of` 가
+    그 자리이고, 중첩된 복합체 전부가 **뿌리 복합체 타깃 하나**가 된다 — chunk2kg 가 part_of 대상을 같은 실행의 입력
+    집합에서 찾으므로 뿌리부터 잎까지 한 액션이 받아야 한다. 부분 상한 9(4.5절)를 넘는 파일을 담는 유일한 형태다
+    (p7-code-links-on-file-composite: 파일 → 절 → 함수).
+
+    부분 청크의 개별 `kb_chunk` 타깃은 사라지고 뿌리 복합체 타깃 하나가 그 파일 전부를 갖는다 (결정과 같은 형식). 링크는
+    묶음 안 청크들의 것을 그 타깃으로 올린다. 타깃 이름은 **뿌리 복합체**를 선언한 청크의 파일 이름이다.
     """
-    decl, members = {}, {}
+    decl, parent, members = {}, {}, {}
     for lab, it in items.items():
         if it["kind"] != "chunk":
             continue
@@ -137,62 +161,97 @@ def group_composites(items, iri_to_label):
                 raise GenBuildError(f"{it['pkg']}/{it['src']}: 복합체 {comp['id']} 가 {items[decl[comp['id']]]['pkg']}/"
                                     f"{items[decl[comp['id']]]['src']} 와 중복 선언됐다 — 선언은 복합체마다 한 번이다 (4.5절)")
             decl[comp["id"]] = lab
+            if comp.get(PART_OF_KEY):
+                parent[comp["id"]] = comp[PART_OF_KEY]
         if it["meta"].get("part_of"):
             members.setdefault(it["meta"]["part_of"], []).append(lab)
     for comp_iri, labs in sorted(members.items()):
         if comp_iri not in decl:
             raise GenBuildError(f"{items[sorted(labs)[0]]['pkg']}/{items[sorted(labs)[0]]['src']}: part_of 대상 복합체 {comp_iri} 를 "
                                 f"선언한 청크(composite:)가 없다 — 선언은 부분 중 하나의 frontmatter 에 둔다 (4.5절)")
-    for comp_iri, dlab in sorted(decl.items()):
-        labs = sorted(set(members.get(comp_iri, []) + [dlab]))
+    children = {}
+    for child, up in sorted(parent.items()):
+        if up not in decl:
+            raise GenBuildError(f"{items[decl[child]]['pkg']}/{items[decl[child]]['src']}: composite.{PART_OF_KEY} 대상 복합체 {up} 를 "
+                                f"선언한 청크가 없다 — 중첩 복합체는 뿌리부터 잎까지 같은 패키지에 있어야 한다 (p4-composite-as-part-of)")
+        children.setdefault(up, []).append(child)
+    for comp_iri in sorted(decl):  # 사슬 순환 — 반대칭 공리(4.5절 비순환)의 생성 시점 대응
+        seen_chain, cur = {comp_iri}, parent.get(comp_iri)
+        while cur is not None:
+            if cur in seen_chain:
+                raise GenBuildError(f"{items[decl[comp_iri]]['pkg']}/{items[decl[comp_iri]]['src']}: composite.{PART_OF_KEY} 사슬이 "
+                                    f"순환한다 — {comp_iri} 에서 시작해 {cur} 로 돌아온다 (4.5절 비순환)")
+            seen_chain.add(cur)
+            cur = parent.get(cur)
+    for root in sorted(c for c in decl if c not in parent):
+        tree = _composite_tree(root, children)
+        dlab = decl[root]
         pkg = items[dlab]["pkg"]
-        _check_bundle(comp_iri, dlab, labs, items, pkg)
-        parts = [l for l in labs if items[l]["meta"].get("part_of") == comp_iri]
-        order = (items[dlab]["meta"].get("composite") or {}).get(ORDERED_KEY)
-        part_iris = [items[l]["meta"]["id"] for l in parts]
-        if order:  # 순서가 선언됐으면 part_iris 가 그 순서다 — BUILD 가 순서를 보이는 뷰다 (p4-composite-order-is-declared)
-            part_iris = sorted(part_iris, key=order.index)
-        comp = {"kind": "composite", "pkg": pkg, "comp_iri": comp_iri, "ordered": order or [],
+        labs = sorted({decl[c] for c in tree} | {l for c in tree for l in members.get(c, [])})
+        direct = {c: _check_bundle(c, decl[c], labs, items, pkg, members.get(c, []), children.get(c, []), decl) for c in tree}
+        comp = {"kind": "composite", "pkg": pkg, "comp_iri": root,
+                "ordered": (items[dlab]["meta"].get("composite") or {}).get(ORDERED_KEY) or [],
                 "srcs": [items[l]["src"] for l in labs], "metas": [items[l]["meta"] for l in labs],
-                "part_iris": part_iris, "status": items[dlab]["meta"]["status"],
-                "plane": items[parts[0]]["meta"]["type"], "level": items[parts[0]]["meta"]["level"]}
-        for l in labs:  # 부분의 개별 청크 타깃은 사라진다 — 복합체 타깃 하나가 그 파일 전부를 갖는다
+                "part_iris": direct[root], "status": items[dlab]["meta"]["status"],
+                "plane": items[labs[0]]["meta"]["type"], "level": items[labs[0]]["meta"]["level"]}
+        for l in labs:  # 부분의 개별 청크 타깃은 사라진다 — 뿌리 복합체 타깃 하나가 그 파일 전부를 갖는다
             iri_to_label[items[l]["meta"]["id"]] = dlab
             del items[l]
-        items[dlab] = comp  # 타깃 이름 = 선언 청크의 파일 이름이라 라벨이 바뀌지 않는다
-        iri_to_label[comp_iri] = dlab
+        for c in tree:
+            iri_to_label[c] = dlab
+        items[dlab] = comp  # 타깃 이름 = 뿌리 선언 청크의 파일 이름이라 라벨이 바뀌지 않는다
     return items, iri_to_label
 
 
-def _check_bundle(comp_iri, dlab, labs, items, pkg):
-    """묶음의 생성 시점 거부 — 패키지 밖 부분·부분 수·동질성·선언된 순서. 동질성이 여기서 판정되므로 규칙은 plane·level 을 한 쌍만 받는다."""
+def _composite_tree(root, children):
+    """뿌리에서 닿는 복합체 IRI 전부 (자신 포함) — 순환은 호출 전에 거부된다."""
+    out, stack = [], [root]
+    while stack:
+        c = stack.pop()
+        out.append(c)
+        stack.extend(sorted(children.get(c, [])))
+    return sorted(out)
+
+
+def _check_bundle(comp_iri, dlab, labs, items, pkg, member_labs, child_comps, decl):
+    """복합체 하나의 생성 시점 거부 — 패키지 밖 부분·부분 수·동질성·선언된 순서. 직접 부분 IRI 를 선언된 순서로 돌려준다.
+
+    부분은 둘이다 — 청크(최상위 `part_of`)와 다른 복합체(선언 청크의 `composite.part_of`, p4-composite-as-part-of).
+    동질성은 청크 부분으로 판정한다: 복합체 부분의 plane·level 은 그 부분의 부분에서 나오고 묶음 전체가 한 쌍이므로 같은 판정이다.
+    """
     for l in labs:
         if items[l]["pkg"] != pkg:
             raise GenBuildError(f"{items[l]['pkg']}/{items[l]['src']}: 복합체 {comp_iri} 의 선언은 {pkg} 에 있다 — 부분과 선언은 같은 "
                                 f"패키지여야 한다 (묶음 = 액션의 입력 집합, defs/kb.bzl kb_composite)")
-    parts = [l for l in labs if items[l]["meta"].get("part_of") == comp_iri]
-    if len(parts) < 2:
-        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 부분이 {len(parts)}개다 — 복합체는 부분 둘 이상의 "
+    chunk_parts = sorted(member_labs)
+    chunk_iris = [items[l]["meta"]["id"] for l in chunk_parts]
+    n = len(chunk_iris) + len(child_comps)
+    if n < 2:
+        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 부분이 {n}개다 — 복합체는 부분 둘 이상의 "
                             f"묶음이고 부분 하나면 청크다 (4.5절)")
-    if len(parts) > MAX_PARTS:
-        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 직접 부분이 {len(parts)}개다 — 최대 {MAX_PARTS}개(7±2, 4.5절)")
+    if n > MAX_PARTS:
+        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 직접 부분이 {n}개다 — 최대 {MAX_PARTS}개(7±2, 4.5절)")
     order = (items[dlab]["meta"].get("composite") or {}).get(ORDERED_KEY)
     if order is None and pkg == SCENARIO_PKG and any(
-            Path(items[l]["src"]).stem.endswith("-" + s) for l in parts for s in SCENARIO_ROLE_SUFFIXES):
+            Path(items[l]["src"]).stem.endswith("-" + suf) for l in chunk_parts for suf in SCENARIO_ROLE_SUFFIXES):
         raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 에 composite.{ORDERED_KEY} 가 없다 — 시나리오는 "
                             f"자극 → 요인 → 배제 자극의 읽기 순서를 가지므로(p8-scenario-authoring) 선언 없는 시나리오 묶음은 거짓 "
                             f"무순서다. 선언 청크(`-{SCENARIO_ROLE_SUFFIXES[0]}`)의 composite: 에 "
                             f"`{ORDERED_KEY}: [<자극 IRI>, <요인 IRI>, <배제 자극 IRI>]` 를 적는다 (p4-composite-order-is-declared)")
-    if order is not None and sorted(order) != sorted(items[l]["meta"]["id"] for l in parts):
-        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 composite.{ORDERED_KEY} 가 부분 집합과 다르다 — "
-                            f"선언 {sorted(order)} · 부분 {sorted(items[l]['meta']['id'] for l in parts)}. 순서 목록은 부분 전부를 "
-                            f"빠짐없이 한 번씩 담는다 (p4-composite-order-is-declared)")
-    planes = sorted({items[l]["meta"]["type"] for l in parts})
-    levels = sorted({items[l]["meta"]["level"] for l in parts})
+    part_iris = chunk_iris + sorted(child_comps)
+    if order is not None:
+        if sorted(order) != sorted(part_iris):
+            raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 composite.{ORDERED_KEY} 가 부분 집합과 다르다 — "
+                                f"선언 {sorted(order)} · 부분 {sorted(part_iris)}. 순서 목록은 부분 전부를 "
+                                f"빠짐없이 한 번씩 담는다 (p4-composite-order-is-declared)")
+        part_iris = sorted(part_iris, key=order.index)
+    planes = sorted({items[l]["meta"]["type"] for l in chunk_parts})
+    levels = sorted({items[l]["meta"]["level"] for l in chunk_parts})
     if len(planes) > 1 or len(levels) > 1:
         raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 부분이 이질이다 — plane {planes} · level {levels}. "
                             f"부분의 plane·level 은 서로 같다 (동질성 4.5절). 수준 혼합은 결정 복합체의 예외뿐이다 "
                             f"(p7-decision-spans-three-levels)")
+    return part_iris
 
 
 def links_of(meta, iri_to_label, where):
@@ -207,6 +266,8 @@ def links_of(meta, iri_to_label, where):
             out[key] = labs
     return out
 
+
+# ── 타깃 렌더 ────────────────────
 
 def render_composite(lab, it, iri_to_label):
     """복합체 묶음 하나 → kb_composite 호출. 형식은 kb_decision 과 같다 — 부분의 링크를 타깃 하나로 올린다.
@@ -295,6 +356,30 @@ def render_vv_root(items):
     return "\n".join(body)
 
 
+def artifact_pkgs(root: Path):
+    """추출 대상 패키지 — kb/dev/artifact 아래의 디렉토리. 없으면 빈 목록이다."""
+    d = root / ARTIFACT_ROOT
+    return sorted(p.name for p in d.iterdir() if p.is_dir()) if d.is_dir() else []
+
+
+def render_artifact_root(root: Path):
+    """//kb/dev/artifact — 소스 파일별 패키지의 bodies·kg 를 모은다. //kb/dev:bodies·//kg:chunks_kg 의 단일 끝점이다.
+
+    파일을 하나 올릴 때마다 손으로 두 BUILD 를 고치지 않도록 여기가 집계처다 — 패키지 목록의 원본은 트리이고 이 파일은 뷰다.
+    """
+    pkgs = artifact_pkgs(root)
+    body = [HEADER, 'load("//defs:kb.bzl", "kb_bundle")', "",
+            "# 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나. 원본은 tools/*.py 이고\n"
+            "# 청크는 tools/extract.py 의 생성물이다. 손으로 고치면 //:extract_drift_test 가 거부한다.",
+            'package(default_visibility = ["//visibility:public"])', "", 'exports_files(["BUILD.bazel"])', "",
+            'filegroup(\n    name = "bodies",\n    srcs = [\n'
+            + "".join(f'        "//{ARTIFACT_ROOT}/{p}:bodies",\n' for p in pkgs)
+            + '    ],\n)\n' if pkgs else 'filegroup(\n    name = "bodies",\n    srcs = [],\n)\n',
+            "# 이 plane 의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다\nkb_bundle(\n    name = \"kg\",\n"
+            + (label_list("items", [f"//{ARTIFACT_ROOT}/{p}:kg" for p in pkgs]) or "    items = [],\n") + ")\n"]
+    return "\n".join(body)
+
+
 def ontology(root: Path):
     """모듈 디렉토리 → BUILD, project-ontology.ttl 의 owl:imports → modules.bzl"""
     text = (root / "kb/ontology/project-ontology.ttl").read_text(encoding="utf-8")
@@ -316,6 +401,8 @@ def ontology(root: Path):
     return outputs
 
 
+# ── 드리프트 비교와 실행 ────────────────────
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
@@ -336,7 +423,11 @@ def main() -> int:
             str(root / "chunks/decision/BUILD.bazel"): render_chunks("chunks/decision", items, iri_to_label, "//kb:decision_readers"),
             str(root / MEMORY_PKG / "BUILD.bazel"): render_chunks(MEMORY_PKG, items, iri_to_label, "//kb:memory_readers", allow_empty=True),
             str(root / VV_ROOT / "BUILD.bazel"): render_vv_root(items),
+            str(root / ARTIFACT_ROOT / "BUILD.bazel"): render_artifact_root(root),
         }
+        for d in sorted(p for p in (root / ARTIFACT_ROOT).iterdir() if p.is_dir()) if (root / ARTIFACT_ROOT).is_dir() else []:
+            outputs[str(root / ARTIFACT_ROOT / d.name / "BUILD.bazel")] = render_chunks(
+                f"{ARTIFACT_ROOT}/{d.name}", items, iri_to_label, "//kb:artifact_readers")
         for sub in VV_PKGS:  # V&V plane 패키지 — 개발 청크는 볼 수 없다 (//kb:vv_readers, 8.5절 독립성)
             outputs[str(root / VV_ROOT / sub / "BUILD.bazel")] = render_chunks(f"{VV_ROOT}/{sub}", items, iri_to_label, "//kb:vv_readers", allow_empty=True)
         outputs.update(ontology(root))

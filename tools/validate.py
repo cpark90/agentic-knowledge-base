@@ -69,6 +69,11 @@ EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음·파싱 불가 
 EXIT_SKIP = getattr(kb_lib, "EXIT_SKIP", 3)      # 검사 대상 0건
 
 
+# ══ 입력과 온톨로지 품질 ════════════════════
+# 온톨로지 파일을 읽어 라벨·경계·어휘와 표준 어휘 재사용을 본다.
+
+# ── 예외와 입력 적재 ────────────────────
+
 class SyntaxFailure(Exception):
     """파일 하나가 파싱되지 않는다 — 어느 파일인지를 메시지에 지닌다."""
 
@@ -97,6 +102,8 @@ def _where(files: dict[str, Graph], node) -> str:
             return path
     return str(node)
 
+
+# ── 라벨·경계·어휘 검사 ────────────────────
 
 def check_labels(per_file: dict[str, Graph]) -> list[str]:
     errors = []
@@ -190,6 +197,11 @@ def check_standard_vocab(graphs: dict[str, Graph], terms: set[URIRef], namespace
     return errors
 
 
+# ══ 청크와 참조의 검사 ════════════════════
+# 청크의 ODD 참조·끊긴 링크·요소 탈락·설계 공간·분할 정체성·폐기 용어를 본다.
+
+# ── ODD 참조와 끊긴 참조·요소 탈락 ────────────────────
+
 def check_odd_refs(merged: Graph, odd: Graph, files: dict[str, Graph]) -> list[str]:
     errors = []
     odd_subjects = {s for s in odd.subjects() if isinstance(s, URIRef)}
@@ -271,6 +283,8 @@ def check_element_drop(ontology: Graph | None, chunk_files: list[str]) -> list[s
                       f"프로파일이 plane 청크 클래스의 하위로 선언하지 않았다. 정의 없는 클래스는 어휘 밖이다 (2.3절 경계 규칙)")
     return errors
 
+
+# ── 설계 공간과 분할 정체성 ────────────────────
 
 def check_space(merged: Graph, files: dict[str, Graph]) -> list[str]:
     """설계 공간(agt:Space)의 규율 (결정 p9-candidate-storage, 요구 r-011-no-groundless-assignment, 게이트 id `space`).
@@ -373,6 +387,8 @@ def _chunk_location(merged: Graph, chunk: URIRef) -> str:
     return next((str(l) for l in merged.objects(chunk, kb_lib.AGT.assertionLocation)), merged.qname(chunk))
 
 
+# ── 폐기 용어 ────────────────────
+
 def _agt_qname(merged: Graph, term: URIRef) -> str:
     """병합 그래프에는 접두사가 묶여 있지 않아 qname 이 ns2: 처럼 나온다 — agt: 용어는 그대로 적는다."""
     return f"agt:{str(term)[len(str(AGT)):]}" if str(term).startswith(str(AGT)) else merged.qname(term)
@@ -400,6 +416,11 @@ def check_deprecated_concepts(merged: Graph, ontology: Graph) -> list[str]:
         if o in deprecated
     )
 
+
+# ══ 카탈로그·verify·단일 정의처 ════════════════════
+# 역할 카탈로그와 쓰기 권한, verify 질의, 단일 정의처, SHACL 판정을 본다.
+
+# ── 카탈로그와 쓰기 권한 ────────────────────
 
 def _qname(merged: Graph, term) -> str:
     """agt:·id: 용어는 접두사로 적는다 — 병합 그래프의 qname 은 ns2: 처럼 나온다."""
@@ -552,6 +573,8 @@ def check_writer(merged: Graph) -> list[str]:
     return errors
 
 
+# ── verify 질의와 단일 정의처 ────────────────────
+
 def check_verify(merged: Graph, query_dir: str) -> list[str]:
     """안티패턴 계층 (노트 2.5절) — '이런 트리플이 존재하면 실패'를 SPARQL로 명세.
 
@@ -619,6 +642,47 @@ def check_residency(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> lis
     return errors
 
 
+def check_line_budget(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> list[str]:
+    """본문 줄 수 상한의 단일 정의처 — shape 가 `kb_lib.BODY_LINE_LIMITS` 와 같은 표인가 (게이트 `line-budget`).
+
+    `residency` 와 같은 형이다. 원본은 파이썬 쪽 표이고(게이트 chunk_lint 가 파일마다 그것으로 판정한다) shape 는
+    그것의 RDF 표현이다. plane 은 shape 의 `sh:targetClass` 지역명 `<X>Chunk` 에서 읽는다. plane 목록은
+    `defs/kb.bzl` 의 PLANES 이고, 표에 없는 plane 의 상한은 기본 42줄이다 (4.1절).
+    `artifact` 만 값이 다르다 — 본문이 저작이 아니라 소스의 인용이기 때문이다 (p7-code-extraction-direction "예산").
+    첫 실행(2026-09-30, plane 7): FAIL 0.
+    """
+    from rdflib.namespace import SH
+
+    gate = kb_lib.LINE_BUDGET_GATE
+    where = ", ".join(shape_paths) or bzl_path
+    try:
+        planes, _levels, _table = kb_lib.load_residency(bzl_path)
+    except (OSError, ValueError) as e:
+        raise ConfigFailure(f"[{gate}] {bzl_path}: plane 목록을 읽을 수 없다 — {e}") from e
+    declared = {p: kb_lib.body_line_limit(p) for p in planes}
+    found: dict[str, set[int]] = {}
+    for shape, cls in shapes.subject_objects(SH.targetClass):
+        plane = str(cls).split("/")[-1]
+        if not plane.endswith("Chunk"):
+            continue
+        plane = plane[: -len("Chunk")].lower()
+        for prop in shapes.objects(shape, SH.property):
+            if (prop, SH.path, kb_lib.AGT.lineCount) not in shapes:
+                continue
+            for v in shapes.objects(prop, SH.maxInclusive):
+                found.setdefault(plane, set()).add(int(v))
+    errors = []
+    for plane in sorted(set(declared) | set(found)):
+        want, have = declared.get(plane), found.get(plane)
+        if want is None:
+            errors.append(f"[{gate}] {where}: shape 가 plane {plane} 의 본문 상한을 {sorted(have)} 로 두는데 그런 plane 이 {bzl_path} 의 PLANES 에 없다")
+        elif not have:
+            errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한 {want} 에 대응하는 shape 가 없다 — `agt:{plane.capitalize()}Chunk` 의 `agt:lineCount` 에 `sh:maxInclusive {want}` 를 단다 (표의 원본은 tools/kb_lib.py 의 BODY_LINE_LIMITS 다)")
+        elif have != {want}:
+            errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한이 갈린다 — tools/kb_lib.py 의 BODY_LINE_LIMITS 는 {want}, shape 는 {sorted(have)} 다. 원본은 표이므로 shape 를 맞춘다")
+    return errors
+
+
 def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[str]) -> list[str]:
     from pyshacl import validate as shacl_validate
 
@@ -633,6 +697,8 @@ def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[st
     )
     return [] if conforms else [f"[shacl] {', '.join(shape_paths)}: shape 부적합 — sh:message 가 수정 방향이다\n{text}"]
 
+
+# ── SHACL 판정과 실행 ────────────────────
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
@@ -695,6 +761,7 @@ def main() -> int:
         if args.residency:
             try:
                 errors += check_residency(shapes_merged, args.residency, args.shapes)
+                errors += check_line_budget(shapes_merged, args.residency, args.shapes)
             except ConfigFailure as e:  # 표를 읽을 수 없다 — 배선 문제
                 print(f"FAIL {e}")
                 return EXIT_CONFIG

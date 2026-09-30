@@ -1,0 +1,36 @@
+---
+id: https://agentic-knowledge-base.dev/id/chunk/3310d256-a896-401a-ba40-e6bfdc0d474a
+type: artifact
+level: executable
+title_ko: 함수 render (tools/extract.py)
+title: function render in tools/extract.py
+status: stable
+sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+part_of: https://agentic-knowledge-base.dev/id/composite/bdbaec34-7407-4d5e-83f8-0706026f0b98
+---
+**함수** — `render(c, reg, at)` 다.
+
+<!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
+```python
+def render(c: Chunk, reg: dict, at: str = "") -> str:
+    fm = [f"id: {c.iri}", "type: artifact", "level: executable", f"title_ko: {c.title_ko}", f"title: {c.title}",
+          "status: stable", f"sources: [{{resource: {reg['resource']}}}]", f"assumes: [{DEFAULT_ASSUMES}]",
+          f"generated: {{by: {kb_lib.EXTRACT_ACTOR}, at: {at or reg['at']}}}"]
+    if stamped(reg):  # 테스트 통과 도장 — 소스가 도장 뒤에 바뀌면 빠진다 (수정 뒤 미검증, 재판정 자동)
+        fm.append(f"verified: [{{by: {kb_lib.STAMP_ACTOR}, at: {reg[kb_lib.STAMP_KEY]['at']}}}]")
+    for key in ("refines", "serves"):
+        if c.links.get(key):
+            fm.append(f"{key}: [" + ", ".join(c.links[key]) + "]")
+    if c.part_of:
+        fm.append(f"part_of: {c.part_of}")
+    if c.composite:
+        inner = [f"id: {c.composite['id']}", f"title_ko: {c.composite['title_ko']}", f"title: {c.composite['title']}",
+                 "ordered: [" + ", ".join(c.composite["ordered"]) + "]"]
+        if c.composite.get("part_of"):
+            inner.append(f"part_of: {c.composite['part_of']}")
+        fm.append("composite: {" + ", ".join(inner) + "}")
+    return "---\n" + "\n".join(fm) + "\n---\n" + "\n".join(c.body) + "\n"
+```
+<!-- 인용 끝 -->

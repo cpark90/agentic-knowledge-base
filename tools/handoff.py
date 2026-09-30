@@ -10,6 +10,8 @@ import re
 from pathlib import Path
 
 
+# ── 읽은 청크를 새 청크의 sources 로 옮긴다 ────────────────────
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--workset", required=True)

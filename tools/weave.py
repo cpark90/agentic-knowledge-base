@@ -46,6 +46,8 @@ LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]  # metr
 PATTERN_VALUE = {URIRef(str(AGT) + v.split(":")[1]): k for k, v in EARS_PATTERNS.items()}  # agt:eventDriven → event-driven
 
 
+# ── 모델 — 그래프와 본문의 적재 ────────────────────
+
 class Model:
     """head 그래프의 청크·복합체를 뷰가 쓰는 형태로 — plane·level·status·라벨·위치·시각, 복합체 ↔ 부분."""
 
@@ -154,6 +156,8 @@ SINGLES_HEADING = "단일 파일 결정 (v1·harness 유래)"  # chunks/decision
 anchors_of = kb_lib.heading_anchors  # GitHub 제목 앵커 규칙의 단일 정의처는 kb_lib (목차 링크, STYLEGUIDE §7)
 
 
+# ── ADR — 결정 기록 ────────────────────
+
 def decision_section(m: Model, bodies: dict, root: Path, level: str, title: str, ref: str, parts: list, levels_note: str, comp_line: str) -> list[str]:
     """결정 하나의 절 — 복합체(세 부분)와 단일 파일(부분 하나)이 같은 형식이다. 본문은 --bodies 에서, 없으면 --root 아래 assertionLocation 에서 읽는다."""
     con = parts[0]
@@ -236,6 +240,8 @@ def source_ref(m: Model, s) -> str:
     loc = next(m.g.objects(s, PROV.atLocation), None)
     return f"{m.ko(s)} (`{kb_lib.compact_iri(str(s))}`" + (f", `{loc}`)" if loc else ")")
 
+
+# ── 요구 색인과 변경 이력 ────────────────────
 
 def render_requirements(m: Model, inputs: list[str]) -> str:
     reqs = sorted((c for c in m.chunks if m.plane[c] == "requirement" and m.live(c)), key=lambda c: m.location[c])

@@ -52,6 +52,10 @@ kb_composite(
         "//kb/vv/case:verification-rung-same-level",
         "//kb/vv/case:verifies-subject-vv",
         "//kb/vv/case:versioned-inputs",
+        "//kb/vv/criteria:verification-rung-same-level",
+    ],
+    verifies = [
+        "//kb/dev/artifact/kb_lib:module",
     ],
 )
 

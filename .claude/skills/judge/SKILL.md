@@ -1,6 +1,6 @@
 ---
 name: judge
-description: 게이트 밖에서 등록된 판정 질문을 청크에 물어 값과 확신도를 받고 판정 로그·결과 주석을 남길 때 쓴다. 자격이 없으면 `--fixture` 오프라인 모드로만 돈다.
+description: 게이트 밖에서 등록된 판정 질문을 청크에 물어 값과 확신도를 받고 판정 로그·결과 주석을 남길 때 쓴다. 판정자는 외부 서비스가 아니라 세션 판정자다 — 응답은 `--responses`로 오프라인 입력한다.
 ---
 
 # judge — 판정자 (생성 파일)
@@ -11,18 +11,18 @@ description: 게이트 밖에서 등록된 판정 질문을 청크에 물어 값
 - 재현: `python3 tools/gen_skills.py --root .`
 - 생성 파일 — 손으로 고치지 않는다. 원본은 도구 docstring 과 `kb_lib.SKILLS`이다. 검사: `//:skills_drift_test`. 생성 시각·입력 지문은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다
 
-판정자 — 등록된 판정 질문을 청크에 물어 판정 로그와 결과 주석을 남긴다 (노트 8.14절, 결정 p8-judge-calibration-binding).
+판정자 — 등록된 판정 질문을 청크에 물어 판정 로그와 결과 주석을 남긴다 (노트 8.14절, 결정 p8-judge-session-agreement — 질문 형·척도·임계 셋 자체는 옛 결정 p8-judge-calibration-binding·p8-judge-question-form 그대로다).
 
 ## 언제 쓰는가
 
-게이트 밖에서 등록된 판정 질문을 청크에 물어 값과 확신도를 받고 판정 로그·결과 주석을 남길 때 쓴다. 자격이 없으면 `--fixture` 오프라인 모드로만 돈다.
+게이트 밖에서 등록된 판정 질문을 청크에 물어 값과 확신도를 받고 판정 로그·결과 주석을 남길 때 쓴다. 판정자는 외부 서비스가 아니라 세션 판정자다 — 응답은 `--responses`로 오프라인 입력한다.
 
 ## 명령
 
 ```bash
 bazel run //tools:judge -- --list
-bazel run //tools:judge -- --question labelRepresentsBody --record <청크 파일…>
-bazel run //tools:judge -- --question bodyHasOneClaim --fixture <json> --into /tmp/judge <청크 파일…>
+bazel run //tools:judge -- --question labelRepresentsBody --responses r1.json --record <청크 파일…>
+bazel run //tools:judge -- --question bodyHasOneClaim --responses r1.json --responses r2.json --decoys key.json --into /tmp/judge <청크 파일…>
 ```
 
 ## 원본
@@ -31,8 +31,9 @@ bazel run //tools:judge -- --question bodyHasOneClaim --fixture <json> --into /t
 - 도구: `tools/judge.py` (`bazel run //tools:judge`) — 사용법은 docstring 이 원본이다
 
 ```text
-bazel run //tools:judge -- --question <질문 id> [--fixture <json>] [--record] [--into <디렉토리>] <청크 파일…>
-python3 tools/judge.py --question labelRepresentsBody --fixture fx.json kb/dev/decision/<결정>/conclusion.md
+bazel run //tools:judge -- --question <질문 id> --responses <json> [--responses <json> …] [--decoys <json>]
+[--record] [--into <디렉토리>] <청크 파일…>
+python3 tools/judge.py --question labelRepresentsBody --responses r1.json --responses r2.json --decoys key.json
 ```
 
 ## 실패 시

@@ -11,6 +11,8 @@ import re
 from pathlib import Path
 
 
+# ── 검토한 청크에 verified 를 붙인다 ────────────────────
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--by", required=True, help="<역할>/<모델> — 카탈로그에 있는, 그 plane 을 쓰는 역할")

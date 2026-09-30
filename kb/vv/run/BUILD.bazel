@@ -15,6 +15,15 @@ filegroup(
 )
 
 kb_chunk(
+    name = "judge-20260929T182311Z",
+    src = "judge-20260929T182311Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f6b721f6-4237-4c0a-93f1-f40166dc2c21",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
     name = "run-20260919T062548Z",
     src = "run-20260919T062548Z.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/3fa64879-9f43-4c16-bf97-3fcfe5e605a9",
@@ -36,6 +45,7 @@ kb_chunk(
 kb_bundle(
     name = "kg",
     items = [
+        ":judge-20260929T182311Z",
         ":run-20260919T062548Z",
         ":run-20260919T065358Z",
     ],

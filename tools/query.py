@@ -40,6 +40,8 @@ CQ_ID = re.compile(r"^CQ-\d+$")
 FORM_PREFIX = "행 = "  # .rq 머리 주석 둘째 줄의 접두 — 원문에 이미 있으므로 읽을 때 떼고 출력에서 한 번만 붙인다
 
 
+# ── 질의 목록과 바인딩 해소 ────────────────────
+
 class CqQuery:
     def __init__(self, path: Path):
         self.path = path
@@ -94,6 +96,8 @@ def run(g: Graph, q: CqQuery, bindings: dict) -> tuple[list[str], list[tuple]]:
     cols = [str(v) for v in res.vars] if res.vars else []
     return cols, [tuple(row) for row in res]
 
+
+# ── 표 렌더와 보고 ────────────────────
 
 def cell(g: Graph, term, labels: bool, width: int = 0) -> str:
     """표 셀 하나. 빈 값의 표기는 `없음` 하나다 (G14 — 셀을 비우거나 대시를 쓰지 않는다)."""

@@ -1,0 +1,30 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/doccheck/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/doccheck.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-doccheck
+package: kb/dev/artifact/doccheck
+at: 2026-09-22T11:38:01Z
+source_hash: 9318f0e1838727c5
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5
+  - https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f
+serves: []
+tested: {}
+ids:
+  cls:Repo: https://agentic-knowledge-base.dev/id/chunk/145ba81b-fdd4-4cf8-aa11-b8ceb3165a08
+  composite:head: https://agentic-knowledge-base.dev/id/composite/8bd3f555-2ee3-4ea3-a17f-f70e59383111
+  composite:sec:check-links: https://agentic-knowledge-base.dev/id/composite/9d5ac0bb-b9b3-4682-886f-6b87b409d984
+  composite:sec:resolve: https://agentic-knowledge-base.dev/id/composite/41567349-5994-4e9e-aec7-ac6603e2e6f5
+  file: https://agentic-knowledge-base.dev/id/composite/b5da82da-f5cc-4c80-9fbf-d65784ffee7d
+  fn:check_links: https://agentic-knowledge-base.dev/id/chunk/4daa5f81-6009-493b-af58-f97f9a3f388c
+  fn:check_paths: https://agentic-knowledge-base.dev/id/chunk/d8304dd3-dfe1-49f3-bb99-12294f298b9c
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/16c7fdef-8fd8-4248-95ec-85ff4668d9bd
+  fn:resolve: https://agentic-knowledge-base.dev/id/chunk/06e23e71-6409-4041-9dfb-d07cc209dc10
+  fn:to_rel: https://agentic-knowledge-base.dev/id/chunk/2674f907-6204-42f7-a25e-6789137904d6
+  head: https://agentic-knowledge-base.dev/id/chunk/782db9bf-fe98-4c49-89d5-5143bc44c0c6
+  module: https://agentic-knowledge-base.dev/id/chunk/b0a0581f-f939-44a3-9cb5-e4ab7398ab94
+  sec:check-links: https://agentic-knowledge-base.dev/id/chunk/19fecaa5-c478-45a8-9b31-82f53550f632
+  sec:resolve: https://agentic-knowledge-base.dev/id/chunk/82688d57-3233-41ff-b8bd-31ee18fa9afa

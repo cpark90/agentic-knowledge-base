@@ -63,6 +63,8 @@ DEFAULT_ASSUMPTION = str(ID["asm-chunk-conventions"])
 GENERATOR = kb_lib.ASSUME_CHECK_GENERATOR  # 관측의 generated.by — 정의처는 kb_lib (weave audit · metrics 가 같은 값으로 관측을 고른다)
 
 
+# ── 가정과 조건의 해소 ────────────────────
+
 def resolve(path: str, root: Path) -> Path | None:
     for cand in (Path(path), root / "bazel-bin" / path, root / path):
         if cand.is_file():
@@ -96,6 +98,8 @@ def load_graph(paths: list[str], root: Path) -> tuple[Graph, list[str]]:
         g.parse(str(f), format="turtle")
     return g, missing
 
+
+# ── 전파와 판정과 관측 ────────────────────
 
 def dependents(g: Graph) -> dict:
     """청크 → 그 청크를 가리키는 링크의 주어들 (하류 의존자). 직접 트리플과 agt:Link 개체(linkFrom·linkTo·linkKind) 둘 다."""

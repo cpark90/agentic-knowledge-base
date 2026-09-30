@@ -1,0 +1,66 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "fn-case_spec.md",
+        "fn-check_case.md",
+        "fn-classify.md",
+        "fn-clean_env.md",
+        "fn-counts.md",
+        "fn-environment.md",
+        "fn-execute.md",
+        "fn-expect_note.md",
+        "fn-expect_of.md",
+        "fn-judge.md",
+        "fn-load_cases.md",
+        "fn-main.md",
+        "fn-materialize.md",
+        "fn-near_miss.md",
+        "fn-observation.md",
+        "fn-phrases.md",
+        "fn-report.md",
+        "fn-revision.md",
+        "fn-run_command.md",
+        "fn-substitute.md",
+        "fn-tests_note.md",
+        "fn-unsafe.md",
+        "fn-yaml_blocks.md",
+        "head.md",
+        "module.md",
+        "sec-case-gate.md",
+        "sec-clean-env.md",
+        "sec-counts.md",
+        "sec-near-miss.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/5fc8dfb1-4583-4c27-8266-44c34557e4c1",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/663886da-0e72-42f0-ba6b-3dfbf495e462", "https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f", "https://agentic-knowledge-base.dev/id/composite/38aa6392-7bfb-42b7-84e5-6278007e131f", "https://agentic-knowledge-base.dev/id/composite/9c609b2d-87cb-474b-9ee8-9a132ba26991", "https://agentic-knowledge-base.dev/id/composite/e9c6807f-239f-4a44-beed-743506b59164"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/663886da-0e72-42f0-ba6b-3dfbf495e462", "https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f", "https://agentic-knowledge-base.dev/id/composite/38aa6392-7bfb-42b7-84e5-6278007e131f", "https://agentic-knowledge-base.dev/id/composite/9c609b2d-87cb-474b-9ee8-9a132ba26991", "https://agentic-knowledge-base.dev/id/composite/e9c6807f-239f-4a44-beed-743506b59164"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p0-run-as-observation",
+        "//kb/dev/decision:p8-machine-readable-case",
+        "//kb/dev/decision:p8-reproducibility",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

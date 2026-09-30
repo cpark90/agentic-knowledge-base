@@ -12,7 +12,6 @@ agt:ChunkShape a sh:NodeShape ;
         sh:minCount 1 ; sh:maxCount 1 ;
         sh:datatype xsd:integer ;
         sh:minInclusive 0 ;
-        sh:maxInclusive 42 ;
         sh:message "본문은 42줄 이하여야 한다 (4.1절)" ;
     ] ;
     sh:property [

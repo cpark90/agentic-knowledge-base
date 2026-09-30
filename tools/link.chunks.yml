@@ -1,0 +1,32 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/link/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/link.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-link
+package: kb/dev/artifact/link
+at: 2026-09-28T22:13:05Z
+source_hash: 80b4e75ad711fba2
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/8d09b0e4-44b4-47b2-9ff6-5da9f3b22e12
+  - https://agentic-knowledge-base.dev/id/chunk/5287133e-f7a3-4913-8aaf-062647cf5491
+  - https://agentic-knowledge-base.dev/id/chunk/6321bf38-7026-4c60-b4fb-7cf3a956b35b
+serves: []
+tested: {}
+ids:
+  cls:Units: https://agentic-knowledge-base.dev/id/chunk/f1f06f16-947e-47c4-b831-f8359170bfed
+  composite:head: https://agentic-knowledge-base.dev/id/composite/65821c5b-b041-4c4e-b091-d06cd213fc1a
+  composite:sec:resolve: https://agentic-knowledge-base.dev/id/composite/35504745-0bb4-47e0-ae4a-3da6e0e07b3d
+  composite:sec:units: https://agentic-knowledge-base.dev/id/composite/570df80b-916d-466e-a9fe-8a9ac66eea54
+  file: https://agentic-knowledge-base.dev/id/composite/b28a66c9-4140-4beb-bb95-69e12a91e607
+  fn:cell: https://agentic-knowledge-base.dev/id/chunk/ec5e9dfa-5521-4e0c-8ae8-6be045e70e81
+  fn:gather: https://agentic-knowledge-base.dev/id/chunk/884c28fc-a47e-4e4b-ac96-a98f560a3d07
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/6c4416f9-52c1-404c-8a6d-1c07e65cc077
+  fn:resolve: https://agentic-knowledge-base.dev/id/chunk/aff29f4a-80e3-4986-a736-70f7ada9fa55
+  fn:tim_kinds: https://agentic-knowledge-base.dev/id/chunk/f6a3aa93-d0de-4c63-b007-96fc8167809a
+  fn:violation: https://agentic-knowledge-base.dev/id/chunk/e3fd5c02-635a-402a-ad7b-f2cbc4d10b46
+  head: https://agentic-knowledge-base.dev/id/chunk/d456c76a-43ad-49f5-b73e-ca32721dd5ec
+  module: https://agentic-knowledge-base.dev/id/chunk/2ed70acf-5e27-4d27-986f-458977bf1974
+  sec:resolve: https://agentic-knowledge-base.dev/id/chunk/852eee3d-030c-4577-bb5b-ced0af3d9025
+  sec:units: https://agentic-knowledge-base.dev/id/chunk/bdab0d5a-5076-4c68-9b52-2b3f550756f6

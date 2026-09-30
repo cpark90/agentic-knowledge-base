@@ -1,0 +1,30 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/odd_check/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/odd_check.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-odd-check
+package: kb/dev/artifact/odd_check
+at: 2026-09-22T11:38:01Z
+source_hash: 2566c7f7c557d078
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/8e83391e-5fd2-499b-881c-37e6f9cb60f1
+  - https://agentic-knowledge-base.dev/id/chunk/2df65a05-0d25-4b3c-aae9-8da6dd82218f
+serves: []
+tested: {}
+ids:
+  composite:head: https://agentic-knowledge-base.dev/id/composite/e44984c2-2b4f-4954-b669-2fe90cda7c2d
+  composite:sec:load-odd: https://agentic-knowledge-base.dev/id/composite/bdc32d15-06d9-439b-a3b2-0d3dab05225f
+  composite:sec:render: https://agentic-knowledge-base.dev/id/composite/f0f7ba13-f15d-489f-80df-4c7ae50b0cdd
+  file: https://agentic-knowledge-base.dev/id/composite/860d7967-4c4a-48c3-846c-a6f932e81933
+  fn:condition_iri: https://agentic-knowledge-base.dev/id/chunk/b2d18590-036b-4fda-81e8-a8d9a2e4713d
+  fn:judge_all: https://agentic-knowledge-base.dev/id/chunk/0644b925-2088-4a6a-bc60-18ffa1808aa1
+  fn:judge_condition: https://agentic-knowledge-base.dev/id/chunk/2a753a77-e144-454d-9eda-42b7be3846db
+  fn:load_odd: https://agentic-knowledge-base.dev/id/chunk/d4ad9c8b-b1ad-417c-8d8e-bd440024008e
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/4854fed0-fd7f-4265-a159-21940432a740
+  fn:render: https://agentic-knowledge-base.dev/id/chunk/90f688eb-3f5a-4fec-bfc7-b1a2185f172d
+  head: https://agentic-knowledge-base.dev/id/chunk/c64a0d92-d978-4b1c-b12e-c03e8e8d1ef9
+  module: https://agentic-knowledge-base.dev/id/chunk/6f3c841f-1abc-46d4-8902-778ae97eff56
+  sec:load-odd: https://agentic-knowledge-base.dev/id/chunk/f007169a-4310-4ac7-a1af-f163c78ad8fb
+  sec:render: https://agentic-knowledge-base.dev/id/chunk/3eb4cde1-58d2-47ca-bdd8-5e1cf04dbd21

@@ -4,7 +4,7 @@ type: decision
 level: concrete
 title_ko: 판정자는 게이트 밖의 System One 모델이고 확신도는 집단 수준의 캘리브레이션이다
 title: The judge is a System One model outside the gates, and confidence is population-level calibration
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-jev-system-one}, {resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-standard}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]

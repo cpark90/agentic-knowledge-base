@@ -1,0 +1,30 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/gen_skills/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/gen_skills.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-gen-skills
+package: kb/dev/artifact/gen_skills
+at: 2026-09-22T11:38:01Z
+source_hash: 4e8bb41bcbfeaed2
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f
+serves: []
+tested: {}
+ids:
+  cls:GenSkillsError: https://agentic-knowledge-base.dev/id/chunk/9337f5de-4a6b-420b-b51d-2a1afe8ebbae
+  composite:head: https://agentic-knowledge-base.dev/id/composite/23c6dd85-5555-4a99-b4f7-66ac3e891425
+  composite:sec:genskillserror: https://agentic-knowledge-base.dev/id/composite/210e1533-9390-4961-914e-3e556e96fe3d
+  composite:sec:render: https://agentic-knowledge-base.dev/id/composite/b9b38ba6-d689-44c6-814b-4526153a07b1
+  file: https://agentic-knowledge-base.dev/id/composite/826eea39-5afc-41d4-a5cc-4afd24c0f0b2
+  fn:docstring_parts: https://agentic-knowledge-base.dev/id/chunk/068914d2-cc43-489e-bcbe-f60049946a47
+  fn:generate: https://agentic-knowledge-base.dev/id/chunk/735aadbc-1b1e-465d-8274-4cb2aee71fb2
+  fn:heading_index: https://agentic-knowledge-base.dev/id/chunk/42689d2d-de66-4143-bd55-21a97e71e57c
+  fn:kebab: https://agentic-knowledge-base.dev/id/chunk/f4e15fab-b378-46c2-b8ae-ca2982aa9dcd
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/689ef793-7510-40b3-8834-b4553728cfeb
+  fn:render: https://agentic-knowledge-base.dev/id/chunk/32e0ebb2-c394-499d-8a6b-3c2f3e5ed23f
+  head: https://agentic-knowledge-base.dev/id/chunk/c29ecdfb-152c-44e9-b18d-b86fbe44d561
+  module: https://agentic-knowledge-base.dev/id/chunk/2db0c822-35f4-4cf1-b6ab-f74e1627b428
+  sec:genskillserror: https://agentic-knowledge-base.dev/id/chunk/6d857947-308c-4b68-89aa-84a559a23ed5
+  sec:render: https://agentic-knowledge-base.dev/id/chunk/800a9ff2-0659-4039-b958-7cae20639407

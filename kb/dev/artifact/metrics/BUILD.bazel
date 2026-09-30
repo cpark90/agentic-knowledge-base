@@ -1,0 +1,78 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "ch-fixed-sentence-coverage.md",
+        "ch-orphan-and-links.md",
+        "ch-parse-args.md",
+        "ch-render-head.md",
+        "fn-assumption_facts.md",
+        "fn-axis_proxies.md",
+        "fn-back_trace.md",
+        "fn-classify_chunks.md",
+        "fn-fixed_sentence_coverage.md",
+        "fn-link_build.md",
+        "fn-main.md",
+        "fn-orphan_and_links.md",
+        "fn-parse_args.md",
+        "fn-refinement_reach.md",
+        "fn-render_axis_sections.md",
+        "fn-render_distribution.md",
+        "fn-render_head.md",
+        "fn-render_stage_sections.md",
+        "fn-render_tail_sections.md",
+        "fn-role_worksets.md",
+        "fn-trust_and_size.md",
+        "fn-vv_facts.md",
+        "head.md",
+        "module.md",
+        "sec-assumption-facts.md",
+        "sec-axis-proxies.md",
+        "sec-back-trace.md",
+        "sec-classify-chunks.md",
+        "sec-fixed-sentence-coverage.md",
+        "sec-link-build.md",
+        "sec-main.md",
+        "sec-orphan-and-links.md",
+        "sec-parse-args.md",
+        "sec-refinement-reach.md",
+        "sec-render-axis-sections.md",
+        "sec-render-distribution.md",
+        "sec-render-head.md",
+        "sec-render-stage-sections.md",
+        "sec-render-tail-sections.md",
+        "sec-role-worksets.md",
+        "sec-trust-and-size.md",
+        "sec-vv-facts.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/3c529991-238b-41b3-abc4-9d4e944f0a32",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/e2d8a9c4-074b-4ff9-89a7-92e76bd285fb", "https://agentic-knowledge-base.dev/id/composite/90bd15d5-e388-4dc6-b7d0-0e639fe85f3f", "https://agentic-knowledge-base.dev/id/composite/c6d68e53-8445-4ac7-a4d6-7d59dd3b3ca6", "https://agentic-knowledge-base.dev/id/composite/608921b6-11ac-4736-ae95-09ee84f21b74", "https://agentic-knowledge-base.dev/id/composite/2bd326ae-1255-4621-b93d-03485668c5b1"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e2d8a9c4-074b-4ff9-89a7-92e76bd285fb", "https://agentic-knowledge-base.dev/id/composite/90bd15d5-e388-4dc6-b7d0-0e639fe85f3f", "https://agentic-knowledge-base.dev/id/composite/c6d68e53-8445-4ac7-a4d6-7d59dd3b3ca6", "https://agentic-knowledge-base.dev/id/composite/608921b6-11ac-4736-ae95-09ee84f21b74", "https://agentic-knowledge-base.dev/id/composite/2bd326ae-1255-4621-b93d-03485668c5b1"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p12-documents-are-generated",
+        "//kb/dev/decision:p14-stage-pass-conditions",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

@@ -1,0 +1,24 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/impact/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/impact.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-impact
+package: kb/dev/artifact/impact
+at: 2026-09-22T11:38:01Z
+source_hash: b3671031b7123969
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/05cabe0e-10b0-4e02-81b1-8f5154a94fcc
+serves: []
+tested: {}
+ids:
+  composite:head: https://agentic-knowledge-base.dev/id/composite/c50dc0b8-adad-4f3d-b3a4-b9b20b1fddca
+  composite:sec:q: https://agentic-knowledge-base.dev/id/composite/44b63663-ac34-40f1-92c6-a6281c93c7a6
+  file: https://agentic-knowledge-base.dev/id/composite/711360b7-62ed-4bfc-9088-27974668e958
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/9cf8cd96-ac27-4df3-b338-22a13d71ed35
+  fn:plane_of: https://agentic-knowledge-base.dev/id/chunk/d75bedf5-7e0c-4441-b80e-9ead963a2b0e
+  fn:q: https://agentic-knowledge-base.dev/id/chunk/2a84b29d-2217-4f0a-80af-ef04b3cb55cb
+  head: https://agentic-knowledge-base.dev/id/chunk/e3651d6a-824c-47cd-bd83-2db367e84196
+  module: https://agentic-knowledge-base.dev/id/chunk/bd4257e9-f398-4485-8765-92ca4a6348e1
+  sec:q: https://agentic-knowledge-base.dev/id/chunk/1859da80-53c3-4118-9af1-b046e2ade042

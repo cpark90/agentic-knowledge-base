@@ -309,6 +309,35 @@ def kb_skills_drift_test(name, skills, docs, tools = Label("//tools"), **kwargs)
         **kwargs
     )
 
+def kb_extract_drift_test(name, source, chunks, registry, tools = Label("//tools"), **kwargs):
+    """추출 드리프트 가드 — tools/extract.py --check 로 트리의 생성 청크·등록부를 재추출과 비교한다.
+
+    코드가 원본이고 청크는 생성물이다 (p7-code-extraction-direction). 소스를 고치고 추출을 안 돌린 경우와 생성 청크를
+    손으로 고친 경우를 FAIL [extract-drift] 로 잡는다. //:build_drift_test·//:skills_drift_test 와 같은 형이다.
+
+    Args:
+      name: 테스트 이름.
+      source: 추출할 소스 파일의 저장소 상대 경로 (문자열).
+      chunks: 생성 청크 묶음의 라벨 (filegroup — kb/dev/artifact/<모듈>:bodies).
+      registry: 등록부 사이드카의 라벨 (<소스>.chunks.yml).
+      tools: 도구 소스의 filegroup — 소스 파일 자신이 여기 있어야 추출이 읽는다.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = [
+            Label("//tools:extract.py"),
+            Label("//tools:kb_lib.py"),
+            Label("//tools:chunk2kg.py"),
+        ],
+        main = Label("//tools:extract.py"),
+        args = [source, "--check", "--root", "."],
+        data = [chunks, registry, tools],
+        deps = [requirement("rdflib")],  # kb_lib(추출 규약의 단일 정의처)가 요구
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
 def kb_index(name, srcs, out = "index.md"):
     """청크 head에서 라벨 목록 index.md를 생성한다 (5.6절, 부록 E.2).
 

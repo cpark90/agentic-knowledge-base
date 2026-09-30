@@ -46,7 +46,11 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
                 블록을 하나로 합친다(양 끝·증거의 합집합). 증거 IRI 는 같은 해시에 접미(-proposal)다
   coUpdatesWith: 같은 내용을 담아 함께 갱신되어야 하는 청크 IRI 목록 (선택, relatedTo 족 — 안전율 중복의 표시)
   part_of:      소속 복합체 IRI (선택) — 복합체는 멤버 중 하나가 composite: 로 선언
-  composite:    {id: …, title_ko: …, title: …, ordered: [<부분 IRI>…]} (선택) — 복합체 개체 선언. `ordered` 는 선택 키이고
+  composite:    {id: …, title_ko: …, title: …, ordered: [<부분 IRI>…], part_of: <상위 복합체 IRI>} (선택) — 복합체 개체 선언.
+                `part_of` 는 선택 키이며 **선언된 복합체**가 다른 복합체의 직접 부분임을 적는다 (p4-composite-as-part-of —
+                복합체는 청크 또는 다른 복합체를 부분으로 갖는다). 청크의 최상위 `part_of` 와 자리가 다르다: 앞은 청크의
+                소속, 뒤는 복합체의 소속이다. 상위 복합체도 같은 실행의 입력 집합 안에서 선언돼야 하고 사슬은 순환하지
+                않는다. 코드 추출(p7-code-links-on-file-composite)의 파일 → 장·절 → 함수 세 층이 이 키로 선다. `ordered` 는 선택 키이고
                 순서가 뜻을 갖는 복합체만 적는다 (결정 p4-composite-order-is-declared). 있으면 `agt:Composite , co:List` 로
                 타이핑하고 부분마다 `co:item [ a co:ListItem ; co:index "<1..n>"^^xsd:positiveInteger ; co:itemContent <부분> ]`
                 을 그 순서로 낸다. 없으면 `agt:hasDirectPart` 만 낸다(순서 없음) — 순서를 요구하지 않는 것에 순서를 붙이면
@@ -71,7 +75,7 @@ OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필
   --ordered:    묶음의 복합체가 선언한 부분의 순서 (인자, 선택) — 생성 BUILD 의 `kb_decision.ordered`·`kb_composite.ordered` 가 넘긴다.
                 결정 복합체 205개의 선언이 이 자리다 (유저 승인 2026-09-29: 예외 없음, 손으로 frontmatter 를 고치지 않는다).
                 frontmatter `composite.ordered` 와 함께 있으면 같아야 한다 — BUILD 는 뷰이고 frontmatter 가 원본이다
-  인용원:       본문(frontmatter 제외)에 소멸성 채널 경로 `docs/feedback/` 가 있으면 거부 — 규칙·근거는 영속 지식
+  인용원:       본문(frontmatter 제외, **코드 펜스 밖**)에 소멸성 채널 경로 `docs/feedback/` 가 있으면 거부 — 규칙·근거는 영속 지식
                 (노트·결정)에 둔다 (agrtls-practices-review P). status: deprecated 청크는 제외
 
 출력·종료: 위반은 `FAIL [chunk2kg] <경로>: <메시지>` (병합은 `FAIL [chunk2kg-merge]`, 특수화 사슬은 `FAIL [specialization]`) + EXIT_FAIL,
@@ -224,6 +228,8 @@ BODY_SLOT_FIELD_SEP = " · "  # 한 줄에 여러 필드를 담을 때(요구·�
 BODY_SLOT_QUALIFIER_MAX = 12  # 표지 뒤 한정어의 최대 길이 — 넘으면 한정어가 아니라 문장이다
 
 
+# ── 본문 슬롯 표지의 자리 ────────────────────
+
 def _body_slot_at_field_head(line: str, start: int) -> bool:
     """`start` 위치의 굵은 span 이 그 줄의 "필드 자리"에 있는가 — 줄 머리(불릿 다음) 또는 앞선 필드의
     ` · ` 구분자 다음. 표 셀·산문 접속·목록 항목 전체를 감싼 굵기는 이 자리가 아니다(위 BODY_SLOT_SPAN 주석)."""
@@ -252,6 +258,11 @@ BODY_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")  # 코드 펜스 안은 본문 
 # 둘이 함께 있으면 같아야 한다 — 생성 BUILD 는 뷰이고 frontmatter 가 원본이므로 불일치는 드리프트다.
 # hasDirectPart 는 순서와 무관하게 IRI 순으로 낸다 — community·weave·audit 이 그 술어를 읽고 순서 트리플은 추가일 뿐이다.
 ORDERED_KEY = "ordered"
+# 복합체가 다른 복합체의 부분이 되는 자리 (p4-composite-as-part-of "복합체는 청크 또는 다른 복합체를 부분으로 갖는다").
+# 청크의 최상위 `part_of` 는 그 청크가 어느 복합체의 부분인가이고, `composite.part_of` 는 **선언된 복합체**가 어느
+# 복합체의 부분인가다. 코드의 추출(p7-code-links-on-file-composite)이 이 자리를 처음 쓴다 — 파일 복합체 → 장·절
+# 복합체 → 함수 청크의 세 층은 부분 상한 9(4.5절) 안에서 파일 하나를 담는 유일한 형태다.
+PART_OF_KEY = "part_of"
 
 
 def order_errors(where: str, order, source: str) -> list:
@@ -274,6 +285,8 @@ PREAMBLE = """\
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 """
 
+
+# ── 본문 슬롯과 논평 형식 ────────────────────
 
 def body_slots(body: list[str]) -> list[str]:
     """본문이 쓴 슬롯 표지 — 등록된 표지(BODY_SLOT_MARKERS) 가운데 굵은 span 으로 나타난 것, 첫 등장 순서.
@@ -366,6 +379,8 @@ def comment_form(body: list[str]) -> dict:
     return form
 
 
+# ── 청크 파싱 ────────────────────
+
 def parse_chunk(path: str) -> tuple[dict, int]:
     """frontmatter dict와 본문 줄 수를 돌려준다."""
     lines = Path(path).read_text(encoding="utf-8").splitlines()
@@ -423,7 +438,16 @@ def parse_chunk(path: str) -> tuple[dict, int]:
             raise ValueError(f"{path}: 주석의 `대상:` 과 frontmatter {TARGETS_KEY} 가 다르다 — 본문 {sorted(in_body)} · "
                              f"frontmatter {sorted(declared)} (p7-commentary-form: 대상은 둘이 일치해야 한다)")
     if meta["status"] != "deprecated":
-        for i, raw in enumerate(lines[end + 1 :], start=end + 2):
+        fence = None  # 코드 펜스 안은 인용 구역이다 — 생성기는 원문을 고쳐 쓰지 않으므로(p7-code-extraction-direction)
+        for i, raw in enumerate(lines[end + 1 :], start=end + 2):  # 인용원 규칙은 **저작된 본문**의 규칙이다
+            m = BODY_FENCE.match(raw)
+            if fence:
+                if m and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence):
+                    fence = None
+                continue
+            if m:
+                fence = m.group(1)
+                continue
             if EPHEMERAL_PATH in raw:
                 raise ValueError(f"{path}:{i}: 소멸성 채널 경로를 인용원으로 쓰지 않는다 — 규칙·근거는 영속 지식(노트·결정)에 둔다 "
                                  f"(agrtls-practices-review P): {raw.strip()[:80]}")
@@ -497,6 +521,8 @@ def parse_value(val: str):
     return val.strip("'\"")
 
 
+# ── head 트리플의 방출 ────────────────────
+
 def esc(s: str) -> str:
     return s.replace("\\", "\\\\").replace('"', '\\"')
 
@@ -569,6 +595,8 @@ ID_BASE = "https://agentic-knowledge-base.dev/id/"
 EVIDENCE_BUILT = "agt:constructionRecord"
 EVIDENCE_RESTORED = "agt:proposal"
 
+
+# ── 링크의 방출과 정체성 ────────────────────
 
 def link_targets(meta: dict) -> set:
     """청크가 링크 키(LINK_KEYS)로 가리키는 대상 IRI 전부 — restored: 의 IRI 는 이 안에 있어야 한다."""
@@ -656,6 +684,8 @@ EVIDENCE_PREFIX = f"{ID_BASE}evidence/"
 _SPEC_LINE = re.compile(r"^    prov:specializationOf <([^>]+)>", re.MULTILINE)
 
 
+# ── 링크 블록의 재기저 ────────────────────
+
 def is_link_block(iri: str) -> bool:
     """링크·증거 블록인가 — 청크·복합체와 달리 뿌리 uuid 로 IRI 를 다시 계산하고 같은 IRI 는 합친다."""
     return iri.startswith(LINK_PREFIX) or iri.startswith(EVIDENCE_PREFIX)
@@ -739,6 +769,8 @@ def rebase_links(blocks: list, spec: dict) -> tuple:
                 slot[1][:] = sorted(set(slot[1]) | set(objs))
     return rest + [(iri, render_block(iri, stmts)) for iri, stmts in merged.items()], errors
 
+
+# ── 병합과 실행 ────────────────────
 
 def merge(out: str, fragments: list) -> int:
     """타깃별 head 조각(--fragment 출력)을 하나의 -kg 로 병합한다. IRI 중복 검사는 여기서 한다 (한 청크는 한 파일).
@@ -846,7 +878,8 @@ def main() -> int:
                 errors.append(f"{path}: 복합체 {comp['id']} 가 {composites[comp['id']]['path']} 와 중복 선언됨")
             else:
                 composites[comp["id"]] = {"ko": comp["title_ko"], "en": comp["title"], "members": [], "path": path,
-                                          "order": comp.get(ORDERED_KEY)}  # 선언된 순서 — 없으면 None
+                                          "order": comp.get(ORDERED_KEY),  # 선언된 순서 — 없으면 None
+                                          "parent": comp.get(PART_OF_KEY)}  # 상위 복합체 — 없으면 None (뿌리)
         if meta.get("part_of"):
             part_refs.append((meta["id"], meta["part_of"], path))
         blocks.append((meta["id"], emit_chunk(path, meta, n)))
@@ -857,17 +890,36 @@ def main() -> int:
                           f"액션 하나가 부분 청크 전부와 선언 청크를 함께 받아야 한다 (defs/kb.bzl 의 kb_composite·kb_decision)")
         else:
             composites[comp_iri]["members"].append((chunk_iri, path))
-    if args.ordered:  # 생성 BUILD 의 명시 인자 — 묶음마다 복합체 하나이므로 어느 복합체의 순서인지 모호하지 않다
-        errors += order_errors(args.out, args.ordered, "--ordered")
-        if len(composites) != 1:
-            errors.append(f"{args.out}: --ordered 는 복합체 하나를 선언하는 실행에만 준다 — 이 실행이 선언한 복합체는 "
-                          f"{len(composites)}개다 (defs/kb.bzl 의 kb_decision·kb_composite 가 묶음마다 한 번 넘긴다)")
+    for comp_iri, c in sorted(composites.items()):  # 복합체가 복합체의 부분이 되는 자리 (p4-composite-as-part-of)
+        parent = c.get("parent")
+        if not parent:
+            continue
+        if parent not in composites:
+            errors.append(f"{c['path']}: composite.{PART_OF_KEY} 대상 복합체 {parent} 가 이 묶음 안에 선언되지 않았다 — 중첩 복합체는 "
+                          f"한 액션이 뿌리부터 잎까지 함께 받아야 한다 (defs/kb.bzl 의 kb_composite)")
+        elif parent == comp_iri:
+            errors.append(f"{c['path']}: composite.{PART_OF_KEY} 가 자기 자신 {parent} 이다 — 부분-전체는 비순환이다 (4.5절)")
         else:
-            c = next(iter(composites.values()))
-            if c["order"] is not None and c["order"] != args.ordered:
-                errors.append(f"{c['path']}: --ordered 인자와 frontmatter composite.{ORDERED_KEY} 가 다르다 — 생성 BUILD 는 뷰이고 "
-                              f"frontmatter 가 원본이므로 불일치는 드리프트다: 인자 {args.ordered} · frontmatter {c['order']}")
-            c["order"] = args.ordered
+            composites[parent]["members"].append((comp_iri, c["path"]))
+    for comp_iri in sorted(composites):  # 사슬 순환 — 반대칭 공리의 생성 시점 대응 (4.5절 비순환)
+        seen_chain, cur = {comp_iri}, composites[comp_iri].get("parent")
+        while cur in composites:
+            if cur in seen_chain:
+                errors.append(f"{composites[comp_iri]['path']}: composite.{PART_OF_KEY} 사슬이 순환한다 — {comp_iri} 에서 시작해 {cur} 로 돌아온다 (4.5절 비순환)")
+                break
+            seen_chain.add(cur)
+            cur = composites[cur].get("parent")
+    if args.ordered:  # 생성 BUILD 의 명시 인자 — 중첩 묶음에서는 부분 집합이 같은 복합체 하나를 고른다
+        errors += order_errors(args.out, args.ordered, "--ordered")
+        target = [c for c in composites.values() if c["order"] is not None and c["order"] == args.ordered]
+        if not target:
+            target = [c for c in composites.values() if c["order"] is None and sorted(m for m, _ in c["members"]) == sorted(args.ordered)]
+        if len(target) != 1:
+            errors.append(f"{args.out}: --ordered 가 가리키는 복합체를 하나로 고를 수 없다 — 선언된 복합체 {len(composites)}개 가운데 "
+                          f"frontmatter composite.{ORDERED_KEY} 또는 부분 집합이 인자와 같은 것이 {len(target)}개다 "
+                          f"(defs/kb.bzl 의 kb_decision·kb_composite 가 묶음마다 뿌리 복합체의 순서를 한 번 넘긴다)")
+        else:
+            target[0]["order"] = args.ordered
     comp_blocks = []
     for iri, c in sorted(composites.items()):
         if not c["members"]:

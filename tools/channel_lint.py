@@ -54,6 +54,8 @@ ANSWERED = re.compile(r"^\*\*유저\(", re.M)
 PLACEHOLDER = re.compile(r"\((유저가 채움|hci가 유저의 답을 채움)")
 
 
+# ── 채널 lane 규약을 판정한다 ────────────────────
+
 def frontmatter(text: str) -> dict | None:
     """`---` 블록의 key: value 를 읽는다(`#` 뒤 주석 제거). 블록이 없으면 None."""
     lines = text.splitlines()

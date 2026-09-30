@@ -10,6 +10,11 @@ head 그래프의 agt:contentHash 와 같다. 재판정 대상은 둘을 합친�
   (c) **링크 개체** — 본문 해시가 바뀐 청크를 양 끝 중 하나로 갖는 agt:Link 의 IRI. 그 링크가 suspect 로 유도되는 자리다.
       IRI 는 chunk2kg 와 같은 함수(link_hash × work_id)로 계산하므로 head 그래프의 링크 개체와 같은 것이다 — 그래서 이 보고의
       한 줄이 그래프의 한 개체를 가리킨다. 상태는 저장하지 않는다 (노트 9.11절): suspect 는 여기서 물질화된다.
+**정체성은 uuid(frontmatter `id`)이고 경로는 주소다** (p10-split-keeps-work-identity · p10-function-identity-registry).
+그래서 base 와 워킹트리를 uuid 로 맞춘다 — 경로로 비교하면 개명·이동이 "삭제 + 신규" 로 보여 재판정 대상이 부풀고 링크가
+깨진 것처럼 읽힌다. 경로가 바뀐 것은 **라벨 변경**으로 보고한다. 하류 조회의 타깃 라벨은 `gen_build` 의 `iri_to_label`
+에서 온다 — 복합체 묶음 뒤에는 부분마다의 개별 타깃이 없으므로 경로에서 라벨을 지어내면 rdeps 가 늘 0 이다.
+
 git 과 bazel query 를 부르므로 odd_check 처럼 테스트 타깃이 아니다. 판정은 사람/승인된 판정자의 몫이다.
 
 사용: bazel run //tools:revalidate -- [--base HEAD] [--universe '//...'] [--out report.md]
@@ -37,8 +42,11 @@ CHUNK_DIRS = ("kb", "chunks")
 # frontmatter 의 링크 키 — 목록 값. part_of 는 스칼라
 LINK_KEYS = ("refines", "serves", "supersedes", "verifies", "assumes", "satisfies", "constrains", "derivesFrom", "allocates",
              "coUpdatesWith", "overlapsWith")
-ITEM_KINDS = "kb_chunk|kb_decision"
+# 하류 조회가 세는 타깃 종류 — 복합체 묶음(kb_composite)이 빠지면 추출된 코드 청크의 rdeps 가 늘 0 이다
+ITEM_KINDS = "kb_chunk|kb_decision|kb_composite"
 
+
+# ── 청크 읽기와 링크 해소 ────────────────────
 
 def run(cmd: list, cwd: str, check: bool = True) -> str:
     r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
@@ -87,19 +95,24 @@ def link_objects(index: dict, iris: set) -> list:
     return out
 
 
-def package_of(root: Path, rel: str) -> tuple:
-    """가장 가까운 BUILD.bazel 의 패키지와 그 안 경로 → 소스 파일 라벨 //pkg:path 의 두 부분."""
-    p = Path(rel)
-    for d in [p.parent] + list(p.parents)[:-1]:
-        if (root / d / "BUILD.bazel").exists() or (root / d / "BUILD").exists():
-            return str(d), str(p.relative_to(d))
-    return "", rel
+# ── 하류 조회와 보고 ────────────────────
 
+def owner_labels(root: Path) -> dict:
+    """IRI → 소유 Bazel 타깃 라벨. 규칙의 원본은 `gen_build` 의 `iri_to_label` 이다 — 여기서 다시 적지 않는다.
 
-def owner_label(pkg: str, sub: str) -> str:
-    """gen_build 의 규약: 결정은 <dir>/{conclusion,rationale,alternatives}.md → //pkg:<dir>, 청크는 <name>.md → //pkg:<name>."""
-    m = re.match(r"(.+)/(conclusion|rationale|alternatives)\.md$", sub)
-    return f"//{pkg}:{m.group(1) if m else sub[:-3]}"
+    복합체 묶음(`kb_composite`·`kb_decision`) 뒤에는 **부분마다의 개별 타깃이 없다**. 파일 경로에서 라벨을 지어내면
+    추출된 코드 청크(`kb/dev/artifact/<모듈>/fn-*.md`)가 존재하지 않는 타깃을 가리켜 `bazel query rdeps` 가 늘 0/0 이
+    된다. 생성기를 그대로 불러 사상을 얻는다. 생성 시점 거부(끊긴 링크 등)가 있으면 빈 사상을 돌려주고 경고만 남긴다.
+    """
+    try:
+        from gen_build import GenBuildError, scan
+    except ImportError:
+        from tools.gen_build import GenBuildError, scan
+    try:
+        return scan(root)[1]
+    except (GenBuildError, ValueError, OSError) as e:
+        print(f"WARN [revalidate] 타깃 라벨 사상을 얻지 못했다 — 하류 의존자 없이 보고한다: {e}")
+        return {}
 
 
 def bazel_rdeps(cwd: str, owners: list, universe: str) -> dict:
@@ -173,33 +186,47 @@ def main() -> int:
         if path.endswith(".md"):
             status[path] = ("A", path)
 
-    changed, head_only = [], []  # changed: (경로, 종류, iri, meta_wt|None, meta_base|None, 비고)
+    # 정체성은 uuid(frontmatter `id`)이고 경로는 주소다 (p10-split-keeps-work-identity · p10-function-identity-registry).
+    # 경로로 비교하면 개명·이동이 "삭제 + 신규" 로 보여 재판정 대상이 부풀고 링크가 깨진 것처럼 읽힌다.
+    by_path = {rel: iri for iri, (rel, _m) in index.items()}
+    base_by_iri, unread = {}, []
     for path, (st, base_path) in sorted(status.items()):
-        wt = next(((iri, m) for iri, (rel, m) in index.items() if rel == path), None)
-        base_meta, note = None, ""
-        if st != "A":
-            txt = run(["git", "show", f"{a.base}:{base_path}"], cwd, check=False)
-            try:
-                base_meta = parse_text(txt, base_path) if txt else None
-            except ValueError as e:
-                note = "base 판독 불가 → 변경으로 간주"
-        if st == "D":
-            if base_meta:
-                changed.append((path, "삭제", base_meta["id"], None, base_meta, "이 IRI 를 가리키는 링크는 깨진다"))
+        if st == "A":
             continue
+        txt = run(["git", "show", f"{a.base}:{base_path}"], cwd, check=False)
+        try:
+            bm = parse_text(txt, base_path) if txt else None
+        except ValueError:
+            unread.append(base_path)
+            continue
+        if bm:
+            base_by_iri[bm["id"]] = (base_path, bm)
+    touched = {by_path[p] for p in status if p in by_path} | set(base_by_iri)
+
+    changed, head_only = [], []  # changed: (경로, 종류, iri, meta_wt|None, meta_base|None, 비고)
+    for iri in sorted(touched):
+        wt = index.get(iri)
+        base = base_by_iri.get(iri)
         if wt is None:
-            continue  # 청크가 아닌 md (frontmatter 없음)
-        iri, meta = wt
-        if st == "A" or base_meta is None:
-            changed.append((path, "신규" if st == "A" else "변경", iri, meta, base_meta, note))
-        elif meta["_content_hash"] != base_meta["_content_hash"]:
-            changed.append((path, "본문 변경", iri, meta, base_meta, f"{base_meta['_content_hash']} → {meta['_content_hash']}"))
+            if base:
+                changed.append((base[0], "삭제", iri, None, base[1], "이 IRI 를 가리키는 링크는 깨진다"))
+            continue
+        path, meta = wt
+        if base is None:
+            changed.append((path, "신규", iri, meta, None, "base 에 이 IRI 가 없다"))
+            continue
+        base_path, base_meta = base
+        moved = f"경로 변경(라벨 변경) `{base_path}` → `{path}`" if base_path != path else ""
+        if meta["_content_hash"] != base_meta["_content_hash"]:
+            changed.append((path, "본문 변경", iri, meta, base_meta,
+                            " · ".join(x for x in (f"{base_meta['_content_hash']} → {meta['_content_hash']}", moved) if x)))
         else:
             keys = sorted(k for k in LINK_KEYS + ("part_of",) if (meta.get(k) or None) != (base_meta.get(k) or None))
-            head_only.append((path, keys))
+            head_only.append((path, keys + ([moved] if moved else [])))
 
     # 3. 재판정 대상 — (a) frontmatter 링크 양방향 (b) bazel rdeps
-    owners = sorted({owner_label(*package_of(root, path)) for path, kind, *_ in changed if kind != "삭제"})
+    iri_to_label = owner_labels(root)
+    owners = sorted({iri_to_label[iri] for _p, kind, iri, *_ in changed if kind != "삭제" and iri in iri_to_label})
     rd = bazel_rdeps(cwd, owners, a.universe) if owners else {}
     label = lambda iri: (f"`{index[iri][0]}` — {index[iri][1].get('title_ko', '')}" if iri in index else f"<{iri}>" + (" (복합체)" if iri in composite_parts else " (없음)"))
     rows, per_chunk = [], []
@@ -213,7 +240,7 @@ def main() -> int:
             rows.append((path, k, "→", label(t), "frontmatter"))
         for k, s in in_links:
             rows.append((path, k, "←", label(s), "frontmatter"))
-        direct, trans = rd.get(owner_label(*package_of(root, path)), (None, None)) if kind != "삭제" else ([], [])
+        direct, trans = rd.get(iri_to_label.get(iri, ""), (None, None)) if kind != "삭제" else ([], [])
         for t in direct or []:
             rows.append((path, "deps", "←", f"`{t}`", "bazel rdeps 직접"))
         for t in trans or []:
@@ -253,8 +280,8 @@ def main() -> int:
     if head_only:
         body += ["head 만 바뀐 청크 (링크 키 변경이 있으면 표시): " + " · ".join(f"`{p}`" + (f" [{', '.join(ks)}]" if ks else "") for p, ks in head_only[:20])
                 + (f" … 외 {len(head_only) - 20}" if len(head_only) > 20 else "")]
-    if unparsable:
-        body += ["판독 불가 파일: " + " · ".join(unparsable[:10])]
+    if unparsable or unread:
+        body += ["판독 불가 파일: " + " · ".join((unparsable + [f"{u}: base 판독 불가" for u in unread])[:10])]
     text = kb_lib.gendoc_assemble(rep, body, [])
     print(text)
     if a.out:

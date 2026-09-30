@@ -1,0 +1,75 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "cls-Builder.md",
+        "cls-Chunk.md",
+        "cls-ExtractError.md",
+        "cls-Ids.md",
+        "cls-Region.md",
+        "fn-_key_regions.md",
+        "fn-_own_lines.md",
+        "fn-_place.md",
+        "fn-collect.md",
+        "fn-def_kind.md",
+        "fn-dump_registry.md",
+        "fn-first_sentence.md",
+        "fn-load_registry.md",
+        "fn-main.md",
+        "fn-module_head_end.md",
+        "fn-normalized_hash.md",
+        "fn-parse_source.md",
+        "fn-previous_bodies.md",
+        "fn-previous_hashes.md",
+        "fn-qualified.md",
+        "fn-quote.md",
+        "fn-region_qname.md",
+        "fn-registry_path.md",
+        "fn-render.md",
+        "fn-resolve.md",
+        "fn-signature.md",
+        "fn-source_of.md",
+        "fn-source_stamp.md",
+        "fn-stamped.md",
+        "fn-trim.md",
+        "head.md",
+        "module.md",
+        "sec-chunk.md",
+        "sec-ids.md",
+        "sec-qualified.md",
+        "sec-region.md",
+        "sec-registry-head.md",
+        "sec-stamped.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/99abae51-6823-4ed8-9bfe-4255801d4681",
+    ordered = ["https://agentic-knowledge-base.dev/id/composite/57a845e1-da27-4d9d-b5b0-b25148ccece7", "https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-4341-b151-9ecda0fefd53", "https://agentic-knowledge-base.dev/id/composite/52eb4f03-55ea-4dfb-be6d-9164da7da5ef", "https://agentic-knowledge-base.dev/id/composite/019eb57b-f2ff-48bf-a135-886b1f348685", "https://agentic-knowledge-base.dev/id/composite/e15e9467-610e-43bf-b882-759772f9ace0", "https://agentic-knowledge-base.dev/id/composite/bdbaec34-7407-4d5e-83f8-0706026f0b98", "https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986-80ad97804df0"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/composite/57a845e1-da27-4d9d-b5b0-b25148ccece7", "https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-4341-b151-9ecda0fefd53", "https://agentic-knowledge-base.dev/id/composite/52eb4f03-55ea-4dfb-be6d-9164da7da5ef", "https://agentic-knowledge-base.dev/id/composite/019eb57b-f2ff-48bf-a135-886b1f348685", "https://agentic-knowledge-base.dev/id/composite/e15e9467-610e-43bf-b882-759772f9ace0", "https://agentic-knowledge-base.dev/id/composite/bdbaec34-7407-4d5e-83f8-0706026f0b98", "https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986-80ad97804df0"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p10-function-identity-registry",
+        "//kb/dev/decision:p7-code-extraction-direction",
+        "//kb/dev/decision:p7-code-links-on-file-composite",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

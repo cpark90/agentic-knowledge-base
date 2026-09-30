@@ -1,0 +1,48 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "cls-SpaceError.md",
+        "fn-body_block.md",
+        "fn-emit.md",
+        "fn-evidence_of.md",
+        "fn-main.md",
+        "fn-parse_space.md",
+        "fn-render.md",
+        "head.md",
+        "module.md",
+        "sec-emit.md",
+        "sec-spaceerror.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/89a47e26-d93e-47e7-ae74-ba6e801d1d5a",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/06619efb-02eb-4124-9d89-7e2245f5d90c", "https://agentic-knowledge-base.dev/id/composite/fc3f9858-3941-435d-b741-071b871ce613", "https://agentic-knowledge-base.dev/id/composite/2716ece9-44f6-48ff-b2ab-1ad0ea6fa6c0"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/06619efb-02eb-4124-9d89-7e2245f5d90c", "https://agentic-knowledge-base.dev/id/composite/fc3f9858-3941-435d-b741-071b871ce613", "https://agentic-knowledge-base.dev/id/composite/2716ece9-44f6-48ff-b2ab-1ad0ea6fa6c0"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p9-candidate-storage",
+        "//kb/dev/decision:p9-design-space-file",
+        "//kb/dev/decision:p9-uncertainty-as-link-uncertainty",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

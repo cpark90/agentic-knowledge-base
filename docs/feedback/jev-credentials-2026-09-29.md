@@ -42,4 +42,4 @@ targets: [tools/judge.py, kb/odd/project-odd.yml, kb/dev/decision/p8-judge-quest
 3. **에이전트 세션을 판정자로 계속 쓴다.** 확신도를 자기 보고로 받는다. 비용: 없음. 캘리브레이션 축은 판정 불가로 남는다.
 
 ## 답
-1.
+jev를 직접 사용하지 않음. 왜 jev 서비스를 활용하는 쪽으로 진행되고 있는지 모르겠으나. 별도의 서비스를 활용하지 않게 다시 대처방안 마련해서 진행. 현 knowledge-base 프로젝트에서 지식의 구조화에 대해서 구상할때 jev의 방법론과 system one을 참고하라는 의미였음.

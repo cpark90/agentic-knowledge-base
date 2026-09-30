@@ -1,0 +1,74 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "cls-SpecializationError.md",
+        "fn-_alt.md",
+        "fn-_body_slot_at_field_head.md",
+        "fn-apply_plane_level_state.md",
+        "fn-body_slots.md",
+        "fn-check_restored.md",
+        "fn-comment_form.md",
+        "fn-count_sentences.md",
+        "fn-emit_chunk.md",
+        "fn-emit_links.md",
+        "fn-esc.md",
+        "fn-is_link_block.md",
+        "fn-link_hash.md",
+        "fn-link_targets.md",
+        "fn-load_plane_level_state.md",
+        "fn-main.md",
+        "fn-merge.md",
+        "fn-order_errors.md",
+        "fn-parse_block.md",
+        "fn-parse_chunk.md",
+        "fn-parse_map.md",
+        "fn-parse_value.md",
+        "fn-rebase_links.md",
+        "fn-render_block.md",
+        "fn-spec_cycles.md",
+        "fn-split_outside_brackets.md",
+        "fn-work_id.md",
+        "head.md",
+        "module.md",
+        "sec--body-slot-at-field-head.md",
+        "sec-body-slots.md",
+        "sec-esc.md",
+        "sec-is-link-block.md",
+        "sec-link-targets.md",
+        "sec-merge.md",
+        "sec-ordered-key.md",
+        "sec-parse-chunk.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/f7d6eec7-bef4-4e94-ac55-36e7dda654ce",
+    ordered = ["https://agentic-knowledge-base.dev/id/composite/b1903be2-0bdb-4f11-9c2b-cc59cc7e9a24", "https://agentic-knowledge-base.dev/id/composite/d2327845-e19c-432e-bef7-b5d429601fb6", "https://agentic-knowledge-base.dev/id/composite/7b4508d3-c314-4c0b-a04f-4f86b63bf62e", "https://agentic-knowledge-base.dev/id/composite/992d5e5a-5efc-4108-a5c8-1e75dd96807a", "https://agentic-knowledge-base.dev/id/composite/ee14f038-7ba4-416d-8e2c-3314fe17ab94", "https://agentic-knowledge-base.dev/id/composite/094f7e14-ed5b-4c40-83f8-782d9f4161b0", "https://agentic-knowledge-base.dev/id/composite/eb257ae0-1a24-4c24-8425-e44c940a91b2", "https://agentic-knowledge-base.dev/id/composite/2c7e96e6-1c7a-4f75-b63b-8c0d0db3e828", "https://agentic-knowledge-base.dev/id/composite/c5e6231f-44b9-4294-805c-08d03635fc72"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/composite/b1903be2-0bdb-4f11-9c2b-cc59cc7e9a24", "https://agentic-knowledge-base.dev/id/composite/d2327845-e19c-432e-bef7-b5d429601fb6", "https://agentic-knowledge-base.dev/id/composite/7b4508d3-c314-4c0b-a04f-4f86b63bf62e", "https://agentic-knowledge-base.dev/id/composite/992d5e5a-5efc-4108-a5c8-1e75dd96807a", "https://agentic-knowledge-base.dev/id/composite/ee14f038-7ba4-416d-8e2c-3314fe17ab94", "https://agentic-knowledge-base.dev/id/composite/094f7e14-ed5b-4c40-83f8-782d9f4161b0", "https://agentic-knowledge-base.dev/id/composite/eb257ae0-1a24-4c24-8425-e44c940a91b2", "https://agentic-knowledge-base.dev/id/composite/2c7e96e6-1c7a-4f75-b63b-8c0d0db3e828", "https://agentic-knowledge-base.dev/id/composite/c5e6231f-44b9-4294-805c-08d03635fc72"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p4-chunk-as-four-named-graphs",
+        "//kb/dev/decision:p4-composite-order-is-declared",
+        "//kb/dev/decision:p4-plane-subclass-level-property",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

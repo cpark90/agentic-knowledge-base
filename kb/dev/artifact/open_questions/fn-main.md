@@ -1,0 +1,92 @@
+---
+id: https://agentic-knowledge-base.dev/id/chunk/9be2f024-78e1-424a-926b-c50d75da9888
+type: artifact
+level: executable
+title_ko: 함수 main (tools/open_questions.py)
+title: function main in tools/open_questions.py
+status: stable
+sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-open-questions}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+part_of: https://agentic-knowledge-base.dev/id/composite/ee1861ba-64c4-4bbb-8da8-cfc4336823c0
+---
+**함수** — `main()` 다.
+
+<!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
+```python
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--out", required=True)
+    ap.add_argument("--bodies", nargs="*", default=[], help="청크 .md — 그래프의 assertionLocation 과 접미로 맞춘다")
+    ap.add_argument("--root", default=".")
+    ap.add_argument("files", nargs="+", help="그래프 TTL (head 포함)")
+    a = ap.parse_args()
+    root = Path(a.root)
+
+    g = Graph()
+    for f in a.files:
+        try:
+            g.parse(f, format="turtle")
+        except Exception as e:  # noqa: BLE001 — rdflib 의 파싱 예외는 종류가 여럿이다
+            print(f"CONFIG [open] 그래프를 읽을 수 없다 — {f}: {e}", file=sys.stderr)
+            return kb_lib.EXIT_CONFIG
+    by_suffix = {str(p): p for p in (Path(b) for b in a.bodies)}
+
+    def body_of(loc: str) -> str:
+        for s, p in by_suffix.items():
+            if s.endswith(loc):
+                return kb_lib.chunk_body(p.read_text(encoding="utf-8"))
+        f = root / loc
+        return kb_lib.chunk_body(f.read_text(encoding="utf-8")) if f.is_file() else ""
+
+    rows, missing = [], []
+    for c in sorted(set(g.subjects(AGT.bodySlot, rdflib.Literal(SLOT))), key=str):
+        loc = str(next(g.objects(c, AGT.assertionLocation), ""))
+        q, detail = question_of(body_of(loc))
+        if not q:
+            missing.append(loc)
+            continue
+        rows.append({
+            "q": q, "detail": detail, "loc": loc,
+            "ko": kb_lib.label_of(g, c, "ko"),
+            "iri": kb_lib.compact_iri(str(c)),
+            "plane": str(next(g.objects(c, RDF.type), "")).split("/")[-1].replace("Chunk", "").lower(),
+            "level": str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1],
+            "status": str(next(g.objects(c, AGT.status), "")),
+        })
+    rows.sort(key=lambda r: (r["loc"], r["q"]))
+
+    head = kb_lib.gendoc_header(
+        "open", "미결 집계", "tools/open_questions.py",
+        f"head 그래프에서 선택 슬롯 `{SLOT}:` 을 가진 청크(`agt:bodySlot \"{SLOT}\"`)를 모아, 미결마다 질문 · 그것을 안은 청크(라벨·IRI) · "
+        f"plane/level · 상세 문서를 낸다. **집계만 맡는다** — 미결의 상세 다섯 절은 42줄 청크에 들어가지 않아 "
+        f"`{INDEX_DOC}` 색인과 그 아래 문서로 남고 이 뷰가 그것을 대체하지 않는다",
+        "bazel build //kg:open", a.files, f"미결 {len(rows)}개 · 청크 {len({r['loc'] for r in rows})}개",
+        kb_lib.gendoc_view_notice("미결을 안은 청크의 `미확정:` 슬롯"), input_kind="그래프 파일")
+
+    lines = ["## 요약", "",
+             "| 항목 | 값 |", "|---|---|",
+             f"| 미결 | {len(rows)} |",
+             f"| 미결을 안은 청크 | {len({r['loc'] for r in rows})} |",
+             f"| plane 분포 | " + (" · ".join(f"{p} {sum(1 for r in rows if r['plane'] == p)}"
+                                              for p in sorted({r["plane"] for r in rows})) or kb_lib.NONE_MARK) + " |",
+             f"| 상세 문서가 있는 미결 | {kb_lib.pct(sum(1 for r in rows if r['detail']), len(rows))} |",
+             f"| 슬롯은 있으나 질문을 못 읽은 청크 | {len(missing)} |",
+             "", "## 미결", "",
+             "| 질문 | 청크 | plane/level | 상태 | 상세 |", "|---|---|---|---|---|"]
+    for r in rows:
+        # 링크가 아니라 코드 스팬이다 — 생성물은 bazel-bin/kg/ 에 놓이므로 소스 기준 상대경로가 성립하지 않는다 (STYLEGUIDE §9)
+        detail = f"`{r['detail']}`" if r["detail"] else kb_lib.NONE_MARK
+        lines.append(f"| {cell(r['q'])} | {cell(r['ko'])}<br>`{r['iri']}` | {cell(r['plane'])}/{cell(r['level'])} | "
+                     f"{cell(r['status'])} | {detail} |")
+    if not rows:
+        lines.append("| " + " | ".join([kb_lib.NONE_MARK] * 5) + " |")
+
+    lines += ["", "## 슬롯을 읽지 못한 청크", "",
+              f"슬롯 표지는 있으나 `{SLOT}: <질문>` 줄을 본문에서 찾지 못한 청크다. 본문이 `--bodies` 에도 `--root` 아래에도 없거나 슬롯의 형태가 다르다.", ""]
+    lines += [f"- `{loc}`" for loc in sorted(missing)] or [f"- {kb_lib.NONE_MARK}"]
+    lines.append("")
+    Path(a.out).write_text(kb_lib.gendoc_assemble(head, lines, a.files, input_kind="그래프 파일"), encoding="utf-8")
+    return kb_lib.EXIT_OK
+```
+<!-- 인용 끝 -->

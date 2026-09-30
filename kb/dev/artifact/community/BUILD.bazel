@@ -1,0 +1,46 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "fn-_aggregate.md",
+        "fn-_one_level.md",
+        "fn-label_ko.md",
+        "fn-louvain.md",
+        "fn-main.md",
+        "fn-modularity.md",
+        "fn-short.md",
+        "head.md",
+        "module.md",
+        "sec-label-ko.md",
+        "sec-modularity.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/0ef43353-941b-4b48-b8b1-2ef9a8eacf53",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/13568c50-9137-4cc7-82ab-dc6e233c5bcc", "https://agentic-knowledge-base.dev/id/composite/29733e84-623f-4e11-b466-6c084c8510a5", "https://agentic-knowledge-base.dev/id/composite/09eb4947-176f-41ad-92ee-7632b5240022"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/13568c50-9137-4cc7-82ab-dc6e233c5bcc", "https://agentic-knowledge-base.dev/id/composite/29733e84-623f-4e11-b466-6c084c8510a5", "https://agentic-knowledge-base.dev/id/composite/09eb4947-176f-41ad-92ee-7632b5240022"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p4-community-detection-proposes-composites",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

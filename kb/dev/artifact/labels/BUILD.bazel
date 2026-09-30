@@ -1,0 +1,41 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "fn-main.md",
+        "fn-plane_of.md",
+        "head.md",
+        "module.md",
+        "sec-plane-of.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/f367e186-3a1a-4660-aeb4-7473d4b28b2a",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/019a25f2-901b-47ff-94e4-2449c78f7e2b", "https://agentic-knowledge-base.dev/id/composite/fba87a37-4ad2-4ccb-b556-a27d4ef6b9d2"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/019a25f2-901b-47ff-94e4-2449c78f7e2b", "https://agentic-knowledge-base.dev/id/composite/fba87a37-4ad2-4ccb-b556-a27d4ef6b9d2"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p12-documents-are-generated",
+        "//kb/dev/decision:p4-label-is-the-interface",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

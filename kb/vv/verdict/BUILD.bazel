@@ -24,6 +24,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "code-chunk-churn-cycle",
+    src = "code-chunk-churn-cycle.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d29c0250-4327-4f3a-a337-d80979e3fc9a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "exit-code-only-judgement",
     src = "exit-code-only-judgement.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/851ddbad-257f-4b76-afec-adc62b374c3a",
@@ -36,6 +45,186 @@ kb_chunk(
     name = "gate-axis-coverage",
     src = "gate-axis-coverage.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/6a56201a-a7b9-4aad-a32a-4979181464d0",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-009-ascend-to-requirement-judge-a-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-009-ascend-to-requirement-judge-a-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7ae3424c-8a36-49e7-8b96-5d2ad7e0399f",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-009-ascend-to-requirement-judge-b-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-009-ascend-to-requirement-judge-b-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a3c5e075-66da-4c6e-9b66-b0694e12ad88",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-010-decision-names-concern-judge-a-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-010-decision-names-concern-judge-a-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2fe22e43-193c-43db-a0a6-32ee09c59f88",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-010-decision-names-concern-judge-b-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-010-decision-names-concern-judge-b-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6854f431-8346-4007-b9a7-ab1c09ef5c8d",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-012-edits-downgrade-links-judge-a-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-012-edits-downgrade-links-judge-a-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7ee202a7-ce6b-4f34-9bd1-d5f8ac8f3944",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-012-edits-downgrade-links-judge-b-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-012-edits-downgrade-links-judge-b-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cd84b145-c893-40d5-9115-f23a9dba5ff4",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-015-dispatch-workset-only-judge-a-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-015-dispatch-workset-only-judge-a-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b0d3f9fd-4d99-4e83-836b-d69ce6fd0206",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-015-dispatch-workset-only-judge-b-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-015-dispatch-workset-only-judge-b-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e05fd20a-e9be-4c0e-b203-88aae4072712",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-016-gate-judges-actions-judge-a-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-016-gate-judges-actions-judge-a-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e40221e0-c8f1-4723-8ea5-64ba390f27f6",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-016-gate-judges-actions-judge-b-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-016-gate-judges-actions-judge-b-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fb548284-eafb-4c4d-b52b-b9e77b52fa25",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-018-planes-stay-separate-judge-a-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-018-planes-stay-separate-judge-a-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/239538e4-c666-4fb3-b58a-0f48544ab7d2",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-018-planes-stay-separate-judge-b-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-018-planes-stay-separate-judge-b-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f91f7991-ab33-41cf-923e-463fd5914f7f",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-019-record-read-write-sets-judge-a-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-019-record-read-write-sets-judge-a-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9ece8518-abd8-43f0-8883-deb0f40de64d",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-019-record-read-write-sets-judge-b-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-019-record-read-write-sets-judge-b-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/47b2d0d0-36d8-43b3-a331-15e18ab31db0",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-021-two-kbs-separated-judge-a-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-021-two-kbs-separated-judge-a-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9430e885-fc8d-4af0-b0f7-5c4e7be4355a",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-021-two-kbs-separated-judge-b-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-021-two-kbs-separated-judge-b-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f0466dd8-53d1-40d4-8e63-e3711ae1abee",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-025-verify-product-and-agent-judge-a-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-025-verify-product-and-agent-judge-a-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/90d93c19-d014-4028-8318-ada92f6fe779",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-025-verify-product-and-agent-judge-b-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-025-verify-product-and-agent-judge-b-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f685a9a0-ead6-4337-b4d1-3f0ee10c5f9c",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-026-observations-append-only-judge-a-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-026-observations-append-only-judge-a-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b8f0942f-79cc-4c1c-9939-a4a09d5c8ae5",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-labelrepresentsbody-r-026-observations-append-only-judge-b-claude-sonnet-5",
+    src = "judge-labelrepresentsbody-r-026-observations-append-only-judge-b-claude-sonnet-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3cd79fef-1495-4240-a638-bdf6b3911729",
     plane = "annotation",
     level = "functional",
     status = "draft",
@@ -78,6 +267,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "session-judge-agreement-first-sample",
+    src = "session-judge-agreement-first-sample.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9fd4ae9c-85a9-4b4e-91f7-8104bdbe7ce2",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "skipped-negative-stimuli",
     src = "skipped-negative-stimuli.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/37e5d11c-da21-4507-ba87-e96d60225f6f",
@@ -109,12 +307,34 @@ kb_bundle(
     name = "kg",
     items = [
         ":bazel-run-loses-relative-paths",
+        ":code-chunk-churn-cycle",
         ":exit-code-only-judgement",
         ":gate-axis-coverage",
+        ":judge-labelrepresentsbody-r-009-ascend-to-requirement-judge-a-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-009-ascend-to-requirement-judge-b-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-010-decision-names-concern-judge-a-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-010-decision-names-concern-judge-b-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-012-edits-downgrade-links-judge-a-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-012-edits-downgrade-links-judge-b-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-015-dispatch-workset-only-judge-a-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-015-dispatch-workset-only-judge-b-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-016-gate-judges-actions-judge-a-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-016-gate-judges-actions-judge-b-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-018-planes-stay-separate-judge-a-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-018-planes-stay-separate-judge-b-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-019-record-read-write-sets-judge-a-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-019-record-read-write-sets-judge-b-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-021-two-kbs-separated-judge-a-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-021-two-kbs-separated-judge-b-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-025-verify-product-and-agent-judge-a-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-025-verify-product-and-agent-judge-b-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-026-observations-append-only-judge-a-claude-sonnet-5",
+        ":judge-labelrepresentsbody-r-026-observations-append-only-judge-b-claude-sonnet-5",
         ":risk-causality-weak-pairs",
         ":risk-phenomena-observed-counts",
         ":run-record-verdict-aggregation",
         ":runner-env-leaks-into-case",
+        ":session-judge-agreement-first-sample",
         ":skipped-negative-stimuli",
         ":vocab-stimulus-not-minimal",
         ":when-false-suspect-not-a-case",

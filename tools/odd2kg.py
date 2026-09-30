@@ -28,6 +28,8 @@ EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)
 TAG = "odd2kg"
 
 
+# ── OpenODD 문서를 읽어 ODD 그래프를 낸다 ────────────────────
+
 def load_yaml(path: str):
     """YAML 문서 하나 — 파일 없음·파싱 실패는 판정 불가 입력(EXIT_CONFIG)이다."""
     try:

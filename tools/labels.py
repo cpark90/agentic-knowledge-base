@@ -22,6 +22,8 @@ except ImportError:
 from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402
 
 
+# ── 청크 head 에서 라벨 목록을 낸다 ────────────────────
+
 def plane_of(group: str) -> str:
     """항목 디렉토리 → plane 디렉토리. 결정 복합체처럼 디렉토리가 한 겹 더 있으면 그 부모가 plane 이다."""
     return str(Path(group).parent) if len(Path(group).parts) > 3 else group

@@ -37,6 +37,8 @@ TOOLS_DIR = "tools"
 RESOLVE_ANCHOR = "게이트-총람--이-문서가-원본이다"  # docs/tools.md 의 총람 — `해소` 열이 FAIL [<id>] 의 해소다
 
 
+# ── docstring 파싱과 이름 규약 ────────────────────
+
 class GenSkillsError(Exception):
     """생성 시점 거부 — 메시지가 `<원본>: <근거>` 다."""
 
@@ -94,6 +96,8 @@ def heading_index(doc: Path) -> dict[str, str]:
         out[s if n == 0 else f"{s}-{n}"] = text
     return out
 
+
+# ── skill 조립과 실행 ────────────────────
 
 def render(entry: dict, title: str, what: str, usage: str, section_doc: str, section_text: str, depth: int) -> str:
     tool, when = entry["tool"], entry["when"]

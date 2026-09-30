@@ -2,12 +2,12 @@
 id: https://agentic-knowledge-base.dev/id/chunk/ad5979dc-7582-423a-a1ee-b1c0b12704cc
 type: decision
 level: logical
-title_ko: 어휘를 계층의 한 단계로 두는 안
-title: Ontology as one rung of the ladder
+title_ko: 온톨로지를 계층의 최상위 단계로 두는 안과 뷰를 저장해 두는 안은 기각된다
+title: Ontology as the top rung and stored views are rejected
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-09-30T16:00:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/0a751e1a-d819-45e5-8425-54945c706108
 ---
 **대안** — **온톨로지를 계층의 최상위 단계(또는 일반화의 종착점)로 두는 안.** 배제 — 그러면 functional·executable 단계의 문장이 어휘 밖에 놓여 통제 어휘가 성립하지 않고, 개념 하나를 단계 사이로 추적할 수 없다.

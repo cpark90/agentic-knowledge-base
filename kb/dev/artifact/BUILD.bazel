@@ -1,0 +1,96 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle")
+
+# 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나. 원본은 tools/*.py 이고
+# 청크는 tools/extract.py 의 생성물이다. 손으로 고치면 //:extract_drift_test 가 거부한다.
+package(default_visibility = ["//visibility:public"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = [
+        "//kb/dev/artifact/assume_check:bodies",
+        "//kb/dev/artifact/canonicalize:bodies",
+        "//kb/dev/artifact/channel_lint:bodies",
+        "//kb/dev/artifact/choices:bodies",
+        "//kb/dev/artifact/chunk2kg:bodies",
+        "//kb/dev/artifact/chunk_lint:bodies",
+        "//kb/dev/artifact/community:bodies",
+        "//kb/dev/artifact/consistency:bodies",
+        "//kb/dev/artifact/doccheck:bodies",
+        "//kb/dev/artifact/endorse:bodies",
+        "//kb/dev/artifact/extract:bodies",
+        "//kb/dev/artifact/extract_refs:bodies",
+        "//kb/dev/artifact/gen_build:bodies",
+        "//kb/dev/artifact/gen_skills:bodies",
+        "//kb/dev/artifact/gendoc:bodies",
+        "//kb/dev/artifact/handoff:bodies",
+        "//kb/dev/artifact/impact:bodies",
+        "//kb/dev/artifact/judge:bodies",
+        "//kb/dev/artifact/kb_lib:bodies",
+        "//kb/dev/artifact/label_sample:bodies",
+        "//kb/dev/artifact/labels:bodies",
+        "//kb/dev/artifact/link:bodies",
+        "//kb/dev/artifact/metrics:bodies",
+        "//kb/dev/artifact/odd2kg:bodies",
+        "//kb/dev/artifact/odd_check:bodies",
+        "//kb/dev/artifact/open_questions:bodies",
+        "//kb/dev/artifact/query:bodies",
+        "//kb/dev/artifact/revalidate:bodies",
+        "//kb/dev/artifact/space2kg:bodies",
+        "//kb/dev/artifact/stamp:bodies",
+        "//kb/dev/artifact/taxonomy:bodies",
+        "//kb/dev/artifact/term_propose:bodies",
+        "//kb/dev/artifact/validate:bodies",
+        "//kb/dev/artifact/vv_run:bodies",
+        "//kb/dev/artifact/vv_run_env_test:bodies",
+        "//kb/dev/artifact/weave:bodies",
+        "//kb/dev/artifact/workset:bodies",
+    ],
+)
+
+# 이 plane 의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        "//kb/dev/artifact/assume_check:kg",
+        "//kb/dev/artifact/canonicalize:kg",
+        "//kb/dev/artifact/channel_lint:kg",
+        "//kb/dev/artifact/choices:kg",
+        "//kb/dev/artifact/chunk2kg:kg",
+        "//kb/dev/artifact/chunk_lint:kg",
+        "//kb/dev/artifact/community:kg",
+        "//kb/dev/artifact/consistency:kg",
+        "//kb/dev/artifact/doccheck:kg",
+        "//kb/dev/artifact/endorse:kg",
+        "//kb/dev/artifact/extract:kg",
+        "//kb/dev/artifact/extract_refs:kg",
+        "//kb/dev/artifact/gen_build:kg",
+        "//kb/dev/artifact/gen_skills:kg",
+        "//kb/dev/artifact/gendoc:kg",
+        "//kb/dev/artifact/handoff:kg",
+        "//kb/dev/artifact/impact:kg",
+        "//kb/dev/artifact/judge:kg",
+        "//kb/dev/artifact/kb_lib:kg",
+        "//kb/dev/artifact/label_sample:kg",
+        "//kb/dev/artifact/labels:kg",
+        "//kb/dev/artifact/link:kg",
+        "//kb/dev/artifact/metrics:kg",
+        "//kb/dev/artifact/odd2kg:kg",
+        "//kb/dev/artifact/odd_check:kg",
+        "//kb/dev/artifact/open_questions:kg",
+        "//kb/dev/artifact/query:kg",
+        "//kb/dev/artifact/revalidate:kg",
+        "//kb/dev/artifact/space2kg:kg",
+        "//kb/dev/artifact/stamp:kg",
+        "//kb/dev/artifact/taxonomy:kg",
+        "//kb/dev/artifact/term_propose:kg",
+        "//kb/dev/artifact/validate:kg",
+        "//kb/dev/artifact/vv_run:kg",
+        "//kb/dev/artifact/vv_run_env_test:kg",
+        "//kb/dev/artifact/weave:kg",
+        "//kb/dev/artifact/workset:kg",
+    ],
+)

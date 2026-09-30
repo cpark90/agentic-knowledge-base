@@ -32,6 +32,8 @@ EDGE_KINDS = [AGT.refines, AGT.serves, AGT.cites, AGT.usesConcept, AGT.coUpdates
 MAX_PARTS = 9  # 복합체 부분 상한 (7±2, composite-kg 배너)
 
 
+# ── 라벨과 군집 탐지 ────────────────────
+
 def label_ko(g: Graph, s) -> str:
     return next((str(o) for o in g.objects(s, RDFS.label) if o.language == "ko"), str(s).split("/")[-1])
 
@@ -110,6 +112,8 @@ def _aggregate(nodes: list, adj: dict, comm: dict) -> tuple:
     new_nodes = sorted({comm[u] for u in nodes}, key=str)
     return new_nodes, {u: dict(new_adj[u]) for u in new_nodes}
 
+
+# ── 모듈도와 보고 ────────────────────
 
 def modularity(nodes: list, adj: dict, part: dict) -> float:
     deg = {u: sum(w for v, w in adj.get(u, {}).items() if v != u) + 2 * adj.get(u, {}).get(u, 0) for u in nodes}

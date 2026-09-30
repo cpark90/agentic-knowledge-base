@@ -42,6 +42,8 @@ SENTINEL = "VV_RUN_ENV_SENTINEL"  # 격리가 환경 전체를 비우지 않고 
 CWD_PROBE = 'python3 -c "import os; print(os.getcwd())"'
 
 
+# ── 환경 오염 주입과 세 검사 ────────────────────
+
 def poison(names: tuple[str, ...]) -> None:
     """부모 환경에 실행기의 bazel 파이썬 문맥을 심는다 — 실제 `bazel run` 이 하위 프로세스에 넘기던 값이다."""
     for n in names:
@@ -98,6 +100,8 @@ def check_cwd(root: Path) -> list[str]:
                 "케이스가 적은 상대 경로가 자극에 닿는다"]
     return []
 
+
+# ── 판정과 보고 ────────────────────
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)

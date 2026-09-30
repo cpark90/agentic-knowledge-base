@@ -58,6 +58,8 @@ prose_lines, slug, anchors, find_links = kb_lib.md_lines, kb_lib.slug, kb_lib.md
 FILE_LINE = re.compile(r":\d+(?:-\d+)?$")
 
 
+# ── 경로 해소와 저장소 목록 ────────────────────
+
 def resolve(doc: Path, dest_path: str) -> str | None:
     """문서 기준 상대 경로 → 루트 기준 경로. 루트 밖이면 None."""
     base = "" if dest_path.startswith("/") else doc.parent.as_posix()
@@ -86,6 +88,8 @@ class Repo:
     def read(self, rel: str) -> list[str]:
         return (self.root / rel).read_text(encoding="utf-8").splitlines()
 
+
+# ── 링크·앵커·경로 검사와 실행 ────────────────────
 
 def check_links(doc: Path, lines: list[str], repo: Repo) -> list[str]:
     """[..](경로#앵커) — 경로 실재 + .md 대상의 앵커가 제목 slug 안에 있다."""

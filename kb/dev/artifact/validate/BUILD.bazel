@@ -1,0 +1,80 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "ch--qname.md",
+        "ch-check-odd-refs.md",
+        "ch-syntaxfailure.md",
+        "cls-ConfigFailure.md",
+        "cls-SyntaxFailure.md",
+        "fn-_agt_qname.md",
+        "fn-_check_scope_subset.md",
+        "fn-_chunk_location.md",
+        "fn-_frontmatter_keys.md",
+        "fn-_namespace.md",
+        "fn-_qname.md",
+        "fn-_where.md",
+        "fn-_writes_in.md",
+        "fn-check_boundary.md",
+        "fn-check_catalog.md",
+        "fn-check_dangling.md",
+        "fn-check_deprecated_concepts.md",
+        "fn-check_element_drop.md",
+        "fn-check_labels.md",
+        "fn-check_line_budget.md",
+        "fn-check_odd_refs.md",
+        "fn-check_residency.md",
+        "fn-check_shacl.md",
+        "fn-check_space.md",
+        "fn-check_specialization.md",
+        "fn-check_standard_vocab.md",
+        "fn-check_verify.md",
+        "fn-check_vocab.md",
+        "fn-check_writer.md",
+        "fn-deprecated_terms.md",
+        "fn-load_files.md",
+        "fn-load_standard_vocab.md",
+        "fn-main.md",
+        "head.md",
+        "module.md",
+        "sec--agt-qname.md",
+        "sec--qname.md",
+        "sec-check-labels.md",
+        "sec-check-odd-refs.md",
+        "sec-check-space.md",
+        "sec-check-verify.md",
+        "sec-main.md",
+        "sec-syntaxfailure.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/fb7cffc9-e5b5-4ed5-af22-40aa50e3c6aa",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/f78b9e0e-d84b-4087-9f1d-29bcf769d844", "https://agentic-knowledge-base.dev/id/composite/56ab8e29-8a32-4148-bee8-85b8eabe8488", "https://agentic-knowledge-base.dev/id/composite/dfafb084-58ea-49a9-9fe2-20457fba4997", "https://agentic-knowledge-base.dev/id/composite/4d158385-e139-4042-8477-a87c3deeefe2"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f78b9e0e-d84b-4087-9f1d-29bcf769d844", "https://agentic-knowledge-base.dev/id/composite/56ab8e29-8a32-4148-bee8-85b8eabe8488", "https://agentic-knowledge-base.dev/id/composite/dfafb084-58ea-49a9-9fe2-20457fba4997", "https://agentic-knowledge-base.dev/id/composite/4d158385-e139-4042-8477-a87c3deeefe2"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p4-chunk-rules-as-shacl-shapes",
+        "//kb/dev/decision:p6-gate-catalogue",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

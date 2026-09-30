@@ -20,12 +20,6 @@ id:asm-chunk-conventions a agt:Assumption ;
     agt:proposition "저장소 구조 조건(파일 = 청크, 디렉토리 = 모듈, 부록 E.7 배치)과 언어 정책 조건(산문 한글, 식별자 영어, 라벨 한/영 1:1)이 성립한다 — 둘 중 하나가 깨지면 청크의 IRI↔파일 해석과 라벨 인터페이스가 무효다" ;
     agt:refersTo id:cond-repo-layout , id:cond-language-policy .
 
-# 판정자(게이트 밖 도구)의 전제 — 판정 로그·결과 주석이 assumes 로 참조한다. 조건이 이탈하면 지난 판정이 suspect 로 전파된다 (2026-09-29).
-id:asm-judge-service a agt:Assumption ;
-    rdfs:label "judge service credentials and model are set together"@en , "판정 서비스의 자격과 모델이 함께 설정돼 있다"@ko ;
-    agt:proposition "판정 서비스 조건이 성립한다 — 환경 변수 셋(AKB_JUDGE_ENDPOINT·AKB_JUDGE_API_KEY·AKB_JUDGE_MODEL)이 함께 설정돼 있고 로그의 모델 식별자가 캘리브레이션 표본의 모델과 같다. 깨지면 그 모델로 낸 판정의 확신도가 뜻을 잃는다" ;
-    agt:refersTo id:cond-judge-service .
-
 # V&V 프로파일의 규칙성 가정 셋 — 위험 분석 G1~G6 의 전제 (유저 승인 2026-09-29, 항목 vv-profile-hazards).
 # 프로파일에서 파생되는 kb/vv/ 청크가 assumes: 로 이것을 참조하는 것이 등록이다. A3 은 참조 저장소가 반증한 형태에서 뽑았다.
 id:asm-links-only-interaction a agt:Assumption ;
@@ -105,6 +99,192 @@ id:doc-mast-failure-taxonomy
     rdfs:label "MAST — multi-agent system failure taxonomy (Cemri et al., 2025)"@en ,
         "MAST — 멀티에이전트 시스템 실패 분류 (Cemri 외, 2025)"@ko ;
     prov:atLocation "https://arxiv.org/abs/2503.13657" .
+
+# 코드를 청크로(유저 승인 2026-09-30, 추출 방향) — 함수 청크의 원천은 소스 파일이다. tools/*.py 의 파일마다 개체 하나다.
+id:src-tools-kb-lib
+    rdfs:label "tools/kb_lib.py (source file, extraction origin)"@en ,
+        "tools/kb_lib.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/kb_lib.py" .
+
+id:src-tools-assume-check
+    rdfs:label "tools/assume_check.py (source file, extraction origin)"@en ,
+        "tools/assume_check.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/assume_check.py" .
+
+id:src-tools-canonicalize
+    rdfs:label "tools/canonicalize.py (source file, extraction origin)"@en ,
+        "tools/canonicalize.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/canonicalize.py" .
+
+id:src-tools-channel-lint
+    rdfs:label "tools/channel_lint.py (source file, extraction origin)"@en ,
+        "tools/channel_lint.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/channel_lint.py" .
+
+id:src-tools-choices
+    rdfs:label "tools/choices.py (source file, extraction origin)"@en ,
+        "tools/choices.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/choices.py" .
+
+id:src-tools-chunk2kg
+    rdfs:label "tools/chunk2kg.py (source file, extraction origin)"@en ,
+        "tools/chunk2kg.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/chunk2kg.py" .
+
+id:src-tools-chunk-lint
+    rdfs:label "tools/chunk_lint.py (source file, extraction origin)"@en ,
+        "tools/chunk_lint.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/chunk_lint.py" .
+
+id:src-tools-community
+    rdfs:label "tools/community.py (source file, extraction origin)"@en ,
+        "tools/community.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/community.py" .
+
+id:src-tools-consistency
+    rdfs:label "tools/consistency.py (source file, extraction origin)"@en ,
+        "tools/consistency.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/consistency.py" .
+
+id:src-tools-doccheck
+    rdfs:label "tools/doccheck.py (source file, extraction origin)"@en ,
+        "tools/doccheck.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/doccheck.py" .
+
+id:src-tools-endorse
+    rdfs:label "tools/endorse.py (source file, extraction origin)"@en ,
+        "tools/endorse.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/endorse.py" .
+
+id:src-tools-extract
+    rdfs:label "tools/extract.py (source file, extraction origin)"@en ,
+        "tools/extract.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/extract.py" .
+
+id:src-tools-extract-refs
+    rdfs:label "tools/extract_refs.py (source file, extraction origin)"@en ,
+        "tools/extract_refs.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/extract_refs.py" .
+
+id:src-tools-gen-build
+    rdfs:label "tools/gen_build.py (source file, extraction origin)"@en ,
+        "tools/gen_build.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/gen_build.py" .
+
+id:src-tools-gen-skills
+    rdfs:label "tools/gen_skills.py (source file, extraction origin)"@en ,
+        "tools/gen_skills.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/gen_skills.py" .
+
+id:src-tools-gendoc
+    rdfs:label "tools/gendoc.py (source file, extraction origin)"@en ,
+        "tools/gendoc.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/gendoc.py" .
+
+id:src-tools-handoff
+    rdfs:label "tools/handoff.py (source file, extraction origin)"@en ,
+        "tools/handoff.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/handoff.py" .
+
+id:src-tools-impact
+    rdfs:label "tools/impact.py (source file, extraction origin)"@en ,
+        "tools/impact.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/impact.py" .
+
+id:src-tools-judge
+    rdfs:label "tools/judge.py (source file, extraction origin)"@en ,
+        "tools/judge.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/judge.py" .
+
+id:src-tools-label-sample
+    rdfs:label "tools/label_sample.py (source file, extraction origin)"@en ,
+        "tools/label_sample.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/label_sample.py" .
+
+id:src-tools-labels
+    rdfs:label "tools/labels.py (source file, extraction origin)"@en ,
+        "tools/labels.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/labels.py" .
+
+id:src-tools-link
+    rdfs:label "tools/link.py (source file, extraction origin)"@en ,
+        "tools/link.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/link.py" .
+
+id:src-tools-metrics
+    rdfs:label "tools/metrics.py (source file, extraction origin)"@en ,
+        "tools/metrics.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/metrics.py" .
+
+id:src-tools-odd2kg
+    rdfs:label "tools/odd2kg.py (source file, extraction origin)"@en ,
+        "tools/odd2kg.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/odd2kg.py" .
+
+id:src-tools-odd-check
+    rdfs:label "tools/odd_check.py (source file, extraction origin)"@en ,
+        "tools/odd_check.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/odd_check.py" .
+
+id:src-tools-open-questions
+    rdfs:label "tools/open_questions.py (source file, extraction origin)"@en ,
+        "tools/open_questions.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/open_questions.py" .
+
+id:src-tools-query
+    rdfs:label "tools/query.py (source file, extraction origin)"@en ,
+        "tools/query.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/query.py" .
+
+id:src-tools-revalidate
+    rdfs:label "tools/revalidate.py (source file, extraction origin)"@en ,
+        "tools/revalidate.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/revalidate.py" .
+
+id:src-tools-space2kg
+    rdfs:label "tools/space2kg.py (source file, extraction origin)"@en ,
+        "tools/space2kg.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/space2kg.py" .
+
+id:src-tools-stamp
+    rdfs:label "tools/stamp.py (source file, extraction origin)"@en ,
+        "tools/stamp.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/stamp.py" .
+
+id:src-tools-taxonomy
+    rdfs:label "tools/taxonomy.py (source file, extraction origin)"@en ,
+        "tools/taxonomy.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/taxonomy.py" .
+
+id:src-tools-term-propose
+    rdfs:label "tools/term_propose.py (source file, extraction origin)"@en ,
+        "tools/term_propose.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/term_propose.py" .
+
+id:src-tools-validate
+    rdfs:label "tools/validate.py (source file, extraction origin)"@en ,
+        "tools/validate.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/validate.py" .
+
+id:src-tools-vv-run
+    rdfs:label "tools/vv_run.py (source file, extraction origin)"@en ,
+        "tools/vv_run.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/vv_run.py" .
+
+id:src-tools-vv-run-env-test
+    rdfs:label "tools/vv_run_env_test.py (source file, extraction origin)"@en ,
+        "tools/vv_run_env_test.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/vv_run_env_test.py" .
+
+id:src-tools-weave
+    rdfs:label "tools/weave.py (source file, extraction origin)"@en ,
+        "tools/weave.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/weave.py" .
+
+id:src-tools-workset
+    rdfs:label "tools/workset.py (source file, extraction origin)"@en ,
+        "tools/workset.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/workset.py" .
 
 # jev(TypeSafe AI System One) 조사 — 판정자 결합 결정(p8-judge-calibration-binding)의 원천. 유저 답 "1."(2026-09-29).
 id:doc-jev-system-one

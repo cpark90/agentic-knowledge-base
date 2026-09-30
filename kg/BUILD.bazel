@@ -14,6 +14,7 @@ kb_kg_merge(
     out = "chunks-kg.ttl",
     deps = [
         "//chunks/decision:kg",  # v1 결정 153 — 재도출 후 deprecated로 남는다
+        "//kb/dev/artifact:kg",  # 추출된 코드 청크 (artifact plane) — tools/extract.py 의 생성물, gen_build 가 타깃으로 만든다
         "//kb/dev/decision:kg",
         "//kb/dev/memory:kg",  # 관측 (memory plane) — assume_check --record 의 생성물, gen_build 가 타깃으로 만든다
         "//kb/dev/requirement:kg",

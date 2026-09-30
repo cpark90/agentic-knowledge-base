@@ -347,3 +347,24 @@ build_test(
     name = "unordered_no_order_test",
     targets = [":unordered_has_no_order"],
 )
+
+# 19. 파일 복합체의 직접 부분 상한 — 최상위 구역이 9를 넘으면 추출기가 거부한다 (4.5절, p7-code-links-on-file-composite,
+# 2026-09-30). 고정물은 절 10개(모듈 머리를 더해 11)인 소스이고 등록부는 `resource` 검사를 지나게 하는 최소 내용이다.
+# 거부의 자리가 추출기임을 고정한다 — 이 검사가 없으면 gen_build 가 뒤에서 잡아 FAIL 이 소스가 아니라 생성 BUILD 를 가리킨다.
+genrule(
+    name = "extract_max_parts_rejected",
+    srcs = [
+        "fx_extract_parts.chunks.yml",
+        "fx_extract_parts.py",
+    ],
+    outs = ["extract_max_parts_rejected.err"],
+    cmd = "! $(execpath //tools:extract) $(execpath fx_extract_parts.py) --root . 2> $@ && " +
+          "grep -q '파일 복합체의 직접 부분이 11개다' $@ && grep -q 'FAIL \\[extract\\]' $@",
+    tags = ["manual"],
+    tools = ["//tools:extract"],
+)
+
+build_test(
+    name = "extract_max_parts_test",
+    targets = [":extract_max_parts_rejected"],
+)

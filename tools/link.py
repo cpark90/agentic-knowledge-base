@@ -54,6 +54,8 @@ R_SELF, R_DEPRECATED, R_SIBLING, R_LINKED = "자기 자신(같은 단위)", "dep
 R_DIRECTION, R_CROSS_KB, R_CAP = "TIM 칸은 있으나 단방향·수준 규칙 위반", "KB 가로지름 (overlapsWith 불가 — verifies 뿐)", "상한 k 초과"
 
 
+# ── 단위와 매트릭스 제약 ────────────────────
+
 class Units:
     """살아 있는 청크를 단위로 — 결정 복합체(결론 부분이 있는 것)는 결론이 대표하고, 나머지 청크는 자기 자신이 단위다."""
 
@@ -129,6 +131,8 @@ def violation(u: Units, kind: str, a, b) -> str | None:
             return "verifies 는 같은 수준끼리다 (8.3절)"
     return None
 
+
+# ── 증거 수집과 보고 ────────────────────
 
 def resolve(u: Units, key: frozenset, prefer: dict, hint: dict | None = None):
     """쌍 → (앵커, 종류, 대상) 또는 탈락 사유. 인용 방향(없으면 IRI 순)을 먼저, 다음 역방향, TIM 칸이 없으면 같은 KB 안에서 overlapsWith.

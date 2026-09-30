@@ -56,6 +56,24 @@ package_group(
     ],
 )
 
+# artifact 는 코드의 자리 (p7-code-extraction-direction 의 추출 생성물). plane 단방향대로 annotation·memory 와
+# 그래프·게이트·뷰가 본다. V&V 는 verifies 로 이 plane 을 가리키므로 함께 든다 (8.5절 — 방향은 V&V → 개발뿐이다)
+package_group(
+    name = "artifact_readers",
+    packages = [
+        "//",
+        "//kb",
+        "//kb/dev",
+        "//kb/dev/artifact/...",
+        "//kb/dev/annotation/...",
+        "//kb/dev/memory/...",
+        "//kb/vv/...",
+        "//kg/...",
+        "//tools/...",
+        "//defs/...",
+    ],
+)
+
 # memory 는 마지막 plane — 아무 plane 도 관측을 refines 하지 않는다. 관측 자신과 그래프·게이트·뷰만 본다 (5.2절)
 package_group(
     name = "memory_readers",

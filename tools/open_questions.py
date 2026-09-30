@@ -35,6 +35,8 @@ DETAIL = re.compile(r"상세는\s*`([^`]+)`\s*다\.?\s*$")
 INDEX_DOC = "docs/open-questions.md"  # 손으로 관리하는 색인 — 이 뷰는 집계만 맡고 색인을 대체하지 않는다
 
 
+# ── 본문의 미확정 슬롯을 모아 낸다 ────────────────────
+
 def cell(s: str) -> str:
     """표 셀 — 줄바꿈과 파이프를 없앤다. 빈 값은 세 빈 값의 첫 값이다."""
     return " ".join(str(s).split()).replace("|", "\\|") or kb_lib.NONE_MARK

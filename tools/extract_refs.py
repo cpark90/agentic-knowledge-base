@@ -65,6 +65,8 @@ PREAMBLE = """\
 """
 
 
+# ── 본문의 인용·개념 사용을 참조 그래프로 낸다 ────────────────────
+
 def read(path: str) -> tuple[str, str, str]:
     """(자기 IRI, specializationOf 대상 IRI 또는 "", 본문). frontmatter는 인용 대상이 아니므로 뺀다."""
     lines = Path(path).read_text(encoding="utf-8").splitlines()

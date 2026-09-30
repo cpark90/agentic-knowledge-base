@@ -307,16 +307,18 @@ memory·concrete, append-only, `process:vv_run`)을 남기고, 감사 보고서 
 실행기를 부르는 방식이 케이스의 판정을 바꾸면 재현이 아니다. 게이트 `vv-run-env`(`//tools:vv_run_env_test`)가 그 격리를
 `bazel test //...` 안에서 상시 판정한다 — 판정 대상을 실행기 전체가 아니라 격리의 동작으로 좁혀 중첩 bazel을 피했다.
 
-판정자는 게이트 밖 도구다(2026-09-29, 유저 답 "게이트 밖 보고로 먼저 붙인다"). `bazel run //tools:judge -- --question <질문 id>
-<청크 파일…>`이 프로파일에 등록된 판정 질문을 청크에 물어 값과 확신도를 받고, 판정 로그(`kb/vv/run/judge-<시각>.md`, memory
-plane, append-only)와 결과 주석(`kb/vv/verdict/`, 주석 형식)을 남긴다. 게이트는 판정을 부르지 않고 로그의 형식과 필수 필드만
-본다 — 외부 서비스가 `bazel test`의 입력이 되면 같은 리비전이 네트워크 상태에 따라 다른 판정을 낸다. 질문의 형은
-noul·choice·score 셋이고 선택 집합은 255 이하이며 넘으면 독립 점수 뒤 명시 선택의 2단계로 묻는다. 자격은 환경 변수
-`AKB_JUDGE_ENDPOINT`·`AKB_JUDGE_API_KEY`·`AKB_JUDGE_MODEL`로만 받고 ODD 조건 `id:cond-judge-service`(조건부 — 하나라도
-설정되면 셋이 다 있어야 한다)가 그 전제를 판정한다. 구간별 정확도를 구간당 20건 이상으로 재기 전에는 자동 적용 구간이 없다 —
-처리는 전부 사람 확인 큐다([`p8-judge-calibration-binding`](../kb/dev/decision/p8-judge-calibration-binding/conclusion.md)).
-측정의 스위치는 프로파일 개체 `agt:judgeThresholds`·`agt:bandAccuracyMeasured`·`agt:calibratedFor`이고 모델 식별자와 같은
-파일에 있어 같은 커밋에서 바뀐다(규칙 ⑤).
+판정자는 게이트 밖 도구이고 **세션 판정자**(외부 서비스가 아니라 새 세션을 여는 에이전트)다(유저 답 2026-09-30, 결정
+[`p8-judge-session-agreement`](../kb/dev/decision/p8-judge-session-agreement/conclusion.md)). `bazel run //tools:judge -- --question <질문 id>
+--responses <json> [--responses <json> …] [--decoys <json>] <청크 파일…>`이 프로파일에 등록된 판정 질문을 청크에 물어 값과 확신도를
+받는다. 응답은 세션 판정자가 낸 `{judge, responses: [{question, fingerprint, value, confidence}]}`를 `--responses`로 입력하고, 판정
+로그(`kb/vv/run/judge-<시각>.md`, memory plane, append-only)와 결과 주석(`kb/vv/verdict/`)을 남긴다. 게이트는 판정을 부르지 않고 로그의
+형식과 필수 필드(질문 id·값·확신도·**판정자 식별자**·입력 지문·시각)와 `일치` 열(일치·불일치·해당 없음)만 본다. 질문의 형은
+noul·choice·score 셋이고 선택 집합은 255 이하다. **확신도는 자기 보고라 단독 응답으로는 자동 적용이 없다** — `--responses`를 둘 이상
+주면 같은 (질문·입력 지문)의 값 일치 여부를 계산해 로그에 낸다. 임계는 확신도 구간이 아니라 **일치율**(판정자 둘의 일치 +
+`label_sample.py --decoys` 미끼 검출)이고, 자동 적용은 정확도·판별력이 재진 뒤에만 연다 — 지금은 전부 사람 확인 큐다. 판정이
+필요한 질문 여섯 중 넷(요약·채움·중복·자리)은 기계로 환원됐다 — 요약(`핵심:` 항목의 지지 참조)과 채움은 게이트
+(`summary-support`·`addition`·`empty-value`)가, 중복·자리는 `consistency.py` ⑩·⑪이 후보까지 낸다. 남는 둘(근거·라벨 대표성)만 세션
+판정자가 맡는다. 세션 판정자를 여는 것은 실험자(vnv)다 — 열쇠(`key.json`)를 쥔 쪽이 판정자와 분리된다.
 
 ## 12. 영향 분석
 

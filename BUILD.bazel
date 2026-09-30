@@ -1,7 +1,48 @@
 load("@rules_python//python:defs.bzl", "py_test")
-load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_doccheck_test", "kb_gendoc_test", "kb_skills_drift_test")
+load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_doccheck_test", "kb_extract_drift_test", "kb_gendoc_test", "kb_skills_drift_test")
 
 package(default_visibility = ["//visibility:public"])
+
+# 이 목록의 원본은 등록부 사이드카의 존재다 — tools/<모듈>.chunks.yml 이 있는 파일이 여기 있다.
+EXTRACTED_SOURCES = [
+    "assume_check",
+    "canonicalize",
+    "channel_lint",
+    "choices",
+    "chunk2kg",
+    "chunk_lint",
+    "community",
+    "consistency",
+    "doccheck",
+    "endorse",
+    "extract",
+    "extract_refs",
+    "gen_build",
+    "gen_skills",
+    "gendoc",
+    "handoff",
+    "impact",
+    "judge",
+    "kb_lib",
+    "label_sample",
+    "labels",
+    "link",
+    "metrics",
+    "odd2kg",
+    "odd_check",
+    "open_questions",
+    "query",
+    "revalidate",
+    "space2kg",
+    "stamp",
+    "taxonomy",
+    "term_propose",
+    "validate",
+    "vv_run",
+    "vv_run_env_test",
+    "weave",
+    "workset",
+]
 
 # 생성 skill (로드맵 6단계, agrtls K) — 원본은 도구 docstring 과 kb_lib.SKILLS, 이 파일들은 커밋되는 뷰다 (tools/gen_skills.py)
 filegroup(
@@ -78,6 +119,8 @@ py_test(
         "//chunks:bodies",
         "//chunks/decision:BUILD.bazel",
         "//kb/dev:bodies",
+        "//kb/dev/artifact:BUILD.bazel",
+    ] + ["//kb/dev/artifact/" + mod + ":BUILD.bazel" for mod in EXTRACTED_SOURCES] + [
         "//kb/dev/decision:BUILD.bazel",
         "//kb/dev/memory:BUILD.bazel",
         "//kb/dev/requirement:BUILD.bazel",
@@ -96,6 +139,23 @@ py_test(
     ],
     main = "gen_build.py",
     size = "small",
+)
+
+# 추출 드리프트 가드 (코드를 청크로, 유저 승인 2026-09-30): 추출기를 다시 돌려 트리의 생성 청크·등록부와 비교 —
+# tools/<모듈>.py 가 원본, kb/dev/artifact/<모듈>/ 는 뷰다 (p7-code-extraction-direction).
+# 판정 단위는 소스 파일 하나다 — 파일마다 타깃을 세워 FAIL 메시지가 어느 소스인지 이름으로 말하게 한다.
+# 목록 하나로 묶으면 첫 어긋남에서 멈춰 나머지 파일의 상태를 보이지 못한다. //:extract_drift_test 는 그 묶음이다.
+
+[kb_extract_drift_test(
+    name = "extract_drift_" + mod,
+    chunks = "//kb/dev/artifact/" + mod + ":bodies",
+    registry = "//tools:" + mod + ".chunks.yml",
+    source = "tools/" + mod + ".py",
+) for mod in EXTRACTED_SOURCES]
+
+test_suite(
+    name = "extract_drift_test",
+    tests = [":extract_drift_" + mod for mod in EXTRACTED_SOURCES],
 )
 
 # skill 드리프트 가드 (6단계): 생성기를 다시 돌려 트리의 .claude/skills 와 비교 — docstring·kb_lib.SKILLS 가 원본, skill 은 뷰

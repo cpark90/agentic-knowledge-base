@@ -16,6 +16,7 @@ package(default_visibility = ["//visibility:public"])
 filegroup(
     name = "bodies",
     srcs = [
+        "//kb/dev/artifact:bodies",  # 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나
         "//kb/dev/decision:bodies",
         "//kb/dev/memory:bodies",  # 관측 (assume_check --record) — 비어 있어도 된다
         "//kb/dev/requirement:bodies",

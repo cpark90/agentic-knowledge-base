@@ -1,0 +1,42 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "bodies",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "fn-load_concepts.md",
+        "fn-main.md",
+        "fn-read.md",
+        "head.md",
+        "module.md",
+        "sec-read.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/1ddb8a02-e2d5-48e7-a66d-3c960e6a523a",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/1a3482f6-0687-482a-848a-544cab7ed57b", "https://agentic-knowledge-base.dev/id/composite/444fc7bd-680b-4c09-aec8-0e5de0cc1175"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/1a3482f6-0687-482a-848a-544cab7ed57b", "https://agentic-knowledge-base.dev/id/composite/444fc7bd-680b-4c09-aec8-0e5de0cc1175"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p10-extracted-references-are-candidates",
+        "//kb/dev/decision:p10-link-by-construction",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

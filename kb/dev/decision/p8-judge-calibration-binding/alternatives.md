@@ -4,7 +4,7 @@ type: decision
 level: logical
 title_ko: 게이트 안의 판정자·붙이지 않기·판정자가 본문을 쓰는 안은 기각된다
 title: A judge inside the gates, no binding at all, and a judge that writes the body are rejected
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-jev-system-one}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-29T01:20:00+09:00}

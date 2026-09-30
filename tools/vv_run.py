@@ -267,6 +267,8 @@ def load_cases(root: Path, only: list[str], waivers: list[dict]) -> tuple[list[d
     return cases, missing
 
 
+# ── 명령 실행과 환경 격리 ────────────────────
+
 def clean_env() -> dict[str, str]:
     """실행기 자신의 bazel 파이썬 문맥을 뺀 환경 — 케이스의 검증기는 워크스페이스 셸에서 부른 것과 같아야 한다.
 
@@ -324,6 +326,8 @@ def substitute(cmd: str, subs: dict[str, str]) -> str:
 NEAR_LINES = 40      # 근접 줄을 찾는 범위 — 출력의 마지막 40줄. 게이트의 FAIL 줄은 끝에 모인다
 NEAR_RATIO = 0.4     # 이 아래면 근접 줄이라 부르지 않는다 — 무관한 줄을 "가장 가까운" 이라 적으면 수정 방향이 아니다
 
+
+# ── 케이스 판정 ────────────────────
 
 def near_miss(out: str, phrase: str) -> str:
     """기대 문구에 가장 가까운 출력 줄 — 없으면 마지막 줄. 문구가 어긋났을 때 무엇이 대신 나왔는지가 수정 방향이다."""
@@ -395,6 +399,8 @@ def environment(root: Path) -> str:
         bazel = "bazel 없음"
     return f"{bazel} · python {platform.python_version()} · {platform.system().lower()}"
 
+
+# ── 집계·관측·보고 ────────────────────
 
 def counts(cases: list[dict]) -> dict:
     """케이스 판정별 수 + 명령 단위 집계. 명령 단위를 따로 내는 까닭은 케이스 판정 하나가 절반만 실행된 사실을 감추기 때문이다."""

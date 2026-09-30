@@ -42,6 +42,6 @@ agt:ConfidenceThresholdSetShape a sh:NodeShape ;
         sh:description "구간당 표본 하한이 얼마인가" ;
         sh:message "`agt:calibrationSampleFloor` 는 1 이상의 정수 하나다 — 20 은 전체가 아니라 구간당 하한이다 (p8-judge-calibration-binding 규칙 ②)" ] ;
     sh:property [ sh:path agt:calibratedFor ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
-        sh:description "어느 모델에 대해 쟀는가" ;
-        sh:message "`agt:calibratedFor` 가 없다 — 모델 식별자와 캘리브레이션 표본은 함께 버전이 바뀐다 (p8-judge-calibration-binding 규칙 ⑤)" ] ;
-    sh:message "확신도 임계 셋은 자동 적용 임계·사람 확인 임계·구간별 측정 여부·구간당 표본 하한·캘리브레이션 대상 모델을 각각 하나씩 갖는다 (p8-judge-calibration-binding)" .
+        sh:description "어느 판정자에 대해 쟀는가" ;
+        sh:message "`agt:calibratedFor` 가 없다 — 판정자 식별자와 캘리브레이션 표본은 함께 버전이 바뀐다 (p8-judge-calibration-binding 규칙 ⑤)" ] ;
+    sh:message "확신도 임계 셋은 자동 적용 임계·사람 확인 임계·구간별 측정 여부·구간당 표본 하한·캘리브레이션 대상 판정자를 각각 하나씩 갖는다 (p8-judge-calibration-binding)" .

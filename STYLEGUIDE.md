@@ -143,7 +143,9 @@
   키 집합이 `PLANES`와 다르면 로드 시점에 죽는다. 폴백은 없다 — `defs/kb.bzl`을 입력으로 받지 못한 액션은 `EXIT_CONFIG`다.
 - **[지킴]** `generated: {by, at}`의 `by`는 OKF 행위자 표기다. 도구는 `<생성기>/<버전>`,
   사람은 `human:<id>`로 적는다. **검증하지 않은 것을 `verified`에 적지 않는다.** 미검증이
-  정직한 상태다. 검증 뒤 내용을 고치면 게이트가 거부한다.
+  정직한 상태다. 검증 뒤 내용을 고치면 게이트가 거부한다. **`artifact` plane은 예외다** — 코드 청크의
+  `verified`는 사람 도장이 아니라 **테스트 통과 도장**(`process:bazel-test` + 리비전)이고 수정마다 재판정이 자동이다
+  (`p7-code-extraction-direction`, 2026-09-30). `artifact`의 줄 상한은 프로파일 파라미터라 42가 아닐 수 있다.
 - **[지킴]** 예약 파일명 `index.md`·`log.md`를 쓰지 않는다(OKF).
 - **[지킴]** IRI는 `https://agentic-knowledge-base.dev/id/chunk-<slug>`다. 내용을 IRI에 넣지
   않는다. 사람이 읽는 이름은 라벨이다.

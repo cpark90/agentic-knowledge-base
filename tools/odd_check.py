@@ -25,6 +25,8 @@ STATES = ("in", "out", "unverified")
 ID_BASE = "https://agentic-knowledge-base.dev/id/"
 
 
+# ── ODD 적재와 조건 판정 ────────────────────
+
 def load_odd(path: Path) -> dict:
     """OpenODD 문서 하나를 읽는다. CHECKS·ATTRIBUTES 가 없으면 빈 맵으로 본다."""
     return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
@@ -61,6 +63,8 @@ def judge_all(doc: dict, root: Path, forced: dict | None = None) -> list[dict]:
                      "grade": str(c.get("grade", "")), "cmd": bool(c.get("cmd")), "state": state})
     return rows
 
+
+# ── 이탈 보고와 실행 ────────────────────
 
 def render(odd_label: str, rows: list[dict]) -> tuple[str, list[str]]:
     """odd_check 보고 본문과 이탈 속성 목록."""

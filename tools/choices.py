@@ -34,6 +34,8 @@ QUOTE = kb_lib.GENDOC_QUOTE_LINE  # 라벨은 그래프에서 그대로 가져�
 MARK = {kb_lib.LINK_STATE_CANDIDATE: "[ ]", kb_lib.LINK_STATE_INVALID: "[-]", kb_lib.LINK_STATE_CONFIRMED: "[x]"}
 
 
+# ── 열린 설계 변수와 후보를 체크박스로 낸다 ────────────────────
+
 def one(g: Graph, s, p) -> str:
     return str(next(g.objects(s, p), ""))
 

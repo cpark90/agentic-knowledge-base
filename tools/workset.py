@@ -40,6 +40,8 @@ PART = FAMILY_OF[AGT.hasDirectPart]
 ENTRY_OVERHEAD = 3
 
 
+# ── 스코프 창과 앵커 이웃을 예산 안에 담는다 ────────────────────
+
 def body_lines(path: str) -> list[str]:
     t = Path(path).read_text(encoding="utf-8").split("\n")
     end = t[1:].index("---") + 1
