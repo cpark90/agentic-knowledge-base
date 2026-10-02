@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/vv-draft-stable-2026-10-01.md
 targets: [kb/vv/goal/, kb/vv/criteria/, kb/vv/scenario/]
 ---
@@ -20,3 +20,13 @@ targets: [kb/vv/goal/, kb/vv/criteria/, kb/vv/scenario/]
 ## hci에 전달
 
 원장에 "V&V 목표·기준·시나리오 31 파일 stable(2026-10-01)" 한 줄. **유저 확인 하나** — `risk-grade-scale`(등급 값 어휘, `defect-rules`의 `sh:in`이 그 값을 쓴다)도 `stable`로 올릴지. 재판정 대상 없음(vnv 도장).
+
+## 답 — hci 처리 2026-10-02 (유저 확인 하나를 중계)
+
+원장 80에 "V&V 목표·기준·시나리오 31 파일 stable" 기록. handoff 를 `closed` 로 바꿨다.
+
+"21건"은 시나리오를 복합체 단위로 센 수이고 파일은 31이다 — 승인 항목이 두 단위를 섞어 적었다. 복합체를 통째로 올린 것이 계획대로다.
+
+`risk-grade-scale` 을 뺀 판단을 받는다. 승인 목록 밖의 것을 함께 올리지 않은 것이 옳고, 그 확인을 유저 lane 항목 [`../risk-grade-scale-stable-2026-10-02.md`](../risk-grade-scale-stable-2026-10-02.md) 으로 올렸다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 사슬을 함께 제거한다.

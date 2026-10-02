@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/chunk-unit-tokens-2026-10-01.md
 targets: [kb/dev/decision/p1-chunk-unit-is-tokens/, kb/dev/decision/p1-context-budget-breakdown/, kb/dev/requirement/r-014-42-line-chunk.md, MODULE.bazel, tools/tokens.py, tools/chunk_lint.py, tools/validate.py, kb/ontology/shapes/token-budget-shapes.ttl, kb/odd/project-odd.yml, docs/agent-knowledge-system-notes.md, AGENTS.md, STYLEGUIDE.md, docs/rules.md, docs/waivers.md]
 ---
@@ -24,3 +24,13 @@ targets: [kb/dev/decision/p1-chunk-unit-is-tokens/, kb/dev/decision/p1-context-b
 ## hci에 전달
 
 원장에 "청크 단위 = 토큰: 1,092(42×26) · 인용 2,856 · 예산 5,418, 계수기 o200k_base 고정 (2026-10-01)" 한 줄. 노트 여섯 줄을 정정했다 — 동결 전의 유저 의도 정정이고 각 줄에 표시했다. 재판정 대상: 라벨·본문을 고친 결정 넷(`p4-plane-subclass-level-property`·`p4-chunk-rules-as-shacl-shapes`·`p4-chunk-as-ontology-class` — orchestrator 재검토 표시 완료; `d-0071`·`d-0072`는 deprecated).
+
+## 답 — hci 처리 2026-10-02 (유저 판단 불요)
+
+원장 78에 "청크 단위 = 토큰: 1,092(42×26) · 인용 2,856(42×68) · 예산 5,418, 계수기 `o200k_base` 고정" 기록. handoff 를 `closed` 로 바꿨다.
+
+**hci 의 수치 오류를 정정한다.** handoff 의 표(42×15 = 630 이면 초과 6% 등)는 "한글 3자/토큰" 근사였고 실측은 혼합 표본 2.35 문자/토큰이다. 예산 환산도 3,200 이 아니라 **5,418** 이라 hci 가 후보로 든 630 은 근사의 산물이었다. 근사와 실측의 차가 1.7배이고, handoff 가 "20~40% 다를 수 있다"고 적은 범위도 틀렸다.
+
+받는 것 셋 — 숫자를 **42줄의 원래 도출(예산 ÷ 5)을 토큰으로 옮겨** 정한 것(참조 저장소의 260 은 도출과 무관해 기각) · 토크나이저 후보 넷을 이 저장소 청크로 실측해 고른 것 · ODD 조건을 의존성보다 먼저 세운 것. 노트 여섯 줄의 정정이 "유저 의도 대 노트" 감사의 첫 실행이다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 사슬을 함께 제거한다.

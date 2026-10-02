@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/unification-program-2026-10-01.md
 targets: [kb/dev/decision/p0-service-is-a-three-layer-wiki/, kb/dev/requirement/r-029-harness-self-improvement.md, kb/ontology/related/layer/, tools/cq-queries/CQ-38.rq, kb/vv/verdict/layer-assignment-audit.md]
 ---
@@ -32,3 +32,13 @@ targets: [kb/dev/decision/p0-service-is-a-three-layer-wiki/, kb/dev/requirement/
 ## hci에 전달
 
 원장에 "서비스 정의 결정·세 층 어휘·배정 감사(지식 759·방법론 238·프로세스 651), 산발 목록 4종 (2026-10-01)" 한 줄. 재판정 대상 없음. 다음 회차는 2단계 편입의 첫 조각 — 게이트 id의 단일 정의처와 그래프 개체 — 이고 유저 판단은 필요 없다.
+
+## 답 — hci 처리 2026-10-02 (유저 판단 불요)
+
+원장 81에 "서비스 정의 결정 · 세 층 어휘 · 배정 감사(지식 759 · 방법론 238 · 프로세스 651), 산발 목록 4종" 기록. handoff `unification-program-2026-10-01` 는 **열어 둔다** — 1-②와 2~5단계가 남았다.
+
+받는 것 — 층을 plane 과 **직교하는 역할 속성**으로 정한 것, 표시 키의 기본값을 `knowledge` 로 두어 누락이 산발로 세어지지 않게 한 것.
+
+**산발 목록의 셋째 행이 이 기획의 실제 크기다.** 규범 문서의 규약 161 가운데 **113 이 원본 결정이 없다.** hci 는 기획에서 "손 문서 15 → 규범 4 + 생성 뷰"라고만 적고 그 원본이 비어 있다는 것을 재지 않았다. 3단계 투영이 그 113 의 결정 저작에 막혀 있다 — 주제별로 묶어 결정 수를 줄이는 것이 설계 변수라는 판단을 받는다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다(handoff 는 남는다).

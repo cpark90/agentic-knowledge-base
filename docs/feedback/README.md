@@ -19,9 +19,11 @@
 
 - **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-remainder-2026-09-22.md`](spec-writing-standard-remainder-2026-09-22.md) — G10 그림 틀 · 출처 개체 위치.
   인수인계 [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md). 반영되면 제안 원문과 승인 항목을 제거한다
-- **유저 작업(2026-10-01)**: [`judge-rejudge-sheet-2026-10-01.md`](judge-rejudge-sheet-2026-10-01.md) — 정확도 축의 재판정 10건. 라벨만 보고 예측 → 본문 → 3점
-- **승인됨·인수 대기(2026-10-01)**: [`uses-definition-range-2026-10-01.md`](uses-definition-range-2026-10-01.md) · [`judge-accuracy-rejudge-2026-10-01.md`](judge-accuracy-rejudge-2026-10-01.md) · [`vv-draft-stable-2026-10-01.md`](vv-draft-stable-2026-10-01.md) — handoff 셋
-- **승인됨·인수 대기(2026-10-01)**: [`unification-program-2026-10-01.md`](unification-program-2026-10-01.md) — 세 층의 위키로 통일, 편입 방식 · [`chunk-unit-tokens-2026-10-01.md`](chunk-unit-tokens-2026-10-01.md) — 단위는 토큰, 42의 배수, 토크나이저 고정. handoff 둘을 썼다
+- **유저 판단 대기(2026-10-02)**: [`risk-grade-scale-stable-2026-10-02.md`](risk-grade-scale-stable-2026-10-02.md) — 위험 등급 척도(S·E·D)의 stable 전이. 등급 66건과 정렬이 이미 그 척도 위에 있다
+- **유저 작업(2026-10-01)**: [`judge-rejudge-sheet-2026-10-01.md`](judge-rejudge-sheet-2026-10-01.md) — 정확도 축의 재판정 10건. 라벨만 보고 예측 → 본문 → 3점. 끝나면 `status: done`
+- **진행 중인 인수인계**: [`handoff/unification-program-2026-10-01.md`](handoff/unification-program-2026-10-01.md) — 0·1-① 완료, 2단계 첫 조각 완료. 1-②·2 나머지·3~5 남음 · [`handoff/judge-accuracy-rejudge-2026-10-01.md`](handoff/judge-accuracy-rejudge-2026-10-01.md) — 판정지 대기
+- refresh 2026-10-02: 돌아온 handoff 셋(`chunk-unit-tokens`·`uses-definition-range`·`vv-draft-stable`)을 `closed` 로, 기록 다섯에 답을 채웠다. 유저 확인 하나를 중계했다.
+  hci 수치 오류 셋을 정정으로 남겼다 — 토큰 근사(3자/토큰 → 실측 2.35) · `pct` 성공 조건의 단위(표현식 36 → 청크 12) · 게이트 id 수(44 → 합집합 56).
 - **유저 판단 대기(2026-09-30)**: [`uses-definition-2026-09-30.md`](uses-definition-2026-09-30.md) — 코드의 호출 관계를 링크로 낼 것인가. 개명 실측이 그래프 9 · 코드 36 이라 그래프가 churn 을 과소 보고한다. 새 어휘 잎이라 승인이 필요하다
 - **반영 완료·인수 기록 대기**: 유저 lane 항목 16과 그 handoff 16이 `closed` 다. 인수 기록 27이 `answered` 이고 발신자가 닫으면 **사슬로 함께** 제거한다
 - **담당 역할 반영 대기**: [`label-representativeness-protocol.md`](label-representativeness-protocol.md)

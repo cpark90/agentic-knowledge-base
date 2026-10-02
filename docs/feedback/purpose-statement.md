@@ -236,8 +236,13 @@ p.s. 제시한 구조표는 아직 미완이고 계속해서 내용을 추가하
 | 75 | `usesDefinition` 치역 — `kb_lib` 표본 쌍부터 (2026-10-01) — 모듈 간 274 간선 중 `kb_lib` 향을 먼저 내고 `pct` 사례(36 파손)의 포착을 성공 조건으로 잰다 | `uses-definition-range-2026-10-01` · handoff 동명 |
 | 76 | 판정자 정확도 축 — 유저 재판정 10건 (2026-10-01) — 불일치 셋 + 무작위 7. 판정지는 hci 가 채널에 만들고 vnv 가 정확도를 계산한다 | `judge-accuracy-rejudge-2026-10-01` · handoff 동명 |
 | 77 | V&V 목표 8·기준 8·시나리오 5 를 stable 로 (2026-10-01) — **정지 규칙이 규범이 된다**(두 라운드 정체 시 멈추고 채널로) | `vv-draft-stable-2026-10-01` · handoff 동명 |
+| 78 | 청크 단위 = 토큰 반영 (2026-10-01) — 저작 산문 **1,092**(42×26, 예산 5,418 ÷ 5) · 인용 **2,856**(42×68) · 계수기 `tiktoken 0.12.0`+`o200k_base`(어휘 해시 고정, ODD 조건 `cond-tokenizer-lock`) · `agt:tokenCount` · 노트 여섯 줄 정정 · 초과 12 분할·면제 | `orchestrator-accept-chunk-unit-tokens-2026-10-01` |
+| 79 | `usesDefinition` 치역 = `kb_lib` 표본 쌍 (2026-10-01) — 476 → 667 트리플, 표본 30/30 참, `pct` 호출부 0 → 12. 치역 전부는 비용이 코드 0 | `orchestrator-accept-uses-definition-range-2026-10-01` |
+| 80 | V&V 31 파일 stable + 정지 규칙의 규범화 (2026-10-01~02) — `docs/method.md` §11. `risk-grade-scale` 은 목록 밖이라 draft | `orchestrator-accept-vv-draft-stable-2026-10-01` |
+| 81 | 통일 기획 0단계·1-① (2026-10-01) — 결정 `p0-service-is-a-three-layer-wiki`, 층은 plane 과 직교, 배정: 지식 759 · 방법론 238 · 프로세스 651. 산발 목록 4종 — **원본 결정 없는 규약 113/161** 이 최대 | `orchestrator-unification-step0-2026-10-01` |
+| 82 | 통일 기획 2단계 첫 조각 (2026-10-02) — 게이트 id 가 네 목록에 갈려 합집합 56·공통 10 이던 것을 단일 정의처 `GATES`(게이트 49 + 도구 태그 9)와 그래프 개체 49 로. 검사 `gate-registry`. 게이트 75 | `orchestrator-unification-step2-gates-2026-10-02` |
 
-**아직 유저 답을 기다리는 것**(2026-10-01): 없음 — 판정지 10건은 유저 작업이다(`judge-rejudge-sheet-2026-10-01.md`). 그 전의 것(2026-09-29): `code-as-chunks-2026-09-26.md`(코드를 청크로 — 확인 둘) · **`code-as-chunks-2026-09-26.md`는 답이 있으나 `status: open` 이다 — 태깅 전에는 반영하지 않는다.**
+**아직 유저 답을 기다리는 것**(2026-10-02): `risk-grade-scale-stable-2026-10-02.md`(위험 등급 척도의 stable 전이) · 판정지 10건(`judge-rejudge-sheet-2026-10-01.md`, 유저 작업). 그 전의 것(2026-09-29): `code-as-chunks-2026-09-26.md`(코드를 청크로 — 확인 둘) · **`code-as-chunks-2026-09-26.md`는 답이 있으나 `status: open` 이다 — 태깅 전에는 반영하지 않는다.**
 그 밖의 유저 lane 항목은 전부 `approved` 이고 인수인계로 넘어갔다. 옛 미결(`dependency-graph-design` 의 (a)~(j) 등)은 git 이력에서 본다.
 
 > 결정 로그가 인용하는 채널 항목 중 반영 완료로 제거된 것(`chunk-definition-unification.md`·`suggestion-okf-three-layer.md`·`notes-v4-review.md`·`terminology-normalization.md`)은 git 이력에서 본다.

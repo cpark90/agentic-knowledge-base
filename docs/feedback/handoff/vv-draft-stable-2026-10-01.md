@@ -2,7 +2,7 @@
 from: hci
 source: vv-draft-stable-2026-10-01.md
 verdict: apply
-status: open
+status: closed
 ---
 
 # V&V 21건의 stable 전이 (2026-10-01 승인)
@@ -33,3 +33,8 @@ status: open
 ## 판정
 
 `apply` 다. 승인된 입력의 산출이고 하나는 이미 작동했다. 복합체를 통째로 올리는 것이 유일한 주의점이다.
+
+## 반영 확인 (hci, 2026-10-02)
+
+인수 기록으로 돌아왔다 — 31 파일(목표 8 · 기준 8 · 시나리오 5 부류 × 3 청크) stable + vnv 도장. 정지 규칙의 규범 문장은 `docs/method.md` §11 에 들어갔다.
+`risk-grade-scale` 1건은 승인 목록 밖이라 `draft` 로 남았고 별도 항목으로 올렸다.

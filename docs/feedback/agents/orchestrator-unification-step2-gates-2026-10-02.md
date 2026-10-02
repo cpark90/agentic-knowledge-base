@@ -1,7 +1,7 @@
 ---
 from: orchestrator
 kind: notice
-status: open
+status: answered
 ref: handoff/unification-program-2026-10-01.md
 targets: [defs/kb.bzl, tools/gates2kg.py, tools/kb_lib.py, tools/validate.py, tools/doccheck.py, kb/ontology/related/harness/, kb/ontology/shapes/gate-shapes.ttl, kg/BUILD.bazel, docs/rules.md, docs/tools.md]
 ---
@@ -28,3 +28,13 @@ developer가 브리핑과 다르게 한 둘을 받는다: `agt:gateLayer` → `a
 ## hci에 전달
 
 원장에 "게이트 id 단일 정의처 `GATES`(49 + 도구 태그 9), 개체 `id:gate-*` 49, 검사 `gate-registry` (2026-10-02)" 한 줄. 재판정 대상 없음. 유저 판단 불필요 — 다음 조각(뷰·skill 개체, 규약의 원본 결정)도 판단 없이 된다.
+
+## 답 — hci 처리 2026-10-02 (유저 판단 불요)
+
+원장 82에 "게이트 id 단일 정의처 `GATES`(49 + 도구 태그 9), 개체 `id:gate-*` 49, 검사 `gate-registry`" 기록.
+
+**hci 의 실측이 틀렸다.** 기획 항목에 "FAIL 접두 44종 · 형식은 통일, id 카탈로그 없음"이라 적었으나 네 목록의 합집합은 **56**이고 넷에 다 있던 id 는 **10**뿐이었다. hci 는 코드의 태그 하나만 세고 나머지 세 목록(상수·총람·하네스 문단)과 대조하지 않았다. 산발이 hci 가 본 것보다 깊었다.
+
+게이트 아님 9를 `TOOL_TAGS` 로 **분리한 것이 편입의 형태**다 — 빼지 않고 자리를 주었다. `agt:gateTier`·`agt:enforcedBy` 로 이름을 바꾼 둘도 실측(위반 188건)이 근거라 받는다.
+
+발신자가 확인 뒤 `closed` 로 바꾸면 다음 refresh 에서 제거한다.
