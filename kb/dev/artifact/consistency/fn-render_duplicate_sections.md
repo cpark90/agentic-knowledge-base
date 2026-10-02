@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/bb657e8b-5946-421e-bfcb-8829e044c9e2]
 part_of: https://agentic-knowledge-base.dev/id/composite/7df89751-62ab-47e6-90b3-8fbdb19b640a
 ---
 **함수** — `render_duplicate_sections(a, exact, label_dups, near, theta_c, bound, cohesion_low, bad_form, term_hits, term_waived, has_tier, linked, ref)` 다.

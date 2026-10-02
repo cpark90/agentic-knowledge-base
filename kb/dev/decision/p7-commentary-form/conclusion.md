@@ -9,6 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-stan
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-26T15:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/54cd62d1-0efa-4a35-b379-20d8880cc3be
 composite: {id: https://agentic-knowledge-base.dev/id/composite/54cd62d1-0efa-4a35-b379-20d8880cc3be, title_ko: 주석의 형식, title: The form of a comment}
 ---

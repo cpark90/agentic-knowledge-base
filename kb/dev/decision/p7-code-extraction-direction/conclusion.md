@@ -9,6 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-30T14:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/cfdffdf2-c863-4f22-bdfc-2d58e26550be
 composite: {id: https://agentic-knowledge-base.dev/id/composite/cfdffdf2-c863-4f22-bdfc-2d58e26550be, title_ko: 코드의 추출 방향, title: The extraction direction for code}
 ---

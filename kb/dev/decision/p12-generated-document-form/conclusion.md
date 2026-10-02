@@ -11,6 +11,7 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/9807be26-ff48-4cca-89c1-12
 serves: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-22T19:05:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6364f6e3-f553-4178-946c-36246fed08a9
 composite: {id: https://agentic-knowledge-base.dev/id/composite/6364f6e3-f553-4178-946c-36246fed08a9, title_ko: 생성 문서의 본문 서식, title: The body form of a generated document}
 ---

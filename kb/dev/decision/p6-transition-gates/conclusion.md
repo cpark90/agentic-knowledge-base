@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c, https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46]
 part_of: https://agentic-knowledge-base.dev/id/composite/7daf868e-e331-4e89-bbcc-447c0ce05f29
 composite: {id: https://agentic-knowledge-base.dev/id/composite/7daf868e-e331-4e89-bbcc-447c0ce05f29, title_ko: 전이 게이트, title: Transition gates}

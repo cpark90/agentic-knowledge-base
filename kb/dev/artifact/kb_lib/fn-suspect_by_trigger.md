@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/5c3f6ad5-769e-4850-970b-a137fa5ebc55, https://agentic-knowledge-base.dev/id/chunk/a6fc9e1e-c79d-4e36-ac7b-36d17aaf0a0a, https://agentic-knowledge-base.dev/id/chunk/b92bd358-40c4-4414-b59c-70676927564b]
 part_of: https://agentic-knowledge-base.dev/id/composite/bfce2c4b-b446-4dc4-897c-a67193985671
 ---

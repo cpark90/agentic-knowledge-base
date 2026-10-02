@@ -6,6 +6,7 @@
 source: tools/term_propose.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-term-propose
 package: kb/dev/artifact/term_propose
+layer: process
 at: 2026-09-10T17:03:35Z
 source_hash: bd18f296a06eb991
 refines:
@@ -13,8 +14,8 @@ refines:
   - https://agentic-knowledge-base.dev/id/chunk/b136d285-c4ba-461b-99cf-bda07c2243d8
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
   source_hash: bd18f296a06eb991
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/3eff15a8-c6b8-46a9-a707-b95a948c619d

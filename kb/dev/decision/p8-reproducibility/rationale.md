@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/c71e12a1-2a31-43f5-af40-c670d767f559
 ---
 **근거** (노트 8.12절) — 재현성을 할당의 조건으로 두면 강등이 자동으로 따라온다. 청크의 속성으로 두면 "재현 불가"라고 적힌 채 1단계에 남아 커버리지에 계산되고, 통제된 시험이 아닌 것이 시험으로 세어진다 (7.10절 합산 규칙).

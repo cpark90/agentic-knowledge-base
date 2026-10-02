@@ -4,10 +4,11 @@ type: decision
 level: abstract
 title_ko: 시나리오 배제 자극 — 결정 본문과 산출물이 어긋난 편집에서 다루지 않는 것
 title: Scenario excluded stimuli — what an edit that makes the decision body and the artefact disagree does not cover
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}, {resource: https://agentic-knowledge-base.dev/id/doc-mast-failure-taxonomy}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-links-only-interaction, https://agentic-knowledge-base.dev/id/asm-finite-factor-types, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-sonnet-5, at: 2026-09-29T15:40:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/65c71b3f-efa7-47bb-b4fa-f7b491e99078
 specializationOf: https://agentic-knowledge-base.dev/id/chunk/fb826dc5-88fa-4bbb-bf98-7536fc095df7
 ---

@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
-part_of: https://agentic-knowledge-base.dev/id/composite/7aee7ddf-f82b-4788-88ce-b27bd5290481
+layer: process
+part_of: https://agentic-knowledge-base.dev/id/composite/d6533f17-7314-4ac1-a34c-ab4e73160294
 ---
 **함수** — `load_residency(path)` 다. `defs/kb.bzl` 의 `PLANES`·`LEVELS`·`RESIDENCY` 를 읽는다
 

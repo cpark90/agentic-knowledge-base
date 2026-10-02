@@ -35,7 +35,9 @@
   residency   (--shapes --residency defs/kb.bzl) 수준 허용표가 한 곳에만 적혀 있다 — shape `residency-shapes.ttl` 의
               plane × level 구간이 `defs/kb.bzl` 의 `RESIDENCY` 와 같다. 원본은 Starlark 리터럴이다(분석 시점
               판정이 파일을 읽지 못하므로). 갈리면 shape 를 맞춘다 (M1 단일 정의처, 2026-09-26)
-  shacl       (--shapes) OWL-RL 추론 후 pySHACL 적합성 (--reason 시 추론 적용)
+  shacl       (--shapes) OWL-RL 추론 후 pySHACL 적합성 (--reason 시 추론 적용). --waivers <docs/waivers.md>
+              를 주면 위반의 focus node 를 agt:assertionLocation 으로 파일에 사상해 게이트 id `shacl`
+              (축 `파일`)로 선언된 면제를 집계에서 빼고 `WAIVED [shacl]` 줄로 남긴다 — shape 는 그대로다
 
 경고(비영 종료 아님, `warn [검사명]` 접두사)
   usesConcept-deprecated  agt:usesConcept 의 대상이 폐기된 용어(owl:deprecated true 또는
@@ -68,6 +70,19 @@ _FM_KEY = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*):")  # frontmatter 의 최상위
 EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)      # 판정 실패 (단일 정의처 kb_lib — 없으면 같은 값)
 EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음·파싱 불가 입력
 EXIT_SKIP = getattr(kb_lib, "EXIT_SKIP", 3)      # 검사 대상 0건
+# 게이트 id — 단일 정의처는 `defs/kb.bzl` 의 `GATES` 리터럴이고 `kb_lib` 이 리터럴 읽기로 파생한다 (M1, 2026-10-02).
+# 여기에 문자열을 적지 않는다 — 리터럴에 없는 id 는 이 줄에서 적재 시점에 죽고, 리터럴 밖의 태그는 게이트
+# `gate-registry` 가 거부한다. `VALIDATE_TAG` 는 게이트가 아니라 이 도구 자신의 집계·배선 태그다.
+LABELS = kb_lib.LABELS_GATE
+BOUNDARY = kb_lib.BOUNDARY_GATE
+VOCAB = kb_lib.VOCAB_GATE
+ODD_REF = kb_lib.ODD_REF_GATE
+DANGLING = kb_lib.DANGLING_GATE
+VERIFY = kb_lib.VERIFY_GATE
+SYNTAX = kb_lib.SYNTAX_GATE
+SHACL = kb_lib.SHACL_GATE
+GATE_REGISTRY = kb_lib.GATE_REGISTRY_GATE
+VALIDATE_TAG = kb_lib.VALIDATE_TAG
 
 
 # ══ 입력과 온톨로지 품질 ════════════════════
@@ -118,10 +133,10 @@ def check_labels(per_file: dict[str, Graph]) -> list[str]:
             missing = {"ko", "en"} - langs
             if missing:
                 errors.append(
-                    f"[labels] {path}: {g.qname(term)} 에 rdfs:label 누락 (언어: {sorted(missing)})"
+                    f"[{LABELS}] {path}: {g.qname(term)} 에 rdfs:label 누락 (언어: {sorted(missing)})"
                 )
             if (term, SKOS.definition, None) not in g:
-                errors.append(f"[labels] {path}: {g.qname(term)} 에 skos:definition 없음")
+                errors.append(f"[{LABELS}] {path}: {g.qname(term)} 에 skos:definition 없음")
     return errors
 
 
@@ -132,7 +147,7 @@ def check_boundary(per_file: dict[str, Graph]) -> list[str]:
         for term in kb_lib.defined_terms(g):
             if term in owner and owner[term] != path:
                 errors.append(
-                    f"[boundary] {path}: {g.qname(term)} 가 {owner[term]} 에서 이미 정의됨 — 한 용어는 한 모듈 파일에서만 정의된다 (2.3절)"
+                    f"[{BOUNDARY}] {path}: {g.qname(term)} 가 {owner[term]} 에서 이미 정의됨 — 한 용어는 한 모듈 파일에서만 정의된다 (2.3절)"
                 )
             owner.setdefault(term, path)
     return errors
@@ -150,9 +165,9 @@ def check_vocab(data_files: dict[str, Graph], ontology: Graph) -> list[str]:
             if p in defined:
                 continue
             if iri.startswith(str(AGT)):
-                errors.append(f"[vocab] {path}: 온톨로지에 정의되지 않은 agt: 술어 {iri}")
+                errors.append(f"[{VOCAB}] {path}: 온톨로지에 정의되지 않은 agt: 술어 {iri}")
             else:
-                errors.append(f"[vocab] {path}: 미등록 어휘의 술어 {iri} (0.3절 네임스페이스 참조)")
+                errors.append(f"[{VOCAB}] {path}: 미등록 어휘의 술어 {iri} (0.3절 네임스페이스 참조)")
     return errors
 
 
@@ -194,7 +209,7 @@ def check_standard_vocab(graphs: dict[str, Graph], terms: set[URIRef], namespace
                 if isinstance(node, URIRef) and node not in seen:
                     seen.add(node)
                     if _namespace(node) in namespaces and node not in terms:
-                        errors.append(f"[vocab] {path}: 표준 어휘 원문에 정의되지 않은 용어 {node} (--standard-vocab 기준)")
+                        errors.append(f"[{VOCAB}] {path}: 표준 어휘 원문에 정의되지 않은 용어 {node} (--standard-vocab 기준)")
     return errors
 
 
@@ -209,7 +224,7 @@ def check_odd_refs(merged: Graph, odd: Graph, files: dict[str, Graph]) -> list[s
     for s, o in merged.subject_objects(AGT.refersTo):
         if o not in odd_subjects:
             errors.append(
-                f"[odd-ref] {_where(files, s)}: {merged.qname(s)} 가 ODD에 없는 속성을 참조: {o} (0.4절 — ODD를 먼저 확장하라)"
+                f"[{ODD_REF}] {_where(files, s)}: {merged.qname(s)} 가 ODD에 없는 속성을 참조: {o} (0.4절 — ODD를 먼저 확장하라)"
             )
     return errors
 
@@ -226,6 +241,10 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
 
     agt:usesConcept 은 개념 IRI를 바로 가리킨다(dependency-graph-design (f)) — 대상은
     온톨로지가 정의한 agt: 용어여야 한다. 온톨로지를 안 주면 병합 그래프의 주어로 대신한다.
+
+    경계: 이 검사는 usesDefinition·exposesFactor(shape가 대상 실재를 봄) 대상의 폐기 여부는 보지 않는다 —
+    exposes 대상은 온톨로지 개체라 청크식 status가 없고, usesDefinition 대상은 artifact 청크라 폐기 대신
+    추출 등록부의 개명·삭제로 정체성이 관리된다(이 저장소의 artifact 청크 status: deprecated 실측 0건).
     """
     checked = (
         kb_lib.AGT.cites,
@@ -245,11 +264,11 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
     for pred in checked:
         for s, o in merged.subject_objects(pred):
             if isinstance(o, URIRef) and str(o).startswith(str(kb_lib.ID)) and o not in subjects:
-                errors.append(f"[dangling] {_where(files, s)}: {merged.qname(s)} 의 {merged.qname(pred)} 대상이 없다: {o} (참조 무결성 8.2절)")
+                errors.append(f"[{DANGLING}] {_where(files, s)}: {merged.qname(s)} 의 {merged.qname(pred)} 대상이 없다: {o} (참조 무결성 8.2절)")
     concepts = kb_lib.defined_terms(ontology) if ontology is not None else subjects
     for s, o in merged.subject_objects(kb_lib.AGT.usesConcept):
         if o not in concepts:
-            errors.append(f"[dangling] {_chunk_location(merged, s)} 의 agt:usesConcept 대상이 온톨로지에 정의되지 않았다: {o}")
+            errors.append(f"[{DANGLING}] {_chunk_location(merged, s)} 의 agt:usesConcept 대상이 온톨로지에 정의되지 않았다: {o}")
     return errors
 
 
@@ -595,13 +614,13 @@ def check_verify(merged: Graph, query_dir: str) -> list[str]:
         try:
             rows = list(merged.query(text))
         except Exception as e:
-            errors.append(f"[verify] {rq.as_posix()}: 질의 자체가 실패 — {e}")
+            errors.append(f"[{VERIFY}] {rq.as_posix()}: 질의 자체가 실패 — {e}")
             continue
         for row in rows[:20]:
             vals = " ".join(str(v) for v in row)
-            errors.append(f"[verify] {rq.as_posix()}: {vals}  ({title})")
+            errors.append(f"[{VERIFY}] {rq.as_posix()}: {vals}  ({title})")
         if len(rows) > 20:
-            errors.append(f"[verify] {rq.as_posix()}: … 외 {len(rows)-20}건")
+            errors.append(f"[{VERIFY}] {rq.as_posix()}: … 외 {len(rows)-20}건")
     return errors
 
 
@@ -647,24 +666,27 @@ def check_residency(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> lis
     return errors
 
 
-def check_line_budget(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> list[str]:
-    """본문 줄 수 상한의 단일 정의처 — shape 가 `kb_lib.BODY_LINE_LIMITS` 와 같은 표인가 (게이트 `line-budget`).
+def check_token_budget(shapes: Graph, bzl_path: str, shape_paths: list[str], vocab: str = "") -> list[str]:
+    """본문 토큰 수 상한의 단일 정의처 — shape 가 `kb_lib.BODY_TOKEN_LIMITS` 와 같은 표인가 (게이트 `token-budget`).
 
     `residency` 와 같은 형이다. 원본은 파이썬 쪽 표이고(게이트 chunk_lint 가 파일마다 그것으로 판정한다) shape 는
     그것의 RDF 표현이다. plane 은 shape 의 `sh:targetClass` 지역명 `<X>Chunk` 에서 읽는다. plane 목록은
-    `defs/kb.bzl` 의 PLANES 이고, 표에 없는 plane 의 상한은 기본 42줄이다 (4.1절).
-    `artifact` 만 값이 다르다 — 본문이 저작이 아니라 소스의 인용이기 때문이다 (p7-code-extraction-direction "예산").
-    첫 실행(2026-09-30, plane 7): FAIL 0.
+    `defs/kb.bzl` 의 PLANES 이고, 표에 없는 plane 의 상한은 기본 1,092 토큰(42×26)이다
+    (결정 p1-chunk-unit-is-tokens — 줄 상한 42·200 은 폐지됐다).
+    `artifact`·`memory` 만 값이 다르다 — 본문이 저작이 아니라 소스·실행의 인용이기 때문이다
+    (p7-code-extraction-direction "예산").
+    **계수기도 이 게이트가 본다**: 토큰으로 적은 상한은 계수기가 고정되지 않으면 상한이 아니므로 어휘 파일의
+    sha256 이 `kb_lib.TOKENIZER_VOCAB_SHA256` 과 같은지 대조한다 (ODD id:cond-tokenizer-lock).
     """
     from rdflib.namespace import SH
 
-    gate = kb_lib.LINE_BUDGET_GATE
+    gate = kb_lib.TOKEN_BUDGET_GATE
     where = ", ".join(shape_paths) or bzl_path
     try:
         planes, _levels, _table = kb_lib.load_residency(bzl_path)
     except (OSError, ValueError) as e:
         raise ConfigFailure(f"[{gate}] {bzl_path}: plane 목록을 읽을 수 없다 — {e}") from e
-    declared = {p: kb_lib.body_line_limit(p) for p in planes}
+    declared = {p: kb_lib.body_token_limit(p) for p in planes}
     found: dict[str, set[int]] = {}
     for shape, cls in shapes.subject_objects(SH.targetClass):
         plane = str(cls).split("/")[-1]
@@ -672,7 +694,7 @@ def check_line_budget(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> l
             continue
         plane = plane[: -len("Chunk")].lower()
         for prop in shapes.objects(shape, SH.property):
-            if (prop, SH.path, kb_lib.AGT.lineCount) not in shapes:
+            if (prop, SH.path, kb_lib.AGT.tokenCount) not in shapes:
                 continue
             for v in shapes.objects(prop, SH.maxInclusive):
                 found.setdefault(plane, set()).add(int(v))
@@ -682,16 +704,104 @@ def check_line_budget(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> l
         if want is None:
             errors.append(f"[{gate}] {where}: shape 가 plane {plane} 의 본문 상한을 {sorted(have)} 로 두는데 그런 plane 이 {bzl_path} 의 PLANES 에 없다")
         elif not have:
-            errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한 {want} 에 대응하는 shape 가 없다 — `agt:{plane.capitalize()}Chunk` 의 `agt:lineCount` 에 `sh:maxInclusive {want}` 를 단다 (표의 원본은 tools/kb_lib.py 의 BODY_LINE_LIMITS 다)")
+            errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한 {want} 토큰에 대응하는 shape 가 없다 — `agt:{plane.capitalize()}Chunk` 의 `agt:tokenCount` 에 `sh:maxInclusive {want}` 를 단다 (표의 원본은 tools/kb_lib.py 의 BODY_TOKEN_LIMITS 다)")
         elif have != {want}:
-            errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한이 갈린다 — tools/kb_lib.py 의 BODY_LINE_LIMITS 는 {want}, shape 는 {sorted(have)} 다. 원본은 표이므로 shape 를 맞춘다")
+            errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한이 갈린다 — tools/kb_lib.py 의 BODY_TOKEN_LIMITS 는 {want}, shape 는 {sorted(have)} 다. 원본은 표이므로 shape 를 맞춘다")
+    try:  # 계수기의 고정 — 상한의 단위가 토큰이므로 어휘 파일이 바뀌면 같은 수가 같은 뜻이 아니다
+        path = kb_lib.tokenizer_vocab_path(vocab or None)
+    except FileNotFoundError as e:
+        raise ConfigFailure(f"[{gate}] 어휘 파일 — {e}") from e
+    got = kb_lib.tokenizer_vocab_fingerprint(path)
+    if got != kb_lib.TOKENIZER_VOCAB_SHA256:
+        errors.append(f"[{gate}] {Path(path).as_posix()}: 어휘 파일의 sha256 {got} 가 고정값 "
+                      f"{kb_lib.TOKENIZER_VOCAB_SHA256} 과 다르다 — 토큰으로 적은 상한이 재현되지 않는다 "
+                      f"(ODD id:cond-tokenizer-lock, 고정처는 MODULE.bazel 의 http_file "
+                      f"{kb_lib.TOKENIZER_VOCAB_REPO} 와 tools/kb_lib.py 의 TOKENIZER_VOCAB_SHA256)")
     return errors
 
 
-def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[str]) -> list[str]:
-    from pyshacl import validate as shacl_validate
+def check_gate_registry(gates_path: str, sources: list[str]) -> list[str]:
+    """게이트 id 의 단일 정의처 — 코드의 태그 집합이 `GATES`·`TOOL_TAGS` 리터럴과 같은가 (게이트 `gate-registry`).
 
-    conforms, _, text = shacl_validate(
+    `residency`·`token-budget` 과 같은 형이다. 원본은 `defs/kb.bzl` 의 두 리터럴이고 파이썬 쪽은 그것을 읽어
+    상수를 파생한다. 2026-10-01 실측에서 같은 목록이 넷으로 갈려 있었으므로(상수 26 · 코드의 태그 · 총람의
+    `id` 열 · 하네스 목록) 네 방향을 본다 — ① 등록부 밖의 태그, ② 손으로 둔 `*_GATE` 상수, ③ `getattr`
+    폴백의 값 드리프트, ④ 등록됐으나 코드에 닿지 않는 id. ④ 의 도달은 태그 자신 또는 파생 상수 이름이다.
+    판정 도구가 파이썬 밖인 게이트(`starlark`·`bazel`)는 태그를 찍을 자리가 없어 ④ 에서 빠진다.
+    """
+    gate = GATE_REGISTRY
+    try:
+        gates = kb_lib.load_gates(gates_path)
+        tool_tags = kb_lib.load_tool_tags(gates_path)
+    except (OSError, ValueError) as e:
+        raise ConfigFailure(f"[{gate}] {gates_path}: 게이트 등록부를 읽을 수 없다 — {e}") from e
+    pys = [Path(s) for s in sources if Path(s).suffix == ".py"]
+    if not pys:
+        raise ConfigFailure(f"[{gate}] --gate-sources 에 파이썬 소스가 없다 — 태그 전수를 볼 대상이 비면 판정이 아니다")
+    try:
+        hits = kb_lib.scan_gate_tags(pys)
+    except (OSError, SyntaxError, ValueError) as e:
+        raise ConfigFailure(f"[{gate}] 태그를 훑을 수 없다 — {e}") from e
+    registered = set(gates) | set(tool_tags)
+    outside = kb_lib.load_bzl_list(gates_path, "GATE_TOOLS_OUTSIDE_PYTHON")  # 파이썬 밖의 판정 도구 — 태그 자리가 없다
+    errors = []
+    for tag in sorted(set(hits) - registered):
+        errors.append(f"[{gate}] {hits[tag][0]}: 태그 `{tag}` 가 {gates_path} 의 GATES·TOOL_TAGS 밖이다 — "
+                      f"게이트면 GATES 에, 입력 문제·보고 태그면 TOOL_TAGS 에 등재한다 (단일 정의처는 그 리터럴이다)")
+    hand = re.compile(r"^([A-Z][A-Z0-9_]*_GATE)\s*=\s*[\"']([a-z0-9-]+)[\"']", re.M)
+    fallback = re.compile(r"getattr\(\s*kb_lib\s*,\s*[\"']([A-Z][A-Z0-9_]*_GATE)[\"']\s*,\s*[\"']([a-z0-9-]+)[\"']")
+    by_name = {kb_lib.gate_constant_name(g): g for g in gates}
+    per_file: dict[str, str] = {}
+    text = ""
+    for p in pys:
+        body = p.read_text(encoding="utf-8")
+        per_file[p.stem] = body
+        text += body
+        for name, value in hand.findall(body):
+            errors.append(f"[{gate}] {p.as_posix()}: 상수 {name} 에 게이트 id {value!r} 를 손으로 적었다 — "
+                          f"{gates_path} 의 GATES 가 단일 정의처이고 kb_lib 이 그 리터럴로 파생한다 (kb_lib.{name})")
+        for name, value in fallback.findall(body):
+            want = by_name.get(name)
+            if want is None:
+                errors.append(f"[{gate}] {p.as_posix()}: 폴백 {name} 에 대응하는 게이트가 GATES 에 없다 — "
+                              f"리터럴에 등재하거나 폴백을 지운다")
+            elif want != value:
+                errors.append(f"[{gate}] {p.as_posix()}: 폴백 {name} 의 값 {value!r} 가 GATES 의 {want!r} 와 갈린다 — "
+                              f"폴백은 리터럴과 같은 값이어야 한다 (rdflib 없이 도는 생성기의 선언된 예외다)")
+    for gid, spec in sorted(gates.items()):
+        if spec.get("tool") in outside:
+            continue
+        own = per_file.get(spec.get("tool"), "")  # 판정 도구가 자기 소스에 id 를 적은 꼴(rdflib 없이 도는 생성기)
+        if gid in hits or kb_lib.gate_constant_name(gid) in text or f'"{gid}"' in own or f"'{gid}'" in own:
+            continue
+        errors.append(f"[{gate}] {gates_path}: 게이트 `{gid}` 가 코드에 닿지 않는다 — 태그도 파생 상수 "
+                      f"kb_lib.{kb_lib.gate_constant_name(gid)} 도 없다. 판정 도구가 찍지 않는 게이트는 게이트가 아니다")
+    for tag in sorted(tool_tags):
+        if tag in hits or (tag.replace("-", "_").upper() + "_TAG") in text:
+            continue
+        errors.append(f"[{gate}] {gates_path}: 도구 태그 `{tag}` 가 코드에 닿지 않는다 — 쓰이지 않는 태그는 지운다")
+    names = {p.stem for p in pys}
+    for gid, spec in sorted(gates.items()):
+        tool = spec.get("tool")
+        if tool in outside or tool in names:
+            continue
+        errors.append(f"[{gate}] {gates_path}: 게이트 `{gid}` 의 판정 도구 `{tool}` 가 실재하지 않는다 — "
+                      f"`tools/{tool}.py` 이거나 파이썬 밖(starlark·bazel) 중 하나다")
+    return errors
+
+def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[str],
+                waivers: list[dict] | None = None) -> list[str]:
+    """pySHACL 적합성 — 위반마다 focus node 를 파일로 사상해 선언된 면제를 가른다.
+
+    shape 는 약화하지 않는다. 면제의 자리는 `docs/waivers.md` 하나(게이트 id `shacl`, 축 `파일`)이고 면제된
+    위반은 집계에서 빼되 `WAIVED [shacl] <파일>: <sh:resultMessage>` 줄로 남긴다 — `chunk_lint` 의 `chunk`
+    면제와 같은 규약이다. focus node → 파일은 그래프의 `agt:assertionLocation` 이 정한다.
+    """
+    from pyshacl import validate as shacl_validate
+    from rdflib.namespace import SH
+
+    gate = SHACL
+    conforms, report, text = shacl_validate(
         merged,
         shacl_graph=shapes,
         ont_graph=None,
@@ -700,7 +810,26 @@ def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[st
         allow_infos=True,
         allow_warnings=False,
     )
-    return [] if conforms else [f"[shacl] {', '.join(shape_paths)}: shape 부적합 — sh:message 가 수정 방향이다\n{text}"]
+    if conforms:
+        return []
+    kept, waived_notes = 0, []
+    for result in report.subjects(RDF.type, SH.ValidationResult):
+        if next(report.objects(result, SH.resultSeverity), None) == SH.Info:
+            continue  # allow_infos=True — 판정에 들지 않는 결과다
+        focus = next(report.objects(result, SH.focusNode), None)
+        where = _chunk_location(merged, focus) if isinstance(focus, URIRef) else str(focus)
+        if waivers and kb_lib.waived(waivers, gate, where, "파일"):
+            msg = str(next(report.objects(result, SH.resultMessage), "")).strip()
+            waived_notes.append(f"WAIVED [{gate}] {where}: {msg}")
+        else:
+            kept += 1
+    for note in sorted(waived_notes):
+        print(f"{note} (waivers.md — 집계에서 뺐다)")
+    if not kept:
+        return []
+    return [f"[{gate}] {', '.join(shape_paths)}: shape 부적합 {kept}건"
+            + (f" (면제 {len(waived_notes)}건)" if waived_notes else "")
+            + f" — sh:message 가 수정 방향이다\n{text}"]
 
 
 # ── SHACL 판정과 실행 ────────────────────
@@ -713,20 +842,51 @@ def main() -> int:
     ap.add_argument("--data", nargs="*", default=[], help="A-Box 파일들 (*-kg, *-space)")
     ap.add_argument("--reason", action="store_true", help="SHACL 전에 OWL-RL 추론 적용")
     ap.add_argument("--residency", default="", help="수준 허용표의 원본 defs/kb.bzl — 주면 shape 가 그 표와 같은지 본다")
+    ap.add_argument("--gates", default="", metavar="FILE",
+                    help="게이트 등록부의 원본 defs/kb.bzl — 주면 게이트 `gate-registry` 가 켜진다. 코드의 태그 "
+                         "집합이 GATES·TOOL_TAGS 리터럴과 같은지, 손으로 둔 상수가 없는지 본다 (그래프 없이도 돈다)")
+    ap.add_argument("--gate-sources", nargs="*", default=[],
+                    help="게이트 `gate-registry` 가 태그를 훑을 소스 전수 (tools/*.py). --gates 와 함께 쓴다")
+    ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 게이트 token-budget 이 sha256 을 고정값과 대조한다. "
+                                               "없으면 runfiles 의 고정 파일을 쓴다 (ODD id:cond-tokenizer-lock)")
     ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 계층)")
     ap.add_argument("--chunk-files", nargs="*", default=[],
                     help="청크 파일들(*.md) — 주면 element-drop 의 frontmatter 키 전수 대조가 켜진다")
     ap.add_argument("--standard-vocab", nargs="*", default=[],
                     help="등록 표준 어휘 원문(PROV-O·SKOS 등). 주면 그 네임스페이스의 용어가 원문에 정의돼 있는지까지 본다")
+    ap.add_argument("--waivers", default="", metavar="FILE",
+                    help="docs/waivers.md — 게이트 id `shacl`(축 `파일`)로 면제된 파일의 shape 위반은 집계에서 "
+                         "빼되 `WAIVED [{SHACL}]` 줄로 남긴다. focus node → 파일은 agt:assertionLocation 이 정한다")
     args = ap.parse_args()
 
     errors: list[str] = []
     warnings: list[str] = []
+    try:
+        waivers = kb_lib.load_waivers(args.waivers) if args.waivers else []
+    except (OSError, ValueError) as e:  # 면제 표를 읽을 수 없다 — 배선 문제이지 판정 실패가 아니다
+        print(f"FAIL [{VALIDATE_TAG}] waiver 표 — {e}")
+        return EXIT_CONFIG
+
+    if args.gates:  # 게이트 등록부 — 그래프가 아니라 리터럴과 소스를 본다 (M1 단일 정의처, 2026-10-02)
+        try:
+            errors += check_gate_registry(args.gates, args.gate_sources)
+        except ConfigFailure as e:  # 리터럴·소스를 읽을 수 없다 — 배선 문제
+            print(f"FAIL {e}")
+            return EXIT_CONFIG
 
     n_files = len(args.ontology) + len(args.odd) + len(args.data) + len(args.shapes)
     if n_files == 0:
-        print("SKIP [validate] 검사 대상 0건 — 그래프 파일이 없다 (PASS 가 아니다)")
-        return EXIT_SKIP
+        if not args.gates:
+            print(f"SKIP [{VALIDATE_TAG}] 검사 대상 0건 — 그래프 파일이 없다 (PASS 가 아니다)")
+            return EXIT_SKIP
+        if errors:
+            for e in errors:
+                print(f"FAIL {e}")
+            print(f"\nFAIL [{VALIDATE_TAG}] — {len(errors)}건")
+            return EXIT_FAIL
+        print(f"PASS [{VALIDATE_TAG}] — 게이트 등록부 {len(kb_lib.load_gates(args.gates))}개 · "
+              f"도구 태그 {len(kb_lib.load_tool_tags(args.gates))}개, 소스 {len(args.gate_sources)}개")
+        return 0
     try:
         onto_merged, onto_files = load_files(args.ontology)
         odd_merged, odd_files = load_files(args.odd)
@@ -734,10 +894,10 @@ def main() -> int:
         shapes_merged, shapes_files = load_files(args.shapes)
         std_terms, std_namespaces = load_standard_vocab(args.standard_vocab)
     except SyntaxFailure as e:  # 파싱되지 않는 입력 — 게이트가 판정을 내릴 수 없다
-        print(f"FAIL [syntax] {e}")
+        print(f"FAIL [{SYNTAX}] {e}")
         return EXIT_CONFIG
     except Exception as e:  # 표준 어휘 원문 등 부속 입력의 실패
-        print(f"FAIL [syntax] {', '.join(args.standard_vocab) or '?'}: 파싱 실패 — {e}")
+        print(f"FAIL [{SYNTAX}] {', '.join(args.standard_vocab) or '?'}: 파싱 실패 — {e}")
         return EXIT_CONFIG
 
     errors += check_labels(onto_files)
@@ -766,11 +926,11 @@ def main() -> int:
         if args.residency:
             try:
                 errors += check_residency(shapes_merged, args.residency, args.shapes)
-                errors += check_line_budget(shapes_merged, args.residency, args.shapes)
+                errors += check_token_budget(shapes_merged, args.residency, args.shapes, args.vocab)
             except ConfigFailure as e:  # 표를 읽을 수 없다 — 배선 문제
                 print(f"FAIL {e}")
                 return EXIT_CONFIG
-        errors += check_shacl(merged, shapes_merged, args.reason, args.shapes)
+        errors += check_shacl(merged, shapes_merged, args.reason, args.shapes, waivers)
     errors += check_element_drop(onto_merged if args.ontology else None, args.chunk_files)
     if args.verify_queries:
         errors += check_verify(merged, args.verify_queries)
@@ -783,10 +943,10 @@ def main() -> int:
     if errors:
         for e in errors:
             print(f"FAIL {e}")
-        print(f"\nFAIL [validate] — {len(errors)}건")
+        print(f"\nFAIL [{VALIDATE_TAG}] — {len(errors)}건")
         return EXIT_FAIL
 
-    print(f"PASS [validate] — 파일 {n_files}개, 트리플 {len(merged)}개")
+    print(f"PASS [{VALIDATE_TAG}] — 파일 {n_files}개, 트리플 {len(merged)}개")
     return 0
 
 

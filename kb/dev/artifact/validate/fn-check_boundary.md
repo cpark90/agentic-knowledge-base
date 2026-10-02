@@ -7,7 +7,9 @@ title: function check_boundary in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/8d31b7a9-85c6-48b3-875b-1223f473d503]
 part_of: https://agentic-knowledge-base.dev/id/composite/2bbdac5b-e7f6-4ca1-b5fd-04c0513178d1
 ---
 **함수** — `check_boundary(per_file)` 다.
@@ -21,7 +23,7 @@ def check_boundary(per_file: dict[str, Graph]) -> list[str]:
         for term in kb_lib.defined_terms(g):
             if term in owner and owner[term] != path:
                 errors.append(
-                    f"[boundary] {path}: {g.qname(term)} 가 {owner[term]} 에서 이미 정의됨 — 한 용어는 한 모듈 파일에서만 정의된다 (2.3절)"
+                    f"[{BOUNDARY}] {path}: {g.qname(term)} 가 {owner[term]} 에서 이미 정의됨 — 한 용어는 한 모듈 파일에서만 정의된다 (2.3절)"
                 )
             owner.setdefault(term, path)
     return errors

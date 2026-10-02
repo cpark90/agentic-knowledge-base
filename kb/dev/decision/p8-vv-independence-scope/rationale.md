@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/a6634f6f-503c-4e74-8aa1-08d272e2a38e
 ---
 **근거** (노트 8.5절) — 권한을 역할에 붙이고 스코프로 강제해야 독립이 실효를 갖는다. 규약으로만 두면 같은 에이전트가 두 KB를 함께 열고 실패하는 기준을 고치는 것이 가장 짧은 경로가 된다 (1.2절 방향 있는 실수).

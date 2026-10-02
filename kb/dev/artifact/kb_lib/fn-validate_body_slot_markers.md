@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/efdfa170-bf07-4ef8-9d31-b554c7e26f8c
 ---
 **함수** — `validate_body_slot_markers(markers)` 다. 표지 집합의 중복·접두 겹침을 검사한다.

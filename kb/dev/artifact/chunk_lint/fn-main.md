@@ -7,8 +7,9 @@ title: function main in tools/chunk_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/15e8fdb5-4855-45e7-a8da-d43faba52099, https://agentic-knowledge-base.dev/id/chunk/32dfc003-5ffa-4b9f-95c1-d71ffd0a4884, https://agentic-knowledge-base.dev/id/chunk/4978379c-7c15-4dc1-9832-9ada51fe6cf0, https://agentic-knowledge-base.dev/id/chunk/608da358-1b32-4e5f-b999-82b185e41ef4, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/8f6003ae-4fdf-49cc-b1d5-d299b6f34395, https://agentic-knowledge-base.dev/id/chunk/9995ae36-ac6f-4afb-9596-0ef58fa2a582, https://agentic-knowledge-base.dev/id/chunk/adf4efcc-f323-49f3-87da-e81bb49bf4f5, https://agentic-knowledge-base.dev/id/chunk/b2c2e02d-e0ff-47a5-ae59-c97c4f96b895, https://agentic-knowledge-base.dev/id/chunk/b61b3d07-041e-43c2-bb5d-cf3239db7602, https://agentic-knowledge-base.dev/id/chunk/db4948aa-0374-4100-8ea3-fcc9111717da]
 part_of: https://agentic-knowledge-base.dev/id/composite/7b250e22-fd3e-4d64-9b95-214bd55ce9d3
 ---
 **함수** — `main()` 다.
@@ -19,9 +20,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--chunks", nargs="*", default=[])
     ap.add_argument("--ttl", nargs="*", default=[])
+    ap.add_argument("--vocab", default="", metavar="FILE",
+                    help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다 (p1-chunk-unit-is-tokens)")
     ap.add_argument("--waivers", default="", metavar="FILE",
-                    help=f"docs/waivers.md — 게이트 id {PROSE}·{ADDITION}·{EMPTY_VALUE}·{LIST_RULES}·{BLOCKING_COMMENT}·{JUDGE_LOG}·"
-                         f"{SUMMARY_SUPPORT}(축 파일)로 면제된 파일의 위반은 세지 않는다. 없으면 면제 없음")
+                    help=f"docs/waivers.md — 게이트 id {CHUNK}·{PROSE}·{ADDITION}·{EMPTY_VALUE}·{LIST_RULES}·{BLOCKING_COMMENT}·"
+                         f"{JUDGE_LOG}·{SUMMARY_SUPPORT}(축 파일)로 면제된 파일의 위반은 세지 않는다. 없으면 면제 없음")
     args = ap.parse_args()
 
     if not args.chunks and not args.ttl:
@@ -33,6 +36,15 @@ def main() -> int:
     except (OSError, ValueError) as e:
         print(f"FAIL [chunk_lint] waiver 표 — {e}")
         return EXIT_CONFIG
+
+    try:  # 어휘는 한 번만 적재한다 — 크기 판정이 이 계수기 하나로 재현된다 (ODD id:cond-tokenizer-lock)
+        enc = kb_lib.load_tokenizer(args.vocab or None)
+    except FileNotFoundError as e:
+        print(f"FAIL [chunk_lint] 어휘 파일 — {e}")
+        return EXIT_CONFIG
+    except ValueError as e:  # 해시가 고정값과 다르다 — 계수기가 재현되지 않는다
+        print(f"FAIL [{CHUNK}] {e}")
+        return EXIT_FAIL
 
     errors = []
     waived_notes = []  # 면제된 위반 — 집계에서 빼되 목록에는 남긴다 (docs/waivers.md 머리의 규약, ⑥ 이 선례)
@@ -48,16 +60,17 @@ def main() -> int:
         try:
             text = p.read_text(encoding="utf-8")
         except OSError as e:
-            print(f"FAIL [chunk] {f}: 읽을 수 없다 — {e}")
+            print(f"FAIL [{CHUNK}] {f}: 읽을 수 없다 — {e}")
             return EXIT_CONFIG
-        n = body_lines(p, text)
+        n = kb_lib.token_count(kb_lib.body_text(p, text), enc)
         plane = split_frontmatter(text)[0].get("type") if p.suffix == ".md" else None
-        limit = kb_lib.body_line_limit(plane)  # plane 별 프로파일 파라미터 — 정의처는 kb_lib.BODY_LINE_LIMITS 하나다
+        limit = kb_lib.body_token_limit(plane)  # plane 별 프로파일 파라미터 — 정의처는 kb_lib.BODY_TOKEN_LIMITS 하나다
         if n > limit:
-            errors.append(
-                f"[chunk] {f}: 본문 {n}줄 > {limit}줄 — 분할하라 (4.10절 분할 신호"
-                + (f"; plane {plane} 의 상한은 프로파일 파라미터다 — kb_lib.BODY_LINE_LIMITS)" if limit != MAX_BODY_LINES else ")")
+            line = (
+                f"[{CHUNK}] {f}: 본문 {n}토큰 > {limit}토큰 — 분할하라 (4.10절 분할 신호"
+                + (f"; plane {plane} 의 상한은 프로파일 파라미터다 — kb_lib.BODY_TOKEN_LIMITS)" if limit != MAX_BODY_TOKENS else ")")
             )
+            (waived_notes if kb_lib.waived(waivers, CHUNK, f, "파일") else errors).append(line)
         if p.suffix == ".md":  # 산문 문체·결정 역할 표지 — TTL 은 대상이 아니다
             prose_files += 1
             prose_errors, _, _ = kb_lib.check_prose(f, text, waivers)
@@ -92,7 +105,7 @@ def main() -> int:
         stem = Path(f).stem
         if not any(stem == s.lstrip("-") or stem.endswith(s) for s in ALLOWED_TTL_SUFFIXES):
             errors.append(
-                f"[naming] {f}: 접미사 규약 위반 — {', '.join(ALLOWED_TTL_SUFFIXES)} 중 하나로 끝나야 한다 (0.2절)"
+                f"[{NAMING}] {f}: 접미사 규약 위반 — {', '.join(ALLOWED_TTL_SUFFIXES)} 중 하나로 끝나야 한다 (0.2절)"
             )
 
     for w in waived_notes:

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/b1903be2-0bdb-4f11-9c2b-cc59cc7e9a24
 ---
 **함수** — `apply_plane_level_state(planes, levels, states)` 다. 전역 PLANES·LEVELS·STATES 를 교체하고 PLANE_CLASS 의 키 집합과 즉시 대조한다.

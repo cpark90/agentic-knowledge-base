@@ -1,9 +1,10 @@
-# 42줄을 넘는 항목이 있는가.
-# 행 = 본문이 42줄을 넘는 청크 하나 (plane · 줄 수). 0행이 정상이다 — shape 이 막고 분포는 //kg:metrics 가 낸다
+# 상한을 넘는 항목이 있는가 — 크기의 단위는 토큰이다 (결정 p1-chunk-unit-is-tokens).
+# 행 = 본문이 그 plane 의 상한을 넘는 청크 하나 (plane · 토큰 수). 0행이 정상이다 — shape(token-budget)이 막고
+# 분포는 //kg:metrics 가, 실측은 `bazel run //tools:tokens` 가 낸다. 상한은 저작 산문 1,092 · artifact·memory 2,856 이다
 PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
 PREFIX id: <https://agentic-knowledge-base.dev/id/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?item ?plane ?lines WHERE {
-  ?item a ?plane ; agt:lineCount ?lines .
-  FILTER(?lines > 42)
-} ORDER BY DESC(?lines) ?item
+SELECT ?item ?plane ?tokens WHERE {
+  ?item a ?plane ; agt:tokenCount ?tokens .
+  FILTER(?tokens > IF(?plane IN (agt:ArtifactChunk, agt:MemoryChunk), 2856, 1092))
+} ORDER BY DESC(?tokens) ?item

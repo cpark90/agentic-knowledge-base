@@ -7,7 +7,8 @@ title: function pct in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/ad8f9fc0-eedf-44e1-a93f-65f667e359ce
 ---
 **함수** — `pct(n, d)` 다. G15 — 비율은 `n/d = p.p%` 꼴이다.

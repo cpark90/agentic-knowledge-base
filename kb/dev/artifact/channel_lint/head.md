@@ -7,8 +7,8 @@ title: module head gate in tools/channel_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-channel-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-12T11:29:42Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/60faade0-d3e7-4ad4-8bf6-371be22956c3, https://agentic-knowledge-base.dev/id/chunk/f1d4cbae-2b57-4b96-826f-536b132cd624]
 part_of: https://agentic-knowledge-base.dev/id/composite/84c1731c-46ae-469d-a2b2-a52d6615da86
 ---
@@ -18,7 +18,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/84c1731c-46ae-469d-a2b2
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-GATE = "channel"
+GATE = CHANNEL_GATE
 USER, AGENTS, INQUIRIES, HANDOFF = "user", "agents", "inquiries", "handoff"
 STATES = {
     USER: {"open", "approved", "rejected"},

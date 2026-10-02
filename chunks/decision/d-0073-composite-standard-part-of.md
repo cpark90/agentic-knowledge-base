@@ -7,6 +7,7 @@ title: Composites use standard part-of and ordered collections
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-composite-projection
 composite: {id: https://agentic-knowledge-base.dev/id/comp-composite-projection, title_ko: 구성체와 투영, title: composite and projection}
 ---

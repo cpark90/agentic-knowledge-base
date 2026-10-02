@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/b61b3d07-041e-43c2-bb5d-cf3239db7602]
 part_of: https://agentic-knowledge-base.dev/id/composite/ea7476e7-b990-4825-a271-6356855d2118
 ---
 **함수** — `check_summary_support(text)` 다. `핵심:` 항목마다

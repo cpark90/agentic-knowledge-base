@@ -1,0 +1,29 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/gates2kg/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/gates2kg.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-gates2kg
+package: kb/dev/artifact/gates2kg
+layer: process
+at: 2026-10-01T16:06:51Z
+source_hash: 125694b2bbe91653
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/e8156600-d7a9-4e0c-b51c-8986083805c7
+  - https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5
+serves: []
+tested: {}
+ids:
+  composite:head: https://agentic-knowledge-base.dev/id/composite/f27a54db-9e75-40ab-aafa-020984bc8528
+  composite:sec:emit: https://agentic-knowledge-base.dev/id/composite/cda496f2-c562-40ea-bde8-f3fa740db1b1
+  composite:sec:tool-composites: https://agentic-knowledge-base.dev/id/composite/ff1c5437-57a6-409e-86e7-767ffd3d41ff
+  file: https://agentic-knowledge-base.dev/id/composite/4f1a7107-6da2-49a5-b29b-7bc2f257f90a
+  fn:emit: https://agentic-knowledge-base.dev/id/chunk/5626d1aa-8b86-4c12-ab4c-ec1e76b25bb5
+  fn:escape: https://agentic-knowledge-base.dev/id/chunk/f15f1ad5-6a97-49e0-a1b6-d7cc84dd3b8e
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/cdf1f234-455a-45ff-aa45-cc7d4fb9f6cb
+  fn:tool_composites: https://agentic-knowledge-base.dev/id/chunk/4023eaae-fb57-4924-bb9b-beb8a2530ff2
+  head: https://agentic-knowledge-base.dev/id/chunk/5b36dc12-5981-480b-b53b-b3d740e777b7
+  module: https://agentic-knowledge-base.dev/id/chunk/3365f616-57b5-475b-b2a4-955e5d05881c
+  sec:emit: https://agentic-knowledge-base.dev/id/chunk/cad7ce8a-694a-4ce3-9a9d-a507ceb3b1c6
+  sec:tool-composites: https://agentic-knowledge-base.dev/id/chunk/846eb6a4-6452-4f1a-a391-75ced6f1e69c

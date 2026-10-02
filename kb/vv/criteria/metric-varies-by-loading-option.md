@@ -4,10 +4,11 @@ type: contract
 level: logical
 title_ko: 같은 이름의 지표는 도구가 달라도 같은 값이고 union이 다르면 그 차가 수로 적힌다
 title: A same-named metric holds one value across tools and any union gap is written as a number
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}, {resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5, at: 2026-09-29T06:20:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/91d72e63-e72e-4803-aaf3-281a81994a31]
 ---
 **합격 기준** — 기준 종류는 **불변식**이다. 같은 리비전에서 도구 `t`가 내는 수치 `m(t, 이름)`에 대해 이름이 같은 두 도구의 값이 같고, 읽는 union이 달라 값이 갈리면 그 차 `|n(t1) − n(t2)|`와 차의 출처 파일이 머리에 적히는 것이 합격이다.

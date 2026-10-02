@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run-env-test}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-26T10:39:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/4ec05239-7f7f-4a11-93fb-cc78958546b5, https://agentic-knowledge-base.dev/id/chunk/75a41a5b-41f9-406e-a6e7-ef2d50a688ec, https://agentic-knowledge-base.dev/id/chunk/890796e2-4d86-47b3-8963-ccab2ab97d40]
 part_of: https://agentic-knowledge-base.dev/id/composite/491eacc1-0150-4673-96c8-52951bec7409
 ---
 **함수** — `main()` 다.

@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-odd-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 part_of: https://agentic-knowledge-base.dev/id/composite/bdc32d15-06d9-439b-a3b2-0d3dab05225f
 ---
 **함수** — `condition_iri(attr)` 다. ATTRIBUTES.<속성>.iri 의 `id:cond-…` 를 전체 IRI 로 편다

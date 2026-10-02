@@ -55,14 +55,15 @@ except ImportError:
 AGT = kb_lib.AGT
 ID = kb_lib.ID
 EXIT_OK, EXIT_CONFIG, EXIT_SKIP = kb_lib.EXIT_OK, kb_lib.EXIT_CONFIG, kb_lib.EXIT_SKIP
-TAG = kb_lib.JUDGE_GATE
+TAG = kb_lib.JUDGE_TAG
 GENERATOR = kb_lib.JUDGE_GENERATOR
 PROFILE_DIR = kb_lib.JUDGE_PROFILE_DIR
 SHAPES = kb_lib.JUDGE_QUESTION_SHAPES
 ODD_IRI = str(ID["odd-agentic-knowledge-base"])
 ASSUMPTIONS = [str(ID[a]) for a in kb_lib.JUDGE_ASSUMPTIONS]  # 청크 규약 — 판정 서비스 가정은 도입이 되돌려져 없다 (2026-09-30)
-MAX_BODY_LINES = 42  # 청크 본문의 상한 (4.1절) — 로그도 청크라 같은 규칙을 받는다
-MAX_ROWS = MAX_BODY_LINES - 12  # 로그 한 파일의 판정 행 상한 — 산문 1 + 빈 줄 2 + 표 머리 2 + 요약 1 과 여유를 뺀 나머지
+# 로그 한 파일의 상한은 **토큰**이고 정의처는 `kb_lib.BODY_TOKEN_LIMITS` 다 (결정 p1-chunk-unit-is-tokens).
+# 판정 행 수로 자르지 않는다 — 행의 길이가 질문·판정자·값에 따라 달라 행 수는 크기를 뜻하지 않는다. `split_rows`
+# 가 묶음을 실제로 렌더해 재고, 그래서 새로 쓰는 로그는 게이트(`chunk`)를 통과한다.
 _SLUG = re.compile(r"[^a-z0-9]+")
 
 
@@ -267,17 +268,27 @@ def decoy_detection_rate(items: list[dict], q: dict, resp_sets: list[dict]) -> t
 
 # ── 판정 로그 (memory plane, append-only) 와 결과 주석 (annotation plane, 논평 형식) ─────────────────────
 
-def log_chunk(rows: list[dict], q: dict, name: str, th: dict, source: str, stamp: str) -> str:
-    """판정 로그 본문 — 표의 열이 곧 필수 필드다 (게이트 id judge-log)."""
+def log_frontmatter(rows: list[dict], q: dict, name: str, th: dict, stamp: str) -> list[str]:
+    """판정 로그의 frontmatter — 라벨이 묶음의 요약이다. uuid 는 파일마다 새로 난다."""
+    n = counts(rows)
+    judges = sorted({r["judge"] for r in rows})
+    ko = f"판정 {stamp}: 질문 {q['label']} · 판정 {len(rows)} · 판정자 {len(judges)} · 사람 확인 큐 {n[kb_lib.JUDGE_QUEUE]}"
+    en = f"Judgement {stamp}: question {name}, {len(rows)} judged by {len(judges)} judge(s), {n[kb_lib.JUDGE_QUEUE]} queued"
+    return ["---", f"id: {ID}chunk/{uuid.uuid4()}", "type: memory", "level: concrete", f"title_ko: {ko}", f"title: {en}",
+            "status: stable", f"sources: [{{resource: {ODD_IRI}}}]", f"assumes: [{', '.join(ASSUMPTIONS)}]",
+            f"generated: {{by: {GENERATOR}, at: {stamp}}}", "---"]
+
+
+def log_body(rows: list[dict], q: dict, name: str, th: dict, source: str, stamp: str) -> list[str]:
+    """판정 로그의 **본문 줄들** — 표의 열이 곧 필수 필드다 (게이트 id judge-log).
+
+    frontmatter 를 빼고 내는 까닭은 크기 상한의 대상이 본문이기 때문이다 — `split_rows` 가 이 결과를 재서
+    묶음을 가른다 (p1-chunk-unit-is-tokens).
+    """
     n = counts(rows)
     judges = sorted({r["judge"] for r in rows})
     agree_n = sum(1 for r in rows if r.get("agree") == kb_lib.JUDGE_AGREEMENT[0])
     disagree_n = sum(1 for r in rows if r.get("agree") == kb_lib.JUDGE_AGREEMENT[1])
-    ko = f"판정 {stamp}: 질문 {q['label']} · 판정 {len(rows)} · 판정자 {len(judges)} · 사람 확인 큐 {n[kb_lib.JUDGE_QUEUE]}"
-    en = f"Judgement {stamp}: question {name}, {len(rows)} judged by {len(judges)} judge(s), {n[kb_lib.JUDGE_QUEUE]} queued"
-    head = ["---", f"id: {ID}chunk/{uuid.uuid4()}", "type: memory", "level: concrete", f"title_ko: {ko}", f"title: {en}",
-            "status: stable", f"sources: [{{resource: {ODD_IRI}}}]", f"assumes: [{', '.join(ASSUMPTIONS)}]",
-            f"generated: {{by: {GENERATOR}, at: {stamp}}}", "---"]
     measured = "있음" if th["measured"] else kb_lib.EMPTY_REVIEWED
     body = [f"**관측** — {stamp} 에 `judge` 가 질문 `agt:{name}`({q['form']} 형)을 청크 {len(rows)}건(판정자 "
             f"{' · '.join(f'`{j}`' for j in judges)})에 물었다. 응답은 {source} 다. 임계는 자동 적용 {kb_lib.num(th['auto'])} · "
@@ -291,7 +302,35 @@ def log_chunk(rows: list[dict], q: dict, name: str, th: dict, source: str, stamp
              f"{kb_lib.pct(agree_n, agree_n + disagree_n)}. 확신도는 자기 보고라 개별 답의 정확성을 보증하지 않는다. "
              "자동 적용은 일치율 임계가 정확도·판별력 재측정 뒤에 열린다(p8-judge-session-agreement) — "
              f"지금은 전부 사람 확인 큐다. 캘리브레이션 대상 모델은 `{th['model']}` 이다."]
-    return "\n".join(head + body) + "\n"
+    return body
+
+
+def log_chunk(rows: list[dict], q: dict, name: str, th: dict, source: str, stamp: str) -> str:
+    """판정 로그 청크 하나 — frontmatter + 본문."""
+    return "\n".join(log_frontmatter(rows, q, name, th, stamp) + log_body(rows, q, name, th, source, stamp)) + "\n"
+
+
+def split_rows(rows: list[dict], q: dict, name: str, th: dict, source: str, stamp: str, enc) -> list[list[dict]]:
+    """판정 행을 로그 파일마다의 묶음으로 나눈다 — 한 묶음의 본문이 `memory` 상한 안이다.
+
+    묶음을 실제로 렌더해 재는 까닭은 상한의 대상이 본문 전체이고 관측 문장·표 머리·요약도 그 안에 들기
+    때문이다. 행 하나가 혼자서도 상한을 넘으면 그 행만으로 한 묶음을 만든다 — 자를 자리가 없으면 자르지 않고
+    게이트가 그것을 잡는다 (조용히 버리지 않는다).
+    """
+    limit = kb_lib.body_token_limit("memory")
+    parts: list[list[dict]] = []
+    cur: list[dict] = []
+    for r in rows:
+        cand = cur + [r]
+        over = kb_lib.token_count("\n".join(log_body(cand, q, name, th, source, stamp)), enc) > limit
+        if over and cur:
+            parts.append(cur)
+            cur = [r]
+        else:
+            cur = cand
+    if cur:
+        parts.append(cur)
+    return parts
 
 
 def verdict_chunk(row: dict, q: dict, name: str, stamp: str) -> str:
@@ -312,7 +351,8 @@ def verdict_chunk(row: dict, q: dict, name: str, stamp: str) -> str:
     return "\n".join(head + body) + "\n"
 
 
-def write_records(root: Path, rows: list[dict], q: dict, name: str, th: dict, source: str, now: datetime) -> list[Path]:
+def write_records(root: Path, rows: list[dict], q: dict, name: str, th: dict, source: str, now: datetime,
+                  enc) -> list[Path]:
     """판정 로그와 결과 주석을 쓴다 — 이미 있는 파일을 덮지 않는다 (append-only, r-026).
 
     결과 주석의 파일명은 `<파트 디렉토리>-<파일 stem>`(`verdict_stem`)을 쓴다(2026-09-30 vnv 결함 보고 ②) —
@@ -324,7 +364,7 @@ def write_records(root: Path, rows: list[dict], q: dict, name: str, th: dict, so
     log_dir.mkdir(parents=True, exist_ok=True)
     verdict_dir.mkdir(parents=True, exist_ok=True)
     written = []
-    chunks = [rows[i:i + MAX_ROWS] for i in range(0, len(rows), MAX_ROWS)]
+    chunks = split_rows(rows, q, name, th, source, stamp, enc)  # 묶음의 상한은 토큰이다 (p1-chunk-unit-is-tokens)
     for i, part in enumerate(chunks):
         suffix = "" if i == 0 else f"-{i + 1}"
         target = log_dir / f"{kb_lib.JUDGE_LOG_PREFIX}{now.strftime('%Y%m%dT%H%M%SZ')}{suffix}.md"
@@ -399,6 +439,8 @@ def main() -> int:
     ap.add_argument("--profile", default=PROFILE_DIR, help="질문·척도·임계의 원본 디렉토리")
     ap.add_argument("--list", action="store_true", help="등록된 질문만 나열하고 멈춘다")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 워크스페이스 루트 기준")
+    ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 판정 로그를 `memory` 상한 안으로 가르는 데 쓴다. "
+                                               "없으면 runfiles 의 고정 파일을 쓴다 (p1-chunk-unit-is-tokens)")
     ap.add_argument("chunks", nargs="*", help="판정 대상 청크 파일 — 라벨 대표성 실험(`--decoys`)만 쓰면 생략할 수 있다")
     a = ap.parse_args()
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
@@ -459,7 +501,11 @@ def main() -> int:
         if a.record:
             if not rows:
                 raise JudgeError("기록할 판정 행이 없다 — `--decoys` 만으로는 판정 로그를 남기지 않는다(청크 대상이 없다)")
-            written = write_records(at(root, a.into) if a.into else root, rows, q, name, th, source, now)
+            try:  # 로그를 가르는 상한이 토큰이므로 계수기가 기록의 입력이다 (ODD id:cond-tokenizer-lock)
+                enc = kb_lib.load_tokenizer(a.vocab or None)
+            except (FileNotFoundError, ValueError) as e:
+                raise JudgeError(f"어휘 파일 — {e}") from e
+            written = write_records(at(root, a.into) if a.into else root, rows, q, name, th, source, now, enc)
             print("기록: " + " · ".join(p.as_posix() for p in written) +
                   " — python3 tools/gen_build.py --root . 로 BUILD 를 갱신한 뒤 bazel test //... 를 돌린다")
     except JudgeError as e:

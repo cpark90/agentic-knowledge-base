@@ -7,12 +7,12 @@ title: file tools/chunk_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/d93492e4-f343-4736-b4a5-d04f48a3a75f, https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97, https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f1d91f37-d353-405b-bd98-41132f8d5390, title_ko: 파일 복합체 tools/chunk_lint.py, title: file composite tools/chunk_lint.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/0149c880-a2a1-45d1-bad4-6d54b7932fc3, https://agentic-knowledge-base.dev/id/composite/ea7476e7-b990-4825-a271-6356855d2118, https://agentic-knowledge-base.dev/id/composite/7b250e22-fd3e-4d64-9b95-214bd55ce9d3]}
 ---
-**파일** — `tools/chunk_lint.py` 다. 389줄 · 최상위 정의 9개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/chunk_lint.py` 다. 384줄 · 최상위 정의 8개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -22,10 +22,13 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/f1d91f37-d353-40
 """청크·명명·산문 린트.
 
   --chunks <files>   청크 본문(assertion) 파일 검사 (노트 4.1절):
-                     본문 42줄 이하. YAML frontmatter(head 메타데이터)와
-                     끝의 빈 줄은 본문으로 세지 않는다. **상한은 plane 별 프로파일 파라미터**이고 정의처는
-                     `kb_lib.BODY_LINE_LIMITS` 하나다 — `artifact` 는 200줄이다(본문이 저작이 아니라 소스의
-                     인용이라 42줄이 인위적 분할을 부른다, p7-code-extraction-direction "예산").
+                     본문 1,092 토큰 이하 (게이트 id `chunk`). 단위는 줄이 아니라 **토큰**이고 계수기는
+                     `o200k_base`(어휘 파일 sha256 고정)다 — 줄 상한 42·200 은 폐지됐다
+                     (결정 p1-chunk-unit-is-tokens, 유저 결정 2026-10-01). YAML frontmatter(head 메타데이터)와
+                     앞뒤 빈 줄은 본문이 아니고 본문을 떼는 판정처는 `kb_lib.body_text` 하나다.
+                     **상한은 plane 별 프로파일 파라미터**이고 정의처는 `kb_lib.BODY_TOKEN_LIMITS` 하나다 —
+                     `artifact`·`memory` 는 2,856 토큰이다(본문이 저작이 아니라 소스·실행의 인용이라 저작 산문의
+                     예산이 인위적 분할을 부른다, p7-code-extraction-direction "예산").
                      .md 청크는 산문 문체(STYLEGUIDE §0 단정 서술형, 2026-09-13)도 본다 — 경어·비격식 종결이 문장 끝에
                      오거나 산문에 느낌표가 있으면 위반(kb_lib.check_prose, 게이트 id `prose`). 코드·따옴표·주석 안과
                      `!=`·`![` 는 산문이 아니다. TTL 청크는 산문 검사 대상이 아니다. 추측·구어는 consistency ⑦ 보고다.
@@ -57,9 +60,10 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/f1d91f37-d353-40
                      `d-NNNN`·IRI(백틱)·마크다운 링크 중 하나로 본문의 지지 근거를 가리켜야 한다. 슬롯이 없으면 대상이
                      아니다. 오탐 실측(2026-09-30): 저장소가 아직 이 슬롯을 쓰지 않아 0/0 — 사용이 늘면 재실측한다.
   --ttl <files>      TTL 파일명이 산출물 접미사 규약(0.2절)을 따르는지 검사.
-  --waivers <file>   docs/waivers.md — 게이트 id `prose`·`addition`·`empty-value`·`list-rules`·`blocking-comment`·`judge-log`·
-                     `summary-support`(축 파일)로 면제된 파일의 위반은 세지 않는다. 면제된 것은 `WAIVED [<게이트 id>]` 줄로
-                     남긴다 (집계에서 빼되 목록에는 남긴다). 없으면 면제 없음.
+  --vocab <file>     토큰 계수기의 어휘 파일. 없으면 runfiles 의 고정 파일을 쓴다 — 해시가 다르면 거부한다.
+  --waivers <file>   docs/waivers.md — 게이트 id `chunk`·`prose`·`addition`·`empty-value`·`list-rules`·`blocking-comment`·
+                     `judge-log`·`summary-support`(축 파일)로 면제된 파일의 위반은 세지 않는다. 면제된 것은 `WAIVED [<게이트 id>]`
+                     줄로 남긴다 (집계에서 빼되 목록에는 남긴다). 없으면 면제 없음.
 
 출력·종료: `FAIL [chunk|naming] <경로>: <메시지>` ·
 `FAIL [prose|decision-role|addition|empty-value|list-rules|blocking-comment|judge-log|summary-support] <경로>:<줄>: <이유>` + EXIT_FAIL.

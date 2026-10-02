@@ -4,10 +4,11 @@ type: decision
 level: abstract
 title_ko: 시나리오 배제 자극 — 두 로딩 설정의 지표 실행에서 다루지 않는 것
 title: Scenario excluded stimuli — what measuring under two loading configurations does not cover
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}, {resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-finite-factor-types, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5, at: 2026-09-29T06:20:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/14e499e9-6a33-4c4b-8832-e4e3edbdd924
 ---
 **배제 자극** — 다루지 않는 자극은 셋이다.

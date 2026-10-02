@@ -1,0 +1,40 @@
+# shape — 본문 토큰 수의 상한: plane 별 프로파일 파라미터 (결정 p1-chunk-unit-is-tokens, 유저 결정 2026-10-01)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# 크기의 단위는 줄이 아니라 **토큰**이다 (유저 결정 2026-10-01 — "42의 배수로, 공개 토크나이저 하나를 의존성으로
+# 고정"). 줄 상한 42·200 은 폐지됐다. 값의 단일 정의처는 tools/kb_lib.py 의 BODY_TOKEN_LIMITS 이고 게이트
+# chunk_lint 가 파일마다 같은 표로 판정한다 — 여기는 그래프 쪽 강제이고 둘의 동일성은 게이트 token-budget
+# (tools/validate.py 의 check_token_budget)이 본다. 1,092 = 42×26 은 컨텍스트 예산 5,418(42×129)의 1/5 로,
+# "한 번에 4~5개를 조망한다"는 42줄의 옛 근거를 같은 계수기로 옮긴 값이다. artifact·memory 의 2,856 = 42×68 은
+# 본문이 저작이 아니라 소스·실행의 인용이라 저작 산문의 예산이 인위적 분할을 부르기 때문이다 — 청크 하나가
+# 컨텍스트 한 창을 넘지 않는다가 그 상한의 뜻이다. 계수기는 o200k_base 하나이고 어휘 파일은 sha256 으로 고정된다.
+agt:RequirementTokenBudgetShape a sh:NodeShape ;
+    sh:targetClass agt:RequirementChunk ;
+    sh:property [ sh:path agt:tokenCount ; sh:maxInclusive 1092 ; sh:message "본문은 1,092 토큰(42×26) 이하여야 한다 (p1-chunk-unit-is-tokens)" ] .
+
+agt:DecisionTokenBudgetShape a sh:NodeShape ;
+    sh:targetClass agt:DecisionChunk ;
+    sh:property [ sh:path agt:tokenCount ; sh:maxInclusive 1092 ; sh:message "본문은 1,092 토큰(42×26) 이하여야 한다 (p1-chunk-unit-is-tokens)" ] .
+
+agt:ContractTokenBudgetShape a sh:NodeShape ;
+    sh:targetClass agt:ContractChunk ;
+    sh:property [ sh:path agt:tokenCount ; sh:maxInclusive 1092 ; sh:message "본문은 1,092 토큰(42×26) 이하여야 한다 (p1-chunk-unit-is-tokens)" ] .
+
+agt:SchemaTokenBudgetShape a sh:NodeShape ;
+    sh:targetClass agt:SchemaChunk ;
+    sh:property [ sh:path agt:tokenCount ; sh:maxInclusive 1092 ; sh:message "본문은 1,092 토큰(42×26) 이하여야 한다 (p1-chunk-unit-is-tokens)" ] .
+
+agt:AnnotationTokenBudgetShape a sh:NodeShape ;
+    sh:targetClass agt:AnnotationChunk ;
+    sh:property [ sh:path agt:tokenCount ; sh:maxInclusive 1092 ; sh:message "본문은 1,092 토큰(42×26) 이하여야 한다 (p1-chunk-unit-is-tokens)" ] .
+
+agt:MemoryTokenBudgetShape a sh:NodeShape ;
+    sh:targetClass agt:MemoryChunk ;
+    sh:property [ sh:path agt:tokenCount ; sh:maxInclusive 2856 ;
+        sh:message "memory 청크의 본문은 2,856 토큰(42×68) 이하여야 한다 — 상한은 plane 별 프로파일 파라미터이고 정의처는 tools/kb_lib.py 의 BODY_TOKEN_LIMITS 다 (p1-chunk-unit-is-tokens)" ] .
+
+agt:ArtifactTokenBudgetShape a sh:NodeShape ;
+    sh:targetClass agt:ArtifactChunk ;
+    sh:property [ sh:path agt:tokenCount ; sh:maxInclusive 2856 ;
+        sh:message "artifact 청크의 본문은 2,856 토큰(42×68) 이하여야 한다 — 상한은 plane 별 프로파일 파라미터이고 정의처는 tools/kb_lib.py 의 BODY_TOKEN_LIMITS 다 (p7-code-extraction-direction)" ] .

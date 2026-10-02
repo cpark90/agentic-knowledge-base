@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run-env-test}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-26T10:39:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/34277117-5c2c-4fcc-9a6d-fa0bb51bac85]
 part_of: https://agentic-knowledge-base.dev/id/composite/78211421-fa91-4809-8250-0a840db49298
 ---
 **함수** — `check_strip()` 다. ① 걷어내는 목록이 규약의 다섯과 같고 clean_env 가 그 다섯을 전부 지운다.

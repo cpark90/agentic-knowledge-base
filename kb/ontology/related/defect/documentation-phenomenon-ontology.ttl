@@ -10,12 +10,14 @@ agt:labelRot a owl:NamedIndividual , agt:DocumentationFactor ;
     rdfs:label "label rot"@en , "라벨 부패"@ko ;
     skos:definition "본문이 바뀌었는데 라벨이 그대로 남는 현상. 라벨만 보고 본문을 예측하는 조회 방식이 이 현상에서 무너지므로 문서 요인이다. 관측 수단은 내용 해시 변경 시점의 라벨 재검토 여부다."@ko ;
     skos:notation "P14" ;
-    agt:observationMeans "미확정" ;
+    agt:inTagCategory agt:defectFactorCategory ;
+    agt:observationMeans "세션 판정자 질문 agt:labelRepresentsBody 의 값 분포 — 값 1(라벨의 낱말이 본문에 있으나 주장 대신 소재만 가리킨다)을 받은 항목의 비율이 라벨 부패의 지표다. bazel run //tools:judge -- --question labelRepresentsBody --responses <판정자마다 하나> --decoys <label_sample 의 key.json> <청크 파일…> 이 판정 로그에 값과 일치를 낸다 (첫 측정 2026-09-30: 실표본 60 중 값 1 이 6 = 10.0%, 판정자 a 6 · b 4, 값 일치 58/60 = 96.7%, 값 2 를 받은 미끼 0/10)" ;
     prov:wasDerivedFrom id:doc-system-notes , id:doc-vv-profile-hazards .
 
 agt:documentLag a owl:NamedIndividual , agt:DocumentationFactor ;
     rdfs:label "document lag"@en , "문서 지연"@ko ;
     skos:definition "그래프는 맞고 문서의 표가 낡는 현상. 서술만 틀린 것이므로 문서 요인이다. 참조 저장소의 감사에서 결함군이 전부 이 형태였고 이 저장소에도 실재한다."@ko ;
     skos:notation "P18" ;
-    agt:observationMeans "미확정" ;
+    agt:inTagCategory agt:defectFactorCategory ;
+    agt:observationMeans "bazel build //kg:metrics //kg:audit //kg:link_candidates 뒤 진입점 문서 넷(docs/roadmap.md · docs/rules.md · docs/method.md · docs/tools.md)이 적은 수치를 생성물의 같은 이름과 쌍으로 대조 — 시점을 선언한 스냅샷 절은 제외한다 (실측 2026-10-01: 대조 쌍 16 중 어긋난 쌍 10 — roadmap 5 · tools 4 · rules 1)" ;
     prov:wasDerivedFrom id:doc-harness-ontology , id:doc-vv-profile-hazards .

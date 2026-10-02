@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/ed87942d-df5e-46e6-9d80-37dcb250574c
 ---
 **함수** — `assumption_facts(g, live, plane)` 다. 기본 가정만 가진 청크 수와 가정 개체·판정식 등급 분포·관측 수를 돌려준다.

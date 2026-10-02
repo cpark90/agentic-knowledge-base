@@ -1,48 +1,14 @@
 load("@rules_python//python:defs.bzl", "py_test")
+load("//defs:kb.bzl", "EXTRACTED_SOURCES")
 load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_doccheck_test", "kb_extract_drift_test", "kb_gendoc_test", "kb_skills_drift_test")
 
 package(default_visibility = ["//visibility:public"])
 
-# 이 목록의 원본은 등록부 사이드카의 존재다 — tools/<모듈>.chunks.yml 이 있는 파일이 여기 있다.
-EXTRACTED_SOURCES = [
-    "assume_check",
-    "canonicalize",
-    "channel_lint",
-    "choices",
-    "chunk2kg",
-    "chunk_lint",
-    "community",
-    "consistency",
-    "doccheck",
-    "endorse",
-    "extract",
-    "extract_refs",
-    "gen_build",
-    "gen_skills",
-    "gendoc",
-    "handoff",
-    "impact",
-    "judge",
-    "kb_lib",
-    "label_sample",
-    "labels",
-    "link",
-    "metrics",
-    "odd2kg",
-    "odd_check",
-    "open_questions",
-    "query",
-    "revalidate",
-    "space2kg",
-    "stamp",
-    "taxonomy",
-    "term_propose",
-    "validate",
-    "vv_run",
-    "vv_run_env_test",
-    "weave",
-    "workset",
-]
+# EXTRACTED_SOURCES 의 단일 정의처는 `//defs:kb.bzl`이다(M1, 2026-10-01 — 전에는 여기 손으로 적은 목록과
+# `tools/kb_lib.py` 의 USES_SOURCES 상수 둘이 있었다. 둘이 갈리면 조용히 비는 사고가 있어 RESIDENCY 와 같은
+# 해법으로 하나로 모았다). 등록부 사이드카의 존재(소스 전수)와 이 목록이 같은 집합인지는 `tools/BUILD.bazel`
+# 의 `check_extracted_sources(glob(...))` 가 로드 시점에 강제한다 — `glob` 은 패키지를 못 넘으므로 여기(최상위)
+# 에서 `tools/*.chunks.yml` 을 볼 수 없어 그 패키지 안에서 돈다.
 
 # 생성 skill (로드맵 6단계, agrtls K) — 원본은 도구 docstring 과 kb_lib.SKILLS, 이 파일들은 커밋되는 뷰다 (tools/gen_skills.py)
 filegroup(
@@ -97,6 +63,9 @@ kb_doccheck_test(
         "kb/vv/verifier",
         "space",  # 설계 공간 — 5단계까지 자리만
     ],
+    # 게이트 총람(docs/tools.md)이 게이트 등록부 GATES 의 투영인지 본다 (M1 단일 정의처, 2026-10-02) —
+    # 표의 `id` 열에 등록부 밖의 id 가 있으면 FAIL, 총람에 없는 등록 id 는 보고다
+    gates = "//defs:kb.bzl",
     target_only = ["//docs:notes"],
     waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md, 게이트 id prose)
 )

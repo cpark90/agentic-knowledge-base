@@ -11,6 +11,7 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/9807be26-ff48-4cca-89c1-12
 serves: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-21T21:10:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/872f4058-1ca6-432e-a0df-ba39a47b867b
 composite: {id: https://agentic-knowledge-base.dev/id/composite/872f4058-1ca6-432e-a0df-ba39a47b867b, title_ko: 생성 문서의 게이트, title: The gate over generated documents}
 ---

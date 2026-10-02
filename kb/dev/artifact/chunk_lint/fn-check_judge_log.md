@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/608da358-1b32-4e5f-b999-82b185e41ef4, https://agentic-knowledge-base.dev/id/chunk/b61b3d07-041e-43c2-bb5d-cf3239db7602]
 part_of: https://agentic-knowledge-base.dev/id/composite/7b250e22-fd3e-4d64-9b95-214bd55ce9d3
 ---
 **함수** — `check_judge_log(text)` 다. 판정 로그의 형식과 필수 필드 (게이트 id `judge-log`) → [(줄 번호, 이유)].

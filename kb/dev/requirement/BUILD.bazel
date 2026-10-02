@@ -145,6 +145,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "r-029-harness-self-improvement",
+    src = "r-029-harness-self-improvement.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cb7ac129-5b94-47cd-84a8-b87e7e238efe",
+    plane = "requirement",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
     name = "reproducible-runs",
     src = "reproducible-runs.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/2b1e5103-9b9d-43da-9231-6b4027bc370e",
@@ -177,6 +186,7 @@ kb_bundle(
         ":r-021-two-kbs-separated",
         ":r-027-generated-documents-carry-provenance",
         ":r-028-generated-documents-share-one-form",
+        ":r-029-harness-self-improvement",
         ":reproducible-runs",
         ":verification-means-trust",
     ],

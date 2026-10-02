@@ -7,8 +7,9 @@ title: function main in tools/labels.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-labels}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/dcdad310-25df-4a9e-8939-6ef8be6f1e20, https://agentic-knowledge-base.dev/id/chunk/f13654f3-9b08-41f4-a1f1-9688dccc4dd0]
 part_of: https://agentic-knowledge-base.dev/id/composite/fba87a37-4ad2-4ccb-b556-a27d4ef6b9d2
 ---
 **함수** — `main()` 다.
@@ -30,8 +31,9 @@ def main() -> int:
 
     groups: dict = defaultdict(list)
     for path in args.files:
-        meta, n = parse_chunk(path)
-        groups[str(Path(path).parent)].append((meta, n, path))
+        meta, body = parse_chunk(path)
+        # 색인의 크기 열은 **줄 수**다 — 파일의 서술이고 크기 규칙(토큰)이 아니다. 본문은 parse_chunk 가 뗀 것 하나다
+        groups[str(Path(path).parent)].append((meta, len(body.splitlines()), path))
     by_plane: dict = defaultdict(list)
     for d in sorted(groups):
         by_plane[plane_of(d)].append(d)

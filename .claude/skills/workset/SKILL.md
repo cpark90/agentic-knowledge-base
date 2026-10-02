@@ -30,9 +30,10 @@ cat bazel-bin/kg/workset-developer.md
 - 도구: `tools/workset.py` (`bazel run //tools:workset`) — 사용법은 docstring 이 원본이다
 
 ```text
-workset.py --role developer [--levels logical,concrete] [--anchor <IRI|라벨 부분>] [--budget 200] --out workset.md <TTL...>
+workset.py --role developer [--levels logical,concrete] [--anchor <IRI|라벨 부분>] [--budget 5418]
+[--vocab <어휘 파일>] --out workset.md <TTL...>
 ```
 
 ## 실패 시
 
-`FAIL [<id>]` 의 해소는 [`docs/tools.md` 게이트 총람](../../../docs/tools.md#게이트-총람--이-문서가-원본이다)의 `해소` 열이다. 종료 코드는 `kb_lib` 상수다 (0 OK · 1 FAIL · 2 CONFIG · 3 SKIP). SKIP 은 PASS 가 아니다.
+`FAIL [<id>]` 의 해소는 [`docs/tools.md` 게이트 총람](../../../docs/tools.md#게이트-총람--원본은-gates-리터럴이고-이-표는-그-투영이다)의 `해소` 열이다. 종료 코드는 `kb_lib` 상수다 (0 OK · 1 FAIL · 2 CONFIG · 3 SKIP). SKIP 은 PASS 가 아니다.

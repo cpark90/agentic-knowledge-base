@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-jev-system-one}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-30T14:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/abf9e76a-0b1d-42c4-b70c-f77c7902f8db
 ---
 **대안** — 셋을 기각한다(유저 답 2026-09-30, 선택지 1).

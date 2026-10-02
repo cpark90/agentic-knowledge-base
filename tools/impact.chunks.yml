@@ -6,14 +6,15 @@
 source: tools/impact.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-impact
 package: kb/dev/artifact/impact
+layer: process
 at: 2026-09-22T11:38:01Z
 source_hash: b3671031b7123969
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/05cabe0e-10b0-4e02-81b1-8f5154a94fcc
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
   source_hash: b3671031b7123969
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/c50dc0b8-adad-4f3d-b3a4-b9b20b1fddca

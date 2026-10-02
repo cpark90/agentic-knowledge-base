@@ -1,6 +1,7 @@
 load("@kb_pip//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_binary", "py_library")
-load("//defs:knowledge.bzl", "kb_runner_env_test")
+load("//defs:kb.bzl", "check_extracted_sources", "check_gates")
+load("//defs:knowledge.bzl", "kb_gate_test", "kb_runner_env_test")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -27,6 +28,14 @@ exports_files([
 # 등록부 사이드카 — 한정 이름 → uuid 가 코드 청크의 정체성이다 (p10-function-identity-registry).
 # //:extract_drift_* 가 파일마다 자기 등록부를 runfiles 로 읽는다.
 exports_files(glob(["*.chunks.yml"]))
+
+# EXTRACTED_SOURCES(//defs:kb.bzl, 단일 정의처)와 이 패키지의 등록부 사이드카 존재가 같은 집합인지 로드
+# 시점에 강제한다(M1, 2026-10-01) — 글로벌 glob 은 패키지를 못 넘으므로 이 자리(tools 패키지)에서 돈다.
+check_extracted_sources(glob(["*.chunks.yml"]))
+
+# 게이트 등록부(`GATES`·`TOOL_TAGS`, //defs:kb.bzl 의 단일 정의처)의 자기 정합성을 로드 시점에 강제한다
+# (M1, 2026-10-02) — 항목마다 네 키, 계층은 어휘 안, 두 목록은 서로소. `check_extracted_sources` 와 같은 자리다.
+check_gates()
 
 # 이 패키지의 소스 전부 — 문서 현행성 게이트(//:doccheck_test)가 문서의 `tools/…` 경로 실재를 runfiles 로 판정한다
 filegroup(
@@ -59,6 +68,9 @@ filegroup(
 py_library(
     name = "kb_lib",
     srcs = ["kb_lib.py", "chunk2kg.py"],
+    # 게이트 등록부(`GATES`)의 단일 정의처 — kb_lib 이 적재 시점에 리터럴을 읽어 `*_GATE` 상수를 파생하므로
+    # 이 모듈을 쓰는 모든 타깃의 runfiles 에 따라가야 한다. 없으면 적재 시점에 죽는다(의도된 음성 동작)
+    data = ["//defs:kb.bzl"],
     deps = [requirement("rdflib")],
 )
 
@@ -66,6 +78,8 @@ py_library(
 py_binary(
     name = "validate",
     srcs = ["validate.py"],
+    args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
+    data = ["@tiktoken_o200k_base//file"],  # 게이트 token-budget 이 어휘 지문을 고정값과 대조한다 (sha256 만 — tiktoken 은 필요 없다)
     deps = [
         ":kb_lib",
         requirement("owlrl"),
@@ -82,14 +96,24 @@ py_binary(
         "chunk2kg.py",
         "chunk_lint.py",
     ],
+    args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
+    data = ["@tiktoken_o200k_base//file"],  # 크기 판정의 단위가 토큰이다 (p1-chunk-unit-is-tokens)
     main = "chunk_lint.py",
-    deps = [":kb_lib"],
+    deps = [
+        ":kb_lib",
+        requirement("tiktoken"),
+    ],
 )
 
 # 청크 파일(frontmatter) → head 그래프(-kg) 생성기. 한 청크는 한 파일 (4.3절, 4.9절)
+# `agt:tokenCount` 를 방출하므로 계수기가 이 타깃의 입력이다 (p1-chunk-unit-is-tokens). rdflib 는 여기 없다 —
+# 본문을 떼는 규칙과 계수기의 정의처를 이 모듈에 둔 까닭이 그것이다 (타깃마다 돌므로 적재 비용을 아낀다)
 py_binary(
     name = "chunk2kg",
     srcs = ["chunk2kg.py"],
+    args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
+    data = ["@tiktoken_o200k_base//file"],
+    deps = [requirement("tiktoken")],
 )
 
 # 설계 공간 청크(`-space`) → 설계 공간 그래프(*-space.ttl) 생성기 (결정 p9-candidate-storage). 변수 하나가 파일 하나다.
@@ -101,10 +125,13 @@ py_binary(
         "chunk2kg.py",
         "space2kg.py",
     ],
+    args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
+    data = ["@tiktoken_o200k_base//file"],  # agt:Space 는 agt:Chunk 의 하위라 agt:tokenCount 를 갖는다
     main = "space2kg.py",
     deps = [
         ":kb_lib",
         requirement("pyyaml"),
+        requirement("tiktoken"),
     ],
 )
 
@@ -131,6 +158,15 @@ py_binary(
     name = "odd2kg",
     srcs = ["odd2kg.py"],
     deps = [requirement("pyyaml")],
+)
+
+# 게이트 등록부 → 게이트 그래프(-kg.ttl) 생성기 (M1 단일 정의처, 2026-10-02). 게이트는 프로세스 층의 항목이고
+# 개체 하나가 게이트 하나다 (id:gate-<게이트 id>). 원본은 //defs:kb.bzl 의 GATES 리터럴이라 kb_lib 의 리터럴
+# 읽기를 그대로 쓴다. agt:judgedBy 의 대상은 등록부 사이드카의 파일 복합체이므로 사이드카가 액션의 입력이다
+py_binary(
+    name = "gates2kg",
+    srcs = ["gates2kg.py"],
+    deps = [":kb_lib"],
 )
 
 # 코어 지표 뷰 → metrics.md (4.13절, 14.1절). 문서는 수치를 적지 않고 이 생성물을 인용한다
@@ -209,9 +245,12 @@ py_binary(
 py_binary(
     name = "workset",
     srcs = ["workset.py"],
+    args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
+    data = ["@tiktoken_o200k_base//file"],  # 예산의 단위가 토큰이다 — 라벨 목록과 펼친 본문을 이 어휘로 센다
     deps = [
         ":kb_lib",
         requirement("rdflib"),
+        requirement("tiktoken"),
     ],
 )
 
@@ -307,10 +346,20 @@ py_binary(
         "vv_run.py",
     ],
     main = "vv_run.py",
+    # 다른 도구와 같은 꼴로 어휘 경로를 명시한다 — runfiles 탐색은 canonical 저장소 이름에 달려 있어 배선의
+    # 원본으로 쓸 수 없다. 실행기는 이 값을 KB_TOKENIZER_VOCAB 로 검증기에 넘긴다 (p8-verifier-env-isolation)
+    args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
+    data = ["@tiktoken_o200k_base//file"],  # 케이스의 검증기 명령에 토큰 계수기 어휘가 필요하다 — KB_TOKENIZER_VOCAB 자리 (p8-verifier-env-isolation)
     deps = [
         ":kb_lib",
         requirement("pyyaml"),  # 케이스 본문의 `yaml` 펜스 — 기계가 읽는 자극·기대 (p8-machine-readable-case)
         requirement("rdflib"),
+        # 아래 셋은 vv_run 자신이 쓰지 않는다 — READ_ONLY_VERIFIERS(validate·chunk_lint·space2kg 등)가 bare `python3` 로
+        # 불릴 때 vv_run 자신의 sys.path(하네스의 pip 폐포)를 PYTHONPATH 로 빌려주는 자리다 (verifier_env, p8-verifier-env-isolation).
+        # 생략하면 그 검증기들이 `ModuleNotFoundError` 로 자극에 닿기 전에 죽는다(이 저장소 실측, 2026-10-01).
+        requirement("tiktoken"),  # chunk_lint·chunk2kg·space2kg 의 토큰 계수기
+        requirement("pyshacl"),   # validate 의 shacl 검사
+        requirement("owlrl"),     # validate 의 --reason(OWL-RL 추론)
     ],
 )
 
@@ -324,14 +373,17 @@ py_binary(
         "chunk2kg.py",
         "judge.py",
     ],
+    args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
     data = [
         "//kb/ontology:shapes",
         "//kb/ontology/profile/development",
+        "@tiktoken_o200k_base//file",  # 판정 로그를 `memory` 상한 안으로 가르는 계수기 (p1-chunk-unit-is-tokens)
     ],
     main = "judge.py",
     deps = [
         ":kb_lib",
         requirement("rdflib"),
+        requirement("tiktoken"),
     ],
 )
 
@@ -342,6 +394,15 @@ py_binary(
 kb_runner_env_test(
     name = "vv_run_env_test",
     probe = "chunk_lint",
+)
+
+# 게이트 등록부 검사 (M1 단일 정의처, 2026-10-02): 코드의 태그 집합 = //defs:kb.bzl 의 GATES·TOOL_TAGS 리터럴.
+# 그래프를 입력으로 받지 않는 유일한 validate 타깃이다 — 판정 대상이 소스 전수이므로 //kg:gate_test 에 묶지 않는다
+# (묶으면 도구를 한 줄 고칠 때마다 그래프 게이트 전체가 다시 돈다). 게이트 id `gate-registry`
+kb_gate_test(
+    name = "gate_registry_test",
+    gate_sources = [":tools"],
+    gates = "//defs:kb.bzl",
 )
 
 # 라벨 목록 뷰 → index.md (5.6절, 부록 E.2). OKF 예약 파일은 생성물이다
@@ -406,9 +467,12 @@ py_binary(
 py_binary(
     name = "extract",
     srcs = ["extract.py"],
+    args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
+    data = ["@tiktoken_o200k_base//file"],  # 생성 청크의 artifact 상한 보고 — 단위는 토큰이다
     deps = [
         ":kb_lib",
         requirement("rdflib"),
+        requirement("tiktoken"),
     ],
 )
 
@@ -456,4 +520,24 @@ py_binary(
     name = "gendoc",
     srcs = ["gendoc.py"],
     deps = [":kb_lib"],
+)
+
+# 토큰 계수기 (유저 결정 2026-10-01 "청크의 단위는 토큰이다"): bazel run //tools:tokens -- [청크…] [--out report.md]
+# 어휘 파일은 MODULE.bazel 의 http_file 이 sha256 으로 고정하고 data 로 runfiles 에 놓인다 — 네트워크를 쓰지 않는다.
+# args 의 `$(rootpath …)` 가 그 경로를 넘긴다(사용자 인자보다 앞에 온다). chunk_lint.py 를 함께 싣는 까닭은
+# frontmatter 파서(split_frontmatter)가 게이트와 같아야 하기 때문이다 — plane 을 읽는 규칙이 갈리면 분포의 분모가 갈린다
+py_binary(
+    name = "tokens",
+    srcs = [
+        "chunk2kg.py",
+        "chunk_lint.py",
+        "tokens.py",
+    ],
+    args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
+    data = ["@tiktoken_o200k_base//file"],
+    main = "tokens.py",
+    deps = [
+        ":kb_lib",
+        requirement("tiktoken"),
+    ],
 )

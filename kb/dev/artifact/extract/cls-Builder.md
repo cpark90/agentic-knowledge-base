@@ -7,7 +7,9 @@ title: class Builder in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/100129c2-a2cd-484c-b610-46e6ba849016, https://agentic-knowledge-base.dev/id/chunk/21d36097-2599-4a14-8057-733c634ae0b6, https://agentic-knowledge-base.dev/id/chunk/2734434f-58d6-4d30-884c-b79d2c51061b, https://agentic-knowledge-base.dev/id/chunk/2d2767c3-e91e-464b-8f72-7fabdd6cca14, https://agentic-knowledge-base.dev/id/chunk/3133a231-692d-411f-9a52-fa6f82f6676f, https://agentic-knowledge-base.dev/id/chunk/4994778f-bd6e-485d-b2f6-ec514f2187d9, https://agentic-knowledge-base.dev/id/chunk/5fef9048-0948-4bfe-ad98-9a6587163b44, https://agentic-knowledge-base.dev/id/chunk/829ed4f8-dab5-4026-a1d3-0bd17bb6c708, https://agentic-knowledge-base.dev/id/chunk/890c6310-9982-474d-831e-9d0a0fc2a114, https://agentic-knowledge-base.dev/id/chunk/8961c276-af1a-4b25-82aa-8ea7a53a20d0, https://agentic-knowledge-base.dev/id/chunk/a489355a-ef09-4411-ac19-0d5203bc0d58, https://agentic-knowledge-base.dev/id/chunk/a8451195-7601-4dd9-aab3-f74defed5506, https://agentic-knowledge-base.dev/id/chunk/aada6cbe-8da7-42be-b193-af12f3127b37, https://agentic-knowledge-base.dev/id/chunk/bb2addb3-a5df-4db6-9623-a80b215b03d7, https://agentic-knowledge-base.dev/id/chunk/cea6fcfc-b3e0-4dab-b8f5-e0727ee9c70d]
 part_of: https://agentic-knowledge-base.dev/id/composite/e15e9467-610e-43bf-b882-759772f9ace0
 ---
 **클래스** — `class Builder` 다. 소스 하나의 청크 트리를 만든다
@@ -17,12 +19,17 @@ part_of: https://agentic-knowledge-base.dev/id/composite/e15e9467-610e-43bf-b882
 class Builder:
     """소스 하나의 청크 트리를 만든다 — 한정 이름 → uuid 는 Ids 가 준다."""
 
-    def __init__(self, src_rel: str, lines: list[str], head_end: int, top: list[Region], ids):
+    def __init__(self, src_rel: str, lines: list[str], head_end: int, top: list[Region], ids,
+                 uses_sources: frozenset = frozenset(), imports: list = (), uses_ids: dict = {}):
         self.src, self.lines, self.head_end, self.top, self.ids = src_rel, lines, head_end, top, ids
+        self.uses_sources = uses_sources  # 방출 경계(`tools/<이름>.py` 집합) — 원본은 defs/kb.bzl.EXTRACTED_SOURCES
         self.chunks: list[Chunk] = []
-        # 같은 모듈의 최상위 정의 이름 → 한정 이름. `uses` 의 치역이 이 사상의 값이다 — 모듈 밖 이름은 여기 없으므로
-        # 해소에서 저절로 빠진다 (모듈 간 호출은 이 잎이 잡지 않는다, 채널 uses-definition 2026-09-30)
+        # 같은 모듈의 최상위 정의 이름 → 한정 이름. 모듈 안 해소의 치역이 이 사상의 값이다
         self.top_defs = {n.name: qualified(def_kind(n), n.name) for n in self._all_defs(top)}
+        # 치역 경계(defs/kb.bzl.USES_TARGETS) 안의 모듈 → 그 등록부의 {한정 이름: IRI}. 모듈 밖 해소는 이 사상이
+        # 치역이고 등록부가 원본이다 — 여기 없는 이름(상수·모듈 변수)은 가리킬 청크가 없어 빠진다
+        self.uses_ids = {m: ids_ for m, ids_ in uses_ids.items() if m != Path(src_rel).stem}
+        self.uses_mods, self.uses_names = import_bindings(list(imports), set(self.uses_ids))
 
     def span(self, spans: list[tuple[int, int]]) -> list[str]:
         out: list[str] = []
@@ -94,6 +101,20 @@ class Builder:
                          "ordered": members, "part_of": parent}
         return comp_iri
 
+    def foreign_uses(self, node) -> set:
+        """치역 경계 안의 **다른 모듈**의 정의 IRI — 이름 → 청크는 대상 모듈의 등록부가 준다.
+
+        신설하지 않는다: 대상 모듈의 uuid 는 그 모듈의 추출이 정하는 것이고 여기는 읽는 자리다. 등록부에 없는
+        이름(상수·모듈 변수·없는 속성)은 가리킬 정의 청크가 없으므로 빠진다.
+        """
+        out = set()
+        for mod, name in used_foreign_defs(node, self.uses_mods, self.uses_names, set(self.uses_ids)):
+            ids = self.uses_ids.get(mod, {})
+            iri = ids.get(qualified("fn", name)) or ids.get(qualified("cls", name))
+            if iri:
+                out.add(iri)
+        return out
+
     def define(self, node, parent: str) -> str:
         qn = qualified(def_kind(node), node.name)
         kind = "클래스" if isinstance(node, ast.ClassDef) else "함수"
@@ -106,9 +127,11 @@ class Builder:
         c.part_of = parent
         # 호출 관계는 정의 청크가 갖는다 — 정렬은 IRI 순이다. 정체성이 uuid 이므로(p10-function-identity-registry)
         # 개명이 순서를 움직이지 않는다. 이름 순으로 정렬하면 개명 하나가 형제 전부의 frontmatter 를 흔든다.
-        # 방출은 표본 경계(`kb_lib.USES_SOURCES`) 안에서만 한다 — 추출기가 하나라 경계가 없으면 37 파일이 한꺼번에 든다
-        if self.src in kb_lib.USES_SOURCES:
-            c.uses = sorted(self.ids.get(self.top_defs[n], CHUNK_IRI) for n in used_defs(node, set(self.top_defs)))
+        # 방출은 경계(`self.uses_sources` — 원본 defs/kb.bzl.EXTRACTED_SOURCES) 안에서만 하고, 치역은 같은 모듈과
+        # 경계(`defs/kb.bzl.USES_TARGETS`) 안의 모듈이다 — 키는 하나이고 잎도 하나다(2026-10-01, 유저 답 1)
+        if self.src in self.uses_sources:
+            own = {self.ids.get(self.top_defs[n], CHUNK_IRI) for n in used_defs(node, set(self.top_defs))}
+            c.uses = sorted(own | self.foreign_uses(node))
         self.chunks.append(c)
         return c.iri
 ```

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/5804ea44-62d7-4b14-9187-5a7bb71425e1
 ---
 **함수** — `odd_upper_bound(value)` 다. agt:conditionValue 문자열의 정수 상한.

@@ -7,6 +7,7 @@ title: Competency questions are the ontology's requirements
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-ontology-hygiene
 ---
 **결론** — 온톨로지의 요구사항을 "답해야 할 질문 목록"(competency question,

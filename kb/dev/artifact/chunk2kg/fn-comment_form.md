@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/a3fa56bc-c50d-4d10-98ed-d101ae5102ce]
 part_of: https://agentic-knowledge-base.dev/id/composite/992d5e5a-5efc-4108-a5c8-1e75dd96807a
 ---
 **함수** — `comment_form(body)` 다. 주석 본문 → {label, decoration, gist, resolution, sentences, targets} (찾은 것만) — 결정 p7-commentary-form.

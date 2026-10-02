@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-odd-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/8e83391e-5fd2-499b-881c-37e6f9cb60f1, https://agentic-knowledge-base.dev/id/chunk/2df65a05-0d25-4b3c-aae9-8da6dd82218f]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/860d7967-4c4a-48c3-846c-a6f932e81933, title_ko: 파일 복합체 tools/odd_check.py, title: file composite tools/odd_check.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/c64a0d92-d978-4b1c-b12e-c03e8e8d1ef9, https://agentic-knowledge-base.dev/id/composite/bdc32d15-06d9-439b-a3b2-0d3dab05225f, https://agentic-knowledge-base.dev/id/composite/f0f7ba13-f15d-489f-80df-4c7ae50b0cdd]}
 ---

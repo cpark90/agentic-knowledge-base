@@ -7,16 +7,23 @@ title: function parse_chunk in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/03312fa3-ef91-4e77-b39e-47c5554aba7e, https://agentic-knowledge-base.dev/id/chunk/040b7a8d-10e8-4e6e-96db-b8495e467218, https://agentic-knowledge-base.dev/id/chunk/1d31fc8d-2de8-4f7d-8e58-8a0252739342, https://agentic-knowledge-base.dev/id/chunk/41b351ab-939c-41ad-ab8f-bf2396bb0114, https://agentic-knowledge-base.dev/id/chunk/848f96db-27ef-4fda-84af-e59077e7dc0c, https://agentic-knowledge-base.dev/id/chunk/9081dacd-219d-4944-b3c6-d5d9a6955f49]
 part_of: https://agentic-knowledge-base.dev/id/composite/ee14f038-7ba4-416d-8e2c-3314fe17ab94
 ---
-**함수** — `parse_chunk(path)` 다. frontmatter dict와 본문 줄 수를 돌려준다.
+**함수** — `parse_chunk(path)` 다. frontmatter dict와 **본문 문자열**을 돌려준다
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def parse_chunk(path: str) -> tuple[dict, int]:
-    """frontmatter dict와 본문 줄 수를 돌려준다."""
-    lines = Path(path).read_text(encoding="utf-8").splitlines()
+def parse_chunk(path: str) -> tuple[dict, str]:
+    """frontmatter dict와 **본문 문자열**을 돌려준다 — 크기는 호출자가 센다 (단위는 토큰이다).
+
+    본문을 떼는 규칙은 `body_text` 하나다. 둘째 값이 수가 아니라 문자열인 까닭은 계수기를 부르는 비용을
+    호출자가 고르게 하는 것이다 — frontmatter 만 읽는 도구(`gen_build`·`labels`·`weave`)는 어휘를 적재하지 않는다.
+    """
+    text = Path(path).read_text(encoding="utf-8")
+    lines = text.splitlines()
     if not lines or lines[0].strip() != "---":
         raise ValueError(f"{path}: frontmatter가 없다 — 한 청크는 한 파일이고 head는 frontmatter다")
     try:
@@ -34,11 +41,7 @@ def parse_chunk(path: str) -> tuple[dict, int]:
         key, val = key.strip(), val.strip()
         meta[key] = parse_value(val)
 
-    body = lines[end + 1 :]
-    while body and not body[-1].strip():
-        body.pop()
-    while body and not body[0].strip():
-        body.pop(0)
+    body = body_text(path, text).splitlines()  # 본문의 단일 판정처 — 게이트·방출·실측이 같은 문자열을 본다
     meta["_content_hash"] = hashlib.sha256("\n".join(body).encode("utf-8")).hexdigest()[:12]
     meta["_body_slots"] = body_slots(body)  # 본문이 쓴 슬롯 표지 (결정 p4-slot-answers-one-question)
 
@@ -60,6 +63,10 @@ def parse_chunk(path: str) -> tuple[dict, int]:
             raise ValueError(f"{path}: pattern 은 type: requirement 에서만 쓴다 — 실제 type {meta['type']!r} (EARS 패턴은 요구 문장의 형식이다)")
         if meta["pattern"] not in EARS_PATTERNS:
             raise ValueError(f"{path}: 알 수 없는 pattern {meta['pattern']!r} — {' | '.join(EARS_PATTERNS)} 중 하나다 (EARS, Mavin RE'09)")
+    if LAYER_KEY in meta:  # 서비스 층 — plane 과 직교하므로 plane 제한이 없고 값 어휘만 닫힌다 (p0-service-is-a-three-layer-wiki)
+        if meta[LAYER_KEY] not in LAYERS:
+            raise ValueError(f"{path}: 알 수 없는 {LAYER_KEY} {meta[LAYER_KEY]!r} — {' | '.join(LAYERS)} 중 하나다 "
+                             f"(서비스의 세 층. 명시가 없으면 {LAYER_DEFAULT} 다)")
     declared = meta.get(TARGETS_KEY) or []
     if declared and meta["type"] != "annotation":  # agt:targets 의 정의역은 agt:AnnotationChunk 다 — 주석만 대상을 가리킨다
         raise ValueError(f"{path}: {TARGETS_KEY} 는 type: annotation 에서만 쓴다 — 실제 type {meta['type']!r} "
@@ -113,6 +120,6 @@ def parse_chunk(path: str) -> tuple[dict, int]:
         if spec == meta["id"]:
             raise SpecializationError(f"{path}: {SPECIALIZATION_KEY} 가 자기 자신 {spec} 이다 — 조각은 다른 청크(원본)를 특수화한다")
 
-    return meta, len(body)
+    return meta, "\n".join(body)
 ```
 <!-- 인용 끝 -->

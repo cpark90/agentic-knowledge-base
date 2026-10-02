@@ -6,23 +6,24 @@
 source: tools/workset.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-workset
 package: kb/dev/artifact/workset
+layer: process
 at: 2026-09-30T08:07:48Z
-source_hash: fb93f223fa1ee797
+source_hash: 9bc41adcc5c6ea23
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/82e341ba-c47f-4677-8013-491082b24b6c
   - https://agentic-knowledge-base.dev/id/chunk/965f738a-db50-4729-a551-e58a90cd6320
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
   source_hash: fb93f223fa1ee797
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/9b5adaee-2a2d-44ed-a739-3c8ff1389124
-  composite:sec:body-lines: https://agentic-knowledge-base.dev/id/composite/efdb6344-03eb-4727-97ba-fe8aadcc7424
+  composite:sec:body-of: https://agentic-knowledge-base.dev/id/composite/efdb6344-03eb-4727-97ba-fe8aadcc7424
   file: https://agentic-knowledge-base.dev/id/composite/daba0b21-4c2e-4be6-8cc6-9cef10baa82f
-  fn:body_lines: https://agentic-knowledge-base.dev/id/chunk/1c918cdf-d80a-4d97-be99-915bb8ee7e17
+  fn:body_of: https://agentic-knowledge-base.dev/id/chunk/1c918cdf-d80a-4d97-be99-915bb8ee7e17
   fn:main: https://agentic-knowledge-base.dev/id/chunk/7f478037-6677-43f4-8b6e-5c7795f7f571
   fn:neighbours: https://agentic-knowledge-base.dev/id/chunk/347d7f8b-0fe2-43ee-b702-9dea92fdad9d
   head: https://agentic-knowledge-base.dev/id/chunk/58ca0301-520d-4ec2-848b-bfea07859eab
   module: https://agentic-knowledge-base.dev/id/chunk/ea192023-b5a0-4dbe-bb2f-8b507575633c
-  sec:body-lines: https://agentic-knowledge-base.dev/id/chunk/67fdb409-6256-43a9-aa79-b16b4e541cb1
+  sec:body-of: https://agentic-knowledge-base.dev/id/chunk/67fdb409-6256-43a9-aa79-b16b4e541cb1

@@ -7,7 +7,9 @@ title: function check_odd_refs in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/6900e30a-aaf6-462a-b290-9877e3439e9b]
 part_of: https://agentic-knowledge-base.dev/id/composite/621b8722-ef63-42b3-8470-9560e072a62a
 ---
 **함수** — `check_odd_refs(merged, odd, files)` 다.
@@ -20,7 +22,7 @@ def check_odd_refs(merged: Graph, odd: Graph, files: dict[str, Graph]) -> list[s
     for s, o in merged.subject_objects(AGT.refersTo):
         if o not in odd_subjects:
             errors.append(
-                f"[odd-ref] {_where(files, s)}: {merged.qname(s)} 가 ODD에 없는 속성을 참조: {o} (0.4절 — ODD를 먼저 확장하라)"
+                f"[{ODD_REF}] {_where(files, s)}: {merged.qname(s)} 가 ODD에 없는 속성을 참조: {o} (0.4절 — ODD를 먼저 확장하라)"
             )
     return errors
 ```

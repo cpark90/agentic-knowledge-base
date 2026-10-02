@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-generated-document-standards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-21T21:10:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/094466b2-eced-45bf-991f-85eead474058
 ---
 **근거** — `p12-documents-are-generated`는 생성 시각과 질의를 요구했다. 2026-09-19 실측은 그것으로 부족함을 보인다.

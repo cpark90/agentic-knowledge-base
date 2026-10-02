@@ -34,7 +34,7 @@ USAGE = re.compile(r"^사용[:：]?(?=\s|$)|사용[:：]\s*")
 NOTICE = kb_lib.gendoc_tree_notice("도구 docstring 과 `kb_lib.SKILLS`", "//:skills_drift_test")
 DOCS_DIR = "docs"
 TOOLS_DIR = "tools"
-RESOLVE_ANCHOR = "게이트-총람--이-문서가-원본이다"  # docs/tools.md 의 총람 — `해소` 열이 FAIL [<id>] 의 해소다
+RESOLVE_ANCHOR = kb_lib.GATE_CATALOGUE_ANCHOR  # docs/tools.md 의 총람 — `해소` 열이 FAIL [<id>] 의 해소다. 단일 정의처는 kb_lib
 
 
 # ── docstring 파싱과 이름 규약 ────────────────────

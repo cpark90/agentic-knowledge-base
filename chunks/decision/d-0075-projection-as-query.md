@@ -7,6 +7,7 @@ title: Views are assembled by query, never stored
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-composite-projection
 ---
 **결론** — 이 체계의 모든 투영은 **그래프 질의의 결과**이며 저장하지

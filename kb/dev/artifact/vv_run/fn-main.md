@@ -7,8 +7,9 @@ title: function main in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/07ed26ac-e215-4583-8d9d-10f93fe1eed9, https://agentic-knowledge-base.dev/id/chunk/4819f0e8-1ed9-43cb-b206-366b65a7f00f, https://agentic-knowledge-base.dev/id/chunk/4dc64a35-fb4f-4396-838d-acef3f4e186c, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/b79a944c-fcdd-4100-baf7-9f03da3576b1, https://agentic-knowledge-base.dev/id/chunk/c4812ae0-4745-4e23-bcd2-a72f82d600fd, https://agentic-knowledge-base.dev/id/chunk/ddab0191-16a5-4584-9734-a7d026cb29f8, https://agentic-knowledge-base.dev/id/chunk/de4671f1-1f9f-4715-a852-ab91c7368807]
 part_of: https://agentic-knowledge-base.dev/id/composite/e9c6807f-239f-4a44-beed-743506b59164
 ---
 **함수** — `main()` 다.
@@ -23,10 +24,20 @@ def main() -> int:
     ap.add_argument("--waivers", default=WAIVERS, metavar="FILE",
                     help=f"docs/waivers.md — 게이트 id `{CASE_GATE}`(축 파일·stem)로 면제된 케이스의 형식 오류는 집계에서 빼되 목록에 남긴다")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 워크스페이스 루트 기준")
+    ap.add_argument("--vocab", default="", metavar="FILE",
+                    help=f"토큰 계수기 어휘 파일 — 검증기 명령에 {kb_lib.TOKENIZER_VOCAB_ENV} 로 넘긴다. "
+                         "타깃이 `--vocab=$(rootpath @tiktoken_o200k_base//file)` 로 준다. 못 찾으면 돌지 않는다")
     a = ap.parse_args()
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     if not (root / CASE_DIR).is_dir():
         print(f"FAIL [vv_run] {CASE_DIR}: 케이스 디렉토리가 없다 — 워크스페이스 루트에서 돌린다")
+        return EXIT_CONFIG
+    try:  # 어휘 해소는 여기 한 자리다 — 못 찾으면 케이스를 하나도 돌리지 않는다. 건너뜀은 판정의 공백이다
+        vocab = tokenizer_vocab_path(a.vocab or None).resolve()
+    except FileNotFoundError as e:
+        print(f"FAIL [vv_run] 토큰 계수기 어휘 — {e}. 허용 목록의 검증기(`chunk_lint` 등)는 이 어휘로 토큰을 세므로 "
+              f"경로 없이는 자극에 닿지 못한다 — `bazel run //tools:vv_run`(타깃이 --vocab 을 준다) 또는 "
+              f"`--vocab <경로>` 로 돌린다")
         return EXIT_CONFIG
     try:
         apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
@@ -69,7 +80,7 @@ def main() -> int:
     now = datetime.now(timezone.utc).replace(microsecond=0)
     rev, dirty = revision(root)
     env = environment(root)
-    execute(cases, root)
+    execute(cases, root, vocab)
     text = report(now, cases, missing, rev, dirty, env)
     print(text)
     if a.out:

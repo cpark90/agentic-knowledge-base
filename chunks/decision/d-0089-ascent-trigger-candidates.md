@@ -7,6 +7,7 @@ title: Four ascent trigger candidates - start with user tagging only
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-ladder-mechanism
 ---
 **결론** — 상승(6.3절)을 무엇이 촉발하는가에 대한 후보 넷을 둔다. 셋은

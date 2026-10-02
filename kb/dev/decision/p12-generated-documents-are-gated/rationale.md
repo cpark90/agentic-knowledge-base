@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-generated-document-standards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-21T21:10:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/872f4058-1ca6-432e-a0df-ba39a47b867b
 ---
 **근거** — 규약을 문서에만 적으면 지켜지지 않는다. 2026-09-19 실측이 그것을 보인다.

@@ -7,7 +7,8 @@ title: function dump_registry in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-4341-b151-9ecda0fefd53
 ---
 **함수** — `dump_registry(reg)` 다.
@@ -16,7 +17,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-4341-b151
 ```python
 def dump_registry(reg: dict) -> str:
     out = [REGISTRY_HEAD.format(package=reg["package"])]
-    for k in ("source", "resource", "package", "at", "source_hash"):
+    for k in ("source", "resource", "package", kb_lib.LAYER_KEY, "at", "source_hash"):
         out.append(f"{k}: {reg[k]}")
     for k in ("refines", "serves"):
         out.append(f"{k}:" + ("" if reg[k] else " []"))

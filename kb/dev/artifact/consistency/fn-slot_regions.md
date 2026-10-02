@@ -8,7 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/38dd33c9-2317-4c0a-a596-5bb97eecca1b
 ---
 **함수** — `slot_regions(body_text)` 다. 등록된 슬롯 표지(chunk2kg.BODY_SLOT_MARKERS 의 굵은 span·BODY_SLOT_KEYWORD 의 줄 머리 `키워드:`)로 본문을 나눈 조각의 줄 인덱스 — {표지: [줄 인덱스, …]}.

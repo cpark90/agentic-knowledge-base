@@ -7,15 +7,16 @@ title: function emit in tools/space2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-space2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/181f6c99-94f8-4b1c-8461-f34fc0d42c58, https://agentic-knowledge-base.dev/id/chunk/9875f781-35a4-413a-beae-89f20bb6ea33]
 part_of: https://agentic-knowledge-base.dev/id/composite/2716ece9-44f6-48ff-b2ab-1ad0ea6fa6c0
 ---
-**함수** — `emit(space)` 다. 설계 공간 하나 → (IRI, 블록) 목록 — 공간 개체 · 후보 링크 개체 · 증거 항목.
+**함수** — `emit(space, enc)` 다. 설계 공간 하나 → (IRI, 블록) 목록 — 공간 개체 · 후보 링크 개체 · 증거 항목.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def emit(space: dict) -> list[tuple[str, str]]:
+def emit(space: dict, enc) -> list[tuple[str, str]]:
     """설계 공간 하나 → (IRI, 블록) 목록 — 공간 개체 · 후보 링크 개체 · 증거 항목."""
     esc, meta = chunk2kg.esc, space["meta"]
     frm, kind = space["var"]
@@ -49,7 +50,7 @@ def emit(space: dict) -> list[tuple[str, str]]:
 
     stmts = [f"a {kb_lib.SPACE_TYPE}",
              f'rdfs:label "{esc(meta["title"])}"@en', f'rdfs:label "{esc(meta["title_ko"])}"@ko',
-             f"agt:hasLevel agt:{meta['level']}", f"agt:lineCount {space['lines']}",
+             f"agt:hasLevel agt:{meta['level']}", f"agt:tokenCount {kb_lib.token_count(space['body'], enc)}",
              f'agt:status "{meta["status"]}"', f'agt:contentHash "{meta["_content_hash"]}"',
              f'agt:generatedBy "{esc(meta["generated"]["by"])}"',
              f'prov:generatedAtTime "{meta["generated"]["at"]}"^^xsd:dateTime',

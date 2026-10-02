@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
-part_of: https://agentic-knowledge-base.dev/id/composite/019eb57b-f2ff-48bf-a135-886b1f348685
+layer: process
+part_of: https://agentic-knowledge-base.dev/id/composite/30b84220-a222-44db-9ae1-0486db2a18ec
 ---
 **함수** — `bound_names(node)` 다. 정의 안에서 이름을 새로 묶는 자리 전부 — 인자·대입 대상·중첩 정의·comprehension 변수·import 별칭·except 이름.
 

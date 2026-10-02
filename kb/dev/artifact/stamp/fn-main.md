@@ -8,7 +8,9 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-stamp}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T07:27:50Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
+uses: [https://agentic-knowledge-base.dev/id/chunk/0c73f827-eef2-4929-a126-f9b2c056d037, https://agentic-knowledge-base.dev/id/chunk/580b14fa-6057-4000-9927-c60a4acee79a]
 part_of: https://agentic-knowledge-base.dev/id/composite/9de96dc9-03ab-40b9-a90a-4481f8f9deb7
 ---
 **함수** — `main()` 다.

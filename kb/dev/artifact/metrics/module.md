@@ -7,11 +7,12 @@ title: file tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f, https://agentic-knowledge-base.dev/id/chunk/1f7d15d7-e85d-42dd-bef3-fb9c9a6d0365]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/3c529991-238b-41b3-abc4-9d4e944f0a32, title_ko: 파일 복합체 tools/metrics.py, title: file composite tools/metrics.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/e2d8a9c4-074b-4ff9-89a7-92e76bd285fb, https://agentic-knowledge-base.dev/id/composite/90bd15d5-e388-4dc6-b7d0-0e639fe85f3f, https://agentic-knowledge-base.dev/id/composite/c6d68e53-8445-4ac7-a4d6-7d59dd3b3ca6, https://agentic-knowledge-base.dev/id/composite/608921b6-11ac-4736-ae95-09ee84f21b74, https://agentic-knowledge-base.dev/id/composite/2bd326ae-1255-4621-b93d-03485668c5b1]}
 ---
-**파일** — `tools/metrics.py` 다. 423줄 · 최상위 정의 18개 · 최상위 절 5개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/metrics.py` 다. 478줄 · 최상위 정의 20개 · 최상위 절 5개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

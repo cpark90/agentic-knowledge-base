@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/2d2767c3-e91e-464b-8f72-7fabdd6cca14, https://agentic-knowledge-base.dev/id/chunk/8f365d81-2dc9-4f87-8f66-153ed897e871]
 part_of: https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986-80ad97804df0
 ---
 **함수** — `previous_hashes(pkg_dir)` 다. 트리에 있는 생성 청크 → {정규화 해시: 한정 이름}.

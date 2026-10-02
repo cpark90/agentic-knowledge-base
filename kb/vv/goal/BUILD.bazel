@@ -20,7 +20,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/03335ea8-fe32-45e0-9406-5e8457b81486",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(
@@ -38,7 +38,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/3d83dc02-81cc-4d4f-98bb-fc4ffa44840a",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(
@@ -83,7 +83,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/f0fdfa51-3dd6-4e7f-adee-88b3ad41b93a",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(
@@ -101,7 +101,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/9e1150bc-5668-4f5d-aa95-684f45b7bf4a",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(
@@ -137,7 +137,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/d5257525-c3ef-4680-a611-ed964eff79c0",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(
@@ -164,7 +164,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/b055c55f-c77b-421f-8cc0-d1e832f7b207",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(
@@ -245,7 +245,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/91d72e63-e72e-4803-aaf3-281a81994a31",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(
@@ -353,7 +353,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/1467d7fe-f090-46b6-974d-e8d33bbcfd78",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(

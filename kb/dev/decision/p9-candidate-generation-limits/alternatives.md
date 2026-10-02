@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/24a2256b-3151-4896-a1f5-712d76f8b4fc
 ---
 **대안** `[안]` — 링크 타입별로 후보를 어디서 가져오는가의 초기 목록. 미확정이다.

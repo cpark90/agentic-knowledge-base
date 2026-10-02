@@ -8,11 +8,11 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-workset}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/82e341ba-c47f-4677-8013-491082b24b6c, https://agentic-knowledge-base.dev/id/chunk/965f738a-db50-4729-a551-e58a90cd6320]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/daba0b21-4c2e-4be6-8cc6-9cef10baa82f, title_ko: 파일 복합체 tools/workset.py, title: file composite tools/workset.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/58ca0301-520d-4ec2-848b-bfea07859eab, https://agentic-knowledge-base.dev/id/composite/efdb6344-03eb-4727-97ba-fe8aadcc7424]}
 ---
-**파일** — `tools/workset.py` 다. 179줄 · 최상위 정의 3개 · 최상위 절 2개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/workset.py` 다. 191줄 · 최상위 정의 3개 · 최상위 절 2개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -25,7 +25,10 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/daba0b21-4c2e-4b
 이웃은 앵커에서 k홉 안의 청크(upstream ∪ downstream, 직접 트리플과 agt:Link 개체 둘 다)이며, 펼치는 순서는
 링크 족의 우선순위다 — 앵커 ≫ references ≫ semanticallyDependsOn ≫ 구성 관계 ≫ relatedTo
 (dependency-graph-design §4, p0-workset-anchor-neighbourhood). 예산을 넘는 이웃은 라벨만 남는다.
-사용: workset.py --role developer [--levels logical,concrete] [--anchor <IRI|라벨 부분>] [--budget 200] --out workset.md <TTL...>
+예산의 단위는 **토큰**이다 (결정 p1-chunk-unit-is-tokens — 옛 200줄의 같은 계수기 환산이 5,418 이다). 계수기는
+`o200k_base`(어휘 파일 sha256 고정)이고 라벨 목록과 펼친 본문을 그 어휘로 직접 센다.
+사용: workset.py --role developer [--levels logical,concrete] [--anchor <IRI|라벨 부분>] [--budget 5418]
+      [--vocab <어휘 파일>] --out workset.md <TTL...>
 종료: 앵커가 있을 때만 예산 판정이 게이트다 — 문서 전체(라벨 목록 + 펼친 본문)가 예산을 넘으면
   `FAIL [workset-budget]` + 1(도입 2단계 구체화 조건, handoff/workset-budget-gate-2026-09-22). 앵커가 없으면
   지금처럼 뷰에 판정만 적고 0 — 앵커 없는 뷰(스코프 전체 라벨 목록)는 구조적으로 예산을 넘어 판정 대상이 아니다.

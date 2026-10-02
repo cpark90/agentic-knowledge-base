@@ -7,8 +7,8 @@ title: module head py-binary in tools/gen_skills.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-skills}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f]
 part_of: https://agentic-knowledge-base.dev/id/composite/826eea39-5afc-41d4-a5cc-4afd24c0f0b2
 ---
@@ -33,6 +33,6 @@ USAGE = re.compile(r"^사용[:：]?(?=\s|$)|사용[:：]\s*")
 NOTICE = kb_lib.gendoc_tree_notice("도구 docstring 과 `kb_lib.SKILLS`", "//:skills_drift_test")
 DOCS_DIR = "docs"
 TOOLS_DIR = "tools"
-RESOLVE_ANCHOR = "게이트-총람--이-문서가-원본이다"  # docs/tools.md 의 총람 — `해소` 열이 FAIL [<id>] 의 해소다
+RESOLVE_ANCHOR = kb_lib.GATE_CATALOGUE_ANCHOR  # docs/tools.md 의 총람 — `해소` 열이 FAIL [<id>] 의 해소다. 단일 정의처는 kb_lib
 ```
 <!-- 인용 끝 -->

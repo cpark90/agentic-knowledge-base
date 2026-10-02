@@ -8,7 +8,9 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-query}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
+uses: [https://agentic-knowledge-base.dev/id/chunk/01f3ebf5-d8ae-43ce-94b0-5cc0537f8dd0, https://agentic-knowledge-base.dev/id/chunk/0721b4a7-9459-4293-abe0-4cb723016280, https://agentic-knowledge-base.dev/id/chunk/07b3db3b-4826-4478-878d-5e9c9d7d4ae0, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/26644059-7309-45ef-a32b-71465fa1d2fb, https://agentic-knowledge-base.dev/id/chunk/5b372e8e-c287-4ed0-b9d6-16c0366ee0c8, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/67261510-0d9f-421b-8c52-2714e157ad27, https://agentic-knowledge-base.dev/id/chunk/f9b6b36a-3732-4fca-b346-5a371afb405e]
 part_of: https://agentic-knowledge-base.dev/id/composite/4358cd56-6be2-4ce1-9f2f-9fb0ed47b5d3
 ---
 **함수** — `main()` 다.

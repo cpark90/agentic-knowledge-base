@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869, https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23]
 part_of: https://agentic-knowledge-base.dev/id/composite/5804ea44-62d7-4b14-9187-5a7bb71425e1
 composite: {id: https://agentic-knowledge-base.dev/id/composite/5804ea44-62d7-4b14-9187-5a7bb71425e1, title_ko: 절 복합체 -odd-range (tools/kb_lib.py), title: section composite -odd-range in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/cf44d030-4ea7-4aeb-b13c-87a4aa84ab0d, https://agentic-knowledge-base.dev/id/chunk/29b60ef2-eb29-4888-b4c0-c2e627041d68], part_of: https://agentic-knowledge-base.dev/id/composite/ff9d354a-d261-44a5-b7cd-7dd050de0370}

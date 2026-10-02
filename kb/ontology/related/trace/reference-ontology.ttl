@@ -23,4 +23,4 @@ agt:usesDefinition a owl:ObjectProperty ;
     rdfs:domain agt:ArtifactChunk ;
     rdfs:range agt:ArtifactChunk ;
     rdfs:label "uses definition"@en , "정의를 쓴다"@ko ;
-    skos:definition "정의가 같은 모듈의 다른 최상위 정의를 이름으로 쓰는 관계. 추출기가 AST의 최상위 이름 참조에서 내고(tools/extract.py 의 frontmatter `uses`), 게이트 dangling 이 대상 실재를 판정하며, revalidate 가 본문이 바뀐 대상을 가리키는 출발점을 재판정 대상의 호출부 열로 낸다 — 그 수가 호출부 파손의 상한이다. Bazel deps 도 링크 개체도 아니다: references 족의 잎이므로 직접 트리플만 남고 함수 churn 이 빌드 그래프를 움직이지 않는다 (8.2절, p7-code-links-on-file-composite)."@ko .
+    skos:definition "정의가 같은 모듈 또는 치역 경계 안의 모듈(`kb_lib`, 2026-10-01 표본 쌍)의 다른 최상위 정의를 이름으로 쓰는 관계. 치역 경계 밖의 모듈을 가리키는 호출은 내지 않으며 경계의 단일 정의처는 defs/kb.bzl의 USES_TARGETS다. 추출기가 AST의 최상위 이름 참조에서 내고(tools/extract.py 의 frontmatter `uses`), 게이트 dangling 이 대상 실재를 판정하며, revalidate 가 본문이 바뀐 대상을 가리키는 출발점을 재판정 대상의 호출부 열로 낸다 — 그 수가 호출부 파손의 상한이다. Bazel deps 도 링크 개체도 아니다: references 족의 잎이므로 직접 트리플만 남고 함수 churn 이 빌드 그래프를 움직이지 않는다 (8.2절, p7-code-links-on-file-composite)."@ko .

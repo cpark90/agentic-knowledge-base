@@ -7,7 +7,7 @@ title: A harness holding one role without its matching scope is refused with FAI
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-opus-5, at: 2026-09-24T11:45:00+09:00}
+generated: {by: vnv/claude-opus-5, at: 2026-10-01T23:47:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/081e9e28-c736-49bc-84ea-6d41f0a1c44a]
 verifies: [https://agentic-knowledge-base.dev/id/chunk/18537e8d-b957-4704-add4-639d90f323e5, https://agentic-knowledge-base.dev/id/chunk/acd3f19b-bb9e-448f-acf3-ac227733c8ab]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/a02a4db5-cf50-4b19-9a5e-1b101c4e0600]
@@ -46,6 +46,6 @@ expect:
   - exit: 0
 ```
 
-**실행 명령** — `bazel build //kg:chunks_kg //kb/odd:odd; python3 tools/validate.py --ontology $(ls kb/ontology/*/*/*-ontology.ttl) --shapes kb/ontology/shapes/*.ttl --odd bazel-bin/kb/odd/project-odd.ttl --data bazel-bin/kg/chunks-kg.ttl kg/*-kg.ttl {{vv-catalog-kg.ttl}}; bazel test //kg:gate_test`
+**실행 명령** — `bazel build //kg:chunks_kg //kb/odd:odd; python3 tools/validate.py --ontology $(ls kb/ontology/*/*/*-ontology.ttl) --shapes kb/ontology/shapes/*.ttl --odd bazel-bin/kb/odd/project-odd.ttl --data bazel-bin/kg/chunks-kg.ttl kg/*-kg.ttl {{vv-catalog-kg.ttl}} --waivers docs/waivers.md; bazel test //kg:gate_test`
 
-**표본 근거** — 이 자극이 어기는 규칙은 카탈로그 완전성 하나다. 최소성은 실험으로 확인했다 — 스코프 개체와 `agt:grants` 를 더한 같은 그래프가 같은 명령에서 종료 0 으로 PASS 다(2026-09-24). `agt:grants` 누락은 같은 규칙의 다른 절반이라 표본을 늘리지 않는다. 쓰기 plane 중복과 동시 한도 초과는 커밋된 카탈로그로는 만들 수 없는 값이라 양성 쪽 실측(중복 0 · 합 4 ≤ 5)으로만 관측한다.
+**표본 근거** — 이 자극이 어기는 규칙은 카탈로그 완전성 하나다. 최소성은 실험으로 확인했다 — 스코프 개체와 `agt:grants` 를 더한 같은 그래프가 같은 명령에서 종료 0 으로 PASS 다(2026-09-24). `agt:grants` 누락은 같은 규칙의 다른 절반이라 표본을 늘리지 않는다. 쓰기 plane 중복과 동시 한도 초과는 커밋된 카탈로그로는 만들 수 없는 값이라 양성 쪽 실측(중복 0 · 합 4 ≤ 5)으로만 관측한다. 명령에 `--waivers docs/waivers.md` 를 더하는 까닭은 데이터가 커밋된 그래프 전체라 `kb/vv/run/judge-20260929T182311Z.md` 의 면제된 `shacl` 위반이 섞여 건수를 둘로 늘리기 때문이다 — 게이트(`//kg:gate_test`)가 읽는 입력과 이 검사의 입력을 같게 해 자극이 어기는 규칙 하나만 세게 한다.

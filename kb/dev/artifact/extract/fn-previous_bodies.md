@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/bdbaec34-7407-4d5e-83f8-0706026f0b98
 ---
 **함수** — `previous_bodies(pkg_dir)` 다. 트리의 생성 청크 → {파일 이름: (본문, generated.at)}.

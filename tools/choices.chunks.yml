@@ -6,14 +6,15 @@
 source: tools/choices.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-choices
 package: kb/dev/artifact/choices
+layer: process
 at: 2026-09-22T16:38:13Z
 source_hash: b12147ae59a90818
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/7c9d74e6-1a77-4d52-a126-644a65bfab93
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
   source_hash: b12147ae59a90818
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/01f84457-55b4-40d7-9996-d01be5f6ad5d

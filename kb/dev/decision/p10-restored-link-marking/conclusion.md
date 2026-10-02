@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-19T16:10:00+09:00}
+layer: methodology
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 part_of: https://agentic-knowledge-base.dev/id/composite/66d847e5-4837-43ea-8498-da00a8fb92f3
 composite: {id: https://agentic-knowledge-base.dev/id/composite/66d847e5-4837-43ea-8498-da00a8fb92f3, title_ko: 복원 링크 표시 = restored 목록, title: Restored-link marking = restored list}

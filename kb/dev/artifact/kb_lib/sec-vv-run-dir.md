@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/cd5a8ce9-a52a-40c7-89b0-b41f163cfde2
 ---
 **절** — `tools/kb_lib.py` 의 절 `vv-run-dir` 다. 실행 기록과 관측 (r-026 append-only · p0-run-as-observation · p8-vv-plane-instances memory = 실행 기록)

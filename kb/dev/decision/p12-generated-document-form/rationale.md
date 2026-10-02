@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-generated-document-standards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-21T21:10:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6364f6e3-f553-4178-946c-36246fed08a9
 ---
 **근거** — 2026-09-19 실측이 갈래를 셌다. 빈 값의 표기가 네 갈래, 시각 형식이 세 갈래, 머리 문구가 세 갈래, 절 제목 명명이 세 갈래였다. 같은 뜻을 네 가지로 적으면 읽는 쪽이 넷을 다 알아야 한다. 이것은 이 체계가 어휘에서 막는 드리프트와 같은 것이 문서 층에서 일어난 것이다.

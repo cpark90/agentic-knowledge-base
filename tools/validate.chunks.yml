@@ -6,17 +6,18 @@
 source: tools/validate.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-validate
 package: kb/dev/artifact/validate
-at: 2026-09-30T08:07:48Z
-source_hash: 2c4c48e0c2ebb96d
+layer: process
+at: 2026-09-30T15:04:08Z
+source_hash: d5256745a0074a47
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc
   - https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328
   - https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
-  source_hash: 1bbcda145900d425
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
+  source_hash: 2c4c48e0c2ebb96d
 ids:
   ch:-qname: https://agentic-knowledge-base.dev/id/chunk/b9dccd16-790a-4998-b3ce-f6fabc7498c7
   ch:check-odd-refs: https://agentic-knowledge-base.dev/id/chunk/d8c6ad64-0e26-4265-8808-319c8d7ba2c9
@@ -49,14 +50,15 @@ ids:
   fn:check_dangling: https://agentic-knowledge-base.dev/id/chunk/05336a2f-bef3-4bc3-9b6d-976a1e9adb9d
   fn:check_deprecated_concepts: https://agentic-knowledge-base.dev/id/chunk/f5d521a5-98ba-4f17-ada0-7ddbb7162850
   fn:check_element_drop: https://agentic-knowledge-base.dev/id/chunk/6bf4337c-24c7-4689-8354-d179c822e031
+  fn:check_gate_registry: https://agentic-knowledge-base.dev/id/chunk/7cd61807-8e8e-44e7-a140-c95f9f82e4f9
   fn:check_labels: https://agentic-knowledge-base.dev/id/chunk/a45854d1-6d8a-4a1a-890e-a55aa166d992
-  fn:check_line_budget: https://agentic-knowledge-base.dev/id/chunk/7b782704-6d75-4344-9b72-f812f73bbfb0
   fn:check_odd_refs: https://agentic-knowledge-base.dev/id/chunk/a0953baf-5b58-4667-ba87-2c4653097756
   fn:check_residency: https://agentic-knowledge-base.dev/id/chunk/7848189e-1a29-4f71-9bab-09f2623ff65f
   fn:check_shacl: https://agentic-knowledge-base.dev/id/chunk/07104b21-b283-4e54-a921-6b9a61fb6e45
   fn:check_space: https://agentic-knowledge-base.dev/id/chunk/0eba15f1-9ab6-4d48-bb9a-8809fc98a603
   fn:check_specialization: https://agentic-knowledge-base.dev/id/chunk/d26c3802-192f-4414-81da-25abd63211fc
   fn:check_standard_vocab: https://agentic-knowledge-base.dev/id/chunk/0bc1d5ff-d788-47b3-a1b4-43a27654be04
+  fn:check_token_budget: https://agentic-knowledge-base.dev/id/chunk/7b782704-6d75-4344-9b72-f812f73bbfb0
   fn:check_verify: https://agentic-knowledge-base.dev/id/chunk/f5bba732-244e-40a1-a3a0-f5c8e97043be
   fn:check_vocab: https://agentic-knowledge-base.dev/id/chunk/ba1f7e1e-92c3-4692-9023-f2fb9dddbbc4
   fn:check_writer: https://agentic-knowledge-base.dev/id/chunk/9d1171df-d5e6-4602-9c49-05605607011c

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901, https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193]
 part_of: https://agentic-knowledge-base.dev/id/composite/f78cc6f9-4200-405e-8a12-7c8eb43f9c24
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f78cc6f9-4200-405e-8a12-7c8eb43f9c24, title_ko: 검증과 확인, title: Verification and validation}

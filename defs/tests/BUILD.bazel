@@ -138,10 +138,11 @@ genrule(
     srcs = [
         "fx_comp_outside.md",
         "//defs:kb.bzl",
+        "@tiktoken_o200k_base//file",  # head 액션의 계수기 — agt:tokenCount 를 센다 (p1-chunk-unit-is-tokens)
     ],
     outs = ["composite_outside_rejected.err"],
     cmd = "! $(execpath //tools:chunk2kg) --fragment --out $${TMPDIR:-/tmp}/fx_outside.head.ttl " +
-          "--residency $(execpath //defs:kb.bzl) $(execpath fx_comp_outside.md) 2> $@ && " +
+          "--residency $(execpath //defs:kb.bzl) --vocab $(execpath @tiktoken_o200k_base//file) $(execpath fx_comp_outside.md) 2> $@ && " +
           "grep -q '묶음 안에 선언되지 않았다' $@ && grep -q 'urn:fx:comp' $@",
     tags = ["manual"],
     tools = ["//tools:chunk2kg"],
@@ -200,10 +201,11 @@ genrule(
     srcs = [
         "fx_ord_mismatch.md",
         "//defs:kb.bzl",
+        "@tiktoken_o200k_base//file",  # head 액션의 계수기 — agt:tokenCount 를 센다 (p1-chunk-unit-is-tokens)
     ],
     outs = ["ordered_mismatch_rejected.err"],
     cmd = "! $(execpath //tools:chunk2kg) --fragment --out $${TMPDIR:-/tmp}/fx_ord_mismatch.head.ttl " +
-          "--residency $(execpath //defs:kb.bzl) $(execpath fx_ord_mismatch.md) 2> $@ && " +
+          "--residency $(execpath //defs:kb.bzl) --vocab $(execpath @tiktoken_o200k_base//file) $(execpath fx_ord_mismatch.md) 2> $@ && " +
           "grep -q '부분 집합과 다르다' $@ && grep -q 'urn:fx:absent' $@",
     tags = ["manual"],
     tools = ["//tools:chunk2kg"],
@@ -223,9 +225,12 @@ genrule(
         "scenario/fx-good-excluded.md",
         "scenario/fx-good-factors.md",
         "scenario/fx-good-stimulus.md",
+        "@tiktoken_o200k_base//file",
     ],
     outs = ["scenario_role_accepted.out"],
-    cmd = "$(execpath //tools:chunk_lint) --chunks $(SRCS) > $@ && grep -qF 'PASS [chunk_lint]' $@",
+    cmd = "$(execpath //tools:chunk_lint) --vocab $(execpath @tiktoken_o200k_base//file) " +
+          "--chunks $(locations scenario/fx-good-excluded.md) $(locations scenario/fx-good-factors.md) " +
+          "$(locations scenario/fx-good-stimulus.md) > $@ && grep -qF 'PASS [chunk_lint]' $@",
     tags = ["manual"],
     tools = ["//tools:chunk_lint"],
 )
@@ -235,9 +240,11 @@ genrule(
     srcs = [
         "scenario/fx-bad-factors.md",
         "scenario/fx-bad-stimulus.md",
+        "@tiktoken_o200k_base//file",
     ],
     outs = ["scenario_role_rejected.out"],
-    cmd = "! $(execpath //tools:chunk_lint) --chunks $(SRCS) > $@ && " +
+    cmd = "! $(execpath //tools:chunk_lint) --vocab $(execpath @tiktoken_o200k_base//file) " +
+          "--chunks $(locations scenario/fx-bad-factors.md) $(locations scenario/fx-bad-stimulus.md) > $@ && " +
           "grep -qF '**자극** 표지로 시작해야 한다' $@ && grep -qF '**요인** 표지로 시작해야 한다' $@",
     tags = ["manual"],
     tools = ["//tools:chunk_lint"],
@@ -356,6 +363,7 @@ genrule(
     srcs = [
         "fx_extract_parts.chunks.yml",
         "fx_extract_parts.py",
+        "//defs:kb.bzl",  # extract.py 가 --residency 기본값(<루트>/defs/kb.bzl)으로 EXTRACTED_SOURCES 를 읽는다 (M1, 2026-10-01)
     ],
     outs = ["extract_max_parts_rejected.err"],
     cmd = "! $(execpath //tools:extract) $(execpath fx_extract_parts.py) --root . 2> $@ && " +
@@ -367,4 +375,79 @@ genrule(
 build_test(
     name = "extract_max_parts_test",
     targets = [":extract_max_parts_rejected"],
+)
+
+# 20. 토큰 상한의 경계와 계수기의 고정 (결정 p1-chunk-unit-is-tokens, 유저 결정 2026-10-01). 크기의 단위가 줄이
+# 아니라 토큰이므로 시험할 것이 둘이다 — 경계가 포함(`sh:maxInclusive`)인가와, 계수기가 바뀌면 판정이 멈추는가다.
+# 고정물 둘은 본문 토큰 수만 다르다: 1,092 는 상한 그 자체이고 1,093 은 한 토큰 초과다. `status: deprecated` 인
+# 까닭은 크기 말고 다른 게이트(역할 표지·첨가·목록)를 끼우지 않으려는 것이다 — 크기 판정은 상태와 무관하다.
+genrule(
+    name = "token_budget_accepted",
+    srcs = [
+        "fx_token_at.md",
+        "@tiktoken_o200k_base//file",
+    ],
+    outs = ["token_budget_accepted.out"],
+    cmd = "$(execpath //tools:chunk_lint) --vocab $(execpath @tiktoken_o200k_base//file) " +
+          "--chunks $(execpath fx_token_at.md) > $@ && grep -qF 'PASS [chunk_lint]' $@",
+    tags = ["manual"],
+    tools = ["//tools:chunk_lint"],
+)
+
+genrule(
+    name = "token_budget_rejected",
+    srcs = [
+        "fx_token_over.md",
+        "@tiktoken_o200k_base//file",
+    ],
+    outs = ["token_budget_rejected.out"],
+    cmd = "! $(execpath //tools:chunk_lint) --vocab $(execpath @tiktoken_o200k_base//file) " +
+          "--chunks $(execpath fx_token_over.md) > $@ && " +
+          "grep -qF '본문 1093토큰 > 1092토큰' $@ && grep -qF 'FAIL [chunk]' $@",
+    tags = ["manual"],
+    tools = ["//tools:chunk_lint"],
+)
+
+# 어휘 파일이 바뀌면 같은 수가 같은 뜻이 아니다 — 적재기가 sha256 으로 거부하고, 게이트 `token-budget` 도 같은
+# 대조를 해 상한의 단위가 재현되지 않는 상태를 FAIL 로 낸다. 고정물은 어휘 파일의 사본에 한 줄을 더한 것이다.
+genrule(
+    name = "tokenizer_vocab_rejected",
+    srcs = [
+        "fx_token_at.md",
+        "@tiktoken_o200k_base//file",
+    ],
+    outs = ["tokenizer_vocab_rejected.out"],
+    cmd = "V=$${TMPDIR:-/tmp}/fx_vocab.tiktoken && cp $(execpath @tiktoken_o200k_base//file) $$V && " +
+          "echo 'YWJj 199999' >> $$V && " +
+          "! $(execpath //tools:chunk_lint) --vocab $$V --chunks $(execpath fx_token_at.md) > $@ && " +
+          "grep -qF '고정값' $@ && grep -qF 'id:cond-tokenizer-lock' $@",
+    tags = ["manual"],
+    tools = ["//tools:chunk_lint"],
+)
+
+genrule(
+    name = "token_budget_gate_vocab_rejected",
+    srcs = [
+        "//defs:kb.bzl",
+        "//kb/ontology:shapes",
+        "@tiktoken_o200k_base//file",
+    ],
+    outs = ["token_budget_gate_vocab_rejected.out"],
+    cmd = "V=$${TMPDIR:-/tmp}/fx_vocab_gate.tiktoken && cp $(execpath @tiktoken_o200k_base//file) $$V && " +
+          "echo 'YWJj 199999' >> $$V && " +
+          "! $(execpath //tools:validate) --shapes $(execpaths //kb/ontology:shapes) " +
+          "--residency $(execpath //defs:kb.bzl) --vocab $$V > $@ && " +
+          "grep -qF 'FAIL [token-budget]' $@ && grep -qF '재현되지 않는다' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+build_test(
+    name = "token_budget_test",
+    targets = [
+        ":token_budget_accepted",
+        ":token_budget_gate_vocab_rejected",
+        ":token_budget_rejected",
+        ":tokenizer_vocab_rejected",
+    ],
 )

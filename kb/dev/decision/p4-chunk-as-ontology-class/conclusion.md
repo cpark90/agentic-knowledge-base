@@ -2,12 +2,13 @@
 id: https://agentic-knowledge-base.dev/id/chunk/4eef1ba8-9095-4b69-aa55-69ca65ff7a35
 type: decision
 level: concrete
-title_ko: 청크는 온톨로지 클래스이자 42줄 최소 단위다
-title: The chunk is an ontology class and the 42-line minimum unit
+title_ko: 청크는 온톨로지 클래스이자 토큰 상한의 최소 단위다
+title: A chunk is an ontology class and the token-bounded minimal unit
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-01T22:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5-1, at: 2026-10-01T22:10:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7, https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0002]
 part_of: https://agentic-knowledge-base.dev/id/composite/dd76498b-2cca-4b79-a1fe-ce5a4d33c0ca

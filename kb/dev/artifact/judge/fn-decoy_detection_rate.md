@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/48ed45d6-a852-4def-9baa-eee654691bc7, https://agentic-knowledge-base.dev/id/chunk/a2001d9e-7d53-4d25-b643-9825bd271d97]
 part_of: https://agentic-knowledge-base.dev/id/composite/25ad6efd-997a-44a7-b5c4-dc61c13b63ed
 ---
 **함수** — `decoy_detection_rate(items, q, resp_sets)` 다. 미끼 검출률의 (검출 수, 응답 있는 미끼 수).

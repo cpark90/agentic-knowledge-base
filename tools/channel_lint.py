@@ -33,11 +33,11 @@ import sys
 from pathlib import Path
 
 try:
-    from tools.kb_lib import EXIT_CONFIG, EXIT_FAIL, EXIT_OK, EXIT_SKIP, load_waivers, waived  # bazel runfiles 경로
+    from tools.kb_lib import CHANNEL_GATE, EXIT_CONFIG, EXIT_FAIL, EXIT_OK, EXIT_SKIP, load_waivers, waived  # bazel runfiles 경로
 except ImportError:
-    from kb_lib import EXIT_CONFIG, EXIT_FAIL, EXIT_OK, EXIT_SKIP, load_waivers, waived  # 직접 실행
+    from kb_lib import CHANNEL_GATE, EXIT_CONFIG, EXIT_FAIL, EXIT_OK, EXIT_SKIP, load_waivers, waived  # 직접 실행
 
-GATE = "channel"
+GATE = CHANNEL_GATE
 USER, AGENTS, INQUIRIES, HANDOFF = "user", "agents", "inquiries", "handoff"
 STATES = {
     USER: {"open", "approved", "rejected"},

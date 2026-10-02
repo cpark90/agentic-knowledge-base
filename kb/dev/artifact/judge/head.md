@@ -7,8 +7,8 @@ title: module head agt in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0]
 part_of: https://agentic-knowledge-base.dev/id/composite/9b099dc3-facc-4593-9927-5f2afdd09add
 composite: {id: https://agentic-knowledge-base.dev/id/composite/9b099dc3-facc-4593-9927-5f2afdd09add, title_ko: 모듈 머리 복합체 agt (tools/judge.py), title: section composite agt in tools/judge.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/8be49e66-32e1-48fa-8df2-5e42684f3eea, https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b, https://agentic-knowledge-base.dev/id/chunk/50114263-78e9-4af8-9078-cd158d3f76eb, https://agentic-knowledge-base.dev/id/chunk/81e5e72c-14de-43e1-ac54-19566c8df95e], part_of: https://agentic-knowledge-base.dev/id/composite/85cd0960-2c5b-4a4c-b5be-bcf71f036c54}
@@ -36,14 +36,15 @@ except ImportError:
 AGT = kb_lib.AGT
 ID = kb_lib.ID
 EXIT_OK, EXIT_CONFIG, EXIT_SKIP = kb_lib.EXIT_OK, kb_lib.EXIT_CONFIG, kb_lib.EXIT_SKIP
-TAG = kb_lib.JUDGE_GATE
+TAG = kb_lib.JUDGE_TAG
 GENERATOR = kb_lib.JUDGE_GENERATOR
 PROFILE_DIR = kb_lib.JUDGE_PROFILE_DIR
 SHAPES = kb_lib.JUDGE_QUESTION_SHAPES
 ODD_IRI = str(ID["odd-agentic-knowledge-base"])
 ASSUMPTIONS = [str(ID[a]) for a in kb_lib.JUDGE_ASSUMPTIONS]  # 청크 규약 — 판정 서비스 가정은 도입이 되돌려져 없다 (2026-09-30)
-MAX_BODY_LINES = 42  # 청크 본문의 상한 (4.1절) — 로그도 청크라 같은 규칙을 받는다
-MAX_ROWS = MAX_BODY_LINES - 12  # 로그 한 파일의 판정 행 상한 — 산문 1 + 빈 줄 2 + 표 머리 2 + 요약 1 과 여유를 뺀 나머지
+# 로그 한 파일의 상한은 **토큰**이고 정의처는 `kb_lib.BODY_TOKEN_LIMITS` 다 (결정 p1-chunk-unit-is-tokens).
+# 판정 행 수로 자르지 않는다 — 행의 길이가 질문·판정자·값에 따라 달라 행 수는 크기를 뜻하지 않는다. `split_rows`
+# 가 묶음을 실제로 렌더해 재고, 그래서 새로 쓰는 로그는 게이트(`chunk`)를 통과한다.
 _SLUG = re.compile(r"[^a-z0-9]+")
 ```
 <!-- 인용 끝 -->

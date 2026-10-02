@@ -7,6 +7,7 @@ title: Link possibility as feasible set, not probability
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-uncertainty-as-csp
 ---
 **결론** — 링크의 가능성은 **가능 / 불가능**의 가능 집합(제약 만족)

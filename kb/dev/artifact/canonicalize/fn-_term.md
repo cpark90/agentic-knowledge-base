@@ -8,7 +8,9 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-canonicalize}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-12T07:47:38Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
+uses: [https://agentic-knowledge-base.dev/id/chunk/0dbea10c-f751-4ac3-b58a-ee9b7bb1ba4b]
 part_of: https://agentic-knowledge-base.dev/id/composite/29d788bd-8690-47f5-8a29-184a6e40d389
 ---
 **함수** — `_term(t, prefixes)` 다.

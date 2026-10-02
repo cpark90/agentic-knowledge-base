@@ -8,8 +8,9 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/5c3f6ad5-769e-4850-970b-a137fa5ebc55]
-part_of: https://agentic-knowledge-base.dev/id/composite/cfe0afad-9ee7-4e4c-9283-5fddef1781ff
+part_of: https://agentic-knowledge-base.dev/id/composite/624bc78e-4e6c-4b96-b0f7-e9c6f5087b46
 ---
 **함수** — `label_of(g, node, lang)` 다. 개체의 rdfs:label — 요청 언어 → 다른 언어 → 축약 IRI 순.
 

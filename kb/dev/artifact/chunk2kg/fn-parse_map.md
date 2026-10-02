@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/03312fa3-ef91-4e77-b39e-47c5554aba7e, https://agentic-knowledge-base.dev/id/chunk/71a80c9a-cb89-49ce-ae62-9d1fda16125b]
 part_of: https://agentic-knowledge-base.dev/id/composite/ee14f038-7ba4-416d-8e2c-3314fe17ab94
 ---
 **함수** — `parse_map(text)` 다. 인라인 맵 {k: v, k: v} — 값에 콜론이 없다는 전제.

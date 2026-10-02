@@ -5,11 +5,12 @@ level: functional
 pattern: unwanted-behaviour
 title_ko: 강화 라운드에 정지 규칙이 없으면 체계가 진행 대신 안전 정지해야 한다
 title: When a hardening round has no stop rule, the system must come to a safe stop instead of proceeding
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 exposes: [https://agentic-knowledge-base.dev/agt/unknownStopCondition, https://agentic-knowledge-base.dev/agt/worksetBudgetOverrun]
 generated: {by: vnv/claude-opus-5, at: 2026-09-29T02:20:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]
 ---
 **검증 목표** — 강화·검증 라운드에 정지 규칙이 없어 라운드마다 새 결함이 나오는 상황에서 체계가 다음 라운드를 열지 않고 채널로 되돌린다는 것이 보여져야 한다. 이 목표가 다루는 위험은 현상 `agt:unknownStopCondition`(P15)이다.

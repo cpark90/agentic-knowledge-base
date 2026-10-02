@@ -1,0 +1,425 @@
+{
+ "judge": "judge-b/claude-sonnet-5",
+ "responses": [
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "d576ba11a41485efe62742cf4adab679d8eb67d3424fe59f6790b74d87e84336",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "e14d01dc67f36e3716ba2434b11d43e8023f8593f5e3126fa44bef2a298dd8c3",
+   "value": "2",
+   "confidence": 0.95
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "851cf8651e5f388250eb4ecef75eaaf9c230210927409a3c720f866584c2d271",
+   "value": "2",
+   "confidence": 0.8
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "fdb22b281dc4d079c667ff2fbecf0f1a9ad16acc3d4a3094de368d2827be17f2",
+   "value": "2",
+   "confidence": 0.9
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "949ef41380887b75ba12009139b8501a69e700702891ab7c67c2f19375ba762f",
+   "value": "2",
+   "confidence": 0.7
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "9be4edc5d229ca4b6da77b46bf0bff459e12b9b5224c9b6ea852d80bf729e359",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "c4b0441335e0191c872a3e696107321bea1bbafb3f08ed10fbf2a3798915974b",
+   "value": "2",
+   "confidence": 0.95
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "18bef44e721687cd5702e6724224dfb6edd1f25feec9f293f85853e1f70695ea",
+   "value": "0",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "1047abb46c816cb90cee8a24134a532b38fc0eb0cfe838501909c0b5eb2d7830",
+   "value": "1",
+   "confidence": 0.6
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "f74599ac883974bddc43ebf87079f95ce74999723c897fc343cdd6a843192137",
+   "value": "2",
+   "confidence": 0.95
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "29637764878eceec72b8be12af9fca527b38a85daea4a88f0f69a685edfdc185",
+   "value": "2",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "867e29e8cc78763d7917e077f8957f198f86896da49a6c7924fb9dccd007d360",
+   "value": "2",
+   "confidence": 0.75
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "6d6ad4167eb9519cf626044e74b4b8fcaca226042a97b9d1224547f23aa55683",
+   "value": "1",
+   "confidence": 0.55
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "51b423b6e7554143253d9005d7cfa696880501f047d701ade5cf17847d9b0ca8",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "c8ce10b2a6f20f2f5797a1ca16bf9e1a47b8809722fc7054a377601cd47cd173",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "820076d0a27c75376f2aa49a4f0a2cf3d7f925e63eb1e2bf7b63b39f39154dc1",
+   "value": "2",
+   "confidence": 0.95
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "0a1dabf79cb2e1c442a97f6c1788188871535b1d609e75797f33d6a06f0c415e",
+   "value": "2",
+   "confidence": 0.95
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "2012e7cab60626168ebe2a92b36d710c76b0d590c88b977e6ada851b6d74ccca",
+   "value": "2",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "7534444e1c832a1761b364983d43dfd3fc24285ab36bd3257e5432a71bc7b6c9",
+   "value": "0",
+   "confidence": 0.8
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "b7265d9b48b3ee05f1785457f22d7572de60f3469186c25c798427302364afb4",
+   "value": "1",
+   "confidence": 0.55
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "c7228051da10feec1491b0819a735dd3cd1887adf877644eac9d08839ce5391a",
+   "value": "2",
+   "confidence": 0.8
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "613aa51b06b4598580c5d39211b95bc4d975da73ce8bc7dbbe33829e18c67e22",
+   "value": "2",
+   "confidence": 0.95
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "3df743c8146068c5876ff05cb194f3a5d1643dd11ac0e2dcdebdc68ac9e70617",
+   "value": "1",
+   "confidence": 0.6
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "56c16273adbd581ea233f1588e8a02eae56c099d2e909049a73e3be47bdc12b1",
+   "value": "2",
+   "confidence": 0.88
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "dd258afb2b8b1d3063f39396863144941bc1cf931d5543fb4066c96382354c62",
+   "value": "2",
+   "confidence": 0.9
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "04bb5e404a2defc9256d1fcef8a7f7f04f04869ddc1417e397c132c6d70f44b2",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "88a4ca36d8c777de09756f52bd1435dbc6ecfa9dd093de50cb543ee4cbf07203",
+   "value": "2",
+   "confidence": 0.8
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "545b63eeb8f0e5b7ec409b8e76c7af37c5109f61452ed380199e769dc2fc4d4e",
+   "value": "2",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "37ab77dedebcd34c41ce879d1041ad65574595e0058877ac3b9a17b6800d8725",
+   "value": "0",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "29484b4337c91c76a27b4220c8bdf0ad5c297b349a1f54a8de028a2b7da8ea95",
+   "value": "0",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "2928dfffeebfc5948ca94a91ec0404e4b9e9f39f3aae72f14bb5ef26381b7303",
+   "value": "2",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "09cea568c33aa11d4b838e0de9ed1fd9f4e4380de5d5c04b7d63a443d2622cb7",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "3622f8b415cb1ecae015b428dfe9636b3b349acc0b5df001984161a9ef4cef95",
+   "value": "0",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "285d05d36cb43f3ef32031b6c18276efbe14c0bd32131191676d9cdf36caaaf3",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "9ccd70e3b64322039840df4f64ed9654373b5e18e2cd3ad9cdbeb6f3f8dfa743",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "34a7ef27f7614e42bbdddfeb455e70064fc1170fa49d2f99f6ec3f0099a7a772",
+   "value": "2",
+   "confidence": 0.88
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "32a713063ad389154bfcd9ee7c59d19cb7ba441e28cdef9768ea324bfacb153f",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "e5fc42422ec8585ba50f6f61b03220e2b764ff8c7132bfabafd0de2a0760ec69",
+   "value": "0",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "fdea70dd4a8440f7dd46e6236dd0636aa38d39c118d62f5706e053b5e8a885f5",
+   "value": "2",
+   "confidence": 0.9
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "af680b35d0b4bda0b4409fe73cc3511871e8f29a8edb8713ff9d5989c5050a1c",
+   "value": "2",
+   "confidence": 0.92
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "fb189a84a486ff5b96824747b142f4f4a44c2808b58ea4ea6bfc4cf995c5842a",
+   "value": "2",
+   "confidence": 0.9
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "72f8e9031f3d6b15d7036c8460cfb88d268292decc6911d5d2d9c22532ccb635",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "74921cd32d7d45a4fb0e79a9be5fe5acf031e7375b51977c6f8cf4fc3e62023f",
+   "value": "1",
+   "confidence": 0.55
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "76dfc58e4446211ba620b7410f5b6fff845a8d1562f8bca3022cbe3f9012a821",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "693b2a06dfe8e288f8046674062e063f4600a8f84cc3fff5e1d627cd10781353",
+   "value": "2",
+   "confidence": 0.95
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "34a0637337601f11f79097e193d849b6fa41c3bce2b95c4b46d1b5ddb0bce71c",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "8b41f8f308bf8ebcb3d017f4d2fb158cf033a19f95c4ce615fd1a71b795deb03",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "6679d86c7c403af0f96e108e1826b275d52e9f54eed96a402aa668fddf92cb7f",
+   "value": "2",
+   "confidence": 0.95
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "f717002e1615fffc36e37f068d84634e2f518802e07a609e2ae32109337dc6a1",
+   "value": "2",
+   "confidence": 0.92
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "e1b0274244f3e73d0cfa6388a5beeb91ce43db85b73e62595d010b0d5dc0b533",
+   "value": "0",
+   "confidence": 0.8
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "b737bede15bbb51597d870a66a8376bed087b5b54602070e866635fd7c920546",
+   "value": "0",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "a3e6169de8858eb7576f90b5fdc6a4d4d6e82d21ee0527df83cff739a290ca3a",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "58e84f02b0fb4333b60215efb078c78249c3c0031e61e6c33567fad104c5f674",
+   "value": "2",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "5acc6597a3d7291b30fe06f409a77eee1f34956dae334966ae8d172ea2465060",
+   "value": "2",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "ff318681eb9afd7779091bb0e47440d2662cfd221a5c3d6d363bcf5a9fad3628",
+   "value": "2",
+   "confidence": 0.85
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "e4f8ed9cbb727ad6e684d1a5be68eec501f9671336298d74f33d9602c55adc10",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "70de530bc643641dada5ee8af6f0818fd3b01f54cca3ca15480d94c0f218e4cc",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "8d9ead09651db565b75cc699c802c710186b22989dc9682eb67d3330bb14a110",
+   "value": "1",
+   "confidence": 0.55
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "57dab07c6cab0d6920ec6580aa030869d36a914f949e1405b01bbcd41df30455",
+   "value": "2",
+   "confidence": 0.9
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "6e2a7feab153afdcaf1bf470379e9e666b45b4e39e5c759b988430c739581e18",
+   "value": "2",
+   "confidence": 0.95
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "ba7db2ae32af8c720940386459f97c916b98c14316d485f49dcd93e569c07d65",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "6c7685cc8e1583b4eca985bed6ef77cf5a64c7132e3c89b759da5a747dc716bc",
+   "value": "2",
+   "confidence": 0.75
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "ef2b93851e5bd74aac50469156de6645adc290b65f68096e43fccf13ecd96544",
+   "value": "2",
+   "confidence": 0.95
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "1720dbc99992c467123717b6cdc8ea6d13f7ef1c9f2376005608ffd8a4a729ea",
+   "value": "2",
+   "confidence": 0.93
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "9da4bc3a493bd823be9735dd7f56dcd136ceb9d162673ba80bf0ac91c552068f",
+   "value": "2",
+   "confidence": 0.92
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "81d148a773289bf57d5367bebe275829783cf3e02db65a0ba2116205b78b912f",
+   "value": "2",
+   "confidence": 0.8
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "b758b18406066cdeb2a06a1a9371c0e42d1d6fcdf338225cef7bc21a2b227fbf",
+   "value": "2",
+   "confidence": 0.92
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "1f4ae7473a7edb1f3e39235f568b2359c89ace72f55ac37c5da2a635b4c8340b",
+   "value": "2",
+   "confidence": 0.95
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "8798c39a7b83967dd2c44d03b461d0eed67acb5860197105859a25f73790de8c",
+   "value": "2",
+   "confidence": 0.9
+  },
+  {
+   "question": "labelRepresentsBody",
+   "fingerprint": "3ede225d87d39aa638ca01ce3e67abdc014e8f8c466465bd1ee96a7212c89c73",
+   "value": "2",
+   "confidence": 0.85
+  }
+ ]
+}

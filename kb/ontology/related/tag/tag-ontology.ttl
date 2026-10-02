@@ -26,16 +26,16 @@ agt:actorCategory a owl:NamedIndividual , agt:TagCategory ;
     skos:definition "값의 출처: 에이전트 카탈로그 역할, 유저, 외부 서비스. 예: role:developer (0.5절)."@ko .
 
 agt:conditionCategory a owl:NamedIndividual , agt:TagCategory ;
-    rdfs:label "condition"@en , "조건"@ko ;
-    skos:definition "값의 출처: ODD 속성과 값. 예: env:offline (0.5절)."@ko .
+    rdfs:label "condition category"@en , "조건 범주"@ko ;
+    skos:definition "값의 출처: ODD 속성과 값. 예: env:offline (0.5절). 라벨은 agt:Condition과 구분한다 (라벨 겹침, 2026-10-01)."@ko .
 
 agt:purposeCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "purpose"@en , "목적"@ko ;
     skos:definition "값의 출처: 고정 어휘 — regression·exploration·acceptance·performance·recovery (0.5절). 게이트: tag-shapes."@ko .
 
 agt:defectFactorCategory a owl:NamedIndividual , agt:TagCategory ;
-    rdfs:label "defect factor"@en , "결함 요인"@ko ;
-    skos:definition "값의 출처: defect 어휘. 예: factor:cognitive/stale (0.5절, 7.17절)."@ko .
+    rdfs:label "defect factor category"@en , "결함 요인 범주"@ko ;
+    skos:definition "값의 출처: defect 어휘. 예: factor:cognitive/stale (0.5절, 7.17절). 라벨은 agt:DefectFactor와 구분한다 (라벨 겹침, 2026-10-01)."@ko .
 
 agt:originCategory a owl:NamedIndividual , agt:TagCategory ;
     rdfs:label "origin"@en , "출처"@ko ;

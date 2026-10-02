@@ -26,16 +26,18 @@ bazel test //:doccheck_test
 
 ## 원본
 
-- 절차: [`docs/tools.md` 게이트 총람 — 이 문서가 원본이다](../../../docs/tools.md#게이트-총람--이-문서가-원본이다)
+- 절차: [`docs/tools.md` 게이트 총람 — 원본은 `GATES` 리터럴이고 이 표는 그 투영이다](../../../docs/tools.md#게이트-총람--원본은-gates-리터럴이고-이-표는-그-투영이다)
 - 도구: `tools/doccheck.py` (`bazel run //tools:doccheck`) — 사용법은 docstring 이 원본이다
 
 ```text
 doccheck.py [--root DIR] [--waivers FILE] <문서 ...> [--target-only FILE ...]
 bazel run //tools:doccheck -- *.md docs/*.md docs/open-questions/*.md --target-only docs/agent-knowledge-system-notes.md
+bazel run //tools:doccheck -- --report      # 문서 수치 대 생성물 수치, FAIL 아님 (진입점 문서 넷)
+bazel run //tools:doccheck -- --report /tmp/x/doc.md   # 위치 인자가 있으면 그 문서로 바꾼다, 루트 밖도 된다
 루트는 --root, 없으면 BUILD_WORKSPACE_DIRECTORY(bazel run), 없으면 현재 디렉토리(bazel test 의 runfiles).
 실재 판정은 루트 아래 파일계로 한다 — 테스트에서는 선언된 입력(runfiles)만 실재한다.
 ```
 
 ## 실패 시
 
-`FAIL [<id>]` 의 해소는 [`docs/tools.md` 게이트 총람](../../../docs/tools.md#게이트-총람--이-문서가-원본이다)의 `해소` 열이다. 종료 코드는 `kb_lib` 상수다 (0 OK · 1 FAIL · 2 CONFIG · 3 SKIP). SKIP 은 PASS 가 아니다.
+`FAIL [<id>]` 의 해소는 [`docs/tools.md` 게이트 총람](../../../docs/tools.md#게이트-총람--원본은-gates-리터럴이고-이-표는-그-투영이다)의 `해소` 열이다. 종료 코드는 `kb_lib` 상수다 (0 OK · 1 FAIL · 2 CONFIG · 3 SKIP). SKIP 은 PASS 가 아니다.

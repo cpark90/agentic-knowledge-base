@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/29b60ef2-eb29-4888-b4c0-c2e627041d68, https://agentic-knowledge-base.dev/id/chunk/2c101d4c-b9a7-473c-8c02-5f4de0bbec74, https://agentic-knowledge-base.dev/id/chunk/386f974f-846c-47c9-99dc-ee866783f5c5, https://agentic-knowledge-base.dev/id/chunk/6900e30a-aaf6-462a-b290-9877e3439e9b, https://agentic-knowledge-base.dev/id/chunk/7253cc54-4d5c-47ee-b402-6574573c23ef, https://agentic-knowledge-base.dev/id/chunk/7c06245d-1706-4edf-8a20-61ad5b35f1cc]
 part_of: https://agentic-knowledge-base.dev/id/composite/7624f877-e0d3-45fd-b51d-91d72c7cf025
 ---
 **함수** — `check_catalog(merged, odd, files)` 다. 카탈로그 정합성 (AGENTS.md 역할 절 · STYLEGUIDE §5 · 노트 9.2·9.6절) — 규약이던 것을 게이트로 (2026-09-13).

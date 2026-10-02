@@ -7,15 +7,16 @@ title: function report in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/6571b574-6129-4cb6-8626-ee254df01e2a, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/9dc7489b-268b-4ce2-9f99-fdb748499729, https://agentic-knowledge-base.dev/id/chunk/ddab0191-16a5-4584-9734-a7d026cb29f8, https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e]
 part_of: https://agentic-knowledge-base.dev/id/composite/e9c6807f-239f-4a44-beed-743506b59164
 ---
 **함수** — `report(now, cases, missing, rev, dirty, env)` 다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def report(now: datetime, cases: list[dict], missing: list[str], rev: str, dirty: bool, env: str) -> str:
+def report(now: datetime, cases: list[dict], missing: list[str], rev: str, dirty: int, env: str) -> str:
     n = counts(cases)
     verdict = ("**fail 있음**" if n["fail"] else "pass 없음 — 전부 skip" if not n["pass"] else "pass" + (" (skip 있음)" if n["skip"] else ""))
     skip_note = (f"- 건너뛴 명령: **{n['건너뜀']}** / 명령 {n['명령']} — 건너뛴 명령이 있는 케이스는 pass 가 아니라 skip 이다 "
@@ -31,7 +32,9 @@ def report(now: datetime, cases: list[dict], missing: list[str], rev: str, dirty
         f"(실행 {n['실행']} · 건너뜀 {n['건너뜀']})",
         kb_lib.gendoc_view_notice("V&V 케이스 청크의 본문"), input_kind="케이스 파일",
         extra=[f"- 결과: {verdict}", skip_note, expect_line,
-               f"- 초기 상태: 리비전 `{rev}` (워킹트리 추적 파일 변경 {'있음' if dirty else kb_lib.NONE_MARK}) · {env}"])
+               f"- 초기 상태: 리비전 `{rev}` (워킹트리 추적 파일 변경 {revision_note(dirty)}) · {env}",
+               f"- 재현 불가 후보: **{kb_lib.pct(len(cases) if dirty else 0, len(cases))}** (목표 0) — 워킹트리에 추적 파일 변경이 "
+               f"있는 실행의 케이스 판정은 같은 리비전을 다시 체크아웃해도 같은 입력에서 나오지 않는다 (현상 `agt:concurrentSessionState`)"])
     body = ["## 케이스 — 실행 대상은 허용 목록의 읽기 전용 검증기뿐. SKIP 은 PASS 가 아니다", "",
             "| 케이스 | 라벨 | 명령 | 자극·기대 | 결과 | 소요 |", "|---|---|---|---|---|---|"]
     for c in cases:

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+layer: methodology
 verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193, https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/791e4e4c-db54-45f9-a03b-8922cd7cc3af, title_ko: 시나리오 저작, title: Scenario authoring}

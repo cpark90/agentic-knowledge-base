@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/bdbaec34-7407-4d5e-83f8-0706026f0b98
 ---
 **함수** — `stamped(reg)` 다. 도장이 지금 소스를 가리키는가 — `tested.source_hash` 가 등록부의 `source_hash` 와 같을 때만 참이다.

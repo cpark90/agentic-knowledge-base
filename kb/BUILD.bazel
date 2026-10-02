@@ -97,7 +97,9 @@ string_flag(name = "levels", build_setting_default = "")
 
 int_flag(name = "hops", build_setting_default = 1)
 
-int_flag(name = "budget", build_setting_default = 200)
+# 컨텍스트 예산 — 단위는 **토큰**이다 (결정 p1-chunk-unit-is-tokens). 5,418 = 42×129 이고 값의 원본은
+# tools/kb_lib.py 의 CONTEXT_TOKEN_BUDGET 이다 — Starlark 는 파일을 읽지 못해 여기 같은 수를 적는다
+int_flag(name = "budget", build_setting_default = 5418)
 
 # 정합성 보고 — 재검증 시점(커밋)마다 본다. bazel build //kb:consistency → bazel-bin/kb/consistency.md
 kb_consistency(

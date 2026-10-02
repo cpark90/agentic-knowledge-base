@@ -7,8 +7,8 @@ title: module head tag in tools/link.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/8d09b0e4-44b4-47b2-9ff6-5da9f3b22e12, https://agentic-knowledge-base.dev/id/chunk/5287133e-f7a3-4913-8aaf-062647cf5491, https://agentic-knowledge-base.dev/id/chunk/6321bf38-7026-4c60-b4fb-7cf3a956b35b]
 part_of: https://agentic-knowledge-base.dev/id/composite/b28a66c9-4140-4beb-bb95-69e12a91e607
 ---
@@ -27,7 +27,7 @@ from chunk2kg import LINK_KEYS, RESTORED_KEY  # noqa: E402 — frontmatter 링�
 
 AGT, PROV = kb_lib.AGT, kb_lib.PROV
 EXIT_OK, EXIT_CONFIG = kb_lib.EXIT_OK, kb_lib.EXIT_CONFIG
-TAG = kb_lib.LINK_GATE
+TAG = kb_lib.LINK_TAG
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]  # defs/kb.bzl 와 같은 순서 (6.2절 정제 계층)
 PLANES = ["requirement", "decision", "contract", "schema", "artifact", "annotation", "memory"]  # 5.2절 단방향 순서
 RELATED_KEYS = ("coUpdatesWith", "conflictsWith", "relatedTo", "overlapsWith")  # relatedTo 족 — 이미 이어진 쌍을 가리는 데 쓴다

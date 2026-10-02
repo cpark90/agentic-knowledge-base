@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-22T19:25:00+09:00}
+layer: methodology
 verified: [{by: orchestrator/claude-opus-5, at: 2026-09-22T19:30:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/9acf3e73-f933-4260-9b42-432825013b6c, title_ko: 결정의 세 수준, title: A decision spans three levels}

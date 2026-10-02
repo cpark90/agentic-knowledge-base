@@ -4,10 +4,11 @@ type: contract
 level: logical
 title_ko: 카탈로그 정합성은 gate_test 의 catalog 검사 네 갈래로 판정하고 어긴 카탈로그는 FAIL [catalog] 로 끝난다
 title: Catalog consistency is judged by the four branches of the catalog check in gate_test, and a violating catalog ends in FAIL [catalog]
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5, at: 2026-09-24T11:35:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/3d83dc02-81cc-4d4f-98bb-fc4ffa44840a]
 satisfies: [https://agentic-knowledge-base.dev/id/chunk/a02a4db5-cf50-4b19-9a5e-1b101c4e0600]
 restored: [https://agentic-knowledge-base.dev/id/chunk/a02a4db5-cf50-4b19-9a5e-1b101c4e0600]

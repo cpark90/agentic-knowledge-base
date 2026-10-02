@@ -9,6 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-stan
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-22T20:20:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/f7ac1b83-2f07-479d-a1ac-dfa68858e15f
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f7ac1b83-2f07-479d-a1ac-dfa68858e15f, title_ko: 슬롯은 질문 하나에 답한다, title: A slot answers one question}
 ---

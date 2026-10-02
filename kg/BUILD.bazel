@@ -1,4 +1,4 @@
-load("//defs:kb.bzl", "kb_kg_merge", "kb_workset_view")
+load("//defs:kb.bzl", "EXTRACTED_SOURCES", "kb_kg_merge", "kb_workset_view")
 load("//defs:knowledge.bzl", "kb_community", "kb_cq_report", "kb_gate_test", "kb_link_candidates", "kb_metrics", "kb_open_questions", "kb_reference_kg", "kb_weave")
 
 package(default_visibility = ["//visibility:public"])
@@ -29,6 +29,18 @@ kb_kg_merge(
     ],
 )
 
+# 게이트 그래프 — 게이트 등록부(//defs:kb.bzl 의 GATES)에서 생성 (M1 단일 정의처, 2026-10-02). 손으로 쓰지 않는다.
+# 게이트는 프로세스 층의 **항목**이라 그래프에 개체가 서야 층별 집계(CQ-38)가 셀 자리를 갖는다
+# (결정 p0-service-is-a-three-layer-wiki). agt:judgedBy 의 대상은 도구의 파일 복합체이므로 등록부 사이드카가 입력이다
+genrule(
+    name = "gates_kg",
+    srcs = ["//defs:kb.bzl"] + ["//tools:" + mod + ".chunks.yml" for mod in EXTRACTED_SOURCES],
+    outs = ["gates-kg.ttl"],
+    cmd = "$(location //tools:gates2kg) --out $@ --gates $(location //defs:kb.bzl) --registry " +
+          " ".join(["$(location //tools:%s.chunks.yml)" % mod for mod in EXTRACTED_SOURCES]),
+    tools = ["//tools:gates2kg"],
+)
+
 # 참조 링크 — 본문의 인용에서 생성 (8.2절). 손으로 쓰지 않는다.
 kb_reference_kg(
     name = "references_kg",
@@ -48,6 +60,7 @@ kb_gate_test(
     name = "gate_test",
     data = [
         ":chunks_kg",
+        ":gates_kg",
         ":kg",
         ":references_kg",
         "//space:design_space",
@@ -68,6 +81,9 @@ kb_gate_test(
     # 예산이 문제이므로 검사를 줄이지 않고 제한만 300초로 올린다 (timeout 은 kb_gate_test 의 **kwargs 로 py_test 에 간다)
     timeout = "moderate",
     verify_queries = "//tools:verify_queries",
+    # shape 는 약화하지 않고 면제만 선언한다 — 게이트 id `shacl`(축 `파일`). append-only 판정 로그의 토큰 상한
+    # 초과처럼 소급 분할이 기록을 다시 쓰는 일인 자리가 그것이다 (docs/waivers.md, 2026-10-01)
+    waivers = "//docs:waivers",
 )
 
 # 코어 지표 — 생성물 (bazel build //kg:metrics → bazel-bin/kg/metrics.md). 4.13절·14.1절
@@ -75,6 +91,7 @@ kb_cq_report(
     name = "cq",
     data = [
         ":chunks_kg",
+        ":gates_kg",  # 층별 집계(CQ-38)의 분모 — 게이트는 프로세스 층의 항목이다
         ":kg",
         ":references_kg",
         "//kb/odd:odd",
@@ -105,6 +122,7 @@ kb_weave(
     ],
     data = [
         ":chunks_kg",
+        ":gates_kg",
         ":kg",
         ":references_kg",
         "//kb/odd:odd",

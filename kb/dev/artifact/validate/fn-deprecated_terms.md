@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/040c4845-cfe9-495a-91c7-f98702044ca6
 ---
 **함수** — `deprecated_terms(ontology)` 다. 폐기된 용어 — owl:deprecated true 가 기준이고, 라벨의 "(deprecated)"/"(폐기)" 표기도 인정한다.

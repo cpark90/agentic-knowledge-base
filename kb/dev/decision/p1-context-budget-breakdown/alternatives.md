@@ -4,7 +4,7 @@ type: decision
 level: logical
 title_ko: 42줄 상한은 실측 전 잠정값이다
 title: The 42-line cap is provisional pending measurement
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}

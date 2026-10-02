@@ -7,8 +7,9 @@ title: function load_items in tools/consistency.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/24dc9c0c-05f9-414a-b183-f9974cd57c05]
 part_of: https://agentic-knowledge-base.dev/id/composite/c10c407c-9993-4ba9-a09f-bfdc6e910b5e
 ---
 **함수** — `load_items(paths)` 다. 청크 경로 → 살아 있는 항목 목록.
@@ -21,12 +22,12 @@ def load_items(paths):
     for p in paths:
         if not p.endswith(".md"):
             continue
-        meta, n = parse_chunk(p)
+        meta, body = parse_chunk(p)
         if meta.get("status") not in LIVE:
             continue
         items.append({"path": p, "id": meta["id"], "type": meta["type"], "level": meta["level"],
                       "title_ko": str(meta.get("title_ko", "")), "title": str(meta.get("title", "")),
-                      "hash": meta["_content_hash"], "body": body_of(p), "lines": n,
+                      "hash": meta["_content_hash"], "body": body_of(p), "lines": len(body.splitlines()),
                       "co": set(meta.get("coUpdatesWith", []) or []), "slots": meta.get("_body_slots", [])})
     return items
 ```

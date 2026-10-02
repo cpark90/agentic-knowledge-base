@@ -4,7 +4,7 @@ PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?decision WHERE {
   ?decision a agt:DecisionChunk ;
-      agt:lineCount ?n ;
+      agt:tokenCount ?n ;
       agt:status ?s .
   FILTER (?s != "deprecated")
   FILTER NOT EXISTS {

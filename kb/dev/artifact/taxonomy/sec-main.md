@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-taxonomy}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-12T07:47:38Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/870158d1-2a3e-4b89-b721-7afb4d7a095d, https://agentic-knowledge-base.dev/id/chunk/40abcad5-6a9c-4233-99d3-0b7ceeafb06b]
 part_of: https://agentic-knowledge-base.dev/id/composite/9027036d-a39d-4b9e-b7c2-40b3cddb625f
 composite: {id: https://agentic-knowledge-base.dev/id/composite/9027036d-a39d-4b9e-b7c2-40b3cddb625f, title_ko: 절 복합체 main (tools/taxonomy.py), title: section composite main in tools/taxonomy.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/6ad16e78-bf57-4445-87cd-eeedb8624650, https://agentic-knowledge-base.dev/id/chunk/e21634c7-d333-426d-a551-d2cc433059ca], part_of: https://agentic-knowledge-base.dev/id/composite/5cd36157-e133-4ff0-bb51-ba6848ba0fbd}

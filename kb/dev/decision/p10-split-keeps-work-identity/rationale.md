@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-19T17:20:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/a76160fc-059f-437e-8f64-6e6c405cd18b
 ---
 **근거** (노트 10.5절·10.11절; hci 조사 2026-09-18 선택지 B, 유저 승인 2026-09-19) — 링크 IRI가 `sha256(출발|종류|도착)`이라

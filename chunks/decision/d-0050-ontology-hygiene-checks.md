@@ -7,6 +7,7 @@ title: Ontology hygiene - pre-commit checks and canonical serialization
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-ontology-hygiene
 composite: {id: https://agentic-knowledge-base.dev/id/comp-ontology-hygiene, title_ko: 온톨로지 위생과 평가, title: ontology hygiene and evaluation}
 ---

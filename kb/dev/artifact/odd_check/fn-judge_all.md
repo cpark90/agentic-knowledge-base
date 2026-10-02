@@ -8,7 +8,9 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-odd-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
+uses: [https://agentic-knowledge-base.dev/id/chunk/2a753a77-e144-454d-9eda-42b7be3846db, https://agentic-knowledge-base.dev/id/chunk/b2d18590-036b-4fda-81e8-a8d9a2e4713d]
 part_of: https://agentic-knowledge-base.dev/id/composite/bdc32d15-06d9-439b-a3b2-0d3dab05225f
 ---
 **함수** — `judge_all(doc, root, forced)` 다. CHECKS 의 모든 속성을 판정한다

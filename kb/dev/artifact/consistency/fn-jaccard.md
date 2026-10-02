@@ -8,7 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/d9f90265-3bbb-4012-993c-a471cd52933e
 ---
 **함수** — `jaccard(a, b)` 다.

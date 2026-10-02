@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-22T21:20:00+09:00}
+layer: methodology
 verified: [{by: orchestrator/claude-opus-5, at: 2026-09-22T21:25:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c, https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/b4561dfb-19ea-4f34-b57e-c241cae4b9da, title_ko: 후보의 저장 자리, title: Where candidates live}

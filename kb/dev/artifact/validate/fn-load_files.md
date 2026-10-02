@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/02c3daad-5974-4be8-80ea-4c6b338b45de, https://agentic-knowledge-base.dev/id/chunk/f25447a7-4301-4ae4-b0a6-d22f459cd775]
 part_of: https://agentic-knowledge-base.dev/id/composite/0025c8a9-2659-465c-b2f2-517884f7bcdb
 ---
 **함수** — `load_files(paths)` 다. 파일별 그래프와 병합 그래프 — 파싱 실패는 파일을 지목하는 SyntaxFailure 로.

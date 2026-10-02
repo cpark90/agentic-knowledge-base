@@ -7,7 +7,8 @@ title: section empty-reviewed in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869, https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23]
 part_of: https://agentic-knowledge-base.dev/id/composite/2a5c7bf9-6e66-4ad7-80de-c8a96b80bb4a
 composite: {id: https://agentic-knowledge-base.dev/id/composite/2a5c7bf9-6e66-4ad7-80de-c8a96b80bb4a, title_ko: 절 복합체 empty-reviewed (tools/kb_lib.py), title: section composite empty-reviewed in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/d9a18587-01e9-4d06-8413-80ea98ce260b, https://agentic-knowledge-base.dev/id/chunk/764328d8-e7e9-4fdf-9e87-e04f59d61a65, https://agentic-knowledge-base.dev/id/chunk/cd6718e1-2437-43a9-b7a2-174aced3b0e1], part_of: https://agentic-knowledge-base.dev/id/composite/163f6311-4c7b-4d2d-983e-94afa5658211}
@@ -46,9 +47,6 @@ MD_LIST_ITEM = re.compile(r"^(\s*)(?:[-*+]|(\d+)[.)])(?:\s+|$)")
 # 게이트 id — 보고(consistency ⑧·⑨)와 게이트(chunk_lint)가 같은 이름을 쓴다. docs/waivers.md 가 이 이름으로 면제를 선언하고
 # (축 `파일`), 면제된 항목은 집계에서 빼되 목록에는 남긴다. 축을 셋으로 가르는 까닭은 규약의 원본이 둘이기 때문이다 —
 # 메타 문장·채움은 p4-slot-answers-one-question, 빈 값 표기는 p4-three-empty-values, 목록 규칙은 두 결정의 4.3절이다
-ADDITION_GATE = "addition"        # ⑧ 메타 문장·채움 문구 — FAIL [addition]
-EMPTY_VALUE_GATE = "empty-value"  # ⑧ 세 빈 값 밖의 표기 — FAIL [empty-value]
-LIST_RULES_GATE = "list-rules"    # ⑨ 목록 규칙 — FAIL [list-rules]
 # 살아 있는 청크의 status. 보고와 게이트의 대상 집합이 같아야 수치가 갈리지 않는다 — invalidated·deprecated 는
 # 고칠 대상이 아니라 기록이므로 둘 다 제외한다 (나머지 둘은 chunk2kg.STATES)
 LIVE_STATES = ("draft", "stable", "suspect")

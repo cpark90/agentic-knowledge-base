@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-query}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/0c829785-f155-4ab8-bf9a-1f69b0d3e85d, https://agentic-knowledge-base.dev/id/chunk/8d962172-f5b0-4fe3-8c9c-8598334847e4, https://agentic-knowledge-base.dev/id/chunk/595590fa-f40a-4008-92c0-f971f574111b]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f0c1bfd1-a5d5-4710-83ce-f8ca7018e21b, title_ko: 파일 복합체 tools/query.py, title: file composite tools/query.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/8952bd20-8b9b-4bd8-916d-669341f4c67e, https://agentic-knowledge-base.dev/id/composite/804dd9bd-ceaa-4ecc-9233-ef543578feb9, https://agentic-knowledge-base.dev/id/composite/4358cd56-6be2-4ce1-9f2f-9fb0ed47b5d3]}
 ---

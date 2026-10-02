@@ -6,16 +6,17 @@
 source: tools/vv_run.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run
 package: kb/dev/artifact/vv_run
-at: 2026-09-28T20:48:33Z
-source_hash: 4c6300293cfbd6ad
+layer: process
+at: 2026-09-30T08:07:48Z
+source_hash: f7475c0d845a03f3
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/9f79d119-83cf-46a7-89c0-680e8f203296
   - https://agentic-knowledge-base.dev/id/chunk/b8d74a2d-f94b-4fe7-8b3b-13dca638d338
   - https://agentic-knowledge-base.dev/id/chunk/36a0b6fa-ac60-47db-a769-b49d067f6854
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
   source_hash: 4c6300293cfbd6ad
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/46a8bb88-f3c3-4f03-aa0c-93d229e5c1d7
@@ -40,12 +41,15 @@ ids:
   fn:near_miss: https://agentic-knowledge-base.dev/id/chunk/8809d561-f915-420c-93b5-382d7dd4867c
   fn:observation: https://agentic-knowledge-base.dev/id/chunk/4dc64a35-fb4f-4396-838d-acef3f4e186c
   fn:phrases: https://agentic-knowledge-base.dev/id/chunk/13d0468f-ac80-47c0-9d27-cafd3ef8ffaf
+  fn:pip_closure_path: https://agentic-knowledge-base.dev/id/chunk/8dd4f994-1cfe-41c8-a207-73df40d60c1e
   fn:report: https://agentic-knowledge-base.dev/id/chunk/b79a944c-fcdd-4100-baf7-9f03da3576b1
   fn:revision: https://agentic-knowledge-base.dev/id/chunk/07ed26ac-e215-4583-8d9d-10f93fe1eed9
+  fn:revision_note: https://agentic-knowledge-base.dev/id/chunk/6571b574-6129-4cb6-8626-ee254df01e2a
   fn:run_command: https://agentic-knowledge-base.dev/id/chunk/72467e81-75de-4b48-92ac-2d429de91d8e
   fn:substitute: https://agentic-knowledge-base.dev/id/chunk/4f74f6b4-a466-4f0e-95c2-4f22a919fbd0
   fn:tests_note: https://agentic-knowledge-base.dev/id/chunk/dda506f2-0686-4187-a9dc-b23cf1e83388
   fn:unsafe: https://agentic-knowledge-base.dev/id/chunk/b43bbf0b-8cd2-4a3c-9acb-56a1fa9e8a63
+  fn:verifier_env: https://agentic-knowledge-base.dev/id/chunk/1f07f858-5d83-4783-b792-6d5a462e0c7c
   fn:yaml_blocks: https://agentic-knowledge-base.dev/id/chunk/f1c79e23-8146-427e-83da-3d62ae01bb20
   head: https://agentic-knowledge-base.dev/id/chunk/663886da-0e72-42f0-ba6b-3dfbf495e462
   module: https://agentic-knowledge-base.dev/id/chunk/eebf4050-9c69-46a9-9906-f194b78fd23f

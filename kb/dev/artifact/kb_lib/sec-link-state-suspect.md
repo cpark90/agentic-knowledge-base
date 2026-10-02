@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869, https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23]
 part_of: https://agentic-knowledge-base.dev/id/composite/749019ce-0d81-4c5f-b549-f44c1b0d4e55
 composite: {id: https://agentic-knowledge-base.dev/id/composite/749019ce-0d81-4c5f-b549-f44c1b0d4e55, title_ko: 절 복합체 link-state-suspect (tools/kb_lib.py), title: section composite link-state-suspect in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/ad732d7b-a214-41bd-83ad-05e232235dec, https://agentic-knowledge-base.dev/id/chunk/8b1b0dcd-b04d-42f6-a3d6-849e3fe97268, https://agentic-knowledge-base.dev/id/chunk/9a2cd33a-ee49-4782-81c9-519aaf5a1621, https://agentic-knowledge-base.dev/id/chunk/b76ee239-c1db-4b7d-b6f0-0f35e7ce919f], part_of: https://agentic-knowledge-base.dev/id/composite/3e4f98b8-3c0f-42e8-91f7-7868662123ed}

@@ -4,7 +4,7 @@ type: decision
 level: concrete
 title_ko: 컨텍스트 예산은 항목별로 분해하고 지식 본문은 잔여로 둔다
 title: Decompose the context budget; knowledge body gets the remainder
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-22T19:35:00+09:00}

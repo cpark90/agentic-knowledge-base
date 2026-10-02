@@ -16,6 +16,7 @@ TAXONOMY:                            # 프로젝트 확장 — 범주 아래 속
     host_env_inherit: int targets   # env_inherit 을 쓰는 테스트 타깃 수 — 밀폐성 벗어남의 선언된 예외 (test-hermeticity-2026-09-26)
   environmental_condition:
     dependency_lock: [hash_locked_closure]
+    tokenizer_lock: [o200k_base_pinned]
     network_connectivity: [initial_fetch_then_offline]
   dynamic_element:
     concurrent_agents: int count
@@ -31,6 +32,7 @@ MODULES:
       repository_layout: kb_layout_appendix_e7
       language_policy: korean_prose_english_identifiers
       dependency_lock: hash_locked_closure
+      tokenizer_lock: o200k_base_pinned
       network_connectivity: initial_fetch_then_offline
       concurrent_agents: "[0 .. 5] count"
       host_env_inherit: "<= 1 targets"
@@ -43,6 +45,7 @@ ATTRIBUTES:                          # 속성 ↔ 그래프 개체. 스코프·�
   repository_layout:    {iri: "id:cond-repo-layout",       title: repository layout,    title_ko: 저장소 구조}
   language_policy:      {iri: "id:cond-language-policy",   title: language policy,      title_ko: 언어 정책}
   dependency_lock:      {iri: "id:cond-dependency-lock",   title: dependency lock,      title_ko: 의존성 고정}
+  tokenizer_lock:       {iri: "id:cond-tokenizer-lock",    title: tokenizer lock,       title_ko: 토크나이저 고정}
   network_connectivity: {iri: "id:cond-network",           title: network connectivity, title_ko: 네트워크 연결성}
   concurrent_agents:    {iri: "id:cond-concurrent-agents", title: concurrent agents,    title_ko: 동시 에이전트 수}
   host_env_inherit:     {iri: "id:cond-host-env-inherit",  title: host env inherit,     title_ko: 호스트 환경 상속}
@@ -52,7 +55,8 @@ LITERALS:                            # 범주 리터럴의 뜻 (사람이 읽는
   hermetic_python_3_11:              "hermetic Python 3.11 (rules_python toolchain)"
   kb_layout_appendix_e7:             "kb/{ontology,odd,dev,vv}/ kg/ chunks/ tools/ defs/ docs/ .claude/ — 접미사 규약은 0.2절, 한 청크는 한 파일, 저장 구조는 노트 부록 E.7. docs/·.claude/는 그래프 밖"
   korean_prose_english_identifiers:  "산문 한글, 식별자 영어 케밥, 라벨 한/영 1:1 (0.6절)"
-  hash_locked_closure:               "rdflib 7.6.0, pyshacl 0.40.0, owlrl 7.6.2, pyyaml 6.0.2 — 전체 폐포 해시 고정. 플랫폼 휠은 호스트 휠 + sdist 두 해시"
+  hash_locked_closure:               "rdflib 7.6.0, pyshacl 0.40.0, owlrl 7.6.2, pyyaml 6.0.2, tiktoken 0.12.0 — 전체 폐포 해시 고정. 플랫폼 휠은 cp311 휠 + sdist 두 해시"
+  o200k_base_pinned:                 "tiktoken 0.12.0 + 어휘 o200k_base, 어휘 파일 o200k_base.tiktoken sha256 446a9538cb6c348e3516120d7c08b09f57c36495e2acfffe59a5bf8b0cfb1a2d — MODULE.bazel 의 http_file(tiktoken_o200k_base) 이 고정하고 tools/kb_lib.py 의 TOKENIZER_VOCAB_SHA256 이 사본이다. 청크 크기의 단위가 토큰이므로 계수기가 빌드 입력이다"
   initial_fetch_then_offline:        "최초 fetch 시 BCR·PyPI 접근 필요, 이후 오프라인 빌드 가능"
 
 CHECKS:                              # 판정 방법·등급 (3.2절, 3.9절) + cmd(실행 가능한 판정, 종료 0 = ODD 안 / 1 = 이탈). cel 은 도입 5단계
@@ -61,6 +65,7 @@ CHECKS:                              # 판정 방법·등급 (3.2절, 3.9절) + 
   repository_layout:    {grade: A, method: "bazel test //:naming_test (접미사 린트) + //chunks:lint_test + //kb/dev:lint_test", cmd: 'for d in kb/ontology kb/odd kb/dev kb/vv kg chunks tools defs docs .claude; do test -d $d || exit 1; done'}
   language_policy:      {grade: B, method: "bazel test //kb/ontology:gate_test 의 labels 검사 (한/영 라벨 강제)", cmd: 'bazel test //kb/ontology:gate_test --noshow_progress >/dev/null 2>&1'}
   dependency_lock:      {grade: A, method: "tools/requirements_lock.txt 존재 + bazel fetch 성공", cmd: 'test -f tools/requirements_lock.txt && grep -q ''^rdflib==7.6.0'' tools/requirements_lock.txt && grep -q ''^pyshacl==0.40.0'' tools/requirements_lock.txt'}
+  tokenizer_lock:       {grade: A, method: "MODULE.bazel 의 http_file(tiktoken_o200k_base) sha256 = tools/kb_lib.py 의 TOKENIZER_VOCAB_SHA256 = tools/requirements_lock.txt 의 tiktoken 0.12.0 — 사본 대조이고 어휘 파일이 받아져 있으면 그 파일의 실제 해시까지 본다", cmd: 'h=$(grep -A3 ''name = "tiktoken_o200k_base"'' MODULE.bazel | grep -oE ''sha256 = "[0-9a-f]{64}"'' | grep -oE ''[0-9a-f]{64}''); k=$(grep -oE ''^TOKENIZER_VOCAB_SHA256 = "[0-9a-f]{64}"'' tools/kb_lib.py | grep -oE ''[0-9a-f]{64}''); test -n "$h" && test "$h" = "$k" && grep -q ''^tiktoken==0.12.0'' tools/requirements_lock.txt'}
   network_connectivity: {grade: A, method: "curl -sI https://bcr.bazel.build → 200 (최초 1회)", cmd: 'curl -sI --max-time 5 https://bcr.bazel.build | head -1 | grep -q '' 200'''}
   concurrent_agents:    {grade: B, method: "kg/catalog-kg.ttl 의 agt:maxConcurrent 합 ≤ 5 (orchestrator·developer·vnv·hci 각 1), 그리고 실행 중 활성 세션·dispatch 수 확인", cmd: 'test "$(grep -o ''agt:maxConcurrent [0-9]*'' kg/catalog-kg.ttl | awk ''{s+=$2} END{print s+0}'')" -le 5'}
   host_env_inherit:     {grade: A, method: "bazel query 'attr(env_inherit, \"HOME\", tests(//...))' 의 행 수 ≤ 1 — `\".+\"`는 빈 목록 `[]`에도 걸려 실측 15행을 내므로 쓰지 않는다", cmd: 'test "$(bazel query ''attr(env_inherit, "HOME", tests(//...))'' 2>/dev/null | wc -l)" -le 1'}
@@ -70,3 +75,4 @@ EXCLUSIONS_REVIEWED:                 # 검토 뒤 명시 제외 (3.2절)
   - {concept: "CI 파이프라인", reviewed: 2026-09, reason: "Part XIV 1단계 범위 밖, 게이트가 안정된 뒤 도입"}
   - {concept: "참조 저장소(harness-functional·harness-concrete) 빌드 의존", reviewed: 2026-09, reason: "내용을 청크로 승격해 활용하고(prov:wasDerivedFrom), 프로젝트 자체는 직접 사용하지 않는다"}
   - {concept: "학습 모델 임베딩(문장 임베딩 모델·벡터 저장)", reviewed: 2026-09, reason: "모델·버전 고정과 벡터 저장이 ODD 조건(id:cond-dependency-lock·id:cond-repo-layout)에 없다. 후보 추림·응집 검사는 문자 n-gram 유사도(tools/consistency.py)로 하고, 학습 모델을 들이려면 조건을 먼저 추가한다"}
+  # 토크나이저는 그 제외와 반대 경로다 — 임베딩은 조건이 없어 제외했고, 토큰 계수기는 조건(id:cond-tokenizer-lock)을 먼저 추가해 들였다 (2026-10-01).

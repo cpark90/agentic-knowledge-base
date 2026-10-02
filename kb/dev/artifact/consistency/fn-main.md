@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/0a3de9a1-f0a2-4183-834b-3cfc160c41ba, https://agentic-knowledge-base.dev/id/chunk/3fb3488f-84db-417e-a7a7-e9b0b62db5cc, https://agentic-knowledge-base.dev/id/chunk/494af882-5ab4-45d1-a95f-198bf734d66d, https://agentic-knowledge-base.dev/id/chunk/6a2ce90d-fc6f-4a07-85c9-c5f648738065, https://agentic-knowledge-base.dev/id/chunk/73948788-1cde-4993-859e-695091f31e4f, https://agentic-knowledge-base.dev/id/chunk/76ec82d0-58bd-48bf-9759-396619ccc984, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/7ccf9db7-dc13-4351-a4ce-d836075e0330, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/962a8c5e-a14a-48b2-a819-7740f980902b, https://agentic-knowledge-base.dev/id/chunk/c778a5be-9fdf-41cf-8945-f9ddb6ac9de6, https://agentic-knowledge-base.dev/id/chunk/ca2a23f5-0877-4142-9961-4660b6d48c41, https://agentic-knowledge-base.dev/id/chunk/d145a64e-ff57-458c-b3ef-4853ef43366a, https://agentic-knowledge-base.dev/id/chunk/d572fb05-efd9-4a73-b605-f658e6ab8a52, https://agentic-knowledge-base.dev/id/chunk/e1700b86-e90d-43fa-b272-c6c66b5f43bb, https://agentic-knowledge-base.dev/id/chunk/ea41de7a-a1a9-49fe-99e7-8d5dbecd8400, https://agentic-knowledge-base.dev/id/chunk/f02955db-e9e3-4d4e-956f-148581ed6984]
 part_of: https://agentic-knowledge-base.dev/id/composite/95c4ded8-afa7-4840-953a-949e4af4f137
 ---
 **함수** — `main()` 다.

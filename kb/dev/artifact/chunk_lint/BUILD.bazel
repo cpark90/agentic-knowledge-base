@@ -14,7 +14,6 @@ filegroup(
 kb_composite(
     name = "module",
     srcs = [
-        "fn-body_lines.md",
         "fn-check_blocking_comment.md",
         "fn-check_decision_role.md",
         "fn-check_judge_log.md",

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68
 ---
 **함수** — `link_objects(index, iris)` 다. 본문이 바뀐 청크(iris)를 양 끝 중 하나로 갖는 링크 개체 → [(링크 IRI, 종류, 출발, 도착, 방향)].

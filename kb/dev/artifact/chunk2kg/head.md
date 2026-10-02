@@ -7,7 +7,8 @@ title: module head exit-fail in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/ab66f02d-6126-4507-b73a-c29429769f11, https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2, https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c]
 part_of: https://agentic-knowledge-base.dev/id/composite/b1903be2-0bdb-4f11-9c2b-cc59cc7e9a24
 composite: {id: https://agentic-knowledge-base.dev/id/composite/b1903be2-0bdb-4f11-9c2b-cc59cc7e9a24, title_ko: 모듈 머리 복합체 exit-fail (tools/chunk2kg.py), title: section composite exit-fail in tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/8752721c-db99-4c2f-be3b-382f6ec0169f, https://agentic-knowledge-base.dev/id/chunk/9081dacd-219d-4944-b3c6-d5d9a6955f49, https://agentic-knowledge-base.dev/id/chunk/e1d9652e-f3b3-470b-bf7f-f8fa31f8be68, https://agentic-knowledge-base.dev/id/chunk/abf3ca16-b991-4326-8c10-b4581d03a6d2], part_of: https://agentic-knowledge-base.dev/id/composite/f7d6eec7-bef4-4e94-ac55-36e7dda654ce}
@@ -78,6 +79,16 @@ EARS_PATTERNS = {
     "optional": "agt:optional",
     "complex": "agt:complex",
 }
+# 서비스 층 (결정 p0-service-is-a-three-layer-wiki) — frontmatter `layer:` 의 값 어휘 → 개체 (layer-ontology.ttl).
+# **plane과 직교하는 역할 속성이라 plane 제한이 없다** — 어느 plane 의 항목이든 세 층 중 하나의 역할을 갖는다
+# (같은 plane 에 분야의 결정과 저작 규칙의 결정이 함께 있다). 명시가 없으면 LAYER_DEFAULT 를 방출한다 —
+# 표시 누락이 산발로 세어지지 않아야 하므로 기본값이 그래프에 적힌다. 키의 정의처는 kb_lib 다 (EXPOSES_KEY 와 같은 형태).
+LAYERS = {
+    "knowledge": "agt:knowledgeLayer",
+    "methodology": "agt:methodologyLayer",
+    "process": "agt:processLayer",
+}
+LAYER_DEFAULT = "knowledge"  # 명시 없는 항목의 층 — 항목 대부분이 지식 층이다 (결정 근거)
 # 주석의 닫힌 어휘 (결정 p7-commentary-form) — 정의처는 kb_lib 이고 여기는 rdflib 없이 도는 폴백이다 (LINK_STATE_* 와 같은 형태)
 COMMENT_LABELS = getattr(kb_lib, "COMMENT_LABELS", ("praise", "nitpick", "suggestion", "issue", "question", "thought", "chore"))
 COMMENT_DECORATIONS = getattr(kb_lib, "COMMENT_DECORATIONS", ("blocking", "non-blocking", "if-minor"))
@@ -88,6 +99,8 @@ EXPOSES_KEY = getattr(kb_lib, "EXPOSES_KEY", "exposes")            # 위험에�
 EXPOSES_PREDICATE = getattr(kb_lib, "EXPOSES_PREDICATE", "agt:exposesFactor")
 USES_KEY = getattr(kb_lib, "USES_KEY", "uses")                     # 정의 → 같은 모듈의 정의 (agt:usesDefinition). 링크 키가 아니다 (정의처 kb_lib)
 USES_PREDICATE = getattr(kb_lib, "USES_PREDICATE", "agt:usesDefinition")
+LAYER_KEY = getattr(kb_lib, "LAYER_KEY", "layer")                  # 항목 → 서비스 층 (agt:inLayer). 링크 키가 아니다 (정의처 kb_lib)
+LAYER_PREDICATE = getattr(kb_lib, "LAYER_PREDICATE", "agt:inLayer")
 # 본문 슬롯 표지 (결정 p4-slot-answers-one-question) — 슬롯은 줄 머리 고정 표지 하나와 그것이 답하는 질문 하나다.
 # 질문·순서·필수 여부의 정의처는 shape(kb/ontology/shapes/*-body-shapes.ttl)이고 여기는 표지 낱말의 정의처다 —
 # 이 도구는 rdflib 없이 타깃마다 돌아 kb_lib 를 의존할 수 없으므로 값 어휘 상수가 PLANE_CLASS 와 함께 여기 있다 (STYLEGUIDE §4).

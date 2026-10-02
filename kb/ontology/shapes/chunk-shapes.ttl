@@ -1,5 +1,7 @@
 # shape — 청크: 구조적 글쓰기 원칙의 검사 가능한 형태 (노트 4.4절)
-# 값의 형 — 줄 수는 xsd:integer, 상태·본문 위치는 xsd:string, 수준은 agt:Level 개체다 (M5 값의 형, 2026-09-26).
+# 값의 형 — 토큰 수는 xsd:integer, 상태·본문 위치는 xsd:string, 수준은 agt:Level 개체다 (M5 값의 형, 2026-09-26).
+# 크기의 **상한**은 여기 없다 — plane 별 프로파일 파라미터이고 자리는 token-budget-shapes.ttl 이다
+# (결정 p1-chunk-unit-is-tokens: 단위는 토큰이고 줄 상한 42·200 은 폐지됐다).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
@@ -8,11 +10,11 @@
 agt:ChunkShape a sh:NodeShape ;
     sh:targetClass agt:Chunk ;
     sh:property [
-        sh:path agt:lineCount ;
+        sh:path agt:tokenCount ;
         sh:minCount 1 ; sh:maxCount 1 ;
         sh:datatype xsd:integer ;
         sh:minInclusive 0 ;
-        sh:message "본문은 42줄 이하여야 한다 (4.1절)" ;
+        sh:message "청크는 본문 토큰 수 하나를 갖는다 — 0 이상의 정수다. 상한은 token-budget-shapes 가 plane 마다 본다 (p1-chunk-unit-is-tokens)" ;
     ] ;
     sh:property [
         sh:path agt:hasLevel ;

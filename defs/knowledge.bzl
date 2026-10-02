@@ -4,6 +4,7 @@
 `bazel test //...` 가 곧 게이트 전체 실행이다.
 """
 
+load("//defs:kb.bzl", "USES_TARGETS")  # `uses` 치역 경계의 단일 정의처 — 대상 모듈의 등록부를 추출 드리프트 테스트의 입력으로 준다
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load("@kb_pip//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_test")
@@ -46,6 +47,18 @@ _GEN_SKILLS_SRCS = [
     Label("//tools:chunk2kg.py"),  # kb_lib.load_residency 가 PLANES·LEVELS 리터럴 읽기를 여기서 import 한다 (오케스트레이터 판정 2026-09-27)
 ]
 
+# 게이트 등록부(`GATES`)의 단일 정의처 — `kb_lib` 이 적재 시점에 리터럴을 읽어 `*_GATE` 상수를 파생하므로
+# `kb_lib.py` 를 `srcs` 로 싣는 타깃은 이 파일을 runfiles 에 둬야 한다. 없으면 적재 시점에 죽는다(의도된 음성 동작).
+_GATES_DATA = [Label("//defs:kb.bzl")]
+
+def _with_gates(data):
+    """게이트 등록부 리터럴을 runfiles 에 둔다 — 이미 있으면 그대로다.
+
+    `data` 는 라벨 문자열과 `Label` 이 섞이므로 정규화한 문자열로 비교한다. 중복 선언은 Bazel 의 로드 에러다.
+    """
+    have = [str(Label(d)) for d in data]
+    return data + [g for g in _GATES_DATA if str(g) not in have]
+
 _RDF_DEPS = [
     requirement("rdflib"),
     requirement("pyshacl"),
@@ -68,6 +81,9 @@ def kb_gate_test(
         reason = False,
         standard_vocab = [],
         residency = None,
+        waivers = None,
+        gates = None,
+        gate_sources = [],
         **kwargs):
     """검사 게이트 테스트 — tools/validate.py 를 지정 그래프들에 대해 돌린다.
 
@@ -80,14 +96,27 @@ def kb_gate_test(
       chunk_files: 청크 본문 라벨들 (`:bodies`). 주면 게이트 `element-drop` 의 frontmatter 키 전수 대조가 켜진다 —
         소비되지 않는 키는 조용히 버려지는 소스 요소다 (현상 P19, 8.21절 G1).
       reason: SHACL 전에 OWL-RL 추론 적용.
-      residency: 수준 허용표의 원본 라벨 (//defs:kb.bzl). 주면 게이트 `residency` 가 켜진다 — shape 의 plane × level
-        구간이 그 파일의 `RESIDENCY` 와 같은지 본다. 표를 두 곳에 적는 것을 막는다 (M1 단일 정의처).
+      residency: 수준 허용표의 원본 라벨 (//defs:kb.bzl). 주면 게이트 `residency` 와 `token-budget` 이 켜진다 —
+        shape 의 plane × level 구간이 그 파일의 `RESIDENCY` 와 같은지, plane 별 본문 토큰 상한이
+        `kb_lib.BODY_TOKEN_LIMITS` 와 같은지 본다. 표를 두 곳에 적는 것을 막는다 (M1 단일 정의처).
+        `token-budget` 은 어휘 파일의 sha256 도 고정값과 대조한다 — 토큰으로 적은 상한은 계수기가 고정되지
+        않으면 상한이 아니다 (결정 p1-chunk-unit-is-tokens, ODD id:cond-tokenizer-lock).
       standard_vocab: 등록 표준 어휘 원문 라벨들 (@prov_o//file · @skos//file, MODULE.bazel http_file 해시 고정).
         주면 그 네임스페이스의 용어가 원문에 정의돼 있는지까지 본다 — 접두사만 맞는 오타를 잡는다.
+      gates: 게이트 등록부의 원본 라벨 (//defs:kb.bzl). 주면 게이트 `gate-registry` 가 켜진다 — 코드의 태그
+        집합이 `GATES`·`TOOL_TAGS` 리터럴과 같은지, 손으로 둔 `*_GATE` 상수가 없는지, 등록된 id 가 코드에
+        닿는지 본다. 그래프 없이도 도는 유일한 검사다 (M1 단일 정의처, 2026-10-02).
+      gate_sources: 게이트 `gate-registry` 가 태그를 훑을 소스 라벨들 (`//tools:tools`).
+      waivers: docs/waivers.md 라벨. 주면 게이트 id `shacl`(축 `파일`)로 면제된 파일의 shape 위반은 세지
+        않고 `WAIVED [shacl]` 줄로만 남긴다 — 위반의 focus node 를 `agt:assertionLocation` 으로 파일에
+        사상해 가른다. shape 를 약화하는 대신 면제를 선언하는 자리가 `waivers.md` 하나다
+        (agrtls-practices-review C, `kb_chunk_lint_test` 의 `chunk` 면제와 같은 규약).
       **kwargs: py_test 로 전달.
     """
-    graphs = ontology + shapes + odd + data + standard_vocab + chunk_files
+    vocab = Label("@tiktoken_o200k_base//file")  # 게이트 token-budget 의 계수기 지문 (p1-chunk-unit-is-tokens)
+    graphs = ontology + shapes + odd + data + standard_vocab + chunk_files + [vocab]
     args = (
+        ["--vocab", "$(rootpath %s)" % vocab] +
         _flag_args("--ontology", ontology) +
         _flag_args("--shapes", shapes) +
         _flag_args("--odd", odd) +
@@ -96,18 +125,29 @@ def kb_gate_test(
         _flag_args("--standard-vocab", standard_vocab) +
         (["--verify-queries", "tools/verify-queries"] if verify_queries else []) +
         (["--residency", "$(rootpath %s)" % residency] if residency else []) +
+        (["--waivers", "$(rootpath %s)" % waivers] if waivers else []) +
+        (["--gates", "$(rootpath %s)" % gates] if gates else []) +
+        _flag_args("--gate-sources", gate_sources) +
         (["--reason"] if reason else [])
     )
     if verify_queries:
         graphs = graphs + [verify_queries]
-    if residency:
-        graphs = graphs + [residency]
+    if waivers:
+        graphs = graphs + [waivers]
+    if gates:
+        graphs = graphs + gate_sources
+    # `residency`·`gates` 가 가리키는 파일은 `_GATES_DATA` 가 이미 넣는다 — 두 번 넣으면 data 중복이 로드 에러다.
+    # 둘의 값은 구성상 `//defs:kb.bzl` 하나다(수준 허용표·게이트 등록부의 단일 정의처가 그 파일이므로) — 다르면 여기서 멈춘다
+    for label in [l for l in [residency, gates] if l]:
+        if str(Label(label)) != str(_GATES_DATA[0]):
+            fail("kb_gate_test(%s): residency·gates 는 %s 하나다 — 단일 정의처가 그 파일이다 (받은 값 %s)" %
+                 (name, _GATES_DATA[0], label))
     py_test(
         name = name,
         srcs = _VALIDATE_SRCS,
         main = Label("//tools:validate.py"),
         args = args,
-        data = graphs,
+        data = _with_gates(graphs),
         deps = _RDF_DEPS,
         size = kwargs.pop("size", "small"),
         **kwargs
@@ -303,7 +343,7 @@ def kb_skills_drift_test(name, skills, docs, tools = Label("//tools"), **kwargs)
         srcs = _GEN_SKILLS_SRCS,
         main = Label("//tools:gen_skills.py"),
         args = ["--check", "--root", "."],
-        data = [skills, tools] + docs,
+        data = _with_gates([skills, tools] + docs),
         deps = [requirement("rdflib")],  # kb_lib(SKILLS 표의 단일 정의처)가 요구
         size = kwargs.pop("size", "small"),
         **kwargs
@@ -314,6 +354,10 @@ def kb_extract_drift_test(name, source, chunks, registry, tools = Label("//tools
 
     코드가 원본이고 청크는 생성물이다 (p7-code-extraction-direction). 소스를 고치고 추출을 안 돌린 경우와 생성 청크를
     손으로 고친 경우를 FAIL [extract-drift] 로 잡는다. //:build_drift_test·//:skills_drift_test 와 같은 형이다.
+    `uses`(agt:usesDefinition) 의 두 경계 — 방출 경계 EXTRACTED_SOURCES 와 치역 경계 USES_TARGETS — 의 단일 정의처
+    //defs:kb.bzl 을 --residency 로 준다 (M1, load_residency 와 같은 해법, 2026-10-01) — 샌드박스에 그 파일이
+    있어야 extract.py 가 읽는다. 치역 경계 안의 모듈은 그 등록부 사이드카도 입력이다: 모듈 간 `uses` 의 대상
+    uuid 가 거기 있고, 없으면 extract.py 가 EXIT_CONFIG 로 죽는다(조용히 비지 않는다).
 
     Args:
       name: 테스트 이름.
@@ -323,6 +367,7 @@ def kb_extract_drift_test(name, source, chunks, registry, tools = Label("//tools
       tools: 도구 소스의 filegroup — 소스 파일 자신이 여기 있어야 추출이 읽는다.
       **kwargs: py_test 로 전달.
     """
+    residency = Label("//defs:kb.bzl")  # EXTRACTED_SOURCES 리터럴의 단일 정의처
     py_test(
         name = name,
         srcs = [
@@ -331,8 +376,10 @@ def kb_extract_drift_test(name, source, chunks, registry, tools = Label("//tools
             Label("//tools:chunk2kg.py"),
         ],
         main = Label("//tools:extract.py"),
-        args = [source, "--check", "--root", "."],
-        data = [chunks, registry, tools],
+        args = [source, "--check", "--root", ".", "--residency", "$(rootpath %s)" % residency],
+        # 치역 경계 안의 모듈의 등록부 — 모듈 간 `uses` 의 대상 uuid. 자기 등록부는 이미 `registry` 다(중복 금지)
+        data = _with_gates([chunks, registry, tools, residency]) +
+               ["//tools:%s.chunks.yml" % m for m in USES_TARGETS if "tools/%s.py" % m != source],
         deps = [requirement("rdflib")],  # kb_lib(추출 규약의 단일 정의처)가 요구
         size = kwargs.pop("size", "small"),
         **kwargs
@@ -385,7 +432,11 @@ def kb_reference_kg(name, srcs, out = None, ontology = []):
     )
 
 def kb_chunk_lint_test(name, chunks = [], ttl = [], waivers = None, **kwargs):
-    """청크 42줄 제한(4.1절)·TTL 접미사 규약(0.2절)·.md 청크의 산문 문체(STYLEGUIDE §0, 게이트 id `prose`) 린트.
+    """청크 토큰 상한(4.1절, 게이트 id `chunk`)·TTL 접미사 규약(0.2절)·.md 청크의 산문 문체(게이트 id `prose`) 린트.
+
+    크기의 단위는 줄이 아니라 토큰이고 상한은 저작 산문 1,092 · `artifact`·`memory` 2,856 이다
+    (결정 p1-chunk-unit-is-tokens, 유저 결정 2026-10-01 — 줄 상한 42·200 은 폐지됐다). 계수기는 고정된
+    어휘 하나(`o200k_base`)이므로 어휘 파일이 이 테스트의 `data` 이고 경로를 `--vocab` 으로 명시해 넘긴다.
 
     살아 있는 .md 청크는 첨가와 목록 규칙도 본다 — 게이트 id `addition`·`empty-value`·`list-rules`(STYLEGUIDE §0,
     결정 p4-slot-answers-one-question·p4-three-empty-values, 2026-09-22 승격). 검사 함수는 consistency ⑧·⑨ 와 같다.
@@ -393,7 +444,8 @@ def kb_chunk_lint_test(name, chunks = [], ttl = [], waivers = None, **kwargs):
     waivers 를 주면(docs/waivers.md, agrtls-practices-review C) 그 게이트 id 들(축 파일)로 면제된 파일의 위반은 세지
     않고 `WAIVED` 줄로만 남긴다. TTL 입력은 산문·첨가·목록 검사 대상이 아니다 — chunk_lint 가 .md 에만 돌린다.
     """
-    args = _flag_args("--chunks", chunks) + _flag_args("--ttl", ttl)
+    vocab = Label("@tiktoken_o200k_base//file")  # 크기 판정의 계수기 — 어휘가 없으면 판정을 내릴 수 없다
+    args = _flag_args("--chunks", chunks) + _flag_args("--ttl", ttl) + ["--vocab", "$(rootpath %s)" % vocab]
     if waivers:
         args += ["--waivers", "$(rootpath %s)" % waivers]
     py_test(
@@ -401,13 +453,16 @@ def kb_chunk_lint_test(name, chunks = [], ttl = [], waivers = None, **kwargs):
         srcs = _LINT_SRCS,
         main = Label("//tools:chunk_lint.py"),
         args = args,
-        data = chunks + ttl + ([waivers] if waivers else []),
-        deps = [requirement("rdflib")],  # kb_lib(접미사 규약의 단일 정의처)가 요구
+        data = _with_gates(chunks + ttl + [vocab] + ([waivers] if waivers else [])),
+        deps = [
+            requirement("rdflib"),  # kb_lib(접미사 규약의 단일 정의처)가 요구
+            requirement("tiktoken"),  # 토큰 계수기 (p1-chunk-unit-is-tokens)
+        ],
         size = kwargs.pop("size", "small"),
         **kwargs
     )
 
-def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], waivers = None, **kwargs):
+def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], waivers = None, gates = None, **kwargs):
     """문서 현행성 게이트 — 죽은 링크·앵커·백틱 경로 + 산문 문체 (tools/doccheck.py, agrtls-practices-review N; STYLEGUIDE §0).
 
     실재 판정은 runfiles 로 한다 — 문서가 가리키는 파일은 `data` 로 선언돼야 실재한다. 선언되지 않은
@@ -423,6 +478,9 @@ def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], w
       empty_dirs: 파일이 없어 runfiles 에 나타나지 않는 디렉토리(빈 패키지 — kb/vv, space 처럼 자리만 있는 것).
         문서가 그 디렉토리를 가리키는 것은 옳으므로 여기서 실재를 선언한다.
       waivers: docs/waivers.md 라벨. 주면 게이트 id `prose`(축 파일)로 면제된 문서의 산문 위반(경어·감탄)은 세지 않는다.
+      gates: 게이트 등록부의 원본 라벨 (//defs:kb.bzl). 주면 `docs/tools.md` 게이트 총람이 `GATES` 리터럴의
+        투영인지 본다 — 표의 `id` 열에 등록부 밖의 id 가 있으면 FAIL 이고, 총람에 없는 등록 id 는 보고다
+        (3단계에서 표 자체를 생성 뷰로 바꾼다).
       **kwargs: py_test 로 전달.
     """
     args = ["$(rootpaths %s)" % s for s in srcs]
@@ -432,12 +490,14 @@ def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], w
         args += ["--empty-dir", d]
     if waivers:
         args += ["--waivers", "$(rootpath %s)" % waivers]
+    if gates:
+        args += ["--gates", "$(rootpath %s)" % gates]
     py_test(
         name = name,
         srcs = _DOCCHECK_SRCS,
         main = Label("//tools:doccheck.py"),
         args = args,
-        data = srcs + target_only + data + ([waivers] if waivers else []),
+        data = _with_gates(srcs + target_only + data + ([waivers] if waivers else [])),
         deps = [requirement("rdflib")],  # kb_lib(종료 코드 규약의 단일 정의처)가 요구
         size = kwargs.pop("size", "small"),
         **kwargs
@@ -465,7 +525,7 @@ def kb_gendoc_test(name, docs, data = [], empty_dirs = [], **kwargs):
         srcs = _GENDOC_SRCS,
         main = Label("//tools:gendoc.py"),
         args = args,
-        data = docs + data,
+        data = _with_gates(docs + data),
         deps = [requirement("rdflib")],  # kb_lib(규약의 단일 정의처)가 요구
         size = kwargs.pop("size", "small"),
         **kwargs
@@ -492,7 +552,7 @@ def kb_runner_env_test(name, probe = "chunk_lint", **kwargs):
         srcs = _RUNNER_ENV_SRCS,
         main = Label("//tools:vv_run_env_test.py"),
         args = ["--probe", probe],
-        data = [Label("//tools:%s.py" % probe)],
+        data = _with_gates([Label("//tools:%s.py" % probe)]),
         # 검증기는 케이스가 부르는 그대로 워크스페이스 셸의 `python3` 로 돈다 — 그 해석기의 사용자 site-packages 는
         # HOME 아래에 있고, 실행기가 도는 `bazel run` 은 클라이언트의 HOME 을 그대로 물려준다. 테스트도 같은 조건에
         # 두어야 자극이 케이스의 자극과 같다. 격리가 깨지면 그 전에 `import kb_lib` 에서 죽는다

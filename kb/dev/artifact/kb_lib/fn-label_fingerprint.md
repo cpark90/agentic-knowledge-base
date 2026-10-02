@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/558e3a5c-2634-4500-bc61-15dad26a9821
 ---
 **함수** — `label_fingerprint(item)` 다. 세션 판정자에게 실제로 보인 입력(라벨 + 본문)의 지문 — sha256(제목 ko \n 제목 en \n\n 본문).

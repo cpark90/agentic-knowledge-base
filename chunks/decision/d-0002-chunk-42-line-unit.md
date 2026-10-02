@@ -7,6 +7,7 @@ title: 42-line chunk as minimal knowledge unit
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-knowledge-structure
 composite: {id: https://agentic-knowledge-base.dev/id/comp-knowledge-structure, title_ko: 지식 구조 모델, title: knowledge structure model}
 ---

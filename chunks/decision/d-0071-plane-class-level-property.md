@@ -6,7 +6,8 @@ title_ko: plane은 하위 클래스, level은 속성
 title: Plane as subclass, level as property
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
-generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+generated: {by: claude/fable-5, at: 2026-10-01T21:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-chunk-model
 composite: {id: https://agentic-knowledge-base.dev/id/comp-chunk-model, title_ko: 청크 모델, title: chunk model}
 ---
@@ -25,4 +26,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/comp-chunk-model, title_ko
   새 청크를 만들고 `refines` 링크를 남긴다.
 
 **청크 개체의 최소 선언** — 타입(plane 클래스) 1, `agt:hasLevel` 1,
-`rdfs:label` 한/영 각 1, `agt:lineCount`. 이 넷이 head 그래프의 내용이다.
+`rdfs:label` 한/영 각 1, `agt:tokenCount`(2026-10-01 전에는 `lineCount`). 이 넷이 head 그래프의 내용이다.

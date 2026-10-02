@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-30T14:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/cfdffdf2-c863-4f22-bdfc-2d58e26550be
 ---
 **근거** — 문학적 프로그래밍의 역사적 실패는 tangle된 파일을 직접 고치면 원본에 반영되지 않는다는 데 있다. 양방향 편집을 허용하면 잦은 변경이 곧 드리프트다. 방향은 하나여야 하고 드리프트 게이트가 그것을 강제해야 한다 — 이 저장소가 BUILD·SKILL.md에 이미 쓰는 형식이다.

@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/6b263b93-09d3-4458-ba0b-03ba81f30852, https://agentic-knowledge-base.dev/id/chunk/8a2be483-4fc8-411f-8f35-b7719552e4e4, https://agentic-knowledge-base.dev/id/chunk/cd8732ca-a14b-4a4b-a190-8317553867ad]
 part_of: https://agentic-knowledge-base.dev/id/composite/040c4845-cfe9-495a-91c7-f98702044ca6
 ---
 **함수** — `check_deprecated_concepts(merged, ontology)` 다. 경고(FAIL 아님): agt:usesConcept 의 대상이 폐기된 용어다

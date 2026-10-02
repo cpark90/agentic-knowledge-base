@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-standard}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-26T15:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/54cd62d1-0efa-4a35-b379-20d8880cc3be
 ---
 **근거** — 주석은 두 가지를 동시에 전한다. 무엇을 보았는가와 무엇을 해야 하는가다. 후자가 형식에 없으면 읽는 쪽이 문장의 어조에서 추측하고, 추측은 사람마다 갈린다. 칭찬을 요구로 읽거나 차단 사유를 취향으로 읽는 것이 그 결과다. 라벨은 전자를, 장식은 후자를 고정한다.

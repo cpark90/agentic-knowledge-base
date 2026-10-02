@@ -40,7 +40,7 @@ from chunk2kg import LINK_KEYS, RESTORED_KEY  # noqa: E402 — frontmatter 링�
 
 AGT, PROV = kb_lib.AGT, kb_lib.PROV
 EXIT_OK, EXIT_CONFIG = kb_lib.EXIT_OK, kb_lib.EXIT_CONFIG
-TAG = kb_lib.LINK_GATE
+TAG = kb_lib.LINK_TAG
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]  # defs/kb.bzl 와 같은 순서 (6.2절 정제 계층)
 PLANES = ["requirement", "decision", "contract", "schema", "artifact", "annotation", "memory"]  # 5.2절 단방향 순서
 RELATED_KEYS = ("coUpdatesWith", "conflictsWith", "relatedTo", "overlapsWith")  # relatedTo 족 — 이미 이어진 쌍을 가리는 데 쓴다

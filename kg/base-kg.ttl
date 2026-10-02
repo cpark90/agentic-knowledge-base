@@ -261,6 +261,11 @@ id:src-tools-term-propose
         "tools/term_propose.py (소스 파일, 추출 원천)"@ko ;
     prov:atLocation "tools/term_propose.py" .
 
+id:src-tools-tokens
+    rdfs:label "tools/tokens.py (source file, extraction origin)"@en ,
+        "tools/tokens.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/tokens.py" .
+
 id:src-tools-validate
     rdfs:label "tools/validate.py (source file, extraction origin)"@en ,
         "tools/validate.py (소스 파일, 추출 원천)"@ko ;

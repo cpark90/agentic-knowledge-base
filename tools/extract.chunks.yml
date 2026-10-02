@@ -6,17 +6,18 @@
 source: tools/extract.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-extract
 package: kb/dev/artifact/extract
-at: 2026-09-30T08:07:48Z
-source_hash: 8037d068eb62265a
+layer: process
+at: 2026-09-30T15:04:08Z
+source_hash: afd0e5887de50461
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd
   - https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23
   - https://agentic-knowledge-base.dev/id/chunk/ab6eb286-d87b-43a5-88f0-e32ffdd54acc
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
-  source_hash: 9334d1e454be5504
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
+  source_hash: 8037d068eb62265a
 ids:
   cls:Builder: https://agentic-knowledge-base.dev/id/chunk/33680335-f485-4267-aa96-2bb505425eaa
   cls:Chunk: https://agentic-knowledge-base.dev/id/chunk/cea6fcfc-b3e0-4dab-b8f5-e0727ee9c70d
@@ -26,6 +27,7 @@ ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/57a845e1-da27-4d9d-b5b0-b25148ccece7
   composite:sec:chunk: https://agentic-knowledge-base.dev/id/composite/e15e9467-610e-43bf-b882-759772f9ace0
   composite:sec:ids: https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986-80ad97804df0
+  composite:sec:module-imports: https://agentic-knowledge-base.dev/id/composite/30b84220-a222-44db-9ae1-0486db2a18ec
   composite:sec:qualified: https://agentic-knowledge-base.dev/id/composite/019eb57b-f2ff-48bf-a135-886b1f348685
   composite:sec:region: https://agentic-knowledge-base.dev/id/composite/52eb4f03-55ea-4dfb-be6d-9164da7da5ef
   composite:sec:registry-head: https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-4341-b151-9ecda0fefd53
@@ -39,9 +41,11 @@ ids:
   fn:def_kind: https://agentic-knowledge-base.dev/id/chunk/21d36097-2599-4a14-8057-733c634ae0b6
   fn:dump_registry: https://agentic-knowledge-base.dev/id/chunk/a83e5a5d-15ff-4e18-80b5-2c88dead1cfc
   fn:first_sentence: https://agentic-knowledge-base.dev/id/chunk/aada6cbe-8da7-42be-b193-af12f3127b37
+  fn:import_bindings: https://agentic-knowledge-base.dev/id/chunk/3133a231-692d-411f-9a52-fa6f82f6676f
   fn:load_registry: https://agentic-knowledge-base.dev/id/chunk/4333655e-49b9-4be9-b2f1-8c28243d8390
   fn:main: https://agentic-knowledge-base.dev/id/chunk/53e7f5a3-9d6a-4ee0-aa48-22bb700759c8
   fn:module_head_end: https://agentic-knowledge-base.dev/id/chunk/ed759600-6622-448e-be33-8fab9ae6b4eb
+  fn:module_imports: https://agentic-knowledge-base.dev/id/chunk/1a73eeae-6541-4952-9318-7b2bac9e9ecc
   fn:normalized_hash: https://agentic-knowledge-base.dev/id/chunk/8f365d81-2dc9-4f87-8f66-153ed897e871
   fn:parse_source: https://agentic-knowledge-base.dev/id/chunk/1f4895e9-23ea-421e-8218-237de7a42713
   fn:previous_bodies: https://agentic-knowledge-base.dev/id/chunk/a03ca02f-5735-4455-b2c7-bbc695c5bf35
@@ -58,10 +62,12 @@ ids:
   fn:stamped: https://agentic-knowledge-base.dev/id/chunk/719f0696-c0dc-4eff-aa6d-bb4dcdf148ce
   fn:trim: https://agentic-knowledge-base.dev/id/chunk/2d2767c3-e91e-464b-8f72-7fabdd6cca14
   fn:used_defs: https://agentic-knowledge-base.dev/id/chunk/890c6310-9982-474d-831e-9d0a0fc2a114
+  fn:used_foreign_defs: https://agentic-knowledge-base.dev/id/chunk/bb2addb3-a5df-4db6-9623-a80b215b03d7
   head: https://agentic-knowledge-base.dev/id/chunk/06a17fc9-3add-4cb8-9ebd-9c036e43869b
   module: https://agentic-knowledge-base.dev/id/chunk/12a44438-6b75-4c5f-80b4-c717d7648b5b
   sec:chunk: https://agentic-knowledge-base.dev/id/chunk/0dfda195-f8da-4d6c-9447-634b8aa649c5
   sec:ids: https://agentic-knowledge-base.dev/id/chunk/b3759ac2-ee1b-4dae-9fae-81f034e24ada
+  sec:module-imports: https://agentic-knowledge-base.dev/id/chunk/ec898bca-65e0-4e72-a2be-2663af04d486
   sec:qualified: https://agentic-knowledge-base.dev/id/chunk/6afe0552-3ec0-4d9e-85ec-60bc7d34b84b
   sec:region: https://agentic-knowledge-base.dev/id/chunk/09ea13b1-ec4b-4c3e-9fdc-a99c6b0f2282
   sec:registry-head: https://agentic-knowledge-base.dev/id/chunk/7902d58a-05cc-4832-9d03-50154c6f403e

@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-space2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/9875f781-35a4-413a-beae-89f20bb6ea33]
 part_of: https://agentic-knowledge-base.dev/id/composite/fc3f9858-3941-435d-b741-071b871ce613
 ---
 **함수** — `evidence_of(path, where, value, polarity)` 다. 증거 항목 → [(종류, 참조)].

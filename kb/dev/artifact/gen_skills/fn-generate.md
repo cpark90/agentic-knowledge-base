@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-skills}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/068914d2-cc43-489e-bcbe-f60049946a47, https://agentic-knowledge-base.dev/id/chunk/15e8fdb5-4855-45e7-a8da-d43faba52099, https://agentic-knowledge-base.dev/id/chunk/32e0ebb2-c394-499d-8a6b-3c2f3e5ed23f, https://agentic-knowledge-base.dev/id/chunk/42689d2d-de66-4143-bd55-21a97e71e57c, https://agentic-knowledge-base.dev/id/chunk/9337f5de-4a6b-420b-b51d-2a1afe8ebbae, https://agentic-knowledge-base.dev/id/chunk/f4e15fab-b378-46c2-b8ae-ca2982aa9dcd]
 part_of: https://agentic-knowledge-base.dev/id/composite/b9b38ba6-d689-44c6-814b-4526153a07b1
 ---
 **함수** — `generate(root)` 다. {SKILL.md 경로: 내용} — 원본이 없거나 앵커가 틀리거나 산문이 규칙 밖이면 GenSkillsError.

@@ -6,6 +6,7 @@
 source: tools/gendoc.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-gendoc
 package: kb/dev/artifact/gendoc
+layer: process
 at: 2026-09-28T20:48:33Z
 source_hash: ef00c1b8dff0344f
 refines:
@@ -14,8 +15,8 @@ refines:
   - https://agentic-knowledge-base.dev/id/chunk/2314093a-f5e3-4fc0-96a0-6c5d35db03ee
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
   source_hash: ef00c1b8dff0344f
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/60114dcb-01dd-425c-a171-33aa04f3a4b6

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/d2327845-e19c-432e-bef7-b5d429601fb6
 ---
 **함수** — `_body_slot_at_field_head(line, start)` 다. `start` 위치의 굵은 span 이 그 줄의 "필드 자리"에 있는가 — 줄 머리(불릿 다음) 또는 앞선 필드의 ` · ` 구분자 다음.

@@ -4,10 +4,11 @@ type: decision
 level: abstract
 title_ko: 시나리오 배제 자극 — 어휘에 슬롯이 없는 요소의 반영에서 다루지 않는 것
 title: Scenario excluded stimuli — what reflecting an element with no slot in the vocabulary does not cover
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}, {resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-missing-vocabulary-is-signal, https://agentic-knowledge-base.dev/id/asm-finite-factor-types, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5, at: 2026-09-29T06:20:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/886c9bad-f13a-48af-bd5e-aa6afa92a572
 ---
 **배제 자극** — 다루지 않는 자극은 셋이다.

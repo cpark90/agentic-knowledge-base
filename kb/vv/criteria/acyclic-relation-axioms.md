@@ -4,10 +4,11 @@ type: contract
 level: logical
 title_ko: 세 안티패턴 질의 각각이 위반 하나만 잡고 위반을 뺀 같은 그래프는 통과한다
 title: Each of the three anti-pattern queries catches exactly one violation, and the same graph without it passes
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-sonnet-5, at: 2026-09-26T00:30:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/03335ea8-fe32-45e0-9406-5e8457b81486]
 ---
 **합격 기준** — 기준 종류는 **명세 대조**다. 그래프 `g`와 자기 참조 트리플 `t ∈ {refines, supersedes, hasDirectPart}`에 대해, `t`를 가진 `g`는 대응 질의 하나로만 `FAIL [verify]`이고, `t`를 뺀 `g`는 세 질의 모두 통과한다.

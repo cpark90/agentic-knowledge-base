@@ -7,8 +7,9 @@ title: function main in tools/space2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-space2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/9875f781-35a4-413a-beae-89f20bb6ea33, https://agentic-knowledge-base.dev/id/chunk/a8dde51e-2d80-4281-9dad-fcf5f948abdb, https://agentic-knowledge-base.dev/id/chunk/cd2d5603-718a-4f3a-886a-3ce4d6b89880]
 part_of: https://agentic-knowledge-base.dev/id/composite/2716ece9-44f6-48ff-b2ab-1ad0ea6fa6c0
 ---
 **함수** — `main()` 다.
@@ -20,14 +21,24 @@ def main() -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
                     help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(design_space 규칙이 명시로 넘긴다)")
+    ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다 (p1-chunk-unit-is-tokens)")
     ap.add_argument("files", nargs="*")
     a = ap.parse_args()
+    enc = None
     if a.files:  # parse_chunk 를 실제로 부를 때만 값 어휘가 있어야 한다 — 아직 `-space` 청크가 없으면(빈 grap) 필요 없다
         try:
             chunk2kg.apply_plane_level_state(*chunk2kg.load_plane_level_state(a.residency))
         except (OSError, ValueError) as e:
             print(f"FAIL [{GATE}] {a.residency}: 읽을 수 없다 — {e}", file=sys.stderr)
             return EXIT_CONFIG
+        try:  # agt:Space 는 agt:Chunk 의 하위라 크기 사실(agt:tokenCount)을 갖는다 — 계수기는 고정된 어휘 하나다
+            enc = kb_lib.load_tokenizer(a.vocab or None)
+        except FileNotFoundError as e:
+            print(f"FAIL [{GATE}] 어휘 파일 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
+        except ValueError as e:
+            print(f"FAIL [{GATE}] {e}", file=sys.stderr)
+            return EXIT_FAIL
 
     blocks, errors, seen = [], [], {}
     for path in sorted(a.files):
@@ -59,7 +70,7 @@ def main() -> int:
 
     out: list = []
     for space in blocks:
-        out += emit(space)
+        out += emit(space, enc)
     body = "\n\n".join(b for _, b in sorted(out))
     Path(a.out).write_text(PREAMBLE + ("\n" + body + "\n" if body else ""), encoding="utf-8")
     return 0

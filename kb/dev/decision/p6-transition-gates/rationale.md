@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/7daf868e-e331-4e89-bbcc-447c0ce05f29
 ---
 **근거** (노트 6.8절) — 링크 생성을 게이트에 묶는 것이 강제의 실체다. 링크 없는 하위 청크는 4.13절 고아율에 잡히므로 게이트를 우회해 만든 청크는 만들자마자 지표에 드러난다. 규약이 아니라 구조로 막는다 (r-011).

@@ -5,11 +5,12 @@ level: functional
 pattern: unwanted-behaviour
 title_ko: 어휘가 없는 소스 요소가 산출물에서 빠지면 그 탈락이 수로 드러나야 한다
 title: When a source element without vocabulary is dropped from the output, the drop must surface as a count
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}, {resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-missing-vocabulary-is-signal, https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 exposes: [https://agentic-knowledge-base.dev/agt/elementWithoutVocabularyDropped]
 generated: {by: vnv/claude-opus-5, at: 2026-09-29T06:20:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 ---
 **검증 목표** — 소스에 있으나 어휘에 슬롯이 없는 요소가 방출에서 빠질 때 그 탈락이 0이 아닌 수로 드러난다는 것이 보여져야 한다. 이 목표가 다루는 위험은 현상 `agt:elementWithoutVocabularyDropped`(P19)이고 규범은 가정 `id:asm-missing-vocabulary-is-signal`이다.

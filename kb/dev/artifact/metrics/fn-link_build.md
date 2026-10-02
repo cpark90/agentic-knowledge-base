@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/75bab730-77dc-4a3d-945e-72e305b4eb8c, https://agentic-knowledge-base.dev/id/chunk/8bfec137-25dc-4b30-8a96-8897afc667ad, https://agentic-knowledge-base.dev/id/chunk/b92bd358-40c4-4414-b59c-70676927564b, https://agentic-knowledge-base.dev/id/chunk/ff5236c7-129e-43c7-9466-8cf55445d254]
 part_of: https://agentic-knowledge-base.dev/id/composite/d7f0885e-74e9-4b1e-bf89-f288680555a0
 ---
 **함수** — `link_build(g)` 다. 링크 개체와 증거·후보·구축·복원·suspect 포화·TIM 채움을 돌려준다.

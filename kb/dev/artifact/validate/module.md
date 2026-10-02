@@ -7,11 +7,12 @@ title: file tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc, https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328, https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/fb7cffc9-e5b5-4ed5-af22-40aa50e3c6aa, title_ko: 파일 복합체 tools/validate.py, title: file composite tools/validate.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/f78b9e0e-d84b-4087-9f1d-29bcf769d844, https://agentic-knowledge-base.dev/id/composite/56ab8e29-8a32-4148-bee8-85b8eabe8488, https://agentic-knowledge-base.dev/id/composite/dfafb084-58ea-49a9-9fe2-20457fba4997, https://agentic-knowledge-base.dev/id/composite/4d158385-e139-4042-8477-a87c3deeefe2]}
 ---
-**파일** — `tools/validate.py` 다. 794줄 · 최상위 정의 30개 · 최상위 절 4개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/validate.py` 다. 954줄 · 최상위 정의 31개 · 최상위 절 4개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -54,7 +55,9 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/fb7cffc9-e5b5-4e
   residency   (--shapes --residency defs/kb.bzl) 수준 허용표가 한 곳에만 적혀 있다 — shape `residency-shapes.ttl` 의
               plane × level 구간이 `defs/kb.bzl` 의 `RESIDENCY` 와 같다. 원본은 Starlark 리터럴이다(분석 시점
               판정이 파일을 읽지 못하므로). 갈리면 shape 를 맞춘다 (M1 단일 정의처, 2026-09-26)
-  shacl       (--shapes) OWL-RL 추론 후 pySHACL 적합성 (--reason 시 추론 적용)
+  shacl       (--shapes) OWL-RL 추론 후 pySHACL 적합성 (--reason 시 추론 적용). --waivers <docs/waivers.md>
+              를 주면 위반의 focus node 를 agt:assertionLocation 으로 파일에 사상해 게이트 id `shacl`
+              (축 `파일`)로 선언된 면제를 집계에서 빼고 `WAIVED [shacl]` 줄로 남긴다 — shape 는 그대로다
 
 경고(비영 종료 아님, `warn [검사명]` 접두사)
   usesConcept-deprecated  agt:usesConcept 의 대상이 폐기된 용어(owl:deprecated true 또는

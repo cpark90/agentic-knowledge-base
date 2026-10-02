@@ -1,0 +1,33 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/tokens/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/tokens.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-tokens
+package: kb/dev/artifact/tokens
+layer: process
+at: 2026-10-01T16:05:21Z
+source_hash: 752f6ecac57e1795
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/7afd759f-26b1-4ad8-8edb-abc971dc4393
+serves: []
+tested: {}
+ids:
+  composite:head: https://agentic-knowledge-base.dev/id/composite/1fba7212-c7b9-4bbd-8cbb-e1d0084c86f0
+  composite:sec:discover: https://agentic-knowledge-base.dev/id/composite/ee6ebd51-06bf-439a-875f-bf4afa341c35
+  composite:sec:plane-table: https://agentic-knowledge-base.dev/id/composite/bb329900-d369-44b7-88d4-5e3996dc0aa5
+  file: https://agentic-knowledge-base.dev/id/composite/4fe35c96-c167-4a3e-b640-a888f6bcefe5
+  fn:budget_lines: https://agentic-knowledge-base.dev/id/chunk/f58f73d7-95e7-4d7a-8bb5-687eaf43cb31
+  fn:discover: https://agentic-knowledge-base.dev/id/chunk/132c7aa3-afb6-446f-be54-deeaff4e3460
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/13764782-d9fa-4695-8725-3cc97d1f54ee
+  fn:measure: https://agentic-knowledge-base.dev/id/chunk/84687e20-5870-4ee0-be02-862d00aafbff
+  fn:multiple_table: https://agentic-knowledge-base.dev/id/chunk/93603726-5c98-4055-96e5-fb41e9f77347
+  fn:plane_table: https://agentic-knowledge-base.dev/id/chunk/88215097-083d-4315-8983-eff5433360ad
+  fn:quantiles: https://agentic-knowledge-base.dev/id/chunk/2dcb7b2a-d62d-446a-abd6-5f776c990c7e
+  fn:render: https://agentic-knowledge-base.dev/id/chunk/63cf4a6b-7be3-4c38-8be4-9a039b8d5aec
+  fn:top_table: https://agentic-knowledge-base.dev/id/chunk/9dca3dba-bb72-415b-a4cb-bcf5058e807f
+  head: https://agentic-knowledge-base.dev/id/chunk/47cbe988-791e-493e-b71c-1671f649b23a
+  module: https://agentic-knowledge-base.dev/id/chunk/21dfefcf-2982-4759-ab78-89ccc4d425c6
+  sec:discover: https://agentic-knowledge-base.dev/id/chunk/4a6f30d5-795c-4ac7-a341-d9faf503aace
+  sec:plane-table: https://agentic-knowledge-base.dev/id/chunk/48b44b59-0af4-4a6a-8d25-e7a4b543edb0

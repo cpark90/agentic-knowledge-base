@@ -7,6 +7,7 @@ title: The agt prefix and unchanged external vocabularies
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-identifier-conventions
 ---
 **결론** — 이 체계 고유의 개념은 `agt:` 접두어를 쓴다. **외부 어휘는 그

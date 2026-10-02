@@ -54,16 +54,16 @@ DECISION_READING_ORDER = ("conclusion", "rationale", "alternatives")
 
 
 def parse_item(path: str):
-    """청크 파일 하나 → (메타, 본문 줄 수). 설계 공간 청크는 여기서 거부한다.
+    """청크 파일 하나 → (메타, 본문 문자열). 설계 공간 청크는 여기서 거부한다.
 
     `-space` 는 청크 패키지에 살지 않는다 — kb_chunk 타깃이 되면 후보 링크가 deps 로 새기 때문이다
     (결정 p9-candidate-storage). 올리는 곳은 `//space:design_space`(tools/space2kg.py)다.
     """
-    meta, n = parse_chunk(path)
+    meta, body = parse_chunk(path)
     if meta["type"] == SPACE_TYPE:
         raise GenBuildError(f"{path}: 설계 공간 청크(type: {SPACE_TYPE})는 청크 패키지에 둘 수 없다 — space/ 에 두면 "
                             f"//space:design_space 가 올린다. 후보는 결코 deps 가 되지 않는다 (p9-candidate-storage)")
-    return meta, n
+    return meta, body
 
 
 def q(s):

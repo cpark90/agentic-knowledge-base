@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/32dfc003-5ffa-4b9f-95c1-d71ffd0a4884]
 part_of: https://agentic-knowledge-base.dev/id/composite/980ff6a4-1f10-4e39-bd06-73c6c65e5d37
 ---
 **함수** — `analyse_terms(items, terms, waivers)` 다. ⑥ 용어 — tier 1 만.

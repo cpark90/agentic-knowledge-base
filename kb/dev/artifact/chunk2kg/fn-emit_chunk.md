@@ -7,24 +7,30 @@ title: function emit_chunk in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/d75bcbfe-969b-45d4-81f9-fc42145f892b]
 part_of: https://agentic-knowledge-base.dev/id/composite/094f7e14-ed5b-4c40-83f8-782d9f4161b0
 ---
-**함수** — `emit_chunk(path, meta, line_count)` 다.
+**함수** — `emit_chunk(path, meta, tokens)` 다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def emit_chunk(path: str, meta: dict, line_count: int) -> str:
+def emit_chunk(path: str, meta: dict, tokens: int) -> str:
     stmts = [
         f"a {PLANE_CLASS[meta['type']]} , {PROFILE_SUBSTANCE[meta['type']]}",
         f'rdfs:label "{esc(meta["title"])}"@en',
         f'rdfs:label "{esc(meta["title_ko"])}"@ko',
         f"agt:hasLevel agt:{meta['level']}",
+        # 서비스 층 — plane·level 과 나란한 직교 축이다. **명시가 없어도 기본값을 방출한다**: 표시 누락을 산발로
+        # 세지 않으려면 지식 층 배정이 그래프에 있어야 하고, 그래야 층별 집계(CQ-38)의 분모가 항목 전수가 된다
+        # (p0-service-is-a-three-layer-wiki). 값의 닫힌 집합은 shape layer-shapes.ttl 이 판정한다
+        f"{LAYER_PREDICATE} {LAYERS[meta.get(LAYER_KEY, LAYER_DEFAULT)]}",
     ]
     if "pattern" in meta:
         stmts.append(f"agt:pattern {EARS_PATTERNS[meta['pattern']]}")
     stmts += [
-        f"agt:lineCount {line_count}",
+        f"agt:tokenCount {tokens}",  # 본문의 크기 — 단위는 토큰이고 계수기는 o200k_base 다 (p1-chunk-unit-is-tokens)
         *(f'agt:bodySlot "{esc(s)}"' for s in meta.get("_body_slots", [])),  # 본문 형태 — 틀의 필수 슬롯은 *-body-shapes.ttl 이 본다
         f'agt:status "{meta["status"]}"',
         f'agt:contentHash "{meta["_content_hash"]}"',

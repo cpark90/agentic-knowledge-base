@@ -6,6 +6,7 @@
 source: tools/label_sample.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-label-sample
 package: kb/dev/artifact/label_sample
+layer: process
 at: 2026-09-28T20:48:33Z
 source_hash: e445d7db8cdd152e
 refines:
@@ -13,8 +14,8 @@ refines:
   - https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
   source_hash: e445d7db8cdd152e
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/8d6ec7cd-9a26-470f-acd9-6871cb8ce9bd

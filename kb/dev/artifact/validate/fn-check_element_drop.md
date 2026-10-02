@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/2dd75424-2fca-48ab-9dbb-17d3b0c71ea1, https://agentic-knowledge-base.dev/id/chunk/6900e30a-aaf6-462a-b290-9877e3439e9b]
 part_of: https://agentic-knowledge-base.dev/id/composite/621b8722-ef63-42b3-8470-9560e072a62a
 ---
 **함수** — `check_element_drop(ontology, chunk_files)` 다. 소스 요소의 전수와 방출 전수의 차 (게이트 id `element-drop`, 현상 P19 의 관측 수단).

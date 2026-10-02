@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-standard}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-22T19:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/f7ac1b83-2f07-479d-a1ac-dfa68858e15f
 ---
 **근거** — 42줄 상한은 분량을 제한하지만 그 안에 무엇이 들어가야 하는지는 말하지 않는다. 슬롯 표지는 이미 쓰이고 있으나 각 표지가 무슨 질문에 답하는지는 어디에도 등록돼 있지 않았다(2026-09-22 실측 — `profile-development-shapes.ttl`의 `sh:property`가 1개, 전부 청크 수준이다). 등록이 없으면 "이 문장이 여기 있어야 하는가"를 판정할 수 없고, 리뷰는 취향이 된다.

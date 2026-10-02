@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/f78cc6f9-4200-405e-8a12-7c8eb43f9c24
 ---
 **근거** (노트 8.4절) — 확인이 없으면 틀린 요구를 완벽히 충족하는 시스템이 된다. 검증만 갖춘 체계는 모든 게이트를 통과하면서도 쓸모없는 산출물을 낼 수 있고, 그 실패는 어떤 판정식에도 걸리지 않는다.

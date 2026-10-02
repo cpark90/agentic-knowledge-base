@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/8e8697a1-16b9-4c24-a377-340db2b6000b
 ---
 **근거** (노트 6.1절·7.2절) — 두 산출물은 같은 level·같은 plane에 있지만 답하는 질문이 다르다. 하나는 "요구를 이렇게 구현했다"이고 다른 하나는 "그 구현이 기준을 만족한다"이다. 주어를 V&V 청크로 제한하지 않으면 만든 쪽이 자기 산출물에 `verifies`를 걸 수 있고, 그 순간 검증은 형식이 된다 (7.5절).

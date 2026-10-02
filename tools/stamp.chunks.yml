@@ -6,6 +6,7 @@
 source: tools/stamp.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-stamp
 package: kb/dev/artifact/stamp
+layer: process
 at: 2026-09-30T07:27:50Z
 source_hash: ba4431623bd0b3e0
 refines:
@@ -13,8 +14,8 @@ refines:
   - https://agentic-knowledge-base.dev/id/chunk/4ec4de00-ea81-4ed0-abf7-40beedc25e38
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
   source_hash: ba4431623bd0b3e0
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/f02119f5-222e-4905-9533-cd7f037f9d03

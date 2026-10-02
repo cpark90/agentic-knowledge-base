@@ -23,9 +23,13 @@ filegroup(
 # 준다(M1 단일 정의처 — 오케스트레이터 판정 2026-09-27: 폴백 없이, 없으면 죽는다).
 genrule(
     name = "design_space",
-    srcs = SPACES + ["//defs:kb.bzl"],
+    srcs = SPACES + [
+        "//defs:kb.bzl",
+        "@tiktoken_o200k_base//file",  # agt:Space 는 agt:Chunk 의 하위라 agt:tokenCount 를 갖는다 (p1-chunk-unit-is-tokens)
+    ],
     outs = ["design-space.ttl"],
-    cmd = "$(location //tools:space2kg) --out $@ --residency $(location //defs:kb.bzl) %s" % " ".join(["$(execpaths %s)" % s for s in SPACES]),
+    cmd = "$(location //tools:space2kg) --out $@ --residency $(location //defs:kb.bzl) " +
+          "--vocab $(location @tiktoken_o200k_base//file) %s" % " ".join(["$(execpaths %s)" % s for s in SPACES]),
     tools = ["//tools:space2kg"],
 )
 
@@ -43,7 +47,7 @@ genrule(
     tools = ["//tools:choices"],
 )
 
-# 42줄 상한·산문 문체는 설계 공간 청크에도 걸린다 (STYLEGUIDE §0·§4). 첫 청크가 들어오면 켜진다 —
+# 토큰 상한·산문 문체는 설계 공간 청크에도 걸린다 (STYLEGUIDE §0·§4). 첫 청크가 들어오면 켜진다 —
 # 빈 filegroup 은 $(rootpaths) 확장이 분석 에러다 (kb/vv 의 lint_test 와 같은 사유)
 [kb_chunk_lint_test(
     name = "lint_test",

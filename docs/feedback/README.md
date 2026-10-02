@@ -19,6 +19,9 @@
 
 - **승인됨·인수 대기(2026-09-22)**: [`spec-writing-standard-remainder-2026-09-22.md`](spec-writing-standard-remainder-2026-09-22.md) — G10 그림 틀 · 출처 개체 위치.
   인수인계 [`handoff/spec-writing-standard-remainder-2026-09-22.md`](handoff/spec-writing-standard-remainder-2026-09-22.md). 반영되면 제안 원문과 승인 항목을 제거한다
+- **유저 작업(2026-10-01)**: [`judge-rejudge-sheet-2026-10-01.md`](judge-rejudge-sheet-2026-10-01.md) — 정확도 축의 재판정 10건. 라벨만 보고 예측 → 본문 → 3점
+- **승인됨·인수 대기(2026-10-01)**: [`uses-definition-range-2026-10-01.md`](uses-definition-range-2026-10-01.md) · [`judge-accuracy-rejudge-2026-10-01.md`](judge-accuracy-rejudge-2026-10-01.md) · [`vv-draft-stable-2026-10-01.md`](vv-draft-stable-2026-10-01.md) — handoff 셋
+- **승인됨·인수 대기(2026-10-01)**: [`unification-program-2026-10-01.md`](unification-program-2026-10-01.md) — 세 층의 위키로 통일, 편입 방식 · [`chunk-unit-tokens-2026-10-01.md`](chunk-unit-tokens-2026-10-01.md) — 단위는 토큰, 42의 배수, 토크나이저 고정. handoff 둘을 썼다
 - **유저 판단 대기(2026-09-30)**: [`uses-definition-2026-09-30.md`](uses-definition-2026-09-30.md) — 코드의 호출 관계를 링크로 낼 것인가. 개명 실측이 그래프 9 · 코드 36 이라 그래프가 churn 을 과소 보고한다. 새 어휘 잎이라 승인이 필요하다
 - **반영 완료·인수 기록 대기**: 유저 lane 항목 16과 그 handoff 16이 `closed` 다. 인수 기록 27이 `answered` 이고 발신자가 닫으면 **사슬로 함께** 제거한다
 - **담당 역할 반영 대기**: [`label-representativeness-protocol.md`](label-representativeness-protocol.md)

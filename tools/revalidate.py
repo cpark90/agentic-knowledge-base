@@ -8,8 +8,10 @@ head 그래프의 agt:contentHash 와 같다. 재판정 대상은 다섯 갈래�
       coUpdatesWith·overlapsWith), 양방향
   (b) Bazel 하류 의존자 — bazel query rdeps(<universe>, <타깃>) 의 kb_chunk·kb_decision (직접 / 전이)
   (c) **호출부** — 본문 해시가 바뀐 정의 청크를 `uses`(agt:usesDefinition)로 가리키는 출발점. 그 수가 **코드 호출부
-      파손의 상한**이다: 같은 모듈의 최상위 이름 참조만 세므로 모듈 간 호출은 여기 들어오지 않고 실제 파손은 이 수보다
-      크다 (유저 답 2026-09-30, 채널 uses-definition). 링크 개체가 아니라 직접 트리플이므로 (d) 의 표에는 오르지 않는다
+      파손의 상한**이다: 같은 모듈의 최상위 이름 참조와 치역 경계(defs/kb.bzl 의 USES_TARGETS — 2026-10-01 표본 쌍은
+      `kb_lib` 하나다) 안의 모듈 간 참조를 세므로, 경계 밖의 모듈을 치역으로 하는 호출은 여기 들어오지 않고 실제
+      파손은 이 수보다 크다 (유저 답 2026-09-30·2026-10-01, 채널 uses-definition·uses-definition-range).
+      링크 개체가 아니라 직접 트리플이므로 (d) 의 표에는 오르지 않는다
   (d) **링크 개체** — 본문 해시가 바뀐 청크를 양 끝 중 하나로 갖는 agt:Link 의 IRI. 그 링크가 suspect 로 유도되는 자리다.
       IRI 는 chunk2kg 와 같은 함수(link_hash × work_id)로 계산하므로 head 그래프의 링크 개체와 같은 것이다 — 그래서 이 보고의
       한 줄이 그래프의 한 개체를 가리킨다. 상태는 저장하지 않는다 (노트 9.11절): suspect 는 여기서 물질화된다.
@@ -42,7 +44,7 @@ from chunk2kg import (ID_BASE, SPECIALIZATION_KEY, SpecializationError, apply_pl
 from chunk2kg import LINK_KEYS as OBJECT_LINK_KEYS  # noqa: E402 — 링크 개체(agt:Link)를 내는 키. assumes·part_of 는 개체가 없다
 
 CHUNK_DIRS = ("kb", "chunks")
-USES_KEY = kb_lib.USES_KEY  # 정의 → 같은 모듈의 정의 (agt:usesDefinition). 링크 키가 아니라 `호출부` 열의 입력이다
+USES_KEY = kb_lib.USES_KEY  # 정의 → 정의 (agt:usesDefinition, 치역은 같은 모듈 + USES_TARGETS). `호출부` 열의 입력이다
 # frontmatter 의 링크 키 — 목록 값. part_of 는 스칼라
 LINK_KEYS = ("refines", "serves", "supersedes", "verifies", "assumes", "satisfies", "constrains", "derivesFrom", "allocates",
              "coUpdatesWith", "overlapsWith")
@@ -99,6 +101,97 @@ def link_objects(index: dict, iris: set) -> list:
     return out
 
 
+def index_worktree(root: Path) -> tuple:
+    """워킹트리의 청크 색인 → (index, incoming, composite_parts, callers, unparsable).
+
+    색인의 열쇠는 IRI 다 — 정체성이 uuid 이고 경로는 주소이기 때문이다 (p10-split-keeps-work-identity).
+    """
+    # 1. 워킹트리 청크 색인 — IRI → (경로, 라벨, meta), 들어오는 링크
+    index, incoming, unparsable = {}, defaultdict(list), []
+    for d in CHUNK_DIRS:
+        for p in sorted((root / d).rglob("*.md")):
+            rel = str(p.relative_to(root))
+            try:
+                meta = parse_chunk(str(p))[0]
+            except ValueError as e:
+                unparsable.append(f"{rel}: {e}")
+                continue
+            index[meta["id"]] = (rel, meta)
+    for iri, (rel, meta) in index.items():
+        for k, t in links_of(meta):
+            incoming[t].append((k, iri))
+    composite_parts = defaultdict(list)
+    for iri, (rel, meta) in index.items():
+        if meta.get("part_of"):
+            composite_parts[meta["part_of"]].append(iri)
+    # 호출부 — 대상 정의 IRI → 그것을 `uses` 로 가리키는 출발점들. 링크 키가 아니므로 links_of 와 섞지 않는다:
+    # 그래야 `링크(양방향)` 열이 링크 개체의 수를 계속 뜻하고 `호출부` 열이 코드 파손의 상한을 따로 뜻한다
+    callers = defaultdict(list)
+    for iri, (rel, meta) in index.items():
+        for t in meta.get(USES_KEY) or []:
+            if t != iri:
+                callers[t].append(iri)
+    return index, incoming, composite_parts, callers, unparsable
+
+
+def base_diff(base: str, cwd: str, index: dict) -> tuple:
+    """base 리비전과 워킹트리의 차이 → (changed, head_only, base_by_iri, unread).
+
+    비교의 열쇠도 IRI 다 — 경로로 비교하면 개명·이동이 "삭제 + 신규" 로 보여 재판정 대상이 부푼다.
+    `changed` 는 (경로, 종류, iri, meta_wt|None, meta_base|None, 사유) 이고 `head_only` 는 본문 해시가 같은 것이다.
+    """
+    a_base = base
+    # 2. base 와의 차이 — 상태 M/A/D/R 인 청크 파일 + 미추적 파일
+    status = {}
+    for line in run(["git", "diff", "--name-status", a_base, "--", *CHUNK_DIRS], cwd).splitlines():
+        parts = line.split("\t")
+        st, path = parts[0][0], parts[-1]
+        if path.endswith(".md"):
+            status[path] = (st, parts[1] if st == "R" else path)
+    for path in run(["git", "ls-files", "--others", "--exclude-standard", "--", *CHUNK_DIRS], cwd).splitlines():
+        if path.endswith(".md"):
+            status[path] = ("A", path)
+
+    # 정체성은 uuid(frontmatter `id`)이고 경로는 주소다 (p10-split-keeps-work-identity · p10-function-identity-registry).
+    # 경로로 비교하면 개명·이동이 "삭제 + 신규" 로 보여 재판정 대상이 부풀고 링크가 깨진 것처럼 읽힌다.
+    by_path = {rel: iri for iri, (rel, _m) in index.items()}
+    base_by_iri, unread = {}, []
+    for path, (st, base_path) in sorted(status.items()):
+        if st == "A":
+            continue
+        txt = run(["git", "show", f"{a_base}:{base_path}"], cwd, check=False)
+        try:
+            bm = parse_text(txt, base_path) if txt else None
+        except ValueError:
+            unread.append(base_path)
+            continue
+        if bm:
+            base_by_iri[bm["id"]] = (base_path, bm)
+    touched = {by_path[p] for p in status if p in by_path} | set(base_by_iri)
+
+    changed, head_only = [], []  # changed: (경로, 종류, iri, meta_wt|None, meta_base|None, 비고)
+    for iri in sorted(touched):
+        wt = index.get(iri)
+        base = base_by_iri.get(iri)
+        if wt is None:
+            if base:
+                changed.append((base[0], "삭제", iri, None, base[1], "이 IRI 를 가리키는 링크는 깨진다"))
+            continue
+        path, meta = wt
+        if base is None:
+            changed.append((path, "신규", iri, meta, None, "base 에 이 IRI 가 없다"))
+            continue
+        base_path, base_meta = base
+        moved = f"경로 변경(라벨 변경) `{base_path}` → `{path}`" if base_path != path else ""
+        if meta["_content_hash"] != base_meta["_content_hash"]:
+            changed.append((path, "본문 변경", iri, meta, base_meta,
+                            " · ".join(x for x in (f"{base_meta['_content_hash']} → {meta['_content_hash']}", moved) if x)))
+        else:
+            keys = sorted(k for k in LINK_KEYS + ("part_of",) if (meta.get(k) or None) != (base_meta.get(k) or None))
+            head_only.append((path, keys + ([moved] if moved else [])))
+    return changed, head_only, base_by_iri, unread
+
+
 # ── 하류 조회와 보고 ────────────────────
 
 def owner_labels(root: Path) -> dict:
@@ -145,100 +238,26 @@ def bazel_rdeps(cwd: str, owners: list, universe: str) -> dict:
     return out
 
 
-def main() -> int:
+def parse_args():
+    """명령줄 인자 — 파서가 곧 형식의 정의처다."""
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--base", default="HEAD", help="비교할 git 리비전 (기본 HEAD)")
     ap.add_argument("--universe", default="//...", help="rdeps 의 우주")
     ap.add_argument("--out", default="")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 --root(워크스페이스) 기준")
-    a = ap.parse_args()
-    root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
-    cwd = str(root)
-    try:
-        apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
-    except (OSError, ValueError) as e:
-        print(f"CONFIG [revalidate] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}", file=sys.stderr)
-        return 2
+    return ap.parse_args()
 
-    # 1. 워킹트리 청크 색인 — IRI → (경로, 라벨, meta), 들어오는 링크
-    index, incoming, unparsable = {}, defaultdict(list), []
-    for d in CHUNK_DIRS:
-        for p in sorted((root / d).rglob("*.md")):
-            rel = str(p.relative_to(root))
-            try:
-                meta = parse_chunk(str(p))[0]
-            except ValueError as e:
-                unparsable.append(f"{rel}: {e}")
-                continue
-            index[meta["id"]] = (rel, meta)
-    for iri, (rel, meta) in index.items():
-        for k, t in links_of(meta):
-            incoming[t].append((k, iri))
-    composite_parts = defaultdict(list)
-    for iri, (rel, meta) in index.items():
-        if meta.get("part_of"):
-            composite_parts[meta["part_of"]].append(iri)
-    # 호출부 — 대상 정의 IRI → 그것을 `uses` 로 가리키는 출발점들. 링크 키가 아니므로 links_of 와 섞지 않는다:
-    # 그래야 `링크(양방향)` 열이 링크 개체의 수를 계속 뜻하고 `호출부` 열이 코드 파손의 상한을 따로 뜻한다
-    callers = defaultdict(list)
-    for iri, (rel, meta) in index.items():
-        for t in meta.get(USES_KEY) or []:
-            if t != iri:
-                callers[t].append(iri)
 
-    # 2. base 와의 차이 — 상태 M/A/D/R 인 청크 파일 + 미추적 파일
-    status = {}
-    for line in run(["git", "diff", "--name-status", a.base, "--", *CHUNK_DIRS], cwd).splitlines():
-        parts = line.split("\t")
-        st, path = parts[0][0], parts[-1]
-        if path.endswith(".md"):
-            status[path] = (st, parts[1] if st == "R" else path)
-    for path in run(["git", "ls-files", "--others", "--exclude-standard", "--", *CHUNK_DIRS], cwd).splitlines():
-        if path.endswith(".md"):
-            status[path] = ("A", path)
+def revalidation_rows(root: Path, cwd: str, universe: str, changed: list, index: dict, incoming: dict,
+                      composite_parts: dict, callers: dict) -> tuple:
+    """재판정 대상 → (rows, per_chunk, label, iri_to_label).
 
-    # 정체성은 uuid(frontmatter `id`)이고 경로는 주소다 (p10-split-keeps-work-identity · p10-function-identity-registry).
-    # 경로로 비교하면 개명·이동이 "삭제 + 신규" 로 보여 재판정 대상이 부풀고 링크가 깨진 것처럼 읽힌다.
-    by_path = {rel: iri for iri, (rel, _m) in index.items()}
-    base_by_iri, unread = {}, []
-    for path, (st, base_path) in sorted(status.items()):
-        if st == "A":
-            continue
-        txt = run(["git", "show", f"{a.base}:{base_path}"], cwd, check=False)
-        try:
-            bm = parse_text(txt, base_path) if txt else None
-        except ValueError:
-            unread.append(base_path)
-            continue
-        if bm:
-            base_by_iri[bm["id"]] = (base_path, bm)
-    touched = {by_path[p] for p in status if p in by_path} | set(base_by_iri)
-
-    changed, head_only = [], []  # changed: (경로, 종류, iri, meta_wt|None, meta_base|None, 비고)
-    for iri in sorted(touched):
-        wt = index.get(iri)
-        base = base_by_iri.get(iri)
-        if wt is None:
-            if base:
-                changed.append((base[0], "삭제", iri, None, base[1], "이 IRI 를 가리키는 링크는 깨진다"))
-            continue
-        path, meta = wt
-        if base is None:
-            changed.append((path, "신규", iri, meta, None, "base 에 이 IRI 가 없다"))
-            continue
-        base_path, base_meta = base
-        moved = f"경로 변경(라벨 변경) `{base_path}` → `{path}`" if base_path != path else ""
-        if meta["_content_hash"] != base_meta["_content_hash"]:
-            changed.append((path, "본문 변경", iri, meta, base_meta,
-                            " · ".join(x for x in (f"{base_meta['_content_hash']} → {meta['_content_hash']}", moved) if x)))
-        else:
-            keys = sorted(k for k in LINK_KEYS + ("part_of",) if (meta.get(k) or None) != (base_meta.get(k) or None))
-            head_only.append((path, keys + ([moved] if moved else [])))
-
+    대상은 다섯이다 — frontmatter 링크 양방향 · 복합체 형제 · `uses` 호출부 · `bazel rdeps` 의 하류 · 도장.
+    """
     # 3. 재판정 대상 — (a) frontmatter 링크 양방향 (b) bazel rdeps
     iri_to_label = owner_labels(root)
     owners = sorted({iri_to_label[iri] for _p, kind, iri, *_ in changed if kind != "삭제" and iri in iri_to_label})
-    rd = bazel_rdeps(cwd, owners, a.universe) if owners else {}
+    rd = bazel_rdeps(cwd, owners, universe) if owners else {}
     label = lambda iri: (f"`{index[iri][0]}` — {index[iri][1].get('title_ko', '')}" if iri in index else f"<{iri}>" + (" (복합체)" if iri in composite_parts else " (없음)"))
     rows, per_chunk = [], []
     for path, kind, iri, meta, base_meta, note in changed:
@@ -264,25 +283,12 @@ def main() -> int:
             rows.append((path, "verified", "·", "이 청크 자신 — 검증 뒤 본문이 바뀌었다 (writer 검사 대상)", "frontmatter"))
         per_chunk.append((path, kind, m.get("title_ko", ""), len(out_links) + len(in_links), (len(direct or []), len(trans or [])),
                           len(called_by), verified, note))
+    return rows, per_chunk, label, iri_to_label
 
-    # 4. 본문 해시 변경 → 링크 재판정. 본문이 바뀐 청크를 양 끝 중 하나로 갖는 링크 개체가 suspect 로 유도된다 (노트 9.11절)
-    body_changed = {iri for _path, kind, iri, _m, _b, _n in changed if kind in ("본문 변경", "변경", "신규", "삭제")}
-    objs = link_objects(index, body_changed)
 
-    rep = kb_lib.gendoc_header(
-        "revalidate", f"base {a.base} 대비 재판정 대상", "tools/revalidate.py",
-        f"base 리비전 `{a.base}` 와 워킹트리 사이에서 본문 해시가 바뀐 청크마다 — (a) frontmatter 링크의 상대(양방향) · "
-        "(b) 복합체 형제 · (c) `bazel query rdeps` 의 하류 의존자 · (d) 그 정의를 `uses` 로 가리키는 **호출부** · "
-        "(e) 그 청크를 양 끝 중 하나로 갖는 **링크 개체**(`agt:Link`)를 재판정 대상으로 (dependency-graph-design §5). 링크 개체의 상태는 저장하지 않고 여기서 물질화한다",
-        f"bazel run //tools:revalidate -- --base {a.base}", [],
-        f"변경 청크 {len(changed)} · 재판정 대상 {len(rows)} · 호출부 {sum(r[4] == 'frontmatter uses' for r in rows)} · "
-        f"재판정 링크 개체 {len(objs)}",
-        kb_lib.gendoc_view_notice("각 청크의 본문과 frontmatter 링크"),
-        input_note=f"`git show {a.base}:<청크>` 와 워킹트리의 청크 파일, `bazel query` 결과 — 리비전 대비 차이라 지문을 내지 않는다",
-        extra=[f"- 호출부 {sum(r[4] == 'frontmatter uses' for r in rows)} — 본문이 바뀐 정의를 `uses`(agt:usesDefinition)로 "
-               "가리키는 출발점이고 **코드 호출부 파손의 상한**이다. 모듈 안 호출만 세므로 모듈 간 호출은 빠진다",
-               f"- head 만 바뀐 청크 {len(head_only)} (본문 해시 동일 — 재판정 대상이 아니다)",
-               f"- 본문이 바뀐 청크에 붙은 링크 개체 {len(objs)} — 유도 상태는 `{kb_lib.LINK_STATE_SUSPECT}` 다"])
+def report_rows(per_chunk: list, rows: list, objs: list, head_only: list, unparsable: list,
+                unread: list, label) -> list[str]:
+    """표 셋과 꼬리말 — 변경 청크 · 재판정 대상 · 재판정 링크 개체."""
     body = ["| 변경 청크 | 변경 | 라벨 | 링크(양방향) | 하류(직접/전이) | 호출부 | verified | 비고 |",
             "|---|---|---|---|---|---|---|---|"]
     for path, kind, ko, nl, (nd, nt), nc, v, note in per_chunk:
@@ -301,6 +307,52 @@ def main() -> int:
                 + (f" … 외 {len(head_only) - 20}" if len(head_only) > 20 else "")]
     if unparsable or unread:
         body += ["판독 불가 파일: " + " · ".join((unparsable + [f"{u}: base 판독 불가" for u in unread])[:10])]
+    return body
+
+
+def main() -> int:
+    a = parse_args()
+    root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
+    cwd = str(root)
+    try:
+        apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
+    except (OSError, ValueError) as e:
+        print(f"CONFIG [revalidate] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}", file=sys.stderr)
+        return 2
+
+    index, incoming, composite_parts, callers, unparsable = index_worktree(root)
+    changed, head_only, base_by_iri, unread = base_diff(a.base, cwd, index)
+    rows, per_chunk, label, iri_to_label = revalidation_rows(
+        root, cwd, a.universe, changed, index, incoming, composite_parts, callers)
+
+    # 4. 본문 해시 변경 → 링크 재판정. 본문이 바뀐 청크를 양 끝 중 하나로 갖는 링크 개체가 suspect 로 유도된다 (노트 9.11절)
+    body_changed = {iri for _path, kind, iri, _m, _b, _n in changed if kind in ("본문 변경", "변경", "신규", "삭제")}
+    objs = link_objects(index, body_changed)
+    # 바뀐 끝이 **결정 결론**인 재판정 링크 — V&V 기준 decision-and-artifact-agree 의 판정 대상 행이고
+    # 현상 agt:reasoningActionMismatch(P16)의 관측 자리다. 결론은 결정 복합체의 파일 이름으로 가른다 (kb_lib.DECISION_PART_FILES)
+    conclusion_file = kb_lib.DECISION_PART_FILES["conclusion"]
+    path_of = lambda iri: (index.get(iri) or base_by_iri.get(iri) or ("", {}))[0]
+    is_conclusion = lambda iri: Path(path_of(iri)).name == conclusion_file
+    n_conclusion = sum(1 for _l, _k, frm, to, side in objs if is_conclusion(frm if side == "출발" else to))
+
+    rep = kb_lib.gendoc_header(
+        "revalidate", f"base {a.base} 대비 재판정 대상", "tools/revalidate.py",
+        f"base 리비전 `{a.base}` 와 워킹트리 사이에서 본문 해시가 바뀐 청크마다 — (a) frontmatter 링크의 상대(양방향) · "
+        "(b) 복합체 형제 · (c) `bazel query rdeps` 의 하류 의존자 · (d) 그 정의를 `uses` 로 가리키는 **호출부** · "
+        "(e) 그 청크를 양 끝 중 하나로 갖는 **링크 개체**(`agt:Link`)를 재판정 대상으로 (dependency-graph-design §5). 링크 개체의 상태는 저장하지 않고 여기서 물질화한다",
+        f"bazel run //tools:revalidate -- --base {a.base}", [],
+        f"변경 청크 {len(changed)} · 재판정 대상 {len(rows)} · 호출부 {sum(r[4] == 'frontmatter uses' for r in rows)} · "
+        f"재판정 링크 개체 {len(objs)} (바뀐 끝이 결정 결론인 것 {n_conclusion})",
+        kb_lib.gendoc_view_notice("각 청크의 본문과 frontmatter 링크"),
+        input_note=f"`git show {a.base}:<청크>` 와 워킹트리의 청크 파일, `bazel query` 결과 — 리비전 대비 차이라 지문을 내지 않는다",
+        extra=[f"- 호출부 {sum(r[4] == 'frontmatter uses' for r in rows)} — 본문이 바뀐 정의를 `uses`(agt:usesDefinition)로 "
+               "가리키는 출발점이고 **코드 호출부 파손의 상한**이다. 모듈 안 호출과 치역 경계"
+               f"(`{kb_lib.USES_TARGETS_NAME}`) 안의 모듈 간 호출을 세므로 경계 밖을 치역으로 하는 호출은 빠진다",
+               f"- head 만 바뀐 청크 {len(head_only)} (본문 해시 동일 — 재판정 대상이 아니다)",
+               f"- 본문이 바뀐 청크에 붙은 링크 개체 {len(objs)} — 유도 상태는 `{kb_lib.LINK_STATE_SUSPECT}` 다",
+               f"- 그중 **바뀐 끝이 결정 결론**(`{conclusion_file}`)인 것 {n_conclusion} — 결정의 본문과 구현이 어긋나는 현상"
+               f"(`agt:reasoningActionMismatch`)의 판정 대상 행이고 0 이면 공허 합격이다"])
+    body = report_rows(per_chunk, rows, objs, head_only, unparsable, unread, label)
     text = kb_lib.gendoc_assemble(rep, body, [])
     print(text)
     if a.out:

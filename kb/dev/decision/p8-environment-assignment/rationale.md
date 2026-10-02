@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/12df135b-c37d-48d8-b768-8279da163438
 ---
 **근거** (노트 8.10절) — 요인 분류가 할당을 결정하므로 할당이 취향이 아니라 근거를 갖는다 (r-011). "이 검증은 통합 환경이 필요하다"는 주장은 그 검증이 겨냥하는 요인으로 증명된다.

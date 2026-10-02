@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/04bfcfb9-d96b-42ec-9555-a58bd09f1551, https://agentic-knowledge-base.dev/id/chunk/50e03067-a51a-4276-beaa-b3062acbca52, https://agentic-knowledge-base.dev/id/chunk/552acfff-57db-463e-82cb-cdace15cb87d, https://agentic-knowledge-base.dev/id/chunk/869af6ba-5152-4bae-8ae4-1081f5177303, https://agentic-knowledge-base.dev/id/chunk/9cf3ed9e-81a6-4add-97ba-b933477041ad, https://agentic-knowledge-base.dev/id/chunk/ad68f79e-bbb2-4a80-b6c8-518fdd88a3a2, https://agentic-knowledge-base.dev/id/chunk/f27e5261-f973-4030-9f81-9dab47f4a21a]
 part_of: https://agentic-knowledge-base.dev/id/composite/e563bac1-7552-474e-a036-f6ced4999bc4
 ---
 **함수** — `main()` 다.

@@ -7,6 +7,7 @@ title: Rank link judgement evidence by checkability
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-link-operation
 ---
 **결론** — 링크가 성립하는지의 판정 근거는 **검사 가능성 순으로** 쓴다.

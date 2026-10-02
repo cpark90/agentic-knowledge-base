@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run-env-test}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-26T10:39:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/34277117-5c2c-4fcc-9a6d-fa0bb51bac85]
 part_of: https://agentic-knowledge-base.dev/id/composite/78211421-fa91-4809-8250-0a840db49298
 ---
 **함수** — `check_subprocess(root, probe)` 다. ② PYTHONSAFEPATH=1 을 둔 부모에서 실제 하위 프로세스를 띄워 검증기가 종료 0 을 낸다.

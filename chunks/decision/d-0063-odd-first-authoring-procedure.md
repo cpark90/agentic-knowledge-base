@@ -7,6 +7,7 @@ title: A project starts by authoring the ODD in five steps
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-odd-operation
 ---
 **결론** — 새 프로젝트의 첫 산출물은 ODD다. 온톨로지는 프로젝트 간에

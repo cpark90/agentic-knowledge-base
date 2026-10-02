@@ -7,8 +7,8 @@ title: module head exit-fail in tools/doccheck.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-doccheck}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5, https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f]
 part_of: https://agentic-knowledge-base.dev/id/composite/b5da82da-f5cc-4c80-9fbf-d65784ffee7d
 ---
@@ -22,7 +22,7 @@ EXIT_FAIL = kb_lib.EXIT_FAIL      # 판정 실패
 EXIT_CONFIG = kb_lib.EXIT_CONFIG  # 파일 없음·인자 오류·읽을 수 없는 입력
 EXIT_SKIP = kb_lib.EXIT_SKIP      # 검사 대상 0건 — PASS 가 아니다
 
-TAG = "doccheck"
+TAG = kb_lib.DOCCHECK_GATE
 PROSE = kb_lib.PROSE_GATE  # 산문 게이트 id — waivers.md 가 같은 이름으로 면제를 선언한다
 PATH_PREFIXES = ("kb/", "kg/", "tools/", "docs/", "defs/", "chunks/", "space/", ".claude/")
 SKIP_MARKS = ("*", "<", "{", "…", "$", "//", "bazel-bin/", "bazel-out", ".wip")

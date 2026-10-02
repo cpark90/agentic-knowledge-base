@@ -7,7 +7,8 @@ title: section tim-cells in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b-5fcc2cc9f893
 ---
 **절** — `tools/kb_lib.py` 의 절 `tim-cells` 다. 추적 매트릭스 (TIM — plane×plane 의 허용 칸; 노트 14.1 정정본 3단계 "매트릭스", metrics 3단계 대리 · weave audit 이 같은 정의)
@@ -40,8 +41,6 @@ TIM_CELLS = (("refines", "decision", "requirement"), ("serves", "decision", "req
 # `link` 후보 파이프라인(tools/link.py, //kg:link_candidates)이 후보를 내고 사람이 restored: 로 확정한다
 LINK_EXTRACTED = (AGT.cites, AGT.usesConcept)
 CONSTRUCTION_EVIDENCE = AGT.constructionRecord
-LINK_GATE = "link"          # 후보 생성기 뷰의 태그 — CONFIG [link] (입력 문제만, 판정 실패는 없다)
-RESTORED_GATE = "restored"  # 게이트 id — FAIL [restored]: restored: 의 IRI 가 같은 청크의 링크 키 대상에 없다 (chunk2kg)
 # 링크 상태 (link-state-ontology agt:linkState) — 후보·확정의 값. 본문 추출 참조(extract_refs 의 agt:cites)는 후보 링크 개체
 # (agt:CandidateLink, "candidate")로 나가고 frontmatter 링크는 확정(agt:ConfirmedLink, "confirmed")이다 (p10-extracted-references-are-
 # candidates, 유저 승인 2026-09-19). 상태는 증거 종류가 아니라 "누가 링크 키에 적었는가"로 갈린다 — 둘 다 증거는 구축 기록이다.
@@ -52,6 +51,5 @@ LINK_STATE_CONFIRMED = "confirmed"
 # 로 원본을 가리키고 chunk2kg 가 prov:specializationOf 를 방출한다. 링크 IRI 는 양 끝의 뿌리 uuid(사슬을 따라 올라간 work-id)로
 # 계산한다. 대상은 살아 있는 같은 plane 의 청크여야 하고 사슬은 순환하지 않는다 — validate check_specialization 이 FAIL [specialization],
 # 대상 부재는 check_dangling 이 FAIL [dangling] 으로 거부한다. 순환은 chunk2kg 도 (뿌리를 계산할 수 없으므로) 같은 게이트 id 로 거부한다
-SPECIALIZATION_GATE = "specialization"
 ```
 <!-- 인용 끝 -->

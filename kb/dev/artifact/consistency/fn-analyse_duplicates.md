@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/52698279-f1ad-4285-b6a1-161a8d5a2c4c, https://agentic-knowledge-base.dev/id/chunk/6dabb4bb-30f5-4716-b694-e88a78da51f1]
 part_of: https://agentic-knowledge-base.dev/id/composite/624a2c05-f9ee-442f-a725-cf7c16ed139a
 ---
 **함수** — `analyse_duplicates(items, theta)` 다. ① 정확 중복 · ② 라벨 중복 · ③ 근사 중복 후보와 shingle 집합을 돌려준다.

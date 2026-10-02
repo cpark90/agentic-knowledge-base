@@ -15,13 +15,14 @@ Part II·IV·V·VII·VIII·IX·X와 그 재도출 결정(`kb/dev/decision/`)이�
 
 | 규칙 | 내용 | 근거 |
 |---|---|---|
-| 크기 | 본문 42줄 이하. 컨텍스트 한계 약 200줄의 1/5 — 한 번에 4~5개를 조망한다. 상한은 **plane별 프로파일 파라미터**이고 값의 단일 정의처는 `tools/kb_lib.py`의 `BODY_LINE_LIMITS`다 — 42줄은 저작된 산문의 예산이고 `artifact`의 본문은 저작이 아니라 소스의 인용이라 그 예산이 인위적 분할을 부르므로 `artifact`는 **200줄**(컨텍스트 한계 그 자체)이다. 그래프 쪽 강제는 `line-budget-shapes.ttl`이 plane마다 한다(2026-09-30) | d-0002 · [p7-code-extraction-direction](../kb/dev/decision/p7-code-extraction-direction/conclusion.md) |
+| 크기 | 본문은 **토큰 상한** 이하다 — 저작 산문 **1,092**(42×26 = 예산 5,418의 1/5, 한 번에 4~5개를 조망), 인용(`artifact`·`memory`) **2,856**(42×68 = 한 창). 계수기는 고정된 `o200k_base`(ODD `cond-tokenizer-lock`)이고 단일 정의처는 `tools/kb_lib.py`의 `BODY_TOKEN_LIMITS`, 그래프 쪽은 `token-budget-shapes.ttl`(2026-10-01 — 그 전에는 42줄·200줄. 줄은 내용에 따라 토큰이 1.9배 갈린다) | d-0002 · [p1-chunk-unit-is-tokens](../kb/dev/decision/p1-chunk-unit-is-tokens/conclusion.md) |
+| 층 | 선택 키 `layer: knowledge \| methodology \| process`는 항목이 서비스의 어느 층에서 역할을 갖는가다([p0-service-is-a-three-layer-wiki](../kb/dev/decision/p0-service-is-a-three-layer-wiki/conclusion.md), 2026-10-01). 층은 plane과 직교하므로 type 제한이 없고, 명시가 없으면 `chunk2kg`가 `agt:inLayer agt:knowledgeLayer`를 방출한다 — 표시 누락이 산발로 세어지지 않아야 하고 층별 집계(CQ-38)의 분모가 항목 전수여야 한다. 코드 청크는 등록부의 `layer`가 원본이다. 값 어휘·개수는 `layer-shapes` | [p0-service-is-a-three-layer-wiki](../kb/dev/decision/p0-service-is-a-three-layer-wiki/conclusion.md) |
 | 단위 | 한 chunk = 한 plane · 한 level · 한 주제 · **한 파일** | d-0002 · d-0071 |
 | 라벨 | 한/영 각 하나. 라벨만 보고 본문을 예측할 수 있어야 한다(검사 불가, 규약) | d-0082 |
 | 상태 | `draft` → `stable` → `suspect` → `invalidated` → `deprecated`. OKF `status` 어휘(draft·stable·deprecated) + 무효화 확장 둘. `stable`이 d-0078의 `valid`다 | d-0078 |
 | 앵커 | chunk IRI가 앵커다. 산문 계열은 파일 경로, 코드 계열은 심볼로 해석한다 | d-0077 · d-0105 |
 | 신뢰 등급 | `generated.by` 필수, `verified`가 없으면 미검증. `human:` 접두어가 사람 검토 등급 | §1.1 |
-| 네 그래프 | head(타입·plane·level·라벨) · assertion(본문, 42줄은 여기만) · provenance · pubinfo | d-0011 |
+| 네 그래프 | head(타입·plane·level·라벨) · assertion(본문, 토큰 상한은 여기만) · provenance · pubinfo | d-0011 |
 
 **지식의 종류는 "X 청크"라 부르지 않는다.** 조건·개념·변수·후보·결정·가정·시그니처·
 함수·주석·관측처럼 고유 용어로 부르고, "청크"는 그것들이 따르는 구조 규칙을 가리킬 때만
@@ -59,7 +60,7 @@ write plane 경계가 규약에서 기계 검사로 내려온다.
 ### 파일 형식과 head 생성
 
 head 메타데이터는 파일 안의 frontmatter에 있고, `bazel-bin/kg/chunks-kg.ttl`은 거기서 **생성**된다.
-손으로 쓰지 않는다. `lineCount`·`assertionLocation`이 파일에서 계산되므로 어긋날 수 없다.
+손으로 쓰지 않는다. `tokenCount`·`assertionLocation`이 파일에서 계산되므로 어긋날 수 없다.
 
 ```markdown
 ---
@@ -81,7 +82,7 @@ part_of: <복합체 IRI>            # 선택 — 복합체의 부분일 때
 composite: {id: ..., title_ko: ..., title: ..., ordered: [...], part_of: <상위 복합체 IRI>}  # 복합체 선언 — 대표 부분에서 한 번만.
                                 # `part_of`는 선언된 **복합체**가 다른 복합체의 부분임을 적는다 (중첩, p4-composite-as-part-of)
 ---
-본문 — 42줄 이하 (frontmatter와 앞뒤 빈 줄은 세지 않는다)
+본문 — 토큰 상한 이하(저작 산문 1,092 · 인용 2,856; frontmatter와 앞뒤 빈 줄은 세지 않는다)
 ```
 
 IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞 12자를
@@ -104,6 +105,12 @@ IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 그 줄의 필드 머리(줄 시작·`- ` 다음·` · ` 다음)에 있는 굵은 span만 슬롯이고 표 셀·문장 중간의 굵은 span은 강조다; 한정어는
 12자 이하·마침표 없음일 때만 같은 표지다(2026-09-29 — 시나리오 표지를 더하자 옛 청크 32파일 60건의 강조가 슬롯으로
 방출됐고 이 규칙으로 0이 됐다). 표지 낱말의 접두 겹침은 `kb_lib.validate_body_slot_markers`가 로드 시점에 거부한다.
+
+**게이트 id의 단일 정의처는 `defs/kb.bzl`의 `GATES`**(id → 계층·판정 도구·한글 라벨·설명 한 줄)**와 `TOOL_TAGS`**(게이트가 아닌 입력
+문제·보고 태그)**다**(2026-10-02 — 통일 기획 2단계의 첫 조각; 그 전에는 같은 목록이 넷으로 갈려 있었다). `kb_lib`이 리터럴 읽기로
+`*_GATE`·`*_TAG`를 파생하므로 상수를 손으로 두지 않는다. 게이트는 프로세스 층의 **항목**이고 개체는 `//kg:gates_kg`의
+`id:gate-<id>`(`agt:Gate`, `agt:gateTier`, `agt:enforcedBy` → 판정 도구의 파일 복합체)다 — `kg/`에 손으로 쓰지 않는다. 갈림은
+게이트 `gate-registry`(코드의 태그 ⊆ 등록부 · 손 상수 없음 · 폴백 값 일치 · 등록 id가 코드에 닿음)가 거부한다.
 
 **값 어휘와 수준 허용표의 단일 정의처는 `defs/kb.bzl`이다**(2026-09-26·27). `PLANES`·`LEVELS`·`STATES`·`RESIDENCY`를 거기에만
 적고, 파이썬 쪽(`chunk2kg`·`kb_lib`)은 그 리터럴을 읽어 파생한다. 청크를 파싱하는 모든 액션이 `//defs:kb.bzl`을 입력으로
@@ -234,7 +241,7 @@ C7). `serves ⊑ refines`는 결정 → 요구·관심사의 링크이며 v4 6.8
 조회 알고리즘은 앵커 → 이웃 확장 → 우선순위 → 예산 패킹이며 [`p0-workset-anchor-neighbourhood`](../kb/dev/decision/p0-workset-anchor-neighbourhood/conclusion.md)에 있다.
 복원 경로는 [`p10-link-by-construction`](../kb/dev/decision/p10-link-by-construction/conclusion.md)·[`p9-candidate-generation-limits`](../kb/dev/decision/p9-candidate-generation-limits/conclusion.md)에 있다.
 LEDGER·LARGER 대응표 원안은 채널 항목 `dependency-graph-design`(2026-09-04, 반영 완료 2026-09-12 — git 이력)에 있다.
-**어휘는 갖춰졌고 링크 개체는 472(전부 구축 기록 증거, `metrics` 3단계 절)이며 후보 링크는 아직 0이다.**
+**어휘는 갖춰졌고 링크 개체는 전부 구축 기록 증거를 갖는다(수는 `bazel build //kg:metrics` 3단계 절이 낸다 — 2026-09-11의 472는 2026-10-01에 1,277이었다).**
 
 ## 5. knowledge graph — 무엇을 담는가
 
@@ -304,6 +311,7 @@ dcterms·co·obo) 안이어야 한다. prov·skos 용어는 W3C 원문에 실재
 | ODD · 조건 | `odd-` · `cond-` | `project-odd.ttl` |
 | 하네스 · 역할 · 스코프 · 채널 | `h-` · `role-` · `scope-` · `chan-` | `catalog-kg.ttl` |
 | 시나리오 | `scn-` | (아직 없음) |
+| 게이트 | `gate-` | (생성) `bazel-bin/kg/gates-kg.ttl` — 원본은 `defs/kb.bzl`의 `GATES`, 손으로 쓰지 않는다 (2026-10-02) |
 | 실행 기록 | `id/chunk/<uuid4>` — memory 청크(`kb/vv/run/run-<시각>.md`, `process:vv_run`) | (생성) `chunks-kg.ttl` |
 
 IRI는 불투명하게 유지한다. 라벨이나 경로가 바뀌어도 IRI가 유지되어야 시간 정체성이
@@ -342,9 +350,16 @@ uuid`이고 신설만 자동이다 — 개명·삭제는 등록부 편집이다(
 `artifact` 청크가 요구를 직접 `serves`하지 않는다 — 결정을 `refines`하고 그 결정이 요구에 닿는다. `artifact`의 `verified`는
 테스트 통과 도장이다(`STYLEGUIDE.md` §4). **정의 사이의 호출은 `usesDefinition`으로 올라온다**(유저 답 2026-09-30). 정의 청크의
 선택 키 `uses`가 같은 모듈의 최상위 정의를 가리키고 추출기가 AST의 이름 참조에서 낸다 — `references` 족의 잎이라 Bazel `deps`도
-링크 개체도 아니고 링크는 그대로 파일 복합체의 것이다. 방출의 경계는 `kb_lib.USES_SOURCES`이고 첫 형태는 표본 하나(`tools/kb_lib.py`,
-트리플 54)다. 넓히기는 그 표에 소스를 더하는 것이며 37 파일 전부의 실측 비용은 465 트리플이다. **모듈 간 호출은 이 잎이 잡지
-않는다** — 실측 274/739 간선이 사각지대이고, 채널이 든 사례(`pct` 개명 → 호출부 36)는 전부 모듈 간이라 이 잎으로 0이다. 표본 `tools/kb_lib.py`(청크 100·복합체 25)의 churn 실측(uuid 정체성 성립)을 근거로 같은 날 `tools/*.py` 전부로 넓혔다 — **37 파일 전부** · 청크 624 · 복합체 184, 파일마다 드리프트 테스트 `//:extract_drift_<모듈>`(묶음 `//:extract_drift_test`). 절 주석은 최소 하나다(파일 복합체의 부분이 둘 이상). 클래스는 정의 청크 하나이고 실측 최대 85줄이다. 200줄을 넘던 `main` 둘(`consistency`·`metrics`)은 상한을 올리지 않고 나눴다 — 산출물 바이트 동일.
+링크 개체도 아니고 링크는 그대로 파일 복합체의 것이다. 방출의 경계는 `defs/kb.bzl`의 `EXTRACTED_SOURCES`(단일 정의처 — `RESIDENCY`와 같은 해법, 2026-10-01)이고 37 파일 전부이며
+실측 트리플 476이다. `BUILD.bazel`은 그 리터럴을 load하고 `kb_lib.load_extracted_sources`가 `ast.literal_eval`로 읽어 `uses`
+방출 경계를 파생한다 — 상수를 둘로 두지 않는다. `tools/BUILD.bazel`의 `check_extracted_sources`가 등록부 사이드카의 집합과
+그 목록이 같은지 로드 시점에 강제해 갈리면 bazel 명령이 바로 fail한다. **치역 경계는 선언이다**(유저 답 1, 2026-10-01). `uses`의 치역은 같은 모듈의 최상위 정의와 `defs/kb.bzl`의 `USES_TARGETS`가 선언한
+모듈의 최상위 정의다 — 표본 쌍은 `kb_lib` 하나이고 넓히기는 그 리터럴에 이름을 더하는 것이다. 모듈 밖 해소는 최상위 import와
+정의 안의 늦은 import가 묶은 이름을 보고 `kb_lib.<이름>`(별칭 포함)과 `from kb_lib import <이름>`의 `Load` 참조를 대상 모듈
+등록부의 uuid로 푼다. 실측 `agt:usesDefinition` 667(모듈 안 484 · 모듈 간 183, 치역은 전부 `kb_lib`), 오탐 0 · 누락 0(표본 30 +
+독립 대조). 채널이 든 사례(`pct`)는 이제 **호출부 12**로 잡힌다. **남은 사각지대는 셋이다** — ① 치역 경계 밖의 모듈(전부로
+넓히면 +52, 그 대부분이 `chunk2kg` 43) ② 함수를 인자로 넘기는 간접 호출(17 표현식 — 넘기는 쪽은 잡히고 받는 쪽은 아니다)
+③ 정의가 아닌 이름(상수·모듈 변수)을 쓰는 관계 — 정의 청크가 없어 어느 경계에서도 올라오지 않는다. 표본 `tools/kb_lib.py`(청크 100·복합체 25)의 churn 실측(uuid 정체성 성립)을 근거로 같은 날 `tools/*.py` 전부로 넓혔다 — **37 파일 전부** · 청크 624 · 복합체 184, 파일마다 드리프트 테스트 `//:extract_drift_<모듈>`(묶음 `//:extract_drift_test`). 절 주석은 최소 하나다(파일 복합체의 부분이 둘 이상). 클래스는 정의 청크 하나이고 실측 최대 85줄이다. 200줄을 넘던 `main` 둘(`consistency`·`metrics`)은 상한을 올리지 않고 나눴다 — 산출물 바이트 동일.
 
 | 규칙 | 내용 | 결정 |
 |---|---|---|
@@ -375,7 +390,7 @@ V&V KB는 코어의 두 번째 인스턴스다. 새 plane을 만들지 않고 �
 | 시나리오 | `decision`(vv) 복합체 — 자극·요인·배제 자극. 변수는 ODD 속성만, ODD 밖은 `odd:outside`로 커버리지 제외. 세 청크의 파일 이름은 `<슬러그>-stimulus.md`·`<슬러그>-factors.md`·`<슬러그>-excluded.md`이고 역할 표지 **자극**·**요인**·**배제 자극**이 결정의 결론·근거·대안 슬롯에 사상되며 선언 청크는 `-stimulus`, `ordered`는 필수다(게이트 `decision-role`·`shacl`, 2026-09-29). 접미 판정은 `kb/vv/scenario/`에서만 걸린다 — 옛 결정에 stem이 `-factors`로 끝나는 것이 있다. 단일 청크 시나리오는 이행 기간 동안 **결론** 표지로 통과한다 | [p8-scenario-authoring](../kb/dev/decision/p8-scenario-authoring/conclusion.md) |
 | 판정 로그 | 판정 로그는 실행 기록이다 — `kb/vv/run/judge-<시각>.md`에 append-only로 쌓이고 생성자는 `process:judge`다(역할이 아니므로 writer 검사 밖). 판정 표의 열이 곧 필수 필드다: 질문 id·값·확신도·**판정자 식별자**(세션·모델 — 외부 서비스가 아니다, 2026-09-30)·입력 지문(보낸 바이트의 sha256)·시각. 열 `일치`(일치·불일치·해당 없음)는 판정자 둘 이상이 같은 (질문·지문)에 답했을 때만 뜻을 갖는다. 확신도는 **자기 보고**라 개별 답을 보증하지 않고 단독 응답으로는 자동 적용이 없다. 결과 주석의 `본문:`은 판정자가 쓰지 못하므로 `해당 없음`이다. 게이트 `judge-log`(`chunk_lint`) — **로그가 0건이면 검사 대상이 없어 PASS** | [p8-judge-session-agreement](../kb/dev/decision/p8-judge-session-agreement/conclusion.md) |
 | 기계 환원 | 요약(`핵심:` 항목의 지지 참조)은 게이트 `summary-support`(`chunk_lint`, 오탐 0/0 실측 — 슬롯 사용 0)로 확정된다. 중복·자리는 `consistency.py` ⑩·⑪이 후보만 내고 확정은 판정자(사람 또는 세션 판정자) 몫이다 | [p8-judge-session-agreement](../kb/dev/decision/p8-judge-session-agreement/conclusion.md) |
-| 위험 분석의 어휘 | 현상은 `defect` 모듈(`kb/ontology/related/defect/`)의 요인 개체다. 하위 유형 14는 인지·상호작용·실행 세 갈래 아래 ODC 유형이고, 피해는 ODC 영향 차원 다섯(`agt:DefectImpact`)이며 "지식 유실·재생산"은 H1 하위다. 현상 개체는 정의·표기(P번호)·관측 수단·출처를 갖는다(게이트 `shacl`, `defect-factor-shapes`). 위험 지표 S·노출·탐지가능성은 순서 척도이고 **곱하지 않는다** — 등급은 정렬용이고 합격 기준은 케이스가 정한다. 규칙성 가정 A1~A3(`id:asm-links-only-interaction`·`asm-finite-factor-types`·`asm-missing-vocabulary-is-signal`)은 프로파일에서 파생되는 항목이 `assumes`로 참조한다(2026-09-29). 현상 → 피해 인과는 `defect-rules` 모듈의 `agt:hasImpact` 트리플(첫 형태 28건 = 질문지의 피해 열)이다 — 어휘(`defect`)와 형식화(`defect-rules`)를 나눈 이유는 어휘가 안정적이고 규칙이 자주 바뀌므로 어휘 사용자가 규칙 변경에 영향받지 않아야 한다는 것이다(노트 2.3절 (b)) | [p8-odc-defect-subtypes](../kb/dev/decision/p8-odc-defect-subtypes/conclusion.md) · [p8-risk-analysis-profile](../kb/dev/decision/p8-risk-analysis-profile/conclusion.md) |
+| 위험 분석의 어휘 | 현상은 `defect` 모듈(`kb/ontology/related/defect/`)의 요인 개체다. 하위 유형 14는 인지·상호작용·실행 세 갈래 아래 ODC 유형이고, 피해는 ODC 영향 차원 다섯(`agt:DefectImpact`)이며 "지식 유실·재생산"은 H1 하위다. 현상 개체는 정의·표기(P번호)·관측 수단·출처를 갖는다(게이트 `shacl`, `defect-factor-shapes`). 위험 지표 S·노출·탐지가능성은 순서 척도이고 **곱하지 않는다** — 등급은 정렬용이고 합격 기준은 케이스가 정한다. 탐지가능성 D는 현상 개체의 `agt:observationMeans`가 갈리는 세 꼴에서 도출된다 — 게이트 이름은 D1, 생성 보고서가 수치로 내되 진행을 막지 않는 것은 D2, `미확정`은 D3다. 값의 원본은 `defect-rules/risk-grade-rules.ttl`이고 수를 여기 적지 않는다(2026-10-01 — 관측 수단 다섯이 서서 D3가 둘로 줄었다). `미확정`을 유지하는 현상은 그 까닭을 정의문에 적는다 — 관측 수단 자리에 산문을 덧붙이지 않는 것이 세 빈 값 규칙이다. 규칙성 가정 A1~A3(`id:asm-links-only-interaction`·`asm-finite-factor-types`·`asm-missing-vocabulary-is-signal`)은 프로파일에서 파생되는 항목이 `assumes`로 참조한다(2026-09-29). 현상 → 피해 인과는 `defect-rules` 모듈의 `agt:hasImpact` 트리플(첫 형태 28건 = 질문지의 피해 열)이다 — 어휘(`defect`)와 형식화(`defect-rules`)를 나눈 이유는 어휘가 안정적이고 규칙이 자주 바뀌므로 어휘 사용자가 규칙 변경에 영향받지 않아야 한다는 것이다(노트 2.3절 (b)) | [p8-odc-defect-subtypes](../kb/dev/decision/p8-odc-defect-subtypes/conclusion.md) · [p8-risk-analysis-profile](../kb/dev/decision/p8-risk-analysis-profile/conclusion.md) |
 | 기준 ≠ 자극 | 기준은 `contract`(vv) 별도 청크, `verifies` 속성으로 바인딩. 판정식 없는 기준은 abstract로 강등 | [p8-pass-criteria](../kb/dev/decision/p8-pass-criteria/conclusion.md) |
 | 케이스 | concrete 케이스는 사람이 쓰지 않는다 — `keep`+`cover`에서 생성. 표본 근거 없는 케이스 거부 | [p8-case-generation](../kb/dev/decision/p8-case-generation/conclusion.md) |
 | 역할 | 검증기 저자 ≠ V&V engineer (또는 다른 세션). audit은 쓰기 없음 | [p8-vv-roles](../kb/dev/decision/p8-vv-roles/conclusion.md) |

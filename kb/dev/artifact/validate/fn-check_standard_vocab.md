@@ -7,7 +7,9 @@ title: function check_standard_vocab in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/f9f4e245-6a05-4f51-b5b5-532470213ed5]
 part_of: https://agentic-knowledge-base.dev/id/composite/2bbdac5b-e7f6-4ca1-b5fd-04c0513178d1
 ---
 **함수** — `check_standard_vocab(graphs, terms, namespaces)` 다. (--standard-vocab) 표준 어휘 네임스페이스의 용어는 등록 원문에 정의돼 있어야 한다.
@@ -28,7 +30,7 @@ def check_standard_vocab(graphs: dict[str, Graph], terms: set[URIRef], namespace
                 if isinstance(node, URIRef) and node not in seen:
                     seen.add(node)
                     if _namespace(node) in namespaces and node not in terms:
-                        errors.append(f"[vocab] {path}: 표준 어휘 원문에 정의되지 않은 용어 {node} (--standard-vocab 기준)")
+                        errors.append(f"[{VOCAB}] {path}: 표준 어휘 원문에 정의되지 않은 용어 {node} (--standard-vocab 기준)")
     return errors
 ```
 <!-- 인용 끝 -->

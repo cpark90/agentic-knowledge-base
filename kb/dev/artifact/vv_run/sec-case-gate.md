@@ -7,8 +7,8 @@ title: section case-gate in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/9f79d119-83cf-46a7-89c0-680e8f203296, https://agentic-knowledge-base.dev/id/chunk/b8d74a2d-f94b-4fe7-8b3b-13dca638d338, https://agentic-knowledge-base.dev/id/chunk/36a0b6fa-ac60-47db-a769-b49d067f6854]
 part_of: https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f
 composite: {id: https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f, title_ko: 절 복합체 case-gate (tools/vv_run.py), title: section composite case-gate in tools/vv_run.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/41141de0-6fa2-4b92-802c-3816ac5936ef, https://agentic-knowledge-base.dev/id/chunk/b43bbf0b-8cd2-4a3c-9acb-56a1fa9e8a63, https://agentic-knowledge-base.dev/id/chunk/2c7856fb-c6fb-42fb-bc34-c18e19362e57, https://agentic-knowledge-base.dev/id/chunk/f1c79e23-8146-427e-83da-3d62ae01bb20, https://agentic-knowledge-base.dev/id/chunk/13d0468f-ac80-47c0-9d27-cafd3ef8ffaf, https://agentic-knowledge-base.dev/id/chunk/4fa89da6-040b-46a2-8dda-692155b66811, https://agentic-knowledge-base.dev/id/chunk/fad9cc7c-a705-42d5-adcc-e124bff2c57c, https://agentic-knowledge-base.dev/id/chunk/4819f0e8-1ed9-43cb-b206-366b65a7f00f], part_of: https://agentic-knowledge-base.dev/id/composite/5fc8dfb1-4583-4c27-8266-44c34557e4c1}
@@ -22,7 +22,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a
 # ── 기계가 읽는 자극·기대 (결정 p8-machine-readable-case) ──────────────────────────────────────────────
 # 케이스는 산문 옆에 `yaml` 펜스를 두고 키 둘(files·expect)을 적는다. 그 밖의 `yaml` 펜스는 산문의 예시이므로 읽지 않는다 —
 # 점진 도입이라 옮기지 않은 케이스가 거부되면 안 된다. SPEC_HEAD 가 규약 펜스인지를 가른다
-CASE_GATE = "vv-case"  # 케이스 형식 검사의 게이트 id — FAIL [vv-case]. docs/waivers.md 가 이 이름으로 면제를 선언한다 (축 파일·stem)
+CASE_GATE = kb_lib.VV_CASE_GATE  # 케이스 형식 검사의 게이트 id — FAIL [vv-case]. docs/waivers.md 가 이 이름으로 면제를 선언한다 (축 파일·stem)
 SPEC_KEYS = ("files", "expect")
 EXPECT_KEYS = ("exit", "contains")
 SPEC_HEAD = re.compile(r"^(files|expect)\s*:", re.M)

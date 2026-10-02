@@ -7,12 +7,12 @@ title: file tools/community.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-community}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-26T10:39:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/822db955-483e-47ed-ad68-fec783bc825b]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/0ef43353-941b-4b48-b8b1-2ef9a8eacf53, title_ko: 파일 복합체 tools/community.py, title: file composite tools/community.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/13568c50-9137-4cc7-82ab-dc6e233c5bcc, https://agentic-knowledge-base.dev/id/composite/29733e84-623f-4e11-b466-6c084c8510a5, https://agentic-knowledge-base.dev/id/composite/09eb4947-176f-41ad-92ee-7632b5240022]}
 ---
-**파일** — `tools/community.py` 다. 277줄 · 최상위 정의 7개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/community.py` 다. 279줄 · 최상위 정의 7개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

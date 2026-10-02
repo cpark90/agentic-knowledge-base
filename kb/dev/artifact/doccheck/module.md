@@ -7,12 +7,12 @@ title: file tools/doccheck.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-doccheck}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5, https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/b5da82da-f5cc-4c80-9fbf-d65784ffee7d, title_ko: 파일 복합체 tools/doccheck.py, title: file composite tools/doccheck.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/782db9bf-fe98-4c49-89d5-5143bc44c0c6, https://agentic-knowledge-base.dev/id/composite/41567349-5994-4e9e-aec7-ac6603e2e6f5, https://agentic-knowledge-base.dev/id/composite/9d5ac0bb-b9b3-4682-886f-6b87b409d984]}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/b5da82da-f5cc-4c80-9fbf-d65784ffee7d, title_ko: 파일 복합체 tools/doccheck.py, title: file composite tools/doccheck.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/782db9bf-fe98-4c49-89d5-5143bc44c0c6, https://agentic-knowledge-base.dev/id/composite/41567349-5994-4e9e-aec7-ac6603e2e6f5, https://agentic-knowledge-base.dev/id/composite/9d5ac0bb-b9b3-4682-886f-6b87b409d984, https://agentic-knowledge-base.dev/id/composite/fc4042df-b620-47ee-b006-cf1ceb777197, https://agentic-knowledge-base.dev/id/composite/379df7df-38d0-4a60-b9ed-27e40b758ea3]}
 ---
-**파일** — `tools/doccheck.py` 다. 204줄 · 최상위 정의 6개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/doccheck.py` 다. 451줄 · 최상위 정의 15개 · 최상위 절 5개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -38,11 +38,23 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/b5da82da-f5cc-4c
           는 산문이 아니다. --waivers(docs/waivers.md)에 게이트 id `prose`(축 파일)로 면제된 문서는 세지 않는다. 추측·구어는
           판정이 필요하므로 게이트가 아니라 consistency ⑦ 보고다.
 
-출력  FAIL [doccheck|prose] <파일>:<줄>: <종류> <대상> — 근거
+  report  **보고 모드**(`--report`, 게이트가 아니다) — 문서(위치 인자, 없으면 진입점 문서 넷 `REPORT_DOCS`)가 적은
+          수치를 생성물의 같은 이름 값과 쌍으로 대조해 어긋난 쌍을 센다. 위치 인자를 주면 `REPORT_DOCS` 대신 그
+          목록을 대조 대상으로 쓰고, **이 모드에서만** 루트 밖 절대 경로를 허용한다(`report_doc_path` — `vv_run`
+          이 케이스 자극을 워크스페이스 밖 임시 디렉토리에 두므로, 2026-10-01 vnv 요청). 이름 열넷의 원본은 V&V 기준
+          `kb/vv/criteria/document-table-matches-generated.md` 의 대조 대상 목록이고, 현상은 `agt:documentLag`(P18)이다.
+          짝짓기는 이름 뒤 24자 창의 수치이므로 근사다 — 이름과 값이 산문으로 떨어져 있으면 쌍이 서지 않는다.
+          시점을 선언한 스냅샷 단락은 대조 밖이고, 생성물 원본이 없는 이름은 문서가 생성 명령이나 시각을 병기하면
+          기준의 둘째 절로 합격이다. 생성물이 없으면(`bazel-bin` 미빌드) 그 이름을 건너뛴다고 적는다.
+
+출력  FAIL [doccheck|prose] <파일>:<줄>: <종류> <대상> — 근거 · REPORT [doccheck] <파일>:<줄> <이름> 문서 <값> ↔ 생성물 <값>
 종료  위반 → EXIT_FAIL · 입력 파일 없음/루트 밖/인자 오류 → EXIT_CONFIG · 검사 대상 0건 → EXIT_SKIP (PASS 가 아니다)
+      `--report` 는 판정이 아니므로 어긋난 쌍이 있어도 0 이다.
 
 사용  doccheck.py [--root DIR] [--waivers FILE] <문서 ...> [--target-only FILE ...]
       bazel run //tools:doccheck -- *.md docs/*.md docs/open-questions/*.md --target-only docs/agent-knowledge-system-notes.md
+      bazel run //tools:doccheck -- --report      # 문서 수치 대 생성물 수치, FAIL 아님 (진입점 문서 넷)
+      bazel run //tools:doccheck -- --report /tmp/x/doc.md   # 위치 인자가 있으면 그 문서로 바꾼다, 루트 밖도 된다
       루트는 --root, 없으면 BUILD_WORKSPACE_DIRECTORY(bazel run), 없으면 현재 디렉토리(bazel test 의 runfiles).
       실재 판정은 루트 아래 파일계로 한다 — 테스트에서는 선언된 입력(runfiles)만 실재한다.
 """

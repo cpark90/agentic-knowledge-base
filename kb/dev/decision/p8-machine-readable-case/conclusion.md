@@ -9,6 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-23T11:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/e2064625-339c-4cef-8f06-5e775874f177
 composite: {id: https://agentic-knowledge-base.dev/id/composite/e2064625-339c-4cef-8f06-5e775874f177, title_ko: 기계가 읽는 케이스, title: A machine-readable case}
 ---

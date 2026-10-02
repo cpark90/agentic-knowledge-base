@@ -7,11 +7,12 @@ title: file tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/651e2c44-9a19-4a3e-b04a-ed1226aeef23, https://agentic-knowledge-base.dev/id/chunk/57fc48aa-6091-4ee7-9763-13ddab8ac8b1, https://agentic-knowledge-base.dev/id/chunk/ab6eb286-d87b-43a5-88f0-e32ffdd54acc]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/974f7eff-3756-4a18-af98-04c75441cd70, title_ko: 파일 복합체 tools/revalidate.py, title: file composite tools/revalidate.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/8013f604-8091-4bcf-aa5e-9a4a96aa15f1, https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68, https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f]}
 ---
-**파일** — `tools/revalidate.py` 다. 312줄 · 최상위 정의 7개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/revalidate.py` 다. 364줄 · 최상위 정의 12개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -27,8 +28,10 @@ head 그래프의 agt:contentHash 와 같다. 재판정 대상은 다섯 갈래�
       coUpdatesWith·overlapsWith), 양방향
   (b) Bazel 하류 의존자 — bazel query rdeps(<universe>, <타깃>) 의 kb_chunk·kb_decision (직접 / 전이)
   (c) **호출부** — 본문 해시가 바뀐 정의 청크를 `uses`(agt:usesDefinition)로 가리키는 출발점. 그 수가 **코드 호출부
-      파손의 상한**이다: 같은 모듈의 최상위 이름 참조만 세므로 모듈 간 호출은 여기 들어오지 않고 실제 파손은 이 수보다
-      크다 (유저 답 2026-09-30, 채널 uses-definition). 링크 개체가 아니라 직접 트리플이므로 (d) 의 표에는 오르지 않는다
+      파손의 상한**이다: 같은 모듈의 최상위 이름 참조와 치역 경계(defs/kb.bzl 의 USES_TARGETS — 2026-10-01 표본 쌍은
+      `kb_lib` 하나다) 안의 모듈 간 참조를 세므로, 경계 밖의 모듈을 치역으로 하는 호출은 여기 들어오지 않고 실제
+      파손은 이 수보다 크다 (유저 답 2026-09-30·2026-10-01, 채널 uses-definition·uses-definition-range).
+      링크 개체가 아니라 직접 트리플이므로 (d) 의 표에는 오르지 않는다
   (d) **링크 개체** — 본문 해시가 바뀐 청크를 양 끝 중 하나로 갖는 agt:Link 의 IRI. 그 링크가 suspect 로 유도되는 자리다.
       IRI 는 chunk2kg 와 같은 함수(link_hash × work_id)로 계산하므로 head 그래프의 링크 개체와 같은 것이다 — 그래서 이 보고의
       한 줄이 그래프의 한 개체를 가리킨다. 상태는 저장하지 않는다 (노트 9.11절): suspect 는 여기서 물질화된다.

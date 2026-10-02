@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99]
 part_of: https://agentic-knowledge-base.dev/id/composite/281c4f1d-6048-495f-872e-1aa02b250baa
 ---
 **함수** — `vv_facts(g, chunks, live, plane)` 다. V&V KB 의 청크 분포와 verifies 링크·기준 없는 verifies·검증 대응물을 돌려준다.

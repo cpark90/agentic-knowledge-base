@@ -7,24 +7,17 @@ title: function main in tools/assume_check.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-assume-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
-part_of: https://agentic-knowledge-base.dev/id/composite/aa693393-615e-4f00-ada2-34df72e2832e
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/1a52fdec-22af-4925-98d0-b91f50c202b5, https://agentic-knowledge-base.dev/id/chunk/1de413a3-d886-4f4a-b4d8-5899d68e6d2c, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/304744ba-30b6-43f2-8aee-d9532aa66c13, https://agentic-knowledge-base.dev/id/chunk/31bc1a35-7001-4936-9b80-a0bfffed1335, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/91c67aff-4114-4bf6-a319-b4aa40cbc5f1, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/a3ac2cde-76e2-4d4e-b75f-ecd7060abd39, https://agentic-knowledge-base.dev/id/chunk/a49b0fbe-30fd-4d2c-8b92-f99763bd47af, https://agentic-knowledge-base.dev/id/chunk/ae67e102-2e22-4234-8638-b2db8fa603b4, https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e, https://agentic-knowledge-base.dev/id/chunk/fc00bd15-31c6-4e4b-b28e-773cbf0b1e48, https://agentic-knowledge-base.dev/id/chunk/ff4fd3d8-23db-4fee-89d7-f5c9052f5590]
+part_of: https://agentic-knowledge-base.dev/id/composite/5dac7240-2471-496d-a65c-f55a8a067a41
 ---
 **함수** — `main()` 다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--odd", default="kb/odd/project-odd.yml", help="OpenODD 문서 (워크스페이스 상대)")
-    ap.add_argument("--break", dest="broken", action="append", default=[], metavar="COND",
-                    help="이 조건(id:cond-… 의 슬러그 또는 ODD 속성명)을 out 으로 가정한다 — 인위 파괴 실험. 반복 가능")
-    ap.add_argument("--record", action="store_true", help=f"결과를 관측으로 {MEMORY_DIR}/obs-<UTC>.md 에 append-only 로 쓴다")
-    ap.add_argument("--out", default="", help="보고를 파일로도 쓴다")
-    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 워크스페이스 루트 기준")
-    ap.add_argument("ttl", nargs="*", help=f"그래프 TTL (기본: {' '.join(DEFAULT_TTL)})")
-    a = ap.parse_args()
+    a = parse_args()
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     now = datetime.now(timezone.utc).replace(microsecond=0)
     try:
@@ -57,7 +50,7 @@ def main() -> int:
 
     cond_rows = judge_all(doc, root, forced)
     asms = evaluate(g, cond_rows)
-    chunks = set(g.subjects(AGT.lineCount, None))
+    chunks = set(g.subjects(AGT.tokenCount, None))
     live = {c for c in chunks if str(next(g.objects(c, AGT.status), "")) != "deprecated"}
     impact = {}
     for asm in asms:
@@ -67,30 +60,8 @@ def main() -> int:
     broke_names = list(forced)
     broke_show = [str((attrs.get(n) or {}).get("iri", n)).replace("id:", "") for n in broke_names]  # 보고에는 조건 id 로
     check = None
-    if broke_names:  # 검증 실험 — 깨진 가정 전부의 계산된 직접 영향 집합 vs frontmatter 스캔의 실제 의존 집합
-        computed = set().union(*(impact[x["iri"]][0] for x in asms if x["status"] == "invalidated")) if asms else set()
-        actual, unparsable = set(), []
-        for x in asms:
-            if x["status"] == "invalidated":
-                found, bad = actual_dependents(root, str(x["iri"]))
-                actual |= found
-                unparsable += bad
-        tp = len(computed & actual)
-        check = {"computed": len(computed), "actual": len(actual), "equal": computed == actual, "unparsable": unparsable,
-                 "precision": f"{tp}/{len(computed)}", "recall": f"{tp}/{len(actual)}",
-                 "only_computed": sorted(local(x) for x in computed - actual), "only_actual": sorted(local(x) for x in actual - computed)}
-
-    # 링크 상태의 물질화 — 저장하지 않고 여기서만 계산한다 (노트 9.11절)
-    states = kb_lib.odd_states(cond_rows)
-    when_false, when_unverified = kb_lib.suspect_by_when(g, states)
-    by_trigger = kb_lib.suspect_by_trigger(g)
-    sat = kb_lib.suspect_saturation(g, when_false)
-    space_rows = []  # `-space` 의 양립 제약 — 링크의 when 과 같은 식 언어다 (space-ontology agt:compatibilityConstraint)
-    for sp in sorted(g.subjects(AGT.spaceStatus, None), key=str):
-        for c in sorted((str(x) for x in g.objects(sp, AGT.compatibilityConstraint)), key=str):
-            verdict_c, left_c = kb_lib.when_eval(c, states)
-            space_rows.append((local(sp), c, verdict_c, left_c))
-
+    check = break_experiment(root, asms, impact) if broke_names else None
+    states, when_false, when_unverified, by_trigger, sat, space_rows = materialize_states(g, cond_rows)
     # 보고
     n_inv = sum(1 for x in asms if x["status"] == "invalidated")
     n_unv = sum(1 for x in asms if x["status"] == "unverified")
@@ -108,54 +79,9 @@ def main() -> int:
                f"- 링크: 확정 {sat['confirmed']} · `when` 을 가진 것 {sat['with_when']} · suspect 로 유도된 것 "
                f"**{kb_lib.pct(sat['suspect'], sat['confirmed'])}** (`when` 거짓 {sat['by_when']} · 트리거 {sat['by_trigger']})"])
     inputs = [str(odd_path)] + [str(root / f) for f in (a.ttl or DEFAULT_TTL)]
-    body = ["## 조건 판정 (odd_check 와 같은 판정)", "", "| 조건 | 라벨 | 등급 | 판정 |", "|---|---|---|---|"]
-    body += [f"| `{local(r['iri'])}` | {r['title_ko']} | {r['grade']} | {r['state']}{' (--break)' if r['name'] in broke_names else ''} |" for r in cond_rows]
-    body += ["", "## 가정 — 판정식은 참조 조건 판정의 연언, 등급은 그 최저", "",
-            "| 가정 | 판정 유형 | 판정식 | 등급 | 상태 | assumes 하는 살아 있는 청크 | 직접 영향 | suspect 후보 (1홉 / 전이) |",
-            "|---|---|---|---|---|---|---|---|"]
-    for x in asms:
-        n_assumes = sum(1 for c in g.subjects(AGT.assumes, x["iri"]) if c in live)
-        d, h1, tr = impact[x["iri"]]
-        body.append(f"| `{local(x['iri'])}` {x['label']} | {x['kind']} | {x['expr']} | {x['grade']} | **{x['status']}** | {n_assumes} | {len(d)} | {len(h1)} / {len(tr)} |")
-    for x in asms:
-        d, h1, tr = impact[x["iri"]]
-        if not d:
-            continue
-        body += ["", f"### 직접 영향 집합 — `{local(x['iri'])}` ({len(d)}건, suspect 후보 전이 {len(tr)}건)", ""]
-        body += [f"- {label_of(g, c)} (`{local(c)}`)" for c in sorted(d, key=lambda c: label_of(g, c))[:40]]
-        if len(d) > 40:
-            body.append(f"- … 외 {len(d) - 40}건")
-    body += ["", "## 링크 상태의 물질화 — `when` 판정과 트리거 (노트 9.11절: 상태는 저장값이 아니라 평가 결과)", "",
-             f"- `when` 판정의 범위: {kb_lib.WHEN_GRAMMAR}. 그 밖의 구문은 판정하지 않고 unverified 로 남긴다 (0.4절 restrictive)",
-             f"- 확정 링크 {sat['confirmed']} 중 `when` 을 가진 것 {sat['with_when']} · suspect 로 유도된 것 "
-             f"**{kb_lib.pct(sat['suspect'], sat['confirmed'])}** — `when` 거짓 {sat['by_when']} · 트리거 {sat['by_trigger']} · 판정 불가 {len(when_unverified)}",
-             "", "| 트리거 (링크 종류) | 전파 규칙 | 켜짐 | 근거 |", "|---|---|---|---|"]
-    body += [f"| `{k}` | {rule} | {'켜짐' if on else '꺼짐'} | {basis} |" for k, rule, on, basis in kb_lib.SUSPECT_TRIGGERS]
-    body += ["", "선언에 없는 링크 종류는 돌지 않는다 — 기본이 꺼짐이다. 선언의 원본은 `tools/kb_lib.py` 의 `SUSPECT_TRIGGERS` 다.", ""]
-    rows = [(l, k, st, dv or kb_lib.NONE_MARK, why) for l, k, st, _v, dv, why in kb_lib.when_verdicts(g, states)]
-    rows += [(l, str(next(g.objects(l, AGT.linkKind), "")).split("/")[-1], kb_lib.LINK_STATE_CONFIRMED,
-              kb_lib.LINK_STATE_SUSPECT, why) for l, why in sorted(by_trigger.items(), key=lambda kv: str(kv[0]))]
-    body += ["| 링크 | 종류 | 저장 상태 | 유도 상태 | 사유 |", "|---|---|---|---|---|"]
-    body += [f"| `{local(l)}` | `{k or kb_lib.NONE_MARK}` | {st or kb_lib.NONE_MARK} | {dv} | {why} |" for l, k, st, dv, why in rows[:40]] \
-            or [f"| {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | `when` 을 가졌거나 트리거가 지목한 링크 {kb_lib.NONE_MARK} |"]
-    if len(rows) > 40:
-        body.append(f"| … | … | … | … | 외 {len(rows) - 40}건 |")
-    body += ["", "| 설계 공간 | 양립 제약 | 판정 | 남긴 것 |", "|---|---|---|---|"]
-    body += [f"| `{sp}` | `{c}` | {v} | {' · '.join(lft) or kb_lib.NONE_MARK} |" for sp, c, v, lft in space_rows] \
-            or [f"| {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | 양립 제약 {kb_lib.NONE_MARK} |"]
-    body.append("")  # 표 뒤의 빈 줄 (G 규약) — 뒤따르는 절이 없을 때도 표가 닫힌다
-    if check:
-        body += ["", "## 검증 실험 — 계산된 영향 집합 = 실제 의존 집합 (14.1 정정본 4단계 연결 조건)", "",
-                f"- 계산된 직접 영향 집합(그래프 `agt:assumes`): **{check['computed']}** · 실제 의존 집합(청크 파일 frontmatter `assumes` 스캔): **{check['actual']}**",
-                f"- 정밀도 {check['precision']} · 재현율 {check['recall']} → **{'일치' if check['equal'] else '불일치'}**"]
-        if check["only_computed"]:
-            body.append("- 그래프에만 있는 것: " + ", ".join(check["only_computed"][:10]))
-        if check["only_actual"]:
-            body.append("- 파일에만 있는 것: " + ", ".join(check["only_actual"][:10]))
-        if check["unparsable"]:
-            body.append(f"- 판독 불가 파일 {len(check['unparsable'])}건: " + " · ".join(check["unparsable"][:3]))
-    if n_inv:
-        body += ["", "무효 가정의 직접 영향 집합은 `invalidated`, suspect 후보는 `suspect` 표시 대상이다 — 표시는 재검증 시점에 일괄로 한다 (method §7). 삭제가 아니다."]
+    body = report_judgements(g, live, asms, impact, cond_rows, broke_names)
+    body += report_link_states(g, states, sat, by_trigger, when_unverified, space_rows)
+    body += report_experiment(check, n_inv)
     text = kb_lib.gendoc_assemble(rep, body, inputs)
     print(text)
     if a.out:

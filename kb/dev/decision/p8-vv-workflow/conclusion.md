@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-22T19:55:00+09:00}
+layer: methodology
 verified: [{by: orchestrator/claude-opus-5, at: 2026-09-22T20:00:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/71d2b786-e873-4705-b160-a443603ae0d2, https://agentic-knowledge-base.dev/id/chunk/2c574d24-71bb-4ea1-9812-0b2d0dc22395]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/ad7a39e2-6ef7-4ba3-a4df-92cf2c9409ca, title_ko: V&V 워크플로, title: The V&V workflow}

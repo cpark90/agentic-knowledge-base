@@ -18,7 +18,7 @@ agt:hasEvidence a owl:ObjectProperty ;
 agt:evidenceKind a owl:ObjectProperty ;
     rdfs:domain agt:Evidence ;
     rdfs:range agt:EvidenceKind ;
-    rdfs:label "evidence kind"@en , "증거 종류"@ko ;
+    rdfs:label "evidence entry kind"@en , "증거 종류"@ko ;
     skos:definition "이 항목의 근거 종류. 검사 가능성 서열(구축 > 실행 > 동시 편집 > 공동 커버 > 임베딩 > 세션 > 제안)이 기본 선호이고, 언어모델의 제안은 이를 덮지 못하고 동률만 깬다 (10.8절, 9.11절)."@ko .
 
 agt:evidenceRef a owl:ObjectProperty ;

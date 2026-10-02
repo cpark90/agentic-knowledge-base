@@ -10,6 +10,7 @@ PROJECT_IMPORTS = [
     "//kb/ontology/related/defect",
     "//kb/ontology/related/defect-rules",
     "//kb/ontology/related/harness",
+    "//kb/ontology/related/layer",
     "//kb/ontology/related/scope",
     "//kb/ontology/related/state",
     "//kb/ontology/related/tag",

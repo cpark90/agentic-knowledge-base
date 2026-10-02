@@ -6,34 +6,43 @@
 source: tools/assume_check.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-assume-check
 package: kb/dev/artifact/assume_check
-at: 2026-09-28T20:48:33Z
-source_hash: cbb4603ff05567f7
+layer: process
+at: 2026-09-30T08:07:48Z
+source_hash: b4e68ee5fa98a538
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/9f79d119-83cf-46a7-89c0-680e8f203296
   - https://agentic-knowledge-base.dev/id/chunk/79bcc1dd-4036-43ef-b30d-f4dff07be513
   - https://agentic-knowledge-base.dev/id/chunk/b36581f8-2688-46dc-9b44-3e1019a37d66
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
   source_hash: cbb4603ff05567f7
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/562ded08-b5ff-4327-930d-e3a102a88a45
   composite:sec:dependents: https://agentic-knowledge-base.dev/id/composite/aa693393-615e-4f00-ada2-34df72e2832e
+  composite:sec:report-judgements: https://agentic-knowledge-base.dev/id/composite/5dac7240-2471-496d-a65c-f55a8a067a41
   composite:sec:resolve: https://agentic-knowledge-base.dev/id/composite/b33ba404-d208-425c-9ca3-34d8bec67ead
   file: https://agentic-knowledge-base.dev/id/composite/169b7deb-a7ef-4d53-9f52-ad8abd5d4c3a
   fn:actual_dependents: https://agentic-knowledge-base.dev/id/chunk/93d9eb93-7d34-4ebf-b871-041a219b6017
+  fn:break_experiment: https://agentic-knowledge-base.dev/id/chunk/1a52fdec-22af-4925-98d0-b91f50c202b5
   fn:dependents: https://agentic-knowledge-base.dev/id/chunk/b9bfc5e7-9b9e-4472-bad1-4d151d9fe1c9
   fn:evaluate: https://agentic-knowledge-base.dev/id/chunk/304744ba-30b6-43f2-8aee-d9532aa66c13
   fn:label_of: https://agentic-knowledge-base.dev/id/chunk/3d72bcbf-9fce-4ada-9c3b-fff4759fa5fd
   fn:load_graph: https://agentic-knowledge-base.dev/id/chunk/a49b0fbe-30fd-4d2c-8b92-f99763bd47af
   fn:local: https://agentic-knowledge-base.dev/id/chunk/b573f0b1-8e42-4b97-bec6-397c246cd5b9
   fn:main: https://agentic-knowledge-base.dev/id/chunk/17209da5-4e10-4e6f-9893-a2a28f5e0c41
+  fn:materialize_states: https://agentic-knowledge-base.dev/id/chunk/ff4fd3d8-23db-4fee-89d7-f5c9052f5590
   fn:observation: https://agentic-knowledge-base.dev/id/chunk/ae67e102-2e22-4234-8638-b2db8fa603b4
+  fn:parse_args: https://agentic-knowledge-base.dev/id/chunk/a3ac2cde-76e2-4d4e-b75f-ecd7060abd39
   fn:propagate: https://agentic-knowledge-base.dev/id/chunk/fc00bd15-31c6-4e4b-b28e-773cbf0b1e48
+  fn:report_experiment: https://agentic-knowledge-base.dev/id/chunk/1de413a3-d886-4f4a-b4d8-5899d68e6d2c
+  fn:report_judgements: https://agentic-knowledge-base.dev/id/chunk/31bc1a35-7001-4936-9b80-a0bfffed1335
+  fn:report_link_states: https://agentic-knowledge-base.dev/id/chunk/91c67aff-4114-4bf6-a319-b4aa40cbc5f1
   fn:resolve: https://agentic-knowledge-base.dev/id/chunk/80ec3ede-99a3-4e75-9ade-f3934e00a52a
   fn:worst_grade: https://agentic-knowledge-base.dev/id/chunk/58418c78-77dc-491d-bce6-60d85217ee30
   head: https://agentic-knowledge-base.dev/id/chunk/c767c9b6-7391-4c5f-b482-89293d8895ee
   module: https://agentic-knowledge-base.dev/id/chunk/ec773001-5697-45eb-94ad-50f56f7085aa
   sec:dependents: https://agentic-knowledge-base.dev/id/chunk/35d8dd54-8256-49d5-a3ba-100b262df396
+  sec:report-judgements: https://agentic-knowledge-base.dev/id/chunk/bfb7ccfe-7bf8-46b3-90be-ca2785a0c47e
   sec:resolve: https://agentic-knowledge-base.dev/id/chunk/cb353457-3111-445d-9405-2fa06851b6c4

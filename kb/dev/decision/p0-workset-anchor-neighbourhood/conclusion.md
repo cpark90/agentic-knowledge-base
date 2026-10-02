@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-11T02:20:00+09:00}
+layer: methodology
 verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af, https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/0e7f41dc-e010-4c71-809f-51535f17e6ce, title_ko: 작업 집합의 정의 — 앵커 이웃, title: Working set definition — anchor neighbourhood}

@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b]
 part_of: https://agentic-knowledge-base.dev/id/composite/459184ba-3aec-453b-a423-9345d0975436
 ---
 **함수** — `thresholds(g)` 다. 확신도 임계 셋 — 자동 적용·사람 확인 경계와 캘리브레이션 상태 (judge-threshold·judge-calibration 온톨로지).

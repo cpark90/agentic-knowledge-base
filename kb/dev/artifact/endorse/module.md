@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-endorse}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-11T09:15:09Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/4ec4de00-ea81-4ed0-abf7-40beedc25e38]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/9a0f13d1-d6f6-48ea-9728-4e96bd777d51, title_ko: 파일 복합체 tools/endorse.py, title: file composite tools/endorse.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/e7f0f4ca-74a2-4f45-9464-feb382099c39, https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d-a8a449270a57]}
 ---

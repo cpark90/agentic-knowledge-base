@@ -8,7 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0]
 part_of: https://agentic-knowledge-base.dev/id/composite/459184ba-3aec-453b-a423-9345d0975436
 composite: {id: https://agentic-knowledge-base.dev/id/composite/459184ba-3aec-453b-a423-9345d0975436, title_ko: 절 복합체 load-profile (tools/judge.py), title: section composite load-profile in tools/judge.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/86872920-200f-4ccb-b934-238d1c64bab3, https://agentic-knowledge-base.dev/id/chunk/473ab4af-5806-45ea-a923-d7f635544fdb, https://agentic-knowledge-base.dev/id/chunk/8a58cf85-fc7e-418d-91fc-ce025cf2cff9, https://agentic-knowledge-base.dev/id/chunk/568c9c47-0d5f-4372-a395-b07605eaeedd, https://agentic-knowledge-base.dev/id/chunk/25dbde8d-3165-4a6e-bda8-313cc2ef674b, https://agentic-knowledge-base.dev/id/chunk/8d5e7694-cb0b-42c7-a734-a6f0e8782caf], part_of: https://agentic-knowledge-base.dev/id/composite/85cd0960-2c5b-4a4c-b5be-bcf71f036c54}

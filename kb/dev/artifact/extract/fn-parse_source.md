@@ -7,15 +7,21 @@ title: function parse_source in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/09909df0-d231-4cd6-ae92-f2867a75a9f9, https://agentic-knowledge-base.dev/id/chunk/1a73eeae-6541-4952-9318-7b2bac9e9ecc, https://agentic-knowledge-base.dev/id/chunk/37924901-a32a-4452-97a3-3e3201ef5117, https://agentic-knowledge-base.dev/id/chunk/4994778f-bd6e-485d-b2f6-ec514f2187d9, https://agentic-knowledge-base.dev/id/chunk/ed759600-6622-448e-be33-8fab9ae6b4eb]
 part_of: https://agentic-knowledge-base.dev/id/composite/52eb4f03-55ea-4dfb-be6d-9164da7da5ef
 ---
-**함수** — `parse_source(path)` 다. 소스 → (줄들, 모듈 머리의 끝 줄, 최상위 구역들).
+**함수** — `parse_source(path)` 다. 소스 → (줄들, 모듈 머리의 끝 줄, 최상위 구역들, 최상위 import 노드들).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def parse_source(path: Path) -> tuple[list[str], int, list[Region]]:
-    """소스 → (줄들, 모듈 머리의 끝 줄, 최상위 구역들). 구역은 절 주석의 깊이로 중첩된다."""
+def parse_source(path: Path) -> tuple[list[str], int, list[Region], list]:
+    """소스 → (줄들, 모듈 머리의 끝 줄, 최상위 구역들, 최상위 import 노드들). 구역은 절 주석의 깊이로 중첩된다.
+
+    import 를 함께 돌려주는 까닭은 `uses` 의 치역 경계 해소가 "이 이름이 어느 모듈의 정의인가" 를 최상위
+    import 에서 풀어서다 — 소스를 두 번 파싱하지 않는다 (`module_imports`).
+    """
     lines = path.read_text(encoding="utf-8").splitlines()
     tree = ast.parse("\n".join(lines))
     head_end = module_head_end(tree)
@@ -39,6 +45,6 @@ def parse_source(path: Path) -> tuple[list[str], int, list[Region]]:
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
             _place(top, node)
     _key_regions(top, lines)
-    return lines, head_end, top
+    return lines, head_end, top, module_imports(tree)
 ```
 <!-- 인용 끝 -->

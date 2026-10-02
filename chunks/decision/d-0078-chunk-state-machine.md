@@ -7,6 +7,7 @@ title: Five chunk states and their transitions
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-chunk-model
 ---
 **결론** — 청크도 가정·링크와 **같은 상태 기계**를 갖는다.

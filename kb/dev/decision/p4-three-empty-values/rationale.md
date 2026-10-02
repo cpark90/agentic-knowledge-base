@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-standard}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-22T19:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/1718358a-d741-45d7-bed6-df7818724e78
 ---
 **근거** — 빈칸 하나는 세 사실을 같은 모양으로 만든다. 읽는 쪽은 그것이 조사 끝의 결론인지, 애초에 묻지 않은 것인지, 답을 기다리는 중인지 알 수 없다. 셋 중 `미확정`만이 행동을 요구하는데 구분이 없으면 그 요구가 사라진다.

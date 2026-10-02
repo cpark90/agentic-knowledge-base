@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/b1903be2-0bdb-4f11-9c2b-cc59cc7e9a24
 ---
 **함수** — `load_plane_level_state(path)` 다. `defs/kb.bzl` 의 `PLANES`·`LEVELS`·`STATES` 리터럴을 읽어 값 어휘를 선언 순서 그대로 돌려준다.

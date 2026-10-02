@@ -7,7 +7,8 @@ title: Plane is a subclass of Chunk and level is a property
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-01T21:00:00+09:00}
+verified: [{by: orchestrator/claude-fable-5-1, at: 2026-10-01T21:05:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0071]
 part_of: https://agentic-knowledge-base.dev/id/composite/db06bc97-7100-4ad3-bad0-83fb1c876e1c
@@ -25,4 +26,4 @@ agt:Chunk
 
 **level은 속성이다.** `agt:hasLevel`의 값은 다섯 개체 `agt:functional` …
 `agt:executable` 중 하나다. 청크 개체의 최소 선언은 타입(plane 클래스),
-`agt:hasLevel`, 한/영 `rdfs:label`, `agt:lineCount`다.
+`agt:hasLevel`, 한/영 `rdfs:label`, `agt:tokenCount`(2026-10-01 — 단위는 토큰, 그 전에는 `lineCount`)다.

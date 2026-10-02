@@ -9,6 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-23T13:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6eea0a91-2e8d-400c-a830-ea653fa104f0
 composite: {id: https://agentic-knowledge-base.dev/id/composite/6eea0a91-2e8d-400c-a830-ea653fa104f0, title_ko: 음성 자극의 최소성, title: Minimality of a negative stimulus}
 ---

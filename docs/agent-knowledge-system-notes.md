@@ -638,7 +638,7 @@ project-ontology                   ← 최상위. 아래 전부를 import
 | 경계 조건 3갈래와 둘째 수준 | 셋째 수준 이하의 조건 개념 |
 | 결함 요인 3갈래 | 하위 유형 중 도메인 고유의 것 |
 | 링크 타입 | 링크 양 끝에 올 수 있는 프로파일 청크 클래스 |
-| 청크 상한 42줄 | plane별 오버라이드와 "줄"의 단위 |
+| 청크 상한 42의 배수 토큰(1,092; 인용 2,856) | plane별 오버라이드 — 단위는 토큰이다 (정정 2026-10-01, 유저 의도: 줄이 아니라 토큰) |
 | 앵커 해석 방식 | 실제 해석기 (심볼, 문단, 절차 단계) |
 
 `[확정]` 프로파일은 온톨로지 모듈이다. `profile/<domain>`에 두고 코어 모듈을 import하며, **코어 클래스의 하위 클래스와 shape만 추가한다.** 코어를 수정하는 프로파일은 검사 실패다.
@@ -935,7 +935,7 @@ iao:InformationContentEntity
         └── agt:Composite      ← 본문 없이 부분만 가진 것. Chunk와 disjoint
 ```
 
-`[확정]` **모든 지식은 청크(chunk)를 가장 작은 부품으로 한다.** 청크는 하나의 plane, 하나의 level에 속하며, **본문이 42줄을 넘지 않는** 자립적 지식 단위다. 한 청크는 한 주제만 다룬다.
+`[확정]` **모든 지식은 청크(chunk)를 가장 작은 부품으로 한다.** 청크는 하나의 plane, 하나의 level에 속하며, **본문이 토큰 상한(42의 배수 — 1,092)을 넘지 않는 (정정 2026-10-01: 원문 "42줄"은 유저 의도의 오기록)** 자립적 지식 단위다. 한 청크는 한 주제만 다룬다.
 
 용어 근거 — 같은 개념이 네 분야에서 독립적으로 정립되었고 이름도 같다.
 
@@ -946,7 +946,7 @@ iao:InformationContentEntity
 | 문학적 프로그래밍 | chunk | 이름 붙은 조각. 참조로 조립 | 뷰 질의 (4.6절) |
 | 모듈형 문서 | topic | 독립 파일, 정보 유형, 참조로 재사용 | plane 하위 클래스 (4.2절) |
 
-`[확정]` **42줄의 근거** — 1.1절 컨텍스트 한계 200줄의 약 1/5. 에이전트가 한 번에 4~5개 청크를 조망한다. 42줄을 넘는 것은 청크가 아니라 복합체며 분할해야 한다.
+`[확정]` **토큰 상한의 근거** (정정 2026-10-01, 원문 "42줄") — 1.1절 컨텍스트 한계 5,418토큰(= 200줄의 환산)의 약 1/5 = 42×26 = 1,092. 에이전트가 한 번에 4~5개 청크를 조망한다. 상한을 넘는 것은 청크가 아니라 복합체며 분할해야 한다.
 
 ## 4.2 plane과 level — 클래스와 속성으로서
 
@@ -972,7 +972,7 @@ agt:Chunk
   a agt:DecisionChunk ;
   agt:hasLevel agt:concrete ;
   rdfs:label "OAuth2 채택"@ko , "Adopt OAuth2"@en ;
-  agt:lineCount 12 .
+  agt:tokenCount 312 .   # 정정 2026-10-01: 단위는 토큰
 ```
 
 ## 4.3 청크의 구조 — 이름 붙은 그래프로서
@@ -998,7 +998,7 @@ agt:Chunk
 
 | 원칙 | shape |
 |---|---|
-| **청킹** — 작은 단위 | `agt:lineCount` ≤ 42 |
+| **청킹** — 작은 단위 | `agt:tokenCount` ≤ 1,092 (정정 2026-10-01 — 원문 `lineCount` ≤ 42) |
 | **관련성** — 한 주제 | `rdf:type` 중 plane 클래스 정확히 1, `agt:hasLevel` 정확히 1 |
 | **라벨링** — 이름 필수 | `rdfs:label` 최소 1, 한/영 각 1 (0.6절) |
 | **일관성** — 어휘 통일 | assertion 그래프의 모든 술어가 온톨로지에 존재 |
@@ -1007,7 +1007,7 @@ agt:Chunk
 ```
 agt:ChunkShape a sh:NodeShape ;
   sh:targetClass agt:Chunk ;
-  sh:property [ sh:path agt:lineCount ; sh:maxInclusive 42 ] ;
+  sh:property [ sh:path agt:tokenCount ; sh:maxInclusive 1092   # 정정 2026-10-01 ] ;
   sh:property [ sh:path agt:hasLevel ; sh:minCount 1 ; sh:maxCount 1 ] ;
   sh:property [ sh:path rdfs:label ; sh:minCount 2 ] .
 ```

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-22T19:05:00+09:00}
+layer: methodology
 verified: [{by: orchestrator/claude-opus-5, at: 2026-09-22T19:10:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193, https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/d2db1db1-ebc3-4f6d-8f93-3bef450b93f9, title_ko: 인지능력 측정, title: Measuring cognition}

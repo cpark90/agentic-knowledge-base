@@ -9,6 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-stan
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-22T20:20:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/1718358a-d741-45d7-bed6-df7818724e78
 composite: {id: https://agentic-knowledge-base.dev/id/composite/1718358a-d741-45d7-bed6-df7818724e78, title_ko: 빈 값의 세 뜻, title: The three meanings of an empty value}
 ---

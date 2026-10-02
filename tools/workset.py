@@ -5,7 +5,10 @@
 이웃은 앵커에서 k홉 안의 청크(upstream ∪ downstream, 직접 트리플과 agt:Link 개체 둘 다)이며, 펼치는 순서는
 링크 족의 우선순위다 — 앵커 ≫ references ≫ semanticallyDependsOn ≫ 구성 관계 ≫ relatedTo
 (dependency-graph-design §4, p0-workset-anchor-neighbourhood). 예산을 넘는 이웃은 라벨만 남는다.
-사용: workset.py --role developer [--levels logical,concrete] [--anchor <IRI|라벨 부분>] [--budget 200] --out workset.md <TTL...>
+예산의 단위는 **토큰**이다 (결정 p1-chunk-unit-is-tokens — 옛 200줄의 같은 계수기 환산이 5,418 이다). 계수기는
+`o200k_base`(어휘 파일 sha256 고정)이고 라벨 목록과 펼친 본문을 그 어휘로 직접 센다.
+사용: workset.py --role developer [--levels logical,concrete] [--anchor <IRI|라벨 부분>] [--budget 5418]
+      [--vocab <어휘 파일>] --out workset.md <TTL...>
 종료: 앵커가 있을 때만 예산 판정이 게이트다 — 문서 전체(라벨 목록 + 펼친 본문)가 예산을 넘으면
   `FAIL [workset-budget]` + 1(도입 2단계 구체화 조건, handoff/workset-budget-gate-2026-09-22). 앵커가 없으면
   지금처럼 뷰에 판정만 적고 0 — 앵커 없는 뷰(스코프 전체 라벨 목록)는 구조적으로 예산을 넘어 판정 대상이 아니다.
@@ -35,18 +38,13 @@ FAMILIES = [
 ]
 FAMILY_OF = {p: (i + 1, tag) for i, (tag, ps) in enumerate(FAMILIES) for p in ps}
 PART = FAMILY_OF[AGT.hasDirectPart]
-# 펼친 항목 하나가 본문 앞에 더하는 비-본문 줄 수(빈 줄·제목·iri 주석) — 예산 검사식과 회계식이
-# 같은 값을 써야 한다. 둘이 갈리면(검사 +2, 회계 +3) 검사를 통과한 항목이 회계에서 예산을 넘길 수 있다
-ENTRY_OVERHEAD = 3
 
 
 # ── 스코프 창과 앵커 이웃을 예산 안에 담는다 ────────────────────
 
-def body_lines(path: str) -> list[str]:
-    t = Path(path).read_text(encoding="utf-8").split("\n")
-    end = t[1:].index("---") + 1
-    b = "\n".join(t[end + 1:]).strip("\n")
-    return b.split("\n") if b else []
+def body_of(path: str) -> str:
+    """청크 본문 — 판정처는 `kb_lib.chunk_body` 하나다 (정의처 chunk2kg 의 `body_text`)."""
+    return kb_lib.chunk_body(Path(path).read_text(encoding="utf-8"))
 
 
 def neighbours(g: Graph, x):
@@ -74,11 +72,21 @@ def main() -> int:
     ap.add_argument("--levels", default="", help="수준 창, 쉼표 구분. 비면 전부")
     ap.add_argument("--anchor", default="", help="펼칠 앵커 — 청크 IRI 또는 한글 라벨 부분 문자열")
     ap.add_argument("--hops", type=int, default=1)
-    ap.add_argument("--budget", type=int, default=200, help="컨텍스트 예산(줄). 라벨 목록 + 펼친 본문")
+    ap.add_argument("--budget", type=int, default=kb_lib.CONTEXT_TOKEN_BUDGET,
+                    help="컨텍스트 예산(토큰). 라벨 목록 + 펼친 본문 (단일 정의처 kb_lib.CONTEXT_TOKEN_BUDGET)")
+    ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다")
     ap.add_argument("--root", default=".", help="assertionLocation 의 기준 디렉토리")
     ap.add_argument("--out", required=True)
     ap.add_argument("files", nargs="+")
     a = ap.parse_args()
+    try:  # 예산의 단위가 토큰이므로 계수기가 이 뷰의 입력이다 (ODD id:cond-tokenizer-lock)
+        enc = kb_lib.load_tokenizer(a.vocab or None)
+    except FileNotFoundError as e:
+        print(f"FAIL [{kb_lib.WORKSET_BUDGET_GATE}] 어휘 파일 — {e}", file=sys.stderr)
+        return kb_lib.EXIT_CONFIG
+    except ValueError as e:
+        print(f"FAIL [{kb_lib.WORKSET_BUDGET_GATE}] {e}", file=sys.stderr)
+        return kb_lib.EXIT_FAIL
     g = Graph()
     for f in a.files:
         g.parse(f, format="turtle")
@@ -91,7 +99,7 @@ def main() -> int:
     window = set(a.levels.split(",")) if a.levels else set(LEVELS)
 
     chunks = {}
-    for c in g.subjects(AGT.lineCount, None):
+    for c in g.subjects(AGT.tokenCount, None):
         cls = next(g.objects(c, RDF.type)); lvl = str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1]
         st = str(next(g.objects(c, AGT.status), ""))
         if cls in reads | writes and lvl in window and st != "deprecated":
@@ -139,18 +147,20 @@ def main() -> int:
             label_lines.append(f"  [{str(c).split('/')[-1][:8]}] {v[3]}  {v[1]}  {v[2]}{tag(c)}")
         if shown is not None and len(items) > len(vis):
             label_lines.append(f"  … {len(items)-len(vis)} more (expand?)")
-    body, used, read_paths = [], len(label_lines), []
+    body, read_paths = [], []
+    used = kb_lib.token_count("\n".join(label_lines), enc)  # 라벨 목록도 예산을 쓴다 — 같은 어휘로 센다
     for n in expanded:
         src = str(Path(a.root) / chunks[n][5])
         read_paths.append(src)
-        lines_ = body_lines(src)
-        if used + len(lines_) + ENTRY_OVERHEAD > a.budget:
-            body.append(f"… {chunks[n][3]}{tag(n)} (펼치지 않음 — 예산 {a.budget}줄 초과)")
+        entry = ["", f"### {chunks[n][3]}  ({chunks[n][0]}/{chunks[n][1]}){tag(n)}", f"<!-- iri: {n} -->"] \
+            + kb_lib.gendoc_quote(body_of(src))
+        cost = kb_lib.token_count("\n".join(entry), enc)  # 검사식과 회계식이 같은 문자열을 센다
+        if used + cost > a.budget:
+            body.append(f"… {chunks[n][3]}{tag(n)} (펼치지 않음 — 예산 {a.budget}토큰 초과)")
             continue
         # 청크 본문을 그대로 옮긴 자리다 — 원본이 자기 게이트를 통과했으므로 서식 규칙은 이 구역을 판정하지 않는다
-        body += ["", f"### {chunks[n][3]}  ({chunks[n][0]}/{chunks[n][1]}){tag(n)}", f"<!-- iri: {n} -->"] \
-            + kb_lib.gendoc_quote("\n".join(lines_))
-        used += len(lines_) + ENTRY_OVERHEAD
+        body += entry
+        used += cost
     verdict = "예산 안" if used <= a.budget else "예산 초과"
     inputs = list(a.files) + sorted(set(read_paths))
     head = kb_lib.gendoc_header(
@@ -161,15 +171,17 @@ def main() -> int:
         f"bazel build //kg:workset --//kb:role={a.role}", inputs,
         f"라벨 {len(chunks)}개 · 펼침 {len([b for b in body if b.startswith('### ')])}개",
         kb_lib.gendoc_view_notice("청크의 frontmatter 와 본문"), input_kind="입력 파일",
-        extra=[f"- 예산 판정: 이 문서 전체(라벨 목록 {len(label_lines)-2}줄 + 펼친 본문)의 합계 **{used}줄 / 예산 {a.budget}줄 → {verdict}**",
-               f"- 정의: 여기의 예산 판정은 **문서 전체**를 잰다. `bazel build //kg:metrics` 의 역할별 예산 준수율은 "
-               f"**앵커마다** 1홉 이웃을 펼친 줄 수를 재므로 두 수치는 같은 이름이되 다른 것을 센다"])
+        extra=[f"- 예산 판정: 이 문서 전체(라벨 목록 {len(label_lines)-2}행 + 펼친 본문)의 합계 **{used}토큰 / 예산 {a.budget}토큰 → {verdict}**",
+               f"- 계수기: 어휘 `{kb_lib.TOKENIZER_NAME}` · 지문 `sha256:{kb_lib.TOKENIZER_VOCAB_SHA256[:12]}` "
+               f"(p1-chunk-unit-is-tokens — 크기의 단위는 토큰이다)",
+               f"- 정의: 여기의 예산 판정은 **문서 전체**를 어휘로 직접 잰다. `bazel build //kg:metrics` 의 역할별 예산 "
+               f"준수율은 **앵커마다** 1홉 이웃의 `agt:tokenCount` 합을 재므로 두 수치는 같은 이름이되 다른 것을 센다"])
     # 라벨은 청크에서 그대로 옮긴 값이다 — 서식 규칙은 이 구역을 판정하지 않는다
     out = ["## 라벨 목록", "", kb_lib.GENDOC_QUOTE_OPEN] + label_lines + [kb_lib.GENDOC_QUOTE_CLOSE, "", "## 펼친 본문", ""] \
         + (body or [f"{kb_lib.NONE_MARK} — 앵커가 없어 본문을 펼치지 않았다", ""])
     Path(a.out).write_text(kb_lib.gendoc_assemble(head, out, inputs), encoding="utf-8")
     if anchor is not None and used > a.budget:
-        print(f"FAIL [{kb_lib.WORKSET_BUDGET_GATE}] 앵커 {a.anchor!r}: 문서 전체 {used}줄 > 예산 {a.budget}줄 "
+        print(f"FAIL [{kb_lib.WORKSET_BUDGET_GATE}] 앵커 {a.anchor!r}: 문서 전체 {used}토큰 > 예산 {a.budget}토큰 "
               f"— 앵커 없는 뷰는 판정 밖이다", file=sys.stderr)
         return kb_lib.EXIT_FAIL
     return kb_lib.EXIT_OK

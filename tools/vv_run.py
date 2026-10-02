@@ -24,9 +24,18 @@ SKIP 으로 적는다. **SKIP 은 PASS 가 아니다** (docs/tools.md 실패 종
 케이스 판정: 실행한 명령이 하나라도 기대와 어긋나면 fail · **명령 전부를 실행해** 전부 기대와 맞으면 pass · 그 밖(건너뛴 명령이 있거나 실행한
 명령이 없음)은 skip. 건너뛴 쪽이 "게이트가 거부한다" 를 보이는 절반이므로 절반만 실행한 케이스는 pass 가 아니다. 판정 어휘는 셋
 그대로이고(kb_lib.RUN_VERDICTS) 명령 단위 실행·건너뜀·기대 대조 수를 보고와 실행 기록의 요약에 따로 적는다.
-재현성 기록 (p8-reproducibility 초기 상태·환경): 리비전(`git rev-parse --short HEAD`, 워킹트리 변경 여부) · 시각(UTC) · bazel·python 버전 ·
-명령마다 종료 코드·소요. 난수 seed 는 없다 — 명령은 결정적이다. 명령은 워크스페이스 루트를 cwd 로, 실행기 자신의 bazel 파이썬 문맥
+재현성 기록 (p8-reproducibility 초기 상태·환경): 리비전(`git rev-parse --short HEAD`, **변경된 추적 파일 수**) · 시각(UTC) · bazel·python 버전 ·
+명령마다 종료 코드·소요. 변경된 추적 파일이 있는 실행의 케이스 판정은 `재현 불가 후보` 로 보고·실행 기록의 판정 요약에 함께 센다 —
+같은 리비전을 다시 체크아웃해도 같은 입력이 아니기 때문이다 (현상 agt:concurrentSessionState, P22). 난수 seed 는 없다 — 명령은 결정적이다. 명령은 워크스페이스 루트를 cwd 로, 실행기 자신의 bazel 파이썬 문맥
 (`PYTHONSAFEPATH`·`PYTHONPATH`·`RUNFILES_*`)을 뺀 환경에서 돈다 — 실행기를 어떻게 불렀는가가 판정을 바꾸면 그 판정은 재현되지 않는다.
+`python3 ` 로 시작하는 명령(검증기를 직접 부른다)은 예외 하나를 받는다: 인터프리터를 vv_run 자신의 `sys.executable` 로 바꾸고
+`PYTHONPATH` 를 vv_run 자신의 `sys.path` 중 하네스의 pip 폐포(site-packages) 항목만으로 다시 채운다(`verifier_env`) — 결정
+`p8-verifier-env-isolation` 이 걷어내라고 한 것은 실행기의 **도구 모듈** 문맥(runfiles 사본의 `tools/`)이고 서드파티 패키지는
+그 대상이 아니라서 어긋나지 않는다. bare `python3` 에 `tiktoken` 같은 하네스 전용 패키지가 없어 토큰 계수가 들어간 검증기가
+자극에 닿기 전에 `ModuleNotFoundError` 로 죽는 문제(이 저장소 실측, 2026-10-01)의 해소다. 토큰 계수기 어휘 경로는 실행기가
+`--vocab`(타깃이 `$(rootpath @tiktoken_o200k_base//file)` 로 준다)으로 받아 `KB_TOKENIZER_VOCAB` 환경 변수로 넘기므로
+케이스가 `--vocab` 에 bazel 산출물의 상대 경로를 적을 필요가 없다. 어휘를 못 찾으면 케이스를 하나도 돌리지 않고
+`EXIT_CONFIG` 로 죽는다 — 건너뜀은 판정이 아니라 판정의 공백이다.
 
 --record 는 실행 기록을 관측(memory plane, concrete, append-only)으로 kb/vv/run/run-<UTC>.md 에 쓴다 — generated.by 는 역할이 아닌
 `process:vv_run` 이라 writer 검사 밖이다(카탈로그의 executor 하위 역할을 도구가 맡는 첫 형태). 이미 있는 파일은 덮지 않는다.
@@ -35,7 +44,7 @@ SKIP 으로 적는다. **SKIP 은 PASS 가 아니다** (docs/tools.md 실패 종
 `bazel run` 밖에서 python3 tools/vv_run.py 로 돌린다.
 
 사용: bazel run //tools:vv_run -- [--record] [--case <슬러그>…] [--out report.md] [--waivers docs/waivers.md]
-      python3 tools/vv_run.py [--record] [--case <슬러그>…]
+      python3 tools/vv_run.py [--record] [--case <슬러그>…] --vocab <어휘 파일>
 종료: fail 있음 1 (EXIT_FAIL) · 전부 pass 0 (EXIT_OK) · pass 없이 skip 만 3 (EXIT_SKIP) · 입력·케이스 형식 문제 2 (EXIT_CONFIG)
 """
 from __future__ import annotations
@@ -58,7 +67,8 @@ import yaml  # 케이스 본문의 `yaml` 펜스(자극·기대) — space2kg·o
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kb_lib  # noqa: E402 — 네임스페이스·종료 코드·실행 기록 규약의 단일 정의처
-from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402 — 케이스의 frontmatter(라벨)는 chunk2kg 의 파서로 읽는다
+from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk, tokenizer_vocab_path  # noqa: E402
+# 케이스의 frontmatter(라벨)는 chunk2kg 의 파서로 읽고, 토큰 계수기 어휘 경로는 chunk2kg.tokenizer_vocab_path 가 단일 정의처다
 
 ID = kb_lib.ID
 EXIT_OK, EXIT_FAIL, EXIT_CONFIG, EXIT_SKIP = kb_lib.EXIT_OK, kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG, kb_lib.EXIT_SKIP
@@ -68,7 +78,9 @@ GENERATOR = kb_lib.RUN_GENERATOR
 ODD_IRI = str(ID["odd-agentic-knowledge-base"])  # 관측의 출처 — ODD 개체 (assume_check 와 같은 sources)
 ASSUMPTIONS = [str(ID["asm-bazel-toolchain"]), str(ID["asm-chunk-conventions"])]  # 실행은 bazel 툴체인과 청크 규약을 전제한다
 WAIVERS = "docs/waivers.md"  # 면제 선언의 원본 — 코드에 숨기지 않고 표 하나에 적는다 (kb_lib.load_waivers)
-MAX_BODY_LINES = 42
+# 실행 기록 한 파일의 행 수 상한 — 읽는 비용을 위한 생성기의 자기 제한이다. 청크 크기의 상한이 아니다:
+# 그것은 토큰이고 정의처는 kb_lib.BODY_TOKEN_LIMITS 다 (결정 p1-chunk-unit-is-tokens)
+MAX_RECORD_LINES = 42
 # 케이스 본문의 실행 명령 줄 — `**실행 명령**` 뒤 대시, 그 뒤 코드 스팬 하나. 스팬 안의 전부가 명령이다
 COMMAND_LINE = re.compile(r"^\*\*실행 명령\*\*\s*—\s*`(.+)`\s*$")
 SPLIT = re.compile(r"\s*(?:;|&&)\s*")  # 순차 연산자 — 각 조각을 따로 판정한다
@@ -79,7 +91,7 @@ EXECUTED = re.compile(r"Executed (\d+) out of (\d+) tests?")  # bazel test 요�
 # ── 기계가 읽는 자극·기대 (결정 p8-machine-readable-case) ──────────────────────────────────────────────
 # 케이스는 산문 옆에 `yaml` 펜스를 두고 키 둘(files·expect)을 적는다. 그 밖의 `yaml` 펜스는 산문의 예시이므로 읽지 않는다 —
 # 점진 도입이라 옮기지 않은 케이스가 거부되면 안 된다. SPEC_HEAD 가 규약 펜스인지를 가른다
-CASE_GATE = "vv-case"  # 케이스 형식 검사의 게이트 id — FAIL [vv-case]. docs/waivers.md 가 이 이름으로 면제를 선언한다 (축 파일·stem)
+CASE_GATE = kb_lib.VV_CASE_GATE  # 케이스 형식 검사의 게이트 id — FAIL [vv-case]. docs/waivers.md 가 이 이름으로 면제를 선언한다 (축 파일·stem)
 SPEC_KEYS = ("files", "expect")
 EXPECT_KEYS = ("exit", "contains")
 SPEC_HEAD = re.compile(r"^(files|expect)\s*:", re.M)
@@ -279,10 +291,64 @@ def clean_env() -> dict[str, str]:
     return {k: v for k, v in os.environ.items() if k not in BAZEL_PY_ENV}
 
 
-def run_command(cmd: str, root: Path) -> dict:
-    """셸로 실행 — 워크스페이스 루트에서. 종료 코드·소요·출력 꼬리를 남긴다."""
+PYTHON_RUNNER = "python3 "  # 명령이 이 접두사로 시작하면 검증기를 직접 부르는 것이다 — 인터프리터를 vv_run 자신의 것으로 바꾼다
+# vv_run 자신의 sys.path 에서 **하네스의 pip 폐포**(bazel 이 깐 서드파티 패키지의 site-packages)만 고르는 표지.
+# runfiles 사본의 도구 모듈(`.../_main`, `tools/` 를 담은 디렉토리)은 이 표지가 없어 걸러진다 — 결정
+# `p8-verifier-env-isolation` 의 격리 대상은 **도구 모듈**이고 서드파티 패키지(tiktoken 등)는 그 대상이 아니다.
+# 격리를 넓히지 않고, bare `python3` 에 없는 서드파티 의존을 검증기가 하네스와 같게 보도록 좁혀서 넘긴다.
+PIP_CLOSURE_MARKERS = ("site-packages", "pip")
+
+
+def pip_closure_path() -> str:
+    """vv_run 자신의 `sys.path` 에서 하네스의 pip 폐포(site-packages) 항목만 모은 `PYTHONPATH` 값.
+
+    `bazel run //tools:vv_run` 로 돌면 이 과정 자신의 `sys.path` 에 자신이 선언한 서드파티 의존(`pyyaml`·`rdflib`·
+    `tiktoken`)의 site-packages 경로가 이미 들어 있다 — vv_run 의 BUILD 의존에 `tiktoken` 을 더한 것(이 처리의 유일한
+    배선 변경)이 그 경로를 끼운다. `PIP_CLOSURE_MARKERS` 로 그 항목만 고르고 runfiles 사본의 `tools/`(이 저장소 코드)는
+    뺀다 — 검증기는 `--vocab` 인자 없이도 `KB_TOKENIZER_VOCAB` 로 같은 어휘를 찾되, 도구 모듈은 여전히 소스 트리에서
+    읽는다(cwd=워크스페이스 루트가 그 몫을 한다).
+    """
+    return os.pathsep.join(p for p in sys.path if any(m in p for m in PIP_CLOSURE_MARKERS))
+
+
+def verifier_env(vocab: str | os.PathLike = "") -> dict[str, str]:
+    """`python3 tools/<검증기>.py` 로 직접 부르는 하위 프로세스의 환경 — `clean_env()` 에 둘을 더한다.
+
+    `PYTHONPATH` 는 `pip_closure_path()` 하나로 — runfiles 의 `tools/` 사본을 담지 않는다(결정
+    `p8-verifier-env-isolation` 과 어긋나지 않는다: 그 결정이 걷어내라고 한 것은 실행기의 **도구 모듈** 문맥이고, 서드파티
+    패키지는 애초에 그 결정의 대상이 아니다 — 대상을 넓히지 않고 bare `python3` 환경에 하네스가 이미 고정한 의존을 준다).
+    `KB_TOKENIZER_VOCAB` 는 토큰 계수가 들어간 검증기(`chunk_lint.py` 등)가 `--vocab` 없이도 같은 고정 어휘를 찾게 한다
+    (`tools/chunk2kg.py` 의 `tokenizer_vocab_path` 가 이 환경 변수를 명시 경로 다음으로 본다). 값은 **호출자가 이미
+    해소한 절대 경로**다 — 해소와 실패는 `main()` 한 자리에서 일어나고 어휘가 없으면 케이스를 하나도 돌리지 않고
+    `EXIT_CONFIG` 로 죽는다. 어휘를 못 찾은 것을 삼키고 계속 돌면 검증기가 자극에 닿기 전에 죽어 판정이 비는데,
+    건너뜀은 판정이 아니라 판정의 공백이다 (p8-verifier-env-isolation · p8-reproducibility).
+    """
+    env = clean_env()
+    closure = pip_closure_path()
+    if closure:
+        env["PYTHONPATH"] = closure
+    else:
+        env.pop("PYTHONPATH", None)
+    if vocab:
+        env[kb_lib.TOKENIZER_VOCAB_ENV] = str(Path(vocab).resolve())
+    return env
+
+
+def run_command(cmd: str, root: Path, vocab: str | os.PathLike = "") -> dict:
+    """셸로 실행 — 워크스페이스 루트에서. 종료 코드·소요·출력 꼬리를 남긴다.
+
+    `python3 ` 로 시작하는 명령은 인터프리터를 vv_run 자신의 것(`sys.executable` — 하네스의 pip 폐포가 보이는 쪽)으로
+    바꾼다. bare `python3` 에는 `tiktoken` 같은 서드파티 의존이 없을 수 있어(이 저장소 실측, 2026-10-01) 토큰 계수가
+    들어간 검증기가 `ModuleNotFoundError` 로 자극에 닿기 전에 죽는다 — 그 처리가 `verifier_env()` 다.
+    `vocab` 은 `main()` 이 해소한 어휘 파일의 절대 경로이고 그 자리로 `KB_TOKENIZER_VOCAB` 가 간다.
+    """
+    exe = sys.executable
+    if cmd.startswith(PYTHON_RUNNER) and exe:
+        cmd, env = exe + cmd[len("python3"):], verifier_env(vocab)
+    else:
+        env = clean_env()
     t0 = time.monotonic()
-    r = subprocess.run(cmd, shell=True, cwd=root, capture_output=True, text=True, env=clean_env())
+    r = subprocess.run(cmd, shell=True, cwd=root, capture_output=True, text=True, env=env)
     out = r.stdout + r.stderr
     tail = "\n".join(out.strip().splitlines()[-6:])
     m = EXECUTED.search(out)
@@ -356,15 +422,18 @@ def expect_of(spec: dict, i: int) -> dict | None:
     return exp[i] if i < len(exp) and isinstance(exp[i], dict) else None
 
 
-def execute(cases: list[dict], root: Path) -> None:
-    """케이스마다 자극을 쓰고 실행 대상 명령을 순서대로 돌린 뒤 기대와 대조한다 (제자리 갱신). 자극은 실행 뒤 지운다."""
+def execute(cases: list[dict], root: Path, vocab: str | os.PathLike = "") -> None:
+    """케이스마다 자극을 쓰고 실행 대상 명령을 순서대로 돌린 뒤 기대와 대조한다 (제자리 갱신). 자극은 실행 뒤 지운다.
+
+    `vocab` 은 `main()` 이 해소한 토큰 계수기 어휘의 절대 경로다 — 검증기 명령이 `--vocab` 없이도 같은 어휘를 읽는다.
+    """
     for case in cases:
         tmp, subs = materialize(case["spec"], case["slug"])
         try:
             for i, c in enumerate(case["commands"]):
                 if c["skip"] is None:
                     c["run"] = substitute(c["cmd"], subs)
-                    c.update(run_command(c["run"], root))
+                    c.update(run_command(c["run"], root, vocab))
                     c["expect"] = expect_of(case["spec"], i)
                     c["mismatch"] = judge(c, c["expect"])
         finally:
@@ -380,15 +449,24 @@ def execute(cases: list[dict], root: Path) -> None:
         case["secs"] = sum(c["secs"] for c in ran)
 
 
-def revision(root: Path) -> tuple[str, bool]:
-    """(짧은 리비전, 워킹트리에 추적 파일 변경이 있는가). git 밖이면 ('없음', False)."""
+def revision(root: Path) -> tuple[str, int]:
+    """(짧은 리비전, 변경된 추적 파일 수). git 밖이면 ('없음', 0).
+
+    수를 세는 까닭은 `있음`·`없음` 만으로는 재현 불가의 규모가 보이지 않는다는 것이다 — 현상
+    `agt:concurrentSessionState`(P22)의 관측 수단이 이 줄이고, 변경이 있는 실행의 판정은 재현 불가 후보다.
+    """
     try:
         rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=root, capture_output=True, text=True, check=True).stdout.strip()
-        dirty = bool(subprocess.run(["git", "status", "--porcelain", "--untracked-files=no"], cwd=root, capture_output=True, text=True,
-                                    check=True).stdout.strip())
-        return rev, dirty
+        out = subprocess.run(["git", "status", "--porcelain", "--untracked-files=no"], cwd=root, capture_output=True, text=True,
+                             check=True).stdout
+        return rev, len([ln for ln in out.splitlines() if ln.strip()])
     except (OSError, subprocess.CalledProcessError):
-        return "없음", False
+        return "없음", 0
+
+
+def revision_note(dirty: int) -> str:
+    """리비전 줄의 워킹트리 칸 — 변경된 추적 파일 수를 함께 적는다. 표기 하나(실행 기록·보고가 같은 꼴)."""
+    return f"있음 {dirty}건" if dirty else kb_lib.NONE_MARK
 
 
 def environment(root: Path) -> str:
@@ -413,7 +491,7 @@ def counts(cases: list[dict]) -> dict:
     return out
 
 
-def observation(now: datetime, cases: list[dict], rev: str, dirty: bool, env: str) -> str:
+def observation(now: datetime, cases: list[dict], rev: str, dirty: int, env: str) -> str:
     """실행 기록 본문 — 시각·행동·situation 요약 (STYLEGUIDE §4 memory). frontmatter 는 assume_check 의 관측과 같은 형식이다."""
     stamp = kb_lib.utc_stamp(now)  # G3 표기 하나 — frontmatter 와 본문이 같은 꼴을 쓴다 (유저 승인 2026-09-23)
     n = counts(cases)
@@ -424,7 +502,7 @@ def observation(now: datetime, cases: list[dict], rev: str, dirty: bool, env: st
             f"generated: {{by: {GENERATOR}, at: {stamp}}}", "---"]
     body = [f"**관측** — {stamp} 에 `vv_run` 이 케이스 {len(cases)}건의 실행 명령 {n['명령']}건 중 "
             f"허용 목록의 검증기 {n['실행']}건을 실행하고 그중 {n['대조']}건을 케이스의 기대(`exit`·`contains`)와 대조했다. "
-            f"리비전 `{rev}` (워킹트리 추적 파일 변경 {'있음' if dirty else '없음'}) · {env} · seed 없음.", "",
+            f"리비전 `{rev}` (워킹트리 추적 파일 변경 {revision_note(dirty)}) · {env} · seed 없음.", "",
             kb_lib.RUN_CASE_TABLE_HEADER, "|---|---|---|---|"]
     for c in cases:
         ran = sum(1 for x in c["commands"] if x["skip"] is None)
@@ -435,13 +513,15 @@ def observation(now: datetime, cases: list[dict], rev: str, dirty: bool, env: st
     if skips:
         body += ["", "| 케이스 | 건너뛴 명령 | 사유 |", "|---|---|---|"]
         rows = [f"| `{slug}` | `{x['cmd'][:60]}{'…' if len(x['cmd']) > 60 else ''}` | {x['skip']} |" for slug, x in skips]
-        budget = MAX_BODY_LINES - len(body) - 3  # 남는 줄 — 요약 2줄과 여유
+        budget = MAX_RECORD_LINES - len(body) - 3  # 남는 행 — 요약 2행과 여유
         if len(rows) > budget:
             rows = rows[:max(budget - 1, 0)] + [f"| … | 외 {len(rows) - max(budget - 1, 0)}건 | 보고(`vv_run` 출력)에 전부 있다 |"]
         body += rows
     body += ["", f"판정 요약 — 케이스 pass {n['pass']} · fail {n['fail']} · skip {n['skip']} · 명령 실행 {n['실행']} · 건너뜀 {n['건너뜀']} · "
-             f"기대 대조 {n['대조']} · 어긋남 {n['어긋남']}. SKIP 은 PASS 가 아니다 — 건너뛴 명령이 있는 케이스는 skip 이다. "
-             f"기대를 적은 명령은 종료 코드와 `contains` 문구가 둘 다 맞아야 맞은 것이고, 적지 않은 명령은 종료 0 만 본다."]
+             f"기대 대조 {n['대조']} · 어긋남 {n['어긋남']} · 재현 불가 후보 {kb_lib.pct(len(cases) if dirty else 0, len(cases))}. "
+             f"SKIP 은 PASS 가 아니다 — 건너뛴 명령이 있는 케이스는 skip 이다. "
+             f"기대를 적은 명령은 종료 코드와 `contains` 문구가 둘 다 맞아야 맞은 것이고, 적지 않은 명령은 종료 0 만 본다. "
+             f"재현 불가 후보는 워킹트리에 추적 파일 변경이 있는 실행의 케이스 판정이다 — 같은 리비전을 다시 체크아웃해도 같은 입력이 아니다."]
     return "\n".join(head + body) + "\n"
 
 
@@ -455,7 +535,7 @@ def expect_note(exp: dict | None) -> str:
     return " · ".join(bits)
 
 
-def report(now: datetime, cases: list[dict], missing: list[str], rev: str, dirty: bool, env: str) -> str:
+def report(now: datetime, cases: list[dict], missing: list[str], rev: str, dirty: int, env: str) -> str:
     n = counts(cases)
     verdict = ("**fail 있음**" if n["fail"] else "pass 없음 — 전부 skip" if not n["pass"] else "pass" + (" (skip 있음)" if n["skip"] else ""))
     skip_note = (f"- 건너뛴 명령: **{n['건너뜀']}** / 명령 {n['명령']} — 건너뛴 명령이 있는 케이스는 pass 가 아니라 skip 이다 "
@@ -471,7 +551,9 @@ def report(now: datetime, cases: list[dict], missing: list[str], rev: str, dirty
         f"(실행 {n['실행']} · 건너뜀 {n['건너뜀']})",
         kb_lib.gendoc_view_notice("V&V 케이스 청크의 본문"), input_kind="케이스 파일",
         extra=[f"- 결과: {verdict}", skip_note, expect_line,
-               f"- 초기 상태: 리비전 `{rev}` (워킹트리 추적 파일 변경 {'있음' if dirty else kb_lib.NONE_MARK}) · {env}"])
+               f"- 초기 상태: 리비전 `{rev}` (워킹트리 추적 파일 변경 {revision_note(dirty)}) · {env}",
+               f"- 재현 불가 후보: **{kb_lib.pct(len(cases) if dirty else 0, len(cases))}** (목표 0) — 워킹트리에 추적 파일 변경이 "
+               f"있는 실행의 케이스 판정은 같은 리비전을 다시 체크아웃해도 같은 입력에서 나오지 않는다 (현상 `agt:concurrentSessionState`)"])
     body = ["## 케이스 — 실행 대상은 허용 목록의 읽기 전용 검증기뿐. SKIP 은 PASS 가 아니다", "",
             "| 케이스 | 라벨 | 명령 | 자극·기대 | 결과 | 소요 |", "|---|---|---|---|---|---|"]
     for c in cases:
@@ -508,10 +590,20 @@ def main() -> int:
     ap.add_argument("--waivers", default=WAIVERS, metavar="FILE",
                     help=f"docs/waivers.md — 게이트 id `{CASE_GATE}`(축 파일·stem)로 면제된 케이스의 형식 오류는 집계에서 빼되 목록에 남긴다")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 워크스페이스 루트 기준")
+    ap.add_argument("--vocab", default="", metavar="FILE",
+                    help=f"토큰 계수기 어휘 파일 — 검증기 명령에 {kb_lib.TOKENIZER_VOCAB_ENV} 로 넘긴다. "
+                         "타깃이 `--vocab=$(rootpath @tiktoken_o200k_base//file)` 로 준다. 못 찾으면 돌지 않는다")
     a = ap.parse_args()
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     if not (root / CASE_DIR).is_dir():
         print(f"FAIL [vv_run] {CASE_DIR}: 케이스 디렉토리가 없다 — 워크스페이스 루트에서 돌린다")
+        return EXIT_CONFIG
+    try:  # 어휘 해소는 여기 한 자리다 — 못 찾으면 케이스를 하나도 돌리지 않는다. 건너뜀은 판정의 공백이다
+        vocab = tokenizer_vocab_path(a.vocab or None).resolve()
+    except FileNotFoundError as e:
+        print(f"FAIL [vv_run] 토큰 계수기 어휘 — {e}. 허용 목록의 검증기(`chunk_lint` 등)는 이 어휘로 토큰을 세므로 "
+              f"경로 없이는 자극에 닿지 못한다 — `bazel run //tools:vv_run`(타깃이 --vocab 을 준다) 또는 "
+              f"`--vocab <경로>` 로 돌린다")
         return EXIT_CONFIG
     try:
         apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
@@ -554,7 +646,7 @@ def main() -> int:
     now = datetime.now(timezone.utc).replace(microsecond=0)
     rev, dirty = revision(root)
     env = environment(root)
-    execute(cases, root)
+    execute(cases, root, vocab)
     text = report(now, cases, missing, rev, dirty, env)
     print(text)
     if a.out:

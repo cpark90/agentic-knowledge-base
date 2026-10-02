@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-19T16:10:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/66d847e5-4837-43ea-8498-da00a8fb92f3
 ---
 **근거** (노트 9.3절·10.4절; `p10-link-by-construction`·`p10-link-judgement-evidence`) — 복원 비율 < 20%는 3단계와 8단계의

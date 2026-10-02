@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-23T13:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6eea0a91-2e8d-400c-a830-ea653fa104f0
 ---
 **대안** — 넷을 기각한다.

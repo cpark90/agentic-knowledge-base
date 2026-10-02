@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/8348f42d-da82-4b6f-b1a0-d31a93ff3d65
 ---
 **근거** (노트 8.2절) — plane은 판정 방식으로 정의되므로(5.1절) 판정 방식이 같으면 같은 plane이다. 할당은 이름의 유사성이 아니라 판정 방식에서 따라 나온다.

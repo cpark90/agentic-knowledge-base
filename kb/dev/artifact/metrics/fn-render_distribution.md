@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/b2057520-5b84-4543-a292-bcedbb44ef9d
 ---
 **함수** — `render_distribution(pct, chunks, live, plane, level, orphans)` 다.

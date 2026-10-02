@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-30T14:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/fa336de6-3b07-45c0-9b66-b41ce2cdbcba
 ---
 **대안** — 넷을 기각한다.

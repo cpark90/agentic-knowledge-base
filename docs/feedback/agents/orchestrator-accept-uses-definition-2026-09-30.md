@@ -18,6 +18,10 @@ targets: [kb/ontology/related/trace/reference-ontology.ttl, tools/extract.py, to
 | 측정 | 트리플 **54**, 밀도 2.427 → 2.473/청크, 게이트 시간 잡음 안(59.2 → 56.3s). 37 파일 전부 = **465** 트리플(+0.85%) |
 | 타임아웃 | `//kg:gate_test`에 `timeout = "moderate"` — 60~64초가 기본 60초와 부딪혀 플레이크 |
 
+## 넓힘 (2026-10-01)
+
+유저 답 1의 둘째 절("재고 넓힌다")대로 37 파일 전부로 넓혔다 — `usesDefinition` **476** 트리플, 모듈 간 교차 0, `//kg:gate_test` 56~61초(같은 잡음대). 방출 경계의 정의처를 하나로 — `defs/kb.bzl`의 `EXTRACTED_SOURCES`(BUILD가 load, `kb_lib.load_extracted_sources`가 리터럴 파싱, `tools/BUILD.bazel`의 `check_extracted_sources`가 등록부 집합과의 일치를 로드 시점에 강제 — 빼면 드리프트 타깃 소멸·`uses` 소실·로드 fail이 같은 한 줄에서 난다). `doccheck --report`가 파일 목록을 받아 P18 케이스가 섰다(`document-table-matches-generated`, 케이스 34).
+
 ## 측정이 말하는 것 — 유저에게 되돌린다
 
 **모듈 안 호출은 사각지대의 63%만 덮는다.** `tools/` 최상위 호출 간선 739 중 465가 모듈 안, **274가 모듈 간**이다. 채널이 근거로 든 사례(`pct` 개명 → 호출부 36 파손)는 전부 모듈 간이라 이 잎으로 **0**이 나온다. `revalidate`의 `호출부`는 그래서 "같은 모듈 안의 상한"이고 문서에 그 경계를 적었다.

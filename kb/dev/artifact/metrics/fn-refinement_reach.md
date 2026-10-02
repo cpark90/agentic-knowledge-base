@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/fa4c4a17-7c5e-4ecc-b6f7-818675609be4
 ---
 **함수** — `refinement_reach(g, live, plane, level)` 다. 요구에서 refines·serves 역방향으로 내려가 닿는 가장 낮은 수준의 분포를 돌려준다.

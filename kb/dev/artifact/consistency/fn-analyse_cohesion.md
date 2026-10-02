@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/52698279-f1ad-4285-b6a1-161a8d5a2c4c]
 part_of: https://agentic-knowledge-base.dev/id/composite/980ff6a4-1f10-4e39-bd06-73c6c65e5d37
 ---
 **함수** — `analyse_cohesion(items, by_id, sh, theta_c)` 다. ④ 묶임과 응집 — coUpdatesWith 로 묶인 쌍(살아 있는 입력 안의 것만)의 현재 본문 Jaccard 가 θ_cohesion 미만이면 응집 저하 후보.

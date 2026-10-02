@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-23T10:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/e2064625-339c-4cef-8f06-5e775874f177
 ---
 **근거** — 2026-09-22 실측이 비용을 보인다. 케이스 28 중 둘(`chunk-42-lines`·`foreign-vocabulary-rejected`)의 음성 명령이 `임시 파일 자극 — 프로즈에 구조만 있어 자동 생성 불가`로 건너뛰어졌고, 그래서 두 케이스의 판정이 `skip`이다. 판정 주석 `skipped-negative-stimuli`가 그것을 `issue (non-blocking)`으로 적었다.

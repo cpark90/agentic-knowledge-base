@@ -119,7 +119,7 @@ def evidence_of(path: str, where: str, value, polarity: str) -> list[tuple[str, 
 
 def parse_space(path: str) -> dict:
     """`-space` 청크 하나 → 방출에 필요한 값들. 형식 위반은 SpaceError 다."""
-    meta, n = chunk2kg.parse_chunk(path)
+    meta, body = chunk2kg.parse_chunk(path)
     if meta["type"] != kb_lib.SPACE_TYPE:
         raise SpaceError(f"{path}: type 이 {kb_lib.SPACE_TYPE} 가 아니다 — 실제 {meta['type']!r} (설계 공간이 아닌 청크는 "
                          f"tools/chunk2kg.py 가 head 로 올린다)")
@@ -177,13 +177,13 @@ def parse_space(path: str) -> dict:
     constraints = [str(c) for c in (data.get("constraints") or [])]
     if any(not c for c in constraints):
         raise SpaceError(f"{path}: 빈 양립 제약이 있다 — 제약이 없으면 constraints 를 적지 않는다 (STYLEGUIDE §0 빈 값)")
-    return {"meta": meta, "lines": n, "path": path, "var": (str(var["from"]), kind), "status": status,
+    return {"meta": meta, "body": body, "path": path, "var": (str(var["from"]), kind), "status": status,
             "candidates": candidates, "constraints": constraints, "preferences": prefs}
 
 
 # ── 그래프 방출과 보고 ────────────────────
 
-def emit(space: dict) -> list[tuple[str, str]]:
+def emit(space: dict, enc) -> list[tuple[str, str]]:
     """설계 공간 하나 → (IRI, 블록) 목록 — 공간 개체 · 후보 링크 개체 · 증거 항목."""
     esc, meta = chunk2kg.esc, space["meta"]
     frm, kind = space["var"]
@@ -217,7 +217,7 @@ def emit(space: dict) -> list[tuple[str, str]]:
 
     stmts = [f"a {kb_lib.SPACE_TYPE}",
              f'rdfs:label "{esc(meta["title"])}"@en', f'rdfs:label "{esc(meta["title_ko"])}"@ko',
-             f"agt:hasLevel agt:{meta['level']}", f"agt:lineCount {space['lines']}",
+             f"agt:hasLevel agt:{meta['level']}", f"agt:tokenCount {kb_lib.token_count(space['body'], enc)}",
              f'agt:status "{meta["status"]}"', f'agt:contentHash "{meta["_content_hash"]}"',
              f'agt:generatedBy "{esc(meta["generated"]["by"])}"',
              f'prov:generatedAtTime "{meta["generated"]["at"]}"^^xsd:dateTime',
@@ -248,14 +248,24 @@ def main() -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
                     help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(design_space 규칙이 명시로 넘긴다)")
+    ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다 (p1-chunk-unit-is-tokens)")
     ap.add_argument("files", nargs="*")
     a = ap.parse_args()
+    enc = None
     if a.files:  # parse_chunk 를 실제로 부를 때만 값 어휘가 있어야 한다 — 아직 `-space` 청크가 없으면(빈 grap) 필요 없다
         try:
             chunk2kg.apply_plane_level_state(*chunk2kg.load_plane_level_state(a.residency))
         except (OSError, ValueError) as e:
             print(f"FAIL [{GATE}] {a.residency}: 읽을 수 없다 — {e}", file=sys.stderr)
             return EXIT_CONFIG
+        try:  # agt:Space 는 agt:Chunk 의 하위라 크기 사실(agt:tokenCount)을 갖는다 — 계수기는 고정된 어휘 하나다
+            enc = kb_lib.load_tokenizer(a.vocab or None)
+        except FileNotFoundError as e:
+            print(f"FAIL [{GATE}] 어휘 파일 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
+        except ValueError as e:
+            print(f"FAIL [{GATE}] {e}", file=sys.stderr)
+            return EXIT_FAIL
 
     blocks, errors, seen = [], [], {}
     for path in sorted(a.files):
@@ -287,7 +297,7 @@ def main() -> int:
 
     out: list = []
     for space in blocks:
-        out += emit(space)
+        out += emit(space, enc)
     body = "\n\n".join(b for _, b in sorted(out))
     Path(a.out).write_text(PREAMBLE + ("\n" + body + "\n" if body else ""), encoding="utf-8")
     return 0

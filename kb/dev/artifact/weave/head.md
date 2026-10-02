@@ -7,8 +7,8 @@ title: module head prov in tools/weave.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-weave}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/c0b7f63a-353e-4fdf-9389-961b6f3e130c, https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f]
 part_of: https://agentic-knowledge-base.dev/id/composite/50eac9df-d01a-488f-8254-02ba61b00bf0
 ---
@@ -28,7 +28,7 @@ from chunk2kg import EARS_PATTERNS, apply_plane_level_state, load_plane_level_st
 AGT, ID = kb_lib.AGT, kb_lib.ID
 PROV = Namespace("http://www.w3.org/ns/prov#")
 EXIT_OK, EXIT_CONFIG = kb_lib.EXIT_OK, kb_lib.EXIT_CONFIG
-TAG = kb_lib.WEAVE_GATE
+TAG = kb_lib.WEAVE_TAG
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]  # metrics.py 와 같은 순서 (CQ19 정의)
 PATTERN_VALUE = {URIRef(str(AGT) + v.split(":")[1]): k for k, v in EARS_PATTERNS.items()}  # agt:eventDriven → event-driven
 ```

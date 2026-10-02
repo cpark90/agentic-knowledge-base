@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/04bfcfb9-d96b-42ec-9555-a58bd09f1551, https://agentic-knowledge-base.dev/id/chunk/6b2fd7de-ac08-40ec-a4c0-7976d20b1f34, https://agentic-knowledge-base.dev/id/chunk/816a1348-352c-462d-bbb0-ad267befb0d9]
 part_of: https://agentic-knowledge-base.dev/id/composite/569c6e75-e264-4981-bf0b-bba156b541c8
 ---
 **함수** — `group_composites(items, iri_to_label)` 다. 같은 패키지에서 `composite.id` 로 묶인 청크들 → 복합체 항목 하나 (kb_composite).

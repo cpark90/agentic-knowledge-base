@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/0ef3233e-c6aa-434b-a0ef-350c857e690e
 ---
 **근거** (노트 8.3절) — 검증 대응물을 게이트의 통과 조건으로 두면 "검증은 나중에"가 구조적으로 불가능해진다. 개발 계층이 혼자 내려가면 산출물이 나온 뒤에야 무엇으로 판정할지 정하게 되고, 그때 기준은 산출물에 맞춰진다.

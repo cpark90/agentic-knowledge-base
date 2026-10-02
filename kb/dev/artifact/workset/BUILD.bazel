@@ -14,12 +14,12 @@ filegroup(
 kb_composite(
     name = "module",
     srcs = [
-        "fn-body_lines.md",
+        "fn-body_of.md",
         "fn-main.md",
         "fn-neighbours.md",
         "head.md",
         "module.md",
-        "sec-body-lines.md",
+        "sec-body-of.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/daba0b21-4c2e-4be6-8cc6-9cef10baa82f",
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/58ca0301-520d-4ec2-848b-bfea07859eab", "https://agentic-knowledge-base.dev/id/composite/efdb6344-03eb-4727-97ba-fe8aadcc7424"],

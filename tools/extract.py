@@ -11,11 +11,14 @@ docstring 과 import)이고 링크(`refines`·`serves`)와 검증기의 `verifie
 직접 부분은 9개를 넘을 수 없으므로(4.5절) 넘는 절은 잘라 맞추지 않고 절 주석을 요구한다 — 순서에 뜻이 없는 묶음을
 만들지 않는다.
 
-정의 청크는 선택 키 `uses: [<청크 IRI>…]` 를 갖는다 — 같은 모듈의 최상위 정의를 이름으로 쓰는 관계이고 `chunk2kg` 가
-`agt:usesDefinition`(references 족의 잎)으로 방출한다. 해소는 AST 의 이름 참조뿐이며 제외는 `used_defs` 에 적혀 있다.
-링크 키가 아니므로 Bazel `deps` 도 링크 개체도 되지 않는다 — 링크는 파일 복합체의 것이다. 모듈 간 호출은 이 잎이 잡지
-않고, 방출은 표본 경계 `kb_lib.USES_SOURCES` 안의 소스에서만 한다 (유저 답 2026-09-30: 표본 하나에서 모듈 안 호출만
-먼저 내고 링크 밀도·게이트 시간을 잰 뒤 넓힌다).
+정의 청크는 선택 키 `uses: [<청크 IRI>…]` 를 갖는다 — 최상위 정의를 이름으로 쓰는 관계이고 `chunk2kg` 가
+`agt:usesDefinition`(references 족의 잎)으로 방출한다. 해소는 AST 의 이름 참조뿐이며 제외는 `used_defs` 와
+`used_foreign_defs` 에 적혀 있다. 링크 키가 아니므로 Bazel `deps` 도 링크 개체도 되지 않는다 — 링크는 파일 복합체의
+것이다. 경계는 둘이고 둘 다 `--residency`(기본 `<루트>/defs/kb.bzl`) 의 리터럴이 단일 정의처다(M1). **방출 경계**
+`EXTRACTED_SOURCES` 안의 소스에서만 내고(2026-10-01 — 표본 하나에서 먼저 내고 링크 밀도·게이트 시간을 잰 뒤 37 파일
+전부로 넓혔다, 유저 답 1), **치역 경계** `USES_TARGETS` 안의 모듈만 모듈 밖 대상으로 삼는다(2026-10-01, 유저 답 1 —
+표본 쌍 `kb_lib` 하나부터). 치역 경계 밖의 모듈을 가리키는 호출은 내지 않는다 — 넓히는 일은 그 리터럴에 이름을
+더하는 것이다.
 
 청크의 `generated.at` 은 **그 청크의 본문이 바뀐 추출에서만** 갱신된다(`previous_bodies`) — 소스 시각을 모든 청크에
 다시 찍으면 실제 변경 한 건이 diff 96건이 되어 무엇이 바뀌었는지 보이지 않는다. 값의 원본은 트리이므로 `--check` 는
@@ -26,10 +29,11 @@ docstring 과 import)이고 링크(`refines`·`serves`)와 검증기의 `verifie
 사람의 편집이다. (c) 대응이 없으면 새 uuid 를 등록부에 더한다(신설은 자동). (d) 등록부에 있는데 소스에 없으면
 `FAIL [extract]` 다 — 삭제는 등록부에서 지우는 명시 행위다.
 
-사용: bazel run //tools:extract -- tools/kb_lib.py [--root <저장소 루트>] [--check]
+사용: bazel run //tools:extract -- tools/kb_lib.py [--root <저장소 루트>] [--check] [--residency <defs/kb.bzl>]
       루트는 --root, 없으면 BUILD_WORKSPACE_DIRECTORY(bazel run), 없으면 현재 디렉토리(bazel test 의 runfiles).
+      --residency 는 EXTRACTED_SOURCES 리터럴의 원본 — 없으면 <루트>/defs/kb.bzl.
 출력·종료: 생성 시점 거부는 `FAIL [extract] <경로>: …`, `--check` 의 어긋남은 `FAIL [extract-drift] <경로>: …` —
-둘 다 EXIT_FAIL. 읽을 수 없는 입력은 EXIT_CONFIG.
+둘 다 EXIT_FAIL. 읽을 수 없는 입력(EXTRACTED_SOURCES 포함)은 EXIT_CONFIG.
 """
 
 from __future__ import annotations
@@ -66,7 +70,9 @@ class ExtractError(Exception):
 
 
 # ── 등록부 (사이드카) ─────────────────────────────────────────────────────────────────────
-# 손으로 쓰는 것은 `refines`·`serves` 와 uuid 이고, `at`·`source_hash` 와 신설 uuid 는 추출기가 더한다.
+# 손으로 쓰는 것은 `layer`·`refines`·`serves` 와 uuid 이고, `at`·`source_hash` 와 신설 uuid 는 추출기가 더한다.
+# `layer` 는 소스 하나의 서비스 층이고 생성 청크 전부의 frontmatter 로 옮겨진다 — 도구는 프로세스 층의 실행
+# 표면이므로 값은 `process` 다 (결정 p0-service-is-a-three-layer-wiki).
 # `serves` 의 정의역은 `agt:DecisionChunk` 다(fulfilment-ontology) — `artifact` 청크가 요구를 직접 `serves` 하면
 # 추론이 그것을 결정 청크로 만들고 shape DecisionSubstanceShape 이 거부한다. 코드가 요구에 닿는 길은 결정을
 # `refines` 하는 것이고 그 결정이 요구를 `serves`·`refines` 한다 — 사다리를 건너뛰지 않는다 (6.2절).
@@ -80,8 +86,8 @@ REGISTRY_HEAD = """\
 
 
 def load_registry(path: Path) -> dict:
-    """등록부 → {source, resource, package, at, source_hash, refines[], serves[], ids{}}. 없으면 빈 등록부다."""
-    reg = {"source": "", "resource": "", "package": "", "at": "", "source_hash": "",
+    """등록부 → {source, resource, package, layer, at, source_hash, refines[], serves[], ids{}}. 없으면 빈 등록부다."""
+    reg = {"source": "", "resource": "", "package": "", kb_lib.LAYER_KEY: "", "at": "", "source_hash": "",
            "refines": [], "serves": [], kb_lib.STAMP_KEY: {}, "ids": {}}
     if not path.exists():
         return reg
@@ -109,7 +115,7 @@ def load_registry(path: Path) -> dict:
 
 def dump_registry(reg: dict) -> str:
     out = [REGISTRY_HEAD.format(package=reg["package"])]
-    for k in ("source", "resource", "package", "at", "source_hash"):
+    for k in ("source", "resource", "package", kb_lib.LAYER_KEY, "at", "source_hash"):
         out.append(f"{k}: {reg[k]}")
     for k in ("refines", "serves"):
         out.append(f"{k}:" + ("" if reg[k] else " []"))
@@ -156,8 +162,12 @@ def module_head_end(tree: ast.Module) -> int:
     return end
 
 
-def parse_source(path: Path) -> tuple[list[str], int, list[Region]]:
-    """소스 → (줄들, 모듈 머리의 끝 줄, 최상위 구역들). 구역은 절 주석의 깊이로 중첩된다."""
+def parse_source(path: Path) -> tuple[list[str], int, list[Region], list]:
+    """소스 → (줄들, 모듈 머리의 끝 줄, 최상위 구역들, 최상위 import 노드들). 구역은 절 주석의 깊이로 중첩된다.
+
+    import 를 함께 돌려주는 까닭은 `uses` 의 치역 경계 해소가 "이 이름이 어느 모듈의 정의인가" 를 최상위
+    import 에서 풀어서다 — 소스를 두 번 파싱하지 않는다 (`module_imports`).
+    """
     lines = path.read_text(encoding="utf-8").splitlines()
     tree = ast.parse("\n".join(lines))
     head_end = module_head_end(tree)
@@ -181,7 +191,7 @@ def parse_source(path: Path) -> tuple[list[str], int, list[Region]]:
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
             _place(top, node)
     _key_regions(top, lines)
-    return lines, head_end, top
+    return lines, head_end, top, module_imports(tree)
 
 
 def _place(regions: list[Region], node) -> None:
@@ -260,6 +270,59 @@ def signature(node) -> str:
     return f"{node.name}({', '.join(names)})"
 
 
+def first_sentence(node) -> str:
+    doc = (ast.get_docstring(node) or "").strip()
+    if not doc:
+        return ""
+    head = doc.split("\n\n")[0].replace("\n", " ").strip()
+    m = re.search(r"^(.{1,160}?[다\.])(?:\s|$)", head)
+    return (m.group(1) if m else head[:160]).strip()
+
+
+# ── 호출의 해소 — 모듈 안과 치역 경계 안 (`uses`) ────────────────────
+def module_imports(tree) -> list:
+    """모듈 최상위의 import 노드 — `try`·`if` 안까지 들어가고 정의 안은 보지 않는다.
+
+    이 저장소의 관례가 `try: from tools import kb_lib / except ImportError: import kb_lib` 라서 최상위 `body` 만
+    훑으면 경계 안의 모듈을 묶는 import 가 거의 다 빠진다. 정의 안의 늦은 import 는 여기 오지 않는다 — 그 자리는
+    정의마다 다르므로 `used_foreign_defs` 가 자기 정의 안에서 다시 읽는다.
+    """
+    out: list = []
+
+    def walk(body):
+        for n in body:
+            if isinstance(n, (ast.Import, ast.ImportFrom)):
+                out.append(n)
+            elif isinstance(n, (ast.Try, ast.If)):
+                for part in [n.body, n.orelse, getattr(n, "finalbody", [])] + [h.body for h in getattr(n, "handlers", [])]:
+                    walk(part)
+
+    walk(tree.body)
+    return out
+
+
+def import_bindings(imports: list, targets: set) -> tuple:
+    """치역 경계 안의 모듈을 묶는 최상위 import → (모듈 별칭 → 대상 모듈, 직접 이름 → 대상 모듈).
+
+    형태는 넷이다. `import kb_lib` · `import kb_lib as k` · `from tools import kb_lib` 는 **모듈 별칭**을 묶고
+    그 뒤의 `<별칭>.<이름>` 이 대상 모듈의 최상위 이름이다 — 별칭은 모듈에 붙은 것이므로 이름의 철자를 바꾸지
+    않는다. `from kb_lib import X` 는 **직접 이름** X 를 묶는다. `from kb_lib import pct as p` 는 **제외**다:
+    `p` 는 정의의 이름이 아니고, 이 잎의 해소 규칙은 모듈 안과 같이 **철자가 정의의 이름과 같은 것**뿐이다.
+    """
+    mods, names = {}, {}
+    for n in imports:
+        if isinstance(n, ast.Import):
+            for a in n.names:
+                leaf = a.name.rsplit(".", 1)[-1]
+                if leaf in targets and (a.asname or "." not in a.name):  # import tools.kb_lib 은 `tools` 를 묶는다
+                    mods[a.asname or leaf] = leaf
+        elif (n.module or "").rsplit(".", 1)[-1] in targets:  # from kb_lib import X — 직접 이름
+            names.update({a.name: (n.module or "").rsplit(".", 1)[-1] for a in n.names if not a.asname})
+        else:  # from tools import kb_lib — 모듈 별칭
+            mods.update({a.asname or a.name: a.name for a in n.names if a.name in targets})
+    return mods, names
+
+
 def bound_names(node) -> set:
     """정의 안에서 이름을 새로 묶는 자리 전부 — 인자·대입 대상·중첩 정의·comprehension 변수·import 별칭·except 이름.
 
@@ -284,26 +347,42 @@ def bound_names(node) -> set:
 
 
 def used_defs(node, top_names: set) -> list:
-    """정의가 이름으로 쓰는 **같은 모듈의 최상위 정의** 이름들 — `uses` 의 해소 규칙이다 (agt:usesDefinition).
+    """정의가 이름으로 쓰는 **같은 모듈의 최상위 정의** 이름들 — `uses` 의 모듈 안 해소 규칙이다 (agt:usesDefinition).
 
     해소는 AST 의 이름 참조뿐이다. `ast.Name` 의 `id` 와 `ast.Attribute` 의 뿌리 이름(그 사슬의 `ast.Name`)을 보고
     모듈 최상위의 함수·클래스 이름과 철자가 같은 것만 남긴다. 제외는 다섯이다 — 자기 자신, 섀도잉된 이름(지역 변수·
     인자·중첩 정의·import 별칭, `bound_names`), 최상위 정의가 아닌 이름(상수·모듈·import), `ast.Attribute` 의
     뒤쪽 이름(`attr` — 인스턴스·모듈의 속성이라 모듈 최상위 정의가 아니다), 그리고 다른 모듈의 이름
-    (`kb_lib.pct` 의 뿌리는 import 이름 `kb_lib` 이므로 거기서 걸린다).
+    (`kb_lib.pct` 의 뿌리는 import 이름 `kb_lib` 이므로 거기서 걸린다 — 치역 경계 안의 모듈이면
+    `used_foreign_defs` 가 받는다).
     """
     bound = bound_names(node)
     seen = {n.id for n in ast.walk(node) if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load)}
     return sorted((seen & top_names) - bound - {getattr(node, "name", "")})
 
 
-def first_sentence(node) -> str:
-    doc = (ast.get_docstring(node) or "").strip()
-    if not doc:
-        return ""
-    head = doc.split("\n\n")[0].replace("\n", " ").strip()
-    m = re.search(r"^(.{1,160}?[다\.])(?:\s|$)", head)
-    return (m.group(1) if m else head[:160]).strip()
+def used_foreign_defs(node, mods: dict, names: dict, targets: set) -> list:
+    """정의가 **치역 경계 안의 다른 모듈**의 최상위 정의를 이름으로 쓰는 것 — (대상 모듈, 이름) 쌍이다.
+
+    해소는 둘뿐이다. (a) `ast.Attribute` 의 뿌리가 모듈 별칭이면 그 `attr` 이 대상 모듈의 최상위 이름이다
+    (`kb_lib.pct` · `k.pct`). 사슬이 길면(`kb_lib.AGT.usesDefinition`) 안쪽 `ast.Attribute` 가 최상위 이름을
+    주므로 뒤쪽 이름은 저절로 빠진다. (b) `from <대상> import X` 로 들어온 이름의 `Load` 참조. 섀도잉 규칙은
+    모듈 안과 같다 — `bound_names` 에 묶인 철자는 그 모듈의 정의를 가리키지 않는다. 예외는 정의 안의 **늦은
+    import** 다(`try: from tools import kb_lib` 를 함수 안에 두어 무거운 의존을 호출 시점으로 미루는 관례,
+    `extract_refs.load_concepts`): 묶는 것이 대상 모듈 자신이므로 섀도잉이 아니고 최상위 import 와 같이 센다.
+    이름 → 청크의 사상은 대상 모듈의 등록부가 주고 정의가 아닌 이름(상수·모듈 변수)은 거기 없어 빠진다.
+    """
+    inner = import_bindings([n for n in ast.walk(node) if isinstance(n, (ast.Import, ast.ImportFrom))], targets)
+    mods, names = {**mods, **inner[0]}, {**names, **inner[1]}
+    bound = bound_names(node) - set(inner[0]) - set(inner[1])
+    out = set()
+    for n in ast.walk(node):
+        root = n.value if isinstance(n, ast.Attribute) else None
+        if isinstance(root, ast.Name) and isinstance(root.ctx, ast.Load) and root.id in mods and root.id not in bound:
+            out.add((mods[root.id], n.attr))
+        elif isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load) and n.id in names and n.id not in bound:
+            out.add((names[n.id], n.id))
+    return sorted(out)
 
 
 # ── 청크 만들기 — 파일 청크 · 절 청크 · 정의 청크 ─────────────────────────────────────────────
@@ -340,12 +419,17 @@ def trim(lines: list[str]) -> list[str]:
 class Builder:
     """소스 하나의 청크 트리를 만든다 — 한정 이름 → uuid 는 Ids 가 준다."""
 
-    def __init__(self, src_rel: str, lines: list[str], head_end: int, top: list[Region], ids):
+    def __init__(self, src_rel: str, lines: list[str], head_end: int, top: list[Region], ids,
+                 uses_sources: frozenset = frozenset(), imports: list = (), uses_ids: dict = {}):
         self.src, self.lines, self.head_end, self.top, self.ids = src_rel, lines, head_end, top, ids
+        self.uses_sources = uses_sources  # 방출 경계(`tools/<이름>.py` 집합) — 원본은 defs/kb.bzl.EXTRACTED_SOURCES
         self.chunks: list[Chunk] = []
-        # 같은 모듈의 최상위 정의 이름 → 한정 이름. `uses` 의 치역이 이 사상의 값이다 — 모듈 밖 이름은 여기 없으므로
-        # 해소에서 저절로 빠진다 (모듈 간 호출은 이 잎이 잡지 않는다, 채널 uses-definition 2026-09-30)
+        # 같은 모듈의 최상위 정의 이름 → 한정 이름. 모듈 안 해소의 치역이 이 사상의 값이다
         self.top_defs = {n.name: qualified(def_kind(n), n.name) for n in self._all_defs(top)}
+        # 치역 경계(defs/kb.bzl.USES_TARGETS) 안의 모듈 → 그 등록부의 {한정 이름: IRI}. 모듈 밖 해소는 이 사상이
+        # 치역이고 등록부가 원본이다 — 여기 없는 이름(상수·모듈 변수)은 가리킬 청크가 없어 빠진다
+        self.uses_ids = {m: ids_ for m, ids_ in uses_ids.items() if m != Path(src_rel).stem}
+        self.uses_mods, self.uses_names = import_bindings(list(imports), set(self.uses_ids))
 
     def span(self, spans: list[tuple[int, int]]) -> list[str]:
         out: list[str] = []
@@ -417,6 +501,20 @@ class Builder:
                          "ordered": members, "part_of": parent}
         return comp_iri
 
+    def foreign_uses(self, node) -> set:
+        """치역 경계 안의 **다른 모듈**의 정의 IRI — 이름 → 청크는 대상 모듈의 등록부가 준다.
+
+        신설하지 않는다: 대상 모듈의 uuid 는 그 모듈의 추출이 정하는 것이고 여기는 읽는 자리다. 등록부에 없는
+        이름(상수·모듈 변수·없는 속성)은 가리킬 정의 청크가 없으므로 빠진다.
+        """
+        out = set()
+        for mod, name in used_foreign_defs(node, self.uses_mods, self.uses_names, set(self.uses_ids)):
+            ids = self.uses_ids.get(mod, {})
+            iri = ids.get(qualified("fn", name)) or ids.get(qualified("cls", name))
+            if iri:
+                out.add(iri)
+        return out
+
     def define(self, node, parent: str) -> str:
         qn = qualified(def_kind(node), node.name)
         kind = "클래스" if isinstance(node, ast.ClassDef) else "함수"
@@ -429,9 +527,11 @@ class Builder:
         c.part_of = parent
         # 호출 관계는 정의 청크가 갖는다 — 정렬은 IRI 순이다. 정체성이 uuid 이므로(p10-function-identity-registry)
         # 개명이 순서를 움직이지 않는다. 이름 순으로 정렬하면 개명 하나가 형제 전부의 frontmatter 를 흔든다.
-        # 방출은 표본 경계(`kb_lib.USES_SOURCES`) 안에서만 한다 — 추출기가 하나라 경계가 없으면 37 파일이 한꺼번에 든다
-        if self.src in kb_lib.USES_SOURCES:
-            c.uses = sorted(self.ids.get(self.top_defs[n], CHUNK_IRI) for n in used_defs(node, set(self.top_defs)))
+        # 방출은 경계(`self.uses_sources` — 원본 defs/kb.bzl.EXTRACTED_SOURCES) 안에서만 하고, 치역은 같은 모듈과
+        # 경계(`defs/kb.bzl.USES_TARGETS`) 안의 모듈이다 — 키는 하나이고 잎도 하나다(2026-10-01, 유저 답 1)
+        if self.src in self.uses_sources:
+            own = {self.ids.get(self.top_defs[n], CHUNK_IRI) for n in used_defs(node, set(self.top_defs))}
+            c.uses = sorted(own | self.foreign_uses(node))
         self.chunks.append(c)
         return c.iri
 
@@ -471,6 +571,8 @@ def render(c: Chunk, reg: dict, at: str = "") -> str:
     fm = [f"id: {c.iri}", "type: artifact", "level: executable", f"title_ko: {c.title_ko}", f"title: {c.title}",
           "status: stable", f"sources: [{{resource: {reg['resource']}}}]", f"assumes: [{DEFAULT_ASSUMES}]",
           f"generated: {{by: {kb_lib.EXTRACT_ACTOR}, at: {at or reg['at']}}}"]
+    if reg.get(kb_lib.LAYER_KEY):  # 서비스 층 — 등록부가 소스 하나의 층을 선언하고 그 선언이 생성 청크 전부(정의·절·파일)로
+        fm.append(f"{kb_lib.LAYER_KEY}: {reg[kb_lib.LAYER_KEY]}")  # 옮겨진다. 도구는 프로세스 층의 실행 표면이다 (p0-service-is-a-three-layer-wiki)
     if stamped(reg):  # 테스트 통과 도장 — 소스가 도장 뒤에 바뀌면 빠진다 (수정 뒤 미검증, 재판정 자동)
         fm.append(f"verified: [{{by: {kb_lib.STAMP_ACTOR}, at: {reg[kb_lib.STAMP_KEY]['at']}}}]")
     for key in ("refines", "serves"):
@@ -595,13 +697,32 @@ def main() -> int:
     ap.add_argument("source", help="추출할 파이썬 소스 (저장소 상대 경로)")
     ap.add_argument("--root", default="", help="저장소 루트. 없으면 BUILD_WORKSPACE_DIRECTORY, 없으면 현재 디렉토리")
     ap.add_argument("--check", action="store_true", help="생성하지 않고 트리와 비교. 어긋나면 1")
+    ap.add_argument("--residency", default="", help="EXTRACTED_SOURCES 리터럴의 원본 defs/kb.bzl — 안 주면 --root 기준")
+    ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 생성 청크가 `artifact` 상한 안인지 보고하는 데 쓴다. "
+                                               "--check 는 쓰지 않는다 (드리프트 판정에 크기가 들어가지 않는다)")
     a = ap.parse_args()
     root = Path(os.path.abspath(a.root or os.environ.get("BUILD_WORKSPACE_DIRECTORY") or "."))
     src_rel = Path(a.source).as_posix()
     src = root / src_rel
     reg_path = src.with_suffix(kb_lib.EXTRACT_REGISTRY_SUFFIX)
+    residency = a.residency or root / "defs" / "kb.bzl"
+    uses_ids: dict = {}
+    try:  # 방출 경계와 치역 경계 — 둘 다 defs/kb.bzl 의 리터럴이 단일 정의처다 (M1)
+        uses_sources = frozenset(f"tools/{m}.py" for m in kb_lib.load_extracted_sources(residency))
+        if src_rel in uses_sources:  # 치역 경계의 등록부는 `uses` 를 방출하는 소스에서만 입력이다
+            uses_ids = {m: load_registry(root / f"tools/{m}{kb_lib.EXTRACT_REGISTRY_SUFFIX}")["ids"]
+                        for m in kb_lib.load_extracted_sources(residency, kb_lib.USES_TARGETS_NAME)}
+    except (OSError, ValueError) as e:
+        print(f"FAIL [{TAG}] {residency}: 경계 목록을 읽을 수 없다 — {e}", file=sys.stderr)
+        return EXIT_CONFIG
+    empty = sorted(m for m, ids_ in uses_ids.items() if not ids_)
+    if empty:  # 조용히 비는 사고를 막는다 — 치역 경계 안의 등록부가 없으면 모듈 간 `uses` 가 말없이 0 이 된다
+        print(f"FAIL [{TAG}] tools/{empty[0]}{kb_lib.EXTRACT_REGISTRY_SUFFIX}: 치역 경계"
+              f"({kb_lib.USES_TARGETS_NAME}, {residency})의 등록부가 비었거나 없다 — {' · '.join(empty)}. "
+              f"모듈 간 `{kb_lib.USES_KEY}` 가 조용히 비는 것과 같으므로 통과시키지 않는다", file=sys.stderr)
+        return EXIT_CONFIG
     try:
-        lines, head_end, top = parse_source(src)
+        lines, head_end, top, imports = parse_source(src)
         reg = load_registry(reg_path)
     except (OSError, SyntaxError) as e:
         print(f"FAIL [{TAG}] {src}: 읽을 수 없다 — {e}", file=sys.stderr)
@@ -622,7 +743,7 @@ def main() -> int:
     names, hashes = collect(top, lines)
     try:
         ids = resolve(reg, names, hashes, pkg_dir, a.check)
-        b = Builder(src_rel, lines, head_end, top, ids)
+        b = Builder(src_rel, lines, head_end, top, ids, uses_sources, imports, uses_ids)
         b.build()
     except ExtractError as e:
         print(f"FAIL [{TAG}] {e}", file=sys.stderr)
@@ -665,6 +786,14 @@ def main() -> int:
         f.write_text(text, encoding="utf-8")
     comps = sum(1 for c in b.chunks if c.composite)
     print(f"생성 {len(b.chunks)}개 (복합체 {comps}개, 신설 uuid {len(ids.added)}개), 변경 {len(drift)}개: {pkg_dir}")
+    # `artifact` 상한 보고 — 단위는 토큰이다 (결정 p1-chunk-unit-is-tokens). 게이트가 아니라 보고다: 거부는
+    # chunk_lint(게이트 id `chunk`)의 몫이고 여기서는 추출이 낸 청크 가운데 상한을 넘은 것을 바로 알려준다.
+    limit = kb_lib.body_token_limit("artifact")
+    enc = kb_lib.load_tokenizer(a.vocab or None)
+    over = sorted(((kb_lib.token_count("\n".join(c.body), enc), c.fname) for c in b.chunks), reverse=True)
+    high = [(n, f) for n, f in over if n > limit]
+    print(f"`artifact` 상한 {limit} 토큰: 초과 {len(high)}개 / 생성 {len(b.chunks)}개 · 최대 {over[0][0] if over else 0} 토큰"
+          + ("".join(f"\n  초과 {n} 토큰 — {f}" for n, f in high) if high else ""))
     return 0
 
 

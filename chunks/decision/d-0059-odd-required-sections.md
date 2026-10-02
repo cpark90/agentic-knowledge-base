@@ -7,6 +7,7 @@ title: Required sections and attribute notation of the ODD document
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-odd-document
 ---
 **결론** — ODD의 파일명은 `project-odd`이고 0.4절 명세 형식(mode / include /

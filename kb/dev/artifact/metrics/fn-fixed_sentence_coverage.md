@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e]
 part_of: https://agentic-knowledge-base.dev/id/composite/46ce1955-674a-4ac3-bec9-631ef1d8c5c7
 ---
 **함수** — `fixed_sentence_coverage(a, live, plane, parts, siblings)` 다. 설계 노트의 [확정] 절 중 청크가 인용한 절의 비율을 한 줄로 돌려준다.

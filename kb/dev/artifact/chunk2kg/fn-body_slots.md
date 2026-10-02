@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/a88529ad-7941-47a8-a7ae-eb1866d89efc]
 part_of: https://agentic-knowledge-base.dev/id/composite/992d5e5a-5efc-4108-a5c8-1e75dd96807a
 ---
 **함수** — `body_slots(body)` 다. 본문이 쓴 슬롯 표지 — 등록된 표지(BODY_SLOT_MARKERS) 가운데 굵은 span 으로 나타난 것, 첫 등장 순서.

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b-5fcc2cc9f893
 ---
 **절** — `tools/kb_lib.py` 의 절 `exposes-key` 다. 위험에서 파생된 항목의 표지 (`exposes`) — 위험 분석 G5 (노트 8.21절, 8.22절 "요인" 청크)

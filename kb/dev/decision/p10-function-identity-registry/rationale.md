@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-30T14:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/fa336de6-3b07-45c0-9b66-b41ce2cdbcba
 ---
 **근거** — 생성물의 uuid를 이름에서 만들면 개명이 곧 새 uuid다. 그러면 그 청크를 가리키던 것(복합체의 부분 목록·검증기의 대상·관측)이 끊기고 이력이 둘로 갈린다 — 유저가 걱정한 "잦은 변경에 약한 형태" 그 자체다. 정체성을 이름 밖에 두어야 개명이 라벨 변경이 된다.

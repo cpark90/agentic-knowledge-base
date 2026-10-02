@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-30T09:00:00+09:00}
+layer: methodology
 verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-30T09:05:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/a9889acc-3e51-4428-8dff-b9bce3e26ce5, title_ko: 위험 분석에 의한 V&V 프로파일, title: V&V profile by risk analysis}

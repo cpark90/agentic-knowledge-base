@@ -7,6 +7,7 @@ title: Ascent - generalizing observation into vocabulary
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T19:48:09+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-ladder-update
 ---
 **결론** — 하강만 있는 체계는 지식이 축적되지 않는다. 관측에서 어휘로

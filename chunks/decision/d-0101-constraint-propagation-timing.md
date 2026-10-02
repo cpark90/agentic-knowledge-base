@@ -7,6 +7,7 @@ title: Run constraint propagation only at gates and re-judgement boundaries
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-design-space-operation
 ---
 **결론** — 제약 전파는 **검사 게이트 통과 시점과 재판정 경계**(9.1절

@@ -7,6 +7,7 @@ title: Each assumption records its verification type and expression
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-ladder-mechanism
 ---
 **결론** — 가정 청크의 assertion에 **판정 유형과 판정 식을 함께 적는다.**

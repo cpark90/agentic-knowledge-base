@@ -7,6 +7,7 @@ title: Five traceability metrics and their warning signals
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-link-operation
 ---
 **결론** — 링크 모델의 건강을 다섯 지표로 관측하고, 각 지표의 움직임을

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-12T11:50:00+09:00}
+layer: methodology
 verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-12T11:50:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7, https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193, https://agentic-knowledge-base.dev/id/chunk/ba638521-e9b0-4c38-b073-44230ac22785]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/666bd423-dc26-4857-9841-c1e3aa131223, title_ko: V&V 역할, title: V&V roles}

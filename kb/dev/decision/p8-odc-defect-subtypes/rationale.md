@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/49d21395-f143-4467-b1e8-55c07e9341dc
 ---
 **근거** (노트 8.17절) — ODC를 쓰는 이유는 유형이 배타적이고 **수정 행위로 정의되어 있어** 분류가 판단에 덜 흔들리기 때문이다. 자체 분류를 새로 만들면 같은 결함이 세션마다 다른 유형으로 기록되어 분포 진단이 무의미해진다 (있는 어휘를 쓴다 — r-017과 같은 이유).

@@ -8,7 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/38dd33c9-2317-4c0a-a596-5bb97eecca1b
 ---
 **함수** — `_legitimate_spans(line)` 다. 이 줄에서 필드 자리에 정당하게 선언된 굵은 슬롯 표지의 문자 구간 — 한 줄에 여러 필드(이해관계자 · 관심사)가 ` · ` 로 이어질 때 뒤 필드의 표지어를 "다른 슬롯이 자리 밖에서 발견됨"으로 오판하지 않게 뺀다.

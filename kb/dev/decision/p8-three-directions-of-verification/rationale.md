@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/9ac75416-7fff-4995-be5d-fed7b6ecbb90
 ---
 **근거** (노트 8.6절) — 세 번째가 빠지면 "통과했다"는 말이 공허하다. **아무것도 거르지 않는 기준도 통과하기 때문이다.** 에이전트는 통과하는 기준을 쓰는 쪽으로 치우치므로(1.2절), 기준의 질을 별도 방향으로 세우지 않으면 커버리지 수치만 오른다.

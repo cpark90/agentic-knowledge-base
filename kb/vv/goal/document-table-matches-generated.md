@@ -5,11 +5,12 @@ level: functional
 pattern: unwanted-behaviour
 title_ko: 문서의 표가 생성물의 수치와 어긋나면 그 어긋남이 드러나야 한다
 title: When a document table disagrees with the generated numbers, the disagreement must surface
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 exposes: [https://agentic-knowledge-base.dev/agt/documentLag, https://agentic-knowledge-base.dev/agt/metricVariesByLoadingOption]
 generated: {by: vnv/claude-opus-5, at: 2026-09-29T02:20:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 ---
 **검증 목표** — 그래프는 맞고 문서의 표가 낡은 상태가 검사로 드러난다는 것이 보여져야 한다. 이 목표가 다루는 위험은 현상 `agt:documentLag`(P18)이고, 같은 수치가 도구마다 갈리는 형태는 `agt:metricVariesByLoadingOption`(P21)이다.

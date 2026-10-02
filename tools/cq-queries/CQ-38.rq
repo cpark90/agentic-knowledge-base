@@ -1,0 +1,12 @@
+# 층마다 항목이 몇 개이고 층을 명시하지 않은 항목은 몇 개인가 — 층 할당 감사의 분모.
+# 행 = 서비스 층 하나 × 항목의 종류 하나. 종류는 plane 청크 클래스와 **청크가 아닌 항목 클래스**(agt:Gate — 2단계
+# 편입에서 뷰·skill 이 더해진다)다. 지식 층의 수가 **층을 명시하지 않은 항목 수의 상한**이다 — chunk2kg 가 명시
+# 없는 항목에 기본값 agt:knowledgeLayer 를 방출하므로 명시한 지식 할당과 기본값이 그래프에서 같은 트리플이고,
+# 방법론·프로세스는 명시한 것뿐이다. 게이트는 전부 프로세스 층이고 개체의 원본은 defs/kb.bzl 의 GATES 리터럴이다.
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+PREFIX id: <https://agentic-knowledge-base.dev/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?layer ?kind (COUNT(?item) AS ?n) WHERE {
+  ?item agt:inLayer ?layer ; a ?kind .
+  { ?kind rdfs:subClassOf agt:Chunk } UNION { VALUES ?kind { agt:Gate } }
+} GROUP BY ?layer ?kind ORDER BY ?layer DESC(?n) ?kind

@@ -41,7 +41,7 @@
 *실측: `DecisionChunk`×`concrete` 153 · `Composite`×`concrete` 38.*
 
 **CQ-03 ✅ 42줄을 넘는 항목이 있는가.**
-`?c agt:lineCount ?n FILTER(?n > 42)`. shape이 이미 막지만 분포는 질의로 본다.
+`?c agt:tokenCount ?n FILTER(?n > 1092)`(plane 상한은 `token-budget-shapes` — 2026-10-01, 단위는 토큰). shape이 이미 막지만 분포는 질의로 본다.
 *실측: 0건. 최빈 15줄·최대 22줄.*
 
 **CQ-04 ✅ 어느 항목도 복합체에 속하지 않는가 (고아 후보).**
@@ -207,6 +207,11 @@ write는 orchestrator=decision · developer=artifact · vnv=annotation로 겹치
 `kb/vv/case/decision-names-requirement.md`가 이 질의로 닫힌다. 질의 `CQ-37.rq`(2026-09-21).
 *실측: 행 0 — 살아 있는 결정 609 전부가 요구에 닿는다. 기대 행 수는 0이다.*
 
+**CQ-38 ✅ 층마다 항목이 몇 개이고 층을 명시하지 않은 항목은 몇 개인가 — 층 할당 감사의 분모.**
+`agt:inLayer` × plane 집계. 지식 층의 수가 층을 명시하지 않은 항목 수의 **상한**이다 — 명시가 없는 항목에 `chunk2kg`가
+기본값 `agt:knowledgeLayer`를 방출하므로 명시한 지식 할당과 기본값이 같은 트리플이다. 질의 `CQ-38.rq`(2026-10-01).
+*실측 2026-10-01: 지식 995 · 프로세스 648 · 방법론 0, 합 1643 — 방법론 0은 규칙 결정에 `layer: methodology`를 아직 적지 않았다는 뜻이고 1-① 배정 감사의 첫 행이다.*
+
 ## 노트 v3 CQ1~20 대응표
 
 노트 2.7절의 역량 질문 20개와 이 문서의 CQ-01~32는 **번호도 내용도 다르다**.
@@ -281,7 +286,7 @@ write는 orchestrator=decision · developer=artifact · vnv=annotation로 겹치
 ## 실행
 
 지금은 손으로 돌린다. `query` 도구가 생기면 이 목록이 그 도구의 입력이 되고, 상태 표가
-생성물이 된다 ([`tools.md` §활용 도구](tools.md#활용-첫-형태-10)).
+생성물이 된다 ([`tools.md` §활용 도구](tools.md#활용-첫-형태-11)).
 
 ```bash
 python3 - <<'PY'

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/12b09ffc-10a1-4725-b174-8202306f3fc6
 ---
 **함수** — `render_stage_sections(g, pct, observations, obs_recorded, assumptions, assumes, grade_dist, grade_ab, trig_on, sat, vv, vv_by, verifies_links, verified_targets, no_criteria, covered_reqs, dev_reqs, goals_with_criteria, goals)` 다.

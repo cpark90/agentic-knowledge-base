@@ -27,4 +27,4 @@ agt:commentSentenceCount a owl:DatatypeProperty ;
     rdfs:domain agt:ReviewComment ;
     rdfs:range xsd:integer ;
     rdfs:label "comment sentence count"@en , "논평 본문 문장 수"@ko ;
-    skos:definition "주석의 본문 슬롯이 담은 문장 수. 주석은 읽는 비용이 작아야 반복되는 리뷰에서 쓰이므로 본문에 네 문장의 상한을 둔다 (결정 p7-commentary-form). agt:lineCount 와 같은 본문 파생 사실이다. 게이트: review-comment-body-shapes(sh:maxInclusive)."@ko .
+    skos:definition "주석의 본문 슬롯이 담은 문장 수. 주석은 읽는 비용이 작아야 반복되는 리뷰에서 쓰이므로 본문에 네 문장의 상한을 둔다 (결정 p7-commentary-form). agt:tokenCount 와 같은 본문 파생 사실이다. 게이트: review-comment-body-shapes(sh:maxInclusive)."@ko .

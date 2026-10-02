@@ -1,0 +1,44 @@
+# 개발 프로파일 — 판정 도구의 배정: 도구 개체 일곱과 plane 실체마다의 값 제약 (결정 p7-dev-plane-substance, 노트 5.4절·7.2절)
+# 어휘(클래스 agt:JudgementTool · 속성 agt:judgedBy)는 judgement-tool-ontology.ttl 이 정의한다 — 한 용어는
+# 한 파일에서만 정의된다 (2.3절, 게이트 boundary). 여기 있는 것은 개체의 정의와 클래스에 붙는 공리다.
+
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:stakeholderApproval a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "stakeholder approval"@en , "이해관계자 승인"@ko ;
+    skos:definition "요구 문장의 판정 도구. 요구의 합의는 '이것을 원한다'에 대한 동의이므로 도구는 검사기가 아니라 이해관계자의 승인이다 (5.1절, 결정 p7-dev-plane-substance)."@ko .
+
+agt:argumentCheckAndUserApproval a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "argument check and user approval"@en , "논증 구조 검사와 유저 승인"@ko ;
+    skos:definition "설계 결정의 판정 도구. 결론·근거·대안의 구조가 갖춰졌는지를 검사하고 결정 자체는 유저가 승인한다 — 구조 검사만으로는 결정의 옳음을 가릴 수 없다 (결정 p7-dev-plane-substance, 7.4절)."@ko .
+
+agt:typeChecker a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "type checker"@en , "타입 체커"@ko ;
+    skos:definition "인터페이스 시그니처의 판정 도구. 시그니처와 사전·사후조건이 언어 네이티브 선언이라 타입 체커가 기계적으로 판정한다 (결정 p7-dev-plane-substance)."@ko .
+
+agt:schemaValidator a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "schema validator"@en , "스키마 검사기"@ko ;
+    skos:definition "메시지 스키마의 판정 도구. 스키마 언어로 쓴 본문은 스키마 검사기가 적합성을 판정한다 (결정 p7-dev-plane-substance)."@ko .
+
+agt:compilerLinterVerifier a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "compiler, linter and verifier"@en , "컴파일러·린터·검증기"@ko ;
+    skos:definition "함수 산출물의 판정 도구. 컴파일러·린터가 구조를, V&V KB의 검증기가 거동을 판정한다 — 실행 수준의 판정은 실행이다 (6.1절, 결정 p7-dev-plane-substance)."@ko .
+
+agt:resolution a owl:NamedIndividual , agt:JudgementTool ;
+    rdfs:label "resolution"@en , "해소"@ko ;
+    skos:definition "리뷰 코멘트의 판정 도구. 코멘트는 대상이 고쳐지거나 답변되어 해소될 때 판정이 끝난다 (결정 p7-dev-plane-substance)."@ko .
+
+agt:RequirementStatement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:stakeholderApproval ] .
+
+agt:DesignDecision rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:argumentCheckAndUserApproval ] .
+
+agt:InterfaceSignature rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:typeChecker ] .
+
+agt:MessageSchema rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:schemaValidator ] .
+
+agt:FunctionArtifact rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:compilerLinterVerifier ] .
+
+agt:ReviewComment rdfs:subClassOf [ a owl:Restriction ; owl:onProperty agt:judgedBy ; owl:hasValue agt:resolution ] .

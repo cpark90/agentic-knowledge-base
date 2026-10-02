@@ -11,6 +11,7 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/4ae7ad6d-fabc-4925-bc6a-4a
 serves: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-21T21:10:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/094466b2-eced-45bf-991f-85eead474058
 composite: {id: https://agentic-knowledge-base.dev/id/composite/094466b2-eced-45bf-991f-85eead474058, title_ko: 생성 문서의 머리 블록, title: The head block of a generated document}
 ---

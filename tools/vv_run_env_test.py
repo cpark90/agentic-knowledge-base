@@ -34,7 +34,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kb_lib  # noqa: E402 — 종료 코드 규약의 단일 정의처
 import vv_run  # noqa: E402 — 판정 대상. clean_env·run_command 는 bazel 을 부르지 않는다
 
-GATE = "vv-run-env"
+GATE = kb_lib.VV_RUN_ENV_GATE
 # 규약이 걷어내는 다섯. **이 목록은 이 파일이 자기 기대로 갖는다** — vv_run.BAZEL_PY_ENV 에서 읽으면 그 목록이
 # 비거나 줄어도 이 검사가 통과해 아무것도 판정하지 않는다 (결정 p8-verifier-env-isolation 의 결론 문장이 원본이다)
 EXPECTED_ENV = ("PYTHONSAFEPATH", "PYTHONPATH", "PYTHONHOME", "RUNFILES_DIR", "RUNFILES_MANIFEST_FILE")

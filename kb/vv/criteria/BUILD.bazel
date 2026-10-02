@@ -20,7 +20,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/b2b7a878-a500-4352-976a-e7cdd6ca1d8b",
     plane = "contract",
     level = "logical",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/goal:acyclic-relation-axioms",
     ],
@@ -44,7 +44,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/081e9e28-c736-49bc-84ea-6d41f0a1c44a",
     plane = "contract",
     level = "logical",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/goal:agent-catalog-complete",
     ],
@@ -104,7 +104,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/a6673077-7796-4803-afe1-299d79fc4d02",
     plane = "contract",
     level = "logical",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/goal:composite-order-shape",
     ],
@@ -128,7 +128,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/2f69c738-6a24-4c0b-9a14-29a44b25d6ee",
     plane = "contract",
     level = "abstract",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/goal:decision-and-artifact-agree",
     ],
@@ -176,7 +176,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/b173e680-0135-4d83-9e0f-d8fb77d77407",
     plane = "contract",
     level = "abstract",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/goal:document-table-matches-generated",
     ],
@@ -212,7 +212,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/4e216613-6a9b-40a2-8c31-d3a13fae72ae",
     plane = "contract",
     level = "logical",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/goal:element-without-vocabulary-dropped",
     ],
@@ -320,7 +320,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/4b460cbc-fe23-48fd-8ac3-daf8351c98c9",
     plane = "contract",
     level = "logical",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/goal:metric-varies-by-loading-option",
     ],
@@ -464,7 +464,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/a5dbd9da-c201-45bc-8019-9dbca4b89333",
     plane = "contract",
     level = "abstract",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/goal:verification-round-stop-rule",
     ],

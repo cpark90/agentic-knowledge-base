@@ -5,11 +5,12 @@ level: functional
 pattern: unwanted-behaviour
 title_ko: 같은 이름의 지표가 로딩 옵션에 따라 다른 값을 내면 그 차가 드러나야 한다
 title: When a same-named metric yields different values under different loading options, the gap must surface
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}, {resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 exposes: [https://agentic-knowledge-base.dev/agt/metricVariesByLoadingOption]
 generated: {by: vnv/claude-opus-5, at: 2026-09-29T06:20:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/2b1e5103-9b9d-43da-9231-6b4027bc370e]
 ---
 **검증 목표** — 같은 리비전의 같은 그래프를 재는 지표가 도구의 로딩 설정에 따라 다른 값을 낼 때 그 차가 값과 함께 드러난다는 것이 보여져야 한다. 이 목표가 다루는 위험은 현상 `agt:metricVariesByLoadingOption`(P21)이다.

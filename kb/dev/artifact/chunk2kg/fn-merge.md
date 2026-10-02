@@ -7,7 +7,9 @@ title: function merge in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/3bc19461-0841-4806-aafd-93fdbc5f9ab3, https://agentic-knowledge-base.dev/id/chunk/f418fcb4-df9f-496c-9cc7-09f83dc5d1e5]
 part_of: https://agentic-knowledge-base.dev/id/composite/c5e6231f-44b9-4294-805c-08d03635fc72
 ---
 **함수** — `merge(out, fragments)` 다. 타깃별 head 조각(--fragment 출력)을 하나의 -kg 로 병합한다.
@@ -26,7 +28,7 @@ def merge(out: str, fragments: list) -> int:
         try:
             text = Path(frag).read_text(encoding="utf-8").strip("\n")
         except OSError as e:
-            print(f"FAIL [{TAG}-merge] {frag}: 조각을 읽을 수 없다 — {e}", file=sys.stderr)
+            print(f"FAIL [chunk2kg-merge] {frag}: 조각을 읽을 수 없다 — {e}", file=sys.stderr)
             return EXIT_CONFIG
         for block in (b for b in text.split("\n\n") if b.strip()):
             iri = block.split("\n", 1)[0].strip("<>")
@@ -43,7 +45,7 @@ def merge(out: str, fragments: list) -> int:
             (comps if "\n    a agt:Composite" in block else chunks).append((iri, block))
     if errors:
         for e in errors:
-            print(f"FAIL [{TAG}-merge] {e}", file=sys.stderr)
+            print(f"FAIL [chunk2kg-merge] {e}", file=sys.stderr)
         return EXIT_FAIL
     chunks, spec_errors = rebase_links(chunks, spec)
     if spec_errors:

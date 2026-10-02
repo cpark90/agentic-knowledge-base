@@ -10,6 +10,7 @@ agt:generatedArtefactDrift a owl:NamedIndividual , agt:BuildPackageFactor ;
     rdfs:label "generated artefact drift"@en , "생성물 드리프트"@ko ;
     skos:definition "생성 트리 파일이 원본에서 재생성한 결과와 어긋나는 현상. 구성·병합의 오류이므로 빌드·패키지 요인이다. 손으로 고친 생성물이 그 전형이다 (STYLEGUIDE §6)."@ko ;
     skos:notation "P8" ;
+    agt:inTagCategory agt:defectFactorCategory ;
     agt:observationMeans "게이트 build_drift 와 skills_drift" ;
     prov:wasDerivedFrom id:doc-system-notes , id:doc-vv-profile-hazards .
 
@@ -17,5 +18,6 @@ agt:metricVariesByLoadingOption a owl:NamedIndividual , agt:AssignmentFactor ;
     rdfs:label "metric varies by loading option"@en , "로딩 옵션에 따른 지표 변동"@ko ;
     skos:definition "같은 그래프를 재는 지표가 추론·필터 옵션에 따라 다른 값을 내는 현상. 그래프 조립의 초기화 차이이므로 할당 요인이다. 관측 수단은 지표 도구들이 같은 합집합을 읽는지의 대조다."@ko ;
     skos:notation "P21" ;
+    agt:inTagCategory agt:defectFactorCategory ;
     agt:observationMeans "같은 리비전에서 union 구성이 다른 지표 타깃을 돌려 같은 이름의 수치를 대조 — bazel build //kg:metrics //kg:link_candidates //kg:audit 뒤 각 생성 문서 머리의 트리플 값과 그 union 구성을 비교한다 (실측 2026-09-29: 28749 · 28678 · 30293, 차 71 = ODD 그래프 · 1544 = 온톨로지 모듈)" ;
     prov:wasDerivedFrom id:doc-harness-ontology , id:doc-vv-profile-hazards .

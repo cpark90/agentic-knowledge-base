@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/7b4508d3-c314-4c0b-a04f-4f86b63bf62e
 ---
 **함수** — `order_errors(where, order, source)` 다. 순서 목록 자체의 형 검사 — 목록인가·빈 문자열이 없는가·중복이 없는가.

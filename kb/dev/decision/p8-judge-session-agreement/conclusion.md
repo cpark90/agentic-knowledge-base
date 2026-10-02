@@ -10,6 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk/1f335a27-9cd0-47d1-9483-b9a787eaf07e]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-30T14:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/abf9e76a-0b1d-42c4-b70c-f77c7902f8db
 composite: {id: https://agentic-knowledge-base.dev/id/composite/abf9e76a-0b1d-42c4-b70c-f77c7902f8db, title_ko: 세션 판정자와 일치율, title: Session judges and agreement}
 ---

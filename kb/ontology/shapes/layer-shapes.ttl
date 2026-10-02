@@ -1,0 +1,25 @@
+# shape — 층: 항목은 서비스의 층을 정확히 하나 갖고 값은 선언된 셋 중 하나다 (layer-ontology, 결정 p0-service-is-a-three-layer-wiki)
+# 정의문 "항목마다 정확히 하나이고 값은 선언된 층 셋 중 하나다" 의 실행 자리다.
+# 값이 닫힌 집합이라 sh:class 가 아니라 sh:in 으로 판정한다 — agt:inLayer 의 rdfs:range 는 RDFS 함의로 아무 대상에나
+# agt:Layer 를 붙이므로 sh:class 는 지어낸 IRI 를 통과시킨다. 기본값 방출이 있으므로 minCount 는 주어가 선 자리에서만 센다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+agt:InLayerShape a sh:NodeShape ;
+    sh:targetSubjectsOf agt:inLayer ;
+    sh:property [
+        sh:path agt:inLayer ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:in ( agt:knowledgeLayer agt:methodologyLayer agt:processLayer ) ;
+        sh:message "항목의 층은 정확히 하나이고 knowledge | methodology | process 중 하나다 — frontmatter `layer:` 의 값 어휘가 그 셋이고 명시가 없으면 chunk2kg 가 agt:knowledgeLayer 를 방출한다 (p0-service-is-a-three-layer-wiki)" ;
+    ] .
+
+agt:LayerIndividualShape a sh:NodeShape ;
+    sh:targetClass agt:Layer ;
+    sh:property [
+        sh:path agt:inLayer ;
+        sh:maxCount 0 ;
+        sh:message "층 자체는 층에 속하지 않는다 — agt:inLayer 의 정의역은 agt:KnowledgeItem 이고 층은 그 치역의 개체다 (layer-ontology)" ;
+    ] .

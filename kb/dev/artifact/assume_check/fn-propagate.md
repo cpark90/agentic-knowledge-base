@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-assume-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/b9bfc5e7-9b9e-4472-bad1-4d151d9fe1c9]
 part_of: https://agentic-knowledge-base.dev/id/composite/aa693393-615e-4f00-ada2-34df72e2832e
 ---
 **함수** — `propagate(g, direct, live)` 다. 직접 영향 집합에서 하류로 전이 폐포 + 복합체 형제 → (1홉 suspect 후보, 전이 suspect 후보).

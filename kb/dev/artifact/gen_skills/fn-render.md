@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-skills}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/9337f5de-4a6b-420b-b51d-2a1afe8ebbae, https://agentic-knowledge-base.dev/id/chunk/f4e15fab-b378-46c2-b8ae-ca2982aa9dcd]
 part_of: https://agentic-knowledge-base.dev/id/composite/b9b38ba6-d689-44c6-814b-4526153a07b1
 ---
 **함수** — `render(entry, title, what, usage, section_doc, section_text, depth)` 다.

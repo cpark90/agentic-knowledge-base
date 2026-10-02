@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/eb257ae0-1a24-4c24-8425-e44c940a91b2
 ---
 **함수** — `link_targets(meta)` 다. 청크가 링크 키(LINK_KEYS)로 가리키는 대상 IRI 전부 — restored: 의 IRI 는 이 안에 있어야 한다.

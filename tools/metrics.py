@@ -21,9 +21,9 @@ AGT = kb_lib.AGT  # 네임스페이스의 단일 정의처는 kb_lib (STYLEGUIDE
 ID = kb_lib.ID
 PROV = kb_lib.PROV
 DEFAULT_ASSUMPTION = ID["asm-chunk-conventions"]  # 기본 가정 (dependency-graph-design §6 "기본 가정 후 좁힘", docs/rules.md 가정 절)
-LINKS = [AGT[p] for p in ("refines", "serves", "satisfies", "verifies", "cites", "targets", "assumes", "supersedes",
-                          "derivesFrom", "constrains", "usesConcept", "allocates", "generates", "coUpdatesWith", "conflictsWith",
-                          "overlapsWith", "usesDefinition")]  # usesDefinition 은 references 족의 잎 — 링크 개체는 없고 직접 트리플만 센다
+LINKS = list(kb_lib.TRACE_LINKS)  # 추적 링크 잎의 단일 정의처는 kb_lib (STYLEGUIDE §7) — 링크 밀도·TIM 이 보는 집합이다.
+# `usesDefinition` 은 references 족의 잎 — 링크 개체는 없고 직접 트리플만 센다. 연결 성분은 여기에 구성 관계와
+# `prov:specializationOf` 를 더한 `kb_lib.LINKAGE_PREDICATES` 를, CQ20 후방 추적은 `kb_lib.ASCRIPTION_PREDICATES` 를 본다
 # 후보·구축·복원의 구분은 kb_lib.link_origins 하나다 — 후보 = linkState candidate 인 링크 개체(본문 추출 cites, extract_refs),
 # 구축 = 구축 기록 증거뿐인 확정 링크 개체, 복원 = 증거 종류가 구축 기록이 아닌 확정 링크 개체(restored: 표시 → proposal).
 # 복원 비율 = 복원 / (확정 구축 + 복원). weave audit 이 같은 함수를 쓴다 (유저 결정 2026-09-12 (b), p10-extracted-references-are-candidates)
@@ -52,14 +52,14 @@ def parse_args():
 
 # ── 청크의 분류 ────────────────────
 def classify_chunks(g):
-    """청크 집합과 plane·level·status·줄 수·살아 있는 것을 돌려준다."""
-    chunks = {s for s in g.subjects(AGT.lineCount, None)}
+    """청크 집합과 plane·level·status·본문 토큰 수·살아 있는 것을 돌려준다."""
+    chunks = {s for s in g.subjects(AGT.tokenCount, None)}
     plane = {c: str(next(g.objects(c, RDF.type))).split("/")[-1].replace("Chunk", "").lower() for c in chunks}
     level = {c: str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1] for c in chunks}
     status = {c: str(next(g.objects(c, AGT.status), "")) for c in chunks}
-    lines = {c: int(next(g.objects(c, AGT.lineCount))) for c in chunks}
+    tokens = {c: int(next(g.objects(c, AGT.tokenCount))) for c in chunks}
     live = {c for c in chunks if status[c] != "deprecated"}
-    return chunks, plane, level, status, lines, live
+    return chunks, plane, level, status, tokens, live
 
 
 
@@ -107,8 +107,10 @@ def back_trace(g, live, plane, reqs):
     """복합체 관계와 요구로 거슬러 오르는 비요구 청크의 수를 돌려준다."""
     # CQ20: 요구가 아닌 살아 있는 청크 중 refines 연쇄로 요구에 닿는 비율 (복합체 부분은 대표 부분을 따라간다)
     up = defaultdict(set)
-    for s, o in g.subject_objects(AGT.refines): up[s].add(o)
-    for s, o in g.subject_objects(AGT.serves): up[s].add(o)
+    # 귀속으로 거슬러 오르는 술어의 정의처는 kb_lib.ASCRIPTION_PREDICATES 다 — `refines`·`serves` 와 `prov:specializationOf`.
+    # 분할 조각은 링크를 승계 청크에 두므로(p10-split-keeps-work-identity) 원 청크를 거쳐 요구에 닿는다
+    for pred in kb_lib.ASCRIPTION_PREDICATES:
+        for s, o in g.subject_objects(pred): up[s].add(o)
     comp_of = {}
     for comp, part in g.subject_objects(AGT.hasDirectPart): comp_of[part] = comp
     siblings = defaultdict(set)
@@ -134,18 +136,38 @@ def back_trace(g, live, plane, reqs):
 
 
 # ── 신뢰 등급과 크기 분포 ────────────────────
-def trust_and_size(g, chunks, live, lines):
-    """사람 검토 수·생성자 분포·줄 수 히스토그램·assumes 링크 수를 돌려준다."""
+
+SIZE_BANDS = (0.25, 0.50, 0.75, 0.90)  # 상한에 대한 비율의 칸 경계 — 마지막 칸이 "상한의 9/10 초과"다
+# 칸의 제목 — 분모는 그 청크의 plane 상한이다. 분수로 적는 이유는 생성 문서 규약 G15 다: 백분율은 `n/d = p.p%`
+# 꼴이어야 하고 분모 없는 `25%` 는 거부된다 — 칸 이름은 측정값이 아니라 구간이므로 분수·구간 서술로 적는다
+SIZE_HEADER = "| 상한의 1/4 이하 | 1/2 이하 | 3/4 이하 | 9/10 이하 | 9/10 초과 |"
+
+
+def size_bucket(ratio: float) -> int:
+    """상한에 대한 비율 → 칸 번호. 경계 위는 다음 칸이고 마지막 칸은 9/10 초과다."""
+    for i, edge in enumerate(SIZE_BANDS):
+        if ratio <= edge:
+            return i
+    return len(SIZE_BANDS)
+
+
+def trust_and_size(g, chunks, live, plane, tokens):
+    """사람 검토 수·생성자 분포·크기 히스토그램·assumes 링크 수를 돌려준다.
+
+    크기의 단위는 토큰이고 상한은 plane 별 프로파일 파라미터이므로(p1-chunk-unit-is-tokens) 히스토그램의 칸은
+    절대 수가 아니라 **그 청크의 상한에 대한 비율**이다 — plane 이 섞인 분포에서 "상한 근처에 몰렸는가"를 한
+    칸으로 읽으려면 분모가 청크마다 달라야 한다. 마지막 칸(9/10 초과)이 억지 분할의 신호다 (4.13절).
+    """
     human = sum(1 for c in chunks for v in g.objects(c, AGT.verifiedBy) if str(v).startswith("human:"))
     gen = Counter(str(next(g.objects(c, AGT.generatedBy), "")) for c in chunks)
-    hist = Counter(min((lines[c] - 1) // 10, 4) for c in live)
+    hist = Counter(size_bucket(tokens[c] / kb_lib.body_token_limit(plane[c])) for c in live)
     assumes = sum(1 for _ in g.subject_objects(AGT.assumes))
     return human, gen, hist, assumes
 
 
 # ── 연결 성분과 건너뜀 ────────────────────
 def axis_proxies(g, live, plane, level, authored, comp_of, siblings):
-    """저작된 지식의 연결 성분·수준 건너뜀·매트릭스 채움·수준 허용표 위반을 돌려준다."""
+    """저작된 지식의 연결 성분 수·주 성분 밖 성분들·수준 건너뜀·매트릭스 채움·수준 허용표 위반을 돌려준다."""
     # 세 축 대리 (14.1 정정본, p14-stage-pass-conditions): 연결 성분 · 매트릭스 채움률 · level 건너뜀 · 수준 허용표 위반
     parent = {c: c for c in authored}  # 관측·주석 제외 — 저작된 지식의 고립을 잰다
     def find(x):
@@ -154,18 +176,22 @@ def axis_proxies(g, live, plane, level, authored, comp_of, siblings):
         return x
     def union(a_, b_):
         if a_ in parent and b_ in parent: parent[find(a_)] = find(b_)
-    for p_ in LINKS + [AGT.hasDirectPart]:
+    for p_ in kb_lib.LINKAGE_PREDICATES:  # 추적 링크 잎 + 구성 관계 + prov:specializationOf (연결로 세는 술어의 단일 정의처)
         for s_, o_ in g.subject_objects(p_): union(s_, o_)
     for part_, comp_ in comp_of.items():
         for sib in siblings[comp_]: union(part_, sib)
-    components = len({find(c) for c in authored})
+    groups = defaultdict(list)
+    for c in authored: groups[find(c)].append(c)
+    # 성분을 크기 내림차순(동수는 작은 IRI)으로 두고 첫째를 주 성분으로 본다 — 나머지가 진단 대상이다
+    ordered = sorted(groups.values(), key=lambda m: (-len(m), str(min(m, key=str))))
+    components, outside = len(ordered), ordered[1:]
     skips = [(s_, o_) for s_, o_ in g.subject_objects(AGT.refines) if s_ in level and o_ in level and level[s_] in LEVELS and level[o_] in LEVELS
              and LEVELS.index(level[s_]) - LEVELS.index(level[o_]) != 1]
     lvl_pairs = {(level[o_], level[s_]) for s_, o_ in g.subject_objects(AGT.refines) if s_ in level and o_ in level}
     adjacent = [(LEVELS[i], LEVELS[i + 1]) for i in range(4)]
     filled = [p_ for p_ in adjacent if p_ in lvl_pairs]
     residency_bad = [c for c in live if plane[c] in RESIDENCY and level[c] not in RESIDENCY[plane[c]]]
-    return components, skips, filled, residency_bad
+    return components, outside, skips, filled, residency_bad
 
 
 # ── 링크 구축과 복원 ────────────────────
@@ -250,8 +276,13 @@ def vv_facts(g, chunks, live, plane):
 
 
 # ── 역할 작업 집합과 스코프 ────────────────────
-def role_worksets(g, live, plane, lines, pct):
-    """역할·앵커별 작업 집합이 예산 안인 비율과 ODD 에서 파생되지 않은 스코프를 돌려준다."""
+def role_worksets(g, live, plane, tokens, pct):
+    """역할·앵커별 작업 집합이 예산 안인 비율과 ODD 에서 파생되지 않은 스코프를 돌려준다.
+
+    예산의 단위는 토큰이다 (p1-chunk-unit-is-tokens — 옛 200줄의 같은 계수기 환산이 5,418 이다). 본문의 크기는
+    그래프의 `agt:tokenCount` 를 그대로 쓰고, 머리·제목·라벨 행은 행마다 1 로 센다 — 행 하나가 적어도 토큰
+    하나이므로 합계는 **하한**이고 이 비율은 상한 쪽으로 낙관적이다. 정확한 판정은 뷰 자신(`workset`)이 한다.
+    """
     # 2단계 — 역할별 작업 집합(라벨 목록) 크기와 스코프 파생
     odd_conds = set(g.objects(None, AGT.hasCondition))
     role_rows, scope_bad = [], []
@@ -259,14 +290,14 @@ def role_worksets(g, live, plane, lines, pct):
     for p_ in LINKS + [AGT.hasDirectPart]:
         for s_, o_ in g.subject_objects(p_):
             nb[s_].add(o_); nb[o_].add(s_)
-    BUDGET = 200
+    BUDGET = kb_lib.CONTEXT_TOKEN_BUDGET  # 컨텍스트 예산 — 단위는 토큰이다 (단일 정의처 kb_lib)
     for role in g.subjects(RDF.type, AGT.Role):
         planes = set(g.objects(role, AGT.reads)) | set(g.objects(role, AGT.writes))
         in_scope = [c for c in live if next(g.objects(c, RDF.type)) in planes]
         ok = 0
         for anc in in_scope:  # 앵커마다: 헤더 2 + plane 제목 + 이웃 라벨 + (앵커+이웃) 본문
-            nbs = [n for n in nb.get(anc, ()) if n in lines and n in live and next(g.objects(n, RDF.type)) in planes]
-            total = 2 + len({plane[x] for x in [anc] + nbs}) + 1 + len(nbs) + lines[anc] + sum(lines[n] for n in nbs)
+            nbs = [n for n in nb.get(anc, ()) if n in tokens and n in live and next(g.objects(n, RDF.type)) in planes]
+            total = 2 + len({plane[x] for x in [anc] + nbs}) + 1 + len(nbs) + tokens[anc] + sum(tokens[n] for n in nbs)
             ok += total <= BUDGET
         role_rows.append(f"`{str(role).split('/')[-1].replace('role-','')}` {pct(ok, len(in_scope))}")
         scope = ID[str(role).split('/')[-1].replace('role-', 'scope-')]
@@ -289,6 +320,8 @@ def render_head(g, chunks, live, siblings, inputs):
         "정제 완주(CQ19) · 후방 추적 귀속(CQ20) · 가정과 신뢰 등급. 연결 성분과 후방 추적 귀속은 **관측·주석 제외**다 — "
         "관측(memory plane)은 실행의 부산물, 판정 주석(annotation plane)은 산출물에 대한 리뷰라 둘 다 저작된 지식의 "
         "고립을 재는 지표의 대상이 아니다 (유저 승인 2026-09-23 · 2026-09-29, kb_lib.LINKAGE_EXCLUDED_PLANES). "
+        "분할 조각의 `prov:specializationOf` 는 연결과 귀속에서 **연결로 센다** — 조각은 원 청크의 정체성을 나눠 "
+        "가진 것이지 새 지식이 아니다 (p10-split-keeps-work-identity, kb_lib.LINKAGE_PREDICATES). "
         "수치를 문서에 적지 않고 여기서 인용한다 (4.6절 뷰 원칙)",
         "bazel build //kg:metrics", inputs,
         f"트리플 {len(g)} ({kb_lib.gendoc_union(inputs)}) · 청크 {len(chunks)}", kb_lib.gendoc_view_notice("청크의 frontmatter 와 본문"),
@@ -316,7 +349,7 @@ def render_distribution(pct, chunks, live, plane, level, orphans):
 def render_axis_sections(pct, live, authored, components, filled, skips, residency_bad, cov_line, link_ents, with_ev, origins, extracted_n, built_n, restored_total, tim_filled, TIM, BUDGET, role_rows, scope_bad):
     o = []
     o += ["", "## 세 축 대리 — 1·3·5단계 (14.1 정정본: 의미 보존 · 구체화 · 유기적 연결)", "",
-          f"- 연결: 저작된 지식의 연결 성분 **{components}**개 (살아 있는 청크 {len(live)} 중 관측·주석 {len(live) - len(authored)}건을 뺀 {len(authored)}개가 링크·복합체로 이어진 덩어리. 목표 1)",
+          f"- 연결: 저작된 지식의 연결 성분 **{components}**개 (살아 있는 청크 {len(live)} 중 관측·주석 {len(live) - len(authored)}건을 뺀 {len(authored)}개가 링크·복합체·`prov:specializationOf` 로 이어진 덩어리. 목표 1; 1보다 크면 아래 「주 성분 밖 청크」 절이 성분마다 목록을 낸다)",
           f"- 연결: level×level `refines` 매트릭스 채움 {pct(len(filled), 4)} — " + (", ".join(f"{a_}→{b_}" for a_, b_ in filled) or "없음") + " (목표 4/4 = 100.0%)",
           f"- 구체화: level을 한 단계씩 내려가지 않는 `refines` **{len(skips)}**건 (목표 0; 지금은 concrete→functional 직행이 구조적으로 허용됨 — abstract·logical 결정이 생기면 0이어야 한다)",
           f"- 구체화: 수준 허용표 위반 **{len(residency_bad)}**건 (목표 0)",
@@ -329,12 +362,31 @@ def render_axis_sections(pct, live, authored, components, filled, skips, residen
           f"- 연결: plane×plane 매트릭스 — TIM 허용 칸 채움 **{pct(len(tim_filled), len(TIM))}** ({', '.join(f'{k}:{a_}→{b_}' for k, a_, b_ in tim_filled) or '없음'}); 빈 칸은 contract·schema·artifact·V&V 항목이 생겨야 찬다",
           "- 구체화: `refines` 한 단계씩 — 위 세 축 절의 건너뜀 수 참조"]
     o += ["", "## 2단계 대리 — ODD와 스코프", "",
-          f"- 정의: 여기의 예산 준수율은 **앵커마다** 센다 — 스코프 안 청크 하나를 앵커로 잡고 그 1홉 이웃의 라벨과 본문을 펼친 줄 수가 "
-          f"{BUDGET}줄 이하인 앵커의 비율이다. `bazel build //kg:workset` 의 예산 판정은 **문서 전체**(앵커 없이 스코프 전체의 라벨 목록)를 재므로 "
+          f"- 정의: 여기의 예산 준수율은 **앵커마다** 센다 — 스코프 안 청크 하나를 앵커로 잡고 그 1홉 이웃의 라벨과 본문을 펼친 크기가 "
+          f"{BUDGET}토큰 이하인 앵커의 비율이다. 본문은 `agt:tokenCount`, 라벨·제목 행은 행마다 1 로 세므로 합계는 하한이다. "
+          "`bazel build //kg:workset` 의 예산 판정은 **문서 전체**(앵커 없이 스코프 전체의 라벨 목록)를 어휘로 직접 세므로 "
           "두 수치는 같은 이름이되 다른 것을 센다",
           "- 구체화: 역할·앵커별 작업 집합(스코프 안 청크를 앵커로, 1홉 이웃 라벨 + 본문 펼침)이 예산 안인 비율: " + " · ".join(role_rows),
           f"- 구체화: ODD × plane 권한에서 파생되지 않은 스코프 **{len(scope_bad)}**건" + (f" — {', '.join(scope_bad)}" if scope_bad else "") + " (목표 0; 2026-09-26부터 게이트 `catalog` 가 같은 규칙을 강제하므로 이 수치는 그 게이트의 관측이다)",
           "- 연결: ODD 밖 참조는 게이트(odd-ref)가 0으로 강제. 첫 모니터링 이탈은 `bazel run //tools:odd_check`"]
+    return o
+
+
+# ── 절 — 성분 진단 ────────────────────
+def render_component_diagnosis(g, plane, outside):
+    """주 성분 밖의 청크 목록 — 성분마다 라벨·plane·경로다. 수만으로는 무엇이 떨어졌는지 알 수 없다."""
+    o = ["", "## 주 성분 밖 청크 (연결 성분 진단)", ""]
+    if not outside:
+        o.append("- 없음 — 저작된 지식이 한 덩어리다 (연결 성분 1)")
+        return o
+    o += [f"- 주 성분 밖 성분 **{len(outside)}**개 · 청크 **{sum(len(m) for m in outside)}**건 — 링크·복합체·"
+          "`prov:specializationOf` 가 주 성분에 닿지 않는 덩어리다. 성분 번호는 크기 내림차순(동수는 작은 IRI)이다", "",
+          "| 성분 (청크 수) | 라벨 | plane | 경로 |", "|---|---|---|---|"]
+    for i, members in enumerate(outside, 1):
+        for c in sorted(members, key=str):
+            loc = str(next(g.objects(c, AGT.assertionLocation), "")) or kb_lib.NONE_MARK
+            lab = kb_lib.label_of(g, c).replace("|", "\\|")  # 표의 열 수를 지킨다 (G10)
+            o.append(f"| {i} ({len(members)}) | {lab} | `{plane.get(c, kb_lib.NONE_MARK)}` | `{loc}` |")
     return o
 
 
@@ -362,10 +414,12 @@ def render_tail_sections(g, pct, live, link_count, hist, reqs, reach, ascribed, 
     o += ["", "## 링크 밀도", "", f"- 링크 {sum(link_count.values())} / 살아 있는 청크 {len(live)} = **{kb_lib.num(sum(link_count.values())/max(len(live),1))}**/청크",
           "- 타입별: " + " · ".join(f"`{k}` {v}" for k, v in link_count.most_common()),
           f"- 링크 개체(`agt:Link`): {sum(1 for _ in g.subjects(RDF.type, AGT.Link))} · 증거 항목: {sum(1 for _ in g.subjects(RDF.type, AGT.Evidence))}"]
-    o += ["", "## 크기 분포 (본문 줄 수, 살아 있는 청크)", "",
-          "| 1–10 | 11–20 | 21–30 | 31–40 | 41–42 |", "|---|---|---|---|---|",
-          "| " + " | ".join(str(hist[i]) for i in range(5)) + " |", "",
-          f"- 41–42줄 비율 {pct(hist[4], len(live))} — 42줄 근처에 몰리면 억지 분할 의심 (4.13절)"]
+    o += ["", "## 크기 분포 (본문 토큰 수가 상한에 대해 차지하는 비율, 살아 있는 청크)", "",
+          SIZE_HEADER, "|---|---|---|---|---|",
+          "| " + " | ".join(str(hist[i]) for i in range(len(SIZE_BANDS) + 1)) + " |", "",
+          f"- 상한의 9/10 초과 비율 {pct(hist[len(SIZE_BANDS)], len(live))} — 상한 근처에 몰리면 억지 분할 의심 (4.13절). "
+          f"분모는 청크마다 그 plane 의 상한이다(저작 산문 {kb_lib.MAX_BODY_TOKENS} · artifact·memory "
+          f"{kb_lib.BODY_TOKEN_LIMITS['artifact']} 토큰, p1-chunk-unit-is-tokens)"]
     o += ["", "## 정제 완주 (CQ19) · 후방 추적 귀속 (CQ20)", "",
           f"- 요구 {len(reqs)}건이 `refines`/`serves` 연쇄로 닿는 가장 낮은 수준: " + " · ".join(f"{k} {v}" for k, v in reach.most_common()),
           f"- executable까지 닿은 요구: **{pct(reach.get('executable', 0), len(reqs))}** (전방 추적 커버리지, 목표 100.0%)",
@@ -389,12 +443,12 @@ def main() -> int:
         if f.endswith(".ttl"):
             g.parse(f, format="turtle")
     pct = kb_lib.pct  # 비율 표기의 단일 정의처 (G15 — `n/d = p.p%`, 0 분모는 없음)
-    chunks, plane, level, status, lines, live = classify_chunks(g)
+    chunks, plane, level, status, tokens, live = classify_chunks(g)
     linked, parts, orphans, link_count = orphan_and_links(g, chunks)
     reqs, reach = refinement_reach(g, live, plane, level)
     comp_of, siblings, authored, nonreq, ascribed = back_trace(g, live, plane, reqs)
-    human, gen, hist, assumes = trust_and_size(g, chunks, live, lines)
-    components, skips, filled, residency_bad = axis_proxies(g, live, plane, level, authored, comp_of, siblings)
+    human, gen, hist, assumes = trust_and_size(g, chunks, live, plane, tokens)
+    components, outside, skips, filled, residency_bad = axis_proxies(g, live, plane, level, authored, comp_of, siblings)
     (link_ents, with_ev, origins, extracted_n, built_n, restored_total,
      sat, trig_on, TIM, tim_filled) = link_build(g)
     cov_line = fixed_sentence_coverage(a, live, plane, parts, siblings)
@@ -402,7 +456,7 @@ def main() -> int:
      observations, obs_recorded) = assumption_facts(g, live, plane)
     (vv, vv_by, verifies_links, no_criteria, verified_targets,
      dev_reqs, goals, covered_reqs, goals_with_criteria) = vv_facts(g, chunks, live, plane)
-    role_rows, scope_bad, BUDGET = role_worksets(g, live, plane, lines, pct)
+    role_rows, scope_bad, BUDGET = role_worksets(g, live, plane, tokens, pct)
 
     inputs = list(a.files) + ([a.notes] if a.notes else []) + list(a.bodies)
     head = render_head(g, chunks, live, siblings, inputs)
@@ -410,6 +464,7 @@ def main() -> int:
     o += render_axis_sections(pct, live, authored, components, filled, skips, residency_bad, cov_line,
                               link_ents, with_ev, origins, extracted_n, built_n, restored_total,
                               tim_filled, TIM, BUDGET, role_rows, scope_bad)
+    o += render_component_diagnosis(g, plane, outside)
     o += render_stage_sections(g, pct, observations, obs_recorded, assumptions, assumes, grade_dist,
                                grade_ab, trig_on, sat, vv, vv_by, verifies_links, verified_targets,
                                no_criteria, covered_reqs, dev_reqs, goals_with_criteria, goals)

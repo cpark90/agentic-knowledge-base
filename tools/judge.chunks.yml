@@ -6,14 +6,15 @@
 source: tools/judge.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-judge
 package: kb/dev/artifact/judge
-at: 2026-09-28T20:48:33Z
-source_hash: 282f4316c9ee2f22
+layer: process
+at: 2026-09-30T08:07:48Z
+source_hash: 895e2e49400e160d
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
   source_hash: 282f4316c9ee2f22
 ids:
   cls:JudgeError: https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b
@@ -22,7 +23,7 @@ ids:
   composite:sec:judge-rows: https://agentic-knowledge-base.dev/id/composite/8f3b4eaf-dced-410d-98cc-6771157e17c6
   composite:sec:load-profile: https://agentic-knowledge-base.dev/id/composite/459184ba-3aec-453b-a423-9345d0975436
   composite:sec:load-responses: https://agentic-knowledge-base.dev/id/composite/97e93b30-be59-4c26-b322-176b8e0f350e
-  composite:sec:log-chunk: https://agentic-knowledge-base.dev/id/composite/3723c1d5-0d22-4da6-86ca-1b408cdc80dc
+  composite:sec:log-frontmatter: https://agentic-knowledge-base.dev/id/composite/3723c1d5-0d22-4da6-86ca-1b408cdc80dc
   composite:sec:report: https://agentic-knowledge-base.dev/id/composite/d3829a12-5161-4435-a412-0e94e23dc6ac
   file: https://agentic-knowledge-base.dev/id/composite/85cd0960-2c5b-4a4c-b5be-bcf71f036c54
   fn:_leading_int: https://agentic-knowledge-base.dev/id/chunk/a2001d9e-7d53-4d25-b643-9825bd271d97
@@ -34,13 +35,16 @@ ids:
   fn:judge_rows: https://agentic-knowledge-base.dev/id/chunk/136a10e2-560c-4817-b3e1-630cbe303a57
   fn:load_profile: https://agentic-knowledge-base.dev/id/chunk/473ab4af-5806-45ea-a923-d7f635544fdb
   fn:load_responses: https://agentic-knowledge-base.dev/id/chunk/21357a69-21e9-470e-8d6c-43908a9308d7
+  fn:log_body: https://agentic-knowledge-base.dev/id/chunk/8d622313-8c2c-4f87-9279-fce0b31cb0ff
   fn:log_chunk: https://agentic-knowledge-base.dev/id/chunk/a82c512c-7648-4b7c-b506-56a5a18e9cd5
+  fn:log_frontmatter: https://agentic-knowledge-base.dev/id/chunk/2b69cd72-19b5-4d4d-adc7-b20e75c687ce
   fn:main: https://agentic-knowledge-base.dev/id/chunk/988b5551-bcb2-4776-83ce-290f44c435f7
   fn:normalize: https://agentic-knowledge-base.dev/id/chunk/9e72d875-7a97-411f-a264-49bd2a07e2d5
   fn:questions: https://agentic-knowledge-base.dev/id/chunk/8a58cf85-fc7e-418d-91fc-ce025cf2cff9
   fn:report: https://agentic-knowledge-base.dev/id/chunk/39f2a0d8-63e6-48ef-a57b-5291a656e915
   fn:route: https://agentic-knowledge-base.dev/id/chunk/25dbde8d-3165-4a6e-bda8-313cc2ef674b
   fn:slug: https://agentic-knowledge-base.dev/id/chunk/81e5e72c-14de-43e1-ac54-19566c8df95e
+  fn:split_rows: https://agentic-knowledge-base.dev/id/chunk/97961156-fa24-45e3-8c66-a941abf73b4f
   fn:take_response: https://agentic-knowledge-base.dev/id/chunk/3cfd5bbf-40af-4597-b129-32f4c73b27ab
   fn:thresholds: https://agentic-knowledge-base.dev/id/chunk/568c9c47-0d5f-4372-a395-b07605eaeedd
   fn:verdict_chunk: https://agentic-knowledge-base.dev/id/chunk/29c0f765-ca46-4758-8671-e2013c8c7e8a
@@ -51,5 +55,5 @@ ids:
   sec:judge-rows: https://agentic-knowledge-base.dev/id/chunk/8692fce5-5113-4141-96f0-32d34b7c95a9
   sec:load-profile: https://agentic-knowledge-base.dev/id/chunk/86872920-200f-4ccb-b934-238d1c64bab3
   sec:load-responses: https://agentic-knowledge-base.dev/id/chunk/6a2bb9a4-ccd6-4c8e-831a-bdf2468928e0
-  sec:log-chunk: https://agentic-knowledge-base.dev/id/chunk/d6374306-5bb1-48bc-b7de-6210c7805098
+  sec:log-frontmatter: https://agentic-knowledge-base.dev/id/chunk/d6374306-5bb1-48bc-b7de-6210c7805098
   sec:report: https://agentic-knowledge-base.dev/id/chunk/170365c8-0ebc-4b16-8f77-d26fdd7f9fff

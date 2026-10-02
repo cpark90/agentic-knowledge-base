@@ -11,6 +11,7 @@ agt:levelSkipping a owl:NamedIndividual , agt:FunctionFactor ;
     rdfs:label "level skipping"@en , "수준 건너뜀"@ko ;
     skos:definition "정제 계층의 중간 수준을 건너뛰어 있어야 할 항목이 없는 현상. functional 에서 곧바로 executable 로 가는 것이 에이전트의 기본 동작이고 그것이 계층 단절의 원인이다 (6.1절)."@ko ;
     skos:notation "P4" ;
+    agt:inTagCategory agt:defectFactorCategory ;
     agt:observationMeans "metrics 의 수준 건너뜀 집계" ;
     prov:wasDerivedFrom id:doc-system-notes , id:doc-vv-profile-hazards .
 
@@ -18,6 +19,7 @@ agt:requirementWithoutVerification a owl:NamedIndividual , agt:FunctionFactor ;
     rdfs:label "requirement without a verification counterpart"@en , "검증 대응물 없는 요구"@ko ;
     skos:definition "요구에 대응하는 검증 목표·기준·검증기가 없는 현상. 있어야 할 산출물의 부재이므로 기능 요인이다. 개발 KB 만으로는 완료를 선언할 수 없다는 규칙이 이 현상을 막는 자리다 (8.3절)."@ko ;
     skos:notation "P10" ;
+    agt:inTagCategory agt:defectFactorCategory ;
     agt:observationMeans "audit 의 검증 대응물 집계" ;
     prov:wasDerivedFrom id:doc-system-notes , id:doc-mast-failure-taxonomy , id:doc-vv-profile-hazards ;
     dcterms:bibliographicCitation "MAST 3.2 검증 없음·불완전 (arXiv:2503.13657)" .
@@ -26,7 +28,8 @@ agt:reasoningActionMismatch a owl:NamedIndividual , agt:FunctionFactor ;
     rdfs:label "reasoning-action mismatch"@en , "추론-행동 불일치"@ko ;
     skos:definition "결정의 본문과 구현이 어긋나는 현상. 판단은 옳았으나 수행이 그것을 따르지 않은 형태이므로 실행 요인이고 고칠 자리는 산출물이다. 멀티에이전트 실패 분류에서 둘째로 흔하다."@ko ;
     skos:notation "P16" ;
-    agt:observationMeans "미확정" ;
+    agt:inTagCategory agt:defectFactorCategory ;
+    agt:observationMeans "bazel run //tools:revalidate -- --base <리비전> 의 재판정 대상 링크 개체 표 — 본문 해시가 바뀐 청크를 양 끝 중 하나로 갖는 agt:Link 가 suspect 로 유도된다 (실측 2026-10-01: base HEAD~1 에서 변경 청크 21 · 재판정 대상 160 · 링크 개체 30, base HEAD~4 에서 663 · 4771 · 518. 결정 결론의 본문 변경은 두 창 모두 0 이라 공허 합격)" ;
     prov:wasDerivedFrom id:doc-harness-ontology , id:doc-mast-failure-taxonomy , id:doc-vv-profile-hazards ;
     dcterms:bibliographicCitation "MAST 2.6 추론-행동 불일치 13.2% (arXiv:2503.13657)" .
 
@@ -34,5 +37,6 @@ agt:elementWithoutVocabularyDropped a owl:NamedIndividual , agt:FunctionFactor ;
     rdfs:label "element without vocabulary silently dropped"@en , "어휘 없는 요소의 조용한 탈락"@ko ;
     skos:definition "반영이 알려진 요소 집합에서 조립되는 방식이라 어휘가 없는 소스 요소가 슬롯을 얻지 못해 산출물에서 빠지는 현상. 고침은 어휘 확장이므로 기능 요인이다. 규칙성 가정 id:asm-missing-vocabulary-is-signal 이 이 현상에 대한 규범이다."@ko ;
     skos:notation "P19" ;
+    agt:inTagCategory agt:defectFactorCategory ;
     agt:observationMeans "소스 요소 전수와 방출 전수의 차 둘 — (a) kb/**/*.md 최상위 frontmatter 키 집합에서 chunk2kg 가 소비하는 키 집합을 뺀 차, (b) plane-substance-ontology.ttl 이 선언한 실체 클래스 집합과 chunk2kg.PROFILE_SUBSTANCE 치역의 대칭차. 둘 다 공집합이어야 한다 — 게이트 validate 의 element-drop (실측 2026-09-29: 23·28·공집합 / 7·7·공집합)" ;
     prov:wasDerivedFrom id:doc-harness-ontology , id:doc-vv-profile-hazards .

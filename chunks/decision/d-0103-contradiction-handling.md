@@ -7,6 +7,7 @@ title: Contradictions are handed to the user, never auto-resolved
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-design-space-operation
 ---
 **결론** — 후보 링크가 하나도 남지 않은 상태(모순 신호)는 **자동으로 풀지

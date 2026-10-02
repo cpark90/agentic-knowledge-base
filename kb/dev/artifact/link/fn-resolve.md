@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/e3fd5c02-635a-402a-ad7b-f2cbc4d10b46, https://agentic-knowledge-base.dev/id/chunk/f1f06f16-947e-47c4-b831-f8359170bfed, https://agentic-knowledge-base.dev/id/chunk/f6a3aa93-d0de-4c63-b007-96fc8167809a]
 part_of: https://agentic-knowledge-base.dev/id/composite/35504745-0bb4-47e0-ae4a-3da6e0e07b3d
 ---
 **함수** — `resolve(u, key, prefer, hint)` 다. 쌍 → (앵커, 종류, 대상) 또는 탈락 사유.

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-19T17:20:00+09:00}
+layer: methodology
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 part_of: https://agentic-knowledge-base.dev/id/composite/91fabd55-5c34-4d7e-a663-4dc72e486767
 composite: {id: https://agentic-knowledge-base.dev/id/composite/91fabd55-5c34-4d7e-a663-4dc72e486767, title_ko: 본문 추출 참조 = 후보 링크, title: Extracted references = candidate links}

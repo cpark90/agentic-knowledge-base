@@ -30,6 +30,24 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "acyclic-relation-axioms-composite",
+    src = "acyclic-relation-axioms-composite.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/dcefca6d-9de7-40d2-b9c3-25de51743e47",
+    plane = "schema",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "acyclic-relation-axioms-supersedes",
+    src = "acyclic-relation-axioms-supersedes.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d99829a4-8ffe-49b9-bbe4-c34bccf7d6de",
+    plane = "schema",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "agent-catalog-complete",
     src = "agent-catalog-complete.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/d7fd4d10-bf68-4374-8e15-66cd2221c822",
@@ -121,6 +139,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "composite-order-shape-subset",
+    src = "composite-order-shape-subset.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4d76d4b0-24d7-42e8-9928-c6c4cd092831",
+    plane = "schema",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "criteria-before-verifies",
     src = "criteria-before-verifies.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/5d821776-dc19-4202-b184-5efb11d99fcc",
@@ -181,6 +208,21 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "document-table-matches-generated",
+    src = "document-table-matches-generated.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6c117bee-b3bb-4abf-ad4a-b11e29899439",
+    plane = "schema",
+    level = "concrete",
+    status = "draft",
+    refines = [
+        "//kb/vv/criteria:document-table-matches-generated",
+    ],
+    verifies = [
+        "//kb/dev/decision:p12-documents-are-generated",
+    ],
+)
+
+kb_chunk(
     name = "documents-generated",
     src = "documents-generated.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/cd63600d-fc05-4577-a84b-62203ac0ed74",
@@ -192,6 +234,21 @@ kb_chunk(
     ],
     verifies = [
         "//kb/dev/decision:p12-documents-are-generated",
+    ],
+)
+
+kb_chunk(
+    name = "element-drop",
+    src = "element-drop.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5526e00b-4e15-4bca-895d-283fbe9c687b",
+    plane = "schema",
+    level = "concrete",
+    status = "draft",
+    refines = [
+        "//kb/vv/criteria:element-without-vocabulary-dropped",
+    ],
+    verifies = [
+        "//kb/dev/decision:p2-ontology-as-vocabulary",
     ],
 )
 
@@ -437,6 +494,21 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "token-budget",
+    src = "token-budget.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/532a1351-697b-48d6-b36f-9c567c61bd68",
+    plane = "schema",
+    level = "concrete",
+    status = "draft",
+    refines = [
+        "//kb/vv/criteria:chunk-42-lines",
+    ],
+    verifies = [
+        "//kb/dev/decision:p1-chunk-unit-is-tokens",
+    ],
+)
+
+kb_chunk(
     name = "verification-rung-same-level",
     src = "verification-rung-same-level.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/7e69ba96-e363-4ed0-bea1-2ef9602cbeae",
@@ -501,17 +573,22 @@ kb_bundle(
     name = "kg",
     items = [
         ":acyclic-relation-axioms",
+        ":acyclic-relation-axioms-composite",
+        ":acyclic-relation-axioms-supersedes",
         ":agent-catalog-complete",
         ":audit-self-sufficiency",
         ":backward-trace-to-requirement",
         ":chunk-42-lines",
         ":chunk-bound-to-project-odd",
         ":composite-order-shape",
+        ":composite-order-shape-subset",
         ":criteria-before-verifies",
         ":decision-names-requirement",
         ":decision-three-chunks",
         ":dispatch-workset-budget",
+        ":document-table-matches-generated",
         ":documents-generated",
+        ":element-drop",
         ":foreign-vocabulary-rejected",
         ":gate-judges-edits",
         ":generated-build-drift",
@@ -528,6 +605,7 @@ kb_bundle(
         ":reproducible-runs",
         ":residency-matrix",
         ":supersedes-same-plane",
+        ":token-budget",
         ":verification-rung-same-level",
         ":verifies-subject-vv",
         ":versioned-inputs",

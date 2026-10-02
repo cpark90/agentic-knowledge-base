@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/4dcdeb22-0819-48a5-96a4-72da225a3003]
 part_of: https://agentic-knowledge-base.dev/id/composite/eb257ae0-1a24-4c24-8425-e44c940a91b2
 ---
 **함수** — `emit_links(meta)` 다. frontmatter 링크 하나 = agt:Link 개체 하나 + 증거 하나 (9.11절, 10.10절).

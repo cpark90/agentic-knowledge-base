@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 refines: [https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0121]
 part_of: https://agentic-knowledge-base.dev/id/composite/d8683edb-e683-4f3f-a6cc-fd448b724280

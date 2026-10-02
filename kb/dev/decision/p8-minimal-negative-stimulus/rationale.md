@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5, at: 2026-09-23T13:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6eea0a91-2e8d-400c-a830-ea653fa104f0
 ---
 **근거** — 2026-09-23 실측이 문제를 드러냈다. 케이스 `foreign-vocabulary-rejected`의 자극에서 어휘 밖 술어만 빼도 같은 명령이 `FAIL [shacl]`로 종료 1을 냈다. 자극 개체가 수준과 한영 라벨을 갖지 않아 shape 검사를 함께 어기기 때문이다. 판정 주석 `vocab-stimulus-not-minimal`이 그것을 `nitpick`으로 적었다.

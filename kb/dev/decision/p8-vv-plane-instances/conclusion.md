@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+layer: methodology
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7]
 part_of: https://agentic-knowledge-base.dev/id/composite/8348f42d-da82-4b6f-b1a0-d31a93ff3d65
 composite: {id: https://agentic-knowledge-base.dev/id/composite/8348f42d-da82-4b6f-b1a0-d31a93ff3d65, title_ko: V&V KB의 plane 실체, title: What each plane means in the V&V KB}

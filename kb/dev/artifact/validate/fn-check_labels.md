@@ -7,7 +7,9 @@ title: function check_labels in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/8d31b7a9-85c6-48b3-875b-1223f473d503]
 part_of: https://agentic-knowledge-base.dev/id/composite/2bbdac5b-e7f6-4ca1-b5fd-04c0513178d1
 ---
 **함수** — `check_labels(per_file)` 다.
@@ -26,10 +28,10 @@ def check_labels(per_file: dict[str, Graph]) -> list[str]:
             missing = {"ko", "en"} - langs
             if missing:
                 errors.append(
-                    f"[labels] {path}: {g.qname(term)} 에 rdfs:label 누락 (언어: {sorted(missing)})"
+                    f"[{LABELS}] {path}: {g.qname(term)} 에 rdfs:label 누락 (언어: {sorted(missing)})"
                 )
             if (term, SKOS.definition, None) not in g:
-                errors.append(f"[labels] {path}: {g.qname(term)} 에 skos:definition 없음")
+                errors.append(f"[{LABELS}] {path}: {g.qname(term)} 에 skos:definition 없음")
     return errors
 ```
 <!-- 인용 끝 -->

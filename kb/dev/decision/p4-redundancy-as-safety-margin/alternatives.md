@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-label-representativeness-protocol}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-11T03:30:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6053b67e-afec-4a59-b710-31b6ab85b108
 ---
 **대안** —

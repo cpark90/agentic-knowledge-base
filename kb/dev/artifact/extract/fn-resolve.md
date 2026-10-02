@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/2734434f-58d6-4d30-884c-b79d2c51061b, https://agentic-knowledge-base.dev/id/chunk/54593928-2d60-46f2-8052-357ae60657a0, https://agentic-knowledge-base.dev/id/chunk/66148879-b856-4716-aa7c-9e2273143711, https://agentic-knowledge-base.dev/id/chunk/e177d79e-6e9e-494e-a9f6-6a3fe42a641c]
 part_of: https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986-80ad97804df0
 ---
 **함수** — `resolve(reg, names, hashes, pkg_dir, check)` 다. 등록부 갱신 규칙 (a)~(d).

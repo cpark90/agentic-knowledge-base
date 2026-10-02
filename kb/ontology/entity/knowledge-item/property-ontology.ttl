@@ -11,11 +11,11 @@ agt:hasLevel a owl:ObjectProperty ;
     rdfs:label "has level"@en , "추상화 수준을 갖는다"@ko ;
     skos:definition "지식 항목의 추상화 수준. 정확히 하나. 수준 전이는 새 청크와 refines 링크로 한다 (4.2절). 게이트: chunk-shapes(정확히 하나·agt:Level 개체)."@ko .
 
-agt:lineCount a owl:DatatypeProperty ;
+agt:tokenCount a owl:DatatypeProperty ;
     rdfs:domain agt:Chunk ;
     rdfs:range xsd:integer ;
-    rdfs:label "line count"@en , "본문 줄 수"@ko ;
-    skos:definition "assertion 본문의 줄 수. 42 이하. 청크 파일에서 자동 계산된다 (4.1절). 게이트: chunk-shapes(xsd:integer 0~42)·chunk_lint."@ko .
+    rdfs:label "token count"@en , "본문 토큰 수"@ko ;
+    skos:definition "assertion 본문의 토큰 수. 크기의 단위는 줄이 아니라 토큰이고 계수기는 o200k_base 하나다 — 어휘 파일이 sha256 으로 고정되고 네트워크 없이 읽힌다 (결정 p1-chunk-unit-is-tokens, 유저 결정 2026-10-01). 상한은 plane 별 프로파일 파라미터다: 저작 산문 1,092(42×26) · artifact·memory 2,856(42×68). 청크 파일에서 자동 계산된다 (4.1절). 게이트: chunk(chunk_lint 가 파일마다)·token-budget(token-budget-shapes 와 validate 의 check_token_budget)."@ko .
 
 agt:status a owl:DatatypeProperty ;
     rdfs:domain agt:KnowledgeItem ;

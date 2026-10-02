@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/621b8722-ef63-42b3-8470-9560e072a62a
 ---
 **함수** — `_frontmatter_keys(path)` 다. 청크 파일의 최상위 frontmatter 키 — 중첩 키(`composite.ordered` 등)는 그 부모가 대표한다.

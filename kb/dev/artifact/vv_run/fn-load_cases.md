@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/2c7856fb-c6fb-42fb-bc34-c18e19362e57, https://agentic-knowledge-base.dev/id/chunk/32dfc003-5ffa-4b9f-95c1-d71ffd0a4884, https://agentic-knowledge-base.dev/id/chunk/4fa89da6-040b-46a2-8dda-692155b66811, https://agentic-knowledge-base.dev/id/chunk/cdaa7848-3ca1-4cc0-a72c-836fd556f15e, https://agentic-knowledge-base.dev/id/chunk/fad9cc7c-a705-42d5-adcc-e124bff2c57c]
 part_of: https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f
 ---
 **함수** — `load_cases(root, only, waivers)` 다. 케이스 파일 → [{slug, path, label, iri, spec, errors, commands: [{cmd, skip}]}], 실행 명령 줄이 없는 케이스 목록.

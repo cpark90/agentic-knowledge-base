@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-30T14:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/b9ff4ae2-fb83-447d-9aae-73d5264cfae3
 ---
 **근거** — 재판정은 링크 양 끝의 해시 변경에서 온다(`revalidate`). 함수 청크마다 링크가 붙으면 함수 하나를 고칠 때마다 그 링크가 재판정 후보가 되고, 함수 수십 개를 옮기는 리팩터링은 수십 건의 후보를 낸다. 링크를 파일 복합체에 두면 함수의 해시 변경이 링크의 끝을 건드리지 않는다 — 복합체의 정체성(IRI)은 부분이 바뀌어도 같다.

@@ -4,10 +4,11 @@ type: decision
 level: abstract
 title_ko: 시나리오 배제 자극 — 정지 규칙 없는 반복 라운드에서 다루지 않는 것
 title: Scenario excluded stimuli — what repeated rounds without a stop rule does not cover
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}, {resource: https://agentic-knowledge-base.dev/id/doc-mast-failure-taxonomy}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-finite-factor-types, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-sonnet-5, at: 2026-09-29T15:40:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/ba04ada0-2f37-4bc2-ad15-c2ac77fbe18e
 specializationOf: https://agentic-knowledge-base.dev/id/chunk/c1ad3b4a-d86c-4c63-ab91-7294a56a76e2
 ---

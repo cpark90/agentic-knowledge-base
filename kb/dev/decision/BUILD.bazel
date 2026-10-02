@@ -252,6 +252,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p0-service-is-a-three-layer-wiki",
+    conclusion = "p0-service-is-a-three-layer-wiki/conclusion.md",
+    rationale = "p0-service-is-a-three-layer-wiki/rationale.md",
+    alternatives = "p0-service-is-a-three-layer-wiki/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/c4b958be-e5e4-43b6-b23f-989f628cb07f",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/e8156600-d7a9-4e0c-b51c-8986083805c7", "https://agentic-knowledge-base.dev/id/chunk/1c6140ac-741b-4d1f-8ba1-025d02020e91", "https://agentic-knowledge-base.dev/id/chunk/a2821f8a-df01-449a-8b63-ede41eb1d42b"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e8156600-d7a9-4e0c-b51c-8986083805c7", "https://agentic-knowledge-base.dev/id/chunk/1c6140ac-741b-4d1f-8ba1-025d02020e91", "https://agentic-knowledge-base.dev/id/chunk/a2821f8a-df01-449a-8b63-ede41eb1d42b"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+    ],
+)
+
+kb_decision(
     name = "p0-skos-label-synonyms",
     conclusion = "p0-skos-label-synonyms/conclusion.md",
     rationale = "p0-skos-label-synonyms/rationale.md",
@@ -375,6 +390,25 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p1-chunk-unit-is-tokens",
+    conclusion = "p1-chunk-unit-is-tokens/conclusion.md",
+    rationale = "p1-chunk-unit-is-tokens/rationale.md",
+    alternatives = "p1-chunk-unit-is-tokens/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/128d439b-0863-41e3-8eb3-7c090e7f1742",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/7afd759f-26b1-4ad8-8edb-abc971dc4393", "https://agentic-knowledge-base.dev/id/chunk/d4513996-395c-4dde-9233-0418c59be775", "https://agentic-knowledge-base.dev/id/chunk/be0bbd48-541b-4719-808a-e6b1e9efb5d4"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/7afd759f-26b1-4ad8-8edb-abc971dc4393", "https://agentic-knowledge-base.dev/id/chunk/d4513996-395c-4dde-9233-0418c59be775", "https://agentic-knowledge-base.dev/id/chunk/be0bbd48-541b-4719-808a-e6b1e9efb5d4"],
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:context-budget",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+    supersedes = [
+        "//kb/dev/decision:p1-context-budget-breakdown",
+    ],
+)
+
+kb_decision(
     name = "p1-context-budget-breakdown",
     conclusion = "p1-context-budget-breakdown/conclusion.md",
     rationale = "p1-context-budget-breakdown/rationale.md",
@@ -383,7 +417,7 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/de38da18-3de5-4b30-86d6-af112ca9659c", "https://agentic-knowledge-base.dev/id/chunk/17415ccd-8911-48bc-87dd-ce547417ac77", "https://agentic-knowledge-base.dev/id/chunk/8270818e-4bdd-4427-a505-e4124851ccf7"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/de38da18-3de5-4b30-86d6-af112ca9659c", "https://agentic-knowledge-base.dev/id/chunk/17415ccd-8911-48bc-87dd-ce547417ac77", "https://agentic-knowledge-base.dev/id/chunk/8270818e-4bdd-4427-a505-e4124851ccf7"],
     part_levels = ["concrete", "logical", "logical"],
-    status = "stable",
+    status = "deprecated",
     refines = [
         "//kb/dev/requirement:context-budget",
         "//kb/dev/requirement:r-013-labels-before-bodies",
@@ -3648,6 +3682,7 @@ kb_bundle(
         ":p0-one-word-one-concept",
         ":p0-run-as-observation",
         ":p0-scope-specification-form",
+        ":p0-service-is-a-three-layer-wiki",
         ":p0-skos-label-synonyms",
         ":p0-state-units-revision-workset",
         ":p0-temporal-constraint-vocabulary",
@@ -3655,6 +3690,7 @@ kb_bundle(
         ":p0-two-foundations-five-mechanisms",
         ":p0-workset-anchor-neighbourhood",
         ":p1-bias-structural-mitigation",
+        ":p1-chunk-unit-is-tokens",
         ":p1-context-budget-breakdown",
         ":p1-partial-observability-harness-projections",
         ":p1-three-breaks-common-vocabulary",

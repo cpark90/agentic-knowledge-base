@@ -2,10 +2,13 @@
 """청크·명명·산문 린트.
 
   --chunks <files>   청크 본문(assertion) 파일 검사 (노트 4.1절):
-                     본문 42줄 이하. YAML frontmatter(head 메타데이터)와
-                     끝의 빈 줄은 본문으로 세지 않는다. **상한은 plane 별 프로파일 파라미터**이고 정의처는
-                     `kb_lib.BODY_LINE_LIMITS` 하나다 — `artifact` 는 200줄이다(본문이 저작이 아니라 소스의
-                     인용이라 42줄이 인위적 분할을 부른다, p7-code-extraction-direction "예산").
+                     본문 1,092 토큰 이하 (게이트 id `chunk`). 단위는 줄이 아니라 **토큰**이고 계수기는
+                     `o200k_base`(어휘 파일 sha256 고정)다 — 줄 상한 42·200 은 폐지됐다
+                     (결정 p1-chunk-unit-is-tokens, 유저 결정 2026-10-01). YAML frontmatter(head 메타데이터)와
+                     앞뒤 빈 줄은 본문이 아니고 본문을 떼는 판정처는 `kb_lib.body_text` 하나다.
+                     **상한은 plane 별 프로파일 파라미터**이고 정의처는 `kb_lib.BODY_TOKEN_LIMITS` 하나다 —
+                     `artifact`·`memory` 는 2,856 토큰이다(본문이 저작이 아니라 소스·실행의 인용이라 저작 산문의
+                     예산이 인위적 분할을 부른다, p7-code-extraction-direction "예산").
                      .md 청크는 산문 문체(STYLEGUIDE §0 단정 서술형, 2026-09-13)도 본다 — 경어·비격식 종결이 문장 끝에
                      오거나 산문에 느낌표가 있으면 위반(kb_lib.check_prose, 게이트 id `prose`). 코드·따옴표·주석 안과
                      `!=`·`![` 는 산문이 아니다. TTL 청크는 산문 검사 대상이 아니다. 추측·구어는 consistency ⑦ 보고다.
@@ -37,9 +40,10 @@
                      `d-NNNN`·IRI(백틱)·마크다운 링크 중 하나로 본문의 지지 근거를 가리켜야 한다. 슬롯이 없으면 대상이
                      아니다. 오탐 실측(2026-09-30): 저장소가 아직 이 슬롯을 쓰지 않아 0/0 — 사용이 늘면 재실측한다.
   --ttl <files>      TTL 파일명이 산출물 접미사 규약(0.2절)을 따르는지 검사.
-  --waivers <file>   docs/waivers.md — 게이트 id `prose`·`addition`·`empty-value`·`list-rules`·`blocking-comment`·`judge-log`·
-                     `summary-support`(축 파일)로 면제된 파일의 위반은 세지 않는다. 면제된 것은 `WAIVED [<게이트 id>]` 줄로
-                     남긴다 (집계에서 빼되 목록에는 남긴다). 없으면 면제 없음.
+  --vocab <file>     토큰 계수기의 어휘 파일. 없으면 runfiles 의 고정 파일을 쓴다 — 해시가 다르면 거부한다.
+  --waivers <file>   docs/waivers.md — 게이트 id `chunk`·`prose`·`addition`·`empty-value`·`list-rules`·`blocking-comment`·
+                     `judge-log`·`summary-support`(축 파일)로 면제된 파일의 위반은 세지 않는다. 면제된 것은 `WAIVED [<게이트 id>]`
+                     줄로 남긴다 (집계에서 빼되 목록에는 남긴다). 없으면 면제 없음.
 
 출력·종료: `FAIL [chunk|naming] <경로>: <메시지>` ·
 `FAIL [prose|decision-role|addition|empty-value|list-rules|blocking-comment|judge-log|summary-support] <경로>:<줄>: <이유>` + EXIT_FAIL.
@@ -66,6 +70,7 @@ ALLOWED_TTL_SUFFIXES = kb_lib.ALLOWED_TTL_SUFFIXES
 EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)      # 판정 실패 (단일 정의처 kb_lib — 없으면 같은 값)
 EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음
 EXIT_SKIP = getattr(kb_lib, "EXIT_SKIP", 3)      # 검사 대상 0건
+CHUNK = kb_lib.CHUNK_GATE                        # 본문 토큰 상한 게이트 id — waivers.md 가 같은 이름으로 면제를 선언한다
 PROSE = kb_lib.PROSE_GATE                        # 산문 게이트 id — waivers.md 가 같은 이름으로 면제를 선언한다
 DECISION_ROLE = kb_lib.DECISION_ROLE_GATE        # 결정 역할 표지 게이트 id (STYLEGUIDE §4)
 ADDITION = kb_lib.ADDITION_GATE                  # 첨가 게이트 id — 메타 문장·채움 문구 (STYLEGUIDE §0, consistency ⑧)
@@ -73,9 +78,10 @@ EMPTY_VALUE = kb_lib.EMPTY_VALUE_GATE            # 빈 값 게이트 id — 세 
 LIST_RULES = kb_lib.LIST_RULES_GATE              # 목록 게이트 id — 목록 규칙 다섯 (STYLEGUIDE §0, consistency ⑨)
 BLOCKING_COMMENT = kb_lib.BLOCKING_COMMENT_GATE  # 주석 게이트 id — 해소되지 않은 issue (blocking) (STYLEGUIDE §4, p7-commentary-form)
 JUDGE_LOG = kb_lib.JUDGE_LOG_GATE                # 판정 로그 게이트 id — 로그의 형식·필수 필드 (p8-judge-calibration-binding)
-SUMMARY_SUPPORT = "summary-support"              # 요약 지지 참조 게이트 id (judge-without-service-2026-09-30 기계 환원 ①)
+SUMMARY_SUPPORT = kb_lib.SUMMARY_SUPPORT_GATE    # 요약 지지 참조 게이트 id (judge-without-service-2026-09-30 기계 환원 ①)
+NAMING = kb_lib.NAMING_GATE                      # TTL 파일 접미사 규약 게이트 id (0.2절)
 
-MAX_BODY_LINES = kb_lib.MAX_BODY_LINES  # 기본 42줄 (4.1절). plane 별 상한의 정의처는 kb_lib.BODY_LINE_LIMITS 다
+MAX_BODY_TOKENS = kb_lib.MAX_BODY_TOKENS  # 기본 1,092 토큰 (42×26). plane 별 상한의 정의처는 kb_lib.BODY_TOKEN_LIMITS 다
 
 _FM_FIELD = re.compile(r"^(type|status):\s*(\S+)")  # 역할 표지 판정에 필요한 frontmatter 키 둘 — 전체 파싱은 chunk2kg 의 몫
 _FM_GENERATED_BY = re.compile(r"^generated:\s*\{[^}]*?\bby:\s*([^,}\s]+)")  # 생성자 — 판정 로그를 고르는 열쇠 (process:judge)
@@ -268,36 +274,15 @@ def check_spec_form(text: str) -> list[tuple[str, int, str]]:
     return sorted(out, key=lambda t: (t[1], t[0]))
 
 
-def body_lines(path: Path, text: str) -> int:
-    """본문 줄 수. head에 해당하는 것(md frontmatter, ttl의 @prefix·주석)은 세지 않는다."""
-    lines = text.splitlines()
-    if path.suffix == ".ttl":
-        return sum(
-            1
-            for l in lines
-            if l.strip() and not l.lstrip().startswith(("#", "@prefix", "@base"))
-        )
-    # 산문 계열: frontmatter 제거
-    if lines and lines[0].strip() == "---":
-        try:
-            end = lines[1:].index("---") + 1
-            lines = lines[end + 1 :]
-        except ValueError:
-            pass
-    while lines and not lines[-1].strip():
-        lines.pop()
-    while lines and not lines[0].strip():
-        lines.pop(0)
-    return len(lines)
-
-
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--chunks", nargs="*", default=[])
     ap.add_argument("--ttl", nargs="*", default=[])
+    ap.add_argument("--vocab", default="", metavar="FILE",
+                    help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다 (p1-chunk-unit-is-tokens)")
     ap.add_argument("--waivers", default="", metavar="FILE",
-                    help=f"docs/waivers.md — 게이트 id {PROSE}·{ADDITION}·{EMPTY_VALUE}·{LIST_RULES}·{BLOCKING_COMMENT}·{JUDGE_LOG}·"
-                         f"{SUMMARY_SUPPORT}(축 파일)로 면제된 파일의 위반은 세지 않는다. 없으면 면제 없음")
+                    help=f"docs/waivers.md — 게이트 id {CHUNK}·{PROSE}·{ADDITION}·{EMPTY_VALUE}·{LIST_RULES}·{BLOCKING_COMMENT}·"
+                         f"{JUDGE_LOG}·{SUMMARY_SUPPORT}(축 파일)로 면제된 파일의 위반은 세지 않는다. 없으면 면제 없음")
     args = ap.parse_args()
 
     if not args.chunks and not args.ttl:
@@ -309,6 +294,15 @@ def main() -> int:
     except (OSError, ValueError) as e:
         print(f"FAIL [chunk_lint] waiver 표 — {e}")
         return EXIT_CONFIG
+
+    try:  # 어휘는 한 번만 적재한다 — 크기 판정이 이 계수기 하나로 재현된다 (ODD id:cond-tokenizer-lock)
+        enc = kb_lib.load_tokenizer(args.vocab or None)
+    except FileNotFoundError as e:
+        print(f"FAIL [chunk_lint] 어휘 파일 — {e}")
+        return EXIT_CONFIG
+    except ValueError as e:  # 해시가 고정값과 다르다 — 계수기가 재현되지 않는다
+        print(f"FAIL [{CHUNK}] {e}")
+        return EXIT_FAIL
 
     errors = []
     waived_notes = []  # 면제된 위반 — 집계에서 빼되 목록에는 남긴다 (docs/waivers.md 머리의 규약, ⑥ 이 선례)
@@ -324,16 +318,17 @@ def main() -> int:
         try:
             text = p.read_text(encoding="utf-8")
         except OSError as e:
-            print(f"FAIL [chunk] {f}: 읽을 수 없다 — {e}")
+            print(f"FAIL [{CHUNK}] {f}: 읽을 수 없다 — {e}")
             return EXIT_CONFIG
-        n = body_lines(p, text)
+        n = kb_lib.token_count(kb_lib.body_text(p, text), enc)
         plane = split_frontmatter(text)[0].get("type") if p.suffix == ".md" else None
-        limit = kb_lib.body_line_limit(plane)  # plane 별 프로파일 파라미터 — 정의처는 kb_lib.BODY_LINE_LIMITS 하나다
+        limit = kb_lib.body_token_limit(plane)  # plane 별 프로파일 파라미터 — 정의처는 kb_lib.BODY_TOKEN_LIMITS 하나다
         if n > limit:
-            errors.append(
-                f"[chunk] {f}: 본문 {n}줄 > {limit}줄 — 분할하라 (4.10절 분할 신호"
-                + (f"; plane {plane} 의 상한은 프로파일 파라미터다 — kb_lib.BODY_LINE_LIMITS)" if limit != MAX_BODY_LINES else ")")
+            line = (
+                f"[{CHUNK}] {f}: 본문 {n}토큰 > {limit}토큰 — 분할하라 (4.10절 분할 신호"
+                + (f"; plane {plane} 의 상한은 프로파일 파라미터다 — kb_lib.BODY_TOKEN_LIMITS)" if limit != MAX_BODY_TOKENS else ")")
             )
+            (waived_notes if kb_lib.waived(waivers, CHUNK, f, "파일") else errors).append(line)
         if p.suffix == ".md":  # 산문 문체·결정 역할 표지 — TTL 은 대상이 아니다
             prose_files += 1
             prose_errors, _, _ = kb_lib.check_prose(f, text, waivers)
@@ -368,7 +363,7 @@ def main() -> int:
         stem = Path(f).stem
         if not any(stem == s.lstrip("-") or stem.endswith(s) for s in ALLOWED_TTL_SUFFIXES):
             errors.append(
-                f"[naming] {f}: 접미사 규약 위반 — {', '.join(ALLOWED_TTL_SUFFIXES)} 중 하나로 끝나야 한다 (0.2절)"
+                f"[{NAMING}] {f}: 접미사 규약 위반 — {', '.join(ALLOWED_TTL_SUFFIXES)} 중 하나로 끝나야 한다 (0.2절)"
             )
 
     for w in waived_notes:

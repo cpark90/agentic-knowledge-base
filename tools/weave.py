@@ -41,7 +41,7 @@ from chunk2kg import EARS_PATTERNS, apply_plane_level_state, load_plane_level_st
 AGT, ID = kb_lib.AGT, kb_lib.ID
 PROV = Namespace("http://www.w3.org/ns/prov#")
 EXIT_OK, EXIT_CONFIG = kb_lib.EXIT_OK, kb_lib.EXIT_CONFIG
-TAG = kb_lib.WEAVE_GATE
+TAG = kb_lib.WEAVE_TAG
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]  # metrics.py 와 같은 순서 (CQ19 정의)
 PATTERN_VALUE = {URIRef(str(AGT) + v.split(":")[1]): k for k, v in EARS_PATTERNS.items()}  # agt:eventDriven → event-driven
 
@@ -53,7 +53,7 @@ class Model:
 
     def __init__(self, g: Graph):
         self.g = g
-        self.chunks = {s for s in g.subjects(AGT.lineCount, None)}
+        self.chunks = {s for s in g.subjects(AGT.tokenCount, None)}
         self.plane = {c: self._plane(c) for c in self.chunks}
         self.level = {c: str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1] for c in self.chunks}
         self.status = {c: str(next(g.objects(c, AGT.status), "")) for c in self.chunks}
@@ -317,7 +317,12 @@ def render_changelog(m: Model, inputs: list[str]) -> str:
     return kb_lib.gendoc_assemble(o, body, inputs)
 
 
-# ── audit — 감사 보고서 (로드맵 8단계, audit-self-sufficiency: 체계 밖 정보 없이 생성) ──────────────────────────────────────
+# ══ audit — 감사 보고서 (로드맵 8단계, audit-self-sufficiency: 체계 밖 정보 없이 생성) ════════════════════
+# 절 셋이다 — 재료(관측 본문의 표를 읽는 헬퍼) · 절마다 함수 하나(보고의 절) · 조립(머리 블록과 이음).
+# 장으로 묶은 까닭은 절 하나의 직접 부분이 9를 넘었기 때문이고, 순서에 뜻이 없는 묶음을 만들지 않았다
+# (p7-code-links-on-file-composite).
+
+# ── 재료 — 관측 본문의 표와 시각을 읽는다 ────────────────────
 RUN_REVISION = re.compile(r"리비전 `([^`]+)`(?: \(([^)]*)\))?")  # 실행 기록 본문의 리비전 표기 (vv_run.observation)
 TABLE_RULE = re.compile(r":?-+:?")
 
@@ -346,6 +351,227 @@ def as_dt(value: str):
         return None
     return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
 
+
+def round_section(days: Counter, judged: int) -> list[str]:
+    """라운드(날짜)별 신규 주석 절 — 표와 계열 한 줄. 정지 규칙(V&V 기준 `verification-round-stop-rule`)의 입력이다.
+
+    라운드 경계는 판정 주석의 `prov:generatedAtTime` 날짜다. 판정 결과 주석(`generated.by` 가 `process:judge`)은
+    리뷰가 찾은 결함이 아니라 판정자의 응답 기록이라 집계에서 빠지고, 뺀 수는 `judged` 로 받아 절에 적는다.
+    연속한 두 라운드의 신규 수가 줄지 않으면 다음 라운드를 열지 않는 것이 정지 규칙의 합격이다.
+    """
+    rows, prev = [], None
+    for day in sorted(days):
+        n = days[day]
+        rows.append(f"| {day} | {n} | " + (kb_lib.NONE_MARK if prev is None else "줄지 않음 — 다음 라운드를 열지 않는다" if n >= prev else "줄었다") + " |")
+        prev = n
+    series = " · ".join(str(days[d]) for d in sorted(days)) or kb_lib.NONE_MARK
+    return ["| 라운드(날짜) | 신규 주석 | 직전 라운드 대비 |", "|---|---|---|"] \
+        + (rows or ["| " + " | ".join([kb_lib.NONE_MARK] * 3) + " |"]) \
+        + ["", f"- 라운드 {len(days)} · 신규 계열 {series} · 집계에서 뺀 판정 결과 주석(`{kb_lib.JUDGE_GENERATOR}`) {judged}", ""]
+
+
+# ── 절마다 함수 하나 — 각 함수가 자기 절의 본문 조각을 낸다 ────────────────────
+# 가른 기준은 **무엇을 읽는가**다 — 실행·가정 절은 관측 본문을, 나머지는 그래프를 센다.
+
+def _audit_verification(m: Model, g, dev: set, vv: set, pct) -> list[str]:
+    """요구의 검증 대응물과 V&V 사슬 (p8-scenario-ladder-rungs · p8-pass-criteria)."""
+    body: list[str] = []
+    # 2. 검증 현황
+    dev_reqs = {c for c in dev if m.plane[c] == "requirement"}
+    goals = {c for c in vv if m.plane[c] == "requirement"}
+    covered = {t for s, t in g.subject_objects(AGT.derivesFrom) if s in goals and t in dev_reqs}
+    criteria_of = defaultdict(set)
+    cases_of = defaultdict(set)
+    verifiers_of = defaultdict(set)
+    for s, t in g.subject_objects(AGT.refines):
+        if s in vv and t in vv:
+            if m.plane[s] == "contract" and t in goals:
+                criteria_of[t].add(s)
+            elif m.plane[s] == "schema" and m.plane[t] == "contract":
+                cases_of[t].add(s)
+            elif m.plane[s] == "artifact" and m.plane[t] == "schema":
+                verifiers_of[t].add(s)
+    chains = [gl for gl in goals if any(cases_of[cr] for cr in criteria_of[gl])]
+    verifies = [(s, t) for s, t in g.subject_objects(AGT.verifies) if s in vv]
+    no_criteria = [s for s, _ in verifies if not any((c_, RDF.type, AGT.ContractChunk) in g for c_ in g.objects(s, AGT.refines))]
+    units = {m.decision_unit(c) for c in dev if m.plane[c] == "decision"}
+    verified_units = {m.decision_unit(t) for _, t in verifies if t in m.chunks and m.plane.get(t) == "decision"}
+    body += ["## 검증 현황 — 요구의 검증 대응물과 V&V 사슬 (p8-scenario-ladder-rungs · p8-pass-criteria)", "",
+          f"- 검증 대응물이 있는 요구(검증 목표가 `agt:derivesFrom` 으로 가리킴): **{pct(len(covered), len(dev_reqs))}** (목표 100.0%)",
+          f"- `agt:verifies` 대상이 된 결정 단위: **{pct(len(verified_units), len(units))}** · verifies 링크 {len(verifies)}",
+          f"- 사슬: 검증 목표 {len(goals)} · 합격 기준이 달린 목표 {sum(1 for gl in goals if criteria_of[gl])} · 케이스까지 이어진 목표 {len(chains)} · "
+          f"검증기 {sum(len(v) for v in verifiers_of.values())} (합격 기준 {sum(len(v) for v in criteria_of.values())} · 케이스 {sum(len(v) for v in cases_of.values())})",
+          f"- 기준 없는 `verifies`: **{len(no_criteria)}** (목표 0 — verify 질의 `verifies-without-criteria` 와 같은 정의)", ""]
+    uncovered = sorted(dev_reqs - covered, key=lambda c: m.location[c])
+    if uncovered:
+        body += [f"검증 대응물 없는 요구 {len(uncovered)}건:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)}" for c in uncovered] + [""]
+    return body
+
+
+def _audit_risk_goals(m: Model, g, vv: set, pct) -> list[str]:
+    """검증 목표가 노출하는 결함 요인 — 표지는 선언(`exposes`)과 추출(본문의 현상 IRI) 둘이다 (8.21절 G1·G5)."""
+    body: list[str] = []
+    goals = {c for c in vv if m.plane[c] == "requirement"}  # 검증 목표 — 2절과 같은 정의다
+    # 2.5 위험에서 파생된 목표 — 검증 목표가 defect 요인(현상)을 가리키는가 (위험 분석 G1·G5, 노트 8.21·8.22절)
+    # 파생의 표지는 둘이다. frontmatter `exposes`(agt:exposesFactor)는 저자가 선언한 것이고 본문의 현상 IRI 인용
+    # (agt:usesConcept, extract_refs)은 추출된 것이다. 둘 다 있으면 선언을 적는다 — 선언이 더 검사 가능한 근거다.
+    factor_classes = set(g.transitive_subjects(RDFS.subClassOf, AGT.DefectFactor))
+    factors = {i for cl in factor_classes for i in g.subjects(RDF.type, cl)}
+    exposed: dict = defaultdict(dict)
+    for pred, mark in ((AGT.exposesFactor, RISK_MARK_DECLARED), (AGT.usesConcept, RISK_MARK_EXTRACTED)):
+        for s, o in g.subject_objects(pred):
+            if s in goals and o in factors:
+                exposed[s].setdefault(o, mark)
+    named = {f for fs in exposed.values() for f in fs}
+    body += [f"## 위험에서 파생된 목표 — 검증 목표가 노출하는 결함 요인 (표지 둘 — {RISK_MARK_DECLARED}: `exposes` · {RISK_MARK_EXTRACTED}: 본문의 현상 IRI, 8.21절 G1·G5)", "",
+             f"- 위험에서 파생된 검증 목표: **{pct(len(exposed), len(goals))}** — 나머지는 게이트·음성 시험을 사슬로 묶은 것이다",
+             f"- 어느 목표에도 가리켜지지 않은 현상: **{pct(len(factors) - len(named), len(factors))}**", ""]
+    if not exposed:
+        body += [f"위험에서 파생된 검증 목표 {kb_lib.NONE_MARK} — 현상을 가리키는 목표가 없다. `exposes:` 또는 본문의 현상 IRI 인용이 표지다.", ""]
+    else:
+        body += ["| 검증 목표 | 노출하는 현상 | 표기 | 표지 |", "|---|---|---|---|"]
+        for c in sorted(exposed, key=lambda c: m.location[c]):
+            for f in sorted(exposed[c], key=lambda f: str(f)):
+                note = str(next(g.objects(f, SKOS_NOTATION), "")) or kb_lib.NONE_MARK
+                body += [f"| `{Path(m.location[c]).stem}` {m.ko(c)} | {m.ko(f)} (`{kb_lib.compact_iri(str(f))}`) | {note} | {exposed[c][f]} |"]
+        body += [""]
+    return body
+
+
+def _audit_latest_run(m: Model, runs: list, latest_run, run_body: str, by_gen) -> list[str]:
+    """`kb/vv/run/` 의 최신 실행 기록 요약 — 기록을 그대로 옮긴다 (agt:Run, append-only)."""
+    body: list[str] = []
+    # 3. 최근 실행 — 실행 기록을 그대로 요약한다
+    body += ["## 최근 실행 — `kb/vv/run/` 의 최신 실행 기록 (agt:Run, append-only)", ""]
+    if latest_run is None:
+        body += ["실행 기록 없음 — `bazel run //tools:vv_run -- --record`", ""]
+    else:
+        rows = observation_table(run_body, kb_lib.RUN_CASE_TABLE_HEADER)
+        verdicts = Counter(r[2] for r in rows if len(r) >= 3)
+        body += [f"- {m.ko(latest_run)} (`{m.location[latest_run]}`, 생성 {m.at(latest_run)}, {by_gen(latest_run)}) — 실행 기록 전체 {len(runs)}건",
+              "- 케이스 " + " · ".join(f"{v} **{verdicts.get(v, 0)}**" for v in kb_lib.RUN_VERDICTS) + " — SKIP 은 PASS 가 아니다", ""]
+        first = run_body.split("\n", 1)[0].strip()
+        if first:
+            body += [f"> {first}", ""]
+        if rows:
+            body += [kb_lib.RUN_CASE_TABLE_HEADER, "|---|---|---|---|"] + ["| " + " | ".join(r) + " |" for r in rows] + [""]
+        else:
+            body += [f"- 본문에 케이스 표(헤더 `{kb_lib.RUN_CASE_TABLE_HEADER}`)가 없다", ""]
+    return body
+
+
+def _audit_comments(m: Model, g, live: set, pct, by_gen) -> list[str]:
+    """판정 주석의 라벨 분포와 해소 상태 (p7-commentary-form — 막는 것은 issue (blocking) + 해소 열림 뿐이다)."""
+    body: list[str] = []
+    # 4. 판정 주석 — 주석의 라벨 분포와 해소 상태 (p7-commentary-form: issue (blocking) + 해소 열림 만 게이트를 막는다)
+    label_of = lambda c: str(next(g.objects(c, AGT.commentLabel), ""))        # noqa: E731
+    deco_of = lambda c: str(next(g.objects(c, AGT.commentDecoration), ""))    # noqa: E731
+    state_of = lambda c: str(next(g.objects(c, AGT.resolutionState), ""))     # noqa: E731
+    comments = sorted((c for c in live if m.plane[c] == "annotation"), key=lambda c: m.location[c])
+    open_ = [c for c in comments if state_of(c) == kb_lib.COMMENT_OPEN]
+    blocking = [c for c in open_ if (label_of(c), deco_of(c)) == kb_lib.COMMENT_BLOCKING]
+    body += ["## 판정 주석 — 주석의 라벨 분포와 해소 상태 (p7-commentary-form)", ""]
+    if not comments:
+        body += [f"살아 있는 주석 {kb_lib.NONE_MARK} — 판정 주석(`{kb_lib.KB_VV}/verdict/`)이 비어 있다. 게이트 "
+                 f"`{kb_lib.BLOCKING_COMMENT_GATE}` 는 서 있고 막을 주석이 아직 없다.", ""]
+    else:
+        labels = Counter(label_of(c) or kb_lib.NONE_MARK for c in comments)
+        states = Counter(state_of(c) or kb_lib.NONE_MARK for c in comments)
+        body += [f"- 살아 있는 주석 **{len(comments)}** · 해소되지 않은 것(`해소: {kb_lib.COMMENT_OPEN}`) **{pct(len(open_), len(comments))}** · "
+                 f"그중 게이트를 막는 `{kb_lib.COMMENT_BLOCKING[0]} ({kb_lib.COMMENT_BLOCKING[1]})` **{len(blocking)}** "
+                 f"(목표 0 — 게이트 `{kb_lib.BLOCKING_COMMENT_GATE}`)", "",
+                 "| 라벨 | 주석 수 | 그중 해소 열림 |", "|---|---|---|"]
+        body += [f"| `{k}` | {v} | {sum(1 for c in open_ if (label_of(c) or kb_lib.NONE_MARK) == k)} |" for k, v in labels.most_common()]
+        body += ["", "| 해소 상태 | 주석 수 |", "|---|---|"] + [f"| {k} | {v} |" for k, v in states.most_common()] + [""]
+        judged = {c for c in comments if by_gen(c) == kb_lib.JUDGE_GENERATOR}
+        body += round_section(Counter(m.at(c)[:10] for c in comments if c not in judged), len(judged))
+        if blocking:
+            body += ["게이트를 막는 주석:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)} → "
+                     + (" · ".join(m.ko(t) for t in g.objects(c, AGT.targets)) or kb_lib.NONE_MARK) for c in blocking] + [""]
+    return body
+
+
+def _audit_assumptions(m: Model, asm_obs: list, latest_asm, asm_body: str) -> list[str]:
+    """`kb/dev/memory/` 의 최신 가정 판정 관측 요약 (assume_check)."""
+    body: list[str] = []
+    # 5. 가정 — 최신 assume_check 관측
+    body += ["## 가정 — `kb/dev/memory/` 의 최신 가정 판정 관측 (assume_check)", ""]
+    if latest_asm is None:
+        body += ["가정 판정 관측 없음 — `bazel run //tools:assume_check -- --record`", ""]
+    else:
+        rows = observation_table(asm_body, kb_lib.ASSUME_CHECK_TABLE_HEADER)
+        states = Counter(r[3] for r in rows if len(r) >= 4)
+        body += [f"- {m.ko(latest_asm)} (`{m.location[latest_asm]}`, 생성 {m.at(latest_asm)}) — 가정 판정 관측 전체 {len(asm_obs)}건",
+              "- 가정 " + (" · ".join(f"{k} **{v}**" for k, v in sorted(states.items())) or kb_lib.NONE_MARK + " — 본문에 가정 표가 없다"), ""]
+        if rows:
+            body += ["| 가정 | 판정 유형 | 등급 | 상태 |", "|---|---|---|---|"] + ["| " + " | ".join(r[:4]) + " |" for r in rows] + [""]
+    return body
+
+
+def _audit_matrix(g) -> list[str]:
+    """추적 매트릭스 — plane × plane 의 TIM 허용 칸과 채움. metrics 3단계 대리와 같은 정의다."""
+    body: list[str] = []
+    # 6. 추적 매트릭스 — metrics 와 같은 정의 (kb_lib.TIM_CELLS · link_cells)
+    seen = kb_lib.link_cells(g)
+    filled = [c for c in kb_lib.TIM_CELLS if c in seen]
+    outside = sorted(seen - set(kb_lib.TIM_CELLS))
+    body += [f"## 추적 매트릭스 — plane × plane, TIM 허용 {len(kb_lib.TIM_CELLS)}칸 중 채움 **{len(filled)}** (metrics 3단계 대리와 같은 정의)", "",
+          "| 링크 | 출발 plane | 도착 plane | 채움 |", "|---|---|---|---|"]
+    body += [f"| `{k}` | `{a}` | `{b}` | {'채움' if (k, a, b) in seen else '빈 칸'} |" for k, a, b in kb_lib.TIM_CELLS]
+    body += ["", f"- 허용표 밖에서 관측된 칸: {len(outside)}" + (" — " + ", ".join(f"`{k}`:{a}→{b}" for k, a, b in outside) if outside else ""), ""]
+    return body
+
+
+def _audit_verified(m: Model, g, live: set) -> list[str]:
+    """`verified` 주체 종류별 청크 수와 검증 뒤 수정 (agt:TrustShape 가 게이트에서 강제하는 것)."""
+    body: list[str] = []
+    # 7. 검증 표시 — verified 주체 종류와 검증 뒤 수정 (trust shape)
+    kinds = Counter()
+    none_n, modified = 0, []
+    for c in live:
+        vbs = [str(v) for v in g.objects(c, AGT.verifiedBy)]
+        if not vbs:
+            none_n += 1
+        for kind in {("human:" if v.startswith("human:") else "process:" if v.startswith("process:") else v.split("/")[0] + "/" if "/" in v else "기타") for v in vbs}:
+            kinds[kind] += 1
+        gen_at = as_dt(m.at(c))
+        for v in g.objects(c, AGT.verifiedAt):
+            va = as_dt(str(v))
+            if gen_at and va and gen_at > va:
+                modified.append(c)
+                break
+    body += ["## 검증 표시 — `verified` 주체 종류별 살아 있는 청크 수 (한 청크가 여러 종류를 가질 수 있다)", "",
+          "| 주체 종류 | 청크 수 |", "|---|---|"] + [f"| `{k}` | {v} |" for k, v in sorted(kinds.items())] + [f"| 없음 (미검증) | {none_n} |", "",
+          f"- 검증 뒤 수정(`prov:generatedAtTime` > `agt:verifiedAt`): **{len(modified)}** (목표 0 — `agt:TrustShape` 가 게이트에서 강제)", ""]
+    return body
+
+
+def _audit_links(m: Model, g, pct) -> list[str]:
+    """링크 개체의 증거 종류 분포와 복원 비율 (kb_lib.link_origins — 증거 종류가 구축·복원의 기준이다)."""
+    body: list[str] = []
+    # 8. 링크 근거 — 증거 종류 분포와 복원 비율 (metrics 와 같은 구축·복원 정의: kb_lib.link_origins — 증거 종류 기준)
+    links = list(g.subjects(RDF.type, AGT.Link))
+    ev_kinds = Counter()
+    for l in links:
+        for ev in g.objects(l, AGT.hasEvidence):
+            ev_kinds[str(next(g.objects(ev, AGT.evidenceKind), "")).split("/")[-1] or "없음"] += 1
+    origins = kb_lib.link_origins(g)
+    built, restored, no_ev = origins["built"], origins["restored"], origins["no_evidence"]
+    states = Counter(str(next(g.objects(l, AGT.linkState), "")) or "없음" for l in links)
+    restored_rows = [f"  - {m.ko(next(g.objects(l, AGT.linkFrom), l))} —`{str(next(g.objects(l, AGT.linkKind), '')).split('/')[-1]}`→ "
+                     f"{m.ko(next(g.objects(l, AGT.linkTo), l))}" for l in origins["restored_links"]]
+    body += ["## 링크 근거 — 링크 개체의 증거 종류와 복원 비율", "",
+          f"- 링크 개체 `agt:Link` **{len(links)}** · 증거 없는 링크 {no_ev} (목표 0) · 상태 " + (" · ".join(f"`{k}` {v}" for k, v in sorted(states.items())) or "없음"),
+          "- 증거 종류: " + (" · ".join(f"`{k}` {v}" for k, v in ev_kinds.most_common()) or "없음"),
+          f"- 확정 {origins['confirmed']} = 구축 {built}(구축 기록 증거뿐) + 복원 {restored}(구축 기록 아닌 증거 `proposal` 을 가진 링크 개체 — frontmatter `restored:` 표시, "
+          f"p10-restored-link-marking) → 복원 비율 **{pct(restored, built + restored)}** (목표 20% 미만; 후보는 `//kg:link_candidates`)",
+          f"- 후보 {origins['candidates']} (`agt:CandidateLink` — 본문 추출, 증거는 구축 기록; p10-extracted-references-are-candidates): "
+          + (" · ".join(f"`{k}` {v}" for k, v in sorted(origins["candidate_kinds"].items())) or "없음")
+          + " · 본문 식별자 추출 직접 트리플 " + " · ".join(f"`{k}` {v}" for k, v in origins["extracted"].items())] + restored_rows + [""]
+    return body
+
+
+# ── 조립 — 머리 블록을 세우고 절을 순서대로 잇는다 ────────────────────
 
 def render_audit(m: Model, bodies: dict, inputs: list[str]) -> str:
     g = m.g
@@ -376,160 +602,15 @@ def render_audit(m: Model, bodies: dict, inputs: list[str]) -> str:
               f"- 살아 있는 청크 {len(live)} — 개발 KB {len(dev)} · V&V KB {len(vv)}"])
     body: list[str] = []
 
-    # 2. 검증 현황
-    dev_reqs = {c for c in dev if m.plane[c] == "requirement"}
-    goals = {c for c in vv if m.plane[c] == "requirement"}
-    covered = {t for s, t in g.subject_objects(AGT.derivesFrom) if s in goals and t in dev_reqs}
-    criteria_of = defaultdict(set)
-    cases_of = defaultdict(set)
-    verifiers_of = defaultdict(set)
-    for s, t in g.subject_objects(AGT.refines):
-        if s in vv and t in vv:
-            if m.plane[s] == "contract" and t in goals:
-                criteria_of[t].add(s)
-            elif m.plane[s] == "schema" and m.plane[t] == "contract":
-                cases_of[t].add(s)
-            elif m.plane[s] == "artifact" and m.plane[t] == "schema":
-                verifiers_of[t].add(s)
-    chains = [gl for gl in goals if any(cases_of[cr] for cr in criteria_of[gl])]
-    verifies = [(s, t) for s, t in g.subject_objects(AGT.verifies) if s in vv]
-    no_criteria = [s for s, _ in verifies if not any((c_, RDF.type, AGT.ContractChunk) in g for c_ in g.objects(s, AGT.refines))]
-    units = {m.decision_unit(c) for c in dev if m.plane[c] == "decision"}
-    verified_units = {m.decision_unit(t) for _, t in verifies if t in m.chunks and m.plane.get(t) == "decision"}
-    body += ["## 검증 현황 — 요구의 검증 대응물과 V&V 사슬 (p8-scenario-ladder-rungs · p8-pass-criteria)", "",
-          f"- 검증 대응물이 있는 요구(검증 목표가 `agt:derivesFrom` 으로 가리킴): **{pct(len(covered), len(dev_reqs))}** (목표 100.0%)",
-          f"- `agt:verifies` 대상이 된 결정 단위: **{pct(len(verified_units), len(units))}** · verifies 링크 {len(verifies)}",
-          f"- 사슬: 검증 목표 {len(goals)} · 합격 기준이 달린 목표 {sum(1 for gl in goals if criteria_of[gl])} · 케이스까지 이어진 목표 {len(chains)} · "
-          f"검증기 {sum(len(v) for v in verifiers_of.values())} (합격 기준 {sum(len(v) for v in criteria_of.values())} · 케이스 {sum(len(v) for v in cases_of.values())})",
-          f"- 기준 없는 `verifies`: **{len(no_criteria)}** (목표 0 — verify 질의 `verifies-without-criteria` 와 같은 정의)", ""]
-    uncovered = sorted(dev_reqs - covered, key=lambda c: m.location[c])
-    if uncovered:
-        body += [f"검증 대응물 없는 요구 {len(uncovered)}건:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)}" for c in uncovered] + [""]
-
-    # 2.5 위험에서 파생된 목표 — 검증 목표가 defect 요인(현상)을 가리키는가 (위험 분석 G1·G5, 노트 8.21·8.22절)
-    # 파생의 표지는 둘이다. frontmatter `exposes`(agt:exposesFactor)는 저자가 선언한 것이고 본문의 현상 IRI 인용
-    # (agt:usesConcept, extract_refs)은 추출된 것이다. 둘 다 있으면 선언을 적는다 — 선언이 더 검사 가능한 근거다.
-    factor_classes = set(g.transitive_subjects(RDFS.subClassOf, AGT.DefectFactor))
-    factors = {i for cl in factor_classes for i in g.subjects(RDF.type, cl)}
-    exposed: dict = defaultdict(dict)
-    for pred, mark in ((AGT.exposesFactor, RISK_MARK_DECLARED), (AGT.usesConcept, RISK_MARK_EXTRACTED)):
-        for s, o in g.subject_objects(pred):
-            if s in goals and o in factors:
-                exposed[s].setdefault(o, mark)
-    named = {f for fs in exposed.values() for f in fs}
-    body += [f"## 위험에서 파생된 목표 — 검증 목표가 노출하는 결함 요인 (표지 둘 — {RISK_MARK_DECLARED}: `exposes` · {RISK_MARK_EXTRACTED}: 본문의 현상 IRI, 8.21절 G1·G5)", "",
-             f"- 위험에서 파생된 검증 목표: **{pct(len(exposed), len(goals))}** — 나머지는 게이트·음성 시험을 사슬로 묶은 것이다",
-             f"- 어느 목표에도 가리켜지지 않은 현상: **{pct(len(factors) - len(named), len(factors))}**", ""]
-    if not exposed:
-        body += [f"위험에서 파생된 검증 목표 {kb_lib.NONE_MARK} — 현상을 가리키는 목표가 없다. `exposes:` 또는 본문의 현상 IRI 인용이 표지다.", ""]
-    else:
-        body += ["| 검증 목표 | 노출하는 현상 | 표기 | 표지 |", "|---|---|---|---|"]
-        for c in sorted(exposed, key=lambda c: m.location[c]):
-            for f in sorted(exposed[c], key=lambda f: str(f)):
-                note = str(next(g.objects(f, SKOS_NOTATION), "")) or kb_lib.NONE_MARK
-                body += [f"| `{Path(m.location[c]).stem}` {m.ko(c)} | {m.ko(f)} (`{kb_lib.compact_iri(str(f))}`) | {note} | {exposed[c][f]} |"]
-        body += [""]
-
-    # 3. 최근 실행 — 실행 기록을 그대로 요약한다
-    body += ["## 최근 실행 — `kb/vv/run/` 의 최신 실행 기록 (agt:Run, append-only)", ""]
-    if latest_run is None:
-        body += ["실행 기록 없음 — `bazel run //tools:vv_run -- --record`", ""]
-    else:
-        rows = observation_table(run_body, kb_lib.RUN_CASE_TABLE_HEADER)
-        verdicts = Counter(r[2] for r in rows if len(r) >= 3)
-        body += [f"- {m.ko(latest_run)} (`{m.location[latest_run]}`, 생성 {m.at(latest_run)}, {by_gen(latest_run)}) — 실행 기록 전체 {len(runs)}건",
-              "- 케이스 " + " · ".join(f"{v} **{verdicts.get(v, 0)}**" for v in kb_lib.RUN_VERDICTS) + " — SKIP 은 PASS 가 아니다", ""]
-        first = run_body.split("\n", 1)[0].strip()
-        if first:
-            body += [f"> {first}", ""]
-        if rows:
-            body += [kb_lib.RUN_CASE_TABLE_HEADER, "|---|---|---|---|"] + ["| " + " | ".join(r) + " |" for r in rows] + [""]
-        else:
-            body += [f"- 본문에 케이스 표(헤더 `{kb_lib.RUN_CASE_TABLE_HEADER}`)가 없다", ""]
-
-    # 4. 판정 주석 — 주석의 라벨 분포와 해소 상태 (p7-commentary-form: issue (blocking) + 해소 열림 만 게이트를 막는다)
-    label_of = lambda c: str(next(g.objects(c, AGT.commentLabel), ""))        # noqa: E731
-    deco_of = lambda c: str(next(g.objects(c, AGT.commentDecoration), ""))    # noqa: E731
-    state_of = lambda c: str(next(g.objects(c, AGT.resolutionState), ""))     # noqa: E731
-    comments = sorted((c for c in live if m.plane[c] == "annotation"), key=lambda c: m.location[c])
-    open_ = [c for c in comments if state_of(c) == kb_lib.COMMENT_OPEN]
-    blocking = [c for c in open_ if (label_of(c), deco_of(c)) == kb_lib.COMMENT_BLOCKING]
-    body += ["## 판정 주석 — 주석의 라벨 분포와 해소 상태 (p7-commentary-form)", ""]
-    if not comments:
-        body += [f"살아 있는 주석 {kb_lib.NONE_MARK} — 판정 주석(`{kb_lib.KB_VV}/verdict/`)이 비어 있다. 게이트 "
-                 f"`{kb_lib.BLOCKING_COMMENT_GATE}` 는 서 있고 막을 주석이 아직 없다.", ""]
-    else:
-        labels = Counter(label_of(c) or kb_lib.NONE_MARK for c in comments)
-        states = Counter(state_of(c) or kb_lib.NONE_MARK for c in comments)
-        body += [f"- 살아 있는 주석 **{len(comments)}** · 해소되지 않은 것(`해소: {kb_lib.COMMENT_OPEN}`) **{pct(len(open_), len(comments))}** · "
-                 f"그중 게이트를 막는 `{kb_lib.COMMENT_BLOCKING[0]} ({kb_lib.COMMENT_BLOCKING[1]})` **{len(blocking)}** "
-                 f"(목표 0 — 게이트 `{kb_lib.BLOCKING_COMMENT_GATE}`)", "",
-                 "| 라벨 | 주석 수 | 그중 해소 열림 |", "|---|---|---|"]
-        body += [f"| `{k}` | {v} | {sum(1 for c in open_ if (label_of(c) or kb_lib.NONE_MARK) == k)} |" for k, v in labels.most_common()]
-        body += ["", "| 해소 상태 | 주석 수 |", "|---|---|"] + [f"| {k} | {v} |" for k, v in states.most_common()] + [""]
-        if blocking:
-            body += ["게이트를 막는 주석:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)} → "
-                     + (" · ".join(m.ko(t) for t in g.objects(c, AGT.targets)) or kb_lib.NONE_MARK) for c in blocking] + [""]
-
-    # 5. 가정 — 최신 assume_check 관측
-    body += ["## 가정 — `kb/dev/memory/` 의 최신 가정 판정 관측 (assume_check)", ""]
-    if latest_asm is None:
-        body += ["가정 판정 관측 없음 — `bazel run //tools:assume_check -- --record`", ""]
-    else:
-        rows = observation_table(asm_body, kb_lib.ASSUME_CHECK_TABLE_HEADER)
-        states = Counter(r[3] for r in rows if len(r) >= 4)
-        body += [f"- {m.ko(latest_asm)} (`{m.location[latest_asm]}`, 생성 {m.at(latest_asm)}) — 가정 판정 관측 전체 {len(asm_obs)}건",
-              "- 가정 " + (" · ".join(f"{k} **{v}**" for k, v in sorted(states.items())) or kb_lib.NONE_MARK + " — 본문에 가정 표가 없다"), ""]
-        if rows:
-            body += ["| 가정 | 판정 유형 | 등급 | 상태 |", "|---|---|---|---|"] + ["| " + " | ".join(r[:4]) + " |" for r in rows] + [""]
-
-    # 6. 추적 매트릭스 — metrics 와 같은 정의 (kb_lib.TIM_CELLS · link_cells)
-    seen = kb_lib.link_cells(g)
-    filled = [c for c in kb_lib.TIM_CELLS if c in seen]
-    outside = sorted(seen - set(kb_lib.TIM_CELLS))
-    body += [f"## 추적 매트릭스 — plane × plane, TIM 허용 {len(kb_lib.TIM_CELLS)}칸 중 채움 **{len(filled)}** (metrics 3단계 대리와 같은 정의)", "",
-          "| 링크 | 출발 plane | 도착 plane | 채움 |", "|---|---|---|---|"]
-    body += [f"| `{k}` | `{a}` | `{b}` | {'채움' if (k, a, b) in seen else '빈 칸'} |" for k, a, b in kb_lib.TIM_CELLS]
-    body += ["", f"- 허용표 밖에서 관측된 칸: {len(outside)}" + (" — " + ", ".join(f"`{k}`:{a}→{b}" for k, a, b in outside) if outside else ""), ""]
-
-    # 7. 검증 표시 — verified 주체 종류와 검증 뒤 수정 (trust shape)
-    kinds = Counter()
-    none_n, modified = 0, []
-    for c in live:
-        vbs = [str(v) for v in g.objects(c, AGT.verifiedBy)]
-        if not vbs:
-            none_n += 1
-        for kind in {("human:" if v.startswith("human:") else "process:" if v.startswith("process:") else v.split("/")[0] + "/" if "/" in v else "기타") for v in vbs}:
-            kinds[kind] += 1
-        gen_at = as_dt(m.at(c))
-        for v in g.objects(c, AGT.verifiedAt):
-            va = as_dt(str(v))
-            if gen_at and va and gen_at > va:
-                modified.append(c)
-                break
-    body += ["## 검증 표시 — `verified` 주체 종류별 살아 있는 청크 수 (한 청크가 여러 종류를 가질 수 있다)", "",
-          "| 주체 종류 | 청크 수 |", "|---|---|"] + [f"| `{k}` | {v} |" for k, v in sorted(kinds.items())] + [f"| 없음 (미검증) | {none_n} |", "",
-          f"- 검증 뒤 수정(`prov:generatedAtTime` > `agt:verifiedAt`): **{len(modified)}** (목표 0 — `agt:TrustShape` 가 게이트에서 강제)", ""]
-
-    # 8. 링크 근거 — 증거 종류 분포와 복원 비율 (metrics 와 같은 구축·복원 정의: kb_lib.link_origins — 증거 종류 기준)
-    links = list(g.subjects(RDF.type, AGT.Link))
-    ev_kinds = Counter()
-    for l in links:
-        for ev in g.objects(l, AGT.hasEvidence):
-            ev_kinds[str(next(g.objects(ev, AGT.evidenceKind), "")).split("/")[-1] or "없음"] += 1
-    origins = kb_lib.link_origins(g)
-    built, restored, no_ev = origins["built"], origins["restored"], origins["no_evidence"]
-    states = Counter(str(next(g.objects(l, AGT.linkState), "")) or "없음" for l in links)
-    restored_rows = [f"  - {m.ko(next(g.objects(l, AGT.linkFrom), l))} —`{str(next(g.objects(l, AGT.linkKind), '')).split('/')[-1]}`→ "
-                     f"{m.ko(next(g.objects(l, AGT.linkTo), l))}" for l in origins["restored_links"]]
-    body += ["## 링크 근거 — 링크 개체의 증거 종류와 복원 비율", "",
-          f"- 링크 개체 `agt:Link` **{len(links)}** · 증거 없는 링크 {no_ev} (목표 0) · 상태 " + (" · ".join(f"`{k}` {v}" for k, v in sorted(states.items())) or "없음"),
-          "- 증거 종류: " + (" · ".join(f"`{k}` {v}" for k, v in ev_kinds.most_common()) or "없음"),
-          f"- 확정 {origins['confirmed']} = 구축 {built}(구축 기록 증거뿐) + 복원 {restored}(구축 기록 아닌 증거 `proposal` 을 가진 링크 개체 — frontmatter `restored:` 표시, "
-          f"p10-restored-link-marking) → 복원 비율 **{pct(restored, built + restored)}** (목표 20% 미만; 후보는 `//kg:link_candidates`)",
-          f"- 후보 {origins['candidates']} (`agt:CandidateLink` — 본문 추출, 증거는 구축 기록; p10-extracted-references-are-candidates): "
-          + (" · ".join(f"`{k}` {v}" for k, v in sorted(origins["candidate_kinds"].items())) or "없음")
-          + " · 본문 식별자 추출 직접 트리플 " + " · ".join(f"`{k}` {v}" for k, v in origins["extracted"].items())] + restored_rows + [""]
+    # 절마다 함수 하나다 — 각 함수가 자기 절의 본문 조각을 내고 여기서 순서대로 잇는다. 절의 순서가 보고의 순서다.
+    body += _audit_verification(m, g, dev, vv, pct)
+    body += _audit_risk_goals(m, g, vv, pct)
+    body += _audit_latest_run(m, runs, latest_run, run_body, by_gen)
+    body += _audit_comments(m, g, live, pct, by_gen)
+    body += _audit_assumptions(m, asm_obs, latest_asm, asm_body)
+    body += _audit_matrix(g)
+    body += _audit_verified(m, g, live)
+    body += _audit_links(m, g, pct)
 
     # 9. 자족성 선언
     body += ["## 자족성 선언", "",

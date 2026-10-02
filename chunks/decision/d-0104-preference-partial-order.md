@@ -7,6 +7,7 @@ title: Preferences order candidates without rejecting them
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-design-space-operation
 ---
 **결론** — 선호는 설계 공간 파일의 `preferences` 절에 **수치 없이

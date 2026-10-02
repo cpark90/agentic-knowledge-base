@@ -4,87 +4,16 @@
 한 청크는 한 파일이다. head 메타데이터(타입·plane·level·라벨·상태·출처)는
 청크 파일의 frontmatter에 있고, 본문(assertion)은 그 아래 있다 (노트 4.3절).
 `-kg`의 head 그래프는 손으로 쓰지 않고 이 도구가 청크 파일들에서 생성한다 —
-agt:lineCount 와 agt:assertionLocation 은 파일에서 계산되므로 어긋날 수 없다.
+agt:tokenCount 와 agt:assertionLocation 은 파일에서 계산되므로 어긋날 수 없다.
 
-frontmatter 형식 (YAML 부분집합 — key: value, 목록은 [a, b], 인라인 맵은 {k: v}).
-OKF v0.2 번들이므로 type·status·generated·verified 는 그 스펙의 필드명을 쓴다:
-  iri:          항목 IRI (필수)
-  type:         requirement | decision | contract | schema | artifact | annotation | memory (필수, OKF).
-                예외 하나가 `agt:Space` 다 — plane 이름이 아니라 온톨로지 클래스 이름이고, 그 청크는 설계 공간(`-space`)이라
-                본문의 후보·제약까지 읽어야 그래프가 된다. 여기서는 frontmatter 만 판정하고(level 은 logical 고정) 방출은
-                tools/space2kg.py 가 한다 — 이 도구에 넘기면 `FAIL [space]` 다 (결정 p9-candidate-storage)
-  level:        functional | abstract | logical | concrete | executable (필수)
-  title_ko:     한글 라벨 (필수) — OKF 확장 키
-  title:        영어 라벨 (필수) — OKF title
-  status:       draft | stable | suspect | invalidated | deprecated (필수, OKF + 확장 2)
-  generated:    {by: <행위자>, at: <ISO 8601>} (필수, OKF)
-  verified:     [{by: <행위자>, at: <ISO 8601>}, ...] (선택, OKF) — human: 접두어가 사람 검토
-  assumes:      가정 IRI 목록 (선택)
-  sources:      OKF v0.2 sources — [{resource: IRI, id?, title?, author?}] (선택). resource → prov:wasDerivedFrom
-  refines:      이 항목이 정제하는 상위 항목 IRI 목록 (선택, 수직 링크 9.2절)
-  supersedes:   이 항목이 대체하는 항목 IRI 목록 (선택)
-  serves·verifies·derivesFrom·satisfies·constrains·allocates·generates·overlapsWith: 그 밖의 링크 키(LINK_KEYS) — 대상 IRI 목록 (선택).
-                모든 링크 키는 직접 트리플(agt:<key>)과 링크 개체(agt:Link, emit_links) 둘로 나간다. verifies 의 주어는 kb/vv 청크뿐 (defs/kb.bzl).
-                overlapsWith 는 relatedTo 족의 약한 잎이다 — 추적 매트릭스에 칸이 없어 어느 잎도 이름을 주지 못하는 관계의 자리이고,
-                Bazel deps 가 되지 않는다(gen_build.LINKS 밖) 대신 링크 개체와 복원 표시를 받는다 (overlap-ontology)
-  uses:         이 정의가 이름으로 쓰는 **같은 모듈의 최상위 정의** 청크 IRI 목록 (선택, type: artifact 에서만 —
-                agt:usesDefinition 의 정의역이 agt:ArtifactChunk 다). agt:usesDefinition 으로 나간다. 링크 키가 아니다 —
-                Bazel deps 도 링크 개체도 되지 않는다(링크는 파일 복합체의 것이다, p7-code-links-on-file-composite).
-                값의 원본은 손이 아니라 tools/extract.py 이고 대상 실재는 validate check_dangling 이 본다
-  exposes:      이 항목이 노출하려는 결함 요인(현상) 개체의 agt: IRI 목록 (선택, 위험 분석 G5 — 노트 8.21절).
-                agt:exposesFactor 로 나간다. 링크 키가 아니다 — 대상이 청크가 아니라 온톨로지 개체이므로 링크 개체의
-                치역 밖이고 Bazel deps 도 되지 않는다. 대상의 종류는 shape exposes-factor-shapes.ttl 이 판정한다
-  restored:     복원 링크의 표시 — 같은 청크의 링크 키(LINK_KEYS) 어딘가에 대상으로 있는 IRI 목록 (선택, p10-restored-link-marking).
-                그 (주어, 링크 키, 대상)의 agt:Link 개체에 증거가 두 줄 붙는다 — 확정 기록 constructionRecord(사람이 frontmatter 에 적은
-                편집 시점 기록; 9.11절 규칙 "구축(+) 또는 실행(+) 없이 확정 불가"를 verify 질의 confirmed-without-evidence 가 강제한다)와
-                후보의 출처 proposal(도구·에이전트가 제안하고 사람이 확정). 구축 링크는 constructionRecord 한 줄뿐이므로 proposal 의 유무가
-                복원의 표지다. linkState 는 그대로 confirmed 다 — frontmatter 에 적힌 것은 확정이다. 링크 대상에 없는 IRI 는
-                `FAIL [restored] <파일>: 복원 표시 <IRI> 가 링크 대상에 없다` 로 거부. 복원 비율(metrics·audit)은 증거 종류로 센다 (kb_lib.link_origins)
-  specializationOf: 분할로 생긴 조각이 원 청크를 가리키는 단일 IRI (선택, p10-split-keeps-work-identity) → prov:specializationOf (PROV-O).
-                청크 uuid 는 work-id 다: 분할 시 조각 하나가 원 uuid 를 승계하고 나머지는 새 uuid + 이 키로 잇는다. 자기 자신은 거부.
-                대상 실재는 validate dangling, 같은 plane·살아 있음·사슬 비순환은 validate check_specialization(FAIL [specialization])이
-                판정한다. 순환은 이 도구도 뿌리를 계산할 수 없으므로 같은 게이트 id 로 거부한다
-  링크 IRI:     id/link/<sha256(뿌리(출발)|종류|뿌리(도착))[:12]> — 양 끝은 specializationOf 사슬을 따라 올라간 뿌리 uuid(work-id)다.
-                그래서 조각을 가리키는 링크와 원본을 가리키던 링크가 같은 개체가 되어 증거·이력이 이어진다. 뿌리는 묶음 전체를 알아야
-                계산되므로 --fragment 는 원 IRI 로 해시하고 --merge(와 단일 실행)가 rebase_links 로 다시 계산해 같은 IRI 의 링크·증거
-                블록을 하나로 합친다(양 끝·증거의 합집합). 증거 IRI 는 같은 해시에 접미(-proposal)다
-  coUpdatesWith: 같은 내용을 담아 함께 갱신되어야 하는 청크 IRI 목록 (선택, relatedTo 족 — 안전율 중복의 표시)
-  part_of:      소속 복합체 IRI (선택) — 복합체는 멤버 중 하나가 composite: 로 선언
-  composite:    {id: …, title_ko: …, title: …, ordered: [<부분 IRI>…], part_of: <상위 복합체 IRI>} (선택) — 복합체 개체 선언.
-                `part_of` 는 선택 키이며 **선언된 복합체**가 다른 복합체의 직접 부분임을 적는다 (p4-composite-as-part-of —
-                복합체는 청크 또는 다른 복합체를 부분으로 갖는다). 청크의 최상위 `part_of` 와 자리가 다르다: 앞은 청크의
-                소속, 뒤는 복합체의 소속이다. 상위 복합체도 같은 실행의 입력 집합 안에서 선언돼야 하고 사슬은 순환하지
-                않는다. 코드 추출(p7-code-links-on-file-composite)의 파일 → 장·절 → 함수 세 층이 이 키로 선다. `ordered` 는 선택 키이고
-                순서가 뜻을 갖는 복합체만 적는다 (결정 p4-composite-order-is-declared). 있으면 `agt:Composite , co:List` 로
-                타이핑하고 부분마다 `co:item [ a co:ListItem ; co:index "<1..n>"^^xsd:positiveInteger ; co:itemContent <부분> ]`
-                을 그 순서로 낸다. 없으면 `agt:hasDirectPart` 만 낸다(순서 없음) — 순서를 요구하지 않는 것에 순서를 붙이면
-                거짓 정보다. 목록이 부분 전부를 빠짐없이 한 번씩 담지 않으면 거부한다. **예외는 없다** — 결정 복합체도 선언으로만
-                순서를 갖고(유저 승인 2026-09-29) 그 선언은 `--ordered` 인자로 들어온다. 이 도구는 역할 이름으로 순서를 추측하지 않는다.
-                **묶음의 단위는 파일이 아니라 이 실행의 입력 집합**이다 (2026-09-26 반영). part_of 대상은 같은 실행의 파일 어딘가에서
-                composite: 로 선언돼야 한다. 그 입력 집합을 만드는 것이 defs/kb.bzl 의 kb_decision(결론·근거·대안 셋)과
-                kb_composite(부분 2~9 가변)이고, 청크 하나만 받는 kb_chunk 로는 복합체가 서지 않는다
-  pattern:      ubiquitous | event-driven | state-driven | unwanted-behaviour | optional | complex (선택, type: requirement 에서만) —
-                요구 문장의 EARS 패턴 (Mavin RE'09, 결정 p7-dev-plane-substance) → agt:pattern agt:<camelCase 개체>. 다른 plane 에 있으면 거부
-  targets:      주석이 관찰하는 대상 IRI 목록 (선택, type: annotation 에서만) → agt:targets 직접 트리플.
-                **링크 키가 아니다** — 링크 개체(agt:Link)도 Bazel deps(gen_build.LINKS)도 만들지 않는다. 주석이 대상의 deps 가
-                되면 주석 하나가 대상의 재빌드를 유발해 리뷰가 빌드 그래프를 오염시킨다. 주석은 대상을 관찰하지 구성하지 않는다
-  주석의 본문:   type: annotation 의 본문은 주석이다 (p7-commentary-form). 첫 줄 `<라벨> (<장식>): <요지>` 와 줄 머리 슬롯 넷
-                (`대상:`·`본문:`·`제안:`·`해소:`)에서 agt:commentLabel·agt:commentDecoration·agt:resolutionState·
-                agt:commentSentenceCount 를 낸다. 닫힌 어휘와 문장 상한의 판정은 shape(review-comment-body-shapes.ttl)이고
-                여기서 거부하는 것은 `대상:` 과 frontmatter `targets` 의 불일치 하나뿐이다
-  프로파일 타이핑: 청크마다 plane 클래스 뒤에 개발 프로파일의 실체 클래스를 더 붙인다 (`a agt:RequirementChunk , agt:RequirementStatement`,
-                PROFILE_SUBSTANCE). 살아 있는 청크든 폐기된 청크든 같다 — 폐기된 요구 문장도 요구 문장이다
-  라벨 언어:    title 에 한글([ㄱ-ㆎ가-힣])이 있거나 title_ko 에 한글이 없으면 거부 — 영문 라벨에 한글을 섞지 않는다(0.6절).
-                composite 의 title·title_ko 도 같은 @en/@ko 라벨이므로 같은 규칙으로 거부한다
-  --ordered:    묶음의 복합체가 선언한 부분의 순서 (인자, 선택) — 생성 BUILD 의 `kb_decision.ordered`·`kb_composite.ordered` 가 넘긴다.
-                결정 복합체 205개의 선언이 이 자리다 (유저 승인 2026-09-29: 예외 없음, 손으로 frontmatter 를 고치지 않는다).
-                frontmatter `composite.ordered` 와 함께 있으면 같아야 한다 — BUILD 는 뷰이고 frontmatter 가 원본이다
-  인용원:       본문(frontmatter 제외, **코드 펜스 밖**)에 소멸성 채널 경로 `docs/feedback/` 가 있으면 거부 — 규칙·근거는 영속 지식
-                (노트·결정)에 둔다 (agrtls-practices-review P). status: deprecated 청크는 제외
+frontmatter 형식은 YAML 부분집합이다 — key: value, 목록은 [a, b], 인라인 맵은 {k: v}. 키마다의 설명은
+그 키를 판정·방출하는 절의 주석에 있다 — 기본 키는 `청크 파싱` 절, 링크 키는 `링크의 방출과 정체성` 절,
+복합체 키는 `복합체의 순서` 절이다 (규약을 강제하는 코드 옆에 둔다).
 
 출력·종료: 위반은 `FAIL [chunk2kg] <경로>: <메시지>` (병합은 `FAIL [chunk2kg-merge]`, 특수화 사슬은 `FAIL [specialization]`) + EXIT_FAIL,
            읽을 수 없는 입력은 EXIT_CONFIG. 생성기이므로 입력 0건은 빈 그래프(SKIP 아님).
-사용: chunk2kg.py --out <생성.ttl> --residency defs/kb.bzl <청크 파일들...> (--merge 는 --residency 없이 조각을 잇기만 한다)
+사용: chunk2kg.py --out <생성.ttl> --residency defs/kb.bzl [--vocab <어휘 파일>] <청크 파일들...>
+      (--merge 는 --residency·--vocab 없이 조각을 잇기만 한다)
 """
 
 from __future__ import annotations
@@ -92,6 +21,7 @@ from __future__ import annotations
 import argparse
 import ast
 import hashlib
+import os
 import re
 import sys
 from pathlib import Path
@@ -198,6 +128,16 @@ EARS_PATTERNS = {
     "optional": "agt:optional",
     "complex": "agt:complex",
 }
+# 서비스 층 (결정 p0-service-is-a-three-layer-wiki) — frontmatter `layer:` 의 값 어휘 → 개체 (layer-ontology.ttl).
+# **plane과 직교하는 역할 속성이라 plane 제한이 없다** — 어느 plane 의 항목이든 세 층 중 하나의 역할을 갖는다
+# (같은 plane 에 분야의 결정과 저작 규칙의 결정이 함께 있다). 명시가 없으면 LAYER_DEFAULT 를 방출한다 —
+# 표시 누락이 산발로 세어지지 않아야 하므로 기본값이 그래프에 적힌다. 키의 정의처는 kb_lib 다 (EXPOSES_KEY 와 같은 형태).
+LAYERS = {
+    "knowledge": "agt:knowledgeLayer",
+    "methodology": "agt:methodologyLayer",
+    "process": "agt:processLayer",
+}
+LAYER_DEFAULT = "knowledge"  # 명시 없는 항목의 층 — 항목 대부분이 지식 층이다 (결정 근거)
 # 주석의 닫힌 어휘 (결정 p7-commentary-form) — 정의처는 kb_lib 이고 여기는 rdflib 없이 도는 폴백이다 (LINK_STATE_* 와 같은 형태)
 COMMENT_LABELS = getattr(kb_lib, "COMMENT_LABELS", ("praise", "nitpick", "suggestion", "issue", "question", "thought", "chore"))
 COMMENT_DECORATIONS = getattr(kb_lib, "COMMENT_DECORATIONS", ("blocking", "non-blocking", "if-minor"))
@@ -208,6 +148,8 @@ EXPOSES_KEY = getattr(kb_lib, "EXPOSES_KEY", "exposes")            # 위험에�
 EXPOSES_PREDICATE = getattr(kb_lib, "EXPOSES_PREDICATE", "agt:exposesFactor")
 USES_KEY = getattr(kb_lib, "USES_KEY", "uses")                     # 정의 → 같은 모듈의 정의 (agt:usesDefinition). 링크 키가 아니다 (정의처 kb_lib)
 USES_PREDICATE = getattr(kb_lib, "USES_PREDICATE", "agt:usesDefinition")
+LAYER_KEY = getattr(kb_lib, "LAYER_KEY", "layer")                  # 항목 → 서비스 층 (agt:inLayer). 링크 키가 아니다 (정의처 kb_lib)
+LAYER_PREDICATE = getattr(kb_lib, "LAYER_PREDICATE", "agt:inLayer")
 # 본문 슬롯 표지 (결정 p4-slot-answers-one-question) — 슬롯은 줄 머리 고정 표지 하나와 그것이 답하는 질문 하나다.
 # 질문·순서·필수 여부의 정의처는 shape(kb/ontology/shapes/*-body-shapes.ttl)이고 여기는 표지 낱말의 정의처다 —
 # 이 도구는 rdflib 없이 타깃마다 돌아 kb_lib 를 의존할 수 없으므로 값 어휘 상수가 PLANE_CLASS 와 함께 여기 있다 (STYLEGUIDE §4).
@@ -255,6 +197,24 @@ BODY_SLOT_KEYWORDS = ("미확정", *COMMENT_SLOTS)
 BODY_SLOT_KEYWORD = re.compile(r"^(" + "|".join(BODY_SLOT_KEYWORDS) + r"):\s")
 BODY_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")  # 코드 펜스 안은 본문 형식이 아니다 — 예시 안의 표지를 슬롯으로 읽지 않는다
 # ── 복합체의 순서 (결정 p4-composite-order-is-declared, 유저 승인 2026-09-29 — 예외 없음) ─────────────────
+# frontmatter 의 **복합체 키**와 순서의 선언 — 이 절이 판정하는 것이다.
+#   part_of:      소속 복합체 IRI (선택) — 복합체는 멤버 중 하나가 composite: 로 선언
+#   composite:    {id: …, title_ko: …, title: …, ordered: [<부분 IRI>…], part_of: <상위 복합체 IRI>} (선택) — 복합체 개체 선언.
+#                 `part_of` 는 선택 키이며 **선언된 복합체**가 다른 복합체의 직접 부분임을 적는다 (p4-composite-as-part-of —
+#                 복합체는 청크 또는 다른 복합체를 부분으로 갖는다). 청크의 최상위 `part_of` 와 자리가 다르다: 앞은 청크의
+#                 소속, 뒤는 복합체의 소속이다. 상위 복합체도 같은 실행의 입력 집합 안에서 선언돼야 하고 사슬은 순환하지
+#                 않는다. 코드 추출(p7-code-links-on-file-composite)의 파일 → 장·절 → 함수 세 층이 이 키로 선다. `ordered` 는 선택 키이고
+#                 순서가 뜻을 갖는 복합체만 적는다 (결정 p4-composite-order-is-declared). 있으면 `agt:Composite , co:List` 로
+#                 타이핑하고 부분마다 `co:item [ a co:ListItem ; co:index "<1..n>"^^xsd:positiveInteger ; co:itemContent <부분> ]`
+#                 을 그 순서로 낸다. 없으면 `agt:hasDirectPart` 만 낸다(순서 없음) — 순서를 요구하지 않는 것에 순서를 붙이면
+#                 거짓 정보다. 목록이 부분 전부를 빠짐없이 한 번씩 담지 않으면 거부한다. **예외는 없다** — 결정 복합체도 선언으로만
+#                 순서를 갖고(유저 승인 2026-09-29) 그 선언은 `--ordered` 인자로 들어온다. 이 도구는 역할 이름으로 순서를 추측하지 않는다.
+#                 **묶음의 단위는 파일이 아니라 이 실행의 입력 집합**이다 (2026-09-26 반영). part_of 대상은 같은 실행의 파일 어딘가에서
+#                 composite: 로 선언돼야 한다. 그 입력 집합을 만드는 것이 defs/kb.bzl 의 kb_decision(결론·근거·대안 셋)과
+#                 kb_composite(부분 2~9 가변)이고, 청크 하나만 받는 kb_chunk 로는 복합체가 서지 않는다
+#   --ordered:    묶음의 복합체가 선언한 부분의 순서 (인자, 선택) — 생성 BUILD 의 `kb_decision.ordered`·`kb_composite.ordered` 가 넘긴다.
+#                 결정 복합체 205개의 선언이 이 자리다 (유저 승인 2026-09-29: 예외 없음, 손으로 frontmatter 를 고치지 않는다).
+#                 frontmatter `composite.ordered` 와 함께 있으면 같아야 한다 — BUILD 는 뷰이고 frontmatter 가 원본이다
 # 순서는 **선언**이다. 선언이 있을 때만 co:List 와 co:index 를 방출하고, 없으면 hasDirectPart 만 낸다(순서 없음) —
 # 순서를 요구하지 않는 것에 순서를 붙이면 거짓 정보다(d-0073). 목록은 부분 전부를 빠짐없이 한 번씩 담아야 하고
 # 어긋나면 이 게이트가 거부한다. **도구는 역할 이름·파일 stem 으로 순서를 추측하지 않는다** — 추측 갈래는 유저 판정
@@ -385,11 +345,180 @@ def comment_form(body: list[str]) -> dict:
     return form
 
 
-# ── 청크 파싱 ────────────────────
+# ── 본문과 토큰 계수기 — 크기의 단위는 토큰이다 (결정 p1-chunk-unit-is-tokens) ────────────────────
+# 본문을 떼는 규칙과 계수기가 이 모듈에 사는 까닭은 **head 액션**이다 — 청크 타깃마다 한 번 돌고 rdflib 를
+# 싣지 않는다(`py_binary //tools:chunk2kg` 의 deps 가 비어 있다). `kb_lib` 에 두면 액션마다 rdflib 적재를
+# 문다. `kb_lib` 는 이 이름들을 다시 내보내고 호출자는 `kb_lib.body_text`·`kb_lib.token_count` 를 쓴다.
+# 크기의 단위가 줄에서 토큰으로 바뀌면 계수기가 빌드 입력이 된다. 재현의 조건은 둘이다 — 어휘 파일이
+# 같은 바이트로 읽히고, 그것을 읽는 패키지의 버전이 같아야 한다. 어휘는 `MODULE.bazel` 의
+# `http_file(@tiktoken_o200k_base//file)` 이 sha256 으로 고정하고 패키지는 `tools/requirements_lock.txt`
+# 가 고정한다. 그 짝이 ODD 조건 `id:cond-tokenizer-lock` 이고 판정은 파일 해시 대조다.
+# 어휘를 `o200k_base` 로 고른 근거는 이 저장소 청크 100개의 실측이다 — 문자/토큰 2.30 으로 `cl100k_base`
+# 1.78 · `p50k_base` 0.97 · XLM-R SentencePiece 2.14 를 앞선다. 한글 산문의 토큰 수가 가장 적은 어휘가
+# 같은 예산에 가장 많은 지식을 담는다.
+# 아래 sha256 은 `MODULE.bazel` 의 http_file 과 같은 값이다. 사본이 둘이므로 동일성은 사람이 아니라
+# ODD `CHECKS.tokenizer_lock` 의 명령이 보고, `load_tokenizer` 는 읽은 파일을 이 값으로 대조해 거부한다.
+TOKENIZER_NAME = "o200k_base"                 # tiktoken 등록 어휘의 이름 — 패턴도 이 이름의 것을 쓴다
+TOKENIZER_PACKAGE = "tiktoken"                # 계수기 패키지 (lock 의 직접 의존)
+TOKENIZER_PACKAGE_VERSION = "0.12.0"
+TOKENIZER_VOCAB_REPO = "tiktoken_o200k_base"  # MODULE.bazel 의 http_file 이름 (apparent 이름)
+# runfiles 디렉토리의 이름은 **canonical 저장소 이름**이다 — `use_repo_rule` 로 만든 저장소는 bzlmod 에서
+# `+<규칙 이름>+<저장소 이름>` 이 되고 실측 디렉토리가 `+http_file+tiktoken_o200k_base` 다. apparent 이름만
+# 찾으면 인자 없이 부른 runfiles 탐색이 전부 빗나간다 (이 저장소 실측 2026-10-01 — vv_run 이 KB_TOKENIZER_VOCAB
+# 를 못 채워 케이스 token-budget·chunk-42-lines 가 자극에 닿기 전에 죽었다). 둘 다 본다.
+TOKENIZER_VOCAB_REPO_CANONICAL = f"+http_file+{TOKENIZER_VOCAB_REPO}"
+TOKENIZER_VOCAB_FILE = "o200k_base.tiktoken"  # http_file 의 downloaded_file_path
+TOKENIZER_VOCAB_SHA256 = "446a9538cb6c348e3516120d7c08b09f57c36495e2acfffe59a5bf8b0cfb1a2d"
+TOKENIZER_VOCAB_ENV = "KB_TOKENIZER_VOCAB"    # 어휘 파일 경로의 환경 변수 — bazel 밖 실행의 자리
+# o200k_base 의 사전 분할 패턴 — tiktoken 의 등록부(`tiktoken_ext.openai_public`)에서 읽는다. 여기 복제하면
+# 정의처가 둘이 되고 패키지 갱신에서 갈린다 (STYLEGUIDE §7 단일 정의처).
 
-def parse_chunk(path: str) -> tuple[dict, int]:
-    """frontmatter dict와 본문 줄 수를 돌려준다."""
-    lines = Path(path).read_text(encoding="utf-8").splitlines()
+
+def tokenizer_vocab_path(explicit: str | os.PathLike | None = None) -> Path:
+    """고정된 어휘 파일의 경로. 명시 경로 → 환경 변수 → runfiles 순으로 찾고 없으면 `FileNotFoundError` 다.
+
+    **명시가 우선이다** — 타깃이 `--vocab=$(rootpath @tiktoken_o200k_base//file)` 로 주는 경로가 그 자리다.
+    runfiles 자리는 `bazel run` 의 것이다 — `http_file` 의 산출물은 외부 저장소에 살아
+    `<runfiles>/{repo}/file/{name}` 이고, cwd 가 `_main` 인 부트스트랩에서는 `../{repo}/file/{name}` 이다.
+    `{repo}` 는 canonical 이름(`+http_file+…`)과 apparent 이름 둘을 다 본다 — bzlmod 의 실측 디렉토리는
+    앞의 것이고 뒤의 것만 보면 인자 없이 부른 경로가 전부 빗나간다.
+    """
+    if explicit:
+        p = Path(explicit)
+        if not p.is_file():
+            raise FileNotFoundError(f"어휘 파일 {p} 가 없다")
+        return p
+    env = os.environ.get(TOKENIZER_VOCAB_ENV)
+    if env:
+        return tokenizer_vocab_path(env)
+    rels = [f"{repo}/file/{TOKENIZER_VOCAB_FILE}"
+            for repo in (TOKENIZER_VOCAB_REPO_CANONICAL, TOKENIZER_VOCAB_REPO)]
+    runfiles = os.environ.get("RUNFILES_DIR", "")
+    bases = ([Path(runfiles)] if runfiles else []) + [Path(".."), Path("external")]
+    for base in bases:
+        for rel in rels:
+            if (base / rel).is_file():
+                return base / rel
+    raise FileNotFoundError(
+        f"어휘 파일 {TOKENIZER_VOCAB_FILE} 을 찾지 못했다 — `bazel run //tools:tokens` 로 돌리거나 "
+        f"{TOKENIZER_VOCAB_ENV} 에 경로를 준다 (고정처는 MODULE.bazel 의 http_file {TOKENIZER_VOCAB_REPO}, "
+        f"runfiles 의 이름은 {TOKENIZER_VOCAB_REPO_CANONICAL} 다)")
+
+
+def tokenizer_vocab_fingerprint(path: str | os.PathLike) -> str:
+    """어휘 파일의 sha256 — ODD 조건 `id:cond-tokenizer-lock` 의 판정 값이다."""
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def load_tokenizer(vocab: str | os.PathLike | None = None):
+    """고정된 어휘로 `tiktoken.Encoding` 을 만든다. 해시가 다르면 `ValueError` 로 거부한다.
+
+    네트워크를 쓰지 않는다 — `tiktoken` 의 내려받기 경로(`load_tiktoken_bpe`)를 거치지 않고 고정된 파일을
+    직접 해독한다. 파일 형식은 줄마다 `<base64 토큰> <순위>` 다. 특수 토큰은 두지 않는다 — 청크 본문에
+    `<|endoftext|>` 같은 문자열이 있어도 보통 텍스트로 센다.
+    `import tiktoken` 은 함수 안에 둔다. `kb_lib` 를 import 하는 도구 대부분은 계수기를 의존하지 않고
+    그 BUILD 타깃에 패키지가 없다 (`chunk2kg` · `doccheck` 가 그렇다).
+    """
+    import base64
+
+    import tiktoken
+    from tiktoken_ext import openai_public
+
+    path = tokenizer_vocab_path(vocab)
+    got = tokenizer_vocab_fingerprint(path)
+    if got != TOKENIZER_VOCAB_SHA256:
+        raise ValueError(
+            f"어휘 파일 {Path(path).as_posix()} 의 sha256 {got} 가 고정값 {TOKENIZER_VOCAB_SHA256} 과 다르다 — "
+            f"계수기가 재현되지 않는다 (ODD id:cond-tokenizer-lock 이탈)")
+    ranks = {}
+    for line in Path(path).read_bytes().splitlines():
+        if not line:
+            continue
+        token, rank = line.split()
+        ranks[base64.b64decode(token)] = int(rank)
+    pat = getattr(openai_public, TOKENIZER_NAME)()["pat_str"]
+    return tiktoken.Encoding(name=TOKENIZER_NAME, pat_str=pat, mergeable_ranks=ranks, special_tokens={})
+
+
+def body_text(path: str | os.PathLike, text: str) -> str:
+    """청크 본문만 — frontmatter 와 앞뒤 빈 줄을 뗀 나머지다. 토큰은 이 문자열에서 센다.
+
+    본문을 떼는 **단일 판정처**다 (결정 p1-chunk-unit-is-tokens 의 게이트 교체, 2026-10-01). 게이트
+    (`chunk_lint`)·방출(`parse_chunk`)·실측(`tokens`)이 모두 이 문자열을 보므로 세 자리의 크기 판정이 갈리지 않는다.
+    """
+    lines = text.splitlines()
+    if Path(path).suffix == ".ttl":
+        return "\n".join(l for l in lines
+                         if l.strip() and not l.lstrip().startswith(("#", "@prefix", "@base")))
+    if lines and lines[0].strip() == "---":
+        try:
+            lines = lines[lines[1:].index("---") + 2:]
+        except ValueError:
+            pass
+    while lines and not lines[-1].strip():
+        lines.pop()
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    return "\n".join(lines)
+
+
+def token_count(text: str, enc=None) -> int:
+    """본문 하나의 토큰 수. `enc` 를 주지 않으면 어휘를 새로 적재한다 — 여러 파일은 적재를 한 번만 한다."""
+    return len((enc or load_tokenizer()).encode(text))
+
+
+# ── 청크 파싱 ────────────────────
+# frontmatter 의 키 — 이 절의 `parse_chunk` 가 판정하는 것 (OKF v0.2 번들: type·status·generated·verified 는
+# 그 스펙의 필드명이다). 링크 키는 `링크의 방출과 정체성` 절, 복합체 키는 `복합체의 순서` 절이 적는다.
+# 형식은 YAML 부분집합이다 — key: value, 목록은 [a, b], 인라인 맵은 {k: v}.
+#   iri:          항목 IRI (필수)
+#   type:         requirement | decision | contract | schema | artifact | annotation | memory (필수, OKF).
+#                 예외 하나가 `agt:Space` 다 — plane 이름이 아니라 온톨로지 클래스 이름이고, 그 청크는 설계 공간(`-space`)이라
+#                 본문의 후보·제약까지 읽어야 그래프가 된다. 여기서는 frontmatter 만 판정하고(level 은 logical 고정) 방출은
+#                 tools/space2kg.py 가 한다 — 이 도구에 넘기면 `FAIL [space]` 다 (결정 p9-candidate-storage)
+#   level:        functional | abstract | logical | concrete | executable (필수)
+#   title_ko:     한글 라벨 (필수) — OKF 확장 키
+#   title:        영어 라벨 (필수) — OKF title
+#   status:       draft | stable | suspect | invalidated | deprecated (필수, OKF + 확장 2)
+#   generated:    {by: <행위자>, at: <ISO 8601>} (필수, OKF)
+#   verified:     [{by: <행위자>, at: <ISO 8601>}, ...] (선택, OKF) — human: 접두어가 사람 검토
+#   assumes:      가정 IRI 목록 (선택)
+#   sources:      OKF v0.2 sources — [{resource: IRI, id?, title?, author?}] (선택). resource → prov:wasDerivedFrom
+#   uses:         이 정의가 이름으로 쓰는 **같은 모듈의 최상위 정의** 청크 IRI 목록 (선택, type: artifact 에서만 —
+#                 agt:usesDefinition 의 정의역이 agt:ArtifactChunk 다). agt:usesDefinition 으로 나간다. 링크 키가 아니다 —
+#                 Bazel deps 도 링크 개체도 되지 않는다(링크는 파일 복합체의 것이다, p7-code-links-on-file-composite).
+#                 값의 원본은 손이 아니라 tools/extract.py 이고 대상 실재는 validate check_dangling 이 본다
+#   layer:        knowledge | methodology | process (선택, plane 제한 없음) — 이 항목이 서비스의 어느 층에서 역할을
+#                 갖는가 (결정 p0-service-is-a-three-layer-wiki) → agt:inLayer agt:<값>Layer. **명시가 없으면
+#                 knowledge 를 방출한다** — 표시 누락을 산발로 세지 않으려고 기본값을 그래프에 적는다. 층은 plane 과
+#                 직교하는 역할 속성이고 값의 닫힌 집합은 shape layer-shapes.ttl 이 판정한다. 코드 청크는 등록부가 process 를 준다
+#   exposes:      이 항목이 노출하려는 결함 요인(현상) 개체의 agt: IRI 목록 (선택, 위험 분석 G5 — 노트 8.21절).
+#                 agt:exposesFactor 로 나간다. 링크 키가 아니다 — 대상이 청크가 아니라 온톨로지 개체이므로 링크 개체의
+#                 치역 밖이고 Bazel deps 도 되지 않는다. 대상의 종류는 shape exposes-factor-shapes.ttl 이 판정한다
+#   pattern:      ubiquitous | event-driven | state-driven | unwanted-behaviour | optional | complex (선택, type: requirement 에서만) —
+#                 요구 문장의 EARS 패턴 (Mavin RE'09, 결정 p7-dev-plane-substance) → agt:pattern agt:<camelCase 개체>. 다른 plane 에 있으면 거부
+#   targets:      주석이 관찰하는 대상 IRI 목록 (선택, type: annotation 에서만) → agt:targets 직접 트리플.
+#                 **링크 키가 아니다** — 링크 개체(agt:Link)도 Bazel deps(gen_build.LINKS)도 만들지 않는다. 주석이 대상의 deps 가
+#                 되면 주석 하나가 대상의 재빌드를 유발해 리뷰가 빌드 그래프를 오염시킨다. 주석은 대상을 관찰하지 구성하지 않는다
+#   주석의 본문:   type: annotation 의 본문은 주석이다 (p7-commentary-form). 첫 줄 `<라벨> (<장식>): <요지>` 와 줄 머리 슬롯 넷
+#                 (`대상:`·`본문:`·`제안:`·`해소:`)에서 agt:commentLabel·agt:commentDecoration·agt:resolutionState·
+#                 agt:commentSentenceCount 를 낸다. 닫힌 어휘와 문장 상한의 판정은 shape(review-comment-body-shapes.ttl)이고
+#                 여기서 거부하는 것은 `대상:` 과 frontmatter `targets` 의 불일치 하나뿐이다
+#   프로파일 타이핑: 청크마다 plane 클래스 뒤에 개발 프로파일의 실체 클래스를 더 붙인다 (`a agt:RequirementChunk , agt:RequirementStatement`,
+#                 PROFILE_SUBSTANCE). 살아 있는 청크든 폐기된 청크든 같다 — 폐기된 요구 문장도 요구 문장이다
+#   라벨 언어:    title 에 한글([ㄱ-ㆎ가-힣])이 있거나 title_ko 에 한글이 없으면 거부 — 영문 라벨에 한글을 섞지 않는다(0.6절).
+#                 composite 의 title·title_ko 도 같은 @en/@ko 라벨이므로 같은 규칙으로 거부한다
+#   인용원:       본문(frontmatter 제외, **코드 펜스 밖**)에 소멸성 채널 경로 `docs/feedback/` 가 있으면 거부 — 규칙·근거는 영속 지식
+#                 (노트·결정)에 둔다 (agrtls-practices-review P). status: deprecated 청크는 제외
+
+def parse_chunk(path: str) -> tuple[dict, str]:
+    """frontmatter dict와 **본문 문자열**을 돌려준다 — 크기는 호출자가 센다 (단위는 토큰이다).
+
+    본문을 떼는 규칙은 `body_text` 하나다. 둘째 값이 수가 아니라 문자열인 까닭은 계수기를 부르는 비용을
+    호출자가 고르게 하는 것이다 — frontmatter 만 읽는 도구(`gen_build`·`labels`·`weave`)는 어휘를 적재하지 않는다.
+    """
+    text = Path(path).read_text(encoding="utf-8")
+    lines = text.splitlines()
     if not lines or lines[0].strip() != "---":
         raise ValueError(f"{path}: frontmatter가 없다 — 한 청크는 한 파일이고 head는 frontmatter다")
     try:
@@ -407,11 +536,7 @@ def parse_chunk(path: str) -> tuple[dict, int]:
         key, val = key.strip(), val.strip()
         meta[key] = parse_value(val)
 
-    body = lines[end + 1 :]
-    while body and not body[-1].strip():
-        body.pop()
-    while body and not body[0].strip():
-        body.pop(0)
+    body = body_text(path, text).splitlines()  # 본문의 단일 판정처 — 게이트·방출·실측이 같은 문자열을 본다
     meta["_content_hash"] = hashlib.sha256("\n".join(body).encode("utf-8")).hexdigest()[:12]
     meta["_body_slots"] = body_slots(body)  # 본문이 쓴 슬롯 표지 (결정 p4-slot-answers-one-question)
 
@@ -433,6 +558,10 @@ def parse_chunk(path: str) -> tuple[dict, int]:
             raise ValueError(f"{path}: pattern 은 type: requirement 에서만 쓴다 — 실제 type {meta['type']!r} (EARS 패턴은 요구 문장의 형식이다)")
         if meta["pattern"] not in EARS_PATTERNS:
             raise ValueError(f"{path}: 알 수 없는 pattern {meta['pattern']!r} — {' | '.join(EARS_PATTERNS)} 중 하나다 (EARS, Mavin RE'09)")
+    if LAYER_KEY in meta:  # 서비스 층 — plane 과 직교하므로 plane 제한이 없고 값 어휘만 닫힌다 (p0-service-is-a-three-layer-wiki)
+        if meta[LAYER_KEY] not in LAYERS:
+            raise ValueError(f"{path}: 알 수 없는 {LAYER_KEY} {meta[LAYER_KEY]!r} — {' | '.join(LAYERS)} 중 하나다 "
+                             f"(서비스의 세 층. 명시가 없으면 {LAYER_DEFAULT} 다)")
     declared = meta.get(TARGETS_KEY) or []
     if declared and meta["type"] != "annotation":  # agt:targets 의 정의역은 agt:AnnotationChunk 다 — 주석만 대상을 가리킨다
         raise ValueError(f"{path}: {TARGETS_KEY} 는 type: annotation 에서만 쓴다 — 실제 type {meta['type']!r} "
@@ -486,7 +615,7 @@ def parse_chunk(path: str) -> tuple[dict, int]:
         if spec == meta["id"]:
             raise SpecializationError(f"{path}: {SPECIALIZATION_KEY} 가 자기 자신 {spec} 이다 — 조각은 다른 청크(원본)를 특수화한다")
 
-    return meta, len(body)
+    return meta, "\n".join(body)
 
 
 def split_outside_brackets(text: str) -> list:
@@ -536,17 +665,21 @@ def esc(s: str) -> str:
     return s.replace("\\", "\\\\").replace('"', '\\"')
 
 
-def emit_chunk(path: str, meta: dict, line_count: int) -> str:
+def emit_chunk(path: str, meta: dict, tokens: int) -> str:
     stmts = [
         f"a {PLANE_CLASS[meta['type']]} , {PROFILE_SUBSTANCE[meta['type']]}",
         f'rdfs:label "{esc(meta["title"])}"@en',
         f'rdfs:label "{esc(meta["title_ko"])}"@ko',
         f"agt:hasLevel agt:{meta['level']}",
+        # 서비스 층 — plane·level 과 나란한 직교 축이다. **명시가 없어도 기본값을 방출한다**: 표시 누락을 산발로
+        # 세지 않으려면 지식 층 배정이 그래프에 있어야 하고, 그래야 층별 집계(CQ-38)의 분모가 항목 전수가 된다
+        # (p0-service-is-a-three-layer-wiki). 값의 닫힌 집합은 shape layer-shapes.ttl 이 판정한다
+        f"{LAYER_PREDICATE} {LAYERS[meta.get(LAYER_KEY, LAYER_DEFAULT)]}",
     ]
     if "pattern" in meta:
         stmts.append(f"agt:pattern {EARS_PATTERNS[meta['pattern']]}")
     stmts += [
-        f"agt:lineCount {line_count}",
+        f"agt:tokenCount {tokens}",  # 본문의 크기 — 단위는 토큰이고 계수기는 o200k_base 다 (p1-chunk-unit-is-tokens)
         *(f'agt:bodySlot "{esc(s)}"' for s in meta.get("_body_slots", [])),  # 본문 형태 — 틀의 필수 슬롯은 *-body-shapes.ttl 이 본다
         f'agt:status "{meta["status"]}"',
         f'agt:contentHash "{meta["_content_hash"]}"',
@@ -610,7 +743,34 @@ EVIDENCE_BUILT = "agt:constructionRecord"
 EVIDENCE_RESTORED = "agt:proposal"
 
 
+# ══ 링크 — 방출·정체성·재기저 ════════════════════
+# 링크를 트리플로 내고, 분할 조각의 링크를 뿌리 uuid 로 되돌린다. 두 절이 한 장인 까닭은 링크의 정체성
+# 규칙(`link_hash`·`work_id`)이 재기저의 입력이기 때문이다 — 파일 복합체의 직접 부분 상한 9(4.5절)에
+# 맞추려고 자른 묶음이 아니다 (p7-code-links-on-file-composite).
+
 # ── 링크의 방출과 정체성 ────────────────────
+# frontmatter 의 **링크 키**와 링크 IRI 의 규칙 — 이 절이 방출하는 것이다.
+#   refines:      이 항목이 정제하는 상위 항목 IRI 목록 (선택, 수직 링크 9.2절)
+#   supersedes:   이 항목이 대체하는 항목 IRI 목록 (선택)
+#   serves·verifies·derivesFrom·satisfies·constrains·allocates·generates·overlapsWith: 그 밖의 링크 키(LINK_KEYS) — 대상 IRI 목록 (선택).
+#                 모든 링크 키는 직접 트리플(agt:<key>)과 링크 개체(agt:Link, emit_links) 둘로 나간다. verifies 의 주어는 kb/vv 청크뿐 (defs/kb.bzl).
+#                 overlapsWith 는 relatedTo 족의 약한 잎이다 — 추적 매트릭스에 칸이 없어 어느 잎도 이름을 주지 못하는 관계의 자리이고,
+#                 Bazel deps 가 되지 않는다(gen_build.LINKS 밖) 대신 링크 개체와 복원 표시를 받는다 (overlap-ontology)
+#   restored:     복원 링크의 표시 — 같은 청크의 링크 키(LINK_KEYS) 어딘가에 대상으로 있는 IRI 목록 (선택, p10-restored-link-marking).
+#                 그 (주어, 링크 키, 대상)의 agt:Link 개체에 증거가 두 줄 붙는다 — 확정 기록 constructionRecord(사람이 frontmatter 에 적은
+#                 편집 시점 기록; 9.11절 규칙 "구축(+) 또는 실행(+) 없이 확정 불가"를 verify 질의 confirmed-without-evidence 가 강제한다)와
+#                 후보의 출처 proposal(도구·에이전트가 제안하고 사람이 확정). 구축 링크는 constructionRecord 한 줄뿐이므로 proposal 의 유무가
+#                 복원의 표지다. linkState 는 그대로 confirmed 다 — frontmatter 에 적힌 것은 확정이다. 링크 대상에 없는 IRI 는
+#                 `FAIL [restored] <파일>: 복원 표시 <IRI> 가 링크 대상에 없다` 로 거부. 복원 비율(metrics·audit)은 증거 종류로 센다 (kb_lib.link_origins)
+#   specializationOf: 분할로 생긴 조각이 원 청크를 가리키는 단일 IRI (선택, p10-split-keeps-work-identity) → prov:specializationOf (PROV-O).
+#                 청크 uuid 는 work-id 다: 분할 시 조각 하나가 원 uuid 를 승계하고 나머지는 새 uuid + 이 키로 잇는다. 자기 자신은 거부.
+#                 대상 실재는 validate dangling, 같은 plane·살아 있음·사슬 비순환은 validate check_specialization(FAIL [specialization])이
+#                 판정한다. 순환은 이 도구도 뿌리를 계산할 수 없으므로 같은 게이트 id 로 거부한다
+#   링크 IRI:     id/link/<sha256(뿌리(출발)|종류|뿌리(도착))[:12]> — 양 끝은 specializationOf 사슬을 따라 올라간 뿌리 uuid(work-id)다.
+#                 그래서 조각을 가리키는 링크와 원본을 가리키던 링크가 같은 개체가 되어 증거·이력이 이어진다. 뿌리는 묶음 전체를 알아야
+#                 계산되므로 --fragment 는 원 IRI 로 해시하고 --merge(와 단일 실행)가 rebase_links 로 다시 계산해 같은 IRI 의 링크·증거
+#                 블록을 하나로 합친다(양 끝·증거의 합집합). 증거 IRI 는 같은 해시에 접미(-proposal)다
+#   coUpdatesWith: 같은 내용을 담아 함께 갱신되어야 하는 청크 IRI 목록 (선택, relatedTo 족 — 안전율 중복의 표시)
 
 def link_targets(meta: dict) -> set:
     """청크가 링크 키(LINK_KEYS)로 가리키는 대상 IRI 전부 — restored: 의 IRI 는 이 안에 있어야 한다."""
@@ -798,7 +958,7 @@ def merge(out: str, fragments: list) -> int:
         try:
             text = Path(frag).read_text(encoding="utf-8").strip("\n")
         except OSError as e:
-            print(f"FAIL [{TAG}-merge] {frag}: 조각을 읽을 수 없다 — {e}", file=sys.stderr)
+            print(f"FAIL [chunk2kg-merge] {frag}: 조각을 읽을 수 없다 — {e}", file=sys.stderr)
             return EXIT_CONFIG
         for block in (b for b in text.split("\n\n") if b.strip()):
             iri = block.split("\n", 1)[0].strip("<>")
@@ -815,7 +975,7 @@ def merge(out: str, fragments: list) -> int:
             (comps if "\n    a agt:Composite" in block else chunks).append((iri, block))
     if errors:
         for e in errors:
-            print(f"FAIL [{TAG}-merge] {e}", file=sys.stderr)
+            print(f"FAIL [chunk2kg-merge] {e}", file=sys.stderr)
         return EXIT_FAIL
     chunks, spec_errors = rebase_links(chunks, spec)
     if spec_errors:
@@ -839,6 +999,8 @@ def main() -> int:
                          "frontmatter composite.ordered 와 함께 있으면 같아야 한다")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — --merge 가 아니면 필수다"
                                                       "(kb_chunk·kb_decision 의 head 액션이 --residency defs/kb.bzl 로 넘긴다)")
+    ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다. "
+                                                "agt:tokenCount 가 이 어휘로 센 수다 (p1-chunk-unit-is-tokens)")
     ap.add_argument("files", nargs="*")
     args = ap.parse_args()
     if args.merge:  # 병합은 이미 방출된 조각을 잇기만 한다 — parse_chunk 를 부르지 않으므로 값 어휘가 필요 없다
@@ -852,6 +1014,14 @@ def main() -> int:
     except (OSError, ValueError) as e:
         print(f"FAIL [{TAG}] {args.residency}: 읽을 수 없다 — {e}", file=sys.stderr)
         return EXIT_CONFIG
+    try:  # 어휘는 한 번만 적재한다 — 액션 하나가 청크 여럿을 받는다 (복합체·결정)
+        enc = load_tokenizer(args.vocab or None)
+    except FileNotFoundError as e:
+        print(f"FAIL [{TAG}] 어휘 파일 — {e}", file=sys.stderr)
+        return EXIT_CONFIG
+    except ValueError as e:  # 해시가 고정값과 다르다 — 계수기가 재현되지 않는다
+        print(f"FAIL [{TAG}] {e}", file=sys.stderr)
+        return EXIT_FAIL
 
     blocks, seen = [], {}
     composites: dict = {}   # iri -> {labels, members[]}
@@ -863,7 +1033,7 @@ def main() -> int:
     spec: dict = {}         # 조각 IRI → 원본 IRI — 링크 IRI 의 뿌리 계산 (단일 실행에서는 여기서, --merge 에서는 블록에서 읽는다)
     for path in sorted(args.files):
         try:
-            meta, n = parse_chunk(path)
+            meta, body = parse_chunk(path)
         except OSError as e:
             print(f"FAIL [{TAG}] {path}: 읽을 수 없다 — {e}", file=sys.stderr)
             return EXIT_CONFIG
@@ -896,7 +1066,7 @@ def main() -> int:
                                           "parent": comp.get(PART_OF_KEY)}  # 상위 복합체 — 없으면 None (뿌리)
         if meta.get("part_of"):
             part_refs.append((meta["id"], meta["part_of"], path))
-        blocks.append((meta["id"], emit_chunk(path, meta, n)))
+        blocks.append((meta["id"], emit_chunk(path, meta, token_count(body, enc))))
         blocks.extend(emit_links(meta))
     for chunk_iri, comp_iri, path in part_refs:
         if comp_iri not in composites:

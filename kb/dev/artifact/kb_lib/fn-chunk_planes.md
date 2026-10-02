@@ -7,7 +7,8 @@ title: function chunk_planes in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/e7a31401-e48b-4980-aece-491ec241ffe6
 ---
 **함수** — `chunk_planes(g)` 다. 청크 → plane 이름 — rdf:type 중 `…Chunk` 로 끝나는 첫 클래스 (metrics·weave 가 같은 규칙으로 plane 을 읽는다).
@@ -17,7 +18,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/e7a31401-e48b-4980-aece
 def chunk_planes(g: Graph) -> dict:
     """청크 → plane 이름 — rdf:type 중 `…Chunk` 로 끝나는 첫 클래스 (metrics·weave 가 같은 규칙으로 plane 을 읽는다)."""
     out = {}
-    for c in g.subjects(AGT.lineCount, None):
+    for c in g.subjects(AGT.tokenCount, None):
         for t in g.objects(c, RDF.type):
             name = str(t).split("/")[-1]
             if name.endswith("Chunk"):

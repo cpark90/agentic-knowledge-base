@@ -7,7 +7,8 @@ title: function back_trace in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/e8aad650-c14d-4d48-a2fb-788808b81c9c
 ---
 **함수** — `back_trace(g, live, plane, reqs)` 다. 복합체 관계와 요구로 거슬러 오르는 비요구 청크의 수를 돌려준다.
@@ -18,8 +19,10 @@ def back_trace(g, live, plane, reqs):
     """복합체 관계와 요구로 거슬러 오르는 비요구 청크의 수를 돌려준다."""
     # CQ20: 요구가 아닌 살아 있는 청크 중 refines 연쇄로 요구에 닿는 비율 (복합체 부분은 대표 부분을 따라간다)
     up = defaultdict(set)
-    for s, o in g.subject_objects(AGT.refines): up[s].add(o)
-    for s, o in g.subject_objects(AGT.serves): up[s].add(o)
+    # 귀속으로 거슬러 오르는 술어의 정의처는 kb_lib.ASCRIPTION_PREDICATES 다 — `refines`·`serves` 와 `prov:specializationOf`.
+    # 분할 조각은 링크를 승계 청크에 두므로(p10-split-keeps-work-identity) 원 청크를 거쳐 요구에 닿는다
+    for pred in kb_lib.ASCRIPTION_PREDICATES:
+        for s, o in g.subject_objects(pred): up[s].add(o)
     comp_of = {}
     for comp, part in g.subject_objects(AGT.hasDirectPart): comp_of[part] = comp
     siblings = defaultdict(set)

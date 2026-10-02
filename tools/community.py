@@ -27,8 +27,10 @@ except ImportError:
     import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
 
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
-# 군집 계산에 쓰는 링크 종류 (족: references · semanticallyDependsOn · relatedTo). 시간축 supersedes 는 뺀다
-EDGE_KINDS = [AGT.refines, AGT.serves, AGT.cites, AGT.usesConcept, AGT.coUpdatesWith, AGT.conflictsWith, AGT.overlapsWith]
+# 군집 계산에 쓰는 링크 종류 (족: references · semanticallyDependsOn · relatedTo). 시간축 supersedes 는 뺀다.
+# 목록의 단일 정의처는 kb_lib 다 (STYLEGUIDE §7) — 연결 성분이 보는 집합(`LINKAGE_PREDICATES`)과 이름이 갈려 있다:
+# 군집은 연결·귀속 지표가 아니라 후보 생성기이므로 정체성 관계 `prov:specializationOf` 를 엣지로 쓰지 않는다
+EDGE_KINDS = list(kb_lib.COMMUNITY_EDGE_KINDS)
 MAX_PARTS = 9  # 복합체 부분 상한 (7±2, composite-kg 배너)
 
 
@@ -139,7 +141,7 @@ def main() -> int:
 
     # 살아 있는 청크
     chunks = {}
-    for c in g.subjects(AGT.lineCount, None):
+    for c in g.subjects(AGT.tokenCount, None):
         if str(next(g.objects(c, AGT.status), "")) == "deprecated":
             continue
         plane = str(next(g.objects(c, RDF.type), "")).split("/")[-1].replace("Chunk", "").lower()

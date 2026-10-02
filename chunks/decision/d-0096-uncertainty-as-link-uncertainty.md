@@ -7,6 +7,7 @@ title: All uncertainty is link uncertainty
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 generated: {by: claude/fable-5, at: 2026-09-01T20:43:47+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/comp-uncertainty-as-csp
 composite: {id: https://agentic-knowledge-base.dev/id/comp-uncertainty-as-csp, title_ko: 미확정의 제약 만족 사상, title: uncertainty as constraint satisfaction}
 ---

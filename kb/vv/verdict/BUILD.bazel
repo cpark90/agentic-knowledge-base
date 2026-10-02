@@ -24,11 +24,29 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "chunk-token-distribution-first-measurement",
+    src = "chunk-token-distribution-first-measurement.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ae16d211-30f9-4ae5-919c-d7ab718736d9",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "code-chunk-churn-cycle",
     src = "code-chunk-churn-cycle.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/d29c0250-4327-4f3a-a337-d80979e3fc9a",
     plane = "annotation",
     level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "doccheck-report-not-wrappable-as-case",
+    src = "doccheck-report-not-wrappable-as-case.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/46331050-051b-4054-8445-63ffee582cf9",
+    plane = "annotation",
+    level = "abstract",
     status = "draft",
 )
 
@@ -231,6 +249,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "layer-assignment-audit",
+    src = "layer-assignment-audit.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1c32f4e0-cea2-405c-b42c-3674669b6805",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "risk-causality-weak-pairs",
     src = "risk-causality-weak-pairs.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/8aa5baf8-3c38-4f46-b7bc-00a2f292a980",
@@ -285,6 +312,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "uses-definition-cross-module-observation",
+    src = "uses-definition-cross-module-observation.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3ff5bc7a-3ad4-4f8b-a855-bb3b80d2034a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "vocab-stimulus-not-minimal",
     src = "vocab-stimulus-not-minimal.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/6767c763-0377-4daf-9048-c63ddf3cd853",
@@ -307,7 +343,9 @@ kb_bundle(
     name = "kg",
     items = [
         ":bazel-run-loses-relative-paths",
+        ":chunk-token-distribution-first-measurement",
         ":code-chunk-churn-cycle",
+        ":doccheck-report-not-wrappable-as-case",
         ":exit-code-only-judgement",
         ":gate-axis-coverage",
         ":judge-labelrepresentsbody-r-009-ascend-to-requirement-judge-a-claude-sonnet-5",
@@ -330,12 +368,14 @@ kb_bundle(
         ":judge-labelrepresentsbody-r-025-verify-product-and-agent-judge-b-claude-sonnet-5",
         ":judge-labelrepresentsbody-r-026-observations-append-only-judge-a-claude-sonnet-5",
         ":judge-labelrepresentsbody-r-026-observations-append-only-judge-b-claude-sonnet-5",
+        ":layer-assignment-audit",
         ":risk-causality-weak-pairs",
         ":risk-phenomena-observed-counts",
         ":run-record-verdict-aggregation",
         ":runner-env-leaks-into-case",
         ":session-judge-agreement-first-sample",
         ":skipped-negative-stimuli",
+        ":uses-definition-cross-module-observation",
         ":vocab-stimulus-not-minimal",
         ":when-false-suspect-not-a-case",
     ],

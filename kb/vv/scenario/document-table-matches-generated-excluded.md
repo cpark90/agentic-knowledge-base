@@ -4,10 +4,11 @@ type: decision
 level: abstract
 title_ko: 시나리오 배제 자극 — 생성물의 수치가 바뀌고 문서의 표가 그대로인 편집에서 다루지 않는 것
 title: Scenario excluded stimuli — what an edit that changes the generated numbers and leaves the document table does not cover
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}, {resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-finite-factor-types, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-sonnet-5, at: 2026-09-29T15:40:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/d71fb313-ed12-47c0-87f8-3c79d7531adf
 specializationOf: https://agentic-knowledge-base.dev/id/chunk/31b9d3b9-577d-486a-8792-1146783508ae
 ---

@@ -7,23 +7,27 @@ title: function execute in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/388a8426-2072-4508-a920-535321ed7eaa, https://agentic-knowledge-base.dev/id/chunk/4d982d54-0f5c-4d2c-bfd0-f5babb65918c, https://agentic-knowledge-base.dev/id/chunk/4f74f6b4-a466-4f0e-95c2-4f22a919fbd0, https://agentic-knowledge-base.dev/id/chunk/72467e81-75de-4b48-92ac-2d429de91d8e, https://agentic-knowledge-base.dev/id/chunk/a52db838-3103-4131-8ba5-17b938049c08]
 part_of: https://agentic-knowledge-base.dev/id/composite/9c609b2d-87cb-474b-9ee8-9a132ba26991
 ---
-**함수** — `execute(cases, root)` 다. 케이스마다
+**함수** — `execute(cases, root, vocab)` 다. 케이스마다
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def execute(cases: list[dict], root: Path) -> None:
-    """케이스마다 자극을 쓰고 실행 대상 명령을 순서대로 돌린 뒤 기대와 대조한다 (제자리 갱신). 자극은 실행 뒤 지운다."""
+def execute(cases: list[dict], root: Path, vocab: str | os.PathLike = "") -> None:
+    """케이스마다 자극을 쓰고 실행 대상 명령을 순서대로 돌린 뒤 기대와 대조한다 (제자리 갱신). 자극은 실행 뒤 지운다.
+
+    `vocab` 은 `main()` 이 해소한 토큰 계수기 어휘의 절대 경로다 — 검증기 명령이 `--vocab` 없이도 같은 어휘를 읽는다.
+    """
     for case in cases:
         tmp, subs = materialize(case["spec"], case["slug"])
         try:
             for i, c in enumerate(case["commands"]):
                 if c["skip"] is None:
                     c["run"] = substitute(c["cmd"], subs)
-                    c.update(run_command(c["run"], root))
+                    c.update(run_command(c["run"], root, vocab))
                     c["expect"] = expect_of(case["spec"], i)
                     c["mismatch"] = judge(c, c["expect"])
         finally:

@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/2b38088c-7807-429a-a6df-e08e9a052e3a, https://agentic-knowledge-base.dev/id/chunk/75af5f0a-9a09-4d47-8289-a31801125bfe, https://agentic-knowledge-base.dev/id/chunk/fdb7f411-8074-4715-a11f-815131022f96]
 part_of: https://agentic-knowledge-base.dev/id/composite/e33ee826-0842-4cdd-8e68-16823604cffa
 ---
 **함수** — `render_addition_sections(p)` 다.

@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: hci/claude-opus-5, at: 2026-09-22T19:35:00+09:00}
+layer: methodology
 verified: [{by: orchestrator/claude-opus-5, at: 2026-09-22T19:40:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/ec197591-b1c7-494e-bc07-2f27b96cd057, title_ko: 개발 프로파일의 plane 실체, title: Plane substance in the development profile}

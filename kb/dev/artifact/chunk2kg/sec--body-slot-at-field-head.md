@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/ab66f02d-6126-4507-b73a-c29429769f11, https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2, https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c]
 part_of: https://agentic-knowledge-base.dev/id/composite/d2327845-e19c-432e-bef7-b5d429601fb6
 composite: {id: https://agentic-knowledge-base.dev/id/composite/d2327845-e19c-432e-bef7-b5d429601fb6, title_ko: 절 복합체 -body-slot-at-field-head (tools/chunk2kg.py), title: section composite -body-slot-at-field-head in tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/5adbc7c4-4ac0-47f2-abf4-51a6e0cb3291, https://agentic-knowledge-base.dev/id/chunk/a88529ad-7941-47a8-a7ae-eb1866d89efc], part_of: https://agentic-knowledge-base.dev/id/composite/f7d6eec7-bef4-4e94-ac55-36e7dda654ce}

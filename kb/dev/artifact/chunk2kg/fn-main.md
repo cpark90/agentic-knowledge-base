@@ -7,7 +7,9 @@ title: function main in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/040b7a8d-10e8-4e6e-96db-b8495e467218, https://agentic-knowledge-base.dev/id/chunk/17fdb102-0df9-45f2-93ff-c64b4df55d44, https://agentic-knowledge-base.dev/id/chunk/260d24aa-5aab-4ff7-81b7-40def184e51f, https://agentic-knowledge-base.dev/id/chunk/3bc19461-0841-4806-aafd-93fdbc5f9ab3, https://agentic-knowledge-base.dev/id/chunk/46cd72ea-813e-4ee5-b990-fede1470c237, https://agentic-knowledge-base.dev/id/chunk/53335074-67d7-45c8-b564-78065ea96eb8, https://agentic-knowledge-base.dev/id/chunk/9081dacd-219d-4944-b3c6-d5d9a6955f49, https://agentic-knowledge-base.dev/id/chunk/abf3ca16-b991-4326-8c10-b4581d03a6d2, https://agentic-knowledge-base.dev/id/chunk/d75bcbfe-969b-45d4-81f9-fc42145f892b, https://agentic-knowledge-base.dev/id/chunk/dae11730-e07f-47c6-becd-61b72a819b12, https://agentic-knowledge-base.dev/id/chunk/e1d9652e-f3b3-470b-bf7f-f8fa31f8be68, https://agentic-knowledge-base.dev/id/chunk/e40d0ed3-5060-4b0e-9dd9-d76acde18c0e, https://agentic-knowledge-base.dev/id/chunk/f178c885-f133-4f49-a296-18b123272948]
 part_of: https://agentic-knowledge-base.dev/id/composite/c5e6231f-44b9-4294-805c-08d03635fc72
 ---
 **함수** — `main()` 다.
@@ -26,6 +28,8 @@ def main() -> int:
                          "frontmatter composite.ordered 와 함께 있으면 같아야 한다")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — --merge 가 아니면 필수다"
                                                       "(kb_chunk·kb_decision 의 head 액션이 --residency defs/kb.bzl 로 넘긴다)")
+    ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다. "
+                                                "agt:tokenCount 가 이 어휘로 센 수다 (p1-chunk-unit-is-tokens)")
     ap.add_argument("files", nargs="*")
     args = ap.parse_args()
     if args.merge:  # 병합은 이미 방출된 조각을 잇기만 한다 — parse_chunk 를 부르지 않으므로 값 어휘가 필요 없다
@@ -39,6 +43,14 @@ def main() -> int:
     except (OSError, ValueError) as e:
         print(f"FAIL [{TAG}] {args.residency}: 읽을 수 없다 — {e}", file=sys.stderr)
         return EXIT_CONFIG
+    try:  # 어휘는 한 번만 적재한다 — 액션 하나가 청크 여럿을 받는다 (복합체·결정)
+        enc = load_tokenizer(args.vocab or None)
+    except FileNotFoundError as e:
+        print(f"FAIL [{TAG}] 어휘 파일 — {e}", file=sys.stderr)
+        return EXIT_CONFIG
+    except ValueError as e:  # 해시가 고정값과 다르다 — 계수기가 재현되지 않는다
+        print(f"FAIL [{TAG}] {e}", file=sys.stderr)
+        return EXIT_FAIL
 
     blocks, seen = [], {}
     composites: dict = {}   # iri -> {labels, members[]}
@@ -50,7 +62,7 @@ def main() -> int:
     spec: dict = {}         # 조각 IRI → 원본 IRI — 링크 IRI 의 뿌리 계산 (단일 실행에서는 여기서, --merge 에서는 블록에서 읽는다)
     for path in sorted(args.files):
         try:
-            meta, n = parse_chunk(path)
+            meta, body = parse_chunk(path)
         except OSError as e:
             print(f"FAIL [{TAG}] {path}: 읽을 수 없다 — {e}", file=sys.stderr)
             return EXIT_CONFIG
@@ -83,7 +95,7 @@ def main() -> int:
                                           "parent": comp.get(PART_OF_KEY)}  # 상위 복합체 — 없으면 None (뿌리)
         if meta.get("part_of"):
             part_refs.append((meta["id"], meta["part_of"], path))
-        blocks.append((meta["id"], emit_chunk(path, meta, n)))
+        blocks.append((meta["id"], emit_chunk(path, meta, token_count(body, enc))))
         blocks.extend(emit_links(meta))
     for chunk_iri, comp_iri, path in part_refs:
         if comp_iri not in composites:

@@ -6,6 +6,7 @@
 source: tools/odd_check.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-odd-check
 package: kb/dev/artifact/odd_check
+layer: process
 at: 2026-09-22T11:38:01Z
 source_hash: 2566c7f7c557d078
 refines:
@@ -13,8 +14,8 @@ refines:
   - https://agentic-knowledge-base.dev/id/chunk/2df65a05-0d25-4b3c-aae9-8da6dd82218f
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
   source_hash: 2566c7f7c557d078
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/e44984c2-2b4f-4954-b669-2fe90cda7c2d

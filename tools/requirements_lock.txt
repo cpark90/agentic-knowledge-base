@@ -1,8 +1,16 @@
 # 전체 폐포(transitive closure) 고정 — tools/relock.sh가 생성. 손으로 고치지 않는다.
-# 순수 파이썬 휠(py3-none-any)은 해시 하나, 플랫폼 휠인 패키지는 호스트 휠 + sdist 두 해시 —
+# 순수 파이썬 휠(py3-none-any)은 해시 하나, 플랫폼 휠인 패키지는 cp311 휠 + sdist 두 해시 —
 # 다른 플랫폼에서는 rules_python이 sdist를 빌드한다 (2026-09-11, PyYAML 도입).
+# 해석은 툴체인 파이썬 3.11 기준이다 (2026-10-01, tiktoken 도입).
+certifi==2026.7.22 \
+    --hash=sha256:62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775
+charset-normalizer==3.5.2 \
+    --hash=sha256:211d5a3eb6af8f513b8d4ca19a8c1b7accab1b5f0d3175f9826b03c1a920dc1f \
+    --hash=sha256:39de2a259fc954455c57274dc94c79d5842774e1247a016aff30bc0efed0f4ef
 html5rdf==1.2.1 \
     --hash=sha256:1f519121bc366af3e485310dc8041d2e86e5173c1a320fac3dc9d2604069b83e
+idna==3.20 \
+    --hash=sha256:ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c
 importlib_metadata==9.0.1 \
     --hash=sha256:bba5600596a7e21f3eef53281cf28d6a5195634d2f2b78ff9501a3272c6eaab0
 owlrl==7.6.2 \
@@ -20,6 +28,16 @@ PyYAML==6.0.2 \
     --hash=sha256:d584d9ec91ad65861cc08d42e834324ef890a082e591037abe114850ff7bbc3e
 rdflib==7.6.0 \
     --hash=sha256:30c0a3ebf4c0e09215f066be7246794b6492e054e782d7ac2a34c9f70a15e0dd
+regex==2026.9.29 \
+    --hash=sha256:612b709381c0355b70d89cdb51b7f670591ed5cbbc0e3b5337488019dc667b65 \
+    --hash=sha256:8b5fcc4771732191b2b7d1dd68d8f0353f47f8d90b6150f6dce58bf1112442cb
+requests==2.34.2 \
+    --hash=sha256:2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0
+tiktoken==0.12.0 \
+    --hash=sha256:47a5bc270b8c3db00bb46ece01ef34ad050e364b51d406b6f9730b64ac28eded \
+    --hash=sha256:b18ba7ee2b093863978fcb14f74b3707cdc8d4d4d3836853ce7ec60772139931
+urllib3==2.8.0 \
+    --hash=sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3
 wcwidth==0.8.3 \
     --hash=sha256:d5b73dba6158a595ec9370350e7f2637bcac8d6c5e4fde34f30fcffb6103a5e4
 zipp==4.1.0 \

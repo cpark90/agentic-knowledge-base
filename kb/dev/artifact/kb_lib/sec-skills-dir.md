@@ -7,14 +7,13 @@ title: section skills-dir in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
-refines: [https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869, https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23]
-part_of: https://agentic-knowledge-base.dev/id/composite/cfe0afad-9ee7-4e4c-9283-5fddef1781ff
-composite: {id: https://agentic-knowledge-base.dev/id/composite/cfe0afad-9ee7-4e4c-9283-5fddef1781ff, title_ko: 절 복합체 skills-dir (tools/kb_lib.py), title: section composite skills-dir in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/24795977-8003-4c34-8e0c-6aed3c366fda, https://agentic-knowledge-base.dev/id/chunk/104f7d3c-d114-46c9-aab7-b44761117813], part_of: https://agentic-knowledge-base.dev/id/composite/2fee8437-c9b3-4f23-a1d9-a0ec5e3891b0}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+part_of: https://agentic-knowledge-base.dev/id/composite/2fee8437-c9b3-4f23-a1d9-a0ec5e3891b0
 ---
 **절** — `tools/kb_lib.py` 의 절 `skills-dir` 다. 생성 skill (gen_skills — agrtls K "skill 은 손으로 쓰지 않고 지식·절차에서 생성한다", 로드맵 6단계)
 
-**정의** — `label_of` (소스 순서).
+**정의** — 없음. 선언과 상수만 있는 구역이다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
@@ -27,9 +26,10 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/cfe0afad-9ee7-4e
 #   when      언제 쓰는가 한 문장(단정 서술형) — skill frontmatter 의 description
 #   commands  대표 명령 1~3
 SKILLS_DIR = ".claude/skills"
-SKILLS_DRIFT_GATE = "skills-drift"  # 게이트 id — FAIL [skills-drift]
-GEN_SKILLS_GATE = "gen-skills"      # 생성 시점 거부 — FAIL [gen-skills]
-SKILLS = (
+# docs/tools.md 의 "## 게이트 총람 — …" 제목 앵커 — 단일 정의처(M1, 2026-10-02). gen_skills.py 의 안내문과 아래
+# SKILLS 표의 gendoc·doccheck 절이 이 상수를 참조한다 — 제목을 고치면 이 한 곳만 고친다.
+GATE_CATALOGUE_ANCHOR = "게이트-총람--원본은-gates-리터럴이고-이-표는-그-투영이다"
+_SKILLS_READING = (  # 조회·갱신 — 작업 집합·질의·영향·가정·재판정·ODD·도장·용어 제안·정합성·미결·후보·지표
     {"tool": "workset", "section": "method.md#8-조회",
      "when": "dispatch 전에 역할·수준 창·앵커로 거른 작업 집합(라벨 목록과 이웃 본문)을 컨텍스트 예산 안에서 뽑을 때 쓴다.",
      "commands": ["bazel build //kg:workset --//kb:role=developer --//kb:anchor='<라벨|IRI>' --//kb:levels=concrete",
@@ -69,40 +69,6 @@ SKILLS = (
     {"tool": "metrics", "section": "method.md#완료-판정",
      "when": "고아율·CQ19·CQ20 커버리지·도입 단계 통과 조건 같은 수치를 문서에 적지 않고 생성물에서 인용할 때 쓴다.",
      "commands": ["bazel build //kg:metrics && cat bazel-bin/kg/metrics.md"]},
-    {"tool": "extract", "section": "method.md#3-청크-저작",
-     "when": "소스 파일을 고친 뒤 `artifact` plane 의 함수·절·파일 청크를 다시 추출하고 등록부의 개명·신설·삭제를 맞출 때 쓴다.",
-     "commands": ["bazel run //tools:extract -- tools/kb_lib.py", "bazel test //:extract_drift_test",
-                  "python3 tools/gen_build.py --root . && bazel test //..."]},
-    {"tool": "gen_build", "section": "method.md#6-연결",
-     "when": "청크를 추가·삭제하거나 frontmatter 링크(refines·serves·supersedes·verifies)를 고친 뒤 BUILD 를 재생성하고 드리프트를 검사할 때 쓴다.",
-     "commands": ["python3 tools/gen_build.py --root .", "python3 tools/gen_build.py --check --root .", "bazel test //:build_drift_test"]},
-    {"tool": "link", "section": "method.md#6-연결",
-     "when": "frontmatter 링크가 없는 청크 쌍의 복원 후보를 체계 안 증거(본문 인용·테스트 공동 커버·개념 공유)로 뽑아 사람이 restored 표시로 확정할 때 쓴다.",
-     "commands": ["bazel build //kg:link_candidates && cat bazel-bin/kg/link-candidates.md",
-                  "python3 tools/gen_build.py --root . && bazel test //...   # 앵커 청크에 링크 키와 restored: 를 적은 뒤"]},
-    {"tool": "vv_run", "section": "method.md#11-검증--vv-층으로",
-     "when": "V&V 케이스의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 "
-             "실행해 케이스의 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.",
-     "commands": ["bazel run //tools:vv_run -- --record", "bazel run //tools:vv_run -- --case <슬러그>",
-                  "python3 tools/gen_build.py --root . && bazel test //..."]},
-    {"tool": "judge", "section": "method.md#11-검증--vv-층으로",
-     "when": "게이트 밖에서 등록된 판정 질문을 청크에 물어 값과 확신도를 받고 판정 로그·결과 주석을 남길 때 쓴다. "
-             "판정자는 외부 서비스가 아니라 세션 판정자다 — 응답은 `--responses`로 오프라인 입력한다.",
-     "commands": ["bazel run //tools:judge -- --list",
-                  "bazel run //tools:judge -- --question labelRepresentsBody --responses r1.json --record <청크 파일…>",
-                  "bazel run //tools:judge -- --question bodyHasOneClaim --responses r1.json --responses r2.json "
-                  "--decoys key.json --into /tmp/judge <청크 파일…>"]},
-    {"tool": "weave", "section": "method.md#9-뷰",
-     "when": "결정 기록·요구 색인·변경 이력·감사 보고서를 저장하지 않고 그래프와 관측에서 생성해 인용할 때 쓴다.",
-     "commands": ["bazel build //kg:audit && cat bazel-bin/kg/audit.md", "bazel build //kb/dev:adr //kb/dev:requirements //kb/dev:changelog"]},
-    {"tool": "gendoc", "section": "tools.md#게이트-총람--이-문서가-원본이다",
-     "when": "생성기를 고친 뒤 생성 문서의 머리 블록·표·목차·링크·비율 표기가 규약 G1~G18 안인지 게이트와 같은 방식으로 검사할 때 쓴다.",
-     "commands": ["bazel test //:gendoc_test",
-                  "bazel run //tools:gendoc -- bazel-bin/kg/metrics.md bazel-bin/kb/dev/index.md"]},
-    {"tool": "doccheck", "section": "tools.md#게이트-총람--이-문서가-원본이다",
-     "when": "문서를 고친 뒤 죽은 링크·앵커·백틱 경로·산문 문체를 게이트와 같은 방식으로 검사할 때 쓴다.",
-     "commands": ["bazel run //tools:doccheck -- *.md docs/*.md docs/open-questions/*.md --target-only docs/agent-knowledge-system-notes.md",
-                  "bazel test //:doccheck_test"]},
 )
 ```
 <!-- 인용 끝 -->

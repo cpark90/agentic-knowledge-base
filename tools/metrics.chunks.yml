@@ -6,16 +6,17 @@
 source: tools/metrics.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-metrics
 package: kb/dev/artifact/metrics
-at: 2026-09-30T08:07:48Z
-source_hash: 66a957006e45116e
+layer: process
+at: 2026-09-30T15:04:08Z
+source_hash: 043c5cb52886a7cc
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f
   - https://agentic-knowledge-base.dev/id/chunk/1f7d15d7-e85d-42dd-bef3-fb9c9a6d0365
 serves: []
 tested:
-  rev: f290bb4a5e30154ac046b0b5d8aed8c19fc6ee94
-  at: 2026-09-30T10:45:28Z
-  source_hash: c93cf9f1a9a06264
+  rev: 3adc275b36a8593705e04b41f34461aadc8c0225
+  at: 2026-09-30T15:34:48Z
+  source_hash: 66a957006e45116e
 ids:
   ch:fixed-sentence-coverage: https://agentic-knowledge-base.dev/id/chunk/e2829b11-b8cf-46e8-84bc-1803d3c75ca3
   ch:orphan-and-links: https://agentic-knowledge-base.dev/id/chunk/177522e4-3f71-4d4f-a866-dda6d6c0b3ac
@@ -37,12 +38,13 @@ ids:
   composite:sec:parse-args: https://agentic-knowledge-base.dev/id/composite/be69bcaa-b921-4a3d-9474-cccf29581b17
   composite:sec:refinement-reach: https://agentic-knowledge-base.dev/id/composite/fa4c4a17-7c5e-4ecc-b6f7-818675609be4
   composite:sec:render-axis-sections: https://agentic-knowledge-base.dev/id/composite/453be329-3277-4ed7-a036-50df02988fed
+  composite:sec:render-component-diagnosis: https://agentic-knowledge-base.dev/id/composite/a5749cfe-3647-4164-906e-1d7d739ba5ea
   composite:sec:render-distribution: https://agentic-knowledge-base.dev/id/composite/b2057520-5b84-4543-a292-bcedbb44ef9d
   composite:sec:render-head: https://agentic-knowledge-base.dev/id/composite/88384d9b-995e-4115-9d90-fa034193e045
   composite:sec:render-stage-sections: https://agentic-knowledge-base.dev/id/composite/12b09ffc-10a1-4725-b174-8202306f3fc6
   composite:sec:render-tail-sections: https://agentic-knowledge-base.dev/id/composite/0c0e5dd4-eb47-4eee-b64f-647f067b7c66
   composite:sec:role-worksets: https://agentic-knowledge-base.dev/id/composite/626bc748-9945-4bc0-9063-fb2f30aa561c
-  composite:sec:trust-and-size: https://agentic-knowledge-base.dev/id/composite/dcc3c5a3-a8bd-4eb2-8d59-01f4ab1d6e3a
+  composite:sec:size-bands: https://agentic-knowledge-base.dev/id/composite/dcc3c5a3-a8bd-4eb2-8d59-01f4ab1d6e3a
   composite:sec:vv-facts: https://agentic-knowledge-base.dev/id/composite/281c4f1d-6048-495f-872e-1aa02b250baa
   file: https://agentic-knowledge-base.dev/id/composite/3c529991-238b-41b3-abc4-9d4e944f0a32
   fn:assumption_facts: https://agentic-knowledge-base.dev/id/chunk/bfe7f63e-7fc3-4a1b-bb7a-b40041fd189e
@@ -56,11 +58,13 @@ ids:
   fn:parse_args: https://agentic-knowledge-base.dev/id/chunk/4cf4ea55-9afe-4a27-9b9b-fb3a38503594
   fn:refinement_reach: https://agentic-knowledge-base.dev/id/chunk/b55968d0-8e31-4e98-a480-15a84b6ac07b
   fn:render_axis_sections: https://agentic-knowledge-base.dev/id/chunk/8539f11f-8398-42c3-91a0-b7ae377c9927
+  fn:render_component_diagnosis: https://agentic-knowledge-base.dev/id/chunk/05160394-59e0-426d-a8c1-2421857f4e21
   fn:render_distribution: https://agentic-knowledge-base.dev/id/chunk/a0b3f8e3-4420-406f-9077-a1c20200be2f
   fn:render_head: https://agentic-knowledge-base.dev/id/chunk/ab27c783-b7b3-4ed2-8fa4-cb2b76c861b7
   fn:render_stage_sections: https://agentic-knowledge-base.dev/id/chunk/dcb5249e-42e9-471f-920a-3a3c0810a30d
   fn:render_tail_sections: https://agentic-knowledge-base.dev/id/chunk/1559adcb-99d9-41e1-b4d1-bef792a15377
   fn:role_worksets: https://agentic-knowledge-base.dev/id/chunk/f35029fa-aa72-4c8d-92e7-fcc9e58f314d
+  fn:size_bucket: https://agentic-knowledge-base.dev/id/chunk/32847258-f1c4-4168-8add-3c90daa63de3
   fn:trust_and_size: https://agentic-knowledge-base.dev/id/chunk/3da75bed-e0cb-4848-a438-30001f43fea2
   fn:vv_facts: https://agentic-knowledge-base.dev/id/chunk/62f85584-b202-466f-b9e1-9e55720699a8
   head: https://agentic-knowledge-base.dev/id/chunk/e2d8a9c4-074b-4ff9-89a7-92e76bd285fb
@@ -76,10 +80,11 @@ ids:
   sec:parse-args: https://agentic-knowledge-base.dev/id/chunk/05f7f630-2c37-4b57-9825-9b1423af6f67
   sec:refinement-reach: https://agentic-knowledge-base.dev/id/chunk/d1078ea9-32ce-4d5f-8e65-0e2ad5ae5a3c
   sec:render-axis-sections: https://agentic-knowledge-base.dev/id/chunk/48a9ce53-ea2a-446a-883a-fcf5144b01c6
+  sec:render-component-diagnosis: https://agentic-knowledge-base.dev/id/chunk/e1e610ae-470b-47cc-870b-e7050eb215e0
   sec:render-distribution: https://agentic-knowledge-base.dev/id/chunk/5da4c81e-9b0d-400f-80fc-ab965057e6d4
   sec:render-head: https://agentic-knowledge-base.dev/id/chunk/a44028e0-cb34-45ab-bb10-f3d1d362468f
   sec:render-stage-sections: https://agentic-knowledge-base.dev/id/chunk/7eddd978-40ce-4890-9926-ec35dc2959b7
   sec:render-tail-sections: https://agentic-knowledge-base.dev/id/chunk/f35fbac0-6d98-4be9-8189-066cbd5027d0
   sec:role-worksets: https://agentic-knowledge-base.dev/id/chunk/3a7484c0-fff5-40fb-8f94-b1acfe45cb4c
-  sec:trust-and-size: https://agentic-knowledge-base.dev/id/chunk/a06576f5-13b5-4fff-9209-3e6fefa2667f
+  sec:size-bands: https://agentic-knowledge-base.dev/id/chunk/a06576f5-13b5-4fff-9209-3e6fefa2667f
   sec:vv-facts: https://agentic-knowledge-base.dev/id/chunk/6d0752bb-912d-43c3-978d-5708d01d4d41

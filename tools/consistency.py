@@ -369,12 +369,12 @@ def load_items(paths):
     for p in paths:
         if not p.endswith(".md"):
             continue
-        meta, n = parse_chunk(p)
+        meta, body = parse_chunk(p)
         if meta.get("status") not in LIVE:
             continue
         items.append({"path": p, "id": meta["id"], "type": meta["type"], "level": meta["level"],
                       "title_ko": str(meta.get("title_ko", "")), "title": str(meta.get("title", "")),
-                      "hash": meta["_content_hash"], "body": body_of(p), "lines": n,
+                      "hash": meta["_content_hash"], "body": body_of(p), "lines": len(body.splitlines()),
                       "co": set(meta.get("coUpdatesWith", []) or []), "slots": meta.get("_body_slots", [])})
     return items
 

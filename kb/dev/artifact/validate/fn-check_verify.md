@@ -7,7 +7,8 @@ title: function check_verify in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/d62da398-7c0d-493a-9514-8d3ccebe5ca7
 ---
 **함수** — `check_verify(merged, query_dir)` 다. 안티패턴 계층 (노트 2.5절) — '이런 트리플이 존재하면 실패'를 SPARQL로 명세.
@@ -29,13 +30,13 @@ def check_verify(merged: Graph, query_dir: str) -> list[str]:
         try:
             rows = list(merged.query(text))
         except Exception as e:
-            errors.append(f"[verify] {rq.as_posix()}: 질의 자체가 실패 — {e}")
+            errors.append(f"[{VERIFY}] {rq.as_posix()}: 질의 자체가 실패 — {e}")
             continue
         for row in rows[:20]:
             vals = " ".join(str(v) for v in row)
-            errors.append(f"[verify] {rq.as_posix()}: {vals}  ({title})")
+            errors.append(f"[{VERIFY}] {rq.as_posix()}: {vals}  ({title})")
         if len(rows) > 20:
-            errors.append(f"[verify] {rq.as_posix()}: … 외 {len(rows)-20}건")
+            errors.append(f"[{VERIFY}] {rq.as_posix()}: … 외 {len(rows)-20}건")
     return errors
 ```
 <!-- 인용 끝 -->

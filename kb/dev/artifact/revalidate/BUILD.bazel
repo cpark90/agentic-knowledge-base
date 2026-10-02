@@ -14,12 +14,17 @@ filegroup(
 kb_composite(
     name = "module",
     srcs = [
+        "fn-base_diff.md",
         "fn-bazel_rdeps.md",
+        "fn-index_worktree.md",
         "fn-link_objects.md",
         "fn-links_of.md",
         "fn-main.md",
         "fn-owner_labels.md",
+        "fn-parse_args.md",
         "fn-parse_text.md",
+        "fn-report_rows.md",
+        "fn-revalidation_rows.md",
         "fn-run.md",
         "head.md",
         "module.md",

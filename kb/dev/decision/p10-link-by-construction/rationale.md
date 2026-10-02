@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6651b045-a578-4114-a942-eae19ab99b0c
 ---
 **근거** (노트 10.3절) — 복원은 검색·학습·언어모델 어느 방식이든 **이미 존재하는 산출물에서 관계를 되짚는다.** 정확도가 높아져도 이 성격은 바뀌지 않는다 — 링크를 만들 수 있었던 순간에 만들지 않은 것을 나중에 메우는 일이다.

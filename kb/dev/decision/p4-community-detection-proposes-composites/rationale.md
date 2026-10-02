@@ -8,6 +8,7 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-dependency-graph-design}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T00:50:00+09:00}
+layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/165ef75a-d4f3-4de2-aba2-ea3a8efb787a
 ---
 **근거** (노트 4.5절·9.8절; LARGER §5 절제 실험) — 복합체는 "함께 읽힘·순서"라는 **의도**의

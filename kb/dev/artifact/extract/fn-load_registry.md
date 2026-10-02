@@ -7,16 +7,17 @@ title: function load_registry in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-4341-b151-9ecda0fefd53
 ---
-**함수** — `load_registry(path)` 다. 등록부 → {source, resource, package, at, source_hash, refines[], serves[], ids{}}.
+**함수** — `load_registry(path)` 다. 등록부 → {source, resource, package, layer, at, source_hash, refines[], serves[], ids{}}.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def load_registry(path: Path) -> dict:
-    """등록부 → {source, resource, package, at, source_hash, refines[], serves[], ids{}}. 없으면 빈 등록부다."""
-    reg = {"source": "", "resource": "", "package": "", "at": "", "source_hash": "",
+    """등록부 → {source, resource, package, layer, at, source_hash, refines[], serves[], ids{}}. 없으면 빈 등록부다."""
+    reg = {"source": "", "resource": "", "package": "", kb_lib.LAYER_KEY: "", "at": "", "source_hash": "",
            "refines": [], "serves": [], kb_lib.STAMP_KEY: {}, "ids": {}}
     if not path.exists():
         return reg

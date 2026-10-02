@@ -11,22 +11,25 @@ agt:roleSpecificationViolation a owl:NamedIndividual , agt:InterfaceFactor ;
     rdfs:label "role specification violation"@en , "역할 명세 위반"@ko ;
     skos:definition "역할이 자기 write plane 밖을 고치거나 승인 없이 반영하는 현상. 역할 표와 승인 규약이 에이전트 사이의 계약이므로 인터페이스 요인이다. 2026-09-11 사건이 이 저장소의 실물이다."@ko ;
     skos:notation "P9" ;
+    agt:inTagCategory agt:defectFactorCategory ;
     agt:observationMeans "게이트 channel_lint 와 writer 검사" ;
     prov:wasDerivedFrom id:doc-system-notes , id:doc-mast-failure-taxonomy , id:doc-vv-profile-hazards ;
     dcterms:bibliographicCitation "MAST 1.2 역할 명세 위반 1.5% · 2.2 확인 요청 실패 6.8% (arXiv:2503.13657)" .
 
 agt:taskDerailment a owl:NamedIndividual , agt:ChannelFactor ;
     rdfs:label "task derailment"@en , "과업 이탈"@ko ;
-    skos:definition "브리핑된 과업에서 벗어나 자기 목적을 세우는 현상. dispatch 메시지를 오해한 결과이므로 채널 요인이다. 2026-09-02 자기목적화 재정렬이 이 저장소의 실물이다."@ko ;
+    skos:definition "브리핑된 과업에서 벗어나 자기 목적을 세우는 현상. dispatch 메시지를 오해한 결과이므로 채널 요인이다. 2026-09-02 자기목적화 재정렬이 이 저장소의 실물이다. 관측 수단이 미확정인 까닭은 dispatch 브리핑이 그래프 밖 세션 메시지이고 하네스가 쓰기 집합을 자동 기록하지 않아 과업과 산출을 대조할 한쪽이 없다는 것이다(로드맵 5단계). 세션 관측 5건으로는 대리 표본도 서지 않는다."@ko ;
     skos:notation "P17" ;
+    agt:inTagCategory agt:defectFactorCategory ;
     agt:observationMeans "미확정" ;
     prov:wasDerivedFrom id:doc-system-notes , id:doc-mast-failure-taxonomy , id:doc-vv-profile-hazards ;
     dcterms:bibliographicCitation "MAST 2.3 과업 이탈 7.4% (arXiv:2503.13657)" .
 
 agt:consumerOutsideGateScope a owl:NamedIndividual , agt:InterfaceFactor ;
     rdfs:label "consumer outside the gate scope"@en , "게이트 스코프 밖 소비자"@ko ;
-    skos:definition "중앙 어휘가 바뀔 때 게이트 스코프 밖의 소비자가 조용히 깨지는 현상. 중앙 게이트는 이것을 영구히 감지하지 못하므로 관측 수단은 게이트 안에 둘 수 없다. 어휘 목록을 베낀 코드의 수가 그 대리 지표다."@ko ;
+    skos:definition "중앙 어휘가 바뀔 때 게이트 스코프 밖의 소비자가 조용히 깨지는 현상. 중앙 게이트는 이것을 영구히 감지하지 못하므로 관측 수단은 게이트 안에 둘 수 없다. 관측 수단이 미확정인 까닭은 스코프 밖 소비자를 세는 분모의 등록부가 없어 0 이 없다 인지 아직 찾지 못했다 인지 가를 수 없다는 것이다. 대리 지표인 어휘를 베낀 표는 7 이고 그중 원본과 대조되는 것이 3(element-drop 둘 · residency 하나) = 42.9% 이며, 대조되지 않는 넷은 스코프 안이라 이 현상이 아니다."@ko ;
     skos:notation "P20" ;
+    agt:inTagCategory agt:defectFactorCategory ;
     agt:observationMeans "미확정" ;
     prov:wasDerivedFrom id:doc-harness-ontology , id:doc-vv-profile-hazards .
 
@@ -34,5 +37,6 @@ agt:concurrentSessionState a owl:NamedIndividual , agt:TimingFactor ;
     rdfs:label "intermediate state of concurrent sessions"@en , "동시 세션의 중간 상태"@ko ;
     skos:definition "동시에 도는 세션의 중간 상태가 서로의 판정 입력이 되는 현상. 경합이므로 순서·동기화 요인이다. 작업 트리 상태와 게이트 결과를 대조하는 관례가 지금의 대응이고 그것은 게이트가 아니다."@ko ;
     skos:notation "P22" ;
-    agt:observationMeans "미확정" ;
+    agt:inTagCategory agt:defectFactorCategory ;
+    agt:observationMeans "vv_run 실행 기록의 리비전 줄 — '워킹트리 추적 파일 변경 있음' 은 revision() 의 git status --porcelain --untracked-files=no 판정이고, 그 줄이 있는 실행의 판정은 재현 불가 후보다 (실측 2026-10-01: 실행 기록 2/2 = 100.0% 가 변경 있음)" ;
     prov:wasDerivedFrom id:doc-system-notes , id:doc-vv-profile-hazards .

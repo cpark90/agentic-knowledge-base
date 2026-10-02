@@ -8,8 +8,9 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-weave}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
-part_of: https://agentic-knowledge-base.dev/id/composite/7106ea77-25cf-4aaa-931c-4e9c1c9cd637
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/18d615ae-85a5-4737-825a-7674dc3b3ce9, https://agentic-knowledge-base.dev/id/chunk/3abf45b4-eb13-4c63-80e4-83848c227928, https://agentic-knowledge-base.dev/id/chunk/4ed2982d-49b2-4313-856e-6b86a53fb3b0, https://agentic-knowledge-base.dev/id/chunk/53b29448-345d-4abe-b57a-44a8f6ed1d5d, https://agentic-knowledge-base.dev/id/chunk/5b372e8e-c287-4ed0-b9d6-16c0366ee0c8, https://agentic-knowledge-base.dev/id/chunk/74d3682e-98df-428f-a8dd-776e8c5027e8, https://agentic-knowledge-base.dev/id/chunk/f6cf75ba-7624-4742-a6f9-b56a69f540b1]
+part_of: https://agentic-knowledge-base.dev/id/composite/cad35f43-9f4f-422e-b25b-61cde9208d06
 ---
 **함수** — `main()` 다.
 

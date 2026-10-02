@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/f9f4e245-6a05-4f51-b5b5-532470213ed5]
 part_of: https://agentic-knowledge-base.dev/id/composite/2bbdac5b-e7f6-4ca1-b5fd-04c0513178d1
 ---
 **함수** — `load_standard_vocab(paths)` 다. 등록 표준 어휘 원문(PROV-O·SKOS — MODULE.bazel 의 http_file 이 해시 고정으로 가져온다)이 정의하는 용어와, 검사 대상이 되는 네임스페이스.

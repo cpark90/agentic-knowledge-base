@@ -47,6 +47,187 @@ RESIDENCY = {
 }
 STATES = ["draft", "stable", "suspect", "invalidated", "deprecated"]
 
+# 추출 대상 소스 모듈 — tools/<이름>.py 에 등록부 사이드카(<이름>.chunks.yml)가 있는 소스 전부(코드를 청크로,
+# p7-code-extraction-direction). **단일 정의처**(M1, 2026-10-01 — RESIDENCY 와 같은 해법): 여기 말고 어디에도
+# 이 목록을 손으로 적지 않는다. `BUILD.bazel` 은 이 리터럴을 load 해 추출 드리프트 테스트를 세우고,
+# `tools/kb_lib.py` 의 `load_extracted_sources`(ast.literal_eval)가 `uses`(agt:usesDefinition) 방출 경계
+# USES_SOURCES 를 이 값에서 파생한다 — 상수 둘을 두지 않는다. 이름에 `.py` 접미사를 붙이지 않는다(각 소비자가
+# 필요한 모양으로 붙인다). 더하거나 빼려면 등록부 사이드카의 존재와 이 목록을 같은 커밋에서 맞춘다 — 갈리면
+# `BUILD.bazel` 의 소스 존재 확인(`glob` 대조, 로드 시점)이 바로 죽는다.
+EXTRACTED_SOURCES = [
+    "assume_check",
+    "canonicalize",
+    "channel_lint",
+    "choices",
+    "chunk2kg",
+    "chunk_lint",
+    "community",
+    "consistency",
+    "doccheck",
+    "endorse",
+    "extract",
+    "extract_refs",
+    "gates2kg",
+    "gen_build",
+    "gen_skills",
+    "gendoc",
+    "handoff",
+    "impact",
+    "judge",
+    "kb_lib",
+    "label_sample",
+    "labels",
+    "link",
+    "metrics",
+    "odd2kg",
+    "odd_check",
+    "open_questions",
+    "query",
+    "revalidate",
+    "space2kg",
+    "stamp",
+    "taxonomy",
+    "term_propose",
+    "tokens",
+    "validate",
+    "vv_run",
+    "vv_run_env_test",
+    "weave",
+    "workset",
+]
+
+# `uses`(agt:usesDefinition) 의 **치역 경계** — 모듈 밖에서 가리킬 수 있는 대상 모듈 (유저 답 1, 2026-10-01,
+# 채널 uses-definition-range). 모듈 안 호출은 사각지대의 63%만 덮으므로(실측 739 중 모듈 간 274) 치역을
+# 표본 쌍 하나에서 먼저 넓힌다 — `kb_lib` 을 치역으로 두는 모듈 간 호출이 그 대부분이다. 넓히는 일은 여기
+# 이름을 더하는 것이고, 그 밖의 모듈을 치역으로 하는 호출은 방출하지 않는다. **단일 정의처**다(M1,
+# EXTRACTED_SOURCES 와 같은 해법): `tools/kb_lib.py` 의 `load_extracted_sources` 가 이 리터럴을 읽어
+# 추출기의 치역 경계로 쓰고, `//defs:knowledge.bzl` 이 같은 리터럴로 드리프트 테스트의 입력(대상 모듈의
+# 등록부 사이드카)을 세운다. EXTRACTED_SOURCES 의 부분집합이어야 한다 — 아래 검사가 로드 시점에 강제한다.
+USES_TARGETS = [
+    "kb_lib",
+]
+
+# ── 게이트 등록부 (`GATES`) — 게이트 id 의 **단일 정의처** (M1, 2026-10-02, RESIDENCY·EXTRACTED_SOURCES 와 같은 해법) ─
+# 결정 p0-service-is-a-three-layer-wiki: 게이트는 프로세스 층의 **항목**이다. 2026-10-01 실측에서 같은 목록이 넷으로
+# 갈려 있었다 — `kb_lib` 의 `*_GATE` 상수 · 코드의 태그 · `docs/tools.md` 총람의 `id` 열 · 그 아래 하네스 목록.
+# 여기 말고 어디에도 게이트 id 를 손으로 적지 않는다. 파생처는 넷이다 — `tools/kb_lib.py` 의 `load_gates`(리터럴
+# 읽기 → 모듈 속성 `<이름>_GATE`) · `tools/gates2kg.py`(생성 그래프 `//kg:gates_kg` 의 `id:gate-<id>` 개체) ·
+# `validate` 의 게이트 `gate-registry`(코드의 태그 집합 = 이 리터럴) · `doccheck` 의 총람 `id` 열 대조.
+# 값에 주석(`#`)을 쓰지 않는다 — 파서가 주석을 지운 뒤 리터럴로 읽는다.
+#
+# 항목마다 넷을 적는다. `tier` 는 실행 계층(총람의 다섯), `tool` 은 판정 도구(`tools/<이름>.py` 의 모듈 이름 또는
+# 파이썬 밖인 `starlark`·`bazel`), `ko` 는 한글 라벨, `desc` 는 무엇을 거부하는가 한 줄이다. 영문 라벨은 id 자신이다.
+# 층은 항목마다 적지 않는다 — 게이트는 전부 프로세스 층이고 그 값이 `GATE_LAYER` 다.
+GATE_LAYER = "process"
+GATE_TIERS = ["shape", "verify", "analysis", "test", "human"]
+GATE_TOOLS_OUTSIDE_PYTHON = ["starlark", "bazel"]
+GATES = {
+    "addition": {"tier": "test", "tool": "chunk_lint", "ko": "첨가", "desc": "슬롯의 질문에 답하지 않는 메타 문장과 채움 문구"},
+    "blocking-comment": {"tier": "test", "tool": "chunk_lint", "ko": "해소되지 않은 차단 주석", "desc": "issue (blocking) 이면서 해소가 열린 살아 있는 주석"},
+    "boundary": {"tier": "verify", "tool": "validate", "ko": "정의 경계", "desc": "한 용어가 두 모듈 파일에서 정의됨"},
+    "build-drift": {"tier": "test", "tool": "gen_build", "ko": "BUILD 드리프트", "desc": "생성 BUILD 가 frontmatter 링크와 어긋남"},
+    "canon": {"tier": "test", "tool": "canonicalize", "ko": "정규 직렬화", "desc": "TTL 직렬화가 정규형과 다름"},
+    "catalog": {"tier": "verify", "tool": "validate", "ko": "카탈로그 정합성", "desc": "스코프 없는 역할, 미부여 스코프, write plane 공유, maxConcurrent 합 초과"},
+    "channel": {"tier": "test", "tool": "channel_lint", "ko": "채널 규약", "desc": "피드백 채널의 역할·상태 어휘와 필수 절 위반"},
+    "chunk": {"tier": "test", "tool": "chunk_lint", "ko": "청크 형식", "desc": "본문 토큰 상한 초과와 frontmatter 형식 위반"},
+    "chunk2kg": {"tier": "analysis", "tool": "chunk2kg", "ko": "head 생성", "desc": "head 그래프 생성 시점의 frontmatter·본문 규칙 위반"},
+    "chunk2kg-merge": {"tier": "analysis", "tool": "chunk2kg", "ko": "head 병합", "desc": "타깃별 head 조각의 병합 실패"},
+    "dangling": {"tier": "verify", "tool": "validate", "ko": "참조 무결성", "desc": "인용·부분·가정·요구·정의 호출의 대상이 실재하지 않음"},
+    "decision-role": {"tier": "test", "tool": "chunk_lint", "ko": "결정 역할 표지", "desc": "결론·근거·대안 청크의 첫 산문 줄에 역할 표지가 없음"},
+    "doccheck": {"tier": "test", "tool": "doccheck", "ko": "문서 현행성", "desc": "문서의 죽은 링크·앵커·백틱 경로와 산문 문체 위반"},
+    "element-drop": {"tier": "verify", "tool": "validate", "ko": "요소 탈락", "desc": "어휘에 슬롯이 없어 조용히 빠진 소스 요소"},
+    "empty-value": {"tier": "test", "tool": "chunk_lint", "ko": "빈 값 표기", "desc": "세 빈 값 밖의 표기와 표의 단독 대시 셀"},
+    "extract": {"tier": "analysis", "tool": "extract", "ko": "코드 추출", "desc": "추출 시점의 개명 안내·삭제·부분 상한·등록부 불일치"},
+    "extract-drift": {"tier": "test", "tool": "extract", "ko": "추출 드리프트", "desc": "추출 생성물이 소스와 등록부에 어긋남"},
+    "extract-refs": {"tier": "analysis", "tool": "extract_refs", "ko": "인용 대상 실재", "desc": "본문 인용의 대상이 실재하지 않음"},
+    "gate-registry": {"tier": "verify", "tool": "validate", "ko": "게이트 등록부", "desc": "코드의 게이트 태그 집합이 GATES 리터럴과 갈림"},
+    "gates2kg": {"tier": "analysis", "tool": "gates2kg", "ko": "게이트 그래프 생성", "desc": "게이트 등록부의 키·계층 위반과 판정 도구 개체의 부재"},
+    "gen-build": {"tier": "analysis", "tool": "gen_build", "ko": "BUILD 생성", "desc": "생성 시점의 묶음·세 청크·링크 규칙 위반"},
+    "gen-skills": {"tier": "analysis", "tool": "gen_skills", "ko": "skill 생성", "desc": "skill 생성 시점의 입력 위반"},
+    "gendoc": {"tier": "test", "tool": "gendoc", "ko": "생성 문서 형태", "desc": "생성 마크다운의 머리 블록과 본문 서식 규약 위반"},
+    "judge-log": {"tier": "test", "tool": "chunk_lint", "ko": "판정 로그", "desc": "판정 로그의 표 형식과 필수 필드 위반"},
+    "labels": {"tier": "verify", "tool": "validate", "ko": "라벨 완전성", "desc": "agt: 용어의 한·영 라벨 또는 skos:definition 누락"},
+    "list-rules": {"tier": "test", "tool": "chunk_lint", "ko": "목록 규칙", "desc": "손 번호·항목 수·중첩·길이·빈 항목의 목록 규칙 위반"},
+    "naming": {"tier": "test", "tool": "chunk_lint", "ko": "파일 접미사", "desc": "TTL 파일 이름이 접미사 규약 밖"},
+    "odd-ref": {"tier": "verify", "tool": "validate", "ko": "ODD 참조", "desc": "ODD 에 없는 조건을 참조하는 스코프·가정·변수"},
+    "odd2kg": {"tier": "analysis", "tool": "odd2kg", "ko": "ODD 생성", "desc": "OpenODD 문서의 형식과 필수 필드 위반"},
+    "prose": {"tier": "test", "tool": "chunk_lint", "ko": "산문 문체", "desc": "경어체 종결과 산문의 느낌표"},
+    "residency": {"tier": "verify", "tool": "validate", "ko": "수준 허용표 단일 정의처", "desc": "수준 허용표 shape 가 RESIDENCY 리터럴과 갈림"},
+    "restored": {"tier": "analysis", "tool": "chunk2kg", "ko": "복원 표시", "desc": "restored 의 IRI 가 같은 청크의 링크 키 대상에 없음"},
+    "shacl": {"tier": "shape", "tool": "validate", "ko": "shape 적합성", "desc": "SHACL shape 부적합"},
+    "skills-drift": {"tier": "test", "tool": "gen_skills", "ko": "skill 드리프트", "desc": "생성 skill 이 docstring 과 SKILLS 에 어긋남"},
+    "space": {"tier": "analysis", "tool": "space2kg", "ko": "설계 공간", "desc": "근거 없는 배제, 확정 후보 수, 변수와 후보의 불일치"},
+    "specialization": {"tier": "analysis", "tool": "chunk2kg", "ko": "특수화 링크", "desc": "specializationOf 의 자기 참조·plane 불일치·폐기 대상·순환"},
+    "stamp": {"tier": "test", "tool": "stamp", "ko": "도장", "desc": "도장 입력이 등록부와 어긋남"},
+    "summary-support": {"tier": "test", "tool": "chunk_lint", "ko": "요약 지지 참조", "desc": "요약 블록의 핵심 항목에 지지 참조가 없음"},
+    "syntax": {"tier": "verify", "tool": "validate", "ko": "구문", "desc": "TTL 이 파싱되지 않음"},
+    "taxonomy": {"tier": "analysis", "tool": "taxonomy", "ko": "택소노미 생성", "desc": "택소노미 생성 입력이 읽히거나 파싱되지 않음"},
+    "tim": {"tier": "analysis", "tool": "starlark", "ko": "TIM", "desc": "링크 타입의 정의역·치역·방향·수준 위반"},
+    "token-budget": {"tier": "verify", "tool": "validate", "ko": "토큰 상한 단일 정의처", "desc": "plane 별 본문 토큰 상한의 표와 shape 가 갈림, 어휘 파일 지문 불일치"},
+    "verify": {"tier": "verify", "tool": "validate", "ko": "안티패턴", "desc": "안티패턴 SPARQL 질의가 위반 행을 냄"},
+    "visibility": {"tier": "analysis", "tool": "bazel", "ko": "의존 방향", "desc": "개발 타깃이 V&V 타깃을 의존함"},
+    "vocab": {"tier": "verify", "tool": "validate", "ko": "통제 어휘", "desc": "온톨로지와 등록 표준 어휘 밖의 술어·용어"},
+    "vv-case": {"tier": "analysis", "tool": "vv_run", "ko": "V&V 케이스 형식", "desc": "케이스의 기계가 읽는 자극·기대 규약 위반"},
+    "vv-run-env": {"tier": "test", "tool": "vv_run_env_test", "ko": "실행기 환경 격리", "desc": "케이스의 명령이 실행기의 파이썬·runfiles 문맥을 물려받음"},
+    "workset-budget": {"tier": "analysis", "tool": "workset", "ko": "작업 집합 예산", "desc": "앵커가 있는 작업 집합 뷰가 컨텍스트 예산을 넘음"},
+    "writer": {"tier": "human", "tool": "validate", "ko": "승인", "desc": "쓰기 권한 밖의 저작과 검토 없는 stable 전이"},
+}
+
+# 게이트가 아닌 **도구 태그** — 입력·설정 문제와 보고에만 쓰여 판정 효과가 없다(뷰·생성기의 CONFIG·WARN 자리).
+# 같은 대괄호 표기를 쓰므로 게이트 `gate-registry` 가 태그 전수를 볼 때 이 목록이 둘째 경계다 (USES_TARGETS 와
+# 같은 자리). `GATES` 와 서로소여야 한다 — `check_gates` 가 로드 시점에 강제한다.
+TOOL_TAGS = [
+    "consistency",
+    "judge",
+    "link",
+    "open",
+    "propose",
+    "revalidate",
+    "tokens",
+    "validate",
+    "weave",
+]
+
+def check_gates():
+    """`GATES`·`TOOL_TAGS` 리터럴의 자기 정합성을 로드 시점에 강제한다 (M1, check_extracted_sources 와 같은 자리).
+
+    `BUILD` 파일은 `if` 문을 쓸 수 없어 판정을 함수로 옮겼다. 항목마다 네 키(`tier`·`tool`·`ko`·`desc`)가 있고
+    `tier` 는 `GATE_TIERS` 안이며 두 목록은 서로소다. 갈리면 이 패키지를 보는 어떤 bazel 명령이든 바로 `fail`
+    한다 — 등록부가 조용히 비거나 어긋나는 사고를 막는다.
+    """
+    for gid, spec in GATES.items():
+        for key in ["tier", "tool", "ko", "desc"]:
+            if key not in spec or not spec[key]:
+                fail("GATES(//defs:kb.bzl) 의 %r 에 %s 가 없다 — 항목마다 계층·판정 도구·한글 라벨·설명 한 줄을 적는다" % (gid, key))
+        if spec["tier"] not in GATE_TIERS:
+            fail("GATES(//defs:kb.bzl) 의 %r 의 계층 %r 이 어휘 밖이다 — %s 중 하나다" % (gid, spec["tier"], GATE_TIERS))
+    both = [t for t in TOOL_TAGS if t in GATES]
+    if both:
+        fail("GATES 와 TOOL_TAGS(//defs:kb.bzl) 가 겹친다 — %s. " % both +
+             "한 태그는 게이트이거나 도구 태그이고 둘 다일 수 없다")
+
+def check_extracted_sources(registry_globs):
+    """등록부 사이드카 glob 결과와 `EXTRACTED_SOURCES` 가 같은 집합인지 로드 시점에 강제한다 (M1, 2026-10-01).
+
+    `registry_globs` 는 호출자(`tools/BUILD.bazel`)가 준 `glob(["*.chunks.yml"])` 의 결과다 — `glob` 은 패키지를
+    넘어가지 못하므로(최상위 `BUILD.bazel` 에서 `tools/*.chunks.yml` 을 globbing 할 수 없다) 호출은 `tools`
+    패키지 안에서 하고, 그 결과는 접두 없는 `<이름>.chunks.yml` 이다. BUILD 파일은 `if` 문을 쓸 수 없어 이
+    판정을 함수로 옮겼다(`_check_residency` 와 같은 자리). 갈리면 이 패키지를 보는 어떤 bazel 명령이든 바로
+    `fail` 한다 — 조용히 비는 사고(음성 시험, 유저 지시 2026-10-01)를 막는다. `USES_TARGETS` 가
+    `EXTRACTED_SOURCES` 의 부분집합인지도 같은 자리에서 본다 — 치역 경계와 방출 경계의 두 목록이 갈리면
+    `uses` 의 대상이 실재하지 않는다.
+    """
+    found = sorted([f[:-len(".chunks.yml")] for f in registry_globs])
+    missing_from_list = [m for m in found if m not in EXTRACTED_SOURCES]
+    missing_from_tree = [m for m in EXTRACTED_SOURCES if m not in found]
+    if missing_from_list or missing_from_tree:
+        fail("EXTRACTED_SOURCES(//defs:kb.bzl) 와 tools/*.chunks.yml 의 실재가 갈린다 — " +
+             "등록부는 있는데 목록에 없음: %s · 목록에는 있는데 등록부가 없음: %s" % (missing_from_list, missing_from_tree))
+    outside = [m for m in USES_TARGETS if m not in EXTRACTED_SOURCES]
+    if outside:
+        fail("USES_TARGETS(//defs:kb.bzl) 가 EXTRACTED_SOURCES 밖을 치역으로 둔다 — %s. " % outside +
+             "추출되지 않은 모듈에는 정의 청크가 없어 `uses` 의 대상이 실재하지 않는다 (dangling)")
+
 def _check_residency(label, plane, level):
     if plane not in PLANES:
         fail("%s: 알 수 없는 plane %r" % (label, plane))
@@ -84,22 +265,26 @@ def _check_links(ctx, plane, level):
             fail("%s: verifies 는 같은 수준끼리 (8.3절 검증 대응물): %s ≠ %s" % (ctx.label, level, dep[ChunkInfo].level))
 
 def _lint_action(ctx, files):
-    """검증 액션 — bazel build 만으로 42줄·frontmatter·첨가·목록 검사가 돈다 (validation output group).
+    """검증 액션 — bazel build 만으로 토큰 상한·frontmatter·첨가·목록 검사가 돈다 (validation output group).
 
     면제 선언(docs/waivers.md)을 함께 읽는다. 면제는 코드가 아니라 그 표에 있고(AGENTS.md·STYLEGUIDE §8),
     게이트 id 는 prose·addition·empty-value·list-rules 다. 표를 주지 않으면 청크를 겨눈 면제가 이 액션에만
     적용되지 않아 //kb/...:lint_test 와 판정이 갈린다.
+    어휘 파일(`_vocab`)도 명시 입력이다 — 크기의 단위가 토큰이므로 계수기가 이 액션의 입력이고, 그것이
+    샌드박스에 없으면 판정을 내릴 수 없다 (결정 p1-chunk-unit-is-tokens, ODD id:cond-tokenizer-lock).
     """
     marker = ctx.actions.declare_file(ctx.label.name + ".lint.ok")
     waivers = ctx.file._waivers
+    vocab = ctx.file._vocab
     ctx.actions.run_shell(
-        inputs = files + [waivers],
+        inputs = files + [waivers, vocab],
         outputs = [marker],
         tools = [ctx.executable._lint],
-        command = "%s --chunks %s --waivers %s && touch %s" % (
+        command = "%s --chunks %s --waivers %s --vocab %s && touch %s" % (
             ctx.executable._lint.path,
             " ".join([f.path for f in files]),
             waivers.path,
+            vocab.path,
             marker.path,
         ),
         mnemonic = "KbChunkLint",
@@ -120,13 +305,14 @@ def _head_action(ctx, files, ordered = []):
     """
     out = ctx.actions.declare_file(ctx.label.name + ".head.ttl")
     residency = ctx.file._residency
-    args = ["--fragment", "--out", out.path, "--residency", residency.path]
+    vocab = ctx.file._vocab  # agt:tokenCount 를 이 어휘로 센다 — 계수기가 액션의 입력이다 (p1-chunk-unit-is-tokens)
+    args = ["--fragment", "--out", out.path, "--residency", residency.path, "--vocab", vocab.path]
     for iri in ordered:  # 부분마다 한 번 — 목록형 인자는 위치 인자인 청크 파일을 삼킨다
         args = args + ["--ordered", iri]
     ctx.actions.run(
         executable = ctx.executable._chunk2kg,
         arguments = args + [f.path for f in files],
-        inputs = files + [residency],
+        inputs = files + [residency, vocab],
         outputs = [out],
         mnemonic = "KbHead",
         progress_message = "head 그래프 조각 %s" % ctx.label,
@@ -142,6 +328,7 @@ _LINK_ATTRS = {
     "_waivers": attr.label(default = "//docs:waivers", allow_single_file = True, doc = "게이트 면제 선언 (docs/waivers.md)"),
     "_chunk2kg": attr.label(default = "//tools:chunk2kg", executable = True, cfg = "exec"),
     "_residency": attr.label(default = "//defs:kb.bzl", allow_single_file = True, doc = "PLANES·LEVELS·STATES 값 어휘의 원본 (M1 단일 정의처)"),
+    "_vocab": attr.label(default = "@tiktoken_o200k_base//file", allow_single_file = True, doc = "토큰 계수기의 어휘 파일 — 크기 판정과 agt:tokenCount 의 계수기 (p1-chunk-unit-is-tokens)"),
 }
 
 def _kb_chunk_impl(ctx):
@@ -338,13 +525,14 @@ def _kb_workset_view_impl(ctx):
     args.add("--anchor", anchor)
     args.add("--hops", str(hops))
     args.add("--budget", str(budget))
+    args.add("--vocab", ctx.file._vocab)  # 예산의 단위가 토큰이다 (p1-chunk-unit-is-tokens)
     args.add("--root", ".")
     args.add("--out", out)
     args.add_all(ttl)
     ctx.actions.run(
         executable = ctx.executable._workset,
         arguments = [args],
-        inputs = ctx.files.data,
+        inputs = ctx.files.data + [ctx.file._vocab],
         outputs = [out],
         mnemonic = "KbWorkset",
         progress_message = "작업 집합 %s (role=%s anchor=%s)" % (ctx.label, role, anchor or "-"),
@@ -362,5 +550,6 @@ kb_workset_view = rule(
         "_hops": attr.label(default = "//kb:hops"),
         "_budget": attr.label(default = "//kb:budget"),
         "_workset": attr.label(default = "//tools:workset", executable = True, cfg = "exec"),
+        "_vocab": attr.label(default = "@tiktoken_o200k_base//file", allow_single_file = True),
     },
 )

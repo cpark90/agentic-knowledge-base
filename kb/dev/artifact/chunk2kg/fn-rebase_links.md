@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/1b8a9132-b68b-46c7-a14e-55e7048494e2, https://agentic-knowledge-base.dev/id/chunk/38150f41-1adc-4ea1-9c7f-f722f721fe9a, https://agentic-knowledge-base.dev/id/chunk/4dcdeb22-0819-48a5-96a4-72da225a3003, https://agentic-knowledge-base.dev/id/chunk/8a9578b7-a0d9-4b0a-951e-aed33d8b8825, https://agentic-knowledge-base.dev/id/chunk/9e16611b-2397-4b7d-a033-267e745a1aeb, https://agentic-knowledge-base.dev/id/chunk/f418fcb4-df9f-496c-9cc7-09f83dc5d1e5]
 part_of: https://agentic-knowledge-base.dev/id/composite/2c7e96e6-1c7a-4f75-b63b-8c0d0db3e828
 ---
 **함수** — `rebase_links(blocks, spec)` 다. (IRI, 블록) 목록의 링크·증거 블록 IRI 를 뿌리 uuid 로 다시 계산하고 같은 IRI 의 블록을 합친다

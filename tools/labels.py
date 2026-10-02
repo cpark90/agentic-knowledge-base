@@ -44,8 +44,9 @@ def main() -> int:
 
     groups: dict = defaultdict(list)
     for path in args.files:
-        meta, n = parse_chunk(path)
-        groups[str(Path(path).parent)].append((meta, n, path))
+        meta, body = parse_chunk(path)
+        # 색인의 크기 열은 **줄 수**다 — 파일의 서술이고 크기 규칙(토큰)이 아니다. 본문은 parse_chunk 가 뗀 것 하나다
+        groups[str(Path(path).parent)].append((meta, len(body.splitlines()), path))
     by_plane: dict = defaultdict(list)
     for d in sorted(groups):
         by_plane[plane_of(d)].append(d)

@@ -5,11 +5,12 @@ level: functional
 pattern: event-driven
 title_ko: 결정 본문이 바뀌면 그것을 충족한다고 적힌 산출물이 재판정 대상이 되어야 한다
 title: When a decision body changes, the artefact claimed to satisfy it must become a re-judgement target
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 exposes: [https://agentic-knowledge-base.dev/agt/reasoningActionMismatch, https://agentic-knowledge-base.dev/agt/labelRot]
 generated: {by: vnv/claude-opus-5, at: 2026-09-29T02:20:00+09:00}
+verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
 ---
 **검증 목표** — 결정의 결론 본문과 그 결론을 충족한다고 적힌 산출물이 어긋난 상태가 기록으로 드러난다는 것이 보여져야 한다. 이 목표가 다루는 위험은 현상 `agt:reasoningActionMismatch`(P16)이고 같은 자리의 항목 안 어긋남은 `agt:labelRot`(P14)이다.

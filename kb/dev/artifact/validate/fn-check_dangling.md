@@ -7,7 +7,9 @@ title: function check_dangling in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/6900e30a-aaf6-462a-b290-9877e3439e9b, https://agentic-knowledge-base.dev/id/chunk/8a2be483-4fc8-411f-8f35-b7719552e4e4, https://agentic-knowledge-base.dev/id/chunk/8d31b7a9-85c6-48b3-875b-1223f473d503]
 part_of: https://agentic-knowledge-base.dev/id/composite/621b8722-ef63-42b3-8470-9560e072a62a
 ---
 **함수** — `check_dangling(merged, ontology, files)` 다. 저장소 안을 가리키는 링크의 대상이 실재하는가 (참조 무결성, 8.2절).
@@ -26,6 +28,10 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
 
     agt:usesConcept 은 개념 IRI를 바로 가리킨다(dependency-graph-design (f)) — 대상은
     온톨로지가 정의한 agt: 용어여야 한다. 온톨로지를 안 주면 병합 그래프의 주어로 대신한다.
+
+    경계: 이 검사는 usesDefinition·exposesFactor(shape가 대상 실재를 봄) 대상의 폐기 여부는 보지 않는다 —
+    exposes 대상은 온톨로지 개체라 청크식 status가 없고, usesDefinition 대상은 artifact 청크라 폐기 대신
+    추출 등록부의 개명·삭제로 정체성이 관리된다(이 저장소의 artifact 청크 status: deprecated 실측 0건).
     """
     checked = (
         kb_lib.AGT.cites,
@@ -45,11 +51,11 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
     for pred in checked:
         for s, o in merged.subject_objects(pred):
             if isinstance(o, URIRef) and str(o).startswith(str(kb_lib.ID)) and o not in subjects:
-                errors.append(f"[dangling] {_where(files, s)}: {merged.qname(s)} 의 {merged.qname(pred)} 대상이 없다: {o} (참조 무결성 8.2절)")
+                errors.append(f"[{DANGLING}] {_where(files, s)}: {merged.qname(s)} 의 {merged.qname(pred)} 대상이 없다: {o} (참조 무결성 8.2절)")
     concepts = kb_lib.defined_terms(ontology) if ontology is not None else subjects
     for s, o in merged.subject_objects(kb_lib.AGT.usesConcept):
         if o not in concepts:
-            errors.append(f"[dangling] {_chunk_location(merged, s)} 의 agt:usesConcept 대상이 온톨로지에 정의되지 않았다: {o}")
+            errors.append(f"[{DANGLING}] {_chunk_location(merged, s)} 의 agt:usesConcept 대상이 온톨로지에 정의되지 않았다: {o}")
     return errors
 ```
 <!-- 인용 끝 -->

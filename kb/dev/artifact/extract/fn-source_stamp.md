@@ -8,6 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/0c73f827-eef2-4929-a126-f9b2c056d037]
 part_of: https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986-80ad97804df0
 ---
 **함수** — `source_stamp(root, src_rel)` 다. 소스 파일의 시각 — git 커밋 시각이 있으면 그것, 없으면 지금 UTC.

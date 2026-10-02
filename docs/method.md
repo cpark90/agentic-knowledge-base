@@ -83,7 +83,7 @@
 | level별 assertion 형식 | EARS 패턴 어휘(요구), 결론·근거·대안 표지(결정) | 부분 — contract·schema·artifact는 항목이 생길 때 |
 | 조건 셋째 수준 | ODD 속성 7이 둘째 수준에 직접 | 미채움 — ODD 재배선과 함께 |
 | 결함 하위 유형 | 코어 `defect` 모듈의 하위 유형 14를 그대로 쓴다 | 채움(2026-09-29 — `kb/ontology/related/defect/`, 현상 22·피해 6) |
-| 상한 오버라이드 | 없음(전 plane 42줄) | 채움(오버라이드 없음이 답) |
+| 상한 오버라이드 | 저작 산문 1,092 토큰 · 인용(`artifact`·`memory`) 2,856 | 채움(2026-10-01 — 단위는 토큰, `BODY_TOKEN_LIMITS`) |
 | 앵커 해석기 | Bazel 라벨(`pe-anchor-is-bazel-label`) | 채움 |
 
 ## 2. ODD 작성
@@ -114,7 +114,7 @@
 
 1. **plane과 level을 정한다.** plane 할당 기준은 **판정 방식**이고, 저장 위치나 파일 형식이
    아니다 ([rules §3](rules.md#3-plane--판정-방식으로-나뉜-종류)).
-2. 해당 위치에 **파일 하나**를 만든다. 구성은 frontmatter(head) + 본문 ≤ 42줄이다
+2. 해당 위치에 **파일 하나**를 만든다. 구성은 frontmatter(head) + 본문 ≤ 토큰 상한(저작 산문 1,092)이다
    ([rules §1](rules.md#1-chunk--자립적-최소-지식-단위)).
 3. **전제가 있으면 가정을 만들고 `assumes`로 가리킨다.** 가정은 ODD 조건을 `refersTo` 해야
    한다. 가정 없는 청크는 "ODD 전체를 전제한다"는 뜻이 아니라 전제를 아직 적지 않은 것이다.
@@ -124,7 +124,7 @@
 
 **분할 신호**는 라벨을 하나로 쓸 수 없는 것, 본문 일부만 재사용·가정·`suspect`의 대상이 되는
 것이다. **병합 신호**는 두 청크가 항상 함께 읽히는 것, 한쪽이 다른 쪽 없이 이해되지 않는 것,
-합쳐도 42줄 이하인 것이다. 분할은 라벨을 잇는 조각 하나가 원 uuid를 승계하고 나머지 조각은 새 uuid에
+합쳐도 상한 이하인 것이다. 분할은 라벨을 잇는 조각 하나가 원 uuid를 승계하고 나머지 조각은 새 uuid에
 `specializationOf: <원 IRI>`를 적는다. 병합은 한 uuid를 승계하고 나머지를 deprecated로 두어 `supersedes`로
 가리킨다. 링크 IRI는 뿌리 uuid로 계산되므로 조각을 가리키는 링크가 원본의 증거·이력을 잇는다
 ([`p10-split-keeps-work-identity`](../kb/dev/decision/p10-split-keeps-work-identity/conclusion.md)). 출처는 `prov:wasDerivedFrom`이다.
@@ -229,7 +229,7 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 조립 알고리즘은
 [`p0-workset-anchor-neighbourhood`](../kb/dev/decision/p0-workset-anchor-neighbourhood/conclusion.md)
 결정이고, 첫 형태는 `workset`([`tools.md`](tools.md))이다. 알고리즘의 순서는 앵커 → 이웃 확장 →
-우선순위 → 예산 패킹이다. 예산 상한식은 Δ = m·k·42이고, 앵커 m × 이웃 k × 42줄이다.
+우선순위 → 예산 패킹이다. 예산 상한식은 Δ = m·k·1,092이고, 앵커 m × 이웃 k × 청크 상한(토큰)이다 — 예산은 5,418 토큰(42×129).
 
 ## 9. 뷰
 
@@ -320,11 +320,18 @@ noul·choice·score 셋이고 선택 집합은 255 이하다. **확신도는 자
 (`summary-support`·`addition`·`empty-value`)가, 중복·자리는 `consistency.py` ⑩·⑪이 후보까지 낸다. 남는 둘(근거·라벨 대표성)만 세션
 판정자가 맡는다. 세션 판정자를 여는 것은 실험자(vnv)다 — 열쇠(`key.json`)를 쥔 쪽이 판정자와 분리된다.
 
+**정지 규칙**(유저 승인 2026-10-01, 목표 `verification-round-stop-rule` stable) — 연속한 두 라운드에서 신규 결함 수가 줄지 않으면 다음
+라운드를 열지 않고 채널로 되돌린다. 신규 결함 수의 정의처는 `//kg:audit`의 판정 주석 절(라운드 = 주석의 `prov:generatedAtTime`
+날짜, `process:judge`의 판정 결과는 제외)이다. 첫 적용은 2026-10-01 orchestrator 세션이다 — 2·4·2·2·2에서 두 번 성립해 라운드를
+열지 않았다.
+
 ## 12. 영향 분석
 
 `revalidate`의 `호출부` 열은 본문 해시가 바뀐 정의를 `uses`(`agt:usesDefinition`)로 가리키는 출발점의 수이고 **코드 호출부
-파손의 상한**이다(2026-09-30). 상한의 범위는 같은 모듈이다 — 모듈 간 호출은 세지 않으므로 값이 0이어도 저장소 전체의 호출부가
-0이라는 뜻이 아니다(실측: `pct`는 모듈 안 0, 저장소 전체 36). 수치를 churn의 크기로 인용할 때 이 경계를 함께 적는다.
+파손의 상한**이다(2026-09-30). 상한의 범위는 같은 모듈과 치역 경계(`defs/kb.bzl`의 `USES_TARGETS`) 안의 모듈이다 — 경계 밖 모듈·간접 호출·상수 참조는
+세지 않으므로 값이 저장소 전체의 호출부와 같지 않다. **단위는 정의 청크**다 — 호출 표현식 수가 아니다(실측 2026-10-02: `pct`는
+호출부 13 = 호출 모듈 8 전부, 호출 표현식 38 중 직접 16·인자로 받는 쪽 22; 승인 문구의 "36 안팎"은 표현식 단위라 같은 자로
+재지 않는다 — vnv 판정 부분 성공, 해소 자체는 20/20·오탐 0). 수치를 churn의 크기로 인용할 때 이 경계를 함께 적는다.
 
 "X를 바꾸면 무엇이 영향받는가"를 **변경 전에** 계산한다 (d-0148).
 
@@ -380,8 +387,8 @@ noul·choice·score 셋이고 선택 집합은 255 이하다. **확신도는 자
 
 위험 분석 G1의 산출은 `defect` 모듈의 요인 개체다(2026-09-29, 유저 답 — 피해·현상·가정을 질문지 그대로 채택). 현상을
 더할 때는 세 갈래 아래 **잎으로만** 더하고 새 상위 개념을 만들지 않는다. 개체마다 정의·질문지 표기(`skos:notation`)·관측
-수단(`agt:observationMeans`)·출처를 적고, 관측 수단이 아직 없으면 `미확정`을 적는다 — 미확정의 수(지금 9, P14~P22)가 위험
-분석의 산출 후보다. G2의 인과는 `agt:hasImpact`, G3은 `agt:hasTrigger`·`agt:discoveredAtLevel`, G4의 지표는
+수단(`agt:observationMeans`)·출처를 적고, 관측 수단이 아직 없으면 `미확정`을 적고 그 까닭은 정의문에 적는다 — 미확정의 수(2026-10-01:
+2, P17·P20)가 위험 분석의 산출 후보다. G2의 인과는 `agt:hasImpact`, G3은 `agt:hasTrigger`·`agt:discoveredAtLevel`, G4의 지표는
 `agt:severityGrade`·`agt:exposureGrade`·`agt:detectabilityGrade`, G5의 부류는 `agt:exposesFactor`로 적는다. 판정은 vnv가
 `kb/vv/`에서 하고 T-Box 트리플은 developer가 `defect-rules`(`impact-causation-rules.ttl`)에 옮긴다. 등급을 곱하지 않는다. G6 목표 거동은 술어가 아니라
 V&V 요구·결정의 본문이다.

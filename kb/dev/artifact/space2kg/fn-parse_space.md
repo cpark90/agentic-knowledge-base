@@ -7,8 +7,9 @@ title: function parse_space in tools/space2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-space2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/9875f781-35a4-413a-beae-89f20bb6ea33, https://agentic-knowledge-base.dev/id/chunk/a17c39f7-acf4-442e-a8e3-c996b7156e77, https://agentic-knowledge-base.dev/id/chunk/cdaa7848-3ca1-4cc0-a72c-836fd556f15e, https://agentic-knowledge-base.dev/id/chunk/d3b6910f-bf07-4997-9d87-d61f68beb577]
 part_of: https://agentic-knowledge-base.dev/id/composite/fc3f9858-3941-435d-b741-071b871ce613
 ---
 **함수** — `parse_space(path)` 다. `-space` 청크 하나 → 방출에 필요한 값들.
@@ -17,7 +18,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/fc3f9858-3941-435d-b741
 ```python
 def parse_space(path: str) -> dict:
     """`-space` 청크 하나 → 방출에 필요한 값들. 형식 위반은 SpaceError 다."""
-    meta, n = chunk2kg.parse_chunk(path)
+    meta, body = chunk2kg.parse_chunk(path)
     if meta["type"] != kb_lib.SPACE_TYPE:
         raise SpaceError(f"{path}: type 이 {kb_lib.SPACE_TYPE} 가 아니다 — 실제 {meta['type']!r} (설계 공간이 아닌 청크는 "
                          f"tools/chunk2kg.py 가 head 로 올린다)")
@@ -75,7 +76,7 @@ def parse_space(path: str) -> dict:
     constraints = [str(c) for c in (data.get("constraints") or [])]
     if any(not c for c in constraints):
         raise SpaceError(f"{path}: 빈 양립 제약이 있다 — 제약이 없으면 constraints 를 적지 않는다 (STYLEGUIDE §0 빈 값)")
-    return {"meta": meta, "lines": n, "path": path, "var": (str(var["from"]), kind), "status": status,
+    return {"meta": meta, "body": body, "path": path, "var": (str(var["from"]), kind), "status": status,
             "candidates": candidates, "constraints": constraints, "preferences": prefs}
 ```
 <!-- 인용 끝 -->

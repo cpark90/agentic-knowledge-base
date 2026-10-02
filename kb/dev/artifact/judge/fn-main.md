@@ -7,8 +7,9 @@ title: function main in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
-verified: [{by: process:bazel-test, at: 2026-09-30T10:45:28Z}]
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/0b44a7ed-753e-4f76-bfba-efd520b3c3f1, https://agentic-knowledge-base.dev/id/chunk/136a10e2-560c-4817-b3e1-630cbe303a57, https://agentic-knowledge-base.dev/id/chunk/21357a69-21e9-470e-8d6c-43908a9308d7, https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b, https://agentic-knowledge-base.dev/id/chunk/39f2a0d8-63e6-48ef-a57b-5291a656e915, https://agentic-knowledge-base.dev/id/chunk/473ab4af-5806-45ea-a923-d7f635544fdb, https://agentic-knowledge-base.dev/id/chunk/50114263-78e9-4af8-9078-cd158d3f76eb, https://agentic-knowledge-base.dev/id/chunk/568c9c47-0d5f-4372-a395-b07605eaeedd, https://agentic-knowledge-base.dev/id/chunk/8a58cf85-fc7e-418d-91fc-ce025cf2cff9, https://agentic-knowledge-base.dev/id/chunk/8d5e7694-cb0b-42c7-a734-a6f0e8782caf, https://agentic-knowledge-base.dev/id/chunk/d1ca967e-c2f5-4f0e-8d10-03adbb6b5c13, https://agentic-knowledge-base.dev/id/chunk/f804ba0b-8ec8-42b5-b53e-733d51e50546]
 part_of: https://agentic-knowledge-base.dev/id/composite/d3829a12-5161-4435-a412-0e94e23dc6ac
 ---
 **함수** — `main()` 다.
@@ -30,6 +31,8 @@ def main() -> int:
     ap.add_argument("--profile", default=PROFILE_DIR, help="질문·척도·임계의 원본 디렉토리")
     ap.add_argument("--list", action="store_true", help="등록된 질문만 나열하고 멈춘다")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 워크스페이스 루트 기준")
+    ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 판정 로그를 `memory` 상한 안으로 가르는 데 쓴다. "
+                                               "없으면 runfiles 의 고정 파일을 쓴다 (p1-chunk-unit-is-tokens)")
     ap.add_argument("chunks", nargs="*", help="판정 대상 청크 파일 — 라벨 대표성 실험(`--decoys`)만 쓰면 생략할 수 있다")
     a = ap.parse_args()
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
@@ -90,7 +93,11 @@ def main() -> int:
         if a.record:
             if not rows:
                 raise JudgeError("기록할 판정 행이 없다 — `--decoys` 만으로는 판정 로그를 남기지 않는다(청크 대상이 없다)")
-            written = write_records(at(root, a.into) if a.into else root, rows, q, name, th, source, now)
+            try:  # 로그를 가르는 상한이 토큰이므로 계수기가 기록의 입력이다 (ODD id:cond-tokenizer-lock)
+                enc = kb_lib.load_tokenizer(a.vocab or None)
+            except (FileNotFoundError, ValueError) as e:
+                raise JudgeError(f"어휘 파일 — {e}") from e
+            written = write_records(at(root, a.into) if a.into else root, rows, q, name, th, source, now, enc)
             print("기록: " + " · ".join(p.as_posix() for p in written) +
                   " — python3 tools/gen_build.py --root . 로 BUILD 를 갱신한 뒤 bazel test //... 를 돌린다")
     except JudgeError as e:

@@ -7,7 +7,8 @@ title: function render_axis_sections in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/453be329-3277-4ed7-a036-50df02988fed
 ---
 **함수** — `render_axis_sections(pct, live, authored, components, filled, skips, residency_bad, cov_line, link_ents, with_ev, origins, extracted_n, built_n, restored_total, tim_filled, TIM, BUDGET, role_rows, scope_bad)` 다.
@@ -17,7 +18,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/453be329-3277-4ed7-a036
 def render_axis_sections(pct, live, authored, components, filled, skips, residency_bad, cov_line, link_ents, with_ev, origins, extracted_n, built_n, restored_total, tim_filled, TIM, BUDGET, role_rows, scope_bad):
     o = []
     o += ["", "## 세 축 대리 — 1·3·5단계 (14.1 정정본: 의미 보존 · 구체화 · 유기적 연결)", "",
-          f"- 연결: 저작된 지식의 연결 성분 **{components}**개 (살아 있는 청크 {len(live)} 중 관측·주석 {len(live) - len(authored)}건을 뺀 {len(authored)}개가 링크·복합체로 이어진 덩어리. 목표 1)",
+          f"- 연결: 저작된 지식의 연결 성분 **{components}**개 (살아 있는 청크 {len(live)} 중 관측·주석 {len(live) - len(authored)}건을 뺀 {len(authored)}개가 링크·복합체·`prov:specializationOf` 로 이어진 덩어리. 목표 1; 1보다 크면 아래 「주 성분 밖 청크」 절이 성분마다 목록을 낸다)",
           f"- 연결: level×level `refines` 매트릭스 채움 {pct(len(filled), 4)} — " + (", ".join(f"{a_}→{b_}" for a_, b_ in filled) or "없음") + " (목표 4/4 = 100.0%)",
           f"- 구체화: level을 한 단계씩 내려가지 않는 `refines` **{len(skips)}**건 (목표 0; 지금은 concrete→functional 직행이 구조적으로 허용됨 — abstract·logical 결정이 생기면 0이어야 한다)",
           f"- 구체화: 수준 허용표 위반 **{len(residency_bad)}**건 (목표 0)",
@@ -30,8 +31,9 @@ def render_axis_sections(pct, live, authored, components, filled, skips, residen
           f"- 연결: plane×plane 매트릭스 — TIM 허용 칸 채움 **{pct(len(tim_filled), len(TIM))}** ({', '.join(f'{k}:{a_}→{b_}' for k, a_, b_ in tim_filled) or '없음'}); 빈 칸은 contract·schema·artifact·V&V 항목이 생겨야 찬다",
           "- 구체화: `refines` 한 단계씩 — 위 세 축 절의 건너뜀 수 참조"]
     o += ["", "## 2단계 대리 — ODD와 스코프", "",
-          f"- 정의: 여기의 예산 준수율은 **앵커마다** 센다 — 스코프 안 청크 하나를 앵커로 잡고 그 1홉 이웃의 라벨과 본문을 펼친 줄 수가 "
-          f"{BUDGET}줄 이하인 앵커의 비율이다. `bazel build //kg:workset` 의 예산 판정은 **문서 전체**(앵커 없이 스코프 전체의 라벨 목록)를 재므로 "
+          f"- 정의: 여기의 예산 준수율은 **앵커마다** 센다 — 스코프 안 청크 하나를 앵커로 잡고 그 1홉 이웃의 라벨과 본문을 펼친 크기가 "
+          f"{BUDGET}토큰 이하인 앵커의 비율이다. 본문은 `agt:tokenCount`, 라벨·제목 행은 행마다 1 로 세므로 합계는 하한이다. "
+          "`bazel build //kg:workset` 의 예산 판정은 **문서 전체**(앵커 없이 스코프 전체의 라벨 목록)를 어휘로 직접 세므로 "
           "두 수치는 같은 이름이되 다른 것을 센다",
           "- 구체화: 역할·앵커별 작업 집합(스코프 안 청크를 앵커로, 1홉 이웃 라벨 + 본문 펼침)이 예산 안인 비율: " + " · ".join(role_rows),
           f"- 구체화: ODD × plane 권한에서 파생되지 않은 스코프 **{len(scope_bad)}**건" + (f" — {', '.join(scope_bad)}" if scope_bad else "") + " (목표 0; 2026-09-26부터 게이트 `catalog` 가 같은 규칙을 강제하므로 이 수치는 그 게이트의 관측이다)",
