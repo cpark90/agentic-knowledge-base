@@ -6,11 +6,8 @@
 2. "구두로 답을 줬더라도 orchestrator는 수행해도 되는데 hci는 작업을 수행하면 안 됨."
 → 문제는 태그의 유무가 아니라 **수행 주체**다. 구두 답은 orchestrator에게 유효한 지시이고, hci는 소통만 한다.
 
-**규칙.** 답은 질문지(`harness/user/Q-<번호>.md`)의 `답:` 줄에 원문으로 남는다. 유저가 채팅으로 답하면 내가
-질문지에 옮겨 적는다. 그 답을 `task` 메시지(필수 절 여섯)로 구체화해 orchestrator 수신함에 보낸다(`send.sh`, `SOURCE=Q-<번호>`).
-유저가 대화에서 hci에게 직접 편집을 지시해도 "orchestrator에 지시를 보냈다"고 답한다.
-게이트: `//harness:channel_lint_test`(hci 반영 흔적 = FAIL, 그 질문지를 `source`로 갖는 `task`의 `result`로 해소) · `//kg:gate_test` writer 검사
-(`generated.by: hci/…` 청크는 쓰기 역할의 verified 없이는 FAIL). 2026-10-03 에 채널이 `harness/`로 바뀌었다 — 옛 `## 답`·`handoff/`·`인수:` 줄은 없다.
+**규칙의 자리.** 규칙은 `harness/agents/hci.md` 핵심 원칙 1·2와 `harness/user/README.md`에 있고, 그것을 강제하는 게이트는
+`harness/README.md` §게이트에 있다. 여기에 다시 적지 않는다.
 
 **왜 어긋났나.** "유저가 말했으니 됐다"가 역할 경계를 대신했다. 역할 경계가 있는 이유: 저작·판정 분리(11.2절),
 소통 창구가 산출물을 만들면 되묻기와 반영이 한 컨텍스트에 섞여 검사가 사라진다.

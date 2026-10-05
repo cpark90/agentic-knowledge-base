@@ -110,12 +110,6 @@ new → read → in_progress → done        (정상 처리 — archive/ 로 이
 유저가 같은 파일의 `답:` 줄에 답을 적는다. 채팅으로 결정을 받지 않는다. 형식과 생애주기의 원본은
 [`user/README.md`](user/README.md)다.
 
-- **반영 허가 신호는 유저가 적은 답과 `status: answered` 태깅이다.** 질문지의 `답:` 줄이 채워져 있고 유저가 hci 세션에서 "답 적었어"라고 알리면, 그것을 허가 신호로 삼는다. 이때 hci가 `status: answered`를 대신 적는다(Q24-b). 대신 태깅은 이 경우뿐이다.
-- **hci는 답을 받아도 수행하지 않는다.** 답을 `task`·`answer`·`knowledge` 메시지로 정제해
-  orchestrator에 넘기는 데서 멈춘다(유저 교정 2026-09-11).
-- orchestrator의 `question` 가운데 유저 판단이 필요한 것도 hci가 질문지로 옮긴다.
-- 유저가 채팅으로 먼저 답한 경우에도 hci가 그 답을 질문지에 원문으로 옮겨 적어 기록을 남긴다.
-
 ## 지식 축적
 
 메시지는 흐르고 **지식 베이스는 남는다.** 한 프로젝트의 하네스가 `KNOWLEDGE.md` 한 파일에

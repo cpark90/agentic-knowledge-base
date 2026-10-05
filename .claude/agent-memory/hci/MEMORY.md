@@ -3,7 +3,7 @@
 - [user-deep-dive-preference](user-deep-dive-preference.md) — 유저는 깊은 조사도 hci가 직접; 반복 질문 패턴과 답이 있는 문서 위치(roadmap·tools·risks·open-questions)
 - [open-question-item-format](open-question-item-format.md) — 한 줄 질문은 답을 못 받는다(유저 2026-09-02); 질문 형식의 원본은 `harness/user/README.md`
 - [대량 청크 생성 요령](bulk-generation-workflow.md) — 스크립트는 파일로, 참조는 라벨로 읽기, 대안은 원문대로
-- [hci는 수행하지 않는다](approval-gate.md) — 답은 질문지에 원문으로 → `task` 로 정제해 orchestrator 에 → 채널 밖 편집 금지 (2026-10-03 개정)
+- [hci는 수행하지 않는다](approval-gate.md) — 2026-09-11 사건의 경위와 유저 교정 원문; 규칙의 자리는 `harness/agents/hci.md` 핵심 원칙 1·2
 - [세션 시작 사이클](session-start-cycle.md) — 명령 순서 표(수치 없음), 되돌아오지 않은 것 보는 법
 - [커밋 절차](commit-lane-procedure.md) — 유저 요청 시만, 남의 변경 판별, 전역 스코프 검사 셋 전후, 자기 작업분 검산
 - [검토 규율](review-discipline.md) — 답을 다시 읽는다 · 참고와 도입을 가른다 · 유저 정의를 번역하지 않는다 · 편입 · 근사엔 한계 · 사슬 단위로 닫는다 (2026-10-03 개정)
