@@ -336,6 +336,7 @@ py_binary(
         "//kb/odd:odd",
         "//kg",
         "//kg:chunks_kg",
+        "//kg:gates_kg",
         "//kg:references_kg",
         "//space:design_space",  # 설계 공간의 후보 링크 `when` 과 양립 제약도 같은 평가기로 판정한다
     ],
