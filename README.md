@@ -59,8 +59,7 @@ bazel run //tools:canonicalize -- --write <files>   # 기계 생성 TTL 정규�
 
 코어를 코어 자신에 적용한 **첫 인스턴스**다. 설계 원본은 노트 v3
 ([`docs/agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md))다. 그
-`[확정]`이 요구와 결정(`kb/dev/`)으로 재도출되어 있다. 출처와 처리
-경위는 [`docs/decomposition-audit.md`](docs/decomposition-audit.md)에 있다.
+`[확정]`이 요구와 결정(`kb/dev/`)으로 재도출되어 있다.
 
 작업 규칙은 [`AGENTS.md`](AGENTS.md)에, 저작 스타일은 [`STYLEGUIDE.md`](STYLEGUIDE.md)에 있다.
 
@@ -105,7 +104,6 @@ Part VII이 신설되어 옛 VII 이후가 한 칸 밀렸다.
 | [`open-questions.md`](docs/open-questions.md) | 미해결 질문의 자리 안내 — 목록은 생성 뷰 `//kg:open`, 상세는 설계 공간 `space/*-space.md` |
 | [`references.md`](docs/references.md) | 어느 구조를 어느 표준에서 가져왔는가 |
 | [`glossary.md`](docs/glossary.md) | **용어집** — 산문 한글 용어의 원본(표준 용어·영문·옛 표기·출처) |
-| [`decomposition-audit.md`](docs/decomposition-audit.md) | 노트·참조 저장소에서 지식이 어디로 갔는가와 감사의 발견 (상세 이력은 git) |
 
 ### 소통 채널
 
