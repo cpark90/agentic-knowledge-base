@@ -9,4 +9,4 @@
 7. **닫는 순서는 사슬 단위다**(2026-10-03 개정). `result` 가 `re` 로 `task` 를, `task` 가 `source` 로 질문지를 가리킨다. `result` 를 `mark.sh done` 으로 보관한 뒤 질문지를 `closed` 로 고쳐 `harness/user/archive/` 로 옮긴다. 질문지를 지우지 않는다 — `source` 가 실재를 요구하고 `channel_lint` 가 FAIL 한다. 옛 refresh(항목 제거)는 없다.
 8. **휘발성 데이터는 보이면 바로 옮긴다.** 다른 세션 스크래치패드의 실험 응답은 `harness/user/` 아래(선례 `harness/user/archive/legacy/inquiries/label-exp-2026-09-30/`)로 복사하고 정식 자리(`kb/vv/run/`)로의 이동을 `task` 에 적는다.
 9. **유저가 orchestrator 세션에 직접 지시할 수 있다.** 그 지시는 유효하고 orchestrator 가 `status` 로 알려 온다. 그때 질문지를 사후 기록으로 쓰고(`답:` 에 원문, `closed`) 순서를 적는다.
-10. **push** 는 `git -c credential.helper='!gh auth git-credential' push origin main`. 판정 자격·키는 채널에 적지 않는다.
+10. 판정 자격·키는 채널에 적지 않는다.

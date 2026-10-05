@@ -26,7 +26,3 @@
 
 ## 되돌아오지 않은 것을 보는 법
 `channel_lint` 의 WAIT 줄 + `./harness/scripts/inbox.sh orchestrator`(내가 보낸 `task` 가운데 `result` 가 아직 없는 것).
-
-## git 인증
-`git push` 는 저장된 자격이 만료돼 실패한다. `gh` 는 로그인돼 있으므로
-`git -c credential.helper='!gh auth git-credential' push origin main` 으로 민다(설정을 바꾸지 않는다).
