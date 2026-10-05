@@ -27,17 +27,17 @@ kb/ontology/                  # 코어 어휘 (T-Box) — 모듈 = 디렉토리,
   related/                 #   횡단 개념 (조건·스코프·가정·채널·하네스·링크·상태·태그)
   shapes/                  #   SHACL — 규칙의 검사 가능한 형태 (plane×level 수준 허용표 포함)
   proposals/               #   용어 제안 승인 큐 (그래프 밖)
-kb/odd/project-odd.yml     # 이 저장소 자신의 운영 조건 (OpenODD, 조건 7개) — TTL·택소노미는 생성물
+kb/odd/project-odd.yml     # 이 저장소 자신의 운영 조건 (OpenODD) — TTL·택소노미는 생성물
 kg/base-kg.ttl             # A-Box — 가정·출처 문서
 kg/catalog-kg.ttl          # A-Box — 에이전트 역할·스코프·채널 (하네스 입력)
 kg/composite-kg.ttl        # A-Box — 복합체 (손)
 kg/chunks-kg.ttl           # (생성) head 그래프 — frontmatter에서 만든다
 kg/references-kg.ttl       # (생성) 인용 링크 — 본문에서 뽑는다
 INTENT.md                  # 요구 층 진입 — 궁극 목적·이해관계자·요구 인덱스
-kb/dev/requirement/        # 개발 KB — 요구 33건 (EARS, functional)
-kb/dev/decision/           # 개발 KB — 결정 188건 (결론·근거·대안 세 청크 복합체; 1건은 deprecated)
+kb/dev/requirement/        # 개발 KB — 요구 (EARS, functional)
+kb/dev/decision/           # 개발 KB — 결정 (결론·근거·대안 세 청크 복합체)
 kb/vv/                     # V&V KB — vnv 역할만 편집 (아직 비어 있음)
-chunks/decision/           # v1 유래 옛 결정 (126 deprecated · 27 유효)
+chunks/decision/           # v1 유래 옛 결정
 space/                     # 설계 공간 (후보와 제약) — 아직 비어 있음
 tools/                     # 검사·생성(validate · chunk_lint · chunk2kg · gen_build · channel_lint …) · 활용(workset · metrics · impact · handoff · consistency)
 defs/knowledge.bzl         # 게이트 매크로
@@ -59,9 +59,7 @@ bazel run //tools:canonicalize -- --write <files>   # 기계 생성 TTL 정규�
 
 코어를 코어 자신에 적용한 **첫 인스턴스**다. 설계 원본은 노트 v3
 ([`docs/agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md))다. 그
-`[확정]`이 요구 33건과 결정 188건(`kb/dev/`)으로 재도출되어 있다. 188건은 v3 145건, v4·v5
-델타 37건, 2026-09-11~13 추가 6건의 합이다. deprecated는 청크 129다. `chunks/decision/`의 v1
-유래 옛 결정 126건과 대체된 새 결정 1건(`p14-adoption-stages`, 청크 3)이 여기 든다. 출처와 처리
+`[확정]`이 요구와 결정(`kb/dev/`)으로 재도출되어 있다. 출처와 처리
 경위는 [`docs/decomposition-audit.md`](docs/decomposition-audit.md)에 있다.
 
 작업 규칙은 [`AGENTS.md`](AGENTS.md)에, 저작 스타일은 [`STYLEGUIDE.md`](STYLEGUIDE.md)에 있다.
@@ -86,7 +84,7 @@ Part VII이 신설되어 옛 VII 이후가 한 칸 밀렸다.
 | 문서 | 다루는 것 |
 |---|---|
 | [`purpose.md`](docs/purpose.md) | **먼저 읽는다.** 궁극 목적, 대상 지식과 순환, 두 KB, 이 저장소가 만드는 것 |
-| [`../INTENT.md`](INTENT.md) | 요구 층 진입 문서 — 이해관계자·관심사·요구 33건 인덱스 (루트) |
+| [`../INTENT.md`](INTENT.md) | 요구 층 진입 문서 — 이해관계자·관심사·요구 인덱스 (루트) |
 
 ### 산출물
 
