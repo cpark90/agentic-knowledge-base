@@ -40,7 +40,9 @@ def main() -> int:
     ap.add_argument("--universe", default="//kb/... + //chunks/...")
     a = ap.parse_args()
     cwd = os.environ.get("BUILD_WORKSPACE_DIRECTORY", ".")
-    is_item = lambda l: ":kg" not in l and not l.endswith(":bodies") and l != a.target
+    # 패키지의 본문 filegroup 은 이름이 디렉토리 이름과 같다 (STYLEGUIDE §6) — 묶음이지 지식 항목이 아니다
+    is_group = lambda l: l.split(":")[-1] == l.split(":")[0].rsplit("/", 1)[-1]
+    is_item = lambda l: ":kg" not in l and not is_group(l) and l != a.target
     direct = [l for l in q(f"rdeps({a.universe}, {a.target}, 1)", cwd) if is_item(l)]
     trans = [l for l in q(f"rdeps({a.universe}, {a.target})", cwd) if is_item(l)]
     planes = Counter(plane_of(l) for l in trans)

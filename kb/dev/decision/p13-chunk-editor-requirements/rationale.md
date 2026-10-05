@@ -2,17 +2,18 @@
 id: https://agentic-knowledge-base.dev/id/chunk/b6912d83-519c-4a03-8457-c8ba3efd5d55
 type: decision
 level: logical
-title_ko: 자연어 블록 길이 제약의 확정 형태가 42줄 청크이고 편집기가 그것을 강제한다
-title: The 42-line chunk is the settled form of the natural-language length constraint the editor enforces
+title_ko: 자연어 블록 길이 제약의 확정 형태가 토큰 상한 청크이고 편집기가 그것을 강제한다
+title: The token-bounded chunk is the settled form of the natural-language length constraint the editor enforces
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T00:30:10+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/922f75fe-58e0-4964-b79b-b9897ac35ce5
 ---
 **근거** (노트 13.4절·12.2절)
 
-- 자연어 블록 길이 제약의 **확정 형태가 42줄 청크**(Part IV)다. "코어 + 중복을
+- 자연어 블록 길이 제약의 **확정 형태가 토큰 상한 청크**(Part IV)다. "코어 + 중복을
   포함한 상세"라는 구성은 청크의 **라벨 + 본문**과 같다 — 편집기가 강제하는
   것이 바로 이 형태다.
 - 라벨 없는 청크는 라벨 목록으로 읽히지 않으므로 사실상 없는 것이다. 그래서

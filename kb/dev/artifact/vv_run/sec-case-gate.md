@@ -7,15 +7,14 @@ title: section case-gate in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/9f79d119-83cf-46a7-89c0-680e8f203296, https://agentic-knowledge-base.dev/id/chunk/b8d74a2d-f94b-4fe7-8b3b-13dca638d338, https://agentic-knowledge-base.dev/id/chunk/36a0b6fa-ac60-47db-a769-b49d067f6854]
 part_of: https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f
-composite: {id: https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f, title_ko: 절 복합체 case-gate (tools/vv_run.py), title: section composite case-gate in tools/vv_run.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/41141de0-6fa2-4b92-802c-3816ac5936ef, https://agentic-knowledge-base.dev/id/chunk/b43bbf0b-8cd2-4a3c-9acb-56a1fa9e8a63, https://agentic-knowledge-base.dev/id/chunk/2c7856fb-c6fb-42fb-bc34-c18e19362e57, https://agentic-knowledge-base.dev/id/chunk/f1c79e23-8146-427e-83da-3d62ae01bb20, https://agentic-knowledge-base.dev/id/chunk/13d0468f-ac80-47c0-9d27-cafd3ef8ffaf, https://agentic-knowledge-base.dev/id/chunk/4fa89da6-040b-46a2-8dda-692155b66811, https://agentic-knowledge-base.dev/id/chunk/fad9cc7c-a705-42d5-adcc-e124bff2c57c, https://agentic-knowledge-base.dev/id/chunk/4819f0e8-1ed9-43cb-b206-366b65a7f00f], part_of: https://agentic-knowledge-base.dev/id/composite/5fc8dfb1-4583-4c27-8266-44c34557e4c1}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f, title_ko: 절 복합체 case-gate (tools/vv_run.py), title: section composite case-gate in tools/vv_run.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/41141de0-6fa2-4b92-802c-3816ac5936ef, https://agentic-knowledge-base.dev/id/chunk/b43bbf0b-8cd2-4a3c-9acb-56a1fa9e8a63, https://agentic-knowledge-base.dev/id/chunk/2c7856fb-c6fb-42fb-bc34-c18e19362e57, https://agentic-knowledge-base.dev/id/chunk/f1c79e23-8146-427e-83da-3d62ae01bb20, https://agentic-knowledge-base.dev/id/chunk/13d0468f-ac80-47c0-9d27-cafd3ef8ffaf, https://agentic-knowledge-base.dev/id/chunk/4fa89da6-040b-46a2-8dda-692155b66811, https://agentic-knowledge-base.dev/id/chunk/fad9cc7c-a705-42d5-adcc-e124bff2c57c, https://agentic-knowledge-base.dev/id/chunk/4819f0e8-1ed9-43cb-b206-366b65a7f00f, https://agentic-knowledge-base.dev/id/chunk/5f53b16a-56e0-4dc8-886e-c0e202e515c8], part_of: https://agentic-knowledge-base.dev/id/composite/5fc8dfb1-4583-4c27-8266-44c34557e4c1}
 ---
 **절** — `tools/vv_run.py` 의 절 `case-gate` 다. 기계가 읽는 자극·기대 (결정 p8-machine-readable-case)
 
-**정의** — `unsafe` · `classify` · `yaml_blocks` · `phrases` · `case_spec` · `check_case` · `load_cases` (소스 순서).
+**정의** — `unsafe` · `classify` · `yaml_blocks` · `phrases` · `case_spec` · `check_case` · `load_cases` · `load_items` (소스 순서).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
@@ -35,7 +34,10 @@ FILE_NAME = re.compile(r"[A-Za-z0-9._][A-Za-z0-9._-]*")  # 자극 이름은 단�
 # 허용 목록은 여전히 보안 경계다. `files` 가 임의 명령의 실행을 허가하지는 않는다 — 바뀌는 것은 자극을 기계가 읽는다는 사실뿐이다.
 # `python3 tools/<검증기>.py` 하나만 둔다. 실행은 워크스페이스 루트가 cwd 이므로(run_command) 케이스가 적는 상대 경로가 자극에 닿는다
 READ_ONLY_VERIFIERS = ("validate", "chunk_lint", "chunk2kg", "doccheck", "gendoc", "channel_lint", "odd2kg", "taxonomy", "space2kg",
-                       "assume_check")
+                       "assume_check", "revalidate")
+# 허용 목록의 검증기 중 **스냅숏 꼴만** 읽기 전용인 것 → 그 꼴의 표지 인자. `revalidate` 의 기본 꼴은 git 리비전 대 워킹트리이고
+# `bazel query` 를 불러 케이스의 자극에 닿지 않는다 — 디렉토리·파일 둘을 비교하는 꼴(유저 답 Q38-c)만 자극에 닿고 git·bazel 을 부르지 않는다
+SNAPSHOT_ONLY = {"revalidate": (("--base-dir", "--base-files"), ("--head-dir", "--head-files"))}
 VERIFIER_PREFIXES = tuple(f"python3 tools/{v}.py " for v in READ_ONLY_VERIFIERS)
 # 같은 검증기를 `bazel run //tools:<검증기>` 로 부르는 형태는 허용 목록 밖이고 케이스 형식 검사가 실행 전에 거부한다. 까닭은 셋이다.
 # `bazel run` 의 cwd 는 runfiles 트리라 워크스페이스 상대 경로가 자극이 아닌 없는 파일로 풀리고, 그 입력 단계 오류가 기대한 거부와 같은

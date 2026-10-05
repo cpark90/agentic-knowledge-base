@@ -7,8 +7,8 @@ source: tools/endorse.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-endorse
 package: kb/dev/artifact/endorse
 layer: process
-at: 2026-09-11T09:15:09Z
-source_hash: 78e152a34cbd0ddc
+at: 2026-09-30T08:07:48Z
+source_hash: 3723fac6429500db
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/4ec4de00-ea81-4ed0-abf7-40beedc25e38
 serves: []
@@ -20,6 +20,7 @@ ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/e9580aea-56ec-4ca6-a78d-95befb50b334
   composite:sec:main: https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d-a8a449270a57
   file: https://agentic-knowledge-base.dev/id/composite/9a0f13d1-d6f6-48ea-9728-4e96bd777d51
+  fn:future_at: https://agentic-knowledge-base.dev/id/chunk/76dd3d85-14b0-4166-9ac3-75140ae7ea66
   fn:main: https://agentic-knowledge-base.dev/id/chunk/3d2b2b8c-6a17-43ac-bcbd-a2af891dfeb3
   head: https://agentic-knowledge-base.dev/id/chunk/e7f0f4ca-74a2-4f45-9464-feb382099c39
   module: https://agentic-knowledge-base.dev/id/chunk/5c0dd9d9-4424-4c6e-ae1d-1b8209b24286

@@ -180,7 +180,7 @@ def evaluate(g: Graph, cond_rows: list[dict]) -> list[dict]:
 
 def observation(now: datetime, cond_rows: list[dict], asms: list[dict], impact: dict, live_n: int, broke: list[str],
                 broke_show: list[str], check: dict | None, sat: dict) -> str:
-    """관측 청크 본문 — 시각·행동·situation 요약 (STYLEGUIDE §4 memory). 42줄 안이다."""
+    """관측 청크 본문 — 시각·행동·situation 요약 (STYLEGUIDE §4 memory). `memory` plane 상한(2,856토큰) 안이다."""
     stamp = kb_lib.utc_stamp(now)  # G3 표기 하나 — frontmatter 와 본문이 같은 꼴을 쓴다 (유저 승인 2026-09-23)
     n_inv = sum(1 for a in asms if a["status"] == "invalidated")
     n_unv = sum(1 for a in asms if a["status"] == "unverified")

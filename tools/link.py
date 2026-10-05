@@ -17,8 +17,18 @@ frontmatter 에 링크 키와 `restored:` 를 적는다 (p10-restored-link-marki
         (relatedTo 족의 약한 잎 — 관계는 있으나 이름이 아직 없는 자리, overlap-ontology). 그것은 링크 키라 채택이 복원 비율에 든다.
         supersedes 는 시간축이라 후보가 아니다. 한 칸에 종류가 여럿이면 refines > derivesFrom > satisfies > constrains > serves > verifies 순.
         승계 후보는 원 링크의 종류가 제약을 통과하면 그것을 쓴다
-  제약  defs/kb.bzl _check_links 와 같은 규칙 — refines·serves 는 더 높은 수준으로·plane 순서 역행 금지·같은 KB, serves 대상은 요구,
-        verifies 는 주어 kb/vv·대상 개발 KB·같은 수준. 자기 자신·deprecated·복합체 형제·이미 링크된 쌍·KB 를 가로지르는 overlapsWith 는 탈락
+  제약  defs/kb.bzl _check_links 와 같은 규칙 — refines·serves 는 더 높은 수준으로·plane 순서 역행 금지, serves 대상은 요구,
+        verifies 는 주어 kb/vv·대상 개발 KB·같은 수준. 자기 자신·deprecated·복합체 형제·이미 링크된 쌍·KB 를 가로지르는 overlapsWith 는 탈락.
+        구조상 채택될 수 없는 후보 셋을 더 거른다 — `_check_links` 는 Bazel deps(refines·serves·supersedes·verifies)만 보므로
+        나머지 키는 여기서 걸러야 후보가 준다:
+        (가) KB 가로지름 — verifies 밖의 모든 종류(satisfies·derivesFrom 포함). KB 사이 링크는 verifies 하나다
+             (p6-executable-splits-by-kb). 예외는 사다리의 functional 행 하나 — V&V 검증 목표(kb/vv requirement, functional)
+             → 개발 요구 derivesFrom (p8-scenario-ladder-rungs). 판정은 kb_lib.cross_kb_link 이고 저작된 링크는 같은 함수로
+             게이트 `cross-kb-link`(validate)가 거부한다
+        (나) 코드 부분 끝점 — 추출 트리(kb_lib.EXTRACT_ROOT) 안에서 복합체의 부분인 청크(정의·절·장·모듈 머리)는 끝점이 아니다.
+             링크는 파일 복합체의 선언 청크(module.md)와 질의 청크가 갖는다 (p7-code-links-on-file-composite)
+        (다) 케이스의 derivesFrom — 케이스(generated.by = kb_lib.CASE_GEN_ACTOR)의 derivesFrom 은 생성기가 자기 시나리오로 쓴다
+             (tools/case_gen.py). 그 밖의 대상은 후보가 아니다
   상한  앵커(주어)당 k ≤ --k (기본 7, 로드맵 입력표) — 근거 강도 → 공유 개념 수 → 대상 라벨 순. 넘치는 것은 탈락으로 센다
 사용: link.py --out link-candidates.md [--k 7] [--min-shared 3] <TTL...>   (bazel build //kg:link_candidates)
 종료: 0 생성됨 · 2 입력 문제(그래프 파일 없음·파싱 불가) — 뷰라 판정 실패(1)는 없다. 후보 0건은 빈 표이지 실패가 아니다
@@ -52,6 +62,11 @@ KIND_PREFERENCE = ("refines", "derivesFrom", "satisfies", "constrains", "serves"
 # 탈락 사유 — 요약의 분포 열쇠
 R_SELF, R_DEPRECATED, R_SIBLING, R_LINKED = "자기 자신(같은 단위)", "deprecated", "복합체 형제", "이미 링크됨"
 R_DIRECTION, R_CROSS_KB, R_CAP = "TIM 칸은 있으나 단방향·수준 규칙 위반", "KB 가로지름 (overlapsWith 불가 — verifies 뿐)", "상한 k 초과"
+# 구조상 채택될 수 없는 후보 — 위반 사유가 곧 탈락 사유다 (docstring 제약 (가)~(다))
+R_CROSS_LINK = "KB 가로지름 링크 (KB 사이 링크는 verifies 뿐 — 목표 → 요구 derivesFrom 만 예외)"
+R_CODE_PART = "코드 부분 청크가 끝점 (링크는 파일 복합체에)"
+R_CASE_DERIVES = "케이스의 derivesFrom (생성기가 자기 시나리오로 쓴다)"
+STRUCTURAL = (R_CROSS_LINK, R_CASE_DERIVES)
 
 
 # ── 단위와 매트릭스 제약 ────────────────────
@@ -66,6 +81,7 @@ class Units:
         self.status = {c: str(next(g.objects(c, AGT.status), "")) for c in self.chunks}
         self.level = {c: str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1] for c in self.chunks}
         self.loc = {c: str(next(g.objects(c, AGT.assertionLocation), "")) for c in self.chunks}
+        self.by = {c: str(next(g.objects(c, AGT.generatedBy), "")) for c in self.chunks}
         self.live = {c for c in self.chunks if self.status[c] != "deprecated"}
         self.comp_of: dict = {}
         parts = defaultdict(list)
@@ -102,6 +118,13 @@ class Units:
     def stem(self, c) -> str:
         return Path(self.loc.get(c, str(c))).stem
 
+    def code_part(self, c) -> bool:
+        """추출 트리 안에서 복합체의 부분인 청크 — 링크 끝점이 아니다. 판정은 게이트 `code-part-link` 와 같은 `kb_lib.code_part` 다."""
+        return kb_lib.code_part(self.loc.get(c, ""), c in self.comp_of)
+
+    def case(self, c) -> bool:
+        return self.by.get(c) == kb_lib.CASE_GEN_ACTOR
+
 
 def tim_kinds(pa: str, pb: str) -> list:
     """(출발 plane, 도착 plane) 칸이 허용하는 링크 종류 — supersedes 제외, KIND_PREFERENCE 순."""
@@ -113,13 +136,15 @@ def violation(u: Units, kind: str, a, b) -> str | None:
     """defs/kb.bzl _check_links 의 구조 규칙 — 위반이면 사유, 아니면 None."""
     la = LEVELS.index(u.level[a]) if u.level[a] in LEVELS else -1
     lb = LEVELS.index(u.level[b]) if u.level[b] in LEVELS else -1
+    if kb_lib.cross_kb_link(kind, (u.kb(a), u.plane[a], u.level[a]), (u.kb(b), u.plane[b], u.level[b])):
+        return R_CROSS_LINK  # 판정은 게이트 cross-kb-link 와 같은 함수다 (kb_lib.cross_kb_link — 예외는 목표 → 요구 derivesFrom)
+    if kind == "derivesFrom" and u.case(a):
+        return R_CASE_DERIVES  # 케이스의 derivesFrom 은 생성기가 자기 시나리오로 쓴다 (tools/case_gen.py)
     if kind in ("refines", "serves"):
         if lb >= la:
             return "refines/serves 대상은 더 높은 수준이어야 한다 (6.2절)"
         if PLANES.index(u.plane[b]) > PLANES.index(u.plane[a]):
             return "plane 단방향 위반 (5.2절)"
-        if u.kb(a) != u.kb(b):
-            return "refines/serves 는 KB 안에서만이다 (7.5절)"
         if kind == "serves" and u.plane[b] != "requirement":
             return "serves 의 대상은 requirement 뿐이다 (6.8절)"
     elif kind == "verifies":
@@ -143,14 +168,17 @@ def resolve(u: Units, key: frozenset, prefer: dict, hint: dict | None = None):
     kind = (hint or {}).get(key)
     if kind and kind in tim_kinds(u.plane[a], u.plane[b]) and violation(u, kind, a, b) is None:
         return (a, kind, b)
-    had_cell = False
+    had_cell, why = False, None
     for x, y in ((a, b), (b, a)):
         for kind in tim_kinds(u.plane[x], u.plane[y]):
             had_cell = True
-            if violation(u, kind, x, y) is None:
+            v = violation(u, kind, x, y)
+            if v is None:
                 return (x, kind, y)
+            if why is None and v in STRUCTURAL:
+                why = v
     if had_cell:
-        return R_DIRECTION
+        return why or R_DIRECTION
     if u.kb(a) != u.kb(b):
         return R_CROSS_KB
     return (a, RELATED, b)
@@ -261,6 +289,9 @@ def main() -> int:
         if key in linked:
             dropped[R_LINKED] += 1
             continue
+        if any(u.code_part(x) for x in key):
+            dropped[R_CODE_PART] += 1
+            continue
         r = resolve(u, key, prefer, hint)
         if isinstance(r, str):
             dropped[r] += 1
@@ -286,7 +317,8 @@ def main() -> int:
         f"살아 있는 단위(결정 복합체는 결론이 앵커) 쌍 중 frontmatter 링크(`{'`·`'.join(LINK_KEYS)}` + relatedTo 족)가 없는 쌍에 대해 "
         f"(a) `agt:cites` → constructionRecord · (b) 같은 V&V 청크의 `agt:verifies` → testCoverage · (c) `agt:usesConcept` 교집합 ≥ {a.min_shared} → proposal · "
         f"(d) 조각 F 가 `prov:specializationOf` O 이면 O 를 가리키던 확정 링크 X→O 마다 X→F → constructionRecord(값 \"승계: O\"). "
-        f"종류는 `kb_lib.TIM_CELLS` 허용 칸(인용 방향 → 역방향 → 칸이 없으면 `agt:overlapsWith`), 제약은 `defs/kb.bzl` `_check_links` 와 같다. 앵커당 k ≤ {a.k}",
+        f"종류는 `kb_lib.TIM_CELLS` 허용 칸(인용 방향 → 역방향 → 칸이 없으면 `agt:overlapsWith`), 제약은 `defs/kb.bzl` `_check_links` 에 더해 "
+        f"KB 가로지름(verifies 와 목표 → 요구 derivesFrom 밖)·코드 부분 끝점·케이스의 derivesFrom 을 거른다. 앵커당 k ≤ {a.k}",
         "bazel build //kg:link_candidates", ttl, f"트리플 {len(g)} ({kb_lib.gendoc_union(ttl)}) — 체계 밖 정보 0",
         kb_lib.gendoc_view_notice("앵커 청크의 frontmatter (`p10-candidate-and-confirmed-link` · `p10-restored-link-marking`)"),
         input_kind="그래프 파일",

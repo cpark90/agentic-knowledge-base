@@ -26,7 +26,7 @@ cat bazel-bin/kg/workset-developer.md
 
 ## 원본
 
-- 절차: [`docs/method.md` 8. 조회](../../../docs/method.md#8-조회)
+- 절차: [`docs/method.md#8-조회`](../../../docs/method.md#8-조회)
 - 도구: `tools/workset.py` (`bazel run //tools:workset`) — 사용법은 docstring 이 원본이다
 
 ```text

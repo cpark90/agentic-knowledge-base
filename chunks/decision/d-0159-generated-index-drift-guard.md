@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
-restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
+overlapsWith: [https://agentic-knowledge-base.dev/id/chunk-d0014]
+restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b, https://agentic-knowledge-base.dev/id/chunk-d0014]
 generated: {by: claude/fable-5, at: 2026-09-02T03:51:12+09:00}
 part_of: https://agentic-knowledge-base.dev/id/comp-federation-invariants
 ---

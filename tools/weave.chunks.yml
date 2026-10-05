@@ -7,11 +7,12 @@ source: tools/weave.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-weave
 package: kb/dev/artifact/weave
 layer: process
-at: 2026-09-30T08:07:48Z
-source_hash: 921b22f2160f6981
+at: 2026-10-02T00:08:55Z
+source_hash: 21c9d283cd80845f
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/c0b7f63a-353e-4fdf-9389-961b6f3e130c
   - https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f
+  - https://agentic-knowledge-base.dev/id/chunk/64cbbffa-54d9-4f66-a2a0-ea2a34dc8653
 serves: []
 tested:
   rev: 3adc275b36a8593705e04b41f34461aadc8c0225
@@ -48,6 +49,8 @@ ids:
   fn:render_audit: https://agentic-knowledge-base.dev/id/chunk/4ed2982d-49b2-4313-856e-6b86a53fb3b0
   fn:render_changelog: https://agentic-knowledge-base.dev/id/chunk/18d615ae-85a5-4737-825a-7674dc3b3ce9
   fn:render_requirements: https://agentic-knowledge-base.dev/id/chunk/3abf45b4-eb13-4c63-80e4-83848c227928
+  fn:round_record_section: https://agentic-knowledge-base.dev/id/chunk/89bffa35-e0b8-4811-aa3d-d9cbd0e35c83
+  fn:round_records: https://agentic-knowledge-base.dev/id/chunk/12df4a74-89e1-4884-b0dc-b7c7f375d8e0
   fn:round_section: https://agentic-knowledge-base.dev/id/chunk/7ca2da27-a5fc-4b33-aa68-b855ee61d697
   fn:source_ref: https://agentic-knowledge-base.dev/id/chunk/4b9d03d4-f126-455e-9e3d-533c84b76f26
   fn:supersedes_chain: https://agentic-knowledge-base.dev/id/chunk/b620c1cf-7e83-4b6f-9176-454c6fe3091a

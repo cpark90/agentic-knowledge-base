@@ -7,15 +7,14 @@ title: section kb-dev in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869, https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23]
 part_of: https://agentic-knowledge-base.dev/id/composite/d6533f17-7314-4ac1-a34c-ab4e73160294
-composite: {id: https://agentic-knowledge-base.dev/id/composite/d6533f17-7314-4ac1-a34c-ab4e73160294, title_ko: 절 복합체 kb-dev (tools/kb_lib.py), title: section composite kb-dev in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/5a68bc5c-e462-4ae7-851e-58acb707017a, https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99, https://agentic-knowledge-base.dev/id/chunk/f4d0d4bb-6623-435e-b230-93d98fb7ceac, https://agentic-knowledge-base.dev/id/chunk/f25447a7-4301-4ae4-b0a6-d22f459cd775, https://agentic-knowledge-base.dev/id/chunk/01fd5990-0c31-4b71-8dcd-ee095148db30, https://agentic-knowledge-base.dev/id/chunk/8d31b7a9-85c6-48b3-875b-1223f473d503, https://agentic-knowledge-base.dev/id/chunk/90abf3f7-3c52-496f-9cb4-a2af556264cb], part_of: https://agentic-knowledge-base.dev/id/composite/e7e09bb4-4c00-411e-9e5d-857406143657}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/d6533f17-7314-4ac1-a34c-ab4e73160294, title_ko: 절 복합체 kb-dev (tools/kb_lib.py), title: section composite kb-dev in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/5a68bc5c-e462-4ae7-851e-58acb707017a, https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99, https://agentic-knowledge-base.dev/id/chunk/f3fcb094-a1c5-414e-ab93-287b0bec0449, https://agentic-knowledge-base.dev/id/chunk/f4d0d4bb-6623-435e-b230-93d98fb7ceac, https://agentic-knowledge-base.dev/id/chunk/f25447a7-4301-4ae4-b0a6-d22f459cd775, https://agentic-knowledge-base.dev/id/chunk/01fd5990-0c31-4b71-8dcd-ee095148db30, https://agentic-knowledge-base.dev/id/chunk/8d31b7a9-85c6-48b3-875b-1223f473d503, https://agentic-knowledge-base.dev/id/chunk/90abf3f7-3c52-496f-9cb4-a2af556264cb], part_of: https://agentic-knowledge-base.dev/id/composite/e7e09bb4-4c00-411e-9e5d-857406143657}
 ---
 **절** — `tools/kb_lib.py` 의 절 `kb-dev` 다. 두 KB 의 경계와 수준 허용표와 그래프 적재 (pe-storage-layout · M1 단일 정의처 · 2.3절 정의 경계)
 
-**정의** — `kb_of` · `load_residency` · `load_graph` · `load_merged` · `defined_terms` · `is_well_known` (소스 순서).
+**정의** — `kb_of` · `cross_kb_link` · `load_residency` · `load_graph` · `load_merged` · `defined_terms` · `is_well_known` (소스 순서).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
@@ -25,6 +24,11 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/d6533f17-7314-4a
 KB_DEV = "kb/dev"
 KB_VV = "kb/vv"
 KB_ROOTS = (KB_DEV, KB_VV)
+# 케이스의 generated.by — 역할이 아니라 프로세스다(writer 검사 밖). 정의처는 여기이고 소비자는 `tools/case_gen.py`(케이스를 쓴다)와
+# `tools/link.py`(케이스의 derivesFrom 은 생성기가 자기 시나리오로 쓰므로 후보로 내지 않는다)다
+CASE_GEN_ACTOR = "process:case_gen"
+
+
 
 
 

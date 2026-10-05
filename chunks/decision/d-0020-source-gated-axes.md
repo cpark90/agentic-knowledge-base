@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
-restored: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
+overlapsWith: [https://agentic-knowledge-base.dev/id/chunk-d0015]
+restored: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c, https://agentic-knowledge-base.dev/id/chunk-d0015]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/comp-recipe-standard
 ---

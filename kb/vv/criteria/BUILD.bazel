@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:vv_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "criteria",
     srcs = glob(
         ["*.md"],
         allow_empty = True,
@@ -127,7 +127,7 @@ kb_chunk(
     src = "decision-and-artifact-agree.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/2f69c738-6a24-4c0b-9a14-29a44b25d6ee",
     plane = "contract",
-    level = "abstract",
+    level = "logical",
     status = "stable",
     refines = [
         "//kb/vv/goal:decision-and-artifact-agree",
@@ -175,7 +175,7 @@ kb_chunk(
     src = "document-table-matches-generated.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/b173e680-0135-4d83-9e0f-d8fb77d77407",
     plane = "contract",
-    level = "abstract",
+    level = "logical",
     status = "stable",
     refines = [
         "//kb/vv/goal:document-table-matches-generated",
@@ -275,6 +275,30 @@ kb_chunk(
     status = "stable",
     refines = [
         "//kb/vv/goal:generated-document-provenance",
+    ],
+)
+
+kb_chunk(
+    name = "harness-follows-knowledge",
+    src = "harness-follows-knowledge.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ffacb879-a5c4-4ecc-8e50-c0751aec665b",
+    plane = "contract",
+    level = "logical",
+    status = "draft",
+    refines = [
+        "//kb/vv/goal:harness-follows-knowledge",
+    ],
+)
+
+kb_chunk(
+    name = "harness-follows-knowledge-human-check",
+    src = "harness-follows-knowledge-human-check.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1a599616-9e27-4823-94f2-464c80fb8ef4",
+    plane = "contract",
+    level = "abstract",
+    status = "draft",
+    refines = [
+        "//kb/vv/goal:harness-follows-knowledge",
     ],
 )
 
@@ -463,7 +487,7 @@ kb_chunk(
     src = "verification-round-stop-rule.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/a5dbd9da-c201-45bc-8019-9dbca4b89333",
     plane = "contract",
-    level = "abstract",
+    level = "logical",
     status = "stable",
     refines = [
         "//kb/vv/goal:verification-round-stop-rule",
@@ -532,6 +556,8 @@ kb_bundle(
         ":generated-build-drift",
         ":generated-document-form",
         ":generated-document-provenance",
+        ":harness-follows-knowledge",
+        ":harness-follows-knowledge-human-check",
         ":invalidation-without-survey",
         ":items-declare-assumptions",
         ":labels-before-bodies",

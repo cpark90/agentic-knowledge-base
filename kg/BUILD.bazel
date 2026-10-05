@@ -17,6 +17,7 @@ kb_kg_merge(
         "//kb/dev/artifact:kg",  # 추출된 코드 청크 (artifact plane) — tools/extract.py 의 생성물, gen_build 가 타깃으로 만든다
         "//kb/dev/decision:kg",
         "//kb/dev/memory:kg",  # 관측 (memory plane) — assume_check --record 의 생성물, gen_build 가 타깃으로 만든다
+        "//kb/dev/norm:kg",  # 규범 문서의 절 청크 (norm plane) — 문서마다 복합체 하나, gen_build 가 타깃으로 만든다
         "//kb/dev/requirement:kg",
         # V&V KB (7단계) — 디렉토리 = plane (pe-storage-layout), gen_build 가 타깃으로 만든다. 비어 있어도 된다
         "//kb/vv/case:kg",
@@ -41,13 +42,25 @@ genrule(
     tools = ["//tools:gates2kg"],
 )
 
+# 투영 그래프 — 뷰(//defs:kb.bzl 의 VIEWS)·skill(tools/kb_lib.py 의 SKILLS)의 개체 (유저 답 Q9-a, 2026-10-03). 손으로 쓰지 않는다.
+# 뷰·skill 은 층의 항목이 아니라 원본 도구의 `module` 코드 청크의 투영이다 — prov:wasDerivedFrom 이 그 청크를 가리키고
+# agt:inLayer 를 갖지 않으므로 층별 집계(CQ-38)에 세어지지 않는다 (결정 p0-service-is-a-three-layer-wiki)
+genrule(
+    name = "projections_kg",
+    srcs = ["//defs:kb.bzl"] + ["//tools:" + mod + ".chunks.yml" for mod in EXTRACTED_SOURCES],
+    outs = ["projections-kg.ttl"],
+    cmd = "$(location //tools:gates2kg) --projections --out $@ --gates $(location //defs:kb.bzl) --registry " +
+          " ".join(["$(location //tools:%s.chunks.yml)" % mod for mod in EXTRACTED_SOURCES]),
+    tools = ["//tools:gates2kg"],
+)
+
 # 참조 링크 — 본문의 인용에서 생성 (8.2절). 손으로 쓰지 않는다.
 kb_reference_kg(
     name = "references_kg",
     srcs = [
-        "//chunks:bodies",
-        "//kb/dev:bodies",
-        "//kb/vv:bodies",
+        "//chunks",
+        "//kb/dev",
+        "//kb/vv",
     ],
     ontology = ["//kb/ontology:modules"],
     out = "references-kg.ttl",
@@ -62,16 +75,17 @@ kb_gate_test(
         ":chunks_kg",
         ":gates_kg",
         ":kg",
+        ":projections_kg",
         ":references_kg",
         "//space:design_space",
     ],
     # 게이트 element-drop 의 키 전수 대조 입력 — 청크 본문의 frontmatter 를 그래프가 아니라 파일로 읽는다.
     # 소비되지 않는 키는 head 그래프에 나타나지 않으므로 생성물만 보면 조용히 버려진 요소를 볼 수 없다 (현상 P19)
     chunk_files = [
-        "//chunks:bodies",
-        "//kb/dev:bodies",
-        "//kb/vv:bodies",
-        "//space:bodies",
+        "//chunks",
+        "//kb/dev",
+        "//kb/vv",
+        "//space",
     ],
     odd = ["//kb/odd:odd"],
     ontology = ["//kb/ontology:modules"],
@@ -93,6 +107,7 @@ kb_cq_report(
         ":chunks_kg",
         ":gates_kg",  # 층별 집계(CQ-38)의 분모 — 게이트는 프로세스 층의 항목이다
         ":kg",
+        ":projections_kg",  # 뷰·skill 의 투영 — 층이 없으므로 CQ-38 의 집계는 바뀌지 않는다
         ":references_kg",
         "//kb/odd:odd",
         "//kb/ontology:modules",
@@ -102,14 +117,16 @@ kb_cq_report(
 
 kb_metrics(
     name = "metrics",
-    bodies = ["//kb/dev:bodies"],
+    bodies = ["//kb/dev"],
     data = [
         ":chunks_kg",
         ":kg",
         ":references_kg",
         "//kb/odd:odd",
+        "//kb/ontology:modules",  # 연결 성분이 세 족의 하위 속성을 T-Box 에서 따라간다 (kb_lib.linkage_predicates)
     ],
     notes = "//docs:notes",
+    spaces = ["//space:design_space"],  # 후보 링크는 연결로, 열린 공간의 후보 결정은 따로 센다 (유저 결정 Q60-a)
 )
 
 # 감사 보고서 (로드맵 8단계 "복원과 감사", 요구 audit-self-sufficiency) — 입력은 그래프 union 과 관측 청크(kb/vv/run/ 실행 기록 ·
@@ -117,8 +134,8 @@ kb_metrics(
 kb_weave(
     name = "audit",
     bodies = [
-        "//kb/vv:bodies",
-        "//kb/dev:bodies",
+        "//kb/vv",
+        "//kb/dev",
     ],
     data = [
         ":chunks_kg",
@@ -159,18 +176,19 @@ kb_workset_view(
         ":chunks_kg",
         ":kg",
         ":references_kg",
-        "//kb/dev:bodies",
-        "//kb/vv:bodies",  # 앵커의 이웃에 V&V 항목이 있으면 본문을 펼친다 — 없으면 샌드박스에서 FileNotFoundError
+        "//kb/dev",
+        "//kb/vv",  # 앵커의 이웃에 V&V 항목이 있으면 본문을 펼친다 — 없으면 샌드박스에서 FileNotFoundError
     ],
 )
 
-# 미결 집계 뷰 — 청크의 선택 슬롯 `미확정:` 을 모은다 (p4-three-empty-values). 상세 다섯 절은 docs/open-questions.md 색인과
-# 그 아래 문서로 남고 이 뷰는 집계만 맡는다. bazel build //kg:open → bazel-bin/kg/open.md
+# 미결 집계 뷰 — 설계 공간(`space/*-space.md`)과 청크의 선택 슬롯 `미확정:` 을 모은다 (p4-three-empty-values, Q54-a).
+# 미결 목록의 유일한 자리이고 손 색인 docs/open-questions.md 를 대체한다(지시 0095). bazel build //kg:open → bazel-bin/kg/open.md
 kb_open_questions(
     name = "open",
     bodies = [
-        "//kb/dev:bodies",
-        "//kb/vv:bodies",
+        "//kb/dev",
+        "//kb/vv",
     ],
     data = [":chunks_kg"],
+    spaces = ["//space:design_space"],
 )

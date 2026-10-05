@@ -11,7 +11,7 @@ agt:KnowledgeItem a owl:Class ;
 agt:Chunk a owl:Class ;
     rdfs:subClassOf agt:KnowledgeItem ;
     rdfs:label "chunk"@en , "청크"@ko ;
-    skos:definition "본문 42줄 이하의 자립적 최소 지식 단위. 하나의 plane, 하나의 level에 속하고 한 파일이다 (4.1절, 4.9절). 게이트: 42줄은 chunk-shapes·chunk_lint, plane·level 하나씩은 chunk-shapes·defs/kb.bzl, 한 파일은 kb_chunk 규칙 구조다. 한 주제는 리뷰 규범이다."@ko .
+    skos:definition "본문 토큰 수가 plane별 상한 이하인 자립적 최소 지식 단위. 하나의 plane, 하나의 level에 속하고 한 파일이다 (4.1절, 4.9절). 단위는 줄이 아니라 토큰이고 상한(저작 산문·인용)과 계수기는 결정 p1-chunk-unit-is-tokens가 정하며 값의 단일 정의처는 tools/kb_lib.py의 BODY_TOKEN_LIMITS다. 게이트: 토큰 상한은 chunk_lint·token-budget-shapes·token-budget, plane·level 하나씩은 chunk-shapes·defs/kb.bzl, 한 파일은 kb_chunk 규칙 구조다. 한 주제는 리뷰 규범이다."@ko .
 
 agt:Composite a owl:Class ;
     rdfs:subClassOf agt:KnowledgeItem ;

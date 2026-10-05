@@ -7,9 +7,9 @@ title: function main in tools/community.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-community}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/4dce45c5-55b4-4c63-9ef4-5f4d522ea26d, https://agentic-knowledge-base.dev/id/chunk/55c0dffc-fb43-485f-abee-4db384f48469, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/bb657e8b-5946-421e-bfcb-8829e044c9e2, https://agentic-knowledge-base.dev/id/chunk/d055d81b-2c2f-4f5d-87f5-b4425c8c4311, https://agentic-knowledge-base.dev/id/chunk/fedf25c3-0ff9-483f-b5e0-afd61a05c16f]
+uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/2aa8020a-1553-48b5-8a54-b93aab820bbe, https://agentic-knowledge-base.dev/id/chunk/4dce45c5-55b4-4c63-9ef4-5f4d522ea26d, https://agentic-knowledge-base.dev/id/chunk/55c0dffc-fb43-485f-abee-4db384f48469, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/bb657e8b-5946-421e-bfcb-8829e044c9e2, https://agentic-knowledge-base.dev/id/chunk/d055d81b-2c2f-4f5d-87f5-b4425c8c4311, https://agentic-knowledge-base.dev/id/chunk/fedf25c3-0ff9-483f-b5e0-afd61a05c16f]
 part_of: https://agentic-knowledge-base.dev/id/composite/09eb4947-176f-41ad-92ee-7632b5240022
 ---
 **함수** — `main()` 다.
@@ -30,7 +30,7 @@ def main() -> int:
     for c in g.subjects(AGT.tokenCount, None):
         if str(next(g.objects(c, AGT.status), "")) == "deprecated":
             continue
-        plane = str(next(g.objects(c, RDF.type), "")).split("/")[-1].replace("Chunk", "").lower()
+        plane = kb_lib.plane_of_node(g, c)
         level = str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1]
         chunks[c] = {"plane": plane, "level": level, "ko": label_ko(g, c), "loc": str(next(g.objects(c, AGT.assertionLocation), ""))}
 

@@ -7,7 +7,8 @@ title: Evaluation measures three values the system already produces
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-22T19:25:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T00:03:19+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T00:03:22+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0145]
 part_of: https://agentic-knowledge-base.dev/id/composite/a4a5acea-aaed-4439-ac17-164495f5927c
@@ -20,4 +21,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/a4a5acea-aaed-44
 - **추적 커버리지** — 링크 없는 항목 비율. 9.7절 추적 매트릭스의 빈 칸
 - **가정 건전성** — `invalidated`·`unverified` 비율. 6.5절 상태 집계
 
-미확정: 어느 지표가 게이트이고 어느 것이 관측인가. 상세는 `docs/open-questions/evaluation-metrics.md`다.
+미확정: 어느 지표가 게이트이고 어느 것이 관측인가. 상세는 `https://agentic-knowledge-base.dev/id/chunk/6c26f560-f346-44d7-9a8f-32ade0458dfa`다.

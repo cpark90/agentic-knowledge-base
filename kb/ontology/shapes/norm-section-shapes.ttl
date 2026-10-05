@@ -1,0 +1,32 @@
+# shape — 절 청크: 제목·깊이는 짝이고 깊이는 2 또는 3이다 (결정 p12-norm-documents-from-section-chunks)
+# 머리 청크(복합체 선언, 문서 도입문·범례)는 둘 다 없고 그 밖의 절 청크는 둘 다 있다. 예외는 이어짐 절 청크
+# (agt:sectionContinues true)다 — 제목·깊이 없이 앞 절을 잇고 규약 줄을 실을 수 있다. 어느 것이 머리인지는 묶음 전체를 아는
+# chunk2kg(head 생성)가 판정한다 — 그래프는 선언 청크를 따로 표시하지 않으므로 여기서는 짝과 값만 본다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:DocumentSectionShape a sh:NodeShape ;
+    sh:targetClass agt:DocumentSectionChunk ;
+    sh:property [ sh:path agt:sectionHeading ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ;
+        sh:message "절 제목(agt:sectionHeading)은 하나의 비지 않은 문자열이다" ] ;
+    sh:property [ sh:path agt:sectionDepth ; sh:maxCount 1 ; sh:in ( 2 3 ) ;
+        sh:message "절 깊이(agt:sectionDepth)는 2 또는 3 하나다 — 문서 제목(h1)은 생성기의 머리 블록이 낸다" ] ;
+    sh:property [ sh:path agt:projectsConvention ; sh:class agt:Composite ;
+        sh:message "agt:projectsConvention 의 대상은 결정 복합체다" ] ;
+    sh:property [ sh:path agt:sectionContinues ; sh:maxCount 1 ; sh:in ( true ) ;
+        sh:message "절 이어짐(agt:sectionContinues)은 참 하나만 낸다 — 이어짐이 아닌 절 청크는 갖지 않는다" ] ;
+    sh:or (
+        [ sh:property [ sh:path agt:sectionHeading ; sh:minCount 1 ] ; sh:property [ sh:path agt:sectionDepth ; sh:minCount 1 ] ;
+          sh:property [ sh:path agt:sectionContinues ; sh:maxCount 0 ] ]
+        [ sh:property [ sh:path agt:sectionHeading ; sh:maxCount 0 ] ; sh:property [ sh:path agt:sectionDepth ; sh:maxCount 0 ] ;
+          sh:property [ sh:path agt:projectsConvention ; sh:maxCount 0 ] ; sh:property [ sh:path agt:sectionContinues ; sh:maxCount 0 ] ]
+        [ sh:property [ sh:path agt:sectionHeading ; sh:maxCount 0 ] ; sh:property [ sh:path agt:sectionDepth ; sh:maxCount 0 ] ;
+          sh:property [ sh:path agt:sectionContinues ; sh:minCount 1 ] ]
+    ) ;
+    sh:message "절 청크는 셋 중 하나다 — heading·depth 를 짝으로 갖는 절, 둘 다 없고 규약 줄을 싣지 않는 머리 청크, 둘 다 없고 sectionContinues 가 참인 이어짐 절 (p12-norm-documents-from-section-chunks)" .
+
+agt:SectionKeyDomainShape a sh:NodeShape ;
+    sh:targetSubjectsOf agt:sectionHeading , agt:sectionDepth , agt:projectsConvention , agt:sectionContinues ;
+    sh:class agt:DocumentSectionChunk ;
+    sh:message "절 제목·깊이·이어짐·규약 투영은 절 청크(agt:DocumentSectionChunk, plane norm)만 갖는다" .

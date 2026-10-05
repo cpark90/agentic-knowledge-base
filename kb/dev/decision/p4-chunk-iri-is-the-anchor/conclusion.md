@@ -7,7 +7,8 @@ title: The chunk IRI is the anchor; drift is confined inside the chunk
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T01:13:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T01:13:52+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/90fc2df7-0a74-43fe-9c8f-546c7afdf1d3]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0077]
 part_of: https://agentic-knowledge-base.dev/id/composite/5e2184c3-67a9-4745-b0c3-65e8c3f69fd6
@@ -17,9 +18,8 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/5e2184c3-67a9-47
 IRI이고, plane별 식별자는 IRI를 실제 저장 위치로 해석하는 수단일 뿐이다.
 
 **앵커 드리프트가 청크 안으로 갇힌다.** 링크는 IRI를 가리키므로 본문 편집은
-링크에 영향을 주지 않는다. 청크가 **분할·병합될 때만** — 즉 IRI가 새로
-생기거나 사라질 때만 — 링크가 `suspect`가 된다. 분할·병합은
-`prov:wasDerivedFrom`으로 옛 IRI와 이어져 추적된다.
+링크에 영향을 주지 않는다. 청크가 **분할·병합될 때만** 링크가 `suspect`가 될 수 있다. 분할·병합의 IRI 처리는
+`p10-split-keeps-work-identity`가 정한다 — 승계되지 않은 조각을 가리키던 링크가 `suspect`가 된다(Q62-a).
 
 같은 앵커가 다른 메커니즘에도 쓰인다 — 가정(6.5절) `assumes`의 출발점이 청크
 IRI여서 가정 입도 문제가 청크 분할 문제로 환원되고, 시간 정체성(2.6절)은 청크

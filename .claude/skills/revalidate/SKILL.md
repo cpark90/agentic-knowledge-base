@@ -26,11 +26,13 @@ bazel run //tools:revalidate -- --base <rev> --out /tmp/revalidate.md
 
 ## 원본
 
-- 절차: [`docs/method.md` 7. 갱신](../../../docs/method.md#7-갱신)
+- 절차: [`docs/method.md#7-갱신`](../../../docs/method.md#7-갱신)
 - 도구: `tools/revalidate.py` (`bazel run //tools:revalidate`) — 사용법은 docstring 이 원본이다
 
 ```text
 bazel run //tools:revalidate -- [--base HEAD] [--universe '//...'] [--out report.md]
+python3 tools/revalidate.py --base-dir <d1> --head-dir <d2> [--out report.md]
+python3 tools/revalidate.py --base-files <f…> --head-files <f…> [--out report.md]
 ```
 
 ## 실패 시

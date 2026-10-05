@@ -9,7 +9,8 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 restored: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
-generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T12:48:53+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T12:49:10+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/comp-harness-methodology
 ---
 **결론** — 검색 단위로 뷰에 실리는 노드의 서술 텍스트 합은 260 token을
@@ -27,6 +28,7 @@ part_of: https://agentic-knowledge-base.dev/id/comp-harness-methodology
   관측량은 별개 축이므로 섞지 않는다 — 섞으면 팩이 조용히 잘린다
   (실제 발생한 결함).
 
-**이 저장소와의 관계** — 42줄 청크 규칙(d-0002)과 같은 뿌리의 예산
-규칙이다. 42줄은 조망 단위, 130–260 token은 검색 정밀도 단위로, 둘 다
-"한 단위 = 한 주제"를 크기로 강제한다.
+**이 저장소와의 관계** — 청크의 토큰 상한(`p1-chunk-unit-is-tokens`)과 같은
+뿌리의 예산 규칙이다. 그 상한의 옛 단위는 42줄(d-0002)이었다. 청크 상한은
+조망 단위, 130–260 token은 검색 정밀도 단위로, 둘 다 "한 단위 = 한 주제"를
+크기로 강제한다.

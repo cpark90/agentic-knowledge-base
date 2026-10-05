@@ -7,7 +7,8 @@ title: Every knowledge item is a composite of chunks
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T12:48:53+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T12:49:10+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0076]
 part_of: https://agentic-knowledge-base.dev/id/composite/b4546452-61a1-4d61-b6c3-8af8a25e0f44
@@ -32,5 +33,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/b4546452-61a1-4d
 | 온톨로지 모듈 | 개념 정의 청크 | 개념 청크의 복합체 |
 
 개발 프로파일에서 **함수 = 청크**가 `artifact` plane에 코드 품질을 강제한다.
-42줄을 넘는 함수는 `agt:ChunkShape`를 통과하지 못하므로 분할 대상이다. 별도
+토큰 상한을 넘는 함수는 `agt:ArtifactTokenBudgetShape`를 통과하지 못하므로 분할 대상이다. 별도
 규칙이 아니라 shape의 귀결이다.

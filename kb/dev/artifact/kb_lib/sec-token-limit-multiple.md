@@ -9,7 +9,6 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869, https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23]
 part_of: https://agentic-knowledge-base.dev/id/composite/6b96d312-0c81-452d-8431-76ec85445dda
 composite: {id: https://agentic-knowledge-base.dev/id/composite/6b96d312-0c81-452d-8431-76ec85445dda, title_ko: 절 복합체 token-limit-multiple (tools/kb_lib.py), title: section composite token-limit-multiple in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/5d00d456-902e-4ec0-b6c8-3a1d112a6dd8, https://agentic-knowledge-base.dev/id/chunk/adf4efcc-f323-49f3-87da-e81bb49bf4f5], part_of: https://agentic-knowledge-base.dev/id/composite/9b61f2e4-e29d-4fe0-8a4f-f1be5708e79a}
 ---

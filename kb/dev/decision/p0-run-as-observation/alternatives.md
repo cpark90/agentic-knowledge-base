@@ -4,7 +4,7 @@ type: decision
 level: logical
 title_ko: Run에 level을 주거나 시나리오와 통합하는 안의 기각
 title: Rejecting a leveled run and merging run with scenario
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}

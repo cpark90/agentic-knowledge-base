@@ -1,13 +1,38 @@
-# method — 각 단계를 어떻게 하는가
+# method.md — 각 단계를 어떻게 하는가 (생성 파일)
+
+- 생성기: `tools/gen_norms.py` · gendoc/1
+- 입력: 원본 파일 101개 · 절 34 · 규약 줄 94 · 전체 목록은 [입력 파일](#입력-파일)
+- 질의: `kb/dev/norm/method/` 의 절 청크를 선언 순서로 펼치고 항목마다 결정의 `규약:` 줄을 싣는다
+- 재현: `python3 tools/gen_norms.py --root .`
+- 생성 파일 — 손으로 고치지 않는다. 원본은 `kb/dev/norm/method/` 의 절 청크와 결정의 `conventions.md`이다. 검사: `//:norms_drift_test`. 생성 시각·입력 지문은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다
+
+## 목차
+
+- [§0. 순서와 완료 판정](#0-순서와-완료-판정)
+- [§1. 프로파일 구축](#1-프로파일-구축)
+- [§2. ODD 작성](#2-odd-작성)
+- [§3. 청크 저작](#3-청크-저작)
+- [§4. 정제 전이](#4-정제-전이)
+- [§5. 후보 관리](#5-후보-관리)
+- [§6. 연결](#6-연결)
+- [§7. 갱신](#7-갱신)
+- [§8. 조회](#8-조회)
+- [§9. 뷰](#9-뷰)
+- [§10. 일반화](#10-일반화)
+- [§11. 검증 — V&V 층으로](#11-검증--vv-층으로)
+- [§12. 영향 분석](#12-영향-분석)
+- [§13. 저작 흐름과 완료](#13-저작-흐름과-완료)
+- [§14. 위험 분석에서 되먹임까지](#14-위험-분석에서-되먹임까지)
+- [입력 파일](#입력-파일)
+
+<!-- 인용 시작: 청크에서 그대로 옮긴 값 — 원본이 자기 게이트를 통과했다 -->
 
 §0가 순서라면 여기는 방법이다. 구조도 v5에 따라 **코어(§1~§12,
 두 KB 공통) / development(§13) / V&V(§14)** 세 층으로 적는다. 각 절차는 **입력 → 절차 →
 게이트 → 산출**로 쓰고, 규칙은 [`rules.md`](rules.md), 도구는 [`tools.md`](tools.md)를
 가리킨다. 절차를 바꾸면 대응 도구도 함께 본다.
 
-# 코어 — 공통 절차
-
-## 0. 순서와 완료 판정
+## §0. 순서와 완료 판정
 
 전체 순서(운용 순환)는 여덟 단계다. 각 절은 그 단계를 어떻게 하는가이고, [`rules.md`](rules.md)는 결과가
 유효한지의 규칙이다. 원본은 노트 Part VI·XI과 운용 지도다. 이 저장소 자신이 어디까지 왔는가의 도입 8단계는
@@ -18,6 +43,8 @@
                                                                     │
                      (교훈이 다시 프로파일·ODD·결정으로) ←──────────┘
 ```
+
+원본: [`p2-skeleton-and-domain-profile`](../kb/dev/decision/p2-skeleton-and-domain-profile/conclusion.md) · [`p3-odd-first-project-start`](../kb/dev/decision/p3-odd-first-project-start/conclusion.md) · [`p6-refinement-ladder`](../kb/dev/decision/p6-refinement-ladder/conclusion.md) · [`p0-workset-anchor-neighbourhood`](../kb/dev/decision/p0-workset-anchor-neighbourhood/conclusion.md) · [`p10-link-by-construction`](../kb/dev/decision/p10-link-by-construction/conclusion.md) · [`p6-assumption-invalidation`](../kb/dev/decision/p6-assumption-invalidation/conclusion.md) · [`p4-projection-as-query`](../kb/dev/decision/p4-projection-as-query/conclusion.md) · [`p6-ascent-generalization`](../kb/dev/decision/p6-ascent-generalization/conclusion.md).
 
 | # | 단계 | 산출 | 다음 단계의 전제가 되는 이유 | 방법 |
 |---|---|---|---|---|
@@ -41,6 +68,8 @@
 
 각 단계는 다음으로 넘어가기 전에 판정된다. 판정은 시간이 아니라 **상태 확인**이다.
 
+원본: [`p2-competency-questions`](../kb/dev/decision/p2-competency-questions/conclusion.md) · [`p3-odd-first-project-start`](../kb/dev/decision/p3-odd-first-project-start/conclusion.md) · [`p3-measurement-method-grades`](../kb/dev/decision/p3-measurement-method-grades/conclusion.md) · [`p6-descent-refinement`](../kb/dev/decision/p6-descent-refinement/conclusion.md) · [`p0-workset-anchor-neighbourhood`](../kb/dev/decision/p0-workset-anchor-neighbourhood/conclusion.md) · [`p10-traceability-metrics`](../kb/dev/decision/p10-traceability-metrics/conclusion.md) · [`p6-assumption-invalidation`](../kb/dev/decision/p6-assumption-invalidation/conclusion.md) · [`p4-projection-as-query`](../kb/dev/decision/p4-projection-as-query/conclusion.md) · [`p6-ascent-generalization`](../kb/dev/decision/p6-ascent-generalization/conclusion.md) · [`p11-memory-promotion-rule`](../kb/dev/decision/p11-memory-promotion-rule/conclusion.md).
+
 | 단계 | 완료 판정 |
 |---|---|
 | 프로파일 구축 | 역량 질문이 전부 질의로 답해진다 (d-0052) · `bazel test //kb/ontology:gate_test` PASS |
@@ -57,25 +86,22 @@
 전부를 한 번에 도입하지 않는다. **앞 단계만으로 이득이 확인되지 않으면 다음 단계를
 진행할 근거가 없다.** 이 저장소 자신의 진행 상태와 실측은 [`roadmap.md`](roadmap.md)에 있다.
 
-## 1. 프로파일 구축
+## §1. 프로파일 구축
 
 프로파일은 코어를 특정 작업 종류에 맞게 채운 온톨로지 모듈이다(`p2-skeleton-and-domain-profile`). 코어 클래스의
 하위 클래스·개체·프로파일 전용 속성·shape만 더하고 코어를 수정하지 않는다 — boundary 게이트가 재정의를 거부한다
 ([`id:chunk-d0057`](../chunks/decision/d-0057-profile-extension-only-module.md)). 절차는 첫 프로파일(`development`,
 2026-09-18)을 만들면서 뽑았다.
 
-1. **확장점을 코어에서 열거한다.** plane 7의 실체와 판정 도구, level별 assertion 형식, 조건 셋째 수준, 결함 하위
-   유형, 상한 오버라이드, 앵커 해석기다(`p2-skeleton-and-domain-profile` 표). 열거가 곧 완료 판정의 분모다.
-2. **확장점마다 답을 결정에서 읽는다.** 결정이 없으면 먼저 결정을 만든다(유저 승인). 개발 프로파일의 원천은
-   `p7-dev-plane-substance`(실체·판정 도구·EARS 패턴)와 `pe-anchor-is-bazel-label`(앵커 해석기)이다.
-3. **모듈 `kb/ontology/profile/<domain>/`에 적는다.** 파일 하나가 확장점 하나다 — 실체 하위 클래스, 판정 도구
-   개체와 바인딩, 패턴 어휘. `project-ontology.ttl`의 `owl:imports`에 넣고 `gen_build`로 모듈 목록을 재생성한다.
-4. **바인딩한다.** 생성기(`chunk2kg`)가 plane을 실체 클래스로 타이핑하고 프로파일 필드(요구의 `pattern`)를
-   방출하며, 데이터를 채운다(요구 33건의 EARS 패턴). 바인딩 없는 어휘는 고립 개념이다(CQ-28).
-5. **역량 질문을 더한다.** 프로파일이 답해야 할 질문을 [`competency-questions.md`](competency-questions.md)에
-   등재하고 `tools/cq-queries/`에 질의를 만든다(CQ-36 — 각 plane의 청크는 무엇이고 무엇이 판정하는가).
-6. **완료를 판정한다.** 게이트 PASS(boundary·shape) · 새 역량 질문의 답 행 ≥ 1 · 코어 수정 0. 채우지 않은
-   확장점은 아래 표에 "미채움"으로 남긴다.
+1. **확장점을 코어에서 열거한다** ([`p2-skeleton-and-domain-profile`](../kb/dev/decision/p2-skeleton-and-domain-profile/conclusion.md)). plane 7의 실체와 판정 도구, level별 assertion 형식, 조건 셋째 수준, 결함 하위 유형, 상한 오버라이드, 앵커 해석기다(`p2-skeleton-and-domain-profile` 표). 열거가 곧 완료 판정의 분모다.
+
+1. **확장점마다 답을 결정에서 읽는다** ([`p2-profile-answers-from-decisions`](../kb/dev/decision/p2-profile-answers-from-decisions/conclusion.md)). 결정이 없으면 먼저 결정을 만든다(유저 승인). 개발 프로파일의 원천은 `p7-dev-plane-substance`(실체·판정 도구·EARS 패턴)와 `pe-anchor-is-bazel-label`(앵커 해석기)이다.
+1. **모듈 `kb/ontology/profile/<domain>/`에 적는다** ([`p2-skeleton-and-domain-profile`](../kb/dev/decision/p2-skeleton-and-domain-profile/conclusion.md)). 파일 하나가 확장점 하나다 — 실체 하위 클래스, 판정 도구 개체와 바인딩, 패턴 어휘. `project-ontology.ttl`의 `owl:imports`에 넣고 `gen_build`로 모듈 목록을 재생성한다.
+1. **바인딩한다** ([`p7-dev-plane-substance`](../kb/dev/decision/p7-dev-plane-substance/conclusion.md)). 생성기(`chunk2kg`)가 plane을 실체 클래스로 타이핑하고 프로파일 필드(요구의 `pattern`)를 방출하며, 데이터를 채운다(요구 33건의 EARS 패턴). 바인딩 없는 어휘는 고립 개념이다(CQ-28).
+1. **역량 질문을 더한다** ([`p2-competency-questions`](../kb/dev/decision/p2-competency-questions/conclusion.md)). 프로파일이 답해야 할 질문을 [`competency-questions.md`](competency-questions.md)에 등재하고 `tools/cq-queries/`에 질의를 만든다(CQ-36 — 각 plane의 청크는 무엇이고 무엇이 판정하는가).
+1. **완료를 판정한다** ([`p2-skeleton-and-domain-profile`](../kb/dev/decision/p2-skeleton-and-domain-profile/conclusion.md), [`p2-competency-questions`](../kb/dev/decision/p2-competency-questions/conclusion.md)). 게이트 PASS(boundary·shape) · 새 역량 질문의 답 행 ≥ 1 · 코어 수정 0. 채우지 않은 확장점은 아래 표에 "미채움"으로 남긴다.
+
+원본: [`p7-dev-plane-substance`](../kb/dev/decision/p7-dev-plane-substance/conclusion.md) · [`pe-notation-and-cel`](../kb/dev/decision/pe-notation-and-cel/conclusion.md) · [`p0-condition-taxonomy-extensible`](../kb/dev/decision/p0-condition-taxonomy-extensible/conclusion.md) · [`p8-odc-defect-subtypes`](../kb/dev/decision/p8-odc-defect-subtypes/conclusion.md) · [`p1-chunk-unit-is-tokens`](../kb/dev/decision/p1-chunk-unit-is-tokens/conclusion.md) · [`pe-anchor-is-bazel-label`](../kb/dev/decision/pe-anchor-is-bazel-label/conclusion.md).
 
 | 확장점 | 개발 프로파일 | 상태 |
 |---|---|---|
@@ -86,41 +112,30 @@
 | 상한 오버라이드 | 저작 산문 1,092 토큰 · 인용(`artifact`·`memory`) 2,856 | 채움(2026-10-01 — 단위는 토큰, `BODY_TOKEN_LIMITS`) |
 | 앵커 해석기 | Bazel 라벨(`pe-anchor-is-bazel-label`) | 채움 |
 
-## 2. ODD 작성
+## §2. ODD 작성
 
 새 프로젝트의 첫 산출물이다. 온톨로지는 프로젝트 간에 공유되므로 이미 있다.
 **5단계를 통과하기 전에는 스코프를 파생하지 않는다** ([`id:chunk-d0063`](../chunks/decision/d-0063-odd-first-authoring-procedure.md)).
 
-1. 프로젝트가 의존하는 조건을 **정적 요소 / 환경 조건 / 동적 요소** 3갈래로 열거한다.
-2. 각 속성의 범주를 `related/condition`에서 생성된 택소노미(`taxonomy.yml`)에 대응시킨다.
-   없으면 온톨로지를 먼저 확장한다. 문서는 OpenODD 형식이다
-   ([`pe-odd-is-openodd`](../kb/dev/decision/pe-odd-is-openodd/conclusion.md)).
-3. **값 또는 범위**와 **객관적 판정 방법**을 지정한다. "정상이다"가 아니라 "명령 X가 Y를
-   반환한다"여야 한다. 등급 A~D를 매기고 **D는 ODD에 넣지 않는다**. D를 넣으면 영원히
-   `unverified`인 속성이 생겨 모니터링 결과가 늘 불완전해진다.
-4. 검토했으나 밖에 두는 것을 **명시 제외**에 기록한다. 서식은
-   `"<대상> — reviewed YYYY-MM, 이유: <근거>"`다. 적지 않은 것과 검토 후 제외한 것을 구분하는
-   것이 이 절의 존재 이유다.
-5. 현재 **실제 조건이 ODD 안에 있는지 대조**한다. 명령은 `bazel run //tools:odd_check`다
-   (`CHECKS.cmd`, 3.5절). 첫 모니터링에서 이탈이 나오면 틀린 쪽은 현실이 아니라 ODD다.
+1. 프로젝트가 의존하는 조건을 **정적 요소 / 환경 조건 / 동적 요소** 3갈래로 열거한다 ([`p3-odd-first-project-start`](../kb/dev/decision/p3-odd-first-project-start/conclusion.md)).
+1. 각 속성의 범주를 `related/condition`에서 생성된 택소노미(`taxonomy.yml`)에 대응시킨다 ([`pe-odd-is-openodd`](../kb/dev/decision/pe-odd-is-openodd/conclusion.md), [`p3-odd-first-project-start`](../kb/dev/decision/p3-odd-first-project-start/conclusion.md)). 없으면 온톨로지를 먼저 확장한다. 문서는 OpenODD 형식이다.
+1. **값 또는 범위**와 **객관적 판정 방법**을 지정한다 ([`p3-measurement-method-grades`](../kb/dev/decision/p3-measurement-method-grades/conclusion.md), [`p3-odd-first-project-start`](../kb/dev/decision/p3-odd-first-project-start/conclusion.md)). "정상이다"가 아니라 "명령 X가 Y를 반환한다"여야 한다. 등급 A~D를 매기고 **D는 ODD에 넣지 않는다**. D를 넣으면 영원히 `unverified`인 속성이 생겨 모니터링 결과가 늘 불완전해진다.
+1. **[지킴]** 검토했으나 밖에 두는 것은 **명시 제외**로 기록한다 ([`p3-condition-entity-from-odd-document`](../kb/dev/decision/p3-condition-entity-from-odd-document/conclusion.md), [`p3-odd-first-project-start`](../kb/dev/decision/p3-odd-first-project-start/conclusion.md)). ODD 문서의 `EXCLUSIONS_REVIEWED`에 `concept`·`reviewed`(YYYY-MM)·`reason`을 적고, 그래프의 `agt:excludes` 서식은 `"<대상> — reviewed YYYY-MM, 이유: <근거>"`다.
+1. 현재 **실제 조건이 ODD 안에 있는지 대조**한다 ([`p3-odd-first-project-start`](../kb/dev/decision/p3-odd-first-project-start/conclusion.md)). 명령은 `bazel run //tools:odd_check`다 (`CHECKS.cmd`, 3.5절). 첫 모니터링에서 이탈이 나오면 틀린 쪽은 현실이 아니라 ODD다.
 
 게이트는 `bazel test //kb/odd:gate_test`다. 산출은 `kb/odd/*-odd.yml`(OpenODD, 부록 E.4)이고,
 그것에서 `*-odd.ttl`이 생성되며 그 위에서 스코프가 파생된다. 속성 범주는 `related/condition`에서
 생성된 택소노미 안이어야 한다.
 
-## 3. 청크 저작
+## §3. 청크 저작
 
 가장 흔한 작업이다.
 
-1. **plane과 level을 정한다.** plane 할당 기준은 **판정 방식**이고, 저장 위치나 파일 형식이
-   아니다 ([rules §3](rules.md#3-plane--판정-방식으로-나뉜-종류)).
-2. 해당 위치에 **파일 하나**를 만든다. 구성은 frontmatter(head) + 본문 ≤ 토큰 상한(저작 산문 1,092)이다
-   ([rules §1](rules.md#1-chunk--자립적-최소-지식-단위)).
-3. **전제가 있으면 가정을 만들고 `assumes`로 가리킨다.** 가정은 ODD 조건을 `refersTo` 해야
-   한다. 가정 없는 청크는 "ODD 전체를 전제한다"는 뜻이 아니라 전제를 아직 적지 않은 것이다.
-4. **통합이 필요하면** 복합체에 잇는다. 통합이 필요한 때는 함께 읽혀야 이해되거나 순서가
-   뜻을 가질 때뿐이다. 그렇지 않으면 개별로 둔다 ([rules §2](rules.md#2-복합체--통합이-필요한-것만)).
-5. `bazel test //...`를 실행한다.
+1. **plane과 level을 정한다** ([`p5-plane-by-verification`](../kb/dev/decision/p5-plane-by-verification/conclusion.md)). plane 할당 기준은 **판정 방식**이고, 저장 위치나 파일 형식이 아니다 ([rules §3](rules.md#3-plane--판정-방식으로-나뉜-종류)).
+1. 해당 위치에 **파일 하나**를 만든다 ([`p4-one-file-one-topic`](../kb/dev/decision/p4-one-file-one-topic/conclusion.md), [`p1-chunk-unit-is-tokens`](../kb/dev/decision/p1-chunk-unit-is-tokens/conclusion.md)). 파일은 frontmatter(head)와 본문이고, 토큰 상한(저작 산문 1,092)은 본문(frontmatter 제외)에 건다 ([rules §1](rules.md#1-chunk--자립적-최소-지식-단위)).
+1. **[지킴]** **전제가 있으면 가정을 만들고 `assumes`로 가리킨다** ([`p0-premise-as-assumption`](../kb/dev/decision/p0-premise-as-assumption/conclusion.md)). 가정은 ODD 조건 위의 명제다. 고유 전제를 아직 적지 않은 청크는 기본 가정 `id:asm-chunk-conventions`를 `assumes`하고, 실제 전제가 드러나면 고유 가정을 앞에 더한다. 기본 가정만 가진 항목은 전제를 아직 적지 않은 것이다. 리뷰에서 잡는다.
+1. **통합이 필요하면** 복합체에 잇는다 ([`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md)). 통합이 필요한 때는 함께 읽혀야 이해되거나 순서가 뜻을 가질 때뿐이다. 그렇지 않으면 개별로 둔다 ([rules §2](rules.md#2-복합체--통합이-필요한-것만)).
+1. **지식 파일을 고치면 `bazel test //...` 를 돌린다** ([`p6-self-check-before-completion`](../kb/dev/decision/p6-self-check-before-completion/conclusion.md)). 실패하면 고친 파일을 수정한다. shape·게이트 코드를 약화시키지 않는다.
 
 **분할 신호**는 라벨을 하나로 쓸 수 없는 것, 본문 일부만 재사용·가정·`suspect`의 대상이 되는
 것이다. **병합 신호**는 두 청크가 항상 함께 읽히는 것, 한쪽이 다른 쪽 없이 이해되지 않는 것,
@@ -129,7 +144,7 @@
 가리킨다. 링크 IRI는 뿌리 uuid로 계산되므로 조각을 가리키는 링크가 원본의 증거·이력을 잇는다
 ([`p10-split-keeps-work-identity`](../kb/dev/decision/p10-split-keeps-work-identity/conclusion.md)). 출처는 `prov:wasDerivedFrom`이다.
 
-## 4. 정제 전이
+## §4. 정제 전이
 
 level은 `functional → abstract → logical → concrete → executable` 순이다. 각 정제는 **근거와
 `refines` 링크를 남기고** 전이 게이트를 통과해야 한다. 전이 게이트는 어휘 검사, 후보가 비어
@@ -139,49 +154,32 @@ level은 `functional → abstract → logical → concrete → executable` 순�
 level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니라 **새 청크 + `refines`**다
 (d-0071). 단계를 건너뛰면 의도와 결과만 남고 그 사이가 빈다.
 
-## 5. 후보 관리
+## §5. 후보 관리
 
 미확정은 언제나 **"두 항목이 연결되는가"의 미확정**이다. 값이 미확정인 것처럼 보이는 경우도
 링크로 환원한다 ([`id:chunk-d0096`](../chunks/decision/d-0096-uncertainty-as-link-uncertainty.md)).
 
-- `-space` 파일에 **변수** · **후보** · **제약**을 쓴다. 변수는 링크가 필요한 항목, 후보는
-  도착점 집합, 제약은 양립 조건이다. abstract 단계는 변수까지, logical 단계는 후보와 제약까지
-  채운 상태다 (d-0100).
-- **실물 형식**(2026-09-22 첫 형태). 파일은 `space/<슬러그>-space.md`이고 **변수 하나가 파일
-  하나**다. frontmatter는 `type: agt:Space`·`level: logical`이며 plane 이름을 쓰지 않는다. 본문은
-  산문 한두 줄과 `yaml` 펜스 하나이고, 펜스가 `variable`(`from`·`kind`) · `status`(open|resolved) ·
-  `candidates`(`to`·`state`·`when`·`evidence`·`eliminated_by`) · `constraints` · `preferences`를
-  담는다. 후보를 아직 열거하지 않은 공간은 `candidates`를 쓰지 않는다.
-- **후보는 `deps`가 되지 않는다.** `space/`에는 `kb_chunk` 타깃이 없고, 나가는 것은 A-Box
-  그래프 `//space:design_space`와 체크박스 뷰 `//space:choices` 둘이다. 게이트 `space`가
-  근거 없는 배제와 확정 후보 수를 판정한다 — 그것이 `r-011`("근거 없는 할당은 자료구조
-  수준에서 불가능하여야 한다")의 실물이다.
-- 가능성은 확률이 아니라 **가능 / 불가능의 집합**이다. 등급을 매기지 않고, 선호는 후보를
-  기각하지 않고 순서만 정한다 (d-0097 · d-0104).
-- **제약 전파는 게이트와 재검증 시점에서만** 실행한다. 편집마다 돌리지 않는다 (d-0101).
-- **후보가 없으면 자동으로 풀지 않고 유저에게 넘긴다** (d-0103). 후보가 없는 상태가 모순이다.
+- `-space` 파일에 **변수** · **후보** · **제약**을 쓴다 ([`p9-design-space-file`](../kb/dev/decision/p9-design-space-file/conclusion.md)). 변수는 링크가 필요한 항목, 후보는 도착점 집합, 제약은 양립 조건이다. abstract 단계는 변수까지, logical 단계는 후보와 제약까지 채운 상태다 (d-0100).
+- **실물 형식**(2026-09-22 첫 형태) ([`p9-candidate-storage`](../kb/dev/decision/p9-candidate-storage/conclusion.md)). 파일은 `space/<슬러그>-space.md`이고 **변수 하나가 파일 하나**다. frontmatter는 `type: agt:Space`·`level: logical`이며 plane 이름을 쓰지 않는다. 본문은 산문 한두 줄과 `yaml` 펜스 하나이고, 펜스가 `variable`(`from`·`kind`) · `status`(open|resolved) · `candidates`(`to`·`state`·`when`·`evidence`·`eliminated_by`) · `constraints` · `preferences`를 담는다. 후보를 아직 열거하지 않은 공간은 `candidates`를 쓰지 않는다.
+- **후보는 `deps`가 되지 않는다** ([`p9-candidate-storage`](../kb/dev/decision/p9-candidate-storage/conclusion.md), [`pe-bazel-rules`](../kb/dev/decision/pe-bazel-rules/conclusion.md)). `space/`에는 `kb_chunk` 타깃이 없고, 나가는 것은 A-Box 그래프 `//space:design_space`와 체크박스 뷰 `//space:choices` 둘이다. 게이트 `space`가 근거 없는 배제와 확정 후보 수를 판정한다 — 그것이 `r-011`("근거 없는 할당은 자료구조 수준에서 불가능하여야 한다")의 실물이다.
+- 가능성은 확률이 아니라 **가능 / 불가능의 집합**이다 ([`p9-possibility-as-feasible-set`](../kb/dev/decision/p9-possibility-as-feasible-set/conclusion.md), [`p9-preference-partial-order`](../kb/dev/decision/p9-preference-partial-order/conclusion.md)). 등급을 매기지 않고, 선호는 후보를 기각하지 않고 순서만 정한다 (d-0097 · d-0104).
+- **제약 전파는 게이트와 재검증 시점에서만** 실행한다 ([`p9-constraint-propagation-timing`](../kb/dev/decision/p9-constraint-propagation-timing/conclusion.md)). 편집마다 돌리지 않는다 (d-0101).
+- **후보가 없으면 자동으로 풀지 않고 유저에게 넘긴다** (d-0103) ([`p9-contradiction-handling`](../kb/dev/decision/p9-contradiction-handling/conclusion.md)). 후보가 없는 상태가 모순이다.
 
 과도한 추측이 자료구조 수준에서 막힌다. 후보가 여럿인 상태가 정상이고, 확정은 제약 전파가
 나머지를 기각했을 때만 일어난다.
 
-## 6. 연결
+## §6. 연결
 
 **링크는 산출물이 만들어지는 순간 편집 연산의 부산물로 만든다.** 이것이 구축이다. 이미
 존재하는 산출물에서 관계를 되짚는 복원은 체계 도입 전 산출물·외부 유입물·구축 누락 감사에만
 쓴다 ([`id:chunk-d0009`](../chunks/decision/d-0009-link-by-construction.md)).
 
-- 탐색의 **읽기 집합**을 편집 컨텍스트에 후보 목록으로 넘기고, 편집 후 **쓰기 집합**과
-  대조해 확정한다. 하네스가 읽기·쓰기를 기록하지 않으면 이 절차가 성립하지 않는다. 첫 형태는
-  `bazel build //kg:workset --//kb:anchor=…`로 펼친 청크를 `bazel run //tools:handoff`가 새
-  청크의 `sources`에 옮기는 것이다.
-- 판정 근거는 검사 가능성 순이다. 순서는 구축 기록 > 동시 편집 이력 > 테스트 공동 커버 >
-  임베딩 유사도 > 같은 세션에서 읽음이다 (d-0110). 임베딩 유사도는 후보 추림에만 쓴다.
-- **임베딩 유사도를 확정 근거로 쓰지 않는다** (d-0009).
-- 본문에서 추출한 참조(`cites`·`usesConcept`)는 후보 링크 개체(`candidate`, 증거 구축 기록)다. 확정은 링크 키에 적는 행위다
-  ([`p10-extracted-references-are-candidates`](../kb/dev/decision/p10-extracted-references-are-candidates/conclusion.md)).
-- 복원 후보는 `bazel build //kg:link_candidates`(본문 식별자·테스트 공동 커버·개념 공유, TIM 제약 검사, 앵커당 k ≤ 7)가 낸다.
-  사람이 채택하면 링크 키에 적고 같은 청크의 `restored` 목록에 대상을 한 번 더 적는다 — 그 링크의 증거는 `proposal`이고
-  복원 비율은 `metrics`·`audit`가 센다 ([`p10-restored-link-marking`](../kb/dev/decision/p10-restored-link-marking/conclusion.md)).
+- 탐색의 **읽기 집합**을 편집 컨텍스트에 후보 목록으로 넘기고, 편집 후 **쓰기 집합**과 대조해 확정한다 ([`p10-context-handoff-yields-links`](../kb/dev/decision/p10-context-handoff-yields-links/conclusion.md)). 하네스의 도구가 읽기·쓰기를 기록하지 않으면 이 절차가 성립하지 않는다. 첫 형태는 `bazel build //kg:workset --//kb:anchor=…`로 펼친 청크를 `bazel run //tools:handoff`가 새 청크의 `sources`에 옮기는 것이다.
+- 판정 근거는 검사 가능성 순이다 ([`p10-link-judgement-evidence`](../kb/dev/decision/p10-link-judgement-evidence/conclusion.md)). 순서는 구축 기록 > 동시 편집 이력 > 테스트 공동 커버 > 임베딩 유사도 > 같은 세션에서 읽음이다 (d-0110). 임베딩 유사도는 후보 추림에만 쓴다.
+- **임베딩 유사도를 확정 근거로 쓰지 않는다** ([`p10-embedding-similarity-narrows-only`](../kb/dev/decision/p10-embedding-similarity-narrows-only/conclusion.md), [`p10-link-by-construction`](../kb/dev/decision/p10-link-by-construction/conclusion.md)).
+- 본문에서 추출한 참조(`cites`·`usesConcept`)는 후보 링크 개체(`candidate`, 증거 구축 기록)다 ([`p10-extracted-references-are-candidates`](../kb/dev/decision/p10-extracted-references-are-candidates/conclusion.md)). 확정은 링크 키에 적는 행위다.
+- 복원 후보는 `bazel build //kg:link_candidates`(본문 식별자·테스트 공동 커버·개념 공유, TIM 제약 검사, 앵커당 k ≤ 7)가 낸다 ([`p10-restored-link-marking`](../kb/dev/decision/p10-restored-link-marking/conclusion.md), [`p9-candidate-generation-limits`](../kb/dev/decision/p9-candidate-generation-limits/conclusion.md)). 사람이 채택하면 링크 키에 적고 같은 청크의 `restored` 목록에 대상을 한 번 더 적는다 — 그 링크의 증거는 `proposal`이고 복원 비율은 `metrics`·`audit`가 센다.
 
 조건(`when`)·증거 기록·상태 전이 규칙은
 [`p9-conditional-links`](../kb/dev/decision/p9-conditional-links/conclusion.md)·[`p9-evidence-ledger`](../kb/dev/decision/p9-evidence-ledger/conclusion.md)에
@@ -189,16 +187,11 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 [`p10-link-by-construction`](../kb/dev/decision/p10-link-by-construction/conclusion.md)·[`p9-candidate-generation-limits`](../kb/dev/decision/p9-candidate-generation-limits/conclusion.md)에
 있다.
 
-## 7. 갱신
+## §7. 갱신
 
-1. **가정을 판정한다.** 판정 유형과 판정 식이 가정과 함께 저장되어 있어야 한다 (d-0087).
-   판정 유형은 그래프 질의, 파일 검사, 실행 검사, 외부 조회, 사람 확인이다. 첫 형태는
-   `bazel run //tools:assume_check`다 — 판정식은 가정이 참조하는 ODD 조건 판정의 연언이고, `--break`가
-   인위 파괴 실험, `--record`가 관측 청크(memory plane) 기록이다 (2026-09-14).
-2. 깨진 가정에 의존하는 항목을 `invalidated`로, 그 항목을 가리키는 링크의 반대편을
-   `suspect`로 표시한다. 전파는 plane 단방향 규칙을 따르므로 유계다 (d-0007 · d-0088).
-3. **재판정은 즉시 하지 않고 커밋·세션 종료 같은 경계에서 일괄로** 한다. 알려진 변경 패턴은
-   규칙으로 자동 갱신하고, 규칙에 없는 변경만 판정으로 보낸다 (d-0106).
+1. **가정을 판정한다** ([`p6-assumption-verification-methods`](../kb/dev/decision/p6-assumption-verification-methods/conclusion.md)). 판정 유형과 판정 식이 가정과 함께 저장되어 있어야 한다 (d-0087). 판정 유형은 그래프 질의, 파일 검사, 실행 검사, 외부 조회, 사람 확인이다. 첫 형태는 `bazel run //tools:assume_check`다 — 판정식은 가정이 참조하는 ODD 조건 판정의 연언이고, `--break`가 인위 파괴 실험, `--record`가 관측 청크(memory plane) 기록이다 (2026-09-14).
+1. 깨진 가정에 의존하는 항목을 `invalidated`로, 그 항목을 가리키는 링크의 반대편을 `suspect`로 표시한다 ([`p6-assumption-invalidation`](../kb/dev/decision/p6-assumption-invalidation/conclusion.md), [`p6-invalidation-propagation`](../kb/dev/decision/p6-invalidation-propagation/conclusion.md)). 전파는 plane 단방향 규칙을 따르므로 유계다 (d-0007 · d-0088).
+1. **재판정은 즉시 하지 않고 커밋·세션 종료 같은 경계에서 일괄로** 한다 ([`p10-link-decay-states`](../kb/dev/decision/p10-link-decay-states/conclusion.md)). 알려진 변경 패턴은 규칙으로 자동 갱신하고, 규칙에 없는 변경만 판정으로 보낸다 (d-0106).
 
 **링크 상태는 저장값이 아니라 평가 결과다**(유저 승인 2026-09-23, 링크 견고성 D). 링크의 `when`은 ODD 조건 참조
 (`in(<조건>)`과 `!`·`&&`·`||`, 3값 논리)로 평가되고, 거짓이면 확정 링크는 `suspect`·후보는 `invalid`로 유도된다.
@@ -211,30 +204,28 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 무효화는 삭제가 아니다. 무효화 이력은 일반화의 입력이다. 어떤 가정이 자주 깨지는가는 그
 자체로 일반화 대상이다.
 
-## 8. 조회
+## §8. 조회
 
 **읽기 응답의 기본은 라벨 목록이지 본문이 아니다** (d-0082). 순서는 스코프 → 라벨 목록 →
 필요한 것만 펼치기 → 작업 집합이다. 도구는 `bazel build //kg:workset_<role>`이다. 수준 창·앵커는
 `defs/kb.bzl`의 규칙 `kb_workset_view` 인자로, 예산은 빌드 설정 `--//kb:budget`으로 준다.
 
-- **작업 집합**(Workset)은 스코프 × 수준 창 × **앵커 이웃**으로 걸러져 에이전트에게 실제로
-  보이는 청크 집합이다. 컨텍스트 통제의 단위다 (노트 0.5절,
-  [`p0-workset-anchor-neighbourhood`](../kb/dev/decision/p0-workset-anchor-neighbourhood/conclusion.md)).
-  v1의 scene·situation 어휘는 폐기되었다. 앵커 없는 요청에는 접힌 라벨 목록만 준다.
-- dispatch 대상에게 전체 컨텍스트가 아니라 **스코프로 거른 작업 집합만** 넘긴다.
-- **툴 표면이 할당을 따라야 한다.** 저장소만 나누고 읽기 도구가 전체를 반환하면 컨텍스트
-  분리는 이름뿐이다 (d-0081).
-- 컨텍스트 예산은 항목별로 분해해 통제하고 지식 본문은 잔여로 둔다 (d-0041).
+- **작업 집합**(Workset)은 스코프 × 수준 창 × **앵커 이웃**으로 걸러져 에이전트에게 실제로 보이는 청크 집합이다 ([`p0-workset-anchor-neighbourhood`](../kb/dev/decision/p0-workset-anchor-neighbourhood/conclusion.md)). 컨텍스트 통제의 단위다 (노트 0.5절). v1의 scene·situation 어휘는 폐기되었다. 앵커 없는 요청에는 접힌 라벨 목록만 준다.
+- dispatch 대상에게 전체 컨텍스트가 아니라 **스코프로 거른 작업 집합만** 넘긴다 ([`p11-execution-mode-and-workset`](../kb/dev/decision/p11-execution-mode-and-workset/conclusion.md)).
+- **툴 표면이 할당을 따라야 한다** ([`p5-plane-assignment-tool-surface`](../kb/dev/decision/p5-plane-assignment-tool-surface/conclusion.md)). 저장소만 나누고 읽기 도구가 전체를 반환하면 컨텍스트 분리는 이름뿐이다 (d-0081).
+- 컨텍스트 예산은 항목별로 분해해 통제하고 지식 본문은 잔여로 둔다 ([`p1-context-budget-items`](../kb/dev/decision/p1-context-budget-items/conclusion.md)).
 
 조립 알고리즘은
 [`p0-workset-anchor-neighbourhood`](../kb/dev/decision/p0-workset-anchor-neighbourhood/conclusion.md)
 결정이고, 첫 형태는 `workset`([`tools.md`](tools.md))이다. 알고리즘의 순서는 앵커 → 이웃 확장 →
 우선순위 → 예산 패킹이다. 예산 상한식은 Δ = m·k·1,092이고, 앵커 m × 이웃 k × 청크 상한(토큰)이다 — 예산은 5,418 토큰(42×129).
 
-## 9. 뷰
+## §9. 뷰
 
 **모든 뷰는 질의의 결과이며 저장하지 않는다.** 저장된 뷰는 원본과 어긋나는 순간부터
 거짓이 된다 ([`id:chunk-d0075`](../chunks/decision/d-0075-projection-as-query.md)).
+
+원본: [`p4-projection-as-query`](../kb/dev/decision/p4-projection-as-query/conclusion.md) · [`p10-traceability-matrix`](../kb/dev/decision/p10-traceability-matrix/conclusion.md) · [`p12-documents-are-generated`](../kb/dev/decision/p12-documents-are-generated/conclusion.md) · [`p12-audit-and-onboarding-self-sufficiency`](../kb/dev/decision/p12-audit-and-onboarding-self-sufficiency/conclusion.md) · [`p9-candidate-generation-limits`](../kb/dev/decision/p9-candidate-generation-limits/conclusion.md) · [`pe-generated-outputs-stay-in-bazel-out`](../kb/dev/decision/pe-generated-outputs-stay-in-bazel-out/conclusion.md) · [`p12-evaluation-metrics`](../kb/dev/decision/p12-evaluation-metrics/conclusion.md) · [`p4-chunk-quality-metrics`](../kb/dev/decision/p4-chunk-quality-metrics/conclusion.md) · [`p2-competency-questions`](../kb/dev/decision/p2-competency-questions/conclusion.md) · [`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md) · [`p4-community-detection-proposes-composites`](../kb/dev/decision/p4-community-detection-proposes-composites/conclusion.md).
 
 | 뷰 | 질의 |
 |---|---|
@@ -261,9 +252,11 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 [`p12-generated-document-form`](../kb/dev/decision/p12-generated-document-form/conclusion.md) ·
 [`p12-generated-documents-are-gated`](../kb/dev/decision/p12-generated-documents-are-gated/conclusion.md)다.
 
-## 10. 일반화
+## §10. 일반화
 
 관측에서 어휘로 올라간다. 정제만 있는 체계는 지식이 축적되지 않는다 (d-0006).
+
+원본: [`p6-ascent-generalization`](../kb/dev/decision/p6-ascent-generalization/conclusion.md).
 
 | 전이 | 산출 |
 |---|---|
@@ -277,7 +270,7 @@ level을 바꾸지 않는다. 전이는 기존 청크의 level 갱신이 아니�
 한다. **트리거는 초기에 사람 지정만 쓴다.** 반복 임계값 트리거는 관측 모수가 쌓인 뒤다
 (d-0006 · d-0089). 교훈 승격이 일반화의 최소 단위다 (d-0017 · d-0127).
 
-## 11. 검증 — V&V 층으로
+## §11. 검증 — V&V 층으로
 
 v1의 "검증은 응용"(d-0130)은 v3부터 대체되었다. 검증·확인은 **두 번째 지식 베이스**이고, 절차는
 §14 V&V 층에 있다 ([`p12-dev-vv-kb-exchange`](../kb/dev/decision/p12-dev-vv-kb-exchange/conclusion.md)).
@@ -321,11 +314,13 @@ noul·choice·score 셋이고 선택 집합은 255 이하다. **확신도는 자
 판정자가 맡는다. 세션 판정자를 여는 것은 실험자(vnv)다 — 열쇠(`key.json`)를 쥔 쪽이 판정자와 분리된다.
 
 **정지 규칙**(유저 승인 2026-10-01, 목표 `verification-round-stop-rule` stable) — 연속한 두 라운드에서 신규 결함 수가 줄지 않으면 다음
-라운드를 열지 않고 채널로 되돌린다. 신규 결함 수의 정의처는 `//kg:audit`의 판정 주석 절(라운드 = 주석의 `prov:generatedAtTime`
-날짜, `process:judge`의 판정 결과는 제외)이다. 첫 적용은 2026-10-01 orchestrator 세션이다 — 2·4·2·2·2에서 두 번 성립해 라운드를
-열지 않았다.
+라운드를 열지 않고 채널로 되돌린다. 라운드의 정의는 처음에 판정 주석의 `prov:generatedAtTime` 날짜였고, 유저 답 Q39-c(2026-10-04)가
+그것을 종료 사유를 단 명시 기록으로 바꿨다. 날짜 정의 아래의 첫 적용은 2026-10-01 orchestrator 세션이다 — 2·4·2·2·2에서 두 번 성립해
+라운드를 열지 않았다.
 
-## 12. 영향 분석
+- **[지킴]** 라운드는 `vv_run --round stop-rule|budget|complete`가 남기는 기록 `kb/vv/run/round-<UTC>.md`다(번호·구간 안 신규 결함 수·종료 사유) ([`p8-verification-round-stop-rule`](../kb/dev/decision/p8-verification-round-stop-rule/conclusion.md)). 종료 사유는 `agt:RoundEndReason`의 개체 셋 중 하나다. 신규 결함 수 new(n)은 직전 기록 시각 뒤부터 기록 n 시각까지 저작된 살아 있는 판정 주석(`process:judge` 제외)의 수다. new(n) ≥ new(n−1)이면 다음 라운드를 열지 않고 채널로 되돌리며, 기록 n+1이 정지 규칙이 아닌 사유로 닫히면 verify 질의 `round-stop-rule-violated`(`//kg:gate_test`)가 위반으로 낸다. `//kg:audit`는 기록으로 구간을 자르고 기록이 없으면 날짜로 자른다(유저 답 Q39-c, 2026-10-04).
+
+## §12. 영향 분석
 
 `revalidate`의 `호출부` 열은 본문 해시가 바뀐 정의를 `uses`(`agt:usesDefinition`)로 가리키는 출발점의 수이고 **코드 호출부
 파손의 상한**이다(2026-09-30). 상한의 범위는 같은 모듈과 치역 경계(`defs/kb.bzl`의 `USES_TARGETS`) 안의 모듈이다 — 경계 밖 모듈·간접 호출·상수 참조는
@@ -348,9 +343,7 @@ noul·choice·score 셋이고 선택 집합은 255 이하다. **확신도는 자
 나오므로 변경의 크기가 비교 가능해진다. 유저 승인이 필요한 수가 0이 아니면 자율 진행 범위를
 벗어난다.
 
-# development — 개발 KB의 절차 (노트 7.3~7.9)
-
-## 13. 저작 흐름과 완료
+## §13. 저작 흐름과 완료
 
 **저작 흐름 8단계**는 요구 작성(유저+design) → 형식화(`decision` abstract, `serves`) → 계약
 선언(`contract` abstract) → 전개(`decision` logical `-space` / `contract` logical 사후조건 /
@@ -361,29 +354,27 @@ noul·choice·score 셋이고 선택 집합은 255 이하다. **확신도는 자
 
 | 절차 | 입력 → 산출 | 게이트 | 결정 |
 |---|---|---|---|
-| 정제 전이 게이트 4종 | f→a 기여 명시 / a→l 판정식·범위 / l→c 표본 근거·배제 근거 / c→e 기준 바인딩 | `gate`(미구현) | [p6-transition-gates](../kb/dev/decision/p6-transition-gates/conclusion.md) |
-| 결정 확정 | `-space` → 유저 체크박스 → 후보 하나 → concrete 청크 + eliminated 항목이 대안 청크로 승격 | `space_check`·`feedback`(미구현) | [p9-candidate-storage](../kb/dev/decision/p9-candidate-storage/conclusion.md) |
-| 계약 선언 → 구현 | 시그니처 먼저, 사후조건(CEL)이 V&V 기준의 재료 | `contract_check`(미구현) | [p7-contract-first](../kb/dev/decision/p7-contract-first/conclusion.md) |
-| 스키마 확정 | 호환성 판정 → `wasRevisionOf` 또는 새 IRI + `supersedes` | `schema_compat`(미구현) | [p7-schema-derivation](../kb/dev/decision/p7-schema-derivation/conclusion.md) |
-| 완료 판정 | 연쇄 완주 · 계약 선행 · 대안 존재 · 가정 `stable` · V&V `verifies` 유효 | `dev_metrics`(미구현) | [p7-dev-kb-completion](../kb/dev/decision/p7-dev-kb-completion/conclusion.md) |
+| 정제 전이 게이트 4종 | f→a 기여 명시 / a→l 판정식·범위 / l→c 표본 근거·배제 근거 / c→e 기준 바인딩 | `gate`(미구현) | [`p6-transition-gates`](../kb/dev/decision/p6-transition-gates/conclusion.md) |
+| 결정 확정 | `-space` → 유저 체크박스 → 후보 하나 → concrete 청크 + eliminated 항목이 대안 청크로 승격 | `space_check`·`feedback`(미구현) | [`p9-candidate-storage`](../kb/dev/decision/p9-candidate-storage/conclusion.md) |
+| 계약 선언 → 구현 | 시그니처 먼저, 사후조건(CEL)이 V&V 기준의 재료 | `contract_check`(미구현) | [`p7-contract-first`](../kb/dev/decision/p7-contract-first/conclusion.md) |
+| 스키마 확정 | 호환성 판정 → `wasRevisionOf` 또는 새 IRI + `supersedes` | `schema_compat`(미구현) | [`p7-schema-derivation`](../kb/dev/decision/p7-schema-derivation/conclusion.md) |
+| 완료 판정 | 연쇄 완주 · 계약 선행 · 대안 존재 · 가정 `stable` · V&V `verifies` 유효 | `dev_metrics`(미구현) | [`p7-dev-kb-completion`](../kb/dev/decision/p7-dev-kb-completion/conclusion.md) |
 
 이 저장소에서 지금 실제로 도는 것은 1(요구)과 2·4·5의 결정 부분뿐이다. 다만 `-space` 없이
 결론·근거·대안을 직접 저작한다.
 
-# V&V — V&V KB의 절차 (노트 8.19~8.27, 8.4, 12.12)
-
-## 14. 위험 분석에서 되먹임까지
+## §14. 위험 분석에서 되먹임까지
 
 | 절차 | 요지 | 결정 |
 |---|---|---|
-| 위험 분석 G1~G6 | 현상 추출 → 인과 모델 → 데이터 검토 → 지표 → 시나리오 부류 → 목표 거동. 규칙성 가정 먼저. 도메인당 한 번, 초기엔 전문가 | [p8-risk-analysis-profile](../kb/dev/decision/p8-risk-analysis-profile/conclusion.md) |
-| 워크플로 10단계 | 목표 파생 → 시나리오 형식화 → 논리 시나리오+기준 → 케이스 생성 → 검증기 → 환경 할당 → 실행 → 판정 → 보고 → 되먹임. **1~3은 개발 확정 전 시작** | [p8-vv-workflow](../kb/dev/decision/p8-vv-workflow/conclusion.md) |
-| V&V 파생 | 요구→목표 / 결정 abstract→시나리오 abstract / 계약 사후조건→기준 / 확정 값→케이스 / 구현→검증기 | [p8-scenario-ladder-rungs](../kb/dev/decision/p8-scenario-ladder-rungs/conclusion.md) |
-| 시나리오 저작 | 부류(G5)에서 시작 → ODD 속성으로 변수 → 계약 사후조건으로 기준 → 배제 자극 기록. concrete는 생성기가 | [p8-scenario-authoring](../kb/dev/decision/p8-scenario-authoring/conclusion.md) |
-| 케이스 생성 5규칙 | 등가분할 · 경계값(별도 집계) · t-wise · 요인 주입 · 관측 재현. 규칙·seed는 provenance에 | [p8-case-generation](../kb/dev/decision/p8-case-generation/conclusion.md) |
-| 환경 할당 | 판정 가능한 최저 단계. 요인 → 단계. 재현성 조건 | [p8-environment-assignment](../kb/dev/decision/p8-environment-assignment/conclusion.md) |
-| 검증 세 방향 | 수직 완주 · 수평 실행 통과 · 기준의 질(변이 검출) | [p8-three-directions-of-verification](../kb/dev/decision/p8-three-directions-of-verification/conclusion.md) |
-| 검증과 확인 | 검증은 1~5단계 검증기 / 확인은 5~6단계 실환경·유저·이탈 → `requirement` 일반화 | [p8-verification-and-validation](../kb/dev/decision/p8-verification-and-validation/conclusion.md) |
+| 위험 분석 G1~G6 | 현상 추출 → 인과 모델 → 데이터 검토 → 지표 → 시나리오 부류 → 목표 거동. 규칙성 가정 먼저. 도메인당 한 번, 초기엔 전문가 | [`p8-risk-analysis-profile`](../kb/dev/decision/p8-risk-analysis-profile/conclusion.md) |
+| 워크플로 10단계 | 목표 파생 → 시나리오 형식화 → 논리 시나리오+기준 → 케이스 생성 → 검증기 → 환경 할당 → 실행 → 판정 → 보고 → 되먹임. **1~3은 개발 확정 전 시작** | [`p8-vv-workflow`](../kb/dev/decision/p8-vv-workflow/conclusion.md) |
+| V&V 파생 | 요구→목표 / 결정 abstract→시나리오 abstract / 계약 사후조건→기준 / 확정 값→케이스 / 구현→검증기 | [`p8-scenario-ladder-rungs`](../kb/dev/decision/p8-scenario-ladder-rungs/conclusion.md) |
+| 시나리오 저작 | 부류(G5)에서 시작 → ODD 속성으로 변수 → 계약 사후조건으로 기준 → 배제 자극 기록. concrete는 생성기가 | [`p8-scenario-authoring`](../kb/dev/decision/p8-scenario-authoring/conclusion.md) |
+| 케이스 생성 5규칙 | 등가분할 · 경계값(별도 집계) · t-wise · 요인 주입 · 관측 재현. 규칙·seed는 provenance에 | [`p8-case-generation`](../kb/dev/decision/p8-case-generation/conclusion.md) |
+| 환경 할당 | 판정 가능한 최저 단계. 요인 → 단계. 재현성 조건 | [`p8-environment-assignment`](../kb/dev/decision/p8-environment-assignment/conclusion.md) |
+| 검증 세 방향 | 수직 완주 · 수평 실행 통과 · 기준의 질(변이 검출) | [`p8-three-directions-of-verification`](../kb/dev/decision/p8-three-directions-of-verification/conclusion.md) |
+| 검증과 확인 | 검증은 1~5단계 검증기 / 확인은 5~6단계 실환경·유저·이탈 → `requirement` 일반화 | [`p8-verification-and-validation`](../kb/dev/decision/p8-verification-and-validation/conclusion.md) |
 
 위험 분석 G1의 산출은 `defect` 모듈의 요인 개체다(2026-09-29, 유저 답 — 피해·현상·가정을 질문지 그대로 채택). 현상을
 더할 때는 세 갈래 아래 **잎으로만** 더하고 새 상위 개념을 만들지 않는다. 개체마다 정의·질문지 표기(`skos:notation`)·관측
@@ -392,10 +383,88 @@ noul·choice·score 셋이고 선택 집합은 255 이하다. **확신도는 자
 `agt:severityGrade`·`agt:exposureGrade`·`agt:detectabilityGrade`, G5의 부류는 `agt:exposesFactor`로 적는다. 판정은 vnv가
 `kb/vv/`에서 하고 T-Box 트리플은 developer가 `defect-rules`(`impact-causation-rules.ttl`)에 옮긴다. 등급을 곱하지 않는다. G6 목표 거동은 술어가 아니라
 V&V 요구·결정의 본문이다.
-| 불일치의 귀속 | 실패 → 기호 진단 → 산출물/지식/둘 다 귀속 → 지침(귀속·조치·배제된 전략) → 조치 | [p8-mismatch-attribution](../kb/dev/decision/p8-mismatch-attribution/conclusion.md) |
-| 보고 5종 | 검증 상태 · 커버리지 · 결함 분포 · 가정 건전성 · 독립성. 저장하지 않고 뷰, 리비전·질의 명기 | [p8-vv-reports](../kb/dev/decision/p8-vv-reports/conclusion.md) |
-| 에이전트 V&V | 목표는 역할 책임, 자극은 작업 집합+요구+의도된 이탈, 기준은 shape·완주·인지 누락률·안전 정지. 3단계 시뮬레이션 프로젝트 중심 | [p8-agent-vv](../kb/dev/decision/p8-agent-vv/conclusion.md) · [p12-cognition-measurement](../kb/dev/decision/p12-cognition-measurement/conclusion.md) |
-| 사후분석 | 기호 진단(불만족 핵·보간·최약 전제조건·명세 추론) → 요인 추론 → 지침 → 어휘·요구/기준·ODD 후보. 산출 없으면 실패 | [p12-symbolic-diagnosis](../kb/dev/decision/p12-symbolic-diagnosis/conclusion.md) · [p12-incident-postmortem](../kb/dev/decision/p12-incident-postmortem/conclusion.md) |
-| 선제적 V&V | ODD 경계 근접 · 커버리지 공백 · 외부 지식 변화 · 증거 노화가 트리거. 산출은 전부 `origin:observed` 후보 | [p8-proactive-vv](../kb/dev/decision/p8-proactive-vv/conclusion.md) |
+
+| 절차 | 요지 | 결정 |
+|---|---|---|
+| 불일치의 귀속 | 실패 → 기호 진단 → 산출물/지식/둘 다 귀속 → 지침(귀속·조치·배제된 전략) → 조치 | [`p8-mismatch-attribution`](../kb/dev/decision/p8-mismatch-attribution/conclusion.md) |
+| 보고 5종 | 검증 상태 · 커버리지 · 결함 분포 · 가정 건전성 · 독립성. 저장하지 않고 뷰, 리비전·질의 명기 | [`p8-vv-reports`](../kb/dev/decision/p8-vv-reports/conclusion.md) |
+| 에이전트 V&V | 목표는 역할 책임, 자극은 작업 집합+요구+의도된 이탈, 기준은 shape·완주·인지 누락률·안전 정지. 3단계 시뮬레이션 프로젝트 중심 | [`p8-agent-vv`](../kb/dev/decision/p8-agent-vv/conclusion.md) · [`p12-cognition-measurement`](../kb/dev/decision/p12-cognition-measurement/conclusion.md) |
+| 사후분석 | 기호 진단(불만족 핵·보간·최약 전제조건·명세 추론) → 요인 추론 → 지침 → 어휘·요구/기준·ODD 후보. 산출 없으면 실패 | [`p12-symbolic-diagnosis`](../kb/dev/decision/p12-symbolic-diagnosis/conclusion.md) · [`p12-incident-postmortem`](../kb/dev/decision/p12-incident-postmortem/conclusion.md) |
+| 선제적 V&V | ODD 경계 근접 · 커버리지 공백 · 외부 지식 변화 · 증거 노화가 트리거. 산출은 전부 `origin:observed` 후보 | [`p8-proactive-vv`](../kb/dev/decision/p8-proactive-vv/conclusion.md) |
 
 이 저장소는 아직 어느 절차도 실행하지 않았다. `kb/vv/`가 비어 있다 (도입 7단계).
+
+<!-- 인용 끝 -->
+
+## 입력 파일
+
+원본 파일 101개다. 디렉토리로 묶었고 빠진 파일은 없다.
+
+- `kb/dev/decision/p0-condition-taxonomy-extensible/` — `conventions.md`
+- `kb/dev/decision/p0-premise-as-assumption/` — `conventions.md`
+- `kb/dev/decision/p0-workset-anchor-neighbourhood/` — `conventions.md`
+- `kb/dev/decision/p1-chunk-unit-is-tokens/` — `conventions.md`
+- `kb/dev/decision/p1-context-budget-items/` — `conventions.md`
+- `kb/dev/decision/p10-context-handoff-yields-links/` — `conventions.md`
+- `kb/dev/decision/p10-embedding-similarity-narrows-only/` — `conventions.md`
+- `kb/dev/decision/p10-extracted-references-are-candidates/` — `conventions.md`
+- `kb/dev/decision/p10-link-by-construction/` — `conventions.md`
+- `kb/dev/decision/p10-link-decay-states/` — `conventions.md`
+- `kb/dev/decision/p10-link-judgement-evidence/` — `conventions.md`
+- `kb/dev/decision/p10-restored-link-marking/` — `conventions.md`
+- `kb/dev/decision/p10-traceability-matrix/` — `conventions.md`
+- `kb/dev/decision/p10-traceability-metrics/` — `conventions.md`
+- `kb/dev/decision/p11-execution-mode-and-workset/` — `conventions.md`
+- `kb/dev/decision/p12-audit-and-onboarding-self-sufficiency/` — `conventions.md`
+- `kb/dev/decision/p12-documents-are-generated/` — `conventions.md`
+- `kb/dev/decision/p12-evaluation-metrics/` — `conventions.md`
+- `kb/dev/decision/p12-symbolic-diagnosis/` — `conventions.md`
+- `kb/dev/decision/p2-competency-questions/` — `conventions.md`
+- `kb/dev/decision/p2-profile-answers-from-decisions/` — `conventions.md`
+- `kb/dev/decision/p2-skeleton-and-domain-profile/` — `conventions.md`
+- `kb/dev/decision/p3-condition-entity-from-odd-document/` — `conventions.md`
+- `kb/dev/decision/p3-measurement-method-grades/` — `conventions.md`
+- `kb/dev/decision/p3-odd-first-project-start/` — `conventions.md`
+- `kb/dev/decision/p4-community-detection-proposes-composites/` — `conventions.md`
+- `kb/dev/decision/p4-one-file-one-topic/` — `conventions.md`
+- `kb/dev/decision/p4-projection-as-query/` — `conventions.md`
+- `kb/dev/decision/p4-redundancy-as-safety-margin/` — `conventions.md`
+- `kb/dev/decision/p5-plane-assignment-tool-surface/` — `conventions.md`
+- `kb/dev/decision/p5-plane-by-verification/` — `conventions.md`
+- `kb/dev/decision/p6-ascent-generalization/` — `conventions.md`
+- `kb/dev/decision/p6-assumption-invalidation/` — `conventions.md`
+- `kb/dev/decision/p6-assumption-verification-methods/` — `conventions.md`
+- `kb/dev/decision/p6-descent-refinement/` — `conventions.md`
+- `kb/dev/decision/p6-refinement-ladder/` — `conventions.md`
+- `kb/dev/decision/p6-self-check-before-completion/` — `conventions.md`
+- `kb/dev/decision/p6-transition-gates/` — `conventions.md`
+- `kb/dev/decision/p7-contract-first/` — `conventions.md`
+- `kb/dev/decision/p7-dev-kb-completion/` — `conventions.md`
+- `kb/dev/decision/p7-dev-plane-substance/` — `conventions.md`
+- `kb/dev/decision/p7-schema-derivation/` — `conventions.md`
+- `kb/dev/decision/p8-agent-vv/` — `conventions.md`
+- `kb/dev/decision/p8-case-generation/` — `conventions.md`
+- `kb/dev/decision/p8-environment-assignment/` — `conventions.md`
+- `kb/dev/decision/p8-mismatch-attribution/` — `conventions.md`
+- `kb/dev/decision/p8-odc-defect-subtypes/` — `conventions.md`
+- `kb/dev/decision/p8-proactive-vv/` — `conventions.md`
+- `kb/dev/decision/p8-risk-analysis-profile/` — `conventions.md`
+- `kb/dev/decision/p8-scenario-authoring/` — `conventions.md`
+- `kb/dev/decision/p8-scenario-ladder-rungs/` — `conventions.md`
+- `kb/dev/decision/p8-three-directions-of-verification/` — `conventions.md`
+- `kb/dev/decision/p8-verification-and-validation/` — `conventions.md`
+- `kb/dev/decision/p8-verification-round-stop-rule/` — `conventions.md`
+- `kb/dev/decision/p8-vv-reports/` — `conventions.md`
+- `kb/dev/decision/p8-vv-workflow/` — `conventions.md`
+- `kb/dev/decision/p9-candidate-generation-limits/` — `conventions.md`
+- `kb/dev/decision/p9-candidate-storage/` — `conventions.md`
+- `kb/dev/decision/p9-constraint-propagation-timing/` — `conventions.md`
+- `kb/dev/decision/p9-contradiction-handling/` — `conventions.md`
+- `kb/dev/decision/p9-design-space-file/` — `conventions.md`
+- `kb/dev/decision/p9-possibility-as-feasible-set/` — `conventions.md`
+- `kb/dev/decision/pe-anchor-is-bazel-label/` — `conventions.md`
+- `kb/dev/decision/pe-generated-outputs-stay-in-bazel-out/` — `conventions.md`
+- `kb/dev/decision/pe-notation-and-cel/` — `conventions.md`
+- `kb/dev/decision/pe-odd-is-openodd/` — `conventions.md`
+- `kb/dev/norm/method/` — `adoption-order.md` · `authoring-flow-status.md` · `authoring-flow.md` · `candidates-closure.md` · `candidates.md` · `chunk-authoring.md` · `chunk-split-merge.md` · `completion.md` · `generalization-manual.md` · `generalization.md` · `head.md` · `impact.md` · `linking-sources.md` · `linking.md` · `odd-gate.md` · `odd.md` · `order-no-skipping.md` · `order.md` · `profile-extension-points.md` · `profile-steps.md` · `profile.md` · `refinement-transition.md` · `retrieval-assembly.md` · `retrieval.md` · `update-link-state.md` · `update.md` · `verification-cases.md` · `verification-judge.md` · `verification-stop-rule.md` · `verification.md` · `views-form.md` · `views.md` · `vv-procedures-risk.md` · `vv-procedures-status.md` · `vv-procedures.md`
+

@@ -7,11 +7,104 @@ package(default_visibility = ["//kb:vv_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "scenario",
     srcs = glob(
         ["*.md"],
         allow_empty = True,
     ),
+)
+
+kb_composite(
+    name = "acyclic-relation-axioms-composite-stimulus",
+    srcs = [
+        "acyclic-relation-axioms-composite-excluded.md",
+        "acyclic-relation-axioms-composite-factors.md",
+        "acyclic-relation-axioms-composite-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/8b1ba340-919d-55cc-b0f0-ab499caf96bc",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/a3b9da01-17aa-52c7-9aa5-26bd2daa02c7", "https://agentic-knowledge-base.dev/id/chunk/fdd0f8a9-9882-5be4-9de6-993a0f7e3113", "https://agentic-knowledge-base.dev/id/chunk/83be3942-7ea8-5794-9336-b2c110a39690"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a3b9da01-17aa-52c7-9aa5-26bd2daa02c7", "https://agentic-knowledge-base.dev/id/chunk/fdd0f8a9-9882-5be4-9de6-993a0f7e3113", "https://agentic-knowledge-base.dev/id/chunk/83be3942-7ea8-5794-9336-b2c110a39690"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
+)
+
+kb_composite(
+    name = "acyclic-relation-axioms-stimulus",
+    srcs = [
+        "acyclic-relation-axioms-excluded.md",
+        "acyclic-relation-axioms-factors.md",
+        "acyclic-relation-axioms-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/18974862-aa2e-5f8a-aeb2-cd17a89c3c59",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/b17f109e-e309-5a1d-9b80-e909e85b1294", "https://agentic-knowledge-base.dev/id/chunk/93c1b878-8e2a-5978-8d78-cd149ffb166c", "https://agentic-knowledge-base.dev/id/chunk/f2f59135-498f-52c6-9a2b-f05b4091be21"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b17f109e-e309-5a1d-9b80-e909e85b1294", "https://agentic-knowledge-base.dev/id/chunk/93c1b878-8e2a-5978-8d78-cd149ffb166c", "https://agentic-knowledge-base.dev/id/chunk/f2f59135-498f-52c6-9a2b-f05b4091be21"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
+)
+
+kb_composite(
+    name = "acyclic-relation-axioms-supersedes-stimulus",
+    srcs = [
+        "acyclic-relation-axioms-supersedes-excluded.md",
+        "acyclic-relation-axioms-supersedes-factors.md",
+        "acyclic-relation-axioms-supersedes-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/4eb68c72-d1c3-51c4-8bdf-22980bbad1a7",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/f2362b25-fce0-54e1-94ae-a453b7178fe9", "https://agentic-knowledge-base.dev/id/chunk/31504c97-ea87-5ab7-927a-ce70abf4a4d9", "https://agentic-knowledge-base.dev/id/chunk/24aea9bf-bdc2-5076-baaf-213f5acda2a0"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f2362b25-fce0-54e1-94ae-a453b7178fe9", "https://agentic-knowledge-base.dev/id/chunk/31504c97-ea87-5ab7-927a-ce70abf4a4d9", "https://agentic-knowledge-base.dev/id/chunk/24aea9bf-bdc2-5076-baaf-213f5acda2a0"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
+)
+
+kb_composite(
+    name = "agent-catalog-complete-stimulus",
+    srcs = [
+        "agent-catalog-complete-excluded.md",
+        "agent-catalog-complete-factors.md",
+        "agent-catalog-complete-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/4ee07222-bd78-5edf-a40f-de853056fa4d",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/fb74eba0-91b3-5fba-816c-011a4f37ca11", "https://agentic-knowledge-base.dev/id/chunk/07a91c11-d4bb-50b8-bb7a-fed3f2b0ddfd", "https://agentic-knowledge-base.dev/id/chunk/5213e007-142d-5440-b854-1444da04bd07"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/fb74eba0-91b3-5fba-816c-011a4f37ca11", "https://agentic-knowledge-base.dev/id/chunk/07a91c11-d4bb-50b8-bb7a-fed3f2b0ddfd", "https://agentic-knowledge-base.dev/id/chunk/5213e007-142d-5440-b854-1444da04bd07"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
+    refines = [
+        "//kb/vv/goal:agent-catalog-complete",
+    ],
+)
+
+kb_composite(
+    name = "composite-order-shape-stimulus",
+    srcs = [
+        "composite-order-shape-excluded.md",
+        "composite-order-shape-factors.md",
+        "composite-order-shape-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/ef62777d-3412-55e0-8cdb-e6b05f3b630b",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/ca72384d-b350-55b7-a940-56236c261fdd", "https://agentic-knowledge-base.dev/id/chunk/b4f9eed2-8ae3-5e5d-a4c1-c281292c2246", "https://agentic-knowledge-base.dev/id/chunk/0c458191-3f66-59fb-9e40-7ee8d6f79041"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ca72384d-b350-55b7-a940-56236c261fdd", "https://agentic-knowledge-base.dev/id/chunk/b4f9eed2-8ae3-5e5d-a4c1-c281292c2246", "https://agentic-knowledge-base.dev/id/chunk/0c458191-3f66-59fb-9e40-7ee8d6f79041"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
+)
+
+kb_composite(
+    name = "composite-order-shape-subset-stimulus",
+    srcs = [
+        "composite-order-shape-subset-excluded.md",
+        "composite-order-shape-subset-factors.md",
+        "composite-order-shape-subset-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/3dd16af0-6fda-5dab-930f-94602d130ec2",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/ab0a4767-66e3-571f-8004-46c538f04234", "https://agentic-knowledge-base.dev/id/chunk/93cd59d3-752e-5089-90a6-24f03b464e89", "https://agentic-knowledge-base.dev/id/chunk/829c7a86-50b2-59d4-a80e-9c24bae0921e"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ab0a4767-66e3-571f-8004-46c538f04234", "https://agentic-knowledge-base.dev/id/chunk/93cd59d3-752e-5089-90a6-24f03b464e89", "https://agentic-knowledge-base.dev/id/chunk/829c7a86-50b2-59d4-a80e-9c24bae0921e"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
 )
 
 kb_composite(
@@ -33,6 +126,36 @@ kb_composite(
 )
 
 kb_composite(
+    name = "decision-conclusion-mutation-stimulus",
+    srcs = [
+        "decision-conclusion-mutation-excluded.md",
+        "decision-conclusion-mutation-factors.md",
+        "decision-conclusion-mutation-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/92837b35-799b-52bf-993e-07d95d83e4ae",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/d9289be5-8c2a-5ec6-99ca-9701586f131f", "https://agentic-knowledge-base.dev/id/chunk/32aefdda-b16d-5e90-b241-e94886de56d2", "https://agentic-knowledge-base.dev/id/chunk/9b7251c8-6991-5c90-916f-b6faec9cdb72"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d9289be5-8c2a-5ec6-99ca-9701586f131f", "https://agentic-knowledge-base.dev/id/chunk/32aefdda-b16d-5e90-b241-e94886de56d2", "https://agentic-knowledge-base.dev/id/chunk/9b7251c8-6991-5c90-916f-b6faec9cdb72"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
+)
+
+kb_composite(
+    name = "dispatch-workset-budget-stimulus",
+    srcs = [
+        "dispatch-workset-budget-excluded.md",
+        "dispatch-workset-budget-factors.md",
+        "dispatch-workset-budget-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/753f40c0-a1f4-5fcc-a1ae-e7b5961e4e18",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/4e4de139-7e0c-512a-ba73-0263a7cf9a15", "https://agentic-knowledge-base.dev/id/chunk/3a2355b4-bcf0-5b08-b129-ae149404c3b4", "https://agentic-knowledge-base.dev/id/chunk/0653b14b-2a0a-508d-95b6-eedb6ea09ccc"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/4e4de139-7e0c-512a-ba73-0263a7cf9a15", "https://agentic-knowledge-base.dev/id/chunk/3a2355b4-bcf0-5b08-b129-ae149404c3b4", "https://agentic-knowledge-base.dev/id/chunk/0653b14b-2a0a-508d-95b6-eedb6ea09ccc"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
+)
+
+kb_composite(
     name = "document-table-matches-generated-stimulus",
     srcs = [
         "document-table-matches-generated-excluded.md",
@@ -47,6 +170,42 @@ kb_composite(
     status = "stable",
     refines = [
         "//kb/vv/goal:document-table-matches-generated",
+    ],
+)
+
+kb_composite(
+    name = "document-table-number-mismatch-stimulus",
+    srcs = [
+        "document-table-number-mismatch-excluded.md",
+        "document-table-number-mismatch-factors.md",
+        "document-table-number-mismatch-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/b828c5d9-fb96-5bda-ae36-9ffa25d272c2",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/61df20c2-e2b4-5edb-bf5f-912d06cd247c", "https://agentic-knowledge-base.dev/id/chunk/1db975d8-8401-5176-88de-210d99fe67b9", "https://agentic-knowledge-base.dev/id/chunk/44e8f650-ce19-505a-86b0-505b34dfaa01"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/61df20c2-e2b4-5edb-bf5f-912d06cd247c", "https://agentic-knowledge-base.dev/id/chunk/1db975d8-8401-5176-88de-210d99fe67b9", "https://agentic-knowledge-base.dev/id/chunk/44e8f650-ce19-505a-86b0-505b34dfaa01"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
+    refines = [
+        "//kb/vv/scenario:document-table-matches-generated-stimulus",
+    ],
+)
+
+kb_composite(
+    name = "element-drop-stimulus",
+    srcs = [
+        "element-drop-excluded.md",
+        "element-drop-factors.md",
+        "element-drop-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/097dfb73-cb9c-5c47-8675-4561b9952f3f",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/08b0f187-6366-5805-8fc7-d651a3f00d80", "https://agentic-knowledge-base.dev/id/chunk/e560644d-1b59-5c5a-a9e5-2601cca7d6be", "https://agentic-knowledge-base.dev/id/chunk/c4ec66e3-fc08-5696-a7f9-3801fbfff410"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/08b0f187-6366-5805-8fc7-d651a3f00d80", "https://agentic-knowledge-base.dev/id/chunk/e560644d-1b59-5c5a-a9e5-2601cca7d6be", "https://agentic-knowledge-base.dev/id/chunk/c4ec66e3-fc08-5696-a7f9-3801fbfff410"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
+    refines = [
+        "//kb/vv/scenario:element-without-vocabulary-dropped-stimulus",
     ],
 )
 
@@ -66,6 +225,21 @@ kb_composite(
     refines = [
         "//kb/vv/goal:element-without-vocabulary-dropped",
     ],
+)
+
+kb_composite(
+    name = "foreign-vocabulary-rejected-stimulus",
+    srcs = [
+        "foreign-vocabulary-rejected-excluded.md",
+        "foreign-vocabulary-rejected-factors.md",
+        "foreign-vocabulary-rejected-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/f9c229ee-0c23-5dae-9cf3-62910f2054c9",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/f693dd9b-a550-5b20-b56c-a59628b0552d", "https://agentic-knowledge-base.dev/id/chunk/64545f36-8857-570c-8a83-8e9286bedd20", "https://agentic-knowledge-base.dev/id/chunk/deb69f00-2898-584c-9c6a-bfd7f32fa282"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f693dd9b-a550-5b20-b56c-a59628b0552d", "https://agentic-knowledge-base.dev/id/chunk/64545f36-8857-570c-8a83-8e9286bedd20", "https://agentic-knowledge-base.dev/id/chunk/deb69f00-2898-584c-9c6a-bfd7f32fa282"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
 )
 
 kb_composite(
@@ -92,12 +266,42 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/d9954f7c-ecea-4fab-bd8a-b3ca49bd90b5",
     plane = "decision",
     level = "abstract",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/goal:decision-and-artifact-agree",
         "//kb/vv/goal:document-table-matches-generated",
         "//kb/vv/goal:verification-round-stop-rule",
     ],
+)
+
+kb_composite(
+    name = "round-record-stop-rule-stimulus",
+    srcs = [
+        "round-record-stop-rule-excluded.md",
+        "round-record-stop-rule-factors.md",
+        "round-record-stop-rule-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/90e4464e-15dc-5cdc-9105-ba97d62261a8",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/482e5340-b183-5f66-adea-4ccf1931b159", "https://agentic-knowledge-base.dev/id/chunk/de11ca60-357f-597b-a28a-b4d22359c830", "https://agentic-knowledge-base.dev/id/chunk/ec96760a-2ac4-5171-b341-e40143ce058a"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/482e5340-b183-5f66-adea-4ccf1931b159", "https://agentic-knowledge-base.dev/id/chunk/de11ca60-357f-597b-a28a-b4d22359c830", "https://agentic-knowledge-base.dev/id/chunk/ec96760a-2ac4-5171-b341-e40143ce058a"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
+)
+
+kb_composite(
+    name = "token-budget-stimulus",
+    srcs = [
+        "token-budget-excluded.md",
+        "token-budget-factors.md",
+        "token-budget-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/4aa24cd3-1c85-5727-b2bc-cbc71c5206f9",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/8f2ba433-6442-5a41-a86b-5f8d763486f2", "https://agentic-knowledge-base.dev/id/chunk/ea7b8ff7-428a-5f65-bb8b-5852b43eba61", "https://agentic-knowledge-base.dev/id/chunk/c000ae77-7877-5fe8-be4a-dd190f72e6fa"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/8f2ba433-6442-5a41-a86b-5f8d763486f2", "https://agentic-knowledge-base.dev/id/chunk/ea7b8ff7-428a-5f65-bb8b-5852b43eba61", "https://agentic-knowledge-base.dev/id/chunk/c000ae77-7877-5fe8-be4a-dd190f72e6fa"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
 )
 
 kb_composite(
@@ -118,15 +322,44 @@ kb_composite(
     ],
 )
 
+kb_composite(
+    name = "when-false-suspect-stimulus",
+    srcs = [
+        "when-false-suspect-excluded.md",
+        "when-false-suspect-factors.md",
+        "when-false-suspect-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/4751cd7f-fc42-512c-83a6-077b508c4877",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/94abc6b4-5443-51c2-9871-2ea56efb8a0a", "https://agentic-knowledge-base.dev/id/chunk/852389f8-db54-5797-926c-03c1adbe7c3b", "https://agentic-knowledge-base.dev/id/chunk/71a436ab-dc56-563d-82f0-9fcaa598c915"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/94abc6b4-5443-51c2-9871-2ea56efb8a0a", "https://agentic-knowledge-base.dev/id/chunk/852389f8-db54-5797-926c-03c1adbe7c3b", "https://agentic-knowledge-base.dev/id/chunk/71a436ab-dc56-563d-82f0-9fcaa598c915"],
+    plane = "decision",
+    level = "logical",
+    status = "draft",
+)
+
 # 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
 kb_bundle(
     name = "kg",
     items = [
+        ":acyclic-relation-axioms-composite-stimulus",
+        ":acyclic-relation-axioms-stimulus",
+        ":acyclic-relation-axioms-supersedes-stimulus",
+        ":agent-catalog-complete-stimulus",
+        ":composite-order-shape-stimulus",
+        ":composite-order-shape-subset-stimulus",
         ":decision-and-artifact-agree-stimulus",
+        ":decision-conclusion-mutation-stimulus",
+        ":dispatch-workset-budget-stimulus",
         ":document-table-matches-generated-stimulus",
+        ":document-table-number-mismatch-stimulus",
+        ":element-drop-stimulus",
         ":element-without-vocabulary-dropped-stimulus",
+        ":foreign-vocabulary-rejected-stimulus",
         ":metric-varies-by-loading-option-stimulus",
         ":risk-grade-scale",
+        ":round-record-stop-rule-stimulus",
+        ":token-budget-stimulus",
         ":verification-round-stop-rule-stimulus",
+        ":when-false-suspect-stimulus",
     ],
 )

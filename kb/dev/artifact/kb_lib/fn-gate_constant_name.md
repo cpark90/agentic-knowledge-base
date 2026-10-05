@@ -9,7 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
 layer: process
-part_of: https://agentic-knowledge-base.dev/id/composite/cf732fdc-d595-4d0b-8344-6af01989d95c
+part_of: https://agentic-knowledge-base.dev/id/composite/513aca4d-e5f0-46c8-8d13-784c71691884
 ---
 **함수** — `gate_constant_name(gate_id)` 다. 게이트 id → 파생 상수 이름 — `chunk` → `CHUNK_GATE` · `judge-log` → `JUDGE_LOG_GATE`.
 

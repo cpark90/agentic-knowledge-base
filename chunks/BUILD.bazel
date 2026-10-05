@@ -4,8 +4,8 @@ package(default_visibility = ["//visibility:public"])
 
 # 옛 결정(v1 유래, 대부분 deprecated) — decision/ 의 BUILD 는 tools/gen_build.py 가 생성한다. supersedes 의 끝점이라 타깃으로 남긴다.
 filegroup(
-    name = "bodies",
-    srcs = ["//chunks/decision:bodies"] + glob(
+    name = "chunks",
+    srcs = ["//chunks/decision"] + glob(
         ["*.md"],
         allow_empty = True,
     ),
@@ -14,6 +14,6 @@ filegroup(
 # 42줄 게이트 (4.1절)
 kb_chunk_lint_test(
     name = "lint_test",
-    chunks = [":bodies"],
+    chunks = [":chunks"],
     waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md)
 )

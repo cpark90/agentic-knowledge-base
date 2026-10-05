@@ -9,8 +9,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 exposes: [https://agentic-knowledge-base.dev/agt/reasoningActionMismatch, https://agentic-knowledge-base.dev/agt/labelRot]
-generated: {by: vnv/claude-opus-5, at: 2026-09-29T02:20:00+09:00}
-verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
+generated: {by: vnv/claude-opus-5, at: 2026-10-05T12:48:58+09:00}
+verified: [{by: vnv/claude-sonnet-5-5, at: 2026-10-05T12:49:06+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
 ---
 **검증 목표** — 결정의 결론 본문과 그 결론을 충족한다고 적힌 산출물이 어긋난 상태가 기록으로 드러난다는 것이 보여져야 한다. 이 목표가 다루는 위험은 현상 `agt:reasoningActionMismatch`(P16)이고 같은 자리의 항목 안 어긋남은 `agt:labelRot`(P14)이다.
@@ -24,4 +24,4 @@ derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c
 - 본문을 고친 뒤 라벨이 여전히 대표하는지의 재검토가 수행됐다는 기록이 판정 주석으로 남는다.
 - 이 목표는 기존 검증 목표 35건과 달리 위험 분석 G1의 현상에서 파생됐다. 35건은 분석 시점·그래프 게이트의 성립을 재고 이 목표는 게이트가 재지 않는 어긋남을 겨눈다.
 
-미확정: 결정 본문과 산출물의 어긋남을 재는 관측 수단이 없다 — 개발 KB의 `artifact`가 3건이라 표면이 아직 작다.
+관측 수단은 논리 시나리오 `decision-conclusion-mutation`과 `tools/revalidate.py`의 합성 변이 쌍이다. 개발 KB의 `artifact`는 943건이고 그중 결정을 가리키는 `satisfies` 링크는 확정 0이라 저장소 자신에서 재판정될 충족 링크는 아직 없다.

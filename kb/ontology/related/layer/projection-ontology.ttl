@@ -1,0 +1,20 @@
+# 투영 — 원본 청크에서 결정론적으로 생성되어 층을 갖지 않는 것: 뷰와 skill (결정 p0-service-is-a-three-layer-wiki, 유저 답 Q9-a)
+# 개체는 생성물이다 — 뷰 표 `defs/kb.bzl` 의 `VIEWS` 와 skill 표 `tools/kb_lib.py` 의 `SKILLS` 가 단일 정의처이고 `tools/gates2kg.py --projections` 가 낸다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:Projection a owl:Class ;
+    rdfs:label "projection"@en , "투영"@ko ;
+    skos:definition "원본 청크에서 결정론적으로 생성되는 산출물. 저장소의 모든 것은 세 층의 항목이거나 그 투영이고, 투영은 항목(agt:KnowledgeItem)이 아니므로 층(agt:inLayer)을 갖지 않는다 — 층은 원본 청크만 가진다. 근거는 같은 내용을 두 번 세지 않는 것이다: 내용이 원본에서 나오므로 투영에도 층을 주면 층별 집계(CQ-38)가 원본과 투영을 이중으로 센다. 원본은 prov:wasDerivedFrom 으로 가리킨다. 게이트: projection-shapes (결정 p0-service-is-a-three-layer-wiki, 유저 답 Q9-a)."@ko .
+
+agt:View a owl:Class ;
+    rdfs:subClassOf agt:Projection ;
+    rdfs:label "view"@en , "생성 뷰"@ko ;
+    skos:definition "그래프·청크에서 생성되는 마크다운 Bazel 타깃인 투영. 원본은 그 뷰를 내는 생성 도구의 module 코드 청크이고 prov:wasDerivedFrom 이 그것을 가리킨다. 개체 IRI 는 id:view-<타깃 라벨의 `/`·`:`·`_` 를 `-` 로> 이고 등재의 단일 정의처는 defs/kb.bzl 의 VIEWS(뷰 타깃 → 생성 도구)다 — 손으로 쓰지 않는다. 게이트: projection-shapes."@ko .
+
+agt:Skill a owl:Class ;
+    rdfs:subClassOf agt:Projection ;
+    rdfs:label "skill"@en , "skill"@ko ;
+    skos:definition "도구 docstring 과 tools/kb_lib.py 의 SKILLS 표에서 생성되는 .claude/skills/<이름>/SKILL.md 인 투영. 원본은 그 skill 이 안내하는 도구의 module 코드 청크이고 prov:wasDerivedFrom 이 그것을 가리킨다. 개체 IRI 는 id:skill-<skill 이름> 이고 등재의 단일 정의처는 SKILLS 다 — 손으로 쓰지 않는다. 게이트: projection-shapes · skills-drift."@ko .

@@ -25,7 +25,7 @@ bazel build //kg:metrics && cat bazel-bin/kg/metrics.md
 
 ## 원본
 
-- 절차: [`docs/method.md` 완료 판정](../../../docs/method.md#완료-판정)
+- 절차: [`docs/method.md#완료-판정`](../../../docs/method.md#완료-판정)
 - 도구: `tools/metrics.py` (`bazel run //tools:metrics`) — 사용법은 docstring 이 원본이다
 
 ```text

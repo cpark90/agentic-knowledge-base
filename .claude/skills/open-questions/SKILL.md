@@ -1,6 +1,6 @@
 ---
 name: open-questions
-description: 무엇이 아직 미결인지 — 청크의 선택 슬롯 `미확정:` 에 든 질문과 그것을 안은 청크를 문서에 적지 않고 집계에서 인용할 때 쓴다.
+description: 무엇이 아직 미결인지 — 설계 공간(`space/*-space.md`)의 status·후보와 청크의 선택 슬롯 `미확정:` 에 든 질문을 문서에 적지 않고 집계에서 인용할 때 쓴다.
 ---
 
 # open_questions — 미결 집계 뷰 (생성 파일)
@@ -11,11 +11,11 @@ description: 무엇이 아직 미결인지 — 청크의 선택 슬롯 `미확�
 - 재현: `python3 tools/gen_skills.py --root .`
 - 생성 파일 — 손으로 고치지 않는다. 원본은 도구 docstring 과 `kb_lib.SKILLS`이다. 검사: `//:skills_drift_test`. 생성 시각·입력 지문은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다
 
-미결 집계 뷰 — 청크 본문의 선택 슬롯 `미확정:` 을 모아 open.md 를 생성한다 (p4-three-empty-values, p4-slot-answers-one-question).
+미결 집계 뷰 — 설계 공간과 청크 본문의 선택 슬롯 `미확정:` 을 모아 open.md 를 생성한다 (p4-three-empty-values, p4-slot-answers-one-question).
 
 ## 언제 쓰는가
 
-무엇이 아직 미결인지 — 청크의 선택 슬롯 `미확정:` 에 든 질문과 그것을 안은 청크를 문서에 적지 않고 집계에서 인용할 때 쓴다.
+무엇이 아직 미결인지 — 설계 공간(`space/*-space.md`)의 status·후보와 청크의 선택 슬롯 `미확정:` 에 든 질문을 문서에 적지 않고 집계에서 인용할 때 쓴다.
 
 ## 명령
 
@@ -25,11 +25,11 @@ bazel build //kg:open && cat bazel-bin/kg/open.md
 
 ## 원본
 
-- 절차: [`docs/method.md` 9. 뷰](../../../docs/method.md#9-뷰)
+- 절차: [`docs/method.md#9-뷰`](../../../docs/method.md#9-뷰)
 - 도구: `tools/open_questions.py` (`bazel run //tools:open_questions`) — 사용법은 docstring 이 원본이다
 
 ```text
-open_questions.py --out open.md [--bodies <청크 .md …>] [--root .] <TTL…>   (bazel build //kg:open)
+open_questions.py --out open.md [--spaces <design-space.ttl>] [--bodies <청크 .md …>] [--root .] <TTL…>   (bazel build //kg:open)
 ```
 
 ## 실패 시

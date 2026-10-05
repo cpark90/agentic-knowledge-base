@@ -9,7 +9,6 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-assume-chec
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/9f79d119-83cf-46a7-89c0-680e8f203296, https://agentic-knowledge-base.dev/id/chunk/79bcc1dd-4036-43ef-b30d-f4dff07be513, https://agentic-knowledge-base.dev/id/chunk/b36581f8-2688-46dc-9b44-3e1019a37d66]
 part_of: https://agentic-knowledge-base.dev/id/composite/169b7deb-a7ef-4d53-9f52-ad8abd5d4c3a
 ---
 **모듈 머리** — `tools/assume_check.py` 의 모듈 머리 `grades` 다. 모듈 머리

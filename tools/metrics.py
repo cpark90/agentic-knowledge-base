@@ -7,6 +7,8 @@
 사용: metrics.py --out metrics.md --residency defs/kb.bzl <TTL...>
 """
 import argparse
+import ast
+import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -32,6 +34,9 @@ LINKS = list(kb_lib.TRACE_LINKS)  # 추적 링크 잎의 단일 정의처는 kb_
 PLANES: list[str] = []
 LEVELS: list[str] = []
 RESIDENCY: dict[str, list[str]] = {}
+DECISION_SPAN = ("abstract", "logical", "concrete")  # 결정 복합체가 걸치는 수준 (p7-decision-spans-three-levels) — 건너뜀 분해의 기준
+VNV_PRODUCER, PROCESS_PRODUCER = "vnv/", "process:"  # V&V KB 를 써도 되는 생성자 접두 — 독립성 지표 (역할 vnv 와 도구 프로세스)
+HUMAN_CHECK_SLOT = kb_lib.HUMAN_CHECK_SLOT  # 사람 확인 합격 기준의 가운데 슬롯 — 정의처는 kb_lib (게이트 `rung-before-descent` 와 공유)
 GRADES = "ABCD"  # 판정 방법 등급 (3.9절) — 연언의 등급은 최저 = 가장 뒤의 글자 (assume_check 와 같은 정의)
 
 
@@ -43,7 +48,9 @@ def parse_args():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
     ap.add_argument("--notes", default="", help="설계 노트 md — 확정 문장 커버리지(1단계 의미 보존 대리)")
-    ap.add_argument("--bodies", nargs="*", default=[], help="청크 파일들 — 노트 절 인용 스캔")
+    ap.add_argument("--bodies", nargs="*", default=[], help="청크 파일들 — 노트 절 인용 스캔 · 복합체의 선언 청크(연결 성분·후방 추적)")
+    ap.add_argument("--mutations", nargs="*", default=[], help="변이 고정물의 시험 정의 — defs/tests/BUILD.bazel · norm_fixture_test.py (7단계 변이 검출률)")
+    ap.add_argument("--spaces", nargs="*", default=[], help="설계 공간 그래프(//space:design_space) — 연결 성분의 후보 링크 · 결정 완결률의 후보 결정 (유저 결정 Q60-a)")
     ap.add_argument("--residency", required=True, help="plane·수준·수준 허용표의 원본 defs/kb.bzl (M1 단일 정의처)")
     ap.add_argument("files", nargs="+")
     a = ap.parse_args()
@@ -54,7 +61,7 @@ def parse_args():
 def classify_chunks(g):
     """청크 집합과 plane·level·status·본문 토큰 수·살아 있는 것을 돌려준다."""
     chunks = {s for s in g.subjects(AGT.tokenCount, None)}
-    plane = {c: str(next(g.objects(c, RDF.type))).split("/")[-1].replace("Chunk", "").lower() for c in chunks}
+    plane = {c: kb_lib.plane_of_node(g, c) for c in chunks}  # 첫 rdf:type 이 plane 클래스다 (chunk2kg.emit_chunk)
     level = {c: str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1] for c in chunks}
     status = {c: str(next(g.objects(c, AGT.status), "")) for c in chunks}
     tokens = {c: int(next(g.objects(c, AGT.tokenCount))) for c in chunks}
@@ -81,7 +88,7 @@ def orphan_and_links(g, chunks):
 
 # ── 정제 완주 (CQ19) ────────────────────
 def refinement_reach(g, live, plane, level):
-    """요구에서 refines·serves 역방향으로 내려가 닿는 가장 낮은 수준의 분포를 돌려준다."""
+    """요구에서 refines·serves 역방향으로 내려가 닿는 가장 낮은 수준의 분포와 요구마다의 그 수준 색인을 돌려준다."""
     reqs = {c for c in live if plane[c] == "requirement"}
     # CQ19: 요구에서 refines 역방향으로 내려가 닿는 가장 낮은 level
     down = defaultdict(set)
@@ -98,14 +105,46 @@ def refinement_reach(g, live, plane, level):
             if x in level and level[x] in LEVELS: best = max(best, LEVELS.index(level[x]))
             stack.extend(down.get(x, ()))
         return best
-    reach = Counter(LEVELS[deepest(r)] if deepest(r) >= 0 else "none" for r in reqs)
-    return reqs, reach
+    depth = {r: deepest(r) for r in reqs}
+    reach = Counter(LEVELS[d] if d >= 0 else "none" for d in depth.values())
+    return reqs, reach, depth
+
+
+# ── 선언 청크와 복합체 ────────────────────
+# 복합체는 청크가 아니고 그 링크·가정은 선언 청크(frontmatter `composite:` 를 가진 청크)가 갖는다 — 파일 복합체의
+# 선언 청크는 파일 청크(`module.md`)이고 그 청크는 복합체의 부분이 아니다 (p7-code-links-on-file-composite "선언 청크 =
+# 파일 청크"). 그래프에는 선언 관계의 트리플이 없다 — chunk2kg 는 `composite:` 를 복합체 개체(라벨·`agt:hasDirectPart`·
+# 순서)로만 방출한다. 그래서 연결 성분과 후방 추적은 선언을 청크 본문(`--bodies`)의 frontmatter 에서 읽어 선언 청크와
+# 복합체를 한 노드로 본다 (유저 결정 Q49-a). 지표의 회계이고 검사가 아니다. 결정·규범·시나리오 복합체의 선언 청크는
+# 이미 자기 복합체의 부분이라 이 합침은 그들에게 아무것도 바꾸지 않는다
+_FM_ID = re.compile(r"^id:\s*(\S+)\s*$", re.M)
+_FM_COMPOSITE = re.compile(r"^composite:\s*\{\s*id:\s*([^,\s}]+)", re.M)
+
+
+def composite_declarers(bodies) -> dict:
+    """복합체 IRI → 선언 청크 IRI. 청크 파일의 frontmatter 에서 `id:` 와 `composite.id` 를 읽는다."""
+    out = {}
+    for b_ in bodies:
+        if not b_.endswith(".md"):
+            continue
+        text = Path(b_).read_text(encoding="utf-8")
+        lines = text.splitlines()
+        head = "\n".join(lines[:kb_lib.frontmatter_end(lines)])
+        mi, mc = _FM_ID.search(head), _FM_COMPOSITE.search(head)
+        if mi and mc:
+            out[URIRef(mc.group(1))] = URIRef(mi.group(1))
+    return out
 
 
 # ── 후방 추적 귀속 (CQ20) ────────────────────
-def back_trace(g, live, plane, reqs):
-    """복합체 관계와 요구로 거슬러 오르는 비요구 청크의 수를 돌려준다."""
-    # CQ20: 요구가 아닌 살아 있는 청크 중 refines 연쇄로 요구에 닿는 비율 (복합체 부분은 대표 부분을 따라간다)
+def back_trace(g, live, plane, reqs, declarer):
+    """복합체 관계와 요구로 거슬러 오르는 비요구 청크의 수를 돌려준다.
+
+    복합체는 경유 노드다 — 부분에서 복합체로, 복합체에서 그 부분들·선언 청크·상위 복합체로 간다(연결 성분과 같은 규칙).
+    선언 청크와 복합체는 한 노드다(`declarer`, 유저 결정 Q49-a): 함수 청크는 절 복합체 → 파일 복합체 → 파일 청크의
+    `refines` 로 요구에 닿는다.
+    """
+    # CQ20: 요구가 아닌 살아 있는 청크 중 refines 연쇄로 요구에 닿는 비율 (복합체 부분은 복합체를 거쳐 선언 청크를 따라간다)
     up = defaultdict(set)
     # 귀속으로 거슬러 오르는 술어의 정의처는 kb_lib.ASCRIPTION_PREDICATES 다 — `refines`·`serves` 와 `prov:specializationOf`.
     # 분할 조각은 링크를 승계 청크에 두므로(p10-split-keeps-work-identity) 원 청크를 거쳐 요구에 닿는다
@@ -115,6 +154,7 @@ def back_trace(g, live, plane, reqs):
     for comp, part in g.subject_objects(AGT.hasDirectPart): comp_of[part] = comp
     siblings = defaultdict(set)
     for part, comp in comp_of.items(): siblings[comp].add(part)
+    declared = {d_: c_ for c_, d_ in declarer.items()}
     def reaches_req(c):
         seen, stack = set(), [c]
         while stack:
@@ -123,7 +163,10 @@ def back_trace(g, live, plane, reqs):
             seen.add(x)
             if x in reqs: return True
             stack.extend(up.get(x, ()))
-            if x in comp_of: stack.extend(siblings[comp_of[x]])
+            if x in comp_of: stack.append(comp_of[x])  # 부분 → 복합체 (상위 복합체도 같은 길로 오른다)
+            if x in siblings: stack.extend(siblings[x])  # 복합체 → 부분들
+            if x in declarer: stack.append(declarer[x])  # 복합체 → 선언 청크
+            if x in declared: stack.append(declared[x])  # 선언 청크 → 복합체
         return False
     # 저작된 지식만 센다 — 관측(memory plane)은 실행의 부산물, 판정 주석(annotation plane)은 산출물에 대한 리뷰라
     # 둘 다 고립·귀속 지표의 대상이 아니다 (유저 승인 2026-09-23 · 2026-09-29, handoff/connected-components-
@@ -166,20 +209,36 @@ def trust_and_size(g, chunks, live, plane, tokens):
 
 
 # ── 연결 성분과 건너뜀 ────────────────────
-def axis_proxies(g, live, plane, level, authored, comp_of, siblings):
-    """저작된 지식의 연결 성분 수·주 성분 밖 성분들·수준 건너뜀·매트릭스 채움·수준 허용표 위반을 돌려준다."""
+def axis_proxies(g, live, plane, level, authored, comp_of, siblings, declarer, space_edges=()):
+    """저작된 지식의 연결 성분 수·주 성분 밖 성분들·수준 건너뜀·매트릭스 채움·수준 허용표 위반을 돌려준다.
+
+    `space_edges` 는 `kb_lib.space_linkage_edges` 의 (공간, 변수 출발 항목 | 후보) 쌍이다 (유저 결정 Q60-a). 공간은 복합체처럼
+    경유 노드이고 셈은 청크만 한다 — 공간 그래프는 지표의 그래프 union 밖이므로 공간 청크는 살아 있는 청크 수에 들지 않는다.
+    """
     # 세 축 대리 (14.1 정정본, p14-stage-pass-conditions): 연결 성분 · 매트릭스 채움률 · level 건너뜀 · 수준 허용표 위반
     parent = {c: c for c in authored}  # 관측·주석 제외 — 저작된 지식의 고립을 잰다
+    # 복합체는 청크가 아니지만 연결의 경유 노드다 — 중첩 복합체(문서 → 묶음)와 복합체를 가리키는 링크
+    # (`agt:projectsConvention` 의 치역은 결정 복합체)가 그 노드를 거쳐 부분들에 닿는다. 셈은 청크만 한다
+    for comp_ in comp_of.values(): parent.setdefault(comp_, comp_)
     def find(x):
         while parent[x] != x:
             parent[x] = parent[parent[x]]; x = parent[x]
         return x
     def union(a_, b_):
         if a_ in parent and b_ in parent: parent[find(a_)] = find(b_)
-    for p_ in kb_lib.LINKAGE_PREDICATES:  # 추적 링크 잎 + 구성 관계 + prov:specializationOf (연결로 세는 술어의 단일 정의처)
+    for p_ in kb_lib.linkage_predicates(g):  # 추적 링크 잎 + 세 족의 하위 속성 + 구성 관계 + prov:specializationOf
         for s_, o_ in g.subject_objects(p_): union(s_, o_)
     for part_, comp_ in comp_of.items():
         for sib in siblings[comp_]: union(part_, sib)
+    # 선언 청크 = 복합체 (유저 결정 Q49-a, p7-code-links-on-file-composite) — 파일 청크는 파일 복합체의 부분이 아니므로
+    # 이 합침이 없으면 파일 청크의 링크가 복합체를 거쳐 부분(머리·절·정의)에 닿지 않는다
+    for comp_, decl_ in declarer.items():
+        parent.setdefault(comp_, comp_)
+        union(decl_, comp_)
+    # 설계 공간의 후보 링크 (유저 결정 Q60-a) — 후보 결론은 head `refines` 가 없으므로 공간을 거쳐 변수 출발 항목에 닿는다
+    for space_, end_ in space_edges:
+        parent.setdefault(space_, space_)
+        union(end_, space_)
     groups = defaultdict(list)
     for c in authored: groups[find(c)].append(c)
     # 성분을 크기 내림차순(동수는 작은 IRI)으로 두고 첫째를 주 성분으로 본다 — 나머지가 진단 대상이다
@@ -192,6 +251,55 @@ def axis_proxies(g, live, plane, level, authored, comp_of, siblings):
     filled = [p_ for p_ in adjacent if p_ in lvl_pairs]
     residency_bad = [c for c in live if plane[c] in RESIDENCY and level[c] not in RESIDENCY[plane[c]]]
     return components, outside, skips, filled, residency_bad
+
+
+# V&V 사다리 몫의 허용 쌍 — 이름 → (주어 plane, 주어 수준, 대상 plane, 대상 수준). 양 끝이 V&V KB(`kb/vv/`) 안일 때만 뺀다
+VV_LADDER_SKIPS = {
+    "합격 기준 → 검증 목표": ("contract", "logical", "requirement", "functional"),  # 유저 답 Q30-b
+    "검증기 → 합격 기준": ("artifact", "executable", "contract", "logical"),  # 유저 답 Q41-a (2026-10-04)
+}
+
+
+def skip_decomposition(g, plane, level, comp_of, skips):
+    """건너뜀을 결정 복합체 몫(슬롯별)·V&V 사다리 몫·나머지(plane·수준 쌍별)로 가른다 (유저 결정 2026-10-04).
+
+    V&V 사다리 몫 (유저 답 Q30-b · Q41-a): V&V KB(`kb/vv/`) 안의 두 쌍은 사다리의 허용 구조다(p8-scenario-ladder-rungs).
+    합격 기준(contract, logical) → 검증 목표(requirement, functional) `refines` 는 logical 높이의 검증 대응 그 자체다(Q30-b).
+    검증기(artifact, executable) → 합격 기준(contract, logical) `refines` 는 케이스 없이 기준을 정제하는 비표본 검증기의 꼴이다
+    — 비표본 판정에는 표본 케이스가 없다(Q29-a 의 귀결, Q41-a). 둘 다 건너뜀에서 빼고 쌍마다 따로 센다(VV_LADDER_SKIPS).
+
+    결정 복합체는 abstract·logical·concrete 를 한 복합체로 걸친다 (p7-decision-spans-three-levels). 복합체 단위로 보면
+    결론(concrete)이 functional 요구를 `refines` 하는 것은 건너뜀이 아니다. 그래서 decision plane 부분을 가진 복합체의
+    부분은 수준을 그 걸침(DECISION_SPAN ∪ 실제 부분 수준)으로 읽고, 양 끝 걸침 사이에 한 단계 차이가 있으면 뺀다.
+    복합체 밖의 decision 청크는 그 하나가 결정이므로 같은 걸침(DECISION_SPAN ∪ 자기 수준)으로 읽는다.
+    """
+    span_of = defaultdict(set)
+    for part_, comp_ in comp_of.items():
+        if plane.get(part_) == "decision":
+            span_of[comp_].add(level[part_])
+    span_of = {c_: s_ | set(DECISION_SPAN) for c_, s_ in span_of.items()}
+    def span(x):
+        if plane.get(x) != "decision":
+            return {level[x]}
+        return span_of.get(comp_of.get(x)) or ({level[x]} | set(DECISION_SPAN))
+    loc = {x: str(next(g.objects(x, AGT.assertionLocation), "")) for x in {c_ for pair in skips for c_ in pair}}
+    def vv_ladder(s_, o_):
+        """V&V KB 안의 허용 쌍이면 그 이름, 아니면 None — 이름은 VV_LADDER_SKIPS 의 키다."""
+        if kb_lib.kb_of(loc[s_]) != kb_lib.KB_VV or kb_lib.kb_of(loc[o_]) != kb_lib.KB_VV:
+            return None
+        key = (plane.get(s_), level[s_], plane.get(o_), level[o_])
+        return next((name for name, pair in VV_LADDER_SKIPS.items() if pair == key), None)
+    composite_share, vv_share, residual = Counter(), Counter(), Counter()
+    for s_, o_ in skips:
+        rung = vv_ladder(s_, o_)
+        if rung:
+            vv_share[rung] += 1
+        elif any(LEVELS.index(a_) - LEVELS.index(b_) == 1 for a_ in span(s_) for b_ in span(o_)):
+            slots = {str(v_) for v_ in g.objects(s_, AGT.bodySlot)}
+            composite_share["결론" if "결론" in slots else "그 밖의 부분"] += 1
+        else:
+            residual[(plane.get(s_), level[s_], plane.get(o_), level[o_])] += 1
+    return composite_share, vv_share, residual
 
 
 # ── 링크 구축과 복원 ────────────────────
@@ -263,16 +371,129 @@ def vv_facts(g, chunks, live, plane):
     # 7단계 대리 — V&V KB (p8-vv-plane-instances: 코어의 두 번째 인스턴스, kb/vv/). KB 는 청크 위치(assertionLocation)로 가른다 (kb_lib.kb_of)
     loc = {c: str(next(g.objects(c, AGT.assertionLocation), "")) for c in chunks}
     vv = {c for c in live if kb_lib.kb_of(loc[c]) == kb_lib.KB_VV}
-    dev = live - vv
     vv_by = Counter(plane[c] for c in vv)
     verifies_links = list(g.subject_objects(AGT.verifies))
     no_criteria = [s for s, _ in verifies_links if not any((c_, RDF.type, AGT.ContractChunk) in g for c_ in g.objects(s, AGT.refines))]
     verified_targets = {o for _, o in verifies_links}
-    dev_reqs = {c for c in dev if plane[c] == "requirement"}
-    goals = {c for c in vv if plane[c] == "requirement"}
-    covered_reqs = {o for s, o in g.subject_objects(AGT.derivesFrom) if s in goals and o in dev_reqs}
-    goals_with_criteria = {o for s, o in g.subject_objects(AGT.refines) if o in goals and plane.get(s) == "contract"}
+    # 검증 대응물의 집합은 게이트 `rung-before-descent` 와 같은 함수 하나가 낸다 (kb_lib.vv_counterparts, 유저 결정 Q51-a)
+    vc = kb_lib.vv_counterparts(g, plane, live)
+    dev_reqs, goals, covered_reqs, goals_with_criteria = vc["dev_reqs"], vc["goals"], vc["covered_reqs"], vc["goals_with_criteria"]
     return vv, vv_by, verifies_links, no_criteria, verified_targets, dev_reqs, goals, covered_reqs, goals_with_criteria
+
+
+def vv_independence(g, chunks):
+    """V&V KB(`kb/vv/`) 청크 중 생성자가 vnv 역할도 프로세스도 아닌 것을 돌려준다 (유저 결정 2026-10-04 — 독립성).
+
+    git 의 커밋 메시지·작성자는 역할을 담지 않으므로 frontmatter `generated.by` 의 역할 접두로 센다. 상태와 무관하게 센다 —
+    쓴 사실은 deprecated 가 되어도 남는다. writer 게이트와 달리 인수(`verified`)로 면제하지 않는다.
+    """
+    loc = {c: str(next(g.objects(c, AGT.assertionLocation), "")) for c in chunks}
+    vv_all = [c for c in chunks if kb_lib.kb_of(loc[c]) == kb_lib.KB_VV]
+    by = {c: str(next(g.objects(c, AGT.generatedBy), "")) for c in vv_all}
+    producers = Counter(b_.split("/")[0] for b_ in by.values())
+    outsiders = sorted((c for c in vv_all if not (by[c].startswith(VNV_PRODUCER) or by[c].startswith(PROCESS_PRODUCER))), key=str)
+    return vv_all, producers, outsiders
+
+
+# ── 정제 — 결정 완결률과 전방 추적 ────────────────────
+def decision_completeness(g, chunks, plane, status, comp_of, siblings, open_candidates=frozenset()):
+    """살아 있는 결정 중 대안 부분을 가진 것과 못 가진 것을 돌려준다 (유저 결정 2026-10-04 — 결정 완결률).
+
+    결정의 단위는 **결론** 슬롯 청크를 부분으로 가진 복합체다. 복합체 밖의 결론 청크는 그 하나가 결정이다. 결론이 하나라도
+    deprecated 가 아니면 살아 있다. 대안은 같은 복합체에 **대안** 슬롯 청크가 있는가로 본다. 복합체 밖의 결론 청크는
+    형제가 없으므로 자기 본문의 슬롯을 본다.
+
+    열린 공간의 후보 결정은 분모·분자에서 빼고 따로 센다 (유저 결정 Q60-a) — 결론이 `open_candidates`
+    (`kb_lib.open_space_candidates`: status open 인 공간의 state open 후보)에 든 결정이다. 아직 고르지 않은 선택지이지 확정
+    결정이 아니다. resolved 공간의 confirmed 후보는 확정 결정이므로 분모에 남는다.
+    """
+    def slots(c):
+        return {str(v) for v in g.objects(c, AGT.bodySlot)}
+    units = defaultdict(list)
+    for c in chunks:
+        if plane[c] == "decision" and "결론" in slots(c):
+            units[comp_of.get(c, c)].append(c)
+    alive = [u for u, cs in units.items() if any(status[c] != "deprecated" for c in cs)]
+    candidate_units = [u for u in alive if any(c in open_candidates for c in units[u])]
+    live_units = [u for u in alive if u not in set(candidate_units)]
+    def has_alt(u):
+        return any("대안" in slots(p) for p in (siblings.get(u) or (u,)))
+    missing = sorted((u for u in live_units if not has_alt(u)), key=str)
+    return live_units, missing, {u: sorted(units[u], key=str)[0] for u in missing}, candidate_units
+
+
+def forward_trace(g, plane, level, reqs, depth):
+    """functional 요구 중 사람 확인 요구를 뺀 분모와 executable 까지 내려간 것을 돌려준다 (유저 결정 2026-10-04 — 전방 추적).
+
+    사람 확인 요구는 그래프에서 가른다. 검증 목표를 `refines` 하는 합격 기준의 가운데 슬롯이 **확인 절차** 이면 그 목표가
+    사람 확인이고, 그 목표가 `derivesFrom` 으로 가리키는 개발 요구도 사람 확인이다 (acceptance-criteria-body-shapes).
+    """
+    human_criteria = kb_lib.human_check_criteria(g, plane)  # 게이트 `rung-before-descent` 의 면제와 같은 판정
+    human_goals = {o for s, o in g.subject_objects(AGT.refines) if o in reqs and s in human_criteria}
+    human = human_goals | {o for s, o in g.subject_objects(AGT.derivesFrom) if s in human_goals and o in reqs}
+    functional = {r for r in reqs if level[r] == "functional"}
+    base = functional - human
+    reached = {r for r in base if depth[r] == LEVELS.index("executable")}
+    return functional, functional & human, base, reached
+
+
+# ── 변이 검출률 ────────────────────
+def _const_str(node) -> str:
+    """BUILD 의 문자열 식(상수와 `+` 이음)을 값으로 푼다. 다른 식은 빈 문자열이다."""
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return node.value
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+        return _const_str(node.left) + _const_str(node.right)
+    return ""
+
+
+def _kw(call, key):
+    return next((k.value for k in call.keywords if k.arg == key), None)
+
+
+def mutation_fixtures(paths):
+    """`defs/tests` 의 변이(음성) 고정물과 그것을 기대 FAIL 문구로 묶는 시험을 시험 정의에서 읽는다 (유저 결정 2026-10-04).
+
+    고정물의 종류는 셋이다. `failure_test` 의 `target_under_test`(분석 시점 FAIL), 명령이 `! $(execpath …)` 로 실패를 기대하는
+    genrule(실행 시점 FAIL — `build_test` 에 묶여야 `//...` 에 든다), 규범 고정물 시험의 EXPECT 표에서 종료 코드가 0 이 아닌
+    사례다. 이름이 `bad_` 인 고정물 타깃을 가리키는 `failure_test` 가 없으면 묶이지 않은 고정물이다.
+    돌려주는 행은 (종류, 고정물, 기대 FAIL 문구, 묶임 여부)다. 잡힘의 판정은 묶인 시험의 통과다.
+    """
+    build = next((p for p in paths if Path(p).name == "BUILD.bazel"), None)
+    norm = next((p for p in paths if Path(p).name == "norm_fixture_test.py"), None)
+    if not build:
+        return None
+    tree = ast.parse(Path(build).read_text(encoding="utf-8"))
+    calls = [n for n in ast.walk(tree) if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)]
+    def is_manual(c):
+        tags = _kw(c, "tags")
+        return isinstance(tags, ast.List) and any(_const_str(t) == "manual" for t in tags.elts)
+    built = {_const_str(t).lstrip(":") for c in calls if c.func.id == "build_test" and not is_manual(c)
+             for t in (_kw(c, "targets").elts if isinstance(_kw(c, "targets"), ast.List) else [])}
+    rows, guarded = [], set()
+    for c in calls:
+        if c.func.id == "failure_test":
+            fx = _const_str(_kw(c, "target_under_test")).lstrip(":")
+            guarded.add(fx)
+            expected = _const_str(_kw(c, "expected"))
+            rows.append(("failure_test", fx, expected, not is_manual(c) and bool(expected)))
+        elif c.func.id == "genrule":
+            name, cmd = _const_str(_kw(c, "name")), _const_str(_kw(c, "cmd"))
+            if re.search(r"(^|&&\s*)!\s*\$\(execpath", cmd):
+                phrases = re.findall(r"(?<!! )grep -qF? '([^']+)'", cmd)
+                rows.append(("거부 genrule", name, " · ".join(phrases), name in built and bool(phrases)))
+    for c in calls:
+        name = _const_str(_kw(c, "name"))
+        if c.func.id.startswith("kb_") and name.startswith("bad_") and name not in guarded:
+            rows.append(("failure_test", name, "", False))
+    if norm:
+        cases = {_const_str(e) for n in ast.walk(tree) if isinstance(n, ast.ListComp)
+                 and isinstance(n.elt, ast.Call) and getattr(n.elt.func, "id", "") == "kb_norms_fixture_test"
+                 for gen in n.generators if isinstance(gen.iter, ast.List) for e in gen.iter.elts}
+        expect = next((ast.literal_eval(n.value) for n in ast.walk(ast.parse(Path(norm).read_text(encoding="utf-8")))
+                       if isinstance(n, ast.Assign) and any(getattr(t, "id", "") == "EXPECT" for t in n.targets)), {})
+        rows += [("규범 고정물 음성", case, text, case in cases) for case, (code, text) in expect.items() if code != 0]
+    return rows
 
 
 # ── 역할 작업 집합과 스코프 ────────────────────
@@ -312,7 +533,7 @@ def role_worksets(g, live, plane, tokens, pct):
 # 머리 블록과 절을 조립한다. 절의 순서가 생성 문서의 순서다.
 
 # ── 머리 블록 ────────────────────
-def render_head(g, chunks, live, siblings, inputs):
+def render_head(g, chunks, live, siblings, inputs, union_inputs=None):
     """생성 문서의 머리 블록 — 생성기·질의·입력·규모와 뷰 통지다."""
     head = kb_lib.gendoc_header(
         "metrics", "코어 지표", "tools/metrics.py",
@@ -322,9 +543,11 @@ def render_head(g, chunks, live, siblings, inputs):
         "고립을 재는 지표의 대상이 아니다 (유저 승인 2026-09-23 · 2026-09-29, kb_lib.LINKAGE_EXCLUDED_PLANES). "
         "분할 조각의 `prov:specializationOf` 는 연결과 귀속에서 **연결로 센다** — 조각은 원 청크의 정체성을 나눠 "
         "가진 것이지 새 지식이 아니다 (p10-split-keeps-work-identity, kb_lib.LINKAGE_PREDICATES). "
+        "설계 공간 그래프(`design-space.ttl`)는 union 밖이고 연결 성분의 후보 링크와 결정 완결률의 후보 결정에만 쓴다 "
+        "(유저 결정 Q60-a, kb_lib.SPACE_LINKAGE_PREDICATES). "
         "수치를 문서에 적지 않고 여기서 인용한다 (4.6절 뷰 원칙)",
         "bazel build //kg:metrics", inputs,
-        f"트리플 {len(g)} ({kb_lib.gendoc_union(inputs)}) · 청크 {len(chunks)}", kb_lib.gendoc_view_notice("청크의 frontmatter 와 본문"),
+        f"트리플 {len(g)} ({kb_lib.gendoc_union(inputs if union_inputs is None else union_inputs)}) · 청크 {len(chunks)}", kb_lib.gendoc_view_notice("청크의 frontmatter 와 본문"),
         input_kind="입력 파일",
         extra=[f"- 청크 {len(chunks)} (살아 있는 것 {len(live)}, deprecated {len(chunks)-len(live)}) · 복합체 {len(siblings)} · 트리플 {len(g)}"])
     return head
@@ -346,12 +569,19 @@ def render_distribution(pct, chunks, live, plane, level, orphans):
 
 
 # ── 절 — 세 축·링크 구축·스코프 ────────────────────
-def render_axis_sections(pct, live, authored, components, filled, skips, residency_bad, cov_line, link_ents, with_ev, origins, extracted_n, built_n, restored_total, tim_filled, TIM, BUDGET, role_rows, scope_bad):
+def render_axis_sections(pct, live, authored, components, filled, skips, skip_parts, residency_bad, cov_line, link_ents, with_ev, origins, extracted_n, built_n, restored_total, tim_filled, TIM, BUDGET, role_rows, scope_bad):
     o = []
     o += ["", "## 세 축 대리 — 1·3·5단계 (14.1 정정본: 의미 보존 · 구체화 · 유기적 연결)", "",
           f"- 연결: 저작된 지식의 연결 성분 **{components}**개 (살아 있는 청크 {len(live)} 중 관측·주석 {len(live) - len(authored)}건을 뺀 {len(authored)}개가 링크·복합체·`prov:specializationOf` 로 이어진 덩어리. 목표 1; 1보다 크면 아래 「주 성분 밖 청크」 절이 성분마다 목록을 낸다)",
           f"- 연결: level×level `refines` 매트릭스 채움 {pct(len(filled), 4)} — " + (", ".join(f"{a_}→{b_}" for a_, b_ in filled) or "없음") + " (목표 4/4 = 100.0%)",
-          f"- 구체화: level을 한 단계씩 내려가지 않는 `refines` **{len(skips)}**건 (목표 0; 지금은 concrete→functional 직행이 구조적으로 허용됨 — abstract·logical 결정이 생기면 0이어야 한다)",
+          f"- 구체화: level을 한 단계씩 내려가지 않는 `refines` {len(skips)}건 — 결정 복합체 몫 {sum(skip_parts[0].values())}건"
+          f"(결론 {skip_parts[0]['결론']} · 그 밖의 부분 {skip_parts[0]['그 밖의 부분']})과 V&V 사다리 몫 {sum(skip_parts[1].values())}건"
+          "(" + " · ".join(f"{k_} {skip_parts[1][k_]}" for k_ in VV_LADDER_SKIPS) + f")은 빼고 남는 건너뜀 **{sum(skip_parts[2].values())}**건 (목표 0). "
+          "결정 복합체는 abstract·logical·concrete 를 한 복합체로 걸치므로 복합체 단위로 보면 결론(concrete)의 functional 요구 `refines` 는 "
+          "건너뜀이 아니다 (p7-decision-spans-three-levels, 유저 결정 2026-10-04). V&V KB(`kb/vv/`) 안의 합격 기준(logical) → 검증 목표(functional) "
+          "`refines` 는 logical 높이의 검증 대응이고, 검증기(executable) → 합격 기준(logical) `refines` 는 케이스 없이 기준을 정제하는 비표본 검증기의 꼴이므로 "
+          "둘 다 건너뜀이 아니다 (p8-scenario-ladder-rungs, 유저 답 Q30-b · Q41-a). 남는 것의 plane(수준)→plane(수준): "
+          + (" · ".join(f"`{a_}`({b_})→`{c_}`({d_}) {n_}" for (a_, b_, c_, d_), n_ in skip_parts[2].most_common()) or "없음"),
           f"- 구체화: 수준 허용표 위반 **{len(residency_bad)}**건 (목표 0)",
           cov_line,
           "- 의미 보존: 라벨 대표성은 실험 — 이 도구 밖"]
@@ -387,6 +617,43 @@ def render_component_diagnosis(g, plane, outside):
             loc = str(next(g.objects(c, AGT.assertionLocation), "")) or kb_lib.NONE_MARK
             lab = kb_lib.label_of(g, c).replace("|", "\\|")  # 표의 열 수를 지킨다 (G10)
             o.append(f"| {i} ({len(members)}) | {lab} | `{plane.get(c, kb_lib.NONE_MARK)}` | `{loc}` |")
+    return o
+
+
+# ── 절 — 정제 ────────────────────
+def render_refinement_section(g, pct, decisions, missing, missing_loc, functional, human, base, reached, candidate_decisions=()):
+    """5단계 대리 — 결정 완결률과 전방 추적 (유저 결정 2026-10-04)."""
+    loc = lambda c: str(next(g.objects(c, AGT.assertionLocation), "")) or kb_lib.NONE_MARK
+    kb_split = " · ".join(f"`{k_}` {pct(sum(1 for r in reached if kb_lib.kb_of(loc(r)) == k_), sum(1 for r in base if kb_lib.kb_of(loc(r)) == k_))}"
+                          for k_ in sorted({kb_lib.kb_of(loc(r)) for r in base}))
+    o = ["", "## 5단계 대리 — 정제 (결정 완결률 · 전방 추적)", "",
+         f"- 구체화: 결정 완결률 — 살아 있는 결정 중 대안 청크를 가진 것 **{pct(len(decisions) - len(missing), len(decisions))}** (목표 100.0%). "
+         "결정은 **결론** 슬롯 청크를 부분으로 가진 복합체이고(복합체 밖의 결론 청크는 그 하나), 결론이 하나라도 deprecated 가 아니면 살아 있다. "
+         "대안 없는 결정: " + (" · ".join(f"{kb_lib.label_of(g, u)} (`{loc(missing_loc[u])}`)" for u in missing) or "없음"),
+         f"- 구체화: 열린 공간의 후보 결정 **{len(candidate_decisions)}**개(따로 셈) — 결론이 status open 인 설계 공간의 state open 후보인 결정이다. "
+         "아직 고르지 않은 선택지라 위 결정 완결률의 분모·분자에 들지 않는다 (유저 결정 Q60-a). resolved 공간의 confirmed 후보는 확정 결정으로 센다",
+         f"- 구체화: 전방 추적 — functional 요구 중 executable까지 내려간 것 **{pct(len(reached), len(base))}** (목표 100.0%; KB별 {kb_split}). "
+         f"functional 요구 {len(functional)}건에서 사람 확인 요구 {len(human)}건을 분모에서 뺐다 — 검증 목표를 `refines` 하는 합격 기준의 가운데 슬롯이 "
+         f"**{HUMAN_CHECK_SLOT}** 인 목표와 그 목표가 `derivesFrom` 하는 개발 요구다. 아래 「정제 완주」 절은 사람 확인 요구를 포함한 같은 집계다"]
+    return o
+
+
+def render_vv_extra(g, pct, vv_all, producers, outsiders, mutations):
+    """7단계 대리의 독립성과 변이 검출률 행 (유저 결정 2026-10-04)."""
+    loc = lambda c: str(next(g.objects(c, AGT.assertionLocation), "")) or kb_lib.NONE_MARK
+    o = [f"- 연결: 독립성 — V&V KB(`kb/vv/`) 청크 {len(vv_all)}건(deprecated 포함) 중 생성자가 vnv 역할(`{VNV_PRODUCER}`)도 프로세스(`{PROCESS_PRODUCER}`)도 "
+         f"아닌 것 **{len(outsiders)}**건 (목표 0). git 커밋의 메시지·작성자는 역할을 담지 않으므로 frontmatter `generated.by` 의 접두로 센다. 생성자 접두: "
+         + " · ".join(f"`{k_}` {v_}" for k_, v_ in producers.most_common())
+         + ("; 해당 청크: " + " · ".join(f"`{loc(c)}`" for c in outsiders) if outsiders else "")]
+    if mutations is None:
+        o.append("- 의미 보존: 변이 검출률 — `--mutations` 없음")
+        return o
+    bound = [r for r in mutations if r[3]]
+    kinds = Counter(r[0] for r in mutations)
+    o.append(f"- 의미 보존: 변이 검출률 — `defs/tests` 의 변이(음성) 고정물 {len(mutations)}건 중 기대 FAIL 문구를 단 `//...` 시험에 묶인 것 "
+             f"**{pct(len(bound), len(mutations))}** (목표 100.0%; 종류별 " + " · ".join(f"{k_} {v_}" for k_, v_ in kinds.most_common()) + "). "
+             "잡힘의 판정은 묶인 시험의 통과다 — `bazel test //...` 가 초록이면 묶인 고정물이 전부 기대 FAIL 로 잡혔다. 묶이지 않은 고정물: "
+             + (" · ".join(f"`{r[1]}`({r[0]})" for r in mutations if not r[3]) or "없음"))
     return o
 
 
@@ -442,13 +709,25 @@ def main() -> int:
     for f in a.files:
         if f.endswith(".ttl"):
             g.parse(f, format="turtle")
+    # 설계 공간 그래프는 union 에 섞지 않는다 — 공간 청크·후보 링크 개체가 청크 수·링크 개체 수·링크 밀도에 들지 않게 한다 (Q60-a)
+    gs = Graph()
+    for f in a.spaces:
+        gs.parse(f, format="turtle")
     pct = kb_lib.pct  # 비율 표기의 단일 정의처 (G15 — `n/d = p.p%`, 0 분모는 없음)
     chunks, plane, level, status, tokens, live = classify_chunks(g)
     linked, parts, orphans, link_count = orphan_and_links(g, chunks)
-    reqs, reach = refinement_reach(g, live, plane, level)
-    comp_of, siblings, authored, nonreq, ascribed = back_trace(g, live, plane, reqs)
+    reqs, reach, depth = refinement_reach(g, live, plane, level)
+    declarer = composite_declarers(a.bodies)  # 복합체 → 선언 청크 (유저 결정 Q49-a)
+    comp_of, siblings, authored, nonreq, ascribed = back_trace(g, live, plane, reqs, declarer)
     human, gen, hist, assumes = trust_and_size(g, chunks, live, plane, tokens)
-    components, outside, skips, filled, residency_bad = axis_proxies(g, live, plane, level, authored, comp_of, siblings)
+    components, outside, skips, filled, residency_bad = axis_proxies(g, live, plane, level, authored, comp_of, siblings, declarer,
+                                                                    kb_lib.space_linkage_edges(gs))
+    skip_parts = skip_decomposition(g, plane, level, comp_of, skips)
+    decisions, missing, missing_loc, candidate_decisions = decision_completeness(g, chunks, plane, status, comp_of, siblings,
+                                                                                 kb_lib.open_space_candidates(gs))
+    functional, human_reqs, fwd_base, fwd_reached = forward_trace(g, plane, level, reqs, depth)
+    vv_all, vv_producers, vv_outsiders = vv_independence(g, chunks)
+    mutations = mutation_fixtures(a.mutations)
     (link_ents, with_ev, origins, extracted_n, built_n, restored_total,
      sat, trig_on, TIM, tim_filled) = link_build(g)
     cov_line = fixed_sentence_coverage(a, live, plane, parts, siblings)
@@ -458,16 +737,19 @@ def main() -> int:
      dev_reqs, goals, covered_reqs, goals_with_criteria) = vv_facts(g, chunks, live, plane)
     role_rows, scope_bad, BUDGET = role_worksets(g, live, plane, tokens, pct)
 
-    inputs = list(a.files) + ([a.notes] if a.notes else []) + list(a.bodies)
-    head = render_head(g, chunks, live, siblings, inputs)
+    inputs = list(a.files) + list(a.spaces) + ([a.notes] if a.notes else []) + list(a.bodies) + list(a.mutations)
+    head = render_head(g, chunks, live, siblings, inputs, [f for f in inputs if f not in a.spaces])
     o = render_distribution(pct, chunks, live, plane, level, orphans)
-    o += render_axis_sections(pct, live, authored, components, filled, skips, residency_bad, cov_line,
+    o += render_axis_sections(pct, live, authored, components, filled, skips, skip_parts, residency_bad, cov_line,
                               link_ents, with_ev, origins, extracted_n, built_n, restored_total,
                               tim_filled, TIM, BUDGET, role_rows, scope_bad)
     o += render_component_diagnosis(g, plane, outside)
+    o += render_refinement_section(g, pct, decisions, missing, missing_loc, functional, human_reqs, fwd_base, fwd_reached,
+                                   candidate_decisions)
     o += render_stage_sections(g, pct, observations, obs_recorded, assumptions, assumes, grade_dist,
                                grade_ab, trig_on, sat, vv, vv_by, verifies_links, verified_targets,
                                no_criteria, covered_reqs, dev_reqs, goals_with_criteria, goals)
+    o += render_vv_extra(g, pct, vv_all, vv_producers, vv_outsiders, mutations)
     o += render_tail_sections(g, pct, live, link_count, hist, reqs, reach, ascribed, nonreq, assumes,
                               default_only, gen, human)
     Path(a.out).write_text(kb_lib.gendoc_assemble(head, o, inputs), encoding="utf-8")

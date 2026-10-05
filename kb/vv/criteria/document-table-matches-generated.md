@@ -1,14 +1,14 @@
 ---
 id: https://agentic-knowledge-base.dev/id/chunk/b173e680-0135-4d83-9e0f-d8fb77d77407
 type: contract
-level: abstract
+level: logical
 title_ko: 문서가 적은 수치는 같은 이름의 생성물 수치와 같아야 한다
 title: A number written in a document must equal the same-named number in the generated view
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-sonnet-5, at: 2026-10-01T03:00:00+09:00}
-verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
+generated: {by: vnv/claude-sonnet-5, at: 2026-10-04T20:18:20+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-04T20:18:23+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d5257525-c3ef-4680-a611-ed964eff79c0]
 ---
 **합격 기준** — 기준 종류는 불변식이다. 문서 `f`가 적은 수치 `v`에 대해 같은 이름의 생성물 수치 `g(v)`가 있으면 `v = g(v)` 이고, 없으면 `f`가 그 수치의 생성 명령이나 시각을 함께 적는 것이 합격이다.

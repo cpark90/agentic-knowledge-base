@@ -7,12 +7,12 @@ title: file tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23, https://agentic-knowledge-base.dev/id/chunk/ab6eb286-d87b-43a5-88f0-e32ffdd54acc]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/99abae51-6823-4ed8-9bfe-4255801d4681, title_ko: 파일 복합체 tools/extract.py, title: file composite tools/extract.py, ordered: [https://agentic-knowledge-base.dev/id/composite/57a845e1-da27-4d9d-b5b0-b25148ccece7, https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-4341-b151-9ecda0fefd53, https://agentic-knowledge-base.dev/id/composite/52eb4f03-55ea-4dfb-be6d-9164da7da5ef, https://agentic-knowledge-base.dev/id/composite/019eb57b-f2ff-48bf-a135-886b1f348685, https://agentic-knowledge-base.dev/id/composite/30b84220-a222-44db-9ae1-0486db2a18ec, https://agentic-knowledge-base.dev/id/composite/e15e9467-610e-43bf-b882-759772f9ace0, https://agentic-knowledge-base.dev/id/composite/bdbaec34-7407-4d5e-83f8-0706026f0b98, https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986-80ad97804df0]}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/99abae51-6823-4ed8-9bfe-4255801d4681, title_ko: 파일 복합체 tools/extract.py, title: file composite tools/extract.py, ordered: [https://agentic-knowledge-base.dev/id/composite/57a845e1-da27-4d9d-b5b0-b25148ccece7, https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-4341-b151-9ecda0fefd53, https://agentic-knowledge-base.dev/id/composite/52eb4f03-55ea-4dfb-be6d-9164da7da5ef, https://agentic-knowledge-base.dev/id/composite/019eb57b-f2ff-48bf-a135-886b1f348685, https://agentic-knowledge-base.dev/id/composite/30b84220-a222-44db-9ae1-0486db2a18ec, https://agentic-knowledge-base.dev/id/composite/e15e9467-610e-43bf-b882-759772f9ace0, https://agentic-knowledge-base.dev/id/composite/bdbaec34-7407-4d5e-83f8-0706026f0b98, https://agentic-knowledge-base.dev/id/composite/ffce8a39-526e-459a-af7d-ed5cb6800166, https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986-80ad97804df0]}
 ---
-**파일** — `tools/extract.py` 다. 801줄 · 최상위 정의 35개 · 최상위 절 8개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/extract.py` 다. 994줄 · 최상위 정의 42개 · 최상위 절 9개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -49,7 +49,24 @@ docstring 과 import)이고 링크(`refines`·`serves`)와 검증기의 `verifie
 사람의 편집이다. (c) 대응이 없으면 새 uuid 를 등록부에 더한다(신설은 자동). (d) 등록부에 있는데 소스에 없으면
 `FAIL [extract]` 다 — 삭제는 등록부에서 지우는 명시 행위다.
 
+질의 디렉토리(`EXTRACTED_QUERY_DIRS`, 2026-10-03)는 다른 모양이다. 소스가 디렉토리 `tools/<이름>` 이고 그 안의
+`*.rq` 질의 파일 하나가 청크 하나다 — 질의는 함수로 나뉘지 않으므로 파일 전체가 인용 하나이고 복합체를 세우지 않는다.
+링크(`refines`·`serves`)는 청크마다 붙는다 — 질의 파일이 곧 링크의 자리다. 등록부는 `tools/<이름>.chunks.yml` 이고
+키는 `query:<파일 이름 stem>` 이다. 등록부의 `refines`·`serves` 는 디렉토리의 질의 전부에 붙고, 질의 하나에만 붙는 `refines` 는
+선택 키 `query_refines`(`query:<stem>: [<IRI>…]`)에 적는다 — 질의 파일 하나가 파일 복합체 하나의 자리이기 때문이다.
+갱신 규칙 (a)~(d) 와 도장은 파이썬 소스와 같고 `source_hash` 는 디렉토리 안 질의 파일 전부의 (이름, 바이트) 해시다
+(`source_digest`).
+
+Starlark 소스(`EXTRACTED_STARLARK`, 유저 답 Q32-a, 2026-10-04)는 파이썬 소스와 같은 모양이다 — `.bzl` 은 파이썬 문법의
+부분집합이므로 같은 AST 로 읽고, 최상위 정의 = 정의 청크 · 절 주석 = 절 복합체 · 최상위 리터럴 = 절 청크의 선언이다.
+다른 것은 셋이다. 모듈 머리의 `load(...)` 가 import 자리이고, 인용 펜스의 언어가 `starlark` 이며, 생성 패키지는
+`kb/dev/artifact/<이름>-bzl` 이다. 등록부의 선택 키 `wiring:` 은 **배선**(입력 집합과 인자를 잇기만 하는 최상위 정의·대입,
+유저 답 Q10-a "빌드 배선은 항목이 아니다")의 이름 목록이고 추출기는 그 정의를 청크로 내지 않는다 — 소스에 없는 이름이
+목록에 있으면 FAIL 이고, 배선만 남는 절은 절 청크를 세우지 않는다. 파일 청크 본문이 뺀 이름을 적는다.
+
 사용: bazel run //tools:extract -- tools/kb_lib.py [--root <저장소 루트>] [--check] [--residency <defs/kb.bzl>]
+      bazel run //tools:extract -- tools/cq-queries   (질의 디렉토리 — EXTRACTED_QUERY_DIRS 안이어야 한다)
+      bazel run //tools:extract -- defs/kb.bzl        (Starlark 소스 — EXTRACTED_STARLARK 안이어야 한다)
       루트는 --root, 없으면 BUILD_WORKSPACE_DIRECTORY(bazel run), 없으면 현재 디렉토리(bazel test 의 runfiles).
       --residency 는 EXTRACTED_SOURCES 리터럴의 원본 — 없으면 <루트>/defs/kb.bzl.
 출력·종료: 생성 시점 거부는 `FAIL [extract] <경로>: …`, `--check` 의 어긋남은 `FAIL [extract-drift] <경로>: …` —

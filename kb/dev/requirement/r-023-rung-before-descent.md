@@ -8,10 +8,11 @@ title: No descent without the verification rung
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T19:17:52+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T19:17:53+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/comp-req-verification
 ---
-**요구** — 개발 계층의 한 높이가 완성되면, 같은 높이의 V&V 검증 대응물(verifies)가 있어야 다음 높이로 내려갈 수 있어야 한다.
+**요구** — 개발 계층의 한 높이가 완성되면, 같은 높이의 V&V 검증 대응물(`p8-scenario-ladder-rungs`가 높이마다 정한 대응물)이 있어야 다음 높이로 내려갈 수 있어야 한다.
 
 - **이해관계자**: 검증자 · **관심사**: 완주
 - **출처**: 노트 8.1절(연동)·7.3절

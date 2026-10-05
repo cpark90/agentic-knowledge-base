@@ -1,6 +1,5 @@
-load("@rules_python//python:defs.bzl", "py_test")
-load("//defs:kb.bzl", "EXTRACTED_SOURCES")
-load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_doccheck_test", "kb_extract_drift_test", "kb_gendoc_test", "kb_skills_drift_test")
+load("//defs:kb.bzl", "EXTRACTED_QUERY_DIRS", "EXTRACTED_SOURCES", "EXTRACTED_STARLARK", "NORM_DOCS", "VIEWS", "norm_doc_labels")
+load("//defs:knowledge.bzl", "kb_build_drift_test", "kb_case_drift_test", "kb_chunk_lint_test", "kb_doccheck_test", "kb_extract_drift_test", "kb_frozen_docs_test", "kb_gendoc_test", "kb_norms_drift_test", "kb_skills_drift_test")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -31,27 +30,38 @@ kb_chunk_lint_test(
 )
 
 # 문서 현행성 (agrtls-practices-review N): 진입점 문서의 죽은 링크·앵커·백틱 경로.
-# glob 은 패키지 경계를 넘지 않는다 — docs/*.md·docs/open-questions/*.md 는 //docs 의 filegroup 으로 srcs 에 넣어야 한다
-# (docs/BUILD.bazel 소유: orchestrator). 채널(//docs/feedback:items)과 노트(//docs:notes)는 대상으로만 쓴다.
+# glob 은 패키지 경계를 넘지 않는다 — docs/*.md 는 //docs 의 filegroup 으로 srcs 에 넣어야 한다
+# (docs/BUILD.bazel 소유: orchestrator). 하네스 문서(//harness:docs)도 같은 이유로 filegroup 으로 넣는다.
+# 채널 메시지·질문지·옛 채널 기록(//harness:records)과 노트(//docs:notes)는 대상으로만 쓴다.
 # 실재 판정은 runfiles 이므로 문서가 가리키는 패키지의 파일은 targets 에 선언한다.
+# 동결 문서 (유저 답 Q15-c) — 노트는 기획 원본이고 고치지 않는다. 해시의 단일 정의처는 tools/kb_lib.py 의 FROZEN_DOCS
+kb_frozen_docs_test(
+    name = "frozen_docs_test",
+    docs = ["//docs:notes"],
+)
+
 kb_doccheck_test(
     name = "doccheck_test",
-    srcs = glob(["*.md"]) + ["//docs:docs"],
+    srcs = glob(["*.md"]) + [
+        "//docs:docs",
+        "//harness:docs",
+    ],
     data = [
         "//defs:kb.bzl",
         "//defs:knowledge.bzl",
         "//kb/ontology:proposals",
         "//docs:glossary",
-        "//docs/feedback:items",
+        "//harness:records",
         "//tools",
-        "//chunks:bodies",
-        "//kb/dev:bodies",
-        "//kb/vv:bodies",
+        "//chunks",
+        "//kb/dev",
+        "//kb/vv",
         "//kb/ontology:modules",
         "//kb/ontology:shapes",
         "//kb/ontology:modules.bzl",
         "//kg",
         "//kb/odd:project-odd.yml",
+        "//space",  # 설계 공간 청크 — 문서가 미결의 상세로 링크한다 (Q54-a, 지시 0095)
     ] + glob([".claude/**"]),
     empty_dirs = [
         "kb/vv",  # V&V KB — 청크가 들어오기 전까지 runfiles 에 없다. 하위 디렉토리 = plane (pe-storage-layout), BUILD 는 gen_build 생성물
@@ -61,6 +71,7 @@ kb_doccheck_test(
         "kb/vv/run",  # 실행 기록 — vv_run --record 가 첫 기록을 만들기 전까지 비어 있다
         "kb/vv/scenario",
         "kb/vv/verifier",
+        "kb/dev/norm",  # 규범 문서의 절 청크 — 첫 문서를 옮기기 전까지 비어 있다 (p12-norm-documents-from-section-chunks)
         "space",  # 설계 공간 — 5단계까지 자리만
     ],
     # 게이트 총람(docs/tools.md)이 게이트 등록부 GATES 의 투영인지 본다 (M1 단일 정의처, 2026-10-02) —
@@ -72,29 +83,19 @@ kb_doccheck_test(
 
 # 게이트 전체 = 저장소의 모든 테스트 — `bazel test //...` (test_suite 는 두지 않는다: 목록이 낡는다)
 # BUILD 드리프트 가드 (d-0159): 생성기를 다시 돌려 커밋본과 비교 — frontmatter 가 원본, BUILD 는 뷰
-py_test(
+kb_build_drift_test(
     name = "build_drift_test",
-    srcs = [
-        "//tools:chunk2kg.py",
-        "//tools:gen_build.py",
-    ],
-    args = [
-        "--check",
-        "--root",
-        ".",
-    ],
-    data = [
-        "//defs:kb.bzl",  # PLANES·LEVELS·STATES 값 어휘의 원본 — gen_build.py 가 parse_chunk 를 통해 읽는다(--residency)
-        "//chunks:bodies",
+    builds = [
         "//chunks/decision:BUILD.bazel",
-        "//kb/dev:bodies",
         "//kb/dev/artifact:BUILD.bazel",
-    ] + ["//kb/dev/artifact/" + mod + ":BUILD.bazel" for mod in EXTRACTED_SOURCES] + [
+    ] + ["//kb/dev/artifact/" + mod + ":BUILD.bazel" for mod in EXTRACTED_SOURCES + EXTRACTED_QUERY_DIRS] +
+    ["//kb/dev/artifact/" + m + "-bzl:BUILD.bazel" for m in EXTRACTED_STARLARK] + [
         "//kb/dev/decision:BUILD.bazel",
         "//kb/dev/memory:BUILD.bazel",
+        "//kb/dev/norm:BUILD.bazel",
+    ] + ["//kb/dev/norm/" + stem + ":BUILD.bazel" for stem in NORM_DOCS] + [
         "//kb/dev/requirement:BUILD.bazel",
         "//kb/vv:BUILD.bazel",
-        "//kb/vv:bodies",
         "//kb/vv/case:BUILD.bazel",
         "//kb/vv/criteria:BUILD.bazel",
         "//kb/vv/goal:BUILD.bazel",
@@ -102,12 +103,15 @@ py_test(
         "//kb/vv/scenario:BUILD.bazel",
         "//kb/vv/verdict:BUILD.bazel",
         "//kb/vv/verifier:BUILD.bazel",
-        "//kb/ontology:modules",
-        "//kb/ontology:modules.bzl",
         "//kb/ontology:module_builds",
     ],
-    main = "gen_build.py",
-    size = "small",
+    data = [
+        "//chunks",
+        "//kb/dev",
+        "//kb/vv",
+        "//kb/ontology:modules",
+        "//kb/ontology:modules.bzl",
+    ],
 )
 
 # 추출 드리프트 가드 (코드를 청크로, 유저 승인 2026-09-30): 추출기를 다시 돌려 트리의 생성 청크·등록부와 비교 —
@@ -117,14 +121,34 @@ py_test(
 
 [kb_extract_drift_test(
     name = "extract_drift_" + mod,
-    chunks = "//kb/dev/artifact/" + mod + ":bodies",
+    chunks = "//kb/dev/artifact/" + mod,
     registry = "//tools:" + mod + ".chunks.yml",
     source = "tools/" + mod + ".py",
 ) for mod in EXTRACTED_SOURCES]
 
+# 질의 디렉토리 (EXTRACTED_QUERY_DIRS, 2026-10-03) — 소스가 디렉토리 tools/<이름> 이고 질의 파일 하나가 청크 하나다.
+# 게이트 id 는 같은 `extract-drift` 다. 타깃 이름의 `-` 는 `_` 로 바꿔 모듈 이름과 같은 모양으로 둔다
+[kb_extract_drift_test(
+    name = "extract_drift_" + d.replace("-", "_"),
+    chunks = "//kb/dev/artifact/" + d,
+    registry = "//tools:" + d + ".chunks.yml",
+    source = "tools/" + d,
+) for d in EXTRACTED_QUERY_DIRS]
+
+# Starlark 소스 (EXTRACTED_STARLARK, 유저 답 Q32-a 2026-10-04) — defs/<이름>.bzl 이 원본이고 kb/dev/artifact/<이름>-bzl/ 는 뷰다.
+# 등록부 사이드카는 소스 옆(defs/<이름>.chunks.yml)이다. 게이트 id 는 같은 `extract-drift` 다
+[kb_extract_drift_test(
+    name = "extract_drift_" + m + "_bzl",
+    chunks = "//kb/dev/artifact/" + m + "-bzl",
+    registry = "//defs:" + m + ".chunks.yml",
+    source = "defs/" + m + ".bzl",
+) for m in EXTRACTED_STARLARK]
+
 test_suite(
     name = "extract_drift_test",
-    tests = [":extract_drift_" + mod for mod in EXTRACTED_SOURCES],
+    tests = [":extract_drift_" + mod for mod in EXTRACTED_SOURCES] +
+            [":extract_drift_" + d.replace("-", "_") for d in EXTRACTED_QUERY_DIRS] +
+            [":extract_drift_" + m + "_bzl" for m in EXTRACTED_STARLARK],
 )
 
 # skill 드리프트 가드 (6단계): 생성기를 다시 돌려 트리의 .claude/skills 와 비교 — docstring·kb_lib.SKILLS 가 원본, skill 은 뷰
@@ -135,36 +159,61 @@ kb_skills_drift_test(
 )
 
 
+# 규범 문서 드리프트 가드 (p12-norm-documents-from-section-chunks): 생성기를 다시 돌려 트리의 규범 문서와 비교 — 절 청크
+# (kb/dev/norm/<stem>/)와 결정의 conventions.md 가 원본, 문서는 뷰다. 목록의 단일 정의처는 //defs:kb.bzl 의 NORM_DOCS 이고
+# 비어 있으면 비교 대상 0 이다 — 그래도 모든 `규약:` 줄이 적어도 한 문서에서 쓰이는지(고아 줄)는 돈다
+kb_norms_drift_test(
+    name = "norms_drift_test",
+    data = ["//kb/dev"],
+    docs = norm_doc_labels(),
+)
+
+# 케이스 드리프트 가드 (p8-case-generation, 유저 답 Q27-a): 생성기를 다시 돌려 트리의 케이스와 비교 — logical 시나리오의
+# `keep`·`cover` 가 원본, kb/vv/case 의 생성 케이스는 뷰다. 수기 케이스는 0 이다(kb/vv/case 전부 process:case_gen).
+# 새 시나리오의 자극 청크는 `scenarios` 에 더한다.
+kb_case_drift_test(
+    name = "case_drift_test",
+    data = [
+        "//kb/odd:project-odd.yml",
+        "//kb/vv",
+    ],
+    # 생성 케이스를 가진 시나리오 전수. 수기 케이스가 0 이므로 all_generated 를 켠다(생성기 밖 케이스는 실패다).
+    all_generated = True,
+    scenarios = [
+        "//kb/vv/scenario:acyclic-relation-axioms-stimulus.md",
+        "//kb/vv/scenario:acyclic-relation-axioms-composite-stimulus.md",
+        "//kb/vv/scenario:acyclic-relation-axioms-supersedes-stimulus.md",
+        "//kb/vv/scenario:agent-catalog-complete-stimulus.md",
+        "//kb/vv/scenario:composite-order-shape-stimulus.md",
+        "//kb/vv/scenario:composite-order-shape-subset-stimulus.md",
+        "//kb/vv/scenario:document-table-number-mismatch-stimulus.md",
+        "//kb/vv/scenario:element-drop-stimulus.md",
+        "//kb/vv/scenario:when-false-suspect-stimulus.md",
+        "//kb/vv/scenario:foreign-vocabulary-rejected-stimulus.md",
+        "//kb/vv/scenario:dispatch-workset-budget-stimulus.md",
+        "//kb/vv/scenario:token-budget-stimulus.md",
+        "//kb/vv/scenario:decision-conclusion-mutation-stimulus.md",
+        "//kb/vv/scenario:round-record-stop-rule-stimulus.md",
+    ],
+)
+
 # 생성 문서 게이트 (유저 지시 2026-09-21): 에이전트가 만드는 마크다운의 가독성·건전성 규약 G1~G18.
 # 규약의 단일 정의처는 tools/kb_lib.py 이고 생성기와 이 게이트가 같은 것을 import 한다 (STYLEGUIDE §7).
-# 대상은 Bazel 뷰 12종과 생성 트리 파일(.claude/skills/*/SKILL.md)이다 — 생성 BUILD 는 마크다운이 아니라 대상 밖이다.
+# 대상은 생성 뷰(목록의 단일 정의처 `//defs:kb.bzl` 의 VIEWS)와 생성 트리 파일(.claude/skills/*/SKILL.md · NORM_DOCS 의 규범 문서)이다 —
+# 생성 BUILD 는 마크다운이 아니라 대상 밖이다.
 # 생성물이 가리키는 파일은 data 에 선언돼야 링크 검사(G13)에서 실재한다.
 kb_gendoc_test(
     name = "gendoc_test",
     data = [
-        "//chunks:bodies",
+        "//chunks",
         "//docs:docs",
         "//docs:notes",
-        "//kb/dev:bodies",
-        "//kb/vv:bodies",
+        "//kb/dev",
+        "//kb/vv",
         "//tools",
-    ],
-    docs = [
-        ":skills",
-        "//kb:consistency",
-        "//kb/dev:adr",
-        "//kb/dev:changelog",
-        "//kb/dev:index",
-        "//kb/dev:requirements",
-        "//kg:audit",
-        "//kg:communities",
-        "//kg:cq",
-        "//kg:link_candidates",
-        "//kg:metrics",
-        "//kg:open",
-        "//kg:workset",
-        "//space:choices",
-    ],
+        "//harness:docs",  # 규범 문서가 가리키는 harness/README.md — doccheck_test 와 같은 집합
+    ] + glob(["*.md"], exclude = [p for p in NORM_DOCS.values() if "/" not in p]),  # 규범 문서 자신은 docs 로 이미 들어 있다. 규범 문서가 가리키는 루트 문서(AGENTS.md 등) — 규범 문서는 저장소 상대 링크가 성립하는 소스 트리 파일이다
+    docs = [":skills"] + list(VIEWS) + norm_doc_labels(),  # 규범 문서(NORM_DOCS)도 생성 트리 파일이다
     empty_dirs = [
         "kb/vv",
         "space",

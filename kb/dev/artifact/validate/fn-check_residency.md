@@ -7,7 +7,7 @@ title: function check_residency in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/386f974f-846c-47c9-99dc-ee866783f5c5, https://agentic-knowledge-base.dev/id/chunk/f4d0d4bb-6623-435e-b230-93d98fb7ceac]
 part_of: https://agentic-knowledge-base.dev/id/composite/d62da398-7c0d-493a-9514-8d3ccebe5ca7
@@ -37,10 +37,9 @@ def check_residency(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> lis
     declared = {p: set(v) for p, v in table.items() if set(v) != set(levels)}
     found: dict[str, set[str]] = {}
     for shape, cls in shapes.subject_objects(SH.targetClass):
-        plane = str(cls).split("/")[-1]
-        if not plane.endswith("Chunk"):
+        plane = kb_lib.plane_of_class(cls)  # 클래스 → plane 은 chunk2kg.CLASS_PLANE 이 정한다 — norm 은 agt:DocumentSectionChunk 다
+        if not plane:
             continue
-        plane = plane[: -len("Chunk")].lower()
         for prop in shapes.objects(shape, SH.property):
             if (prop, SH.path, kb_lib.AGT.hasLevel) not in shapes:
                 continue
@@ -52,7 +51,7 @@ def check_residency(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> lis
         if want is None:
             errors.append(f"[{gate}] {where}: shape 가 plane {plane} 의 수준 구간을 {sorted(have)} 로 제한하는데 {bzl_path} 의 RESIDENCY 에는 그 제한이 없다 — 표의 원본은 {bzl_path} 다")
         elif have is None:
-            errors.append(f"[{gate}] {where}: {bzl_path} 의 RESIDENCY 는 plane {plane} 을 {sorted(want)} 로 제한하는데 shape 에 대응 구간이 없다 — `agt:{plane.capitalize()}Chunk` 의 `agt:hasLevel` 에 `sh:in` 을 단다")
+            errors.append(f"[{gate}] {where}: {bzl_path} 의 RESIDENCY 는 plane {plane} 을 {sorted(want)} 로 제한하는데 shape 에 대응 구간이 없다 — `{chunk2kg.PLANE_CLASS.get(plane, plane)}` 의 `agt:hasLevel` 에 `sh:in` 을 단다")
         elif want != have:
             errors.append(f"[{gate}] {where}: plane {plane} 의 수준 구간이 갈린다 — {bzl_path} 는 {sorted(want)}, shape 는 {sorted(have)} 다. 원본은 {bzl_path} 이므로 shape 를 맞춘다")
     return errors

@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:vv_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "run",
     srcs = glob(
         ["*.md"],
         allow_empty = True,
@@ -15,9 +15,36 @@ filegroup(
 )
 
 kb_chunk(
+    name = "fidelity-20261003T075642Z",
+    src = "fidelity-20261003T075642Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3ebd210d-1c63-486f-a33f-cb59f3738bae",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "fidelity-20261003T081751Z",
+    src = "fidelity-20261003T081751Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1d59e03e-38e9-4fb2-a45b-7c09e5f13972",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
     name = "judge-20260929T182311Z",
     src = "judge-20260929T182311Z.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/f6b721f6-4237-4c0a-93f1-f40166dc2c21",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261003T090756Z",
+    src = "judge-20261003T090756Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3815425a-7408-421e-b749-344215f01f28",
     plane = "memory",
     level = "concrete",
     status = "stable",
@@ -41,12 +68,45 @@ kb_chunk(
     status = "stable",
 )
 
+kb_chunk(
+    name = "run-20261004T042331Z",
+    src = "run-20261004T042331Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fa1e0a92-61df-42e0-8b6f-406dba9b9b4a",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "run-20261004T051124Z",
+    src = "run-20261004T051124Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9ff43669-c35b-4fb7-a088-488a05ab5eb2",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "run-20261005T042840Z",
+    src = "run-20261005T042840Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/bb47728d-950b-4c13-ac9a-4b5e5336e7c3",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
 # 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
 kb_bundle(
     name = "kg",
     items = [
+        ":fidelity-20261003T075642Z",
+        ":fidelity-20261003T081751Z",
         ":judge-20260929T182311Z",
+        ":judge-20261003T090756Z",
         ":run-20260919T062548Z",
         ":run-20260919T065358Z",
+        ":run-20261004T042331Z",
+        ":run-20261004T051124Z",
+        ":run-20261005T042840Z",
     ],
 )

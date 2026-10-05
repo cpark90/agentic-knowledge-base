@@ -7,9 +7,9 @@ title: function main in tools/gates2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gates2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-01T16:06:51Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/4023eaae-fb57-4924-bb9b-beb8a2530ff2, https://agentic-knowledge-base.dev/id/chunk/5626d1aa-8b86-4c12-ab4c-ec1e76b25bb5, https://agentic-knowledge-base.dev/id/chunk/90fe8a83-bd07-4bb1-bd2c-fcdad7d246b7, https://agentic-knowledge-base.dev/id/chunk/e51ab77c-0ffd-4d58-a3cb-d622e9134952, https://agentic-knowledge-base.dev/id/chunk/e7ef6bd8-9aff-42f5-bf43-505fb69d8d2e]
+uses: [https://agentic-knowledge-base.dev/id/chunk/060d5b4a-ce00-45a6-893c-e9a0c787372f, https://agentic-knowledge-base.dev/id/chunk/4023eaae-fb57-4924-bb9b-beb8a2530ff2, https://agentic-knowledge-base.dev/id/chunk/5626d1aa-8b86-4c12-ab4c-ec1e76b25bb5, https://agentic-knowledge-base.dev/id/chunk/7c84bccd-bce1-441d-ae3c-b5f960ab1dc8, https://agentic-knowledge-base.dev/id/chunk/90fe8a83-bd07-4bb1-bd2c-fcdad7d246b7, https://agentic-knowledge-base.dev/id/chunk/e51ab77c-0ffd-4d58-a3cb-d622e9134952, https://agentic-knowledge-base.dev/id/chunk/e7ef6bd8-9aff-42f5-bf43-505fb69d8d2e]
 part_of: https://agentic-knowledge-base.dev/id/composite/cda496f2-c562-40ea-bde8-f3fa740db1b1
 ---
 **함수** — `main()` 다.
@@ -21,7 +21,22 @@ def main() -> int:
     ap.add_argument("--out", required=True, help="출력 TTL 경로 (접미사 규약 0.2절의 `-kg`)")
     ap.add_argument("--gates", required=True, help="게이트 등록부의 원본 defs/kb.bzl")
     ap.add_argument("--registry", nargs="*", default=[], help="등록부 사이드카들 (tools/<도구>.chunks.yml) — agt:enforcedBy 의 대상")
+    ap.add_argument("--projections", action="store_true", help="게이트 대신 뷰(VIEWS)·skill(SKILLS)의 투영 개체를 낸다")
     a = ap.parse_args()
+    if a.projections:
+        try:
+            views = kb_lib.load_bzl_dict(a.gates, kb_lib.VIEWS_NAME)
+        except (OSError, ValueError) as e:
+            print(f"FAIL [{TAG}] {a.gates}: 뷰 표를 읽을 수 없다 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
+        ttl = emit_projections(views, kb_lib.SKILLS, tool_composites(a.registry, "module"), a.gates)
+        try:
+            Path(a.out).write_text(ttl, encoding="utf-8")
+        except OSError as e:
+            print(f"FAIL [{TAG}] {a.out}: 쓸 수 없다 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
+        print(f"PASS [{TAG}] — 뷰 {len(views)}개, skill {len(kb_lib.SKILLS)}개", file=sys.stderr)
+        return 0
     try:
         gates = kb_lib.load_gates(a.gates)
         tiers = kb_lib.load_bzl_list(a.gates, "GATE_TIERS")

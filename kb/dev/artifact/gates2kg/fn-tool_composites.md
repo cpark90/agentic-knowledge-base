@@ -7,19 +7,20 @@ title: function tool_composites in tools/gates2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gates2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-01T15:47:27Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/ff1c5437-57a6-409e-86e7-767ffd3d41ff
 ---
-**함수** — `tool_composites(registries)` 다. 등록부 사이드카들 → 도구 이름 → 파일 복합체 IRI (`ids: file:`).
+**함수** — `tool_composites(registries, key)` 다. 등록부 사이드카들 → 도구 이름 → `ids:` 블록의 `key` 줄 IRI (기본 `file:` — 파일 복합체).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def tool_composites(registries: list[str]) -> dict[str, str]:
-    """등록부 사이드카들 → 도구 이름 → 파일 복합체 IRI (`ids: file:`).
+def tool_composites(registries: list[str], key: str = "file") -> dict[str, str]:
+    """등록부 사이드카들 → 도구 이름 → `ids:` 블록의 `key` 줄 IRI (기본 `file:` — 파일 복합체).
 
     사이드카는 손이 원본인 등록부이고 파일 복합체가 도구 하나의 개체다 (p7-code-links-on-file-composite).
-    YAML 파서를 싣지 않는다 — 필요한 것은 `ids:` 블록의 `file:` 한 줄뿐이고 이 생성기는 타깃마다 돈다.
+    투영 모드는 `module:`(모듈 docstring 청크)을 읽는다 — 뷰·skill 의 내용이 나오는 원본 청크다.
+    YAML 파서를 싣지 않는다 — 필요한 것은 `ids:` 블록의 한 줄뿐이고 이 생성기는 타깃마다 돈다.
     """
     out: dict[str, str] = {}
     for path in registries:
@@ -31,7 +32,7 @@ def tool_composites(registries: list[str]) -> dict[str, str]:
             raise SystemExit(EXIT_CONFIG)
         name = p.name[: -len(".chunks.yml")] if p.name.endswith(".chunks.yml") else p.stem
         for line in lines:
-            if line.startswith("  file:"):
+            if line.startswith(f"  {key}:"):
                 out[name] = line.split(":", 1)[1].strip()
                 break
     return out

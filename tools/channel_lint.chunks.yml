@@ -7,8 +7,8 @@ source: tools/channel_lint.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-channel-lint
 package: kb/dev/artifact/channel_lint
 layer: process
-at: 2026-09-30T08:07:48Z
-source_hash: ce504f949d32b0ef
+at: 2026-10-02T00:08:55Z
+source_hash: ebb3db59d8b1ea6d
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/60faade0-d3e7-4ad4-8bf6-371be22956c3
   - https://agentic-knowledge-base.dev/id/chunk/f1d4cbae-2b57-4b96-826f-536b132cd624
@@ -19,12 +19,23 @@ tested:
   source_hash: ef062770d7b76239
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/17742602-4fc2-4573-94ef-31ddc1638b88
+  composite:sec:check-links: https://agentic-knowledge-base.dev/id/composite/3740ef5b-1def-406b-ab6d-bbb40f9c7329
+  composite:sec:check-message: https://agentic-knowledge-base.dev/id/composite/45faf691-73c6-43a3-b8c9-25f7a11782bc
+  composite:sec:check-questionnaire: https://agentic-knowledge-base.dev/id/composite/f4e440cf-7d39-4f1b-9334-79189a47b8a2
   composite:sec:frontmatter: https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4-28d1816c56e6
+  composite:sec:main: https://agentic-knowledge-base.dev/id/composite/d356c13f-12da-449f-8621-56cdffd536e1
   file: https://agentic-knowledge-base.dev/id/composite/84c1731c-46ae-469d-a2b2-a52d6615da86
-  fn:answer_section: https://agentic-knowledge-base.dev/id/chunk/af9d2631-9208-4af1-a217-fd12cb8b6b83
+  fn:body_of: https://agentic-knowledge-base.dev/id/chunk/7ea462e4-8c9b-4768-98eb-df193fcee568
+  fn:check_links: https://agentic-knowledge-base.dev/id/chunk/d2fdf1e1-52ea-4b4d-a14f-5882bfe4b8f8
+  fn:check_message: https://agentic-knowledge-base.dev/id/chunk/cce5ab35-03b9-4926-85ac-b6434fe2ecfd
+  fn:check_questionnaire: https://agentic-knowledge-base.dev/id/chunk/106ecd5a-7ab2-49db-b822-0e3c51a30083
   fn:frontmatter: https://agentic-knowledge-base.dev/id/chunk/e5e73fb0-c433-4d73-af9c-7c61ec8e4187
-  fn:lane_of: https://agentic-knowledge-base.dev/id/chunk/193fbeed-19f3-4ecf-a72d-50c6c66a5e53
+  fn:kind_of: https://agentic-knowledge-base.dev/id/chunk/8857ba5c-fc60-4ee1-a15b-2a87ed72940f
   fn:main: https://agentic-knowledge-base.dev/id/chunk/3cc76427-9237-41d7-b070-9dd0fc86381c
   head: https://agentic-knowledge-base.dev/id/chunk/2b6adf1a-07f9-41ca-b86b-44bcb3041a2a
   module: https://agentic-knowledge-base.dev/id/chunk/ae6d4d38-8012-4802-9b53-8c33d4293291
+  sec:check-links: https://agentic-knowledge-base.dev/id/chunk/aa670bf5-5f84-4dab-a1ca-2b2f3b1ddaf1
+  sec:check-message: https://agentic-knowledge-base.dev/id/chunk/7d6cb57c-2567-4736-a478-d1b63e3660c6
+  sec:check-questionnaire: https://agentic-knowledge-base.dev/id/chunk/b06b612f-7578-4a21-8fe4-9e665af25230
   sec:frontmatter: https://agentic-knowledge-base.dev/id/chunk/3ea2a78a-aa7c-4d36-b28e-11f3e5005b69
+  sec:main: https://agentic-knowledge-base.dev/id/chunk/765d822e-a08f-40b2-aa82-7ac03ba0b3fd

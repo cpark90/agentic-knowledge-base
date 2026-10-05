@@ -37,7 +37,7 @@ EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)      # 판정 실패
 EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음·읽을 수 없는 입력
 
 TAG = "chunk2kg"
-EPHEMERAL_PATH = "docs/feedback/"  # 소멸성 채널 — 인용원이 될 수 없다 (agrtls-practices-review P)
+EPHEMERAL_PATHS = ("harness/channel/", "harness/user/", "docs/feedback/")  # 소멸성 채널(에이전트 채널·유저 채널·옛 채널) — 인용원이 될 수 없다 (agrtls-practices-review P)
 SPECIALIZATION_KEY = "specializationOf"  # frontmatter 키 — 분할 조각 → 원 청크 (p10-split-keeps-work-identity)
 SPECIALIZATION_GATE = getattr(kb_lib, "SPECIALIZATION_GATE", "specialization")  # 게이트 id — FAIL [specialization] (정의처 kb_lib)
 LINK_STATE_CANDIDATE = getattr(kb_lib, "LINK_STATE_CANDIDATE", "candidate")  # 후보 — extract_refs 가 낸다 (정의처 kb_lib)
@@ -58,6 +58,7 @@ PLANE_CLASS = {
     "artifact": "agt:ArtifactChunk",
     "annotation": "agt:AnnotationChunk",
     "memory": "agt:MemoryChunk",
+    "norm": "agt:DocumentSectionChunk",  # 규범 문서의 절 — 클래스 지역명이 plane 이름에서 오지 않는 유일한 plane (유저 답 Q21-a)
 }
 # plane 이름 → agt:...Chunk 클래스의 사상(mapping)이다. defs/kb.bzl 은 Starlark 라 클래스 이름을 모르므로 이 표는
 # defs/kb.bzl 에 없고 여기가 정의처다(M1 단일 정의처, 2026-09-26 — 아래 PLANES 파생과 같은 결정). 대신 이 표의 키
@@ -119,6 +120,7 @@ PROFILE_SUBSTANCE = {
     "annotation": "agt:ReviewComment",
     "memory": "agt:SessionObservation",
 }
+# `norm` 은 실체 클래스가 없다 — plane 클래스 agt:DocumentSectionChunk 하나로 타이핑한다 (유저 답 Q21-a, emit_chunk)
 # EARS 패턴 (Mavin RE'09) — 요구 frontmatter `pattern:` 의 값 어휘 → 개체 (ears-pattern-ontology.ttl). type: requirement 에서만 허용
 EARS_PATTERNS = {
     "ubiquitous": "agt:ubiquitous",
@@ -156,6 +158,7 @@ LAYER_PREDICATE = getattr(kb_lib, "LAYER_PREDICATE", "agt:inLayer")
 # 실물이 있는 일곱 틀의 표지만 둔다. 표지를 늘리면 shape 의 틀도 같은 커밋에서 늘린다
 BODY_SLOT_MARKERS = ("요구", "이해관계자", "관심사", "출처",                    # 개발 요구 (kb/dev/requirement)
                      "결론", "근거", "대안",                                   # 결정 세 청크 (kb/dev/decision · chunks/decision)
+                     "규약",                                                  # 결정의 선택 넷째 청크 conventions.md (p4-convention-slot)
                      "검증 목표", "무엇을 관측하면 성립하는가",                  # 검증 목표 (kb/vv/goal)
                      "합격 기준", "판정식", "확인 절차", "등급",                 # 합격 기준 (kb/vv/criteria)
                      "케이스", "자극", "기대", "실행 명령", "표본 근거",         # 케이스 (kb/vv/case)
@@ -176,6 +179,22 @@ BODY_SLOT_FIELD_SEP = " · "  # 한 줄에 여러 필드를 담을 때(요구·�
 BODY_SLOT_QUALIFIER_MAX = 12  # 표지 뒤 한정어의 최대 길이 — 넘으면 한정어가 아니라 문장이다
 
 
+# ══ 청크 — 어휘·파싱·방출 ════════════════════
+# 청크 파일 하나를 읽어 head 블록 하나를 내기까지의 장이다 — plane·슬롯·복합체·절 키의 어휘, frontmatter 파싱, 트리플 방출.
+
+# ── plane 클래스의 역 사상 ────────────────────
+# 클래스 지역명 → plane 이름 — PLANE_CLASS 의 역이다. 그래프에서 plane 을 읽는 도구(metrics·weave·workset·community·
+# open_questions·validate)가 `<X>Chunk` 의 접두를 소문자로 바꿔 plane 을 얻던 규칙은 `norm` 에서 깨진다 — 그 plane 의
+# 클래스는 `agt:DocumentSectionChunk` 다(p12-norm-documents-from-section-chunks). 역 사상의 정의처를 여기 하나로 둔다.
+CLASS_PLANE = {cls.split(":", 1)[1]: plane for plane, cls in PLANE_CLASS.items()}
+
+
+def plane_of_class(cls) -> str:
+    """plane 청크 클래스(IRI·`agt:` 접두 이름·지역명) → plane 이름. plane 청크 클래스가 아니면 빈 문자열이다."""
+    name = str(cls).rsplit("/", 1)[-1].rsplit(":", 1)[-1]
+    return CLASS_PLANE.get(name, "")
+
+
 # ── 본문 슬롯 표지의 자리 ────────────────────
 
 def _body_slot_at_field_head(line: str, start: int) -> bool:
@@ -189,11 +208,14 @@ def _body_slot_at_field_head(line: str, start: int) -> bool:
         prefix = prefix[idx + len(BODY_SLOT_FIELD_SEP):]
     return prefix.strip() == ""
 # 줄 머리 `키워드: 값` 형 슬롯 (제안 4.1절). 선택 슬롯 `미확정:` 은 미결을 문서가 아니라 항목 안에 두어 집계를 생성물로
-# 만든다 (p4-three-empty-values) — //kg:open 이 이 표지로 미결을 모은다. 나머지 넷은 주석의 슬롯이다 (p7-commentary-form).
+# 만든다 (p4-three-empty-values) — //kg:open 이 이 표지로 미결을 모은다. 줄 `규약:` 은 결정의 선택 넷째 청크 `conventions.md`
+# 가 규범 문서에 싣는 문장 하나다 (p4-convention-slot, 유저 답 Q13-a·Q22-b) — 그 청크 한정은 convention-slot-shapes 가 본다.
+# 같은 청크의 역할 표지 `**규약**` 도 같은 값 "규약" 으로 나간다(BODY_SLOT_MARKERS). 줄 `규약:` 은 목록 항목이 아니라 슬롯이다.
+# 나머지 넷은 주석의 슬롯이다 (p7-commentary-form).
 # 첫 줄 `<라벨> (<장식>): <요지>` 는 표지가 아니라 형식 검사 대상이라 여기 없다 — comment_form 이 읽는다.
 # **표지를 늘리면 shape(kb/ontology/shapes/*-body-shapes.ttl)의 틀도 같은 커밋에서 늘린다** — 표지만 늘리면 방출은
 # 바뀌는데 강제하는 곳이 없어 틀이 거짓이 된다
-BODY_SLOT_KEYWORDS = ("미확정", *COMMENT_SLOTS)
+BODY_SLOT_KEYWORDS = ("미확정", "규약", *COMMENT_SLOTS)
 BODY_SLOT_KEYWORD = re.compile(r"^(" + "|".join(BODY_SLOT_KEYWORDS) + r"):\s")
 BODY_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")  # 코드 펜스 안은 본문 형식이 아니다 — 예시 안의 표지를 슬롯으로 읽지 않는다
 # ── 복합체의 순서 (결정 p4-composite-order-is-declared, 유저 승인 2026-09-29 — 예외 없음) ─────────────────
@@ -237,6 +259,205 @@ def order_errors(where: str, order, source: str) -> list:
         return [f"{where}: {source} 는 부분 IRI 목록 [<IRI>, …] 이어야 한다 — 실제 {order!r} (p4-composite-order-is-declared)"]
     dups = sorted({o for o in order if order.count(o) > 1})
     return [f"{where}: {source} 에 같은 부분이 두 번 있다 — 부분마다 색인 하나다: {dups}"] if dups else []
+# ── 규범 문서의 절 (결정 p12-norm-documents-from-section-chunks, 유저 답 Q19-b·Q21-a·Q22-b) ─────────────────
+# frontmatter 의 **절 키** — `type: norm` 에서만 쓴다. 문서 하나가 `kb/dev/norm/<문서 stem>/` 의 복합체 하나이고 순서는
+# 선언 청크(머리 청크)의 `composite.ordered` 다. 머리 청크의 본문은 문서 도입문·범례이고 절 키를 갖지 않는다.
+#   heading:   절 제목 (머리 청크 밖에서 필수). 번호를 두지 않는다 — 번호는 생성기(tools/gen_norms.py)가 순서로 붙인다
+#   depth:     2 또는 3 (머리 청크 밖에서 필수) — 생성 문서의 `##`·`###`
+#   items:     순서 목록 (선택). 항목은 셋 중 하나다 — `slug#k` · `slug#k + slug2`(둘째 결정은 링크만) ·
+#              `{규약: slug#k, 하위: [slug#k, …]}`. `slug` 는 결정 디렉토리 이름, `k` 는 그 결정의 `conventions.md` 안
+#              `규약:` 줄의 1부터의 순번이다. 결정 복합체로의 `agt:projectsConvention` 이 여기서 나온다
+#   numbered:  true | false (선택, 절 청크만, 기본 true) — false 면 생성기가 이 depth 2 절에 번호를 붙이지 않고 번호를 소비하지도
+#              않는다(문서 끝의 `셀프체크` 같은 부록 절). depth 3 절에서는 뜻이 없어 거부한다
+#   numbering: 첫 depth 2 절의 번호 꼴 (선택, 머리 청크만) — `§0.` · `1.` · `0.` 처럼 접두·첫 수·마침표. 없으면 번호가 없다
+#   strength:  required | optional (선택, 머리 청크만, 기본 required) — required 면 이 문서가 싣는 `규약:` 줄은 전부
+#              `[지킴]`·`[권장]` 강도를 가져야 한다(생성기가 거부한다). 표 절의 줄은 예외 없이 강도를 갖지 않는다
+# 절 청크 하나는 항목 묶음 하나(목록 하나 또는 표 하나)를 갖고 본문은 그 묶음 **앞**의 산문이다. 묶음의 꼴은 다음 키가 정한다.
+#   form:        bullets | ordered | table (선택, 절 청크만, 기본 bullets, items 가 있을 때만) — ordered 는 항목마다 `1.` 을 낸다
+#   columns:     [열 머리, …] (form: table 일 때만, 그때 필수) — 비지 않은 서로 다른 문자열
+#   link_column: 열 머리 (선택, columns 가 있을 때만) — columns 의 마지막 원소여야 한다. 그 열의 칸은 생성기가 항목의
+#                `slug#k + slug2` 에서 결정 링크로 낸다. 없으면 생성기가 표 바로 앞에 `원본: …` 한 줄을 낸다
+#   continues:   true | false (선택, 절 청크만, 기본 false) — true 면 heading·depth·numbered 가 없는 **이어짐 절 청크**다.
+#                본문은 앞 묶음 뒤의 산문이고 자기 묶음을 가질 수 있다. 깊이는 앞 절을 잇고 번호를 소비하지 않는다.
+#                문서의 첫 절에는 둘 수 없다(순서를 아는 생성기가 판정한다). 그래프에는 agt:sectionContinues true 로 낸다
+# 표 절의 `규약:` 줄은 `a | b | c` 꼴이다(바깥 파이프 없음, 링크 열 제외). 칸 수·강도는 생성기가 판정한다.
+# 줄의 실재·고아·이중 소비는 문서 전체와 결정 전체를 아는 생성기가 판정한다 — 이 도구는 형식만 본다.
+NORM_TYPE = "norm"
+NORM_HEADING_KEY, NORM_DEPTH_KEY, NORM_ITEMS_KEY = "heading", "depth", "items"
+NORM_NUMBERING_KEY, NORM_STRENGTH_KEY, NORM_NUMBERED_KEY = "numbering", "strength", "numbered"
+NORM_FORM_KEY, NORM_COLUMNS_KEY, NORM_LINK_COLUMN_KEY, NORM_CONTINUES_KEY = "form", "columns", "link_column", "continues"
+NORM_SECTION_KEYS = (NORM_HEADING_KEY, NORM_DEPTH_KEY, NORM_ITEMS_KEY, NORM_NUMBERED_KEY,  # 절 청크의 키 — 머리 청크는 갖지 않는다
+                     NORM_FORM_KEY, NORM_COLUMNS_KEY, NORM_LINK_COLUMN_KEY, NORM_CONTINUES_KEY)
+NORM_HEAD_KEYS = (NORM_NUMBERING_KEY, NORM_STRENGTH_KEY)                  # 머리 청크(복합체 선언)만의 키
+NORM_DEPTHS = ("2", "3")
+NORM_STRENGTHS = ("required", "optional")
+NORM_NUMBERED_VALUES = ("true", "false")  # frontmatter 값은 문자열로 읽힌다(parse_value) — 기본 true
+NORM_FORMS = ("bullets", "ordered", "table")  # 항목 묶음의 꼴 — 기본 bullets
+NORM_FORM_DEFAULT, NORM_FORM_TABLE = "bullets", "table"
+NORM_CONTINUES_VALUES = ("true", "false")  # 기본 false
+NORM_ITEM_MAIN, NORM_ITEM_SUB = "규약", "하위"  # 하위 항목을 가진 항목의 맵 키
+NORM_REF = re.compile(r"^([a-z0-9][a-z0-9-]*)#([1-9][0-9]*)$")  # `slug#k`
+NORM_SLUG = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+NORM_NUMBERING = re.compile(r"^(\D*?)([0-9]+)\.$")  # 접두(§ 등) + 첫 번호 + 마침표
+NORM_HEADING_NUMBERED = re.compile(r"^(§|[0-9]+\.)")  # 손 번호 — 번호는 생성기가 붙인다
+# 결정 복합체 → 절 청크의 규약 줄 투영 술어 (norm-section-ontology.ttl). 대상 IRI 는 `--convention-target slug=IRI` 로 받는다
+PROJECTS_CONVENTION_PREDICATE = "agt:projectsConvention"
+
+
+def parse_norm_ref(where: str, text) -> tuple[tuple[str, int], list[str]]:
+    """항목 문자열 `slug#k` 또는 `slug#k + slug2 + …` → ((slug, k), [링크만 하는 결정 slug…]). 형식 밖이면 ValueError."""
+    if not isinstance(text, str):
+        raise ValueError(f"{where}: items 의 항목 {text!r} 는 `slug#k` 꼴의 문자열이어야 한다 (p12-norm-documents-from-section-chunks)")
+    head, *extras = [t.strip() for t in text.split("+")]
+    m = NORM_REF.match(head)
+    if not m:
+        raise ValueError(f"{where}: items 의 항목 {text!r} 가 `slug#k` 로 시작하지 않는다 — slug 는 결정 디렉토리 이름, "
+                         f"k 는 그 결정의 conventions.md 안 `규약:` 줄의 1부터의 순번이다 (p4-convention-slot)")
+    bad = [e for e in extras if not NORM_SLUG.match(e)]
+    if bad:
+        raise ValueError(f"{where}: items 의 항목 {text!r} 의 `+` 뒤 {bad!r} 는 결정 slug 하나여야 한다 — 둘째 결정은 링크만이다")
+    return (m.group(1), int(m.group(2))), extras
+
+
+def parse_norm_items(where: str, items) -> list[dict]:
+    """절 청크의 `items` → [{ref: (slug, k), links: [slug…], sub: [{ref, links}…]}]. 형식 밖이면 ValueError.
+
+    판정의 단일 정의처다 — chunk2kg 의 방출(agt:projectsConvention)과 생성기(tools/gen_norms.py)가 같은 함수를 쓴다.
+    """
+    if not isinstance(items, list):
+        raise ValueError(f"{where}: {NORM_ITEMS_KEY} 는 순서 목록 [..] 이어야 한다 — 실제 {items!r}")
+    out = []
+    for it in items:
+        if isinstance(it, dict):
+            if set(it) != {NORM_ITEM_MAIN, NORM_ITEM_SUB}:
+                raise ValueError(f"{where}: 하위를 가진 항목은 {{{NORM_ITEM_MAIN}: slug#k, {NORM_ITEM_SUB}: [slug#k, …]}} 이다 — "
+                                 f"실제 키 {sorted(it)}")
+            ref, links = parse_norm_ref(where, it[NORM_ITEM_MAIN])
+            subs = it[NORM_ITEM_SUB]
+            if not isinstance(subs, list) or not subs:
+                raise ValueError(f"{where}: {NORM_ITEM_SUB} 는 비지 않은 목록 [slug#k, …] 이다 — 실제 {subs!r}")
+            out.append({"ref": ref, "links": links,
+                        "sub": [dict(zip(("ref", "links"), parse_norm_ref(where, x))) for x in subs]})
+        else:
+            ref, links = parse_norm_ref(where, it)
+            out.append({"ref": ref, "links": links, "sub": []})
+    return out
+
+
+def norm_item_slugs(parsed: list[dict], links: bool = True) -> list[str]:
+    """항목이 가리키는 결정 slug — 정렬, 중복 없음. `links` 가 거짓이면 줄을 싣는 결정만이다(링크만 하는 `+ slug2` 를 뺀다).
+
+    줄을 싣는 결정이 agt:projectsConvention 의 대상이다 — 링크만 하는 결정은 그 절에 문장을 싣지 않는다.
+    """
+    out = set()
+    for it in parsed:
+        for x in [it] + it["sub"]:
+            out.add(x["ref"][0])
+            if links:
+                out.update(x["links"])
+    return sorted(out)
+
+
+def check_norm_keys(path: str, meta: dict) -> None:
+    """절 키의 형식 — plane 제한과 값의 꼴. 머리 청크·절 청크의 구분(선언 여부)은 묶음 전체를 아는 main 이 본다."""
+    keys = [k for k in NORM_SECTION_KEYS + NORM_HEAD_KEYS if k in meta]
+    if meta["type"] != NORM_TYPE:
+        if keys:
+            raise ValueError(f"{path}: {', '.join(keys)} 는 type: {NORM_TYPE} 에서만 쓴다 — 실제 type {meta['type']!r} "
+                             f"(절 키, p12-norm-documents-from-section-chunks)")
+        return
+    if NORM_HEADING_KEY in meta:
+        h = meta[NORM_HEADING_KEY]
+        if not isinstance(h, str) or not h.strip():
+            raise ValueError(f"{path}: {NORM_HEADING_KEY} 는 비지 않은 절 제목 문자열이다")
+        if NORM_HEADING_NUMBERED.match(h.strip()):
+            raise ValueError(f"{path}: {NORM_HEADING_KEY} {h!r} 에 번호가 있다 — 절 번호는 생성기가 순서로 붙이고 소스에 두지 않는다")
+    if NORM_DEPTH_KEY in meta and meta[NORM_DEPTH_KEY] not in NORM_DEPTHS:
+        raise ValueError(f"{path}: {NORM_DEPTH_KEY} 는 {' 또는 '.join(NORM_DEPTHS)} 이다 — 실제 {meta[NORM_DEPTH_KEY]!r}")
+    if NORM_NUMBERED_KEY in meta:
+        if meta[NORM_NUMBERED_KEY] not in NORM_NUMBERED_VALUES:
+            raise ValueError(f"{path}: {NORM_NUMBERED_KEY} 는 {' | '.join(NORM_NUMBERED_VALUES)} 중 하나다(기본 true) — "
+                             f"실제 {meta[NORM_NUMBERED_KEY]!r}")
+        if meta.get(NORM_DEPTH_KEY) != "2":
+            raise ValueError(f"{path}: {NORM_NUMBERED_KEY} 는 depth 2 절에서만 쓴다 — 번호는 depth 2 절에만 붙는다 "
+                             f"(실제 depth {meta.get(NORM_DEPTH_KEY)!r})")
+    if NORM_ITEMS_KEY in meta:
+        meta["_norm_items"] = parse_norm_items(path, meta[NORM_ITEMS_KEY])
+    check_norm_bundle_form(path, meta)
+    if NORM_NUMBERING_KEY in meta and not NORM_NUMBERING.match(str(meta[NORM_NUMBERING_KEY])):
+        raise ValueError(f"{path}: {NORM_NUMBERING_KEY} 는 첫 절 번호의 꼴(`§0.` · `1.` · `0.`)이다 — 실제 {meta[NORM_NUMBERING_KEY]!r}")
+    if NORM_STRENGTH_KEY in meta and meta[NORM_STRENGTH_KEY] not in NORM_STRENGTHS:
+        raise ValueError(f"{path}: {NORM_STRENGTH_KEY} 는 {' | '.join(NORM_STRENGTHS)} 중 하나다 — 실제 {meta[NORM_STRENGTH_KEY]!r}")
+
+
+def check_norm_bundle_form(path: str, meta: dict) -> None:
+    """묶음의 꼴(form·columns·link_column)과 이어짐(continues)의 형식 — 한 청크 안에서 판정되는 것만 본다.
+
+    칸 수·표 줄의 강도·첫 절의 이어짐은 결정의 줄과 문서의 순서를 아는 생성기(tools/gen_norms.py)가 판정한다.
+    """
+    if NORM_CONTINUES_KEY in meta:
+        if meta[NORM_CONTINUES_KEY] not in NORM_CONTINUES_VALUES:
+            raise ValueError(f"{path}: {NORM_CONTINUES_KEY} 는 {' | '.join(NORM_CONTINUES_VALUES)} 중 하나다(기본 false) — "
+                             f"실제 {meta[NORM_CONTINUES_KEY]!r}")
+        if meta[NORM_CONTINUES_KEY] == "true":
+            have = [k for k in (NORM_HEADING_KEY, NORM_DEPTH_KEY, NORM_NUMBERED_KEY) if k in meta]
+            if have:
+                raise ValueError(f"{path}: 이어짐 절 청크({NORM_CONTINUES_KEY}: true)는 {', '.join(have)} 를 갖지 않는다 — "
+                                 f"제목이 없고 깊이는 앞 절을 잇는다")
+    form = meta.get(NORM_FORM_KEY, NORM_FORM_DEFAULT)
+    if form not in NORM_FORMS:
+        raise ValueError(f"{path}: {NORM_FORM_KEY} 는 {' | '.join(NORM_FORMS)} 중 하나다(기본 {NORM_FORM_DEFAULT}) — 실제 {form!r}")
+    if NORM_FORM_KEY in meta and NORM_ITEMS_KEY not in meta:
+        raise ValueError(f"{path}: {NORM_FORM_KEY} 는 {NORM_ITEMS_KEY} 가 있는 절에서만 쓴다 — 꼴은 항목 묶음의 꼴이다")
+    cols = meta.get(NORM_COLUMNS_KEY)
+    if form != NORM_FORM_TABLE:
+        bad = [k for k in (NORM_COLUMNS_KEY, NORM_LINK_COLUMN_KEY) if k in meta]
+        if bad:
+            raise ValueError(f"{path}: {', '.join(bad)} 는 {NORM_FORM_KEY}: {NORM_FORM_TABLE} 에서만 쓴다 — 실제 {NORM_FORM_KEY} {form!r}")
+        return
+    if not isinstance(cols, list) or not cols or not all(isinstance(c, str) and c.strip() for c in cols) \
+            or len(set(cols)) != len(cols) or any("|" in c for c in cols):
+        raise ValueError(f"{path}: {NORM_FORM_KEY}: {NORM_FORM_TABLE} 는 {NORM_COLUMNS_KEY}: [열 머리, …] 를 갖는다 — 비지 않고 서로 "
+                         f"다르며 `|` 가 없는 문자열의 목록이다. 실제 {cols!r}")
+    if NORM_LINK_COLUMN_KEY in meta:
+        if meta[NORM_LINK_COLUMN_KEY] != cols[-1]:
+            raise ValueError(f"{path}: {NORM_LINK_COLUMN_KEY} {meta[NORM_LINK_COLUMN_KEY]!r} 는 {NORM_COLUMNS_KEY} 의 마지막 원소 "
+                             f"{cols[-1]!r} 여야 한다 — 링크 열은 표의 끝 열이다")
+        if len(cols) < 2:
+            raise ValueError(f"{path}: {NORM_LINK_COLUMN_KEY} 를 둔 표는 링크 열 밖의 열을 하나 이상 갖는다 — 실제 {cols!r}")
+    for it in meta.get("_norm_items") or []:
+        if it["sub"]:
+            raise ValueError(f"{path}: 표 절({NORM_FORM_KEY}: {NORM_FORM_TABLE})의 항목은 하위를 갖지 않는다 — 행 하나가 줄 하나다")
+
+
+def norm_bundle_errors(declarer: dict, members: list[tuple[dict, str]]) -> list[str]:
+    """한 문서(복합체)의 절 청크 구분 — 머리 청크(선언)는 절 키가 없고 그 밖의 부분은 heading·depth 를 갖는다.
+
+    `declarer` 는 선언 청크의 메타(경로는 `_path`), `members` 는 (메타, 경로) 목록이다. 머리 청크만의 키(numbering·strength)가
+    절 청크에 있어도 거부한다 — 문서 하나에 값 하나다. 묶음 복합체(문서 복합체 아래의 중첩)는 머리 청크가 없다 — `declarer` 가
+    None 이면 부분 전부(선언한 첫 절 청크 포함)를 절 청크로 본다.
+    """
+    errors = []
+    dpath = (declarer or {}).get("_path", "")
+    for k in NORM_SECTION_KEYS if declarer is not None else ():
+        if k in declarer:
+            errors.append(f"{dpath}: 머리 청크(composite: 선언)는 {k} 를 갖지 않는다 — 본문이 문서 도입문·범례이고 절은 다른 청크다 "
+                          f"(p12-norm-documents-from-section-chunks)")
+    for meta, path in members:
+        if meta is declarer or meta.get("type") != NORM_TYPE:
+            continue
+        if meta.get(NORM_CONTINUES_KEY) == "true":  # 이어짐 절 청크 — 제목·깊이가 없다(check_norm_bundle_form)
+            continue
+        for k in (NORM_HEADING_KEY, NORM_DEPTH_KEY):
+            if k not in meta:
+                errors.append(f"{path}: 절 청크에 {k} 가 없다 — 머리 청크 밖의 절 청크는 heading·depth 를 갖는다"
+                              f"(이어짐 절 청크 {NORM_CONTINUES_KEY}: true 만 예외다)")
+        for k in NORM_HEAD_KEYS:
+            if k in meta:
+                errors.append(f"{path}: {k} 는 머리 청크(composite: 선언)만의 키다 — 문서 하나에 값 하나다")
+    return errors
+
+
 # LEVELS·STATES(값 어휘)는 위에서 defs/kb.bzl 에서 파생된다(load_plane_level_state) — 여기서 다시 선언하지 않는다.
 HANGUL = re.compile(r"[ㄱ-ㆎ가-힣]")  # 한글 음절·자모 — 라벨 언어 검사 (0.6절 표기 형식)
 REQUIRED = ("id", "type", "level", "title_ko", "title", "status", "generated")
@@ -508,7 +729,8 @@ def token_count(text: str, enc=None) -> int:
 #                 PROFILE_SUBSTANCE). 살아 있는 청크든 폐기된 청크든 같다 — 폐기된 요구 문장도 요구 문장이다
 #   라벨 언어:    title 에 한글([ㄱ-ㆎ가-힣])이 있거나 title_ko 에 한글이 없으면 거부 — 영문 라벨에 한글을 섞지 않는다(0.6절).
 #                 composite 의 title·title_ko 도 같은 @en/@ko 라벨이므로 같은 규칙으로 거부한다
-#   인용원:       본문(frontmatter 제외, **코드 펜스 밖**)에 소멸성 채널 경로 `docs/feedback/` 가 있으면 거부 — 규칙·근거는 영속 지식
+#   인용원:       본문(frontmatter 제외, **코드 펜스 밖**)에 소멸성 채널 경로(`harness/channel/` · `harness/user/` · 옛 `docs/feedback/`)가
+#                 있으면 거부 — 근거는 질문 번호(`Q12-a`)로 적는다. 규칙·근거는 영속 지식
 #                 (노트·결정)에 둔다 (agrtls-practices-review P). status: deprecated 청크는 제외
 
 def parse_chunk(path: str) -> tuple[dict, str]:
@@ -569,6 +791,8 @@ def parse_chunk(path: str) -> tuple[dict, str]:
     if (meta.get(USES_KEY) or []) and meta["type"] != "artifact":  # agt:usesDefinition 의 정의역은 agt:ArtifactChunk 다
         raise ValueError(f"{path}: {USES_KEY} 는 type: artifact 에서만 쓴다 — 실제 type {meta['type']!r} "
                          f"(agt:usesDefinition 의 정의역·치역은 agt:ArtifactChunk 이고 값의 원본은 추출기다)")
+    if meta["type"] != SPACE_TYPE:  # 절 키 — 형식과 plane 제한 (p12-norm-documents-from-section-chunks)
+        check_norm_keys(path, meta)
     if meta["type"] == "annotation":  # 주석 — 첫 줄과 슬롯을 읽는다 (p7-commentary-form). 형식 판정은 shape 가 한다
         meta["_comment"] = comment_form(body)
         in_body = meta["_comment"].get("targets")
@@ -586,8 +810,8 @@ def parse_chunk(path: str) -> tuple[dict, str]:
             if m:
                 fence = m.group(1)
                 continue
-            if EPHEMERAL_PATH in raw:
-                raise ValueError(f"{path}:{i}: 소멸성 채널 경로를 인용원으로 쓰지 않는다 — 규칙·근거는 영속 지식(노트·결정)에 둔다 "
+            if any(e in raw for e in EPHEMERAL_PATHS):
+                raise ValueError(f"{path}:{i}: 소멸성 채널 경로를 인용원으로 쓰지 않는다 — 규칙·근거는 영속 지식(노트·결정)에 두고 질문 번호(Q12-a)로 가리킨다 "
                                  f"(agrtls-practices-review P): {raw.strip()[:80]}")
     if HANGUL.search(meta["title"]):
         raise ValueError(f"{path}: title {meta['title']!r} 에 한글이 있다 — 영문 라벨에 한글을 섞지 않는다(0.6절)")
@@ -647,15 +871,40 @@ def parse_map(text: str) -> dict:
     return out
 
 
+def split_top_level(text: str) -> list:
+    """콤마로 나누되 `[...]`·`{...}` 안의 콤마는 세지 않는다 — 목록의 원소가 맵이거나 맵이 목록 값을 가질 때(절 키 `items`)."""
+    parts, depth, cur = [], 0, []
+    for ch in text:
+        if ch in "[{":
+            depth += 1
+        elif ch in "]}":
+            depth -= 1
+        if ch == "," and depth <= 0:
+            parts.append("".join(cur))
+            cur = []
+        else:
+            cur.append(ch)
+    parts.append("".join(cur))
+    return parts
+
+
 def parse_value(val: str):
-    """key: value 의 값 — 인라인 맵, 목록(스칼라 또는 맵), 스칼라."""
+    """key: value 의 값 — 인라인 맵, 목록(스칼라·맵·둘의 섞임), 스칼라.
+
+    목록의 원소는 `{` 로 시작하면 맵, 아니면 스칼라다. 스칼라만의 목록과 맵만의 목록은 옛 판독과 같은 값을 낸다 —
+    섞인 목록은 절 키 `items`(`[a#1, {규약: b#2, 하위: [c#1]}]`)가 처음 쓴다.
+    """
     if val.startswith("{") and val.endswith("}"):
         return parse_map(val)
     if val.startswith("[") and val.endswith("]"):
         inner = val[1:-1].strip()
-        if inner.startswith("{"):
-            return [parse_map(m) for m in re.findall(r"\{[^{}]*\}", inner)]
-        return [v.strip().strip("'\"") for v in inner.split(",") if v.strip()]
+        out = []
+        for v in split_top_level(inner):
+            v = v.strip()
+            if not v:
+                continue
+            out.append(parse_map(v) if v.startswith("{") and v.endswith("}") else v.strip("'\""))
+        return out
     return val.strip("'\"")
 
 
@@ -665,9 +914,14 @@ def esc(s: str) -> str:
     return s.replace("\\", "\\\\").replace('"', '\\"')
 
 
-def emit_chunk(path: str, meta: dict, tokens: int) -> str:
+def emit_chunk(path: str, meta: dict, tokens: int, conventions: dict | None = None) -> str:
+    """청크 하나의 head 블록. `conventions` 는 결정 slug → 결정 복합체 IRI — 절 청크의 `items` 를 agt:projectsConvention 으로 낸다.
+
+    사상에 없는 slug 는 호출자(main)가 먼저 거부한다 — 여기 오면 전부 풀린다.
+    """
+    substance = PROFILE_SUBSTANCE.get(meta["type"])  # norm 은 실체 클래스가 없다 — plane 클래스 하나로 타이핑한다
     stmts = [
-        f"a {PLANE_CLASS[meta['type']]} , {PROFILE_SUBSTANCE[meta['type']]}",
+        f"a {PLANE_CLASS[meta['type']]}" + (f" , {substance}" if substance else ""),
         f'rdfs:label "{esc(meta["title"])}"@en',
         f'rdfs:label "{esc(meta["title_ko"])}"@ko',
         f"agt:hasLevel agt:{meta['level']}",
@@ -678,6 +932,14 @@ def emit_chunk(path: str, meta: dict, tokens: int) -> str:
     ]
     if "pattern" in meta:
         stmts.append(f"agt:pattern {EARS_PATTERNS[meta['pattern']]}")
+    if NORM_HEADING_KEY in meta:  # 절 제목·깊이 — 절 청크의 shape(norm-section-shapes.ttl)가 짝과 값을 본다
+        stmts.append(f'agt:sectionHeading "{esc(meta[NORM_HEADING_KEY])}"')
+    if NORM_DEPTH_KEY in meta:
+        stmts.append(f"agt:sectionDepth {int(meta[NORM_DEPTH_KEY])}")
+    if meta.get(NORM_CONTINUES_KEY) == "true":  # 이어짐 절 청크 — 제목·깊이 없이 규약 줄을 싣는 자리를 shape 가 머리 청크와 가른다
+        stmts.append("agt:sectionContinues true")
+    for slug in norm_item_slugs(meta.get("_norm_items") or [], links=False):  # 절이 싣는 줄의 결정
+        stmts.append(f"{PROJECTS_CONVENTION_PREDICATE} <{(conventions or {})[slug]}>")
     stmts += [
         f"agt:tokenCount {tokens}",  # 본문의 크기 — 단위는 토큰이고 계수기는 o200k_base 다 (p1-chunk-unit-is-tokens)
         *(f'agt:bodySlot "{esc(s)}"' for s in meta.get("_body_slots", [])),  # 본문 형태 — 틀의 필수 슬롯은 *-body-shapes.ttl 이 본다
@@ -987,6 +1249,83 @@ def merge(out: str, fragments: list) -> int:
     return 0
 
 
+def attach_parts(composites: dict, part_refs: list) -> list:
+    """청크의 `part_of` 와 선언된 복합체의 `composite.part_of` 를 복합체의 members 에 붙인다 — 위반 메시지 목록을 돌려준다.
+
+    대상이 이 묶음(실행의 입력 집합) 안에 선언되지 않았거나 자기 자신이거나 사슬이 순환하면 위반이다 (4.5절 비순환,
+    p4-composite-as-part-of).
+    """
+    errors = []
+    for chunk_iri, comp_iri, path in part_refs:
+        if comp_iri not in composites:
+            errors.append(f"{path}: part_of 대상 복합체 {comp_iri} 가 이 묶음 안에 선언되지 않았다 — 묶음은 이 실행의 입력 집합이고 "
+                          f"액션 하나가 부분 청크 전부와 선언 청크를 함께 받아야 한다 (defs/kb.bzl 의 kb_composite·kb_decision)")
+        else:
+            composites[comp_iri]["members"].append((chunk_iri, path))
+    for comp_iri, c in sorted(composites.items()):  # 복합체가 복합체의 부분이 되는 자리 (p4-composite-as-part-of)
+        parent = c.get("parent")
+        if not parent:
+            continue
+        if parent not in composites:
+            errors.append(f"{c['path']}: composite.{PART_OF_KEY} 대상 복합체 {parent} 가 이 묶음 안에 선언되지 않았다 — 중첩 복합체는 "
+                          f"한 액션이 뿌리부터 잎까지 함께 받아야 한다 (defs/kb.bzl 의 kb_composite)")
+        elif parent == comp_iri:
+            errors.append(f"{c['path']}: composite.{PART_OF_KEY} 가 자기 자신 {parent} 이다 — 부분-전체는 비순환이다 (4.5절)")
+        else:
+            composites[parent]["members"].append((comp_iri, c["path"]))
+    for comp_iri in sorted(composites):  # 사슬 순환 — 반대칭 공리의 생성 시점 대응 (4.5절 비순환)
+        seen_chain, cur = {comp_iri}, composites[comp_iri].get("parent")
+        while cur in composites:
+            if cur in seen_chain:
+                errors.append(f"{composites[comp_iri]['path']}: composite.{PART_OF_KEY} 사슬이 순환한다 — {comp_iri} 에서 시작해 {cur} 로 돌아온다 (4.5절 비순환)")
+                break
+            seen_chain.add(cur)
+            cur = composites[cur].get("parent")
+    return errors
+
+
+def parse_convention_targets(where: str, pairs: list, errors: list) -> dict:
+    """`--convention-target slug=IRI` 들 → {slug: IRI}. 꼴 밖의 인자는 `errors` 에 더한다 (p12-norm-documents-from-section-chunks)."""
+    out = {}
+    for pair in pairs:
+        slug, sep, iri = pair.partition("=")
+        if not sep or not NORM_SLUG.match(slug) or not iri:
+            errors.append(f"{where}: --convention-target {pair!r} 는 `slug=IRI` 꼴이다")
+        else:
+            out[slug] = iri
+    return out
+
+
+def emit_parsed(parsed: list, conventions: dict, enc, errors: list) -> list:
+    """읽은 청크 (경로, 메타, 본문) → head 블록. 절 청크가 줄을 싣는 결정의 IRI 를 모르면 방출하지 않고 `errors` 에 더한다."""
+    blocks = []
+    for path, meta, body in parsed:
+        missing = [sl for sl in norm_item_slugs(meta.get("_norm_items") or [], links=False) if sl not in conventions]
+        if missing:
+            errors.append(f"{path}: items 가 가리키는 결정 {missing} 의 복합체 IRI 를 모른다 — 생성 BUILD 의 kb_composite.conventions "
+                          f"(--convention-target slug=IRI)가 넘기지 않았다. 결정 디렉토리 이름을 확인하고 tools/gen_build.py 를 다시 돌린다")
+            continue
+        blocks.append((meta["id"], emit_chunk(path, meta, token_count(body, enc), conventions)))
+        blocks.extend(emit_links(meta))
+    return blocks
+
+
+def norm_composite_errors(composites: dict, parsed: list) -> list:
+    """규범 문서의 복합체마다 머리 청크(선언)와 절 청크의 구분 — norm_bundle_errors 를 묶음에 돌린다.
+
+    문서 복합체(뿌리)의 선언 청크는 머리 청크다. 묶음 복합체(`composite.part_of` 가 문서 복합체 또는 다른 묶음)는 직접 부분
+    9 이하(4.5절)를 지키려고 절을 나눈 것이고 제목을 내지 않으므로, 그 선언 청크는 묶음의 첫 절 청크이며 절 키를 갖는다.
+    """
+    by_iri = {meta["id"]: meta for _, meta, _ in parsed}
+    errors = []
+    for _iri, c in sorted(composites.items()):
+        decl = next((m for _, m, _ in parsed if m.get("_path") == c["path"]), None)
+        if decl is not None and decl.get("type") == NORM_TYPE:
+            members = [(by_iri[m], p) for m, p in c["members"] if m in by_iri]
+            errors += norm_bundle_errors(None if c.get("parent") else decl, members)
+    return errors
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--out", required=True)
@@ -997,6 +1336,10 @@ def main() -> int:
                          "목록형(nargs)이 아닌 이유는 청크 파일이 위치 인자라 목록이 그것을 삼키기 때문이다. 생성 BUILD 의 명시 "
                          "인자(kb_decision·kb_composite 의 ordered)가 넘긴다. 복합체 하나를 선언하는 실행에만 준다. "
                          "frontmatter composite.ordered 와 함께 있으면 같아야 한다")
+    ap.add_argument("--convention-target", action="append", default=[], metavar="SLUG=IRI",
+                    help="결정 디렉토리 이름 → 결정 복합체 IRI — 절 청크(type: norm)의 items 가 가리키는 결정마다 한 번. "
+                         "생성 BUILD 의 kb_composite.conventions 가 넘긴다(gen_build 가 결정 디렉토리에서 푼다). 입력에 결정의 "
+                         "결론 청크가 있으면 그 디렉토리 이름도 스스로 푼다 (p12-norm-documents-from-section-chunks)")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — --merge 가 아니면 필수다"
                                                       "(kb_chunk·kb_decision 의 head 액션이 --residency defs/kb.bzl 로 넘긴다)")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다. "
@@ -1031,6 +1374,8 @@ def main() -> int:
     restored_errors = []    # 게이트 id `restored` — FAIL [restored] (복원 표시가 링크 대상에 없다)
     spec_errors = []        # 게이트 id `specialization` — FAIL [specialization] (자기 참조·사슬 순환)
     spec: dict = {}         # 조각 IRI → 원본 IRI — 링크 IRI 의 뿌리 계산 (단일 실행에서는 여기서, --merge 에서는 블록에서 읽는다)
+    conventions = parse_convention_targets(args.out, args.convention_target, errors)  # 결정 slug → 결정 복합체 IRI
+    parsed: list = []       # (경로, 메타, 본문) — 절 청크의 결정 slug 를 풀려면 입력 전부를 먼저 읽어야 한다
     for path in sorted(args.files):
         try:
             meta, body = parse_chunk(path)
@@ -1066,33 +1411,12 @@ def main() -> int:
                                           "parent": comp.get(PART_OF_KEY)}  # 상위 복합체 — 없으면 None (뿌리)
         if meta.get("part_of"):
             part_refs.append((meta["id"], meta["part_of"], path))
-        blocks.append((meta["id"], emit_chunk(path, meta, token_count(body, enc))))
-        blocks.extend(emit_links(meta))
-    for chunk_iri, comp_iri, path in part_refs:
-        if comp_iri not in composites:
-            errors.append(f"{path}: part_of 대상 복합체 {comp_iri} 가 이 묶음 안에 선언되지 않았다 — 묶음은 이 실행의 입력 집합이고 "
-                          f"액션 하나가 부분 청크 전부와 선언 청크를 함께 받아야 한다 (defs/kb.bzl 의 kb_composite·kb_decision)")
-        else:
-            composites[comp_iri]["members"].append((chunk_iri, path))
-    for comp_iri, c in sorted(composites.items()):  # 복합체가 복합체의 부분이 되는 자리 (p4-composite-as-part-of)
-        parent = c.get("parent")
-        if not parent:
-            continue
-        if parent not in composites:
-            errors.append(f"{c['path']}: composite.{PART_OF_KEY} 대상 복합체 {parent} 가 이 묶음 안에 선언되지 않았다 — 중첩 복합체는 "
-                          f"한 액션이 뿌리부터 잎까지 함께 받아야 한다 (defs/kb.bzl 의 kb_composite)")
-        elif parent == comp_iri:
-            errors.append(f"{c['path']}: composite.{PART_OF_KEY} 가 자기 자신 {parent} 이다 — 부분-전체는 비순환이다 (4.5절)")
-        else:
-            composites[parent]["members"].append((comp_iri, c["path"]))
-    for comp_iri in sorted(composites):  # 사슬 순환 — 반대칭 공리의 생성 시점 대응 (4.5절 비순환)
-        seen_chain, cur = {comp_iri}, composites[comp_iri].get("parent")
-        while cur in composites:
-            if cur in seen_chain:
-                errors.append(f"{composites[comp_iri]['path']}: composite.{PART_OF_KEY} 사슬이 순환한다 — {comp_iri} 에서 시작해 {cur} 로 돌아온다 (4.5절 비순환)")
-                break
-            seen_chain.add(cur)
-            cur = composites[cur].get("parent")
+        if meta["type"] == "decision" and Path(path).name == "conclusion.md" and isinstance(comp, dict) and comp.get("id"):
+            conventions.setdefault(Path(path).parent.name, comp["id"])  # 입력 안의 결정 — 디렉토리 이름이 slug 다
+        meta["_path"] = path
+        parsed.append((path, meta, body))
+    blocks += emit_parsed(parsed, conventions, enc, errors)  # 방출은 slug 사상이 다 모인 뒤다
+    errors += attach_parts(composites, part_refs)  # 청크·복합체 부분을 복합체에 붙이고 사슬을 본다
     if args.ordered:  # 생성 BUILD 의 명시 인자 — 중첩 묶음에서는 부분 집합이 같은 복합체 하나를 고른다
         errors += order_errors(args.out, args.ordered, "--ordered")
         target = [c for c in composites.values() if c["order"] is not None and c["order"] == args.ordered]
@@ -1104,6 +1428,7 @@ def main() -> int:
                           f"(defs/kb.bzl 의 kb_decision·kb_composite 가 묶음마다 뿌리 복합체의 순서를 한 번 넘긴다)")
         else:
             target[0]["order"] = args.ordered
+    errors += norm_composite_errors(composites, parsed)  # 규범 문서 — 머리 청크와 절 청크의 구분
     comp_blocks = []
     for iri, c in sorted(composites.items()):
         if not c["members"]:

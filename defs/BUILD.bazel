@@ -1,3 +1,12 @@
+load(":kb.bzl", "check_extracted_starlark")
+
 # Starlark 매크로 패키지 — 타깃 없음. defs/knowledge.bzl 을 load 해서 쓴다.
 # 문서가 이 파일들을 경로로 가리키므로 doccheck 의 runfiles 근거로 노출한다.
 exports_files(["kb.bzl", "knowledge.bzl"])
+
+# 등록부 사이드카 — defs/<이름>.bzl 의 코드 청크 정체성(한정 이름 → uuid, p10-function-identity-registry).
+# //:extract_drift_<이름>_bzl 이 runfiles 로 읽는다. 사이드카의 실재와 EXTRACTED_STARLARK 가 같은 집합인지는 로드 시점에
+# 강제한다(유저 답 Q32-a) — glob 은 패키지를 못 넘으므로 이 자리(defs 패키지)에서 돈다.
+exports_files(glob(["*.chunks.yml"]))
+
+check_extracted_starlark(glob(["*.chunks.yml"]))

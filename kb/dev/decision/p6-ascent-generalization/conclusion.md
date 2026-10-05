@@ -10,6 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901, https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0006]
+overlapsWith: [https://agentic-knowledge-base.dev/id/chunk-d0017]
+restored: [https://agentic-knowledge-base.dev/id/chunk-d0017]
 part_of: https://agentic-knowledge-base.dev/id/composite/7602294f-6051-4712-b9d6-f4ed896a8316
 composite: {id: https://agentic-knowledge-base.dev/id/composite/7602294f-6051-4712-b9d6-f4ed896a8316, title_ko: 일반화 — 관측의 일반화, title: Ascent - generalizing observations}
 ---

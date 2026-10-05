@@ -4,10 +4,11 @@ type: decision
 level: abstract
 title_ko: 위험 지표의 값 어휘는 S0~S3 · E1~E4 · D1~D3이고 등급을 곱하지 않는다
 title: The risk grade vocabulary is S0–S3, E1–E4 and D1–D3, and the grades are never multiplied
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-finite-factor-types, https://agentic-knowledge-base.dev/id/asm-missing-vocabulary-is-signal, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-opus-5, at: 2026-10-01T01:35:32+09:00}
+generated: {by: vnv/claude-opus-5, at: 2026-10-04T20:18:20+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-04T20:18:23+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/1467d7fe-f090-46b6-974d-e8d33bbcfd78, https://agentic-knowledge-base.dev/id/chunk/9e1150bc-5668-4f5d-aa95-684f45b7bf4a, https://agentic-knowledge-base.dev/id/chunk/d5257525-c3ef-4680-a611-ed964eff79c0]
 ---
 **결론** — 위험 지표의 값 어휘를 순서 척도 셋으로 정한다. 심각도는 S0~S3, 노출은 E1~E4, 탐지가능성은 D1~D3이다. 등급은 현상의 정렬에만 쓰고 곱하지 않는다. 합격 기준은 케이스가 정한다.
@@ -32,7 +33,7 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/1467d7fe-f090-46b6-974d-e8
 - D2: 생성 보고서가 수치로 내되 진행을 막지 않는다.
 - D3: 관측 수단이 `미확정`이라 사람이 알아차릴 때만 드러난다.
 
-기각한 안은 셋을 1~5로 매겨 곱한 종합 지표다. 순서 척도의 곱이 순위를 왜곡한다는 비판이 공개돼 있고, 곱셈값을 합격 기준에 넣으면 케이스가 정할 자리를 지표가 빼앗는다.
+**대안** — 셋을 1~5로 매겨 곱한 종합 지표(위험 우선순위 수). 기각 — 순서 척도의 곱은 순위를 왜곡한다는 비판이 공개돼 있고, 곱셈값을 합격 기준에 넣으면 케이스가 정할 자리를 지표가 빼앗는다.
 
 세 척도의 값은 `kb/ontology/shapes/risk-grade-shapes.ttl`의 `sh:in`으로 닫는다. 그 편집은 developer의 몫이다.
 

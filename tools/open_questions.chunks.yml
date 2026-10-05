@@ -7,8 +7,8 @@ source: tools/open_questions.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-open-questions
 package: kb/dev/artifact/open_questions
 layer: process
-at: 2026-09-22T11:38:01Z
-source_hash: 0e9c61defc381351
+at: 2026-09-30T08:07:48Z
+source_hash: b4c87cace377bb4f
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/d93492e4-f343-4736-b4a5-d04f48a3a75f
   - https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97
@@ -24,6 +24,7 @@ ids:
   fn:cell: https://agentic-knowledge-base.dev/id/chunk/524a116b-45f4-4802-ba70-3d9426371ad6
   fn:main: https://agentic-knowledge-base.dev/id/chunk/9be2f024-78e1-424a-926b-c50d75da9888
   fn:question_of: https://agentic-knowledge-base.dev/id/chunk/1d3aee1d-549c-4ef9-be65-508014ca8f93
+  fn:space_rows: https://agentic-knowledge-base.dev/id/chunk/1f886c5e-4c41-43ff-9555-867c1f4f13d4
   head: https://agentic-knowledge-base.dev/id/chunk/611551cc-ec21-4187-a12d-6a843751700f
   module: https://agentic-knowledge-base.dev/id/chunk/f0c14e8d-c15c-4c5f-863a-3efb1b2f381a
   sec:cell: https://agentic-knowledge-base.dev/id/chunk/43b7143b-3078-49ce-bbe6-d8f4b777749d

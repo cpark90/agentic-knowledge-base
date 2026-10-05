@@ -9,9 +9,8 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/ab66f02d-6126-4507-b73a-c29429769f11, https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2, https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c]
 part_of: https://agentic-knowledge-base.dev/id/composite/992d5e5a-5efc-4108-a5c8-1e75dd96807a
-composite: {id: https://agentic-knowledge-base.dev/id/composite/992d5e5a-5efc-4108-a5c8-1e75dd96807a, title_ko: 절 복합체 body-slots (tools/chunk2kg.py), title: section composite body-slots in tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/1fbf627e-a9f9-445e-aab2-a4206bdf72ee, https://agentic-knowledge-base.dev/id/chunk/848f96db-27ef-4fda-84af-e59077e7dc0c, https://agentic-knowledge-base.dev/id/chunk/b7ffd04b-bbcb-41aa-a69d-0b651364d2db, https://agentic-knowledge-base.dev/id/chunk/a3fa56bc-c50d-4d10-98ed-d101ae5102ce, https://agentic-knowledge-base.dev/id/chunk/41b351ab-939c-41ad-ab8f-bf2396bb0114], part_of: https://agentic-knowledge-base.dev/id/composite/f7d6eec7-bef4-4e94-ac55-36e7dda654ce}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/992d5e5a-5efc-4108-a5c8-1e75dd96807a, title_ko: 절 복합체 body-slots (tools/chunk2kg.py), title: section composite body-slots in tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/1fbf627e-a9f9-445e-aab2-a4206bdf72ee, https://agentic-knowledge-base.dev/id/chunk/848f96db-27ef-4fda-84af-e59077e7dc0c, https://agentic-knowledge-base.dev/id/chunk/b7ffd04b-bbcb-41aa-a69d-0b651364d2db, https://agentic-knowledge-base.dev/id/chunk/a3fa56bc-c50d-4d10-98ed-d101ae5102ce, https://agentic-knowledge-base.dev/id/chunk/41b351ab-939c-41ad-ab8f-bf2396bb0114], part_of: https://agentic-knowledge-base.dev/id/composite/28e52252-d603-4c96-b7ee-f85197b0d7da}
 ---
 **절** — `tools/chunk2kg.py` 의 절 `body-slots` 다. 본문 슬롯과 논평 형식
 

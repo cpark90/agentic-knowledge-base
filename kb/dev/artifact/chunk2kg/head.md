@@ -7,9 +7,8 @@ title: module head exit-fail in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/ab66f02d-6126-4507-b73a-c29429769f11, https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2, https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c]
 part_of: https://agentic-knowledge-base.dev/id/composite/b1903be2-0bdb-4f11-9c2b-cc59cc7e9a24
 composite: {id: https://agentic-knowledge-base.dev/id/composite/b1903be2-0bdb-4f11-9c2b-cc59cc7e9a24, title_ko: 모듈 머리 복합체 exit-fail (tools/chunk2kg.py), title: section composite exit-fail in tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/8752721c-db99-4c2f-be3b-382f6ec0169f, https://agentic-knowledge-base.dev/id/chunk/9081dacd-219d-4944-b3c6-d5d9a6955f49, https://agentic-knowledge-base.dev/id/chunk/e1d9652e-f3b3-470b-bf7f-f8fa31f8be68, https://agentic-knowledge-base.dev/id/chunk/abf3ca16-b991-4326-8c10-b4581d03a6d2], part_of: https://agentic-knowledge-base.dev/id/composite/f7d6eec7-bef4-4e94-ac55-36e7dda654ce}
 ---
@@ -23,7 +22,7 @@ EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)      # 판정 실패
 EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음·읽을 수 없는 입력
 
 TAG = "chunk2kg"
-EPHEMERAL_PATH = "docs/feedback/"  # 소멸성 채널 — 인용원이 될 수 없다 (agrtls-practices-review P)
+EPHEMERAL_PATHS = ("harness/channel/", "harness/user/", "docs/feedback/")  # 소멸성 채널(에이전트 채널·유저 채널·옛 채널) — 인용원이 될 수 없다 (agrtls-practices-review P)
 SPECIALIZATION_KEY = "specializationOf"  # frontmatter 키 — 분할 조각 → 원 청크 (p10-split-keeps-work-identity)
 SPECIALIZATION_GATE = getattr(kb_lib, "SPECIALIZATION_GATE", "specialization")  # 게이트 id — FAIL [specialization] (정의처 kb_lib)
 LINK_STATE_CANDIDATE = getattr(kb_lib, "LINK_STATE_CANDIDATE", "candidate")  # 후보 — extract_refs 가 낸다 (정의처 kb_lib)
@@ -42,6 +41,7 @@ PLANE_CLASS = {
     "artifact": "agt:ArtifactChunk",
     "annotation": "agt:AnnotationChunk",
     "memory": "agt:MemoryChunk",
+    "norm": "agt:DocumentSectionChunk",  # 규범 문서의 절 — 클래스 지역명이 plane 이름에서 오지 않는 유일한 plane (유저 답 Q21-a)
 }
 # plane 이름 → agt:...Chunk 클래스의 사상(mapping)이다. defs/kb.bzl 은 Starlark 라 클래스 이름을 모르므로 이 표는
 # defs/kb.bzl 에 없고 여기가 정의처다(M1 단일 정의처, 2026-09-26 — 아래 PLANES 파생과 같은 결정). 대신 이 표의 키
@@ -70,6 +70,7 @@ PROFILE_SUBSTANCE = {
     "annotation": "agt:ReviewComment",
     "memory": "agt:SessionObservation",
 }
+# `norm` 은 실체 클래스가 없다 — plane 클래스 agt:DocumentSectionChunk 하나로 타이핑한다 (유저 답 Q21-a, emit_chunk)
 # EARS 패턴 (Mavin RE'09) — 요구 frontmatter `pattern:` 의 값 어휘 → 개체 (ears-pattern-ontology.ttl). type: requirement 에서만 허용
 EARS_PATTERNS = {
     "ubiquitous": "agt:ubiquitous",
@@ -107,6 +108,7 @@ LAYER_PREDICATE = getattr(kb_lib, "LAYER_PREDICATE", "agt:inLayer")
 # 실물이 있는 일곱 틀의 표지만 둔다. 표지를 늘리면 shape 의 틀도 같은 커밋에서 늘린다
 BODY_SLOT_MARKERS = ("요구", "이해관계자", "관심사", "출처",                    # 개발 요구 (kb/dev/requirement)
                      "결론", "근거", "대안",                                   # 결정 세 청크 (kb/dev/decision · chunks/decision)
+                     "규약",                                                  # 결정의 선택 넷째 청크 conventions.md (p4-convention-slot)
                      "검증 목표", "무엇을 관측하면 성립하는가",                  # 검증 목표 (kb/vv/goal)
                      "합격 기준", "판정식", "확인 절차", "등급",                 # 합격 기준 (kb/vv/criteria)
                      "케이스", "자극", "기대", "실행 명령", "표본 근거",         # 케이스 (kb/vv/case)

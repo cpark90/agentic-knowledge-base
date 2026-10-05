@@ -7,7 +7,8 @@ title: Without a service definition there is no unification criterion, and layer
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-10-01T15:00:00+09:00}
+generated: {by: orchestrator/claude-fable-5-1, at: 2026-10-03T18:13:57+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T19:53:33+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/c4b958be-e5e4-43b6-b23f-989f628cb07f
 ---
@@ -18,3 +19,5 @@ part_of: https://agentic-knowledge-base.dev/id/composite/c4b958be-e5e4-43b6-b23f
 규범 문서를 투영으로 두는 까닭은 `p12-documents-are-generated`다. 손 문서 15 가운데 수치를 저장한 자리가 열에 하나 낡아 있었다(현상 P18 실측). 원본이 청크이고 문서가 생성되면 그 어긋남이 없다. 노트를 동결하는 까닭은 기획 원본의 정정이 의도 대 노트의 어긋남이 확인된 자리에서만 일어나야 하기 때문이다 — 42줄/토큰이 그 첫 사례다.
 
 편입이 제거보다 앞서는 까닭은 유저 지시다. 산발은 잘못 만들어진 것이 아니라 층의 형식을 얻지 못한 것이다.
+
+뷰·skill을 투영으로 두는 근거는 유저 답 Q9-a(2026-10-03)다. 뷰 13 가운데 열둘은 생성기 함수가 이미 `layer: process` 코드 청크이고(orchestrator 실측 2026-10-03), skill은 도구 docstring 청크와 `kb_lib` 절 청크에서 생성된다. 내용이 원본 청크에서 결정론적으로 나오므로 층을 원본만 가져야 같은 것을 두 번 세지 않는다. 빌드 배선을 항목에서 빼는 근거는 유저 답 Q10-a(2026-10-03)다. 손 BUILD와 `defs/*.bzl`의 배선은 무엇을 어떤 입력으로 돌리는지의 정의이고, 그 의미는 게이트 개체와 도구 청크가 이미 담는다.

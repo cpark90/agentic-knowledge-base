@@ -7,8 +7,8 @@ source: tools/revalidate.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate
 package: kb/dev/artifact/revalidate
 layer: process
-at: 2026-09-30T15:04:08Z
-source_hash: 396ef623c199bbd4
+at: 2026-10-02T00:08:55Z
+source_hash: b7abc43323b4dd3f
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/651e2c44-9a19-4a3e-b04a-ed1226aeef23
   - https://agentic-knowledge-base.dev/id/chunk/57fc48aa-6091-4ee7-9763-13ddab8ac8b1
@@ -22,9 +22,11 @@ ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/2dc6ded5-173e-4aca-aa85-40594bf3ca6e
   composite:sec:owner-labels: https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f
   composite:sec:run: https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68
+  composite:sec:snapshot-files: https://agentic-knowledge-base.dev/id/composite/f6f22e05-67fd-4351-a17e-d9abe0817b50
   file: https://agentic-knowledge-base.dev/id/composite/974f7eff-3756-4a18-af98-04c75441cd70
   fn:base_diff: https://agentic-knowledge-base.dev/id/chunk/5e22443d-209f-4479-a064-9c08165f38f4
   fn:bazel_rdeps: https://agentic-knowledge-base.dev/id/chunk/98b89c74-895c-4fc5-94d8-8db422c2b0f4
+  fn:index_files: https://agentic-knowledge-base.dev/id/chunk/16f66a60-7480-4e95-a2d5-253ed492fa39
   fn:index_worktree: https://agentic-knowledge-base.dev/id/chunk/1f76c401-7790-442a-8a89-cbeb275631a6
   fn:link_objects: https://agentic-knowledge-base.dev/id/chunk/4d7ba4f8-3559-4026-8352-97c8b9835a2b
   fn:links_of: https://agentic-knowledge-base.dev/id/chunk/e7c83ee2-f6d7-442d-98f1-d053996cdfd4
@@ -35,7 +37,11 @@ ids:
   fn:report_rows: https://agentic-knowledge-base.dev/id/chunk/520a6151-01ee-4804-9141-0829d19e2768
   fn:revalidation_rows: https://agentic-knowledge-base.dev/id/chunk/74004d79-dc3f-461f-85e1-3e42bfe1a332
   fn:run: https://agentic-knowledge-base.dev/id/chunk/0deeb79a-02b2-44fa-9441-ad82b1ed51af
+  fn:snapshot_diff: https://agentic-knowledge-base.dev/id/chunk/66bcf711-ad13-41b9-bbcb-519f83fd163f
+  fn:snapshot_files: https://agentic-knowledge-base.dev/id/chunk/70a7f6f9-c766-45c6-96fe-9992867d3d83
+  fn:snapshot_mode: https://agentic-knowledge-base.dev/id/chunk/c97d3b27-6804-4dd0-9ac1-4ab2908eaeeb
   head: https://agentic-knowledge-base.dev/id/chunk/8013f604-8091-4bcf-aa5e-9a4a96aa15f1
   module: https://agentic-knowledge-base.dev/id/chunk/6bb7181c-bb07-4fff-a7da-c5f6c82427f1
   sec:owner-labels: https://agentic-knowledge-base.dev/id/chunk/0c3ac9aa-e882-45d4-9d58-797941bc502a
   sec:run: https://agentic-knowledge-base.dev/id/chunk/0013f21d-7725-49b0-a8b7-0fc2e72ba697
+  sec:snapshot-files: https://agentic-knowledge-base.dev/id/chunk/56f6892d-b1e8-420b-a668-da0619dd9f64

@@ -7,12 +7,14 @@ source: tools/validate.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-validate
 package: kb/dev/artifact/validate
 layer: process
-at: 2026-09-30T15:04:08Z
-source_hash: d5256745a0074a47
+at: 2026-10-02T00:08:55Z
+source_hash: 738ed3775b9020f9
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc
   - https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328
   - https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5
+  - https://agentic-knowledge-base.dev/id/chunk/cdf76c66-5003-405d-8fc1-4fbcafb8c586
+  - https://agentic-knowledge-base.dev/id/chunk/14782c7c-bf50-47a8-ab11-62715aeeb63e
 serves: []
 tested:
   rev: 3adc275b36a8593705e04b41f34461aadc8c0225
@@ -47,6 +49,8 @@ ids:
   fn:_writes_in: https://agentic-knowledge-base.dev/id/chunk/2c101d4c-b9a7-473c-8c02-5f4de0bbec74
   fn:check_boundary: https://agentic-knowledge-base.dev/id/chunk/e9b943fe-3fee-4433-8018-038f1deb41c6
   fn:check_catalog: https://agentic-knowledge-base.dev/id/chunk/9126a0ff-4c8a-4088-969f-2b596ee08bdd
+  fn:check_code_part_link: https://agentic-knowledge-base.dev/id/chunk/9865784d-08b9-47b0-826d-a088f38dd912
+  fn:check_cross_kb_link: https://agentic-knowledge-base.dev/id/chunk/74027bd0-148f-4997-9b67-43e438793d0b
   fn:check_dangling: https://agentic-knowledge-base.dev/id/chunk/05336a2f-bef3-4bc3-9b6d-976a1e9adb9d
   fn:check_deprecated_concepts: https://agentic-knowledge-base.dev/id/chunk/f5d521a5-98ba-4f17-ada0-7ddbb7162850
   fn:check_element_drop: https://agentic-knowledge-base.dev/id/chunk/6bf4337c-24c7-4689-8354-d179c822e031
@@ -54,6 +58,7 @@ ids:
   fn:check_labels: https://agentic-knowledge-base.dev/id/chunk/a45854d1-6d8a-4a1a-890e-a55aa166d992
   fn:check_odd_refs: https://agentic-knowledge-base.dev/id/chunk/a0953baf-5b58-4667-ba87-2c4653097756
   fn:check_residency: https://agentic-knowledge-base.dev/id/chunk/7848189e-1a29-4f71-9bab-09f2623ff65f
+  fn:check_rung_before_descent: https://agentic-knowledge-base.dev/id/chunk/40832ce8-b21d-4635-9f79-0212625c61fe
   fn:check_shacl: https://agentic-knowledge-base.dev/id/chunk/07104b21-b283-4e54-a921-6b9a61fb6e45
   fn:check_space: https://agentic-knowledge-base.dev/id/chunk/0eba15f1-9ab6-4d48-bb9a-8809fc98a603
   fn:check_specialization: https://agentic-knowledge-base.dev/id/chunk/d26c3802-192f-4414-81da-25abd63211fc

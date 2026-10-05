@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:vv_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "case",
     srcs = glob(
         ["*.md"],
         allow_empty = True,
@@ -15,9 +15,9 @@ filegroup(
 )
 
 kb_chunk(
-    name = "acyclic-relation-axioms",
-    src = "acyclic-relation-axioms.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/66c029ba-ccd2-433b-bcab-5727b26fff9f",
+    name = "acyclic-relation-axioms-composite-equivalence-1",
+    src = "acyclic-relation-axioms-composite-equivalence-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d8b9e328-92ba-5536-a7fc-c4224e8fd0e7",
     plane = "schema",
     level = "concrete",
     status = "draft",
@@ -30,27 +30,39 @@ kb_chunk(
 )
 
 kb_chunk(
-    name = "acyclic-relation-axioms-composite",
-    src = "acyclic-relation-axioms-composite.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/dcefca6d-9de7-40d2-b9c3-25de51743e47",
+    name = "acyclic-relation-axioms-equivalence-1",
+    src = "acyclic-relation-axioms-equivalence-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/39eef88f-75b6-50ec-9f75-d6e35d9ae77a",
     plane = "schema",
     level = "concrete",
     status = "draft",
+    refines = [
+        "//kb/vv/criteria:acyclic-relation-axioms",
+    ],
+    verifies = [
+        "//kb/dev/decision:p2-definition-names-its-gate",
+    ],
 )
 
 kb_chunk(
-    name = "acyclic-relation-axioms-supersedes",
-    src = "acyclic-relation-axioms-supersedes.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/d99829a4-8ffe-49b9-bbe4-c34bccf7d6de",
+    name = "acyclic-relation-axioms-supersedes-equivalence-1",
+    src = "acyclic-relation-axioms-supersedes-equivalence-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/83d26c54-e5e4-5e55-8a8b-46c04d1f1546",
     plane = "schema",
     level = "concrete",
     status = "draft",
+    refines = [
+        "//kb/vv/criteria:acyclic-relation-axioms",
+    ],
+    verifies = [
+        "//kb/dev/decision:p2-definition-names-its-gate",
+    ],
 )
 
 kb_chunk(
-    name = "agent-catalog-complete",
-    src = "agent-catalog-complete.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/d7fd4d10-bf68-4374-8e15-66cd2221c822",
+    name = "agent-catalog-complete-factor-1",
+    src = "agent-catalog-complete-factor-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/43ffdd9b-8ece-52bf-b63c-412b124ff69c",
     plane = "schema",
     level = "concrete",
     status = "draft",
@@ -64,69 +76,9 @@ kb_chunk(
 )
 
 kb_chunk(
-    name = "audit-self-sufficiency",
-    src = "audit-self-sufficiency.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/bc8535cb-d771-4f05-a9f8-06150b35de3c",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:audit-self-sufficiency",
-    ],
-    verifies = [
-        "//kb/dev/decision:p12-audit-and-onboarding-self-sufficiency",
-    ],
-)
-
-kb_chunk(
-    name = "backward-trace-to-requirement",
-    src = "backward-trace-to-requirement.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/f203f238-79a8-4f9d-8e7e-f7bc128bd6f6",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:backward-trace-to-requirement",
-    ],
-    verifies = [
-        "//kb/dev/decision:p8-coverage-metrics",
-    ],
-)
-
-kb_chunk(
-    name = "chunk-42-lines",
-    src = "chunk-42-lines.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/a45a0511-d839-4219-9c67-b417be2d8f51",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:chunk-42-lines",
-    ],
-    verifies = [
-        "//kb/dev/decision:p4-chunk-as-ontology-class",
-    ],
-)
-
-kb_chunk(
-    name = "chunk-bound-to-project-odd",
-    src = "chunk-bound-to-project-odd.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/53201155-89e4-4584-aa99-f959b1f21ddf",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:chunk-bound-to-project-odd",
-    ],
-    verifies = [
-        "//kb/dev/decision:p12-cross-project-reuse",
-    ],
-)
-
-kb_chunk(
-    name = "composite-order-shape",
-    src = "composite-order-shape.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/34d4c769-f5ee-4412-ba43-94d915cea156",
+    name = "composite-order-shape-equivalence-1",
+    src = "composite-order-shape-equivalence-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ac713f19-e6d1-57c6-8be7-67acfab19db6",
     plane = "schema",
     level = "concrete",
     status = "draft",
@@ -139,66 +91,57 @@ kb_chunk(
 )
 
 kb_chunk(
-    name = "composite-order-shape-subset",
-    src = "composite-order-shape-subset.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/4d76d4b0-24d7-42e8-9928-c6c4cd092831",
+    name = "composite-order-shape-subset-equivalence-1",
+    src = "composite-order-shape-subset-equivalence-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/56922cd2-8ad3-5608-8ca0-fb31a38a2af7",
     plane = "schema",
     level = "concrete",
     status = "draft",
-)
-
-kb_chunk(
-    name = "criteria-before-verifies",
-    src = "criteria-before-verifies.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/5d821776-dc19-4202-b184-5efb11d99fcc",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
     refines = [
-        "//kb/vv/criteria:criteria-before-verifies",
+        "//kb/vv/criteria:composite-order-shape",
     ],
     verifies = [
-        "//kb/dev/decision:p8-pass-criteria",
+        "//kb/dev/decision:p4-all-knowledge-is-composite",
     ],
 )
 
 kb_chunk(
-    name = "decision-names-requirement",
-    src = "decision-names-requirement.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/4d943c83-e888-4840-a503-9163282182fd",
+    name = "decision-conclusion-mutation-equivalence-1",
+    src = "decision-conclusion-mutation-equivalence-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/21c8bb87-da8e-5df6-8bca-0c230e6d1d86",
     plane = "schema",
     level = "concrete",
-    status = "stable",
+    status = "draft",
     refines = [
-        "//kb/vv/criteria:decision-names-requirement",
+        "//kb/vv/criteria:decision-and-artifact-agree",
     ],
     verifies = [
-        "//kb/dev/decision:p10-link-types",
+        "//kb/dev/decision:p10-link-decay-states",
     ],
 )
 
 kb_chunk(
-    name = "decision-three-chunks",
-    src = "decision-three-chunks.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/0885d278-bf9d-44cc-9484-adc96e64f47f",
+    name = "decision-conclusion-mutation-equivalence-2",
+    src = "decision-conclusion-mutation-equivalence-2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d14eff56-2983-5271-a6fa-6328bd0a91a9",
     plane = "schema",
     level = "concrete",
-    status = "stable",
+    status = "draft",
     refines = [
-        "//kb/vv/criteria:decision-three-chunks",
+        "//kb/vv/criteria:decision-and-artifact-agree",
     ],
     verifies = [
-        "//kb/dev/decision:p7-alternatives-mandatory",
+        "//kb/dev/decision:p10-link-decay-states",
     ],
 )
 
 kb_chunk(
-    name = "dispatch-workset-budget",
-    src = "dispatch-workset-budget.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/8eb561b7-3127-4b38-bf4c-da672e972b3f",
+    name = "dispatch-workset-budget-factor-1",
+    src = "dispatch-workset-budget-factor-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5c6686a2-7697-55cc-85a9-631af3888d4c",
     plane = "schema",
     level = "concrete",
-    status = "stable",
+    status = "draft",
     refines = [
         "//kb/vv/criteria:dispatch-workset-budget",
     ],
@@ -208,9 +151,9 @@ kb_chunk(
 )
 
 kb_chunk(
-    name = "document-table-matches-generated",
-    src = "document-table-matches-generated.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/6c117bee-b3bb-4abf-ad4a-b11e29899439",
+    name = "document-table-number-mismatch-factor-1",
+    src = "document-table-number-mismatch-factor-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/421a713f-81f5-5b25-af24-05fe281246a8",
     plane = "schema",
     level = "concrete",
     status = "draft",
@@ -223,24 +166,9 @@ kb_chunk(
 )
 
 kb_chunk(
-    name = "documents-generated",
-    src = "documents-generated.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/cd63600d-fc05-4577-a84b-62203ac0ed74",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:documents-generated",
-    ],
-    verifies = [
-        "//kb/dev/decision:p12-documents-are-generated",
-    ],
-)
-
-kb_chunk(
-    name = "element-drop",
-    src = "element-drop.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/5526e00b-4e15-4bca-895d-283fbe9c687b",
+    name = "element-drop-factor-1",
+    src = "element-drop-factor-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/01f8fc6f-7be6-5cd7-a78a-519ba63aaa4c",
     plane = "schema",
     level = "concrete",
     status = "draft",
@@ -253,12 +181,12 @@ kb_chunk(
 )
 
 kb_chunk(
-    name = "foreign-vocabulary-rejected",
-    src = "foreign-vocabulary-rejected.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/ee329895-169a-4bf2-bd1a-94dcc44345e3",
+    name = "foreign-vocabulary-rejected-factor-1",
+    src = "foreign-vocabulary-rejected-factor-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/90e003d5-92eb-5220-b85d-cdb05fc96ece",
     plane = "schema",
     level = "concrete",
-    status = "stable",
+    status = "draft",
     refines = [
         "//kb/vv/criteria:foreign-vocabulary-rejected",
     ],
@@ -268,235 +196,39 @@ kb_chunk(
 )
 
 kb_chunk(
-    name = "gate-judges-edits",
-    src = "gate-judges-edits.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/e82398f4-7be6-404a-9a64-b8c359a9180f",
+    name = "round-record-stop-rule-equivalence-1",
+    src = "round-record-stop-rule-equivalence-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4b8db9e7-d121-515a-9dcd-6b6ca1394698",
     plane = "schema",
     level = "concrete",
-    status = "stable",
+    status = "draft",
     refines = [
-        "//kb/vv/criteria:gate-judges-edits",
+        "//kb/vv/criteria:verification-round-stop-rule",
     ],
     verifies = [
-        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-verification-round-stop-rule",
     ],
 )
 
 kb_chunk(
-    name = "generated-build-drift",
-    src = "generated-build-drift.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/8a85debf-8eaf-433a-bcae-ab485848cc53",
+    name = "round-record-stop-rule-equivalence-2",
+    src = "round-record-stop-rule-equivalence-2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/46ac80de-c7f6-5a67-a1f9-14e5b550dbff",
     plane = "schema",
     level = "concrete",
-    status = "stable",
+    status = "draft",
     refines = [
-        "//kb/vv/criteria:generated-build-drift",
+        "//kb/vv/criteria:verification-round-stop-rule",
     ],
     verifies = [
-        "//kb/dev/decision:pe-anchor-is-bazel-label",
+        "//kb/dev/decision:p8-verification-round-stop-rule",
     ],
 )
 
 kb_chunk(
-    name = "generated-document-form",
-    src = "generated-document-form.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/eccccc47-d3e9-4480-8b14-b2511afe1457",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:generated-document-form",
-    ],
-    verifies = [
-        "//kb/dev/decision:p12-generated-document-form",
-        "//kb/dev/decision:p12-generated-documents-are-gated",
-    ],
-)
-
-kb_chunk(
-    name = "generated-document-provenance",
-    src = "generated-document-provenance.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/b87e88e4-c049-4a5e-8958-227501e45696",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:generated-document-provenance",
-    ],
-    verifies = [
-        "//kb/dev/decision:p12-generated-document-header",
-    ],
-)
-
-kb_chunk(
-    name = "invalidation-without-survey",
-    src = "invalidation-without-survey.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/550ae0b3-f359-4dcc-bf5e-529bf303f2a4",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:invalidation-without-survey",
-    ],
-    verifies = [
-        "//kb/dev/decision:p6-assumption-invalidation",
-    ],
-)
-
-kb_chunk(
-    name = "items-declare-assumptions",
-    src = "items-declare-assumptions.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/cdda88c0-dd6f-4d38-8636-427ba3977c40",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:items-declare-assumptions",
-    ],
-    verifies = [
-        "//kb/dev/decision:p0-odd-scope-assumption",
-    ],
-)
-
-kb_chunk(
-    name = "labels-before-bodies",
-    src = "labels-before-bodies.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/486c23bf-6f0f-434d-9f68-98eac5f9e46e",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:labels-before-bodies",
-    ],
-    verifies = [
-        "//kb/dev/decision:p4-label-is-the-interface",
-    ],
-)
-
-kb_chunk(
-    name = "mutation-samples-rejected",
-    src = "mutation-samples-rejected.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/dd9f88e7-0282-4093-9ac5-70acd9a8e409",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:mutation-samples-rejected",
-    ],
-    verifies = [
-        "//kb/dev/decision:p8-three-directions-of-verification",
-    ],
-)
-
-kb_chunk(
-    name = "observations-append-only",
-    src = "observations-append-only.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/3532a3cf-37a4-4c3e-84d9-360b215786f3",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:observations-append-only",
-    ],
-    verifies = [
-        "//kb/dev/decision:p0-run-as-observation",
-    ],
-)
-
-kb_chunk(
-    name = "odd-single-document",
-    src = "odd-single-document.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/30813b23-b265-4756-83a8-cb0ce6bba117",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:odd-single-document",
-    ],
-    verifies = [
-        "//kb/dev/decision:p3-odd-is-a-document",
-    ],
-)
-
-kb_chunk(
-    name = "plane-one-way",
-    src = "plane-one-way.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/23f7dfe7-7344-434c-96b5-e9f9f6f73dd6",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:plane-one-way",
-    ],
-    verifies = [
-        "//kb/dev/decision:p5-plane-order-one-way-influence",
-    ],
-)
-
-kb_chunk(
-    name = "read-write-sets-recorded",
-    src = "read-write-sets-recorded.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/58392d1b-8d3c-4b49-9bb5-29108bd43bd1",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:read-write-sets-recorded",
-    ],
-    verifies = [
-        "//kb/dev/decision:p10-link-by-construction",
-    ],
-)
-
-kb_chunk(
-    name = "reproducible-runs",
-    src = "reproducible-runs.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/76dc6470-e7ee-47cd-bc8d-1440c870ebf6",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:reproducible-runs",
-    ],
-    verifies = [
-        "//kb/dev/decision:p8-reproducibility",
-    ],
-)
-
-kb_chunk(
-    name = "residency-matrix",
-    src = "residency-matrix.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/e0f0c405-96b7-48cc-8ad3-4a6effe070db",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:residency-matrix",
-    ],
-    verifies = [
-        "//kb/dev/decision:p6-plane-level-occupancy",
-    ],
-)
-
-kb_chunk(
-    name = "supersedes-same-plane",
-    src = "supersedes-same-plane.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/6c4f4fc7-bf82-4c93-9b78-58b6a8be2563",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:supersedes-same-plane",
-    ],
-    verifies = [
-        "//kb/dev/decision:p7-decision-supersession",
-    ],
-)
-
-kb_chunk(
-    name = "token-budget",
-    src = "token-budget.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/532a1351-697b-48d6-b36f-9c567c61bd68",
+    name = "token-budget-equivalence-1",
+    src = "token-budget-equivalence-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b8daf558-7bb8-5b5d-95ba-e6f5c305feb2",
     plane = "schema",
     level = "concrete",
     status = "draft",
@@ -505,58 +237,14 @@ kb_chunk(
     ],
     verifies = [
         "//kb/dev/decision:p1-chunk-unit-is-tokens",
+        "//kb/dev/decision:p4-chunk-as-ontology-class",
     ],
 )
 
 kb_chunk(
-    name = "verification-rung-same-level",
-    src = "verification-rung-same-level.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/7e69ba96-e363-4ed0-bea1-2ef9602cbeae",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:verification-rung-same-level",
-    ],
-    verifies = [
-        "//kb/dev/decision:p8-scenario-ladder-rungs",
-    ],
-)
-
-kb_chunk(
-    name = "verifies-subject-vv",
-    src = "verifies-subject-vv.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/3a93bc97-0661-4051-877b-55ffd4669809",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:verifies-subject-vv",
-    ],
-    verifies = [
-        "//kb/dev/decision:p6-executable-splits-by-kb",
-    ],
-)
-
-kb_chunk(
-    name = "versioned-inputs",
-    src = "versioned-inputs.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/c65e1488-73e9-4508-80f1-96775fa57f65",
-    plane = "schema",
-    level = "concrete",
-    status = "stable",
-    refines = [
-        "//kb/vv/criteria:versioned-inputs",
-    ],
-    verifies = [
-        "//kb/dev/decision:p11-inputs-as-versioned-vocabulary",
-    ],
-)
-
-kb_chunk(
-    name = "when-false-suspect",
-    src = "when-false-suspect.md",
-    iri = "https://agentic-knowledge-base.dev/id/chunk/fa3d84ac-38c1-4e08-8638-107fe30915e0",
+    name = "when-false-suspect-factor-1",
+    src = "when-false-suspect-factor-1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/47277b95-1097-5aba-8c95-fbb7d526e0cd",
     plane = "schema",
     level = "concrete",
     status = "draft",
@@ -572,43 +260,21 @@ kb_chunk(
 kb_bundle(
     name = "kg",
     items = [
-        ":acyclic-relation-axioms",
-        ":acyclic-relation-axioms-composite",
-        ":acyclic-relation-axioms-supersedes",
-        ":agent-catalog-complete",
-        ":audit-self-sufficiency",
-        ":backward-trace-to-requirement",
-        ":chunk-42-lines",
-        ":chunk-bound-to-project-odd",
-        ":composite-order-shape",
-        ":composite-order-shape-subset",
-        ":criteria-before-verifies",
-        ":decision-names-requirement",
-        ":decision-three-chunks",
-        ":dispatch-workset-budget",
-        ":document-table-matches-generated",
-        ":documents-generated",
-        ":element-drop",
-        ":foreign-vocabulary-rejected",
-        ":gate-judges-edits",
-        ":generated-build-drift",
-        ":generated-document-form",
-        ":generated-document-provenance",
-        ":invalidation-without-survey",
-        ":items-declare-assumptions",
-        ":labels-before-bodies",
-        ":mutation-samples-rejected",
-        ":observations-append-only",
-        ":odd-single-document",
-        ":plane-one-way",
-        ":read-write-sets-recorded",
-        ":reproducible-runs",
-        ":residency-matrix",
-        ":supersedes-same-plane",
-        ":token-budget",
-        ":verification-rung-same-level",
-        ":verifies-subject-vv",
-        ":versioned-inputs",
-        ":when-false-suspect",
+        ":acyclic-relation-axioms-composite-equivalence-1",
+        ":acyclic-relation-axioms-equivalence-1",
+        ":acyclic-relation-axioms-supersedes-equivalence-1",
+        ":agent-catalog-complete-factor-1",
+        ":composite-order-shape-equivalence-1",
+        ":composite-order-shape-subset-equivalence-1",
+        ":decision-conclusion-mutation-equivalence-1",
+        ":decision-conclusion-mutation-equivalence-2",
+        ":dispatch-workset-budget-factor-1",
+        ":document-table-number-mismatch-factor-1",
+        ":element-drop-factor-1",
+        ":foreign-vocabulary-rejected-factor-1",
+        ":round-record-stop-rule-equivalence-1",
+        ":round-record-stop-rule-equivalence-2",
+        ":token-budget-equivalence-1",
+        ":when-false-suspect-factor-1",
     ],
 )

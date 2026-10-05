@@ -4,8 +4,11 @@
 원본은 그래프(frontmatter 링크, owl:imports)이고 BUILD 는 커밋되는 뷰다. 링크 변화가 PR diff 에 보이도록
 커밋하며, //:build_drift_test 가 생성기를 다시 돌려 커밋본과 비교한다 — frontmatter 를 고치고 BUILD 를 안 돌린
 경우를 잡는다. 사용: gen_build.py [--check] [--root .] [--residency defs/kb.bzl]
+결정 디렉토리의 선택 넷째 청크 `conventions.md`(규약 청크, p4-convention-slot)는 있으면 결정 복합체의 넷째 부분이다.
+규범 문서의 절 청크(`kb/dev/norm/<문서 stem>/`, plane norm)는 문서마다 패키지 하나·`kb_composite` 하나가 되고, `items` 가
+가리키는 결정 디렉토리를 결정 복합체 IRI 로 풀어 `conventions` 인자로 넣는다(p12-norm-documents-from-section-chunks).
 출력·종료: 생성 시점 거부(세 청크 없는 결정 디렉토리·끊긴 링크·`_check_bundle` 의 패키지 밖 부분·중복 선언·이질·상한·
-`composite.ordered` 와 부분 집합의 불일치)는 `FAIL [gen-build] <경로>: …`, frontmatter 위반은
+`composite.ordered` 와 부분 집합의 불일치·절 청크가 가리키는 결정 디렉토리의 부재)는 `FAIL [gen-build] <경로>: …`, frontmatter 위반은
 chunk2kg 의 규칙이므로 `FAIL [chunk2kg] …`, --check 의 어긋남은 `FAIL [build-drift] <BUILD>: …` — 모두 EXIT_FAIL.
 읽을 수 없는 입력은 EXIT_CONFIG.
 """
@@ -16,8 +19,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from chunk2kg import (EXIT_CONFIG, EXIT_FAIL, ORDERED_KEY, PART_OF_KEY, SPACE_TYPE,  # noqa: E402 — 종료 코드는 chunk2kg 가 kb_lib 에서 가져온 것
-                      apply_plane_level_state, load_plane_level_state, parse_chunk)
+from chunk2kg import (EXIT_CONFIG, EXIT_FAIL, NORM_TYPE, ORDERED_KEY, PART_OF_KEY, SPACE_TYPE,  # noqa: E402 — 종료 코드는 chunk2kg 가 kb_lib 에서 가져온 것
+                      apply_plane_level_state, load_plane_level_state, norm_item_slugs, parse_chunk)
 
 
 # ── 청크 읽기와 항목 수집 ────────────────────
@@ -29,7 +32,7 @@ class GenBuildError(Exception):
 HEADER ="# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test\n"
 LINKS = ("refines", "serves", "supersedes", "verifies")
 ONTO_BASE = "https://agentic-knowledge-base.dev/ontology/"
-MEMORY_PKG = "kb/dev/memory"  # 관측 패키지 — 비어 있어도 BUILD 는 생성한다 (//kb/dev:bodies·//kg:chunks_kg 의 끝점)
+MEMORY_PKG = "kb/dev/memory"  # 관측 패키지 — 비어 있어도 BUILD 는 생성한다 (//kb/dev·//kg:chunks_kg 의 끝점)
 # 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나다. 패키지 이름은 소스의 stem 이고
 # 그 안의 청크 전부는 tools/extract.py 의 생성물이다(손으로 고치면 //:extract_drift_test 가 거부한다). 묶음은 중첩
 # 복합체이므로 뿌리(파일 복합체)를 선언한 `module.md` 가 타깃 이름이 된다. 경로 접두는 kb_lib.EXTRACT_ROOT 와 같다 —
@@ -48,6 +51,12 @@ SCENARIO_ROLE_SUFFIXES = ("stimulus", "factors", "excluded")
 # 결정 복합체의 읽기 순서 — 결론 없이 근거를 읽지 않고 대안은 결론을 전제한다. 이것을 생성기가 `ordered` 인자로 **선언**하고
 # chunk2kg 는 추측하지 않는다 (유저 승인 2026-09-29, p4-composite-order-is-declared). ADR 뷰(weave)의 조립 순서와 같다
 DECISION_READING_ORDER = ("conclusion", "rationale", "alternatives")
+# 결정의 선택 넷째 부분 — 규약 청크 (p4-convention-slot, 유저 답 Q22-b). 있으면 읽기 순서의 끝이다(결론·근거·대안 뒤).
+# 파일 이름의 정의처는 kb_lib.DECISION_PART_FILES 이고 이 도구는 rdflib 없이 돌아 VV_ROOT 와 같은 사유로 자체 상수를 갖는다
+DECISION_OPTIONAL_PART = "conventions"
+# 규범 문서의 절 청크 (p12-norm-documents-from-section-chunks) — 문서 하나 = 디렉토리 하나 = 패키지 하나 = 복합체 하나.
+# 비어 있어도 뿌리 BUILD 는 생성한다 (//kb/dev·//kg:chunks_kg 의 끝점 — ARTIFACT_ROOT 와 같다)
+NORM_ROOT = "kb/dev/norm"
 # 키는 plane 이름이 아니라 실체 이름이다 — verdict = 판정 주석 (p8-vv-plane-instances 의 annotation 실체). `verdict` 는
 # kb_lib.RUN_VERDICTS(pass·fail·skip)가 이미 쓰는 낱말이라 지어낸 용어가 아니다 (STYLEGUIDE §0 표준어 우선).
 # run = 실행 기록 (agt:Run, append-only) — vv_run --record 가 만든다 (kb_lib.VV_RUN_DIR)
@@ -89,6 +98,11 @@ def scan(root: Path):
         parts = {n: parse_item(str(d / f"{n}.md"))[0] for n in ("conclusion", "rationale", "alternatives") if (d / f"{n}.md").exists()}
         if set(parts) != {"conclusion", "rationale", "alternatives"}:
             raise GenBuildError(f"{d}: 결론·근거·대안 세 청크가 있어야 한다 (7.4절 대안 기록) — 있는 것: {sorted(parts)}")
+        opt = d / f"{DECISION_OPTIONAL_PART}.md"
+        if opt.exists():  # 규약 청크 — 세 청크 검사는 그대로이고 넷째는 선택이다 (p4-convention-slot)
+            parts[DECISION_OPTIONAL_PART] = parse_item(str(opt))[0]
+            if parts[DECISION_OPTIONAL_PART]["type"] != "decision":
+                raise GenBuildError(f"{opt}: 규약 청크는 type: decision 이다 — 실제 {parts[DECISION_OPTIONAL_PART]['type']!r} (p4-convention-slot)")
         comp = parts["conclusion"].get("composite") or {}
         lab = f"//kb/dev/decision:{d.name}"
         items[lab] = {"kind": "decision", "parts": parts, "dir": d.name, "pkg": "kb/dev/decision", "comp_iri": comp.get("id", "")}
@@ -115,6 +129,16 @@ def scan(root: Path):
             if meta["type"] != "artifact":
                 raise GenBuildError(f"{f}: {ARTIFACT_ROOT}/ 의 청크는 type: artifact 여야 한다 — 실제 {meta['type']!r} "
                                     f"(추출된 코드 청크, p7-code-extraction-direction)")
+            lab = f"//{pkg}:{f.stem}"
+            items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": pkg}
+            iri_to_label[meta["id"]] = lab
+    for d in norm_pkgs(root):  # 규범 문서의 절 청크 — 문서 하나 = 패키지 하나 (p12-norm-documents-from-section-chunks)
+        pkg = f"{NORM_ROOT}/{d}"
+        for f in sorted((root / pkg).glob("*.md")):
+            meta, _ = parse_item(str(f))
+            if meta["type"] != NORM_TYPE:
+                raise GenBuildError(f"{f}: {NORM_ROOT}/ 의 청크는 type: {NORM_TYPE} 이어야 한다 — 실제 {meta['type']!r} "
+                                    f"(절 청크, p12-norm-documents-from-section-chunks)")
             lab = f"//{pkg}:{f.stem}"
             items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": pkg}
             iri_to_label[meta["id"]] = lab
@@ -269,7 +293,7 @@ def links_of(meta, iri_to_label, where):
 
 # ── 타깃 렌더 ────────────────────
 
-def render_composite(lab, it, iri_to_label):
+def render_composite(lab, it, iri_to_label, decisions=None):
     """복합체 묶음 하나 → kb_composite 호출. 형식은 kb_decision 과 같다 — 부분의 링크를 타깃 하나로 올린다.
 
     `ordered` 는 선언 청크 frontmatter 의 `composite.ordered` 를 그대로 옮긴 뷰다 (p4-composite-order-is-declared).
@@ -279,8 +303,10 @@ def render_composite(lab, it, iri_to_label):
     for m in it["metas"]:
         for k, v in links_of(m, iri_to_label, lab).items():
             links.setdefault(k, []).extend(v)
+    conv = norm_conventions(lab, it, decisions or {}) if it["plane"] == NORM_TYPE else {}
     return ("kb_composite(\n" + f"    name = {q(lab.split(':')[1])},\n"
             + label_list("srcs", it["srcs"])
+            + (f"    conventions = {{\n" + "".join(f"        {q(k)}: {q(v)},\n" for k, v in sorted(conv.items())) + "    },\n" if conv else "")
             + f"    iri = {q(it['comp_iri'])},\n"
             + ("    ordered = [" + ", ".join(q(i) for i in it["ordered"]) + "],\n" if it["ordered"] else "")
             + "    part_iris = [" + ", ".join(q(i) for i in it["part_iris"]) + "],\n"
@@ -288,17 +314,70 @@ def render_composite(lab, it, iri_to_label):
             + "".join(label_list(k, sorted(set(v))) for k, v in sorted(links.items())) + ")\n")
 
 
+def pkg_group(pkg: str) -> str:
+    """패키지의 본문 filegroup 이름 — 디렉토리 이름과 같다 (STYLEGUIDE §6). 그래서 `//kb/dev` 처럼 타깃 이름 없이 가리킨다."""
+    return pkg.rsplit("/", 1)[-1]
+
+
+# ── 규범 문서의 절 청크 — 결정 slug 의 풀이와 패키지 ────────────────────
+
+def norm_conventions(lab, it, decisions) -> dict:
+    """절 청크 묶음의 `items` 가 줄을 싣는 결정 slug → 결정 복합체 IRI. 결정 디렉토리가 없으면 GenBuildError 다.
+
+    링크만 하는 결정(`slug#k + slug2` 의 둘째)은 agt:projectsConvention 의 대상이 아니라 여기 넣지 않는다 — 그 실재는
+    생성기 gen_norms 가 본다. `decisions` 는 결정 디렉토리 이름 → 결정 복합체 IRI 다.
+    """
+    out = {}
+    for m in it["metas"]:
+        for slug in norm_item_slugs(m.get("_norm_items") or [], links=False):
+            if slug not in decisions:
+                raise GenBuildError(f"{it['pkg']}/{Path(m.get('_path', lab)).name}: items 가 가리키는 결정 {slug!r} 가 "
+                                    f"kb/dev/decision/ 에 없다 — slug 는 결정 디렉토리 이름이다 (p12-norm-documents-from-section-chunks)")
+            out[slug] = decisions[slug]
+    return out
+
+
+def decision_iris(items) -> dict:
+    """결정 디렉토리 이름 → 결정 복합체 IRI — 절 청크의 `items` 가 slug 로 가리키는 대상이다."""
+    return {it["dir"]: it["comp_iri"] for it in items.values() if it["kind"] == "decision" and it.get("comp_iri")}
+
+
+def norm_pkgs(root: Path):
+    """규범 문서 패키지 — kb/dev/norm 아래의 디렉토리(문서 stem). 없으면 빈 목록이다."""
+    d = root / NORM_ROOT
+    return sorted(p.name for p in d.iterdir() if p.is_dir()) if d.is_dir() else []
+
+
+def render_norm_root(root: Path):
+    """//kb/dev/norm — 문서별 패키지의 본문 묶음·kg 를 모은다. //kb/dev·//kg:chunks_kg 의 단일 끝점이다 (render_artifact_root 와 같은 형).
+
+    문서 목록의 단일 정의처는 defs/kb.bzl 의 NORM_DOCS 이고 디렉토리 집합과의 일치는 생성기 gen_norms 가 본다 — 여기는 트리를 따른다.
+    """
+    pkgs = norm_pkgs(root)
+    srcs = ('    srcs = [\n' + "".join(f'        "//{NORM_ROOT}/{p}",\n' for p in pkgs) + '    ],\n') if pkgs else "    srcs = [],\n"
+    body = [HEADER, 'load("//defs:kb.bzl", "kb_bundle")', "",
+            "# 규범 문서의 절 청크 (p12-norm-documents-from-section-chunks) — 문서 하나 = 패키지 하나 = 복합체 하나. 문서는\n"
+            "# tools/gen_norms.py 가 이 청크와 결정의 conventions.md 에서 생성하고 //:norms_drift_test 가 바이트로 비교한다.",
+            'package(default_visibility = ["//visibility:public"])', "", 'exports_files(["BUILD.bazel"])', "",
+            f'filegroup(\n    name = {q(pkg_group(NORM_ROOT))},\n{srcs})\n',
+            "# 이 plane 의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다\nkb_bundle(\n    name = \"kg\",\n"
+            + (label_list("items", [f"//{NORM_ROOT}/{p}:kg" for p in pkgs]) or "    items = [],\n") + ")\n"]
+    return "\n".join(body)
+
+
+# ── 패키지 렌더 ────────────────────
+
 def render_chunks(pkg, items, iri_to_label, visibility, allow_empty=False):
     glob_ = 'glob(\n        ["*.md"],\n        allow_empty = True,\n    )' if allow_empty else 'glob(["*.md"])'
     rules = ["kb_bundle", "kb_chunk"] + (["kb_composite"] if any(it["pkg"] == pkg and it["kind"] == "composite" for it in items.values()) else [])
     body = [HEADER, 'load("//defs:kb.bzl", ' + ", ".join(q(r) for r in sorted(rules)) + ")", "",
             f"package(default_visibility = [{q(visibility)}])", "",
-            'exports_files(["BUILD.bazel"])', "", f'filegroup(\n    name = "bodies",\n    srcs = {glob_},\n)', ""]
+            'exports_files(["BUILD.bazel"])', "", f'filegroup(\n    name = {q(pkg_group(pkg))},\n    srcs = {glob_},\n)', ""]
     for lab, it in sorted(items.items()):
         if it["pkg"] != pkg:
             continue
         if it["kind"] == "composite":  # 복합체 = 타깃 하나, 부분 청크의 개별 타깃은 없다 (p4-all-knowledge-is-composite)
-            body.append(render_composite(lab, it, iri_to_label))
+            body.append(render_composite(lab, it, iri_to_label, decision_iris(items)))
             continue
         m = it["meta"]
         links = links_of(m, iri_to_label, lab)
@@ -312,8 +391,18 @@ def render_chunks(pkg, items, iri_to_label, visibility, allow_empty=False):
 
 
 def render_decisions(items, iri_to_label):
+    """//kb/dev/decision — 결정 디렉토리 하나 = kb_decision 하나. 본문 묶음은 세 부분 파일의 명시 목록이다.
+
+    결정은 `<디렉토리>/{conclusion,rationale,alternatives}.md` 의 두 계층이다. `glob` 은 패키지 안 한 계층만 대상으로 하므로
+    (STYLEGUIDE §6 [권장]) 깊은 glob 대신 생성기가 이미 열거한 디렉토리에서 파일 목록을 낸다 — 목록의 원본은 트리이고
+    이 파일은 뷰다. 세 부분 밖의 `.md` 는 묶음에 들지 않는다.
+    """
+    dirs = sorted(it["dir"] for it in items.values() if it["kind"] == "decision")
+    parts_of = {it["dir"]: it["parts"] for it in items.values() if it["kind"] == "decision"}
     body = [HEADER, 'load("//defs:kb.bzl", "kb_bundle", "kb_decision")', "", 'package(default_visibility = ["//kb:decision_readers"])', "",
-            'exports_files(["BUILD.bazel"])', "", 'filegroup(\n    name = "bodies",\n    srcs = glob(["**/*.md"]),\n)', ""]
+            'exports_files(["BUILD.bazel"])', "",
+            'filegroup(\n    name = "decision",\n' + label_list("srcs", [f"{d}/{n}.md" for d in dirs for n in DECISION_READING_ORDER + (DECISION_OPTIONAL_PART,)
+                                                                           if n in parts_of[d]]) + ")\n"]
     for lab, it in sorted(items.items()):
         if it["kind"] != "decision":
             continue
@@ -322,14 +411,15 @@ def render_decisions(items, iri_to_label):
         for m in p.values():
             for k, v in links_of(m, iri_to_label, lab).items():
                 links.setdefault(k, []).extend(v)
+        roles = [n for n in DECISION_READING_ORDER + (DECISION_OPTIONAL_PART,) if n in p]  # 규약 청크는 있으면 넷째다
         body.append("kb_decision(\n" + f"    name = {q(it['dir'])},\n"
-                    + "".join(f"    {n} = {q(it['dir'] + '/' + n + '.md')},\n" for n in ("conclusion", "rationale", "alternatives"))
+                    + "".join(f"    {n} = {q(it['dir'] + '/' + n + '.md')},\n" for n in roles)
                     + f"    iri = {q(it['comp_iri'])},\n"
                     # 순서는 선언이다 (유저 승인 2026-09-29: 결정도 예외 없음). 결정은 역할이 순서를 정하므로 생성기가 그 선언을
                     # 넣는다 — 205개 conclusion.md 의 frontmatter 를 손으로 고치는 것은 첨가이고, 순서의 원본은 추측이 아니라 이 인자다
-                    + "    ordered = [" + ", ".join(q(p[n]["id"]) for n in DECISION_READING_ORDER) + "],\n"
-                    + "    part_iris = [" + ", ".join(q(p[n]["id"]) for n in ("conclusion", "rationale", "alternatives")) + "],\n"
-                    + "    part_levels = [" + ", ".join(q(p[n]["level"]) for n in ("conclusion", "rationale", "alternatives")) + "],\n"
+                    + "    ordered = [" + ", ".join(q(p[n]["id"]) for n in roles) + "],\n"
+                    + "    part_iris = [" + ", ".join(q(p[n]["id"]) for n in roles) + "],\n"
+                    + "    part_levels = [" + ", ".join(q(p[n]["level"]) for n in roles) + "],\n"
                     + f"    status = {q(p['conclusion']['status'])},\n"
                     + "".join(label_list(k, sorted(set(v))) for k, v in sorted(links.items())) + ")\n")
     names = sorted(it["dir"] for it in items.values() if it["kind"] == "decision")
@@ -338,7 +428,7 @@ def render_decisions(items, iri_to_label):
 
 
 def render_vv_root(items):
-    """//kb/vv — 하위 plane 패키지의 bodies 를 모으고, 청크가 하나라도 있으면 lint_test 를 켠다 (빈 filegroup 은 $(rootpaths) 확장이 분석 에러다)."""
+    """//kb/vv — 하위 plane 패키지의 본문 묶음을 모으고, 청크가 하나라도 있으면 lint_test 를 켠다 (빈 filegroup 은 $(rootpaths) 확장이 분석 에러다)."""
     subs = sorted(VV_PKGS)
     nonempty = any(it["pkg"].startswith(VV_ROOT + "/") for it in items.values())
     body = [HEADER]
@@ -347,10 +437,10 @@ def render_vv_root(items):
     body += ["# V&V KB — 시나리오 기반 확인의 지식 (노트 7.1절). 개발 KB 와 같은 코어의 두 번째 인스턴스 (p8-vv-plane-instances): 디렉토리 = plane.\n"
              "# 편집은 vnv 만(kg/catalog-kg.ttl agt:writesIn \"kb/vv\"), 개발 역할은 읽기만. verifies 링크만 KB 를 가로지른다 (V&V → 개발, 같은 level).",
              'package(default_visibility = ["//visibility:public"])', "", 'exports_files(["BUILD.bazel"])', "",
-             'filegroup(\n    name = "bodies",\n    srcs = [\n' + "".join(f'        "//{VV_ROOT}/{s}:bodies",\n' for s in subs)
+             f'filegroup(\n    name = {q(pkg_group(VV_ROOT))},\n    srcs = [\n' + "".join(f'        "//{VV_ROOT}/{s}",\n' for s in subs)
              + '    ] + glob(\n        ["*.md"],\n        allow_empty = True,\n    ),\n)\n']
     if nonempty:
-        body.append('kb_chunk_lint_test(\n    name = "lint_test",\n    chunks = [":bodies"],\n    waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md)\n)\n')
+        body.append('kb_chunk_lint_test(\n    name = "lint_test",\n    chunks = [' + q(":" + pkg_group(VV_ROOT)) + '],\n    waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md)\n)\n')
     else:
         body.append("# lint_test 는 첫 청크가 들어오면 생성기가 켠다 — 빈 filegroup 은 $(rootpaths) 확장이 분석 에러다\n")
     return "\n".join(body)
@@ -363,7 +453,7 @@ def artifact_pkgs(root: Path):
 
 
 def render_artifact_root(root: Path):
-    """//kb/dev/artifact — 소스 파일별 패키지의 bodies·kg 를 모은다. //kb/dev:bodies·//kg:chunks_kg 의 단일 끝점이다.
+    """//kb/dev/artifact — 소스 파일별 패키지의 본문 묶음·kg 를 모은다. //kb/dev·//kg:chunks_kg 의 단일 끝점이다.
 
     파일을 하나 올릴 때마다 손으로 두 BUILD 를 고치지 않도록 여기가 집계처다 — 패키지 목록의 원본은 트리이고 이 파일은 뷰다.
     """
@@ -372,9 +462,9 @@ def render_artifact_root(root: Path):
             "# 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나. 원본은 tools/*.py 이고\n"
             "# 청크는 tools/extract.py 의 생성물이다. 손으로 고치면 //:extract_drift_test 가 거부한다.",
             'package(default_visibility = ["//visibility:public"])', "", 'exports_files(["BUILD.bazel"])', "",
-            'filegroup(\n    name = "bodies",\n    srcs = [\n'
-            + "".join(f'        "//{ARTIFACT_ROOT}/{p}:bodies",\n' for p in pkgs)
-            + '    ],\n)\n' if pkgs else 'filegroup(\n    name = "bodies",\n    srcs = [],\n)\n',
+            f'filegroup(\n    name = {q(pkg_group(ARTIFACT_ROOT))},\n    srcs = [\n'
+            + "".join(f'        "//{ARTIFACT_ROOT}/{p}",\n' for p in pkgs)
+            + '    ],\n)\n' if pkgs else f'filegroup(\n    name = {q(pkg_group(ARTIFACT_ROOT))},\n    srcs = [],\n)\n',
             "# 이 plane 의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다\nkb_bundle(\n    name = \"kg\",\n"
             + (label_list("items", [f"//{ARTIFACT_ROOT}/{p}:kg" for p in pkgs]) or "    items = [],\n") + ")\n"]
     return "\n".join(body)
@@ -428,6 +518,9 @@ def main() -> int:
         for d in sorted(p for p in (root / ARTIFACT_ROOT).iterdir() if p.is_dir()) if (root / ARTIFACT_ROOT).is_dir() else []:
             outputs[str(root / ARTIFACT_ROOT / d.name / "BUILD.bazel")] = render_chunks(
                 f"{ARTIFACT_ROOT}/{d.name}", items, iri_to_label, "//kb:artifact_readers")
+        outputs[str(root / NORM_ROOT / "BUILD.bazel")] = render_norm_root(root)
+        for d in norm_pkgs(root):  # 규범 문서마다 패키지 하나 — 결정의 투영이라 그래프·게이트만 본다 (//kb:norm_readers)
+            outputs[str(root / NORM_ROOT / d / "BUILD.bazel")] = render_chunks(f"{NORM_ROOT}/{d}", items, iri_to_label, "//kb:norm_readers")
         for sub in VV_PKGS:  # V&V plane 패키지 — 개발 청크는 볼 수 없다 (//kb:vv_readers, 8.5절 독립성)
             outputs[str(root / VV_ROOT / sub / "BUILD.bazel")] = render_chunks(f"{VV_ROOT}/{sub}", items, iri_to_label, "//kb:vv_readers", allow_empty=True)
         outputs.update(ontology(root))

@@ -2,7 +2,10 @@
 """V&V executor — 케이스의 실행 명령 중 허용 목록의 양성 명령을 실행하고 결과를 실행 기록으로 남긴다 (노트 8.20절 executor,
 r-026 관측은 append-only 실행 기록, p0-run-as-observation `agt:Run`, p8-vv-plane-instances memory = 실행 기록, p8-reproducibility).
 
-케이스(`kb/vv/case/*.md`)마다 본문의 `**실행 명령**` 줄(코드 스팬 하나가 명령이다)을 읽어 명령을 `;`·`&&` 로 나눈다. **허용 목록(`bazel test`·`bazel build`·`bazel query`·
+케이스(`kb/vv/case/*.md`)와 검증기(`kb/vv/verifier/*.md`)마다 본문의 `**실행 명령**` 줄(코드 스팬 하나가 명령이다)을 읽어 명령을 `;`·`&&` 로 나눈다.
+검증기는 케이스와 같은 줄 꼴·같은 허용 목록·같은 기대 대조·같은 판정 규칙으로 돈다 — 표본이 아닌 판정을 케이스에서 검증기로 옮긴 뒤에도(유저 답
+Q29-a) 그 명령이 실행 경로에 남는다. 실행 명령 줄이 없는 검증기(도구 자신을 서술하는 검증기)는 실행 대상이 아니고 보고에 따로 센다.
+실행 기록은 케이스 표와 검증기 표를 나눠 행의 종류를 헤더(`kb_lib.RUN_CASE_TABLE_HEADER`·`RUN_VERIFIER_TABLE_HEADER`)가 정한다. **허용 목록(`bazel test`·`bazel build`·`bazel query`·
 `python3 tools/gen_build.py --check`)으로 시작하는 읽기 전용 검증기만 실행한다**. 그 밖(그 밖의 `python3 …` · `bazel run …`)은 실행하지 않고
 SKIP 으로 적는다. **SKIP 은 PASS 가 아니다** (docs/tools.md 실패 종류 3).
 
@@ -14,7 +17,8 @@ SKIP 으로 적는다. **SKIP 은 PASS 가 아니다** (docs/tools.md 실패 종
 허용 목록 밖이다** — `bazel run` 은 runfiles 트리에서 돌아 워크스페이스 상대 경로 인자를 자극이 아닌 runfiles 의 없는 파일로 풀고, 그때 나오는
 입력 단계 오류가 기대한 거부와 같은 종료 코드·문구를 내 케이스를 거짓 pass 로 만든다.
 읽기 전용 검증기 목록에는 `assume_check`(가정 판정·전파, `--break <조건>` 은 호스트 상태를 읽고 ODD 판정을 가상으로
-바꾸는 실험 플래그일 뿐 저장소를 쓰지 않아 안전하다)를 포함한다. 그래도 검증기 자신이 파일을 쓰는 인자
+바꾸는 실험 플래그일 뿐 저장소를 쓰지 않아 안전하다)와 `revalidate`(재판정 대상 — **스냅숏 꼴**
+`--base-dir`·`--head-dir`(또는 `--base-files`·`--head-files`)만. 기본 꼴은 git·`bazel query` 를 불러 SKIP 이다, 유저 답 Q38-c)를 포함한다. 그래도 검증기 자신이 파일을 쓰는 인자
 (`--record`·`{{이름}}` 자극이 아닌 저장소 안 경로의 `--out`)를 가진 호출은 허용 목록 안이어도 실행하지 않고 SKIP 한다 —
 허용 목록은 명령의 진입점이 아니라 무엇을 할 수 있는가의 경계다(`unsafe()`).
 **점진 도입이다** — 펜스가 없거나 규약 키가 없는 케이스는 지금처럼 양성 명령만 돌고 판정도 그대로다.
@@ -43,8 +47,10 @@ SKIP 으로 적는다. **SKIP 은 PASS 가 아니다** (docs/tools.md 실패 종
 케이스가 `bazel test` 를 부르므로 `bazel run` 안에서는 중첩 실행이 된다 — odd_check 의 language_policy 와 같은 형태다. 문제가 나면
 `bazel run` 밖에서 python3 tools/vv_run.py 로 돌린다.
 
-사용: bazel run //tools:vv_run -- [--record] [--case <슬러그>…] [--out report.md] [--waivers docs/waivers.md]
-      python3 tools/vv_run.py [--record] [--case <슬러그>…] --vocab <어휘 파일>
+사용: bazel run //tools:vv_run -- [--record] [--case <슬러그>…] [--verifier <슬러그>…] [--out report.md] [--waivers docs/waivers.md]
+      bazel run //tools:vv_run -- --round stop-rule|budget|complete   (라운드 경계 기록만 — kb/vv/run/round-<UTC>.md, 유저 답 Q39-c)
+      python3 tools/vv_run.py [--record] [--case <슬러그>…] [--verifier <슬러그>…] --vocab <어휘 파일>
+      선택이 없으면 케이스와 검증기 전부다. `--case` 만 주면 그 케이스만, `--verifier` 만 주면 그 검증기만 돈다.
 종료: fail 있음 1 (EXIT_FAIL) · 전부 pass 0 (EXIT_OK) · pass 없이 skip 만 3 (EXIT_SKIP) · 입력·케이스 형식 문제 2 (EXIT_CONFIG)
 """
 from __future__ import annotations
@@ -73,6 +79,9 @@ from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chun
 ID = kb_lib.ID
 EXIT_OK, EXIT_FAIL, EXIT_CONFIG, EXIT_SKIP = kb_lib.EXIT_OK, kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG, kb_lib.EXIT_SKIP
 CASE_DIR = kb_lib.KB_VV + "/case"
+VERIFIER_DIR = kb_lib.KB_VV + "/verifier"
+# 실행 명령을 읽는 항목의 종류 → 자리. 두 종류는 같은 줄 꼴(`**실행 명령**`)·같은 허용 목록·같은 판정 규칙을 쓴다 (유저 답 Q29-a)
+KINDS = {"case": CASE_DIR, "verifier": VERIFIER_DIR}
 RUN_DIR = kb_lib.VV_RUN_DIR
 GENERATOR = kb_lib.RUN_GENERATOR
 ODD_IRI = str(ID["odd-agentic-knowledge-base"])  # 관측의 출처 — ODD 개체 (assume_check 와 같은 sources)
@@ -104,7 +113,10 @@ FILE_NAME = re.compile(r"[A-Za-z0-9._][A-Za-z0-9._-]*")  # 자극 이름은 단�
 # 허용 목록은 여전히 보안 경계다. `files` 가 임의 명령의 실행을 허가하지는 않는다 — 바뀌는 것은 자극을 기계가 읽는다는 사실뿐이다.
 # `python3 tools/<검증기>.py` 하나만 둔다. 실행은 워크스페이스 루트가 cwd 이므로(run_command) 케이스가 적는 상대 경로가 자극에 닿는다
 READ_ONLY_VERIFIERS = ("validate", "chunk_lint", "chunk2kg", "doccheck", "gendoc", "channel_lint", "odd2kg", "taxonomy", "space2kg",
-                       "assume_check")
+                       "assume_check", "revalidate")
+# 허용 목록의 검증기 중 **스냅숏 꼴만** 읽기 전용인 것 → 그 꼴의 표지 인자. `revalidate` 의 기본 꼴은 git 리비전 대 워킹트리이고
+# `bazel query` 를 불러 케이스의 자극에 닿지 않는다 — 디렉토리·파일 둘을 비교하는 꼴(유저 답 Q38-c)만 자극에 닿고 git·bazel 을 부르지 않는다
+SNAPSHOT_ONLY = {"revalidate": (("--base-dir", "--base-files"), ("--head-dir", "--head-files"))}
 VERIFIER_PREFIXES = tuple(f"python3 tools/{v}.py " for v in READ_ONLY_VERIFIERS)
 # 같은 검증기를 `bazel run //tools:<검증기>` 로 부르는 형태는 허용 목록 밖이고 케이스 형식 검사가 실행 전에 거부한다. 까닭은 셋이다.
 # `bazel run` 의 cwd 는 runfiles 트리라 워크스페이스 상대 경로가 자극이 아닌 없는 파일로 풀리고, 그 입력 단계 오류가 기대한 거부와 같은
@@ -133,6 +145,12 @@ def unsafe(cmd: str) -> str | None:
         return "`--out` 이 저장소 안 경로에 쓴다 — 케이스의 검증기는 읽기 전용이어야 한다. 인자를 빼거나 `{{이름}}` 자극으로 가리킨다"
     if UNSAFE.search(cmd):
         return "리다이렉션·파이프·백틱 — 검증기의 출력을 파일이나 다른 명령으로 보내지 않는다"
+    for name, sides in SNAPSHOT_ONLY.items():
+        args = cmd.split()
+        given = lambda f: any(x == f or x.startswith(f + "=") for x in args)  # noqa: E731 — `--base-dir d` 와 `--base-dir=d` 둘 다
+        if cmd.startswith(f"python3 tools/{name}.py ") and not all(any(given(f) for f in flags) for flags in sides):
+            return (f"`{name}` 의 기본 꼴은 git·`bazel query` 를 부른다 — 스냅숏 꼴(" +
+                    " · ".join("/".join(f"`{f}`" for f in flags) for flags in sides) + ")만 실행한다")
     for inner in SUBSTITUTION.findall(cmd):
         if not inner.strip().startswith(SUBSTITUTION_HEADS):
             return f"명령 치환 `$({inner.strip()[:40]})` — 치환 안은 목록 조회(`ls`·`find`·`git rev-parse`)뿐이다"
@@ -256,7 +274,16 @@ def load_cases(root: Path, only: list[str], waivers: list[dict]) -> tuple[list[d
     형식 오류(`FAIL [vv-case]`)를 가진 케이스는 오류를 달아 돌려준다 — 판정은 main 이 한다. waivers.md 가 게이트 id
     `vv-case` 로 면제를 선언한 케이스는 오류를 집계에서 빼되 목록에 남기고, 펜스를 읽지 않은 것으로 본다(점진 도입과 같은 자리).
     """
-    files = sorted((root / CASE_DIR).glob("*.md"))
+    return load_items(root, "case", only, waivers)
+
+
+def load_items(root: Path, kind: str, only: list[str], waivers: list[dict]) -> tuple[list[dict], list[str]]:
+    """`kind`(case · verifier) 자리의 청크 → 항목 목록과 실행 명령 줄이 없는 항목 목록. 항목의 꼴은 `load_cases` 와 같고 `kind` 를 더한다.
+
+    검증기는 케이스와 같은 파서·같은 형식 검사(`case_spec`·`check_case`)·같은 분류(`classify`)를 지난다 — 읽는 꼴이 같아야
+    판정 규칙이 같다. 자리가 없으면(검증기 디렉토리가 없는 트리) 빈 목록이다.
+    """
+    files = sorted((root / KINDS[kind]).glob("*.md"))
     if only:
         files = [f for f in files if f.stem in only]
     cases, missing = [], []
@@ -273,7 +300,7 @@ def load_cases(root: Path, only: list[str], waivers: list[dict]) -> tuple[list[d
         waived = bool(errs) and (kb_lib.waived(waivers, CASE_GATE, f.as_posix(), "파일") or kb_lib.waived(waivers, CASE_GATE, f.stem, "stem"))
         if waived:
             spec = {}
-        cases.append({"slug": f.stem, "path": f.as_posix(), "label": meta["title_ko"], "iri": meta["id"], "status": meta["status"],
+        cases.append({"kind": kind, "slug": f.stem, "path": f.as_posix(), "label": meta["title_ko"], "iri": meta["id"], "status": meta["status"],
                       "spec": spec, "errors": errs, "waived": waived,
                       "commands": [{"cmd": c, "skip": classify(c, spec), "mismatch": []} for c in cmds]})
     return cases, missing
@@ -491,34 +518,57 @@ def counts(cases: list[dict]) -> dict:
     return out
 
 
-def observation(now: datetime, cases: list[dict], rev: str, dirty: int, env: str) -> str:
-    """실행 기록 본문 — 시각·행동·situation 요약 (STYLEGUIDE §4 memory). frontmatter 는 assume_check 의 관측과 같은 형식이다."""
+KIND_KO = {"case": "케이스", "verifier": "검증기"}  # 표의 첫 열 머리 — 행의 종류는 표가 정한다
+
+
+def record_rows(items: list[dict]) -> list[str]:
+    """실행 기록의 케이스 표·검증기 표의 데이터 행 — 두 표의 열은 같다(항목 · 실행 명령 · 결과 · 소요)."""
+    rows = []
+    for c in items:
+        ran = sum(1 for x in c["commands"] if x["skip"] is None)
+        skipped = len(c["commands"]) - ran
+        note = tests_note(c["commands"])
+        rows.append(f"| `{c['slug']}` | {ran} 실행 · {skipped} 건너뜀{' (' + note + ')' if note else ''} | {c['verdict']} | {c['secs']:.1f}s |")
+    return rows
+
+
+def observation(now: datetime, cases: list[dict], rev: str, dirty: int, env: str, verifiers: list[dict] | None = None) -> str:
+    """실행 기록 본문 — 시각·행동·situation 요약 (STYLEGUIDE §4 memory). frontmatter 는 assume_check 의 관측과 같은 형식이다.
+
+    검증기가 있으면 케이스 표 뒤에 검증기 표(`kb_lib.RUN_VERIFIER_TABLE_HEADER`)를 빈 줄로 띄워 둔다 — 케이스 표를 읽는 쪽
+    (run_evidence·weave audit)은 첫 빈 줄에서 표를 닫으므로 검증기 행을 케이스로 읽지 않는다. 검증기가 없으면 본문은 케이스만의 꼴 그대로다.
+    """
     stamp = kb_lib.utc_stamp(now)  # G3 표기 하나 — frontmatter 와 본문이 같은 꼴을 쓴다 (유저 승인 2026-09-23)
-    n = counts(cases)
+    verifiers = list(verifiers or [])
+    items = list(cases) + verifiers
+    n, nc = counts(items), counts(cases)
     ko = f"V&V 실행 {stamp}: pass {n['pass']} · fail {n['fail']} · skip {n['skip']}"
     en = f"V&V run {stamp}: {n['pass']} pass, {n['fail']} fail, {n['skip']} skip"
     head = ["---", f"id: {ID}chunk/{uuid.uuid4()}", "type: memory", "level: concrete", f"title_ko: {ko}", f"title: {en}",
             "status: stable", f"sources: [{{resource: {ODD_IRI}}}]", f"assumes: [{', '.join(ASSUMPTIONS)}]",
             f"generated: {{by: {GENERATOR}, at: {stamp}}}", "---"]
-    body = [f"**관측** — {stamp} 에 `vv_run` 이 케이스 {len(cases)}건의 실행 명령 {n['명령']}건 중 "
-            f"허용 목록의 검증기 {n['실행']}건을 실행하고 그중 {n['대조']}건을 케이스의 기대(`exit`·`contains`)와 대조했다. "
+    who = f"케이스 {len(cases)}건" + (f"·검증기 {len(verifiers)}건" if verifiers else "")
+    whose = "케이스·검증기의 기대" if verifiers else "케이스의 기대"
+    body = [f"**관측** — {stamp} 에 `vv_run` 이 {who}의 실행 명령 {n['명령']}건 중 "
+            f"허용 목록의 검증기 {n['실행']}건을 실행하고 그중 {n['대조']}건을 {whose}(`exit`·`contains`)와 대조했다. "
             f"리비전 `{rev}` (워킹트리 추적 파일 변경 {revision_note(dirty)}) · {env} · seed 없음.", "",
-            kb_lib.RUN_CASE_TABLE_HEADER, "|---|---|---|---|"]
-    for c in cases:
-        ran = sum(1 for x in c["commands"] if x["skip"] is None)
-        skipped = len(c["commands"]) - ran
-        note = tests_note(c["commands"])
-        body.append(f"| `{c['slug']}` | {ran} 실행 · {skipped} 건너뜀{' (' + note + ')' if note else ''} | {c['verdict']} | {c['secs']:.1f}s |")
-    skips = [(c["slug"], x) for c in cases for x in c["commands"] if x["skip"] is not None]
-    if skips:
-        body += ["", "| 케이스 | 건너뛴 명령 | 사유 |", "|---|---|---|"]
+            kb_lib.RUN_CASE_TABLE_HEADER, "|---|---|---|---|"] + record_rows(cases)
+    if verifiers:
+        body += ["", kb_lib.RUN_VERIFIER_TABLE_HEADER, "|---|---|---|---|"] + record_rows(verifiers)
+    for kind, group in (("case", cases), ("verifier", verifiers)):
+        skips = [(c["slug"], x) for c in group for x in c["commands"] if x["skip"] is not None]
+        if not skips:
+            continue
+        body += ["", f"| {KIND_KO[kind]} | 건너뛴 명령 | 사유 |", "|---|---|---|"]
         rows = [f"| `{slug}` | `{x['cmd'][:60]}{'…' if len(x['cmd']) > 60 else ''}` | {x['skip']} |" for slug, x in skips]
         budget = MAX_RECORD_LINES - len(body) - 3  # 남는 행 — 요약 2행과 여유
         if len(rows) > budget:
             rows = rows[:max(budget - 1, 0)] + [f"| … | 외 {len(rows) - max(budget - 1, 0)}건 | 보고(`vv_run` 출력)에 전부 있다 |"]
         body += rows
-    body += ["", f"판정 요약 — 케이스 pass {n['pass']} · fail {n['fail']} · skip {n['skip']} · 명령 실행 {n['실행']} · 건너뜀 {n['건너뜀']} · "
-             f"기대 대조 {n['대조']} · 어긋남 {n['어긋남']} · 재현 불가 후보 {kb_lib.pct(len(cases) if dirty else 0, len(cases))}. "
+    nv = counts(verifiers)
+    verifier_note = f" · 검증기 pass {nv['pass']} · fail {nv['fail']} · skip {nv['skip']}" if verifiers else ""
+    body += ["", f"판정 요약 — 케이스 pass {nc['pass']} · fail {nc['fail']} · skip {nc['skip']}{verifier_note} · 명령 실행 {n['실행']} · 건너뜀 {n['건너뜀']} · "
+             f"기대 대조 {n['대조']} · 어긋남 {n['어긋남']} · 재현 불가 후보 {kb_lib.pct(len(items) if dirty else 0, len(items))}. "
              f"SKIP 은 PASS 가 아니다 — 건너뛴 명령이 있는 케이스는 skip 이다. "
              f"기대를 적은 명령은 종료 코드와 `contains` 문구가 둘 다 맞아야 맞은 것이고, 적지 않은 명령은 종료 0 만 본다. "
              f"재현 불가 후보는 워킹트리에 추적 파일 변경이 있는 실행의 케이스 판정이다 — 같은 리비전을 다시 체크아웃해도 같은 입력이 아니다."]
@@ -535,57 +585,203 @@ def expect_note(exp: dict | None) -> str:
     return " · ".join(bits)
 
 
-def report(now: datetime, cases: list[dict], missing: list[str], rev: str, dirty: int, env: str) -> str:
-    n = counts(cases)
-    verdict = ("**fail 있음**" if n["fail"] else "pass 없음 — 전부 skip" if not n["pass"] else "pass" + (" (skip 있음)" if n["skip"] else ""))
-    skip_note = (f"- 건너뛴 명령: **{n['건너뜀']}** / 명령 {n['명령']} — 건너뛴 명령이 있는 케이스는 pass 가 아니라 skip 이다 "
-                 f"(음성 자극이 건너뛰어지면 \"게이트가 거부한다\" 를 보이는 절반이 빈다)")
-    expect_line = (f"- 기대 대조: **{n['대조']}** / 실행 {n['실행']} — 기대(`exit`·`contains`)를 적은 명령은 종료 코드와 문구가 둘 다 맞아야 "
-                   f"맞은 것이다. 어긋난 명령 {n['어긋남']}건 (`yaml` 펜스가 없는 케이스는 종료 0 만 본다 — 점진 도입)")
-    rep = kb_lib.gendoc_header(
-        "vv_run", "V&V 케이스 실행 판정", "tools/vv_run.py",
-        "V&V 케이스 청크(`kb/vv/case/`)의 실행 명령 중 허용 목록의 읽기 전용 검증기만 실제로 돌려 케이스의 기대와 대조해 "
-        "케이스마다 pass·fail·skip 을 — SKIP 은 PASS 가 아니다 (8.20절)",
-        "bazel run //tools:vv_run", [c["path"] for c in cases],
-        f"케이스 {len(cases)} (pass {n['pass']} · fail {n['fail']} · skip {n['skip']}) · 명령 {n['명령']} "
-        f"(실행 {n['실행']} · 건너뜀 {n['건너뜀']})",
-        kb_lib.gendoc_view_notice("V&V 케이스 청크의 본문"), input_kind="케이스 파일",
-        extra=[f"- 결과: {verdict}", skip_note, expect_line,
-               f"- 초기 상태: 리비전 `{rev}` (워킹트리 추적 파일 변경 {revision_note(dirty)}) · {env}",
-               f"- 재현 불가 후보: **{kb_lib.pct(len(cases) if dirty else 0, len(cases))}** (목표 0) — 워킹트리에 추적 파일 변경이 "
-               f"있는 실행의 케이스 판정은 같은 리비전을 다시 체크아웃해도 같은 입력에서 나오지 않는다 (현상 `agt:concurrentSessionState`)"])
-    body = ["## 케이스 — 실행 대상은 허용 목록의 읽기 전용 검증기뿐. SKIP 은 PASS 가 아니다", "",
-            "| 케이스 | 라벨 | 명령 | 자극·기대 | 결과 | 소요 |", "|---|---|---|---|---|---|"]
-    for c in cases:
+def item_table(items: list[dict]) -> list[str]:
+    """보고의 항목 표 데이터 행 — 케이스 표와 검증기 표가 같은 열을 쓴다."""
+    rows = []
+    for c in items:
         ran = sum(1 for x in c["commands"] if x["skip"] is None)
         spec = c["spec"]
         machine = " · ".join(filter(None, [f"자극 {len(spec['files'])}" if spec.get("files") else "",
                                            f"기대 {len(spec['expect'])}" if spec.get("expect") else ""])) or kb_lib.NONE_MARK
-        body.append(f"| `{c['slug']}` | {c['label']} | {ran} 실행 · {len(c['commands']) - ran} 건너뜀 | {machine} | **{c['verdict']}** | {c['secs']:.1f}s |")
-    body += ["", "## 명령", "", "| 케이스 | 명령 | 종료 | 기대 | 소요 | 비고 |", "|---|---|---|---|---|---|"]
-    for c in cases:
+        rows.append(f"| `{c['slug']}` | {c['label']} | {ran} 실행 · {len(c['commands']) - ran} 건너뜀 | {machine} | **{c['verdict']}** | {c['secs']:.1f}s |")
+    return rows
+
+
+def command_table(items: list[dict]) -> list[str]:
+    """보고의 명령 표 데이터 행 — 명령 하나가 한 행이다."""
+    rows = []
+    for c in items:
         for x in c["commands"]:
             if x["skip"] is None:
                 t = x.get("tests")
                 note = (f"테스트 {t[0]} · 실행 {t[1]} · 캐시 {t[0] - t[1]}" if t else "요약 줄 없음" if x["cmd"].startswith("bazel test ") else "") + \
                        ("" if not x["mismatch"] else " · **어긋남**")
-                body.append(f"| `{c['slug']}` | `{x['cmd']}` | {x['rc']} | {expect_note(x.get('expect'))} | {x['secs']:.1f}s | {note or kb_lib.NONE_MARK} |")
+                rows.append(f"| `{c['slug']}` | `{x['cmd']}` | {x['rc']} | {expect_note(x.get('expect'))} | {x['secs']:.1f}s | {note or kb_lib.NONE_MARK} |")
             else:
-                body.append(f"| `{c['slug']}` | `{x['cmd']}` | SKIP | {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | {x['skip']} |")
-    off = [(c["slug"], x) for c in cases for x in c["commands"] if x["mismatch"]]
+                rows.append(f"| `{c['slug']}` | `{x['cmd']}` | SKIP | {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | {x['skip']} |")
+    return rows
+
+
+def report(now: datetime, cases: list[dict], missing: list[str], rev: str, dirty: int, env: str,
+           verifiers: list[dict] | None = None, idle: list[str] | None = None) -> str:
+    """보고 — 케이스 절 다음에 검증기 절을 둔다. 검증기가 없으면 케이스만의 꼴 그대로다.
+
+    `idle` 은 실행 명령 줄이 없는 검증기다 — 케이스와 달리 그 줄이 필수가 아니다(도구 자신을 서술하는 검증기). 결함이 아니라 실행 대상 밖이다.
+    """
+    verifiers, idle = list(verifiers or []), list(idle or [])
+    items = list(cases) + verifiers
+    n, nc, nv = counts(items), counts(cases), counts(verifiers)
+    verdict = ("**fail 있음**" if n["fail"] else "pass 없음 — 전부 skip" if not n["pass"] else "pass" + (" (skip 있음)" if n["skip"] else ""))
+    skip_note = (f"- 건너뛴 명령: **{n['건너뜀']}** / 명령 {n['명령']} — 건너뛴 명령이 있는 케이스는 pass 가 아니라 skip 이다 "
+                 f"(음성 자극이 건너뛰어지면 \"게이트가 거부한다\" 를 보이는 절반이 빈다)")
+    expect_line = (f"- 기대 대조: **{n['대조']}** / 실행 {n['실행']} — 기대(`exit`·`contains`)를 적은 명령은 종료 코드와 문구가 둘 다 맞아야 "
+                   f"맞은 것이다. 어긋난 명령 {n['어긋남']}건 (`yaml` 펜스가 없는 케이스는 종료 0 만 본다 — 점진 도입)")
+    paths = [c["path"] for c in items]
+    what = ("V&V 케이스 청크(`kb/vv/case/`)와 검증기 청크(`kb/vv/verifier/`)" if verifiers else "V&V 케이스 청크(`kb/vv/case/`)")
+    input_kind = "케이스·검증기 파일" if verifiers else "케이스 파일"
+    verifier_count = f"검증기 {len(verifiers)} (pass {nv['pass']} · fail {nv['fail']} · skip {nv['skip']}) · " if verifiers else ""
+    rep = kb_lib.gendoc_header(
+        "vv_run", "V&V 케이스 실행 판정", "tools/vv_run.py",
+        f"{what}의 실행 명령 중 허용 목록의 읽기 전용 검증기만 실제로 돌려 케이스의 기대와 대조해 "
+        "케이스마다 pass·fail·skip 을 — SKIP 은 PASS 가 아니다 (8.20절)",
+        "bazel run //tools:vv_run", paths,
+        f"케이스 {len(cases)} (pass {nc['pass']} · fail {nc['fail']} · skip {nc['skip']}) · {verifier_count}명령 {n['명령']} "
+        f"(실행 {n['실행']} · 건너뜀 {n['건너뜀']})",
+        kb_lib.gendoc_view_notice("V&V 케이스 청크의 본문"), input_kind=input_kind,
+        extra=[f"- 결과: {verdict}", skip_note, expect_line,
+               f"- 초기 상태: 리비전 `{rev}` (워킹트리 추적 파일 변경 {revision_note(dirty)}) · {env}",
+               f"- 재현 불가 후보: **{kb_lib.pct(len(items) if dirty else 0, len(items))}** (목표 0) — 워킹트리에 추적 파일 변경이 "
+               f"있는 실행의 케이스 판정은 같은 리비전을 다시 체크아웃해도 같은 입력에서 나오지 않는다 (현상 `agt:concurrentSessionState`)"])
+    body = ["## 케이스 — 실행 대상은 허용 목록의 읽기 전용 검증기뿐. SKIP 은 PASS 가 아니다", "",
+            "| 케이스 | 라벨 | 명령 | 자극·기대 | 결과 | 소요 |", "|---|---|---|---|---|---|"] + item_table(cases)
+    body += ["", "## 명령", "", "| 케이스 | 명령 | 종료 | 기대 | 소요 | 비고 |", "|---|---|---|---|---|---|"] + command_table(cases)
+    if verifiers:
+        body += ["", f"## 검증기 — `{VERIFIER_DIR}/` 의 실행 명령. 허용 목록·기대 대조·판정 규칙은 케이스와 같다", "",
+                 "| 검증기 | 라벨 | 명령 | 자극·기대 | 결과 | 소요 |", "|---|---|---|---|---|---|"] + item_table(verifiers)
+        body += ["", "## 검증기 명령", "", "| 검증기 | 명령 | 종료 | 기대 | 소요 | 비고 |", "|---|---|---|---|---|---|"] + command_table(verifiers)
+    off = [(c["kind"], c["slug"], x) for c in items for x in c["commands"] if x["mismatch"]]
     if off:
         body += ["", "## 어긋난 명령 — 기대와 실제", ""]
-        for slug, x in off:
-            body += [f"### `{slug}` — `{x['cmd']}` (종료 {x['rc']})", ""] + [f"- {b}" for b in x["mismatch"]] + ["", "```text", x["tail"], "```", ""]
+        for kind, slug, x in off:
+            who = "검증기 " if kind == "verifier" else ""
+            body += [f"### {who}`{slug}` — `{x['cmd']}` (종료 {x['rc']})", ""] + [f"- {b}" for b in x["mismatch"]] + ["", "```text", x["tail"], "```", ""]
     if missing:
         body += ["", f"실행 명령 줄이 없는 케이스 {len(missing)}건: " + ", ".join(f"`{m}`" for m in missing) + " — 케이스 본문에 `**실행 명령**` 줄(대시 뒤 코드 스팬 하나)이 있어야 한다"]
-    return kb_lib.gendoc_assemble(rep, body, [c["path"] for c in cases], input_kind="케이스 파일")
+    if idle:
+        body += ["", f"실행 명령 줄이 없는 검증기 {len(idle)}건: " + ", ".join(f"`{m}`" for m in idle) +
+                 " — 실행 대상 밖이다. 검증기는 케이스와 달리 그 줄이 필수가 아니다(도구 자신을 서술하는 검증기)"]
+    return kb_lib.gendoc_assemble(rep, body, paths, input_kind=input_kind)
+
+
+# ── 라운드 경계 기록 (유저 답 Q39-c) ────────────────────
+# 라운드 경계는 날짜가 아니라 명시 기록이다. `--round <사유>` 가 라운드 하나를 닫으며 실행 기록과 같은 자리(memory, append-only)에
+# `round-<UTC>.md` 를 남긴다 — 라운드 번호 · 구간 안 신규 결함 수 · 종료 사유. 종료 사유의 어휘는 온톨로지
+# `kb/ontology/related/state/round-end-reason-ontology.ttl` 의 개체 셋이고 기록 본문이 그중 하나를 인용한다(agt:usesConcept 로 그래프에 선다).
+# 정지 규칙의 판정은 verify 질의 `round-stop-rule-violated` 가 그래프에서 하고, `weave` audit 의 라운드 절이 이 기록으로 구간을 자른다
+ROUND_PREFIX = "round-"  # 파일명 round-<UTC>.md — run-·judge- 와 한 디렉토리에서 갈린다 (kb_lib 로 옮길 후보)
+VERDICT_DIR = kb_lib.KB_VV + "/verdict"  # 신규 결함 = 이 자리의 판정 주석 (weave audit 판정 주석 절과 같은 대상)
+ROUND_REASONS = {  # --round 값 → (종료 사유 개체, 라벨 ko, 라벨 en). 라벨의 정의처는 온톨로지다 — 여기는 기록 제목에 옮겨 적을 뿐이다
+    "stop-rule": ("agt:roundEndedByStopRule", "정지 규칙", "stop rule"),
+    "budget": ("agt:roundEndedByBudget", "예산 소진", "budget exhaustion"),
+    "complete": ("agt:roundEndedByCompletion", "완료", "completion"),
+}
+ROUND_TABLE_HEADER = "| 라운드 | 구간 시작 | 구간 끝 | 신규 결함 | 종료 사유 |"
+STOP_RULE_QUERY = "round-stop-rule-violated"  # tools/verify-queries/ 의 정지 규칙 질의 이름
+
+
+def as_utc(value) -> datetime | None:
+    """frontmatter 의 시각 → aware datetime. 시간대 없는 값은 UTC 로 본다. 읽을 수 없으면 None."""
+    try:
+        d = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
+
+
+def round_records(root: Path) -> list[datetime]:
+    """이미 있는 라운드 기록의 시각 — 오름차순. 기록의 시각이 라운드의 끝(경계)이다."""
+    out = []
+    for f in sorted((root / RUN_DIR).glob(f"{ROUND_PREFIX}*.md")):
+        at = as_utc(parse_chunk(str(f))[0]["generated"]["at"])
+        if at is None:
+            raise ValueError(f"{f}: generated.at 을 읽을 수 없다 — 라운드 경계가 서지 않는다")
+        out.append(at)
+    return sorted(out)
+
+
+def defect_times(root: Path) -> list[datetime]:
+    """신규 결함의 시각 — 살아 있는 판정 주석 중 판정 결과 주석(`process:judge`)이 아닌 것. 판정 결과는 리뷰가 찾은 결함이 아니다."""
+    out = []
+    for f in sorted((root / VERDICT_DIR).glob("*.md")):
+        meta = parse_chunk(str(f))[0]
+        if meta["type"] != "annotation" or meta["status"] == "deprecated" or meta["generated"]["by"] == kb_lib.JUDGE_GENERATOR:
+            continue
+        at = as_utc(meta["generated"]["at"])
+        if at is not None:
+            out.append(at)
+    return out
+
+
+def round_counts(bounds: list[datetime], defects: list[datetime]) -> list[int]:
+    """경계마다 new(n) — 직전 경계 뒤부터 그 경계까지(첫 라운드는 처음부터). verify 질의와 같은 정의다."""
+    out, prev = [], None
+    for b in bounds:
+        out.append(sum(1 for t in defects if t <= b and (prev is None or t > prev)))
+        prev = b
+    return out
+
+
+def round_observation(now: datetime, n: int, start: datetime | None, k: int, reason: str, prev_k: int | None) -> str:
+    """라운드 기록 본문 — 실행 기록과 같은 frontmatter 꼴(memory, concrete, `process:vv_run`). 본문은 종료 사유 개체 하나만 인용한다."""
+    concept, ko, en = ROUND_REASONS[reason]
+    stamp = kb_lib.utc_stamp(now)
+    begin = kb_lib.utc_stamp(start) if start else kb_lib.NONE_MARK
+    head = ["---", f"id: {ID}chunk/{uuid.uuid4()}", "type: memory", "level: concrete",
+            f"title_ko: 검증 라운드 {n} 종료 {stamp}: 신규 결함 {k} · 종료 사유 {ko}",
+            f"title: Verification round {n} closed {stamp}: {k} new defects, ended by {en}",
+            "status: stable", f"sources: [{{resource: {ODD_IRI}}}]", f"assumes: [{', '.join(ASSUMPTIONS)}]",
+            f"generated: {{by: {GENERATOR}, at: {stamp}}}", "---"]
+    since = f"직전 라운드 기록({begin}) 뒤부터" if start else "처음부터"
+    if prev_k is None:
+        rule = "첫 라운드라 정지 규칙의 비교 대상이 없다."
+    elif k >= prev_k:
+        rule = (f"신규 결함이 직전 라운드의 {prev_k}건에서 줄지 않아 정지 규칙이 성립한다 — 라운드 {n + 1} 을 열지 않고 채널로 되돌린다. "
+                f"라운드 {n + 1} 기록은 정지 규칙 사유로만 남긴다.")
+    else:
+        rule = f"신규 결함이 직전 라운드의 {prev_k}건에서 줄었다 — 정지 규칙이 성립하지 않는다."
+    body = [f"**관측** — {stamp} 에 `vv_run --round {reason}` 이 검증 라운드 {n} 의 끝을 기록했다. 구간은 {since} {stamp} 까지다. "
+            f"그 구간에 저작된 판정 주석(`{VERDICT_DIR}/`) 중 판정 결과 주석(`{kb_lib.JUDGE_GENERATOR}`)을 뺀 신규 결함은 {k}건이고 "
+            f"종료 사유는 `{concept}`({ko})다.", "",
+            ROUND_TABLE_HEADER, "|---|---|---|---|---|", f"| {n} | {begin} | {stamp} | {k} | {ko} |", "",
+            f"{rule} 판정은 verify 질의 `{STOP_RULE_QUERY}` 가 그래프에서 한다."]
+    return "\n".join(head + body) + "\n"
+
+
+def record_round(root: Path, reason: str, now: datetime | None = None) -> int:
+    """라운드 하나를 닫는다 — `kb/vv/run/round-<UTC>.md` 를 append-only 로 쓴다. 이미 있으면 덮지 않는다."""
+    now = now or datetime.now(timezone.utc).replace(microsecond=0)
+    try:
+        bounds = [b for b in round_records(root) if b < now]
+        defects = defect_times(root)
+    except ValueError as e:
+        print(f"FAIL [vv_run] {e}")
+        return EXIT_CONFIG
+    counts_ = round_counts(bounds + [now], defects)
+    n, k = len(bounds) + 1, counts_[-1]
+    prev_k = counts_[-2] if n > 1 else None
+    target = root / RUN_DIR / f"{ROUND_PREFIX}{now.strftime('%Y%m%dT%H%M%SZ')}.md"
+    if target.exists():
+        print(f"FAIL [vv_run] {target.relative_to(root)}: 이미 있다 — 라운드 기록은 append-only 다 (r-026)")
+        return EXIT_CONFIG
+    if n > 2 and counts_[-2] >= counts_[-3] and reason != "stop-rule":
+        print(f"WARN [vv_run] 라운드 {n - 1} 에서 정지 규칙이 성립했다(신규 {counts_[-3]} → {counts_[-2]}) — 라운드 {n} 을 "
+              f"`{reason}` 로 닫으면 verify 질의 `{STOP_RULE_QUERY}` 가 게이트에서 거부한다. 사유는 `stop-rule` 이다")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(round_observation(now, n, bounds[-1] if bounds else None, k, reason, prev_k), encoding="utf-8")
+    print(f"라운드 기록: {target.relative_to(root)} — 라운드 {n} · 신규 결함 {k} · 종료 사유 {ROUND_REASONS[reason][1]}. "
+          f"python3 tools/gen_build.py --root . 로 BUILD 를 갱신한 뒤 bazel test //... 를 돌린다")
+    return EXIT_OK
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--case", action="append", default=[], metavar="SLUG", help="이 케이스(파일 stem)만 — 반복 가능")
+    ap.add_argument("--verifier", action="append", default=[], metavar="SLUG",
+                    help=f"이 검증기({VERIFIER_DIR} 의 파일 stem)만 — 반복 가능. `--case`·`--verifier` 를 둘 다 안 주면 전부다")
     ap.add_argument("--record", action="store_true", help=f"결과를 실행 기록으로 {RUN_DIR}/run-<UTC>.md 에 append-only 로 쓴다")
+    ap.add_argument("--round", choices=tuple(ROUND_REASONS), default="", metavar="REASON",
+                    help=f"검증 라운드 하나를 닫는다 — {RUN_DIR}/{ROUND_PREFIX}<UTC>.md 를 append-only 로 쓰고 케이스는 돌리지 않는다. "
+                         f"종료 사유는 {' · '.join(ROUND_REASONS)} 중 하나다 (유저 답 Q39-c)")
     ap.add_argument("--out", default="", help="보고를 파일로도 쓴다")
     ap.add_argument("--waivers", default=WAIVERS, metavar="FILE",
                     help=f"docs/waivers.md — 게이트 id `{CASE_GATE}`(축 파일·stem)로 면제된 케이스의 형식 오류는 집계에서 빼되 목록에 남긴다")
@@ -598,6 +794,16 @@ def main() -> int:
     if not (root / CASE_DIR).is_dir():
         print(f"FAIL [vv_run] {CASE_DIR}: 케이스 디렉토리가 없다 — 워크스페이스 루트에서 돌린다")
         return EXIT_CONFIG
+    if a.round:  # 라운드 경계 기록 — 케이스를 돌리지 않으므로 어휘가 필요 없다. 다른 선택과 섞지 않는다
+        if a.case or a.verifier or a.record or a.out:
+            print("FAIL [vv_run] `--round` 는 라운드 경계만 기록한다 — `--case`·`--verifier`·`--record`·`--out` 과 함께 쓰지 않는다")
+            return EXIT_CONFIG
+        try:
+            apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
+        except (OSError, ValueError) as e:
+            print(f"FAIL [vv_run] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}")
+            return EXIT_CONFIG
+        return record_round(root, a.round)
     try:  # 어휘 해소는 여기 한 자리다 — 못 찾으면 케이스를 하나도 돌리지 않는다. 건너뜀은 판정의 공백이다
         vocab = tokenizer_vocab_path(a.vocab or None).resolve()
     except FileNotFoundError as e:
@@ -616,8 +822,11 @@ def main() -> int:
     except ValueError as e:  # 표의 열·축이 규약 밖이면 설정 문제다 — 판정 실패가 아니다
         print(f"FAIL [vv_run] waiver 표 — {e}")
         return EXIT_CONFIG
+    # 선택 — 둘 다 없으면 전부, 하나라도 있으면 준 쪽만 돈다. `--case` 만 준 실행은 검증기를 싣지 않아 케이스만의 보고·기록 꼴 그대로다
+    everything = not a.case and not a.verifier
     try:
-        cases, missing = load_cases(root, a.case, waivers)
+        cases, missing = load_cases(root, a.case, waivers) if everything or a.case else ([], [])
+        verifiers, idle = load_items(root, "verifier", a.verifier, waivers) if everything or a.verifier else ([], [])
     except ValueError as e:  # parse_chunk 의 frontmatter 규칙 — 케이스가 청크가 아니면 실행할 수 없다
         print(f"FAIL [vv_run] {e}")
         return EXIT_CONFIG
@@ -625,16 +834,21 @@ def main() -> int:
     if unknown:
         print(f"FAIL [vv_run] --case 대상이 {CASE_DIR} 에 없다: {', '.join(unknown)}")
         return EXIT_CONFIG
-    if not cases:
+    unknown = sorted(set(a.verifier) - {c["slug"] for c in verifiers} - set(idle))
+    if unknown:
+        print(f"FAIL [vv_run] --verifier 대상이 {VERIFIER_DIR} 에 없다: {', '.join(unknown)}")
+        return EXIT_CONFIG
+    if not cases and not verifiers:
         print(f"SKIP [vv_run] {CASE_DIR}: 실행할 케이스가 없다")
         return EXIT_SKIP
     # 케이스 형식 검사 — 규약 펜스를 둔 케이스만 대상이다. 형식이 깨진 케이스는 실행 전에 거부한다. 자극·기대가
     # 명령과 어긋난 채 도는 실행은 판정이 아니라 소음이다 (STYLEGUIDE §7 — 메시지가 곧 수정 안내다)
-    for c in cases:
+    items = cases + verifiers
+    for c in items:
         if c["errors"] and c["waived"]:
             for e in c["errors"]:
                 print(f"WAIVED [{CASE_GATE}] {c['path']}: {e} (waivers.md — 집계에서 뺐고 펜스를 읽지 않았다)")
-    broken = [c for c in cases if c["errors"] and not c["waived"]]
+    broken = [c for c in items if c["errors"] and not c["waived"]]
     if broken:
         for c in broken:
             for e in c["errors"]:
@@ -646,8 +860,8 @@ def main() -> int:
     now = datetime.now(timezone.utc).replace(microsecond=0)
     rev, dirty = revision(root)
     env = environment(root)
-    execute(cases, root, vocab)
-    text = report(now, cases, missing, rev, dirty, env)
+    execute(items, root, vocab)
+    text = report(now, cases, missing, rev, dirty, env, verifiers, idle)
     print(text)
     if a.out:
         Path(a.out).write_text(text, encoding="utf-8")
@@ -659,9 +873,9 @@ def main() -> int:
         if target.exists():
             print(f"FAIL [vv_run] {target.relative_to(root)}: 이미 있다 — 실행 기록은 append-only 다 (r-026)")
             return EXIT_CONFIG
-        target.write_text(observation(now, cases, rev, dirty, env), encoding="utf-8")
+        target.write_text(observation(now, cases, rev, dirty, env, verifiers), encoding="utf-8")
         print(f"실행 기록: {target.relative_to(root)} — python3 tools/gen_build.py --root . 로 BUILD 를 갱신한 뒤 bazel test //... 를 돌린다")
-    n = counts(cases)
+    n = counts(items)
     return EXIT_FAIL if n["fail"] else EXIT_OK if n["pass"] else EXIT_SKIP
 
 

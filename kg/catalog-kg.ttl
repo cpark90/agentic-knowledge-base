@@ -13,23 +13,28 @@ id:h-akb a agt:Harness ;
     agt:hasRole id:role-orchestrator , id:role-developer , id:role-vnv , id:role-hci ;
     agt:grants id:scope-orchestrator , id:scope-developer , id:scope-vnv , id:scope-hci .
 
-### 채널 — 유저 소통은 hci가 전담한다 (docs/feedback/README.md가 규약 원본)
+### 채널 — 유저 소통은 hci가 전담한다 (harness/README.md가 프로토콜 원본)
 
 id:chan-user-feedback a agt:Channel ;
-    rdfs:label "user feedback channel"@en , "유저 피드백 채널"@ko ;
+    rdfs:label "user channel (questionnaires, user ↔ hci)"@en , "유저 채널 (질문지, 유저 ↔ hci)"@ko ;
     agt:ownedBy id:role-hci ;
-    prov:atLocation "docs/feedback" .
+    prov:atLocation "harness/user" .
 
-id:chan-handoff a agt:Channel ;
-    rdfs:label "handoff lane (hci to owning roles)"@en , "인수인계 lane (hci → 담당 역할)"@ko ;
+id:chan-to-orchestrator a agt:Channel ;
+    rdfs:label "agent channel inbox of orchestrator (written by hci)"@en , "에이전트 채널 — orchestrator 수신함 (hci가 쓴다)"@ko ;
     agt:ownedBy id:role-hci ;
-    prov:atLocation "docs/feedback/handoff" .
+    prov:atLocation "harness/channel/to_orchestrator" .
+
+id:chan-to-hci a agt:Channel ;
+    rdfs:label "agent channel inbox of hci (written by orchestrator)"@en , "에이전트 채널 — hci 수신함 (orchestrator가 쓴다)"@ko ;
+    agt:ownedBy id:role-orchestrator ;
+    prov:atLocation "harness/channel/to_hci" .
 
 ### 역할 — plane 권한 요구 (9.2절). 설계/구현/운영은 같은 write plane을 공유하지 않는다.
 
 id:role-orchestrator a agt:Role ;
     rdfs:label "orchestrator"@en , "오케스트레이터"@ko ;
-    agt:writes agt:RequirementChunk , agt:DecisionChunk , agt:MemoryChunk ;  # 요구는 유저 관심사를 orchestrator 가 EARS 로 저작하고 stable 전이는 유저 승인 (5.4절 human 게이트)
+    agt:writes agt:RequirementChunk , agt:DecisionChunk , agt:MemoryChunk , agt:DocumentSectionChunk ;  # 요구는 유저 관심사를 orchestrator 가 EARS 로 저작하고 stable 전이는 유저 승인 (5.4절 human 게이트). 규범 문서의 절 청크(norm plane)도 orchestrator 저작이다 (p12-norm-documents-from-section-chunks)
     agt:reads agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
     agt:executionMode agt:sessionPersistent ;
     agt:maxConcurrent 1 .
@@ -89,4 +94,4 @@ id:scope-hci a agt:Scope ;
     agt:subsetOf id:odd-agentic-knowledge-base ;
     agt:includesCondition id:cond-language-policy , id:cond-repo-layout ,
         id:cond-build-system , id:cond-concurrent-agents ;
-    agt:conditionalRule "쓰기는 채널(docs/feedback/**)로 한정, 읽기는 저장소 전체. 지식 산출물 반영은 유저의 status: approved 태깅 뒤 담당 역할이 수행한다. 조사는 hci 가 직접 한다. git 쓰기(add/commit/push)는 유저가 요청했고 bazel test //... 가 PASS 일 때만 한다" .
+    agt:conditionalRule "쓰기는 유저 채널(harness/user/**)과 에이전트 채널의 자기 몫(harness/channel/to_orchestrator/** 발신, harness/channel/to_hci/** 상태 전이)으로 한정, 읽기는 저장소 전체. 지식 산출물 반영은 유저가 질문지에 답을 적고 status: answered 로 태깅한 뒤 담당 역할이 수행한다. 조사는 hci 가 직접 한다. git 쓰기(add/commit/push)는 유저가 요청했고 bazel test //... 가 PASS 일 때만 한다" .

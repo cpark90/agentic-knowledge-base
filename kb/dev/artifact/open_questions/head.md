@@ -7,10 +7,8 @@ title: module head agt in tools/open_questions.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-open-questions}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
-refines: [https://agentic-knowledge-base.dev/id/chunk/d93492e4-f343-4736-b4a5-d04f48a3a75f, https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97]
 part_of: https://agentic-knowledge-base.dev/id/composite/4fe6beea-c6ab-454b-bad0-2cfede25066c
 ---
 **모듈 머리** — `tools/open_questions.py` 의 모듈 머리 `agt` 다. 모듈 머리
@@ -21,9 +19,11 @@ part_of: https://agentic-knowledge-base.dev/id/composite/4fe6beea-c6ab-454b-bad0
 ```python
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
 SLOT = "미확정"  # 선택 슬롯의 표지 — 값 어휘의 정의처는 chunk2kg.BODY_SLOT_KEYWORDS 다
-# `미확정: <질문>. 상세는 `<문서>`다.` — 상세 절은 선택이다. 질문만 적은 슬롯도 집계 대상이다
+# `미확정: <질문>. 상세는 `<값>`[·`<값>`]다.` — 상세 절은 선택이다. 질문만 적은 슬롯도 집계 대상이다
 SLOT_LINE = re.compile(r"^" + SLOT + r":\s*(.+)$")
-DETAIL = re.compile(r"상세는\s*`([^`]+)`\s*다\.?\s*$")
-INDEX_DOC = "docs/open-questions.md"  # 손으로 관리하는 색인 — 이 뷰는 집계만 맡고 색인을 대체하지 않는다
+DETAIL = re.compile(r"상세는\s*((?:`[^`]+`\s*[·,]?\s*)+)다\.?\s*$")
+TICK = re.compile(r"`([^`]+)`")
+# 후보 링크의 상태 → 본문 `state:` 어휘 (space2kg 가 쓴 사상의 역)
+STATE_OF_LINK = {link: state for state, (_, link) in kb_lib.SPACE_STATE_LINK.items()}
 ```
 <!-- 인용 끝 -->

@@ -1,0 +1,16 @@
+# 게이트 cross-kb-link 의 음성 고정물 — V&V KB 의 케이스(schema, concrete)가 개발 KB 의 결정 결론을 derivesFrom 한다.
+# 케이스가 개발 결정을 가리키는 정식 종류는 verifies 다. 2026-10-04 에 실제로 있던 위반 2건의 꼴이다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+
+<urn:fx:cross-case>
+    a agt:SchemaChunk ;
+    agt:hasLevel agt:concrete ;
+    agt:tokenCount 10 ;
+    agt:assertionLocation "kb/vv/case/fx-case.md" ;
+    agt:derivesFrom <urn:fx:cross-decision> .
+
+<urn:fx:cross-decision>
+    a agt:DecisionChunk ;
+    agt:hasLevel agt:concrete ;
+    agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/decision/fx-decision/conclusion.md" .

@@ -9,7 +9,8 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08, https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk/de38da18-3de5-4b30-86d6-af112ca9659c]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-10-01T20:00:00+09:00}
+generated: {by: orchestrator/claude-fable-5-1, at: 2026-10-03T18:30:02+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T18:30:08+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/128d439b-0863-41e3-8eb3-7c090e7f1742
 composite: {id: https://agentic-knowledge-base.dev/id/composite/128d439b-0863-41e3-8eb3-7c090e7f1742, title_ko: 청크의 단위는 토큰이다, title: The chunk unit is tokens}
@@ -25,3 +26,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/128d439b-0863-41
 근거를 **예산 ÷ 5**로 고른 까닭: 42줄은 처음부터 "200줄의 약 1/5"로 도출됐고, 그 도출을 토큰으로 옮기면 1,092다. 참조 저장소의 재결정 260(≈ 42×6)은 다른 계수기·다른 창의 수이며 그것을 쓰면 저작 산문의 43%(426)를 쪼개야 한다 — 숫자가 아니라 도출이 규칙이다. 1,092에서 초과는 저작 산문 3 · 코드 52(2,856에서는 6)다.
 
 줄 상한(42·200)은 전부 폐지되고 게이트는 토큰(`agt:tokenCount`)으로 판정한다. 분할은 `p10-split-keeps-work-identity`를 따른다. 노트 938·949·641행의 "줄"은 유저 의도대로 정정한다 — 기획 원본의 오기록이다.
+
+미확정: 토큰 상한의 강제가 시스템 묘사를 손상시키는 plane이 있는가 — 실험으로 판정한다(노트 13.2절, Q15-c·Q20-a로 이전. 원문은 42줄 기준이다).

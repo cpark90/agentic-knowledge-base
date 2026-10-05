@@ -10,7 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/04fe68bc-58a1-45bd-ac00-78d263cbba81, https://agentic-knowledge-base.dev/id/chunk/e7ef6bd8-9aff-42f5-bf43-505fb69d8d2e]
-part_of: https://agentic-knowledge-base.dev/id/composite/cf732fdc-d595-4d0b-8344-6af01989d95c
+part_of: https://agentic-knowledge-base.dev/id/composite/513aca4d-e5f0-46c8-8d13-784c71691884
 ---
 **함수** — `load_tool_tags(path)` 다. `defs/kb.bzl` 의 `TOOL_TAGS` 리터럴 — 게이트가 아닌 도구 태그(입력 문제·보고)의 둘째 경계다.
 

@@ -27,7 +27,7 @@ agt:MessageSchema a owl:Class ;
 agt:FunctionArtifact a owl:Class ;
     rdfs:subClassOf agt:ArtifactChunk ;
     rdfs:label "function artifact"@en , "함수 산출물"@ko ;
-    skos:definition "개발 프로파일에서 artifact plane의 실체. 함수 하나가 청크 하나이며 42줄을 넘는 함수는 분할한다. 개발 KB에서는 구현 역할만 갖고 검증기 함수는 V&V KB의 artifact다. 판정은 컴파일러·린터·V&V 검증기다 (결정 p7-dev-plane-substance, 노트 7.2절)."@ko .
+    skos:definition "개발 프로파일에서 artifact plane의 실체. 함수 하나가 청크 하나이며 본문 토큰 수가 artifact plane의 상한(tools/kb_lib.py BODY_TOKEN_LIMITS, 결정 p1-chunk-unit-is-tokens)을 넘는 함수는 분할한다. 개발 KB에서는 구현 역할만 갖고 검증기 함수는 V&V KB의 artifact다. 판정은 컴파일러·린터·V&V 검증기다 (결정 p7-dev-plane-substance, 노트 7.2절)."@ko .
 
 agt:ReviewComment a owl:Class ;
     rdfs:subClassOf agt:AnnotationChunk ;

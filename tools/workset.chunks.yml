@@ -7,8 +7,8 @@ source: tools/workset.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-workset
 package: kb/dev/artifact/workset
 layer: process
-at: 2026-09-30T08:07:48Z
-source_hash: 9bc41adcc5c6ea23
+at: 2026-10-02T00:08:55Z
+source_hash: bc5905912c77b18f
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/82e341ba-c47f-4677-8013-491082b24b6c
   - https://agentic-knowledge-base.dev/id/chunk/965f738a-db50-4729-a551-e58a90cd6320

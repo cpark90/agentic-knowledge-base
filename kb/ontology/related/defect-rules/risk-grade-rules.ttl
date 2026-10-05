@@ -7,6 +7,8 @@
 # P14·P15·P16·P18·P22 의 D 는 D3 에서 D2 로 옮겼다 — 관측 수단이 판정 로그·감사 절·재판정 표·문서 대조·실행 기록의 수치이고 진행을 막지 않는다.
 # 원본은 vnv 기준 셋(kb/vv/criteria/{verification-round-stop-rule,decision-and-artifact-agree,document-table-matches-generated}.md)의 판정식이다(2026-10-01).
 # P17·P20 은 D3 를 유지한다 — 관측 수단이 미확정이고 미확정인 까닭은 현상 개체의 정의문에 있다.
+# P23 은 vnv 표가 아니라 developer 가 risk-grade-scale 의 조건을 근거 주석 셋에 적용한 값이다(Q31-a, 2026-10-04) — 셋 다 도구 하나를 고치고 케이스를
+# 더해 해소됐으므로 S1, 관측 3건이 케이스 저작에서만 나왔으므로 E2, 관측 수단이 미확정이므로 D3 다. vnv 판정이 오면 그 값으로 바꾼다.
 # 등급은 정렬에만 쓰고 곱하지 않는다 — 순서 척도의 곱이 순위를 왜곡한다. 한 현상이 한 줄이라 표로 읽힌다.
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 
@@ -40,3 +42,4 @@ agt:generatedArtefactDrift agt:severityGrade "S1" ; agt:exposureGrade "E1" ; agt
 agt:metricVariesByLoadingOption agt:severityGrade "S3" ; agt:exposureGrade "E2" ; agt:detectabilityGrade "D2" .
 agt:labelRot agt:severityGrade "S2" ; agt:exposureGrade "E3" ; agt:detectabilityGrade "D2" .
 agt:documentLag agt:severityGrade "S1" ; agt:exposureGrade "E4" ; agt:detectabilityGrade "D2" .
+agt:stimulusNotWrappableAsCase agt:severityGrade "S1" ; agt:exposureGrade "E2" ; agt:detectabilityGrade "D3" .

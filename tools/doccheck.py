@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """문서 현행성 게이트 — 죽은 링크·앵커·경로 (agrtls-practices-review N, 2026-09-12).
 
-대상은 진입점 문서(README·AGENTS·STYLEGUIDE·CLAUDE·INTENT)와 docs/**/*.md 다. 채널(docs/feedback/**)은
-소멸성이라 대상이 아니고(hci 스캔 몫), 노트(docs/agent-knowledge-system-notes.md)는 유저 문서라 링크
+대상은 진입점 문서(README·AGENTS·STYLEGUIDE·CLAUDE·INTENT)와 docs/**/*.md, 그리고 하네스 문서
+(harness/README.md · harness/agents/*.md · harness/user/README.md)다. 채널 메시지(harness/channel/**)·질문지
+(harness/user/Q-*.md · harness/user/archive/**)·옛 채널 기록(legacy/)은 소멸성 소통 기록이라 대상이 아니고 링크
+대상으로만 쓴다(채널 규약은 게이트 `channel`). 노트(docs/agent-knowledge-system-notes.md)는 유저 문서라 링크
 대상으로만 쓴다(--target-only). 기계적으로 참·거짓이 갈리는 것만 게이트다 — 나머지는 검토 재료.
 
   links   마크다운 링크 [..](경로#앵커): 경로가 실재하고, #앵커는 대상 .md 파일 제목의 GitHub slug 와
           일치한다 (소문자, 공백→'-', 문자·숫자·'-'·'_' 외 제거, 같은 slug 는 -1, -2 …).
           스킴이 있는 것(http·https·mailto·urn …)은 건너뛴다. 코드 펜스·코드 스팬 안은 링크가 아니다.
-  paths   백틱 안의 저장소 경로 — kb/ kg/ tools/ docs/ defs/ chunks/ space/ .claude/ 로 시작하는 것 — 가
+  paths   백틱 안의 저장소 경로 — kb/ kg/ tools/ docs/ defs/ chunks/ space/ harness/ .claude/ 로 시작하는 것 — 가
           실재한다. 패턴·자리표시자·Bazel 라벨·생성물은 건너뛴다: `*` `<` `{` `…` `$` `//` `bazel-bin/`
           `bazel-out` `.wip` 을 포함하거나 `~` 로 시작하는 것. 생성물은 `bazel-bin/` 접두로 적는 것이
           규칙이다 — 표지가 아니라 규칙이므로 `kg/chunks-kg.ttl` 처럼 적힌 생성물은 없는 경로로 잡힌다.
@@ -32,7 +34,7 @@
       `--report` 는 판정이 아니므로 어긋난 쌍이 있어도 0 이다.
 
 사용  doccheck.py [--root DIR] [--waivers FILE] <문서 ...> [--target-only FILE ...]
-      bazel run //tools:doccheck -- *.md docs/*.md docs/open-questions/*.md --target-only docs/agent-knowledge-system-notes.md
+      bazel run //tools:doccheck -- *.md docs/*.md --target-only docs/agent-knowledge-system-notes.md
       bazel run //tools:doccheck -- --report      # 문서 수치 대 생성물 수치, FAIL 아님 (진입점 문서 넷)
       bazel run //tools:doccheck -- --report /tmp/x/doc.md   # 위치 인자가 있으면 그 문서로 바꾼다, 루트 밖도 된다
       루트는 --root, 없으면 BUILD_WORKSPACE_DIRECTORY(bazel run), 없으면 현재 디렉토리(bazel test 의 runfiles).
@@ -60,8 +62,9 @@ EXIT_CONFIG = kb_lib.EXIT_CONFIG  # 파일 없음·인자 오류·읽을 수 없
 EXIT_SKIP = kb_lib.EXIT_SKIP      # 검사 대상 0건 — PASS 가 아니다
 
 TAG = kb_lib.DOCCHECK_GATE
+FROZEN = kb_lib.FROZEN_GATE  # 동결 문서 게이트 id — 원본 해시의 단일 정의처는 kb_lib.FROZEN_DOCS
 PROSE = kb_lib.PROSE_GATE  # 산문 게이트 id — waivers.md 가 같은 이름으로 면제를 선언한다
-PATH_PREFIXES = ("kb/", "kg/", "tools/", "docs/", "defs/", "chunks/", "space/", ".claude/")
+PATH_PREFIXES = ("kb/", "kg/", "tools/", "docs/", "defs/", "chunks/", "space/", "harness/", ".claude/")
 SKIP_MARKS = ("*", "<", "{", "…", "$", "//", "bazel-bin/", "bazel-out", ".wip")
 # 마크다운 구조 헬퍼는 kb_lib 이 원본이다 — doccheck·weave·gen_skills·gendoc 이 같은 앵커 규칙을 쓴다
 SCHEME, FENCE, HEADING, CODE_SPAN = kb_lib.MD_SCHEME, kb_lib.MD_FENCE, kb_lib.MD_HEADING, kb_lib.MD_CODE_SPAN
@@ -365,6 +368,33 @@ def to_rel(path: str, root: Path, workdir: str | None) -> Path:
         raise ValueError(f"{path}: 루트 {root} 밖의 파일이다")
 
 
+# ── 동결 문서 — 파일의 sha256 대 kb_lib.FROZEN_DOCS (게이트 id frozen, 유저 답 Q15-c) ────────────────────
+
+def check_frozen(files: list[str], root: Path, workdir: str | None) -> list[str]:
+    """동결 문서의 sha256 이 `kb_lib.FROZEN_DOCS` 의 고정값과 같은지 본다 — 고치려면 상수를 같은 커밋에서 바꿔야 한다.
+
+    입력에 없는 등록 문서도 위반이다 — 대조할 파일이 runfiles 에 없으면 동결이 판정되지 않는다.
+    """
+    import hashlib
+
+    errors = []
+    given = {to_rel(f, root, workdir).as_posix() for f in files}
+    for rel in sorted(set(kb_lib.FROZEN_DOCS) - given):
+        errors.append(f"{rel}: 동결 문서가 입력에 없다 — kb_frozen_docs_test 의 docs 에 넣는다")
+    for rel in sorted(given):
+        want = kb_lib.FROZEN_DOCS.get(rel)
+        if want is None:
+            errors.append(f"{rel}: kb_lib.FROZEN_DOCS 에 없는 문서다 — 동결하려면 해시를 등록한다")
+            continue
+        got = hashlib.sha256((root / rel).read_bytes()).hexdigest()
+        if got != want:
+            errors.append(f"{rel}: sha256 {got[:12]} 이 고정값 {want[:12]} 과 다르다 — 동결 문서는 고치지 않는다. "
+                          f"의도한 정정이면 kb_lib.FROZEN_DOCS 의 값을 같은 커밋에서 바꾼다")
+    return errors
+
+
+# ── 실행 ────────────────────
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--root", default="", help="저장소 루트. 없으면 BUILD_WORKSPACE_DIRECTORY, 없으면 현재 디렉토리")
@@ -380,11 +410,25 @@ def main() -> int:
     ap.add_argument("--gates", default="", metavar="FILE",
                     help="게이트 등록부의 원본 defs/kb.bzl — 주면 `docs/tools.md` 게이트 총람이 그 리터럴의 투영인지 "
                          "본다. 표의 `id` 열에 등록부 밖의 id 가 있으면 FAIL 이고, 반대 방향(총람에 없는 등록 id)은 보고다")
+    ap.add_argument("--frozen", action="store_true",
+                    help="동결 모드 — 위치 인자의 문서가 kb_lib.FROZEN_DOCS 의 sha256 과 같은지만 본다 (게이트 id frozen)")
     ap.add_argument("files", nargs="*", help="검사할 문서 (--report 면 대조할 문서 — 없으면 진입점 문서 넷)")
     args = ap.parse_args()
 
     workdir = os.environ.get("BUILD_WORKING_DIRECTORY")
     root = Path(os.path.abspath(args.root or os.environ.get("BUILD_WORKSPACE_DIRECTORY") or "."))
+    if args.frozen:
+        try:
+            frozen_errors = check_frozen(args.files, root, workdir)
+        except (OSError, ValueError) as e:
+            print(f"FAIL [{FROZEN}] {e}", file=sys.stderr)
+            return EXIT_CONFIG
+        for e in frozen_errors:
+            print(f"FAIL [{FROZEN}] {e}")
+        if frozen_errors:
+            return EXIT_FAIL
+        print(f"PASS [{FROZEN}] — 동결 문서 {len(kb_lib.FROZEN_DOCS)}개")
+        return 0
     repo = Repo(root, set(args.empty_dir))
     if args.report:  # 게이트가 아니다 — 어긋난 쌍이 있어도 0 이다 (현상 agt:documentLag 의 관측 수단)
         # 위치 인자가 있으면 REPORT_DOCS(진입점 문서 넷) 대신 그 목록을 대조 대상으로 쓴다(2026-10-01, vnv 요청) —

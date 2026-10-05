@@ -7,9 +7,8 @@ title: function main in tools/impact.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-impact}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/2a84b29d-2217-4f0a-80af-ef04b3cb55cb, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/d75bedf5-7e0c-4441-b80e-9ead963a2b0e]
 part_of: https://agentic-knowledge-base.dev/id/composite/44b63663-ac34-40f1-92c6-a6281c93c7a6
 ---
@@ -23,7 +22,9 @@ def main() -> int:
     ap.add_argument("--universe", default="//kb/... + //chunks/...")
     a = ap.parse_args()
     cwd = os.environ.get("BUILD_WORKSPACE_DIRECTORY", ".")
-    is_item = lambda l: ":kg" not in l and not l.endswith(":bodies") and l != a.target
+    # 패키지의 본문 filegroup 은 이름이 디렉토리 이름과 같다 (STYLEGUIDE §6) — 묶음이지 지식 항목이 아니다
+    is_group = lambda l: l.split(":")[-1] == l.split(":")[0].rsplit("/", 1)[-1]
+    is_item = lambda l: ":kg" not in l and not is_group(l) and l != a.target
     direct = [l for l in q(f"rdeps({a.universe}, {a.target}, 1)", cwd) if is_item(l)]
     trans = [l for l in q(f"rdeps({a.universe}, {a.target})", cwd) if is_item(l)]
     planes = Counter(plane_of(l) for l in trans)

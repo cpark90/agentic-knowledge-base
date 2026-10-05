@@ -7,7 +7,7 @@ title: class Region in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/52eb4f03-55ea-4dfb-be6d-9164da7da5ef
 ---
@@ -25,6 +25,7 @@ class Region:
         self.children: list = []   # 하위 Region
         self.key = ""
         self.is_head = False       # 모듈 머리 구역 — 절 주석이 없고 어느 절 주석이든 이 구역을 닫는다
+        self.skipped: list = []    # 배선(등록부 `wiring`)의 줄 범위 — 청크로 내지 않고 제 몫 줄에서도 뺀다
 
     def items(self):
         """소스 순서의 부분 후보 — ("def", 노드) · ("region", Region)."""

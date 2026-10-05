@@ -27,7 +27,7 @@ bazel run //tools:assume_check -- --record && python3 tools/gen_build.py --root 
 
 ## 원본
 
-- 절차: [`docs/method.md` 7. 갱신](../../../docs/method.md#7-갱신)
+- 절차: [`docs/method.md#7-갱신`](../../../docs/method.md#7-갱신)
 - 도구: `tools/assume_check.py` (`bazel run //tools:assume_check`) — 사용법은 docstring 이 원본이다
 
 ```text

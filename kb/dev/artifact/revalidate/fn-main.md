@@ -7,9 +7,9 @@ title: function main in tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/1f76c401-7790-442a-8a89-cbeb275631a6, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/4d7ba4f8-3559-4026-8352-97c8b9835a2b, https://agentic-knowledge-base.dev/id/chunk/520a6151-01ee-4804-9141-0829d19e2768, https://agentic-knowledge-base.dev/id/chunk/5e22443d-209f-4479-a064-9c08165f38f4, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/74004d79-dc3f-461f-85e1-3e42bfe1a332, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/d63b7431-1668-41dd-b872-475b380f0fd4]
+uses: [https://agentic-knowledge-base.dev/id/chunk/16f66a60-7480-4e95-a2d5-253ed492fa39, https://agentic-knowledge-base.dev/id/chunk/1f76c401-7790-442a-8a89-cbeb275631a6, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/4d7ba4f8-3559-4026-8352-97c8b9835a2b, https://agentic-knowledge-base.dev/id/chunk/520a6151-01ee-4804-9141-0829d19e2768, https://agentic-knowledge-base.dev/id/chunk/5e22443d-209f-4479-a064-9c08165f38f4, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/66bcf711-ad13-41b9-bbcb-519f83fd163f, https://agentic-knowledge-base.dev/id/chunk/70a7f6f9-c766-45c6-96fe-9992867d3d83, https://agentic-knowledge-base.dev/id/chunk/74004d79-dc3f-461f-85e1-3e42bfe1a332, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/c97d3b27-6804-4dd0-9ac1-4ab2908eaeeb, https://agentic-knowledge-base.dev/id/chunk/d63b7431-1668-41dd-b872-475b380f0fd4]
 part_of: https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f
 ---
 **함수** — `main()` 다.
@@ -26,10 +26,20 @@ def main() -> int:
         print(f"CONFIG [revalidate] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}", file=sys.stderr)
         return 2
 
-    index, incoming, composite_parts, callers, unparsable = index_worktree(root)
-    changed, head_only, base_by_iri, unread = base_diff(a.base, cwd, index)
+    problem = snapshot_mode(a)
+    if problem:
+        print(f"CONFIG [revalidate] {problem}", file=sys.stderr)
+        return 2
+    snapshot = bool(a.head_dir or a.head_files)
+    if snapshot:  # 스냅숏 비교 — git 도 bazel query 도 부르지 않는다 (유저 답 Q38-c)
+        index, incoming, composite_parts, callers, unparsable = index_files(snapshot_files(a.head_dir, a.head_files))
+        base_index, _i, _c, _u, base_unparsable = index_files(snapshot_files(a.base_dir, a.base_files))
+        changed, head_only, base_by_iri, unread = snapshot_diff(base_index, base_unparsable, index, not (a.base_files or a.head_files))
+    else:
+        index, incoming, composite_parts, callers, unparsable = index_worktree(root)
+        changed, head_only, base_by_iri, unread = base_diff(a.base, cwd, index)
     rows, per_chunk, label, iri_to_label = revalidation_rows(
-        root, cwd, a.universe, changed, index, incoming, composite_parts, callers)
+        root, cwd, a.universe, changed, index, incoming, composite_parts, callers, downstream=not snapshot)
 
     # 4. 본문 해시 변경 → 링크 재판정. 본문이 바뀐 청크를 양 끝 중 하나로 갖는 링크 개체가 suspect 로 유도된다 (노트 9.11절)
     body_changed = {iri for _path, kind, iri, _m, _b, _n in changed if kind in ("본문 변경", "변경", "신규", "삭제")}
@@ -41,16 +51,29 @@ def main() -> int:
     is_conclusion = lambda iri: Path(path_of(iri)).name == conclusion_file
     n_conclusion = sum(1 for _l, _k, frm, to, side in objs if is_conclusion(frm if side == "출발" else to))
 
+    if snapshot:
+        sides = (" ".join(a.base_dir + a.base_files), " ".join(a.head_dir + a.head_files))
+        title, between = "스냅숏 대비 재판정 대상", f"base 스냅숏 `{sides[0]}` 와 head 스냅숏 `{sides[1]}`"
+        command = "python3 tools/revalidate.py " + " ".join(
+            [f"--base-dir {d}" for d in a.base_dir] + ([f"--base-files {' '.join(a.base_files)}"] if a.base_files else [])
+            + [f"--head-dir {d}" for d in a.head_dir] + ([f"--head-files {' '.join(a.head_files)}"] if a.head_files else []))
+        downstream = "(c) 하류 의존자 — 스냅숏 비교라 `bazel query` 를 부르지 않아 비어 있다"
+        input_note = "스냅숏 둘의 청크 파일 — 스냅숏 대비 차이라 지문을 내지 않는다"
+    else:
+        title, between = f"base {a.base} 대비 재판정 대상", f"base 리비전 `{a.base}` 와 워킹트리"
+        command = f"bazel run //tools:revalidate -- --base {a.base}"
+        downstream = "(c) `bazel query rdeps` 의 하류 의존자"
+        input_note = f"`git show {a.base}:<청크>` 와 워킹트리의 청크 파일, `bazel query` 결과 — 리비전 대비 차이라 지문을 내지 않는다"
     rep = kb_lib.gendoc_header(
-        "revalidate", f"base {a.base} 대비 재판정 대상", "tools/revalidate.py",
-        f"base 리비전 `{a.base}` 와 워킹트리 사이에서 본문 해시가 바뀐 청크마다 — (a) frontmatter 링크의 상대(양방향) · "
-        "(b) 복합체 형제 · (c) `bazel query rdeps` 의 하류 의존자 · (d) 그 정의를 `uses` 로 가리키는 **호출부** · "
+        "revalidate", title, "tools/revalidate.py",
+        f"{between} 사이에서 본문 해시가 바뀐 청크마다 — (a) frontmatter 링크의 상대(양방향) · "
+        f"(b) 복합체 형제 · {downstream} · (d) 그 정의를 `uses` 로 가리키는 **호출부** · "
         "(e) 그 청크를 양 끝 중 하나로 갖는 **링크 개체**(`agt:Link`)를 재판정 대상으로 (dependency-graph-design §5). 링크 개체의 상태는 저장하지 않고 여기서 물질화한다",
-        f"bazel run //tools:revalidate -- --base {a.base}", [],
+        command, [],
         f"변경 청크 {len(changed)} · 재판정 대상 {len(rows)} · 호출부 {sum(r[4] == 'frontmatter uses' for r in rows)} · "
         f"재판정 링크 개체 {len(objs)} (바뀐 끝이 결정 결론인 것 {n_conclusion})",
         kb_lib.gendoc_view_notice("각 청크의 본문과 frontmatter 링크"),
-        input_note=f"`git show {a.base}:<청크>` 와 워킹트리의 청크 파일, `bazel query` 결과 — 리비전 대비 차이라 지문을 내지 않는다",
+        input_note=input_note,
         extra=[f"- 호출부 {sum(r[4] == 'frontmatter uses' for r in rows)} — 본문이 바뀐 정의를 `uses`(agt:usesDefinition)로 "
                "가리키는 출발점이고 **코드 호출부 파손의 상한**이다. 모듈 안 호출과 치역 경계"
                f"(`{kb_lib.USES_TARGETS_NAME}`) 안의 모듈 간 호출을 세므로 경계 밖을 치역으로 하는 호출은 빠진다",

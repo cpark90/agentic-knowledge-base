@@ -26,7 +26,7 @@ bazel build //kb/dev:adr //kb/dev:requirements //kb/dev:changelog
 
 ## 원본
 
-- 절차: [`docs/method.md` 9. 뷰](../../../docs/method.md#9-뷰)
+- 절차: [`docs/method.md#9-뷰`](../../../docs/method.md#9-뷰)
 - 도구: `tools/weave.py` (`bazel run //tools:weave`) — 사용법은 docstring 이 원본이다
 
 ```text

@@ -7,12 +7,12 @@ title: The two cases whose negative stimulus was skipped fail to show the reject
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/odd-agentic-knowledge-base}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-targets: [https://agentic-knowledge-base.dev/id/chunk/a45a0511-d839-4219-9c67-b417be2d8f51, https://agentic-knowledge-base.dev/id/chunk/ee329895-169a-4bf2-bd1a-94dcc44345e3]
-generated: {by: vnv/claude-opus-5, at: 2026-09-23T02:10:00+09:00}
+targets: [https://agentic-knowledge-base.dev/id/chunk/b8daf558-7bb8-5b5d-95ba-e6f5c305feb2, https://agentic-knowledge-base.dev/id/chunk/90e003d5-92eb-5220-b85d-cdb05fc96ece]
+generated: {by: vnv/claude-opus-5, at: 2026-10-04T22:47:50+09:00}
 ---
 issue (non-blocking): 두 케이스의 음성 명령이 실행되지 않아 게이트가 거부한다는 절반이 비어 있다.
 
-대상: https://agentic-knowledge-base.dev/id/chunk/a45a0511-d839-4219-9c67-b417be2d8f51 · https://agentic-knowledge-base.dev/id/chunk/ee329895-169a-4bf2-bd1a-94dcc44345e3
+대상: https://agentic-knowledge-base.dev/id/chunk/b8daf558-7bb8-5b5d-95ba-e6f5c305feb2 · https://agentic-knowledge-base.dev/id/chunk/90e003d5-92eb-5220-b85d-cdb05fc96ece
 
 본문: 2026-09-22 실행에서 두 케이스의 음성 명령이 사유 `임시 파일 자극 — 프로즈에 구조만 있어 자동 생성 불가` 로 건너뛰어졌다. 남은 양성 명령만 종료 0 이라 두 케이스의 판정은 `pass` 가 아니라 `skip` 이다. 자극인 임시 파일의 구조가 케이스 본문의 산문과 코드 블록에만 있어 검증기가 그것을 만들 수 없다.
 

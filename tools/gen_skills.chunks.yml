@@ -7,8 +7,8 @@ source: tools/gen_skills.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-gen-skills
 package: kb/dev/artifact/gen_skills
 layer: process
-at: 2026-09-30T08:07:48Z
-source_hash: 63ddd339bef2d0f8
+at: 2026-10-02T00:08:55Z
+source_hash: 8d36a92cb57ea6d8
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f
 serves: []

@@ -25,7 +25,7 @@ bazel build //space:choices && cat bazel-bin/space/choices.md
 
 ## 원본
 
-- 절차: [`docs/method.md` 5. 후보 관리](../../../docs/method.md#5-후보-관리)
+- 절차: [`docs/method.md#5-후보-관리`](../../../docs/method.md#5-후보-관리)
 - 도구: `tools/choices.py` (`bazel run //tools:choices`) — 사용법은 docstring 이 원본이다
 
 ```text

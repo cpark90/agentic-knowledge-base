@@ -7,17 +7,23 @@ title: function render in tools/gen_skills.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-skills}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/9337f5de-4a6b-420b-b51d-2a1afe8ebbae, https://agentic-knowledge-base.dev/id/chunk/f4e15fab-b378-46c2-b8ae-ca2982aa9dcd]
 part_of: https://agentic-knowledge-base.dev/id/composite/b9b38ba6-d689-44c6-814b-4526153a07b1
 ---
-**함수** — `render(entry, title, what, usage, section_doc, section_text, depth)` 다.
+**함수** — `render(entry, title, what, usage, section_doc, depth)` 다. SKILL.md 하나.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def render(entry: dict, title: str, what: str, usage: str, section_doc: str, section_text: str, depth: int) -> str:
+def render(entry: dict, title: str, what: str, usage: str, section_doc: str, depth: int) -> str:
+    """SKILL.md 하나. 절차 줄은 문서 경로와 앵커만 적는다 — 제목 텍스트를 옮기지 않는다(2단계 편입, 2026-10-03).
+
+    제목 텍스트를 옮기면 skill 의 원본에 손 문서가 섞인다(원본 셋 = docstring · `kb_lib.SKILLS` · 문서 제목). 앵커는
+    `kb_lib.SKILLS` 항목의 값이라 이미 그 원본 안에 있고, 앵커의 실재는 `generate` 가 여전히 문서에서 확인한다.
+    """
     tool, when = entry["tool"], entry["when"]
+    anchor = entry["section"].split("#", 1)[1]
     up = "../" * depth
     if ": " in when or " #" in when or when[:1] in "[]{}&*!|>'\"%@`,":
         raise GenSkillsError(f"kb_lib.SKILLS[{tool}].when: YAML 평문 스칼라로 쓸 수 없는 문자(': ' · ' #' · 특수 첫 글자)가 있다")
@@ -36,7 +42,7 @@ def render(entry: dict, title: str, what: str, usage: str, section_doc: str, sec
         "## 언제 쓰는가", "", when, "",
         "## 명령", "", "```bash", cmds, "```", "",
         "## 원본", "",
-        f"- 절차: [`{section_doc}` {section_text}]({up}{section_doc}#{entry['section'].split('#', 1)[1]})",
+        f"- 절차: [`{section_doc}#{anchor}`]({up}{section_doc}#{anchor})",
         f"- 도구: `{TOOLS_DIR}/{tool}.py` (`bazel run //{TOOLS_DIR}:{tool}`) — 사용법은 docstring 이 원본이다", "",
         "```text", usage, "```", "",
         "## 실패 시", "",

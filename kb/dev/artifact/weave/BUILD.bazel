@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:artifact_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "weave",
     srcs = glob(["*.md"]),
 )
 
@@ -35,6 +35,8 @@ kb_composite(
         "fn-render_audit.md",
         "fn-render_changelog.md",
         "fn-render_requirements.md",
+        "fn-round_record_section.md",
+        "fn-round_records.md",
         "fn-round_section.md",
         "fn-source_ref.md",
         "fn-supersedes_chain.md",
@@ -54,6 +56,7 @@ kb_composite(
     level = "executable",
     status = "stable",
     refines = [
+        "//kb/dev/decision:p12-audit-and-onboarding-self-sufficiency",
         "//kb/dev/decision:p12-documents-are-generated",
         "//kb/dev/decision:p7-commentary-form",
     ],

@@ -7,8 +7,8 @@ source: tools/gen_build.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build
 package: kb/dev/artifact/gen_build
 layer: process
-at: 2026-09-30T08:07:48Z
-source_hash: e7d8428fc8f803be
+at: 2026-10-02T00:08:55Z
+source_hash: e4b29aeb65db7ea4
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/047c5c56-2b6c-4f8b-993e-32f3a35fd1d6
   - https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c
@@ -24,22 +24,29 @@ ids:
   composite:sec:genbuilderror: https://agentic-knowledge-base.dev/id/composite/5d2c4208-d2d8-45df-b4a3-1931a6c56dfd
   composite:sec:group-composites: https://agentic-knowledge-base.dev/id/composite/569c6e75-e264-4981-bf0b-bba156b541c8
   composite:sec:main: https://agentic-knowledge-base.dev/id/composite/e563bac1-7552-474e-a036-f6ced4999bc4
+  composite:sec:norm-conventions: https://agentic-knowledge-base.dev/id/composite/6400a2c9-ed32-428b-bd76-5952553e5e04
+  composite:sec:render-chunks: https://agentic-knowledge-base.dev/id/composite/bd43acdb-4493-4bcb-852c-56bb2a3c929e
   composite:sec:render-composite: https://agentic-knowledge-base.dev/id/composite/b9a75b3d-1c8f-4a7a-8f7f-dc10a84362fa
   file: https://agentic-knowledge-base.dev/id/composite/9bb41e68-1b5c-4d4c-aee0-32a2899bedf9
   fn:_check_bundle: https://agentic-knowledge-base.dev/id/chunk/816a1348-352c-462d-bbb0-ad267befb0d9
   fn:_composite_tree: https://agentic-knowledge-base.dev/id/chunk/6b2fd7de-ac08-40ec-a4c0-7976d20b1f34
   fn:artifact_pkgs: https://agentic-knowledge-base.dev/id/chunk/d6d0bfc7-7f87-474c-8939-8d7ce8113eaa
+  fn:decision_iris: https://agentic-knowledge-base.dev/id/chunk/32315be1-6edc-4ecd-8cb0-fa9a30fc7efc
   fn:group_composites: https://agentic-knowledge-base.dev/id/chunk/2d509ef2-a992-4376-8863-e6f4bd1edce1
   fn:label_list: https://agentic-knowledge-base.dev/id/chunk/0f0f082a-c9cd-454c-ab65-ca4f3bebc461
   fn:links_of: https://agentic-knowledge-base.dev/id/chunk/e284beaa-0477-4715-ba21-44028b13bf3f
   fn:main: https://agentic-knowledge-base.dev/id/chunk/c45073d7-38c4-4ed0-bea8-16920059e835
+  fn:norm_conventions: https://agentic-knowledge-base.dev/id/chunk/e1b40b31-0dc4-45a2-b4a1-345ee72df9df
+  fn:norm_pkgs: https://agentic-knowledge-base.dev/id/chunk/7e58cd2b-ecf9-4a21-a66b-9e28aa4474e9
   fn:ontology: https://agentic-knowledge-base.dev/id/chunk/9cf3ed9e-81a6-4add-97ba-b933477041ad
   fn:parse_item: https://agentic-knowledge-base.dev/id/chunk/be13ce99-9dc5-4abe-8367-5558f1aa4b02
+  fn:pkg_group: https://agentic-knowledge-base.dev/id/chunk/7da9bdbd-c81f-432f-a9a2-fe6561f504be
   fn:q: https://agentic-knowledge-base.dev/id/chunk/a8f6816d-512e-4fb2-8bce-765ddee8bf42
   fn:render_artifact_root: https://agentic-knowledge-base.dev/id/chunk/552acfff-57db-463e-82cb-cdace15cb87d
   fn:render_chunks: https://agentic-knowledge-base.dev/id/chunk/869af6ba-5152-4bae-8ae4-1081f5177303
   fn:render_composite: https://agentic-knowledge-base.dev/id/chunk/b741d4e1-90f5-4f0b-9bb2-10c4efbcdf69
   fn:render_decisions: https://agentic-knowledge-base.dev/id/chunk/f27e5261-f973-4030-9f81-9dab47f4a21a
+  fn:render_norm_root: https://agentic-knowledge-base.dev/id/chunk/e54eb0d7-070d-49c3-80c1-2c299c1c0b7a
   fn:render_vv_root: https://agentic-knowledge-base.dev/id/chunk/50e03067-a51a-4276-beaa-b3062acbca52
   fn:scan: https://agentic-knowledge-base.dev/id/chunk/ad68f79e-bbb2-4a80-b6c8-518fdd88a3a2
   head: https://agentic-knowledge-base.dev/id/chunk/fa831b18-16bd-4c86-8fa9-8ac3d941c6f2
@@ -47,4 +54,6 @@ ids:
   sec:genbuilderror: https://agentic-knowledge-base.dev/id/chunk/d19e28ff-8c1f-4b0b-844f-86988512852f
   sec:group-composites: https://agentic-knowledge-base.dev/id/chunk/772e3f27-062d-46b0-9cb1-abdd3d0b9b82
   sec:main: https://agentic-knowledge-base.dev/id/chunk/6f05d1bb-343d-40c7-bba6-b73ba4cedde4
+  sec:norm-conventions: https://agentic-knowledge-base.dev/id/chunk/d822b51d-5ffb-4962-933d-fc59e53cee82
+  sec:render-chunks: https://agentic-knowledge-base.dev/id/chunk/8286f5e3-87ee-43f8-a66e-84bd9b01ae41
   sec:render-composite: https://agentic-knowledge-base.dev/id/chunk/8e8cfaeb-c2e6-4e1d-870e-739e9d72a66a

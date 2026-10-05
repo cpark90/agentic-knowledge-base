@@ -7,8 +7,8 @@ source: tools/community.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-community
 package: kb/dev/artifact/community
 layer: process
-at: 2026-09-30T08:07:48Z
-source_hash: d7eeac7a9198ac95
+at: 2026-10-02T00:08:55Z
+source_hash: 51a8f66e424f6713
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/822db955-483e-47ed-ad68-fec783bc825b
 serves: []

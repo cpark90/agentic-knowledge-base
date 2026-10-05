@@ -21,7 +21,7 @@ agt:variableKind a owl:ObjectProperty ;
     rdfs:domain agt:Space ;
     rdfs:range rdf:Property ;
     rdfs:label "variable kind"@en , "변수의 링크 타입"@ko ;
-    skos:definition "설계 변수가 묻는 링크 타입 — 네 족의 잎 속성 중 하나이고 후보 링크의 agt:linkKind 와 같은 값이다. 출발 항목이 같아도 타입이 다르면 다른 변수이므로 파일도 다르다 (8.2절, 0.2절)."@ko .
+    skos:definition "설계 변수가 묻는 링크 타입 — 세 족의 잎 속성 중 하나이고 후보 링크의 agt:linkKind 와 같은 값이다. 출발 항목이 같아도 타입이 다르면 다른 변수이므로 파일도 다르다 (8.2절, 0.2절)."@ko .
 
 agt:hasCandidate a owl:ObjectProperty ;
     rdfs:domain agt:Space ;

@@ -7,18 +7,23 @@ title: function emit_chunk in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/d75bcbfe-969b-45d4-81f9-fc42145f892b]
+uses: [https://agentic-knowledge-base.dev/id/chunk/8c16b743-c8b1-4799-9c5b-5b003686ac07, https://agentic-knowledge-base.dev/id/chunk/d75bcbfe-969b-45d4-81f9-fc42145f892b]
 part_of: https://agentic-knowledge-base.dev/id/composite/094f7e14-ed5b-4c40-83f8-782d9f4161b0
 ---
-**함수** — `emit_chunk(path, meta, tokens)` 다.
+**함수** — `emit_chunk(path, meta, tokens, conventions)` 다. 청크 하나의 head 블록.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def emit_chunk(path: str, meta: dict, tokens: int) -> str:
+def emit_chunk(path: str, meta: dict, tokens: int, conventions: dict | None = None) -> str:
+    """청크 하나의 head 블록. `conventions` 는 결정 slug → 결정 복합체 IRI — 절 청크의 `items` 를 agt:projectsConvention 으로 낸다.
+
+    사상에 없는 slug 는 호출자(main)가 먼저 거부한다 — 여기 오면 전부 풀린다.
+    """
+    substance = PROFILE_SUBSTANCE.get(meta["type"])  # norm 은 실체 클래스가 없다 — plane 클래스 하나로 타이핑한다
     stmts = [
-        f"a {PLANE_CLASS[meta['type']]} , {PROFILE_SUBSTANCE[meta['type']]}",
+        f"a {PLANE_CLASS[meta['type']]}" + (f" , {substance}" if substance else ""),
         f'rdfs:label "{esc(meta["title"])}"@en',
         f'rdfs:label "{esc(meta["title_ko"])}"@ko',
         f"agt:hasLevel agt:{meta['level']}",
@@ -29,6 +34,14 @@ def emit_chunk(path: str, meta: dict, tokens: int) -> str:
     ]
     if "pattern" in meta:
         stmts.append(f"agt:pattern {EARS_PATTERNS[meta['pattern']]}")
+    if NORM_HEADING_KEY in meta:  # 절 제목·깊이 — 절 청크의 shape(norm-section-shapes.ttl)가 짝과 값을 본다
+        stmts.append(f'agt:sectionHeading "{esc(meta[NORM_HEADING_KEY])}"')
+    if NORM_DEPTH_KEY in meta:
+        stmts.append(f"agt:sectionDepth {int(meta[NORM_DEPTH_KEY])}")
+    if meta.get(NORM_CONTINUES_KEY) == "true":  # 이어짐 절 청크 — 제목·깊이 없이 규약 줄을 싣는 자리를 shape 가 머리 청크와 가른다
+        stmts.append("agt:sectionContinues true")
+    for slug in norm_item_slugs(meta.get("_norm_items") or [], links=False):  # 절이 싣는 줄의 결정
+        stmts.append(f"{PROJECTS_CONVENTION_PREDICATE} <{(conventions or {})[slug]}>")
     stmts += [
         f"agt:tokenCount {tokens}",  # 본문의 크기 — 단위는 토큰이고 계수기는 o200k_base 다 (p1-chunk-unit-is-tokens)
         *(f'agt:bodySlot "{esc(s)}"' for s in meta.get("_body_slots", [])),  # 본문 형태 — 틀의 필수 슬롯은 *-body-shapes.ttl 이 본다

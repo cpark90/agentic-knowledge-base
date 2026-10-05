@@ -7,8 +7,8 @@ source: tools/term_propose.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-term-propose
 package: kb/dev/artifact/term_propose
 layer: process
-at: 2026-09-10T17:03:35Z
-source_hash: bd18f296a06eb991
+at: 2026-09-30T08:07:48Z
+source_hash: 324891987ccacae7
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/4754eb68-ad27-45ad-912c-0385087cd063
   - https://agentic-knowledge-base.dev/id/chunk/b136d285-c4ba-461b-99cf-bda07c2243d8
@@ -21,7 +21,9 @@ ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/3eff15a8-c6b8-46a9-a707-b95a948c619d
   composite:sec:main: https://agentic-knowledge-base.dev/id/composite/f37f3044-d076-4e57-b68f-4a03d2ad16d5
   file: https://agentic-knowledge-base.dev/id/composite/f141ce57-8f04-4bda-a9ff-756f81f57846
+  fn:chunk_types: https://agentic-knowledge-base.dev/id/chunk/2d62de0c-4e57-4e6c-ba4e-85fe1ebdc37f
   fn:main: https://agentic-knowledge-base.dev/id/chunk/d66b4063-3aaf-4298-a354-558d89f03dc6
+  fn:ontology_graph: https://agentic-knowledge-base.dev/id/chunk/0f329565-00ac-4268-a110-cf18eaef3332
   head: https://agentic-knowledge-base.dev/id/chunk/c730fd69-c542-4d85-92ae-38125ac16f18
   module: https://agentic-knowledge-base.dev/id/chunk/f0e34a95-761c-4513-8c4a-a3c779e351c8
   sec:main: https://agentic-knowledge-base.dev/id/chunk/83e867da-9f14-4e81-bfdf-fe5df2e75475

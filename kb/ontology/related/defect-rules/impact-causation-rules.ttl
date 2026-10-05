@@ -35,3 +35,4 @@ agt:generatedArtefactDrift agt:hasImpact agt:functionalImpact .
 agt:metricVariesByLoadingOption agt:hasImpact agt:coverageImpact .
 agt:labelRot agt:hasImpact agt:functionalImpact .
 agt:documentLag agt:hasImpact agt:functionalImpact .
+agt:stimulusNotWrappableAsCase agt:hasImpact agt:coverageImpact .

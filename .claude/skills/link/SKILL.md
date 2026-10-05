@@ -26,7 +26,7 @@ python3 tools/gen_build.py --root . && bazel test //...   # 앵커 청크에 링
 
 ## 원본
 
-- 절차: [`docs/method.md` 6. 연결](../../../docs/method.md#6-연결)
+- 절차: [`docs/method.md#6-연결`](../../../docs/method.md#6-연결)
 - 도구: `tools/link.py` (`bazel run //tools:link`) — 사용법은 docstring 이 원본이다
 
 ```text

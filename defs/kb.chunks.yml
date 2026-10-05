@@ -1,0 +1,70 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/kb-bzl/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: defs/kb.bzl
+resource: https://agentic-knowledge-base.dev/id/src-defs-kb
+package: kb/dev/artifact/kb-bzl
+layer: process
+at: 2026-10-02T00:08:55Z
+source_hash: 3a7bbde975e97638
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/c5bb1922-eb82-4b96-a49c-a46e41c239e4
+  - https://agentic-knowledge-base.dev/id/chunk/ee51de32-a48b-4ade-a147-4953bce27364
+  - https://agentic-knowledge-base.dev/id/chunk/af618b63-841a-4c19-a935-62ec246c2218
+  - https://agentic-knowledge-base.dev/id/chunk/525c2b08-d69e-41f1-bbcd-fbffa082a5eb
+serves: []
+wiring:
+  - norm_doc_labels
+  - _lint_action
+  - _head_action
+  - _composite_outputs
+  - _kb_ontology_module_impl
+  - kb_ontology_module
+  - _kb_bundle_impl
+  - kb_bundle
+  - _kb_kg_merge_impl
+  - kb_kg_merge
+  - _kb_workset_view_impl
+  - kb_workset_view
+tested: {}
+ids:
+  ch:check-extracted-sources: https://agentic-knowledge-base.dev/id/chunk/9d52ede8-2b46-4a6b-9563-639903e1dd07
+  ch:gate-layer: https://agentic-knowledge-base.dev/id/chunk/e3d07c3d-f4de-4f63-bf88-d0dca1db6cc7
+  composite:ch:check-extracted-sources: https://agentic-knowledge-base.dev/id/composite/84e893d0-8cc4-4710-b3b9-3885ce121377
+  composite:ch:gate-layer: https://agentic-knowledge-base.dev/id/composite/b5154bf0-e67d-4227-8b66-c63012041201
+  composite:head: https://agentic-knowledge-base.dev/id/composite/6b05f02c-2996-474b-b7c4-13cbe4ce3c0b
+  composite:sec:-check-residency: https://agentic-knowledge-base.dev/id/composite/de15c0eb-b277-4159-9610-3cf83fed1763
+  composite:sec:-link-attrs: https://agentic-knowledge-base.dev/id/composite/327a7a64-22f6-4b2b-a0d2-542146d25d6f
+  composite:sec:check-extracted-sources: https://agentic-knowledge-base.dev/id/composite/1aefa82b-e840-4a41-89c0-385789709974
+  composite:sec:extracted-sources: https://agentic-knowledge-base.dev/id/composite/6f9d4842-39d2-4132-a752-1de62b857fbd
+  composite:sec:gate-layer: https://agentic-knowledge-base.dev/id/composite/956de65c-1062-450b-8b08-43cc1458ad88
+  composite:sec:gates: https://agentic-knowledge-base.dev/id/composite/9b882351-44e5-4a79-a71d-ab5febf20ef2
+  composite:sec:gates-tail: https://agentic-knowledge-base.dev/id/composite/e3a7d586-dffc-4a5e-b4b8-26bb3f1aeccb
+  composite:sec:levels: https://agentic-knowledge-base.dev/id/composite/6786e437-a91f-4a66-8954-1000cfc3e433
+  composite:sec:max-parts: https://agentic-knowledge-base.dev/id/composite/f39dff5d-eec4-44a9-a9eb-ac03d49b15bb
+  composite:sec:tool-tags: https://agentic-knowledge-base.dev/id/composite/43c17d6f-f9ef-4fa2-aa31-cf3f8e6acc81
+  file: https://agentic-knowledge-base.dev/id/composite/9a583117-c61c-48f7-b30a-f60bddda9bfe
+  fn:_check_links: https://agentic-knowledge-base.dev/id/chunk/708eb95d-56a9-4df5-883c-65f3f6821507
+  fn:_check_order: https://agentic-knowledge-base.dev/id/chunk/1bd8f244-2394-47da-84b8-ccc6b62491f3
+  fn:_check_residency: https://agentic-knowledge-base.dev/id/chunk/6eac2ae1-8d4b-41bd-9b7e-17100fd21d92
+  fn:_is_vv: https://agentic-knowledge-base.dev/id/chunk/bc4094f8-5d74-42ab-8efd-d981c7993732
+  fn:_kb_chunk_impl: https://agentic-knowledge-base.dev/id/chunk/529ee1d7-f1a4-4eda-a71b-562040bdba47
+  fn:_kb_composite_impl: https://agentic-knowledge-base.dev/id/chunk/9ea0fc86-c0a7-40b9-9890-52de62a048a9
+  fn:_kb_decision_impl: https://agentic-knowledge-base.dev/id/chunk/2293c3e9-50cc-4f0a-a8f4-3fa05b5eb583
+  fn:check_extracted_sources: https://agentic-knowledge-base.dev/id/chunk/18ab5773-e7d0-40b1-8790-f360d7a35f48
+  fn:check_extracted_starlark: https://agentic-knowledge-base.dev/id/chunk/d4a3b639-e07c-4c13-834b-aa0f9d944d12
+  fn:check_gates: https://agentic-knowledge-base.dev/id/chunk/849657ba-c3cf-4977-8106-9d89338460ff
+  head: https://agentic-knowledge-base.dev/id/chunk/a0bfff7b-bee9-4e2a-91c8-0640117414d1
+  module: https://agentic-knowledge-base.dev/id/chunk/5e66ed6e-bc41-4da5-b863-a928f146a7bc
+  sec:-check-residency: https://agentic-knowledge-base.dev/id/chunk/c6f4dfc5-3747-4dbf-acd0-5dfc5c816a39
+  sec:-link-attrs: https://agentic-knowledge-base.dev/id/chunk/681baacc-3465-444d-a6cd-65f4e14d2444
+  sec:check-extracted-sources: https://agentic-knowledge-base.dev/id/chunk/c6d602aa-0533-4cbd-8f39-8bb4031ed32f
+  sec:extracted-sources: https://agentic-knowledge-base.dev/id/chunk/e8380930-b5fb-496b-bd8a-5c1baa7c9ea3
+  sec:gate-layer: https://agentic-knowledge-base.dev/id/chunk/093f3277-7080-49e5-8c34-6f48eec1106d
+  sec:gates: https://agentic-knowledge-base.dev/id/chunk/5d6ffe38-1280-4b10-a5aa-c79e35a4f0bd
+  sec:gates-tail: https://agentic-knowledge-base.dev/id/chunk/efa22138-0bbd-46c9-a448-bff8a2787a6e
+  sec:levels: https://agentic-knowledge-base.dev/id/chunk/c8ca6ad0-31b7-43b9-bca5-a31871f4ee1b
+  sec:max-parts: https://agentic-knowledge-base.dev/id/chunk/c34e4a59-5cb0-4d80-8835-757a656aa25d
+  sec:tool-tags: https://agentic-knowledge-base.dev/id/chunk/c00df5fa-5f8a-4f58-ad04-8357419cf445

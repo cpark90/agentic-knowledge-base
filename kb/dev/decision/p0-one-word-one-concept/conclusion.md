@@ -7,7 +7,8 @@ title: No Korean word carries two concepts
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T00:30:10+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0025]
 part_of: https://agentic-knowledge-base.dev/id/composite/727e4644-52bb-4880-bb4b-ba11d36469f1
@@ -22,7 +23,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/727e4644-52bb-48
 "범위", 분야는 "분야"), 제약은 후보 링크 간 양립 조건(논리적 제한은 "공리",
 요구사항은 "요구"), 요구는 `requirement` plane 청크(체계에 대한 요구는
 "입력"), 기준은 logical의 합격 기준, 검증은 명세 대비 확인(기계적인 것은
-"검사"), 링크는 추적성 관계(문서 내 참조는 "참조"), 청크는 42줄 최소
+"검사"), 링크는 추적성 관계(문서 내 참조는 "참조"), 청크는 토큰 상한의 최소
 단위, 복합체는 `part-of` 묶음이다.
 
 두 KB를 가르는 자리도 이 규칙으로 고정한다 — **시나리오·검증 목표·검증기는

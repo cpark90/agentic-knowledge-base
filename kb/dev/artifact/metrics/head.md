@@ -7,9 +7,8 @@ title: module head agt in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f, https://agentic-knowledge-base.dev/id/chunk/1f7d15d7-e85d-42dd-bef3-fb9c9a6d0365]
 part_of: https://agentic-knowledge-base.dev/id/composite/3c529991-238b-41b3-abc4-9d4e944f0a32
 ---
 **모듈 머리** — `tools/metrics.py` 의 모듈 머리 `agt` 다. 모듈 머리
@@ -33,6 +32,9 @@ LINKS = list(kb_lib.TRACE_LINKS)  # 추적 링크 잎의 단일 정의처는 kb_
 PLANES: list[str] = []
 LEVELS: list[str] = []
 RESIDENCY: dict[str, list[str]] = {}
+DECISION_SPAN = ("abstract", "logical", "concrete")  # 결정 복합체가 걸치는 수준 (p7-decision-spans-three-levels) — 건너뜀 분해의 기준
+VNV_PRODUCER, PROCESS_PRODUCER = "vnv/", "process:"  # V&V KB 를 써도 되는 생성자 접두 — 독립성 지표 (역할 vnv 와 도구 프로세스)
+HUMAN_CHECK_SLOT = kb_lib.HUMAN_CHECK_SLOT  # 사람 확인 합격 기준의 가운데 슬롯 — 정의처는 kb_lib (게이트 `rung-before-descent` 와 공유)
 GRADES = "ABCD"  # 판정 방법 등급 (3.9절) — 연언의 등급은 최저 = 가장 뒤의 글자 (assume_check 와 같은 정의)
 ```
 <!-- 인용 끝 -->

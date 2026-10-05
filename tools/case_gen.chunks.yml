@@ -1,0 +1,60 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/case_gen/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/case_gen.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-case-gen
+package: kb/dev/artifact/case_gen
+layer: process
+at: 2026-10-04T14:43:34Z
+source_hash: 662991169b7448ce
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/5ff79a30-1dc2-45e0-be42-2d793dbcf65a
+serves: []
+tested: {}
+ids:
+  cls:CaseGenError: https://agentic-knowledge-base.dev/id/chunk/b23dee78-99ba-49f8-bcde-88ea157cbe7a
+  composite:head: https://agentic-knowledge-base.dev/id/composite/1a0a0d9e-abcb-46ca-bf5b-d530a350816e
+  composite:sec:check-keep: https://agentic-knowledge-base.dev/id/composite/c1361b91-dc50-48d4-bb3e-7e5d11c04516
+  composite:sec:drift: https://agentic-knowledge-base.dev/id/composite/9b61053c-0a32-44e3-83a7-5cceaaa5c57e
+  composite:sec:fill: https://agentic-knowledge-base.dev/id/composite/7cb71e27-ad8a-449d-b46a-454149642b32
+  composite:sec:inside: https://agentic-knowledge-base.dev/id/composite/c6c4a5c0-8ba7-4c89-a79a-bc2544a590be
+  composite:sec:odd-attributes: https://agentic-knowledge-base.dev/id/composite/10ce940e-ae6b-4b2e-8d0e-3bb5448ae88e
+  composite:sec:render: https://agentic-knowledge-base.dev/id/composite/d35350bd-7f95-4059-82b7-88108831c060
+  file: https://agentic-knowledge-base.dev/id/composite/6038262a-0bc8-4f38-bb62-357c9eaeece2
+  fn:assignments: https://agentic-knowledge-base.dev/id/chunk/fd4532a7-1052-47c8-bc62-5eb12384ea3a
+  fn:baseline: https://agentic-knowledge-base.dev/id/chunk/1da98819-3151-461b-b68f-fcb080f3fbee
+  fn:boundary_values: https://agentic-knowledge-base.dev/id/chunk/1f54d1f6-5634-49e6-abcf-060e526dcd88
+  fn:check_case_template: https://agentic-knowledge-base.dev/id/chunk/eb325ac3-9126-44e4-977b-2da002c1b35a
+  fn:check_cover: https://agentic-knowledge-base.dev/id/chunk/9f9f8d64-532f-44a2-8c09-1d523d9644e0
+  fn:check_interval: https://agentic-knowledge-base.dev/id/chunk/5bd41470-a6c2-4f8a-aa2a-49cc2598fb88
+  fn:check_keep: https://agentic-knowledge-base.dev/id/chunk/68e14740-74c0-4de0-bac0-18d8d243e398
+  fn:check_rule: https://agentic-knowledge-base.dev/id/chunk/9f708a60-c62b-47ce-8e23-c140b412416d
+  fn:classes: https://agentic-knowledge-base.dev/id/chunk/6807ef1c-074c-48b5-a2e8-31e44223ab17
+  fn:discover: https://agentic-knowledge-base.dev/id/chunk/006ec0fb-bfe1-4695-9abf-423664b5532d
+  fn:drift: https://agentic-knowledge-base.dev/id/chunk/7718554a-5a67-4f4b-ab02-c8e91837d716
+  fn:fill: https://agentic-knowledge-base.dev/id/chunk/b32a6a71-a1e8-4f65-89b7-47ea42f67f32
+  fn:fill_any: https://agentic-knowledge-base.dev/id/chunk/57d4b0bb-fce0-462b-ba05-e71e7206bf74
+  fn:generate: https://agentic-knowledge-base.dev/id/chunk/770131c5-53ed-4b85-b077-050f12836f80
+  fn:in_domain: https://agentic-knowledge-base.dev/id/chunk/afe80dd3-6dab-4d6c-bc6c-51c534ca4697
+  fn:inside: https://agentic-knowledge-base.dev/id/chunk/b055ea3f-2020-43a8-8cc6-942e7df8e99f
+  fn:load_scenario: https://agentic-knowledge-base.dev/id/chunk/14a19009-1b05-4621-b253-ce8233be9f19
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/0a97c6fb-2a37-46e9-a895-dbed5741b4da
+  fn:odd_attributes: https://agentic-knowledge-base.dev/id/chunk/54c8835d-68d1-43d6-85ab-2a0371c2a67e
+  fn:pairwise_rows: https://agentic-knowledge-base.dev/id/chunk/eb42f99d-692f-408e-b9bc-496776333330
+  fn:provenance: https://agentic-knowledge-base.dev/id/chunk/769e8138-5647-40e0-8626-1ff77d838b92
+  fn:raw_frontmatter: https://agentic-knowledge-base.dev/id/chunk/d4776922-4147-4da3-a80b-caafc1acc6ac
+  fn:read_back: https://agentic-knowledge-base.dev/id/chunk/c321eb50-ec20-462b-b4cd-c1d3a46065a8
+  fn:render: https://agentic-knowledge-base.dev/id/chunk/d1084eaf-333b-4dbd-ba82-e2d17786590c
+  fn:runner_errors: https://agentic-knowledge-base.dev/id/chunk/2ac44f3c-c4f0-43b6-a92b-686fa3406caf
+  fn:yaml_fence: https://agentic-knowledge-base.dev/id/chunk/e222b91b-3e94-4d2c-a3f9-cf2851ce0d9f
+  fn:yaml_scalar: https://agentic-knowledge-base.dev/id/chunk/098b0459-1cbf-4bc0-8bad-a7a5f9cee7fc
+  head: https://agentic-knowledge-base.dev/id/chunk/7e6ee13b-33d6-454c-80a4-0153fd8aeb90
+  module: https://agentic-knowledge-base.dev/id/chunk/2237cfbd-7d8e-4f70-b528-bea1bfd6e8f4
+  sec:check-keep: https://agentic-knowledge-base.dev/id/chunk/39d0b006-3061-4951-9532-0fdb429561cc
+  sec:drift: https://agentic-knowledge-base.dev/id/chunk/6ff88d03-ddfd-4cd6-87d6-41963232f6f2
+  sec:fill: https://agentic-knowledge-base.dev/id/chunk/a1e8e827-7d78-42f3-a7d7-86a6cf98ac12
+  sec:inside: https://agentic-knowledge-base.dev/id/chunk/694ba24d-4a5e-4e4f-bc3b-4aa1e7b3eb02
+  sec:odd-attributes: https://agentic-knowledge-base.dev/id/chunk/85a6d916-d895-496c-8c65-3dd1b2b74ea0
+  sec:render: https://agentic-knowledge-base.dev/id/chunk/a32c18bc-0e8e-4932-956d-dfb6697ab7f3

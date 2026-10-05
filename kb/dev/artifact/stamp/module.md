@@ -7,13 +7,12 @@ title: file tools/stamp.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-stamp}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:27:50Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/4ec4de00-ea81-4ed0-abf7-40beedc25e38]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/39d9c5d9-3e2f-4e3b-9f05-84c7476fa96b, title_ko: 파일 복합체 tools/stamp.py, title: file composite tools/stamp.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/fe9a3f4c-a455-444c-b612-4f93c3897066, https://agentic-knowledge-base.dev/id/composite/9de96dc9-03ab-40b9-a90a-4481f8f9deb7]}
 ---
-**파일** — `tools/stamp.py` 다. 106줄 · 최상위 정의 3개 · 최상위 절 2개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/stamp.py` 다. 119줄 · 최상위 정의 3개 · 최상위 절 2개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -41,15 +40,17 @@ head 그래프가 받지 않으므로 그래프에 리비전을 넣지 않는다
       루트는 --root, 없으면 BUILD_WORKSPACE_DIRECTORY(bazel run), 없으면 현재 디렉토리.
       도장 뒤에 `bazel run //tools:extract -- <소스>` 와 `python3 tools/gen_build.py --root .` 를 돌린다.
 출력·종료: 거부는 `FAIL [stamp] <경로>: <근거>` + EXIT_FAIL, 읽을 수 없는 입력은 EXIT_CONFIG.
+`--at` 이 지금보다 뒤이면 거부한다 — 미래 시각의 도장은 테스트 통과보다 앞선 주장이 되고, 게이트는 시계에 의존할 수 없어
+(재현성) 이 판정은 쓰는 시점에만 할 수 있다.
 """
 
 from __future__ import annotations
 
 import argparse
-import hashlib
 import os
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 ```
 <!-- 인용 끝 -->

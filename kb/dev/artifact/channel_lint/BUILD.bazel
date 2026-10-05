@@ -7,24 +7,31 @@ package(default_visibility = ["//kb:artifact_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "channel_lint",
     srcs = glob(["*.md"]),
 )
 
 kb_composite(
     name = "module",
     srcs = [
-        "fn-answer_section.md",
+        "fn-body_of.md",
+        "fn-check_links.md",
+        "fn-check_message.md",
+        "fn-check_questionnaire.md",
         "fn-frontmatter.md",
-        "fn-lane_of.md",
+        "fn-kind_of.md",
         "fn-main.md",
         "head.md",
         "module.md",
+        "sec-check-links.md",
+        "sec-check-message.md",
+        "sec-check-questionnaire.md",
         "sec-frontmatter.md",
+        "sec-main.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/84c1731c-46ae-469d-a2b2-a52d6615da86",
-    ordered = ["https://agentic-knowledge-base.dev/id/chunk/2b6adf1a-07f9-41ca-b86b-44bcb3041a2a", "https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4-28d1816c56e6"],
-    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2b6adf1a-07f9-41ca-b86b-44bcb3041a2a", "https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4-28d1816c56e6"],
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/2b6adf1a-07f9-41ca-b86b-44bcb3041a2a", "https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4-28d1816c56e6", "https://agentic-knowledge-base.dev/id/composite/45faf691-73c6-43a3-b8c9-25f7a11782bc", "https://agentic-knowledge-base.dev/id/composite/f4e440cf-7d39-4f1b-9334-79189a47b8a2", "https://agentic-knowledge-base.dev/id/composite/3740ef5b-1def-406b-ab6d-bbb40f9c7329", "https://agentic-knowledge-base.dev/id/composite/d356c13f-12da-449f-8621-56cdffd536e1"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2b6adf1a-07f9-41ca-b86b-44bcb3041a2a", "https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4-28d1816c56e6", "https://agentic-knowledge-base.dev/id/composite/45faf691-73c6-43a3-b8c9-25f7a11782bc", "https://agentic-knowledge-base.dev/id/composite/f4e440cf-7d39-4f1b-9334-79189a47b8a2", "https://agentic-knowledge-base.dev/id/composite/3740ef5b-1def-406b-ab6d-bbb40f9c7329", "https://agentic-knowledge-base.dev/id/composite/d356c13f-12da-449f-8621-56cdffd536e1"],
     plane = "artifact",
     level = "executable",
     status = "stable",

@@ -7,11 +7,10 @@ title: section ordered-key in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/ab66f02d-6126-4507-b73a-c29429769f11, https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2, https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c]
 part_of: https://agentic-knowledge-base.dev/id/composite/7b4508d3-c314-4c0b-a04f-4f86b63bf62e
-composite: {id: https://agentic-knowledge-base.dev/id/composite/7b4508d3-c314-4c0b-a04f-4f86b63bf62e, title_ko: 절 복합체 ordered-key (tools/chunk2kg.py), title: section composite ordered-key in tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/c4902423-8b93-4f1a-8c9e-22ff76076b32, https://agentic-knowledge-base.dev/id/chunk/040b7a8d-10e8-4e6e-96db-b8495e467218], part_of: https://agentic-knowledge-base.dev/id/composite/f7d6eec7-bef4-4e94-ac55-36e7dda654ce}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/7b4508d3-c314-4c0b-a04f-4f86b63bf62e, title_ko: 절 복합체 ordered-key (tools/chunk2kg.py), title: section composite ordered-key in tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/c4902423-8b93-4f1a-8c9e-22ff76076b32, https://agentic-knowledge-base.dev/id/chunk/040b7a8d-10e8-4e6e-96db-b8495e467218], part_of: https://agentic-knowledge-base.dev/id/composite/28e52252-d603-4c96-b7ee-f85197b0d7da}
 ---
 **절** — `tools/chunk2kg.py` 의 절 `ordered-key` 다. 복합체의 순서 (결정 p4-composite-order-is-declared, 유저 승인 2026-09-29 — 예외 없음)
 
@@ -52,20 +51,5 @@ ORDERED_KEY = "ordered"
 # 복합체의 부분인가다. 코드의 추출(p7-code-links-on-file-composite)이 이 자리를 처음 쓴다 — 파일 복합체 → 장·절
 # 복합체 → 함수 청크의 세 층은 부분 상한 9(4.5절) 안에서 파일 하나를 담는 유일한 형태다.
 PART_OF_KEY = "part_of"
-
-
-# LEVELS·STATES(값 어휘)는 위에서 defs/kb.bzl 에서 파생된다(load_plane_level_state) — 여기서 다시 선언하지 않는다.
-HANGUL = re.compile(r"[ㄱ-ㆎ가-힣]")  # 한글 음절·자모 — 라벨 언어 검사 (0.6절 표기 형식)
-REQUIRED = ("id", "type", "level", "title_ko", "title", "status", "generated")
-
-PREAMBLE = """\
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크 파일의 frontmatter다.
-# 생성: tools/chunk2kg.py (bazel build //kg:chunks_kg)
-@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
-@prefix co: <http://purl.org/co/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-"""
 ```
 <!-- 인용 끝 -->

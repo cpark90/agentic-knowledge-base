@@ -1,10 +1,11 @@
 # 결함 형식화 — 관측된 결함의 ODC 차원: 트리거 · 발견 수준 · 한정자 (노트 8.17절, 결정 p8-odc-qualifier-and-dimensions)
 # 주어는 현상 개체다 — 차원은 개별 결함의 속성이지만 지금 값은 현상마다 모은 관측이므로 현상에 붙인다. 개별 결함 개체가 생기면 그쪽으로 내린다.
-# 트리거·발견 수준은 결함 건수를 가진 여덟에만 있다(kb/vv/verdict/risk-phenomena-observed-counts.md). 나머지 열넷은 값이 없다 — 없는 것을 적지 않는다.
+# 트리거·발견 수준은 결함 건수를 가진 여덟(kb/vv/verdict/risk-phenomena-observed-counts.md)과 근거 주석 셋을 가진 P23 에만 있다. 나머지 열넷은 값이 없다 — 없는 것을 적지 않는다.
+# P23 의 발견 수준은 근거 주석 셋의 수준(대상에서 물려받음 — abstract 하나 · executable 둘)이고 트리거는 셋 다 vnv 의 케이스 저작 중 검토다.
 # 한정자는 고칠 방법이 갈린 여섯에만 있다. 부재는 있어야 할 것이 없는 것, 오류는 있으나 틀린 것이다.
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 
-### 트리거와 발견 수준 — 결함 건수를 가진 여덟
+### 트리거와 발견 수준 — 결함 건수를 가진 여덟과 P23
 
 agt:levelSkipping agt:hasTrigger agt:reviewTrigger ; agt:discoveredAtLevel agt:concrete , agt:logical .
 agt:linkWithoutEvidence agt:hasTrigger agt:gateTrigger ; agt:discoveredAtLevel agt:logical .
@@ -14,6 +15,7 @@ agt:skipReadAsPass agt:hasTrigger agt:reviewTrigger ; agt:discoveredAtLevel agt:
 agt:linkToDeprecatedTarget agt:hasTrigger agt:reviewTrigger ; agt:discoveredAtLevel agt:concrete , agt:logical .
 agt:documentLag agt:hasTrigger agt:reviewTrigger ; agt:hasQualifier agt:incorrectQualifier .
 agt:concurrentSessionState agt:hasTrigger agt:runtimeTrigger ; agt:discoveredAtLevel agt:concrete .
+agt:stimulusNotWrappableAsCase agt:hasTrigger agt:reviewTrigger ; agt:discoveredAtLevel agt:abstract , agt:executable .
 
 ### 한정자 — 고칠 방법이 갈린 여섯 (위 둘은 제 줄에 있다)
 

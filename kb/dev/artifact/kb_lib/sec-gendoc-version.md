@@ -7,15 +7,14 @@ title: section gendoc-version in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869, https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23]
 part_of: https://agentic-knowledge-base.dev/id/composite/ad8f9fc0-eedf-44e1-a93f-65f667e359ce
-composite: {id: https://agentic-knowledge-base.dev/id/composite/ad8f9fc0-eedf-44e1-a93f-65f667e359ce, title_ko: 절 복합체 gendoc-version (tools/kb_lib.py), title: section composite gendoc-version in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/580a3b59-587a-4b6a-9e51-73b42edc5251, https://agentic-knowledge-base.dev/id/chunk/a720999d-da2c-4b54-9c40-b64df9c9a74a, https://agentic-knowledge-base.dev/id/chunk/0c73f827-eef2-4929-a126-f9b2c056d037, https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e, https://agentic-knowledge-base.dev/id/chunk/bb657e8b-5946-421e-bfcb-8829e044c9e2, https://agentic-knowledge-base.dev/id/chunk/dcdad310-25df-4a9e-8939-6ef8be6f1e20, https://agentic-knowledge-base.dev/id/chunk/63c8b052-77ba-4c50-bc59-9b1fea9e598d, https://agentic-knowledge-base.dev/id/chunk/aac10f80-c526-4fab-ad8f-e93b193438f3], part_of: https://agentic-knowledge-base.dev/id/composite/9b61f2e4-e29d-4fe0-8a4f-f1be5708e79a}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/ad8f9fc0-eedf-44e1-a93f-65f667e359ce, title_ko: 절 복합체 gendoc-version (tools/kb_lib.py), title: section composite gendoc-version in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/580a3b59-587a-4b6a-9e51-73b42edc5251, https://agentic-knowledge-base.dev/id/chunk/a720999d-da2c-4b54-9c40-b64df9c9a74a, https://agentic-knowledge-base.dev/id/chunk/0c73f827-eef2-4929-a126-f9b2c056d037, https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e, https://agentic-knowledge-base.dev/id/chunk/bb657e8b-5946-421e-bfcb-8829e044c9e2, https://agentic-knowledge-base.dev/id/chunk/dcdad310-25df-4a9e-8939-6ef8be6f1e20], part_of: https://agentic-knowledge-base.dev/id/composite/9b61f2e4-e29d-4fe0-8a4f-f1be5708e79a}
 ---
 **절** — `tools/kb_lib.py` 의 절 `gendoc-version` 다. 생성 문서 규약 G1~G18 — 에이전트가 만드는 마크다운의 형태 (유저 지시 2026-09-21)
 
-**정의** — `utc_stamp` · `now_utc` · `pct` · `num` · `gendoc_input_name` · `gendoc_union` · `input_fingerprint` (소스 순서).
+**정의** — `utc_stamp` · `now_utc` · `pct` · `num` · `gendoc_input_name` (소스 순서).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
@@ -40,7 +39,7 @@ GENDOC_H1_SUFFIX = "(생성 파일)"
 GENDOC_VIEW_MARK = "이 파일은 뷰다."              # G7 — Bazel 뷰
 GENDOC_TREE_MARK = "생성 파일 — 손으로 고치지 않는다."  # G7 — 생성 트리 파일 (SKILL·BUILD)
 GENDOC_DETERMINISTIC_NOTE = "생성 시각·입력 지문은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다"
-# 인용 구역 — 생성물이 청크 본문을 그대로 옮긴 자리. 원본 청크가 자기 게이트(chunk_lint prose·42줄)를 이미 통과했고
+# 인용 구역 — 생성물이 청크 본문을 그대로 옮긴 자리. 원본 청크가 자기 게이트(chunk_lint prose·본문 토큰 상한)를 이미 통과했고
 # 생성기는 원문을 고쳐 쓰지 않으므로(p12-generated-document-form), 서식 규칙 G10·G11·G14·G15·G16·G18 은 이 구역을
 # 판정하지 않는다. 문서 전체에 걸리는 구조 규칙 G8·G9·G12·G13 은 구역 안에도 그대로 적용한다 — 인용이 문서를 깨뜨리면 안 된다.
 GENDOC_QUOTE_OPEN = "<!-- 인용 시작: 청크에서 그대로 옮긴 값 — 원본이 자기 게이트를 통과했다 -->"
@@ -61,30 +60,5 @@ GENDOC_TARGET_BAD_RE = re.compile(r"\(목표:")
 # CQ 정식 문구·주석 청크 본문의 인용·이미 값이 적힌 문장의 부연이라 오탐이었다(kg/cq.md·kg/metrics.md·kg/open.md).
 # 그래서 게이트로 올리지 않고 후보만 낸다 — 판정은 사람 몫이다.
 GENDOC_TIME_WORD_RE = re.compile(r"현재|최신|지금")
-
-
-
-
-
-
-
-
-
-
-
-
-# union 구성의 이름 — 같은 이름의 수치가 도구마다 갈리는 이유를 머리 블록 안에 남긴다 (현상 P21 의 관측 수단, vnv 설계 2026-09-29).
-# 구성을 밝히지 않으면 트리플 수가 다른 것이 결함인지 구성 차이인지 문서만 보고 가릴 수 없다 — 참조 저장소 R5 가 그 형태다.
-# 순서는 선언 순서이고(경로 정렬이 아니다) 표에 없는 그래프 파일은 stem 으로 뒤에 붙는다 — 구성원을 숨기지 않는다.
-GENDOC_UNION_MEMBERS = (
-    ("kg/chunks-kg.ttl", "chunks"),
-    ("kg/base-kg.ttl", "base"),
-    ("kg/catalog-kg.ttl", "catalog"),
-    ("kg/composite-kg.ttl", "composite"),
-    ("kg/references-kg.ttl", "references"),
-    ("kb/odd/", "odd"),
-    ("kb/ontology/", "ontology"),
-    ("space/", "space"),
-)
 ```
 <!-- 인용 끝 -->

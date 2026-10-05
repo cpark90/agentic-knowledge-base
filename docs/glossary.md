@@ -3,7 +3,7 @@
 산문에 쓰는 한글 용어의 원본이다 (유저 결정 2026-09-10, 원장 19). **여기 없는 조어를 새로 만들지
 않는다** — 표준어가 있으면 그것을 쓰고, 없으면 서술어로 풀어 쓴다 (0.0절, STYLEGUIDE §0). 영문
 식별자(`refines`·`serves`·`Composite`·`plane`·`level`)는 온톨로지의 것이며 바꾸지 않는다.
-2026-09-10 이전 기록(`docs/feedback/`, deprecated `chunks/`)은 당시 어휘 그대로다 — 이 표로 읽는다.
+2026-09-10 이전 기록(`harness/user/archive/legacy/`, deprecated `chunks/`)은 당시 어휘 그대로다 — 이 표로 읽는다.
 
 | 표준 용어 (ko) | en | 옛 표기 (2026-09-10 이전) | 출처 | tier |
 |---|---|---|---|---|
@@ -24,7 +24,8 @@
 | 수준 허용표 | allowed-level matrix (plane × level) | 거주표 · 상주표 | — (서술어) | 1 |
 | 재검증 시점 | revalidation point | 재판정 경계 | 24765 revalidation | 1 |
 | 증거 기록 | evidence record | 장부 · 증거 장부 | ISO/IEC 15026 | 1 |
-| 뷰 | view (generated, never stored) | 투영 | ISO/IEC/IEEE 42010 | 1 |
+| 뷰 | view (generated, never stored) | 없음 | ISO/IEC/IEEE 42010. 투영의 하위 종류다(`agt:View`) | 1 |
+| 투영 | projection | 없음 | 원본 청크에서 결정론적으로 생성되는 것이고 층을 갖지 않는다 — 뷰·skill이 그 종류다(`agt:Projection`, 유저 답 Q9-a 2026-10-03). 2026-10-03 전에는 "뷰"의 옛 표기로 금지 목록에 있었다 | 2 |
 | 기여(하다) | contributes to (`serves`) | 봉사(하다) | 요구 추적 | 1 |
 | 할당 · 할당 근거 | allocation · allocation rationale | 배정 · 배정 근거 | ISO 29148 | 1 |
 | 지침 | guidance | 지도 청크 | — | 1 |
@@ -49,5 +50,6 @@
 | 앵커 (두 역할) | anchor | (유지) | ① 링크가 가리키는 기준점 = 청크 IRI (4.8절, Eclipse Capra 앵커 해석기) ② 작업 집합의 출발점 = 지금 작업이 가리키는 청크, 이웃을 펼친다 (0.5절 2026-09-11, LEDGER·LARGER) | — |
 | 안전율 (중복의) | safety margin (redundancy) | (신설 2026-09-11) | 공학 일반 safety factor/margin. 본문 중복을 용인하는 근거 — [`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md), 경계는 `coUpdatesWith` | — |
 | 작업 집합 · 읽기 집합 · 인수인계 · 게이트 · 승격 | working set · read set · handoff · anchor · gate · promotion | (유지) | OS·DB·품질 관용 | — |
+| 하네스 | harness | (유지) | 정의는 유저 문장 그대로다(Q18-a, 2026-10-03): "하네스는 에이전트를 형성하기 위해서 필요한 행동방침, 도구, 정체성 등이다." 목록은 열려 있다. 기록의 주체는 에이전트이고 하네스의 도구가 기록 수단이다(Q17-b, `r-019`) | 2 |
 
 표기: **tier** 1 = 기계 치환(`consistency` ⑥이 옛 표기 잔존으로 센다) · 2 = 유저 결정 · 3 = 문맥 공존(바꾸지 않는다 — 옛 표기가 다른 뜻으로도 쓰인다: 증가 의미의 "상승", 지표 측정의 "평가") · — = 옛 표기 없음 (agrtls B, 유저 채택 2026-09-12).

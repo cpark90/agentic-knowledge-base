@@ -7,10 +7,11 @@ title: The 42-line cap is provisional pending measurement
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T01:13:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T01:13:52+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/ee6bf20f-7b60-4ee8-8681-af13f995682d
 ---
 **대안 — 미확정** (노트 1.4절 `[?]`) — 실측이 필요하다. 하네스 지시와 툴 출력이
 실제로 얼마를 차지하는지에 따라 청크 상한은 42줄이 아니라 30줄이 맞을 수도 있다.
 상한 자체를 바꾸는 대안은 기각된 것이 아니라 실측 대기다
-(docs/open-questions.md #17).
+(`https://agentic-knowledge-base.dev/id/chunk/3ab6d43d-0193-4275-bb9f-5246da93b88a`).

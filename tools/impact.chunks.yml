@@ -7,8 +7,8 @@ source: tools/impact.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-impact
 package: kb/dev/artifact/impact
 layer: process
-at: 2026-09-22T11:38:01Z
-source_hash: b3671031b7123969
+at: 2026-09-30T08:07:48Z
+source_hash: 932f0e64a4603267
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/05cabe0e-10b0-4e02-81b1-8f5154a94fcc
 serves: []

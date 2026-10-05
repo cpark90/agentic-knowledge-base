@@ -7,7 +7,7 @@ title: function dump_registry in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-4341-b151-9ecda0fefd53
 ---
@@ -22,6 +22,12 @@ def dump_registry(reg: dict) -> str:
     for k in ("refines", "serves"):
         out.append(f"{k}:" + ("" if reg[k] else " []"))
         out += [f"  - {v}" for v in reg[k]]
+    if reg.get(WIRING_KEY):  # 선택 키 — 비면 쓰지 않는다(배선이 없는 등록부의 바이트를 바꾸지 않는다)
+        out.append(f"{WIRING_KEY}:")
+        out += [f"  - {v}" for v in reg[WIRING_KEY]]
+    if reg.get(QUERY_REFINES_KEY):  # 선택 키 — 비면 쓰지 않는다
+        out.append(f"{QUERY_REFINES_KEY}:")
+        out += [f"  {k}: [{', '.join(v)}]" for k, v in sorted(reg[QUERY_REFINES_KEY].items())]
     tested = reg.get(kb_lib.STAMP_KEY) or {}
     out.append(f"{kb_lib.STAMP_KEY}:" + ("" if tested else " {}"))
     out += [f"  {k}: {tested[k]}" for k in ("rev", "at", "source_hash") if tested.get(k)]

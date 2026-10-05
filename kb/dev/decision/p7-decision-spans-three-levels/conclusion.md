@@ -7,9 +7,9 @@ title: A decision spans abstract, logical and concrete, one chunk per level
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-22T19:25:00+09:00}
+generated: {by: hci/claude-opus-5, at: 2026-10-06T00:03:19+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T00:03:22+09:00}]
 layer: methodology
-verified: [{by: orchestrator/claude-opus-5, at: 2026-09-22T19:30:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/9acf3e73-f933-4260-9b42-432825013b6c, title_ko: 결정의 세 수준, title: A decision spans three levels}
 part_of: https://agentic-knowledge-base.dev/id/composite/9acf3e73-f933-4260-9b42-432825013b6c
@@ -18,4 +18,4 @@ part_of: https://agentic-knowledge-base.dev/id/composite/9acf3e73-f933-4260-9b42
 
 이 저장소의 구현 (유저 결정 2026-09-10, Q1(a)) — 역할 세 청크(결론 concrete·근거 logical·대안 logical)를 기본으로 두고, abstract 변수 청크는 `-space`가 있는 결정에만 만든다. 후보가 하나뿐이어서 `-space`가 없는 결정은 abstract 청크 없이 logical·concrete만 갖는다.
 
-미확정: 설계 논증의 abstract 수준을 형식 언어로 옮길 수 있는가. 상세는 `docs/open-questions/design-argument-formalization.md`다.
+미확정: 설계 논증의 abstract 수준을 형식 언어로 옮길 수 있는가. 상세는 `https://agentic-knowledge-base.dev/id/chunk/882a087b-9a35-42e5-9017-84b6f417a235`다.

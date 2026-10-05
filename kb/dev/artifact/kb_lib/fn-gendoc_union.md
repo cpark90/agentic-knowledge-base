@@ -7,26 +7,47 @@ title: function gendoc_union in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/dcdad310-25df-4a9e-8939-6ef8be6f1e20]
-part_of: https://agentic-knowledge-base.dev/id/composite/ad8f9fc0-eedf-44e1-a93f-65f667e359ce
+uses: [https://agentic-knowledge-base.dev/id/chunk/0b2c0543-8f0e-4ad8-a18a-eb3da5ff4767, https://agentic-knowledge-base.dev/id/chunk/dcdad310-25df-4a9e-8939-6ef8be6f1e20]
+part_of: https://agentic-knowledge-base.dev/id/composite/6b2ef1c0-06f1-44c5-9b0f-6ba8a1fedb8d
 ---
-**함수** — `gendoc_union(paths)` 다. 머리 블록의 규모 자리에 붙는 union 구성 — `union: chunks·base·…` 꼴.
+**함수** — `gendoc_union(paths)` 다. 머리 블록의 규모 자리에 붙는 union 구성 — `union: chunks +a · base +b · …` 꼴.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def gendoc_union(paths) -> str:
-    """머리 블록의 규모 자리에 붙는 union 구성 — `union: chunks·base·…` 꼴. 그래프 파일(`.ttl`)만 센다."""
-    names = [gendoc_input_name(p) for p in paths]
-    graphs = [n for n in names if n.endswith(".ttl")]
-    labels, matched = [], set()
+    """머리 블록의 규모 자리에 붙는 union 구성 — `union: chunks +a · base +b · …` 꼴. 그래프 파일(`.ttl`)만 센다.
+
+    구성원의 증분은 선언 순서(GENDOC_UNION_MEMBERS, 그 뒤 표에 없는 파일의 stem 순)대로 앞 구성원들의 합집합에 더한
+    트리플 수다(유저 답 Q40-a). 호출자가 적재한 그래프의 총수와 증분의 합이 같다 — 게이트 `gendoc` G4 가 판정한다.
+    """
+    graphs = [p for p in paths if gendoc_input_name(p).endswith(".ttl")]
+    groups, matched = [], set()
     for frag, label in GENDOC_UNION_MEMBERS:
-        hit = [n for n in graphs if frag in n]
+        hit = [p for p in graphs if frag in gendoc_input_name(p)]
         if hit:
-            labels.append(label)
-            matched.update(hit)
-    labels += sorted({n.rsplit("/", 1)[-1][:-4] for n in graphs if n not in matched})
-    return "union: " + ("\u00b7".join(labels) if labels else NONE_MARK)
+            groups.append((label, hit))
+            matched.update(map(str, hit))
+    rest: dict[str, list] = {}
+    for p in graphs:
+        if str(p) not in matched:
+            rest.setdefault(gendoc_input_name(p).rsplit("/", 1)[-1][:-4], []).append(p)
+    groups += sorted(rest.items())
+    if not groups:
+        return "union: " + NONE_MARK
+    seen: set = set()
+    parts = []
+    for label, files in groups:
+        before = len(seen)
+        unread = False
+        for p in files:
+            t = _gendoc_graph_triples(p)
+            if t is None:
+                unread = True
+            else:
+                seen |= t
+        parts.append(f"{label} +{GENDOC_UNION_UNREAD}" if unread else f"{label} +{len(seen) - before}")
+    return "union: " + " \u00b7 ".join(parts)
 ```
 <!-- 인용 끝 -->

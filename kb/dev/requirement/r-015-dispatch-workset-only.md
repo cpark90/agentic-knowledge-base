@@ -8,10 +8,11 @@ title: Dispatch passes only the workset
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-03T18:33:13+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T19:53:33+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/comp-req-agent
 ---
-**요구** — 에이전트가 dispatch되면, 하네스는 지식 베이스 전체가 아니라 역할 스코프 × level 창으로 거른 작업 집합만 전달하여야 한다.
+**요구** — 에이전트가 dispatch되면, 그 에이전트가 받는 입력은 지식 베이스 전체가 아니라 역할 스코프 × level 창으로 거른 작업 집합뿐이어야 한다.
 
 - **이해관계자**: 에이전트 · **관심사**: 좁은 관측
 - **출처**: 노트 0.5절·10.3절·1.6절(관측 사영)

@@ -1,0 +1,32 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/verify-queries/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/verify-queries
+resource: https://agentic-knowledge-base.dev/id/src-tools-verify-queries
+package: kb/dev/artifact/verify-queries
+layer: process
+at: 2026-09-28T20:48:33Z
+source_hash: 2e3450ec1e729171
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc
+  - https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5
+  - https://agentic-knowledge-base.dev/id/chunk/96966fae-587c-426f-9da7-5233844aa016
+serves: []
+query_refines:
+  query:link-state-class-mismatch: [https://agentic-knowledge-base.dev/id/chunk/55535378-f5cd-4f01-a5ce-54d438529104]
+tested: {}
+ids:
+  query:comment-level-not-inherited: https://agentic-knowledge-base.dev/id/chunk/870f5041-82ad-49e9-8b59-c3d2622d29e9
+  query:composite-cycle: https://agentic-knowledge-base.dev/id/chunk/ef27a2a6-bdb2-4c5b-bd95-d7198b3c9359
+  query:composite-heterogeneous: https://agentic-knowledge-base.dev/id/chunk/a2e8caea-4359-4d47-b6a5-ece7bbe10a54
+  query:confirmed-with-refutation: https://agentic-knowledge-base.dev/id/chunk/bdecbee2-b7cb-4a9e-b43d-0c7764709f68
+  query:confirmed-without-evidence: https://agentic-knowledge-base.dev/id/chunk/de249b57-d514-4501-aa52-f713281e1d5c
+  query:imported-chain-confirmed: https://agentic-knowledge-base.dev/id/chunk/51bc815c-46a8-468c-83df-bd3339d34bc6
+  query:link-state-class-mismatch: https://agentic-knowledge-base.dev/id/chunk/9f6433f5-842d-42ab-8c1f-8a98344d143d
+  query:refines-cycle: https://agentic-knowledge-base.dev/id/chunk/ca541a86-fc8a-4978-b7cd-1bb106d18dcf
+  query:round-stop-rule-violated: https://agentic-knowledge-base.dev/id/chunk/d7b21ca0-5e2c-4f71-9a2c-86a9052af424
+  query:sources-empty: https://agentic-knowledge-base.dev/id/chunk/ea6fd215-ad82-40c5-b9f9-68e6f11f59e3
+  query:supersedes-cycle: https://agentic-knowledge-base.dev/id/chunk/4b5dd9a4-f6cd-4e97-9e2c-db216d3ee0d1
+  query:verifies-without-criteria: https://agentic-knowledge-base.dev/id/chunk/8cdc4517-979e-4aa1-809f-b7b5adb1d219

@@ -7,10 +7,10 @@ title: function main in tools/channel_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-channel-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-12T11:29:42Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/193fbeed-19f3-4ecf-a72d-50c6c66a5e53, https://agentic-knowledge-base.dev/id/chunk/32dfc003-5ffa-4b9f-95c1-d71ffd0a4884, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/af9d2631-9208-4af1-a217-fd12cb8b6b83, https://agentic-knowledge-base.dev/id/chunk/e5e73fb0-c433-4d73-af9c-7c61ec8e4187]
-part_of: https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4-28d1816c56e6
+uses: [https://agentic-knowledge-base.dev/id/chunk/106ecd5a-7ab2-49db-b822-0e3c51a30083, https://agentic-knowledge-base.dev/id/chunk/32dfc003-5ffa-4b9f-95c1-d71ffd0a4884, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/8857ba5c-fc60-4ee1-a15b-2a87ed72940f, https://agentic-knowledge-base.dev/id/chunk/cce5ab35-03b9-4926-85ac-b6434fe2ecfd, https://agentic-knowledge-base.dev/id/chunk/d2fdf1e1-52ea-4b4d-a14f-5882bfe4b8f8, https://agentic-knowledge-base.dev/id/chunk/e5e73fb0-c433-4d73-af9c-7c61ec8e4187]
+part_of: https://agentic-knowledge-base.dev/id/composite/d356c13f-12da-449f-8621-56cdffd536e1
 ---
 **함수** — `main(argv)` 다.
 
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--waivers", default="", help="docs/waivers.md — 게이트 id `channel`, 축 파일")
-    ap.add_argument("files", nargs="*", help="채널 md 파일")
+    ap.add_argument("files", nargs="*", help="메시지·질문지 md 파일")
     a = ap.parse_args(argv)
     if not a.waivers:
         print(f"CONFIG [{GATE}] --waivers <docs/waivers.md> 가 필요하다 — 면제는 코드가 아니라 선언으로", file=sys.stderr)
@@ -30,14 +30,12 @@ def main(argv: list[str]) -> int:
         print(f"CONFIG [{GATE}] {e}", file=sys.stderr)
         return EXIT_CONFIG
 
-    items, errors, config, pending = {}, [], [], []
-    wip, exempt, not_ready, no_status = [], [], [], []
+    msgs, qs, errors, config, exempt = {}, {}, [], [], []
     for path in a.files:
         p = Path(path)
-        if p.suffix != ".md":
-            continue
-        if p.name.endswith(".wip.md"):
-            wip.append(path)
+        kind = kind_of(p)
+        if p.suffix != ".md" or kind is None or "legacy" in p.parts:
+            config.append(f"{path}: 메시지(channel/{{to_orchestrator,to_hci,archive}}/<id>.md)도 질문지(user/·user/archive/)도 아니다")
             continue
         if waived(waivers, GATE, path, "파일"):
             exempt.append(path)
@@ -47,75 +45,33 @@ def main(argv: list[str]) -> int:
         except OSError as e:
             config.append(f"{path}: 읽을 수 없다 — {e.strerror}")
             continue
-        lane = lane_of(p)
-        meta = frontmatter(text) or {}
-        status = meta.get("status")
-        if not status:
-            no_status.append(path)  # 유저의 자유 서술(형식 제약 없음, README)은 status 가 없을 수 있다 — 검사 밖이지만 침묵하지 않는다
-            continue
-        if status not in STATES[lane]:
-            errors.append(f"{path}: {lane} lane 의 status {status!r} 는 허용 값이 아니다 ({'|'.join(sorted(STATES[lane]))})")
-            continue
-        it = {"path": path, "name": p.name, "lane": lane, "status": status, "meta": meta, "text": text,
-              "root": p.parent.parent if lane != USER else p.parent}
-        if PLACEHOLDER.search(answer_section(text)):
-            not_ready.append(path)
-            continue
-        items[path] = it
+        it = {"path": path, "stem": p.stem, "where": kind[1], "meta": frontmatter(text) or {}, "text": text}
+        if kind[0] == "message":
+            errors += check_message(it)
+            key = it["meta"].get("id") or it["stem"]
+            if key in msgs:
+                errors.append(f"{path}: id {key} 가 {msgs[key]['path']} 와 겹친다 — 메시지 id 는 채널 전역에서 유일하다")
+            msgs[key] = it
+        else:
+            errors += check_questionnaire(it)
+            qs[it["meta"].get("id") or it["stem"]] = it
+    errors += check_links(msgs, qs)
 
-    # lane 별 형식 검사 — handoff 는 source·verdict·필수 절, agents 는 ref 실재
-    refs = set()  # agents 항목이 가리키는 대상: "handoff/<파일>" 또는 "<유저 lane 파일>"
-    for it in items.values():
-        m, root, path = it["meta"], it["root"], it["path"]
-        if it["lane"] == HANDOFF:
-            src = m.get("source", "")
-            if not src or "/" in src or not (root / src).is_file():
-                errors.append(f"{path}: source {src!r} 는 실재하는 유저 lane 파일이어야 한다")
-            if m.get("verdict") not in VERDICTS:
-                errors.append(f"{path}: verdict {m.get('verdict')!r} 는 {'|'.join(sorted(VERDICTS))} 중 하나여야 한다")
-            missing = [h for h in HANDOFF_SECTIONS if not re.search(rf"^{re.escape(h)}(\s|$)", it["text"], re.M)]
-            if missing:
-                errors.append(f"{path}: 필수 절이 없다 — {' · '.join(missing)}")
-        elif it["lane"] == AGENTS and m.get("ref"):
-            ref = m["ref"]
-            ok = (ref.startswith("handoff/") and ref.count("/") == 1 or "/" not in ref) and (root / ref).is_file()
-            if ok:
-                refs.add(ref)
-            else:
-                errors.append(f"{path}: ref {ref!r} 가 실재하지 않는다 — handoff/<파일> 또는 유저 lane 파일이어야 한다")
+    waits = []
+    for it in qs.values():
+        st = it["meta"].get("status")
+        if st == "open":
+            waits.append(f"{it['path']}: 유저 답 대기 (open)")
+        elif st == "answered":
+            extra = f" — 빈 `답:` {it['blank']}개" if it.get("blank") else ""
+            waits.append(f"{it['path']}: hci 처리 대기 (answered){extra}")
+    for it in msgs.values():
+        st, to = it["meta"].get("status"), it["meta"].get("to")
+        if it["where"] in INBOXES and st != "done":
+            mark = " — blocked: 질문의 answer 를 기다린다" if st == "blocked" else ""
+            waits.append(f"{it['path']}: {to} 대기 ({it['meta'].get('type')}, {st}){mark}")
 
-    handoffs = [it for it in items.values() if it["lane"] == HANDOFF]
-
-    def returned(it) -> bool:
-        """이 항목의 반영을 담당 역할이 자기 lane(agents/)에서 ref 로 인수했는가."""
-        if it["lane"] == HANDOFF:
-            return f"handoff/{it['name']}" in refs
-        if it["lane"] == USER:
-            return it["name"] in refs or any(
-                h["meta"].get("source") == it["name"] and f"handoff/{h['name']}" in refs for h in handoffs)
-        return False
-
-    # 쌍 대조 — 반영하라는 handoff 가 되돌아왔는가 (보고)
-    for h in handoffs:
-        if h["meta"].get("verdict") in RETURNABLE and h["status"] == "open" and not returned(h):
-            pending.append(f"{h['path']}: 되돌아오지 않은 handoff (verdict {h['meta']['verdict']}) — 담당 역할이 agents/ 에 ref 로 인수")
-    unreturned = len(pending)
-
-    # hci-reflect (유저 lane 만) · pending
-    for it in items.values():
-        if it["status"] == "closed":
-            continue
-        text = it["text"]
-        if it["lane"] == USER and HCI_REFLECTED.search(text):
-            if not (TAKEN_OVER.search(text) or returned(it)):
-                errors.append(f"{it['path']}: hci 가 채널 밖에 반영했다 — 담당 역할이 검토 뒤 agents/ 항목에서 ref 로 인수하거나(유지, "
-                              f"옛 관례 `인수: <역할> <날짜>` 줄도 인정) 되돌리고 closed 로 (hci 는 소통만 한다)")
-        elif ANSWERED.search(text) and not returned(it):
-            pending.append(f"{it['path']}: 유저 답이 옮겨졌다 — 담당 역할의 반영 대기")
-
-    for n in no_status:
-        print(f"INFO [{GATE}] {n}: frontmatter 에 status 가 없다 — 유저 자유 서술로 보고 검사하지 않는다 (hci 항목이면 status 를 넣는다)")
-    for w in pending:
+    for w in waits:
         print(f"WAIT [{GATE}] {w}")
     for c in config:
         print(f"CONFIG [{GATE}] {c}", file=sys.stderr)
@@ -125,16 +81,17 @@ def main(argv: list[str]) -> int:
         print(f"CONFIG [{GATE}] 입력 문제 {len(config)}건 — 판정하지 않았다", file=sys.stderr)
         return EXIT_CONFIG
     if errors:
-        print(f"FAIL [{GATE}] {len(errors)}건 — hci 는 반영하지 않는다. 담당 역할이 인수하거나 되돌린다", file=sys.stderr)
+        print(f"FAIL [{GATE}] {len(errors)}건 — 프로토콜 원본은 harness/README.md · harness/user/README.md", file=sys.stderr)
         return EXIT_FAIL
-    counts = {lane: sum(1 for it in items.values() if it["lane"] == lane) for lane in (USER, AGENTS, INQUIRIES, HANDOFF)}
-    tally = (f"면제 {len(exempt)}건(waivers.md) · 작성 중 {len(wip)}건 · status 없음 {len(no_status)}건 · 처리 대상 아님 {len(not_ready)}건 · "
-             f"담당 역할 대기 {len(pending) - unreturned}건 · 되돌아오지 않은 handoff {unreturned}건")
-    if not items:
-        print(f"SKIP [{GATE}] 검사한 항목이 0건이다 — 통과가 아니다 ({tally})", file=sys.stderr)
+    inbox = sum(1 for it in msgs.values() if it["where"] in INBOXES)
+    blocked = sum(1 for it in msgs.values() if it["meta"].get("status") == "blocked")
+    by_q = {s: sum(1 for it in qs.values() if it["meta"].get("status") == s) for s in ("open", "answered", "closed")}
+    if not msgs and not qs:
+        print(f"SKIP [{GATE}] 검사한 메시지·질문지가 0건이다 — 통과가 아니다 (면제 {len(exempt)}건)", file=sys.stderr)
         return EXIT_SKIP
-    print(f"OK {GATE}: 항목 {len(items)}개 (유저 {counts[USER]} · agents {counts[AGENTS]} · inquiries {counts[INQUIRIES]} · "
-          f"handoff {counts[HANDOFF]}), {tally}")
+    print(f"OK {GATE}: 메시지 {len(msgs)}(수신함 {inbox} · archive {len(msgs) - inbox} · blocked {blocked}) · "
+          f"질문지 {len(qs)}(open {by_q['open']} · answered {by_q['answered']} · closed {by_q['closed']}), "
+          f"대기 {len(waits)}건 · 면제 {len(exempt)}건(waivers.md)")
     return EXIT_OK
 ```
 <!-- 인용 끝 -->

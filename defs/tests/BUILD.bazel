@@ -2,9 +2,21 @@
 # 복합체 규칙(kb_composite)의 양성 시험도 여기 있다 — 실행 시점 판정이라 analysistest 가 아니라 genrule + build_test 다.
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load("//defs:kb.bzl", "kb_chunk", "kb_composite", "kb_decision")
+load("//defs:knowledge.bzl", "kb_case_gen_fixture_test", "kb_gendoc_test", "kb_norms_fixture_test", "kb_revalidate_fixture_test", "kb_round_fixture_test", "kb_vv_run_fixture_test")
 load(":negative.bzl", "failure_test")
+load("@kb_pip//:requirements.bzl", "requirement")
+load("@rules_python//python:defs.bzl", "py_test")
 
 package(default_visibility = ["//visibility:private"])
+
+# 변이 검출률(//kg:metrics 7단계 절)이 고정물 목록과 기대 FAIL 을 이 시험 정의에서 읽는다 (유저 결정 2026-10-04)
+exports_files(
+    [
+        "BUILD.bazel",
+        "norm_fixture_test.py",
+    ],
+    visibility = ["//kg:__pkg__"],
+)
 
 # 고정물 — manual 이라 //... 에 잡히지 않는다
 kb_chunk(name = "fx_req", src = "fx_req.md", iri = "urn:fx:req", plane = "requirement", level = "functional", tags = ["manual"])
@@ -258,6 +270,43 @@ build_test(
     ],
 )
 
+# 15b. 평평한 결정 디렉토리의 대안 표지 (`chunks/decision/<슬러그>-alternatives.md`) 의 양성·음성. 판정은 부모 디렉토리 이름
+# `decision` 과 stem 접미로 푼다(kb_lib.decision_role_marker). 고정물은 하위 디렉토리 `decision/` 에 둔다.
+genrule(
+    name = "flat_alternatives_accepted",
+    srcs = [
+        "decision/fx-flat-alternatives.md",
+        "@tiktoken_o200k_base//file",
+    ],
+    outs = ["flat_alternatives_accepted.out"],
+    cmd = "$(execpath //tools:chunk_lint) --vocab $(execpath @tiktoken_o200k_base//file) " +
+          "--chunks $(locations decision/fx-flat-alternatives.md) > $@ && grep -qF 'PASS [chunk_lint]' $@",
+    tags = ["manual"],
+    tools = ["//tools:chunk_lint"],
+)
+
+genrule(
+    name = "flat_alternatives_rejected",
+    srcs = [
+        "decision/fx-flat-bad-alternatives.md",
+        "@tiktoken_o200k_base//file",
+    ],
+    outs = ["flat_alternatives_rejected.out"],
+    cmd = "! $(execpath //tools:chunk_lint) --vocab $(execpath @tiktoken_o200k_base//file) " +
+          "--chunks $(locations decision/fx-flat-bad-alternatives.md) > $@ && " +
+          "grep -qF '**대안** 표지로 시작해야 한다' $@",
+    tags = ["manual"],
+    tools = ["//tools:chunk_lint"],
+)
+
+build_test(
+    name = "flat_alternatives_test",
+    targets = [
+        ":flat_alternatives_accepted",
+        ":flat_alternatives_rejected",
+    ],
+)
+
 # 16. 시나리오 묶음의 `ordered` 필수 (유저·오케스트레이터 판정 2026-09-29) — 자극 → 요인 → 배제 자극의 읽기 순서가
 # `p8-scenario-authoring` 에서 정해졌으므로 선언 없는 시나리오 묶음은 거짓 무순서다. 판정은 생성 시점
 # `gen_build._check_bundle` 이라 최소 트리(`kb/vv/scenario` + 빈 `kb/dev/decision`)를 임시로 만들어 생성기를 부른다.
@@ -450,4 +499,356 @@ build_test(
         ":token_budget_rejected",
         ":tokenizer_vocab_rejected",
     ],
+)
+
+# 게이트 `cross-kb-link`(validate check_cross_kb_link) — 저작 링크 가운데 verifies 밖의 종류가 두 KB 를 가로지르면 거부한다.
+# `_check_links`(고정물 7)는 Bazel deps 만 보므로 derivesFrom·satisfies 는 여기서만 잡힌다. 음성은 케이스 → 개발 결정
+# derivesFrom(2026-10-04 에 실제로 있던 위반의 꼴), 양성은 사다리의 functional 행인 검증 목표 → 개발 요구 derivesFrom 이다
+# (p8-scenario-ladder-rungs). 판정 함수는 복원 후보 생성기와 같은 kb_lib.cross_kb_link 다
+genrule(
+    name = "cross_kb_link_gate_rejected",
+    srcs = [
+        "fx_cross_kb_bad.ttl",
+        "//kb/ontology:modules",
+    ],
+    outs = ["cross_kb_link_gate_rejected.out"],
+    cmd = "! $(execpath //tools:validate) --ontology $(execpaths //kb/ontology:modules) " +
+          "--data $(execpath fx_cross_kb_bad.ttl) > $@ && " +
+          "grep -qF 'FAIL [cross-kb-link] kb/vv/case/fx-case.md: agt:derivesFrom' $@ && " +
+          "grep -qF 'FAIL [validate] — 1건' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+genrule(
+    name = "cross_kb_link_gate_ladder_accepted",
+    srcs = [
+        "fx_cross_kb_ladder.ttl",
+        "//kb/ontology:modules",
+    ],
+    outs = ["cross_kb_link_gate_ladder_accepted.out"],
+    cmd = "$(execpath //tools:validate) --ontology $(execpaths //kb/ontology:modules) " +
+          "--data $(execpath fx_cross_kb_ladder.ttl) > $@ && " +
+          "! grep -qF 'FAIL [' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+build_test(
+    name = "cross_kb_link_gate_test",
+    targets = [
+        ":cross_kb_link_gate_ladder_accepted",
+        ":cross_kb_link_gate_rejected",
+    ],
+)
+
+# 게이트 `code-part-link`(validate check_code_part_link) — 추출 트리 안에서 복합체의 부분인 청크(정의·구역 청크)가
+# refines·serves·verifies 의 끝점이면 거부한다 (p7-code-links-on-file-composite, 유저 결정 Q47-b). 음성은 절 청크가 결정을
+# refines 하는 꼴(2026-10-05 전 추출기의 구역 청크 링크 복사), 양성은 같은 링크가 파일 청크(module.md)에만 있는 꼴이다.
+# 판정 함수는 복원 후보 생성기와 같은 kb_lib.code_part 다
+genrule(
+    name = "code_part_link_gate_rejected",
+    srcs = [
+        "fx_code_part_link_bad.ttl",
+        "//kb/ontology:modules",
+    ],
+    outs = ["code_part_link_gate_rejected.out"],
+    cmd = "! $(execpath //tools:validate) --ontology $(execpaths //kb/ontology:modules) " +
+          "--data $(execpath fx_code_part_link_bad.ttl) > $@ && " +
+          "grep -qF 'FAIL [code-part-link] kb/dev/artifact/fx/sec-run.md: 코드 부분 청크가 agt:refines 의 주어다' $@ && " +
+          "grep -qF 'FAIL [validate] — 1건' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+genrule(
+    name = "code_part_link_gate_accepted",
+    srcs = [
+        "fx_code_part_link_ok.ttl",
+        "//kb/ontology:modules",
+    ],
+    outs = ["code_part_link_gate_accepted.out"],
+    cmd = "$(execpath //tools:validate) --ontology $(execpaths //kb/ontology:modules) " +
+          "--data $(execpath fx_code_part_link_ok.ttl) > $@ && " +
+          "! grep -qF 'FAIL [' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+build_test(
+    name = "code_part_link_gate_test",
+    targets = [
+        ":code_part_link_gate_accepted",
+        ":code_part_link_gate_rejected",
+    ],
+)
+
+# 게이트 `rung-before-descent`(validate check_rung_before_descent) — 같은 높이의 V&V 대응물 없이 다음 높이로 내려간 하강을
+# 거부한다 (요구 r-023-rung-before-descent, 유저 결정 Q51-a 의 R1 사다리 사슬). 음성은 높이마다 대응물 하나가 빠진 하강 셋 —
+# 목표 없는 요구 · 기준 없는 목표 · 검증기 없는 기계 판정 기준이다. 양성은 사슬이 다 선 꼴과 사람 확인 기준만 가진 요구의
+# 면제(Q26-a)다. 판정 함수는 지표(metrics 7단계 절·전방 추적)와 같은 kb_lib.rung_violations · kb_lib.vv_counterparts 다
+genrule(
+    name = "rung_before_descent_gate_rejected",
+    srcs = [
+        "fx_rung_bad.ttl",
+        "//kb/ontology:modules",
+    ],
+    outs = ["rung_before_descent_gate_rejected.out"],
+    cmd = "! $(execpath //tools:validate) --ontology $(execpaths //kb/ontology:modules) " +
+          "--data $(execpath fx_rung_bad.ttl) > $@ && " +
+          "grep -qF 'FAIL [rung-before-descent] kb/dev/decision/fx-a/conclusion.md: functional→abstract 하강' $@ && " +
+          "grep -qF 'FAIL [rung-before-descent] kb/dev/decision/fx-b/conclusion.md: logical→concrete 하강' $@ && " +
+          "grep -qF 'FAIL [rung-before-descent] kb/dev/artifact/fx/module.md: concrete→executable 하강' $@ && " +
+          "grep -qF 'FAIL [validate] — 3건' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+genrule(
+    name = "rung_before_descent_gate_accepted",
+    srcs = [
+        "fx_rung_ok.ttl",
+        "//kb/ontology:modules",
+    ],
+    outs = ["rung_before_descent_gate_accepted.out"],
+    cmd = "$(execpath //tools:validate) --ontology $(execpaths //kb/ontology:modules) " +
+          "--data $(execpath fx_rung_ok.ttl) > $@ && " +
+          "! grep -qF 'FAIL [' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+build_test(
+    name = "rung_before_descent_gate_test",
+    targets = [
+        ":rung_before_descent_gate_accepted",
+        ":rung_before_descent_gate_rejected",
+    ],
+)
+
+# 규범 문서 생성기의 고정물 (p12-norm-documents-from-section-chunks) — 가짜 트리 하나(norm/): 결정 둘 · 절 청크 열(그 둘은 묶음
+# 복합체 하나, p4-composite-as-part-of. 하나는 번호 없는 절 numbered: false) · 둘째 문서의 절 청크 둘(fy/) · 생성 결과 FX.md·FY.md.
+# FY.md 는 FX.md 가 싣는 줄 하나를 다시 싣는다 — 서로 다른 문서의 공유는 양성이고 한 문서 안의 이중 소비만 음성이다.
+# 양성은 트리의 FX.md 가 재생성과 바이트로 같은지(표 절 둘 · 순서 목록 절 · 이어짐 절 둘 포함), 음성 여덟은 복사본 한 곳을 바꿔
+# 고아 줄 · 한 문서 안의 이중 소비 · 강도 없음 · depth 3 절의 numbered · 표의 칸 수 불일치 · 마지막이 아닌 link_column · 표 줄의 강도 ·
+# 첫 절의 continues 가 거부되는지 본다.
+# writer 는 카탈로그로 절 청크의 쓰기 권한(orchestrator 통과 · developer 거부)을 본다
+filegroup(
+    name = "norm_fixture",
+    srcs = glob(["norm/**"]),
+)
+
+[kb_norms_fixture_test(
+    name = "norms_fixture_%s_test" % case,
+    case = case,
+    fixture = ":norm_fixture",
+    src = "norm_fixture_test.py",
+) for case in [
+    "ok",
+    "orphan",
+    "double",
+    "weak",
+    "numbered",
+    "cells",
+    "linkcol",
+    "tablestrength",
+    "firstcont",
+    "writer",
+]]
+
+# 고정물의 생성 결과도 생성 문서 규약 G1~G18 안이다 — 링크(G13)는 출력 위치 기준으로 다시 계산된 경로로 실재해야 한다
+kb_gendoc_test(
+    name = "norms_fixture_gendoc_test",
+    data = [":norm_fixture"],
+    docs = [
+        "norm/FX.md",
+        "norm/FY.md",
+    ],
+)
+
+# 결정의 넷째 부분 — 규약 청크 conventions.md 가 있으면 kb_decision 이 부분 넷을 순서 결론·근거·대안·규약으로 받는다 (p4-convention-slot)
+kb_decision(
+    name = "fx_decision_conventions",
+    alternatives = "norm/kb/dev/decision/fx-a/alternatives.md",
+    conclusion = "norm/kb/dev/decision/fx-a/conclusion.md",
+    conventions = "norm/kb/dev/decision/fx-a/conventions.md",
+    iri = "urn:fx:norm:a",
+    ordered = ["urn:fx:norm:a-c", "urn:fx:norm:a-r", "urn:fx:norm:a-a", "urn:fx:norm:a-v"],
+    part_iris = ["urn:fx:norm:a-c", "urn:fx:norm:a-r", "urn:fx:norm:a-a", "urn:fx:norm:a-v"],
+    part_levels = ["concrete", "logical", "logical", "concrete"],
+    rationale = "norm/kb/dev/decision/fx-a/rationale.md",
+    status = "draft",
+    tags = ["manual"],
+)
+
+# 규범 문서의 복합체 — 절 청크가 줄을 싣는 결정으로 agt:projectsConvention 을, 절 키로 제목·깊이를 낸다
+kb_composite(
+    name = "fx_norm_doc",
+    srcs = glob(["norm/kb/dev/norm/fx/*.md"]),
+    conventions = {"fx-a": "urn:fx:norm:a"},
+    iri = "urn:fx:norm:doc",
+    level = "logical",
+    ordered = ["urn:fx:norm:head", "urn:fx:norm:one", "urn:fx:norm:two", "urn:fx:norm:five", "urn:fx:norm:grp",
+               "urn:fx:norm:six", "urn:fx:norm:seven", "urn:fx:norm:eight", "urn:fx:norm:nine"],
+    part_iris = ["urn:fx:norm:head", "urn:fx:norm:one", "urn:fx:norm:two", "urn:fx:norm:five", "urn:fx:norm:grp",
+                 "urn:fx:norm:six", "urn:fx:norm:seven", "urn:fx:norm:eight", "urn:fx:norm:nine"],
+    plane = "norm",
+    status = "draft",
+    tags = ["manual"],
+)
+
+filegroup(
+    name = "fx_norm_heads",
+    srcs = [
+        ":fx_decision_conventions",
+        ":fx_norm_doc",
+    ],
+    output_group = "kg",
+    tags = ["manual"],
+)
+
+genrule(
+    name = "norm_heads",
+    srcs = [":fx_norm_heads"],
+    outs = ["norm_heads.ok"],
+    cmd = "cat $(locations :fx_norm_heads) > $@ && " +
+          "grep -q 'co:index \"4\"^^xsd:positiveInteger ; co:itemContent <urn:fx:norm:a-v>' $@ && " +
+          "grep -q 'agt:projectsConvention <urn:fx:norm:a>' $@ && grep -q 'a agt:DocumentSectionChunk ;' $@ && " +
+          "grep -q 'agt:sectionDepth 3' $@ && grep -q 'agt:sectionHeading \"공통\"' $@ && " +
+          "grep -q 'co:index \"5\"^^xsd:positiveInteger ; co:itemContent <urn:fx:norm:grp>' $@ && " +
+          "grep -q 'co:index \"2\"^^xsd:positiveInteger ; co:itemContent <urn:fx:norm:four>' $@ && " +
+          "grep -q 'agt:sectionContinues true' $@",
+    tags = ["manual"],
+)
+
+build_test(
+    name = "norm_heads_positive_test",
+    targets = [":norm_heads"],
+)
+
+# 케이스 생성기의 고정물 (p8-case-generation, 유저 답 Q27-a) — 가짜 V&V 트리 하나(case_gen/): logical 시나리오 자극 청크 하나(변수 셋 ·
+# 다섯 규칙 · seed) · 관측 재현의 근거 실행 기록 · ODD 문서 · 커밋된 생성 케이스. 양성은 트리의 케이스가 재생성과 바이트로 같고
+# 생성이 결정론적인지와 템플릿의 선택 키 `derivesFrom` 이 생성 케이스로 옮겨지는지, 음성은 복사본 한 곳을 바꿔 표본 근거 없는 케이스(규칙 없는 cover 항목 · 손으로 적은 값)와 드리프트·수기 케이스가
+# 거부되는지 본다
+filegroup(
+    name = "case_gen_fixture",
+    srcs = glob(["case_gen/**"]),
+)
+
+[kb_case_gen_fixture_test(
+    name = "case_gen_fixture_%s_test" % case,
+    case = case,
+    fixture = ":case_gen_fixture",
+    src = "case_gen_fixture_test.py",
+) for case in [
+    "ok",
+    "derives",
+    "unsampled",
+    "handvalues",
+    "drift",
+    "handwritten",
+]]
+
+# V&V 실행기의 고정물 (유저 답 Q29-a) — 가짜 V&V 트리 하나(vv_run/): 케이스 하나 · 실행 명령을 가진 검증기 하나 · 실행 명령 줄이 없는
+# 검증기 하나. 양성은 검증기의 실행 명령이 케이스와 같은 규칙으로 돌아 pass 이고, 실행 기록이 검증기 표를 케이스 표와 따로 두며,
+# `--case` 만 준 실행은 케이스만의 꼴 그대로인지 본다
+filegroup(
+    name = "vv_run_fixture",
+    srcs = glob(["vv_run/**"]),
+)
+
+[kb_vv_run_fixture_test(
+    name = "vv_run_fixture_%s_test" % case,
+    case = case,
+    fixture = ":vv_run_fixture",
+    src = "vv_run_fixture_test.py",
+) for case in [
+    "all",
+    "case",
+    "verifier",
+]]
+
+# 재판정 대상의 스냅숏 비교 고정물 (유저 답 Q38-c) — 스냅숏 둘(revalidate/base · head): 결정 결론 하나와 그것을 refines 하는 산출물 하나.
+# head 는 결론 본문 한 문장만 다르다(합성 변이). 양성은 디렉토리·파일 목록 꼴 둘 다 링크 개체 행이 suspect 이고, 음성은 같은 스냅숏이
+# 대상 0 · 한쪽만 준 입력이 종료 2 인지 본다. git 도 bazel query 도 부르지 않는다
+filegroup(
+    name = "revalidate_fixture",
+    srcs = glob(["revalidate/**"]),
+)
+
+[kb_revalidate_fixture_test(
+    name = "revalidate_fixture_%s_test" % case,
+    case = case,
+    fixture = ":revalidate_fixture",
+    src = "revalidate_fixture_test.py",
+) for case in [
+    "dirs",
+    "files",
+    "same",
+    "partial",
+]]
+
+# 검증 라운드 기록의 고정물 (유저 답 Q39-c) — `vv_run --round` 가 임시 트리에 라운드 기록을 쓰고, verify 질의 round-stop-rule-violated 가
+# 최소 그래프에서 정지 규칙 위반을 잡거나(양성) 지킨 계열을 통과시키며(음성), audit 라운드 절이 기록으로 자르고 기록이 없으면 날짜 대리로
+# 떨어지는지 본다. 허용 목록의 revalidate 스냅숏 꼴(유저 답 Q38-c)도 여기서 본다 — 실행기의 분류 함수가 판정 대상이다
+[kb_round_fixture_test(
+    name = "round_fixture_%s_test" % case,
+    case = case,
+    data = [
+        "//kb/ontology/related/state",  # 종료 사유 온톨로지 모듈 (round-end-reason-ontology.ttl)
+        "//tools:verify_queries",  # round-stop-rule-violated.rq
+    ],
+    src = "round_fixture_test.py",
+) for case in [
+    "record",
+    "classify",
+    "violated",
+    "kept",
+    "weave",
+]]
+
+# 생성 문서 머리 `입력` 줄의 union 증분 표기 (유저 답 Q40-a) — 고정물 그래프 셋을 시험이 TEST_TMPDIR 에 쓴다. 양성은 증분이 선언 순서대로
+# 앞 구성원들의 합집합에 더한 수이고 합이 총수와 같아 G4 FAIL 이 없는 것, 음성은 총수 불일치 · 증분 없는 옛 표기 · 읽지 못한 구성원이다
+py_test(
+    name = "gendoc_union_fixture_test",
+    size = "small",
+    srcs = [
+        "gendoc_union_fixture_test.py",
+        "//tools:chunk2kg.py",
+        "//tools:kb_lib.py",
+    ],
+    main = "gendoc_union_fixture_test.py",
+    deps = [requirement("rdflib")],
+)
+
+# 복원 후보 생성기의 구조 거름 (orchestrator 판정 2026-10-04 — 기각 89 가운데 62가 구조상 채택될 수 없던 후보) — 양성은 사다리의
+# 목표 → 요구 derivesFrom 이 남는 것(p8-scenario-ladder-rungs), 음성은 KB 가로지름(p6-executable-splits-by-kb) · 코드 부분 끝점
+# (p7-code-links-on-file-composite) · 케이스의 derivesFrom(tools/case_gen.py)이 후보에서 빠지고 각자의 사유로 세어지는 것이다
+py_test(
+    name = "link_fixture_test",
+    size = "small",
+    srcs = [
+        "link_fixture_test.py",
+        "//tools:chunk2kg.py",
+        "//tools:kb_lib.py",
+        "//tools:link.py",
+    ],
+    main = "link_fixture_test.py",
+    deps = [requirement("rdflib")],
+)
+
+# 지표의 설계 공간 회계 (유저 결정 Q60-a) — 양성은 공간의 후보 링크(`agt:variableFrom` · `agt:hasCandidate` ∘ `agt:linkTo`)가 후보 결정
+# 복합체를 변수 출발 항목의 성분에 잇는 것과 열린 공간의 열린 후보 결정이 결정 완결률의 분모·분자에서 빠져 따로 세어지는 것,
+# 음성은 공간 링크 없이 후보 복합체가 각자 성분인 것과 eliminated·confirmed 후보가 분모에 남는 것이다
+py_test(
+    name = "metrics_space_fixture_test",
+    size = "small",
+    srcs = [
+        "metrics_space_fixture_test.py",
+        "//tools:chunk2kg.py",
+        "//tools:kb_lib.py",
+        "//tools:metrics.py",
+    ],
+    main = "metrics_space_fixture_test.py",
+    deps = [requirement("rdflib")],
 )

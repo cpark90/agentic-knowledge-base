@@ -1,0 +1,56 @@
+# 하네스 — hci · orchestrator 두 세션의 운영 틀 (harness/README.md 가 프로토콜 원본). 그래프 밖이지만 프로토콜은 게이트다.
+load("//defs:knowledge.bzl", "kb_channel_lint_test", "kb_harness_scripts_test")
+
+package(default_visibility = ["//visibility:public"])
+
+# 채널 규약의 입력 — 메시지(channel/ 의 수신함 둘 + archive 직계)와 질문지(user/ + user/archive/ 직계).
+# legacy/(옛 채널 기록)는 옛 형식 그대로라 입력이 아니다. 메시지는 git 밖이라(.gitignore) 비어 있을 수 있다
+filegroup(
+    name = "items",
+    srcs = glob(
+        [
+            "channel/to_orchestrator/*.md",
+            "channel/to_hci/*.md",
+            "channel/archive/*.md",
+            "user/Q-*.md",
+            "user/archive/Q-*.md",
+        ],
+        allow_empty = True,
+    ),
+)
+
+# 면제는 코드가 아니라 //docs:waivers 의 선언으로 (게이트 id channel, 축 파일). 종료 코드 1 판정 / 2 설정 / 3 미실행
+kb_channel_lint_test(
+    name = "channel_lint_test",
+    items = ":items",
+    waivers = "//docs:waivers",
+)
+
+# 하네스 문서 — 문서 현행성 게이트(//:doccheck_test)의 입력
+filegroup(
+    name = "docs",
+    srcs = [
+        "README.md",
+        "user/README.md",
+    ] + glob(["agents/*.md"]),
+)
+
+# 하네스 문서가 가리키는 대상 — 질문지·옛 채널 기록·채널 디렉토리 자리(.gitkeep)·스크립트. //:doccheck_test 의 data
+filegroup(
+    name = "records",
+    srcs = glob(
+        [
+            "user/**",
+            "channel/**",
+            "scripts/*",
+        ],
+        allow_empty = True,
+    ),
+)
+
+# 채널 스크립트의 동작 — 임시 채널(TEST_TMPDIR)에서 send → inbox → read-msg → mark 흐름과 거부 규칙을 본다. 호스트 bash 를 쓴다
+kb_harness_scripts_test(
+    name = "scripts_test",
+    src = "scripts_test.py",
+    scripts = glob(["scripts/*.sh"]),
+)

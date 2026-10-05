@@ -92,7 +92,7 @@ git 이력에 있다. 승격된 결정은 `chunks/decision/`에 살아 있고 `s
 `sources`·`metrics`의 확정 문장 커버리지가 잰다.
 
 노트가 2,789줄의 v3로 갱신되어 돌아왔고, 유저 승인
-([`feedback/design-detail-review.md`](feedback/design-detail-review.md), 반영 범위 A)에
+([`design-detail-review.md`](../harness/user/archive/legacy/design-detail-review.md), 반영 범위 A)에
 따라 `[확정]`을 전면 재도출했다. §1의 분해와 달리 **원본을 지우지 않는다.** 노트는
 살아 있는 설계 원본으로 `docs/`에 남고, 재도출된 결정이 그것을 `derived_from`으로
 가리킨다.

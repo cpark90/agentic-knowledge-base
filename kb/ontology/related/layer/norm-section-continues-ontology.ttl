@@ -1,0 +1,13 @@
+# 이어짐 절 — 제목 없이 앞 절을 잇는 절 청크의 표지 (결정 p12-norm-documents-from-section-chunks)
+# 절 청크 하나는 항목 묶음(목록 하나 또는 표 하나) 하나를 갖는다. 묶음 뒤의 산문과 다음 묶음은 이어짐 절 청크가 담는다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:sectionContinues a owl:DatatypeProperty ;
+    rdfs:domain agt:DocumentSectionChunk ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "section continues"@en , "절 이어짐"@ko ;
+    skos:definition "절 청크가 제목 없이 앞 절을 잇는가 — 참이면 그 청크는 이어짐 절 청크다. 이어짐 절 청크는 절 제목·깊이를 갖지 않고 깊이는 앞 절을 이으며 번호를 소비하지 않는다. 본문은 앞 항목 묶음 뒤의 산문이고 자기 묶음을 가질 수 있다. 문서의 첫 절일 수 없다. 표시 자리는 frontmatter `continues: true` 이고 chunk2kg가 참일 때만 낸다. 게이트: norm-section-shapes · gen-norms."@ko .

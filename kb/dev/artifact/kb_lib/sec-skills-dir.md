@@ -7,7 +7,7 @@ title: section skills-dir in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/2fee8437-c9b3-4f23-a1d9-a0ec5e3891b0
 ---
@@ -56,12 +56,12 @@ _SKILLS_READING = (  # 조회·갱신 — 작업 집합·질의·영향·가정�
      "commands": ["bazel run //tools:endorse -- --by orchestrator/<모델> --at <ISO 8601> <청크 파일…>"]},
     {"tool": "term_propose", "section": "method.md#10-일반화",
      "when": "관측에서 뽑은 개념 후보를 검사를 거쳐 온톨로지 승인 큐(kb/ontology/proposals/)에 제안할 때 쓴다.",
-     "commands": ["bazel run //tools:term_propose -- --id <slug> --kind class --parent agt:<상위> --label-ko '<한글>' --label-en '<english>' --definition '<속+종차>' --cq CQ-NN"]},
+     "commands": ["bazel run //tools:term_propose -- --id <slug> --kind class --parent agt:<상위> --label-ko '<한글>' --label-en '<english>' --definition '<속+종차>' --cq CQ-NN --derived-from <관측 IRI> --derived-from <관측 IRI>"]},
     {"tool": "consistency", "section": "method.md#9-뷰",
      "when": "커밋 전에 중복·라벨 형식·용어 옛 표기·단정성(추측·구어·대시 밀도)·첨가(메타 문장·채움·빈 값 이상 표기)·목록 규칙 후보를 보고로 확인할 때 쓴다.",
      "commands": ["bazel build //kb:consistency && cat bazel-bin/kb/consistency.md"]},
     {"tool": "open_questions", "section": "method.md#9-뷰",
-     "when": "무엇이 아직 미결인지 — 청크의 선택 슬롯 `미확정:` 에 든 질문과 그것을 안은 청크를 문서에 적지 않고 집계에서 인용할 때 쓴다.",
+     "when": "무엇이 아직 미결인지 — 설계 공간(`space/*-space.md`)의 status·후보와 청크의 선택 슬롯 `미확정:` 에 든 질문을 문서에 적지 않고 집계에서 인용할 때 쓴다.",
      "commands": ["bazel build //kg:open && cat bazel-bin/kg/open.md"]},
     {"tool": "choices", "section": "method.md#5-후보-관리",
      "when": "무엇을 아직 고르지 않았는가 — 열린 설계 변수와 그 후보를 체크박스(`[ ]` 열림 · `[-]` 배제 + 근거 · `[x]` 확정)로 확인할 때 쓴다.",

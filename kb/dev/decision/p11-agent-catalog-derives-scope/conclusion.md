@@ -10,6 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0124]
+overlapsWith: [https://agentic-knowledge-base.dev/id/chunk/acd3f19b-bb9e-448f-acf3-ac227733c8ab]
+restored: [https://agentic-knowledge-base.dev/id/chunk/acd3f19b-bb9e-448f-acf3-ac227733c8ab]
 part_of: https://agentic-knowledge-base.dev/id/composite/2e3b40bb-c5f0-4355-8108-ccdf481d998a
 composite: {id: https://agentic-knowledge-base.dev/id/composite/2e3b40bb-c5f0-4355-8108-ccdf481d998a, title_ko: 에이전트 카탈로그가 규정하는 범위, title: What the agent catalog specifies}
 ---

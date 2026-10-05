@@ -7,7 +7,7 @@ title: function _own_lines in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/4994778f-bd6e-485d-b2f6-ec514f2187d9]
 part_of: https://agentic-knowledge-base.dev/id/composite/52eb4f03-55ea-4dfb-be6d-9164da7da5ef
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/52eb4f03-55ea-4dfb-be6d
 def _own_lines(r: Region) -> list[tuple[int, int]]:
     """구역의 제 몫 줄 범위 — 하위 구역과 정의의 본문을 뺀 나머지 (절 주석과 그 절의 상수)."""
     taken = [(c.start, c.end) for c in r.children] + [(n.lineno if not n.decorator_list else n.decorator_list[0].lineno, n.end_lineno)
-                                                      for _, n in r.defs]
+                                                      for _, n in r.defs] + list(r.skipped)
     spans, cur = [], r.start
     for a, b in sorted(taken):
         if a > cur:

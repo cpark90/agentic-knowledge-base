@@ -7,7 +7,8 @@ title: Short-term and long-term split at production time, and the promotion rule
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-03T18:30:02+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T18:30:08+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0127]
 part_of: https://agentic-knowledge-base.dev/id/composite/46d1f19a-5541-4328-903d-caa729dcb9b4
@@ -21,3 +22,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/46d1f19a-5541-43
 승격은 6.3절 일반화의 최소 단위다. 설계 판단이면 `decision`, 코드 주석이면
 `annotation`으로 올라간다. **승격 규칙(언제·무엇을)은 체계가 고정하지 않는
 입력이다** — 프로젝트마다 다르다.
+
+미확정: 다수 인원이 작업할 때 영구 보관 정보와 실시간 수정 정보를 어떻게 가르는가(노트 11.4절, Q15-c·Q20-a로 이전).

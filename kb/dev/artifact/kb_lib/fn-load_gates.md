@@ -7,10 +7,10 @@ title: function load_gates in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/04fe68bc-58a1-45bd-ac00-78d263cbba81]
-part_of: https://agentic-knowledge-base.dev/id/composite/cf732fdc-d595-4d0b-8344-6af01989d95c
+part_of: https://agentic-knowledge-base.dev/id/composite/513aca4d-e5f0-46c8-8d13-784c71691884
 ---
 **함수** — `load_gates(path)` 다. `defs/kb.bzl` 의 `GATES` 리터럴을 읽는다
 
@@ -26,13 +26,19 @@ def load_gates(path: str | Path | None = None) -> dict[str, dict[str, str]]:
 
     p = Path(path) if path else gates_bzl_path()
     text = p.read_text(encoding="utf-8")
-    m = re.search(rf"^\s*{re.escape(GATES_NAME)}\s*=\s*\{{(.*?)^\}}", text, re.M | re.S)
-    if not m:
-        raise ValueError(f"{p}: {GATES_NAME} 리터럴을 찾을 수 없다")
-    body = re.sub(r"#[^\n]*", "", m.group(1))  # Starlark 주석 제거 — 값 안에 # 을 쓰지 않는다
-    table = ast.literal_eval("{" + body + "}")
-    if not table:
+    parts = []
+    for name in (GATES_NAME, GATES_TAIL_NAME):  # 앞 리터럴과 그 이어짐 — 합친 것이 등록부다
+        m = re.search(rf"^\s*{re.escape(name)}\s*=\s*\{{(.*?)^\}}", text, re.M | re.S)
+        if not m:
+            raise ValueError(f"{p}: {name} 리터럴을 찾을 수 없다")
+        body = re.sub(r"#[^\n]*", "", m.group(1))  # Starlark 주석 제거 — 값 안에 # 을 쓰지 않는다
+        parts.append(ast.literal_eval("{" + body + "}"))
+    head, tail = parts
+    if not head:
         raise ValueError(f"{p}: {GATES_NAME} 가 비어 있다 — 게이트 없는 하네스는 하네스가 아니다")
-    return table
+    if tail and max(head) >= min(tail):
+        raise ValueError(f"{p}: {GATES_TAIL_NAME} 의 첫 id {min(tail)!r} 가 {GATES_NAME} 의 마지막 id {max(head)!r} 뒤가 아니다 — "
+                         f"두 리터럴은 id 순서로 잇고 서로소다")
+    return {**head, **tail}
 ```
 <!-- 인용 끝 -->

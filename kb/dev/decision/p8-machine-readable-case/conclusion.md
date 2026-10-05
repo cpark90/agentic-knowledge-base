@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]
-generated: {by: orchestrator/claude-opus-5, at: 2026-09-23T11:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5, at: 2026-10-05T12:48:53+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T12:49:10+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/e2064625-339c-4cef-8f06-5e775874f177
 composite: {id: https://agentic-knowledge-base.dev/id/composite/e2064625-339c-4cef-8f06-5e775874f177, title_ko: 기계가 읽는 케이스, title: A machine-readable case}
@@ -28,4 +29,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/e2064625-339c-4c
 
 임시 파일의 경로는 검증기가 정하고 케이스가 정하지 않는다. 케이스는 이름만 적고 명령에서 `{{이름}}`으로 가리킨다. 케이스가 절대 경로를 적으면 병렬 실행이 서로를 덮고, `contains`에 그 경로를 적으면 대조가 깨진다.
 
-**자극이 42줄을 넘으면 큰따옴표 한 줄 스칼라에 `\n`으로 적는다.** 케이스 청크의 본문 상한이 42줄이라 43줄짜리 경계값 자극은 블록 스칼라로 담기지 않는다. 한 줄 스칼라는 줄 수가 하나로 세어지므로 규약을 바꾸지 않고 상한 안에 든다.
+**자극이 케이스 본문의 상한(1,092토큰)을 넘으면 생성기 입력인 시나리오를 나눈다.** 케이스는 전부 생성되고 수기 케이스는 0이다(Q27-a). 따라서 나누는 자리는 케이스가 아니라 그 입력이다. 상한의 단위는 토큰이므로 자극을 한 줄 스칼라로 접어도 토큰 수는 줄지 않는다.

@@ -4,7 +4,7 @@
 
 게이트 밖 도구다. `bazel test`는 판정을 부르지 않고 판정 로그의 형식·필수 필드만 본다(게이트 id `judge-log`).
 판정자는 외부 서비스가 아니라 **세션 판정자**(다른 세션·다른 역할의 에이전트)다(유저 답 2026-09-30,
-docs/feedback/handoff/judge-without-service-2026-09-30.md) — 외부 호출은 없고 응답은 `--responses`로 오프라인
+harness/channel/archive/legacy/handoff/judge-without-service-2026-09-30.md) — 외부 호출은 없고 응답은 `--responses`로 오프라인
 입력된다. 질문·척도·임계의 원본은 프로파일 온톨로지와 shape다(`kb/ontology/profile/development/judge-*-ontology.ttl` ·
 `kb/ontology/shapes/judge-question-shapes.ttl`) — 도구는 질문 문장도 임계도 상수로 갖지 않는다. 질문의 형은
 noul·choice·score 셋이고 선택 집합은 255 이하다. 넘으면 독립 점수 → 명시 선택 2단계를 안내하고 거부한다.

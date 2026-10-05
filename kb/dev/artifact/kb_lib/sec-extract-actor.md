@@ -7,13 +7,14 @@ title: section extract-actor in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-part_of: https://agentic-knowledge-base.dev/id/composite/9b61f2e4-e29d-4fe0-8a4f-f1be5708e79a
+part_of: https://agentic-knowledge-base.dev/id/composite/a228d4f1-cdb8-4a79-bd48-f9b961eaa607
+composite: {id: https://agentic-knowledge-base.dev/id/composite/a228d4f1-cdb8-4a79-bd48-f9b961eaa607, title_ko: 절 복합체 extract-actor (tools/kb_lib.py), title: section composite extract-actor in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/0ae6e19c-609b-4bb9-a904-7f7e9f7e97c9, https://agentic-knowledge-base.dev/id/chunk/3e0a2fd1-776d-4762-b6e5-538b8cd4987d], part_of: https://agentic-knowledge-base.dev/id/composite/9b61f2e4-e29d-4fe0-8a4f-f1be5708e79a}
 ---
 **절** — `tools/kb_lib.py` 의 절 `extract-actor` 다. 코드의 추출 (extract — p7-code-extraction-direction · p7-code-links-on-file-composite, 유저 승인 2026-09-30)
 
-**정의** — 없음. 선언과 상수만 있는 구역이다.
+**정의** — `code_part` (소스 순서).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
@@ -42,5 +43,9 @@ EXTRACT_MARKER_RE = re.compile(r"^#\s*([═─])\1+\s*(.*?)\s*[═─]*\s*$")
 # 산문·첨가·목록 게이트는 코드 펜스 안을 이미 판정하지 않으므로(prose_segments·md_lines) 이 표지는 그 사실의 선언이다.
 SOURCE_QUOTE_OPEN = "<!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->"
 SOURCE_QUOTE_CLOSE = "<!-- 인용 끝 -->"
+# 코드 부분 청크 — 추출 트리 안에서 복합체의 부분인 청크(정의 청크와 절·장·모듈 머리의 구역 청크)다. 링크의 자리는 파일
+# 복합체의 선언 청크인 파일 청크 하나이므로(p7-code-links-on-file-composite, 유저 결정 Q47-b) 부분은 아래 종류의 링크
+# 끝점이 아니다. 복원 후보 생성기(link `R_CODE_PART`)와 게이트 `code-part-link`(validate check_code_part_link)가 이 판정 하나를 쓴다
+CODE_PART_LINK_KINDS = ("refines", "serves", "verifies")
 ```
 <!-- 인용 끝 -->

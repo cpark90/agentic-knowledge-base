@@ -7,7 +7,7 @@ title: function main in tools/workset.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-workset}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/1c918cdf-d80a-4d97-be99-915bb8ee7e17, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/347d7f8b-0fe2-43ee-b702-9dea92fdad9d, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/6dab97ca-f033-4314-aaff-01ed32eab6d5, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7]
 part_of: https://agentic-knowledge-base.dev/id/composite/efdb6344-03eb-4727-97ba-fe8aadcc7424
@@ -50,11 +50,11 @@ def main() -> int:
 
     chunks = {}
     for c in g.subjects(AGT.tokenCount, None):
-        cls = next(g.objects(c, RDF.type)); lvl = str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1]
+        cls = next((t for t in g.objects(c, RDF.type) if kb_lib.plane_of_class(t)), None); lvl = str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1]
         st = str(next(g.objects(c, AGT.status), ""))
         if cls in reads | writes and lvl in window and st != "deprecated":
             ko = next((str(o) for o in g.objects(c, RDFS.label) if o.language == "ko"), "")
-            chunks[c] = (str(cls).split("/")[-1].replace("Chunk", "").lower(), lvl, st, ko, "write" if cls in writes else "read",
+            chunks[c] = (kb_lib.plane_of_class(cls), lvl, st, ko, "write" if cls in writes else "read",
                          str(next(g.objects(c, AGT.assertionLocation), "")))
     # 앵커와 이웃 — K홉 확장(upstream ∪ downstream), 스코프 필터(chunks 밖은 버림), 족별 우선순위, 예산 패킹 (§4 네 단계)
     expanded, anchor, fam = [], None, {}

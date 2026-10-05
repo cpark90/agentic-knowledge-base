@@ -7,7 +7,7 @@ title: section chunk-optional-keys in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b-5fcc2cc9f893
 ---
@@ -24,6 +24,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b
 # chunk2kg 가 emit_chunk 에서 직접 읽는 선택 키. 필수 키는 chunk2kg.REQUIRED, 링크 키는 chunk2kg.LINK_KEYS 가 정의처이고
 # 이 셋의 합집합이 "소비되는 키"다. chunk2kg 가 새 키를 읽으면 여기에 등재한다 — 등재 없이 쓰인 키는 이 게이트가 잡는다.
 CHUNK_OPTIONAL_KEYS = ("verified", "sources", "assumes", "pattern", "coUpdatesWith", "part_of", "composite",
-                       "restored", "specializationOf", "targets", EXPOSES_KEY, USES_KEY, LAYER_KEY)
+                       "restored", "specializationOf", "targets", EXPOSES_KEY, USES_KEY, LAYER_KEY,
+                       *NORM_SECTION_KEYS, *NORM_HEAD_KEYS)  # 절 키 — heading·depth·continues 는 방출, items 는 projectsConvention, numbered·form·columns·link_column·머리 키는 생성기 gen_norms 가 읽는다
 ```
 <!-- 인용 끝 -->

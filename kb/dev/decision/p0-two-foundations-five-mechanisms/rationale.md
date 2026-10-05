@@ -7,7 +7,8 @@ title: The single problem is the intent-artifact break
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T00:30:10+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/4a312eca-5b3b-40e5-9f0a-c141039ac7c1
 ---
 **근거** (노트 산출물 정의) — 이 체계가 푸는 문제는 하나다: **추상적인 의도와 실제
@@ -19,6 +20,6 @@ part_of: https://agentic-knowledge-base.dev/id/composite/4a312eca-5b3b-40e5-9f0a
 판정 방식·판정 도구·조건 어휘는 작업 종류마다 다르므로 코어와 프로파일을 나누고,
 어휘(온톨로지)와 그 어휘로 쓴 첫 문서(ODD)는 메커니즘의 전제이므로 기반이라
 부른다. 메커니즘을 하나라도 빼면 단절 중 하나가 복구되지 않는다 — 한 줄 요약이
-그 연결을 고정한다: 공통 어휘로 운영 조건을 명세하고, 42줄 청크를 plane×수준
+그 연결을 고정한다: 공통 어휘로 운영 조건을 명세하고, 토큰 상한 청크를 plane×수준
 수준 허용표로 배치하며, 각 항목의 가정 조건을 명시하고, 조건이 깨지면 의존 항목이
 자동으로 무효화된다.

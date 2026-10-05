@@ -2,15 +2,16 @@
 id: https://agentic-knowledge-base.dev/id/chunk/7db997bc-4f86-4b0c-aa3f-e941657a94a7
 type: contract
 level: logical
-title_ko: 앵커를 준 역할별 작업 집합 뷰는 스코프 plane 밖 청크를 담지 않고 200줄 예산 안이다
-title: An anchored per-role workset view holds no chunk outside the scope planes and fits within the 200-line budget
+title_ko: 앵커를 준 역할별 작업 집합 뷰는 스코프 plane 밖 청크를 담지 않고 5,418토큰 예산 안이다
+title: An anchored per-role workset view holds no chunk outside the scope planes and fits within the 5,418-token budget
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-21T22:35:00+09:00}
+generated: {by: vnv/claude-fable-5-1, at: 2026-10-05T12:48:58+09:00}
+verified: [{by: vnv/claude-sonnet-5-5, at: 2026-10-05T12:49:06+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/7a0e2c24-70d8-4d00-ae0f-d083b8ec87a8]
 ---
-**합격 기준** — 기준 종류는 **불변식**이다. `workset(role, window, anchor) = {c ∈ live | plane(c) ∈ reads(role) ∪ writes(role) ∧ level(c) ∈ window}` 에서 앵커 1홉 이웃만 본문을 펼치고 `lines(view) ≤ budget` 이다.
+**합격 기준** — 기준 종류는 **불변식**이다. `workset(role, window, anchor) = {c ∈ live | plane(c) ∈ reads(role) ∪ writes(role) ∧ level(c) ∈ window}` 에서 앵커 1홉 이웃만 본문을 펼치고 `tokens(view) ≤ budget` 이다.
 
 **판정식**
 
@@ -22,4 +23,4 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/7a0e2c24-70d8-4d00-ae0f-d0
 
 **등급** — A 다. 판정은 생성 뷰의 머리 줄이고 사람 판단이 없다.
 
-판정의 원본은 `tools/workset.py` 의 `verdict` 계산과 `defs/kb.bzl` 의 `kb_workset_view`(빌드 설정 `//kb:role`·`anchor`·`levels`·`hops`·`budget`)다. 예산 초과 시 생성이 실패하지 않고 판정만 적는 것은 도구의 현 상태다.
+판정의 원본은 `tools/workset.py` 의 `verdict` 계산과 `defs/kb.bzl` 의 `kb_workset_view`(빌드 설정 `//kb:role`·`anchor`·`levels`·`hops`·`budget`)다. 앵커가 있으면 예산 초과를 `FAIL [workset-budget]` 과 종료 1로 거부하고(결정 `p1-workset-budget-fails-only-with-anchor`) 앵커가 없으면 판정만 적고 종료 0이다.

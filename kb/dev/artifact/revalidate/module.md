@@ -7,12 +7,12 @@ title: file tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/651e2c44-9a19-4a3e-b04a-ed1226aeef23, https://agentic-knowledge-base.dev/id/chunk/57fc48aa-6091-4ee7-9763-13ddab8ac8b1, https://agentic-knowledge-base.dev/id/chunk/ab6eb286-d87b-43a5-88f0-e32ffdd54acc]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/974f7eff-3756-4a18-af98-04c75441cd70, title_ko: 파일 복합체 tools/revalidate.py, title: file composite tools/revalidate.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/8013f604-8091-4bcf-aa5e-9a4a96aa15f1, https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68, https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f]}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/974f7eff-3756-4a18-af98-04c75441cd70, title_ko: 파일 복합체 tools/revalidate.py, title: file composite tools/revalidate.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/8013f604-8091-4bcf-aa5e-9a4a96aa15f1, https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68, https://agentic-knowledge-base.dev/id/composite/f6f22e05-67fd-4351-a17e-d9abe0817b50, https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f]}
 ---
-**파일** — `tools/revalidate.py` 다. 364줄 · 최상위 정의 12개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/revalidate.py` 다. 449줄 · 최상위 정의 16개 · 최상위 절 4개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -41,9 +41,14 @@ head 그래프의 agt:contentHash 와 같다. 재판정 대상은 다섯 갈래�
 에서 온다 — 복합체 묶음 뒤에는 부분마다의 개별 타깃이 없으므로 경로에서 라벨을 지어내면 rdeps 가 늘 0 이다.
 
 git 과 bazel query 를 부르므로 odd_check 처럼 테스트 타깃이 아니다. 판정은 사람/승인된 판정자의 몫이다.
+**스냅숏 비교** (유저 답 Q38-c): `--base-dir <d1> --head-dir <d2>` 는 git 리비전 대신 디렉토리 둘(아래의 `*.md` 전부)을, `--base-files`·
+`--head-files` 는 파일 목록 둘을 uuid 로 맞춰 같은 재판정 대상을 낸다. git 도 `bazel query` 도 부르지 않으므로 (c)의 하류 의존자는
+비고 읽기 전용이다 — V&V 케이스 실행기(`vv_run`)의 허용 목록이 받는 꼴이 이것이다. 파일 목록은 주소가 아니라서 경로 변경을 보고하지 않는다.
 
 사용: bazel run //tools:revalidate -- [--base HEAD] [--universe '//...'] [--out report.md]
-종료: 0 = 변경 없음(재판정 대상 없음), 1 = 재판정 대상 있음
+      python3 tools/revalidate.py --base-dir <d1> --head-dir <d2> [--out report.md]
+      python3 tools/revalidate.py --base-files <f…> --head-files <f…> [--out report.md]
+종료: 0 = 변경 없음(재판정 대상 없음), 1 = 재판정 대상 있음, 2 = 입력 문제(스냅숏 한쪽만 · 없는 경로 · 값 어휘)
 """
 import argparse
 import os

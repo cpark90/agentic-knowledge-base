@@ -1,14 +1,14 @@
 ---
 id: https://agentic-knowledge-base.dev/id/chunk/46331050-051b-4054-8445-63ffee582cf9
 type: annotation
-level: abstract
+level: logical
 title_ko: doccheck --report 는 위치 인자를 쓰지 않고 vv_run 의 자극은 루트 밖에 놓여 이 기준의 케이스를 세울 수 없다
 title: doccheck --report ignores positional arguments, and vv_run's stimulus sits outside the root, so this criterion's case cannot stand
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 targets: [https://agentic-knowledge-base.dev/id/chunk/b173e680-0135-4d83-9e0f-d8fb77d77407]
-generated: {by: vnv/claude-sonnet-5, at: 2026-10-01T03:00:00+09:00}
+generated: {by: vnv/claude-sonnet-5, at: 2026-10-04T20:36:37+09:00}
 ---
 issue (non-blocking): 기준 `document-table-matches-generated` 의 음성·통제 쌍 케이스(`p8-machine-readable-case`)를 세우려 했으나 두 설계가 막는다.
 
@@ -18,7 +18,7 @@ issue (non-blocking): 기준 `document-table-matches-generated` 의 음성·통�
 (`python3 tools/doccheck.py --report --root . nonexistent-file.md` 실측). 같은 도구의 `to_rel()` 은 `--root` 밖의 파일을
 `FAIL [doccheck]`(`EXIT_CONFIG`)로 거부하는 반면 `vv_run.py` 의 `materialize()` 는 자극을 언제나 워크스페이스 밖
 `tempfile.mkdtemp()` 에 쓰고 `files` 의 이름도 단순 파일명(경로 없음)만 허용한다. 두 설계가 겹쳐 doccheck 를 대상으로 한 파일
-자극 케이스는 `--report` 여부와 무관하게 구조적으로 서지 않는다.
+자극은 `--report` 여부와 무관하게 케이스로 감쌀 수 없는 자극(`agt:stimulusNotWrappableAsCase`)이라 케이스가 구조적으로 서지 않는다.
 
 제안: `doccheck.py --report` 가 `args.files` 를 받으면 `REPORT_DOCS` 대신 그 목록을 대조 대상으로 쓰게 하거나, `--root` 와 무관하게
 절대 경로 한두 개를 보고 대상으로 받는 옵션을 추가하면 자극을 꾸밀 수 있다. 이 변경은 `tools/doccheck.py` 라 vnv 의 write plane

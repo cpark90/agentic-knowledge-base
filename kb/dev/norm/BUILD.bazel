@@ -1,0 +1,30 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle")
+
+# 규범 문서의 절 청크 (p12-norm-documents-from-section-chunks) — 문서 하나 = 패키지 하나 = 복합체 하나. 문서는
+# tools/gen_norms.py 가 이 청크와 결정의 conventions.md 에서 생성하고 //:norms_drift_test 가 바이트로 비교한다.
+package(default_visibility = ["//visibility:public"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "norm",
+    srcs = [
+        "//kb/dev/norm/AGENTS",
+        "//kb/dev/norm/STYLEGUIDE",
+        "//kb/dev/norm/method",
+        "//kb/dev/norm/rules",
+    ],
+)
+
+# 이 plane 의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        "//kb/dev/norm/AGENTS:kg",
+        "//kb/dev/norm/STYLEGUIDE:kg",
+        "//kb/dev/norm/method:kg",
+        "//kb/dev/norm/rules:kg",
+    ],
+)

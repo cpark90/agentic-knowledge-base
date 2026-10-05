@@ -7,9 +7,9 @@ title: function main in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/040b7a8d-10e8-4e6e-96db-b8495e467218, https://agentic-knowledge-base.dev/id/chunk/17fdb102-0df9-45f2-93ff-c64b4df55d44, https://agentic-knowledge-base.dev/id/chunk/260d24aa-5aab-4ff7-81b7-40def184e51f, https://agentic-knowledge-base.dev/id/chunk/3bc19461-0841-4806-aafd-93fdbc5f9ab3, https://agentic-knowledge-base.dev/id/chunk/46cd72ea-813e-4ee5-b990-fede1470c237, https://agentic-knowledge-base.dev/id/chunk/53335074-67d7-45c8-b564-78065ea96eb8, https://agentic-knowledge-base.dev/id/chunk/9081dacd-219d-4944-b3c6-d5d9a6955f49, https://agentic-knowledge-base.dev/id/chunk/abf3ca16-b991-4326-8c10-b4581d03a6d2, https://agentic-knowledge-base.dev/id/chunk/d75bcbfe-969b-45d4-81f9-fc42145f892b, https://agentic-knowledge-base.dev/id/chunk/dae11730-e07f-47c6-becd-61b72a819b12, https://agentic-knowledge-base.dev/id/chunk/e1d9652e-f3b3-470b-bf7f-f8fa31f8be68, https://agentic-knowledge-base.dev/id/chunk/e40d0ed3-5060-4b0e-9dd9-d76acde18c0e, https://agentic-knowledge-base.dev/id/chunk/f178c885-f133-4f49-a296-18b123272948]
+uses: [https://agentic-knowledge-base.dev/id/chunk/040b7a8d-10e8-4e6e-96db-b8495e467218, https://agentic-knowledge-base.dev/id/chunk/17fdb102-0df9-45f2-93ff-c64b4df55d44, https://agentic-knowledge-base.dev/id/chunk/321d9509-8da2-4406-9fa3-a287cafc8d55, https://agentic-knowledge-base.dev/id/chunk/3bc19461-0841-4806-aafd-93fdbc5f9ab3, https://agentic-knowledge-base.dev/id/chunk/46cd72ea-813e-4ee5-b990-fede1470c237, https://agentic-knowledge-base.dev/id/chunk/51b67d04-6982-40f6-ae74-88b58c403ecb, https://agentic-knowledge-base.dev/id/chunk/9081dacd-219d-4944-b3c6-d5d9a6955f49, https://agentic-knowledge-base.dev/id/chunk/a99e95b4-6c01-4945-a6eb-6efe898579e1, https://agentic-knowledge-base.dev/id/chunk/abf3ca16-b991-4326-8c10-b4581d03a6d2, https://agentic-knowledge-base.dev/id/chunk/b03385a6-0433-4102-a7ab-1753e57cb89a, https://agentic-knowledge-base.dev/id/chunk/d75bcbfe-969b-45d4-81f9-fc42145f892b, https://agentic-knowledge-base.dev/id/chunk/dae11730-e07f-47c6-becd-61b72a819b12, https://agentic-knowledge-base.dev/id/chunk/e1d9652e-f3b3-470b-bf7f-f8fa31f8be68, https://agentic-knowledge-base.dev/id/chunk/f178c885-f133-4f49-a296-18b123272948]
 part_of: https://agentic-knowledge-base.dev/id/composite/c5e6231f-44b9-4294-805c-08d03635fc72
 ---
 **함수** — `main()` 다.
@@ -26,6 +26,10 @@ def main() -> int:
                          "목록형(nargs)이 아닌 이유는 청크 파일이 위치 인자라 목록이 그것을 삼키기 때문이다. 생성 BUILD 의 명시 "
                          "인자(kb_decision·kb_composite 의 ordered)가 넘긴다. 복합체 하나를 선언하는 실행에만 준다. "
                          "frontmatter composite.ordered 와 함께 있으면 같아야 한다")
+    ap.add_argument("--convention-target", action="append", default=[], metavar="SLUG=IRI",
+                    help="결정 디렉토리 이름 → 결정 복합체 IRI — 절 청크(type: norm)의 items 가 가리키는 결정마다 한 번. "
+                         "생성 BUILD 의 kb_composite.conventions 가 넘긴다(gen_build 가 결정 디렉토리에서 푼다). 입력에 결정의 "
+                         "결론 청크가 있으면 그 디렉토리 이름도 스스로 푼다 (p12-norm-documents-from-section-chunks)")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — --merge 가 아니면 필수다"
                                                       "(kb_chunk·kb_decision 의 head 액션이 --residency defs/kb.bzl 로 넘긴다)")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다. "
@@ -60,6 +64,8 @@ def main() -> int:
     restored_errors = []    # 게이트 id `restored` — FAIL [restored] (복원 표시가 링크 대상에 없다)
     spec_errors = []        # 게이트 id `specialization` — FAIL [specialization] (자기 참조·사슬 순환)
     spec: dict = {}         # 조각 IRI → 원본 IRI — 링크 IRI 의 뿌리 계산 (단일 실행에서는 여기서, --merge 에서는 블록에서 읽는다)
+    conventions = parse_convention_targets(args.out, args.convention_target, errors)  # 결정 slug → 결정 복합체 IRI
+    parsed: list = []       # (경로, 메타, 본문) — 절 청크의 결정 slug 를 풀려면 입력 전부를 먼저 읽어야 한다
     for path in sorted(args.files):
         try:
             meta, body = parse_chunk(path)
@@ -95,33 +101,12 @@ def main() -> int:
                                           "parent": comp.get(PART_OF_KEY)}  # 상위 복합체 — 없으면 None (뿌리)
         if meta.get("part_of"):
             part_refs.append((meta["id"], meta["part_of"], path))
-        blocks.append((meta["id"], emit_chunk(path, meta, token_count(body, enc))))
-        blocks.extend(emit_links(meta))
-    for chunk_iri, comp_iri, path in part_refs:
-        if comp_iri not in composites:
-            errors.append(f"{path}: part_of 대상 복합체 {comp_iri} 가 이 묶음 안에 선언되지 않았다 — 묶음은 이 실행의 입력 집합이고 "
-                          f"액션 하나가 부분 청크 전부와 선언 청크를 함께 받아야 한다 (defs/kb.bzl 의 kb_composite·kb_decision)")
-        else:
-            composites[comp_iri]["members"].append((chunk_iri, path))
-    for comp_iri, c in sorted(composites.items()):  # 복합체가 복합체의 부분이 되는 자리 (p4-composite-as-part-of)
-        parent = c.get("parent")
-        if not parent:
-            continue
-        if parent not in composites:
-            errors.append(f"{c['path']}: composite.{PART_OF_KEY} 대상 복합체 {parent} 가 이 묶음 안에 선언되지 않았다 — 중첩 복합체는 "
-                          f"한 액션이 뿌리부터 잎까지 함께 받아야 한다 (defs/kb.bzl 의 kb_composite)")
-        elif parent == comp_iri:
-            errors.append(f"{c['path']}: composite.{PART_OF_KEY} 가 자기 자신 {parent} 이다 — 부분-전체는 비순환이다 (4.5절)")
-        else:
-            composites[parent]["members"].append((comp_iri, c["path"]))
-    for comp_iri in sorted(composites):  # 사슬 순환 — 반대칭 공리의 생성 시점 대응 (4.5절 비순환)
-        seen_chain, cur = {comp_iri}, composites[comp_iri].get("parent")
-        while cur in composites:
-            if cur in seen_chain:
-                errors.append(f"{composites[comp_iri]['path']}: composite.{PART_OF_KEY} 사슬이 순환한다 — {comp_iri} 에서 시작해 {cur} 로 돌아온다 (4.5절 비순환)")
-                break
-            seen_chain.add(cur)
-            cur = composites[cur].get("parent")
+        if meta["type"] == "decision" and Path(path).name == "conclusion.md" and isinstance(comp, dict) and comp.get("id"):
+            conventions.setdefault(Path(path).parent.name, comp["id"])  # 입력 안의 결정 — 디렉토리 이름이 slug 다
+        meta["_path"] = path
+        parsed.append((path, meta, body))
+    blocks += emit_parsed(parsed, conventions, enc, errors)  # 방출은 slug 사상이 다 모인 뒤다
+    errors += attach_parts(composites, part_refs)  # 청크·복합체 부분을 복합체에 붙이고 사슬을 본다
     if args.ordered:  # 생성 BUILD 의 명시 인자 — 중첩 묶음에서는 부분 집합이 같은 복합체 하나를 고른다
         errors += order_errors(args.out, args.ordered, "--ordered")
         target = [c for c in composites.values() if c["order"] is not None and c["order"] == args.ordered]
@@ -133,6 +118,7 @@ def main() -> int:
                           f"(defs/kb.bzl 의 kb_decision·kb_composite 가 묶음마다 뿌리 복합체의 순서를 한 번 넘긴다)")
         else:
             target[0]["order"] = args.ordered
+    errors += norm_composite_errors(composites, parsed)  # 규범 문서 — 머리 청크와 절 청크의 구분
     comp_blocks = []
     for iri, c in sorted(composites.items()):
         if not c["members"]:

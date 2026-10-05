@@ -7,11 +7,8 @@ title: Catalog consistency is judged by the four branches of the catalog check i
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-opus-5, at: 2026-09-24T11:35:00+09:00}
-verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
+generated: {by: vnv/claude-opus-5, at: 2026-10-04T14:24:08+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/3d83dc02-81cc-4d4f-98bb-fc4ffa44840a]
-satisfies: [https://agentic-knowledge-base.dev/id/chunk/a02a4db5-cf50-4b19-9a5e-1b101c4e0600]
-restored: [https://agentic-knowledge-base.dev/id/chunk/a02a4db5-cf50-4b19-9a5e-1b101c4e0600]
 ---
 **합격 기준** — 기준 종류는 **불변식**이다. 데이터 그래프의 모든 `agt:Harness` 에 대해 네 갈래가 동시에 성립한다 — 역할마다 스코프 실재와 `agt:grants`, `agt:reads` ≥ 1, KB 별 쓰기 plane 의 역할 중복 0, `agt:maxConcurrent` 합 ≤ ODD `id:cond-concurrent-agents` 상한이다. 기준을 새로 만들지 않고 이미 도는 게이트를 그대로 판정식으로 쓴다.
 

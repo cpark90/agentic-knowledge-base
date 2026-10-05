@@ -7,12 +7,12 @@ title: file tools/chunk_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/d93492e4-f343-4736-b4a5-d04f48a3a75f, https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97, https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f1d91f37-d353-405b-bd98-41132f8d5390, title_ko: 파일 복합체 tools/chunk_lint.py, title: file composite tools/chunk_lint.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/0149c880-a2a1-45d1-bad4-6d54b7932fc3, https://agentic-knowledge-base.dev/id/composite/ea7476e7-b990-4825-a271-6356855d2118, https://agentic-knowledge-base.dev/id/composite/7b250e22-fd3e-4d64-9b95-214bd55ce9d3]}
 ---
-**파일** — `tools/chunk_lint.py` 다. 384줄 · 최상위 정의 8개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/chunk_lint.py` 다. 385줄 · 최상위 정의 8개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -34,6 +34,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/f1d91f37-d353-40
                      `!=`·`![` 는 산문이 아니다. TTL 청크는 산문 검사 대상이 아니다. 추측·구어는 consistency ⑦ 보고다.
                      type: decision 인 .md 는 역할 표지(STYLEGUIDE §4, 게이트 id `decision-role`)도 본다 — 본문 첫 산문 줄이
                      굵은 표지로 시작해야 한다. conclusion.md·rationale.md·alternatives.md 는 각각 **결론**·**근거**·**대안**,
+                     선택 넷째 conventions.md 는 **규약**(결정 p4-convention-slot — 이어지는 `규약:` 줄은 목록 항목이 아니다),
                      V&V 시나리오 패키지(kb/vv/scenario)의 `<슬러그>-stimulus.md`·`-factors.md`·`-excluded.md` 는 각각
                      **자극**·**요인**·**배제 자극**(결정 p8-scenario-authoring), 그 밖의 파일명(단일 파일 옛 결정
                      chunks/decision/d-*.md, 단일 청크 시나리오)은 **결론** 이다. 표지 안의 한정어(**대안 없음**)는

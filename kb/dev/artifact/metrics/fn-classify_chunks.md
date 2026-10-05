@@ -7,8 +7,9 @@ title: function classify_chunks in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/2aa8020a-1553-48b5-8a54-b93aab820bbe]
 part_of: https://agentic-knowledge-base.dev/id/composite/87e62ada-8184-4c95-b1be-e30d2b876be2
 ---
 **함수** — `classify_chunks(g)` 다. 청크 집합과 plane·level·status·본문 토큰 수·살아 있는 것을 돌려준다.
@@ -18,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/87e62ada-8184-4c95-b1be
 def classify_chunks(g):
     """청크 집합과 plane·level·status·본문 토큰 수·살아 있는 것을 돌려준다."""
     chunks = {s for s in g.subjects(AGT.tokenCount, None)}
-    plane = {c: str(next(g.objects(c, RDF.type))).split("/")[-1].replace("Chunk", "").lower() for c in chunks}
+    plane = {c: kb_lib.plane_of_node(g, c) for c in chunks}  # 첫 rdf:type 이 plane 클래스다 (chunk2kg.emit_chunk)
     level = {c: str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1] for c in chunks}
     status = {c: str(next(g.objects(c, AGT.status), "")) for c in chunks}
     tokens = {c: int(next(g.objects(c, AGT.tokenCount))) for c in chunks}

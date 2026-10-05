@@ -12,8 +12,9 @@
 agt:DecisionBodyShape a sh:NodeShape ;
     sh:targetClass agt:DesignDecision ;
     sh:or ( agt:DecisionConclusionBodyShape agt:DecisionRationaleBodyShape agt:DecisionAlternativesBodyShape
+            agt:DecisionConventionsBodyShape
             agt:ScenarioStimulusBodyShape agt:ScenarioFactorsBodyShape agt:ScenarioExcludedBodyShape ) ;
-    sh:message "설계 결정의 본문은 역할 표지 **결론**·**근거**·**대안**(V&V 시나리오는 **자극**·**요인**·**배제 자극**) 중 하나로 시작해야 한다 — 세 청크가 한 결정을 이룬다 (p7-dev-plane-substance, p4-slot-answers-one-question, p8-scenario-authoring)" .
+    sh:message "설계 결정의 본문은 역할 표지 **결론**·**근거**·**대안**·**규약**(V&V 시나리오는 **자극**·**요인**·**배제 자극**) 중 하나로 시작해야 한다 — 세 청크와 선택 규약 청크가 한 결정을 이룬다 (p7-dev-plane-substance, p4-slot-answers-one-question, p8-scenario-authoring, p4-convention-slot)" .
 
 agt:ScenarioStimulusBodyShape a sh:NodeShape ;
     sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "자극" ; sh:order 1 ;
@@ -44,3 +45,8 @@ agt:DecisionAlternativesBodyShape a sh:NodeShape ;
     sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "대안" ; sh:order 1 ;
         sh:description "무엇을 기각했고 왜 기각했는가" ;
         sh:message "슬롯 **대안** 이 없다 — 기각한 안과 기각 사유를 적고, 없으면 **대안 없음** 으로 적는다" ] .
+
+agt:DecisionConventionsBodyShape a sh:NodeShape ;
+    sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "규약" ; sh:order 1 ;
+        sh:description "이 결정이 규범 문서에 싣는 문장은 무엇인가 (선택 넷째 청크 conventions.md)" ;
+        sh:message "슬롯 **규약** 이 없다 — 첫 줄 `**규약** — …` 뒤에 줄마다 `규약: [지킴] …`·`규약: [권장] …`·`규약: …` 을 적는다 (p4-convention-slot)" ] .

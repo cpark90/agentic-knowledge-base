@@ -25,7 +25,7 @@ bazel build //kb:consistency && cat bazel-bin/kb/consistency.md
 
 ## 원본
 
-- 절차: [`docs/method.md` 9. 뷰](../../../docs/method.md#9-뷰)
+- 절차: [`docs/method.md#9-뷰`](../../../docs/method.md#9-뷰)
 - 도구: `tools/consistency.py` (`bazel run //tools:consistency`) — 사용법은 docstring 이 원본이다
 
 ```text

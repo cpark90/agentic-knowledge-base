@@ -7,7 +7,7 @@ title: function parse_args in tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f
 ---
@@ -22,6 +22,11 @@ def parse_args():
     ap.add_argument("--universe", default="//...", help="rdeps 의 우주")
     ap.add_argument("--out", default="")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 --root(워크스페이스) 기준")
+    ap.add_argument("--base-dir", action="append", default=[], metavar="DIR",
+                    help="스냅숏 비교의 base — 이 디렉토리 아래 `*.md` 전부. git 리비전 대신이다 (반복 가능)")
+    ap.add_argument("--head-dir", action="append", default=[], metavar="DIR", help="스냅숏 비교의 head — 워킹트리 대신이다 (반복 가능)")
+    ap.add_argument("--base-files", nargs="+", default=[], metavar="MD", help="스냅숏 비교의 base 파일 목록 — 이름이 주소다")
+    ap.add_argument("--head-files", nargs="+", default=[], metavar="MD", help="스냅숏 비교의 head 파일 목록")
     return ap.parse_args()
 ```
 <!-- 인용 끝 -->

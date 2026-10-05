@@ -7,9 +7,8 @@ title: section validate-body-slot-markers in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869, https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23]
 part_of: https://agentic-knowledge-base.dev/id/composite/efdfa170-bf07-4ef8-9d31-b554c7e26f8c
 composite: {id: https://agentic-knowledge-base.dev/id/composite/efdfa170-bf07-4ef8-9d31-b554c7e26f8c, title_ko: 절 복합체 validate-body-slot-markers (tools/kb_lib.py), title: section composite validate-body-slot-markers in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/84e79c94-fc03-485c-906a-edaae9c6f07f, https://agentic-knowledge-base.dev/id/chunk/a09e5ab7-1cd6-4c2b-b4e4-88c84095631d, https://agentic-knowledge-base.dev/id/chunk/a5547d6c-a232-4c09-83b0-81eb591e8bc6], part_of: https://agentic-knowledge-base.dev/id/composite/163f6311-4c7b-4d2d-983e-94afa5658211}
 ---
@@ -36,5 +35,9 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/efdfa170-bf07-4e
 
 
 validate_body_slot_markers(BODY_SLOT_MARKERS)
+
+
+DECISION_FLAT_DIR = "decision"  # chunks/decision — v1 평평한 결정 디렉토리, 대안 청크는 `<슬러그>-alternatives.md` 로 구분한다
+DECISION_ALTERNATIVES_STEM = "alternatives"
 ```
 <!-- 인용 끝 -->

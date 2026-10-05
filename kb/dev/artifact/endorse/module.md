@@ -7,13 +7,12 @@ title: file tools/endorse.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-endorse}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-11T09:15:09Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/4ec4de00-ea81-4ed0-abf7-40beedc25e38]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/9a0f13d1-d6f6-48ea-9728-4e96bd777d51, title_ko: 파일 복합체 tools/endorse.py, title: file composite tools/endorse.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/e7f0f4ca-74a2-4f45-9464-feb382099c39, https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d-a8a449270a57]}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/9a0f13d1-d6f6-48ea-9728-4e96bd777d51, title_ko: 파일 복합체 tools/endorse.py, title: file composite tools/endorse.py, ordered: [https://agentic-knowledge-base.dev/id/composite/e9580aea-56ec-4ca6-a78d-95befb50b334, https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d-a8a449270a57]}
 ---
-**파일** — `tools/endorse.py` 다. 40줄 · 최상위 정의 1개 · 최상위 절 2개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/endorse.py` 다. 68줄 · 최상위 정의 2개 · 최상위 절 2개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -24,11 +23,20 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/9a0f13d1-d6f6-48
 
 hci 가 만든 청크(generated.by: hci/…)는 그 plane 을 쓸 수 있는 역할(orchestrator 등)의 verified 가 있어야 게이트를
 통과한다. 이 도구는 검토를 대신하지 않는다 — 검토한 역할이 자기 이름으로 돌린다.
+`--at` 이 지금보다 뒤이면 `FAIL [endorse]` 로 거부한다 — 미래 시각의 도장은 검토보다 앞선 인수를 꾸밀 수 있고, 게이트는
+시계에 의존할 수 없어(재현성) 이 판정은 쓰는 시점에만 할 수 있다.
 사용: bazel run //tools:endorse -- --by orchestrator/claude-fable-5 --at 2026-09-11T10:00:00+09:00 <청크 파일...>
 """
 import argparse
 import os
 import re
+import sys
+from datetime import datetime, timezone
 from pathlib import Path
+
+try:  # 종료 코드 규약의 단일 정의처는 kb_lib 다
+    from tools import kb_lib
+except ImportError:
+    import kb_lib
 ```
 <!-- 인용 끝 -->

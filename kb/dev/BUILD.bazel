@@ -14,12 +14,13 @@ _VIEW_GRAPHS = [
 package(default_visibility = ["//visibility:public"])
 
 filegroup(
-    name = "bodies",
+    name = "dev",
     srcs = [
-        "//kb/dev/artifact:bodies",  # 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나
-        "//kb/dev/decision:bodies",
-        "//kb/dev/memory:bodies",  # 관측 (assume_check --record) — 비어 있어도 된다
-        "//kb/dev/requirement:bodies",
+        "//kb/dev/artifact",  # 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나
+        "//kb/dev/decision",
+        "//kb/dev/memory",  # 관측 (assume_check --record) — 비어 있어도 된다
+        "//kb/dev/norm",  # 규범 문서의 절 청크 (p12-norm-documents-from-section-chunks) — 비어 있어도 된다
+        "//kb/dev/requirement",
     ] + glob(
         ["*.md"],
         allow_empty = True,
@@ -28,14 +29,14 @@ filegroup(
 
 kb_chunk_lint_test(
     name = "lint_test",
-    chunks = [":bodies"],
+    chunks = [":dev"],
     waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md)
 )
 
 # 라벨 목록 — OKF index.md는 생성물이다 (bazel build //kb/dev:index → bazel-bin/kb/dev/index.md)
 kb_index(
     name = "index",
-    srcs = [":bodies"],
+    srcs = [":dev"],
 )
 
 # 문서 뷰 (4.6절 weave, p12-documents-are-generated) — 저장하지 않고 생성한다. 생성물은 bazel-bin/kb/dev/<kind>.md 이고 머리에 생성 시각과 질의가 있다
@@ -43,8 +44,8 @@ kb_index(
 kb_weave(
     name = "adr",
     bodies = [
-        ":bodies",
-        "//chunks:bodies",  # 단일 파일 결정(v1·harness 유래)의 본문 — 샌드박스에는 선언된 입력만 있다
+        ":dev",
+        "//chunks",  # 단일 파일 결정(v1·harness 유래)의 본문 — 샌드박스에는 선언된 입력만 있다
     ],
     data = _VIEW_GRAPHS,
     kind = "adr",

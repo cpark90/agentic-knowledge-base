@@ -21,9 +21,14 @@ head 그래프의 agt:contentHash 와 같다. 재판정 대상은 다섯 갈래�
 에서 온다 — 복합체 묶음 뒤에는 부분마다의 개별 타깃이 없으므로 경로에서 라벨을 지어내면 rdeps 가 늘 0 이다.
 
 git 과 bazel query 를 부르므로 odd_check 처럼 테스트 타깃이 아니다. 판정은 사람/승인된 판정자의 몫이다.
+**스냅숏 비교** (유저 답 Q38-c): `--base-dir <d1> --head-dir <d2>` 는 git 리비전 대신 디렉토리 둘(아래의 `*.md` 전부)을, `--base-files`·
+`--head-files` 는 파일 목록 둘을 uuid 로 맞춰 같은 재판정 대상을 낸다. git 도 `bazel query` 도 부르지 않으므로 (c)의 하류 의존자는
+비고 읽기 전용이다 — V&V 케이스 실행기(`vv_run`)의 허용 목록이 받는 꼴이 이것이다. 파일 목록은 주소가 아니라서 경로 변경을 보고하지 않는다.
 
 사용: bazel run //tools:revalidate -- [--base HEAD] [--universe '//...'] [--out report.md]
-종료: 0 = 변경 없음(재판정 대상 없음), 1 = 재판정 대상 있음
+      python3 tools/revalidate.py --base-dir <d1> --head-dir <d2> [--out report.md]
+      python3 tools/revalidate.py --base-files <f…> --head-files <f…> [--out report.md]
+종료: 0 = 변경 없음(재판정 대상 없음), 1 = 재판정 대상 있음, 2 = 입력 문제(스냅숏 한쪽만 · 없는 경로 · 값 어휘)
 """
 import argparse
 import os
@@ -107,16 +112,19 @@ def index_worktree(root: Path) -> tuple:
     색인의 열쇠는 IRI 다 — 정체성이 uuid 이고 경로는 주소이기 때문이다 (p10-split-keeps-work-identity).
     """
     # 1. 워킹트리 청크 색인 — IRI → (경로, 라벨, meta), 들어오는 링크
+    return index_files([(str(p.relative_to(root)), p) for d in CHUNK_DIRS for p in sorted((root / d).rglob("*.md"))])
+
+
+def index_files(files: list) -> tuple:
+    """(주소, 파일) 목록의 청크 색인 → (index, incoming, composite_parts, callers, unparsable). 워킹트리와 스냅숏이 같은 규칙을 쓴다."""
     index, incoming, unparsable = {}, defaultdict(list), []
-    for d in CHUNK_DIRS:
-        for p in sorted((root / d).rglob("*.md")):
-            rel = str(p.relative_to(root))
-            try:
-                meta = parse_chunk(str(p))[0]
-            except ValueError as e:
-                unparsable.append(f"{rel}: {e}")
-                continue
-            index[meta["id"]] = (rel, meta)
+    for rel, p in files:
+        try:
+            meta = parse_chunk(str(p))[0]
+        except ValueError as e:
+            unparsable.append(f"{rel}: {e}")
+            continue
+        index[meta["id"]] = (rel, meta)
     for iri, (rel, meta) in index.items():
         for k, t in links_of(meta):
             incoming[t].append((k, iri))
@@ -192,6 +200,45 @@ def base_diff(base: str, cwd: str, index: dict) -> tuple:
     return changed, head_only, base_by_iri, unread
 
 
+# ── 스냅숏 비교 — git 리비전 대신 디렉토리·파일 목록 둘 (유저 답 Q38-c) ────────────────────
+
+def snapshot_files(dirs: list, files: list) -> list:
+    """스냅숏 한쪽의 (주소, 파일) 목록 — 디렉토리는 그 아래 `*.md` 전부(주소는 디렉토리 상대), 파일은 이름이 주소다."""
+    out = [(str(p.relative_to(d)), p) for d in map(Path, dirs) for p in sorted(d.rglob("*.md"))]
+    return out + [(Path(f).name, Path(f)) for f in files]
+
+
+def snapshot_diff(base_index: dict, base_unparsable: list, index: dict, addressed: bool) -> tuple:
+    """스냅숏 둘의 차이 → (changed, head_only, base_by_iri, unread) — `base_diff` 와 같은 꼴이고 열쇠도 IRI 다.
+
+    git 이 고른 변경 파일이 없으므로 양쪽 IRI 전부를 맞춘다. `head_only` 에는 본문 해시가 같고 링크 키나 주소가 바뀐 것만
+    든다 — 바뀌지 않은 청크까지 넣으면 "head 만 바뀐 청크" 가 스냅숏 전체가 된다. `addressed` 가 거짓(파일 목록)이면 경로는
+    주소가 아니라서 경로 변경을 보고하지 않는다.
+    """
+    base_by_iri = dict(base_index)
+    unread = [u.split(":", 1)[0] for u in base_unparsable]
+    changed, head_only = [], []
+    for iri in sorted(set(index) | set(base_by_iri)):
+        wt, base = index.get(iri), base_by_iri.get(iri)
+        if wt is None:
+            changed.append((base[0], "삭제", iri, None, base[1], "이 IRI 를 가리키는 링크는 깨진다"))
+            continue
+        path, meta = wt
+        if base is None:
+            changed.append((path, "신규", iri, meta, None, "base 에 이 IRI 가 없다"))
+            continue
+        base_path, base_meta = base
+        moved = f"경로 변경(라벨 변경) `{base_path}` → `{path}`" if addressed and base_path != path else ""
+        if meta["_content_hash"] != base_meta["_content_hash"]:
+            changed.append((path, "본문 변경", iri, meta, base_meta,
+                            " · ".join(x for x in (f"{base_meta['_content_hash']} → {meta['_content_hash']}", moved) if x)))
+            continue
+        keys = sorted(k for k in LINK_KEYS + ("part_of",) if (meta.get(k) or None) != (base_meta.get(k) or None))
+        if keys or moved:
+            head_only.append((path, keys + ([moved] if moved else [])))
+    return changed, head_only, base_by_iri, unread
+
+
 # ── 하류 조회와 보고 ────────────────────
 
 def owner_labels(root: Path) -> dict:
@@ -245,17 +292,32 @@ def parse_args():
     ap.add_argument("--universe", default="//...", help="rdeps 의 우주")
     ap.add_argument("--out", default="")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 --root(워크스페이스) 기준")
+    ap.add_argument("--base-dir", action="append", default=[], metavar="DIR",
+                    help="스냅숏 비교의 base — 이 디렉토리 아래 `*.md` 전부. git 리비전 대신이다 (반복 가능)")
+    ap.add_argument("--head-dir", action="append", default=[], metavar="DIR", help="스냅숏 비교의 head — 워킹트리 대신이다 (반복 가능)")
+    ap.add_argument("--base-files", nargs="+", default=[], metavar="MD", help="스냅숏 비교의 base 파일 목록 — 이름이 주소다")
+    ap.add_argument("--head-files", nargs="+", default=[], metavar="MD", help="스냅숏 비교의 head 파일 목록")
     return ap.parse_args()
 
 
+def snapshot_mode(a) -> str | None:
+    """스냅숏 비교의 입력 문제 — 없으면 None. 한쪽만 주거나 없는 경로를 주면 비교가 성립하지 않는다."""
+    base, head = a.base_dir + a.base_files, a.head_dir + a.head_files
+    if bool(base) != bool(head):
+        return "스냅숏 비교는 base(`--base-dir`·`--base-files`)와 head(`--head-dir`·`--head-files`)를 둘 다 준다"
+    missing = [d for d in a.base_dir + a.head_dir if not Path(d).is_dir()] + [f for f in a.base_files + a.head_files if not Path(f).is_file()]
+    return f"없는 경로: {' · '.join(missing)}" if missing else None
+
+
 def revalidation_rows(root: Path, cwd: str, universe: str, changed: list, index: dict, incoming: dict,
-                      composite_parts: dict, callers: dict) -> tuple:
+                      composite_parts: dict, callers: dict, downstream: bool = True) -> tuple:
     """재판정 대상 → (rows, per_chunk, label, iri_to_label).
 
     대상은 다섯이다 — frontmatter 링크 양방향 · 복합체 형제 · `uses` 호출부 · `bazel rdeps` 의 하류 · 도장.
+    `downstream` 이 거짓(스냅숏 비교)이면 타깃 라벨 사상과 `bazel query` 를 부르지 않는다 — 하류 의존자 열이 빈다.
     """
     # 3. 재판정 대상 — (a) frontmatter 링크 양방향 (b) bazel rdeps
-    iri_to_label = owner_labels(root)
+    iri_to_label = owner_labels(root) if downstream else {}
     owners = sorted({iri_to_label[iri] for _p, kind, iri, *_ in changed if kind != "삭제" and iri in iri_to_label})
     rd = bazel_rdeps(cwd, owners, universe) if owners else {}
     label = lambda iri: (f"`{index[iri][0]}` — {index[iri][1].get('title_ko', '')}" if iri in index else f"<{iri}>" + (" (복합체)" if iri in composite_parts else " (없음)"))
@@ -320,10 +382,20 @@ def main() -> int:
         print(f"CONFIG [revalidate] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}", file=sys.stderr)
         return 2
 
-    index, incoming, composite_parts, callers, unparsable = index_worktree(root)
-    changed, head_only, base_by_iri, unread = base_diff(a.base, cwd, index)
+    problem = snapshot_mode(a)
+    if problem:
+        print(f"CONFIG [revalidate] {problem}", file=sys.stderr)
+        return 2
+    snapshot = bool(a.head_dir or a.head_files)
+    if snapshot:  # 스냅숏 비교 — git 도 bazel query 도 부르지 않는다 (유저 답 Q38-c)
+        index, incoming, composite_parts, callers, unparsable = index_files(snapshot_files(a.head_dir, a.head_files))
+        base_index, _i, _c, _u, base_unparsable = index_files(snapshot_files(a.base_dir, a.base_files))
+        changed, head_only, base_by_iri, unread = snapshot_diff(base_index, base_unparsable, index, not (a.base_files or a.head_files))
+    else:
+        index, incoming, composite_parts, callers, unparsable = index_worktree(root)
+        changed, head_only, base_by_iri, unread = base_diff(a.base, cwd, index)
     rows, per_chunk, label, iri_to_label = revalidation_rows(
-        root, cwd, a.universe, changed, index, incoming, composite_parts, callers)
+        root, cwd, a.universe, changed, index, incoming, composite_parts, callers, downstream=not snapshot)
 
     # 4. 본문 해시 변경 → 링크 재판정. 본문이 바뀐 청크를 양 끝 중 하나로 갖는 링크 개체가 suspect 로 유도된다 (노트 9.11절)
     body_changed = {iri for _path, kind, iri, _m, _b, _n in changed if kind in ("본문 변경", "변경", "신규", "삭제")}
@@ -335,16 +407,29 @@ def main() -> int:
     is_conclusion = lambda iri: Path(path_of(iri)).name == conclusion_file
     n_conclusion = sum(1 for _l, _k, frm, to, side in objs if is_conclusion(frm if side == "출발" else to))
 
+    if snapshot:
+        sides = (" ".join(a.base_dir + a.base_files), " ".join(a.head_dir + a.head_files))
+        title, between = "스냅숏 대비 재판정 대상", f"base 스냅숏 `{sides[0]}` 와 head 스냅숏 `{sides[1]}`"
+        command = "python3 tools/revalidate.py " + " ".join(
+            [f"--base-dir {d}" for d in a.base_dir] + ([f"--base-files {' '.join(a.base_files)}"] if a.base_files else [])
+            + [f"--head-dir {d}" for d in a.head_dir] + ([f"--head-files {' '.join(a.head_files)}"] if a.head_files else []))
+        downstream = "(c) 하류 의존자 — 스냅숏 비교라 `bazel query` 를 부르지 않아 비어 있다"
+        input_note = "스냅숏 둘의 청크 파일 — 스냅숏 대비 차이라 지문을 내지 않는다"
+    else:
+        title, between = f"base {a.base} 대비 재판정 대상", f"base 리비전 `{a.base}` 와 워킹트리"
+        command = f"bazel run //tools:revalidate -- --base {a.base}"
+        downstream = "(c) `bazel query rdeps` 의 하류 의존자"
+        input_note = f"`git show {a.base}:<청크>` 와 워킹트리의 청크 파일, `bazel query` 결과 — 리비전 대비 차이라 지문을 내지 않는다"
     rep = kb_lib.gendoc_header(
-        "revalidate", f"base {a.base} 대비 재판정 대상", "tools/revalidate.py",
-        f"base 리비전 `{a.base}` 와 워킹트리 사이에서 본문 해시가 바뀐 청크마다 — (a) frontmatter 링크의 상대(양방향) · "
-        "(b) 복합체 형제 · (c) `bazel query rdeps` 의 하류 의존자 · (d) 그 정의를 `uses` 로 가리키는 **호출부** · "
+        "revalidate", title, "tools/revalidate.py",
+        f"{between} 사이에서 본문 해시가 바뀐 청크마다 — (a) frontmatter 링크의 상대(양방향) · "
+        f"(b) 복합체 형제 · {downstream} · (d) 그 정의를 `uses` 로 가리키는 **호출부** · "
         "(e) 그 청크를 양 끝 중 하나로 갖는 **링크 개체**(`agt:Link`)를 재판정 대상으로 (dependency-graph-design §5). 링크 개체의 상태는 저장하지 않고 여기서 물질화한다",
-        f"bazel run //tools:revalidate -- --base {a.base}", [],
+        command, [],
         f"변경 청크 {len(changed)} · 재판정 대상 {len(rows)} · 호출부 {sum(r[4] == 'frontmatter uses' for r in rows)} · "
         f"재판정 링크 개체 {len(objs)} (바뀐 끝이 결정 결론인 것 {n_conclusion})",
         kb_lib.gendoc_view_notice("각 청크의 본문과 frontmatter 링크"),
-        input_note=f"`git show {a.base}:<청크>` 와 워킹트리의 청크 파일, `bazel query` 결과 — 리비전 대비 차이라 지문을 내지 않는다",
+        input_note=input_note,
         extra=[f"- 호출부 {sum(r[4] == 'frontmatter uses' for r in rows)} — 본문이 바뀐 정의를 `uses`(agt:usesDefinition)로 "
                "가리키는 출발점이고 **코드 호출부 파손의 상한**이다. 모듈 안 호출과 치역 경계"
                f"(`{kb_lib.USES_TARGETS_NAME}`) 안의 모듈 간 호출을 세므로 경계 밖을 치역으로 하는 호출은 빠진다",

@@ -1,0 +1,26 @@
+# 게이트 code-part-link 의 양성 고정물 — 링크는 파일 청크(module.md, 복합체를 선언할 뿐 부분이 아니다)에만 있고
+# 절 청크는 파일 복합체의 부분으로만 존재한다 (p7-code-links-on-file-composite, 유저 결정 Q47-b). 현행 추출기의 꼴이다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+
+<urn:fx:code-module>
+    a agt:ArtifactChunk ;
+    agt:hasLevel agt:executable ;
+    agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/artifact/fx/module.md" ;
+    agt:refines <urn:fx:code-decision> .
+
+<urn:fx:code-section>
+    a agt:ArtifactChunk ;
+    agt:hasLevel agt:executable ;
+    agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/artifact/fx/sec-run.md" .
+
+<urn:fx:code-file>
+    a agt:Composite ;
+    agt:hasDirectPart <urn:fx:code-section> .
+
+<urn:fx:code-decision>
+    a agt:DecisionChunk ;
+    agt:hasLevel agt:concrete ;
+    agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/decision/fx-decision/conclusion.md" .

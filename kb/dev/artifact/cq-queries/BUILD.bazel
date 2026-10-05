@@ -1,0 +1,414 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "cq-queries",
+    srcs = glob(["*.md"]),
+)
+
+kb_chunk(
+    name = "CQ-01",
+    src = "CQ-01.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/83fd3a44-8690-41cd-9a18-9fbd5e8b5a8e",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-02",
+    src = "CQ-02.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3264fc56-d0c1-4014-bbb7-0ae06f7ef193",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-03",
+    src = "CQ-03.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/667a5153-9abe-4c5c-bdb4-1d2c33525cee",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-04",
+    src = "CQ-04.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/61ffc0a3-d9b9-4f66-9ba1-ce87b10a40a8",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-05",
+    src = "CQ-05.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c064ae44-1bc6-4f4d-9da8-36ed644ee5af",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-07",
+    src = "CQ-07.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/dcf5e41a-966c-4ac2-ad62-8510d1efaa28",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p0-condition-taxonomy-extensible",
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-08",
+    src = "CQ-08.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6a57c8f2-a21a-47f8-afe8-e5ff5c6082e1",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-09",
+    src = "CQ-09.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5ab8b35f-8410-41b2-aa23-dd14faf282b1",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-10",
+    src = "CQ-10.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d9833498-f5cf-41fd-a651-76a95010a992",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-11",
+    src = "CQ-11.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6abc0bf5-47cb-4d3a-9b35-77f0c5efa33f",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-13",
+    src = "CQ-13.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/0f9685af-bae0-4224-8fbf-4f3df723e6ae",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-14",
+    src = "CQ-14.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/56939851-dabe-462a-acc8-75e728bf4950",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-16",
+    src = "CQ-16.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d9e49a00-c4dc-4287-9335-e437e9c75679",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p10-standard-trace-queries",
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-17",
+    src = "CQ-17.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a5efaaa8-c933-4619-8ab9-d6d968cc93cd",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p10-standard-trace-queries",
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-19",
+    src = "CQ-19.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4468fe77-e3a5-4930-b03b-977c1f9bc6d5",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-20",
+    src = "CQ-20.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a6f485c0-e3fc-4cb7-88b2-c3c2167e94b9",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-21",
+    src = "CQ-21.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2ddd2527-3e31-408e-83b9-a19599224e40",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-22",
+    src = "CQ-22.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9e4f25bd-8f21-4007-9efc-252f63211ced",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-24",
+    src = "CQ-24.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e9832014-e024-48a1-b0df-d8e953fc7882",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p11-inputs-as-versioned-vocabulary",
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-25",
+    src = "CQ-25.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/861c0bc4-ee8c-4a09-8953-6fbf9a4ff879",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-28",
+    src = "CQ-28.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8edad4ea-82cb-4ee4-b073-fa788f2be865",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-29",
+    src = "CQ-29.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/892dbfac-ac99-4f3c-b07a-54d1b95ded2a",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-31",
+    src = "CQ-31.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/506dc4a2-ce43-43bc-8a8e-96008f044bb4",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-32",
+    src = "CQ-32.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8a818b02-6608-4437-9825-971ed263eb78",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-33",
+    src = "CQ-33.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c2a4db1a-c5e4-4dd4-9d58-c638558ca646",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-34",
+    src = "CQ-34.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ad5ddad0-6588-4495-987e-d3f2ab74523e",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-35",
+    src = "CQ-35.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/83c68855-cf39-4302-9088-ea860c7cd759",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-36",
+    src = "CQ-36.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5a3a7128-a138-4e9b-b023-fe86df398e9f",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-37",
+    src = "CQ-37.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1d8f6ff1-6cb3-4fa6-9a1d-9f1864561447",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+kb_chunk(
+    name = "CQ-38",
+    src = "CQ-38.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/587713e2-b5de-4671-85cf-6c234614450e",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p0-service-is-a-three-layer-wiki",
+        "//kb/dev/decision:p2-competency-questions",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":CQ-01",
+        ":CQ-02",
+        ":CQ-03",
+        ":CQ-04",
+        ":CQ-05",
+        ":CQ-07",
+        ":CQ-08",
+        ":CQ-09",
+        ":CQ-10",
+        ":CQ-11",
+        ":CQ-13",
+        ":CQ-14",
+        ":CQ-16",
+        ":CQ-17",
+        ":CQ-19",
+        ":CQ-20",
+        ":CQ-21",
+        ":CQ-22",
+        ":CQ-24",
+        ":CQ-25",
+        ":CQ-28",
+        ":CQ-29",
+        ":CQ-31",
+        ":CQ-32",
+        ":CQ-33",
+        ":CQ-34",
+        ":CQ-35",
+        ":CQ-36",
+        ":CQ-37",
+        ":CQ-38",
+    ],
+)

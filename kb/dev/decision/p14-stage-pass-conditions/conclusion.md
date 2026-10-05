@@ -7,8 +7,8 @@ title: Stage pass conditions are three axes: meaning preserved, concretisation, 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-29T01:22:00+09:00}
-verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-29T01:25:00+09:00}]
+generated: {by: hci/claude-opus-5, at: 2026-10-03T18:30:02+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T18:30:08+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk/7ffcce18-39d0-45b3-90f7-6ac8d1528254]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/6878b566-73c2-462f-a524-5203c4c3832e, title_ko: 단계별 통과 조건 — 세 축, title: Stage pass conditions — three axes}
@@ -25,3 +25,5 @@ part_of: https://agentic-knowledge-base.dev/id/composite/6878b566-73c2-462f-a524
 **연결 성분은 저작된 지식만 센다.** 관측(`memory`)은 실행의 부산물이고 append-only라 사후에 링크를 이을 길이 없으며, 추적 매트릭스 15칸 중 `memory`를 출발·도착으로 갖는 칸이 0개다. 관측을 세면 실행할수록 지표가 나빠진다 — 그것은 고립이 아니라 기록의 축적이다(유저 승인 2026-09-23). **판정 주석(`annotation`)도 같은 지표에서 뺀다**(유저 승인 2026-09-29) — 뺀 이유는 다르다. 관측은 실행의 부산물이고, 주석은 산출물에 대한 리뷰다. 둘 다 저작된 지식이되 요구를 향해 정제되는 항목이 아니므로 성분·CQ20의 대상이 아니다. 지표를 맞추려 없는 관계를 적지 않는다.
 
 단계별 조건은 노트 14.1 표(정정본)가 원본이다 — 채택 경위(유저 결정 2026-09-10 "표대로 채택")는 원장(purpose-statement §4)과 git 이력에 있다. 이 저장소의 1단계: 고아율 0%·예산 이내는 통과, 확정 문장 커버리지와 라벨 대표성 실험이 남았다.
+
+미확정: 단계별 소요 기간과 인력. 실측 전에는 추정하지 않는다(노트 15절, Q15-c·Q20-a로 이전).

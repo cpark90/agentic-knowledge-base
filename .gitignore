@@ -2,3 +2,11 @@
 /.claude/settings.local.json
 __pycache__/
 *.pyc
+
+# 하네스 채널 메시지는 런타임 산출물이다 — 구조(.gitkeep)와 archive/legacy/(옛 채널 기록)만 추적한다 (harness/README.md)
+/harness/channel/to_orchestrator/*.md
+/harness/channel/to_hci/*.md
+/harness/channel/archive/*.md
+/harness/channel/.seq
+/harness/channel/.seq.lock
+/harness/channel/.watch-*.pid

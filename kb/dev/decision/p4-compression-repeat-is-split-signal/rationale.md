@@ -7,7 +7,8 @@ title: Repeated compression inverts the record: the newest revision carries the 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-agrtls-practices-review}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T16:30:00+09:00}
+generated: {by: orchestrator/claude-fable-5-1, at: 2026-10-05T00:30:10+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/ff721aef-2663-430e-a491-4e0cc61f73b2
 ---
 **근거** (노트 4.10절·4.4절; agrtls `design_webservice` L18) — 상한은 자립성과 예산을 지키는 장치이지 내용을 덜어내는
@@ -16,5 +17,5 @@ part_of: https://agentic-knowledge-base.dev/id/composite/ff721aef-2663-430e-a491
 대표성(4.13절)이 조용히 떨어진다.
 
 4.10절의 분할 신호(라벨 둘·재사용·가정·suspect 입도)는 모두 내용의 성질을 보는 신호라 이 역전을 잡지 못한다.
-압축 횟수는 내용을 읽지 않고 이력만으로 세는 신호이고, 42줄 근처에서 줄 수가 오르내린 흔적이 git에 그대로 남는다.
+압축 횟수는 내용을 읽지 않고 이력만으로 세는 신호이고, 토큰 상한 근처에서 토큰 수가 오르내린 흔적이 git에 그대로 남는다.
 1회 유예를 두는 이유는 첫 압축은 대개 군더더기 제거라서다 — 두 번째부터는 덜어낼 군더더기가 없다.

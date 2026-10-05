@@ -42,8 +42,8 @@ space/                     # 설계 공간 (후보와 제약) — 아직 비어 
 tools/                     # 검사·생성(validate · chunk_lint · chunk2kg · gen_build · channel_lint …) · 활용(workset · metrics · impact · handoff · consistency)
 defs/knowledge.bzl         # 게이트 매크로
 docs/                      # 이 체계의 문서 + 설계 노트 v3 (그래프 밖)
-docs/feedback/             # 유저 소통 채널 (그래프 밖) — hci 담당
-.claude/                   # 에이전트 역할 정의와 역할별 메모리
+harness/                   # 에이전트 하네스 (그래프 밖) — 프로토콜·역할 지침·채널·질문지·스크립트
+.claude/                   # 생성된 skill과 역할별 메모리
 ```
 
 ## 명령
@@ -104,18 +104,19 @@ Part VII이 신설되어 옛 VII 이후가 한 칸 밀렸다.
 |---|---|
 | [`roadmap.md`](docs/roadmap.md) | 도입 8단계에서의 현재 위치와 다음 산출, 실측 |
 | [`risks-and-tensions.md`](docs/risks-and-tensions.md) | 체계가 실패하는 방식과 대응, 서로 당기는 힘의 균형점 |
-| [`open-questions.md`](docs/open-questions.md) | 미해결 질문 인덱스 — 노트 Part XVII 30건 + 이 저장소의 관찰 (항목 본문은 `open-questions/`) |
+| [`open-questions.md`](docs/open-questions.md) | 미해결 질문의 자리 안내 — 목록은 생성 뷰 `//kg:open`, 상세는 설계 공간 `space/*-space.md` |
 | [`references.md`](docs/references.md) | 어느 구조를 어느 표준에서 가져왔는가 |
 | [`glossary.md`](docs/glossary.md) | **용어집** — 산문 한글 용어의 원본(표준 용어·영문·옛 표기·출처) |
 | [`decomposition-audit.md`](docs/decomposition-audit.md) | 노트·참조 저장소에서 지식이 어디로 갔는가와 감사의 발견 (상세 이력은 git) |
 
 ### 소통 채널
 
-[`feedback/`](docs/feedback/README.md)는 유저 피드백 채널이다. hci 에이전트가 담당하며, 유저와 직접
-상세 소통하는 유일한 창구다. 3-lane 구조와 승인 게이트는 그 안의 `README.md`가 원본이다.
-세 lane은 유저↔hci, 타 에이전트→hci, hci→조사이고, 승인 게이트의 `status: approved`는 유저만
-붙인다. 유저 결정의 원문 기록은 [`feedback/purpose-statement.md`](docs/feedback/purpose-statement.md)와
-[`feedback/design-detail-review.md`](docs/feedback/design-detail-review.md)에 있다.
+소통은 [`harness/`](harness/README.md)의 두 채널로 한다. 유저 채널(`harness/user/`)은 hci가 쓰는
+파일 질문지이고, hci 에이전트가 유저와 직접 상세 소통하는 유일한 창구다. 에이전트
+채널(`harness/channel/`)은 hci와 orchestrator가 주고받는 번호 메시지다. 반영 허가 신호는 유저가
+질문지에 적은 답과 `status: answered` 태깅이다. 프로토콜은 `harness/README.md`가 원본이다.
+2026-10-03 이전의 유저 결정 원문은 [`purpose-statement.md`](harness/user/archive/legacy/purpose-statement.md)와
+[`design-detail-review.md`](harness/user/archive/legacy/design-detail-review.md)에 있다.
 
 ### 다른 문서와의 관계
 

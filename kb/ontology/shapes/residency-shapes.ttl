@@ -50,3 +50,11 @@ agt:MemoryResidencyShape a sh:NodeShape ;
         sh:in ( agt:concrete ) ;
         sh:message "관측은 이미 일어난 것이라 concrete에만 존재한다 (0.5절, 6.4절)" ;
     ] .
+
+agt:NormResidencyShape a sh:NodeShape ;
+    sh:targetClass agt:DocumentSectionChunk ;
+    sh:property [
+        sh:path agt:hasLevel ;
+        sh:in ( agt:logical ) ;
+        sh:message "절 청크(norm)는 logical에만 거주한다 — 규범 문서의 골격은 결정의 규약 줄을 어디에 싣는가의 배치다 (p12-norm-documents-from-section-chunks, 유저 답 Q21-a)" ;
+    ] .

@@ -1,0 +1,105 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:norm_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "rules",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "head",
+    srcs = [
+        "assumption.md",
+        "canonical-serialization.md",
+        "chunk-naming.md",
+        "chunk.md",
+        "composite-order.md",
+        "composite-scope.md",
+        "composite.md",
+        "controlled-vocabulary.md",
+        "development-code-calls.md",
+        "development-measure.md",
+        "development.md",
+        "file-format-empty-values.md",
+        "file-format-two-kbs.md",
+        "file-format-vocabulary.md",
+        "file-format.md",
+        "graph-boundary.md",
+        "head.md",
+        "iri-prefixes-identity.md",
+        "iri-prefixes.md",
+        "knowledge-graph.md",
+        "level.md",
+        "link-objects.md",
+        "link-vocabulary.md",
+        "odd.md",
+        "plane-subclass.md",
+        "plane.md",
+        "traceability.md",
+        "trust-tier-gates.md",
+        "trust-tier.md",
+        "vv-measure.md",
+        "vv.md",
+    ],
+    conventions = {
+        "p0-entity-iri-forms": "https://agentic-knowledge-base.dev/id/composite/c9bb4d82-ac37-467d-8661-6982d1684108",
+        "p0-service-is-a-three-layer-wiki": "https://agentic-knowledge-base.dev/id/composite/c4b958be-e5e4-43b6-b23f-989f628cb07f",
+        "p10-link-families": "https://agentic-knowledge-base.dev/id/composite/b6248cd7-b607-4c13-adde-c2ee0f57a5a3",
+        "p2-trust-tier-from-generated-and-verified": "https://agentic-knowledge-base.dev/id/composite/3255e515-87cf-431e-8910-100f7849129f",
+        "p4-chunk-as-four-named-graphs": "https://agentic-knowledge-base.dev/id/composite/428f00f0-6790-41c0-83a8-bf8a564e848e",
+        "p4-chunk-as-ontology-class": "https://agentic-knowledge-base.dev/id/composite/dd76498b-2cca-4b79-a1fe-ce5a4d33c0ca",
+        "p4-chunk-iri-is-the-anchor": "https://agentic-knowledge-base.dev/id/composite/5e2184c3-67a9-4745-b0c3-65e8c3f69fd6",
+        "p4-chunk-state-machine": "https://agentic-knowledge-base.dev/id/composite/0662736c-b666-499e-bf57-2097608f4b9b",
+        "p4-composite-as-part-of": "https://agentic-knowledge-base.dev/id/composite/85fcc7f3-446f-46d6-b386-693544fefe6e",
+        "p4-composition-rules": "https://agentic-knowledge-base.dev/id/composite/27157a50-048e-4b31-835f-ce91abcb93a8",
+        "p4-label-is-the-interface": "https://agentic-knowledge-base.dev/id/composite/004649e6-0eb9-42fb-b3dc-60c65883d906",
+        "p5-plane-by-verification": "https://agentic-knowledge-base.dev/id/composite/5b5edf6d-f638-4c16-bc32-f4d8e6ed9785",
+        "p6-executable-splits-by-kb": "https://agentic-knowledge-base.dev/id/composite/8e8697a1-16b9-4c24-a377-340db2b6000b",
+        "p6-plane-level-occupancy": "https://agentic-knowledge-base.dev/id/composite/8387ed4f-09c5-48b5-b682-704a045a79a1",
+        "p6-transition-gates": "https://agentic-knowledge-base.dev/id/composite/7daf868e-e331-4e89-bbcc-447c0ce05f29",
+        "p7-alternatives-mandatory": "https://agentic-knowledge-base.dev/id/composite/07096f39-a6f4-4727-a653-b8eafc5eff92",
+        "p7-contract-first": "https://agentic-knowledge-base.dev/id/composite/5957a996-1394-4279-8e3c-31b55c586f62",
+        "p7-decision-spans-three-levels": "https://agentic-knowledge-base.dev/id/composite/9acf3e73-f933-4260-9b42-432825013b6c",
+        "p7-decision-supersession": "https://agentic-knowledge-base.dev/id/composite/c34b1d2f-86fb-4cd1-b532-edf65e7230c7",
+        "p7-dev-kb-completion": "https://agentic-knowledge-base.dev/id/composite/c831629d-706d-4d61-90e5-f4d848758731",
+        "p7-dev-plane-substance": "https://agentic-knowledge-base.dev/id/composite/ec197591-b1c7-494e-bc07-2f27b96cd057",
+        "p7-dev-roles-and-scopes": "https://agentic-knowledge-base.dev/id/composite/92f76b7c-3bd8-4e3c-a014-61c6aec60af4",
+        "p7-developer-requires-concrete": "https://agentic-knowledge-base.dev/id/composite/fb8de557-6f61-436f-ae39-57f6c7019555",
+        "p7-schema-derivation": "https://agentic-knowledge-base.dev/id/composite/d7435609-eefb-48a3-bab6-2cab0f56476e",
+        "p8-case-generation": "https://agentic-knowledge-base.dev/id/composite/b70975e0-3013-4480-8885-6b0ea69cf97b",
+        "p8-judge-session-agreement": "https://agentic-knowledge-base.dev/id/composite/abf9e76a-0b1d-42c4-b70c-f77c7902f8db",
+        "p8-learned-environment-and-judge": "https://agentic-knowledge-base.dev/id/composite/0b5e9efb-5c56-4cc8-92bf-bc0ba2f4f531",
+        "p8-mismatch-attribution": "https://agentic-knowledge-base.dev/id/composite/4d7432c4-7474-4d30-bfcb-dcb756408d72",
+        "p8-odc-defect-subtypes": "https://agentic-knowledge-base.dev/id/composite/49d21395-f143-4467-b1e8-55c07e9341dc",
+        "p8-pass-criteria": "https://agentic-knowledge-base.dev/id/composite/14433614-5dd7-4df3-b32c-2422a25daef3",
+        "p8-reproducibility": "https://agentic-knowledge-base.dev/id/composite/c71e12a1-2a31-43f5-af40-c670d767f559",
+        "p8-scenario-authoring": "https://agentic-knowledge-base.dev/id/composite/791e4e4c-db54-45f9-a03b-8922cd7cc3af",
+        "p8-scenario-ladder-rungs": "https://agentic-knowledge-base.dev/id/composite/0ef3233e-c6aa-434b-a0ef-350c857e690e",
+        "p8-verification-and-validation": "https://agentic-knowledge-base.dev/id/composite/f78cc6f9-4200-405e-8a12-7c8eb43f9c24",
+        "p8-vv-independence-scope": "https://agentic-knowledge-base.dev/id/composite/a6634f6f-503c-4e74-8aa1-08d272e2a38e",
+        "p8-vv-roles": "https://agentic-knowledge-base.dev/id/composite/666bd423-dc26-4857-9841-c1e3aa131223",
+        "p9-candidate-storage": "https://agentic-knowledge-base.dev/id/composite/b4561dfb-19ea-4f34-b57e-c241cae4b9da",
+        "p9-evidence-ledger": "https://agentic-knowledge-base.dev/id/composite/05abd2cf-de1b-4aa2-9559-10cb0f868dab",
+        "pe-kg-hand-and-generated-files": "https://agentic-knowledge-base.dev/id/composite/3b6eaa94-2497-48bd-96c7-2b84963394d7",
+        "pe-odd-is-openodd": "https://agentic-knowledge-base.dev/id/composite/f867e42b-0106-4796-8861-4bdc493e15db",
+    },
+    iri = "https://agentic-knowledge-base.dev/id/composite/4ae2bbc4-2198-4191-b626-091c3aecdb23",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/169ad7eb-05cc-4324-868c-0f75256f19cd", "https://agentic-knowledge-base.dev/id/composite/a57b18df-3b8b-4579-a0f8-db4655159538", "https://agentic-knowledge-base.dev/id/composite/e2326375-ac83-490d-ab30-09a01c5f73f0", "https://agentic-knowledge-base.dev/id/composite/45b22017-61a8-4082-a99f-9e446ecd67ec", "https://agentic-knowledge-base.dev/id/composite/608085a2-2251-4b82-8ccc-a5c7e6e71766", "https://agentic-knowledge-base.dev/id/composite/954d3726-b41f-4726-ad15-f08f92b66d6c", "https://agentic-knowledge-base.dev/id/chunk/a3c10c2f-5f85-4602-a43f-ce9358ec9cb6", "https://agentic-knowledge-base.dev/id/composite/9740d5da-ea8e-4ebd-8e50-1e287cdba400", "https://agentic-knowledge-base.dev/id/composite/afa3f276-75e1-47cf-a2a9-9b4d7465aca6"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/169ad7eb-05cc-4324-868c-0f75256f19cd", "https://agentic-knowledge-base.dev/id/composite/a57b18df-3b8b-4579-a0f8-db4655159538", "https://agentic-knowledge-base.dev/id/composite/e2326375-ac83-490d-ab30-09a01c5f73f0", "https://agentic-knowledge-base.dev/id/composite/45b22017-61a8-4082-a99f-9e446ecd67ec", "https://agentic-knowledge-base.dev/id/composite/608085a2-2251-4b82-8ccc-a5c7e6e71766", "https://agentic-knowledge-base.dev/id/composite/954d3726-b41f-4726-ad15-f08f92b66d6c", "https://agentic-knowledge-base.dev/id/chunk/a3c10c2f-5f85-4602-a43f-ce9358ec9cb6", "https://agentic-knowledge-base.dev/id/composite/9740d5da-ea8e-4ebd-8e50-1e287cdba400", "https://agentic-knowledge-base.dev/id/composite/afa3f276-75e1-47cf-a2a9-9b4d7465aca6"],
+    plane = "norm",
+    level = "logical",
+    status = "draft",
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":head",
+    ],
+)

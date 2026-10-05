@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:artifact_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "revalidate",
     srcs = glob(["*.md"]),
 )
 
@@ -16,6 +16,7 @@ kb_composite(
     srcs = [
         "fn-base_diff.md",
         "fn-bazel_rdeps.md",
+        "fn-index_files.md",
         "fn-index_worktree.md",
         "fn-link_objects.md",
         "fn-links_of.md",
@@ -26,14 +27,18 @@ kb_composite(
         "fn-report_rows.md",
         "fn-revalidation_rows.md",
         "fn-run.md",
+        "fn-snapshot_diff.md",
+        "fn-snapshot_files.md",
+        "fn-snapshot_mode.md",
         "head.md",
         "module.md",
         "sec-owner-labels.md",
         "sec-run.md",
+        "sec-snapshot-files.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/974f7eff-3756-4a18-af98-04c75441cd70",
-    ordered = ["https://agentic-knowledge-base.dev/id/chunk/8013f604-8091-4bcf-aa5e-9a4a96aa15f1", "https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68", "https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f"],
-    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/8013f604-8091-4bcf-aa5e-9a4a96aa15f1", "https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68", "https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f"],
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/8013f604-8091-4bcf-aa5e-9a4a96aa15f1", "https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68", "https://agentic-knowledge-base.dev/id/composite/f6f22e05-67fd-4351-a17e-d9abe0817b50", "https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/8013f604-8091-4bcf-aa5e-9a4a96aa15f1", "https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68", "https://agentic-knowledge-base.dev/id/composite/f6f22e05-67fd-4351-a17e-d9abe0817b50", "https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f"],
     plane = "artifact",
     level = "executable",
     status = "stable",

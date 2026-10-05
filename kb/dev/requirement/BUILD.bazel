@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:requirement_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "requirement",
     srcs = glob(["*.md"]),
 )
 
@@ -150,7 +150,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/cb7ac129-5b94-47cd-84a8-b87e7e238efe",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(

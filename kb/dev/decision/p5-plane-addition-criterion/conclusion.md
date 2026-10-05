@@ -7,7 +7,8 @@ title: A new plane is justified only by a different verification mechanism
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-03T18:30:02+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T18:30:08+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0003]
 part_of: https://agentic-knowledge-base.dev/id/composite/ab95f777-16da-41c6-8b1d-5f51f1484840
@@ -21,3 +22,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/ab95f777-16da-41
 
 `requirement` 승격의 귀결로 **functional이 `requirement` 전용이 되고
 `decision`은 abstract 이하만 갖는다** (6.4절 수준 허용표).
+
+미확정: plane 수의 상한(노트 5.3절, Q15-c·Q20-a로 이전).

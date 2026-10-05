@@ -7,12 +7,12 @@ title: file tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/9f79d119-83cf-46a7-89c0-680e8f203296, https://agentic-knowledge-base.dev/id/chunk/b8d74a2d-f94b-4fe7-8b3b-13dca638d338, https://agentic-knowledge-base.dev/id/chunk/36a0b6fa-ac60-47db-a769-b49d067f6854]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/5fc8dfb1-4583-4c27-8266-44c34557e4c1, title_ko: 파일 복합체 tools/vv_run.py, title: file composite tools/vv_run.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/663886da-0e72-42f0-ba6b-3dfbf495e462, https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f, https://agentic-knowledge-base.dev/id/composite/38aa6392-7bfb-42b7-84e5-6278007e131f, https://agentic-knowledge-base.dev/id/composite/9c609b2d-87cb-474b-9ee8-9a132ba26991, https://agentic-knowledge-base.dev/id/composite/e9c6807f-239f-4a44-beed-743506b59164]}
+refines: [https://agentic-knowledge-base.dev/id/chunk/47ba1172-488a-4f7b-ba4b-bc63fdf39b88, https://agentic-knowledge-base.dev/id/chunk/b8d74a2d-f94b-4fe7-8b3b-13dca638d338, https://agentic-knowledge-base.dev/id/chunk/36a0b6fa-ac60-47db-a769-b49d067f6854]
+composite: {id: https://agentic-knowledge-base.dev/id/composite/5fc8dfb1-4583-4c27-8266-44c34557e4c1, title_ko: 파일 복합체 tools/vv_run.py, title: file composite tools/vv_run.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/663886da-0e72-42f0-ba6b-3dfbf495e462, https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f, https://agentic-knowledge-base.dev/id/composite/38aa6392-7bfb-42b7-84e5-6278007e131f, https://agentic-knowledge-base.dev/id/composite/9c609b2d-87cb-474b-9ee8-9a132ba26991, https://agentic-knowledge-base.dev/id/composite/e9c6807f-239f-4a44-beed-743506b59164, https://agentic-knowledge-base.dev/id/composite/d4585999-3733-43ec-b6f4-d65181e989ce]}
 ---
-**파일** — `tools/vv_run.py` 다. 669줄 · 최상위 정의 26개 · 최상위 절 5개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/vv_run.py` 다. 883줄 · 최상위 정의 36개 · 최상위 절 6개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -22,7 +22,10 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/5fc8dfb1-4583-4c
 """V&V executor — 케이스의 실행 명령 중 허용 목록의 양성 명령을 실행하고 결과를 실행 기록으로 남긴다 (노트 8.20절 executor,
 r-026 관측은 append-only 실행 기록, p0-run-as-observation `agt:Run`, p8-vv-plane-instances memory = 실행 기록, p8-reproducibility).
 
-케이스(`kb/vv/case/*.md`)마다 본문의 `**실행 명령**` 줄(코드 스팬 하나가 명령이다)을 읽어 명령을 `;`·`&&` 로 나눈다. **허용 목록(`bazel test`·`bazel build`·`bazel query`·
+케이스(`kb/vv/case/*.md`)와 검증기(`kb/vv/verifier/*.md`)마다 본문의 `**실행 명령**` 줄(코드 스팬 하나가 명령이다)을 읽어 명령을 `;`·`&&` 로 나눈다.
+검증기는 케이스와 같은 줄 꼴·같은 허용 목록·같은 기대 대조·같은 판정 규칙으로 돈다 — 표본이 아닌 판정을 케이스에서 검증기로 옮긴 뒤에도(유저 답
+Q29-a) 그 명령이 실행 경로에 남는다. 실행 명령 줄이 없는 검증기(도구 자신을 서술하는 검증기)는 실행 대상이 아니고 보고에 따로 센다.
+실행 기록은 케이스 표와 검증기 표를 나눠 행의 종류를 헤더(`kb_lib.RUN_CASE_TABLE_HEADER`·`RUN_VERIFIER_TABLE_HEADER`)가 정한다. **허용 목록(`bazel test`·`bazel build`·`bazel query`·
 `python3 tools/gen_build.py --check`)으로 시작하는 읽기 전용 검증기만 실행한다**. 그 밖(그 밖의 `python3 …` · `bazel run …`)은 실행하지 않고
 SKIP 으로 적는다. **SKIP 은 PASS 가 아니다** (docs/tools.md 실패 종류 3).
 
@@ -34,7 +37,8 @@ SKIP 으로 적는다. **SKIP 은 PASS 가 아니다** (docs/tools.md 실패 종
 허용 목록 밖이다** — `bazel run` 은 runfiles 트리에서 돌아 워크스페이스 상대 경로 인자를 자극이 아닌 runfiles 의 없는 파일로 풀고, 그때 나오는
 입력 단계 오류가 기대한 거부와 같은 종료 코드·문구를 내 케이스를 거짓 pass 로 만든다.
 읽기 전용 검증기 목록에는 `assume_check`(가정 판정·전파, `--break <조건>` 은 호스트 상태를 읽고 ODD 판정을 가상으로
-바꾸는 실험 플래그일 뿐 저장소를 쓰지 않아 안전하다)를 포함한다. 그래도 검증기 자신이 파일을 쓰는 인자
+바꾸는 실험 플래그일 뿐 저장소를 쓰지 않아 안전하다)와 `revalidate`(재판정 대상 — **스냅숏 꼴**
+`--base-dir`·`--head-dir`(또는 `--base-files`·`--head-files`)만. 기본 꼴은 git·`bazel query` 를 불러 SKIP 이다, 유저 답 Q38-c)를 포함한다. 그래도 검증기 자신이 파일을 쓰는 인자
 (`--record`·`{{이름}}` 자극이 아닌 저장소 안 경로의 `--out`)를 가진 호출은 허용 목록 안이어도 실행하지 않고 SKIP 한다 —
 허용 목록은 명령의 진입점이 아니라 무엇을 할 수 있는가의 경계다(`unsafe()`).
 **점진 도입이다** — 펜스가 없거나 규약 키가 없는 케이스는 지금처럼 양성 명령만 돌고 판정도 그대로다.
@@ -63,8 +67,10 @@ SKIP 으로 적는다. **SKIP 은 PASS 가 아니다** (docs/tools.md 실패 종
 케이스가 `bazel test` 를 부르므로 `bazel run` 안에서는 중첩 실행이 된다 — odd_check 의 language_policy 와 같은 형태다. 문제가 나면
 `bazel run` 밖에서 python3 tools/vv_run.py 로 돌린다.
 
-사용: bazel run //tools:vv_run -- [--record] [--case <슬러그>…] [--out report.md] [--waivers docs/waivers.md]
-      python3 tools/vv_run.py [--record] [--case <슬러그>…] --vocab <어휘 파일>
+사용: bazel run //tools:vv_run -- [--record] [--case <슬러그>…] [--verifier <슬러그>…] [--out report.md] [--waivers docs/waivers.md]
+      bazel run //tools:vv_run -- --round stop-rule|budget|complete   (라운드 경계 기록만 — kb/vv/run/round-<UTC>.md, 유저 답 Q39-c)
+      python3 tools/vv_run.py [--record] [--case <슬러그>…] [--verifier <슬러그>…] --vocab <어휘 파일>
+      선택이 없으면 케이스와 검증기 전부다. `--case` 만 주면 그 케이스만, `--verifier` 만 주면 그 검증기만 돈다.
 종료: fail 있음 1 (EXIT_FAIL) · 전부 pass 0 (EXIT_OK) · pass 없이 skip 만 3 (EXIT_SKIP) · 입력·케이스 형식 문제 2 (EXIT_CONFIG)
 """
 from __future__ import annotations

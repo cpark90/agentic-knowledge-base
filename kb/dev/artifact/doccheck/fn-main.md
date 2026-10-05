@@ -7,10 +7,10 @@ title: function main in tools/doccheck.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-doccheck}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/145ba81b-fdd4-4cf8-aa11-b8ceb3165a08, https://agentic-knowledge-base.dev/id/chunk/15e8fdb5-4855-45e7-a8da-d43faba52099, https://agentic-knowledge-base.dev/id/chunk/2674f907-6204-42f7-a25e-6789137904d6, https://agentic-knowledge-base.dev/id/chunk/46b79267-2ae4-4c11-9208-401a5ac9ab53, https://agentic-knowledge-base.dev/id/chunk/4daa5f81-6009-493b-af58-f97f9a3f388c, https://agentic-knowledge-base.dev/id/chunk/58750c29-c6bb-4d83-b464-517f160f955d, https://agentic-knowledge-base.dev/id/chunk/6550bab7-f62f-40fd-893e-4d46be446f2f, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/cbb17652-19dd-4e9e-833d-0e61dfbd4110, https://agentic-knowledge-base.dev/id/chunk/d8304dd3-dfe1-49f3-bb99-12294f298b9c]
-part_of: https://agentic-knowledge-base.dev/id/composite/379df7df-38d0-4a60-b9ed-27e40b758ea3
+uses: [https://agentic-knowledge-base.dev/id/chunk/145ba81b-fdd4-4cf8-aa11-b8ceb3165a08, https://agentic-knowledge-base.dev/id/chunk/15e8fdb5-4855-45e7-a8da-d43faba52099, https://agentic-knowledge-base.dev/id/chunk/2674f907-6204-42f7-a25e-6789137904d6, https://agentic-knowledge-base.dev/id/chunk/46b79267-2ae4-4c11-9208-401a5ac9ab53, https://agentic-knowledge-base.dev/id/chunk/4daa5f81-6009-493b-af58-f97f9a3f388c, https://agentic-knowledge-base.dev/id/chunk/58750c29-c6bb-4d83-b464-517f160f955d, https://agentic-knowledge-base.dev/id/chunk/62282fc9-a79e-49d7-bfc5-535eee72d480, https://agentic-knowledge-base.dev/id/chunk/6550bab7-f62f-40fd-893e-4d46be446f2f, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/cbb17652-19dd-4e9e-833d-0e61dfbd4110, https://agentic-knowledge-base.dev/id/chunk/d8304dd3-dfe1-49f3-bb99-12294f298b9c]
+part_of: https://agentic-knowledge-base.dev/id/composite/7ac51f50-ae24-4b21-944d-11721fe1653c
 ---
 **함수** — `main()` 다.
 
@@ -31,11 +31,25 @@ def main() -> int:
     ap.add_argument("--gates", default="", metavar="FILE",
                     help="게이트 등록부의 원본 defs/kb.bzl — 주면 `docs/tools.md` 게이트 총람이 그 리터럴의 투영인지 "
                          "본다. 표의 `id` 열에 등록부 밖의 id 가 있으면 FAIL 이고, 반대 방향(총람에 없는 등록 id)은 보고다")
+    ap.add_argument("--frozen", action="store_true",
+                    help="동결 모드 — 위치 인자의 문서가 kb_lib.FROZEN_DOCS 의 sha256 과 같은지만 본다 (게이트 id frozen)")
     ap.add_argument("files", nargs="*", help="검사할 문서 (--report 면 대조할 문서 — 없으면 진입점 문서 넷)")
     args = ap.parse_args()
 
     workdir = os.environ.get("BUILD_WORKING_DIRECTORY")
     root = Path(os.path.abspath(args.root or os.environ.get("BUILD_WORKSPACE_DIRECTORY") or "."))
+    if args.frozen:
+        try:
+            frozen_errors = check_frozen(args.files, root, workdir)
+        except (OSError, ValueError) as e:
+            print(f"FAIL [{FROZEN}] {e}", file=sys.stderr)
+            return EXIT_CONFIG
+        for e in frozen_errors:
+            print(f"FAIL [{FROZEN}] {e}")
+        if frozen_errors:
+            return EXIT_FAIL
+        print(f"PASS [{FROZEN}] — 동결 문서 {len(kb_lib.FROZEN_DOCS)}개")
+        return 0
     repo = Repo(root, set(args.empty_dir))
     if args.report:  # 게이트가 아니다 — 어긋난 쌍이 있어도 0 이다 (현상 agt:documentLag 의 관측 수단)
         # 위치 인자가 있으면 REPORT_DOCS(진입점 문서 넷) 대신 그 목록을 대조 대상으로 쓴다(2026-10-01, vnv 요청) —

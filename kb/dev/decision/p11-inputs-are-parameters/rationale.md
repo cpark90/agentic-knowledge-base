@@ -7,8 +7,8 @@ title: Inputs form an axis distinct from the ODD; the impact column defines the 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
-verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: human:cpark, at: 2026-09-11T18:50:00+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-05T00:30:10+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/c0707632-682f-4f16-bae0-d5b47f69d096
 ---
 **근거** (노트 11.1절, Part XI 도입)
@@ -26,6 +26,6 @@ part_of: https://agentic-knowledge-base.dev/id/composite/c0707632-682f-4f16-bae0
   앵커 해석기 구성은 링크 양 끝 재해석이다.
 - 언어 정책은 **한글 및 영어 강제**로 이미 확정되어 있고(12.3절) 파급은
   0.6절 표기 형식뿐이다 — 다른 입력 사슬과 만나지 않는다.
-- 청크 상한(42줄 기본, plane별 오버라이드) · 일반화 임계값 N·M·K ·
+- 청크 상한(1,092토큰 기본, plane별 오버라이드) · 일반화 임계값 N·M·K ·
   커버리지 임계 · 후보 상한 k는 수치 파라미터다. 규칙은 그대로 두고 값만
   바뀌므로 파급이 재검사·재계산으로 끝난다.

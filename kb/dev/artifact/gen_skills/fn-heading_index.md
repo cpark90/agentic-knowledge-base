@@ -7,7 +7,7 @@ title: function heading_index in tools/gen_skills.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-skills}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/210e1533-9390-4961-914e-3e556e96fe3d
 ---
@@ -16,7 +16,10 @@ part_of: https://agentic-knowledge-base.dev/id/composite/210e1533-9390-4961-914e
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def heading_index(doc: Path) -> dict[str, str]:
-    """문서의 제목 앵커 → 제목 텍스트 (doccheck 의 slug 규칙, 같은 slug 는 -1, -2 …). 코드 펜스 안은 제목이 아니다."""
+    """문서의 제목 앵커 → 제목 텍스트 (doccheck 의 slug 규칙, 같은 slug 는 -1, -2 …). 코드 펜스 안은 제목이 아니다.
+
+    쓰임은 앵커의 실재 확인뿐이다 — 제목 텍스트는 SKILL.md 에 옮기지 않는다(`render`).
+    """
     out, seen, fence = {}, {}, False
     for line in doc.read_text(encoding="utf-8").splitlines():
         if re.match(r"^ {0,3}(`{3,}|~{3,})", line):

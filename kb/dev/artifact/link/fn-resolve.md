@@ -7,7 +7,7 @@ title: function resolve in tools/link.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/e3fd5c02-635a-402a-ad7b-f2cbc4d10b46, https://agentic-knowledge-base.dev/id/chunk/f1f06f16-947e-47c4-b831-f8359170bfed, https://agentic-knowledge-base.dev/id/chunk/f6a3aa93-d0de-4c63-b007-96fc8167809a]
 part_of: https://agentic-knowledge-base.dev/id/composite/35504745-0bb4-47e0-ae4a-3da6e0e07b3d
@@ -25,14 +25,17 @@ def resolve(u: Units, key: frozenset, prefer: dict, hint: dict | None = None):
     kind = (hint or {}).get(key)
     if kind and kind in tim_kinds(u.plane[a], u.plane[b]) and violation(u, kind, a, b) is None:
         return (a, kind, b)
-    had_cell = False
+    had_cell, why = False, None
     for x, y in ((a, b), (b, a)):
         for kind in tim_kinds(u.plane[x], u.plane[y]):
             had_cell = True
-            if violation(u, kind, x, y) is None:
+            v = violation(u, kind, x, y)
+            if v is None:
                 return (x, kind, y)
+            if why is None and v in STRUCTURAL:
+                why = v
     if had_cell:
-        return R_DIRECTION
+        return why or R_DIRECTION
     if u.kb(a) != u.kb(b):
         return R_CROSS_KB
     return (a, RELATED, b)

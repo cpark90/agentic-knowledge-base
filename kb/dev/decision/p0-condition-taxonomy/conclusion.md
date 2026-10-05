@@ -4,7 +4,7 @@ type: decision
 level: concrete
 title_ko: 조건은 정적 요소·환경 조건·동적 요소 세 갈래이고 둘째 수준까지 고정된다
 title: Conditions branch into static elements, environmental conditions and dynamic elements, fixed down to the second level
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}

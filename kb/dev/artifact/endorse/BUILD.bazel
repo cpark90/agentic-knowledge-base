@@ -7,21 +7,22 @@ package(default_visibility = ["//kb:artifact_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "endorse",
     srcs = glob(["*.md"]),
 )
 
 kb_composite(
     name = "module",
     srcs = [
+        "fn-future_at.md",
         "fn-main.md",
         "head.md",
         "module.md",
         "sec-main.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/9a0f13d1-d6f6-48ea-9728-4e96bd777d51",
-    ordered = ["https://agentic-knowledge-base.dev/id/chunk/e7f0f4ca-74a2-4f45-9464-feb382099c39", "https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d-a8a449270a57"],
-    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e7f0f4ca-74a2-4f45-9464-feb382099c39", "https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d-a8a449270a57"],
+    ordered = ["https://agentic-knowledge-base.dev/id/composite/e9580aea-56ec-4ca6-a78d-95befb50b334", "https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d-a8a449270a57"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/composite/e9580aea-56ec-4ca6-a78d-95befb50b334", "https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d-a8a449270a57"],
     plane = "artifact",
     level = "executable",
     status = "stable",

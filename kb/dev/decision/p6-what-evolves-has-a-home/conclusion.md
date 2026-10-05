@@ -7,7 +7,8 @@ title: Every evolving object lands in a place that already exists
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T00:30:10+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b]
 part_of: https://agentic-knowledge-base.dev/id/composite/cc186a37-0cf9-48c4-b3d9-aa95b76d67f3
 composite: {id: https://agentic-knowledge-base.dev/id/composite/cc186a37-0cf9-48c4-b3d9-aa95b76d67f3, title_ko: 진화 대상의 자리, title: Where each evolving object lands}
@@ -20,4 +21,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/cc186a37-0cf9-48
 - 프레임워크·협업 구조 → 에이전트 카탈로그·스코프(입력). 인지 요인 분포가 스코프 재설계를 지목
 - 어휘·규칙 → 온톨로지·`defect-rules`·ODD (6.3절 본 경로)
 
-**절차(스킬) 저장소의 유지가 청크 유지와 동형이다.** Runbook 청크가 42줄·라벨·shape를 따르고 분할·병합 신호와 폐기 정책을 그대로 받으므로 저장소 크기가 안정적으로 유지된다.
+**절차(스킬) 저장소의 유지가 청크 유지와 동형이다.** Runbook 청크가 토큰 상한·라벨·shape를 따르고 분할·병합 신호와 폐기 정책을 그대로 받으므로 저장소 크기가 안정적으로 유지된다.

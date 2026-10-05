@@ -1,0 +1,3 @@
+# 고정물 ODD — case_gen 은 ATTRIBUTES 의 iri 만 읽는다 (변수의 odd 참조 대조)
+ATTRIBUTES:
+  repository_layout: {iri: "id:cond-repo-layout", title: repository layout, title_ko: 저장소 구조}

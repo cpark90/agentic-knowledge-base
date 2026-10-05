@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:memory_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "memory",
     srcs = glob(
         ["*.md"],
         allow_empty = True,
@@ -32,11 +32,21 @@ kb_chunk(
     status = "stable",
 )
 
+kb_chunk(
+    name = "obs-20261004T143210Z",
+    src = "obs-20261004T143210Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/32209ea6-6c37-4146-9049-4f8ad35c4163",
+    plane = "memory",
+    level = "concrete",
+    status = "draft",
+)
+
 # 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
 kb_bundle(
     name = "kg",
     items = [
         ":obs-20260913T154324Z",
         ":obs-20260922T164157Z",
+        ":obs-20261004T143210Z",
     ],
 )

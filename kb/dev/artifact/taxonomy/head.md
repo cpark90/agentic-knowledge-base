@@ -10,7 +10,6 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-12T07:47:38Z}
 layer: process
 verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
-refines: [https://agentic-knowledge-base.dev/id/chunk/870158d1-2a3e-4b89-b721-7afb4d7a095d, https://agentic-knowledge-base.dev/id/chunk/40abcad5-6a9c-4233-99d3-0b7ceeafb06b]
 part_of: https://agentic-knowledge-base.dev/id/composite/5cd36157-e133-4ff0-bb51-ba6848ba0fbd
 ---
 **모듈 머리** — `tools/taxonomy.py` 의 모듈 머리 `exit-config` 다. 모듈 머리

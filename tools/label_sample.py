@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""라벨 대표성 실험 표본 — 층화 표본 + 미끼 (docs/feedback/label-representativeness-protocol.md, 4.13절).
+"""라벨 대표성 실험 표본 — 층화 표본 + 미끼 (harness/user/archive/legacy/label-representativeness-protocol.md, 4.13절).
 
 판정자(다른 세션의 에이전트)는 **라벨만** 보고 본문을 예측한 뒤, 본문을 보고 척도(질문
 `agt:labelRepresentsBody`의 상황 문장 — 프로파일이 원본, 단일 정의처는 `kb_lib.judge_load_profile`)와

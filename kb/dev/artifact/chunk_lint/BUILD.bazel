@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:artifact_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "chunk_lint",
     srcs = glob(["*.md"]),
 )
 

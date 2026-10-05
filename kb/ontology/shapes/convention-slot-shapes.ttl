@@ -1,0 +1,18 @@
+# shape — `규약:` 줄은 결정의 선택 넷째 청크 conventions.md 에만 둔다 (결정 p4-convention-slot, 유저 답 Q13-a·Q22-b)
+# 줄은 결정이 규범 문서에 싣는 문장이고 자리는 결정마다 하나다. 결론·근거·대안 청크와 다른 plane 의 청크에 두지 않는다 —
+# 결론 슬롯 안(Q13 원안)은 결론의 토큰 상한을 나눠 써서 기각됐다(Q22-b). 그 청크는 concrete 이고 방법론 층이다.
+# 표지는 chunk2kg 가 역할 표지 `**규약**`(BODY_SLOT_MARKERS)과 줄 머리 `규약:`(BODY_SLOT_KEYWORDS) 둘 다에서 agt:bodySlot "규약" 으로 낸다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:ConventionSlotShape a sh:NodeShape ;
+    sh:targetSubjectsOf agt:bodySlot ;
+    sh:or (
+        [ sh:not [ sh:property [ sh:path agt:bodySlot ; sh:hasValue "규약" ] ] ]
+        [ sh:class agt:DesignDecision ;
+          sh:property [ sh:path agt:hasLevel ; sh:hasValue agt:concrete ] ;
+          sh:property [ sh:path agt:inLayer ; sh:hasValue agt:methodologyLayer ] ;
+          sh:not [ sh:property [ sh:path agt:bodySlot ; sh:in ( "결론" "근거" "대안" ) ; sh:minCount 1 ] ] ]
+    ) ;
+    sh:message "슬롯 `규약` 은 결정(agt:DesignDecision)의 규약 청크 conventions.md 에만 둔다 — level concrete · layer methodology 이고 결론·근거·대안 표지를 함께 갖지 않는다 (p4-convention-slot, 유저 답 Q22-b)" .

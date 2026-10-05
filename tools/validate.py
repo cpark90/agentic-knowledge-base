@@ -21,6 +21,12 @@
               정확히 하나이며 · 배제된 후보에 (−) 증거, 확정된 후보에 구축·실행 (+) 증거가 있다
   specialization  prov:specializationOf 의 대상은 살아 있는(deprecated 아닌) 같은 plane 의 청크이고 사슬은 순환하지
               않는다 (p10-split-keeps-work-identity — 청크 uuid 는 work-id, 링크 IRI 는 뿌리 uuid 로 계산)
+  cross-kb-link  frontmatter 링크 키(chunk2kg.LINK_KEYS)의 링크가 verifies 밖이면서 두 KB(kb/dev ↔ kb/vv)를 가로지르지
+              않는다. 예외는 검증 목표(kb/vv requirement, functional) → 개발 요구 derivesFrom 하나다 (p6-executable-splits-by-kb ·
+              p8-scenario-ladder-rungs). 판정은 복원 후보 생성기(tools/link.py)와 같은 함수 kb_lib.cross_kb_link 다
+  rung-before-descent  같은 높이의 V&V 대응물 없이 다음 높이로 내려간 하강이 없다 (요구 r-023, 유저 결정 Q51-a 의 R1 사다리
+              사슬) — functional→abstract 는 목표, logical→concrete 는 기준, concrete→executable 은 검증기가 바인딩한 기준(사람
+              확인 기준만 가진 요구는 면제)이다. 판정은 지표와 같은 함수 kb_lib.rung_violations 다
   catalog     (--data 에 agt:Harness 가 있을 때) 카탈로그 정합성 (AGENTS.md 역할 절 · STYLEGUIDE §5 · 9.2·9.6절):
               하네스가 hasRole 하는 역할마다 대응 스코프(id:role-<x> ↔ id:scope-<x>)가 있고 하네스가 grants 한다 ·
               역할마다 read plane ≥ 1 · write plane 은 역할 사이에 겹치지 않는다 · maxConcurrent 합 ≤ ODD 동적 요소
@@ -407,6 +413,88 @@ def check_specialization(merged: Graph, files: dict[str, Graph]) -> list[str]:
     return errors
 
 
+def check_cross_kb_link(merged: Graph) -> list[str]:
+    """KB 를 가로지르는 저작 링크의 거부 (게이트 id `cross-kb-link`, p6-executable-splits-by-kb · p8-scenario-ladder-rungs).
+
+    대상은 frontmatter 링크 키(`chunk2kg.LINK_KEYS`)의 직접 트리플 전부다. `defs/kb.bzl` 의 `_check_links` 는 Bazel deps
+    (refines·serves·supersedes·verifies)만 받으므로 satisfies·derivesFrom·overlapsWith 같은 나머지 키는 분석 시점에 보이지
+    않고, 판정에는 두 끝점의 KB·plane·수준이 필요해 타깃마다 한 청크만 보는 `chunk2kg` 도 자리가 아니다 — 병합 그래프를
+    보는 여기가 자리다. 판정은 복원 후보 생성기와 같은 함수 `kb_lib.cross_kb_link` 다. 끝점이 복합체면 첫 부분을 따라
+    내려가 청크의 값을 쓴다(`kb_lib.link_cells` 와 같은 규칙). plane 을 정할 수 없는 끝점은 판정하지 않는다 — 실재는
+    `dangling` 이 본다.
+    """
+    gate = kb_lib.CROSS_KB_LINK_GATE
+    plane = kb_lib.chunk_planes(merged)
+    first_part: dict = {}
+    for comp, part in sorted(merged.subject_objects(kb_lib.AGT.hasDirectPart), key=lambda cp: (str(cp[0]), str(cp[1]))):
+        first_part.setdefault(comp, part)
+
+    def end(node):
+        seen = set()
+        while node is not None and node not in seen:
+            if node in plane:
+                loc = str(next(merged.objects(node, kb_lib.AGT.assertionLocation), ""))
+                level = str(next(merged.objects(node, kb_lib.AGT.hasLevel), "")).split("/")[-1]
+                return kb_lib.kb_of(loc), plane[node], level
+            seen.add(node)
+            node = first_part.get(node)
+        return None
+
+    errors = []
+    for key in chunk2kg.LINK_KEYS:
+        for s, o in sorted(merged.subject_objects(kb_lib.AGT[key]), key=lambda so: (str(so[0]), str(so[1]))):
+            src, dst = end(s), end(o)
+            if src is None or dst is None or not kb_lib.cross_kb_link(key, src, dst):
+                continue
+            errors.append(f"[{gate}] {_chunk_location(merged, s)}: agt:{key} 가 KB 를 가로지른다 ({src[0]} {src[1]} → {dst[0]} {dst[1]}, "
+                          f"대상 {_chunk_location(merged, o)}) — KB 사이 링크는 verifies 하나이고 예외는 검증 목표(functional) → "
+                          f"요구 derivesFrom 뿐이다 (p6-executable-splits-by-kb · p8-scenario-ladder-rungs)")
+    return errors
+
+
+def check_code_part_link(merged: Graph) -> list[str]:
+    """코드 부분 청크가 `refines`·`serves`·`verifies` 의 끝점이면 거부한다 (게이트 `code-part-link`, 유저 결정 Q47-b).
+
+    코드의 링크는 파일 복합체의 것이고 자리는 선언 청크인 파일 청크 하나다(p7-code-links-on-file-composite). 추출 트리
+    (`kb_lib.EXTRACT_ROOT`) 안에서 복합체의 부분인 청크 — 정의 청크와 구역 청크 — 가 주어든 대상이든 그 링크의 끝에 서면
+    함수 churn 과 절의 재편이 링크를 움직인다. 판정에는 부분 관계(`agt:hasDirectPart`)와 청크 위치가 함께 필요해 청크 하나만
+    보는 `chunk2kg` 나 Bazel deps 만 보는 `_check_links` 는 자리가 아니다 — `cross-kb-link` 와 같이 병합 그래프를 보는 여기가
+    자리다. 판정 함수는 복원 후보 생성기(link `R_CODE_PART`)와 같은 `kb_lib.code_part` 다.
+    """
+    gate = kb_lib.CODE_PART_LINK_GATE
+    parts = set(merged.objects(None, kb_lib.AGT.hasDirectPart))
+    errors = []
+    for key in kb_lib.CODE_PART_LINK_KINDS:
+        for s, o in sorted(merged.subject_objects(kb_lib.AGT[key]), key=lambda so: (str(so[0]), str(so[1]))):
+            for node, role in ((s, "주어"), (o, "대상")):
+                if kb_lib.code_part(str(next(merged.objects(node, kb_lib.AGT.assertionLocation), "")), node in parts):
+                    errors.append(f"[{gate}] {_chunk_location(merged, node)}: 코드 부분 청크가 agt:{key} 의 {role}다 "
+                                  f"({_chunk_location(merged, s)} → {_chunk_location(merged, o)}) — 코드의 링크는 파일 복합체의 "
+                                  f"선언 청크(module.md) 하나가 갖는다 (p7-code-links-on-file-composite)")
+    return errors
+
+
+def check_rung_before_descent(merged: Graph) -> list[str]:
+    """같은 높이의 V&V 대응물 없이 다음 높이로 내려간 하강을 거부한다 (게이트 `rung-before-descent`, 요구 r-023, 유저 결정 Q51-a).
+
+    판정식은 R1 사다리 사슬이다 — functional→abstract 는 하강 대상 요구의 검증 목표, logical→concrete 는 결정 복합체가 닿는
+    요구의 목표에 달린 합격 기준, concrete→executable 은 그 기준 가운데 검증기가 바인딩한 것을 요구한다(사람 확인 기준만
+    가진 요구는 면제, Q26-a). 판정에는 두 KB 의 청크·복합체 부분·링크가 함께 필요해 병합 그래프를 보는 여기가 자리다
+    (`cross-kb-link`·`code-part-link` 와 같다). 판정 함수는 지표(metrics 7단계 절·전방 추적)와 같은 `kb_lib.rung_violations`
+    · `kb_lib.vv_counterparts` 다.
+    """
+    gate = kb_lib.RUNG_BEFORE_DESCENT_GATE
+    plane = kb_lib.chunk_planes(merged)
+    level = {c: str(next(merged.objects(c, kb_lib.AGT.hasLevel), "")).split("/")[-1] for c in plane}
+    live = {c for c in plane if str(next(merged.objects(c, kb_lib.AGT.status), "")) != "deprecated"}
+    need = {kb_lib.RUNG_DESCENTS[0]: "요구를 derivesFrom 하는 검증 목표가 없다",
+            kb_lib.RUNG_DESCENTS[1]: "요구의 검증 목표에 합격 기준이 없다",
+            kb_lib.RUNG_DESCENTS[2]: "요구의 합격 기준(사람 확인 기준 제외)을 바인딩한 검증기가 없다"}
+    return [f"[{gate}] {_chunk_location(merged, s)}: {rung} 하강(대상 {_chunk_location(merged, o)})이 닿는 요구 "
+            f"{_chunk_location(merged, r)} — {need[rung]} (r-023-rung-before-descent, p8-scenario-ladder-rungs)"
+            for rung, s, o, r in kb_lib.rung_violations(merged, plane, level, live)]
+
+
 def _chunk_location(merged: Graph, chunk: URIRef) -> str:
     return next((str(l) for l in merged.objects(chunk, kb_lib.AGT.assertionLocation)), merged.qname(chunk))
 
@@ -645,10 +733,9 @@ def check_residency(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> lis
     declared = {p: set(v) for p, v in table.items() if set(v) != set(levels)}
     found: dict[str, set[str]] = {}
     for shape, cls in shapes.subject_objects(SH.targetClass):
-        plane = str(cls).split("/")[-1]
-        if not plane.endswith("Chunk"):
+        plane = kb_lib.plane_of_class(cls)  # 클래스 → plane 은 chunk2kg.CLASS_PLANE 이 정한다 — norm 은 agt:DocumentSectionChunk 다
+        if not plane:
             continue
-        plane = plane[: -len("Chunk")].lower()
         for prop in shapes.objects(shape, SH.property):
             if (prop, SH.path, kb_lib.AGT.hasLevel) not in shapes:
                 continue
@@ -660,7 +747,7 @@ def check_residency(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> lis
         if want is None:
             errors.append(f"[{gate}] {where}: shape 가 plane {plane} 의 수준 구간을 {sorted(have)} 로 제한하는데 {bzl_path} 의 RESIDENCY 에는 그 제한이 없다 — 표의 원본은 {bzl_path} 다")
         elif have is None:
-            errors.append(f"[{gate}] {where}: {bzl_path} 의 RESIDENCY 는 plane {plane} 을 {sorted(want)} 로 제한하는데 shape 에 대응 구간이 없다 — `agt:{plane.capitalize()}Chunk` 의 `agt:hasLevel` 에 `sh:in` 을 단다")
+            errors.append(f"[{gate}] {where}: {bzl_path} 의 RESIDENCY 는 plane {plane} 을 {sorted(want)} 로 제한하는데 shape 에 대응 구간이 없다 — `{chunk2kg.PLANE_CLASS.get(plane, plane)}` 의 `agt:hasLevel` 에 `sh:in` 을 단다")
         elif want != have:
             errors.append(f"[{gate}] {where}: plane {plane} 의 수준 구간이 갈린다 — {bzl_path} 는 {sorted(want)}, shape 는 {sorted(have)} 다. 원본은 {bzl_path} 이므로 shape 를 맞춘다")
     return errors
@@ -689,10 +776,9 @@ def check_token_budget(shapes: Graph, bzl_path: str, shape_paths: list[str], voc
     declared = {p: kb_lib.body_token_limit(p) for p in planes}
     found: dict[str, set[int]] = {}
     for shape, cls in shapes.subject_objects(SH.targetClass):
-        plane = str(cls).split("/")[-1]
-        if not plane.endswith("Chunk"):
+        plane = kb_lib.plane_of_class(cls)
+        if not plane:
             continue
-        plane = plane[: -len("Chunk")].lower()
         for prop in shapes.objects(shape, SH.property):
             if (prop, SH.path, kb_lib.AGT.tokenCount) not in shapes:
                 continue
@@ -704,7 +790,7 @@ def check_token_budget(shapes: Graph, bzl_path: str, shape_paths: list[str], voc
         if want is None:
             errors.append(f"[{gate}] {where}: shape 가 plane {plane} 의 본문 상한을 {sorted(have)} 로 두는데 그런 plane 이 {bzl_path} 의 PLANES 에 없다")
         elif not have:
-            errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한 {want} 토큰에 대응하는 shape 가 없다 — `agt:{plane.capitalize()}Chunk` 의 `agt:tokenCount` 에 `sh:maxInclusive {want}` 를 단다 (표의 원본은 tools/kb_lib.py 의 BODY_TOKEN_LIMITS 다)")
+            errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한 {want} 토큰에 대응하는 shape 가 없다 — `{chunk2kg.PLANE_CLASS.get(plane, plane)}` 의 `agt:tokenCount` 에 `sh:maxInclusive {want}` 를 단다 (표의 원본은 tools/kb_lib.py 의 BODY_TOKEN_LIMITS 다)")
         elif have != {want}:
             errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한이 갈린다 — tools/kb_lib.py 의 BODY_TOKEN_LIMITS 는 {want}, shape 는 {sorted(have)} 다. 원본은 표이므로 shape 를 맞춘다")
     try:  # 계수기의 고정 — 상한의 단위가 토큰이므로 어휘 파일이 바뀌면 같은 수가 같은 뜻이 아니다
@@ -716,7 +802,7 @@ def check_token_budget(shapes: Graph, bzl_path: str, shape_paths: list[str], voc
         errors.append(f"[{gate}] {Path(path).as_posix()}: 어휘 파일의 sha256 {got} 가 고정값 "
                       f"{kb_lib.TOKENIZER_VOCAB_SHA256} 과 다르다 — 토큰으로 적은 상한이 재현되지 않는다 "
                       f"(ODD id:cond-tokenizer-lock, 고정처는 MODULE.bazel 의 http_file "
-                      f"{kb_lib.TOKENIZER_VOCAB_REPO} 와 tools/kb_lib.py 의 TOKENIZER_VOCAB_SHA256)")
+                      f"{kb_lib.TOKENIZER_VOCAB_REPO} 와 tools/chunk2kg.py 의 TOKENIZER_VOCAB_SHA256)")
     return errors
 
 
@@ -914,6 +1000,9 @@ def main() -> int:
         errors += check_dangling(merged, onto_merged if args.ontology else None, located)
         errors += check_space(merged, located)
         errors += check_specialization(merged, located)
+        errors += check_cross_kb_link(merged)
+        errors += check_code_part_link(merged)
+        errors += check_rung_before_descent(merged)
         errors += check_writer(merged)
         try:
             errors += check_catalog(merged, odd_merged if args.odd else None, located)

@@ -7,9 +7,8 @@ title: function stamp_one in tools/stamp.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-stamp}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:27:50Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 uses: [https://agentic-knowledge-base.dev/id/chunk/98e08ae7-f85a-4703-809f-fe20c8ac333a]
 part_of: https://agentic-knowledge-base.dev/id/composite/9de96dc9-03ab-40b9-a90a-4481f8f9deb7
 ---
@@ -35,7 +34,8 @@ def stamp_one(root: Path, reg_path: Path, rev: str, at: str) -> tuple[str, str]:
         code, rev = git(root, "rev-parse", "HEAD")
         if code != 0 or not rev:
             raise ValueError(f"{reg_path}: git 리비전을 읽을 수 없다 — `--rev` 로 준다")
-    reg["tested"] = {"rev": rev, "at": at, "source_hash": hashlib.sha256(src.read_bytes()).hexdigest()[:16]}
+    # 해시는 추출기와 같은 함수다 — 질의 디렉토리(EXTRACTED_QUERY_DIRS)는 파일 전부의 해시이고 둘이 갈리면 도장이 무효가 된다
+    reg["tested"] = {"rev": rev, "at": at, "source_hash": source_digest(src)}
     reg_path.write_text(dump_registry(reg), encoding="utf-8")
     return reg["source"], rev
 ```

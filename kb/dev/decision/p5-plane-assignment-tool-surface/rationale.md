@@ -7,7 +7,8 @@ title: A read response carries labels, states and key links only; bodies on requ
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T00:30:10+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/3ebc2598-b846-412e-b76e-4ebb13ce90a4
 ---
 **근거** (노트 5.3절, 5.6절)
@@ -27,7 +28,7 @@ source/  (write)
   ... 3 more (expand?)
 ```
 
-- **라벨·상태·핵심 링크만**으로 조망이 서고 본문이 선택이 되어야 200줄 예산
+- **라벨·상태·핵심 링크만**으로 조망이 서고 본문이 선택이 되어야 5,418토큰 예산
   안에서 4~5개 청크가 조망된다(4.1절).
 - plane별 응답이 다른 것은 각 plane에서 "무엇이 바뀌었나"의 단위가 다르기
   때문이다 — 스키마는 필드, 계약은 시그니처, 산출물은 심볼이다.

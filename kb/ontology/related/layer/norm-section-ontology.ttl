@@ -1,0 +1,26 @@
+# 규범 문서의 절 — 절 청크(agt:DocumentSectionChunk)의 제목·깊이와 결정 규약 줄의 투영 (결정 p12-norm-documents-from-section-chunks)
+# 규범 문서는 방법론 층의 투영이고 원본은 청크다. 절 청크는 골격이고 문장은 결정의 규약 청크(conventions.md)에 있다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:sectionHeading a owl:DatatypeProperty ;
+    rdfs:domain agt:DocumentSectionChunk ;
+    rdfs:range xsd:string ;
+    rdfs:label "section heading"@en , "절 제목"@ko ;
+    skos:definition "절 청크가 생성 문서에 내는 절 제목. 번호를 담지 않는다 — 번호는 생성기(tools/gen_norms.py)가 복합체의 선언 순서로 붙이므로 절을 넣고 빼도 소스가 바뀌지 않는다. 표시 자리는 frontmatter `heading:` 이고 머리 청크는 갖지 않는다. 게이트: norm-section-shapes."@ko .
+
+agt:sectionDepth a owl:DatatypeProperty ;
+    rdfs:domain agt:DocumentSectionChunk ;
+    rdfs:range xsd:integer ;
+    rdfs:label "section depth"@en , "절 깊이"@ko ;
+    skos:definition "절 청크의 제목 수준 — 2 또는 3이고 생성 문서의 `##`·`###`이다. 문서 제목(h1)은 생성기의 머리 블록이 내므로 1은 없다. 표시 자리는 frontmatter `depth:` 이고 heading과 짝으로만 둔다. 게이트: norm-section-shapes."@ko .
+
+agt:projectsConvention a owl:ObjectProperty ;
+    rdfs:subPropertyOf agt:references ;
+    rdfs:domain agt:DocumentSectionChunk ;
+    rdfs:range agt:Composite ;
+    rdfs:label "projects convention"@en , "규약을 싣는다"@ko ;
+    skos:definition "절 청크가 어느 결정의 `규약:` 줄을 그 절에 싣는가 — 대상은 결정 복합체다. 결정이 바뀌면 그 줄을 싣는 규범 문서를 다시 생성해야 하므로 이 술어가 결정에서 문서로 가는 영향의 자리다. 줄 하나(`slug#k`)가 아니라 결정 단위로 내고 줄의 실재·고아·이중 소비는 생성기가 판정한다. 링크만 하는 결정(`slug#k + slug2`의 둘째)은 줄을 싣지 않으므로 대상이 아니다. chunk2kg가 frontmatter `items:`에서 낸다 (결정 p12-norm-documents-from-section-chunks). 게이트: norm-section-shapes · gen-norms."@ko .

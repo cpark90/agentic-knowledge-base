@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
-restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
+overlapsWith: [https://agentic-knowledge-base.dev/id/chunk-d0013]
+restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b, https://agentic-knowledge-base.dev/id/chunk-d0013]
 generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
 part_of: https://agentic-knowledge-base.dev/id/comp-reproducible-build
 composite: {id: https://agentic-knowledge-base.dev/id/comp-reproducible-build, title_ko: 재현 가능한 빌드 투영, title: reproducible build projection}

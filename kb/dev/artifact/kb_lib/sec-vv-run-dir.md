@@ -7,7 +7,7 @@ title: section vv-run-dir in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/cd5a8ce9-a52a-40c7-89b0-b41f163cfde2
 ---
@@ -26,6 +26,9 @@ DEV_MEMORY_DIR = KB_DEV + "/memory"
 RUN_GENERATOR = "process:vv_run"                # V&V 실행 기록의 generated.by (tools/vv_run.py --record)
 ASSUME_CHECK_GENERATOR = "process:assume_check"  # 가정 판정 관측의 generated.by (tools/assume_check.py GENERATOR · metrics · weave audit 의 정의처)
 RUN_CASE_TABLE_HEADER = "| 케이스 | 실행 명령 | 결과 | 소요 |"  # 실행 기록 본문의 케이스 표 — audit 이 이 헤더로 표를 찾는다
+# 실행 기록 본문의 검증기 표 — 검증기(`kb/vv/verifier/`)의 실행 명령 행. 케이스 표와 표를 나눠 행의 종류를 헤더가 정한다.
+# run_evidence 는 케이스 표만 읽는다 — 검증기는 `verifies` 가 없어(수준이 맞지 않는다) 증거 쌍이 서지 않는다 (유저 답 Q29-a)
+RUN_VERIFIER_TABLE_HEADER = "| 검증기 | 실행 명령 | 결과 | 소요 |"
 ASSUME_CHECK_TABLE_HEADER = "| 가정 | 판정 유형 | 등급 | 상태 | 직접 영향 | suspect 후보(전이) |"  # 가정 판정 관측의 가정 표 (assume_check.observation)
 RUN_VERDICTS = ("pass", "fail", "skip")          # 케이스 판정 — SKIP 은 PASS 가 아니다 (docs/tools.md 실패 종류 3)
 ```

@@ -8,8 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}, {resource: https://agentic-knowledge-base.dev/id/doc-mast-failure-taxonomy}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-links-only-interaction, https://agentic-knowledge-base.dev/id/asm-finite-factor-types, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 exposes: [https://agentic-knowledge-base.dev/agt/reasoningActionMismatch, https://agentic-knowledge-base.dev/agt/labelRot]
-generated: {by: vnv/claude-sonnet-5, at: 2026-09-29T15:40:00+09:00}
-verified: [{by: vnv/claude-sonnet-5, at: 2026-10-01T18:00:07+09:00}]
+generated: {by: vnv/claude-sonnet-5, at: 2026-10-05T00:45:04+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-05T00:45:09+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/65c71b3f-efa7-47bb-b4fa-f7b491e99078
 specializationOf: https://agentic-knowledge-base.dev/id/chunk/fb826dc5-88fa-4bbb-bf98-7536fc095df7
 ---
@@ -19,4 +19,4 @@ specializationOf: https://agentic-knowledge-base.dev/id/chunk/fb826dc5-88fa-4bbb
 
 기여하는 검증 목표는 `kb/vv/goal/decision-and-artifact-agree.md`(`https://agentic-knowledge-base.dev/id/chunk/9e1150bc-5668-4f5d-aa95-684f45b7bf4a`)다. 결정 본문이 바뀌면 그것을 충족한다고 적힌 산출물이 재판정 대상이 되는가를 이 부류가 자극한다.
 
-미확정: 결정 본문과 산출물의 어긋남을 재는 관측 수단이 없다. 개발 KB의 `artifact`가 3건이라 자극을 걸 표면이 좁다.
+관측 수단은 논리 시나리오 `decision-conclusion-mutation`이다. 결론 본문 한 문장만 다른 합성 변이 쌍을 `tools/revalidate.py`가 비교해 그 결론을 가리키는 링크를 재판정 대상으로 내고, 생성 케이스 둘이 그 판정을 한다. 개발 KB의 `artifact`는 943건이다. 그중 결정을 가리키는 `satisfies` 링크 개체는 후보 17 · 확정 0이라 저장소 자신에서 재판정될 충족 링크는 아직 없다.

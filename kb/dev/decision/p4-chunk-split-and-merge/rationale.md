@@ -7,7 +7,8 @@ title: Every split signal says the chunk's granularity mismatches another mechan
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T23:48:01+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T23:48:02+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/bef41c67-e767-4eac-8a76-338d9a83913b
 ---
 **근거** (노트 4.10절)
@@ -17,5 +18,4 @@ part_of: https://agentic-knowledge-base.dev/id/composite/bef41c67-e767-4eac-8a76
   같은 신호다(4.4절 라벨 인터페이스).
 - 병합의 기준은 반대로 **자립성과 조망**이다. 다른 청크 없이 이해되지 않는
   청크는 4.1절이 요구하는 자립 단위가 아니다.
-- 새 IRI를 만드는 이유는 4.8절 앵커 규칙 때문이다 — IRI를 유지한 채 내용을
-  갈아치우면 그 IRI를 가리키던 링크가 조용히 다른 것을 가리키게 된다.
+- IRI 처리는 `p10-split-keeps-work-identity`가 정한다 — 옛 근거(4.8절 앵커)는 그 결정이 uuid 승계와 `specializationOf`로 다시 답했다(Q58-a).

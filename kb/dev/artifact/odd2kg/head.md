@@ -10,7 +10,6 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-12T07:47:38Z}
 layer: process
 verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
-refines: [https://agentic-knowledge-base.dev/id/chunk/3d66b1bc-0e65-4e62-9654-fc0ddb6b7d20, https://agentic-knowledge-base.dev/id/chunk/40abcad5-6a9c-4233-99d3-0b7ceeafb06b]
 part_of: https://agentic-knowledge-base.dev/id/composite/50c525bb-02f0-4c2b-a9e0-1a3b666fbd3c
 ---
 **모듈 머리** — `tools/odd2kg.py` 의 모듈 머리 `exit-fail` 다. 모듈 머리

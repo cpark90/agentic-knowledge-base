@@ -7,7 +7,7 @@ title: class Model in tools/weave.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-weave}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/104f7d3c-d114-46c9-aab7-b44761117813]
 part_of: https://agentic-knowledge-base.dev/id/composite/1a6c538a-b92e-4130-b298-48a8fe030574
@@ -34,9 +34,9 @@ class Model:
 
     def _plane(self, c) -> str:
         for t in self.g.objects(c, RDF.type):
-            name = str(t).split("/")[-1]
-            if name.endswith("Chunk"):
-                return name[: -len("Chunk")].lower()
+            plane = kb_lib.plane_of_class(t)  # 정의처 chunk2kg.CLASS_PLANE — norm 의 클래스는 agt:DocumentSectionChunk 다
+            if plane:
+                return plane
         return ""
 
     def ko(self, node) -> str:

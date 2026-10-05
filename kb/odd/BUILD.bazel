@@ -4,6 +4,9 @@ load("//defs:knowledge.bzl", "kb_gate_test", "kb_odd_kg", "kb_taxonomy")
 
 package(default_visibility = ["//visibility:public"])
 
+# 원본 문서 자신 — 케이스 생성기(//:case_drift_test)가 변수의 ODD 참조(`ATTRIBUTES.*.iri`)를 대조한다 (p8-scenario-authoring)
+exports_files(["project-odd.yml"])
+
 kb_taxonomy(
     name = "taxonomy",
     ontology = ["//kb/ontology/related/condition"],

@@ -7,7 +7,8 @@ title: Unknown risk cases split into a vocabulary problem and a coverage problem
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-22T19:25:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T00:04:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T00:04:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0143]
 part_of: https://agentic-knowledge-base.dev/id/composite/afadcad8-6d9b-4e7d-aac5-cdc0c6ffe89c
@@ -20,4 +21,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/afadcad8-6d9b-4e
 
 첫째는 **어휘 문제**이고 둘째는 **커버리지 문제**다.
 
-미확정: 실패의 다수가 어휘 공백인가 커버리지 공백인가. 상세는 `docs/open-questions/failure-cause-statistics.md`다.
+미확정: 실패의 다수가 어휘 공백인가 커버리지 공백인가. 상세는 `https://agentic-knowledge-base.dev/id/chunk/166eeb2d-0cfa-4d72-8e70-3002b1347a97`다.

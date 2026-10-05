@@ -29,7 +29,24 @@ docstring 과 import)이고 링크(`refines`·`serves`)와 검증기의 `verifie
 사람의 편집이다. (c) 대응이 없으면 새 uuid 를 등록부에 더한다(신설은 자동). (d) 등록부에 있는데 소스에 없으면
 `FAIL [extract]` 다 — 삭제는 등록부에서 지우는 명시 행위다.
 
+질의 디렉토리(`EXTRACTED_QUERY_DIRS`, 2026-10-03)는 다른 모양이다. 소스가 디렉토리 `tools/<이름>` 이고 그 안의
+`*.rq` 질의 파일 하나가 청크 하나다 — 질의는 함수로 나뉘지 않으므로 파일 전체가 인용 하나이고 복합체를 세우지 않는다.
+링크(`refines`·`serves`)는 청크마다 붙는다 — 질의 파일이 곧 링크의 자리다. 등록부는 `tools/<이름>.chunks.yml` 이고
+키는 `query:<파일 이름 stem>` 이다. 등록부의 `refines`·`serves` 는 디렉토리의 질의 전부에 붙고, 질의 하나에만 붙는 `refines` 는
+선택 키 `query_refines`(`query:<stem>: [<IRI>…]`)에 적는다 — 질의 파일 하나가 파일 복합체 하나의 자리이기 때문이다.
+갱신 규칙 (a)~(d) 와 도장은 파이썬 소스와 같고 `source_hash` 는 디렉토리 안 질의 파일 전부의 (이름, 바이트) 해시다
+(`source_digest`).
+
+Starlark 소스(`EXTRACTED_STARLARK`, 유저 답 Q32-a, 2026-10-04)는 파이썬 소스와 같은 모양이다 — `.bzl` 은 파이썬 문법의
+부분집합이므로 같은 AST 로 읽고, 최상위 정의 = 정의 청크 · 절 주석 = 절 복합체 · 최상위 리터럴 = 절 청크의 선언이다.
+다른 것은 셋이다. 모듈 머리의 `load(...)` 가 import 자리이고, 인용 펜스의 언어가 `starlark` 이며, 생성 패키지는
+`kb/dev/artifact/<이름>-bzl` 이다. 등록부의 선택 키 `wiring:` 은 **배선**(입력 집합과 인자를 잇기만 하는 최상위 정의·대입,
+유저 답 Q10-a "빌드 배선은 항목이 아니다")의 이름 목록이고 추출기는 그 정의를 청크로 내지 않는다 — 소스에 없는 이름이
+목록에 있으면 FAIL 이고, 배선만 남는 절은 절 청크를 세우지 않는다. 파일 청크 본문이 뺀 이름을 적는다.
+
 사용: bazel run //tools:extract -- tools/kb_lib.py [--root <저장소 루트>] [--check] [--residency <defs/kb.bzl>]
+      bazel run //tools:extract -- tools/cq-queries   (질의 디렉토리 — EXTRACTED_QUERY_DIRS 안이어야 한다)
+      bazel run //tools:extract -- defs/kb.bzl        (Starlark 소스 — EXTRACTED_STARLARK 안이어야 한다)
       루트는 --root, 없으면 BUILD_WORKSPACE_DIRECTORY(bazel run), 없으면 현재 디렉토리(bazel test 의 runfiles).
       --residency 는 EXTRACTED_SOURCES 리터럴의 원본 — 없으면 <루트>/defs/kb.bzl.
 출력·종료: 생성 시점 거부는 `FAIL [extract] <경로>: …`, `--check` 의 어긋남은 `FAIL [extract-drift] <경로>: …` —
@@ -85,10 +102,22 @@ REGISTRY_HEAD = """\
 """
 
 
+# 배선 목록 — 등록부의 선택 키. 입력 집합과 인자를 잇기만 하는 최상위 정의·대입의 이름이고 추출기는 그것을 청크로 내지
+# 않는다(유저 답 Q10-a "빌드 배선은 항목이 아니다" · Q32-a "규칙을 강제하는 코드는 항목이다"). 손이 원본이다 — 어느 정의가
+# 배선인지는 저작자의 판단이고, 추출기는 이름이 소스의 최상위에 실재하는지만 본다.
+WIRING_KEY = "wiring"
+# 질의별 정제 — 질의 디렉토리 등록부의 선택 키. `query:<stem>: [<IRI>…]` 가 그 질의 청크 하나에만 `refines` 를 더한다
+# (디렉토리 전체의 `refines` 다음에, 중복 없이). 질의 파일 하나가 링크의 자리이므로(p7-code-links-on-file-composite) 디렉토리
+# 공통 링크와 질의 하나의 링크를 가른다. 파이썬·Starlark 등록부에 적으면 거부한다 — 그쪽의 링크 자리는 파일 청크 하나다.
+QUERY_REFINES_KEY = "query_refines"
+STARLARK_SUFFIX = ".bzl"
+STARLARK_PKG_SUFFIX = "-bzl"  # 생성 패키지 kb/dev/artifact/<이름>-bzl — 같은 stem 의 tools/<이름>.py 와 갈린다
+
+
 def load_registry(path: Path) -> dict:
     """등록부 → {source, resource, package, layer, at, source_hash, refines[], serves[], ids{}}. 없으면 빈 등록부다."""
     reg = {"source": "", "resource": "", "package": "", kb_lib.LAYER_KEY: "", "at": "", "source_hash": "",
-           "refines": [], "serves": [], kb_lib.STAMP_KEY: {}, "ids": {}}
+           "refines": [], "serves": [], WIRING_KEY: [], QUERY_REFINES_KEY: {}, kb_lib.STAMP_KEY: {}, "ids": {}}
     if not path.exists():
         return reg
     section = ""
@@ -98,16 +127,20 @@ def load_registry(path: Path) -> dict:
             continue
         if line.startswith("  "):
             body = line.strip()
-            if section in ("refines", "serves"):
+            if section in ("refines", "serves", WIRING_KEY):
                 reg[section].append(body.lstrip("- ").strip())
             elif section in ("ids", kb_lib.STAMP_KEY):  # 한정 이름에 `:` 가 있으므로 마지막 `: ` 에서 가른다 — IRI 에는 `: ` 가 없다
                 k, sep, v = body.rpartition(": ")
                 if sep:
                     reg[section][k.strip()] = v.strip()
+            elif section == QUERY_REFINES_KEY:  # `query:<stem>: [<IRI>, …]` — 값은 흐름 목록 하나다
+                k, sep, v = body.rpartition(": ")
+                if sep:
+                    reg[section][k.strip()] = [x.strip() for x in v.strip().strip("[]").split(",") if x.strip()]
             continue
         key, _, val = line.partition(":")
         key, val = key.strip(), val.strip()
-        section = key if key in ("refines", "serves", "ids", kb_lib.STAMP_KEY) else ""
+        section = key if key in ("refines", "serves", WIRING_KEY, QUERY_REFINES_KEY, "ids", kb_lib.STAMP_KEY) else ""
         if key in reg and not section:
             reg[key] = val
     return reg
@@ -120,6 +153,12 @@ def dump_registry(reg: dict) -> str:
     for k in ("refines", "serves"):
         out.append(f"{k}:" + ("" if reg[k] else " []"))
         out += [f"  - {v}" for v in reg[k]]
+    if reg.get(WIRING_KEY):  # 선택 키 — 비면 쓰지 않는다(배선이 없는 등록부의 바이트를 바꾸지 않는다)
+        out.append(f"{WIRING_KEY}:")
+        out += [f"  - {v}" for v in reg[WIRING_KEY]]
+    if reg.get(QUERY_REFINES_KEY):  # 선택 키 — 비면 쓰지 않는다
+        out.append(f"{QUERY_REFINES_KEY}:")
+        out += [f"  {k}: [{', '.join(v)}]" for k, v in sorted(reg[QUERY_REFINES_KEY].items())]
     tested = reg.get(kb_lib.STAMP_KEY) or {}
     out.append(f"{kb_lib.STAMP_KEY}:" + ("" if tested else " {}"))
     out += [f"  {k}: {tested[k]}" for k in ("rev", "at", "source_hash") if tested.get(k)]
@@ -139,6 +178,7 @@ class Region:
         self.children: list = []   # 하위 Region
         self.key = ""
         self.is_head = False       # 모듈 머리 구역 — 절 주석이 없고 어느 절 주석이든 이 구역을 닫는다
+        self.skipped: list = []    # 배선(등록부 `wiring`)의 줄 범위 — 청크로 내지 않고 제 몫 줄에서도 뺀다
 
     def items(self):
         """소스 순서의 부분 후보 — ("def", 노드) · ("region", Region)."""
@@ -146,11 +186,22 @@ class Region:
                       key=lambda t: t[1])
 
 
-def module_head_end(tree: ast.Module) -> int:
-    """모듈 머리의 마지막 줄 — docstring 과 앞머리 import 까지. 그 뒤가 첫 구역이다."""
-    end = 0
+def module_head_end(tree: ast.Module, starlark: bool = False) -> int:
+    """모듈 머리의 마지막 줄 — docstring 과 앞머리 import 까지. 그 뒤가 첫 구역이다.
+
+    Starlark 는 `load(...)` 가 import 자리이고 docstring 이 `load` 뒤에 올 수 있다(`defs/kb.bzl`) — 머리 안의 첫 문자열
+    식을 docstring 으로 받는다.
+    """
+    def is_load(node) -> bool:  # Starlark 의 `load(...)` 문 — 모듈 머리에서 import 의 자리다
+        return (isinstance(node, ast.Expr) and isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name)
+                and node.value.func.id == "load")
+
+    end, doc_seen = 0, False
     for node in tree.body:
-        if isinstance(node, ast.Expr) and isinstance(node.value, ast.Constant) and isinstance(node.value.value, str) and end == 0:
+        is_doc = isinstance(node, ast.Expr) and isinstance(node.value, ast.Constant) and isinstance(node.value.value, str)
+        if is_doc and (end == 0 or (starlark and not doc_seen)):
+            doc_seen = True
+        elif starlark and is_load(node):
             pass
         elif isinstance(node, (ast.Import, ast.ImportFrom)):
             pass
@@ -162,7 +213,7 @@ def module_head_end(tree: ast.Module) -> int:
     return end
 
 
-def parse_source(path: Path) -> tuple[list[str], int, list[Region], list]:
+def parse_source(path: Path, wiring: tuple = ()) -> tuple[list[str], int, list[Region], list]:
     """소스 → (줄들, 모듈 머리의 끝 줄, 최상위 구역들, 최상위 import 노드들). 구역은 절 주석의 깊이로 중첩된다.
 
     import 를 함께 돌려주는 까닭은 `uses` 의 치역 경계 해소가 "이 이름이 어느 모듈의 정의인가" 를 최상위
@@ -170,7 +221,7 @@ def parse_source(path: Path) -> tuple[list[str], int, list[Region], list]:
     """
     lines = path.read_text(encoding="utf-8").splitlines()
     tree = ast.parse("\n".join(lines))
-    head_end = module_head_end(tree)
+    head_end = module_head_end(tree, path.suffix == STARLARK_SUFFIX)
     head = Region(max(kb_lib.EXTRACT_MARKERS.values()), "모듈 머리", head_end + 1)
     head.is_head = True  # 가장 깊은 깊이를 줘서 어느 절 주석이든 이 구역을 닫는다 — 모듈 머리는 절을 담지 않는다
     top: list[Region] = [head]
@@ -187,28 +238,66 @@ def parse_source(path: Path) -> tuple[list[str], int, list[Region], list]:
         stack.append(region)
     while stack:
         stack.pop().end = len(lines)
+    wired = {top_name(n): n for n in tree.body if top_name(n) in wiring}
+    stray = sorted(set(wiring) - set(wired))
+    if stray:
+        raise ExtractError(f"{path}: 등록부 `{WIRING_KEY}` 의 이름이 소스의 최상위에 없다 — {' · '.join(stray)}. "
+                           f"배선 목록은 소스의 최상위 정의·대입 이름이다 — 지운 정의는 목록에서도 지운다")
     for node in tree.body:
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+        if top_name(node) in wired:
+            _place(top, node, skip=True)
+        elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
             _place(top, node)
+    top = _prune(top, lines)
     _key_regions(top, lines)
     return lines, head_end, top, module_imports(tree)
 
 
-def _place(regions: list[Region], node) -> None:
-    """정의를 그것을 담는 가장 깊은 구역에 넣는다."""
+def top_name(node) -> str:
+    """최상위 문의 이름 — 정의면 그 이름, 이름 하나에 대입하면 그 이름, 그 밖은 빈 문자열이다 (배선 목록의 키)."""
+    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+        return node.name
+    if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+        return node.targets[0].id
+    return ""
+
+
+def _place(regions: list[Region], node, skip: bool = False) -> None:
+    """정의를 그것을 담는 가장 깊은 구역에 넣는다. `skip` 이면 배선이다 — 줄 범위만 적어 제 몫 줄에서 뺀다."""
     for r in regions:
         if r.start <= node.lineno <= r.end:
             if any(c.start <= node.lineno <= c.end for c in r.children):
-                _place(r.children, node)
+                _place(r.children, node, skip)
+            elif skip:
+                start = min([d.lineno for d in getattr(node, "decorator_list", [])] + [node.lineno])
+                r.skipped.append((start, node.end_lineno))
             else:
                 r.defs.append((node.lineno, node))
             return
 
 
+def _prune(regions: list[Region], lines: list[str], parent: Region | None = None) -> list[Region]:
+    """배선만 남는 구역을 지운다 — 정의도 하위 구역도 없고 제 몫 줄이 주석·빈 줄뿐이면 절 청크를 세우지 않는다.
+
+    그 주석은 배선을 설명하는 글이라 배선과 함께 빠진다. 지운 구역의 줄 범위는 상위 구역의 배선 범위로 옮긴다 — 옮기지
+    않으면 상위 구역(장)의 제 몫 줄로 돌아가 배선 코드가 장 청크에 인용된다. 모듈 머리는 지우지 않는다(파일 복합체의
+    첫 부분이다).
+    """
+    out = []
+    for r in regions:
+        r.children = _prune(r.children, lines, r)
+        own = [lines[i - 1] for a, b in _own_lines(r) for i in range(a, min(b, len(lines)) + 1)]
+        if r.is_head or r.defs or r.children or any(l.strip() and not l.lstrip().startswith("#") for l in own):
+            out.append(r)
+        elif parent is not None:
+            parent.skipped.append((r.start, r.end))
+    return out
+
+
 def _own_lines(r: Region) -> list[tuple[int, int]]:
     """구역의 제 몫 줄 범위 — 하위 구역과 정의의 본문을 뺀 나머지 (절 주석과 그 절의 상수)."""
     taken = [(c.start, c.end) for c in r.children] + [(n.lineno if not n.decorator_list else n.decorator_list[0].lineno, n.end_lineno)
-                                                      for _, n in r.defs]
+                                                      for _, n in r.defs] + list(r.skipped)
     spans, cur = [], r.start
     for a, b in sorted(taken):
         if a > cur:
@@ -403,9 +492,14 @@ def region_qname(r: Region) -> str:
     return "head" if r.is_head else (f"ch:{r.key}" if r.depth == 1 else f"sec:{r.key}")
 
 
-def quote(lines: list[str]) -> list[str]:
+def source_lang(src_rel: str) -> str:
+    """인용 펜스의 언어 — `.bzl` 이면 starlark, 그 밖의 소스 파일은 python 이다."""
+    return "starlark" if src_rel.endswith(STARLARK_SUFFIX) else "python"
+
+
+def quote(lines: list[str], lang: str = "python") -> list[str]:
     """인용 구역 — 소스를 그대로 옮긴 코드 펜스. 생성기는 원문을 고쳐 쓰지 않는다."""
-    return [kb_lib.SOURCE_QUOTE_OPEN, "```python", *[l.rstrip() for l in lines], "```", kb_lib.SOURCE_QUOTE_CLOSE]
+    return [kb_lib.SOURCE_QUOTE_OPEN, f"```{lang}", *[l.rstrip() for l in lines], "```", kb_lib.SOURCE_QUOTE_CLOSE]
 
 
 def trim(lines: list[str]) -> list[str]:
@@ -420,8 +514,10 @@ class Builder:
     """소스 하나의 청크 트리를 만든다 — 한정 이름 → uuid 는 Ids 가 준다."""
 
     def __init__(self, src_rel: str, lines: list[str], head_end: int, top: list[Region], ids,
-                 uses_sources: frozenset = frozenset(), imports: list = (), uses_ids: dict = {}):
+                 uses_sources: frozenset = frozenset(), imports: list = (), uses_ids: dict = {}, wiring: tuple = ()):
         self.src, self.lines, self.head_end, self.top, self.ids = src_rel, lines, head_end, top, ids
+        self.lang = source_lang(src_rel)  # 인용 펜스의 언어 — 개명 판정(previous_hashes)이 같은 값으로 읽는다
+        self.wiring = tuple(wiring)       # 배선으로 뺀 최상위 이름 — 파일 청크 본문이 적는다
         self.uses_sources = uses_sources  # 방출 경계(`tools/<이름>.py` 집합) — 원본은 defs/kb.bzl.EXTRACTED_SOURCES
         self.chunks: list[Chunk] = []
         # 같은 모듈의 최상위 정의 이름 → 한정 이름. 모듈 안 해소의 치역이 이 사상의 값이다
@@ -442,8 +538,12 @@ class Builder:
         file_iri = self.ids.get("file", COMPOSITE_IRI)
         n_defs = sum(1 for _ in self._all_defs(self.top))
         body = [f"**파일** — `{self.src}` 다. {len(self.lines)}줄 · 최상위 정의 {n_defs}개 · 최상위 절 {len(self.top)}개이고 "
-                f"이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.", "",
-                "**모듈 머리** — 모듈 docstring 과 import 다.", ""] + quote(self.lines[:self.head_end])
+                f"이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.", ""]
+        if self.wiring:  # 배선은 항목이 아니다(유저 답 Q10-a) — 뺀 사실과 이름은 여기 남는다
+            body += [f"**배선** — 입력 집합과 인자를 잇기만 하는 최상위 이름 {len(self.wiring)}개를 청크로 내지 않았다 "
+                     f"(등록부 `{WIRING_KEY}`): " + " · ".join(f"`{w}`" for w in self.wiring) + ".", ""]
+        body += ["**모듈 머리** — 모듈 docstring 과 " + ("`load`" if self.lang == "starlark" else "import") + " 다.", ""] \
+            + quote(self.lines[:self.head_end], self.lang)
         mod = Chunk("module.md", "module", self.ids.get("module", CHUNK_IRI),
                     f"파일 {self.src}", f"file {self.src}", body)
         self.chunks.append(mod)
@@ -487,7 +587,7 @@ class Builder:
                  else "**정의** — 없음. 선언과 상수만 있는 구역이다.", ""]
         if r.children:
             head += ["**하위 구역** — " + " · ".join(f"`{c.key}`" for c in r.children) + " (소스 순서).", ""]
-        sec.body = head + (quote(own) if own else ["**선언** — 없음."])
+        sec.body = head + (quote(own, self.lang) if own else ["**선언** — 없음."])
         if len(members) == 1:  # 부분 하나면 복합체가 아니다 (4.5절) — 절 청크가 곧 상위의 부분이다
             sec.part_of = parent
             return sec.iri
@@ -520,7 +620,7 @@ class Builder:
         kind = "클래스" if isinstance(node, ast.ClassDef) else "함수"
         src = source_of(self.lines, node)
         summary = first_sentence(node)
-        body = [f"**{kind}** — `{signature(node)}` 다." + (f" {summary}" if summary else ""), ""] + quote(src)
+        body = [f"**{kind}** — `{signature(node)}` 다." + (f" {summary}" if summary else ""), ""] + quote(src, self.lang)
         c = Chunk(f"{qn.replace(':', '-')}.md", qn, self.ids.get(qn, CHUNK_IRI),
                   f"{kind} {node.name} ({self.src})",
                   f"{'class' if isinstance(node, ast.ClassDef) else 'function'} {node.name} in {self.src}", body)
@@ -591,6 +691,68 @@ def render(c: Chunk, reg: dict, at: str = "") -> str:
     return "---\n" + "\n".join(fm) + "\n---\n" + "\n".join(c.body) + "\n"
 
 
+# ── 질의 디렉토리 — 질의 파일 하나 = 청크 하나 (EXTRACTED_QUERY_DIRS, 2026-10-03) ──────────────
+# //kg:cq 뷰의 내용 원본(역량 질문 질의)과 //kg:gate_test 의 검증 질의가 코드 청크 밖에 있었다. 파이썬 소스와 같은 방향
+# (p7-code-extraction-direction)으로 추출하되 질의는 정의로 나뉘지 않으므로 파일 하나가 청크 하나이고 복합체가 없다.
+QUERY_LANG = "sparql"
+
+
+def source_digest(path: Path) -> str:
+    """소스의 내용 해시 — 파일이면 그 바이트, 질의 디렉토리면 질의 파일 전부의 (이름, 바이트)를 이름 순으로 이은 것이다.
+
+    등록부의 `source_hash` 와 도장(`tools/stamp.py`)의 `tested.source_hash` 가 같은 함수를 쓴다 — 둘이 갈리면 도장이
+    소스를 가리키는지 판정할 수 없다. 디렉토리의 해시에 이름을 넣는 까닭은 파일 개명만으로도 소스가 바뀐 것이어서다.
+    """
+    if not path.is_dir():
+        return hashlib.sha256(path.read_bytes()).hexdigest()[:16]
+    h = hashlib.sha256()
+    for f in sorted(path.glob("*" + kb_lib.EXTRACT_QUERY_SUFFIX)):
+        h.update(f.name.encode("utf-8") + b"\0" + f.read_bytes() + b"\0")
+    return h.hexdigest()[:16]
+
+
+def collect_queries(src: Path) -> tuple[list[str], dict[str, str], dict[str, list[str]]]:
+    """질의 디렉토리 → (한정 이름들, 정규화 해시, 이름 → 줄들). 한정 이름은 `query:<stem>` 이고 해시는 개명 판정의 입력이다."""
+    names, hashes, texts = [], {}, {}
+    for f in sorted(src.glob("*" + kb_lib.EXTRACT_QUERY_SUFFIX)):
+        q = qualified("query", f.stem)
+        texts[q] = f.read_text(encoding="utf-8").splitlines()
+        names.append(q)
+        hashes[q] = normalized_hash(texts[q], f.stem)
+    if not names:
+        raise ExtractError(f"{src}: 질의 파일(*{kb_lib.EXTRACT_QUERY_SUFFIX})이 없다 — 빈 질의 디렉토리는 추출 대상이 아니다. "
+                           f"EXTRACTED_QUERY_DIRS(defs/kb.bzl)에서 이름을 지운다")
+    return names, hashes, texts
+
+
+def previous_query_hashes(pkg_dir: Path) -> dict[str, str]:
+    """트리에 있는 질의 청크 → {정규화 해시: 한정 이름}. `previous_hashes` 의 질의판이다 — 펜스 언어만 다르다."""
+    out = {}
+    for f in sorted(pkg_dir.glob("*.md")) if pkg_dir.is_dir() else []:
+        code = re.findall(r"^```" + QUERY_LANG + r"\n(.*?)^```$", f.read_text(encoding="utf-8"), re.M | re.S)
+        if code:
+            out[normalized_hash(code[0].splitlines(), f.stem)] = qualified("query", f.stem)
+    return out
+
+
+def build_queries(src_rel: str, texts: dict[str, list[str]], ids, reg: dict) -> list[Chunk]:
+    """질의 청크들 — 파일 전체가 인용 하나이고 링크는 청크마다 붙는다. 질의 파일이 곧 링크의 자리다."""
+    per_query = reg.get(QUERY_REFINES_KEY) or {}
+    unknown = sorted(set(per_query) - set(texts))
+    if unknown:
+        raise ExtractError(f"{src_rel}: 등록부 `{QUERY_REFINES_KEY}` 의 키 {', '.join(unknown)} 가 디렉토리의 질의가 아니다 — "
+                           f"키는 `query:<질의 파일 stem>` 이다")
+    out = []
+    for q, lines in texts.items():
+        stem = q.split(":", 1)[1]
+        body = [f"**질의** — `{src_rel}/{stem}{kb_lib.EXTRACT_QUERY_SUFFIX}` 다. {len(lines)}줄이고 이 청크는 추출 생성물이다. "
+                f"질의 파일 하나가 청크 하나이므로 링크와 가정의 자리가 이 청크다.", ""] + quote(lines, QUERY_LANG)
+        c = Chunk(f"{stem}.md", q, ids.get(q, CHUNK_IRI), f"질의 {stem} ({src_rel})", f"query {stem} in {src_rel}", body)
+        c.links = {"refines": list(dict.fromkeys(reg["refines"] + per_query.get(q, []))), "serves": reg["serves"]}
+        out.append(c)
+    return out
+
+
 # ── 등록부 해소 — 개명·신설·삭제 (p10-split-keeps-work-identity 를 코드에 실현한다) ──────────────
 class Ids:
     """한정 이름 → uuid. 등록부가 원본이고 신설만 자동이다."""
@@ -636,7 +798,7 @@ def previous_hashes(pkg_dir: Path) -> dict[str, str]:
             continue
         qname = stem.replace("-", ":", 1)
         text = f.read_text(encoding="utf-8")
-        code = re.findall(r"^```python\n(.*?)^```$", text, re.M | re.S)
+        code = re.findall(r"^```(?:python|starlark)\n(.*?)^```$", text, re.M | re.S)
         if code:
             out[normalized_hash(trim(code[0].splitlines()), qname.split(":", 1)[1])] = qname
     return out
@@ -647,12 +809,15 @@ def registry_path(reg: dict) -> str:
     return Path(reg["source"]).with_suffix(kb_lib.EXTRACT_REGISTRY_SUFFIX).as_posix()
 
 
-def resolve(reg: dict, names: list[str], hashes: dict[str, str], pkg_dir: Path, check: bool) -> Ids:
-    """등록부 갱신 규칙 (a)~(d). 개명·삭제는 사람의 편집이므로 안내만 하고 등록부를 고치지 않는다."""
+def resolve(reg: dict, names: list[str], hashes: dict[str, str], pkg_dir: Path, check: bool, prev: dict | None = None) -> Ids:
+    """등록부 갱신 규칙 (a)~(d). 개명·삭제는 사람의 편집이므로 안내만 하고 등록부를 고치지 않는다.
+
+    `prev` 는 트리의 {정규화 해시: 한정 이름} 이다 — 없으면 파이썬 청크의 것(`previous_hashes`)을 읽는다.
+    """
     want, have = set(names), set(reg["ids"])
     gone = sorted(have - want)          # 등록부에 있는데 소스에 없는 이름
     fresh = sorted(n for n in names if n not in have)
-    prev = previous_hashes(pkg_dir)
+    prev = previous_hashes(pkg_dir) if prev is None else prev
     renames = []
     for q in fresh:
         was = prev.get(hashes.get(q, ""))
@@ -694,7 +859,7 @@ def source_stamp(root: Path, src_rel: str) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("source", help="추출할 파이썬 소스 (저장소 상대 경로)")
+    ap.add_argument("source", help="추출할 파이썬·Starlark 소스 또는 질의 디렉토리 (저장소 상대 경로)")
     ap.add_argument("--root", default="", help="저장소 루트. 없으면 BUILD_WORKSPACE_DIRECTORY, 없으면 현재 디렉토리")
     ap.add_argument("--check", action="store_true", help="생성하지 않고 트리와 비교. 어긋나면 1")
     ap.add_argument("--residency", default="", help="EXTRACTED_SOURCES 리터럴의 원본 defs/kb.bzl — 안 주면 --root 기준")
@@ -709,6 +874,8 @@ def main() -> int:
     uses_ids: dict = {}
     try:  # 방출 경계와 치역 경계 — 둘 다 defs/kb.bzl 의 리터럴이 단일 정의처다 (M1)
         uses_sources = frozenset(f"tools/{m}.py" for m in kb_lib.load_extracted_sources(residency))
+        query_dirs = frozenset(f"tools/{d}" for d in kb_lib.load_extracted_sources(residency, kb_lib.EXTRACTED_QUERY_DIRS_NAME))
+        starlark = frozenset(f"defs/{m}{STARLARK_SUFFIX}" for m in kb_lib.load_extracted_sources(residency, kb_lib.EXTRACTED_STARLARK_NAME))
         if src_rel in uses_sources:  # 치역 경계의 등록부는 `uses` 를 방출하는 소스에서만 입력이다
             uses_ids = {m: load_registry(root / f"tools/{m}{kb_lib.EXTRACT_REGISTRY_SUFFIX}")["ids"]
                         for m in kb_lib.load_extracted_sources(residency, kb_lib.USES_TARGETS_NAME)}
@@ -721,9 +888,24 @@ def main() -> int:
               f"({kb_lib.USES_TARGETS_NAME}, {residency})의 등록부가 비었거나 없다 — {' · '.join(empty)}. "
               f"모듈 간 `{kb_lib.USES_KEY}` 가 조용히 비는 것과 같으므로 통과시키지 않는다", file=sys.stderr)
         return EXIT_CONFIG
+    is_query = src_rel in query_dirs
+    if src.is_dir() and not is_query:
+        print(f"FAIL [{TAG}] {src_rel}: 디렉토리 소스는 질의 디렉토리 목록({kb_lib.EXTRACTED_QUERY_DIRS_NAME}, {residency}) "
+              f"안이어야 한다 — 목록에 이름을 더하는 것이 추출 대상을 넓히는 일이다", file=sys.stderr)
+        return EXIT_CONFIG
+    if src_rel.endswith(STARLARK_SUFFIX) and src_rel not in starlark:
+        print(f"FAIL [{TAG}] {src_rel}: Starlark 소스는 목록({kb_lib.EXTRACTED_STARLARK_NAME}, {residency}) 안이어야 한다 — "
+              f"규칙을 강제하는 코드가 든 파일만 넣는다(배선만 하는 파일은 항목이 아니다, 유저 답 Q10-a)", file=sys.stderr)
+        return EXIT_CONFIG
     try:
-        lines, head_end, top, imports = parse_source(src)
         reg = load_registry(reg_path)
+        if is_query:
+            names, hashes, texts = collect_queries(src)
+        else:
+            lines, head_end, top, imports = parse_source(src, tuple(reg[WIRING_KEY]))
+    except ExtractError as e:
+        print(f"FAIL [{TAG}] {e}", file=sys.stderr)
+        return EXIT_FAIL
     except (OSError, SyntaxError) as e:
         print(f"FAIL [{TAG}] {src}: 읽을 수 없다 — {e}", file=sys.stderr)
         return EXIT_CONFIG
@@ -731,34 +913,45 @@ def main() -> int:
         print(f"FAIL [{TAG}] {reg_path}: 등록부에 `resource`(소스 파일 개체 IRI)가 없다 — 출처는 kg/base-kg.ttl 의 "
               f"`id:src-…` 개체이고 손으로 세운다", file=sys.stderr)
         return EXIT_CONFIG
-    reg["source"], reg["package"] = src_rel, reg["package"] or f"{kb_lib.EXTRACT_ROOT}/{src.stem}"
+    reg["source"] = src_rel
+    reg["package"] = reg["package"] or f"{kb_lib.EXTRACT_ROOT}/{src.stem}" + (STARLARK_PKG_SUFFIX if src_rel.endswith(STARLARK_SUFFIX) else "")
     pkg_dir = root / reg["package"]
-    digest = hashlib.sha256(src.read_bytes()).hexdigest()[:16]
+    digest = source_digest(src)
     if reg["source_hash"] != digest or not reg["at"]:
         if a.check:
             print(f"FAIL [{DRIFT_TAG}] {reg_path}: 등록부의 `source_hash` 가 소스와 어긋난다 — "
                   f"`bazel run //tools:extract -- {src_rel}` 를 돌려 커밋하라 (소스가 원본, 청크는 뷰)", file=sys.stderr)
             return EXIT_FAIL
         reg["at"], reg["source_hash"] = source_stamp(root, src_rel), digest
-    names, hashes = collect(top, lines)
+    if not is_query:
+        names, hashes = collect(top, lines)
     try:
-        ids = resolve(reg, names, hashes, pkg_dir, a.check)
-        b = Builder(src_rel, lines, head_end, top, ids, uses_sources, imports, uses_ids)
-        b.build()
+        if is_query:  # 질의 청크는 링크를 스스로 갖는다 (build_queries) — 아래 파일 복합체의 링크 배정을 타지 않는다
+            ids = resolve(reg, names, hashes, pkg_dir, a.check, previous_query_hashes(pkg_dir))
+            chunks = build_queries(src_rel, texts, ids, reg)
+        else:
+            if reg[QUERY_REFINES_KEY]:
+                raise ExtractError(f"{reg_path}: `{QUERY_REFINES_KEY}` 는 질의 디렉토리 등록부의 키다 — 이 소스의 링크 자리는 "
+                                   f"파일 청크 하나이므로 `refines` 에 적는다 (p7-code-links-on-file-composite)")
+            ids = resolve(reg, names, hashes, pkg_dir, a.check)
+            b = Builder(src_rel, lines, head_end, top, ids, uses_sources, imports, uses_ids, tuple(reg[WIRING_KEY]))
+            b.build()
+            chunks = b.chunks
     except ExtractError as e:
         print(f"FAIL [{TAG}] {e}", file=sys.stderr)
         return EXIT_FAIL
-    # 링크는 파일 복합체의 것이다 — 파일 청크와 구역 청크(절·장·모듈 머리)가 그 자리다. 정의 청크는 `part_of` 로만
-    # 존재해 함수 churn 이 링크를 움직이지 않는다. 모듈 머리 구역에 정의가 없으면 그 청크는 복합체를 선언하지 않고
-    # 파일 복합체의 직접 부분이 되는데, 형제가 절 복합체(청크 아님)뿐이라 링크가 없으면 저작된 지식의 연결 성분에서
-    # 홀로 남는다 — 실측 2026-09-30(파일 10개 = 성분 +10). 구역 청크는 정의 청크가 아니므로 링크를 받는다.
-    for c in b.chunks:
-        if c.qname in ("module", "head") or c.composite:
+    # 링크는 파일 복합체의 것이고 그 자리는 선언 청크인 파일 청크 하나다 (p7-code-links-on-file-composite, 유저 결정 Q47-b).
+    # 구역 청크(절·장·모듈 머리)와 정의 청크는 `part_of` 로만 존재한다 — 함수 churn 도 구역의 재편도 링크를 움직이지 않는다.
+    # 연결은 링크 복사가 아니라 구조로 선다: 선언 청크와 복합체는 한 노드이고(유저 결정 Q49-a, 지표의 회계 — metrics
+    # composite_declarers), 부분들은 `part_of`(복합체의 `agt:hasDirectPart`)로 그 노드에 닿는다. 부분이 링크를 가지면
+    # 게이트 `code-part-link` 가 거부한다(validate check_code_part_link — 판정은 kb_lib.code_part).
+    for c in chunks if not is_query else []:
+        if c.qname == "module":
             c.links = {"refines": reg["refines"], "serves": reg["serves"]}
     reg["ids"] = ids.ids
     prev = previous_bodies(pkg_dir)  # 본문이 그대로면 `generated.at` 을 유지한다 — diff 가 변경의 크기를 말해야 한다
     outputs = {}
-    for c in b.chunks:
+    for c in chunks:
         body = "\n".join(c.body) + "\n"
         was = prev.get(c.fname)
         outputs[pkg_dir / c.fname] = render(c, reg, was[1] if was and was[0] == body and was[1] else "")
@@ -775,24 +968,24 @@ def main() -> int:
             print(f"FAIL [{DRIFT_TAG}] {f}: 소스와 어긋난다 — `bazel run //tools:extract -- {src_rel}` 를 돌려 커밋하라 "
                   f"(소스가 원본, 청크는 뷰)")
         if drift:
-            print(f"\nFAIL [{DRIFT_TAG}] — {len(drift)}건 / 생성 청크 {len(b.chunks)}개")
+            print(f"\nFAIL [{DRIFT_TAG}] — {len(drift)}건 / 생성 청크 {len(chunks)}개")
             return EXIT_FAIL
-        print(f"PASS [{DRIFT_TAG}] — {src_rel} 의 생성 청크 {len(b.chunks)}개와 등록부가 소스와 일치")
+        print(f"PASS [{DRIFT_TAG}] — {src_rel} 의 생성 청크 {len(chunks)}개와 등록부가 소스와 일치")
         return 0
     pkg_dir.mkdir(parents=True, exist_ok=True)
     for f in stale:
         f.unlink()
     for f, text in outputs.items():
         f.write_text(text, encoding="utf-8")
-    comps = sum(1 for c in b.chunks if c.composite)
-    print(f"생성 {len(b.chunks)}개 (복합체 {comps}개, 신설 uuid {len(ids.added)}개), 변경 {len(drift)}개: {pkg_dir}")
+    comps = sum(1 for c in chunks if c.composite)
+    print(f"생성 {len(chunks)}개 (복합체 {comps}개, 신설 uuid {len(ids.added)}개), 변경 {len(drift)}개: {pkg_dir}")
     # `artifact` 상한 보고 — 단위는 토큰이다 (결정 p1-chunk-unit-is-tokens). 게이트가 아니라 보고다: 거부는
     # chunk_lint(게이트 id `chunk`)의 몫이고 여기서는 추출이 낸 청크 가운데 상한을 넘은 것을 바로 알려준다.
     limit = kb_lib.body_token_limit("artifact")
     enc = kb_lib.load_tokenizer(a.vocab or None)
-    over = sorted(((kb_lib.token_count("\n".join(c.body), enc), c.fname) for c in b.chunks), reverse=True)
+    over = sorted(((kb_lib.token_count("\n".join(c.body), enc), c.fname) for c in chunks), reverse=True)
     high = [(n, f) for n, f in over if n > limit]
-    print(f"`artifact` 상한 {limit} 토큰: 초과 {len(high)}개 / 생성 {len(b.chunks)}개 · 최대 {over[0][0] if over else 0} 토큰"
+    print(f"`artifact` 상한 {limit} 토큰: 초과 {len(high)}개 / 생성 {len(chunks)}개 · 최대 {over[0][0] if over else 0} 토큰"
           + ("".join(f"\n  초과 {n} 토큰 — {f}" for n, f in high) if high else ""))
     return 0
 

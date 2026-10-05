@@ -14,7 +14,7 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/525a923d-3ef4-4cc7-979d-89
 
 **판정식**
 
-- 양성: `bazel test //:gendoc_test` 가 PASS 다. 대상은 Bazel 뷰 11종과 `.claude/skills/*/SKILL.md` 다.
+- 양성: `bazel test //:gendoc_test` 가 PASS 다. 대상은 `defs/kb.bzl` 의 `VIEWS` 가 가리키는 Bazel 뷰 전부와 `.claude/skills/*/SKILL.md` 다.
 - 음성(머리 없음): h1 만 있고 머리 블록이 없는 문서를 `python3 tools/gendoc.py --root <루트> <파일>` 에 넣으면 ``FAIL [gendoc] <파일>:1: G1 첫 줄이 `# <이름> — <목적> (생성 파일)` 가 아니다 — kb_lib.gendoc_header 로 낸다`` 로 끝나고 종료 코드가 1 이다.
 - 음성(지문 없음): `생성 시각` 은 있고 `입력` 에 지문이 없으면 ``FAIL [gendoc] <파일>:5: G4 입력 줄에 지문(`sha256:<앞 12자>`)이 없다 — kb_lib.input_fingerprint 를 쓴다`` 로 끝난다.
 - 음성(순서): 머리 항목의 순서가 다르면 ``G2~G6 머리 블록 i번째 항목은 `- <키>:` 다`` 로 끝난다.

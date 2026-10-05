@@ -27,7 +27,7 @@ bazel run //tools:query -- CQ-19 --labels --bind '?x=<IRI|id:슬러그|라벨>'
 
 ## 원본
 
-- 절차: [`docs/method.md` 8. 조회](../../../docs/method.md#8-조회)
+- 절차: [`docs/method.md#8-조회`](../../../docs/method.md#8-조회)
 - 도구: `tools/query.py` (`bazel run //tools:query`) — 사용법은 docstring 이 원본이다
 
 ```text

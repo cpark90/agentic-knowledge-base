@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:artifact_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "validate",
     srcs = glob(["*.md"]),
 )
 
@@ -29,6 +29,8 @@ kb_composite(
         "fn-_writes_in.md",
         "fn-check_boundary.md",
         "fn-check_catalog.md",
+        "fn-check_code_part_link.md",
+        "fn-check_cross_kb_link.md",
         "fn-check_dangling.md",
         "fn-check_deprecated_concepts.md",
         "fn-check_element_drop.md",
@@ -36,6 +38,7 @@ kb_composite(
         "fn-check_labels.md",
         "fn-check_odd_refs.md",
         "fn-check_residency.md",
+        "fn-check_rung_before_descent.md",
         "fn-check_shacl.md",
         "fn-check_space.md",
         "fn-check_specialization.md",
@@ -66,6 +69,8 @@ kb_composite(
     level = "executable",
     status = "stable",
     refines = [
+        "//kb/dev/decision:p11-catalog-role-has-granted-scope",
+        "//kb/dev/decision:p12-cross-project-reuse",
         "//kb/dev/decision:p2-ontology-pitfall-catalogue",
         "//kb/dev/decision:p4-chunk-rules-as-shacl-shapes",
         "//kb/dev/decision:p6-gate-catalogue",

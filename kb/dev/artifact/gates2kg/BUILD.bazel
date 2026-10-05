@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:artifact_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "gates2kg",
     srcs = glob(["*.md"]),
 )
 
@@ -15,9 +15,11 @@ kb_composite(
     name = "module",
     srcs = [
         "fn-emit.md",
+        "fn-emit_projections.md",
         "fn-escape.md",
         "fn-main.md",
         "fn-tool_composites.md",
+        "fn-view_slug.md",
         "head.md",
         "module.md",
         "sec-emit.md",

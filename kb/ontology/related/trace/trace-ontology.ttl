@@ -1,4 +1,4 @@
-# 추적성 — 링크의 네 족: 무엇이 무엇에 어떻게 의존하는가 (노트 8.1절, 8.2절)
+# 추적성 — 링크의 세 족: 무엇이 무엇에 어떻게 의존하는가 (노트 8.1절, 8.2절)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -26,7 +26,7 @@ agt:relatedTo a owl:ObjectProperty , owl:SymmetricProperty ;
     rdfs:subPropertyOf agt:dependsOn , skos:related ;
     rdfs:domain agt:KnowledgeItem ;
     rdfs:label "related to"@en , "관련된다"@ko ;
-    skos:definition "참조·의미 의존·충족 어느 족에도 들지 않는 관련성. 잎은 coUpdatesWith·conflictsWith·overlapsWith다. 함께 읽히는 관계는 복합체(part-of)이고 이 족이 아니다 (4.5절, 8.6절)."@ko .
+    skos:definition "참조·의미 의존 어느 족에도 들지 않는 관련성. 잎은 coUpdatesWith·conflictsWith·overlapsWith다. 함께 읽히는 관계는 복합체(part-of)이고 이 족이 아니다 (4.5절, 8.6절)."@ko .
 
 agt:generates a owl:ObjectProperty ;
     rdfs:subPropertyOf agt:dependsOn ;

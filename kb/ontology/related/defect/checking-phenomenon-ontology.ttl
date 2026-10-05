@@ -1,4 +1,5 @@
-# 결함 — 실행 요인 중 검사의 현상 셋: 예산·미검증·종료 조건 (위험 분석 G1)
+# 결함 — 실행 요인 중 검사의 현상 넷: 예산·미검증·종료 조건·케이스화 불가 (위험 분석 G1)
+# P23 은 질문지 밖의 첫 승격이다 — 용어 제안 큐에서 유저 승인(Q31-a, 2026-10-04)으로 옮겼고 근거는 판정 주석 셋이다 (노트 14.1 6단계)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix id: <https://agentic-knowledge-base.dev/id/> .
@@ -32,3 +33,13 @@ agt:unknownStopCondition a owl:NamedIndividual , agt:CheckingFactor ;
     agt:observationMeans "bazel build //kg:audit 의 판정 주석 절 — 살아 있는 주석 수 · 해소 상태 표(열림·해소·기각) · 차단 주석 수. 라운드별 신규 결함 수는 주석의 prov:generatedAtTime 날짜별 집계에서 generated.by 가 process:judge 인 판정 결과를 뺀 수다 (실측 2026-10-01: 주석 32 · 열림 23 · 해소 8 · 기각 1 · 차단 0, 신규 계열 2·4·2·2·2)" ;
     prov:wasDerivedFrom id:doc-harness-ontology , id:doc-mast-failure-taxonomy , id:doc-vv-profile-hazards ;
     dcterms:bibliographicCitation "MAST 1.5 종료 조건 무지 12.4% (arXiv:2503.13657)" .
+
+agt:stimulusNotWrappableAsCase a owl:NamedIndividual , agt:CheckingFactor ;
+    rdfs:label "stimulus not wrappable as a case"@en , "케이스로 감쌀 수 없는 자극"@ko ;
+    skos:definition "손으로 재현되는 검증 자극을 케이스 실행 검증기가 받는 명령 형태나 자극 위치로 옮길 수 없어 기계 판정 밖에 남는 현상. 자극은 있으나 검사가 케이스로 수행되지 않으므로 검사 요인이다. 관측 수단이 미확정인 까닭은 케이스로 옮기지 못한 자극이 판정 주석의 본문으로만 남고 그것을 세는 자리가 그래프에 없기 때문이다."@ko ;
+    skos:notation "P23" ;
+    agt:inTagCategory agt:defectFactorCategory ;
+    agt:observationMeans "미확정" ;
+    prov:wasDerivedFrom <https://agentic-knowledge-base.dev/id/chunk/46331050-051b-4054-8445-63ffee582cf9> ,
+        <https://agentic-knowledge-base.dev/id/chunk/bdeee674-eb23-4c3c-a3b5-40716acc8521> ,
+        <https://agentic-knowledge-base.dev/id/chunk/1b6cf1f2-8a75-4a1e-bf1e-62fa0df3b53c> .

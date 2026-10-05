@@ -7,9 +7,9 @@ title: The verifier that runs each case's allow-listed commands, compares them w
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-refines: [https://agentic-knowledge-base.dev/id/chunk/3532a3cf-37a4-4c3e-84d9-360b215786f3, https://agentic-knowledge-base.dev/id/chunk/76dc6470-e7ee-47cd-bc8d-1440c870ebf6]
-restored: [https://agentic-knowledge-base.dev/id/chunk/3532a3cf-37a4-4c3e-84d9-360b215786f3, https://agentic-knowledge-base.dev/id/chunk/76dc6470-e7ee-47cd-bc8d-1440c870ebf6]
-generated: {by: vnv/claude-opus-5, at: 2026-09-23T02:30:00+09:00}
+refines: [https://agentic-knowledge-base.dev/id/chunk/6bb376e1-0a34-4ab6-ba78-df2c0b030043, https://agentic-knowledge-base.dev/id/chunk/60b9e928-9226-4449-b92f-014597e9ff98, https://agentic-knowledge-base.dev/id/chunk/a3798247-024d-49f1-996e-159100ae3f9e, https://agentic-knowledge-base.dev/id/chunk/1b595055-a384-4309-8946-800c67dd91d6, https://agentic-knowledge-base.dev/id/chunk/5c6686a2-7697-55cc-85a9-631af3888d4c, https://agentic-knowledge-base.dev/id/chunk/fdd0b6c0-473b-47d1-b23e-b1e862416964, https://agentic-knowledge-base.dev/id/chunk/2f69c738-6a24-4c0b-9a14-29a44b25d6ee, https://agentic-knowledge-base.dev/id/chunk/a5dbd9da-c201-45bc-8019-9dbca4b89333, https://agentic-knowledge-base.dev/id/chunk/21c8bb87-da8e-5df6-8bca-0c230e6d1d86, https://agentic-knowledge-base.dev/id/chunk/d14eff56-2983-5271-a6fa-6328bd0a91a9, https://agentic-knowledge-base.dev/id/chunk/4b8db9e7-d121-515a-9dcd-6b6ca1394698, https://agentic-knowledge-base.dev/id/chunk/46ac80de-c7f6-5a67-a1f9-14e5b550dbff]
+restored: [https://agentic-knowledge-base.dev/id/chunk/6bb376e1-0a34-4ab6-ba78-df2c0b030043, https://agentic-knowledge-base.dev/id/chunk/60b9e928-9226-4449-b92f-014597e9ff98]
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T23:18:48+09:00}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/ff058e5b-5ef1-474e-b392-3948fb4f04c7
 ---

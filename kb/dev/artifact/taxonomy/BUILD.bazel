@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:artifact_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "taxonomy",
     srcs = glob(["*.md"]),
 )
 
@@ -26,7 +26,7 @@ kb_composite(
     level = "executable",
     status = "stable",
     refines = [
-        "//kb/dev/decision:p0-condition-taxonomy",
+        "//kb/dev/decision:p0-condition-taxonomy-extensible",
         "//kb/dev/decision:p3-odd-derivations-and-gate",
     ],
 )

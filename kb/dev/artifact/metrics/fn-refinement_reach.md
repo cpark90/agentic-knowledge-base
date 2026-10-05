@@ -7,16 +7,16 @@ title: function refinement_reach in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/fa4c4a17-7c5e-4ecc-b6f7-818675609be4
 ---
-**함수** — `refinement_reach(g, live, plane, level)` 다. 요구에서 refines·serves 역방향으로 내려가 닿는 가장 낮은 수준의 분포를 돌려준다.
+**함수** — `refinement_reach(g, live, plane, level)` 다. 요구에서 refines·serves 역방향으로 내려가 닿는 가장 낮은 수준의 분포와 요구마다의 그 수준 색인을 돌려준다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def refinement_reach(g, live, plane, level):
-    """요구에서 refines·serves 역방향으로 내려가 닿는 가장 낮은 수준의 분포를 돌려준다."""
+    """요구에서 refines·serves 역방향으로 내려가 닿는 가장 낮은 수준의 분포와 요구마다의 그 수준 색인을 돌려준다."""
     reqs = {c for c in live if plane[c] == "requirement"}
     # CQ19: 요구에서 refines 역방향으로 내려가 닿는 가장 낮은 level
     down = defaultdict(set)
@@ -33,7 +33,8 @@ def refinement_reach(g, live, plane, level):
             if x in level and level[x] in LEVELS: best = max(best, LEVELS.index(level[x]))
             stack.extend(down.get(x, ()))
         return best
-    reach = Counter(LEVELS[deepest(r)] if deepest(r) >= 0 else "none" for r in reqs)
-    return reqs, reach
+    depth = {r: deepest(r) for r in reqs}
+    reach = Counter(LEVELS[d] if d >= 0 else "none" for d in depth.values())
+    return reqs, reach, depth
 ```
 <!-- 인용 끝 -->

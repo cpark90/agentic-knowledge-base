@@ -27,7 +27,7 @@ bazel run //tools:tokens -- kb/dev/decision/<결정>/conclusion.md
 
 ## 원본
 
-- 절차: [`docs/rules.md` 1. chunk — 자립적 최소 지식 단위](../../../docs/rules.md#1-chunk--자립적-최소-지식-단위)
+- 절차: [`docs/rules.md#1-chunk--자립적-최소-지식-단위`](../../../docs/rules.md#1-chunk--자립적-최소-지식-단위)
 - 도구: `tools/tokens.py` (`bazel run //tools:tokens`) — 사용법은 docstring 이 원본이다
 
 ```text

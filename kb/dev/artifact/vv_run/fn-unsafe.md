@@ -7,7 +7,7 @@ title: function unsafe in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f
 ---
@@ -24,6 +24,12 @@ def unsafe(cmd: str) -> str | None:
         return "`--out` 이 저장소 안 경로에 쓴다 — 케이스의 검증기는 읽기 전용이어야 한다. 인자를 빼거나 `{{이름}}` 자극으로 가리킨다"
     if UNSAFE.search(cmd):
         return "리다이렉션·파이프·백틱 — 검증기의 출력을 파일이나 다른 명령으로 보내지 않는다"
+    for name, sides in SNAPSHOT_ONLY.items():
+        args = cmd.split()
+        given = lambda f: any(x == f or x.startswith(f + "=") for x in args)  # noqa: E731 — `--base-dir d` 와 `--base-dir=d` 둘 다
+        if cmd.startswith(f"python3 tools/{name}.py ") and not all(any(given(f) for f in flags) for flags in sides):
+            return (f"`{name}` 의 기본 꼴은 git·`bazel query` 를 부른다 — 스냅숏 꼴(" +
+                    " · ".join("/".join(f"`{f}`" for f in flags) for flags in sides) + ")만 실행한다")
     for inner in SUBSTITUTION.findall(cmd):
         if not inner.strip().startswith(SUBSTITUTION_HEADS):
             return f"명령 치환 `$({inner.strip()[:40]})` — 치환 안은 목록 조회(`ls`·`find`·`git rev-parse`)뿐이다"

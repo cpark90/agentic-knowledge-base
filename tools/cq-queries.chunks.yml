@@ -1,0 +1,52 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/cq-queries/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/cq-queries
+resource: https://agentic-knowledge-base.dev/id/src-tools-cq-queries
+package: kb/dev/artifact/cq-queries
+layer: process
+at: 2026-10-02T00:08:55Z
+source_hash: 7221651851556a2a
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/0c829785-f155-4ab8-bf9a-1f69b0d3e85d
+serves: []
+query_refines:
+  query:CQ-07: [https://agentic-knowledge-base.dev/id/chunk/475d2733-e7b8-4b2f-beaa-f369ea22bd73]
+  query:CQ-16: [https://agentic-knowledge-base.dev/id/chunk/9245ee8e-581f-44df-a08b-3a386eecbded]
+  query:CQ-17: [https://agentic-knowledge-base.dev/id/chunk/9245ee8e-581f-44df-a08b-3a386eecbded]
+  query:CQ-24: [https://agentic-knowledge-base.dev/id/chunk/a02a4db5-cf50-4b19-9a5e-1b101c4e0600]
+  query:CQ-38: [https://agentic-knowledge-base.dev/id/chunk/e8156600-d7a9-4e0c-b51c-8986083805c7]
+tested: {}
+ids:
+  query:CQ-01: https://agentic-knowledge-base.dev/id/chunk/83fd3a44-8690-41cd-9a18-9fbd5e8b5a8e
+  query:CQ-02: https://agentic-knowledge-base.dev/id/chunk/3264fc56-d0c1-4014-bbb7-0ae06f7ef193
+  query:CQ-03: https://agentic-knowledge-base.dev/id/chunk/667a5153-9abe-4c5c-bdb4-1d2c33525cee
+  query:CQ-04: https://agentic-knowledge-base.dev/id/chunk/61ffc0a3-d9b9-4f66-9ba1-ce87b10a40a8
+  query:CQ-05: https://agentic-knowledge-base.dev/id/chunk/c064ae44-1bc6-4f4d-9da8-36ed644ee5af
+  query:CQ-07: https://agentic-knowledge-base.dev/id/chunk/dcf5e41a-966c-4ac2-ad62-8510d1efaa28
+  query:CQ-08: https://agentic-knowledge-base.dev/id/chunk/6a57c8f2-a21a-47f8-afe8-e5ff5c6082e1
+  query:CQ-09: https://agentic-knowledge-base.dev/id/chunk/5ab8b35f-8410-41b2-aa23-dd14faf282b1
+  query:CQ-10: https://agentic-knowledge-base.dev/id/chunk/d9833498-f5cf-41fd-a651-76a95010a992
+  query:CQ-11: https://agentic-knowledge-base.dev/id/chunk/6abc0bf5-47cb-4d3a-9b35-77f0c5efa33f
+  query:CQ-13: https://agentic-knowledge-base.dev/id/chunk/0f9685af-bae0-4224-8fbf-4f3df723e6ae
+  query:CQ-14: https://agentic-knowledge-base.dev/id/chunk/56939851-dabe-462a-acc8-75e728bf4950
+  query:CQ-16: https://agentic-knowledge-base.dev/id/chunk/d9e49a00-c4dc-4287-9335-e437e9c75679
+  query:CQ-17: https://agentic-knowledge-base.dev/id/chunk/a5efaaa8-c933-4619-8ab9-d6d968cc93cd
+  query:CQ-19: https://agentic-knowledge-base.dev/id/chunk/4468fe77-e3a5-4930-b03b-977c1f9bc6d5
+  query:CQ-20: https://agentic-knowledge-base.dev/id/chunk/a6f485c0-e3fc-4cb7-88b2-c3c2167e94b9
+  query:CQ-21: https://agentic-knowledge-base.dev/id/chunk/2ddd2527-3e31-408e-83b9-a19599224e40
+  query:CQ-22: https://agentic-knowledge-base.dev/id/chunk/9e4f25bd-8f21-4007-9efc-252f63211ced
+  query:CQ-24: https://agentic-knowledge-base.dev/id/chunk/e9832014-e024-48a1-b0df-d8e953fc7882
+  query:CQ-25: https://agentic-knowledge-base.dev/id/chunk/861c0bc4-ee8c-4a09-8953-6fbf9a4ff879
+  query:CQ-28: https://agentic-knowledge-base.dev/id/chunk/8edad4ea-82cb-4ee4-b073-fa788f2be865
+  query:CQ-29: https://agentic-knowledge-base.dev/id/chunk/892dbfac-ac99-4f3c-b07a-54d1b95ded2a
+  query:CQ-31: https://agentic-knowledge-base.dev/id/chunk/506dc4a2-ce43-43bc-8a8e-96008f044bb4
+  query:CQ-32: https://agentic-knowledge-base.dev/id/chunk/8a818b02-6608-4437-9825-971ed263eb78
+  query:CQ-33: https://agentic-knowledge-base.dev/id/chunk/c2a4db1a-c5e4-4dd4-9d58-c638558ca646
+  query:CQ-34: https://agentic-knowledge-base.dev/id/chunk/ad5ddad0-6588-4495-987e-d3f2ab74523e
+  query:CQ-35: https://agentic-knowledge-base.dev/id/chunk/83c68855-cf39-4302-9088-ea860c7cd759
+  query:CQ-36: https://agentic-knowledge-base.dev/id/chunk/5a3a7128-a138-4e9b-b023-fe86df398e9f
+  query:CQ-37: https://agentic-knowledge-base.dev/id/chunk/1d8f6ff1-6cb3-4fa6-9a1d-9f1864561447
+  query:CQ-38: https://agentic-knowledge-base.dev/id/chunk/587713e2-b5de-4671-85cf-6c234614450e

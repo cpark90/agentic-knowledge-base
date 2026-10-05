@@ -7,9 +7,9 @@ title: function main in tools/endorse.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-endorse}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-11T09:15:09Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
+uses: [https://agentic-knowledge-base.dev/id/chunk/76dd3d85-14b0-4166-9ac3-75140ae7ea66]
 part_of: https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d-a8a449270a57
 ---
 **함수** — `main()` 다.
@@ -22,6 +22,10 @@ def main() -> int:
     ap.add_argument("--at", required=True, help="ISO 8601")
     ap.add_argument("files", nargs="+")
     a = ap.parse_args()
+    reason = future_at(a.at)
+    if reason:
+        print(f"FAIL [{TAG}] {reason}", file=sys.stderr)
+        return kb_lib.EXIT_FAIL
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     for f in a.files:
         p = root / f

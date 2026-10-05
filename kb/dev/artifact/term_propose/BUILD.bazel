@@ -7,21 +7,23 @@ package(default_visibility = ["//kb:artifact_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "term_propose",
     srcs = glob(["*.md"]),
 )
 
 kb_composite(
     name = "module",
     srcs = [
+        "fn-chunk_types.md",
         "fn-main.md",
+        "fn-ontology_graph.md",
         "head.md",
         "module.md",
         "sec-main.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/f141ce57-8f04-4bda-a9ff-756f81f57846",
-    ordered = ["https://agentic-knowledge-base.dev/id/chunk/c730fd69-c542-4d85-92ae-38125ac16f18", "https://agentic-knowledge-base.dev/id/composite/f37f3044-d076-4e57-b68f-4a03d2ad16d5"],
-    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c730fd69-c542-4d85-92ae-38125ac16f18", "https://agentic-knowledge-base.dev/id/composite/f37f3044-d076-4e57-b68f-4a03d2ad16d5"],
+    ordered = ["https://agentic-knowledge-base.dev/id/composite/3eff15a8-c6b8-46a9-a707-b95a948c619d", "https://agentic-knowledge-base.dev/id/composite/f37f3044-d076-4e57-b68f-4a03d2ad16d5"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/composite/3eff15a8-c6b8-46a9-a707-b95a948c619d", "https://agentic-knowledge-base.dev/id/composite/f37f3044-d076-4e57-b68f-4a03d2ad16d5"],
     plane = "artifact",
     level = "executable",
     status = "stable",

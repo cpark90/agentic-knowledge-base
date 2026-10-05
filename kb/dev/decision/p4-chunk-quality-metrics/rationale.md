@@ -7,7 +7,8 @@ title: Uncheckable principles and rule side effects surface only as metrics
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T00:30:10+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/997c76c5-45f5-496d-84cc-49c5e0907761
 ---
 **근거** (노트 4.13절)
@@ -17,5 +18,5 @@ part_of: https://agentic-knowledge-base.dev/id/composite/997c76c5-45f5-496d-84cc
 - **고아율**은 구성에도 링크에도 걸리지 않은 청크를 드러낸다 — 그런 청크는
   어떤 질의로도 조립되지 않으므로 있으나 마나다 (4.5절 참조 원칙).
 - **크기 분포**와 **`draft` 체류 시간**은 규칙이 실제로 어떻게 작동하는지를
-  드러낸다. 42줄 근처에 몰리면 상한을 맞추려는 억지 분할이고, 체류 시간이 길면
+  드러낸다. 토큰 상한 근처에 몰리면 상한을 맞추려는 억지 분할이고, 체류 시간이 길면
   게이트(6.7절)가 병목이다.

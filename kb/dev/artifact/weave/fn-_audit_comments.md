@@ -7,9 +7,9 @@ title: function _audit_comments in tools/weave.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-weave}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/7ca2da27-a5fc-4b33-aa68-b855ee61d697, https://agentic-knowledge-base.dev/id/chunk/f6cf75ba-7624-4742-a6f9-b56a69f540b1]
+uses: [https://agentic-knowledge-base.dev/id/chunk/12df4a74-89e1-4884-b0dc-b7c7f375d8e0, https://agentic-knowledge-base.dev/id/chunk/4600b6bb-eddb-4832-9854-1c587f7929d9, https://agentic-knowledge-base.dev/id/chunk/7ca2da27-a5fc-4b33-aa68-b855ee61d697, https://agentic-knowledge-base.dev/id/chunk/89bffa35-e0b8-4811-aa3d-d9cbd0e35c83, https://agentic-knowledge-base.dev/id/chunk/f6cf75ba-7624-4742-a6f9-b56a69f540b1]
 part_of: https://agentic-knowledge-base.dev/id/composite/f146d0f6-736d-44dc-9acf-ad9f25562d4a
 ---
 **함수** — `_audit_comments(m, g, live, pct, by_gen)` 다. 판정 주석의 라벨 분포와 해소 상태 (p7-commentary-form — 막는 것은 issue (blocking) + 해소 열림 뿐이다).
@@ -40,7 +40,12 @@ def _audit_comments(m: Model, g, live: set, pct, by_gen) -> list[str]:
         body += [f"| `{k}` | {v} | {sum(1 for c in open_ if (label_of(c) or kb_lib.NONE_MARK) == k)} |" for k, v in labels.most_common()]
         body += ["", "| 해소 상태 | 주석 수 |", "|---|---|"] + [f"| {k} | {v} |" for k, v in states.most_common()] + [""]
         judged = {c for c in comments if by_gen(c) == kb_lib.JUDGE_GENERATOR}
-        body += round_section(Counter(m.at(c)[:10] for c in comments if c not in judged), len(judged))
+        rounds = round_records(m, by_gen)  # 라운드 기록이 있으면 그것으로 자르고 없으면 날짜 대리로 떨어진다 (옛 기록 호환, 유저 답 Q39-c)
+        if rounds:
+            fresh = [as_dt(m.at(c)) for c in comments if c not in judged]
+            body += round_record_section(m, [t for t in fresh if t], rounds, len(judged))
+        else:
+            body += round_section(Counter(m.at(c)[:10] for c in comments if c not in judged), len(judged))
         if blocking:
             body += ["게이트를 막는 주석:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)} → "
                      + (" · ".join(m.ko(t) for t in g.objects(c, AGT.targets)) or kb_lib.NONE_MARK) for c in blocking] + [""]

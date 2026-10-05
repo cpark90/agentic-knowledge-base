@@ -10,7 +10,7 @@ layer: process
 at: 2026-09-12T07:47:38Z
 source_hash: cd2457e786ebcc1a
 refines:
-  - https://agentic-knowledge-base.dev/id/chunk/870158d1-2a3e-4b89-b721-7afb4d7a095d
+  - https://agentic-knowledge-base.dev/id/chunk/475d2733-e7b8-4b2f-beaa-f369ea22bd73
   - https://agentic-knowledge-base.dev/id/chunk/40abcad5-6a9c-4233-99d3-0b7ceeafb06b
 serves: []
 tested:

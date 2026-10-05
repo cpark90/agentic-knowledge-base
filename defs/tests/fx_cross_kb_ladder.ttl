@@ -1,0 +1,16 @@
+# 게이트 cross-kb-link 의 양성 고정물 — 사다리의 functional 행. V&V 검증 목표(requirement, functional)가 개발 요구를
+# derivesFrom 한다 (p8-scenario-ladder-rungs). KB 를 가로지르는 유일한 비-verifies 링크라 통과해야 한다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+
+<urn:fx:ladder-goal>
+    a agt:RequirementChunk ;
+    agt:hasLevel agt:functional ;
+    agt:tokenCount 10 ;
+    agt:assertionLocation "kb/vv/goal/fx-goal.md" ;
+    agt:derivesFrom <urn:fx:ladder-requirement> .
+
+<urn:fx:ladder-requirement>
+    a agt:RequirementChunk ;
+    agt:hasLevel agt:functional ;
+    agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/requirement/fx-requirement.md" .

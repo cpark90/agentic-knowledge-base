@@ -7,7 +7,8 @@ title: Links are built by construction; recovery is the exception
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-12T12:20:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-03T18:33:13+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T19:53:33+09:00}]
 layer: methodology
 refines: [https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0009]
@@ -16,7 +17,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/6651b045-a578-41
 ---
 **결론** — 링크를 만드는 방식은 둘이고, **구축(by construction)이 기본이며 복원(recovery)은 예외다.** 구축은 산출물이 만들어지는 순간에 일어나 정확도가 높고 작업의 부산물이므로 비용이 낮다. 복원은 사후 추정이라 정확도가 낮고 후보 생성·확인 비용이 든다.
 
-**구축의 실체 — 링크는 편집 연산의 부산물이다.** 에이전트가 산출물을 만들 때 하네스가 다음을 기록한다.
+**구축의 실체 — 링크는 편집 연산의 부산물이다.** 에이전트가 산출물을 만들 때 하네스의 도구로 다음을 기록한다. 기록은 하네스 도구의 부산물이고 에이전트의 자기 보고가 아니다.
 
 | 기록 | 링크 |
 |---|---|

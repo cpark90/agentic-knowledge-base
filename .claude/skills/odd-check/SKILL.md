@@ -26,7 +26,7 @@ bazel run //tools:odd_check -- --out /tmp/odd-check.md
 
 ## 원본
 
-- 절차: [`docs/method.md` 2. ODD 작성](../../../docs/method.md#2-odd-작성)
+- 절차: [`docs/method.md#2-odd-작성`](../../../docs/method.md#2-odd-작성)
 - 도구: `tools/odd_check.py` (`bazel run //tools:odd_check`) — 사용법은 docstring 이 원본이다
 
 ```text

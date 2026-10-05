@@ -52,7 +52,7 @@ http_file(
 # (유저 결정 2026-10-01) 계수기가 빌드 입력이고, 재현되려면 어휘가 네트워크 없이 같은 바이트로 읽혀야 한다.
 # tiktoken o200k_base 를 고른 근거는 이 저장소 청크 100개 실측의 한글 효율이다 — 문자/토큰 2.30 으로 cl100k_base
 # 1.78 · p50k_base 0.97 · XLM-R SentencePiece 2.14 를 앞선다. 계수기 패키지는 tools/requirements_lock.txt 가
-# 고정하고(tiktoken 0.12.0), 이 sha256 의 사본이 tools/kb_lib.py 의 TOKENIZER_VOCAB_SHA256 이며 ODD 조건
+# 고정하고(tiktoken 0.12.0), 이 sha256 의 사본이 tools/chunk2kg.py 의 TOKENIZER_VOCAB_SHA256(kb_lib 가 다시 내보낸다)이며 ODD 조건
 # id:cond-tokenizer-lock 의 판정 명령이 둘의 동일성을 대조한다. 타깃: @tiktoken_o200k_base//file
 # 플랫폼 제약: cp311 manylinux_2_28_x86_64 휠이 lock 의 휠이다. 다른 플랫폼에서는 sdist 빌드가 Rust 를 요구한다
 http_file(

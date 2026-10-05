@@ -14,7 +14,7 @@ SPACES = glob(
 )
 
 filegroup(
-    name = "bodies",
+    name = "space",
     srcs = SPACES,
 )
 
@@ -51,6 +51,6 @@ genrule(
 # 빈 filegroup 은 $(rootpaths) 확장이 분석 에러다 (kb/vv 의 lint_test 와 같은 사유)
 [kb_chunk_lint_test(
     name = "lint_test",
-    chunks = [":bodies"],
+    chunks = [":space"],
     waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md)
 ) for _ in [1] if SPACES]

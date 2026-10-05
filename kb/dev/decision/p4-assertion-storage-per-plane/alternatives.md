@@ -7,8 +7,8 @@ title: Draft assertion formats per plane, still undecided
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
-verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-05T12:48:53+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T12:49:10+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/8d3c07da-293b-47cd-861a-44cfd81449b3
 ---
 **대안** — `[안]` 4.12절의 plane별 assertion 형식 초안. **미확정이다.**
@@ -23,5 +23,4 @@ part_of: https://agentic-knowledge-base.dev/id/composite/8d3c07da-293b-47cd-861a
 | `annotation` | 산문 + 대상 청크 IRI | 줄 |
 | `memory` | 구조화 관측 (시각, 행동, 작업 집합 요약) | 항목 |
 
-`memory`의 42줄이 줄이 아니라 항목 수여야 할 수 있다는 것이 이 초안이 확정되지
-못한 이유다 — 4.9절의 "42줄이 모든 plane에 적정한가"와 같은 문제다.
+**기각** — "42줄의 단위" 열(줄/항목)과 "`memory`의 42줄이 항목 수여야 한다"는 안은 기각됐다. 결정 `p1-chunk-unit-is-tokens`가 답했다. 청크 단위는 모든 plane에서 토큰이다.

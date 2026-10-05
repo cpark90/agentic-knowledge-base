@@ -7,10 +7,8 @@ title: module head tag in tools/stamp.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-stamp}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:27:50Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
-refines: [https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/4ec4de00-ea81-4ed0-abf7-40beedc25e38]
 part_of: https://agentic-knowledge-base.dev/id/composite/39d9c5d9-3e2f-4e3b-9f05-84c7476fa96b
 ---
 **모듈 머리** — `tools/stamp.py` 의 모듈 머리 `tag` 다. 모듈 머리
@@ -22,10 +20,10 @@ part_of: https://agentic-knowledge-base.dev/id/composite/39d9c5d9-3e2f-4e3b-9f05
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from tools import kb_lib
-    from tools.extract import dump_registry, load_registry
+    from tools.extract import dump_registry, load_registry, source_digest
 except ImportError:
     import kb_lib
-    from extract import dump_registry, load_registry
+    from extract import dump_registry, load_registry, source_digest
 
 TAG = kb_lib.STAMP_GATE
 EXIT_FAIL, EXIT_CONFIG = kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG

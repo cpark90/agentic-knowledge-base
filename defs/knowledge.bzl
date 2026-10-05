@@ -93,7 +93,7 @@ def kb_gate_test(
       shapes: SHACL shape 라벨들 (*-shapes).
       odd: ODD 라벨들 (*-odd). 주면 agt:refersTo → ODD 참조 게이트가 켜진다.
       data: A-Box 라벨들 (*-kg, *-space). 통제 어휘 검사 대상.
-      chunk_files: 청크 본문 라벨들 (`:bodies`). 주면 게이트 `element-drop` 의 frontmatter 키 전수 대조가 켜진다 —
+      chunk_files: 청크 본문 라벨들 (패키지 이름의 filegroup — `//kb/dev` 등). 주면 게이트 `element-drop` 의 frontmatter 키 전수 대조가 켜진다 —
         소비되지 않는 키는 조용히 버려지는 소스 요소다 (현상 P19, 8.21절 G1).
       reason: SHACL 전에 OWL-RL 추론 적용.
       residency: 수준 허용표의 원본 라벨 (//defs:kb.bzl). 주면 게이트 `residency` 와 `token-budget` 이 켜진다 —
@@ -190,17 +190,23 @@ def kb_cq_report(name, data, queries, out = "cq.md"):
         tools = [Label("//tools:query")],
     )
 
-def kb_metrics(name, data, notes = None, bodies = [], out = "metrics.md"):
+def kb_metrics(name, data, notes = None, bodies = [], spaces = [], out = "metrics.md"):
     """그래프(-kg)에서 코어 지표 metrics.md를 생성한다 (4.13절, 14.1절 통과 조건 세 축의 대리).
 
     notes·bodies를 주면 확정 문장 커버리지(1단계 의미 보존 대리)도 계산한다.
+    spaces 는 설계 공간 그래프(//space:design_space)다 — 그래프 union 에 섞지 않고 연결 성분의 후보 링크와 결정 완결률의
+    후보 결정에만 쓴다 (유저 결정 Q60-a).
     plane 순서·수준 순서·수준 허용표는 //defs:kb.bzl 에서 읽는다 — 표의 단일 정의처가 거기다 (M1 단일 정의처).
     """
     residency = Label("//defs:kb.bzl")
+    # 7단계 변이 검출률의 입력 — 변이(음성) 고정물과 기대 FAIL 은 시험 정의 자체에서 읽는다 (유저 결정 2026-10-04). 호출부를 고치지 않도록 고정으로 더한다
+    mutations = [Label("//defs/tests:BUILD.bazel"), Label("//defs/tests:norm_fixture_test.py")]
     extra = ((" --notes $(location %s)" % notes) if notes else "") + ((" --bodies " + " ".join(["$(execpaths %s)" % b for b in bodies])) if bodies else "")
+    extra += " --mutations " + " ".join(["$(location %s)" % m for m in mutations])
+    extra += (" --spaces " + " ".join(["$(execpaths %s)" % s for s in spaces])) if spaces else ""
     native.genrule(
         name = name,
-        srcs = data + ([notes] if notes else []) + bodies + [residency],
+        srcs = data + ([notes] if notes else []) + bodies + spaces + [residency] + mutations,
         outs = [out],
         cmd = "$(location //tools:metrics) --out $@ --residency $(location %s) %s%s" % (residency, " ".join(["$(execpaths %s)" % d for d in data]), extra),
         tools = [Label("//tools:metrics")],
@@ -248,24 +254,25 @@ def kb_community(name, data, out = "communities.md"):
         tools = [Label("//tools:community")],
     )
 
-def kb_open_questions(name, data, bodies = [], out = "open.md"):
-    """head 그래프의 선택 슬롯 `미확정:` 에서 미결 집계 뷰 open.md 를 생성한다 (p4-three-empty-values).
+def kb_open_questions(name, data, bodies = [], spaces = [], out = "open.md"):
+    """설계 공간과 head 그래프의 선택 슬롯 `미확정:` 에서 미결 집계 뷰 open.md 를 생성한다 (p4-three-empty-values).
 
-    미결마다 질문 · 그것을 안은 청크(라벨·IRI) · plane/level · 상세 문서를 낸다. 대상은 `agt:bodySlot "미확정"` 인
-    청크이고 질문은 그 청크의 본문에서 읽는다. **집계만 맡는다** — 미결의 상세 다섯 절은 42줄 청크에 들어가지 않아
-    docs/open-questions.md 색인과 그 아래 문서로 남고 이 뷰가 그것을 대체하지 않는다. 뷰이고 게이트가 아니며
-    생성물은 bazel-bin 에만 있다 (STYLEGUIDE §6).
+    공간(`agt:Space`)마다 제목 · status · 변수 · 후보 state 별 수 · 그 공간을 가리키는 슬롯의 청크를 내고, 공간을 가리키지 않는
+    슬롯은 질문 · 청크(라벨·IRI) · plane/level · 상세 문서로 낸다. 상세 다섯 절은 설계 공간 청크에 있다(유저 결정 Q54-a). 이 뷰가
+    미결 목록의 유일한 자리이고 손 색인을 대체한다(지시 0095). 뷰이고 게이트가 아니며 생성물은 bazel-bin 에만 있다 (STYLEGUIDE §6).
 
     Args:
       name: 타깃 이름.
       data: 그래프 라벨들 — head(:chunks_kg) 가 있어야 슬롯 표지를 읽는다.
       bodies: 청크 파일 라벨들 (filegroup 가능). 질문 문장이 여기서 나온다.
+      spaces: 설계 공간 그래프 라벨들 (//space:design_space).
       out: 생성할 파일명.
     """
-    extra = (" --bodies " + " ".join(["$(execpaths %s)" % b for b in bodies])) if bodies else ""
+    extra = (" --spaces " + " ".join(["$(execpaths %s)" % s for s in spaces])) if spaces else ""
+    extra += (" --bodies " + " ".join(["$(execpaths %s)" % b for b in bodies])) if bodies else ""
     native.genrule(
         name = name,
-        srcs = data + bodies,
+        srcs = data + spaces + bodies,
         outs = [out],
         cmd = "$(location //tools:open_questions) --out $@ %s%s" % (" ".join(["$(execpaths %s)" % d for d in data]), extra),
         tools = [Label("//tools:open_questions")],
@@ -298,7 +305,7 @@ def kb_weave(name, kind, data, bodies = [], out = None):
     """그래프(와 청크 본문)에서 문서 뷰를 생성한다 (4.6절 weave, method §9, p12-documents-are-generated).
 
     kind 는 adr(결정 복합체의 ADR — bodies 필요) · requirements(요구 색인) · changelog(supersedes 이력) · audit(감사 보고서 —
-    그래프와 관측 청크만으로, bodies 에 //kb/vv:bodies·//kb/dev:bodies; 로드맵 8단계 audit-self-sufficiency) 중 하나다.
+    그래프와 관측 청크만으로, bodies 에 //kb/vv·//kb/dev; 로드맵 8단계 audit-self-sufficiency) 중 하나다.
     생성물마다 머리에 생성 시각(UTC)과 질의를 적는다. 뷰이고 게이트가 아니며 생성물은 bazel-bin 에만 있다 —
     소스 트리에 같은 이름의 파일을 두지 않는다 (STYLEGUIDE §6).
 
@@ -349,6 +356,254 @@ def kb_skills_drift_test(name, skills, docs, tools = Label("//tools"), **kwargs)
         **kwargs
     )
 
+_GEN_NORMS_SRCS = [
+    Label("//tools:gen_norms.py"),
+    Label("//tools:kb_lib.py"),
+    Label("//tools:chunk2kg.py"),  # 절 키의 판정(parse_norm_items)과 frontmatter 파서의 정의처
+]
+
+def kb_norms_drift_test(name, docs, data = [], args = [], **kwargs):
+    """규범 문서 드리프트 가드 — tools/gen_norms.py --check 로 트리의 생성 규범 문서를 재생성과 비교한다.
+
+    원본은 절 청크(`kb/dev/norm/<stem>/`)와 결정의 규약 청크(`conventions.md`)이고 문서는 커밋되는 뷰다 (결정
+    p12-norm-documents-from-section-chunks — 생성 트리 파일 표의 셋째 행). //:skills_drift_test·//:build_drift_test 와 같은 형이다.
+    원본을 고치고 생성을 안 돌린 경우와 문서를 손으로 고친 경우를 FAIL [norms-drift] 로, 고아 줄·한 문서 안의 이중 소비·강도 없는 줄을
+    FAIL [gen-norms] 로 잡는다. 문서 목록의 단일 정의처는 //defs:kb.bzl 의 NORM_DOCS 이고 그 파일은 `_with_gates` 가
+    runfiles 에 둔다. 문서가 0개여도 고아 줄 검사는 돈다 — 대상 0 은 PASS 다(생성기, SKIP 아님).
+
+    Args:
+      name: 테스트 이름.
+      docs: 비교할 생성 문서의 소스 파일 라벨들 (`norm_doc_labels()` — 비어 있어도 된다).
+      data: 생성의 입력 — 절 청크와 결정 청크 묶음(//kb/dev)과 그 밖에 생성기가 읽는 파일.
+      args: 추가 인자 (고정물 시험이 --root · --norm-docs 를 준다). 없으면 `--root .` 이다.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = _GEN_NORMS_SRCS,
+        main = Label("//tools:gen_norms.py"),
+        args = ["--check"] + (args or ["--root", "."]),
+        data = _with_gates(data + docs),
+        deps = [requirement("rdflib")],  # kb_lib(생성 문서 규약 G1~G18 의 단일 정의처)가 요구
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+def kb_norms_fixture_test(name, src, case, fixture, **kwargs):
+    """규범 문서 생성기의 고정물 시험 — 작은 가짜 norm 트리 하나로 양성(바이트 고정)과 음성(고아 줄·이중 소비·강도 없음)을 본다.
+
+    `kb_runner_env_test` 처럼 검사 대상이 도구 자신의 동작이다. 음성 사례는 고정물을 TEST_TMPDIR 에 복사해 한 곳만 바꾸므로
+    고정물은 언제나 양성이다. 판정의 기대(종료 코드·문구)는 `src` 의 EXPECT 표가 정한다.
+
+    Args:
+      name: 테스트 이름.
+      src: 시험 소스 (호출 패키지의 `norm_fixture_test.py`).
+      case: ok | orphan | double | weak | numbered | writer.
+      fixture: 고정물 트리의 filegroup.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = [src] + _GEN_NORMS_SRCS + [Label("//tools:validate.py")],  # writer 사례가 validate.check_writer 를 부른다
+        main = src,
+        args = ["--case", case],
+        data = _with_gates([fixture, Label("//kg:kg")]),  # writer 사례의 카탈로그 kg/catalog-kg.ttl
+        deps = [requirement("rdflib")],
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+_CASE_GEN_SRCS = [
+    Label("//tools:case_gen.py"),
+    Label("//tools:vv_run.py"),  # 생성 케이스를 실행기의 파서(case_spec·check_case)로 되읽는다 — 실행기가 읽는 꼴이 출력 꼴이다
+    Label("//tools:kb_lib.py"),
+    Label("//tools:chunk2kg.py"),  # 시나리오·케이스 frontmatter 의 파서 parse_chunk 와 PLANES·LEVELS 리터럴 읽기
+]
+
+_CASE_GEN_DEPS = [
+    requirement("pyyaml"),  # 시나리오의 입력 펜스·ODD 문서·생성 케이스의 펜스
+    requirement("rdflib"),  # kb_lib 이 요구
+]
+
+def kb_case_drift_test(name, scenarios = [], cases = "kb/vv/case", data = [], all_generated = False, **kwargs):
+    """케이스 드리프트 가드 — tools/case_gen.py --check 로 트리의 케이스를 논리 시나리오의 생성 결과와 비교한다.
+
+    결정 p8-case-generation: concrete 케이스는 사람이 쓰지 않고 `keep`+`cover` 에서 생성한다. 시나리오가 원본이고 케이스는
+    생성물이다 — 시나리오를 고치고 반영을 안 한 경우·생성 케이스를 손으로 고친 경우·시나리오가 더는 내지 않는 케이스를
+    FAIL [case-drift] 로, 입력 위반(표본 근거 없는 케이스 등)을 FAIL [case-gen] 으로 잡는다. //:norms_drift_test 와 같은 형이다.
+    대상은 `scenarios` 의 명시 목록이다 — 목록이 비면 대상 0 이고 PASS 다(생성기, SKIP 아님). vnv 가 생성 케이스를 반영한
+    뒤 시나리오를 목록에 더해 대상을 켠다. `all_generated` 는 케이스 디렉토리 전체가 생성기의 것인지(수기 케이스 0)도 본다.
+
+    Args:
+      name: 테스트 이름.
+      scenarios: 입력 시나리오 자극 청크(logical, `keep`·`cover` 펜스)의 라벨들 — 비어 있어도 된다.
+      cases: 비교할 케이스 디렉토리 (--root 기준 경로 문자열).
+      data: 비교 대상 케이스·관측 재현의 실행 기록·ODD 문서처럼 생성기가 읽는 파일의 라벨들.
+      all_generated: True 면 케이스 디렉토리의 모든 케이스가 `process:case_gen` 의 것이어야 한다.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = _CASE_GEN_SRCS,
+        main = Label("//tools:case_gen.py"),
+        args = ["--check", "--root", ".", "--cases", cases] +
+               [a for s in scenarios for a in ["--scenario", "$(rootpath %s)" % s]] +
+               (["--all-generated"] if all_generated else []),
+        data = _with_gates(data + scenarios),
+        deps = _CASE_GEN_DEPS,
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+def kb_case_gen_fixture_test(name, src, case, fixture, **kwargs):
+    """케이스 생성기의 고정물 시험 — 작은 가짜 V&V 트리 하나로 양성(바이트 고정)과 음성(표본 근거 없음 · 드리프트)을 본다.
+
+    `kb_norms_fixture_test` 와 같은 형이다. 음성 사례는 고정물을 TEST_TMPDIR 에 복사해 한 곳만 바꾸므로 고정물은 언제나 양성이다.
+    판정의 기대(종료 코드·문구)는 `src` 가 정한다.
+
+    Args:
+      name: 테스트 이름.
+      src: 시험 소스 (호출 패키지의 `case_gen_fixture_test.py`).
+      case: 사례 이름 — `src` 의 docstring 이 목록이다.
+      fixture: 고정물 트리의 filegroup.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = [src] + _CASE_GEN_SRCS,
+        main = src,
+        args = ["--case", case],
+        data = _with_gates([fixture]),
+        deps = _CASE_GEN_DEPS,
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+_VV_RUN_FIXTURE_SRCS = [
+    Label("//tools:vv_run.py"),  # 시험 대상 — 케이스·검증기의 실행 명령을 같은 규칙으로 돈다
+    Label("//tools:kb_lib.py"),
+    Label("//tools:chunk2kg.py"),  # 항목 frontmatter 의 파서이자 고정물 명령이 부르는 읽기 전용 검증기(`--help`)
+    Label("//tools:run_evidence.py"),  # 실행 기록의 케이스 표 읽기(run_rows)가 검증기 행을 케이스로 읽지 않는지 본다
+]
+
+def kb_vv_run_fixture_test(name, src, case, fixture, **kwargs):
+    """V&V 실행기의 고정물 시험 — 작은 가짜 V&V 트리 하나로 검증기 청크의 실행 명령이 케이스와 같은 규칙으로 도는지 본다 (유저 답 Q29-a).
+
+    `kb_case_gen_fixture_test` 와 같은 형이다. 고정물을 TEST_TMPDIR 에 복사하고 `tools/` 를 runfiles 의 도구로 이어 실행기
+    `main()` 을 부른다. 고정물의 명령은 읽기 전용 검증기의 도움말이라 bazel 을 중첩하지 않는다. 판정의 기대는 `src` 가 정한다.
+
+    Args:
+      name: 테스트 이름.
+      src: 시험 소스 (호출 패키지의 `vv_run_fixture_test.py`).
+      case: 사례 이름 — `src` 의 docstring 이 목록이다.
+      fixture: 고정물 트리의 filegroup.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = [src] + _VV_RUN_FIXTURE_SRCS,
+        main = src,
+        args = ["--case", case],
+        data = _with_gates([fixture]),
+        # 고정물 명령은 케이스가 부르는 그대로 하위 프로세스로 돈다 — kb_runner_env_test 와 같은 조건이다
+        env_inherit = ["HOME"],
+        deps = [
+            requirement("rdflib"),  # kb_lib 이 요구
+            requirement("pyyaml"),  # vv_run 이 항목 본문의 `yaml` 펜스를 읽는다
+        ],
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+_REVALIDATE_FIXTURE_SRCS = [
+    Label("//tools:revalidate.py"),  # 시험 대상 — 스냅숏 둘을 비교한다 (유저 답 Q38-c)
+    Label("//tools:kb_lib.py"),
+    Label("//tools:chunk2kg.py"),  # frontmatter 파서 · 링크 IRI(link_hash) 의 정의처
+    Label("//tools:gen_build.py"),  # revalidate 가 git 꼴에서 타깃 라벨 사상을 읽는다 — 스냅숏 꼴은 부르지 않는다
+]
+
+def kb_revalidate_fixture_test(name, src, case, fixture, **kwargs):
+    """재판정 대상의 스냅숏 비교 고정물 시험 — 합성 변이 쌍 하나로 git·bazel 없이 링크 개체가 suspect 로 서는지 본다 (유저 답 Q38-c).
+
+    Args:
+      name: 테스트 이름.
+      src: 시험 소스 (호출 패키지의 `revalidate_fixture_test.py`).
+      case: 사례 이름 — `src` 의 docstring 이 목록이다.
+      fixture: 고정물 스냅숏의 filegroup.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = [src] + _REVALIDATE_FIXTURE_SRCS,
+        main = src,
+        args = ["--case", case],
+        data = _with_gates([fixture]),
+        deps = [requirement("rdflib")],  # kb_lib 이 요구
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+_ROUND_FIXTURE_SRCS = [
+    Label("//tools:vv_run.py"),  # 시험 대상 — `--round` 의 라운드 기록과 허용 목록의 스냅숏 꼴
+    Label("//tools:weave.py"),  # 시험 대상 — audit 라운드 절이 기록으로 구간을 자른다
+    Label("//tools:kb_lib.py"),
+    Label("//tools:chunk2kg.py"),
+]
+
+def kb_round_fixture_test(name, src, case, data = [], **kwargs):
+    """검증 라운드 기록의 고정물 시험 — `vv_run --round` · verify 질의 · audit 라운드 절을 임시 트리와 최소 그래프로 본다 (유저 답 Q39-c).
+
+    Args:
+      name: 테스트 이름.
+      src: 시험 소스 (호출 패키지의 `round_fixture_test.py`).
+      case: 사례 이름 — `src` 의 docstring 이 목록이다.
+      data: 시험이 읽는 파일 — verify 질의와 종료 사유 온톨로지 모듈.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = [src] + _ROUND_FIXTURE_SRCS,
+        main = src,
+        args = ["--case", case],
+        data = _with_gates(data),
+        deps = [
+            requirement("rdflib"),  # 질의 실행과 kb_lib
+            requirement("pyyaml"),  # vv_run 이 항목 본문의 `yaml` 펜스를 읽는다
+        ],
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+_GEN_BUILD_SRCS = [
+    Label("//tools:gen_build.py"),
+    Label("//tools:chunk2kg.py"),  # gen_build 가 parse_chunk 로 frontmatter 를 읽는다
+]
+
+def kb_build_drift_test(name, builds, data = [], **kwargs):
+    """BUILD 드리프트 가드 — tools/gen_build.py --check 로 트리의 생성 BUILD 를 재생성과 비교한다 (d-0159).
+
+    frontmatter 가 원본이고 BUILD 는 뷰다. 청크를 고치고 생성을 안 돌린 경우와 생성 BUILD 를 손으로 고친 경우를
+    FAIL [build-drift] 로 잡는다. //:skills_drift_test·//:extract_drift_test 와 같은 형이다. 게이트는 이 매크로로만
+    선언한다 (STYLEGUIDE §6, pe-knowledge-files-are-gate-inputs) — 최상위 BUILD 가 py_test 를 직접 쓰던 자리를 대신한다.
+    PLANES·LEVELS·STATES 값 어휘의 원본 //defs:kb.bzl 은 `_with_gates` 가 runfiles 에 넣는다 — gen_build 가 parse_chunk
+    를 통해 그것을 읽는다(--residency).
+
+    Args:
+      name: 테스트 이름.
+      builds: 비교할 생성 BUILD 파일의 라벨들 (각 패키지의 `exports_files(["BUILD.bazel"])`).
+      data: 생성의 입력 — 청크 본문 묶음·온톨로지 모듈 목록 등 gen_build 가 읽는 파일의 라벨들.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = _GEN_BUILD_SRCS,
+        main = Label("//tools:gen_build.py"),
+        args = ["--check", "--root", "."],
+        data = _with_gates(data + builds),
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
 def kb_extract_drift_test(name, source, chunks, registry, tools = Label("//tools"), **kwargs):
     """추출 드리프트 가드 — tools/extract.py --check 로 트리의 생성 청크·등록부를 재추출과 비교한다.
 
@@ -362,7 +617,7 @@ def kb_extract_drift_test(name, source, chunks, registry, tools = Label("//tools
     Args:
       name: 테스트 이름.
       source: 추출할 소스 파일의 저장소 상대 경로 (문자열).
-      chunks: 생성 청크 묶음의 라벨 (filegroup — kb/dev/artifact/<모듈>:bodies).
+      chunks: 생성 청크 묶음의 라벨 (filegroup — //kb/dev/artifact/<모듈>, 이름이 디렉토리 이름이다).
       registry: 등록부 사이드카의 라벨 (<소스>.chunks.yml).
       tools: 도구 소스의 filegroup — 소스 파일 자신이 여기 있어야 추출이 읽는다.
       **kwargs: py_test 로 전달.
@@ -407,7 +662,7 @@ def kb_index(name, srcs, out = "index.md"):
     )
 
 def kb_reference_kg(name, srcs, out = None, ontology = []):
-    """청크 본문의 명시적 인용·개념 사용에서 참조 그래프(-kg)를 생성한다 (8.2절).
+    """청크 본문의 명시적 인용·개념 사용에서 참조 그래프(-kg)를 생성한다 (8.2절). 실행 증거의 `satisfies` 후보도 같은 그래프다.
 
     본문이 원본이고 이 그래프는 생성물이다 — 목록을 손으로 복제하면 어긋난다.
     인용 대상이 실재하지 않으면 생성이 실패하므로 참조 무결성이 여기서 강제된다.
@@ -420,15 +675,19 @@ def kb_reference_kg(name, srcs, out = None, ontology = []):
         agt:usesConcept 로도 방출한다 (dependency-graph-design §6 복원 경로, 결정 지점 (f)).
     """
     out = out or name + ".ttl"
-    # 빈 filegroup(예: 아직 비어 있는 //kb/vv:bodies)은 $(execpaths) 에서 분석 에러이므로 청크는 $(SRCS) 로 넘긴다.
+    # 빈 filegroup(예: 아직 비어 있는 //kb/vv)은 $(execpaths) 에서 분석 에러이므로 청크는 $(SRCS) 로 넘긴다.
     # $(SRCS) 에는 온톨로지 파일도 섞이므로 extract_refs 는 위치 인자 중 .md 만 청크로 읽는다.
+    # 같은 그래프에 실행 증거의 `satisfies` 후보(tools/run_evidence.py, p9-evidence-ledger)를 이어 붙인다 — 후보 링크
+    # 개체라는 점에서 인용 후보와 같은 자리이고, 소비자(gate_test·metrics·audit·assume_check …)가 이 그래프를 이미 읽는다.
     onto = (" --ontology " + " ".join(["$(execpaths %s)" % o for o in ontology]) + " --") if ontology else ""
     native.genrule(
         name = name,
-        srcs = srcs + ontology,
+        srcs = srcs + ontology + [Label("//defs:kb.bzl")],
         outs = [out],
-        cmd = "$(location //tools:extract_refs) --out $@%s $(SRCS)" % onto,
-        tools = [Label("//tools:extract_refs")],
+        cmd = ("$(location //tools:extract_refs) --out $@.refs%s $(SRCS) && " % onto +
+               "$(location //tools:run_evidence) --out $@.runs --residency $(location //defs:kb.bzl) $(SRCS) && " +
+               "cat $@.refs $@.runs > $@ && rm -f $@.refs $@.runs"),
+        tools = [Label("//tools:extract_refs"), Label("//tools:run_evidence")],
     )
 
 def kb_chunk_lint_test(name, chunks = [], ttl = [], waivers = None, **kwargs):
@@ -561,6 +820,73 @@ def kb_runner_env_test(name, probe = "chunk_lint", **kwargs):
             requirement("rdflib"),  # kb_lib(종료 코드 규약의 단일 정의처)가 요구
             requirement("pyyaml"),  # vv_run 이 케이스 본문의 `yaml` 펜스를 읽는다 — import 에 필요하다
         ],
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+def kb_channel_lint_test(name, items, waivers, **kwargs):
+    """하네스 채널 규약 게이트 — 메시지·질문지의 어휘·단일 작성자·필수 절·짝 없는 완료 (tools/channel_lint.py, 게이트 id `channel`).
+
+    프로토콜 원본은 harness/README.md 다. 면제는 코드가 아니라 `waivers`(docs/waivers.md)의 선언으로 한다 —
+    게이트 id `channel`, 축 파일. 종료 코드는 1 판정 · 2 설정 · 3 미실행이다. 하네스 패키지가 py_test 를 직접 쓰던
+    자리를 대신한다 (STYLEGUIDE §6, pe-knowledge-files-are-gate-inputs; 유저 결정 Q5-a).
+
+    Args:
+      name: 테스트 이름.
+      items: 검사할 메시지·질문지 라벨 (filegroup — 비어 있어도 된다, 메시지는 git 밖이다).
+      waivers: docs/waivers.md 라벨.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = [Label("//tools:channel_lint.py")],
+        main = Label("//tools:channel_lint.py"),
+        args = ["--waivers", "$(rootpath %s)" % waivers, "$(rootpaths %s)" % items],
+        data = [items, waivers],
+        deps = [Label("//tools:kb_lib")],  # 게이트 등록부 리터럴은 kb_lib 타깃이 runfiles 에 싣는다
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+def kb_harness_scripts_test(name, src, scripts, **kwargs):
+    """하네스 채널 스크립트의 동작 게이트 — 임시 채널(TEST_TMPDIR)에서 send → inbox → read-msg → mark 흐름과 거부 규칙을 본다.
+
+    `kb_runner_env_test` 처럼 검사 대상이 도구 자신의 동작이다. 스크립트는 호스트 bash 로 돈다. 하네스 패키지가
+    py_test 를 직접 쓰던 자리를 대신한다 (STYLEGUIDE §6, pe-knowledge-files-are-gate-inputs; 유저 결정 Q5-a).
+
+    Args:
+      name: 테스트 이름.
+      src: 테스트 소스 (호출 패키지의 `scripts_test.py`).
+      scripts: 판정 대상 스크립트 라벨들.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = [src],
+        main = src,
+        data = scripts,
+        size = kwargs.pop("size", "small"),
+        **kwargs
+    )
+
+def kb_frozen_docs_test(name, docs, **kwargs):
+    """동결 문서 게이트 — 문서의 sha256 이 `kb_lib.FROZEN_DOCS` 의 고정값과 같은지 본다 (tools/doccheck.py --frozen, 게이트 id `frozen`).
+
+    노트는 기획 원본으로 동결한다(결정 p0-service-is-a-three-layer-wiki, 유저 답 Q15-c). 해시가 상수에 있으므로 고치려면
+    상수를 같은 커밋에서 바꿔야 하고, 의도하지 않은 변경은 남지 않는다.
+
+    Args:
+      name: 테스트 이름.
+      docs: 동결 문서 라벨들 (`FROZEN_DOCS` 의 키 전부가 여기 있어야 한다).
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = _DOCCHECK_SRCS,
+        main = Label("//tools:doccheck.py"),
+        args = ["--frozen"] + ["$(rootpaths %s)" % d for d in docs],
+        data = _with_gates(docs),
+        deps = [requirement("rdflib")],  # kb_lib(동결 해시의 단일 정의처)가 요구
         size = kwargs.pop("size", "small"),
         **kwargs
     )

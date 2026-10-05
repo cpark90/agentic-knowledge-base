@@ -7,10 +7,10 @@ source: tools/assume_check.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-assume-check
 package: kb/dev/artifact/assume_check
 layer: process
-at: 2026-09-30T08:07:48Z
-source_hash: b4e68ee5fa98a538
+at: 2026-10-02T00:08:55Z
+source_hash: 4e879b64319d298a
 refines:
-  - https://agentic-knowledge-base.dev/id/chunk/9f79d119-83cf-46a7-89c0-680e8f203296
+  - https://agentic-knowledge-base.dev/id/chunk/47ba1172-488a-4f7b-ba4b-bc63fdf39b88
   - https://agentic-knowledge-base.dev/id/chunk/79bcc1dd-4036-43ef-b30d-f4dff07be513
   - https://agentic-knowledge-base.dev/id/chunk/b36581f8-2688-46dc-9b44-3e1019a37d66
 serves: []

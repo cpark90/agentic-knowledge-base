@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""게이트 등록부(`defs/kb.bzl` 의 `GATES`) → 게이트 그래프(-kg.ttl) 생성기 (M1 단일 정의처, 2026-10-02).
+"""게이트 등록부(`defs/kb.bzl` 의 `GATES`) → 게이트 그래프(-kg.ttl), 뷰·skill 표 → 투영 그래프 생성기 (M1 단일 정의처, 2026-10-02).
 
 게이트는 프로세스 층의 **항목**이다(결정 p0-service-is-a-three-layer-wiki) — 어느 청크의 투영으로도 환원되지
 않으므로 그래프에 개체가 서야 층별 집계(CQ-38)가 셀 자리를 갖는다. 2026-10-01 실측에서 같은 목록이 넷으로
@@ -15,7 +15,14 @@
     `agt:enforcedBy` 의 대상이 그 파일 복합체이고, 없으면 끊긴 링크를 내는 대신 여기서 거부한다
   - 파이썬 밖(`starlark`·`bazel`)인 게이트는 가리킬 코드 청크가 없어 `agt:enforcedBy` 를 갖지 않는다
 
+투영 모드(`--projections`)는 같은 입력에서 뷰·skill 의 개체를 낸다(유저 답 Q9-a, 2026-10-03). 뷰·skill 은 층의
+항목이 아니라 프로세스 층 원본 청크의 **투영**이다 — 개체는 `agt:View`·`agt:Skill` 이고 `prov:wasDerivedFrom` 이
+원본 도구의 `module` 코드 청크(등록부 사이드카의 `ids: module:`)를 가리키며 `agt:inLayer` 를 갖지 않는다. 층은 원본만
+가지므로 CQ-38 의 층 집계가 같은 것을 두 번 세지 않는다. 표의 단일 정의처는 `VIEWS`(뷰 타깃 → 생성 도구)와
+`kb_lib.SKILLS`(skill → 원본 도구)이고, 원본 도구의 `module` 청크가 없으면 끊긴 링크 대신 생성 시점에 거부한다.
+
 사용: gates2kg.py --out gates-kg.ttl --gates defs/kb.bzl [--registry tools/<도구>.chunks.yml ...]
+      gates2kg.py --projections --out projections-kg.ttl --gates defs/kb.bzl --registry tools/<도구>.chunks.yml ...
 출력·종료: 위반은 `FAIL [gates2kg] <원본>: <메시지>` + EXIT_FAIL. 읽을 수 없는 입력은 EXIT_CONFIG.
 """
 from __future__ import annotations
@@ -47,11 +54,12 @@ HEADER = (
 
 # ── 판정 도구의 개체 — 등록부 사이드카의 파일 복합체 IRI ────────────────────
 
-def tool_composites(registries: list[str]) -> dict[str, str]:
-    """등록부 사이드카들 → 도구 이름 → 파일 복합체 IRI (`ids: file:`).
+def tool_composites(registries: list[str], key: str = "file") -> dict[str, str]:
+    """등록부 사이드카들 → 도구 이름 → `ids:` 블록의 `key` 줄 IRI (기본 `file:` — 파일 복합체).
 
     사이드카는 손이 원본인 등록부이고 파일 복합체가 도구 하나의 개체다 (p7-code-links-on-file-composite).
-    YAML 파서를 싣지 않는다 — 필요한 것은 `ids:` 블록의 `file:` 한 줄뿐이고 이 생성기는 타깃마다 돈다.
+    투영 모드는 `module:`(모듈 docstring 청크)을 읽는다 — 뷰·skill 의 내용이 나오는 원본 청크다.
+    YAML 파서를 싣지 않는다 — 필요한 것은 `ids:` 블록의 한 줄뿐이고 이 생성기는 타깃마다 돈다.
     """
     out: dict[str, str] = {}
     for path in registries:
@@ -63,7 +71,7 @@ def tool_composites(registries: list[str]) -> dict[str, str]:
             raise SystemExit(EXIT_CONFIG)
         name = p.name[: -len(".chunks.yml")] if p.name.endswith(".chunks.yml") else p.stem
         for line in lines:
-            if line.startswith("  file:"):
+            if line.startswith(f"  {key}:"):
                 out[name] = line.split(":", 1)[1].strip()
                 break
     return out
@@ -111,12 +119,73 @@ def emit(gates: dict, tiers: tuple, layer: str, tools: dict[str, str], outside: 
     return HEADER + "\n" + "\n\n".join(blocks) + "\n"
 
 
+PROJECTION_HEADER = (
+    "# 투영 그래프 — 생성물이다. 손으로 쓰지 않는다 (tools/gates2kg.py --projections).\n"
+    "# 원본은 defs/kb.bzl 의 VIEWS 와 tools/kb_lib.py 의 SKILLS 이고 개체 하나가 뷰 또는 skill 하나다.\n"
+    "# 투영은 층을 갖지 않는다 — 층은 prov:wasDerivedFrom 이 가리키는 원본 청크만 갖는다 (유저 답 Q9-a).\n"
+    "@prefix agt: <https://agentic-knowledge-base.dev/agt/> .\n"
+    "@prefix id: <%s> .\n"
+    "@prefix prov: <http://www.w3.org/ns/prov#> .\n"
+    "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n"
+    "@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n" % ID_BASE
+)
+
+
+def view_slug(label: str) -> str:
+    """뷰 타깃 라벨 → IRI 꼬리 — `//kb/dev:adr` → `kb-dev-adr`."""
+    return label.lstrip("/").replace("/", "-").replace(":", "-").replace("_", "-")
+
+
+def emit_projections(views: dict[str, str], skills: tuple, modules: dict[str, str], where: str) -> str:
+    """뷰 표·skill 표 → 투영 TTL. 원본 도구의 `module` 청크가 없으면 생성 시점에 거부한다."""
+    errors = []
+    blocks = []
+    rows = [("View", kb_lib.VIEW_ID_PREFIX + view_slug(label), label, f"생성 뷰 {label}", tool,
+             f"생성 뷰 {label} — 생성 도구 {tool} 의 출력이다")
+            for label, tool in sorted(views.items())]
+    for spec in skills:
+        name = spec["tool"].replace("_", "-")
+        rows.append(("Skill", kb_lib.SKILL_ID_PREFIX + name, name, f"skill {name}", spec["tool"], spec["when"]))
+    for kind, slug, en, ko, tool, desc in rows:
+        iri = modules.get(tool)
+        if not iri:
+            errors.append(f"{where}: {kind} {en!r} 의 원본 도구 {tool!r} 의 module 청크를 찾을 수 없다 — "
+                          f"tools/{tool}.chunks.yml 의 `ids: module:` 가 prov:wasDerivedFrom 의 대상이다")
+            continue
+        props = [
+            f"a agt:{kind}",
+            f'rdfs:label "{escape(en)}"@en , "{escape(ko)}"@ko',
+            f'skos:definition "{escape(desc)}"@ko',
+            f"prov:wasDerivedFrom <{iri}>",
+        ]
+        blocks.append(" ;\n    ".join([f"id:{slug} {props[0]}"] + props[1:]) + " .")
+    if errors:
+        print("\n".join(f"FAIL [{TAG}] {e}" for e in errors), file=sys.stderr)
+        raise SystemExit(EXIT_FAIL)
+    return PROJECTION_HEADER + "\n" + "\n\n".join(blocks) + "\n"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="게이트 등록부 → 게이트 그래프 (-kg.ttl)")
     ap.add_argument("--out", required=True, help="출력 TTL 경로 (접미사 규약 0.2절의 `-kg`)")
     ap.add_argument("--gates", required=True, help="게이트 등록부의 원본 defs/kb.bzl")
     ap.add_argument("--registry", nargs="*", default=[], help="등록부 사이드카들 (tools/<도구>.chunks.yml) — agt:enforcedBy 의 대상")
+    ap.add_argument("--projections", action="store_true", help="게이트 대신 뷰(VIEWS)·skill(SKILLS)의 투영 개체를 낸다")
     a = ap.parse_args()
+    if a.projections:
+        try:
+            views = kb_lib.load_bzl_dict(a.gates, kb_lib.VIEWS_NAME)
+        except (OSError, ValueError) as e:
+            print(f"FAIL [{TAG}] {a.gates}: 뷰 표를 읽을 수 없다 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
+        ttl = emit_projections(views, kb_lib.SKILLS, tool_composites(a.registry, "module"), a.gates)
+        try:
+            Path(a.out).write_text(ttl, encoding="utf-8")
+        except OSError as e:
+            print(f"FAIL [{TAG}] {a.out}: 쓸 수 없다 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
+        print(f"PASS [{TAG}] — 뷰 {len(views)}개, skill {len(kb_lib.SKILLS)}개", file=sys.stderr)
+        return 0
     try:
         gates = kb_lib.load_gates(a.gates)
         tiers = kb_lib.load_bzl_list(a.gates, "GATE_TIERS")

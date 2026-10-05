@@ -7,9 +7,8 @@ title: module head id in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/9f79d119-83cf-46a7-89c0-680e8f203296, https://agentic-knowledge-base.dev/id/chunk/b8d74a2d-f94b-4fe7-8b3b-13dca638d338, https://agentic-knowledge-base.dev/id/chunk/36a0b6fa-ac60-47db-a769-b49d067f6854]
 part_of: https://agentic-knowledge-base.dev/id/composite/5fc8dfb1-4583-4c27-8266-44c34557e4c1
 ---
 **모듈 머리** — `tools/vv_run.py` 의 모듈 머리 `id` 다. 모듈 머리
@@ -26,6 +25,9 @@ from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chun
 ID = kb_lib.ID
 EXIT_OK, EXIT_FAIL, EXIT_CONFIG, EXIT_SKIP = kb_lib.EXIT_OK, kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG, kb_lib.EXIT_SKIP
 CASE_DIR = kb_lib.KB_VV + "/case"
+VERIFIER_DIR = kb_lib.KB_VV + "/verifier"
+# 실행 명령을 읽는 항목의 종류 → 자리. 두 종류는 같은 줄 꼴(`**실행 명령**`)·같은 허용 목록·같은 판정 규칙을 쓴다 (유저 답 Q29-a)
+KINDS = {"case": CASE_DIR, "verifier": VERIFIER_DIR}
 RUN_DIR = kb_lib.VV_RUN_DIR
 GENERATOR = kb_lib.RUN_GENERATOR
 ODD_IRI = str(ID["odd-agentic-knowledge-base"])  # 관측의 출처 — ODD 개체 (assume_check 와 같은 sources)

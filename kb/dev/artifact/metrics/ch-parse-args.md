@@ -9,7 +9,6 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f, https://agentic-knowledge-base.dev/id/chunk/1f7d15d7-e85d-42dd-bef3-fb9c9a6d0365]
 part_of: https://agentic-knowledge-base.dev/id/composite/90bd15d5-e388-4dc6-b7d0-0e639fe85f3f
 composite: {id: https://agentic-knowledge-base.dev/id/composite/90bd15d5-e388-4dc6-b7d0-0e639fe85f3f, title_ko: 장 복합체 parse-args (tools/metrics.py), title: chapter composite parse-args in tools/metrics.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/6490b236-a98d-4ab8-9add-20fca9de30ea, https://agentic-knowledge-base.dev/id/composite/be69bcaa-b921-4a3d-9474-cccf29581b17, https://agentic-knowledge-base.dev/id/composite/87e62ada-8184-4c95-b1be-e30d2b876be2], part_of: https://agentic-knowledge-base.dev/id/composite/3c529991-238b-41b3-abc4-9d4e944f0a32}
 ---

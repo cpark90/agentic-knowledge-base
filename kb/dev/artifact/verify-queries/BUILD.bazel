@@ -1,0 +1,200 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "verify-queries",
+    srcs = glob(["*.md"]),
+)
+
+kb_chunk(
+    name = "comment-level-not-inherited",
+    src = "comment-level-not-inherited.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/870f5041-82ad-49e9-8b59-c3d2622d29e9",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "composite-cycle",
+    src = "composite-cycle.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ef27a2a6-bdb2-4c5b-bd95-d7198b3c9359",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "composite-heterogeneous",
+    src = "composite-heterogeneous.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a2e8caea-4359-4d47-b6a5-ece7bbe10a54",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "confirmed-with-refutation",
+    src = "confirmed-with-refutation.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/bdecbee2-b7cb-4a9e-b43d-0c7764709f68",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "confirmed-without-evidence",
+    src = "confirmed-without-evidence.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/de249b57-d514-4501-aa52-f713281e1d5c",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "imported-chain-confirmed",
+    src = "imported-chain-confirmed.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/51bc815c-46a8-468c-83df-bd3339d34bc6",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "link-state-class-mismatch",
+    src = "link-state-class-mismatch.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9f6433f5-842d-42ab-8c1f-8a98344d143d",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p10-extracted-references-are-candidates",
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "refines-cycle",
+    src = "refines-cycle.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ca541a86-fc8a-4978-b7cd-1bb106d18dcf",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "round-stop-rule-violated",
+    src = "round-stop-rule-violated.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d7b21ca0-5e2c-4f71-9a2c-86a9052af424",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "sources-empty",
+    src = "sources-empty.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ea6fd215-ad82-40c5-b9f9-68e6f11f59e3",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "supersedes-cycle",
+    src = "supersedes-cycle.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4b5dd9a4-f6cd-4e97-9e2c-db216d3ee0d1",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+kb_chunk(
+    name = "verifies-without-criteria",
+    src = "verifies-without-criteria.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8cdc4517-979e-4aa1-809f-b7b5adb1d219",
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p2-ontology-pitfall-catalogue",
+        "//kb/dev/decision:p6-gate-catalogue",
+        "//kb/dev/decision:p8-pass-criteria",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":comment-level-not-inherited",
+        ":composite-cycle",
+        ":composite-heterogeneous",
+        ":confirmed-with-refutation",
+        ":confirmed-without-evidence",
+        ":imported-chain-confirmed",
+        ":link-state-class-mismatch",
+        ":refines-cycle",
+        ":round-stop-rule-violated",
+        ":sources-empty",
+        ":supersedes-cycle",
+        ":verifies-without-criteria",
+    ],
+)

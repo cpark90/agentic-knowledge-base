@@ -12,4 +12,4 @@ agt:ownedBy a owl:ObjectProperty ;
     rdfs:domain agt:Channel ;
     rdfs:range agt:Role ;
     rdfs:label "owned by"@en , "담당한다"@ko ;
-    skos:definition "채널의 담당 역할. 담당 역할만 채널의 에이전트 쪽 소통을 수행하고, 다른 에이전트는 자기 lane에 항목을 남길 뿐 유저와 직접 상세 소통하지 않는다."@ko .
+    skos:definition "채널의 담당 역할. 담당 역할만 그 채널에 쓴다(단일 작성자). 유저 채널의 담당은 hci 이고, 다른 에이전트는 유저와 직접 상세 소통하지 않는다."@ko .

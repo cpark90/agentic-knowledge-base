@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:artifact_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "assume_check",
     srcs = glob(["*.md"]),
 )
 
@@ -44,7 +44,7 @@ kb_composite(
     level = "executable",
     status = "stable",
     refines = [
-        "//kb/dev/decision:p0-run-as-observation",
+        "//kb/dev/decision:p0-run-is-an-append-only-memory-chunk",
         "//kb/dev/decision:p6-assumption-invalidation",
         "//kb/dev/decision:p6-assumption-verification-methods",
     ],

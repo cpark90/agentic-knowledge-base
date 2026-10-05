@@ -1,0 +1,19 @@
+# shape — 투영: 뷰·skill 은 원본 청크를 하나 이상 가리키고 층을 갖지 않는다 (projection-ontology, 결정 p0-service-is-a-three-layer-wiki)
+# 정의문 "투영은 항목이 아니므로 층을 갖지 않는다 — 층은 원본 청크만 가진다" 의 실행 자리다. 층을 가진 투영은 CQ-38 에서 이중으로 세어진다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+agt:ProjectionShape a sh:NodeShape ;
+    sh:targetClass agt:View , agt:Skill ;
+    sh:property [
+        sh:path prov:wasDerivedFrom ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "투영(뷰·skill)은 원본 청크를 prov:wasDerivedFrom 으로 하나 이상 가리킨다 — 대상은 생성 도구의 module 코드 청크 IRI 다 (유저 답 Q9-a)" ;
+    ] ;
+    sh:property [
+        sh:path agt:inLayer ;
+        sh:maxCount 0 ;
+        sh:message "투영(뷰·skill)은 층을 갖지 않는다 — 층은 원본 청크만 가진다. 투영에 층을 주면 층별 집계(CQ-38)가 같은 내용을 두 번 센다 (p0-service-is-a-three-layer-wiki)" ;
+    ] .

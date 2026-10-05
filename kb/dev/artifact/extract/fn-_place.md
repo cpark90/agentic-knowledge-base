@@ -7,21 +7,24 @@ title: function _place in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/4994778f-bd6e-485d-b2f6-ec514f2187d9]
 part_of: https://agentic-knowledge-base.dev/id/composite/52eb4f03-55ea-4dfb-be6d-9164da7da5ef
 ---
-**함수** — `_place(regions, node)` 다. 정의를 그것을 담는 가장 깊은 구역에 넣는다.
+**함수** — `_place(regions, node, skip)` 다. 정의를 그것을 담는 가장 깊은 구역에 넣는다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def _place(regions: list[Region], node) -> None:
-    """정의를 그것을 담는 가장 깊은 구역에 넣는다."""
+def _place(regions: list[Region], node, skip: bool = False) -> None:
+    """정의를 그것을 담는 가장 깊은 구역에 넣는다. `skip` 이면 배선이다 — 줄 범위만 적어 제 몫 줄에서 뺀다."""
     for r in regions:
         if r.start <= node.lineno <= r.end:
             if any(c.start <= node.lineno <= c.end for c in r.children):
-                _place(r.children, node)
+                _place(r.children, node, skip)
+            elif skip:
+                start = min([d.lineno for d in getattr(node, "decorator_list", [])] + [node.lineno])
+                r.skipped.append((start, node.end_lineno))
             else:
                 r.defs.append((node.lineno, node))
             return

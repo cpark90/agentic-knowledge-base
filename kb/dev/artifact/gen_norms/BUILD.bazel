@@ -1,0 +1,64 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "gen_norms",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "cls-GenNormsError.md",
+        "fn-_code_span_end.md",
+        "fn-_rebase_line.md",
+        "fn-_spans_closed.md",
+        "fn-_tick_run_end.md",
+        "fn-decision_link.md",
+        "fn-first_sentence_end.md",
+        "fn-flatten.md",
+        "fn-form_of.md",
+        "fn-generate.md",
+        "fn-is_continuation.md",
+        "fn-load_conventions.md",
+        "fn-load_doc.md",
+        "fn-main.md",
+        "fn-plan.md",
+        "fn-rebase_links.md",
+        "fn-rel.md",
+        "fn-render.md",
+        "fn-render_item.md",
+        "fn-render_list.md",
+        "fn-render_table.md",
+        "fn-table_cells.md",
+        "fn-with_links.md",
+        "head.md",
+        "module.md",
+        "sec-load-conventions.md",
+        "sec-load-doc.md",
+        "sec-plan.md",
+        "sec-rebase-links.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/29a3a21d-a74b-4fc0-8764-46de4751e58a",
+    ordered = ["https://agentic-knowledge-base.dev/id/composite/aebd48bd-5503-44d2-a028-ca367564d9a2", "https://agentic-knowledge-base.dev/id/composite/55330362-0aaf-42fe-bd7b-4cfec40c4e75", "https://agentic-knowledge-base.dev/id/composite/4467fb1d-c722-4b87-a22b-5f679ceceee0", "https://agentic-knowledge-base.dev/id/composite/d0c409f2-67d6-42c0-b5be-319def3c320d", "https://agentic-knowledge-base.dev/id/composite/85f4907d-b39a-4898-8cf9-888cf6204fb4"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/composite/aebd48bd-5503-44d2-a028-ca367564d9a2", "https://agentic-knowledge-base.dev/id/composite/55330362-0aaf-42fe-bd7b-4cfec40c4e75", "https://agentic-knowledge-base.dev/id/composite/4467fb1d-c722-4b87-a22b-5f679ceceee0", "https://agentic-knowledge-base.dev/id/composite/d0c409f2-67d6-42c0-b5be-319def3c320d", "https://agentic-knowledge-base.dev/id/composite/85f4907d-b39a-4898-8cf9-888cf6204fb4"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p12-norm-documents-from-section-chunks",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

@@ -1,0 +1,61 @@
+# 게이트 rung-before-descent 의 음성 고정물 — 높이마다 대응물 하나가 빠진 하강 셋 (요구 r-023, 유저 결정 Q51-a).
+# functional→abstract: 결론이 목표 없는 요구 fx-a 를 refines 한다. logical→concrete: logical·concrete 결정 복합체가 기준 없는
+# 목표의 요구 fx-b 에 닿는다. concrete→executable: 파일 청크가 결론을 refines 하는데 요구 fx-c 의 기계 판정 기준을 바인딩한
+# 검증기가 없다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+
+<urn:fx:bad-a>
+    a agt:RequirementChunk ; agt:hasLevel agt:functional ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/requirement/fx-a.md" .
+
+<urn:fx:bad-a-conclusion>
+    a agt:DecisionChunk ; agt:hasLevel agt:concrete ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/decision/fx-a/conclusion.md" ;
+    agt:refines <urn:fx:bad-a> .
+
+<urn:fx:bad-b>
+    a agt:RequirementChunk ; agt:hasLevel agt:functional ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/requirement/fx-b.md" .
+
+<urn:fx:bad-b-goal>
+    a agt:RequirementChunk ; agt:hasLevel agt:functional ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/vv/goal/fx-b-goal.md" ;
+    agt:derivesFrom <urn:fx:bad-b> .
+
+<urn:fx:bad-b-decision>
+    a agt:Composite ;
+    agt:hasDirectPart <urn:fx:bad-b-logical>, <urn:fx:bad-b-conclusion> .
+
+<urn:fx:bad-b-logical>
+    a agt:DecisionChunk ; agt:hasLevel agt:logical ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/decision/fx-b/rationale.md" .
+
+<urn:fx:bad-b-conclusion>
+    a agt:DecisionChunk ; agt:hasLevel agt:concrete ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/decision/fx-b/conclusion.md" ;
+    agt:refines <urn:fx:bad-b> .
+
+<urn:fx:bad-c>
+    a agt:RequirementChunk ; agt:hasLevel agt:functional ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/requirement/fx-c.md" .
+
+<urn:fx:bad-c-goal>
+    a agt:RequirementChunk ; agt:hasLevel agt:functional ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/vv/goal/fx-c-goal.md" ;
+    agt:derivesFrom <urn:fx:bad-c> .
+
+<urn:fx:bad-c-criterion>
+    a agt:ContractChunk ; agt:hasLevel agt:logical ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/vv/criteria/fx-c-criterion.md" ;
+    agt:bodySlot "판정식" ;
+    agt:refines <urn:fx:bad-c-goal> .
+
+<urn:fx:bad-c-conclusion>
+    a agt:DecisionChunk ; agt:hasLevel agt:concrete ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/decision/fx-c/conclusion.md" ;
+    agt:refines <urn:fx:bad-c> .
+
+<urn:fx:bad-c-module>
+    a agt:ArtifactChunk ; agt:hasLevel agt:executable ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/artifact/fx/module.md" ;
+    agt:refines <urn:fx:bad-c-conclusion> .

@@ -7,7 +7,7 @@ title: section tim-cells in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b-5fcc2cc9f893
 ---
@@ -18,14 +18,17 @@ part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 # ── 추적 매트릭스 (TIM — plane×plane 의 허용 칸; 노트 14.1 정정본 3단계 "매트릭스", metrics 3단계 대리 · weave audit 이 같은 정의) ──
-# (링크 종류, 출발 plane, 도착 plane). 앞 8칸은 개발 KB 안의 정제·대체·만족 링크, 뒤 7칸은 V&V 사슬(p8-scenario-ladder-rungs ·
+# (링크 종류, 출발 plane, 도착 plane). 앞 7칸은 개발 KB 안의 정제·대체·만족 링크, 뒤 6칸은 V&V 사슬(p8-scenario-ladder-rungs ·
 # p8-pass-criteria): 목표 derivesFrom 요구 · 기준 refines 목표 · 케이스 refines 기준 · 검증기 refines 케이스, 같은 높이의 verifies —
-# logical 기준 → 결정, concrete 케이스 → 결정, executable 검증기 → 산출물
+# concrete 케이스 → 결정, executable 검증기 → 산출물. logical 높이는 기준이 목표를 refines 하는 것으로 검증 대응이 성립하므로
+# contract→decision `verifies` 칸이 없다 (유저 답 Q30-b, 2026-10-04)
 TIM_CELLS = (("refines", "decision", "requirement"), ("serves", "decision", "requirement"), ("supersedes", "decision", "decision"),
              ("satisfies", "contract", "decision"), ("derivesFrom", "schema", "decision"), ("constrains", "schema", "contract"),
-             ("satisfies", "artifact", "decision"), ("verifies", "requirement", "requirement"),
+             ("satisfies", "artifact", "decision"),
+             # 검증 목표 ↔ 요구의 칸은 `derivesFrom` 하나다 — functional 높이의 검증 대응은 목표가 요구를 derivesFrom 하는
+             # 것으로 성립하므로 `verifies`:requirement→requirement 칸은 두지 않는다 (유저 답 Q30-b · Q52-a)
              ("derivesFrom", "requirement", "requirement"), ("refines", "contract", "requirement"), ("refines", "schema", "contract"),
-             ("refines", "artifact", "schema"), ("verifies", "contract", "decision"), ("verifies", "schema", "decision"),
+             ("refines", "artifact", "schema"), ("verifies", "schema", "decision"),
              ("verifies", "artifact", "artifact"), ("refines", "artifact", "decision"), ("refines", "artifact", "contract"))
 # `refines`:artifact→contract 는 V&V 의 사다리다 — verify 질의 `verifies-without-criteria` 가 "검증기는 합격 기준을
 # refines 해야 한다"를 이미 강제하므로 그 칸이 표에 없던 것은 누락이었다. 중첩 복합체 보정을 고치자(link_cells) 드러났다.

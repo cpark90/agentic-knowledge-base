@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:vv_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "goal",
     srcs = glob(
         ["*.md"],
         allow_empty = True,
@@ -213,6 +213,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "harness-follows-knowledge",
+    src = "harness-follows-knowledge.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/df934d56-8cc4-4f5f-8cbd-7ae5b6bb89f0",
+    plane = "requirement",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
     name = "invalidation-without-survey",
     src = "invalidation-without-survey.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/91dbec7f-3480-49ec-a83b-0273b572afde",
@@ -409,6 +418,7 @@ kb_bundle(
         ":generated-build-drift",
         ":generated-document-form",
         ":generated-document-provenance",
+        ":harness-follows-knowledge",
         ":invalidation-without-survey",
         ":items-declare-assumptions",
         ":labels-before-bodies",

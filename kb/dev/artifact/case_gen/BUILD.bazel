@@ -1,0 +1,71 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:artifact_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "case_gen",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "module",
+    srcs = [
+        "cls-CaseGenError.md",
+        "fn-assignments.md",
+        "fn-baseline.md",
+        "fn-boundary_values.md",
+        "fn-check_case_template.md",
+        "fn-check_cover.md",
+        "fn-check_interval.md",
+        "fn-check_keep.md",
+        "fn-check_rule.md",
+        "fn-classes.md",
+        "fn-discover.md",
+        "fn-drift.md",
+        "fn-fill.md",
+        "fn-fill_any.md",
+        "fn-generate.md",
+        "fn-in_domain.md",
+        "fn-inside.md",
+        "fn-load_scenario.md",
+        "fn-main.md",
+        "fn-odd_attributes.md",
+        "fn-pairwise_rows.md",
+        "fn-provenance.md",
+        "fn-raw_frontmatter.md",
+        "fn-read_back.md",
+        "fn-render.md",
+        "fn-runner_errors.md",
+        "fn-yaml_fence.md",
+        "fn-yaml_scalar.md",
+        "head.md",
+        "module.md",
+        "sec-check-keep.md",
+        "sec-drift.md",
+        "sec-fill.md",
+        "sec-inside.md",
+        "sec-odd-attributes.md",
+        "sec-render.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/6038262a-0bc8-4f38-bb62-357c9eaeece2",
+    ordered = ["https://agentic-knowledge-base.dev/id/composite/1a0a0d9e-abcb-46ca-bf5b-d530a350816e", "https://agentic-knowledge-base.dev/id/composite/10ce940e-ae6b-4b2e-8d0e-3bb5448ae88e", "https://agentic-knowledge-base.dev/id/composite/c1361b91-dc50-48d4-bb3e-7e5d11c04516", "https://agentic-knowledge-base.dev/id/composite/c6c4a5c0-8ba7-4c89-a79a-bc2544a590be", "https://agentic-knowledge-base.dev/id/composite/7cb71e27-ad8a-449d-b46a-454149642b32", "https://agentic-knowledge-base.dev/id/composite/d35350bd-7f95-4059-82b7-88108831c060", "https://agentic-knowledge-base.dev/id/composite/9b61053c-0a32-44e3-83a7-5cceaaa5c57e"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/composite/1a0a0d9e-abcb-46ca-bf5b-d530a350816e", "https://agentic-knowledge-base.dev/id/composite/10ce940e-ae6b-4b2e-8d0e-3bb5448ae88e", "https://agentic-knowledge-base.dev/id/composite/c1361b91-dc50-48d4-bb3e-7e5d11c04516", "https://agentic-knowledge-base.dev/id/composite/c6c4a5c0-8ba7-4c89-a79a-bc2544a590be", "https://agentic-knowledge-base.dev/id/composite/7cb71e27-ad8a-449d-b46a-454149642b32", "https://agentic-knowledge-base.dev/id/composite/d35350bd-7f95-4059-82b7-88108831c060", "https://agentic-knowledge-base.dev/id/composite/9b61053c-0a32-44e3-83a7-5cceaaa5c57e"],
+    plane = "artifact",
+    level = "executable",
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p8-case-generation",
+    ],
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":module",
+    ],
+)

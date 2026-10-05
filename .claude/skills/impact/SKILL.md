@@ -26,7 +26,7 @@ bazel run //tools:impact -- //kb/dev/decision:<결정> --universe //kb/...
 
 ## 원본
 
-- 절차: [`docs/method.md` 12. 영향 분석](../../../docs/method.md#12-영향-분석)
+- 절차: [`docs/method.md#12-영향-분석`](../../../docs/method.md#12-영향-분석)
 - 도구: `tools/impact.py` (`bazel run //tools:impact`) — 사용법은 docstring 이 원본이다
 
 ```text

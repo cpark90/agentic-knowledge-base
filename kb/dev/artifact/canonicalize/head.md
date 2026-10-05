@@ -10,7 +10,6 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-12T07:47:38Z}
 layer: process
 verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
-refines: [https://agentic-knowledge-base.dev/id/chunk/a9cc1a02-29b3-4f53-8711-8d60a4bea3cf]
 part_of: https://agentic-knowledge-base.dev/id/composite/cf91a784-b983-40fa-afff-ff9105164656
 ---
 **모듈 머리** — `tools/canonicalize.py` 의 모듈 머리 `exit-fail` 다. 모듈 머리

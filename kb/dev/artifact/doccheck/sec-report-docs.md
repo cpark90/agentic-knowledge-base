@@ -7,15 +7,14 @@ title: section report-docs in tools/doccheck.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-doccheck}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5, https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f]
 part_of: https://agentic-knowledge-base.dev/id/composite/379df7df-38d0-4a60-b9ed-27e40b758ea3
-composite: {id: https://agentic-knowledge-base.dev/id/composite/379df7df-38d0-4a60-b9ed-27e40b758ea3, title_ko: 절 복합체 report-docs (tools/doccheck.py), title: section composite report-docs in tools/doccheck.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/64a3fcde-a6b0-422e-a4e7-290fdaca0959, https://agentic-knowledge-base.dev/id/chunk/dbdeebe3-848d-4908-81dc-0c291b07bbe2, https://agentic-knowledge-base.dev/id/chunk/9ad037aa-26ed-4502-92a5-7bc7dd0855a3, https://agentic-knowledge-base.dev/id/chunk/204439f0-e005-4a79-befc-167bfd308ec9, https://agentic-knowledge-base.dev/id/chunk/6d777811-ef05-4ecd-a3c1-78c66baba749, https://agentic-knowledge-base.dev/id/chunk/6550bab7-f62f-40fd-893e-4d46be446f2f, https://agentic-knowledge-base.dev/id/chunk/cbb17652-19dd-4e9e-833d-0e61dfbd4110, https://agentic-knowledge-base.dev/id/chunk/2674f907-6204-42f7-a25e-6789137904d6, https://agentic-knowledge-base.dev/id/chunk/16c7fdef-8fd8-4248-95ec-85ff4668d9bd], part_of: https://agentic-knowledge-base.dev/id/composite/b5da82da-f5cc-4c80-9fbf-d65784ffee7d}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/379df7df-38d0-4a60-b9ed-27e40b758ea3, title_ko: 절 복합체 report-docs (tools/doccheck.py), title: section composite report-docs in tools/doccheck.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/64a3fcde-a6b0-422e-a4e7-290fdaca0959, https://agentic-knowledge-base.dev/id/chunk/dbdeebe3-848d-4908-81dc-0c291b07bbe2, https://agentic-knowledge-base.dev/id/chunk/9ad037aa-26ed-4502-92a5-7bc7dd0855a3, https://agentic-knowledge-base.dev/id/chunk/204439f0-e005-4a79-befc-167bfd308ec9, https://agentic-knowledge-base.dev/id/chunk/6d777811-ef05-4ecd-a3c1-78c66baba749, https://agentic-knowledge-base.dev/id/chunk/6550bab7-f62f-40fd-893e-4d46be446f2f, https://agentic-knowledge-base.dev/id/chunk/cbb17652-19dd-4e9e-833d-0e61dfbd4110, https://agentic-knowledge-base.dev/id/chunk/2674f907-6204-42f7-a25e-6789137904d6], part_of: https://agentic-knowledge-base.dev/id/composite/b5da82da-f5cc-4c80-9fbf-d65784ffee7d}
 ---
 **절** — `tools/doccheck.py` 의 절 `report-docs` 다. 보고 모드 — 문서의 수치 대 생성물의 수치 (V&V 기준 document-table-matches-generated, 현상 agt:documentLag)
 
-**정의** — `num_key` · `name_values` · `snapshot_lines` · `generated_values` · `report_numbers` · `report_doc_path` · `to_rel` · `main` (소스 순서).
+**정의** — `num_key` · `name_values` · `snapshot_lines` · `generated_values` · `report_numbers` · `report_doc_path` · `to_rel` (소스 순서).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
@@ -52,25 +51,5 @@ ADJACENT = re.compile(r"[\s*`]{0,3}$|[\s\d.,%/*`]{0,16}[→~][\s*`]{0,3}$")
 NOISE = re.compile(r"\d{4}-\d{2}(?:-\d{2})?|\d+(?:\.\d+)?절|§\d+|[A-Za-z]+-?\d+(?:~[A-Za-z]?\d+)?")  # 날짜·절 번호·식별자
 CITED = re.compile(r"`bazel [^`]*`|\d{4}-\d{2}-\d{2}")  # 생성 명령이나 시각의 병기 (기준의 둘째 절)
 SNAPSHOT = re.compile(r"스냅샷")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if __name__ == "__main__":
-    sys.exit(main())
 ```
 <!-- 인용 끝 -->

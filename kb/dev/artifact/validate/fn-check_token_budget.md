@@ -7,7 +7,7 @@ title: function check_token_budget in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/386f974f-846c-47c9-99dc-ee866783f5c5, https://agentic-knowledge-base.dev/id/chunk/adf4efcc-f323-49f3-87da-e81bb49bf4f5, https://agentic-knowledge-base.dev/id/chunk/f4d0d4bb-6623-435e-b230-93d98fb7ceac]
 part_of: https://agentic-knowledge-base.dev/id/composite/d62da398-7c0d-493a-9514-8d3ccebe5ca7
@@ -39,10 +39,9 @@ def check_token_budget(shapes: Graph, bzl_path: str, shape_paths: list[str], voc
     declared = {p: kb_lib.body_token_limit(p) for p in planes}
     found: dict[str, set[int]] = {}
     for shape, cls in shapes.subject_objects(SH.targetClass):
-        plane = str(cls).split("/")[-1]
-        if not plane.endswith("Chunk"):
+        plane = kb_lib.plane_of_class(cls)
+        if not plane:
             continue
-        plane = plane[: -len("Chunk")].lower()
         for prop in shapes.objects(shape, SH.property):
             if (prop, SH.path, kb_lib.AGT.tokenCount) not in shapes:
                 continue
@@ -54,7 +53,7 @@ def check_token_budget(shapes: Graph, bzl_path: str, shape_paths: list[str], voc
         if want is None:
             errors.append(f"[{gate}] {where}: shape 가 plane {plane} 의 본문 상한을 {sorted(have)} 로 두는데 그런 plane 이 {bzl_path} 의 PLANES 에 없다")
         elif not have:
-            errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한 {want} 토큰에 대응하는 shape 가 없다 — `agt:{plane.capitalize()}Chunk` 의 `agt:tokenCount` 에 `sh:maxInclusive {want}` 를 단다 (표의 원본은 tools/kb_lib.py 의 BODY_TOKEN_LIMITS 다)")
+            errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한 {want} 토큰에 대응하는 shape 가 없다 — `{chunk2kg.PLANE_CLASS.get(plane, plane)}` 의 `agt:tokenCount` 에 `sh:maxInclusive {want}` 를 단다 (표의 원본은 tools/kb_lib.py 의 BODY_TOKEN_LIMITS 다)")
         elif have != {want}:
             errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한이 갈린다 — tools/kb_lib.py 의 BODY_TOKEN_LIMITS 는 {want}, shape 는 {sorted(have)} 다. 원본은 표이므로 shape 를 맞춘다")
     try:  # 계수기의 고정 — 상한의 단위가 토큰이므로 어휘 파일이 바뀌면 같은 수가 같은 뜻이 아니다
@@ -66,7 +65,7 @@ def check_token_budget(shapes: Graph, bzl_path: str, shape_paths: list[str], voc
         errors.append(f"[{gate}] {Path(path).as_posix()}: 어휘 파일의 sha256 {got} 가 고정값 "
                       f"{kb_lib.TOKENIZER_VOCAB_SHA256} 과 다르다 — 토큰으로 적은 상한이 재현되지 않는다 "
                       f"(ODD id:cond-tokenizer-lock, 고정처는 MODULE.bazel 의 http_file "
-                      f"{kb_lib.TOKENIZER_VOCAB_REPO} 와 tools/kb_lib.py 의 TOKENIZER_VOCAB_SHA256)")
+                      f"{kb_lib.TOKENIZER_VOCAB_REPO} 와 tools/chunk2kg.py 의 TOKENIZER_VOCAB_SHA256)")
     return errors
 ```
 <!-- 인용 끝 -->

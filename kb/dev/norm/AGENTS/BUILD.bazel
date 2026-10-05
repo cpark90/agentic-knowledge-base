@@ -1,0 +1,64 @@
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+
+package(default_visibility = ["//kb:norm_readers"])
+
+exports_files(["BUILD.bazel"])
+
+filegroup(
+    name = "AGENTS",
+    srcs = glob(["*.md"]),
+)
+
+kb_composite(
+    name = "head",
+    srcs = [
+        "communication.md",
+        "golden.md",
+        "head.md",
+        "language.md",
+        "roles-dispatch.md",
+        "roles-table.md",
+        "roles.md",
+        "self-check.md",
+        "work-feedback.md",
+        "work.md",
+    ],
+    conventions = {
+        "p0-no-invented-terms": "https://agentic-knowledge-base.dev/id/composite/049f46d7-97d5-42ae-b0d7-dddf6f35d5fa",
+        "p0-notation-format": "https://agentic-knowledge-base.dev/id/composite/fc68c83c-8feb-47ce-8dea-30f24d2ee645",
+        "p0-odd-scope-assumption": "https://agentic-knowledge-base.dev/id/composite/d892c74e-912c-45df-a36b-cccefabeed74",
+        "p0-prose-assertive-register": "https://agentic-knowledge-base.dev/id/composite/b1717fd1-9b2e-419a-8fc5-21184b6941a7",
+        "p0-terms-from-glossary": "https://agentic-knowledge-base.dev/id/composite/cd23fc9b-1ca6-41e7-b749-5dcb0991796b",
+        "p1-chunk-unit-is-tokens": "https://agentic-knowledge-base.dev/id/composite/128d439b-0863-41e3-8eb3-7c090e7f1742",
+        "p11-dev-profile-role-permissions": "https://agentic-knowledge-base.dev/id/composite/4dbb535c-ea05-4b67-accf-29c2ef7f6ee3",
+        "p11-execution-mode-and-workset": "https://agentic-knowledge-base.dev/id/composite/7e1f24c0-e217-46a1-8599-5fd5ac39e486",
+        "p11-harness-two-channels": "https://agentic-knowledge-base.dev/id/composite/bb2307b6-884f-43ba-bee6-7b1185c43e3a",
+        "p11-input-validation-shapes": "https://agentic-knowledge-base.dev/id/composite/23431e57-2877-4a0f-9f25-9f8dabdfc792",
+        "p11-role-sessions-and-dispatch-models": "https://agentic-knowledge-base.dev/id/composite/04ec773f-bf28-4ae8-a8d6-5fc4012dff58",
+        "p11-session-output-goes-to-artifacts": "https://agentic-knowledge-base.dev/id/composite/23cf6ac9-f4b7-498b-88dc-84e70d2d5f8c",
+        "p11-user-question-has-five-parts": "https://agentic-knowledge-base.dev/id/composite/85053389-9f78-4781-9357-d559a7b7ed90",
+        "p2-ontology-as-vocabulary": "https://agentic-knowledge-base.dev/id/composite/0a751e1a-d819-45e5-8425-54945c706108",
+        "p4-one-file-one-topic": "https://agentic-knowledge-base.dev/id/composite/f56035ce-db13-4b21-a3a2-5f5a173f7e03",
+        "p6-gate-catalogue": "https://agentic-knowledge-base.dev/id/composite/33c8a1a1-fc90-4ce7-83a9-20c607a7c163",
+        "p6-self-check-before-completion": "https://agentic-knowledge-base.dev/id/composite/3e29e698-8ef5-4fe2-ac1b-867e596a5179",
+        "p7-dev-roles-and-scopes": "https://agentic-knowledge-base.dev/id/composite/92f76b7c-3bd8-4e3c-a014-61c6aec60af4",
+        "pe-kg-hand-and-generated-files": "https://agentic-knowledge-base.dev/id/composite/3b6eaa94-2497-48bd-96c7-2b84963394d7",
+        "pe-knowledge-files-are-gate-inputs": "https://agentic-knowledge-base.dev/id/composite/5adbc91e-1e33-46f6-bf34-c2d5f037c068",
+    },
+    iri = "https://agentic-knowledge-base.dev/id/composite/1267fef2-8d09-45ef-94f3-ee31ceaafac9",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/2d1ecf11-0ae1-47e3-9c26-b3af93eec29f", "https://agentic-knowledge-base.dev/id/chunk/3f70f62c-52e4-4b62-ae94-f40c673811a8", "https://agentic-knowledge-base.dev/id/composite/093e6219-b761-40c7-92c6-d960ad7ce5ac", "https://agentic-knowledge-base.dev/id/composite/5f368a16-0f39-46a7-aa01-26ec953775fb", "https://agentic-knowledge-base.dev/id/chunk/d6b63599-57d2-44ee-83da-5db210c94094", "https://agentic-knowledge-base.dev/id/chunk/1b01535f-d1ef-40e8-b41f-05c607f6ded4", "https://agentic-knowledge-base.dev/id/chunk/fc5b71dc-3637-48e3-a344-aeac11fcbb88"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2d1ecf11-0ae1-47e3-9c26-b3af93eec29f", "https://agentic-knowledge-base.dev/id/chunk/3f70f62c-52e4-4b62-ae94-f40c673811a8", "https://agentic-knowledge-base.dev/id/composite/093e6219-b761-40c7-92c6-d960ad7ce5ac", "https://agentic-knowledge-base.dev/id/composite/5f368a16-0f39-46a7-aa01-26ec953775fb", "https://agentic-knowledge-base.dev/id/chunk/d6b63599-57d2-44ee-83da-5db210c94094", "https://agentic-knowledge-base.dev/id/chunk/1b01535f-d1ef-40e8-b41f-05c607f6ded4", "https://agentic-knowledge-base.dev/id/chunk/fc5b71dc-3637-48e3-a344-aeac11fcbb88"],
+    plane = "norm",
+    level = "logical",
+    status = "draft",
+)
+
+# 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
+kb_bundle(
+    name = "kg",
+    items = [
+        ":head",
+    ],
+)

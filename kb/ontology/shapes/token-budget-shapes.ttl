@@ -38,3 +38,7 @@ agt:ArtifactTokenBudgetShape a sh:NodeShape ;
     sh:targetClass agt:ArtifactChunk ;
     sh:property [ sh:path agt:tokenCount ; sh:maxInclusive 2856 ;
         sh:message "artifact 청크의 본문은 2,856 토큰(42×68) 이하여야 한다 — 상한은 plane 별 프로파일 파라미터이고 정의처는 tools/kb_lib.py 의 BODY_TOKEN_LIMITS 다 (p7-code-extraction-direction)" ] .
+
+agt:NormTokenBudgetShape a sh:NodeShape ;
+    sh:targetClass agt:DocumentSectionChunk ;
+    sh:property [ sh:path agt:tokenCount ; sh:maxInclusive 1092 ; sh:message "본문은 1,092 토큰(42×26) 이하여야 한다 (p1-chunk-unit-is-tokens)" ] .

@@ -10,7 +10,6 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T16:38:13Z}
 layer: process
 verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
-refines: [https://agentic-knowledge-base.dev/id/chunk/7c9d74e6-1a77-4d52-a126-644a65bfab93]
 part_of: https://agentic-knowledge-base.dev/id/composite/020b2093-af80-4cce-8bce-86ac125c1c4a
 ---
 **모듈 머리** — `tools/choices.py` 의 모듈 머리 `agt` 다. 모듈 머리

@@ -1,0 +1,62 @@
+# 게이트 rung-before-descent 의 양성 고정물 — 사다리 사슬이 높이마다 선 꼴 (요구 r-023, 유저 결정 Q51-a).
+# 요구 fx-r 은 목표 → 기계 판정 기준 → 케이스 → 검증기가 이어지고, 결정 복합체(logical·concrete)의 결론이 그 요구를 refines 하며
+# 파일 청크가 결론을 refines 한다. 요구 fx-human 은 사람 확인 기준만 가지므로 검증기 없이 executable 하강이 면제된다 (Q26-a).
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+
+<urn:fx:rung-r>
+    a agt:RequirementChunk ; agt:hasLevel agt:functional ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/requirement/fx-r.md" .
+
+<urn:fx:rung-decision>
+    a agt:Composite ;
+    agt:hasDirectPart <urn:fx:rung-logical>, <urn:fx:rung-conclusion> .
+
+<urn:fx:rung-logical>
+    a agt:DecisionChunk ; agt:hasLevel agt:logical ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/decision/fx-rung/rationale.md" .
+
+<urn:fx:rung-conclusion>
+    a agt:DecisionChunk ; agt:hasLevel agt:concrete ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/decision/fx-rung/conclusion.md" ;
+    agt:refines <urn:fx:rung-r>, <urn:fx:rung-human> .
+
+<urn:fx:rung-module>
+    a agt:ArtifactChunk ; agt:hasLevel agt:executable ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/artifact/fx/module.md" ;
+    agt:refines <urn:fx:rung-conclusion> .
+
+<urn:fx:rung-goal>
+    a agt:RequirementChunk ; agt:hasLevel agt:functional ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/vv/goal/fx-goal.md" ;
+    agt:derivesFrom <urn:fx:rung-r> .
+
+<urn:fx:rung-criterion>
+    a agt:ContractChunk ; agt:hasLevel agt:logical ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/vv/criteria/fx-criterion.md" ;
+    agt:bodySlot "판정식" ;
+    agt:refines <urn:fx:rung-goal> .
+
+<urn:fx:rung-case>
+    a agt:SchemaChunk ; agt:hasLevel agt:concrete ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/vv/case/fx-case.md" ;
+    agt:refines <urn:fx:rung-criterion> .
+
+<urn:fx:rung-verifier>
+    a agt:ArtifactChunk ; agt:hasLevel agt:executable ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/vv/verifier/fx-verifier.md" ;
+    agt:refines <urn:fx:rung-case> .
+
+<urn:fx:rung-human>
+    a agt:RequirementChunk ; agt:hasLevel agt:functional ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/requirement/fx-human.md" .
+
+<urn:fx:rung-human-goal>
+    a agt:RequirementChunk ; agt:hasLevel agt:functional ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/vv/goal/fx-human-goal.md" ;
+    agt:derivesFrom <urn:fx:rung-human> .
+
+<urn:fx:rung-human-criterion>
+    a agt:ContractChunk ; agt:hasLevel agt:logical ; agt:tokenCount 10 ;
+    agt:assertionLocation "kb/vv/criteria/fx-human-criterion.md" ;
+    agt:bodySlot "확인 절차" ;
+    agt:refines <urn:fx:rung-human-goal> .

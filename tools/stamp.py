@@ -20,24 +20,26 @@ head 그래프가 받지 않으므로 그래프에 리비전을 넣지 않는다
       루트는 --root, 없으면 BUILD_WORKSPACE_DIRECTORY(bazel run), 없으면 현재 디렉토리.
       도장 뒤에 `bazel run //tools:extract -- <소스>` 와 `python3 tools/gen_build.py --root .` 를 돌린다.
 출력·종료: 거부는 `FAIL [stamp] <경로>: <근거>` + EXIT_FAIL, 읽을 수 없는 입력은 EXIT_CONFIG.
+`--at` 이 지금보다 뒤이면 거부한다 — 미래 시각의 도장은 테스트 통과보다 앞선 주장이 되고, 게이트는 시계에 의존할 수 없어
+(재현성) 이 판정은 쓰는 시점에만 할 수 있다.
 """
 
 from __future__ import annotations
 
 import argparse
-import hashlib
 import os
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from tools import kb_lib
-    from tools.extract import dump_registry, load_registry
+    from tools.extract import dump_registry, load_registry, source_digest
 except ImportError:
     import kb_lib
-    from extract import dump_registry, load_registry
+    from extract import dump_registry, load_registry, source_digest
 
 TAG = kb_lib.STAMP_GATE
 EXIT_FAIL, EXIT_CONFIG = kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG
@@ -71,7 +73,8 @@ def stamp_one(root: Path, reg_path: Path, rev: str, at: str) -> tuple[str, str]:
         code, rev = git(root, "rev-parse", "HEAD")
         if code != 0 or not rev:
             raise ValueError(f"{reg_path}: git 리비전을 읽을 수 없다 — `--rev` 로 준다")
-    reg["tested"] = {"rev": rev, "at": at, "source_hash": hashlib.sha256(src.read_bytes()).hexdigest()[:16]}
+    # 해시는 추출기와 같은 함수다 — 질의 디렉토리(EXTRACTED_QUERY_DIRS)는 파일 전부의 해시이고 둘이 갈리면 도장이 무효가 된다
+    reg["tested"] = {"rev": rev, "at": at, "source_hash": source_digest(src)}
     reg_path.write_text(dump_registry(reg), encoding="utf-8")
     return reg["source"], rev
 
@@ -85,6 +88,16 @@ def main() -> int:
     a = ap.parse_args()
     root = Path(os.path.abspath(a.root or os.environ.get("BUILD_WORKSPACE_DIRECTORY") or "."))
     at = a.at or kb_lib.now_utc()
+    if a.at:
+        try:
+            when = datetime.fromisoformat(a.at.strip().replace("Z", "+00:00"))
+        except ValueError:
+            print(f"FAIL [{TAG}] --at {a.at!r}: ISO 8601 이 아니다", file=sys.stderr)
+            return EXIT_FAIL
+        when = when.astimezone() if when.tzinfo is None else when
+        if when > datetime.now(timezone.utc):
+            print(f"FAIL [{TAG}] --at {a.at}: 지금보다 뒤다 — 미래 시각의 도장은 쓰지 않는다 (`date -Iseconds` 실측값)", file=sys.stderr)
+            return EXIT_FAIL
     done = []
     for rel in a.registries:
         reg_path = root / rel if not Path(rel).is_absolute() else Path(rel)

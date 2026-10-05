@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:vv_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "verdict",
     srcs = glob(
         ["*.md"],
         allow_empty = True,
@@ -46,7 +46,7 @@ kb_chunk(
     src = "doccheck-report-not-wrappable-as-case.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/46331050-051b-4054-8445-63ffee582cf9",
     plane = "annotation",
-    level = "abstract",
+    level = "logical",
     status = "draft",
 )
 
@@ -258,6 +258,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "note-fidelity-projection-input",
+    src = "note-fidelity-projection-input.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/076fb076-831c-4734-91e2-0a91fb1363a7",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "risk-causality-weak-pairs",
     src = "risk-causality-weak-pairs.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/8aa5baf8-3c38-4f46-b7bc-00a2f292a980",
@@ -294,6 +303,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "session-judge-accuracy-first-sample",
+    src = "session-judge-accuracy-first-sample.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/27232738-729e-4860-ac93-ee0db71f4c58",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "session-judge-agreement-first-sample",
     src = "session-judge-agreement-first-sample.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/9fd4ae9c-85a9-4b4e-91f7-8104bdbe7ce2",
@@ -308,6 +326,42 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/37e5d11c-da21-4507-ba87-e96d60225f6f",
     plane = "annotation",
     level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "tim-constrains-schema-contract",
+    src = "tim-constrains-schema-contract.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1c529a5e-a476-47d1-8551-78d829948e2e",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "tim-satisfies-artifact-decision",
+    src = "tim-satisfies-artifact-decision.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/75674287-1ab8-435b-afbb-279783249869",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "tim-verifies-contract-decision",
+    src = "tim-verifies-contract-decision.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/552a1329-8c1a-40ec-b1a6-b23d0ba545ff",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "tim-verifies-requirement-requirement",
+    src = "tim-verifies-requirement-requirement.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8bf294e9-610f-41a0-9939-121b8059c1c9",
+    plane = "annotation",
+    level = "executable",
     status = "draft",
 )
 
@@ -369,12 +423,18 @@ kb_bundle(
         ":judge-labelrepresentsbody-r-026-observations-append-only-judge-a-claude-sonnet-5",
         ":judge-labelrepresentsbody-r-026-observations-append-only-judge-b-claude-sonnet-5",
         ":layer-assignment-audit",
+        ":note-fidelity-projection-input",
         ":risk-causality-weak-pairs",
         ":risk-phenomena-observed-counts",
         ":run-record-verdict-aggregation",
         ":runner-env-leaks-into-case",
+        ":session-judge-accuracy-first-sample",
         ":session-judge-agreement-first-sample",
         ":skipped-negative-stimuli",
+        ":tim-constrains-schema-contract",
+        ":tim-satisfies-artifact-decision",
+        ":tim-verifies-contract-decision",
+        ":tim-verifies-requirement-requirement",
         ":uses-definition-cross-module-observation",
         ":vocab-stimulus-not-minimal",
         ":when-false-suspect-not-a-case",

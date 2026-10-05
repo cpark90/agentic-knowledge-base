@@ -11,6 +11,8 @@ generated: {by: claude/fable-5, at: 2026-10-01T21:00:00+09:00}
 verified: [{by: orchestrator/claude-fable-5-1, at: 2026-10-01T21:05:00+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0071]
+overlapsWith: [https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328]
+restored: [https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328]
 part_of: https://agentic-knowledge-base.dev/id/composite/db06bc97-7100-4ad3-bad0-83fb1c876e1c
 composite: {id: https://agentic-knowledge-base.dev/id/composite/db06bc97-7100-4ad3-bad0-83fb1c876e1c, title_ko: plane과 level의 온톨로지 표현, title: Ontological form of plane and level}
 ---

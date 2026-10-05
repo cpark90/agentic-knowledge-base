@@ -55,7 +55,7 @@
 
 **CQ-06 ❌ 이 항목의 라벨이 본문을 대표하는가.**
 판정 불가다. 기계가 답할 수 없는 질문이라 어휘로 풀 수 없다. 라벨 대표성 지표로 관측한다
-([`open-questions/evaluation-metrics.md`](open-questions/evaluation-metrics.md)).
+([`space/evaluation-metrics-space.md`](../space/evaluation-metrics-space.md)).
 
 ## B. 경계 — ODD·가정·스코프
 
@@ -188,7 +188,7 @@ write는 orchestrator=decision · developer=artifact · vnv=annotation로 겹치
 
 **CQ-30 ❌ 순환 계층·다의어·클래스와 개체 혼동이 있는가.**
 상위 온톨로지 정렬과 추론기가 없어 검사할 수 없다
-([`open-questions/upper-ontology-alignment.md`](open-questions/upper-ontology-alignment.md)).
+([`space/upper-ontology-alignment-space.md`](../space/upper-ontology-alignment-space.md)).
 
 **CQ-35 ✅ 이 온톨로지 개념을 본문에서 쓰는 항목은 무엇인가 (개념 검색).**
 `agt:usesConcept` 역방향 — 본문의 `agt:` 표기에서 추출한 링크. 질의 `CQ-35.rq`, `--bind ?concept=agt:<용어>`.
@@ -204,7 +204,7 @@ write는 orchestrator=decision · developer=artifact · vnv=annotation로 겹치
 **CQ-37 ✅ 살아 있는 결정 중 요구에 닿지 않는 것은 무엇인가 (기여 추적의 여집합).**
 `refines ∪ serves`의 상향 폐포(복합체 형제 경유)로 살아 있는 요구에 닿지 않는 결정. 정의는 `tools/metrics.py`의
 `reaches_req`와 같고 `deprecated`는 결정·요구 양쪽에서 뺀다. 요구 `r-010`의 검증 케이스
-`kb/vv/case/decision-names-requirement.md`가 이 질의로 닫힌다. 질의 `CQ-37.rq`(2026-09-21).
+`kb/vv/verifier/decision-names-requirement.md`가 이 질의로 닫힌다. 질의 `CQ-37.rq`(2026-09-21).
 *실측: 행 0 — 살아 있는 결정 609 전부가 요구에 닿는다. 기대 행 수는 0이다.*
 
 **CQ-38 ✅ 층마다 항목이 몇 개이고 층을 명시하지 않은 항목은 몇 개인가 — 층 할당 감사의 분모.**
@@ -276,11 +276,11 @@ write는 orchestrator=decision · developer=artifact · vnv=annotation로 겹치
 | ~~인용 링크 데이터~~ | **해소**(2026-09-07, 링크 27개) | CQ-20 | `tools/extract_refs.py` |
 | `satisfies`·`refines` 데이터 — 구축이 안 됨 | **데이터** | CQ-13·16·17·18의 답이 부분 | [`method.md` §6](method.md#6-연결) · 읽기·쓰기 집합 기록 |
 | `related/scene`·실행 기록·`defect` | 어휘 | CQ-12·26·27 | [`method.md` §11](method.md#11-검증--vv-층으로) |
-| 상위 온톨로지 정렬·상태 전이 이력 | 어휘 | CQ-23·30 | [`open-questions/`](open-questions/) |
+| 상위 온톨로지 정렬·상태 전이 이력 | 어휘 | CQ-23·30 | [`space/upper-ontology-alignment-space.md`](../space/upper-ontology-alignment-space.md) |
 | 라벨 대표성 판정 | 판정 불가 | CQ-06 | 지표로 관측 |
 
 **다음도 어휘가 아니라 데이터다.** `satisfies`·`refines`는 편집의 부산물로만 생기므로
-하네스가 읽기·쓰기 집합을 기록해야 한다. 그다음이 검증·일반화 어휘다(CQ-12·26·27).
+하네스의 도구가 읽기·쓰기 집합을 기록해야 한다. 그다음이 검증·일반화 어휘다(CQ-12·26·27).
 `roadmap.md`의 "다음 산출"이 이 순서를 따른다.
 
 ## 실행

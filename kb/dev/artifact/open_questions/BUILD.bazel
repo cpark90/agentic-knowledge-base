@@ -7,7 +7,7 @@ package(default_visibility = ["//kb:artifact_readers"])
 exports_files(["BUILD.bazel"])
 
 filegroup(
-    name = "bodies",
+    name = "open_questions",
     srcs = glob(["*.md"]),
 )
 
@@ -17,6 +17,7 @@ kb_composite(
         "fn-cell.md",
         "fn-main.md",
         "fn-question_of.md",
+        "fn-space_rows.md",
         "head.md",
         "module.md",
         "sec-cell.md",

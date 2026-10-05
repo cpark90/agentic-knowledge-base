@@ -7,7 +7,7 @@ title: function generate in tools/gen_skills.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-skills}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/068914d2-cc43-489e-bcbe-f60049946a47, https://agentic-knowledge-base.dev/id/chunk/15e8fdb5-4855-45e7-a8da-d43faba52099, https://agentic-knowledge-base.dev/id/chunk/32e0ebb2-c394-499d-8a6b-3c2f3e5ed23f, https://agentic-knowledge-base.dev/id/chunk/42689d2d-de66-4143-bd55-21a97e71e57c, https://agentic-knowledge-base.dev/id/chunk/9337f5de-4a6b-420b-b51d-2a1afe8ebbae, https://agentic-knowledge-base.dev/id/chunk/f4e15fab-b378-46c2-b8ae-ca2982aa9dcd]
 part_of: https://agentic-knowledge-base.dev/id/composite/b9b38ba6-d689-44c6-814b-4526153a07b1
@@ -46,7 +46,7 @@ def generate(root: Path) -> dict[str, str]:
             raise GenSkillsError(f"kb_lib.SKILLS[{tool}]: {doc.as_posix()} 에 제목 앵커 #{anchor} 가 없다 (GitHub 규칙: 소문자, 공백→-, 구두점 제거)")
         title, what, usage = docstring_parts(src)
         path = root / kb_lib.SKILLS_DIR / kebab(tool) / "SKILL.md"
-        content = render(entry, title, what, usage, f"{DOCS_DIR}/{doc_name}", anchors[doc_name][anchor], depth)
+        content = render(entry, title, what, usage, f"{DOCS_DIR}/{doc_name}", depth)
         errors, _, _ = kb_lib.check_prose(path, content)
         if errors:
             raise GenSkillsError(f"{src.as_posix()} → {path.relative_to(root).as_posix()}: 생성 본문이 산문 규칙 밖이다 — "

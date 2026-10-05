@@ -7,19 +7,19 @@ title: file tools/gates2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gates2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-01T16:06:51Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/e8156600-d7a9-4e0c-b51c-8986083805c7, https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/4f1a7107-6da2-49a5-b29b-7bc2f257f90a, title_ko: 파일 복합체 tools/gates2kg.py, title: file composite tools/gates2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/5b36dc12-5981-480b-b53b-b3d740e777b7, https://agentic-knowledge-base.dev/id/composite/ff1c5437-57a6-409e-86e7-767ffd3d41ff, https://agentic-knowledge-base.dev/id/composite/cda496f2-c562-40ea-bde8-f3fa740db1b1]}
 ---
-**파일** — `tools/gates2kg.py` 다. 139줄 · 최상위 정의 4개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/gates2kg.py` 다. 208줄 · 최상위 정의 6개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 #!/usr/bin/env python3
-"""게이트 등록부(`defs/kb.bzl` 의 `GATES`) → 게이트 그래프(-kg.ttl) 생성기 (M1 단일 정의처, 2026-10-02).
+"""게이트 등록부(`defs/kb.bzl` 의 `GATES`) → 게이트 그래프(-kg.ttl), 뷰·skill 표 → 투영 그래프 생성기 (M1 단일 정의처, 2026-10-02).
 
 게이트는 프로세스 층의 **항목**이다(결정 p0-service-is-a-three-layer-wiki) — 어느 청크의 투영으로도 환원되지
 않으므로 그래프에 개체가 서야 층별 집계(CQ-38)가 셀 자리를 갖는다. 2026-10-01 실측에서 같은 목록이 넷으로
@@ -35,7 +35,14 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/4f1a7107-6da2-49
     `agt:enforcedBy` 의 대상이 그 파일 복합체이고, 없으면 끊긴 링크를 내는 대신 여기서 거부한다
   - 파이썬 밖(`starlark`·`bazel`)인 게이트는 가리킬 코드 청크가 없어 `agt:enforcedBy` 를 갖지 않는다
 
+투영 모드(`--projections`)는 같은 입력에서 뷰·skill 의 개체를 낸다(유저 답 Q9-a, 2026-10-03). 뷰·skill 은 층의
+항목이 아니라 프로세스 층 원본 청크의 **투영**이다 — 개체는 `agt:View`·`agt:Skill` 이고 `prov:wasDerivedFrom` 이
+원본 도구의 `module` 코드 청크(등록부 사이드카의 `ids: module:`)를 가리키며 `agt:inLayer` 를 갖지 않는다. 층은 원본만
+가지므로 CQ-38 의 층 집계가 같은 것을 두 번 세지 않는다. 표의 단일 정의처는 `VIEWS`(뷰 타깃 → 생성 도구)와
+`kb_lib.SKILLS`(skill → 원본 도구)이고, 원본 도구의 `module` 청크가 없으면 끊긴 링크 대신 생성 시점에 거부한다.
+
 사용: gates2kg.py --out gates-kg.ttl --gates defs/kb.bzl [--registry tools/<도구>.chunks.yml ...]
+      gates2kg.py --projections --out projections-kg.ttl --gates defs/kb.bzl --registry tools/<도구>.chunks.yml ...
 출력·종료: 위반은 `FAIL [gates2kg] <원본>: <메시지>` + EXIT_FAIL. 읽을 수 없는 입력은 EXIT_CONFIG.
 """
 from __future__ import annotations

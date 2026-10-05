@@ -7,7 +7,7 @@ title: section uses-key in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b-5fcc2cc9f893
 ---
@@ -37,5 +37,12 @@ USES_PREDICATE = "agt:usesDefinition"
 # 비기 전에 bazel 명령이 먼저 죽는다.
 USES_SOURCES_NAME = "EXTRACTED_SOURCES"  # 방출 경계 리터럴의 이름
 USES_TARGETS_NAME = "USES_TARGETS"       # 치역 경계 리터럴의 이름
+# 질의 디렉토리 리터럴의 이름 — `tools/<이름>/*.rq` 의 질의 파일 하나가 `artifact` 청크 하나다(2단계 편입, 2026-10-03).
+# 단일 정의처는 `defs/kb.bzl` 의 그 리터럴이고 `tools/extract.py` 가 `load_extracted_sources` 로 읽어 디렉토리 소스를 허용한다
+EXTRACTED_QUERY_DIRS_NAME = "EXTRACTED_QUERY_DIRS"
+# Starlark 소스 리터럴의 이름 — `defs/<이름>.bzl` 의 최상위 정의 하나가 `artifact` 청크 하나다(유저 답 Q32-a, 2026-10-04).
+# 단일 정의처는 `defs/kb.bzl` 의 그 리터럴이고 `tools/extract.py` 가 `load_extracted_sources` 로 읽어 `.bzl` 소스를 허용한다
+EXTRACTED_STARLARK_NAME = "EXTRACTED_STARLARK"
+EXTRACT_QUERY_SUFFIX = ".rq"             # 질의 디렉토리에서 추출하는 파일의 접미사 — SPARQL 질의 하나
 ```
 <!-- 인용 끝 -->

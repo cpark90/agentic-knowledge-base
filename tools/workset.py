@@ -100,11 +100,11 @@ def main() -> int:
 
     chunks = {}
     for c in g.subjects(AGT.tokenCount, None):
-        cls = next(g.objects(c, RDF.type)); lvl = str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1]
+        cls = next((t for t in g.objects(c, RDF.type) if kb_lib.plane_of_class(t)), None); lvl = str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1]
         st = str(next(g.objects(c, AGT.status), ""))
         if cls in reads | writes and lvl in window and st != "deprecated":
             ko = next((str(o) for o in g.objects(c, RDFS.label) if o.language == "ko"), "")
-            chunks[c] = (str(cls).split("/")[-1].replace("Chunk", "").lower(), lvl, st, ko, "write" if cls in writes else "read",
+            chunks[c] = (kb_lib.plane_of_class(cls), lvl, st, ko, "write" if cls in writes else "read",
                          str(next(g.objects(c, AGT.assertionLocation), "")))
     # 앵커와 이웃 — K홉 확장(upstream ∪ downstream), 스코프 필터(chunks 밖은 버림), 족별 우선순위, 예산 패킹 (§4 네 단계)
     expanded, anchor, fam = [], None, {}

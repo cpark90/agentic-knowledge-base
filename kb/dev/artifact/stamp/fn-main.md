@@ -7,9 +7,8 @@ title: function main in tools/stamp.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-stamp}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:27:50Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 uses: [https://agentic-knowledge-base.dev/id/chunk/0c73f827-eef2-4929-a126-f9b2c056d037, https://agentic-knowledge-base.dev/id/chunk/580b14fa-6057-4000-9927-c60a4acee79a]
 part_of: https://agentic-knowledge-base.dev/id/composite/9de96dc9-03ab-40b9-a90a-4481f8f9deb7
 ---
@@ -26,6 +25,16 @@ def main() -> int:
     a = ap.parse_args()
     root = Path(os.path.abspath(a.root or os.environ.get("BUILD_WORKSPACE_DIRECTORY") or "."))
     at = a.at or kb_lib.now_utc()
+    if a.at:
+        try:
+            when = datetime.fromisoformat(a.at.strip().replace("Z", "+00:00"))
+        except ValueError:
+            print(f"FAIL [{TAG}] --at {a.at!r}: ISO 8601 이 아니다", file=sys.stderr)
+            return EXIT_FAIL
+        when = when.astimezone() if when.tzinfo is None else when
+        if when > datetime.now(timezone.utc):
+            print(f"FAIL [{TAG}] --at {a.at}: 지금보다 뒤다 — 미래 시각의 도장은 쓰지 않는다 (`date -Iseconds` 실측값)", file=sys.stderr)
+            return EXIT_FAIL
     done = []
     for rel in a.registries:
         reg_path = root / rel if not Path(rel).is_absolute() else Path(rel)

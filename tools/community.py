@@ -144,7 +144,7 @@ def main() -> int:
     for c in g.subjects(AGT.tokenCount, None):
         if str(next(g.objects(c, AGT.status), "")) == "deprecated":
             continue
-        plane = str(next(g.objects(c, RDF.type), "")).split("/")[-1].replace("Chunk", "").lower()
+        plane = kb_lib.plane_of_node(g, c)
         level = str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1]
         chunks[c] = {"plane": plane, "level": level, "ko": label_ko(g, c), "loc": str(next(g.objects(c, AGT.assertionLocation), ""))}
 

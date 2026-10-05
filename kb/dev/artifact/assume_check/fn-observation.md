@@ -7,7 +7,7 @@ title: function observation in tools/assume_check.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-assume-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/a720999d-da2c-4b54-9c40-b64df9c9a74a, https://agentic-knowledge-base.dev/id/chunk/b573f0b1-8e42-4b97-bec6-397c246cd5b9, https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e]
 part_of: https://agentic-knowledge-base.dev/id/composite/aa693393-615e-4f00-ada2-34df72e2832e
@@ -18,7 +18,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/aa693393-615e-4f00-ada2
 ```python
 def observation(now: datetime, cond_rows: list[dict], asms: list[dict], impact: dict, live_n: int, broke: list[str],
                 broke_show: list[str], check: dict | None, sat: dict) -> str:
-    """관측 청크 본문 — 시각·행동·situation 요약 (STYLEGUIDE §4 memory). 42줄 안이다."""
+    """관측 청크 본문 — 시각·행동·situation 요약 (STYLEGUIDE §4 memory). `memory` plane 상한(2,856토큰) 안이다."""
     stamp = kb_lib.utc_stamp(now)  # G3 표기 하나 — frontmatter 와 본문이 같은 꼴을 쓴다 (유저 승인 2026-09-23)
     n_inv = sum(1 for a in asms if a["status"] == "invalidated")
     n_unv = sum(1 for a in asms if a["status"] == "unverified")

@@ -63,6 +63,13 @@ id:doc-harness-recipes
         "하네스 concrete 저장소 (구 harness-recipes)"@ko ;
     prov:atLocation "../harness-concrete" .
 
+# 참조 하네스 — 유저 지시 2026-10-03: strawberry 프로젝트의 하네스(두 세션·수신함 채널·파일 질문지·부팅 스크립트)를 참고해
+# 이 저장소의 하네스를 정돈한다. 내용의 원천일 뿐 빌드 의존이 아니다. 그 하네스의 KNOWLEDGE.md 가 이 지식 베이스가 담으려는 지식의 실례다.
+id:doc-strawberry-harness
+    rdfs:label "strawberry project harness (reference harness)"@en ,
+        "strawberry 프로젝트 하네스 (참조 하네스)"@ko ;
+    prov:atLocation "../strawberry/harness" .
+
 # 유저 결정의 원문 — 채널 항목이 결정의 출처가 될 때. 위치는 git 리비전 + 경로로 적는다 — 채널 파일은 refresh 로 제거되므로
 # 트리 경로는 영속 위치가 아니다 (agrtls P 수렴 규칙). 원문은 `git show <리비전>:<경로>` 로 읽는다.
 id:doc-label-representativeness-protocol
@@ -100,6 +107,23 @@ id:doc-mast-failure-taxonomy
         "MAST — 멀티에이전트 시스템 실패 분류 (Cemri 외, 2025)"@ko ;
     prov:atLocation "https://arxiv.org/abs/2503.13657" .
 
+# Starlark 소스(유저 답 Q32-a, 2026-10-04) — 규칙을 강제하는 코드가 든 .bzl 파일이 추출 원천이다 (defs/kb.bzl EXTRACTED_STARLARK).
+id:src-defs-kb
+    rdfs:label "defs/kb.bzl (Starlark source file, extraction origin)"@en ,
+        "defs/kb.bzl (Starlark 소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "defs/kb.bzl" .
+
+# 질의 디렉토리(2단계 편입, 2026-10-03) — 질의 파일 하나가 청크 하나이고 원천은 디렉토리다 (defs/kb.bzl EXTRACTED_QUERY_DIRS).
+id:src-tools-cq-queries
+    rdfs:label "tools/cq-queries (query directory, extraction origin)"@en ,
+        "tools/cq-queries (질의 디렉토리, 추출 원천)"@ko ;
+    prov:atLocation "tools/cq-queries" .
+
+id:src-tools-verify-queries
+    rdfs:label "tools/verify-queries (query directory, extraction origin)"@en ,
+        "tools/verify-queries (질의 디렉토리, 추출 원천)"@ko ;
+    prov:atLocation "tools/verify-queries" .
+
 # 코드를 청크로(유저 승인 2026-09-30, 추출 방향) — 함수 청크의 원천은 소스 파일이다. tools/*.py 의 파일마다 개체 하나다.
 id:src-tools-kb-lib
     rdfs:label "tools/kb_lib.py (source file, extraction origin)"@en ,
@@ -115,6 +139,11 @@ id:src-tools-canonicalize
     rdfs:label "tools/canonicalize.py (source file, extraction origin)"@en ,
         "tools/canonicalize.py (소스 파일, 추출 원천)"@ko ;
     prov:atLocation "tools/canonicalize.py" .
+
+id:src-tools-case-gen
+    rdfs:label "tools/case_gen.py (source file, extraction origin)"@en ,
+        "tools/case_gen.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/case_gen.py" .
 
 id:src-tools-channel-lint
     rdfs:label "tools/channel_lint.py (source file, extraction origin)"@en ,
@@ -170,6 +199,11 @@ id:src-tools-gen-build
     rdfs:label "tools/gen_build.py (source file, extraction origin)"@en ,
         "tools/gen_build.py (소스 파일, 추출 원천)"@ko ;
     prov:atLocation "tools/gen_build.py" .
+
+id:src-tools-gen-norms
+    rdfs:label "tools/gen_norms.py (source file, extraction origin)"@en ,
+        "tools/gen_norms.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/gen_norms.py" .
 
 id:src-tools-gen-skills
     rdfs:label "tools/gen_skills.py (source file, extraction origin)"@en ,
@@ -240,6 +274,11 @@ id:src-tools-revalidate
     rdfs:label "tools/revalidate.py (source file, extraction origin)"@en ,
         "tools/revalidate.py (소스 파일, 추출 원천)"@ko ;
     prov:atLocation "tools/revalidate.py" .
+
+id:src-tools-run-evidence
+    rdfs:label "tools/run_evidence.py (source file, extraction origin)"@en ,
+        "tools/run_evidence.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/run_evidence.py" .
 
 id:src-tools-space2kg
     rdfs:label "tools/space2kg.py (source file, extraction origin)"@en ,

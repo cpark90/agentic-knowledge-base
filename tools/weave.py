@@ -14,7 +14,7 @@
                 결정 · 사슬 수 · 기준 없는 verifies) / 최근 실행(케이스별 pass·fail·skip 그대로) / 판정 주석(주석 수 · 라벨 분포 · 해소 열림 ·
                 그중 게이트를 막는 issue (blocking); p7-commentary-form) / 가정(최신 assume_check 관측) / 추적 매트릭스
                 (kb_lib.TIM_CELLS — metrics 와 같은 정의) / 검증 표시(verified 주체 종류 · 검증 뒤 수정) / 링크 근거(증거 종류 · 복원 비율) /
-                자족성 선언. bodies 에 //kb/vv:bodies·//kb/dev:bodies 를 준다 (//kg:audit)
+                자족성 선언. bodies 에 //kb/vv·//kb/dev 를 준다 (//kg:audit)
 그래프는 query·metrics 와 같은 union 을 kb_lib.load_union 으로 올린다. 본문은 --bodies 의 청크 파일에서 frontmatter id 로 찾는다.
 사용: weave.py --kind adr|requirements|changelog|audit --out <파일> [--root .] <그래프 ttl …> [--bodies <청크 .md …>]
 종료: 0 생성됨 · 2 입력 문제(kind 밖·그래프 파일 없음·본문 파싱 불가) — 뷰라 판정 실패(1)는 없다. 결정 0건은 빈 절이지 실패가 아니다
@@ -66,9 +66,9 @@ class Model:
 
     def _plane(self, c) -> str:
         for t in self.g.objects(c, RDF.type):
-            name = str(t).split("/")[-1]
-            if name.endswith("Chunk"):
-                return name[: -len("Chunk")].lower()
+            plane = kb_lib.plane_of_class(t)  # 정의처 chunk2kg.CLASS_PLANE — norm 의 클래스는 agt:DocumentSectionChunk 다
+            if plane:
+                return plane
         return ""
 
     def ko(self, node) -> str:
@@ -370,6 +370,47 @@ def round_section(days: Counter, judged: int) -> list[str]:
         + ["", f"- 라운드 {len(days)} · 신규 계열 {series} · 집계에서 뺀 판정 결과 주석(`{kb_lib.JUDGE_GENERATOR}`) {judged}", ""]
 
 
+def round_records(m: Model, by_gen) -> list:
+    """라운드 기록 → [(시각, 청크, 종료 사유)] 오름차순 (유저 답 Q39-c). verify 질의 `round-stop-rule-violated` 와 같은 정의다 —
+    `vv_run` 의 관측(memory) 중 본문이 종료 사유(`agt:RoundEndReason`) 하나를 인용한(`agt:usesConcept`) 것. 시각을 읽을 수 없으면 뺀다."""
+    reasons = set(m.g.subjects(RDF.type, AGT.RoundEndReason))
+    out = []
+    for c in m.chunks:
+        if m.plane[c] != "memory" or by_gen(c) != kb_lib.RUN_GENERATOR:
+            continue
+        cited = sorted((r for r in m.g.objects(c, AGT.usesConcept) if r in reasons), key=str)
+        at = as_dt(m.at(c))
+        if cited and at:
+            out.append((at, c, cited[0]))
+    return sorted(out, key=lambda x: (x[0], str(x[1])))
+
+
+def round_record_section(m: Model, defects: list, rounds: list, judged: int) -> list[str]:
+    """라운드 기록별 신규 주석 절 — 라운드 경계가 날짜가 아니라 `vv_run --round` 의 기록이다 (유저 답 Q39-c).
+
+    new(n) 은 직전 기록 시각 뒤부터 기록 n 의 시각까지 저작된 주석 수이고(첫 라운드는 처음부터) 마지막 기록 뒤의 주석은 진행 중 구간이다.
+    라운드 n 의 신규 수가 라운드 n−1 의 것 이상인데 라운드 n+1 이 정지 규칙이 아닌 사유로 닫혔으면 그 행에 위반을 적는다 —
+    판정은 verify 질의 `round-stop-rule-violated` 가 게이트에서 하고 이 절은 같은 정의로 보인다.
+    """
+    stop = AGT.roundEndedByStopRule
+    rows, counts, prev_at, violations = [], [], None, 0
+    for i, (at, c, reason) in enumerate(rounds):
+        n = sum(1 for t in defects if t <= at and (prev_at is None or t > prev_at))
+        trend = kb_lib.NONE_MARK if not counts else "줄지 않음 — 다음 라운드를 열지 않는다" if n >= counts[-1] else "줄었다"
+        broken = len(counts) >= 2 and counts[-1] >= counts[-2] and reason != stop
+        violations += broken
+        rows.append(f"| {i + 1} | `{Path(m.location[c]).name}` | {kb_lib.utc_stamp(at)} | {n} | {trend} | {m.ko(reason)}"
+                    + (" — **정지 규칙 위반**" if broken else "") + " |")
+        counts.append(n)
+        prev_at = at
+    tail = sum(1 for t in defects if t > prev_at)
+    rows.append(f"| 진행 중 | {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} | {tail} | {kb_lib.NONE_MARK} | {kb_lib.NONE_MARK} |")
+    return ["| 라운드 | 기록 | 구간 끝 | 신규 주석 | 직전 라운드 대비 | 종료 사유 |", "|---|---|---|---|---|---|"] + rows \
+        + ["", f"- 라운드 기록 {len(rounds)} · 신규 계열 {' · '.join(map(str, counts))} · 마지막 기록 뒤 신규 {tail} · "
+               f"집계에서 뺀 판정 결과 주석(`{kb_lib.JUDGE_GENERATOR}`) {judged} · 정지 규칙 위반 {violations} "
+               "(verify 질의 `round-stop-rule-violated` 와 같은 정의)", ""]
+
+
 # ── 절마다 함수 하나 — 각 함수가 자기 절의 본문 조각을 낸다 ────────────────────
 # 가른 기준은 **무엇을 읽는가**다 — 실행·가정 절은 관측 본문을, 나머지는 그래프를 센다.
 
@@ -484,7 +525,12 @@ def _audit_comments(m: Model, g, live: set, pct, by_gen) -> list[str]:
         body += [f"| `{k}` | {v} | {sum(1 for c in open_ if (label_of(c) or kb_lib.NONE_MARK) == k)} |" for k, v in labels.most_common()]
         body += ["", "| 해소 상태 | 주석 수 |", "|---|---|"] + [f"| {k} | {v} |" for k, v in states.most_common()] + [""]
         judged = {c for c in comments if by_gen(c) == kb_lib.JUDGE_GENERATOR}
-        body += round_section(Counter(m.at(c)[:10] for c in comments if c not in judged), len(judged))
+        rounds = round_records(m, by_gen)  # 라운드 기록이 있으면 그것으로 자르고 없으면 날짜 대리로 떨어진다 (옛 기록 호환, 유저 답 Q39-c)
+        if rounds:
+            fresh = [as_dt(m.at(c)) for c in comments if c not in judged]
+            body += round_record_section(m, [t for t in fresh if t], rounds, len(judged))
+        else:
+            body += round_section(Counter(m.at(c)[:10] for c in comments if c not in judged), len(judged))
         if blocking:
             body += ["게이트를 막는 주석:", ""] + [f"- `{Path(m.location[c]).stem}` {m.ko(c)} → "
                      + (" · ".join(m.ko(t) for t in g.objects(c, AGT.targets)) or kb_lib.NONE_MARK) for c in blocking] + [""]

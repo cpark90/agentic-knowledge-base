@@ -7,9 +7,9 @@ title: class Units in tools/link.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/104f7d3c-d114-46c9-aab7-b44761117813, https://agentic-knowledge-base.dev/id/chunk/a7d95ff4-ef90-4353-a266-826a544f37d8, https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99]
+uses: [https://agentic-knowledge-base.dev/id/chunk/104f7d3c-d114-46c9-aab7-b44761117813, https://agentic-knowledge-base.dev/id/chunk/3e0a2fd1-776d-4762-b6e5-538b8cd4987d, https://agentic-knowledge-base.dev/id/chunk/a7d95ff4-ef90-4353-a266-826a544f37d8, https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99]
 part_of: https://agentic-knowledge-base.dev/id/composite/570df80b-916d-466e-a9fe-8a9ac66eea54
 ---
 **클래스** — `class Units` 다. 살아 있는 청크를 단위로 — 결정 복합체(결론 부분이 있는 것)는 결론이 대표하고, 나머지 청크는 자기 자신이 단위다.
@@ -26,6 +26,7 @@ class Units:
         self.status = {c: str(next(g.objects(c, AGT.status), "")) for c in self.chunks}
         self.level = {c: str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1] for c in self.chunks}
         self.loc = {c: str(next(g.objects(c, AGT.assertionLocation), "")) for c in self.chunks}
+        self.by = {c: str(next(g.objects(c, AGT.generatedBy), "")) for c in self.chunks}
         self.live = {c for c in self.chunks if self.status[c] != "deprecated"}
         self.comp_of: dict = {}
         parts = defaultdict(list)
@@ -61,5 +62,12 @@ class Units:
 
     def stem(self, c) -> str:
         return Path(self.loc.get(c, str(c))).stem
+
+    def code_part(self, c) -> bool:
+        """추출 트리 안에서 복합체의 부분인 청크 — 링크 끝점이 아니다. 판정은 게이트 `code-part-link` 와 같은 `kb_lib.code_part` 다."""
+        return kb_lib.code_part(self.loc.get(c, ""), c in self.comp_of)
+
+    def case(self, c) -> bool:
+        return self.by.get(c) == kb_lib.CASE_GEN_ACTOR
 ```
 <!-- 인용 끝 -->

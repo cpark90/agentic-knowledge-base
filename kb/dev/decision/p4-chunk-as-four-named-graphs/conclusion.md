@@ -7,7 +7,8 @@ title: A chunk is four named graphs
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T00:30:10+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93, https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0011]
 part_of: https://agentic-knowledge-base.dev/id/composite/428f00f0-6790-41c0-83a8-bf8a564e848e
@@ -18,7 +19,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/428f00f0-6790-41
 | 그래프 | 담는 것 | 어휘 |
 |---|---|---|
 | **head** | 타입·plane·level·라벨. 나머지 셋을 연결 | `agt:` |
-| **assertion** | 본문. **42줄 제한은 여기만** | plane별 (4.12절) |
+| **assertion** | 본문. **토큰 상한은 여기만** | plane별 (4.12절) |
 | **provenance** | 이 본문이 무엇에서 왔는가 | PROV-O |
 | **pubinfo** | 누가 언제 만들었는가, 버전 | PROV-O |
 

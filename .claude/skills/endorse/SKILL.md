@@ -25,7 +25,7 @@ bazel run //tools:endorse -- --by orchestrator/<모델> --at <ISO 8601> <청크 
 
 ## 원본
 
-- 절차: [`docs/method.md` 13. 저작 흐름과 완료](../../../docs/method.md#13-저작-흐름과-완료)
+- 절차: [`docs/method.md#13-저작-흐름과-완료`](../../../docs/method.md#13-저작-흐름과-완료)
 - 도구: `tools/endorse.py` (`bazel run //tools:endorse`) — 사용법은 docstring 이 원본이다
 
 ```text

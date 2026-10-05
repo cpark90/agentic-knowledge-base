@@ -14,6 +14,7 @@
                      `!=`·`![` 는 산문이 아니다. TTL 청크는 산문 검사 대상이 아니다. 추측·구어는 consistency ⑦ 보고다.
                      type: decision 인 .md 는 역할 표지(STYLEGUIDE §4, 게이트 id `decision-role`)도 본다 — 본문 첫 산문 줄이
                      굵은 표지로 시작해야 한다. conclusion.md·rationale.md·alternatives.md 는 각각 **결론**·**근거**·**대안**,
+                     선택 넷째 conventions.md 는 **규약**(결정 p4-convention-slot — 이어지는 `규약:` 줄은 목록 항목이 아니다),
                      V&V 시나리오 패키지(kb/vv/scenario)의 `<슬러그>-stimulus.md`·`-factors.md`·`-excluded.md` 는 각각
                      **자극**·**요인**·**배제 자극**(결정 p8-scenario-authoring), 그 밖의 파일명(단일 파일 옛 결정
                      chunks/decision/d-*.md, 단일 청크 시나리오)은 **결론** 이다. 표지 안의 한정어(**대안 없음**)는
@@ -89,7 +90,7 @@ _CELL_CODE = re.compile(r"^`(.*)`$")  # 표 셀의 코드 스팬 — 값은 그 
 
 # ── 요약 지지 참조 (게이트 id summary-support, judge-without-service-2026-09-30 기계 환원 ①) ──────────────────
 # "요약은 집계다" — 요약 블록의 `핵심:` 항목마다 본문의 지지 블록을 가리키는 참조가 있어야 한다(유저 항목이 정의한
-# 검사, docs/feedback/judge-without-service-2026-09-30.md "요약 — `핵심:` 항목을 지지하는 블록이 있는가"). 이 저장소는
+# 검사, harness/user/archive/legacy/judge-without-service-2026-09-30.md "요약 — `핵심:` 항목을 지지하는 블록이 있는가"). 이 저장소는
 # 아직 `[#id]` 참조 체계를 쓰지 않으므로 참조는 이미 통용되는 셋 중 하나로 받는다 — `[#id]` 앵커, `d-NNNN` 결정
 # 식별자(백틱), IRI(백틱), 마크다운 링크. 슬롯이 없는 청크는 검사하지 않는다 — 판정 대상 0건은 PASS 다.
 SUMMARY_KEY_MARKER = "핵심:"

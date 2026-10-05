@@ -7,9 +7,8 @@ title: module head tag in tools/link.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/8d09b0e4-44b4-47b2-9ff6-5da9f3b22e12, https://agentic-knowledge-base.dev/id/chunk/5287133e-f7a3-4913-8aaf-062647cf5491, https://agentic-knowledge-base.dev/id/chunk/6321bf38-7026-4c60-b4fb-7cf3a956b35b]
 part_of: https://agentic-knowledge-base.dev/id/composite/b28a66c9-4140-4beb-bb95-69e12a91e607
 ---
 **모듈 머리** — `tools/link.py` 의 모듈 머리 `tag` 다. 모듈 머리
@@ -39,5 +38,10 @@ KIND_PREFERENCE = ("refines", "derivesFrom", "satisfies", "constrains", "serves"
 # 탈락 사유 — 요약의 분포 열쇠
 R_SELF, R_DEPRECATED, R_SIBLING, R_LINKED = "자기 자신(같은 단위)", "deprecated", "복합체 형제", "이미 링크됨"
 R_DIRECTION, R_CROSS_KB, R_CAP = "TIM 칸은 있으나 단방향·수준 규칙 위반", "KB 가로지름 (overlapsWith 불가 — verifies 뿐)", "상한 k 초과"
+# 구조상 채택될 수 없는 후보 — 위반 사유가 곧 탈락 사유다 (docstring 제약 (가)~(다))
+R_CROSS_LINK = "KB 가로지름 링크 (KB 사이 링크는 verifies 뿐 — 목표 → 요구 derivesFrom 만 예외)"
+R_CODE_PART = "코드 부분 청크가 끝점 (링크는 파일 복합체에)"
+R_CASE_DERIVES = "케이스의 derivesFrom (생성기가 자기 시나리오로 쓴다)"
+STRUCTURAL = (R_CROSS_LINK, R_CASE_DERIVES)
 ```
 <!-- 인용 끝 -->

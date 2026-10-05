@@ -20,18 +20,19 @@ description: 관측에서 뽑은 개념 후보를 검사를 거쳐 온톨로지 
 ## 명령
 
 ```bash
-bazel run //tools:term_propose -- --id <slug> --kind class --parent agt:<상위> --label-ko '<한글>' --label-en '<english>' --definition '<속+종차>' --cq CQ-NN
+bazel run //tools:term_propose -- --id <slug> --kind class --parent agt:<상위> --label-ko '<한글>' --label-en '<english>' --definition '<속+종차>' --cq CQ-NN --derived-from <관측 IRI> --derived-from <관측 IRI>
 ```
 
 ## 원본
 
-- 절차: [`docs/method.md` 10. 일반화](../../../docs/method.md#10-일반화)
+- 절차: [`docs/method.md#10-일반화`](../../../docs/method.md#10-일반화)
 - 도구: `tools/term_propose.py` (`bazel run //tools:term_propose`) — 사용법은 docstring 이 원본이다
 
 ```text
 term_propose.py --id retry-policy --kind class --parent agt:Condition \
 --label-ko "재시도 정책" --label-en "retry policy" \
---definition "…인 조건. (속+종차)" --cq CQ12 [--derived-from <관측 IRI>]
+--definition "…인 조건. (속+종차)" --cq CQ12 \
+--derived-from <관측 IRI> --derived-from <관측 IRI>
 ```
 
 ## 실패 시

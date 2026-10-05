@@ -78,7 +78,10 @@ def docstring_parts(path: Path) -> tuple[str, str, str]:
 
 
 def heading_index(doc: Path) -> dict[str, str]:
-    """문서의 제목 앵커 → 제목 텍스트 (doccheck 의 slug 규칙, 같은 slug 는 -1, -2 …). 코드 펜스 안은 제목이 아니다."""
+    """문서의 제목 앵커 → 제목 텍스트 (doccheck 의 slug 규칙, 같은 slug 는 -1, -2 …). 코드 펜스 안은 제목이 아니다.
+
+    쓰임은 앵커의 실재 확인뿐이다 — 제목 텍스트는 SKILL.md 에 옮기지 않는다(`render`).
+    """
     out, seen, fence = {}, {}, False
     for line in doc.read_text(encoding="utf-8").splitlines():
         if re.match(r"^ {0,3}(`{3,}|~{3,})", line):
@@ -99,8 +102,14 @@ def heading_index(doc: Path) -> dict[str, str]:
 
 # ── skill 조립과 실행 ────────────────────
 
-def render(entry: dict, title: str, what: str, usage: str, section_doc: str, section_text: str, depth: int) -> str:
+def render(entry: dict, title: str, what: str, usage: str, section_doc: str, depth: int) -> str:
+    """SKILL.md 하나. 절차 줄은 문서 경로와 앵커만 적는다 — 제목 텍스트를 옮기지 않는다(2단계 편입, 2026-10-03).
+
+    제목 텍스트를 옮기면 skill 의 원본에 손 문서가 섞인다(원본 셋 = docstring · `kb_lib.SKILLS` · 문서 제목). 앵커는
+    `kb_lib.SKILLS` 항목의 값이라 이미 그 원본 안에 있고, 앵커의 실재는 `generate` 가 여전히 문서에서 확인한다.
+    """
     tool, when = entry["tool"], entry["when"]
+    anchor = entry["section"].split("#", 1)[1]
     up = "../" * depth
     if ": " in when or " #" in when or when[:1] in "[]{}&*!|>'\"%@`,":
         raise GenSkillsError(f"kb_lib.SKILLS[{tool}].when: YAML 평문 스칼라로 쓸 수 없는 문자(': ' · ' #' · 특수 첫 글자)가 있다")
@@ -119,7 +128,7 @@ def render(entry: dict, title: str, what: str, usage: str, section_doc: str, sec
         "## 언제 쓰는가", "", when, "",
         "## 명령", "", "```bash", cmds, "```", "",
         "## 원본", "",
-        f"- 절차: [`{section_doc}` {section_text}]({up}{section_doc}#{entry['section'].split('#', 1)[1]})",
+        f"- 절차: [`{section_doc}#{anchor}`]({up}{section_doc}#{anchor})",
         f"- 도구: `{TOOLS_DIR}/{tool}.py` (`bazel run //{TOOLS_DIR}:{tool}`) — 사용법은 docstring 이 원본이다", "",
         "```text", usage, "```", "",
         "## 실패 시", "",
@@ -158,7 +167,7 @@ def generate(root: Path) -> dict[str, str]:
             raise GenSkillsError(f"kb_lib.SKILLS[{tool}]: {doc.as_posix()} 에 제목 앵커 #{anchor} 가 없다 (GitHub 규칙: 소문자, 공백→-, 구두점 제거)")
         title, what, usage = docstring_parts(src)
         path = root / kb_lib.SKILLS_DIR / kebab(tool) / "SKILL.md"
-        content = render(entry, title, what, usage, f"{DOCS_DIR}/{doc_name}", anchors[doc_name][anchor], depth)
+        content = render(entry, title, what, usage, f"{DOCS_DIR}/{doc_name}", depth)
         errors, _, _ = kb_lib.check_prose(path, content)
         if errors:
             raise GenSkillsError(f"{src.as_posix()} → {path.relative_to(root).as_posix()}: 생성 본문이 산문 규칙 밖이다 — "

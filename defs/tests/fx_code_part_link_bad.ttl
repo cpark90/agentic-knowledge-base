@@ -1,0 +1,28 @@
+# 게이트 code-part-link 의 음성 고정물 — 추출 트리의 절 청크(파일 복합체의 부분)가 결정을 refines 한다.
+# 코드의 링크는 파일 복합체의 선언 청크(module.md) 하나가 갖는다 (p7-code-links-on-file-composite, 유저 결정 Q47-b).
+# 2026-10-05 전의 추출기가 구역 청크에 등록부 링크를 복사하던 꼴이다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+
+<urn:fx:code-module>
+    a agt:ArtifactChunk ;
+    agt:hasLevel agt:executable ;
+    agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/artifact/fx/module.md" ;
+    agt:refines <urn:fx:code-decision> .
+
+<urn:fx:code-section>
+    a agt:ArtifactChunk ;
+    agt:hasLevel agt:executable ;
+    agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/artifact/fx/sec-run.md" ;
+    agt:refines <urn:fx:code-decision> .
+
+<urn:fx:code-file>
+    a agt:Composite ;
+    agt:hasDirectPart <urn:fx:code-section> .
+
+<urn:fx:code-decision>
+    a agt:DecisionChunk ;
+    agt:hasLevel agt:concrete ;
+    agt:tokenCount 10 ;
+    agt:assertionLocation "kb/dev/decision/fx-decision/conclusion.md" .

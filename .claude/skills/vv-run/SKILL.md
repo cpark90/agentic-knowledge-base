@@ -1,6 +1,6 @@
 ---
 name: vv-run
-description: V&V 케이스의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 실행해 케이스의 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.
+description: V&V 케이스·검증기 청크의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 실행해 그 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.
 ---
 
 # vv_run — V&V executor (생성 파일)
@@ -15,24 +15,26 @@ V&V executor — 케이스의 실행 명령 중 허용 목록의 양성 명령�
 
 ## 언제 쓰는가
 
-V&V 케이스의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 실행해 케이스의 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.
+V&V 케이스·검증기 청크의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 실행해 그 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.
 
 ## 명령
 
 ```bash
 bazel run //tools:vv_run -- --record
-bazel run //tools:vv_run -- --case <슬러그>
+bazel run //tools:vv_run -- --verifier <슬러그>
 python3 tools/gen_build.py --root . && bazel test //...
 ```
 
 ## 원본
 
-- 절차: [`docs/method.md` 11. 검증 — V&V 층으로](../../../docs/method.md#11-검증--vv-층으로)
+- 절차: [`docs/method.md#11-검증--vv-층으로`](../../../docs/method.md#11-검증--vv-층으로)
 - 도구: `tools/vv_run.py` (`bazel run //tools:vv_run`) — 사용법은 docstring 이 원본이다
 
 ```text
-bazel run //tools:vv_run -- [--record] [--case <슬러그>…] [--out report.md] [--waivers docs/waivers.md]
-python3 tools/vv_run.py [--record] [--case <슬러그>…] --vocab <어휘 파일>
+bazel run //tools:vv_run -- [--record] [--case <슬러그>…] [--verifier <슬러그>…] [--out report.md] [--waivers docs/waivers.md]
+bazel run //tools:vv_run -- --round stop-rule|budget|complete   (라운드 경계 기록만 — kb/vv/run/round-<UTC>.md, 유저 답 Q39-c)
+python3 tools/vv_run.py [--record] [--case <슬러그>…] [--verifier <슬러그>…] --vocab <어휘 파일>
+선택이 없으면 케이스와 검증기 전부다. `--case` 만 주면 그 케이스만, `--verifier` 만 주면 그 검증기만 돈다.
 ```
 
 ## 실패 시

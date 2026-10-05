@@ -25,7 +25,7 @@ agt:linkKind a owl:ObjectProperty ;
     rdfs:domain agt:Link ;
     rdfs:range rdf:Property ;
     rdfs:label "link kind"@en , "링크 타입"@ko ;
-    skos:definition "이 링크가 어느 타입인가 — 네 족의 잎 속성 중 하나를 가리킨다. 직접 트리플은 링크 타입마다 링크 개체와 함께 항상 생성되고, 상태는 개체의 agt:linkState가 지닌다 (8.2절)."@ko .
+    skos:definition "이 링크가 어느 타입인가 — 세 족의 잎 속성 중 하나를 가리킨다. 직접 트리플은 링크 타입마다 링크 개체와 함께 항상 생성되고, 상태는 개체의 agt:linkState가 지닌다 (8.2절)."@ko .
 
 agt:CandidateLink a owl:Class ;
     rdfs:subClassOf agt:Link ;

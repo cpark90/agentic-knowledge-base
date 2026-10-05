@@ -7,21 +7,24 @@ title: function resolve in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T07:35:51Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/2734434f-58d6-4d30-884c-b79d2c51061b, https://agentic-knowledge-base.dev/id/chunk/54593928-2d60-46f2-8052-357ae60657a0, https://agentic-knowledge-base.dev/id/chunk/66148879-b856-4716-aa7c-9e2273143711, https://agentic-knowledge-base.dev/id/chunk/e177d79e-6e9e-494e-a9f6-6a3fe42a641c]
 part_of: https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986-80ad97804df0
 ---
-**함수** — `resolve(reg, names, hashes, pkg_dir, check)` 다. 등록부 갱신 규칙 (a)~(d).
+**함수** — `resolve(reg, names, hashes, pkg_dir, check, prev)` 다. 등록부 갱신 규칙 (a)~(d).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def resolve(reg: dict, names: list[str], hashes: dict[str, str], pkg_dir: Path, check: bool) -> Ids:
-    """등록부 갱신 규칙 (a)~(d). 개명·삭제는 사람의 편집이므로 안내만 하고 등록부를 고치지 않는다."""
+def resolve(reg: dict, names: list[str], hashes: dict[str, str], pkg_dir: Path, check: bool, prev: dict | None = None) -> Ids:
+    """등록부 갱신 규칙 (a)~(d). 개명·삭제는 사람의 편집이므로 안내만 하고 등록부를 고치지 않는다.
+
+    `prev` 는 트리의 {정규화 해시: 한정 이름} 이다 — 없으면 파이썬 청크의 것(`previous_hashes`)을 읽는다.
+    """
     want, have = set(names), set(reg["ids"])
     gone = sorted(have - want)          # 등록부에 있는데 소스에 없는 이름
     fresh = sorted(n for n in names if n not in have)
-    prev = previous_hashes(pkg_dir)
+    prev = previous_hashes(pkg_dir) if prev is None else prev
     renames = []
     for q in fresh:
         was = prev.get(hashes.get(q, ""))

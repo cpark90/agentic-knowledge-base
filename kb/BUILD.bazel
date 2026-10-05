@@ -48,6 +48,7 @@ package_group(
         "//kb/dev/artifact/...",
         "//kb/dev/annotation/...",
         "//kb/dev/memory/...",
+        "//kb/dev/norm/...",  # 절 청크는 결정의 투영이다 — 결정을 refines 할 수 있다 (p12-norm-documents-from-section-chunks)
         "//kb/vv/...",
         "//kg/...",
         "//tools/...",
@@ -88,6 +89,21 @@ package_group(
     ],
 )
 
+# norm 은 규범 문서의 절 — 결정의 투영이라 마지막 plane 이고 아무 plane 도 그것을 refines 하지 않는다. 절 청크 자신과
+# 그래프·게이트·뷰만 본다 (p12-norm-documents-from-section-chunks, 5.2절)
+package_group(
+    name = "norm_readers",
+    packages = [
+        "//",
+        "//kb",
+        "//kb/dev",
+        "//kb/dev/norm/...",
+        "//kg/...",
+        "//tools/...",
+        "//defs/...",
+    ],
+)
+
 # 작업 집합 뷰의 선택자 — 빌드 설정 (bazel-dependency-review 6단계). bazel build //kg:workset --//kb:role=developer --//kb:anchor=…
 string_flag(name = "role", build_setting_default = "developer")
 
@@ -105,9 +121,9 @@ int_flag(name = "budget", build_setting_default = 5418)
 kb_consistency(
     name = "consistency",
     bodies = [
-        "//kb/dev:bodies",
-        "//kb/vv:bodies",  # 2026-09-19 V&V 사슬이 들어와 비어 있지 않다
-        "//chunks:bodies",
+        "//kb/dev",
+        "//kb/vv",  # 2026-09-19 V&V 사슬이 들어와 비어 있지 않다
+        "//chunks",
     ],
     glossary = "//docs:glossary",
     waivers = "//docs:waivers",  # ⑥ term-drift 면제 선언 (docs/waivers.md)

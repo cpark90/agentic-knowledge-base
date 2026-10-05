@@ -7,7 +7,8 @@ title: Defining planes by verification keeps them domain-neutral; profiles suppl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-22T19:55:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-05T00:30:10+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/5b5edf6d-f638-4c16-bc32-f4d8e6ed9785
 ---
 **근거** (노트 5.1절)
@@ -23,7 +24,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/5b5edf6d-f638-4c16-bc32
 | `decision` | ADR | 논증 구조 검사와 유저 승인 |
 | `schema` | 프로토콜·메시지 스키마 | 스키마 검사기 |
 | `contract` | 인터페이스 시그니처 | 타입 체커·컴파일러 |
-| `artifact` | 함수(42줄 = 함수 하나) | 컴파일·테스트·린터 |
+| `artifact` | 함수(2,856토큰 = 함수 하나) | 컴파일·테스트·린터 |
 | `annotation` | 리뷰 코멘트 | 해소 상태 |
 | `memory` | 세션 관측 | 해당 없음 |
 - 다른 도메인 — 문서 작성이면 `artifact`는 문단, `contract`는 문체·용어 규약,
