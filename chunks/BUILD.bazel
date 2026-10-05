@@ -11,7 +11,6 @@ filegroup(
     ),
 )
 
-# 42줄 게이트 (4.1절)
 kb_chunk_lint_test(
     name = "lint_test",
     chunks = [":chunks"],
