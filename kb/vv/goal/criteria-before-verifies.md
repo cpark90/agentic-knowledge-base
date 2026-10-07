@@ -8,10 +8,11 @@ title: A verifies link without pass criteria must be rejected
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-19T15:40:00+09:00}
+generated: {by: vnv/claude-fable-5-1, at: 2026-10-06T11:23:25+09:00}
+verified: [{by: vnv/claude-sonnet-5-5, at: 2026-10-06T11:23:25+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/63f17c2d-3fdf-4fd0-b05a-ca7b6b89ce46]
 ---
-**검증 목표** — 합격 기준이 검증기와 별도 청크로 존재하고 `verifies` 링크에 바인딩된다는 결정이 verify 계층의 게이트로 강제된다는 것이 보여져야 한다. 기준 없는 `verifies`는 저장소에 들어올 수 없다.
+**검증 목표** — 합격 기준이 검증기와 별도 청크로 존재하고 `verifies` 링크에 바인딩된다는 결정이 verify 실행 계층의 게이트로 강제된다는 것이 보여져야 한다. 기준 없는 `verifies`는 저장소에 들어올 수 없다.
 
 - **이해관계자**: 검증 역할 · 감사 역할 · **관심사**: 판정의 형식화
 

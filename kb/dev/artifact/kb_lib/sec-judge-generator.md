@@ -7,7 +7,7 @@ title: section judge-generator in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/558e3a5c-2634-4500-bc61-15dad26a9821
 composite: {id: https://agentic-knowledge-base.dev/id/composite/558e3a5c-2634-4500-bc61-15dad26a9821, title_ko: 절 복합체 judge-generator (tools/kb_lib.py), title: section composite judge-generator in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/b4059229-f009-4ea7-b6f0-9b5fdb9a936f, https://agentic-knowledge-base.dev/id/chunk/48ed45d6-a852-4def-9baa-eee654691bc7, https://agentic-knowledge-base.dev/id/chunk/2cabfcc4-8242-47a2-9710-9ed682ab9f2b, https://agentic-knowledge-base.dev/id/chunk/00a89f1d-2167-43fb-9e95-4a70385078ae], part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b-5fcc2cc9f893}
@@ -25,7 +25,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/558e3a5c-2634-45
 # 자체가 세션마다 달라질 수 있어 여전히 게이트 밖이다. 게이트는 **판정 로그의 형식과 필수 필드만** 본다(게이트 id
 # judge-log, chunk_lint). 로그의 자리는 V&V KB 의 memory plane 실체, 곧 실행 기록 디렉토리다(vv_run 과 같은 곳,
 # 파일명 접두로 갈린다) — 판정은 노트 8.20절 다섯 V&V 하위 역할 중 judge 의 실행이고 kb/dev/memory 는 개발 KB 쪽
-# 관측의 자리다. 결과 주석은 annotation plane 실체(kb/vv/verdict)에 논평 형식(p7-commentary-form)으로 나간다.
+# 관측의 자리다. 결과 주석은 annotation plane 실체(kb/vv/verdict)에 주석 형식(p7-commentary-form)으로 나간다.
 JUDGE_GENERATOR = "process:judge"         # 판정 로그·결과 주석의 generated.by — 역할이 아니라 writer 검사 밖이다
 JUDGE_LOG_DIR = VV_RUN_DIR                # 판정 로그의 자리 = 실행 기록 디렉토리 (append-only, r-026)
 JUDGE_LOG_PREFIX = "judge-"               # 파일명 judge-<UTC>.md — vv_run 의 run-<UTC>.md 와 한 디렉토리에서 갈린다

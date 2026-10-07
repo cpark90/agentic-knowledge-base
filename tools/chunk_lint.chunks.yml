@@ -7,8 +7,8 @@ source: tools/chunk_lint.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-chunk-lint
 package: kb/dev/artifact/chunk_lint
 layer: process
-at: 2026-10-02T00:08:55Z
-source_hash: 91c03d9be379cebc
+at: 2026-10-05T16:40:36Z
+source_hash: 47996bef9053f0b1
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/d93492e4-f343-4736-b4a5-d04f48a3a75f
   - https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97

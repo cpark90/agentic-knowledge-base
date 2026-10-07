@@ -8,10 +8,11 @@ title: A session's trial and error must remain in the memory plane and rise to a
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-21T22:30:00+09:00}
+generated: {by: vnv/claude-fable-5-1, at: 2026-10-06T10:55:32+09:00}
+verified: [{by: vnv/claude-sonnet-5-5, at: 2026-10-06T10:55:34+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b]
 ---
-**검증 목표** — 단기기억은 memory plane 에 두고 장기기억은 주제 plane 으로 승격하며 승격 규칙은 체계가 고정하지 않는 입력이라는 결정이 두 층의 존재와 승격 사례로 성립한다는 것이 보여져야 한다. 승격 규칙이 입력이므로 언제 무엇을 올리는지는 프로젝트가 정하고 사람이 확인한다.
+**검증 목표** — 단기기억은 memory plane 에 두고 장기기억은 주제 plane 으로 승격하며 승격 규칙은 체계가 고정하지 않는 입력이라는 결정이 단기기억·장기기억 두 자리의 존재와 승격 사례로 성립한다는 것이 보여져야 한다. 승격 규칙이 입력이므로 언제 무엇을 올리는지는 프로젝트가 정하고 사람이 확인한다.
 
 - **이해관계자**: 에이전트 · **관심사**: 일반화
 

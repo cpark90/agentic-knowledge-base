@@ -7,7 +7,8 @@ title: Reproducibility comes from a formal language whose file is the artifact
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0085]
 part_of: https://agentic-knowledge-base.dev/id/composite/3b728259-9d19-4617-a431-35fccffec28c
@@ -17,4 +18,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/3b728259-9d19-46
 
 형식 언어의 어휘는 온톨로지에서 온다 — 언어를 따로 설계하는 것이 아니라 **온톨로지 개념을 그대로 키워드로 쓰는 표기**가 된다.
 
-이 언어는 계층의 **abstract 단계**를 표현한다. functional → abstract 전이가 곧 "이 언어로 옮기기"이며, 이후 단계는 이 언어 위에 도메인과 값을 채우는 것이다.
+이 언어는 정제 계층의 **abstract 단계**를 표현한다. functional → abstract 전이가 곧 "이 언어로 옮기기"이며, 이후 단계는 이 언어 위에 도메인과 값을 채우는 것이다.

@@ -225,7 +225,7 @@ BODY_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")  # 코드 펜스 안은 본문 
 #                 `part_of` 는 선택 키이며 **선언된 복합체**가 다른 복합체의 직접 부분임을 적는다 (p4-composite-as-part-of —
 #                 복합체는 청크 또는 다른 복합체를 부분으로 갖는다). 청크의 최상위 `part_of` 와 자리가 다르다: 앞은 청크의
 #                 소속, 뒤는 복합체의 소속이다. 상위 복합체도 같은 실행의 입력 집합 안에서 선언돼야 하고 사슬은 순환하지
-#                 않는다. 코드 추출(p7-code-links-on-file-composite)의 파일 → 장·절 → 함수 세 층이 이 키로 선다. `ordered` 는 선택 키이고
+#                 않는다. 코드 추출(p7-code-links-on-file-composite)의 파일 → 장·절 → 함수 세 단이 이 키로 선다. `ordered` 는 선택 키이고
 #                 순서가 뜻을 갖는 복합체만 적는다 (결정 p4-composite-order-is-declared). 있으면 `agt:Composite , co:List` 로
 #                 타이핑하고 부분마다 `co:item [ a co:ListItem ; co:index "<1..n>"^^xsd:positiveInteger ; co:itemContent <부분> ]`
 #                 을 그 순서로 낸다. 없으면 `agt:hasDirectPart` 만 낸다(순서 없음) — 순서를 요구하지 않는 것에 순서를 붙이면
@@ -249,7 +249,7 @@ ORDERED_KEY = "ordered"
 # 복합체가 다른 복합체의 부분이 되는 자리 (p4-composite-as-part-of "복합체는 청크 또는 다른 복합체를 부분으로 갖는다").
 # 청크의 최상위 `part_of` 는 그 청크가 어느 복합체의 부분인가이고, `composite.part_of` 는 **선언된 복합체**가 어느
 # 복합체의 부분인가다. 코드의 추출(p7-code-links-on-file-composite)이 이 자리를 처음 쓴다 — 파일 복합체 → 장·절
-# 복합체 → 함수 청크의 세 층은 부분 상한 9(4.5절) 안에서 파일 하나를 담는 유일한 형태다.
+# 복합체 → 함수 청크의 세 단은 부분 상한 9(4.5절) 안에서 파일 하나를 담는 유일한 형태다.
 PART_OF_KEY = "part_of"
 
 
@@ -473,7 +473,7 @@ PREAMBLE = """\
 """
 
 
-# ── 본문 슬롯과 논평 형식 ────────────────────
+# ── 본문 슬롯과 주석 형식 ────────────────────
 
 def body_slots(body: list[str]) -> list[str]:
     """본문이 쓴 슬롯 표지 — 등록된 표지(BODY_SLOT_MARKERS) 가운데 굵은 span 으로 나타난 것, 첫 등장 순서.

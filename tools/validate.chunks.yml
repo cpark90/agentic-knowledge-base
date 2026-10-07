@@ -7,8 +7,8 @@ source: tools/validate.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-validate
 package: kb/dev/artifact/validate
 layer: process
-at: 2026-10-02T00:08:55Z
-source_hash: 738ed3775b9020f9
+at: 2026-10-05T16:40:36Z
+source_hash: e0861b62941b35df
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc
   - https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328

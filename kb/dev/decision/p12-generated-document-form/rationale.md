@@ -7,11 +7,12 @@ title: When form diverges per generator, each document must be learned anew
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-generated-document-standards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5, at: 2026-09-21T21:10:00+09:00}
+generated: {by: orchestrator/claude-opus-5, at: 2026-10-06T10:57:19+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T10:57:27+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6364f6e3-f553-4178-946c-36246fed08a9
 ---
-**근거** — 2026-09-19 실측이 갈래를 셌다. 빈 값의 표기가 네 갈래, 시각 형식이 세 갈래, 머리 문구가 세 갈래, 절 제목 명명이 세 갈래였다. 같은 뜻을 네 가지로 적으면 읽는 쪽이 넷을 다 알아야 한다. 이것은 이 체계가 어휘에서 막는 드리프트와 같은 것이 문서 층에서 일어난 것이다.
+**근거** — 2026-09-19 실측이 갈래를 셌다. 빈 값의 표기가 네 갈래, 시각 형식이 세 갈래, 머리 문구가 세 갈래, 절 제목 명명이 세 갈래였다. 같은 뜻을 네 가지로 적으면 읽는 쪽이 넷을 다 알아야 한다. 이것은 이 체계가 어휘에서 막는 드리프트와 같은 것이 문서 쪽에서 일어난 것이다.
 
 규칙의 출처를 밖에서 가져오는 이유는 `STYLEGUIDE.md` §0의 "표준어가 우선이다"와 같다. markdownlint의 규칙 번호는 구현이 이미 있고 판정이 확정적이다. 지어낸 규칙은 근거를 스스로 대야 하고, 개정될 때 무엇을 다시 볼지 알 수 없다.
 

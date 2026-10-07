@@ -7,7 +7,8 @@ title: A mass FAIL is a signal to suspect the rule before the artefacts, and unw
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-agrtls-practices-review}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T16:30:00+09:00}
+generated: {by: orchestrator/claude-fable-5-1, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
 part_of: https://agentic-knowledge-base.dev/id/composite/b0647639-f82c-4e20-a9ce-73b4e7fdb748
 composite: {id: https://agentic-knowledge-base.dev/id/composite/b0647639-f82c-4e20-a9ce-73b4e7fdb748, title_ko: 게이트 추가 절차와 대량 FAIL의 판정, title: Gate addition procedure and the mass-FAIL ruling}
@@ -18,7 +19,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/b0647639-f82c-4e
 | 단계 | 내용 |
 |---|---|
 | 1 이름 | 게이트 id(kebab, 도구의 `FAIL [<id>]` 태그와 같음) |
-| 2 총람 | `tools.md` 총람에 행 — 무엇을 거부·계층·id·해소 절차(누가·어디서) |
+| 2 총람 | `tools.md` 총람에 행 — 무엇을 거부·실행 계층·id·해소 절차(누가·어디서) |
 | 3 도구 | 실패 종류를 구분해 종료: 판정 실패 1 · 설정·입력 문제 2 · 미실행 3(SKIP은 PASS가 아니다) |
 | 4 첫 실행 | 실태를 그대로 기록 — 몇 건이 왜 걸리는가 |
 | 5 판정 | 대량 FAIL이면 규칙의 범위·정의를 먼저 검토(예: 결론 라벨 형식 197 → 결론만 25). 면제는 `waivers.md`에 선언 |

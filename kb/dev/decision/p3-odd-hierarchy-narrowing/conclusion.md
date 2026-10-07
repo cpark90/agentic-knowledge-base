@@ -7,12 +7,12 @@ title: A child ODD only narrows; exit propagation is asymmetric
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-03T18:30:02+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T18:30:08+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c, https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0066]
 part_of: https://agentic-knowledge-base.dev/id/composite/7699d0eb-b30b-4015-b02c-d7db24b8eed1
-composite: {id: https://agentic-knowledge-base.dev/id/composite/7699d0eb-b30b-4015-b02c-d7db24b8eed1, title_ko: ODD 계층, title: The ODD hierarchy}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/7699d0eb-b30b-4015-b02c-d7db24b8eed1, title_ko: 상위·하위 ODD, title: The ODD hierarchy}
 ---
 **결론** — 3.1절 "하위 시스템 ODD는 상위의 부분집합"을 구체화한다.
 

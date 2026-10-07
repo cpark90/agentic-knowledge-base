@@ -7,7 +7,7 @@ title: function render_axis_sections in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/453be329-3277-4ed7-a036-50df02988fed
 ---
@@ -21,7 +21,7 @@ def render_axis_sections(pct, live, authored, components, filled, skips, skip_pa
           f"- 연결: 저작된 지식의 연결 성분 **{components}**개 (살아 있는 청크 {len(live)} 중 관측·주석 {len(live) - len(authored)}건을 뺀 {len(authored)}개가 링크·복합체·`prov:specializationOf` 로 이어진 덩어리. 목표 1; 1보다 크면 아래 「주 성분 밖 청크」 절이 성분마다 목록을 낸다)",
           f"- 연결: level×level `refines` 매트릭스 채움 {pct(len(filled), 4)} — " + (", ".join(f"{a_}→{b_}" for a_, b_ in filled) or "없음") + " (목표 4/4 = 100.0%)",
           f"- 구체화: level을 한 단계씩 내려가지 않는 `refines` {len(skips)}건 — 결정 복합체 몫 {sum(skip_parts[0].values())}건"
-          f"(결론 {skip_parts[0]['결론']} · 그 밖의 부분 {skip_parts[0]['그 밖의 부분']})과 V&V 사다리 몫 {sum(skip_parts[1].values())}건"
+          f"(결론 {skip_parts[0]['결론']} · 그 밖의 부분 {skip_parts[0]['그 밖의 부분']})과 V&V 정제 계층 몫 {sum(skip_parts[1].values())}건"
           "(" + " · ".join(f"{k_} {skip_parts[1][k_]}" for k_ in VV_LADDER_SKIPS) + f")은 빼고 남는 건너뜀 **{sum(skip_parts[2].values())}**건 (목표 0). "
           "결정 복합체는 abstract·logical·concrete 를 한 복합체로 걸치므로 복합체 단위로 보면 결론(concrete)의 functional 요구 `refines` 는 "
           "건너뜀이 아니다 (p7-decision-spans-three-levels, 유저 결정 2026-10-04). V&V KB(`kb/vv/`) 안의 합격 기준(logical) → 검증 목표(functional) "

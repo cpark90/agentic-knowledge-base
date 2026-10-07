@@ -20,7 +20,7 @@
 | 판정 등급, 안전 정지(최소 위험 조건) | ISO 34503, SAE J3016 |
 | scene · situation · scenario 3분 (관측자 관점 기준) | ISO 34501, Ulbrich et al. |
 | 시나리오 구성 요소 — 행위자 · 행동 · 트리거 | ASAM OpenSCENARIO |
-| 계층 없는 태그 기반 범주화, 태그 범주 | ISO 34504 |
+| 분류 계층 없는 태그 기반 범주화, 태그 범주 | ISO 34504 |
 | abstract 단계 — functional과 logical 사이의 형식화 | ISO 34501, ASAM OpenSCENARIO |
 | 결함의 구성 — 3갈래 요인의 조합으로 위험 시나리오 | ISO 34502 |
 | 알려진 것과 알려지지 않은 것 — 미지 요인 vs 미지 조합 | ISO 21448 |
@@ -96,7 +96,7 @@
 | **EARS** (Mavin, RE'09) | 다섯 패턴 ubiquitous · event-driven(When) · state-driven(While) · unwanted behaviour(If…then) · optional(Where) + complex | 7.2 `requirement` 실체 |
 | **ISO 34503:2023** | 최상위 3범주 **scenery elements** · environmental conditions · dynamic elements | 이 체계의 "정적 요소(static element)"는 scenery의 소프트웨어 적응. "ODD exit"·국문 명칭은 **미확인** |
 | **ODC v5.2** (Chillarege, IBM) | 결함 유형 8: function · interface · checking · assignment · timing/serialization · build/package/merge · documentation · algorithm. **한정자 3: missing · incorrect · extraneous**. 열 때 activity·trigger·impact, 닫을 때 target·type·qualifier·age·source | **정정**: 노트 8.17·결정에 `extraneous` 추가 |
-| **LinkML** | YAML 스키마 → JSON Schema·SHACL·ShEx·OWL·GraphQL·SQL DDL·Python 생성 | 부록 E.1 온톨로지 층의 LinkML |
+| **LinkML** | YAML 스키마 → JSON Schema·SHACL·ShEx·OWL·GraphQL·SQL DDL·Python 생성 | 부록 E.1 온톨로지의 LinkML |
 | **ISO/IEC 15026-2** | 보증 사례 = 최상위 주장 · 논증 · 증거 · 명시 가정. 추론 = 하위 주장(전제)에서 결론 | 증거 기록(9.11)의 "증거" 용어 |
 | **ISO 25964 · ISO/IEC/IEEE 42010** | 통제 어휘 = 개념마다 일관된 라벨 하나를 정한 목록. 뷰 = 뷰포인트 규약에 따라 관심사를 담는 산출물 | 용어집 "통제 어휘"·"뷰" |
 | **rules_python** ([sdist](https://github.com/bazel-contrib/rules_python/issues/2410)) | sdist 빌드 지원(저장소 규칙·빌드 액션). PyYAML ≥ 6.0.1은 sdist 빌드 가능 | **2026-09-11 적용**: `pyyaml==6.0.2`를 잠금에 추가(호스트 휠 + sdist 두 해시), `kb_yaml.py` 삭제 |

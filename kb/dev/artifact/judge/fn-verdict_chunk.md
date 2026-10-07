@@ -7,17 +7,17 @@ title: function verdict_chunk in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/bb657e8b-5946-421e-bfcb-8829e044c9e2]
 part_of: https://agentic-knowledge-base.dev/id/composite/3723c1d5-0d22-4da6-86ca-1b408cdc80dc
 ---
-**함수** — `verdict_chunk(row, q, name, stamp)` 다. 결과 주석 본문 — 논평 형식 (p7-commentary-form).
+**함수** — `verdict_chunk(row, q, name, stamp)` 다. 결과 주석 본문 — 주석 형식 (p7-commentary-form).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def verdict_chunk(row: dict, q: dict, name: str, stamp: str) -> str:
-    """결과 주석 본문 — 논평 형식 (p7-commentary-form). `본문:` 은 판정자가 쓰지 않는다 (규칙 ④)."""
+    """결과 주석 본문 — 주석 형식 (p7-commentary-form). `본문:` 은 판정자가 쓰지 않는다 (규칙 ④)."""
     ko = f"판정 결과 — {q['label']}: 값 {row['value']} · 확신도 {kb_lib.num(row['confidence'])}"
     en = f"Judgement result — {q['label_en']}: value {row['value']}, confidence {kb_lib.num(row['confidence'])}"
     head = ["---", f"id: {ID}chunk/{uuid.uuid4()}", "type: annotation", f"level: {row['level']}",

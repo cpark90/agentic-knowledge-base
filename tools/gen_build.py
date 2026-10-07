@@ -393,7 +393,7 @@ def render_chunks(pkg, items, iri_to_label, visibility, allow_empty=False):
 def render_decisions(items, iri_to_label):
     """//kb/dev/decision — 결정 디렉토리 하나 = kb_decision 하나. 본문 묶음은 세 부분 파일의 명시 목록이다.
 
-    결정은 `<디렉토리>/{conclusion,rationale,alternatives}.md` 의 두 계층이다. `glob` 은 패키지 안 한 계층만 대상으로 하므로
+    결정은 `<디렉토리>/{conclusion,rationale,alternatives}.md` 의 두 디렉토리 깊이다. `glob` 은 패키지 안 한 디렉토리 깊이만 대상으로 하므로
     (STYLEGUIDE §6 [권장]) 깊은 glob 대신 생성기가 이미 열거한 디렉토리에서 파일 목록을 낸다 — 목록의 원본은 트리이고
     이 파일은 뷰다. 세 부분 밖의 `.md` 는 묶음에 들지 않는다.
     """

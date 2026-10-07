@@ -7,17 +7,17 @@ title: function rung_violations in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/6553eed2-c1d9-41a4-b5c8-549f5d93193e, https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99]
 part_of: https://agentic-knowledge-base.dev/id/composite/45dfc4dd-c694-47a7-9a8c-6398612879db
 ---
-**함수** — `rung_violations(g, plane, level, live)` 다. 사다리 사슬의 위반 — `(높이, 하강의 주어, 하강의 대상, 요구)` 의 목록.
+**함수** — `rung_violations(g, plane, level, live)` 다. 정제 계층 사슬의 위반 — `(정제 수준, 정제의 주어, 정제의 대상, 요구)` 의 목록.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def rung_violations(g: Graph, plane: dict, level: dict, live: set) -> list[tuple]:
-    """사다리 사슬의 위반 — `(높이, 하강의 주어, 하강의 대상, 요구)` 의 목록. 높이는 `RUNG_DESCENTS` 의 값이다.
+    """정제 계층 사슬의 위반 — `(정제 수준, 정제의 주어, 정제의 대상, 요구)` 의 목록. 정제 수준은 `RUNG_DESCENTS` 의 값이다.
 
     결정 복합체는 한 단위다(p7-decision-spans-three-levels) — 복합체가 닿는 요구는 그 부분들에서 `refines`·`serves` 를 따라
     올라가 처음 만나는 개발 요구이고, 올라간 끝이 결정 청크나 복합체면 그 복합체의 부분들에서 다시 오른다.

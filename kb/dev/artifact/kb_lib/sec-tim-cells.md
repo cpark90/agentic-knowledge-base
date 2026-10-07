@@ -7,7 +7,7 @@ title: section tim-cells in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b-5fcc2cc9f893
 ---
@@ -30,9 +30,9 @@ TIM_CELLS = (("refines", "decision", "requirement"), ("serves", "decision", "req
              ("derivesFrom", "requirement", "requirement"), ("refines", "contract", "requirement"), ("refines", "schema", "contract"),
              ("refines", "artifact", "schema"), ("verifies", "schema", "decision"),
              ("verifies", "artifact", "artifact"), ("refines", "artifact", "decision"), ("refines", "artifact", "contract"))
-# `refines`:artifact→contract 는 V&V 의 사다리다 — verify 질의 `verifies-without-criteria` 가 "검증기는 합격 기준을
+# `refines`:artifact→contract 는 V&V 의 정제 계층이다 — verify 질의 `verifies-without-criteria` 가 "검증기는 합격 기준을
 # refines 해야 한다"를 이미 강제하므로 그 칸이 표에 없던 것은 누락이었다. 중첩 복합체 보정을 고치자(link_cells) 드러났다.
-# `refines`:artifact→decision 은 코드의 사다리다 (p7-code-links-on-file-composite, 유저 승인 2026-09-30) — 파일 복합체가 결정을 `refines` 하고
+# `refines`:artifact→decision 은 코드의 정제 계층이다 (p7-code-links-on-file-composite, 유저 승인 2026-09-30) — 파일 복합체가 결정을 `refines` 하고
 # 그 결정이 요구에 닿는다. `serves` 가 아닌 까닭은 그 술어의 정의역이 agt:DecisionChunk 이기 때문이다(fulfilment-ontology):
 # artifact 청크가 요구를 직접 serves 하면 추론이 그것을 결정 청크로 만들고 shape DecisionSubstanceShape 이 거부한다.
 # 링크의 구축·복원 구분 (유저 결정 2026-09-12 (b), p10-restored-link-marking) — 기준은 술어가 아니라 **증거 종류**다.

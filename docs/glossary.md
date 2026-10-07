@@ -24,12 +24,12 @@
 | 수준 허용표 | allowed-level matrix (plane × level) | 거주표 · 상주표 | — (서술어) | 1 |
 | 재검증 시점 | revalidation point | 재판정 경계 | 24765 revalidation | 1 |
 | 증거 기록 | evidence record | 장부 · 증거 장부 | ISO/IEC 15026 | 1 |
-| 뷰 | view (generated, never stored) | 없음 | ISO/IEC/IEEE 42010. 투영의 하위 종류다(`agt:View`) | 1 |
+| 뷰 | view (generated, never stored) | 없음 | ISO/IEC/IEEE 42010. 투영의 하위 종류다(`agt:View`) | — |
 | 투영 | projection | 없음 | 원본 청크에서 결정론적으로 생성되는 것이고 층을 갖지 않는다 — 뷰·skill이 그 종류다(`agt:Projection`, 유저 답 Q9-a 2026-10-03). 2026-10-03 전에는 "뷰"의 옛 표기로 금지 목록에 있었다 | 2 |
 | 기여(하다) | contributes to (`serves`) | 봉사(하다) | 요구 추적 | 1 |
-| 할당 · 할당 근거 | allocation · allocation rationale | 배정 · 배정 근거 | ISO 29148 | 1 |
+| 할당 · 할당 근거 | allocation · allocation rationale | 배정 · 배정 근거 | ISO 29148. "배정"은 서비스 층이나 값을 정해 주는 다른 뜻(층 배정 · 값 배정)으로도 쓰여 문맥 공존이다(유저 답 Q73-b, 2026-10-07) | 3 |
 | 지침 | guidance | 지도 청크 | — | 1 |
-| 온톨로지 검사 3단계 · 온톨로지 검사기 | three-stage ontology check (lint · verify · reason) | 컴파일러 3계층 · 온톨로지 컴파일러 | — | 1 |
+| 온톨로지 검사 3단계 · 온톨로지 검사기 | three-stage ontology check (lint · verify · reason) | 컴파일러 3계층 · 3계층 · 온톨로지 컴파일러 | — | 1 |
 | 온톨로지 품질 검사 | ontology quality check | 위생 | — | 1 |
 | 통제 어휘 | controlled vocabulary | 어휘 폐쇄 | ISO 25964 | 1 |
 | ODD 모니터링 | ODD monitoring | ODD 대조 | ISO 34503 | 1 |
@@ -38,10 +38,10 @@
 | 평가 | evaluation (지표 측정, 12.3절) | 평가 | 24765 | — |
 | 주석 | annotation | 논평 | 표준 번역 | 1 |
 | 복합체 | composite | 구성체 | GoF 국문판(김정아 역, 프로텍미디어 2015) "복합체" — 확인됨 | 1 |
-| 코어 온톨로지 · 코어 | core ontology | 골격 | 온톨로지 공학 core/domain | 1 |
+| 코어 온톨로지 · 코어 | core ontology | 골격 | 온톨로지 공학 core/domain. "골격"은 규범 문서의 뼈대(norm plane의 절 청크)라는 다른 뜻으로도 쓰여 문맥 공존이다(유저 답 Q73-b, 2026-10-07) | 3 |
 | 도메인 프로파일 (단축형: 프로파일) | domain profile | — (단축형 인정, 유저 결정 2026-09-12) | OWL 2 profile, ISO 34503. 첫 언급에 한정(도메인·개발·V&V·참조)을 붙이고 이후 단축한다 | — |
 | 신뢰 등급 | trust tier | 트러스트 (티어) | OKF v0.2 | 1 |
-| 검증기 | verifier | verifier | 한글 산문 안의 영문 표기가 옛 표기다. 영문 라벨·식별자(`title`, 디렉토리명 `verifier/`, `verifier_bind`)는 `verifier` 그대로 — 치환 대상은 한글 필드뿐 (유저 결정 2026-09-12); 식별자 히트는 `waivers.md`로 면제 | 1 |
+| 검증기 | verifier | verifier | 한글 산문 안의 영문 표기가 옛 표기다. 영문 라벨·식별자(`title`, 디렉토리명 `verifier/`, `verifier_bind`)는 `verifier` 그대로 — 치환 대상은 한글 필드뿐 (유저 결정 2026-09-12); 식별자 히트는 `waivers.md`로 면제. "verifier"는 경로·플래그·영문 문장의 식별자로 다른 뜻으로 쓰여 문맥 공존이다(유저 답 Q73-b, 2026-10-07) | 3 |
 | 규칙 | rule (구조 규칙, 42줄 규칙) | 규율 | — | 1 |
 | 판정 · 합격 판정 기준 · 판정식 · 판정자 | judgement · pass/fail criteria · predicate · judge | (유지) | ISTQB (국문 용어집 표기는 미확인). 29148 검증 방법 4종과의 대응은 references §1.1 | — |
 | 청크 · 지식 종류(plane) · 수준(level) | chunk · plane · level | (유지) | 유저 결정 2026-09-02·04 | — |
@@ -51,5 +51,13 @@
 | 안전율 (중복의) | safety margin (redundancy) | (신설 2026-09-11) | 공학 일반 safety factor/margin. 본문 중복을 용인하는 근거 — [`p4-redundancy-as-safety-margin`](../kb/dev/decision/p4-redundancy-as-safety-margin/conclusion.md), 경계는 `coUpdatesWith` | — |
 | 작업 집합 · 읽기 집합 · 인수인계 · 게이트 · 승격 | working set · read set · handoff · anchor · gate · promotion | (유지) | OS·DB·품질 관용 | — |
 | 하네스 | harness | (유지) | 정의는 유저 문장 그대로다(Q18-a, 2026-10-03): "하네스는 에이전트를 형성하기 위해서 필요한 행동방침, 도구, 정체성 등이다." 목록은 열려 있다. 기록의 주체는 에이전트이고 하네스의 도구가 기록 수단이다(Q17-b, `r-019`) | 2 |
+| 서비스 층 (단축형: 층) | layer | 요구 층 · development 층 · V&V 층 · 코어 층 · 세 층 바인딩 | 결정 [`p0-service-is-a-three-layer-wiki`](../kb/dev/decision/p0-service-is-a-three-layer-wiki/conclusion.md), 유저 답 Q69-a(2026-10-06). 서비스의 세 층(지식·방법론·프로세스, `agt:Layer`, 키 `layer`)에만 쓴다. 다른 뜻은 새 낱말 없이 풀어 쓴다 | 1 |
+| 실행 계층 | gate tier | 없음 | `defs/kb.bzl` 의 `GATE_TIERS` · 결정 [`p6-gate-catalogue`](../kb/dev/decision/p6-gate-catalogue/conclusion.md). 게이트를 어느 기계가 판정하는가의 다섯(shape·verify·analysis·test·human)에만 쓴다. 하나를 가리키면 "verify 실행 계층"이다 | 2 |
+| 분류 계층 | class hierarchy | 없음 | OWL 2 (`rdfs:subClassOf` 의 상하 관계). 태그 분류와 맞서는 뜻도 이 낱말이다 | 2 |
+| 검증 환경 계층 | test environment level | 없음 | 결정 [`p8-verification-environment-ladder`](../kb/dev/decision/p8-verification-environment-ladder/conclusion.md), 노트 8.9절. 여섯 단계(단위 ~ 실환경)에 쓴다 | 2 |
+| 제목 계층 | heading hierarchy | 없음 | markdownlint MD001 · WCAG 2.2 SC 1.3.1. 마크다운 제목 수준(h1~h6)의 차례에만 쓴다 | 2 |
+| 작업 메모리 (memory plane) | working memory plane | 없음 | 결정 [`p5-plane-by-verification`](../kb/dev/decision/p5-plane-by-verification/conclusion.md) 결론의 plane 표. 항목은 관측(실행 기록 `agt:Run`, [`p0-run-is-an-append-only-memory-chunk`](../kb/dev/decision/p0-run-is-an-append-only-memory-chunk/conclusion.md))이다 | 2 |
+| 단기기억 · 장기기억 | short-term memory · long-term memory | 없음 | 결정 [`p11-memory-promotion-rule`](../kb/dev/decision/p11-memory-promotion-rule/conclusion.md). 단기기억은 `memory` plane(작업 메모리)에 두고, 장기기억은 주제 plane으로 승격한다. 승격 규칙은 체계가 고정하지 않는 입력이다 | 2 |
+| 역할 메모리 | role memory | 없음 | [`harness/agents/hci.md`](../harness/agents/hci.md)의 "역할 메모리" 절과 `.claude/agent-memory/<역할>/`. 세션 역할이 재사용 지식을 남기는 그래프 밖의 자리다. 결정 `p11-memory-promotion-rule`은 역할 메모리를 단기기억·장기기억 어느 쪽으로도 정하지 않는다 | 2 |
 
 표기: **tier** 1 = 기계 치환(`consistency` ⑥이 옛 표기 잔존으로 센다) · 2 = 유저 결정 · 3 = 문맥 공존(바꾸지 않는다 — 옛 표기가 다른 뜻으로도 쓰인다: 증가 의미의 "상승", 지표 측정의 "평가") · — = 옛 표기 없음 (agrtls B, 유저 채택 2026-09-12).

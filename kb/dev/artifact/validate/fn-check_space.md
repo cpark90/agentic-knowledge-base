@@ -7,17 +7,17 @@ title: function check_space in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/6b263b93-09d3-4458-ba0b-03ba81f30852, https://agentic-knowledge-base.dev/id/chunk/7253cc54-4d5c-47ee-b402-6574573c23ef, https://agentic-knowledge-base.dev/id/chunk/8a2be483-4fc8-411f-8f35-b7719552e4e4]
 part_of: https://agentic-knowledge-base.dev/id/composite/700062aa-fcac-4d30-8481-7021a666d072
 ---
-**함수** — `check_space(merged, files)` 다. 설계 공간(agt:Space)의 규율 (결정 p9-candidate-storage, 요구 r-011-no-groundless-assignment, 게이트 id `space`).
+**함수** — `check_space(merged, files)` 다. 설계 공간(agt:Space)의 규칙 (결정 p9-candidate-storage, 요구 r-011-no-groundless-assignment, 게이트 id `space`).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def check_space(merged: Graph, files: dict[str, Graph]) -> list[str]:
-    """설계 공간(agt:Space)의 규율 (결정 p9-candidate-storage, 요구 r-011-no-groundless-assignment, 게이트 id `space`).
+    """설계 공간(agt:Space)의 규칙 (결정 p9-candidate-storage, 요구 r-011-no-groundless-assignment, 게이트 id `space`).
 
     후보는 확정 링크와 다른 자리에 살고 결코 deps 가 되지 않으므로, Bazel 이 로드 시점에 잡아 주는 것(끝점의 실재·방향)을
     여기서 그래프로 대신 판정한다. 검사는 다섯이다.

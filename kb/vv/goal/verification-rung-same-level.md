@@ -8,10 +8,11 @@ title: Each development height must have a verification counterpart at the same 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-21T22:30:00+09:00}
+generated: {by: vnv/claude-fable-5-1, at: 2026-10-06T11:23:25+09:00}
+verified: [{by: vnv/claude-sonnet-5-5, at: 2026-10-06T11:23:25+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/71d2b786-e873-4705-b160-a443603ae0d2]
 ---
-**검증 목표** — 시나리오 계층이 개발 계층과 같은 높이를 갖고 functional 에서는 검증 목표의 `derives-from` 이 필수라는 결정이 분석 시점 규칙과 감사 수치로 성립한다는 것이 보여져야 한다.
+**검증 목표** — V&V KB의 정제 계층이 개발 KB의 정제 계층과 같은 높이를 갖고 functional 에서는 검증 목표의 `derives-from` 이 필수라는 결정이 분석 시점 규칙과 감사 수치로 성립한다는 것이 보여져야 한다.
 
 - **이해관계자**: 검증자 · **관심사**: 완주
 

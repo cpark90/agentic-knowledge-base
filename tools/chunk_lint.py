@@ -194,7 +194,7 @@ def check_blocking_comment(text: str) -> list[tuple[int, str]]:
 def is_judge_log(fields: dict[str, str]) -> bool:
     """판정 로그인가 — 생성자가 판정자이고 plane 이 memory 인 청크 (kb/vv/run/judge-<UTC>.md).
 
-    같은 생성자의 결과 주석(type: annotation)은 논평이라 대상이 아니다 — 그쪽은 review-comment-body-shapes 가 본다.
+    같은 생성자의 결과 주석(type: annotation)은 주석이라 대상이 아니다 — 그쪽은 review-comment-body-shapes 가 본다.
     """
     return fields.get("generated.by") == kb_lib.JUDGE_GENERATOR and fields.get("type") == "memory"
 

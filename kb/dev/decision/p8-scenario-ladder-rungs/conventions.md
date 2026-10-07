@@ -2,12 +2,13 @@
 id: https://agentic-knowledge-base.dev/id/chunk/5d5986e3-0b77-4a50-912f-c17e56088c7f
 type: decision
 level: concrete
-title_ko: 규범 문서 규약 — 시나리오 계층의 세 높이에 검증 대응물이 필수다
+title_ko: 규범 문서 규약 — 시나리오 정제 계층의 세 높이에 검증 대응물이 필수다
 title: Normative-document conventions — Three heights of the scenario ladder require a mandatory rung
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:54:56+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/0ef3233e-c6aa-434b-a0ef-350c857e690e
 ---

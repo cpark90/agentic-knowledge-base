@@ -7,8 +7,8 @@ source: tools/gates2kg.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-gates2kg
 package: kb/dev/artifact/gates2kg
 layer: process
-at: 2026-10-02T00:08:55Z
-source_hash: 9f49e0ca7f3e785d
+at: 2026-10-05T16:40:36Z
+source_hash: 27ecf3cf020e1b73
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/e8156600-d7a9-4e0c-b51c-8986083805c7
   - https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5

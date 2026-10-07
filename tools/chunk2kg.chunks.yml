@@ -7,8 +7,8 @@ source: tools/chunk2kg.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg
 package: kb/dev/artifact/chunk2kg
 layer: process
-at: 2026-10-02T00:08:55Z
-source_hash: 4b623f924c44eee5
+at: 2026-10-05T16:40:36Z
+source_hash: d4e8259967b4e258
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/ab66f02d-6126-4507-b73a-c29429769f11
   - https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2

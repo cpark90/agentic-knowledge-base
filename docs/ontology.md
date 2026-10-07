@@ -1,12 +1,12 @@
 # ontology — 지식의 코어와 분야 프로파일
 
-구조도 v5에 따라 **코어 / development / V&V** 세 층으로 적는다. 온톨로지는 이 체계의 **어휘**다.
-계층의 한 단계가 아니라 계층 전체가 쓰는 어휘다. 이 어휘 밖에서 쓴 지식은 이 체계에 존재하지
+구조도 v5에 따라 **코어 / development / V&V** 셋으로 적는다. 온톨로지는 이 체계의 **어휘**다.
+정제 계층의 한 단계가 아니라 정제 계층 전체가 쓰는 어휘다. 이 어휘 밖에서 쓴 지식은 이 체계에 존재하지
 않는다 ([`id:chunk-d0046`](../chunks/decision/d-0046-ontology-as-vocabulary.md)).
 
-## 코어 — 두 층(코어·프로파일)
+## 코어 — 코어와 프로파일
 
-| 층 | 담는 것 | 누가 만드나 | 위치 |
+| 구분 | 담는 것 | 누가 만드나 | 위치 |
 |---|---|---|---|
 | **코어** | 분야와 무관한 것 — plane, level, 조건, 가정, 역할, 청크·복합체, 링크 타입 | 이 저장소 | `kb/ontology/` (`agt:`) |
 | **분야 프로파일** | 각 plane의 실체와 판정 도구, 조건 어휘 셋째 수준, 도메인 결함 하위 유형, 앵커 해석기 | 분야마다 | `profile/development` — 첫 형태(2026-09-18): 실체 7·판정 도구 6·EARS 패턴 6 |
@@ -85,14 +85,14 @@ mutuallyExclusiveWith·withinDeadline), `entity/knowledge-item`의 `RequirementC
 노트 v3의 CQ1~20과 이 저장소 등록분 CQ-01~32의 대응표도 거기에 있다. 답할 수 없는
 질문이 어휘 확장의 우선순위다.
 
-## development 층 — 개발 KB의 어휘 (노트 7.2)
+## development — 개발 KB의 어휘 (노트 7.2)
 
 | 항목 | 설계 | 이 저장소 |
 |---|---|---|
 | plane 실체 | `RequirementChunk`(EARS 패턴·이해관계자·관심사) · `DecisionChunk`(결론/근거/대안, `serves`) · `ContractChunk`(시그니처, 사전·사후조건) · `SchemaChunk`(호환 관계) · `ArtifactChunk`(앵커) · `AnnotationChunk` · `MemoryChunk` | 클래스 7 **있음**(`entity/knowledge-item`). `serves ⊑ refines` 있음. EARS 패턴·관심사·호환성·표본 근거 유형 어휘 **없음** |
 | 역량 질문 | CQ1 충족 · CQ3 배제 대안 · CQ4 무효 범위 · CQ7 고아 · CQ16 할당 · **CQ19 정제 완주** · **CQ20 후방 추적 귀속** | [competency-questions](competency-questions.md) |
 
-## V&V 층 — V&V KB의 어휘 (노트 8.2, 8.16~8.21, 부록 E.5)
+## V&V — V&V KB의 어휘 (노트 8.2, 8.16~8.21, 부록 E.5)
 
 | 항목 | 설계 | 이 저장소 |
 |---|---|---|

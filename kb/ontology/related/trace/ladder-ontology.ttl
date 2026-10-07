@@ -1,4 +1,4 @@
-# 추적성 — 계층 전이와 시간축의 링크 타입 (노트 6.2절, 8.2절)
+# 추적성 — 수준 전이와 시간축의 링크 타입 (노트 6.2절, 8.2절)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .

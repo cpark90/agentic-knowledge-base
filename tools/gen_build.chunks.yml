@@ -7,8 +7,8 @@ source: tools/gen_build.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build
 package: kb/dev/artifact/gen_build
 layer: process
-at: 2026-10-02T00:08:55Z
-source_hash: e4b29aeb65db7ea4
+at: 2026-10-05T16:40:36Z
+source_hash: 46897a06c38459a0
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/047c5c56-2b6c-4f8b-993e-32f3a35fd1d6
   - https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c

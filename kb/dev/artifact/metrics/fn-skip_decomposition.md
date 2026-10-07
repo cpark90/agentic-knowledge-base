@@ -7,20 +7,20 @@ title: function skip_decomposition in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99]
 part_of: https://agentic-knowledge-base.dev/id/composite/8fa054a4-1f2a-4d86-b98d-3c68ca9a4619
 ---
-**함수** — `skip_decomposition(g, plane, level, comp_of, skips)` 다. 건너뜀을 결정 복합체 몫(슬롯별)·V&V 사다리 몫·나머지(plane·수준 쌍별)로 가른다
+**함수** — `skip_decomposition(g, plane, level, comp_of, skips)` 다. 건너뜀을 결정 복합체 몫(슬롯별)·V&V 정제 계층 몫·나머지(plane·수준 쌍별)로 가른다
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def skip_decomposition(g, plane, level, comp_of, skips):
-    """건너뜀을 결정 복합체 몫(슬롯별)·V&V 사다리 몫·나머지(plane·수준 쌍별)로 가른다 (유저 결정 2026-10-04).
+    """건너뜀을 결정 복합체 몫(슬롯별)·V&V 정제 계층 몫·나머지(plane·수준 쌍별)로 가른다 (유저 결정 2026-10-04).
 
-    V&V 사다리 몫 (유저 답 Q30-b · Q41-a): V&V KB(`kb/vv/`) 안의 두 쌍은 사다리의 허용 구조다(p8-scenario-ladder-rungs).
-    합격 기준(contract, logical) → 검증 목표(requirement, functional) `refines` 는 logical 높이의 검증 대응 그 자체다(Q30-b).
+    V&V 정제 계층 몫 (유저 답 Q30-b · Q41-a): V&V KB(`kb/vv/`) 안의 두 쌍은 정제 계층의 허용 구조다(p8-scenario-ladder-rungs).
+    합격 기준(contract, logical) → 검증 목표(requirement, functional) `refines` 는 logical 정제 수준의 검증 대응 그 자체다(Q30-b).
     검증기(artifact, executable) → 합격 기준(contract, logical) `refines` 는 케이스 없이 기준을 정제하는 비표본 검증기의 꼴이다
     — 비표본 판정에는 표본 케이스가 없다(Q29-a 의 귀결, Q41-a). 둘 다 건너뜀에서 빼고 쌍마다 따로 센다(VV_LADDER_SKIPS).
 

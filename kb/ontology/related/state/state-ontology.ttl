@@ -8,7 +8,7 @@
 
 agt:Workset a owl:Class ;
     rdfs:label "workset"@en , "작업 집합"@ko ;
-    skos:definition "지식 베이스를 스코프 × 수준 창 × 앵커 이웃으로 거른 청크 집합. 질의 결과이며 저장하지 않는다. 인지 측정과 dispatch 전달의 단위다 — 스코프가 plane과 조건을, 수준 창이 계층 높이를 거르고, 앵커 이웃이 양을 거른다 (0.5절, 2026-09-11). 과거 작업 집합은 그 리비전에 같은 질의를 다시 걸어 얻는다. 게이트: kb_workset_view(저장 타깃 없음)."@ko .
+    skos:definition "지식 베이스를 스코프 × 수준 창 × 앵커 이웃으로 거른 청크 집합. 질의 결과이며 저장하지 않는다. 인지 측정과 dispatch 전달의 단위다 — 스코프가 plane과 조건을, 수준 창이 정제 수준의 높이를 거르고, 앵커 이웃이 양을 거른다 (0.5절, 2026-09-11). 과거 작업 집합은 그 리비전에 같은 질의를 다시 걸어 얻는다. 게이트: kb_workset_view(저장 타깃 없음)."@ko .
 
 agt:anchor a owl:ObjectProperty ;
     rdfs:domain agt:Workset ;

@@ -85,7 +85,7 @@ def escape(text: str) -> str:
 # ── 그래프 방출 ────────────────────
 
 def emit(gates: dict, tiers: tuple, layer: str, tools: dict[str, str], outside: tuple, where: str) -> str:
-    """게이트 등록부 → TTL. 키·계층의 위반과 판정 도구의 부재는 생성 시점에 거부한다."""
+    """게이트 등록부 → TTL. 키·실행 계층의 위반과 판정 도구의 부재는 생성 시점에 거부한다."""
     errors = []
     blocks = []
     for gate_id in sorted(gates):
@@ -95,7 +95,7 @@ def emit(gates: dict, tiers: tuple, layer: str, tools: dict[str, str], outside: 
             errors.append(f"{where}: 게이트 {gate_id!r} 에 {', '.join(missing)} 가 없다")
             continue
         if spec["tier"] not in tiers:
-            errors.append(f"{where}: 게이트 {gate_id!r} 의 계층 {spec['tier']!r} 이 어휘 밖이다 — {list(tiers)} 중 하나다")
+            errors.append(f"{where}: 게이트 {gate_id!r} 의 실행 계층 {spec['tier']!r} 이 어휘 밖이다 — {list(tiers)} 중 하나다")
             continue
         props = [
             "a agt:Gate",

@@ -2,16 +2,17 @@
 id: https://agentic-knowledge-base.dev/id/chunk/daaadd68-8582-441a-8ffe-8648125310c6
 type: decision
 level: concrete
-title_ko: 검증 환경은 여섯 단계 계층이고 피라미드 형태를 유지한다
+title_ko: 검증 환경 계층은 여섯 단계이고 피라미드 형태를 유지한다
 title: Verification environments form a six-step ladder shaped as a pyramid
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-22T19:05:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0132]
 part_of: https://agentic-knowledge-base.dev/id/composite/ea0859cb-27fc-4f71-a6a9-66d5e96be952
-composite: {id: https://agentic-knowledge-base.dev/id/composite/ea0859cb-27fc-4f71-a6a9-66d5e96be952, title_ko: 검증 환경의 계층, title: The ladder of verification environments}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/ea0859cb-27fc-4f71-a6a9-66d5e96be952, title_ko: 검증 환경 계층, title: The ladder of verification environments}
 ---
 **결론** — 검증은 **충실도가 낮고 통제 가능한 환경에서 시작해 실제 환경으로 올라간다.** 위로 갈수록 실제에 가깝고 비용이 크며 재현성이 떨어진다. 각 단계는 그 아래 단계로 걸러지지 않은 것만 다룬다. (앞은 제품 검증, 뒤는 에이전트 검증)
 

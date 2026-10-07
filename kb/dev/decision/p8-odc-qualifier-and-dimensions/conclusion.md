@@ -7,7 +7,8 @@ title: Tag defects with a qualifier and three dimensions; the distribution is th
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0142]
 part_of: https://agentic-knowledge-base.dev/id/composite/a70f283f-26aa-465e-9162-51aadc42ec13
@@ -19,6 +20,6 @@ ODC의 다른 차원도 결함 청크의 속성으로 둔다.
 
 - **트리거**(무엇이 드러냈는가) — 검사 게이트 / 테스트 / 리뷰 / 실행 시 / ODD 이탈 대조. 검사 체계의 효과 측정
 - **영향**(무엇이 손상됐는가) — 기능 / 성능 / 추적성 / 가정 건전성 / 커버리지. 우선순위 결정
-- **발견 단계**(계층 어느 단계에서) — functional ~ executable. 정제 단절 지점 측정
+- **발견 단계**(정제 계층 어느 단계에서) — functional ~ executable. 정제 단절 지점 측정
 
 **유형 분포가 진단이다.** 이 추론 규칙을 `defect-rules`에 둔다.

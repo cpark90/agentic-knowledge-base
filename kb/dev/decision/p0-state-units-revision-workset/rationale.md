@@ -7,8 +7,8 @@ title: Enumerating snapshots multiplies storage and raises the question of which
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
-verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/52124ca7-97f8-4b5e-818f-1574ab131484
 ---
 **근거** (노트 0.5절)
@@ -19,4 +19,4 @@ part_of: https://agentic-knowledge-base.dev/id/composite/52124ca7-97f8-4b5e-818f
 - 작업 집합을 저장하지 않는 것도 같은 이유다. 저장하면 질의 조건이 바뀌었을 때
   옛 집합이 남아 무엇이 현재의 dispatch 입력인지 흐려진다.
 - 두 필터가 분리되어 있어야 역할별 조망을 조합으로 만들 수 있다 — plane 권한은
-  스코프가, 계층 높이는 level 창이 담당한다.
+  스코프가, 정제 수준은 level 창이 담당한다.

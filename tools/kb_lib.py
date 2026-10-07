@@ -270,7 +270,7 @@ def kb_of(location: str) -> str:
 def cross_kb_link(kind: str, src: tuple, dst: tuple) -> bool:
     """링크가 KB 를 가로지르는 금지 링크인가 — 끝점은 `(KB, plane, 수준)` 이다(KB 는 `kb_of` 의 값).
 
-    KB 사이 링크는 `verifies` 하나다 (p6-executable-splits-by-kb, docs/rules.md §8). 예외는 사다리의 functional 행
+    KB 사이 링크는 `verifies` 하나다 (p6-executable-splits-by-kb, docs/rules.md §8). 예외는 정제 계층의 functional 행
     하나다 — V&V 검증 목표(kb/vv requirement, functional) → 개발 요구 `derivesFrom` (p8-scenario-ladder-rungs 결론
     "functional 검증 목표 ↔ 요구 — derives-from 필수", TIM 칸 `("derivesFrom", "requirement", "requirement")`).
     판정의 단일 정의처다 — 소비자는 복원 후보 생성기 `tools/link.py` 의 `violation`(후보 탈락)과 게이트
@@ -871,7 +871,7 @@ RUN_VERDICTS = ("pass", "fail", "skip")          # 케이스 판정 — SKIP 은
 # 자체가 세션마다 달라질 수 있어 여전히 게이트 밖이다. 게이트는 **판정 로그의 형식과 필수 필드만** 본다(게이트 id
 # judge-log, chunk_lint). 로그의 자리는 V&V KB 의 memory plane 실체, 곧 실행 기록 디렉토리다(vv_run 과 같은 곳,
 # 파일명 접두로 갈린다) — 판정은 노트 8.20절 다섯 V&V 하위 역할 중 judge 의 실행이고 kb/dev/memory 는 개발 KB 쪽
-# 관측의 자리다. 결과 주석은 annotation plane 실체(kb/vv/verdict)에 논평 형식(p7-commentary-form)으로 나간다.
+# 관측의 자리다. 결과 주석은 annotation plane 실체(kb/vv/verdict)에 주석 형식(p7-commentary-form)으로 나간다.
 JUDGE_GENERATOR = "process:judge"         # 판정 로그·결과 주석의 generated.by — 역할이 아니라 writer 검사 밖이다
 JUDGE_LOG_DIR = VV_RUN_DIR                # 판정 로그의 자리 = 실행 기록 디렉토리 (append-only, r-026)
 JUDGE_LOG_PREFIX = "judge-"               # 파일명 judge-<UTC>.md — vv_run 의 run-<UTC>.md 와 한 디렉토리에서 갈린다
@@ -957,9 +957,9 @@ TIM_CELLS = (("refines", "decision", "requirement"), ("serves", "decision", "req
              ("derivesFrom", "requirement", "requirement"), ("refines", "contract", "requirement"), ("refines", "schema", "contract"),
              ("refines", "artifact", "schema"), ("verifies", "schema", "decision"),
              ("verifies", "artifact", "artifact"), ("refines", "artifact", "decision"), ("refines", "artifact", "contract"))
-# `refines`:artifact→contract 는 V&V 의 사다리다 — verify 질의 `verifies-without-criteria` 가 "검증기는 합격 기준을
+# `refines`:artifact→contract 는 V&V 의 정제 계층이다 — verify 질의 `verifies-without-criteria` 가 "검증기는 합격 기준을
 # refines 해야 한다"를 이미 강제하므로 그 칸이 표에 없던 것은 누락이었다. 중첩 복합체 보정을 고치자(link_cells) 드러났다.
-# `refines`:artifact→decision 은 코드의 사다리다 (p7-code-links-on-file-composite, 유저 승인 2026-09-30) — 파일 복합체가 결정을 `refines` 하고
+# `refines`:artifact→decision 은 코드의 정제 계층이다 (p7-code-links-on-file-composite, 유저 승인 2026-09-30) — 파일 복합체가 결정을 `refines` 하고
 # 그 결정이 요구에 닿는다. `serves` 가 아닌 까닭은 그 술어의 정의역이 agt:DecisionChunk 이기 때문이다(fulfilment-ontology):
 # artifact 청크가 요구를 직접 serves 하면 추론이 그것을 결정 청크로 만들고 shape DecisionSubstanceShape 이 거부한다.
 # 링크의 구축·복원 구분 (유저 결정 2026-09-12 (b), p10-restored-link-marking) — 기준은 술어가 아니라 **증거 종류**다.
@@ -982,10 +982,10 @@ LINK_STATE_CONFIRMED = "confirmed"
 # 계산한다. 대상은 살아 있는 같은 plane 의 청크여야 하고 사슬은 순환하지 않는다 — validate check_specialization 이 FAIL [specialization],
 # 대상 부재는 check_dangling 이 FAIL [dangling] 으로 거부한다. 순환은 chunk2kg 도 (뿌리를 계산할 수 없으므로) 같은 게이트 id 로 거부한다
 
-# ── V&V 사다리 사슬 (게이트 `rung-before-descent` — 요구 r-023-rung-before-descent, 유저 결정 Q51-a · Q52-a) ──────────
-# 같은 높이의 V&V 검증 대응물(p8-scenario-ladder-rungs 가 높이마다 정한 대응물)이 있어야 다음 높이로 내려간다. 판정식은
-# R1 사다리 사슬이다 — 높이마다 개발 하강 하나와 그 하강이 닿는 요구의 V&V 대응물을 짝짓는다.
-#   functional→abstract  개발 하강(결정 결론 concrete → 요구 functional `refines`·`serves`)의 대상 요구를 derivesFrom 하는 목표가 있다
+# ── V&V 정제 계층 사슬 (게이트 `rung-before-descent` — 요구 r-023-rung-before-descent, 유저 결정 Q51-a · Q52-a) ──────────
+# 같은 정제 수준의 V&V 검증 대응물(p8-scenario-ladder-rungs 가 정제 수준마다 정한 대응물)이 있어야 다음 정제 수준으로 정제한다. 판정식은
+# R1 정제 계층 사슬이다 — 정제 수준마다 개발 정제 하나와 그 정제가 닿는 요구의 V&V 대응물을 짝짓는다.
+#   functional→abstract  개발 정제(결정 결론 concrete → 요구 functional `refines`·`serves`)의 대상 요구를 derivesFrom 하는 목표가 있다
 #   logical→concrete     logical·concrete 부분을 함께 가진 결정 복합체가 닿는 요구의 목표 가운데 합격 기준이 `refines` 하는 것이 있다
 #   concrete→executable  executable 이 concrete 를 `refines` 하면 그 복합체가 닿는 요구의 목표 → 기준 가운데 검증기가 바인딩한 것이
 #                        있다. 바인딩은 검증기 → 기준 `refines` 이거나 검증기 → 케이스 → 기준 `refines` 다. 사람 확인 기준만 가진
@@ -1001,7 +1001,7 @@ def human_check_criteria(g: Graph, plane: dict) -> set:
 
 
 def vv_counterparts(g: Graph, plane: dict, live: set) -> dict:
-    """V&V 사다리의 대응물 — 개발 요구·검증 목표·목표가 덮는 요구·기준이 달린 목표·기준과 그 바인딩.
+    """V&V 정제 계층의 대응물 — 개발 요구·검증 목표·목표가 덮는 요구·기준이 달린 목표·기준과 그 바인딩.
 
     KB 는 청크 위치로 가른다(`kb_of`). 키: `dev_reqs`·`goals`·`covered_reqs`(목표가 derivesFrom 하는 개발 요구)·
     `goals_with_criteria`·`goals_of`(요구 → 목표들)·`criteria_of`(목표 → 기준들)·`bound`(검증기가 바인딩한 기준)·`human`.
@@ -1032,7 +1032,7 @@ def vv_counterparts(g: Graph, plane: dict, live: set) -> dict:
 
 
 def rung_violations(g: Graph, plane: dict, level: dict, live: set) -> list[tuple]:
-    """사다리 사슬의 위반 — `(높이, 하강의 주어, 하강의 대상, 요구)` 의 목록. 높이는 `RUNG_DESCENTS` 의 값이다.
+    """정제 계층 사슬의 위반 — `(정제 수준, 정제의 주어, 정제의 대상, 요구)` 의 목록. 정제 수준은 `RUNG_DESCENTS` 의 값이다.
 
     결정 복합체는 한 단위다(p7-decision-spans-three-levels) — 복합체가 닿는 요구는 그 부분들에서 `refines`·`serves` 를 따라
     올라가 처음 만나는 개발 요구이고, 올라간 끝이 결정 청크나 복합체면 그 복합체의 부분들에서 다시 오른다.
@@ -1648,12 +1648,12 @@ _SKILLS_AUTHORING = (  # 저작·검증 — 추출·BUILD·링크 복원·V&V �
      "when": "frontmatter 링크가 없는 청크 쌍의 복원 후보를 체계 안 증거(본문 인용·테스트 공동 커버·개념 공유)로 뽑아 사람이 restored 표시로 확정할 때 쓴다.",
      "commands": ["bazel build //kg:link_candidates && cat bazel-bin/kg/link-candidates.md",
                   "python3 tools/gen_build.py --root . && bazel test //...   # 앵커 청크에 링크 키와 restored: 를 적은 뒤"]},
-    {"tool": "vv_run", "section": "method.md#11-검증--vv-층으로",
+    {"tool": "vv_run", "section": "method.md#11-검증--vv-kb로",
      "when": "V&V 케이스·검증기 청크의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 "
              "실행해 그 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.",
      "commands": ["bazel run //tools:vv_run -- --record", "bazel run //tools:vv_run -- --verifier <슬러그>",
                   "python3 tools/gen_build.py --root . && bazel test //..."]},
-    {"tool": "judge", "section": "method.md#11-검증--vv-층으로",
+    {"tool": "judge", "section": "method.md#11-검증--vv-kb로",
      "when": "게이트 밖에서 등록된 판정 질문을 청크에 물어 값과 확신도를 받고 판정 로그·결과 주석을 남길 때 쓴다. "
              "판정자는 외부 서비스가 아니라 세션 판정자다 — 응답은 `--responses`로 오프라인 입력한다.",
      "commands": ["bazel run //tools:judge -- --list",

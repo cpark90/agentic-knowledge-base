@@ -1,8 +1,8 @@
-# tools — 검사 도구와 활용 도구, 세 층
+# tools — 검사 도구와 활용 도구, 코어 / development / V&V
 
 검사 도구는 [`rules.md`](rules.md)의 기계 형태다. 활용 도구는 [`method.md`](method.md)의 기계 형태다.
 도구 하나가 규칙 하나 또는 절차 하나에 대응한다. 구조도 v5에 따라 **코어 / development / V&V**
-세 층으로 적는다. 코어 도구는 두 KB가 공유하고, 나머지는 각 KB의 규칙·절차를 수행한다.
+셋으로 적는다. 코어 도구는 두 KB가 공유하고, 나머지는 각 KB의 규칙·절차를 수행한다.
 
 ## 하네스는 Bazel이다
 
@@ -33,7 +33,7 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 **analysis**(Bazel 분석 시점, 빌드 실패) / **test**(실행, `bazel test`) / **human**(승인).
 게이트에 걸린 청크는 `draft`에 머물고 하류로 전파되지 않는다.
 
-| 게이트 | 무엇을 거부하는가 | 계층 | 절 | 이 저장소 | id | 해소 (누가·어디서) |
+| 게이트 | 무엇을 거부하는가 | 실행 계층 | 절 | 이 저장소 | id | 해소 (누가·어디서) |
 |---|---|---|---|---|---|---|
 | 청크 형식 | 본문 토큰 상한 초과(저작 산문 1,092 = 42×26 · `artifact`·`memory` 2,856 = 42×68), 라벨 누락, plane·level 유일성 위반, `type`이 온톨로지 밖 | shape | 4.4 | **있음** — `chunk_lint` + `chunk2kg` + `chunk-shapes` + `token-budget-shapes`. 크기의 단위는 줄이 아니라 **토큰**이고 계수기는 `o200k_base`(어휘 파일 sha256 고정) 하나다 — 줄 상한 42·200은 폐지됐다([`p1-chunk-unit-is-tokens`](../kb/dev/decision/p1-chunk-unit-is-tokens/conclusion.md), 2026-10-01) | `chunk` · `chunk2kg` · `token-budget` | 청크를 고친다 — plane의 write 역할(요구·결정 orchestrator, 산출물 developer). `chunk_lint`의 토큰 상한 위반은 `waivers.md`(축 `파일`)로 면제한다 — append-only 기록처럼 소급 분할이 기록을 다시 쓰는 일인 경우다(2026-10-01). SHACL(`token-budget-shapes`)쪽도 같은 선언을 받는다(2026-10-01) — `validate`의 `--waivers`가 위반의 focus node를 `agt:assertionLocation`으로 파일에 사상해 게이트 id `shacl`(축 `파일`)의 면제를 가른다. shape는 약화하지 않는다 |
 | 수준 허용표 | plane에 허용되지 않는 level | shape | 6.4 | **있음** — `residency-shapes` | `shacl`(residency) | level 또는 plane을 고친다 — 저작자 |
@@ -47,7 +47,7 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 | ODD 경계 | 후보 값·케이스 값이 ODD 범위 밖 | verify | 9.10 | 없음 (5단계 `space_check`) | — | 5단계 |
 | 기여 | `serves` 없는 abstract 결정 | verify | 6.8 | 없음 — abstract 결정 자체가 아직 없다 | — | — |
 | 범위·제약 | 범위 없는 logical 변수, 실행 불가한 사후조건 | shape + test | 6.8 | 없음 (5단계) | — | 5단계 |
-| 검증 대응물 | 같은 높이의 V&V 대응물([`p8-scenario-ladder-rungs`](../kb/dev/decision/p8-scenario-ladder-rungs/conclusion.md)가 높이마다 정한 대응물) 없이 다음 높이로 내려간 하강(요구 `r-023-rung-before-descent`). 판정식은 R1 사다리 사슬이다 — functional→abstract 는 결정 결론(concrete)이 `refines`·`serves` 하는 요구에 그것을 `derivesFrom` 하는 검증 목표, logical→concrete 는 logical·concrete 부분을 함께 가진 결정 복합체가 닿는 요구의 목표에 합격 기준, concrete→executable 은 executable 이 `refines` 하는 concrete 의 복합체가 닿는 요구의 기준 가운데 검증기가 바인딩한 것(검증기 → 기준 또는 검증기 → 케이스 → 기준 `refines`)이다. 사람 확인 기준만 가진 요구는 면제다(Q26-a) | verify | Q51-a | **있음** — `validate` `check_rung_before_descent`(2026-10-05). 판정에 두 KB 의 청크·복합체 부분·링크가 함께 필요해 병합 그래프를 보는 `validate` 가 자리다. 판정 함수는 `kb_lib.rung_violations` 이고 대응물 집합 `kb_lib.vv_counterparts`·사람 확인 판정 `kb_lib.human_check_criteria` 를 `metrics` 7단계 절·전방 추적과 공유한다. 사슬 8(2026-09-19)의 concrete `verifies` 는 그대로다 | `rung-before-descent` | 빠진 높이의 대응물(목표·기준·검증기)을 저작한다 — vnv |
+| 검증 대응물 | 같은 정제 수준의 V&V 대응물([`p8-scenario-ladder-rungs`](../kb/dev/decision/p8-scenario-ladder-rungs/conclusion.md)가 정제 수준마다 정한 대응물) 없이 다음 정제 수준으로 내려간 정제(요구 `r-023-rung-before-descent`). 판정식은 R1 정제 계층 사슬이다 — functional→abstract 는 결정 결론(concrete)이 `refines`·`serves` 하는 요구에 그것을 `derivesFrom` 하는 검증 목표, logical→concrete 는 logical·concrete 부분을 함께 가진 결정 복합체가 닿는 요구의 목표에 합격 기준, concrete→executable 은 executable 이 `refines` 하는 concrete 의 복합체가 닿는 요구의 기준 가운데 검증기가 바인딩한 것(검증기 → 기준 또는 검증기 → 케이스 → 기준 `refines`)이다. 사람 확인 기준만 가진 요구는 면제다(Q26-a) | verify | Q51-a | **있음** — `validate` `check_rung_before_descent`(2026-10-05). 판정에 두 KB 의 청크·복합체 부분·링크가 함께 필요해 병합 그래프를 보는 `validate` 가 자리다. 판정 함수는 `kb_lib.rung_violations` 이고 대응물 집합 `kb_lib.vv_counterparts`·사람 확인 판정 `kb_lib.human_check_criteria` 를 `metrics` 7단계 절·전방 추적과 공유한다. 사슬 8(2026-09-19)의 concrete `verifies` 는 그대로다 | `rung-before-descent` | 빠진 정제 수준의 대응물(목표·기준·검증기)을 저작한다 — vnv |
 | 표본 근거 | `sampling` 없는 concrete 값·케이스 — 근거 규칙 없는 `cover` 항목, 손으로 적은 값(`cases` · 관측 재현 밖의 `values`), 생성 결과와 어긋난 케이스 | analysis + test | 6.8, 8.23 | **부분** — `tools/case_gen.py`(2026-10-04, [`p8-case-generation`](../kb/dev/decision/p8-case-generation/conclusion.md), 유저 답 Q27-a)가 생성 시점에 거부하고 `//:case_drift_test`가 트리의 케이스를 재생성과 비교한다. **대상은 0이다** — 현행 케이스는 수기이고 logical 시나리오가 없다. concrete 값(케이스 밖)의 표본 근거는 없음(5단계) | `case-gen` · `case-drift` | logical 시나리오의 `keep`·`cover`를 고쳐 `python3 tools/case_gen.py --out kb/vv/case`로 반영하고 그 시나리오를 `//:case_drift_test`의 `scenarios`에 더한다 — vnv |
 | 할당 근거 | 후보가 둘 이상인데 확정된 링크, 배제 근거 없는 기각 | verify | 9.10 | 부분 — 증거 기록 규칙 2 질의(`confirmed-without-evidence`·`confirmed-with-refutation`); 확정·구축·복원·후보 링크 수는 `bazel build //kg:metrics` 링크 절과 `//kg:link_candidates`가 낸다(여기 적지 않는다 — 2026-10-01 실측에서 넷이 전부 낡아 있었다); 상태·클래스 불일치 질의 `link-state-class-mismatch` | `verify` | 증거 항목을 더하거나 확정을 후보로 되돌린다 — 저작자 |
 | 기준 바인딩 | 기준 없는 `verifies`, 판정식 없는 기준 | shape | 8.11 | **있음** — `verifies-without-criteria.rq` | `verify` | vnv가 기준 청크를 만들고 `verifies`를 바인딩한다 |
@@ -78,7 +78,7 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 | 규범 문서 | 어느 문서도 싣지 않는 `규약:` 줄(고아 줄), 두 번 실린 줄(이중 소비), 없는 결정·줄을 가리키는 항목, 강도를 요구하는 문서의 강도 없는 줄, `NORM_DOCS`와 `kb/dev/norm/` 디렉토리 집합의 불일치, 절 청크의 구조 위반(선언·순서·머리 청크의 키·첫 절의 깊이), 재생성과 바이트가 다른 생성 문서 | analysis + test | Q19-b | **있음** — `tools/gen_norms.py`(2026-10-04, [`p12-norm-documents-from-section-chunks`](../kb/dev/decision/p12-norm-documents-from-section-chunks/conclusion.md)). 생성 트리 파일이고 `//:norms_drift_test`가 재생성과 비교한다. 문서 목록의 단일 정의처는 `defs/kb.bzl`의 `NORM_DOCS`이고 비어 있어도 고아 줄 검사는 돈다. 절 키의 형식은 `chunk2kg`(`chunk2kg`)와 `norm-section-shapes`(`shacl`)가 본다 | `gen-norms` · `norms-drift` | 절 청크의 `items`나 결정의 `conventions.md`를 고친 뒤 `python3 tools/gen_norms.py --root .`를 돌린다 — orchestrator(청크)·developer(생성기) |
 | 요소 탈락 | 소스 요소가 어휘에 슬롯이 없어 조용히 빠짐 — 청크 frontmatter 의 최상위 키 중 `chunk2kg` 가 소비하지 않는 것, 프로파일이 선언한 plane 실체 클래스와 `chunk2kg.PROFILE_SUBSTANCE` 치역의 대칭차 | verify | 8.21 G1 | **있음** — `validate` `element-drop`(2026-09-29). 현상 [`agt:elementWithoutVocabularyDropped`](../kb/ontology/related/defect/function-phenomenon-ontology.ttl)(P19)의 관측 수단이고 vnv 가 설계했다. 실체 대칭차는 `--ontology` 만으로 돌아 `//kb/ontology:gate_test`·`//kg:gate_test` 안에 있고, 키 전수 대조는 `//kg:gate_test` 가 `chunk_files`(`//chunks`·`//kb/dev`·`//kb/vv`·`//space`)로 청크 본문을 넘겨 돈다. 실측 2026-10-01: 키 25 대 30 차 공집합 · 실체 7 대 7 대칭차 공집합 | `element-drop` | 어휘를 넓힌다(키를 `chunk2kg` 가 읽고 `kb_lib.CHUNK_OPTIONAL_KEYS` 에 등재, 실체 클래스를 프로파일에 선언) — 요소를 버리지 않는다(가정 `asm-missing-vocabulary-is-signal`). developer |
 | 판정 로그 | 판정 로그의 형식·필수 필드 위반 — 판정 표의 헤더가 규약(`kb_lib.JUDGE_LOG_TABLE_HEADER`)과 다름, 행의 질문 id·값·확신도·**판정자 식별자**(세션·모델, 2026-09-30)·입력 지문·시각 중 하나가 빔, 지문이 sha256(소문자 16진 64자)이 아님, 시각이 ISO 8601 UTC 초 해상도가 아님, 처리가 임계의 세 값 밖, **일치 열이 일치·불일치·해당 없음 밖**(2026-09-30), 판정 행 0건 | test | 8.14 | **있음** — `chunk_lint` `judge-log`(2026-09-29, 필드 개정 2026-09-30). 대상은 `generated.by` 가 `process:judge` 이고 `type: memory` 인 청크다. **판정 자체는 게이트 밖 도구**(`bazel run //tools:judge`)가 하고 게이트는 로그만 본다 — 판정자는 세션마다 다시 여는 **세션 판정자**이지 외부 서비스가 아니고(유저 답 2026-09-30), 확신도가 자기 보고라 같은 리비전도 판정자마다 다른 값을 낼 수 있어 여전히 게이트 밖이다 ([`p8-judge-calibration-binding`](../kb/dev/decision/p8-judge-calibration-binding/conclusion.md)). **PASS 조건은 "위반 0건"이고 판정 로그가 0건이면 거부할 것이 없어 그대로 PASS 다** — 로그의 존재를 요구하는 것은 이 게이트의 몫이 아니라서 SKIP 으로 내리지 않는다 | `judge-log` | 로그를 다시 낸다(`bazel run //tools:judge -- --record`) 또는 빠진 필수 필드를 채운다 — developer(도구)·vnv(판정). 면제는 `waivers.md`(축 `파일`) |
-| 게이트 id 단일 정의처 | 코드의 게이트 태그가 `GATES` 리터럴 밖, `kb_lib` 에 손으로 둔 `*_GATE` 상수, `getattr` 폴백의 값 드리프트, 등록됐으나 코드에 닿지 않는 id | verify | 6.7 | **있음** — `validate` `check_gate_registry`(2026-10-02). 원본은 `defs/kb.bzl` 의 `GATES`(id → 계층·판정 도구·한글 라벨·설명)와 `TOOL_TAGS`(게이트가 아닌 입력 문제·보고 태그)이고 `kb_lib` 이 리터럴 읽기로 `*_GATE`·`*_TAG` 를 파생한다 — `RESIDENCY`·`EXTRACTED_SOURCES` 와 같은 해법이다. 리터럴의 자기 정합성(네 키·계층 어휘·두 목록의 서로소)은 `tools/BUILD.bazel` 의 `check_gates` 가 로드 시점에 본다. 그래프 개체는 `//kg:gates_kg`(`id:gate-<id>`)이고 총람 `id` 열과의 동일성은 `doccheck --gates` 가 본다 | `gate-registry` | 태그를 상수로 바꾸거나 리터럴에 등재한다 — developer |
+| 게이트 id 단일 정의처 | 코드의 게이트 태그가 `GATES` 리터럴 밖, `kb_lib` 에 손으로 둔 `*_GATE` 상수, `getattr` 폴백의 값 드리프트, 등록됐으나 코드에 닿지 않는 id | verify | 6.7 | **있음** — `validate` `check_gate_registry`(2026-10-02). 원본은 `defs/kb.bzl` 의 `GATES`(id → 실행 계층·판정 도구·한글 라벨·설명)와 `TOOL_TAGS`(게이트가 아닌 입력 문제·보고 태그)이고 `kb_lib` 이 리터럴 읽기로 `*_GATE`·`*_TAG` 를 파생한다 — `RESIDENCY`·`EXTRACTED_SOURCES` 와 같은 해법이다. 리터럴의 자기 정합성(네 키·실행 계층 어휘·두 목록의 서로소)은 `tools/BUILD.bazel` 의 `check_gates` 가 로드 시점에 본다. 그래프 개체는 `//kg:gates_kg`(`id:gate-<id>`)이고 총람 `id` 열과의 동일성은 `doccheck --gates` 가 본다 | `gate-registry` | 태그를 상수로 바꾸거나 리터럴에 등재한다 — developer |
 | 요약 지지 참조 | 요약 블록의 `핵심:` 항목에 본문의 지지 블록을 가리키는 참조(`[#id]`·`d-NNNN`·IRI·마크다운 링크)가 없음 | test | judge-without-service 기계 환원 ① | **있음** — `chunk_lint` `summary-support`(2026-09-30). 대상은 살아 있는 `.md` 청크의 선택 슬롯 `핵심:`이고 슬롯이 없으면 대상이 아니다. 오탐 실측(2026-09-30): 0/0 — 이 저장소는 아직 이 슬롯을 쓰지 않는다. 보고 모드를 거치지 않고 즉시 게이트로 올린 근거는 그 실측이다(usage 0 이라 오탐이 원천적으로 0) | `summary-support` | `핵심:` 항목마다 지지 참조를 더한다 — 저작자. 면제는 `waivers.md`(축 `파일`) |
 | 동결 문서 | 동결 문서(설계 노트)의 내용이 `kb_lib.FROZEN_DOCS`의 sha256과 다름 | test | Q15-c | **있음** — `doccheck --frozen`(`//:frozen_docs_test`, 2026-10-03). 노트는 기획 원본으로 동결됐고 미결은 청크의 `미확정:`으로 옮겼다 | `frozen` | 노트를 고치지 않는다. 고쳐야 하면 그 변경을 결정으로 세우고 상수를 바꾸는 것이 의도한 변경의 표시다 — orchestrator |
 
@@ -91,7 +91,7 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 `odd2kg`·`taxonomy`(생성=검사) · `workset-budget`(`//kg:workset`, 앵커가 있을 때만) · `canon`(규약, 테스트 타깃 아님)이다. **게이트가 아닌 도구 태그** 아홉(`consistency`·`judge`·`link`·`open`·`propose`·`revalidate`·`tokens`·`validate`·`weave` — 입력 문제·보고)은 같은 대괄호 표기를 쓰되 `TOOL_TAGS`로 갈라 그래프 개체를 받지 않는다. 실패 종류(종료 코드 1·2·3)는
 §게이트를 추가할 때에 적혀 있다.
 
-## 코어 층 — 두 KB가 공유하는 도구
+## 코어 — 두 KB가 공유하는 도구
 
 ### 검사 (있음)
 
@@ -107,9 +107,9 @@ bazel build //kb/odd:odd //kb/dev:index              # 생성물: ODD 그래프�
 tools/relock.sh                                      # 파이썬 의존성 재고정
 ```
 
-#### 검사 3계층 (노트 2.5절 — 온톨로지 검사기)
+#### 온톨로지 검사 3단계 (노트 2.5절 — 온톨로지 검사기)
 
-| 계층 | 정의 | 이 저장소 |
+| 단계 | 정의 | 이 저장소 |
 |---|---|---|
 | 구문·스타일 (report) | 라벨·정의 누락, 참조 구문, 폐기 규약 | `validate.py`의 labels·boundary + `chunk_lint` |
 | **안티패턴** (verify) | "이런 트리플이 존재하면 실패"를 SPARQL로 명세 | `validate.py --verify-queries` — `tools/verify-queries/*.rq` 하나가 안티패턴 하나. 목록의 원본은 그 디렉토리이고 질의마다 `kb/dev/artifact/verify-queries/`의 청크다 |
@@ -132,7 +132,7 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 | `dangling` | `cites`·`usesConcept`·`hasDirectPart`·`assumes`·`refines`·`satisfies`가 가리키는 항목이 실재한다. `usesConcept`의 대상이 폐기 용어(`owl:deprecated`)면 `warn [usesConcept-deprecated]`(FAIL 아님 — LEDGER 용어 일관성 검사) | [rules §4](rules.md#4-traceability--인터페이스를-기준축으로-한-mapping) |
 | `cross-kb-link` | frontmatter 링크 키의 링크가 `verifies` 밖이면서 두 KB를 가로지르지 않는다. 예외는 검증 목표(functional) → 개발 요구 `derivesFrom` 하나다. 판정 함수 `kb_lib.cross_kb_link` 는 복원 후보 생성기와 공유한다 | [rules §8](rules.md#8-vv-규칙--vv-kb-노트-8285-811815-84-911) |
 | `code-part-link` | 추출 트리 안에서 복합체의 부분인 청크(정의·구역 청크)는 `refines`·`serves`·`verifies` 의 끝점이 아니다 — 링크는 파일 청크 하나가 갖는다. 판정 함수 `kb_lib.code_part` 는 복원 후보 생성기와 공유한다 | [rules §7](rules.md#7-development-규칙--개발-kb-노트-7277) |
-| `rung-before-descent` | 같은 높이의 V&V 대응물 없이 다음 높이로 내려간 하강이 없다 — R1 사다리 사슬(functional→abstract 목표 · logical→concrete 기준 · concrete→executable 검증기가 바인딩한 기준, 사람 확인 기준만 가진 요구는 면제). 판정 함수 `kb_lib.rung_violations` 는 `metrics` 와 대응물 집합(`kb_lib.vv_counterparts`)을 공유한다 | [rules §8](rules.md#8-vv-규칙--vv-kb-노트-8285-811815-84-911) |
+| `rung-before-descent` | 같은 정제 수준의 V&V 대응물 없이 다음 정제 수준으로 내려간 정제이 없다 — R1 정제 계층 사슬(functional→abstract 목표 · logical→concrete 기준 · concrete→executable 검증기가 바인딩한 기준, 사람 확인 기준만 가진 요구는 면제). 판정 함수 `kb_lib.rung_violations` 는 `metrics` 와 대응물 집합(`kb_lib.vv_counterparts`)을 공유한다 | [rules §8](rules.md#8-vv-규칙--vv-kb-노트-8285-811815-84-911) |
 | `verify` | 안티패턴 질의 결과 행 = 위반 | 위 표 |
 | `shacl` | shape 적합성 (아래). `--waivers <waivers.md>`를 주면 위반의 focus node를 `agt:assertionLocation`으로 파일에 사상해 게이트 id `shacl`(축 `파일`)로 선언된 면제를 집계에서 빼고 `WAIVED [shacl] <파일>: <sh:resultMessage>` 줄로 남긴다 (2026-10-01) | [rules](rules.md) |
 
@@ -196,7 +196,7 @@ shape의 면제도 `waivers.md` 하나에 선언한다(2026-10-01). `//kg:gate_t
 | `extract_refs.py` | 본문의 `d-NNNN` 인용 → `references-kg.ttl`의 `agt:cites`; 본문의 `agt:<Term>` 표기 중 온톨로지가 정의한 용어 → `agt:usesConcept`(복원 경로, dependency-graph (f)). 온톨로지에 없는 표기는 `info`로 집계만 한다 | 인용 대상이 실재하지 않음 |
 | `run_evidence.py` | 실행 기록의 케이스 판정(pass → 실행(+) · fail → 실행(−))과 코드 파일 청크의 테스트 통과 도장(`process:bazel-test`) → 코드 파일 청크 → 결정 결론의 `satisfies` 후보 링크와 증거 항목(`agt:runResult`). 출력은 `references-kg.ttl`에 이어 붙는다(p9-evidence-ledger) | 읽을 수 없는 청크·값 어휘 |
 | `odd2kg.py` + `taxonomy.py` | OpenODD YAML 매핑 문서 `kb/odd/project-odd.yml`(`TAXONOMY`·`MODULES`·`INCLUDE_AND`…) → `project-odd.ttl`; `related/condition` → `taxonomy.yml` (부록 E.4) | 택소노미 밖 범주 · 미선언 속성 · 선언 밖 리터럴 · OpenODD 식이 아닌 값 · `ATTRIBUTES`/`CHECKS` 없는 조건 |
-| `gates2kg.py` | 게이트 등록부 `defs/kb.bzl` 의 `GATES` 리터럴 + 등록부 사이드카(`tools/*.chunks.yml`) → `bazel-bin/kg/gates-kg.ttl` 의 `id:gate-<id>` 개체. 게이트는 프로세스 층의 **항목**이라 그래프에 개체가 서야 층별 집계(CQ-38)가 셀 자리를 갖는다 ([`p0-service-is-a-three-layer-wiki`](../kb/dev/decision/p0-service-is-a-three-layer-wiki/conclusion.md)). 개체마다 한/영 라벨·`skos:definition`·`agt:inLayer agt:processLayer`·`agt:gateTier`·`agt:enforcedBy`(판정 도구의 파일 복합체 — `agt:judgedBy` 는 정의역이 `agt:Chunk` 인 개발 프로파일의 술어라 쓸 수 없다)를 낸다 — 판정 도구가 파이썬 밖(`starlark`·`bazel`)인 게이트는 가리킬 코드 청크가 없어 마지막 술어를 갖지 않는다. 생성물이라 `kg/` 에 손으로 쓰지 않는다 | 항목의 네 키 누락 · 계층이 `GATE_TIERS` 밖 · 판정 도구의 파일 복합체 부재 |
+| `gates2kg.py` | 게이트 등록부 `defs/kb.bzl` 의 `GATES` 리터럴 + 등록부 사이드카(`tools/*.chunks.yml`) → `bazel-bin/kg/gates-kg.ttl` 의 `id:gate-<id>` 개체. 게이트는 프로세스 층의 **항목**이라 그래프에 개체가 서야 층별 집계(CQ-38)가 셀 자리를 갖는다 ([`p0-service-is-a-three-layer-wiki`](../kb/dev/decision/p0-service-is-a-three-layer-wiki/conclusion.md)). 개체마다 한/영 라벨·`skos:definition`·`agt:inLayer agt:processLayer`·`agt:gateTier`·`agt:enforcedBy`(판정 도구의 파일 복합체 — `agt:judgedBy` 는 정의역이 `agt:Chunk` 인 개발 프로파일의 술어라 쓸 수 없다)를 낸다 — 판정 도구가 파이썬 밖(`starlark`·`bazel`)인 게이트는 가리킬 코드 청크가 없어 마지막 술어를 갖지 않는다. 생성물이라 `kg/` 에 손으로 쓰지 않는다 | 항목의 네 키 누락 · 실행 계층이 `GATE_TIERS` 밖 · 판정 도구의 파일 복합체 부재 |
 | `labels.py` | 청크 head → OKF `index.md` (5.6절) | frontmatter 오류 |
 | `metrics.py` | 그래프 → `metrics.md` (4.13절 지표, CQ19·CQ20, 14.1 통과 조건; 구축에는 frontmatter 링크 개체와 본문 식별자 추출(`cites`·`usesConcept`)이 들어가고 복원은 후보 파이프라인 산출만(유저 결정 2026-09-12 (b)), 가정 절에 "기본 가정만 가진 청크"). 연결 성분과 CQ20 후방 추적은 `prov:specializationOf` 를 **연결로 센다**(2026-10-01) — 분할 조각은 원 청크의 정체성을 나눠 가진 것이지 새 지식이 아니고 링크는 승계 청크가 가지므로([`p10-split-keeps-work-identity`](../kb/dev/decision/p10-split-keeps-work-identity/conclusion.md)) 조각이 그 키 하나만 가져도 고립이 아니다. 그 술어는 추적 링크 네 족 밖(PROV-O)이라 링크 밀도·TIM 에는 들지 않는다. 연결로 세는 술어의 단일 정의처는 `kb_lib` 의 `LINKAGE_PREDICATES`·`ASCRIPTION_PREDICATES`·`COMMUNITY_EDGE_KINDS` 셋이고 `metrics`·`community` 가 거기서 읽는다. 연결 성분은 `kb_lib.linkage_predicates` 로 세 족의 하위 속성을 T-Box(`//kb/ontology:modules`)에서 전이적으로 더하고 복합체를 경유 노드로 둔다(2026-10-04) — 절 청크의 `agt:projectsConvention`(치역 결정 복합체)과 중첩 복합체(문서 → 묶음)가 그 경로로 이어진다. 성분이 1보다 크면 「주 성분 밖 청크」 절이 성분마다 라벨·plane·경로를 낸다 — 수만으로는 무엇이 떨어졌는지 보고서로 알 수 없다 | 그래프 파싱 실패 |
 | `stamp.py` | 등록부의 `tested: {rev, at, source_hash}` 를 갱신한다 — `artifact` 의 `verified` 는 사람 검토가 아니라 **테스트 통과** 도장이고 판정 주체가 바뀐 것이지 검사가 약해진 것이 아니다 ([`p7-code-extraction-direction`](../kb/dev/decision/p7-code-extraction-direction/conclusion.md) "도장"). **`bazel test //...` 가 종료 0 으로 끝난 뒤에만 돌린다** — 중첩 Bazel 호출을 피하려고 도구가 스스로 테스트를 부르지 않으므로 그 순서는 규범이다. 도구가 지키는 것은 리비전이 실재를 가리키는가 하나다: `--rev` 가 없으면 소스가 커밋되어 있어야 한다. 추출기가 `tested.source_hash` 가 지금 소스와 같을 때만 `verified: [{by: process:bazel-test, at: …}]` 를 낸다 — 소스가 도장 뒤에 바뀌면 `verified` 가 빠져 수정 뒤 미검증이 되고 재판정이 자동이다 | 커밋되지 않은 소스에 `--rev` 없는 도장 · `source` 없는 등록부 |
@@ -266,7 +266,7 @@ tangle이다. 구축 쪽 공백의 공통 원인은 하네스의 도구가 읽�
 `metrics`(1·2단계 대리 포함)·`workset`·`odd_check`의 첫 형태가 생겼으므로 문서는 수치를 적지 않고 생성물을 인용한다 (d-0075). 문서에 남아
 있는 수치는 스냅샷 표기가 붙어야 한다.
 
-## development 층 — 개발 KB의 도구 (노트 Part VII, 전부 미구현)
+## development — 개발 KB의 도구 (노트 Part VII, 전부 미구현)
 
 | 도구 | 하는 일 | 규칙·절차 |
 |---|---|---|
@@ -279,7 +279,7 @@ tangle이다. 구축 쪽 공백의 공통 원인은 하네스의 도구가 읽�
 | `tangle` | 구현 청크 → 코드 파일 (4.6) | [method §9](method.md#9-뷰) |
 | `dev_metrics` | 전방 추적 커버리지 · 후방 추적 커버리지 · 결정 완결률 · `-space` 체류 · 계약 선행률 · 대안 기록률 (7.8) | [p7-dev-kb-outputs-and-metrics](../kb/dev/decision/p7-dev-kb-outputs-and-metrics/conclusion.md) |
 
-## V&V 층 — V&V KB의 도구 (노트 Part VIII, 도입 7단계, `run`·`case_gen` 첫 형태 외 미구현)
+## V&V — V&V KB의 도구 (노트 Part VIII, 도입 7단계, `run`·`case_gen` 첫 형태 외 미구현)
 
 | 도구 | 하는 일 | 절 |
 |---|---|---|
@@ -359,7 +359,7 @@ bazel test //...  (게이트 전체 — test_suite 없음, 패키지의 test 타
 ## 게이트를 추가할 때 — 절차·판단 기준·기준선 (agrtls A·C·E, 2026-09-12)
 
 절차는 결정 [`p6-mass-fail-suspects-the-rule`](../kb/dev/decision/p6-mass-fail-suspects-the-rule/conclusion.md)에 있다.
-순서는 **이름(id)** → **총람 행**(무엇을 거부·계층·id·해소 절차) → **도구**(`FAIL [<id>] <경로>: <메시지>`) →
+순서는 **이름(id)** → **총람 행**(무엇을 거부·실행 계층·id·해소 절차) → **도구**(`FAIL [<id>] <경로>: <메시지>`) →
 **첫 실행 실태 기록** → **판정**이다. 첫 실행에서 대량 FAIL이면 산출물이 아니라 규칙을 먼저 의심한다.
 실례로 결론 라벨 형식 197건은 규칙 원문("결론 문장형")대로 범위를 결론으로 좁혀 25건이 되었다.
 

@@ -22,7 +22,7 @@
 
 원본은 노트 v5([`agent-knowledge-system-notes.md`](agent-knowledge-system-notes.md))
 Part II·IV·V·VII·VIII·IX·X와 그 재도출 결정(`kb/dev/decision/`)이다. 구조도 v5에 따라
-**코어(§1~§6, 두 KB 공통) / development(§7) / V&V(§8)** 세 층으로 적는다. **규칙은 여기, 규칙을 수행하는 절차는
+**코어(§1~§6, 두 KB 공통) / development(§7) / V&V(§8)** 셋으로 적는다. **규칙은 여기, 규칙을 수행하는 절차는
 [`method.md`](method.md), 규칙을 기계로 강제하는 것은 [`tools.md`](tools.md)의 검사 도구다.**
 기계가 판정할 수 없는 규칙은 [`../STYLEGUIDE.md`](../STYLEGUIDE.md)의 `[지킴]`으로 남는다.
 
@@ -126,7 +126,7 @@ IRI는 uuid로 영속이고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 12자 이하·마침표 없음일 때만 같은 표지다(2026-09-29 — 시나리오 표지를 더하자 옛 청크 32파일 60건의 강조가 슬롯으로
 방출됐고 이 규칙으로 0이 됐다). 표지 낱말의 접두 겹침은 `kb_lib.validate_body_slot_markers`가 로드 시점에 거부한다.
 
-**게이트 id의 단일 정의처는 `defs/kb.bzl`의 `GATES`**(id → 계층·판정 도구·한글 라벨·설명 한 줄)**와 `TOOL_TAGS`**(게이트가 아닌 입력
+**게이트 id의 단일 정의처는 `defs/kb.bzl`의 `GATES`**(id → 실행 계층·판정 도구·한글 라벨·설명 한 줄)**와 `TOOL_TAGS`**(게이트가 아닌 입력
 문제·보고 태그)**다**(2026-10-02 — 통일 기획 2단계의 첫 조각; 그 전에는 같은 목록이 넷으로 갈려 있었다). `kb_lib`이 리터럴 읽기로
 `*_GATE`·`*_TAG`를 파생하므로 상수를 손으로 두지 않는다. 게이트는 프로세스 층의 **항목**이고 개체는 `//kg:gates_kg`의
 `id:gate-<id>`(`agt:Gate`, `agt:gateTier`, `agt:enforcedBy` → 판정 도구의 파일 복합체)다 — `kg/`에 손으로 쓰지 않는다. 갈림은
@@ -193,7 +193,7 @@ verify 질의 `composite-heterogeneous`. 수준 혼합은 결정 복합체의 �
 "<1..n>"^^xsd:positiveInteger ; co:itemContent <부분> ] …`을 방출한다. 없으면 `hasDirectPart`만 낸다 — `hasDirectPart`는 순서와
 무관하게 남으므로 순서 트리플은 추가일 뿐이다. 목록이 부분 집합과 어긋나면 생성 시점 `gen-build`와 실행 시점 `chunk2kg`가
 거부하고, 색인 1..n 연속·중복 없음·부분 집합과의 일치는 shape `composite-order-shapes`(`sh:sparql` — 이 저장소의 첫
-사용)가 판정한다. 판정 단위가 복합체 노드 하나라 verify 계층이 아니라 shape 계층이다. `ordered`는 frontmatter의 메타데이터이므로
+사용)가 판정한다. 판정 단위가 복합체 노드 하나라 verify 실행 계층이 아니라 shape 실행 계층이다. `ordered`는 frontmatter의 메타데이터이므로
 더하거나 고쳐도 `generated.at`·`verified`를 건드리지 않는다.
 
 ## §3. plane — 판정 방식으로 나뉜 종류

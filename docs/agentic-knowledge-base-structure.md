@@ -11,7 +11,7 @@
 - **검증 대상 둘** (8.8) — 만들어지는 제품 / 만드는 에이전트
 - **지식 베이스 둘** (8.1) — 개발 KB / V&V KB. 분리의 이유는 독립성, 연동의 이유는 완주
 - 대상 지식
-    - **시스템을 만들기 위한 지식 — 개발 KB** (계층 정제의 산출. 상세는 아래 development KB 블록)
+    - **시스템을 만들기 위한 지식 — 개발 KB** (정제 계층을 따른 정제의 산출. 상세는 아래 development KB 블록)
         - 요구: `requirement` plane, **functional 수준 전용.** 자연어(EARS 권장), 이해관계자와 관심사 명시. 판정 = 합의 (5.1, 6.1)
         - 의도의 틀: ODD — 모든 요구가 서는 조건의 분모. 온톨로지의 프로젝트 뷰 = 선별 + 값 할당 + 폐쇄 (3.1)
         - 후보: `-space`. 변수·후보 링크·양립 제약. logical (9.4)
@@ -30,7 +30,7 @@
         - 케이스 형식: `schema`
         - 검증기: `artifact`, executable. **`verifies`의 유일한 주어는 V&V KB 청크**
         - 판정 주석: `annotation`. 결함 분류
-    - **시스템에 대한 지식** (계층 일반화의 입력)
+    - **시스템에 대한 지식** (정제 계층을 따른 일반화의 입력)
         - 관측: 실행 기록 `agt:Run`. V&V KB `memory`. concrete 전용, append-only. **시간은 여기와 `prov:wasRevisionOf`가 운반** (0.5)
         - 주석: `annotation` plane. 판정, 리뷰, 설명. 대상의 level을 물려받음 (6.4)
         - 기억: `memory` plane. 단기, 첫 실행 시 한 번에 읽음 (11.4)
@@ -67,14 +67,14 @@
 
 ### result
 
-result는 코어(공통)과 그 위의 두 지식 베이스로 이루어진다. ontology·tools·rules·method 각각을 **코어 / development / V&V** 세 층으로 적는다.
+result는 코어(공통)과 그 위의 두 지식 베이스로 이루어진다. ontology·tools·rules·method 각각을 **코어 / development / V&V** 셋으로 적는다.
 
 #### 두 지식 베이스의 정의
 
 | | development KB (Part VII) | V&V KB (Part VIII) |
 |---|---|---|
 | 목적 | 요구사항 명세로부터 실질적 산출물을 생산하기 위한 지식 | 요구·산출물 전 과정에 연동되어 시나리오 기반 검증·확인을 수행하는 지식 |
-| 계층 | 요구 → 형식화 → 범위·제약 → 값 → 구현 | 검증 목표 → 시나리오 형식화 → 논리 시나리오+기준 → 케이스 → 검증기 |
+| 정제 계층 | 요구 → 형식화 → 범위·제약 → 값 → 구현 | 검증 목표 → 시나리오 형식화 → 논리 시나리오+기준 → 케이스 → 검증기 |
 | 완료 판정 | 정제 완주·후방 추적 귀속 100% + 계약 선행 + 대안 기록 + 가정 valid + **V&V `verifies` valid** (7.9) | 목표 파생·기준 바인딩·V&V 완주 100% + 변이 검출 + 독립성 0건 (8.26) |
 | 편집 주체 | design · developer · orchestrator | V&V engineer · 검증기 저자 · executor · judge |
 | 상대 KB 접근 | V&V KB **읽기만** | 개발 KB 읽기 + `verifies`로 참조 |
@@ -87,7 +87,7 @@ result는 코어(공통)과 그 위의 두 지식 베이스로 이루어진다. 
         - 모듈: `entity/`(plane별) · `related/`(횡단: 조건·스코프·가정·workset·revision·trace·하네스) · `vv/` · `profile/` · `defect` · `defect-rules` (2.3)
         - 어휘와 형식화 분리 — `defect`는 분류만, `defect-rules`는 추론 규칙
         - **온톨로지 온톨로지 검사 3단계** (2.5): report(구문·스타일) / verify(SPARQL 안티패턴 — 게이트 대부분이 여기) / reason(불만족·의도치 않은 동치). 빌드 시스템이 컴파일러
-        - 용어 제안 워크플로 (2.5): 에이전트 template 행 → 3계층 → 유저 승인 → 확장 모듈. 에이전트 = 신뢰할 수 없는 센서
+        - 용어 제안 워크플로 (2.5): 에이전트 template 행 → 온톨로지 검사 3단계 → 유저 승인 → 확장 모듈. 에이전트 = 신뢰할 수 없는 센서
         - 사례 교훈 (2.12): 코어는 수십 클래스로 충분 · 게이트는 질의로 · `sources` 빈 청크 = 실패 · 신뢰 등급 전파 · 판정 이력을 head에
         - 관계는 RO 하위 속성으로 (2.8). 추론은 OWL 2 RL 안에서 (2.9). 시간 정체성: IRI 지속 + `prov:wasRevisionOf` (2.6)
         - 분야 프로파일: 코어를 **확장만** 하는 모듈 `profile/<분야>` (2.11, 부록 D)
@@ -103,7 +103,7 @@ result는 코어(공통)과 그 위의 두 지식 베이스로 이루어진다. 
         - 역량 질문 중 V&V KB 소관: CQ5 작업 집합 · CQ6 ODD 안팎 · CQ10 결함 요인 · **CQ11 무엇을 검증하는가** · CQ17 양립 후보
 - **tools** — ontology·method·rules를 수행·관리하는 도구
     - 검사 (코어, rules의 기계 형태)
-        - `validate` — 3계층: `report` · `verify`(SPARQL 안티패턴·TIM·정의역치역) · `reason` (2.5, 4.4, 10.1)
+        - `validate` — 온톨로지 검사 3단계: `report` · `verify`(SPARQL 안티패턴·TIM·정의역치역) · `reason` (2.5, 4.4, 10.1)
         - `term_propose` — ROBOT template 행 생성·검사·승인 큐 (2.5)
         - `chunk_lint` — 42줄·라벨·plane·level 유일성·수준 허용표 (4.4, 6.4)
         - `chunk2kg` — head·provenance·pubinfo 추출, 엔티티 검증, 내용 해시 (4.3, 2.12)

@@ -7,7 +7,7 @@ title: function render_decisions in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/0f0f082a-c9cd-454c-ab65-ca4f3bebc461, https://agentic-knowledge-base.dev/id/chunk/a8f6816d-512e-4fb2-8bce-765ddee8bf42, https://agentic-knowledge-base.dev/id/chunk/e284beaa-0477-4715-ba21-44028b13bf3f]
 part_of: https://agentic-knowledge-base.dev/id/composite/bd43acdb-4493-4bcb-852c-56bb2a3c929e
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/bd43acdb-4493-4bcb-852c
 def render_decisions(items, iri_to_label):
     """//kb/dev/decision — 결정 디렉토리 하나 = kb_decision 하나. 본문 묶음은 세 부분 파일의 명시 목록이다.
 
-    결정은 `<디렉토리>/{conclusion,rationale,alternatives}.md` 의 두 계층이다. `glob` 은 패키지 안 한 계층만 대상으로 하므로
+    결정은 `<디렉토리>/{conclusion,rationale,alternatives}.md` 의 두 디렉토리 깊이다. `glob` 은 패키지 안 한 디렉토리 깊이만 대상으로 하므로
     (STYLEGUIDE §6 [권장]) 깊은 glob 대신 생성기가 이미 열거한 디렉토리에서 파일 목록을 낸다 — 목록의 원본은 트리이고
     이 파일은 뷰다. 세 부분 밖의 `.md` 는 묶음에 들지 않는다.
     """

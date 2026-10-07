@@ -7,17 +7,17 @@ title: function check_specialization in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/7253cc54-4d5c-47ee-b402-6574573c23ef, https://agentic-knowledge-base.dev/id/chunk/8a2be483-4fc8-411f-8f35-b7719552e4e4, https://agentic-knowledge-base.dev/id/chunk/a7d95ff4-ef90-4353-a266-826a544f37d8]
 part_of: https://agentic-knowledge-base.dev/id/composite/700062aa-fcac-4d30-8481-7021a666d072
 ---
-**함수** — `check_specialization(merged, files)` 다. prov:specializationOf 규율 (p10-split-keeps-work-identity, 게이트 id `specialization`).
+**함수** — `check_specialization(merged, files)` 다. prov:specializationOf 규칙 (p10-split-keeps-work-identity, 게이트 id `specialization`).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def check_specialization(merged: Graph, files: dict[str, Graph]) -> list[str]:
-    """prov:specializationOf 규율 (p10-split-keeps-work-identity, 게이트 id `specialization`).
+    """prov:specializationOf 규칙 (p10-split-keeps-work-identity, 게이트 id `specialization`).
 
     분할 조각은 원 청크를 특수화한다 — 같은 것의 다른 입도다. 그래서 대상은 (a) 같은 plane 의 청크이고 (b) 살아 있어야 하며
     (deprecated 원본의 조각은 원본을 승계했어야 한다), (c) 사슬은 순환하지 않는다 (뿌리 uuid 를 계산할 수 없다). 대상 부재는

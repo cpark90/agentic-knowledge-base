@@ -8,7 +8,7 @@
 agt:RequirementChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;
     rdfs:label "requirement chunk"@en , "요구 청크"@ko ;
-    skos:definition "requirement plane의 청크 — 이해관계자와 관심사를 명시한 요구 문장(EARS 권장). 판정은 이해관계자 합의이고 변화가 가장 느린 최상위 plane이며 functional level 전용이다. 주석의 합의와 다르다 — 요구의 합의는 '이것을 원한다'에 대한 동의로 계층의 출발점이다 (5.1절). 게이트: residency-shapes(원본 defs/kb.bzl RESIDENCY, residency 게이트가 동일성 강제)."@ko .
+    skos:definition "requirement plane의 청크 — 이해관계자와 관심사를 명시한 요구 문장(EARS 권장). 판정은 이해관계자 합의이고 변화가 가장 느린 최상위 plane이며 functional level 전용이다. 주석의 합의와 다르다 — 요구의 합의는 '이것을 원한다'에 대한 동의로 정제 계층의 출발점이다 (5.1절). 게이트: residency-shapes(원본 defs/kb.bzl RESIDENCY, residency 게이트가 동일성 강제)."@ko .
 
 agt:DecisionChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;

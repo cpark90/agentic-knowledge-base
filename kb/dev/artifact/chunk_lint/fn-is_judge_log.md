@@ -7,7 +7,7 @@ title: function is_judge_log in tools/chunk_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/7b250e22-fd3e-4d64-9b95-214bd55ce9d3
 ---
@@ -18,7 +18,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/7b250e22-fd3e-4d64-9b95
 def is_judge_log(fields: dict[str, str]) -> bool:
     """판정 로그인가 — 생성자가 판정자이고 plane 이 memory 인 청크 (kb/vv/run/judge-<UTC>.md).
 
-    같은 생성자의 결과 주석(type: annotation)은 논평이라 대상이 아니다 — 그쪽은 review-comment-body-shapes 가 본다.
+    같은 생성자의 결과 주석(type: annotation)은 주석이라 대상이 아니다 — 그쪽은 review-comment-body-shapes 가 본다.
     """
     return fields.get("generated.by") == kb_lib.JUDGE_GENERATOR and fields.get("type") == "memory"
 ```

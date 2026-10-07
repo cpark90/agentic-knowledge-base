@@ -1,5 +1,5 @@
 # shape — 게이트: 개체마다 서비스 층 하나와 실행 계층 하나가 필수다 (gate-ontology, 결정 p0-service-is-a-three-layer-wiki)
-# 층과 계층의 값은 닫힌 집합이라 sh:class 가 아니라 sh:in 으로 판정한다 — rdfs:range 의 함의는 지어낸 IRI 를 통과시킨다.
+# 서비스 층과 실행 계층의 값은 닫힌 집합이라 sh:class 가 아니라 sh:in 으로 판정한다 — rdfs:range 의 함의는 지어낸 IRI 를 통과시킨다.
 # 게이트는 전부 프로세스 층이므로 층의 sh:in 은 원소 하나다. 라벨은 한/영 각 하나이고 설명 한 줄이 필수다.
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .

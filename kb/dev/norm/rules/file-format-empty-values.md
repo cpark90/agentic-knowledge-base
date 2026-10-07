@@ -7,7 +7,7 @@ title: docs/rules.md file-format section continued — three empty values, slot 
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:32:26+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:44+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/a57b18df-3b8b-4579-a0f8-db4655159538
 continues: true
@@ -23,7 +23,7 @@ continues: true
 12자 이하·마침표 없음일 때만 같은 표지다(2026-09-29 — 시나리오 표지를 더하자 옛 청크 32파일 60건의 강조가 슬롯으로
 방출됐고 이 규칙으로 0이 됐다). 표지 낱말의 접두 겹침은 `kb_lib.validate_body_slot_markers`가 로드 시점에 거부한다.
 
-**게이트 id의 단일 정의처는 `defs/kb.bzl`의 `GATES`**(id → 계층·판정 도구·한글 라벨·설명 한 줄)**와 `TOOL_TAGS`**(게이트가 아닌 입력
+**게이트 id의 단일 정의처는 `defs/kb.bzl`의 `GATES`**(id → 실행 계층·판정 도구·한글 라벨·설명 한 줄)**와 `TOOL_TAGS`**(게이트가 아닌 입력
 문제·보고 태그)**다**(2026-10-02 — 통일 기획 2단계의 첫 조각; 그 전에는 같은 목록이 넷으로 갈려 있었다). `kb_lib`이 리터럴 읽기로
 `*_GATE`·`*_TAG`를 파생하므로 상수를 손으로 두지 않는다. 게이트는 프로세스 층의 **항목**이고 개체는 `//kg:gates_kg`의
 `id:gate-<id>`(`agt:Gate`, `agt:gateTier`, `agt:enforcedBy` → 판정 도구의 파일 복합체)다 — `kg/`에 손으로 쓰지 않는다. 갈림은

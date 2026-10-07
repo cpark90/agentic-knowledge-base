@@ -8,14 +8,15 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-30T14:00:00+09:00}
+generated: {by: orchestrator/claude-fable-5-1, at: 2026-10-06T10:57:19+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T10:57:27+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/b9ff4ae2-fb83-447d-9aae-73d5264cfae3
 composite: {id: https://agentic-knowledge-base.dev/id/composite/b9ff4ae2-fb83-447d-9aae-73d5264cfae3, title_ko: 코드 링크의 높이, title: The height of links on code}
 ---
 **결론** — 함수 청크에는 링크를 달지 않는다. `refines`·`serves`·`verifies`의 대상과 출발점은 **파일 복합체**(선언 청크 = 파일 청크)다. 함수 청크는 `part_of`로만 존재한다.
 
-| 층 | 무엇이 있는가 | 누가 쓰는가 |
+| 단 | 무엇이 있는가 | 누가 쓰는가 |
 |---|---|---|
 | 파일 복합체 | 결정·요구로의 `refines`/`serves`, 검증기의 `verifies` 도착점, 가정 | 사람 — 등록부 또는 선언 파일에 적고 추출기가 파일 청크로 옮긴다 |
 | 절 복합체(소스의 절 주석 단위) | `part_of` 파일, `ordered` = 소스 순서 | 추출기 |

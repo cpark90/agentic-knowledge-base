@@ -7,7 +7,8 @@ title: Promotion is confirmed by a person checking that a topic-plane chunk cite
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-22T19:06:46+09:00}
+generated: {by: vnv/claude-fable-5-1, at: 2026-10-06T10:55:32+09:00}
+verified: [{by: vnv/claude-sonnet-5-5, at: 2026-10-06T10:55:34+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/c7aaa3bd-826c-425b-9d0d-76d009002ae6]
 ---
 **합격 기준** — 기준 종류는 **사람 확인**이다. `∃ c ∈ 주제 plane: sources(c) ∋ o ∨ (c prov:wasDerivedFrom o)` 인 관측 `o ∈ memory` 가 있고, 승격 규칙(언제·무엇을)이 문서로 적혀 있는지를 사람이 본다.
@@ -19,6 +20,6 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/c7aaa3bd-826c-425b-9d0d-76
 1. 승격 규칙이 `docs/method.md` 의 갱신·일반화 절 또는 결정으로 적혀 있는지 본다. 없으면 규칙 없는 상태이고 성립이 아니다.
 1. 판단을 관측으로 남긴다.
 
-**등급** — C 다. 층의 존재는 기계가 보장하고 승격 사례와 규칙의 유무는 사람이 본다.
+**등급** — C 다. 단기기억·장기기억 두 자리의 존재는 기계가 보장하고 승격 사례와 규칙의 유무는 사람이 본다.
 
 케이스를 두지 않는다. memory plane 의 존재와 append-only 는 케이스 `observations-append-only` 가 이미 관측하고, 승격 자체는 실행 명령으로 판정되지 않는다. 판정의 원본은 `kb/dev/decision/p11-memory-promotion-rule/conclusion.md` 와 이 절차다.

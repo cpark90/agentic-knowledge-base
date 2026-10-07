@@ -7,13 +7,13 @@ title: How the continuant and occurrent split of the upper ontology is applied
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-06T01:15:39+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:44+09:00}
 ---
 유저는 미결을 "개선 및 확장이 이루어지는 frontier 포인트"로 보았다(Q54-a).
 
 질문 — 표준 상위 온톨로지인 BFO는 세계를 continuant와 occurrent로 가른다. continuant는 시간을 관통해 존재하는 것으로 물체·정보 내용·역할이 여기 든다. occurrent는 시간 안에서 일어나는 것으로 과정·사건이 여기 든다. 이 체계의 개체들(청크·복합체·결정·링크·가정·scene·실행 기록·역할)이 각각 어느 쪽인지, 그 구분이 어휘·shape·질의에 무엇을 요구하는지가 변수다. 분류가 틀리면 나중에 전부 다시 봐야 한다. `part-of`가 continuant용과 occurrent용으로 갈리므로 링크 타입의 정의역·치역 공리가 그 위에 얹힌다. 요구 `r-001`(분야 지식을 어휘로 축적한다)에서 이 정렬 규칙으로 가는 `refines`가 열려 있다.
 
-이미 정해진 것 — 맨바닥에서 짓지 않고 표준 상위 온톨로지 위에 구축하며 후보는 BFO다(`p2-upper-ontology-foundation`). 개체는 여러 scene을 관통하는 endurant이고 정체성은 IRI, 상태 변화는 `prov:wasRevisionOf`다(`p2-temporal-identity`). 온톨로지는 계층 전체가 쓰는 어휘다(`p2-ontology-as-vocabulary`). 상위 온톨로지 선택이 모든 plane에 걸린다.
+이미 정해진 것 — 맨바닥에서 짓지 않고 표준 상위 온톨로지 위에 구축하며 후보는 BFO다(`p2-upper-ontology-foundation`). 개체는 여러 scene을 관통하는 endurant이고 정체성은 IRI, 상태 변화는 `prov:wasRevisionOf`다(`p2-temporal-identity`). 온톨로지는 정제 계층 전체가 쓰는 어휘다(`p2-ontology-as-vocabulary`). 상위 온톨로지 선택이 모든 plane에 걸린다.
 
 현재 상태(2026-10-06 실측) — `upper` 모듈이 없다. 온톨로지 모듈은 `entity`·`profile`·`related` 아래에 있고 continuant·occurrent를 쓰는 온톨로지 파일은 0이다. `agt:KnowledgeItem` 정의문이 "상위 온톨로지 도입 시 `iao:InformationContentEntity` 아래로 정렬한다"고 예고만 하고, `agt:hasDirectPart`도 "표준 part-of의 하위 속성으로 정렬한다"고 예고한다. `tools/kb_lib.py`에 obo 접두어만 등록되어 있다. occurrent 쪽 개체는 이제 있다. `kb/vv/run/`의 실행 기록 9건과 시나리오 58개다.
 

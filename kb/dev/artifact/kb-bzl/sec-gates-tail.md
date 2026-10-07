@@ -7,7 +7,7 @@ title: section gates-tail in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/b5154bf0-e67d-4227-8b66-c63012041201
 ---
@@ -35,7 +35,7 @@ GATES_TAIL = {
     "prose": {"tier": "test", "tool": "chunk_lint", "ko": "산문 문체", "desc": "경어체 종결과 산문의 느낌표"},
     "residency": {"tier": "verify", "tool": "validate", "ko": "수준 허용표 단일 정의처", "desc": "수준 허용표 shape 가 RESIDENCY 리터럴과 갈림"},
     "restored": {"tier": "analysis", "tool": "chunk2kg", "ko": "복원 표시", "desc": "restored 의 IRI 가 같은 청크의 링크 키 대상에 없음"},
-    "rung-before-descent": {"tier": "verify", "tool": "validate", "ko": "사다리 사슬", "desc": "같은 높이의 V&V 대응물(목표·기준·검증기 바인딩) 없이 다음 높이로 내려간 하강"},
+    "rung-before-descent": {"tier": "verify", "tool": "validate", "ko": "정제 계층 사슬", "desc": "같은 정제 수준의 V&V 대응물(목표·기준·검증기 바인딩) 없이 다음 정제 수준으로 내려간 정제"},
     "shacl": {"tier": "shape", "tool": "validate", "ko": "shape 적합성", "desc": "SHACL shape 부적합"},
     "skills-drift": {"tier": "test", "tool": "gen_skills", "ko": "skill 드리프트", "desc": "생성 skill 이 docstring 과 SKILLS 에 어긋남"},
     "space": {"tier": "analysis", "tool": "space2kg", "ko": "설계 공간", "desc": "근거 없는 배제, 확정 후보 수, 변수와 후보의 불일치"},

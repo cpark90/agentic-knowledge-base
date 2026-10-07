@@ -2,7 +2,7 @@
 # 순서가 뜻을 갖는 복합체만 co:List 를 겸한다 — 어휘는 Collections Ontology 원문(co:item / co:ListItem / co:index / co:itemContent)이고
 # 정의를 고치지 않고 그대로 쓴다 (0.3절 등록 표준 어휘, kb_lib.WELL_KNOWN_PREFIXES).
 # 검사 자리를 **shape 로 둔다** — 결정이 그렇게 정했고(순서의 정합성은 shape 가 판정한다), 판정 단위가 복합체 노드 하나라
-# 청크 단위·즉시 계층에 맞는다. verify 질의는 그래프 전체를 훑는 재검증 시점 계층이고 순환처럼 경로를 따라가는 것의 자리다.
+# 청크 단위·즉시 실행 계층에 맞는다. verify 질의는 그래프 전체를 훑는 재검증 시점 실행 계층이고 순환처럼 경로를 따라가는 것의 자리다.
 # 색인 자체의 형(양의 정수·하나씩)은 SHACL 코어로 보고, 집합의 성질(연속·중복 없음·부분과 일치)만 sh:sparql 로 본다.
 # 세 수가 같고 색인이 양의 정수이면 색인 집합은 {1..n} 뿐이다 — 서로 다른 n 개의 양의 정수의 최댓값이 n 이면 그것은 1..n 이다.
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .

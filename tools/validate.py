@@ -16,7 +16,7 @@
               아니라 직접 트리플뿐이므로 여기가 유일한 실재 검사다. agt:usesConcept 의 대상은
               온톨로지가 정의한 용어여야 한다 (dependency-graph-design §5 참조 무결성).
               prov:specializationOf(분할 조각 → 원본)의 대상도 포함한다
-  space       설계 공간(agt:Space)의 규율 (p9-candidate-storage, 요구 r-011): 변수의 출발 항목과 후보의 대상이
+  space       설계 공간(agt:Space)의 규칙 (p9-candidate-storage, 요구 r-011): 변수의 출발 항목과 후보의 대상이
               실재하고 · 후보의 출발점·링크 타입이 그 공간의 변수와 같고 · spaceStatus resolved 면 확정 후보가
               정확히 하나이며 · 배제된 후보에 (−) 증거, 확정된 후보에 구축·실행 (+) 증거가 있다
   specialization  prov:specializationOf 의 대상은 살아 있는(deprecated 아닌) 같은 plane 의 청크이고 사슬은 순환하지
@@ -24,7 +24,7 @@
   cross-kb-link  frontmatter 링크 키(chunk2kg.LINK_KEYS)의 링크가 verifies 밖이면서 두 KB(kb/dev ↔ kb/vv)를 가로지르지
               않는다. 예외는 검증 목표(kb/vv requirement, functional) → 개발 요구 derivesFrom 하나다 (p6-executable-splits-by-kb ·
               p8-scenario-ladder-rungs). 판정은 복원 후보 생성기(tools/link.py)와 같은 함수 kb_lib.cross_kb_link 다
-  rung-before-descent  같은 높이의 V&V 대응물 없이 다음 높이로 내려간 하강이 없다 (요구 r-023, 유저 결정 Q51-a 의 R1 사다리
+  rung-before-descent  같은 정제 수준의 V&V 대응물 없이 다음 정제 수준으로 내려간 정제가 없다 (요구 r-023, 유저 결정 Q51-a 의 R1 정제 계층
               사슬) — functional→abstract 는 목표, logical→concrete 는 기준, concrete→executable 은 검증기가 바인딩한 기준(사람
               확인 기준만 가진 요구는 면제)이다. 판정은 지표와 같은 함수 kb_lib.rung_violations 다
   catalog     (--data 에 agt:Harness 가 있을 때) 카탈로그 정합성 (AGENTS.md 역할 절 · STYLEGUIDE §5 · 9.2·9.6절):
@@ -317,7 +317,7 @@ def check_element_drop(ontology: Graph | None, chunk_files: list[str]) -> list[s
 # ── 설계 공간과 분할 정체성 ────────────────────
 
 def check_space(merged: Graph, files: dict[str, Graph]) -> list[str]:
-    """설계 공간(agt:Space)의 규율 (결정 p9-candidate-storage, 요구 r-011-no-groundless-assignment, 게이트 id `space`).
+    """설계 공간(agt:Space)의 규칙 (결정 p9-candidate-storage, 요구 r-011-no-groundless-assignment, 게이트 id `space`).
 
     후보는 확정 링크와 다른 자리에 살고 결코 deps 가 되지 않으므로, Bazel 이 로드 시점에 잡아 주는 것(끝점의 실재·방향)을
     여기서 그래프로 대신 판정한다. 검사는 다섯이다.
@@ -373,7 +373,7 @@ def check_space(merged: Graph, files: dict[str, Graph]) -> list[str]:
 
 
 def check_specialization(merged: Graph, files: dict[str, Graph]) -> list[str]:
-    """prov:specializationOf 규율 (p10-split-keeps-work-identity, 게이트 id `specialization`).
+    """prov:specializationOf 규칙 (p10-split-keeps-work-identity, 게이트 id `specialization`).
 
     분할 조각은 원 청크를 특수화한다 — 같은 것의 다른 입도다. 그래서 대상은 (a) 같은 plane 의 청크이고 (b) 살아 있어야 하며
     (deprecated 원본의 조각은 원본을 승계했어야 한다), (c) 사슬은 순환하지 않는다 (뿌리 uuid 를 계산할 수 없다). 대상 부재는
@@ -475,9 +475,9 @@ def check_code_part_link(merged: Graph) -> list[str]:
 
 
 def check_rung_before_descent(merged: Graph) -> list[str]:
-    """같은 높이의 V&V 대응물 없이 다음 높이로 내려간 하강을 거부한다 (게이트 `rung-before-descent`, 요구 r-023, 유저 결정 Q51-a).
+    """같은 정제 수준의 V&V 대응물 없이 다음 정제 수준으로 내려간 정제를 거부한다 (게이트 `rung-before-descent`, 요구 r-023, 유저 결정 Q51-a).
 
-    판정식은 R1 사다리 사슬이다 — functional→abstract 는 하강 대상 요구의 검증 목표, logical→concrete 는 결정 복합체가 닿는
+    판정식은 R1 정제 계층 사슬이다 — functional→abstract 는 정제 대상 요구의 검증 목표, logical→concrete 는 결정 복합체가 닿는
     요구의 목표에 달린 합격 기준, concrete→executable 은 그 기준 가운데 검증기가 바인딩한 것을 요구한다(사람 확인 기준만
     가진 요구는 면제, Q26-a). 판정에는 두 KB 의 청크·복합체 부분·링크가 함께 필요해 병합 그래프를 보는 여기가 자리다
     (`cross-kb-link`·`code-part-link` 와 같다). 판정 함수는 지표(metrics 7단계 절·전방 추적)와 같은 `kb_lib.rung_violations`
@@ -490,7 +490,7 @@ def check_rung_before_descent(merged: Graph) -> list[str]:
     need = {kb_lib.RUNG_DESCENTS[0]: "요구를 derivesFrom 하는 검증 목표가 없다",
             kb_lib.RUNG_DESCENTS[1]: "요구의 검증 목표에 합격 기준이 없다",
             kb_lib.RUNG_DESCENTS[2]: "요구의 합격 기준(사람 확인 기준 제외)을 바인딩한 검증기가 없다"}
-    return [f"[{gate}] {_chunk_location(merged, s)}: {rung} 하강(대상 {_chunk_location(merged, o)})이 닿는 요구 "
+    return [f"[{gate}] {_chunk_location(merged, s)}: {rung} 정제(대상 {_chunk_location(merged, o)})이 닿는 요구 "
             f"{_chunk_location(merged, r)} — {need[rung]} (r-023-rung-before-descent, p8-scenario-ladder-rungs)"
             for rung, s, o, r in kb_lib.rung_violations(merged, plane, level, live)]
 
@@ -688,7 +688,7 @@ def check_writer(merged: Graph) -> list[str]:
 # ── verify 질의와 단일 정의처 ────────────────────
 
 def check_verify(merged: Graph, query_dir: str) -> list[str]:
-    """안티패턴 계층 (노트 2.5절) — '이런 트리플이 존재하면 실패'를 SPARQL로 명세.
+    """안티패턴 단계 (노트 2.5절) — '이런 트리플이 존재하면 실패'를 SPARQL로 명세.
 
     tools/verify-queries/*.rq 하나가 안티패턴 하나다. 결과 행이 나오면 그 행 수만큼
     위반이며, 질의 첫 주석 줄이 실패 메시지의 근거가 된다. shape로 쓰기 어색한
@@ -935,7 +935,7 @@ def main() -> int:
                     help="게이트 `gate-registry` 가 태그를 훑을 소스 전수 (tools/*.py). --gates 와 함께 쓴다")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 게이트 token-budget 이 sha256 을 고정값과 대조한다. "
                                                "없으면 runfiles 의 고정 파일을 쓴다 (ODD id:cond-tokenizer-lock)")
-    ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 계층)")
+    ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 실행 계층)")
     ap.add_argument("--chunk-files", nargs="*", default=[],
                     help="청크 파일들(*.md) — 주면 element-drop 의 frontmatter 키 전수 대조가 켜진다")
     ap.add_argument("--standard-vocab", nargs="*", default=[],

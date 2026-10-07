@@ -8,10 +8,10 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/47ee0dfa-f035-4220-a756-a447df307de9]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-05T00:49:09+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-06T11:23:25+09:00}
 layer: process
 ---
-**검증기** — 다섯 실행 계층 중 기계 계층 넷을 대표 게이트 하나씩으로 자극한다.
+**검증기** — 다섯 실행 계층 중 기계 실행 계층 넷을 대표 게이트 하나씩으로 자극한다.
 
 **자극** — `defs/tests/BUILD.bazel`의 `manual` 고정물 다섯과 커밋된 저장소 전체다.
 
@@ -25,6 +25,6 @@ test:         //kb/dev:lint_test     # 본문 토큰 상한 · 결정 역할 표
 
 **실행 명령** — `bazel test //defs/tests:residency_test //defs/tests:plane_direction_test //defs/tests:supersedes_plane_test //defs/tests:verifies_subject_test //defs/tests:decision_levels_test //kg:gate_test //kb/dev:lint_test`
 
-**판정 범위** — 고정물 다섯은 `defs/kb.bzl`의 분석 시점 규칙 전부에 하나씩 대응하므로 analysis 계층은 전수다. shape·verify·test 계층은 게이트 하나씩으로 대표하고 각 게이트의 세부 분기는 다른 사슬(`residency-matrix`·`chunk-42-lines`·`foreign-vocabulary-rejected`·`criteria-before-verifies`)이 갖는다.
+**판정 범위** — 고정물 다섯은 `defs/kb.bzl`의 분석 시점 규칙 전부에 하나씩 대응하므로 analysis 실행 계층은 전수다. shape·verify·test 실행 계층은 게이트 하나씩으로 대표하고 각 게이트의 세부 분기는 다른 사슬(`residency-matrix`·`chunk-42-lines`·`foreign-vocabulary-rejected`·`criteria-before-verifies`)이 갖는다.
 
 **검증 대응물** — 없음. 옮기기 전 케이스가 `verifies` 하던 결정 `p6-gate-catalogue` 의 결론은 `concrete` 수준이라 `executable` 검증기가 `verifies` 할 수 없다.

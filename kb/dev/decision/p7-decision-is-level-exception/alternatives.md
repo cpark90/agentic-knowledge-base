@@ -2,12 +2,12 @@
 id: https://agentic-knowledge-base.dev/id/chunk/62e9a231-5d52-4bf5-a716-22f829895769
 type: decision
 level: logical
-title_ko: 계층 예외 후보의 같은 공간 다른 후보 둘
+title_ko: 수준 예외 후보의 같은 공간 다른 후보 둘
 title: The two other candidates beside the level-exception candidate
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-06T00:03:07+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:44+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/70f60315-ff61-4fb9-90fd-9e49cf556479
 ---

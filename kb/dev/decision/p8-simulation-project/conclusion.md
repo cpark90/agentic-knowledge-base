@@ -7,10 +7,11 @@ title: The step-3 simulation project is the centre of agent verification
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0133]
 part_of: https://agentic-knowledge-base.dev/id/composite/229d2de0-e6eb-432a-9548-5ea5898ce770
 composite: {id: https://agentic-knowledge-base.dev/id/composite/229d2de0-e6eb-432a-9548-5ea5898ce770, title_ko: 시뮬레이션 프로젝트, title: The simulation project}
 ---
-**결론** — 환경 계층 3단계의 **시뮬레이션 프로젝트**가 에이전트 검증의 중심이다. 실제 서비스의 **서브셋을 격리 구축**하고, 미리 정의한 요구를 에이전트가 산출물로 정제하게 한다. 유저 피드백은 자동 응답으로 대신하고 seed를 고정한다.
+**결론** — 검증 환경 계층 3단계의 **시뮬레이션 프로젝트**가 에이전트 검증의 중심이다. 실제 서비스의 **서브셋을 격리 구축**하고, 미리 정의한 요구를 에이전트가 산출물로 정제하게 한다. 유저 피드백은 자동 응답으로 대신하고 seed를 고정한다.

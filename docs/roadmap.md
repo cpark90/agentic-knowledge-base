@@ -85,7 +85,7 @@ ODD 조건 7 · 역할 4 · 스코프 4 · 인용 링크 30 · 링크 개체 472
 |---|---|---|
 | 1. 프로파일 구축 | **첫 형태**(2026-09-18) — `profile/development`: 실체 7·판정 도구 6·EARS·shape·`chunk2kg` 타이핑 | 조건 셋째 수준·결함 하위 유형 미채움. 절차는 `method.md` §1 |
 | 2. ODD 작성 | **완료**(이 저장소 자신에 대해) | — |
-| 3. 정제(저작) | 부분 — `decision` × `concrete` 한 칸만 채워졌다. 계층을 타지 않고 concrete로 직행했다 | abstract·logical의 형식 언어와 `-space` 형식 |
+| 3. 정제(저작) | 부분 — `decision` × `concrete` 한 칸만 채워졌다. 정제 계층을 타지 않고 concrete로 직행했다 | abstract·logical의 형식 언어와 `-space` 형식 |
 | 4. 조회 | 부분 — `workset` 첫 형태(역할 스코프 × 수준 창 × 앵커 이웃, 예산 패킹) | 앵커 밖 일반 질의 도구(`query`)가 없다 |
 | 5. 연결 | 부분 — 인용 링크 · frontmatter 링크마다 링크 개체 + 구축 기록 증거 · `handoff`(수동 읽기 집합) | 하네스의 도구가 읽기·쓰기 집합을 자동 기록하지 않아 후보 링크가 안 생긴다 |
 | 6. 갱신 | 부분 — `revalidate`(본문 해시 변경 → 재판정 대상) | 상태 저장·전파 규칙(`propagate`)이 없다 |
@@ -138,7 +138,7 @@ ODD 조건 7 · 역할 4 · 스코프 4 · 인용 링크 30 · 링크 개체 472
    pySHACL 추론이 비반사성을 보고하지 않는다. 수준 허용표 단일 정의처 = `defs/kb.bzl`(게이트 `residency`). `sh:datatype` 1→27.
    유저 승인 항목 `nl-ambiguity-adoption` 반영: 본문 추출 참조 = 후보 링크 개체
    (`p10-extracted-references-are-candidates`), 분할의 uuid 승계·`specializationOf`·뿌리 uuid 링크 IRI(`p10-split-keeps-work-identity`).
-   남은 선택지 C(selector 층)·D(`when` 켜기)·E(어휘 확장 규칙)는 유저 결정 대기.
+   남은 선택지 C(selector)·D(`when` 켜기)·E(어휘 확장 규칙)는 유저 결정 대기.
 
 산출 이력과 재정렬의 경위는 git 이력이 원본이다 (`git log -- docs/roadmap.md`).
 10. **열린 자리 — 2026-09-27 실측.** 앞선 항목은 전부 첫 형태가 생겼다. 남은 것은 두 무리다.

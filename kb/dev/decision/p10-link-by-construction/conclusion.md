@@ -7,8 +7,8 @@ title: Links are built by construction; recovery is the exception
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-03T18:33:13+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T19:53:33+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 layer: methodology
 refines: [https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0009]
@@ -21,7 +21,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/6651b045-a578-41
 
 | 기록 | 링크 |
 |---|---|
-| 계층 전이 (6.2절) | `refines` |
+| 수준 전이 (6.2절) | `refines` |
 | 결정을 읽고 코드를 씀 | `satisfies` 후보 |
 | 결정을 읽고 결정을 씀 | `derives-from` 후보 |
 | 스코프의 조건을 참조함 | `assumes` |

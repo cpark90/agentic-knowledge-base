@@ -7,8 +7,8 @@ title: Judgement belongs to gates outside the agent, so completion is defined by
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T04:28:04+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-07T03:03:35+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-07T03:03:36+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/3e29e698-8ef5-4fe2-ac1b-867e596a5179
 ---
@@ -16,7 +16,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/3e29e698-8ef5-4fe2-ac1b
 
 셀프체크 절은 저장소 초기 구축(2026-09-01)부터 `AGENTS.md`에 있었다. 첫 판은 게이트 전체와 정규화 두 줄이었다. 생성 BUILD와 생성 skill의 재생성 줄은 2026-09-19에, 코드 재추출 줄은 2026-09-30 코드 추출 도입과 함께 더해졌다(커밋 이력).
 
-정규화의 이유는 노트 2.5절이다. 직렬화 순서가 불안정하면 git diff가 의미 없는 변경으로 차고 무효화 판정의 입력이 오염된다. 정규화 직렬화는 온톨로지 컴파일러의 첫 계층이다(`p2-ontology-compiler-three-tiers`). 손으로 쓰는 TTL을 정규형 검사에서 뺀 판정은 2026-09-13이다. 그 파일의 서식(배너·주석·술어 순서)이 원본이기 때문이다.
+정규화의 이유는 노트 2.5절이다. 직렬화 순서가 불안정하면 git diff가 의미 없는 변경으로 차고 무효화 판정의 입력이 오염된다. 정규화 직렬화는 온톨로지 검사 3단계의 첫 단계다(`p2-ontology-compiler-three-tiers`). 손으로 쓰는 TTL을 정규형 검사에서 뺀 판정은 2026-09-13이다. 그 파일의 서식(배너·주석·술어 순서)이 원본이기 때문이다.
 
 커밋 전 시점은 노트 10.6절의 재검증 시점에서 온다. 커밋은 링크·가정을 일괄 재판정하는 경계다.
 

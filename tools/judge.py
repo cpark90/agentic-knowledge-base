@@ -266,7 +266,7 @@ def decoy_detection_rate(items: list[dict], q: dict, resp_sets: list[dict]) -> t
     return hit, seen
 
 
-# ── 판정 로그 (memory plane, append-only) 와 결과 주석 (annotation plane, 논평 형식) ─────────────────────
+# ── 판정 로그 (memory plane, append-only) 와 결과 주석 (annotation plane, 주석 형식) ─────────────────────
 
 def log_frontmatter(rows: list[dict], q: dict, name: str, th: dict, stamp: str) -> list[str]:
     """판정 로그의 frontmatter — 라벨이 묶음의 요약이다. uuid 는 파일마다 새로 난다."""
@@ -334,7 +334,7 @@ def split_rows(rows: list[dict], q: dict, name: str, th: dict, source: str, stam
 
 
 def verdict_chunk(row: dict, q: dict, name: str, stamp: str) -> str:
-    """결과 주석 본문 — 논평 형식 (p7-commentary-form). `본문:` 은 판정자가 쓰지 않는다 (규칙 ④)."""
+    """결과 주석 본문 — 주석 형식 (p7-commentary-form). `본문:` 은 판정자가 쓰지 않는다 (규칙 ④)."""
     ko = f"판정 결과 — {q['label']}: 값 {row['value']} · 확신도 {kb_lib.num(row['confidence'])}"
     en = f"Judgement result — {q['label_en']}: value {row['value']}, confidence {kb_lib.num(row['confidence'])}"
     head = ["---", f"id: {ID}chunk/{uuid.uuid4()}", "type: annotation", f"level: {row['level']}",

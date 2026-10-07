@@ -7,13 +7,14 @@ title: Run records and V&V artifacts are classified by tag sets
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-22T19:05:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/8117429b-5245-4a0a-8628-a46fb78dd65d, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0012]
 part_of: https://agentic-knowledge-base.dev/id/composite/49901d72-dedc-4f2c-a4ca-5ab543eea90c
-composite: {id: https://agentic-knowledge-base.dev/id/composite/49901d72-dedc-4f2c-a4ca-5ab543eea90c, title_ko: 분류는 계층이 아니라 태그로 한다, title: Classification is by tags, not a hierarchy}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/49901d72-dedc-4f2c-a4ca-5ab543eea90c, title_ko: 분류는 분류 계층이 아니라 태그로 한다, title: Classification is by tags, not a hierarchy}
 ---
-**결론** — 실행 기록과 검증 산출물의 분류는 **계층이 아니라 태그**로 한다.
+**결론** — 실행 기록과 검증 산출물의 분류는 **분류 계층이 아니라 태그**로 한다.
 태그는 메타 속성이고 범주는 태그 집합이다. 범주는 서로 배타적일 필요가 없고,
 태그 집합의 포함 관계가 범주의 포함 관계가 된다.
 
@@ -30,7 +31,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/49901d72-dedc-4f
 - **환경** — 검증 환경 계층 (unit / model / sil / hil / staging /
   production, 7.9절)
 - **대상** — 고정 어휘 (product / agent)
-- **level** — 계층 (`level:logical`)
+- **level** — 정제 수준 (`level:logical`)
 
 **범주 자체의 추가는 온톨로지 확장이고, 태그 값의 추가는 그 범주의 출처 어휘
 확장이다.**

@@ -8,7 +8,7 @@ agt:RequirementResidencyShape a sh:NodeShape ;
     sh:property [
         sh:path agt:hasLevel ;
         sh:in ( agt:functional ) ;
-        sh:message "requirement는 functional 전용이다 — 계층의 출발점 (6.4절 수준 허용표)" ;
+        sh:message "requirement는 functional 전용이다 — 정제 계층의 출발점 (6.4절 수준 허용표)" ;
     ] .
 
 agt:DecisionResidencyShape a sh:NodeShape ;

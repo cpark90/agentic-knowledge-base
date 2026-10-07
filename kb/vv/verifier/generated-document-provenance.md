@@ -8,7 +8,7 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-generated-document-standards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/adc6879f-8333-4dcd-8ada-fed795f81f1b]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T20:18:09+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-06T10:55:32+09:00}
 layer: process
 ---
 **검증기** — 게이트 하나와 임시 표본 둘을 자극으로 쓴다.
@@ -24,6 +24,6 @@ nofinger.md: ["# x — y (생성 파일)", "", "- 생성기: `tools/x.py` · gen
 
 **실행 명령** — `bazel test //:gendoc_test`
 
-**판정 범위** — 양성은 게이트의 대상 전부라 전수다. 음성은 머리의 유무(G1)와 머리 안 필수 값의 유무(G4)로 두 층을 하나씩 덮는다. 임시 파일 자극은 vv_run 이 실행하지 않으므로 서술로 둔다.
+**판정 범위** — 양성은 게이트의 대상 전부라 전수다. 음성은 머리의 유무(G1)와 머리 안 필수 값의 유무(G4)로 두 경우를 하나씩 덮는다. 임시 파일 자극은 vv_run 이 실행하지 않으므로 서술로 둔다.
 
 **검증 대응물** — 없음. 옮기기 전 케이스가 `verifies` 하던 결정 `p12-generated-document-header` 의 결론은 `concrete` 수준이라 `executable` 검증기가 `verifies` 할 수 없다.

@@ -7,7 +7,7 @@ title: section ordered-key in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/7b4508d3-c314-4c0b-a04f-4f86b63bf62e
 composite: {id: https://agentic-knowledge-base.dev/id/composite/7b4508d3-c314-4c0b-a04f-4f86b63bf62e, title_ko: 절 복합체 ordered-key (tools/chunk2kg.py), title: section composite ordered-key in tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/c4902423-8b93-4f1a-8c9e-22ff76076b32, https://agentic-knowledge-base.dev/id/chunk/040b7a8d-10e8-4e6e-96db-b8495e467218], part_of: https://agentic-knowledge-base.dev/id/composite/28e52252-d603-4c96-b7ee-f85197b0d7da}
@@ -25,7 +25,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/7b4508d3-c314-4c
 #                 `part_of` 는 선택 키이며 **선언된 복합체**가 다른 복합체의 직접 부분임을 적는다 (p4-composite-as-part-of —
 #                 복합체는 청크 또는 다른 복합체를 부분으로 갖는다). 청크의 최상위 `part_of` 와 자리가 다르다: 앞은 청크의
 #                 소속, 뒤는 복합체의 소속이다. 상위 복합체도 같은 실행의 입력 집합 안에서 선언돼야 하고 사슬은 순환하지
-#                 않는다. 코드 추출(p7-code-links-on-file-composite)의 파일 → 장·절 → 함수 세 층이 이 키로 선다. `ordered` 는 선택 키이고
+#                 않는다. 코드 추출(p7-code-links-on-file-composite)의 파일 → 장·절 → 함수 세 단이 이 키로 선다. `ordered` 는 선택 키이고
 #                 순서가 뜻을 갖는 복합체만 적는다 (결정 p4-composite-order-is-declared). 있으면 `agt:Composite , co:List` 로
 #                 타이핑하고 부분마다 `co:item [ a co:ListItem ; co:index "<1..n>"^^xsd:positiveInteger ; co:itemContent <부분> ]`
 #                 을 그 순서로 낸다. 없으면 `agt:hasDirectPart` 만 낸다(순서 없음) — 순서를 요구하지 않는 것에 순서를 붙이면
@@ -49,7 +49,7 @@ ORDERED_KEY = "ordered"
 # 복합체가 다른 복합체의 부분이 되는 자리 (p4-composite-as-part-of "복합체는 청크 또는 다른 복합체를 부분으로 갖는다").
 # 청크의 최상위 `part_of` 는 그 청크가 어느 복합체의 부분인가이고, `composite.part_of` 는 **선언된 복합체**가 어느
 # 복합체의 부분인가다. 코드의 추출(p7-code-links-on-file-composite)이 이 자리를 처음 쓴다 — 파일 복합체 → 장·절
-# 복합체 → 함수 청크의 세 층은 부분 상한 9(4.5절) 안에서 파일 하나를 담는 유일한 형태다.
+# 복합체 → 함수 청크의 세 단은 부분 상한 9(4.5절) 안에서 파일 하나를 담는 유일한 형태다.
 PART_OF_KEY = "part_of"
 ```
 <!-- 인용 끝 -->

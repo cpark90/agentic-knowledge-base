@@ -2,15 +2,16 @@
 id: https://agentic-knowledge-base.dev/id/chunk/c7bb9248-685a-4fb5-9c1e-8349f7833211
 type: decision
 level: logical
-title_ko: 계층 분류와 자유 태그 안의 기각
+title_ko: 분류 계층과 자유 태그 안의 기각
 title: Rejecting a hierarchy and free-form tags
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/49901d72-dedc-4f2c-a4ca-5ab543eea90c
 ---
-**대안** — 실행 기록을 계층으로 분류하는 안. 기각 — 위 근거대로 첫 분기가
+**대안** — 실행 기록을 분류 계층으로 분류하는 안. 기각 — 위 근거대로 첫 분기가
 지배하며, 목적·환경·대상처럼 서로 직교하는 축이 여럿이라 어느 축을 위에 둬도
 나머지가 중복된다.
 

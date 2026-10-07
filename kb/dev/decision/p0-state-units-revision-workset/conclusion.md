@@ -7,7 +7,8 @@ title: No timeline entities
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0012]
 part_of: https://agentic-knowledge-base.dev/id/composite/52124ca7-97f8-4b5e-818f-1574ab131484
@@ -23,7 +24,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/52124ca7-97f8-4b
   청크 집합. 질의 결과이며 저장하지 않는다 (4.6절)
 
 **작업 집합이 인지 측정(11.3절)과 dispatch 전달(10.3절)의 단위다.** 스코프가
-plane과 조건을, level 창이 계층 높이를 거른다 — 구현 에이전트는 logical
+plane과 조건을, level 창이 정제 수준을 거른다 — 구현 에이전트는 logical
 이하만, 설계 에이전트는 abstract 이상만 본다.
 
 과거 작업 집합이 필요하면 **그 리비전에 같은 질의를 다시 건다.**

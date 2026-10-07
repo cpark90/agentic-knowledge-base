@@ -7,7 +7,8 @@ title: Planes are defined by verification mechanism; the skeleton has seven
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0003]
 part_of: https://agentic-knowledge-base.dev/id/composite/5b5edf6d-f638-4c16-bc32-f4d8e6ed9785
@@ -29,5 +30,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/5b5edf6d-f638-4c
 
 **요구와 주석은 둘 다 합의로 판정되지만 다른 plane이다.** 요구의 합의는
 이해관계자가 "이것을 원한다"에 동의하는 것이고, 주석의 합의는 "이 지적이
-해소되었다"에 동의하는 것이다. 전자는 계층의 출발점이고 후자는 임의 청크에
+해소되었다"에 동의하는 것이다. 전자는 정제 계층의 출발점이고 후자는 임의 청크에
 붙는다.

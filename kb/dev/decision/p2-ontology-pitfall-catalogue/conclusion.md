@@ -7,16 +7,17 @@ title: Design defects are assessed periodically against a catalogue
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0055]
 part_of: https://agentic-knowledge-base.dev/id/composite/e2647f3b-9122-4cad-93ea-8f5bd85b2a51
 composite: {id: https://agentic-knowledge-base.dev/id/composite/e2647f3b-9122-4cad-93ea-8f5bd85b2a51, title_ko: 온톨로지 결함 카탈로그, title: Ontology pitfall catalogue}
 ---
-**결론** — 2.5절 3계층 검사 외에 **주기적으로 설계 결함을 검사한다.** 온톨로지 결함 카탈로그(pitfall catalogue)를 쓰며, 결함마다 검출 수단을 지정한다.
+**결론** — 2.5절 온톨로지 검사 3단계 외에 **주기적으로 설계 결함을 검사한다.** 온톨로지 결함 카탈로그(pitfall catalogue)를 쓰며, 결함마다 검출 수단을 지정한다.
 
 - 정의 없는 개념 · 동의어를 별개 클래스로 → 품질 검사, 0.8절 `altLabel` 통합
-- 잘못된 계층 · 순환 계층 → 상위 온톨로지 준수 검사, 추론기
+- 잘못된 분류 계층 · 순환 분류 계층 → 상위 온톨로지 준수 검사, 추론기
 - 관계 방향 혼동 · 정의역·치역 미지정 → 정의역·치역 검사, TIM 검사
 - 다의어 개념 → 역량 질문에서 모순 답 · 과설계 → 2.7절 대조
 - 고립 개념 · 미사용 import → 그래프 질의, 모듈 의존 검사

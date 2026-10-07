@@ -140,7 +140,7 @@
 - **[지킴]** 게이트는 `defs/knowledge.bzl`의 매크로로만 선언한다 ([`pe-knowledge-files-are-gate-inputs`](kb/dev/decision/pe-knowledge-files-are-gate-inputs/conclusion.md)). `py_test`를 직접 쓰지 않는다.
 - **[지킴]** 모듈 디렉토리가 Bazel 패키지다 ([`pe-knowledge-files-are-gate-inputs`](kb/dev/decision/pe-knowledge-files-are-gate-inputs/conclusion.md)). 패키지의 `filegroup` 이름은 디렉토리 이름과 같게 한다.
 - **[지킴]** 생성물은 `bazel-out`에만 존재한다 ([`pe-generated-outputs-stay-in-bazel-out`](kb/dev/decision/pe-generated-outputs-stay-in-bazel-out/conclusion.md)). 소스 트리에 같은 이름의 파일을 두지 않는다. 예외는 생성 트리 파일 셋이다. 셋은 생성 BUILD, `.claude/skills/`의 SKILL.md, 규범 문서이고 각각 `//:build_drift_test`·`//:skills_drift_test`·`//:norms_drift_test`가 재생성과 비교한다. 손으로 고치지 않는다.
-- **[권장]** `glob`은 패키지 안 한 계층만 대상으로 한다 ([`pe-knowledge-files-are-gate-inputs`](kb/dev/decision/pe-knowledge-files-are-gate-inputs/conclusion.md)).
+- **[권장]** `glob`은 패키지 안 한 디렉토리 깊이만 대상으로 한다 ([`pe-knowledge-files-are-gate-inputs`](kb/dev/decision/pe-knowledge-files-are-gate-inputs/conclusion.md)).
 
 ## §7. 도구 (`tools/*.py`)
 

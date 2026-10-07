@@ -7,18 +7,18 @@ title: section body-slots in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/992d5e5a-5efc-4108-a5c8-1e75dd96807a
 composite: {id: https://agentic-knowledge-base.dev/id/composite/992d5e5a-5efc-4108-a5c8-1e75dd96807a, title_ko: 절 복합체 body-slots (tools/chunk2kg.py), title: section composite body-slots in tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/1fbf627e-a9f9-445e-aab2-a4206bdf72ee, https://agentic-knowledge-base.dev/id/chunk/848f96db-27ef-4fda-84af-e59077e7dc0c, https://agentic-knowledge-base.dev/id/chunk/b7ffd04b-bbcb-41aa-a69d-0b651364d2db, https://agentic-knowledge-base.dev/id/chunk/a3fa56bc-c50d-4d10-98ed-d101ae5102ce, https://agentic-knowledge-base.dev/id/chunk/41b351ab-939c-41ad-ab8f-bf2396bb0114], part_of: https://agentic-knowledge-base.dev/id/composite/28e52252-d603-4c96-b7ee-f85197b0d7da}
 ---
-**절** — `tools/chunk2kg.py` 의 절 `body-slots` 다. 본문 슬롯과 논평 형식
+**절** — `tools/chunk2kg.py` 의 절 `body-slots` 다. 본문 슬롯과 주석 형식
 
 **정의** — `body_slots` · `_alt` · `count_sentences` · `comment_form` (소스 순서).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-# ── 본문 슬롯과 논평 형식 ────────────────────
+# ── 본문 슬롯과 주석 형식 ────────────────────
 
 
 

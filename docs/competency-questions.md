@@ -84,7 +84,7 @@
 **CQ-12 ❌ 이 시나리오는 ODD 범위 안인가.**
 `agt:Scenario`와 `odd:outside` 태그 어휘가 없다. 검증 단계에서 필요해진다.
 
-## C. 계층과 후보
+## C. 정제 계층과 후보
 
 **CQ-13 ⚠ 이 항목은 어느 상위에서 내려왔는가 — functional까지 거슬러 달라.**
 `?c agt:refines+ ?anc`. 어휘는 갖춰졌으나 현재 항목이 전부 `concrete`라 답이 비어 있다.
@@ -181,12 +181,12 @@ write는 orchestrator=decision · developer=artifact · vnv=annotation로 겹치
 `Chunk`·`KnowledgeItem`·`Condition`·`Level`·`ExecutionMode`, shape 5개, 그리고
 **`functional`·`abstract`·`logical`·`executable`**이다. 앞의 다섯은 상위 클래스라 추론기 없이는
 인스턴스가 하위 클래스로만 나타난다. shape 5개는 SHACL 엔진이 쓰므로 데이터에 나타나지 않는다.
-마지막 넷은 실제 미사용이며 계층이 concrete 한 칸만 쓰고 있다는 증거다.*
+마지막 넷은 실제 미사용이며 정제 계층이 concrete 한 칸만 쓰고 있다는 증거다.*
 
 **CQ-29 ✅ 한/영 라벨이나 정의가 빠진 용어가 있는가.**
 `labels` 게이트가 이미 강제한다. *실측: 0건.*
 
-**CQ-30 ❌ 순환 계층·다의어·클래스와 개체 혼동이 있는가.**
+**CQ-30 ❌ 순환 분류 계층·다의어·클래스와 개체 혼동이 있는가.**
 상위 온톨로지 정렬과 추론기가 없어 검사할 수 없다
 ([`space/upper-ontology-alignment-space.md`](../space/upper-ontology-alignment-space.md)).
 
@@ -253,7 +253,7 @@ write는 orchestrator=decision · developer=artifact · vnv=annotation로 겹치
 |---|---|---|---|---|
 | A 구조와 조망 | 6 | 5 | — | 1(판정 불가) |
 | B 경계 | 6 | 4 | 1 | 1 |
-| C 계층과 후보 | 3 | — | 3 | — |
+| C 정제 계층과 후보 | 3 | — | 3 | — |
 | D 추적성 | 5 | 1 | 4 | — |
 | D-1 신뢰 등급 | 2 | 2 | — | — |
 | E 갱신과 무효화 | 3 | — | 2 | 1 |
@@ -275,7 +275,7 @@ write는 orchestrator=decision · developer=artifact · vnv=annotation로 겹치
 | ~~신뢰 등급~~ | **해소**(2026-09-07, 어휘 3개 + shape) | CQ-31·32 | `kb/ontology/related/trust/` |
 | ~~인용 링크 데이터~~ | **해소**(2026-09-07, 링크 27개) | CQ-20 | `tools/extract_refs.py` |
 | `satisfies`·`refines` 데이터 — 구축이 안 됨 | **데이터** | CQ-13·16·17·18의 답이 부분 | [`method.md` §6](method.md#6-연결) · 읽기·쓰기 집합 기록 |
-| `related/scene`·실행 기록·`defect` | 어휘 | CQ-12·26·27 | [`method.md` §11](method.md#11-검증--vv-층으로) |
+| `related/scene`·실행 기록·`defect` | 어휘 | CQ-12·26·27 | [`method.md` §11](method.md#11-검증--vv-kb로) |
 | 상위 온톨로지 정렬·상태 전이 이력 | 어휘 | CQ-23·30 | [`space/upper-ontology-alignment-space.md`](../space/upper-ontology-alignment-space.md) |
 | 라벨 대표성 판정 | 판정 불가 | CQ-06 | 지표로 관측 |
 

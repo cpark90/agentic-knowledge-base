@@ -27,7 +27,7 @@ bazel run //tools:judge -- --question bodyHasOneClaim --responses r1.json --resp
 
 ## 원본
 
-- 절차: [`docs/method.md#11-검증--vv-층으로`](../../../docs/method.md#11-검증--vv-층으로)
+- 절차: [`docs/method.md#11-검증--vv-kb로`](../../../docs/method.md#11-검증--vv-kb로)
 - 도구: `tools/judge.py` (`bazel run //tools:judge`) — 사용법은 docstring 이 원본이다
 
 ```text

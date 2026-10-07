@@ -8,9 +8,9 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 targets: [https://agentic-knowledge-base.dev/id/chunk/1a5c517a-088b-47c7-b29a-b4a044c84946]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T13:21:50+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-06T22:18:06+09:00}
 ---
-issue (non-blocking): 빈 칸 `satisfies`:artifact→decision 은 실제 누락이다 — 코드의 `refines` 가 사다리를 잇지만 충족 주장의 자리는 비어 있다
+issue (non-blocking): 빈 칸 `satisfies`:artifact→decision 은 실제 누락이다 — 코드의 `refines` 가 정제 계층을 잇지만 충족 주장의 자리는 비어 있다
 
 대상: https://agentic-knowledge-base.dev/id/chunk/1a5c517a-088b-47c7-b29a-b4a044c84946
 

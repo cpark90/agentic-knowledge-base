@@ -7,7 +7,7 @@ title: function emit in tools/gates2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gates2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-01T16:06:51Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/f15f1ad5-6a97-49e0-a1b6-d7cc84dd3b8e]
 part_of: https://agentic-knowledge-base.dev/id/composite/cda496f2-c562-40ea-bde8-f3fa740db1b1
@@ -17,7 +17,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/cda496f2-c562-40ea-bde8
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def emit(gates: dict, tiers: tuple, layer: str, tools: dict[str, str], outside: tuple, where: str) -> str:
-    """게이트 등록부 → TTL. 키·계층의 위반과 판정 도구의 부재는 생성 시점에 거부한다."""
+    """게이트 등록부 → TTL. 키·실행 계층의 위반과 판정 도구의 부재는 생성 시점에 거부한다."""
     errors = []
     blocks = []
     for gate_id in sorted(gates):
@@ -27,7 +27,7 @@ def emit(gates: dict, tiers: tuple, layer: str, tools: dict[str, str], outside: 
             errors.append(f"{where}: 게이트 {gate_id!r} 에 {', '.join(missing)} 가 없다")
             continue
         if spec["tier"] not in tiers:
-            errors.append(f"{where}: 게이트 {gate_id!r} 의 계층 {spec['tier']!r} 이 어휘 밖이다 — {list(tiers)} 중 하나다")
+            errors.append(f"{where}: 게이트 {gate_id!r} 의 실행 계층 {spec['tier']!r} 이 어휘 밖이다 — {list(tiers)} 중 하나다")
             continue
         props = [
             "a agt:Gate",

@@ -33,7 +33,7 @@ kg/catalog-kg.ttl          # A-Box — 에이전트 역할·스코프·채널 (�
 kg/composite-kg.ttl        # A-Box — 복합체 (손)
 kg/chunks-kg.ttl           # (생성) head 그래프 — frontmatter에서 만든다
 kg/references-kg.ttl       # (생성) 인용 링크 — 본문에서 뽑는다
-INTENT.md                  # 요구 층 진입 — 궁극 목적·이해관계자·요구 인덱스
+INTENT.md                  # 요구의 진입 문서 — 궁극 목적·이해관계자·요구 인덱스
 kb/dev/requirement/        # 개발 KB — 요구 (EARS, functional)
 kb/dev/decision/           # 개발 KB — 결정 (결론·근거·대안 세 청크 복합체)
 kb/vv/                     # V&V KB — vnv 역할만 편집 (아직 비어 있음)
@@ -83,13 +83,13 @@ Part VII이 신설되어 옛 VII 이후가 한 칸 밀렸다.
 | 문서 | 다루는 것 |
 |---|---|
 | [`purpose.md`](docs/purpose.md) | **먼저 읽는다.** 궁극 목적, 대상 지식과 순환, 두 KB, 이 저장소가 만드는 것 |
-| [`../INTENT.md`](INTENT.md) | 요구 층 진입 문서 — 이해관계자·관심사·요구 인덱스 (루트) |
+| [`../INTENT.md`](INTENT.md) | 요구의 진입 문서 — 이해관계자·관심사·요구 인덱스 (루트) |
 
 ### 산출물
 
 | 문서 | 다루는 것 |
 |---|---|
-| [`ontology.md`](docs/ontology.md) | 코어와 분야 프로파일, 확장 규칙 — 코어 / development / V&V 세 층 |
+| [`ontology.md`](docs/ontology.md) | 코어와 분야 프로파일, 확장 규칙 — 코어 / development / V&V 셋 |
 | [`competency-questions.md`](docs/competency-questions.md) | 온톨로지가 답해야 하는 질문과 현재 답할 수 있는 것 (노트 CQ1~20 대응표 포함) |
 | [`rules.md`](docs/rules.md) | 무엇이 유효한 구조인가 — 코어(chunk · 복합체 · plane · traceability · KG) / development / V&V |
 | [`method.md`](docs/method.md) | 운용 순서·완료 판정(§0)과 각 단계를 어떻게 하는가 — 코어 12절차 / development 저작 흐름 / V&V 위험 분석~되먹임 |
@@ -121,5 +121,5 @@ Part VII이 신설되어 옛 VII 이후가 한 칸 밀렸다.
 | `README.md` | 루트 | 저장소 소개 — 세 산출물·구조·명령 |
 | `AGENTS.md` | 루트 | 에이전트 하네스 — 역할·권한·소통·커밋 |
 | `STYLEGUIDE.md` | 루트 | 컴포넌트별 저작 스타일 — `[지킴]`/`[권장]` |
-| `INTENT.md` | 루트 | 요구 층 진입 — 궁극 목적과 요구 인덱스 |
+| `INTENT.md` | 루트 | 요구의 진입 문서 — 궁극 목적과 요구 인덱스 |
 | `docs/*.md` | 여기 | **체계 자체** — 목적·순서·어휘·규칙·방법·도구 |

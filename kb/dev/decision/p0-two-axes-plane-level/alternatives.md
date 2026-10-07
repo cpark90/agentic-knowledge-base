@@ -7,12 +7,12 @@ title: Rejecting the v1 abstraction reading of level and a single-axis scheme
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
-verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: human:cpark, at: 2026-09-11T18:50:00+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/ad724fe1-631f-41fb-a6dd-e7f0df9ac7d7
 ---
 **대안** — level을 "추상도"로 읽는 v1의 해석. 폐기한다. 추상도는 등급이라
-같은 등급의 두 항목 사이에 순서가 없지만, 정제 수준은 계층라 위 검증 대응물이
+같은 등급의 두 항목 사이에 순서가 없지만, 정제 수준은 정제 계층이라 위 검증 대응물이
 아래 검증 대응물의 근거가 된다 — 추적성(r-008·r-009)이 성립하는 것은 후자일
 때뿐이다.
 
@@ -20,4 +20,4 @@ part_of: https://agentic-knowledge-base.dev/id/composite/ad724fe1-631f-41fb-a6dd
 규칙(6.2절)이 한 분류에 섞여 어느 쪽 규칙이 적용되는지가 불명확해진다.
 
 **변경** — v1 plane 목록에 없던 `requirement`가 들어왔다. 요구가 별도 plane을
-가져야 요구 층이 결정·산출물과 다른 판정 방식을 받는다.
+가져야 요구가 결정·산출물과 다른 판정 방식을 받는다.

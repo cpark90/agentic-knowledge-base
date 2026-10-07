@@ -22,7 +22,7 @@ frontmatter 에 링크 키와 `restored:` 를 적는다 (p10-restored-link-marki
         구조상 채택될 수 없는 후보 셋을 더 거른다 — `_check_links` 는 Bazel deps(refines·serves·supersedes·verifies)만 보므로
         나머지 키는 여기서 걸러야 후보가 준다:
         (가) KB 가로지름 — verifies 밖의 모든 종류(satisfies·derivesFrom 포함). KB 사이 링크는 verifies 하나다
-             (p6-executable-splits-by-kb). 예외는 사다리의 functional 행 하나 — V&V 검증 목표(kb/vv requirement, functional)
+             (p6-executable-splits-by-kb). 예외는 정제 계층의 functional 행 하나 — V&V 검증 목표(kb/vv requirement, functional)
              → 개발 요구 derivesFrom (p8-scenario-ladder-rungs). 판정은 kb_lib.cross_kb_link 이고 저작된 링크는 같은 함수로
              게이트 `cross-kb-link`(validate)가 거부한다
         (나) 코드 부분 끝점 — 추출 트리(kb_lib.EXTRACT_ROOT) 안에서 복합체의 부분인 청크(정의·절·장·모듈 머리)는 끝점이 아니다.

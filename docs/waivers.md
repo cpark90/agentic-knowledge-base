@@ -11,6 +11,8 @@
 | prose | docs/references.md | 파일 | 도구 이름 "OOPS!"의 느낌표 — 고유명사 | orchestrator | 2026-09-13 |
 | empty-value | kb/dev/decision/p9-uncertainty-as-link-uncertainty/conclusion.md | 파일 | 본문의 "값이 미정인 것처럼 보이는 경우"는 빈 값 표기가 아니라 낱말의 산문 용법이다 (⑧ 빈 값 이상 표기) | orchestrator | 2026-09-22 |
 | term-drift | kb/vv/verifier/vv-run-executor.md | 파일 | 본문의 `verifier`는 결정 슬러그 `p8-verifier-env-isolation`(식별자)와 영문 `title:`뿐이다 — 옛 표기의 산문 용법이 아니라 부분 문자열 오탐이다 (consistency ⑥) | orchestrator | 2026-09-26 |
+| term-drift | kb/dev/decision/p0-terms-from-glossary/conventions.md | 파일 | 옛 표기를 쓰지 않는다고 언급하는 규약 줄 — 쓰임이 아니다 (consistency ⑥, Q71-a) | orchestrator | 2026-10-06 |
+| term-drift | chunks/decision/d-0187-authoring-discipline-alternatives.md | 파일 | v1 옛 결정이라 당시 어휘("규율")를 그대로 둔다 — 고치지 않는 범위다 (consistency ⑥, Q73-b) | orchestrator | 2026-10-07 |
 | gendoc | bazel-bin/kg/revalidate.md | 파일 | `revalidate`는 리비전 대비 차이라 입력 지문(G4)을 내지 않는다 — 두 리비전의 차이는 하나의 입력 집합이 아니다. 머리의 `입력` 줄이 그 사실을 `input_note`로 선언한다 | orchestrator | 2026-09-27 |
 | chunk | kb/vv/run/judge-20260929T182311Z.md | 파일 | append-only 판정 로그(3,094토큰 > memory 상한 2,856)다 — 기록의 소급 수정은 기록을 다시 쓰는 일이라 분할하지 않는다(r-026, `p0-run-as-observation`). 새 로그는 `judge`가 토큰 상한 안에서 나눈다 | orchestrator | 2026-10-01 |
 | shacl | kb/vv/run/judge-20260929T182311Z.md | 파일 | 같은 파일의 그래프 쪽 판정(`token-budget-shapes`, `agt:tokenCount` 3094 > 2856) — 위 `chunk` 면제와 같은 사유, append-only 기록은 소급 분할하지 않는다. shape는 그대로이고 선언된 면제가 적용된다 | orchestrator | 2026-10-01 |

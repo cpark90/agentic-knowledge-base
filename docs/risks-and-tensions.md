@@ -12,7 +12,7 @@
 | **가정 폭증** — 항목마다 가정을 붙이다 관리 불능 | ODD 속성만 참조하므로 상한 = 속성 수 × 항목 수. D등급 배제 | **기계화됨** — odd-ref 게이트 |
 | **질의 지연** — 그래프가 커지면 작업 집합 조립이 느려짐 | 라벨·상태를 head 그래프에 두어 본문 없이 질의 | **구조로 충족** — head 분리 |
 | **어휘 경직** — 온톨로지가 자라지 못해 새 개념을 담을 수 없음 | 일반화가 온톨로지까지 닿게 (d-0006) | 미착수 — 일반화 단계 |
-| **계층 우회** — functional에서 곧바로 executable로 | 중간 산출물을 커밋 조건으로 | **현재 모든 항목이 concrete 직행** |
+| **정제 계층 우회** — functional에서 곧바로 executable로 | 중간 산출물을 커밋 조건으로 | **현재 모든 항목이 concrete 직행** |
 | **logical 공동화** — 후보 없이 형식만 남음 | 시험대: `contract`·`artifact`의 logical 칸 | [미해결](../space/contract-artifact-logical-space.md) |
 | **정체성 단절** — 리팩터링 시 개체가 새로 생김 | 지속 IRI + 해시 버전 IRI | [미해결](../space/temporal-identity-space.md) · `contentHash`는 있고 해시 버전 IRI는 미결 |
 | **링크 붕괴** — 오래된 링크가 실제 구조를 오도 | 링크 상태 관리, 재검증 시점 | 부분 — 링크 개체 472, 상태는 증거 기록 규칙(verify 질의 2)으로 판정. suspect 후보는 `revalidate`(본문 해시 변경 → 링크·rdeps)로 계산하며 상태 저장은 없음 |

@@ -7,7 +7,7 @@ title: file tools/link.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/8d09b0e4-44b4-47b2-9ff6-5da9f3b22e12, https://agentic-knowledge-base.dev/id/chunk/5287133e-f7a3-4913-8aaf-062647cf5491, https://agentic-knowledge-base.dev/id/chunk/6321bf38-7026-4c60-b4fb-7cf3a956b35b]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/b28a66c9-4140-4beb-bb95-69e12a91e607, title_ko: 파일 복합체 tools/link.py, title: file composite tools/link.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/d456c76a-43ad-49f5-b73e-ca32721dd5ec, https://agentic-knowledge-base.dev/id/composite/570df80b-916d-466e-a9fe-8a9ac66eea54, https://agentic-knowledge-base.dev/id/composite/35504745-0bb4-47e0-ae4a-3da6e0e07b3d]}
@@ -42,7 +42,7 @@ frontmatter 에 링크 키와 `restored:` 를 적는다 (p10-restored-link-marki
         구조상 채택될 수 없는 후보 셋을 더 거른다 — `_check_links` 는 Bazel deps(refines·serves·supersedes·verifies)만 보므로
         나머지 키는 여기서 걸러야 후보가 준다:
         (가) KB 가로지름 — verifies 밖의 모든 종류(satisfies·derivesFrom 포함). KB 사이 링크는 verifies 하나다
-             (p6-executable-splits-by-kb). 예외는 사다리의 functional 행 하나 — V&V 검증 목표(kb/vv requirement, functional)
+             (p6-executable-splits-by-kb). 예외는 정제 계층의 functional 행 하나 — V&V 검증 목표(kb/vv requirement, functional)
              → 개발 요구 derivesFrom (p8-scenario-ladder-rungs). 판정은 kb_lib.cross_kb_link 이고 저작된 링크는 같은 함수로
              게이트 `cross-kb-link`(validate)가 거부한다
         (나) 코드 부분 끝점 — 추출 트리(kb_lib.EXTRACT_ROOT) 안에서 복합체의 부분인 청크(정의·절·장·모듈 머리)는 끝점이 아니다.

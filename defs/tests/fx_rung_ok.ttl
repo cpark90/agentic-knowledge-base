@@ -1,6 +1,6 @@
-# 게이트 rung-before-descent 의 양성 고정물 — 사다리 사슬이 높이마다 선 꼴 (요구 r-023, 유저 결정 Q51-a).
+# 게이트 rung-before-descent 의 양성 고정물 — 정제 계층 사슬이 정제 수준마다 선 꼴 (요구 r-023, 유저 결정 Q51-a).
 # 요구 fx-r 은 목표 → 기계 판정 기준 → 케이스 → 검증기가 이어지고, 결정 복합체(logical·concrete)의 결론이 그 요구를 refines 하며
-# 파일 청크가 결론을 refines 한다. 요구 fx-human 은 사람 확인 기준만 가지므로 검증기 없이 executable 하강이 면제된다 (Q26-a).
+# 파일 청크가 결론을 refines 한다. 요구 fx-human 은 사람 확인 기준만 가지므로 검증기 없이 executable 정제가 면제된다 (Q26-a).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 
 <urn:fx:rung-r>

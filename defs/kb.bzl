@@ -180,7 +180,7 @@ USES_TARGETS = [
     "kb_lib",
 ]
 
-# ══ 게이트 등록부 — 게이트 id·계층·도구 태그의 단일 정의처와 그 자기 정합성 ══════════════════════════════════
+# ══ 게이트 등록부 — 게이트 id·실행 계층·도구 태그의 단일 정의처와 그 자기 정합성 ══════════════════════════════════
 # ── 게이트 등록부 (`GATES`) — 게이트 id 의 **단일 정의처** (M1, 2026-10-02, RESIDENCY·EXTRACTED_SOURCES 와 같은 해법) ─
 # 결정 p0-service-is-a-three-layer-wiki: 게이트는 프로세스 층의 **항목**이다. 2026-10-01 실측에서 같은 목록이 넷으로
 # 갈려 있었다 — `kb_lib` 의 `*_GATE` 상수 · 코드의 태그 · `docs/tools.md` 총람의 `id` 열 · 그 아래 하네스 목록.
@@ -222,7 +222,7 @@ GATES = {
     "extract-refs": {"tier": "analysis", "tool": "extract_refs", "ko": "인용 대상 실재", "desc": "본문 인용의 대상이 실재하지 않음"},
     "frozen": {"tier": "test", "tool": "doccheck", "ko": "동결 문서", "desc": "동결 문서의 sha256 이 kb_lib.FROZEN_DOCS 의 고정값과 다름"},
     "gate-registry": {"tier": "verify", "tool": "validate", "ko": "게이트 등록부", "desc": "코드의 게이트 태그 집합이 GATES 리터럴과 갈림"},
-    "gates2kg": {"tier": "analysis", "tool": "gates2kg", "ko": "게이트 그래프 생성", "desc": "게이트 등록부의 키·계층 위반과 판정 도구 개체의 부재"},
+    "gates2kg": {"tier": "analysis", "tool": "gates2kg", "ko": "게이트 그래프 생성", "desc": "게이트 등록부의 키·실행 계층 위반과 판정 도구 개체의 부재"},
 }
 
 # ── 게이트 목록의 이어짐 — 앞 리터럴의 id 순서를 잇는다 (청크 하나의 인용 상한 2,856토큰, 2026-10-05) ──
@@ -243,7 +243,7 @@ GATES_TAIL = {
     "prose": {"tier": "test", "tool": "chunk_lint", "ko": "산문 문체", "desc": "경어체 종결과 산문의 느낌표"},
     "residency": {"tier": "verify", "tool": "validate", "ko": "수준 허용표 단일 정의처", "desc": "수준 허용표 shape 가 RESIDENCY 리터럴과 갈림"},
     "restored": {"tier": "analysis", "tool": "chunk2kg", "ko": "복원 표시", "desc": "restored 의 IRI 가 같은 청크의 링크 키 대상에 없음"},
-    "rung-before-descent": {"tier": "verify", "tool": "validate", "ko": "사다리 사슬", "desc": "같은 높이의 V&V 대응물(목표·기준·검증기 바인딩) 없이 다음 높이로 내려간 하강"},
+    "rung-before-descent": {"tier": "verify", "tool": "validate", "ko": "정제 계층 사슬", "desc": "같은 정제 수준의 V&V 대응물(목표·기준·검증기 바인딩) 없이 다음 정제 수준으로 내려간 정제"},
     "shacl": {"tier": "shape", "tool": "validate", "ko": "shape 적합성", "desc": "SHACL shape 부적합"},
     "skills-drift": {"tier": "test", "tool": "gen_skills", "ko": "skill 드리프트", "desc": "생성 skill 이 docstring 과 SKILLS 에 어긋남"},
     "space": {"tier": "analysis", "tool": "space2kg", "ko": "설계 공간", "desc": "근거 없는 배제, 확정 후보 수, 변수와 후보의 불일치"},
@@ -293,9 +293,9 @@ def check_gates():
     for gid, spec in GATES.items():
         for key in ["tier", "tool", "ko", "desc"]:
             if key not in spec or not spec[key]:
-                fail("GATES(//defs:kb.bzl) 의 %r 에 %s 가 없다 — 항목마다 계층·판정 도구·한글 라벨·설명 한 줄을 적는다" % (gid, key))
+                fail("GATES(//defs:kb.bzl) 의 %r 에 %s 가 없다 — 항목마다 실행 계층·판정 도구·한글 라벨·설명 한 줄을 적는다" % (gid, key))
         if spec["tier"] not in GATE_TIERS:
-            fail("GATES(//defs:kb.bzl) 의 %r 의 계층 %r 이 어휘 밖이다 — %s 중 하나다" % (gid, spec["tier"], GATE_TIERS))
+            fail("GATES(//defs:kb.bzl) 의 %r 의 실행 계층 %r 이 어휘 밖이다 — %s 중 하나다" % (gid, spec["tier"], GATE_TIERS))
     both = [t for t in TOOL_TAGS if t in GATES]
     if both:
         fail("GATES 와 TOOL_TAGS(//defs:kb.bzl) 가 겹친다 — %s. " % both +

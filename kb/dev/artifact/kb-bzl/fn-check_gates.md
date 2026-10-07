@@ -7,7 +7,7 @@ title: function check_gates in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/43c17d6f-f9ef-4fa2-aa31-cf3f8e6acc81
 ---
@@ -25,9 +25,9 @@ def check_gates():
     for gid, spec in GATES.items():
         for key in ["tier", "tool", "ko", "desc"]:
             if key not in spec or not spec[key]:
-                fail("GATES(//defs:kb.bzl) 의 %r 에 %s 가 없다 — 항목마다 계층·판정 도구·한글 라벨·설명 한 줄을 적는다" % (gid, key))
+                fail("GATES(//defs:kb.bzl) 의 %r 에 %s 가 없다 — 항목마다 실행 계층·판정 도구·한글 라벨·설명 한 줄을 적는다" % (gid, key))
         if spec["tier"] not in GATE_TIERS:
-            fail("GATES(//defs:kb.bzl) 의 %r 의 계층 %r 이 어휘 밖이다 — %s 중 하나다" % (gid, spec["tier"], GATE_TIERS))
+            fail("GATES(//defs:kb.bzl) 의 %r 의 실행 계층 %r 이 어휘 밖이다 — %s 중 하나다" % (gid, spec["tier"], GATE_TIERS))
     both = [t for t in TOOL_TAGS if t in GATES]
     if both:
         fail("GATES 와 TOOL_TAGS(//defs:kb.bzl) 가 겹친다 — %s. " % both +

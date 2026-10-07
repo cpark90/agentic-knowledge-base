@@ -7,8 +7,8 @@ source: tools/verify-queries
 resource: https://agentic-knowledge-base.dev/id/src-tools-verify-queries
 package: kb/dev/artifact/verify-queries
 layer: process
-at: 2026-09-28T20:48:33Z
-source_hash: 2e3450ec1e729171
+at: 2026-10-05T16:40:36Z
+source_hash: f9b6a0e75b7f60c4
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc
   - https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5

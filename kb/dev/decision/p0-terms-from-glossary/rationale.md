@@ -2,13 +2,13 @@
 id: https://agentic-knowledge-base.dev/id/chunk/9ec9c2b1-b204-491d-a7a8-4acb94e3a014
 type: decision
 level: logical
-title_ko: 지어낸 용어는 모델의 사전 지식으로 해석되지 않고 청크는 종류가 아니라 모든 지식이 따르는 구조 규율이다
+title_ko: 지어낸 용어는 모델의 사전 지식으로 해석되지 않고 청크는 종류가 아니라 모든 지식이 따르는 구조 규칙이다
 title: Invented terms escape the model's prior knowledge, and a chunk is not a kind but the structural discipline all knowledge follows
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-03T15:00:00+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-07T03:03:35+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-07T03:03:36+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/cd23fc9b-1ca6-41e7-b749-5dcb0991796b
 ---
@@ -18,4 +18,4 @@ part_of: https://agentic-knowledge-base.dev/id/composite/cd23fc9b-1ca6-41e7-b749
 
 옛 표기 검사가 tier로 나뉘는 까닭도 용어집에 있다. tier 1은 기계 치환, tier 2는 유저 결정, tier 3은 문맥 공존이라 바꾸지 않는다. 그래서 `consistency` ⑥은 tier 1만 위반으로 센다.
 
-고유 용어는 2026-09-02~04 유저 결정 원장의 7항에서 왔다. 그 항은 청크를 포맷이 아니라 구조 규율로 정하고 온톨로지에도 적용했으며, 지식의 종류를 고유 용어로 부르게 했다. 노트 v3 재도출의 설계 검토는 이 규칙을 변하지 않은 것으로 확인했다.
+고유 용어는 2026-09-02~04 유저 결정 원장의 7항에서 왔다. 그 항은 청크를 포맷이 아니라 구조 규칙으로 정하고 온톨로지에도 적용했으며, 지식의 종류를 고유 용어로 부르게 했다. 노트 v3 재도출의 설계 검토는 이 규칙을 변하지 않은 것으로 확인했다.

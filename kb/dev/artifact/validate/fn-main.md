@@ -7,7 +7,7 @@ title: function main in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/02c3daad-5974-4be8-80ea-4c6b338b45de, https://agentic-knowledge-base.dev/id/chunk/05336a2f-bef3-4bc3-9b6d-976a1e9adb9d, https://agentic-knowledge-base.dev/id/chunk/07104b21-b283-4e54-a921-6b9a61fb6e45, https://agentic-knowledge-base.dev/id/chunk/0bc1d5ff-d788-47b3-a1b4-43a27654be04, https://agentic-knowledge-base.dev/id/chunk/0eba15f1-9ab6-4d48-bb9a-8809fc98a603, https://agentic-knowledge-base.dev/id/chunk/386f974f-846c-47c9-99dc-ee866783f5c5, https://agentic-knowledge-base.dev/id/chunk/40832ce8-b21d-4635-9f79-0212625c61fe, https://agentic-knowledge-base.dev/id/chunk/488bd7ba-cb14-4e6c-94f4-119987372f1f, https://agentic-knowledge-base.dev/id/chunk/56006161-22a8-4cff-9d03-2ec71941b721, https://agentic-knowledge-base.dev/id/chunk/6bf4337c-24c7-4689-8354-d179c822e031, https://agentic-knowledge-base.dev/id/chunk/74027bd0-148f-4997-9b67-43e438793d0b, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/7848189e-1a29-4f71-9bab-09f2623ff65f, https://agentic-knowledge-base.dev/id/chunk/7b782704-6d75-4344-9b72-f812f73bbfb0, https://agentic-knowledge-base.dev/id/chunk/7cd61807-8e8e-44e7-a140-c95f9f82e4f9, https://agentic-knowledge-base.dev/id/chunk/9126a0ff-4c8a-4088-969f-2b596ee08bdd, https://agentic-knowledge-base.dev/id/chunk/9865784d-08b9-47b0-826d-a088f38dd912, https://agentic-knowledge-base.dev/id/chunk/9d1171df-d5e6-4602-9c49-05605607011c, https://agentic-knowledge-base.dev/id/chunk/a0953baf-5b58-4667-ba87-2c4653097756, https://agentic-knowledge-base.dev/id/chunk/a45854d1-6d8a-4a1a-890e-a55aa166d992, https://agentic-knowledge-base.dev/id/chunk/ba1f7e1e-92c3-4692-9023-f2fb9dddbbc4, https://agentic-knowledge-base.dev/id/chunk/d26c3802-192f-4414-81da-25abd63211fc, https://agentic-knowledge-base.dev/id/chunk/e51ab77c-0ffd-4d58-a3cb-d622e9134952, https://agentic-knowledge-base.dev/id/chunk/e9b943fe-3fee-4433-8018-038f1deb41c6, https://agentic-knowledge-base.dev/id/chunk/f5bba732-244e-40a1-a3a0-f5c8e97043be, https://agentic-knowledge-base.dev/id/chunk/f5d521a5-98ba-4f17-ada0-7ddbb7162850, https://agentic-knowledge-base.dev/id/chunk/fd4f59ff-fa52-4ead-afda-fc34d6efe930]
 part_of: https://agentic-knowledge-base.dev/id/composite/d0b4b228-df49-490d-b346-c659c4c6e8da
@@ -31,7 +31,7 @@ def main() -> int:
                     help="게이트 `gate-registry` 가 태그를 훑을 소스 전수 (tools/*.py). --gates 와 함께 쓴다")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 게이트 token-budget 이 sha256 을 고정값과 대조한다. "
                                                "없으면 runfiles 의 고정 파일을 쓴다 (ODD id:cond-tokenizer-lock)")
-    ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 계층)")
+    ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 실행 계층)")
     ap.add_argument("--chunk-files", nargs="*", default=[],
                     help="청크 파일들(*.md) — 주면 element-drop 의 frontmatter 키 전수 대조가 켜진다")
     ap.add_argument("--standard-vocab", nargs="*", default=[],

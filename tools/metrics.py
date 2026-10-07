@@ -253,7 +253,7 @@ def axis_proxies(g, live, plane, level, authored, comp_of, siblings, declarer, s
     return components, outside, skips, filled, residency_bad
 
 
-# V&V 사다리 몫의 허용 쌍 — 이름 → (주어 plane, 주어 수준, 대상 plane, 대상 수준). 양 끝이 V&V KB(`kb/vv/`) 안일 때만 뺀다
+# V&V 정제 계층 몫의 허용 쌍 — 이름 → (주어 plane, 주어 수준, 대상 plane, 대상 수준). 양 끝이 V&V KB(`kb/vv/`) 안일 때만 뺀다
 VV_LADDER_SKIPS = {
     "합격 기준 → 검증 목표": ("contract", "logical", "requirement", "functional"),  # 유저 답 Q30-b
     "검증기 → 합격 기준": ("artifact", "executable", "contract", "logical"),  # 유저 답 Q41-a (2026-10-04)
@@ -261,10 +261,10 @@ VV_LADDER_SKIPS = {
 
 
 def skip_decomposition(g, plane, level, comp_of, skips):
-    """건너뜀을 결정 복합체 몫(슬롯별)·V&V 사다리 몫·나머지(plane·수준 쌍별)로 가른다 (유저 결정 2026-10-04).
+    """건너뜀을 결정 복합체 몫(슬롯별)·V&V 정제 계층 몫·나머지(plane·수준 쌍별)로 가른다 (유저 결정 2026-10-04).
 
-    V&V 사다리 몫 (유저 답 Q30-b · Q41-a): V&V KB(`kb/vv/`) 안의 두 쌍은 사다리의 허용 구조다(p8-scenario-ladder-rungs).
-    합격 기준(contract, logical) → 검증 목표(requirement, functional) `refines` 는 logical 높이의 검증 대응 그 자체다(Q30-b).
+    V&V 정제 계층 몫 (유저 답 Q30-b · Q41-a): V&V KB(`kb/vv/`) 안의 두 쌍은 정제 계층의 허용 구조다(p8-scenario-ladder-rungs).
+    합격 기준(contract, logical) → 검증 목표(requirement, functional) `refines` 는 logical 정제 수준의 검증 대응 그 자체다(Q30-b).
     검증기(artifact, executable) → 합격 기준(contract, logical) `refines` 는 케이스 없이 기준을 정제하는 비표본 검증기의 꼴이다
     — 비표본 판정에는 표본 케이스가 없다(Q29-a 의 귀결, Q41-a). 둘 다 건너뜀에서 빼고 쌍마다 따로 센다(VV_LADDER_SKIPS).
 
@@ -575,7 +575,7 @@ def render_axis_sections(pct, live, authored, components, filled, skips, skip_pa
           f"- 연결: 저작된 지식의 연결 성분 **{components}**개 (살아 있는 청크 {len(live)} 중 관측·주석 {len(live) - len(authored)}건을 뺀 {len(authored)}개가 링크·복합체·`prov:specializationOf` 로 이어진 덩어리. 목표 1; 1보다 크면 아래 「주 성분 밖 청크」 절이 성분마다 목록을 낸다)",
           f"- 연결: level×level `refines` 매트릭스 채움 {pct(len(filled), 4)} — " + (", ".join(f"{a_}→{b_}" for a_, b_ in filled) or "없음") + " (목표 4/4 = 100.0%)",
           f"- 구체화: level을 한 단계씩 내려가지 않는 `refines` {len(skips)}건 — 결정 복합체 몫 {sum(skip_parts[0].values())}건"
-          f"(결론 {skip_parts[0]['결론']} · 그 밖의 부분 {skip_parts[0]['그 밖의 부분']})과 V&V 사다리 몫 {sum(skip_parts[1].values())}건"
+          f"(결론 {skip_parts[0]['결론']} · 그 밖의 부분 {skip_parts[0]['그 밖의 부분']})과 V&V 정제 계층 몫 {sum(skip_parts[1].values())}건"
           "(" + " · ".join(f"{k_} {skip_parts[1][k_]}" for k_ in VV_LADDER_SKIPS) + f")은 빼고 남는 건너뜀 **{sum(skip_parts[2].values())}**건 (목표 0). "
           "결정 복합체는 abstract·logical·concrete 를 한 복합체로 걸치므로 복합체 단위로 보면 결론(concrete)의 functional 요구 `refines` 는 "
           "건너뜀이 아니다 (p7-decision-spans-three-levels, 유저 결정 2026-10-04). V&V KB(`kb/vv/`) 안의 합격 기준(logical) → 검증 목표(functional) "

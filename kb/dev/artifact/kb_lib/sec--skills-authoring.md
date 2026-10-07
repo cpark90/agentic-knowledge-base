@@ -7,7 +7,7 @@ title: section -skills-authoring in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/624bc78e-4e6c-4b96-b0f7-e9c6f5087b46
 composite: {id: https://agentic-knowledge-base.dev/id/composite/624bc78e-4e6c-4b96-b0f7-e9c6f5087b46, title_ko: 절 복합체 -skills-authoring (tools/kb_lib.py), title: section composite -skills-authoring in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/ac500e24-d795-4cb2-9409-433d7e56a013, https://agentic-knowledge-base.dev/id/chunk/104f7d3c-d114-46c9-aab7-b44761117813], part_of: https://agentic-knowledge-base.dev/id/composite/2fee8437-c9b3-4f23-a1d9-a0ec5e3891b0}
@@ -34,12 +34,12 @@ _SKILLS_AUTHORING = (  # 저작·검증 — 추출·BUILD·링크 복원·V&V �
      "when": "frontmatter 링크가 없는 청크 쌍의 복원 후보를 체계 안 증거(본문 인용·테스트 공동 커버·개념 공유)로 뽑아 사람이 restored 표시로 확정할 때 쓴다.",
      "commands": ["bazel build //kg:link_candidates && cat bazel-bin/kg/link-candidates.md",
                   "python3 tools/gen_build.py --root . && bazel test //...   # 앵커 청크에 링크 키와 restored: 를 적은 뒤"]},
-    {"tool": "vv_run", "section": "method.md#11-검증--vv-층으로",
+    {"tool": "vv_run", "section": "method.md#11-검증--vv-kb로",
      "when": "V&V 케이스·검증기 청크의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 "
              "실행해 그 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.",
      "commands": ["bazel run //tools:vv_run -- --record", "bazel run //tools:vv_run -- --verifier <슬러그>",
                   "python3 tools/gen_build.py --root . && bazel test //..."]},
-    {"tool": "judge", "section": "method.md#11-검증--vv-층으로",
+    {"tool": "judge", "section": "method.md#11-검증--vv-kb로",
      "when": "게이트 밖에서 등록된 판정 질문을 청크에 물어 값과 확신도를 받고 판정 로그·결과 주석을 남길 때 쓴다. "
              "판정자는 외부 서비스가 아니라 세션 판정자다 — 응답은 `--responses`로 오프라인 입력한다.",
      "commands": ["bazel run //tools:judge -- --list",

@@ -7,10 +7,11 @@ title: Releasing hand-written Turtle; expressing every constraint as a shape
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/33d988f2-27b2-44d7-98f2-110215bfe237
 ---
-**대안** — **손으로 쓴 Turtle을 그대로 기반으로 쓰는 안.** 배제 — 라벨 누락·순환 계층·잘못된 참조가 어휘에 그대로 남고, 그 어휘 위에 선 모든 판정이 오염된다.
+**대안** — **손으로 쓴 Turtle을 그대로 기반으로 쓰는 안.** 배제 — 라벨 누락·순환 분류 계층·잘못된 참조가 어휘에 그대로 남고, 그 어휘 위에 선 모든 판정이 오염된다.
 
 **모든 제약을 SHACL shape으로만 쓰는 안.** 배제 — "이런 조합이 존재하면 실패" 형태는 shape으로 쓰기 어색하다. 그런 제약은 verify 질의로 쓴다. 둘은 대체재가 아니라 역할 분담이다.
 

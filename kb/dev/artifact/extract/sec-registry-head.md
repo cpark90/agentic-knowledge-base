@@ -7,7 +7,7 @@ title: section registry-head in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-4341-b151-9ecda0fefd53
 composite: {id: https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-4341-b151-9ecda0fefd53, title_ko: 절 복합체 registry-head (tools/extract.py), title: section composite registry-head in tools/extract.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/7902d58a-05cc-4832-9d03-50154c6f403e, https://agentic-knowledge-base.dev/id/chunk/4333655e-49b9-4be9-b2f1-8c28243d8390, https://agentic-knowledge-base.dev/id/chunk/a83e5a5d-15ff-4e18-80b5-2c88dead1cfc], part_of: https://agentic-knowledge-base.dev/id/composite/99abae51-6823-4ed8-9bfe-4255801d4681}
@@ -24,7 +24,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/094c3193-2fdb-43
 # 표면이므로 값은 `process` 다 (결정 p0-service-is-a-three-layer-wiki).
 # `serves` 의 정의역은 `agt:DecisionChunk` 다(fulfilment-ontology) — `artifact` 청크가 요구를 직접 `serves` 하면
 # 추론이 그것을 결정 청크로 만들고 shape DecisionSubstanceShape 이 거부한다. 코드가 요구에 닿는 길은 결정을
-# `refines` 하는 것이고 그 결정이 요구를 `serves`·`refines` 한다 — 사다리를 건너뛰지 않는다 (6.2절).
+# `refines` 하는 것이고 그 결정이 요구를 `serves`·`refines` 한다 — 정제 계층을 건너뛰지 않는다 (6.2절).
 # YAML 부분집합만 쓴다 — 이 저장소의 frontmatter 파서와 같은 수준이고 외부 의존이 없다.
 REGISTRY_HEAD = """\
 # 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다

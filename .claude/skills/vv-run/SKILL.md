@@ -27,7 +27,7 @@ python3 tools/gen_build.py --root . && bazel test //...
 
 ## 원본
 
-- 절차: [`docs/method.md#11-검증--vv-층으로`](../../../docs/method.md#11-검증--vv-층으로)
+- 절차: [`docs/method.md#11-검증--vv-kb로`](../../../docs/method.md#11-검증--vv-kb로)
 - 도구: `tools/vv_run.py` (`bazel run //tools:vv_run`) — 사용법은 docstring 이 원본이다
 
 ```text
