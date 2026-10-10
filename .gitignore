@@ -10,3 +10,6 @@ __pycache__/
 /harness/channel/.seq
 /harness/channel/.seq.lock
 /harness/channel/.watch-*.pid
+
+# 작업 중 임시 파일 자리 — 커밋하지 않는다 (구조 통합 Q66)
+/.scratch/

@@ -57,6 +57,12 @@ filegroup(
         "p0-iri-design/conclusion.md",
         "p0-iri-design/conventions.md",
         "p0-iri-design/rationale.md",
+        "p0-layer-extends-beyond-chunks/alternatives.md",
+        "p0-layer-extends-beyond-chunks/conclusion.md",
+        "p0-layer-extends-beyond-chunks/rationale.md",
+        "p0-layer-stays-on-chunks/alternatives.md",
+        "p0-layer-stays-on-chunks/conclusion.md",
+        "p0-layer-stays-on-chunks/rationale.md",
         "p0-no-invented-terms/alternatives.md",
         "p0-no-invented-terms/conclusion.md",
         "p0-no-invented-terms/conventions.md",
@@ -80,6 +86,12 @@ filegroup(
         "p0-prose-assertive-register/conclusion.md",
         "p0-prose-assertive-register/conventions.md",
         "p0-prose-assertive-register/rationale.md",
+        "p0-requirement-layer-default-kept/alternatives.md",
+        "p0-requirement-layer-default-kept/conclusion.md",
+        "p0-requirement-layer-default-kept/rationale.md",
+        "p0-requirement-layer-marked/alternatives.md",
+        "p0-requirement-layer-marked/conclusion.md",
+        "p0-requirement-layer-marked/rationale.md",
         "p0-run-as-observation/alternatives.md",
         "p0-run-as-observation/conclusion.md",
         "p0-run-as-observation/rationale.md",
@@ -276,6 +288,12 @@ filegroup(
         "p11-role-sessions-and-dispatch-models/conclusion.md",
         "p11-role-sessions-and-dispatch-models/conventions.md",
         "p11-role-sessions-and-dispatch-models/rationale.md",
+        "p11-session-lessons-in-memory-plane/alternatives.md",
+        "p11-session-lessons-in-memory-plane/conclusion.md",
+        "p11-session-lessons-in-memory-plane/rationale.md",
+        "p11-session-lessons-in-role-memory/alternatives.md",
+        "p11-session-lessons-in-role-memory/conclusion.md",
+        "p11-session-lessons-in-role-memory/rationale.md",
         "p11-session-output-goes-to-artifacts/alternatives.md",
         "p11-session-output-goes-to-artifacts/conclusion.md",
         "p11-session-output-goes-to-artifacts/conventions.md",
@@ -666,6 +684,12 @@ filegroup(
         "p6-gate-catalogue/conclusion.md",
         "p6-gate-catalogue/conventions.md",
         "p6-gate-catalogue/rationale.md",
+        "p6-gate-or-utility-by-registration/alternatives.md",
+        "p6-gate-or-utility-by-registration/conclusion.md",
+        "p6-gate-or-utility-by-registration/rationale.md",
+        "p6-gate-or-utility-by-tool/alternatives.md",
+        "p6-gate-or-utility-by-tool/conclusion.md",
+        "p6-gate-or-utility-by-tool/rationale.md",
         "p6-gate-tool-code-structure/alternatives.md",
         "p6-gate-tool-code-structure/conclusion.md",
         "p6-gate-tool-code-structure/conventions.md",
@@ -759,6 +783,12 @@ filegroup(
         "p7-developer-requires-concrete/conclusion.md",
         "p7-developer-requires-concrete/conventions.md",
         "p7-developer-requires-concrete/rationale.md",
+        "p7-extraction-range-by-list/alternatives.md",
+        "p7-extraction-range-by-list/conclusion.md",
+        "p7-extraction-range-by-list/rationale.md",
+        "p7-extraction-range-by-principle/alternatives.md",
+        "p7-extraction-range-by-principle/conclusion.md",
+        "p7-extraction-range-by-principle/rationale.md",
         "p7-schema-derivation/alternatives.md",
         "p7-schema-derivation/conclusion.md",
         "p7-schema-derivation/conventions.md",
@@ -923,6 +953,12 @@ filegroup(
         "p9-candidate-storage/conclusion.md",
         "p9-candidate-storage/conventions.md",
         "p9-candidate-storage/rationale.md",
+        "p9-candidates-in-decision-plane/alternatives.md",
+        "p9-candidates-in-decision-plane/conclusion.md",
+        "p9-candidates-in-decision-plane/rationale.md",
+        "p9-candidates-outside-decision-plane/alternatives.md",
+        "p9-candidates-outside-decision-plane/conclusion.md",
+        "p9-candidates-outside-decision-plane/rationale.md",
         "p9-candidates-per-level/alternatives.md",
         "p9-candidates-per-level/conclusion.md",
         "p9-candidates-per-level/rationale.md",
@@ -1243,6 +1279,30 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p0-layer-extends-beyond-chunks",
+    conclusion = "p0-layer-extends-beyond-chunks/conclusion.md",
+    rationale = "p0-layer-extends-beyond-chunks/rationale.md",
+    alternatives = "p0-layer-extends-beyond-chunks/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/523c60c2-f994-422f-8ff4-0674bec52322",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/a57ebc46-86e6-4111-949a-c3929298390c", "https://agentic-knowledge-base.dev/id/chunk/f69d0d1d-0b1d-40b3-b3a9-102012d8d579", "https://agentic-knowledge-base.dev/id/chunk/0fc6a68b-990a-41bb-bcf3-96c84529afe8"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a57ebc46-86e6-4111-949a-c3929298390c", "https://agentic-knowledge-base.dev/id/chunk/f69d0d1d-0b1d-40b3-b3a9-102012d8d579", "https://agentic-knowledge-base.dev/id/chunk/0fc6a68b-990a-41bb-bcf3-96c84529afe8"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
+    name = "p0-layer-stays-on-chunks",
+    conclusion = "p0-layer-stays-on-chunks/conclusion.md",
+    rationale = "p0-layer-stays-on-chunks/rationale.md",
+    alternatives = "p0-layer-stays-on-chunks/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/471f9209-db0e-422c-91d9-28c7ac7e97fc",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/ec094e42-1b17-45ac-805e-064317912ac6", "https://agentic-knowledge-base.dev/id/chunk/b8a05d54-2bcb-4489-95b9-e52e44955b39", "https://agentic-knowledge-base.dev/id/chunk/936c61c3-c78a-4dc2-a48c-100dd5a093e8"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ec094e42-1b17-45ac-805e-064317912ac6", "https://agentic-knowledge-base.dev/id/chunk/b8a05d54-2bcb-4489-95b9-e52e44955b39", "https://agentic-knowledge-base.dev/id/chunk/936c61c3-c78a-4dc2-a48c-100dd5a093e8"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
     name = "p0-no-invented-terms",
     conclusion = "p0-no-invented-terms/conclusion.md",
     rationale = "p0-no-invented-terms/rationale.md",
@@ -1348,6 +1408,30 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:deterministic-notation",
     ],
+)
+
+kb_decision(
+    name = "p0-requirement-layer-default-kept",
+    conclusion = "p0-requirement-layer-default-kept/conclusion.md",
+    rationale = "p0-requirement-layer-default-kept/rationale.md",
+    alternatives = "p0-requirement-layer-default-kept/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8a738156-b3f1-4c49-b134-a5e30a92ca2a",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/2d466291-356d-471c-9f03-69292e253f15", "https://agentic-knowledge-base.dev/id/chunk/ef81ce49-a4c7-4eb6-ae69-7a6ee4e9f27c", "https://agentic-knowledge-base.dev/id/chunk/0815e0ba-db50-44ed-b4e2-eff0e9d5ca54"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2d466291-356d-471c-9f03-69292e253f15", "https://agentic-knowledge-base.dev/id/chunk/ef81ce49-a4c7-4eb6-ae69-7a6ee4e9f27c", "https://agentic-knowledge-base.dev/id/chunk/0815e0ba-db50-44ed-b4e2-eff0e9d5ca54"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
+    name = "p0-requirement-layer-marked",
+    conclusion = "p0-requirement-layer-marked/conclusion.md",
+    rationale = "p0-requirement-layer-marked/rationale.md",
+    alternatives = "p0-requirement-layer-marked/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8052af76-1792-4a02-8045-116318bb6597",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/0719350b-6157-43d1-aa66-87782072217d", "https://agentic-knowledge-base.dev/id/chunk/eae0f227-d51b-4ab4-ae75-b5d0caaba0f4", "https://agentic-knowledge-base.dev/id/chunk/6beb169f-c872-4a44-a2d8-893c088def11"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/0719350b-6157-43d1-aa66-87782072217d", "https://agentic-knowledge-base.dev/id/chunk/eae0f227-d51b-4ab4-ae75-b5d0caaba0f4", "https://agentic-knowledge-base.dev/id/chunk/6beb169f-c872-4a44-a2d8-893c088def11"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
 )
 
 kb_decision(
@@ -2319,6 +2403,30 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
+)
+
+kb_decision(
+    name = "p11-session-lessons-in-memory-plane",
+    conclusion = "p11-session-lessons-in-memory-plane/conclusion.md",
+    rationale = "p11-session-lessons-in-memory-plane/rationale.md",
+    alternatives = "p11-session-lessons-in-memory-plane/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/6cffb6db-a066-4167-9d37-c1b06c246441",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/812a5dca-20bc-4adc-a1a5-5d14700e9420", "https://agentic-knowledge-base.dev/id/chunk/cfb19182-ca96-48b9-98bb-711dfe5ae5ae", "https://agentic-knowledge-base.dev/id/chunk/ca513a69-00a2-4a3b-83a5-248cc0f2b465"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/812a5dca-20bc-4adc-a1a5-5d14700e9420", "https://agentic-knowledge-base.dev/id/chunk/cfb19182-ca96-48b9-98bb-711dfe5ae5ae", "https://agentic-knowledge-base.dev/id/chunk/ca513a69-00a2-4a3b-83a5-248cc0f2b465"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
+    name = "p11-session-lessons-in-role-memory",
+    conclusion = "p11-session-lessons-in-role-memory/conclusion.md",
+    rationale = "p11-session-lessons-in-role-memory/rationale.md",
+    alternatives = "p11-session-lessons-in-role-memory/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/44c28dd9-af7d-4c91-a832-00a5eb7af95d",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/e45a0f86-ddc6-48ae-8b82-d710629e04ed", "https://agentic-knowledge-base.dev/id/chunk/b0445248-a186-4d3d-be57-11a82fdd194d", "https://agentic-knowledge-base.dev/id/chunk/fcd9f4ce-16ed-4dd9-ad08-ef5a358d9937"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e45a0f86-ddc6-48ae-8b82-d710629e04ed", "https://agentic-knowledge-base.dev/id/chunk/b0445248-a186-4d3d-be57-11a82fdd194d", "https://agentic-knowledge-base.dev/id/chunk/fcd9f4ce-16ed-4dd9-ad08-ef5a358d9937"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
 )
 
 kb_decision(
@@ -4267,6 +4375,30 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p6-gate-or-utility-by-registration",
+    conclusion = "p6-gate-or-utility-by-registration/conclusion.md",
+    rationale = "p6-gate-or-utility-by-registration/rationale.md",
+    alternatives = "p6-gate-or-utility-by-registration/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/111a6cde-264c-44a8-a3e3-1a5ca6835dfe",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/6a916cc7-e02e-4289-9986-59d4fcd12479", "https://agentic-knowledge-base.dev/id/chunk/1a56d04d-a49b-49eb-ab72-94a993051969", "https://agentic-knowledge-base.dev/id/chunk/cd33d207-a5cf-44e1-a940-107703f1ae07"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/6a916cc7-e02e-4289-9986-59d4fcd12479", "https://agentic-knowledge-base.dev/id/chunk/1a56d04d-a49b-49eb-ab72-94a993051969", "https://agentic-knowledge-base.dev/id/chunk/cd33d207-a5cf-44e1-a940-107703f1ae07"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
+    name = "p6-gate-or-utility-by-tool",
+    conclusion = "p6-gate-or-utility-by-tool/conclusion.md",
+    rationale = "p6-gate-or-utility-by-tool/rationale.md",
+    alternatives = "p6-gate-or-utility-by-tool/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/26c5f4fc-2a75-4043-985f-ec12ced2b316",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/9ea3361d-f211-4dbb-993a-33159134b210", "https://agentic-knowledge-base.dev/id/chunk/a415b442-6662-4f7a-9266-b5889f569f7e", "https://agentic-knowledge-base.dev/id/chunk/3ed38d37-f5b8-41e2-8b1a-cfadd4e0734b"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/9ea3361d-f211-4dbb-993a-33159134b210", "https://agentic-knowledge-base.dev/id/chunk/a415b442-6662-4f7a-9266-b5889f569f7e", "https://agentic-knowledge-base.dev/id/chunk/3ed38d37-f5b8-41e2-8b1a-cfadd4e0734b"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
     name = "p6-gate-tool-code-structure",
     conclusion = "p6-gate-tool-code-structure/conclusion.md",
     rationale = "p6-gate-tool-code-structure/rationale.md",
@@ -4681,6 +4813,30 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
+)
+
+kb_decision(
+    name = "p7-extraction-range-by-list",
+    conclusion = "p7-extraction-range-by-list/conclusion.md",
+    rationale = "p7-extraction-range-by-list/rationale.md",
+    alternatives = "p7-extraction-range-by-list/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/7c00131b-7fdb-42db-947e-49d184967047",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/70d56a11-ab22-475f-8ca6-7af9c727eb1d", "https://agentic-knowledge-base.dev/id/chunk/cece401e-9876-42f6-8075-a79acbb130a8", "https://agentic-knowledge-base.dev/id/chunk/8537d804-02b8-4e63-9be4-899bf6a4f84d"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/70d56a11-ab22-475f-8ca6-7af9c727eb1d", "https://agentic-knowledge-base.dev/id/chunk/cece401e-9876-42f6-8075-a79acbb130a8", "https://agentic-knowledge-base.dev/id/chunk/8537d804-02b8-4e63-9be4-899bf6a4f84d"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
+    name = "p7-extraction-range-by-principle",
+    conclusion = "p7-extraction-range-by-principle/conclusion.md",
+    rationale = "p7-extraction-range-by-principle/rationale.md",
+    alternatives = "p7-extraction-range-by-principle/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/dafd1fa0-d08a-440b-b3f8-6c3ef808c58a",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/108a10f4-abcb-4cea-8d00-e71d462969a1", "https://agentic-knowledge-base.dev/id/chunk/d5e78b53-a09d-4d1e-995c-ce6968ed2180", "https://agentic-knowledge-base.dev/id/chunk/f637930c-398a-4a65-92bf-9110b051ca11"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/108a10f4-abcb-4cea-8d00-e71d462969a1", "https://agentic-knowledge-base.dev/id/chunk/d5e78b53-a09d-4d1e-995c-ce6968ed2180", "https://agentic-knowledge-base.dev/id/chunk/f637930c-398a-4a65-92bf-9110b051ca11"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
 )
 
 kb_decision(
@@ -5467,6 +5623,30 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p9-candidates-in-decision-plane",
+    conclusion = "p9-candidates-in-decision-plane/conclusion.md",
+    rationale = "p9-candidates-in-decision-plane/rationale.md",
+    alternatives = "p9-candidates-in-decision-plane/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/d04bde2f-a133-40eb-9e19-e0d1377735ed",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/c1354a5b-cf02-4b9f-9376-65d3b6c89a7e", "https://agentic-knowledge-base.dev/id/chunk/47e983b0-6b6d-4dee-83e4-f1b2001a3988", "https://agentic-knowledge-base.dev/id/chunk/ca5b814a-2546-44c3-ae9f-b8ec1feff1b6"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c1354a5b-cf02-4b9f-9376-65d3b6c89a7e", "https://agentic-knowledge-base.dev/id/chunk/47e983b0-6b6d-4dee-83e4-f1b2001a3988", "https://agentic-knowledge-base.dev/id/chunk/ca5b814a-2546-44c3-ae9f-b8ec1feff1b6"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
+    name = "p9-candidates-outside-decision-plane",
+    conclusion = "p9-candidates-outside-decision-plane/conclusion.md",
+    rationale = "p9-candidates-outside-decision-plane/rationale.md",
+    alternatives = "p9-candidates-outside-decision-plane/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/cefdb0e4-eb92-45fe-88cd-7f0fac176186",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/95b9afa8-18df-42c4-b2ea-8028744b2153", "https://agentic-knowledge-base.dev/id/chunk/7ea4b8cd-65fd-48a3-90ac-2a4741191c4f", "https://agentic-knowledge-base.dev/id/chunk/2b6c67dd-d87f-4e59-bcd9-cb8e32671fbc"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/95b9afa8-18df-42c4-b2ea-8028744b2153", "https://agentic-knowledge-base.dev/id/chunk/7ea4b8cd-65fd-48a3-90ac-2a4741191c4f", "https://agentic-knowledge-base.dev/id/chunk/2b6c67dd-d87f-4e59-bcd9-cb8e32671fbc"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
     name = "p9-candidates-per-level",
     conclusion = "p9-candidates-per-level/conclusion.md",
     rationale = "p9-candidates-per-level/rationale.md",
@@ -5872,12 +6052,16 @@ kb_bundle(
         ":p0-identity-hash-similarity-threshold",
         ":p0-identity-review-convention-only",
         ":p0-iri-design",
+        ":p0-layer-extends-beyond-chunks",
+        ":p0-layer-stays-on-chunks",
         ":p0-no-invented-terms",
         ":p0-notation-format",
         ":p0-odd-scope-assumption",
         ":p0-one-word-one-concept",
         ":p0-premise-as-assumption",
         ":p0-prose-assertive-register",
+        ":p0-requirement-layer-default-kept",
+        ":p0-requirement-layer-marked",
         ":p0-run-as-observation",
         ":p0-run-is-an-append-only-memory-chunk",
         ":p0-scope-specification-form",
@@ -5935,6 +6119,8 @@ kb_bundle(
         ":p11-memory-promotion-rule",
         ":p11-parallel-attempts-need-no-new-machinery",
         ":p11-role-sessions-and-dispatch-models",
+        ":p11-session-lessons-in-memory-plane",
+        ":p11-session-lessons-in-role-memory",
         ":p11-session-output-goes-to-artifacts",
         ":p11-user-question-has-five-parts",
         ":p12-artifact-review-support",
@@ -6049,6 +6235,8 @@ kb_bundle(
         ":p6-executable-splits-by-kb",
         ":p6-formal-language-reproducibility",
         ":p6-gate-catalogue",
+        ":p6-gate-or-utility-by-registration",
+        ":p6-gate-or-utility-by-tool",
         ":p6-gate-tool-code-structure",
         ":p6-invalidation-propagation",
         ":p6-mass-fail-suspects-the-rule",
@@ -6075,6 +6263,8 @@ kb_bundle(
         ":p7-dev-plane-substance",
         ":p7-dev-roles-and-scopes",
         ":p7-developer-requires-concrete",
+        ":p7-extraction-range-by-list",
+        ":p7-extraction-range-by-principle",
         ":p7-schema-derivation",
         ":p8-agent-verification-target",
         ":p8-agent-vv",
@@ -6122,6 +6312,8 @@ kb_bundle(
         ":p8-vv-workflow",
         ":p9-candidate-generation-limits",
         ":p9-candidate-storage",
+        ":p9-candidates-in-decision-plane",
+        ":p9-candidates-outside-decision-plane",
         ":p9-candidates-per-level",
         ":p9-conditional-links",
         ":p9-constraint-propagation-timing",

@@ -2,13 +2,13 @@
 id: https://agentic-knowledge-base.dev/id/chunk/7ee202a7-ce6b-4f34-9bd1-d5f8ac8f3944
 type: annotation
 level: functional
-title_ko: 판정 결과 — 라벨이 본문을 대표하는가: 값 2 · 확신도 0.950
-title: Judgement result — does the label represent the body: value 2, confidence 0.950
+title_ko: 판정 결과 — 라벨이 본문을 대표하는가: 대상 r-012-edits-downgrade-links · 판정자 judge-a/claude-sonnet-5 · 값 2 · 확신도 0.950
+title: Judgement result — does the label represent the body: target r-012-edits-downgrade-links, judge judge-a/claude-sonnet-5, value 2, confidence 0.950
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/odd-agentic-knowledge-base}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 targets: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
-generated: {by: process:judge, at: 2026-09-29T18:23:11Z}
+generated: {by: process:judge, at: 2026-10-09T17:15:55+09:00}
 ---
 thought (non-blocking): 질문 `agt:labelRepresentsBody` 의 값은 `2` 이고 확신도는 0.950 이며 판정자는 `judge-a/claude-sonnet-5` 다.
 

@@ -8,7 +8,7 @@ title: When the repository's knowledge changes, the parts of the harness generat
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T13:20:33+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-09T18:10:52+09:00}
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/cb7ac129-5b94-47cd-84a8-b87e7e238efe]
 ---
 **검증 목표** — 결정·관측·어휘가 늘거나 바뀌면 하네스(도구·게이트·뷰·skill)가 사람의 별도 수정 없이 그 변화를 반영한다는 것이 보여져야 한다. 반영의 단위는 지식에서 생성되는 하네스 부분이고, 생성되지 않는 부분은 이 목표가 재는 대상이 아니라 요구가 남긴 미확정의 자리다.
@@ -24,4 +24,4 @@ derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/cb7ac129-5b94-47cd-84a
 
 판정의 원본은 요구 `r-029-harness-self-improvement` 와 `BUILD.bazel` 의 드리프트 테스트 선언이다.
 
-미확정: 하네스의 어느 부분이 지식에서 생성되는가의 경계 — 요구의 미확정을 그대로 잇는다. 경계가 정해지기 전에는 목록이 닫히지 않으므로 이 목표는 성립 여부가 아니라 부분 성립의 범위만 보인다.
+미확정: 하네스의 어느 부분이 지식에서 생성되는가의 경계 — 요구의 미확정을 그대로 잇는다. 경계가 정해지기 전에는 목록이 닫히지 않으므로 이 목표는 성립 여부가 아니라 부분 성립의 범위만 보인다. 상세는 `https://agentic-knowledge-base.dev/id/chunk/10c290e0-79d7-45fe-9105-252f4e5306ec`다.

@@ -335,8 +335,11 @@ def split_rows(rows: list[dict], q: dict, name: str, th: dict, source: str, stam
 
 def verdict_chunk(row: dict, q: dict, name: str, stamp: str) -> str:
     """결과 주석 본문 — 주석 형식 (p7-commentary-form). `본문:` 은 판정자가 쓰지 않는다 (규칙 ④)."""
-    ko = f"판정 결과 — {q['label']}: 값 {row['value']} · 확신도 {kb_lib.num(row['confidence'])}"
-    en = f"Judgement result — {q['label_en']}: value {row['value']}, confidence {kb_lib.num(row['confidence'])}"
+    # 라벨은 질문 라벨에 대상(`verdict_stem`)과 판정자 id 를 더해 같은 질문의 결과 주석끼리 겹치지 않게 한다.
+    tail = f"{row['verdict_stem']} · 판정자 {row['judge']}"
+    ko = (f"판정 결과 — {q['label']}: 대상 {tail} · 값 {row['value']} · 확신도 {kb_lib.num(row['confidence'])}")
+    en = (f"Judgement result — {q['label_en']}: target {row['verdict_stem']}, judge {row['judge']}, "
+          f"value {row['value']}, confidence {kb_lib.num(row['confidence'])}")
     head = ["---", f"id: {ID}chunk/{uuid.uuid4()}", "type: annotation", f"level: {row['level']}",
             f"title_ko: {ko}", f"title: {en}", "status: draft", f"sources: [{{resource: {ODD_IRI}}}]",
             f"assumes: [{', '.join(ASSUMPTIONS)}]", f"targets: [{row['iri']}]",

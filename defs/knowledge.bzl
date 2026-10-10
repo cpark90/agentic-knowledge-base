@@ -17,7 +17,7 @@ _VALIDATE_SRCS = [
 
 _LINT_SRCS = [
     Label("//tools:chunk_lint.py"),
-    Label("//tools:chunk2kg.py"),  # 논평 본문의 파서 comment_form — 게이트와 방출기가 같은 판정을 쓴다 (p7-commentary-form)
+    Label("//tools:chunk2kg.py"),  # 주석 본문의 파서 comment_form — 게이트와 방출기가 같은 판정을 쓴다 (p7-commentary-form)
     Label("//tools:kb_lib.py"),
 ]
 
@@ -792,7 +792,7 @@ def kb_gendoc_test(name, docs, data = [], empty_dirs = [], **kwargs):
 
 def kb_runner_env_test(name, probe = "chunk_lint", **kwargs):
     """실행기 환경 격리 게이트 — 케이스의 명령이 실행기의 파이썬·runfiles 문맥을 물려받지 않는지 판정한다
-    (tools/vv_run_env_test.py, 결정 p8-verifier-env-isolation, 논평 runner-env-leaks-into-case).
+    (tools/vv_run_env_test.py, 결정 p8-verifier-env-isolation, 주석 runner-env-leaks-into-case).
 
     다른 게이트와 달리 검사 대상이 **도구 자신의 동작**이다. 실행기 전체는 케이스가 `bazel test` 를 부르므로
     테스트 타깃이 될 수 없지만(중첩 실행), `clean_env()` 와 `run_command()` 는 bazel 을 부르지 않는다.

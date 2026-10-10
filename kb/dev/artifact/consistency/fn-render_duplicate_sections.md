@@ -7,7 +7,7 @@ title: function render_duplicate_sections in tools/consistency.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/bb657e8b-5946-421e-bfcb-8829e044c9e2]
 part_of: https://agentic-knowledge-base.dev/id/composite/7df89751-62ab-47e6-90b3-8fbdb19b640a
@@ -49,6 +49,8 @@ def render_duplicate_sections(a, exact, label_dups, near, theta_c, bound, cohesi
         lines.append(f"- {ref(it)}")
     if not bad_form:
         lines.append("- 없음")
+    if len(bad_form) > 50:
+        lines.append(f"- … {len(bad_form) - 50}건 더")
     lines += ["", "## ⑥ 용어집 옛 표기 잔존 (옛 → 표준, tier 1 만)", ""]
     if a.glossary and not has_tier:
         lines.append("- info: 용어집에 `tier` 열이 없다 — 옛 표기를 전부 tier 1(기계 치환)로 본다")

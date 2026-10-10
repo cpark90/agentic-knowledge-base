@@ -36,9 +36,9 @@ kg/references-kg.ttl       # (생성) 인용 링크 — 본문에서 뽑는다
 INTENT.md                  # 요구의 진입 문서 — 궁극 목적·이해관계자·요구 인덱스
 kb/dev/requirement/        # 개발 KB — 요구 (EARS, functional)
 kb/dev/decision/           # 개발 KB — 결정 (결론·근거·대안 세 청크 복합체)
-kb/vv/                     # V&V KB — vnv 역할만 편집 (아직 비어 있음)
+kb/vv/                     # V&V KB — vnv 역할만 편집
 chunks/decision/           # v1 유래 옛 결정
-space/                     # 설계 공간 (후보와 제약) — 아직 비어 있음
+space/                     # 설계 공간 (후보와 제약)
 tools/                     # 검사·생성(validate · chunk_lint · chunk2kg · gen_build · channel_lint …) · 활용(workset · metrics · impact · handoff · consistency)
 defs/knowledge.bzl         # 게이트 매크로
 docs/                      # 이 체계의 문서 + 설계 노트 v3 (그래프 밖)
@@ -72,7 +72,7 @@ bazel run //tools:canonicalize -- --write <files>   # 기계 생성 TTL 정규�
 
 | 문서 | 다루는 것 |
 |---|---|
-| [`agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md) | **노트 v5** — 이 체계의 설계 원본 (3,470줄, Part 0~XVII + 부록 A~E). `[확정]`은 결정으로 재도출되어 `kb/dev/decision/`에 있다 (v3 145건 + v4·v5 델타 37건 = 182건) |
+| [`agent-knowledge-system-notes.md`](docs/agent-knowledge-system-notes.md) | **노트 v5** — 이 체계의 설계 원본 (3,470줄, Part 0~XVII + 부록 A~E). `[확정]`은 결정으로 재도출되어 `kb/dev/decision/`에 있다 |
 | [`agentic-knowledge-base-structure.md`](docs/agentic-knowledge-base-structure.md) | **운용 지도** — 노트를 실제 운용 관점에서 재배열한 구조도 |
 
 본문의 `(노트 N.N절)` 인용은 전부 이 노트 **v5**의 절 번호다. 2026-09-10의 v3→v5 동기화에서

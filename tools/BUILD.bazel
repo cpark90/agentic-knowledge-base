@@ -92,7 +92,7 @@ py_binary(
     ],
 )
 
-# 청크 린트. chunk2kg.py 를 함께 실은 까닭은 논평 본문의 파서(comment_form)가 방출기와 같아야 하기 때문이다 —
+# 청크 린트. chunk2kg.py 를 함께 실은 까닭은 주석 본문의 파서(comment_form)가 방출기와 같아야 하기 때문이다 —
 # 게이트와 그래프가 다른 판정을 쓰면 `issue (blocking)` 의 게이트 효과가 방출과 갈린다 (p7-commentary-form)
 py_binary(
     name = "chunk_lint",
@@ -420,7 +420,7 @@ py_binary(
 # 실행기 환경 격리 게이트: bazel test //tools:vv_run_env_test
 # 실행기 **전체**는 위 주석대로 테스트 타깃이 될 수 없다 — 케이스가 `bazel test` 를 부르므로 중첩 실행이 된다. 그러나 `clean_env()` 와
 # `run_command()` 는 bazel 을 부르지 않는다. 판정 대상을 환경 격리의 동작으로 좁혀 케이스 실행 없이 `bazel test //...` 안에서 잰다
-# (결정 p8-verifier-env-isolation, 논평 runner-env-leaks-into-case). 이름이 vv_run_test 가 아닌 까닭은 실행기 전체를 덮지 않기 때문이다
+# (결정 p8-verifier-env-isolation, 주석 runner-env-leaks-into-case). 이름이 vv_run_test 가 아닌 까닭은 실행기 전체를 덮지 않기 때문이다
 kb_runner_env_test(
     name = "vv_run_env_test",
     probe = "chunk_lint",

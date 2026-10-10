@@ -7,8 +7,8 @@ source: tools/judge.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-judge
 package: kb/dev/artifact/judge
 layer: process
-at: 2026-10-05T16:40:36Z
-source_hash: d91af8bfb14e6e95
+at: 2026-10-07T09:06:36Z
+source_hash: d2bf3b8249e6dcca
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0
 serves: []

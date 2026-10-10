@@ -2,13 +2,13 @@
 id: https://agentic-knowledge-base.dev/id/chunk/239538e4-c666-4fb3-b58a-0f48544ab7d2
 type: annotation
 level: functional
-title_ko: 판정 결과 — 라벨이 본문을 대표하는가: 값 2 · 확신도 0.930
-title: Judgement result — does the label represent the body: value 2, confidence 0.930
+title_ko: 판정 결과 — 라벨이 본문을 대표하는가: 대상 r-018-planes-stay-separate · 판정자 judge-a/claude-sonnet-5 · 값 2 · 확신도 0.930
+title: Judgement result — does the label represent the body: target r-018-planes-stay-separate, judge judge-a/claude-sonnet-5, value 2, confidence 0.930
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/odd-agentic-knowledge-base}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 targets: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4]
-generated: {by: process:judge, at: 2026-09-29T18:23:11Z}
+generated: {by: process:judge, at: 2026-10-09T17:15:55+09:00}
 ---
 thought (non-blocking): 질문 `agt:labelRepresentsBody` 의 값은 `2` 이고 확신도는 0.930 이며 판정자는 `judge-a/claude-sonnet-5` 다.
 

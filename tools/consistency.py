@@ -263,11 +263,11 @@ def analyse_cohesion(items, by_id, sh, theta_c):
 
 
 def analyse_label_form(items):
-    """⑤ 결론 라벨 형식 — 결정의 결론만 문장형. 판정은 경로 basename: conclusion.md 이거나
-    근거·대안(rationale.md·alternatives.md)이 아닌 단일 파일 결정(chunks/decision/d-*.md)
+    """⑤ 결론 라벨 형식 — 결정의 결론만 문장형. 판정은 kb_lib.decision_role_marker(경로) == 결론 이다:
+    conclusion.md·단일 파일 결정은 결론이고 근거·대안·규약·시나리오의 자극·요인·배제 자극은 결론이 아니다
     """
     def is_conclusion(it):
-        return it["type"] == "decision" and Path(it["path"]).name not in ("rationale.md", "alternatives.md")
+        return it["type"] == "decision" and kb_lib.decision_role_marker(it["path"]) == "결론"
 
     return [it for it in items if is_conclusion(it) and not re.search(r"(다|음|함|없음|있음)$", it["title_ko"])]
 
@@ -456,6 +456,8 @@ def render_duplicate_sections(a, exact, label_dups, near, theta_c, bound, cohesi
         lines.append(f"- {ref(it)}")
     if not bad_form:
         lines.append("- 없음")
+    if len(bad_form) > 50:
+        lines.append(f"- … {len(bad_form) - 50}건 더")
     lines += ["", "## ⑥ 용어집 옛 표기 잔존 (옛 → 표준, tier 1 만)", ""]
     if a.glossary and not has_tier:
         lines.append("- info: 용어집에 `tier` 열이 없다 — 옛 표기를 전부 tier 1(기계 치환)로 본다")
