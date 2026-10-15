@@ -4,10 +4,11 @@ type: decision
 level: logical
 title_ko: 도입 2단계 조건이 앵커별이므로 검사 범위를 앵커가 있는 뷰로 맞춘다
 title: The stage-two condition is per anchor, so the check covers only anchored views
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T14:33:11+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-15T18:36:37+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/e341786c-ca43-4e4f-bea4-83b4719901ae
 ---

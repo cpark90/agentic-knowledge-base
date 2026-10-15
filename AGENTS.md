@@ -53,7 +53,7 @@
 | 역할 | 책임 | write | read | 구동 | git |
 |---|---|---|---|---|---|
 | **orchestrator** (=메인) | 계획·dispatch·통합. 요구(유저 관심사의 EARS 저작 — stable 전이는 유저 승인)·결정 저작. 직접 구현하지 않는다. 유저와 직접 대화하지 않고 채널로 hci와 소통한다 | `requirement` · `decision` · `memory`(세션·판정 관측, 2026-09-14) · `norm`(규범 문서의 절 청크, 2026-10-04, Q21-a) | 전 plane | 세션 유지 | ✗ |
-| **developer** (dispatch) | 분배된 산출물(코드·설정·온톨로지 개념) 저작. 노트 10.2절 9역할 중 design(T-Box·ODD 편집)을 겸한다 — 유저 결정 C4 | `artifact` (+T-Box·ODD) | `contract`·`schema`·`decision`. **`kb/vv/`는 읽기 전용** | dispatch | ✗ |
+| **developer** (dispatch) | 분배된 산출물(코드·설정·온톨로지 개념) 저작. 노트 10.2절 9역할 중 design(T-Box·ODD 편집)을 겸한다 — 유저 결정 C4 | `artifact` · `contract`(개발 KB의 시그니처, Q79-a) (+T-Box·ODD) | `contract`·`schema`·`decision`. **`kb/vv/`는 읽기 전용** | dispatch | ✗ |
 | **vnv** (dispatch) | 판정 전용: `bazel test //...` PASS 확인 + 결과 주석. **V&V KB(`kb/vv/`)의 유일한 편집 주체** — `verifies`의 주어는 V&V 청크뿐. 노트 8.20절의 다섯 V&V 하위 역할(engineer·검증기 저자·executor·judge·audit)을 겸하되 다른 세션에서 한다 | `kb/vv/`의 전 plane(`agt:writesIn "kb/vv"`, 2026-09-19 — 판정 주석도 V&V KB 안의 annotation plane) | `requirement`·`artifact`·`decision` | dispatch | ✗ |
 | **hci** (별도 세션) | **유저 소통 전담 — 유일한 유저 창구.** 유저의 의도·결정을 질문지(유저 채널)로 받아 지시·지식으로 정제해 orchestrator에 넘기고, 질문과 결과를 유저에게 되돌린다. **조사와 git 관리**(add/commit/push, 유저 요청 시)를 맡는다 — 옛 inspection 역할을 2026-09-13에 이관 | — (채널만) | `requirement`·전 plane + 저장소 전체 | 세션 유지 | ✓ |
 

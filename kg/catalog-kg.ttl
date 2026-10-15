@@ -41,7 +41,7 @@ id:role-orchestrator a agt:Role ;
 
 id:role-developer a agt:Role ;
     rdfs:label "developer"@en , "개발자"@ko ;
-    agt:writes agt:ArtifactChunk ;
+    agt:writes agt:ArtifactChunk , agt:ContractChunk ;  # contract 는 개발 KB 의 인터페이스 시그니처·사전·사후조건이다 (결정 p7-dev-plane-substance). 쓰기 권한은 유저 답 Q79-a (2026-10-15)
     agt:reads agt:ContractChunk , agt:SchemaChunk , agt:DecisionChunk ;
     agt:executionMode agt:dispatch ;
     agt:maxConcurrent 1 .

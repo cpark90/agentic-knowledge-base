@@ -4,11 +4,12 @@ type: decision
 level: concrete
 title_ko: 작업 집합의 예산 초과는 앵커가 있을 때만 빌드를 실패시킨다
 title: Exceeding the workset budget fails the build only when an anchor is given
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T14:33:11+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-15T18:36:37+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/e341786c-ca43-4e4f-bea4-83b4719901ae
 composite: {id: https://agentic-knowledge-base.dev/id/composite/e341786c-ca43-4e4f-bea4-83b4719901ae, title_ko: 작업 집합 예산의 강제, title: Enforcing the workset budget}

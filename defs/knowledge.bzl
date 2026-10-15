@@ -604,6 +604,29 @@ def kb_build_drift_test(name, builds, data = [], **kwargs):
         **kwargs
     )
 
+def kb_gate_input_test(name, **kwargs):
+    """게이트 입력 가드 — tools/gen_build.py --gate-inputs 로 kb/ 의 지식 파일이 소유 패키지의 BUILD 에 담겼는지 본다.
+
+    결정 pe-knowledge-files-are-gate-inputs: 어느 filegroup 에도 들지 않은 지식 파일은 어떤 게이트도 보지 않는다
+    (유저 답 Q80-a, 2026-10-15). 찾는 것이 **선언되지 않은** 파일이라 선언된 입력만 있는 runfiles 로는 판정할 수 없다.
+    그래서 입력 defs/kb.bzl 의 심볼릭 링크를 따라 소스 트리를 걷고, 입력 해시로는 새 파일을 알 수 없으므로 캐시하지
+    않는다(`external`). 게이트 id 는 `gate-input` 이다.
+
+    Args:
+      name: 테스트 이름.
+      **kwargs: py_test 로 전달.
+    """
+    py_test(
+        name = name,
+        srcs = _GEN_BUILD_SRCS,
+        main = Label("//tools:gen_build.py"),
+        args = ["--gate-inputs", "--root", "."],
+        data = _with_gates([]),
+        size = kwargs.pop("size", "small"),
+        tags = kwargs.pop("tags", []) + ["external"],
+        **kwargs
+    )
+
 def kb_extract_drift_test(name, source, chunks, registry, tools = Label("//tools"), **kwargs):
     """추출 드리프트 가드 — tools/extract.py --check 로 트리의 생성 청크·등록부를 재추출과 비교한다.
 

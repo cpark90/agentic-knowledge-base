@@ -7,9 +7,9 @@ title: function main in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/04bfcfb9-d96b-42ec-9555-a58bd09f1551, https://agentic-knowledge-base.dev/id/chunk/50e03067-a51a-4276-beaa-b3062acbca52, https://agentic-knowledge-base.dev/id/chunk/552acfff-57db-463e-82cb-cdace15cb87d, https://agentic-knowledge-base.dev/id/chunk/7e58cd2b-ecf9-4a21-a66b-9e28aa4474e9, https://agentic-knowledge-base.dev/id/chunk/869af6ba-5152-4bae-8ae4-1081f5177303, https://agentic-knowledge-base.dev/id/chunk/9cf3ed9e-81a6-4add-97ba-b933477041ad, https://agentic-knowledge-base.dev/id/chunk/ad68f79e-bbb2-4a80-b6c8-518fdd88a3a2, https://agentic-knowledge-base.dev/id/chunk/e54eb0d7-070d-49c3-80c1-2c299c1c0b7a, https://agentic-knowledge-base.dev/id/chunk/f27e5261-f973-4030-9f81-9dab47f4a21a]
+uses: [https://agentic-knowledge-base.dev/id/chunk/04bfcfb9-d96b-42ec-9555-a58bd09f1551, https://agentic-knowledge-base.dev/id/chunk/50e03067-a51a-4276-beaa-b3062acbca52, https://agentic-knowledge-base.dev/id/chunk/535d310e-db77-40f1-a678-68d3de7d9727, https://agentic-knowledge-base.dev/id/chunk/552acfff-57db-463e-82cb-cdace15cb87d, https://agentic-knowledge-base.dev/id/chunk/7e58cd2b-ecf9-4a21-a66b-9e28aa4474e9, https://agentic-knowledge-base.dev/id/chunk/869af6ba-5152-4bae-8ae4-1081f5177303, https://agentic-knowledge-base.dev/id/chunk/9cf3ed9e-81a6-4add-97ba-b933477041ad, https://agentic-knowledge-base.dev/id/chunk/ad68f79e-bbb2-4a80-b6c8-518fdd88a3a2, https://agentic-knowledge-base.dev/id/chunk/c2012ece-9826-4be9-bfdc-24eaf1fda875, https://agentic-knowledge-base.dev/id/chunk/e54eb0d7-070d-49c3-80c1-2c299c1c0b7a, https://agentic-knowledge-base.dev/id/chunk/f27e5261-f973-4030-9f81-9dab47f4a21a]
 part_of: https://agentic-knowledge-base.dev/id/composite/e563bac1-7552-474e-a036-f6ced4999bc4
 ---
 **함수** — `main()` 다.
@@ -20,9 +20,24 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--check", action="store_true", help="생성하지 않고 커밋본과 비교. 어긋나면 1")
+    ap.add_argument("--gate-inputs", action="store_true",
+                    help="게이트 입력 검사만 한다 — 소스 트리(runfiles 면 링크를 따라간 뿌리)의 kb/ 지식 파일이 BUILD 에 담겼는가")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 --root 기준")
     a = ap.parse_args()
     root = Path(a.root)
+    if a.gate_inputs:
+        src = source_root(root)
+        if not (src / "kb").is_dir():
+            print(f"FAIL [gen-build] {src}: 소스 트리의 kb/ 를 찾지 못한다 — defs/kb.bzl 이 입력에 있어야 한다")
+            return EXIT_CONFIG
+        errors = check_gate_inputs(src)
+        for e in errors:
+            print(f"FAIL [gate-input] {e}")
+        if errors:
+            print(f"\nFAIL [gate-input] — {len(errors)}건")
+            return EXIT_FAIL
+        print(f"PASS [gate-input] — {', '.join(GATE_INPUT_ROOTS)}/ 의 지식 파일 전부가 소유 패키지의 BUILD 에 담겼다")
+        return 0
     try:
         apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
     except (OSError, ValueError) as e:
@@ -34,6 +49,7 @@ def main() -> int:
             str(root / "kb/dev/requirement/BUILD.bazel"): render_chunks("kb/dev/requirement", items, iri_to_label, "//kb:requirement_readers"),
             str(root / "kb/dev/decision/BUILD.bazel"): render_decisions(items, iri_to_label),
             str(root / "chunks/decision/BUILD.bazel"): render_chunks("chunks/decision", items, iri_to_label, "//kb:decision_readers"),
+            str(root / CONTRACT_PKG / "BUILD.bazel"): render_chunks(CONTRACT_PKG, items, iri_to_label, "//kb:contract_readers", allow_empty=True),
             str(root / MEMORY_PKG / "BUILD.bazel"): render_chunks(MEMORY_PKG, items, iri_to_label, "//kb:memory_readers", allow_empty=True),
             str(root / VV_ROOT / "BUILD.bazel"): render_vv_root(items),
             str(root / ARTIFACT_ROOT / "BUILD.bazel"): render_artifact_root(root),

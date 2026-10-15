@@ -9,7 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-refines: [https://agentic-knowledge-base.dev/id/chunk/ab66f02d-6126-4507-b73a-c29429769f11, https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2, https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c, https://agentic-knowledge-base.dev/id/chunk/a4678d28-76ed-48df-84de-db8421a8718e]
+refines: [https://agentic-knowledge-base.dev/id/chunk/ab66f02d-6126-4507-b73a-c29429769f11, https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2, https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c, https://agentic-knowledge-base.dev/id/chunk/a4678d28-76ed-48df-84de-db8421a8718e, https://agentic-knowledge-base.dev/id/chunk/ed5b49af-8e81-4f81-b74e-9f795c588072]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f7d6eec7-bef4-4e94-ac55-36e7dda654ce, title_ko: 파일 복합체 tools/chunk2kg.py, title: file composite tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/composite/b1903be2-0bdb-4f11-9c2b-cc59cc7e9a24, https://agentic-knowledge-base.dev/id/composite/28e52252-d603-4c96-b7ee-f85197b0d7da, https://agentic-knowledge-base.dev/id/composite/067a8c81-640e-4b58-8235-c18119d80f2e]}
 ---
 **파일** — `tools/chunk2kg.py` 다. 1474줄 · 최상위 정의 44개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.

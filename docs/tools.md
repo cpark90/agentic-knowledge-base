@@ -81,11 +81,12 @@ plane별 규칙·deps=링크로의 전환은 [`pe-bazel-rules`](../kb/dev/decisi
 | 게이트 id 단일 정의처 | 코드의 게이트 태그가 `GATES` 리터럴 밖, `kb_lib` 에 손으로 둔 `*_GATE` 상수, `getattr` 폴백의 값 드리프트, 등록됐으나 코드에 닿지 않는 id | verify | 6.7 | **있음** — `validate` `check_gate_registry`(2026-10-02). 원본은 `defs/kb.bzl` 의 `GATES`(id → 실행 계층·판정 도구·한글 라벨·설명)와 `TOOL_TAGS`(게이트가 아닌 입력 문제·보고 태그)이고 `kb_lib` 이 리터럴 읽기로 `*_GATE`·`*_TAG` 를 파생한다 — `RESIDENCY`·`EXTRACTED_SOURCES` 와 같은 해법이다. 리터럴의 자기 정합성(네 키·실행 계층 어휘·두 목록의 서로소)은 `tools/BUILD.bazel` 의 `check_gates` 가 로드 시점에 본다. 그래프 개체는 `//kg:gates_kg`(`id:gate-<id>`)이고 총람 `id` 열과의 동일성은 `doccheck --gates` 가 본다 | `gate-registry` | 태그를 상수로 바꾸거나 리터럴에 등재한다 — developer |
 | 요약 지지 참조 | 요약 블록의 `핵심:` 항목에 본문의 지지 블록을 가리키는 참조(`[#id]`·`d-NNNN`·IRI·마크다운 링크)가 없음 | test | judge-without-service 기계 환원 ① | **있음** — `chunk_lint` `summary-support`(2026-09-30). 대상은 살아 있는 `.md` 청크의 선택 슬롯 `핵심:`이고 슬롯이 없으면 대상이 아니다. 오탐 실측(2026-09-30): 0/0 — 이 저장소는 아직 이 슬롯을 쓰지 않는다. 보고 모드를 거치지 않고 즉시 게이트로 올린 근거는 그 실측이다(usage 0 이라 오탐이 원천적으로 0) | `summary-support` | `핵심:` 항목마다 지지 참조를 더한다 — 저작자. 면제는 `waivers.md`(축 `파일`) |
 | 동결 문서 | 동결 문서(설계 노트)의 내용이 `kb_lib.FROZEN_DOCS`의 sha256과 다름 | test | Q15-c | **있음** — `doccheck --frozen`(`//:frozen_docs_test`, 2026-10-03). 노트는 기획 원본으로 동결됐고 미결은 청크의 `미확정:`으로 옮겼다 | `frozen` | 노트를 고치지 않는다. 고쳐야 하면 그 변경을 결정으로 세우고 상수를 바꾸는 것이 의도한 변경의 표시다 — orchestrator |
+| 게이트 입력 | `kb/` 아래 지식 파일 중 소유 패키지(가장 가까운 BUILD 의 디렉토리)의 BUILD 가 이름으로도 glob 으로도 담지 않은 것 — 어느 filegroup·`kb_chunk` 에도 들지 않아 어떤 게이트도 보지 않는다 | test | 6.7 | **있음** — `gen_build --gate-inputs`(`//:gate_input_test`, 2026-10-15, 유저 답 Q80-a). 생성·`--check` 모드와는 따로 돈다 — 음성 시험의 최소 트리처럼 BUILD 없는 입력으로 생성기를 부르는 자리를 막지 않는다. 찾는 것이 선언되지 않은 파일이라 runfiles 가 아니라 입력 `defs/kb.bzl` 의 링크를 따라간 소스 트리를 걷고, 입력 해시로는 새 파일을 알 수 없어 캐시하지 않는다(`external`). 근거는 [`pe-knowledge-files-are-gate-inputs`](../kb/dev/decision/pe-knowledge-files-are-gate-inputs/conclusion.md)다 | `gate-input` | 파일을 gen_build 가 아는 패키지로 옮기거나 그 디렉토리를 생성기에 더한다 — developer |
 
 2026-09-11 Bazel 규칙 반영 후 기계화 10 · 부분 4 · 규약 1 · 없음 6이다. 없음의 대부분이 도입
 5·7단계의 산출에 걸려 있다. `id`는 도구의 `FAIL [<id>]` 태그와 같다(agrtls A). 결정
 `p6-gate-catalogue`가 같은 id를 적는다. 하네스 자체의 게이트 id(원본 `GATES`, 2026-10-02)는 `naming`(`//:naming_test`) ·
-`build-drift`(`//:build_drift_test`) · `extract`·`extract-drift`(`//:extract_drift_test`) · `stamp`(`//tools:stamp`) · `token-budget`(`validate` — plane별 본문 토큰 상한의 표와 shape 의 동일성 + 어휘 파일 sha256) ·
+`build-drift`(`//:build_drift_test`) · `gate-input`(`//:gate_input_test`) · `extract`·`extract-drift`(`//:extract_drift_test`) · `stamp`(`//tools:stamp`) · `token-budget`(`validate` — plane별 본문 토큰 상한의 표와 shape 의 동일성 + 어휘 파일 sha256) ·
 `gate-registry`(`//tools:gate_registry_test` — 코드의 태그·상수·폴백이 `GATES`와 같은가) · `gates2kg`(생성=검사) · `labels`·`boundary`·`syntax`(`validate`의 온톨로지 품질 검사) · `restored`·`specialization`(`chunk2kg` 생성 시점) · `chunk2kg-merge`(`kb_kg_merge` — IRI 중복) · `gen-skills`·`skills-drift`(`gen_skills`) · `gen-norms`·`norms-drift`(`//:norms_drift_test`) · `case-gen`·`case-drift`(`//:case_drift_test`, 대상 0) ·
 `channel`(`//harness:channel_lint_test`) · `doccheck`(`//:doccheck_test`) · `gendoc`(`//:gendoc_test`) · `addition`·`empty-value`·`list-rules`·`blocking-comment`·`judge-log`·`summary-support`(`chunk_lint`) · `space`(`space2kg` 생성=검사 — 게이트 id는 `space`다) ·
 `odd2kg`·`taxonomy`(생성=검사) · `workset-budget`(`//kg:workset`, 앵커가 있을 때만) · `canon`(규약, 테스트 타깃 아님)이다. **게이트가 아닌 도구 태그** 아홉(`consistency`·`judge`·`link`·`open`·`propose`·`revalidate`·`tokens`·`validate`·`weave` — 입력 문제·보고)은 같은 대괄호 표기를 쓰되 `TOOL_TAGS`로 갈라 그래프 개체를 받지 않는다. 실패 종류(종료 코드 1·2·3)는
@@ -325,6 +326,7 @@ tools/gen_build.py                                                              
 ```
 bazel test //...  (게이트 전체 — test_suite 없음, 패키지의 test 타깃 전부)
 ├── //:build_drift_test            생성 BUILD = frontmatter (드리프트 가드)
+├── //:gate_input_test             kb/ 의 지식 파일이 소유 패키지의 BUILD 에 담겼는가 (게이트 `gate-input`, 캐시 없음)
 ├── //defs/tests:*                 음성 시험 5 — plane 단방향·수준 허용표·supersedes plane·verifies 주어·결정 수준
 ├── //:naming_test                 TTL 접미사 규약
 ├── //harness:channel_lint_test    채널 규약 — 메시지·질문지 어휘 · 단일 작성자 · task↔result 쌍 · hci 반영 흔적 · waivers

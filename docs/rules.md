@@ -406,7 +406,7 @@ uuid`이고 신설만 자동이다 — 개명·삭제는 등록부 편집이다(
 | 구현 착수 | developer는 concrete 결정·확정 스키마 없이 구현 불가(스코프 conditional). developer 작업 집합에 `-space` 없음 | [`p7-developer-requires-concrete`](../kb/dev/decision/p7-developer-requires-concrete/conclusion.md) |
 | 대체 | 결정 대체는 `supersedes`. 옛 결정은 `deprecated`, 그 `satisfies` 전부 `suspect` | [`p7-decision-supersession`](../kb/dev/decision/p7-decision-supersession/conclusion.md) |
 | 완료 | 연쇄 완주 · 계약 선행 · 대안 존재 · 가정 `stable` · **V&V `verifies` 유효** — 개발 KB만으로 완료 선언 불가 | [`p7-dev-kb-completion`](../kb/dev/decision/p7-dev-kb-completion/conclusion.md) |
-| 역할 | design(요구·결정·계약·스키마·ODD) / developer(`artifact`) / orchestrator(dispatch 결정) / V&V(`annotation`만) | [`p7-dev-roles-and-scopes`](../kb/dev/decision/p7-dev-roles-and-scopes/conclusion.md) |
+| 역할 | design(요구·결정·계약·스키마·ODD) / developer(`artifact`·개발 KB의 `contract`) / orchestrator(dispatch 결정) / V&V(`annotation`만) | [`p7-dev-roles-and-scopes`](../kb/dev/decision/p7-dev-roles-and-scopes/conclusion.md) |
 
 이 저장소의 실측(2026-09-10)은 `requirement` 33 · `decision` 182(대안 182/182) · `contract`·`schema`·`artifact` 0이다.
 

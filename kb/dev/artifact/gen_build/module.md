@@ -7,12 +7,12 @@ title: file tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/047c5c56-2b6c-4f8b-993e-32f3a35fd1d6, https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c, https://agentic-knowledge-base.dev/id/chunk/4962e5fe-9d28-4f18-b054-95670b51808e]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/9bb41e68-1b5c-4d4c-aee0-32a2899bedf9, title_ko: 파일 복합체 tools/gen_build.py, title: file composite tools/gen_build.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/fa831b18-16bd-4c86-8fa9-8ac3d941c6f2, https://agentic-knowledge-base.dev/id/composite/5d2c4208-d2d8-45df-b4a3-1931a6c56dfd, https://agentic-knowledge-base.dev/id/composite/569c6e75-e264-4981-bf0b-bba156b541c8, https://agentic-knowledge-base.dev/id/composite/b9a75b3d-1c8f-4a7a-8f7f-dc10a84362fa, https://agentic-knowledge-base.dev/id/composite/6400a2c9-ed32-428b-bd76-5952553e5e04, https://agentic-knowledge-base.dev/id/composite/bd43acdb-4493-4bcb-852c-56bb2a3c929e, https://agentic-knowledge-base.dev/id/composite/e563bac1-7552-474e-a036-f6ced4999bc4]}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/9bb41e68-1b5c-4d4c-aee0-32a2899bedf9, title_ko: 파일 복합체 tools/gen_build.py, title: file composite tools/gen_build.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/fa831b18-16bd-4c86-8fa9-8ac3d941c6f2, https://agentic-knowledge-base.dev/id/composite/5d2c4208-d2d8-45df-b4a3-1931a6c56dfd, https://agentic-knowledge-base.dev/id/composite/569c6e75-e264-4981-bf0b-bba156b541c8, https://agentic-knowledge-base.dev/id/composite/b9a75b3d-1c8f-4a7a-8f7f-dc10a84362fa, https://agentic-knowledge-base.dev/id/composite/6400a2c9-ed32-428b-bd76-5952553e5e04, https://agentic-knowledge-base.dev/id/composite/bd43acdb-4493-4bcb-852c-56bb2a3c929e, https://agentic-knowledge-base.dev/id/composite/6f567db9-617b-4afe-bc62-3ae6f78e6dce, https://agentic-knowledge-base.dev/id/composite/e563bac1-7552-474e-a036-f6ced4999bc4]}
 ---
-**파일** — `tools/gen_build.py` 다. 560줄 · 최상위 정의 22개 · 최상위 절 7개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/gen_build.py` 다. 651줄 · 최상위 정의 26개 · 최상위 절 8개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -23,7 +23,9 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/9bb41e68-1b5c-4d
 
 원본은 그래프(frontmatter 링크, owl:imports)이고 BUILD 는 커밋되는 뷰다. 링크 변화가 PR diff 에 보이도록
 커밋하며, //:build_drift_test 가 생성기를 다시 돌려 커밋본과 비교한다 — frontmatter 를 고치고 BUILD 를 안 돌린
-경우를 잡는다. 사용: gen_build.py [--check] [--root .] [--residency defs/kb.bzl]
+경우를 잡는다. 사용: gen_build.py [--check | --gate-inputs] [--root .] [--residency defs/kb.bzl]
+게이트 입력 검사(`--gate-inputs`, `//:gate_input_test`)는 kb/ 아래 지식 파일 중 소유 패키지의 BUILD 가 담지 않은 것을
+`FAIL [gate-input] <경로>: …` 로 낸다(pe-knowledge-files-are-gate-inputs, 유저 답 Q80-a).
 결정 디렉토리의 선택 넷째 청크 `conventions.md`(규약 청크, p4-convention-slot)는 있으면 결정 복합체의 넷째 부분이다.
 규범 문서의 절 청크(`kb/dev/norm/<문서 stem>/`, plane norm)는 문서마다 패키지 하나·`kb_composite` 하나가 되고, `items` 가
 가리키는 결정 디렉토리를 결정 복합체 IRI 로 풀어 `conventions` 인자로 넣는다(p12-norm-documents-from-section-chunks).
@@ -34,6 +36,7 @@ chunk2kg 의 규칙이므로 `FAIL [chunk2kg] …`, --check 의 어긋남은 `FA
 """
 import argparse
 import difflib
+import os
 import re
 import sys
 from pathlib import Path

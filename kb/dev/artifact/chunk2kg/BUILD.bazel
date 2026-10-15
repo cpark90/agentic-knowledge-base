@@ -81,6 +81,7 @@ kb_composite(
     level = "executable",
     status = "stable",
     refines = [
+        "//kb/dev/contract:parse-chunk-raises",
         "//kb/dev/decision:p4-chunk-as-four-named-graphs",
         "//kb/dev/decision:p4-chunk-iri-is-the-anchor",
         "//kb/dev/decision:p4-composite-order-is-declared",

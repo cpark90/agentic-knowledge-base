@@ -17,6 +17,7 @@ filegroup(
     name = "dev",
     srcs = [
         "//kb/dev/artifact",  # 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나
+        "//kb/dev/contract",  # 시그니처 (contract plane) — Q79-a, 비어 있어도 된다
         "//kb/dev/decision",
         "//kb/dev/memory",  # 관측 (assume_check --record) — 비어 있어도 된다
         "//kb/dev/norm",  # 규범 문서의 절 청크 (p12-norm-documents-from-section-chunks) — 비어 있어도 된다

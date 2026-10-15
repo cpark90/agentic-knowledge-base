@@ -1,5 +1,5 @@
 load("//defs:kb.bzl", "EXTRACTED_QUERY_DIRS", "EXTRACTED_SOURCES", "EXTRACTED_STARLARK", "NORM_DOCS", "VIEWS", "norm_doc_labels")
-load("//defs:knowledge.bzl", "kb_build_drift_test", "kb_case_drift_test", "kb_chunk_lint_test", "kb_doccheck_test", "kb_extract_drift_test", "kb_frozen_docs_test", "kb_gendoc_test", "kb_norms_drift_test", "kb_skills_drift_test")
+load("//defs:knowledge.bzl", "kb_build_drift_test", "kb_case_drift_test", "kb_chunk_lint_test", "kb_doccheck_test", "kb_extract_drift_test", "kb_frozen_docs_test", "kb_gate_input_test", "kb_gendoc_test", "kb_norms_drift_test", "kb_skills_drift_test")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -90,6 +90,7 @@ kb_build_drift_test(
         "//kb/dev/artifact:BUILD.bazel",
     ] + ["//kb/dev/artifact/" + mod + ":BUILD.bazel" for mod in EXTRACTED_SOURCES + EXTRACTED_QUERY_DIRS] +
     ["//kb/dev/artifact/" + m + "-bzl:BUILD.bazel" for m in EXTRACTED_STARLARK] + [
+        "//kb/dev/contract:BUILD.bazel",  # 개발 KB 의 시그니처 (Q79-a)
         "//kb/dev/decision:BUILD.bazel",
         "//kb/dev/memory:BUILD.bazel",
         "//kb/dev/norm:BUILD.bazel",
@@ -112,6 +113,12 @@ kb_build_drift_test(
         "//kb/ontology:modules",
         "//kb/ontology:modules.bzl",
     ],
+)
+
+# 게이트 입력 가드 (pe-knowledge-files-are-gate-inputs, 유저 답 Q80-a): kb/ 의 지식 파일이 소유 패키지의 BUILD 에
+# 이름이나 glob 으로 담겼는지 본다 — 담기지 않은 파일은 어떤 게이트도 보지 않는다. 소스 트리를 걷고 캐시하지 않는다
+kb_gate_input_test(
+    name = "gate_input_test",
 )
 
 # 추출 드리프트 가드 (코드를 청크로, 유저 승인 2026-09-30): 추출기를 다시 돌려 트리의 생성 청크·등록부와 비교 —

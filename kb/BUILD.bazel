@@ -57,6 +57,21 @@ package_group(
     ],
 )
 
+# contract 는 개발 KB 의 시그니처 (Q79-a). 같은 plane 의 정제와 하류 plane(artifact)·그래프·게이트·뷰가 본다
+package_group(
+    name = "contract_readers",
+    packages = [
+        "//",
+        "//kb",
+        "//kb/dev",
+        "//kb/dev/contract",
+        "//kb/dev/artifact/...",
+        "//kg/...",
+        "//tools/...",
+        "//defs/...",
+    ],
+)
+
 # artifact 는 코드의 자리 (p7-code-extraction-direction 의 추출 생성물). plane 단방향대로 annotation·memory 와
 # 그래프·게이트·뷰가 본다. V&V 는 verifies 로 이 plane 을 가리키므로 함께 든다 (8.5절 — 방향은 V&V → 개발뿐이다)
 package_group(

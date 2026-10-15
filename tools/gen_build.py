@@ -3,7 +3,9 @@
 
 원본은 그래프(frontmatter 링크, owl:imports)이고 BUILD 는 커밋되는 뷰다. 링크 변화가 PR diff 에 보이도록
 커밋하며, //:build_drift_test 가 생성기를 다시 돌려 커밋본과 비교한다 — frontmatter 를 고치고 BUILD 를 안 돌린
-경우를 잡는다. 사용: gen_build.py [--check] [--root .] [--residency defs/kb.bzl]
+경우를 잡는다. 사용: gen_build.py [--check | --gate-inputs] [--root .] [--residency defs/kb.bzl]
+게이트 입력 검사(`--gate-inputs`, `//:gate_input_test`)는 kb/ 아래 지식 파일 중 소유 패키지의 BUILD 가 담지 않은 것을
+`FAIL [gate-input] <경로>: …` 로 낸다(pe-knowledge-files-are-gate-inputs, 유저 답 Q80-a).
 결정 디렉토리의 선택 넷째 청크 `conventions.md`(규약 청크, p4-convention-slot)는 있으면 결정 복합체의 넷째 부분이다.
 규범 문서의 절 청크(`kb/dev/norm/<문서 stem>/`, plane norm)는 문서마다 패키지 하나·`kb_composite` 하나가 되고, `items` 가
 가리키는 결정 디렉토리를 결정 복합체 IRI 로 풀어 `conventions` 인자로 넣는다(p12-norm-documents-from-section-chunks).
@@ -14,6 +16,7 @@ chunk2kg 의 규칙이므로 `FAIL [chunk2kg] …`, --check 의 어긋남은 `FA
 """
 import argparse
 import difflib
+import os
 import re
 import sys
 from pathlib import Path
@@ -32,6 +35,7 @@ class GenBuildError(Exception):
 HEADER ="# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test\n"
 LINKS = ("refines", "serves", "supersedes", "verifies")
 ONTO_BASE = "https://agentic-knowledge-base.dev/ontology/"
+CONTRACT_PKG = "kb/dev/contract"  # 개발 KB 의 시그니처 패키지 (Q79-a) — 비어 있어도 BUILD 는 생성한다
 MEMORY_PKG = "kb/dev/memory"  # 관측 패키지 — 비어 있어도 BUILD 는 생성한다 (//kb/dev·//kg:chunks_kg 의 끝점)
 # 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나다. 패키지 이름은 소스의 stem 이고
 # 그 안의 청크 전부는 tools/extract.py 의 생성물이다(손으로 고치면 //:extract_drift_test 가 거부한다). 묶음은 중첩
@@ -114,6 +118,13 @@ def scan(root: Path):
         meta, _ = parse_item(str(f))
         lab = f"//chunks/decision:{f.stem}"
         items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": "chunks/decision"}
+        iri_to_label[meta["id"]] = lab
+    for f in sorted((root / CONTRACT_PKG).glob("*.md")):  # 개발 KB 의 시그니처 (contract plane) — Q79-a
+        meta, _ = parse_item(str(f))
+        if meta["type"] != "contract":
+            raise GenBuildError(f"{f}: {CONTRACT_PKG} 의 청크는 type: contract 여야 한다 — 실제 {meta['type']!r} (수준 허용표 6.4절)")
+        lab = f"//{CONTRACT_PKG}:{f.stem}"
+        items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": CONTRACT_PKG}
         iri_to_label[meta["id"]] = lab
     for f in sorted((root / MEMORY_PKG).glob("*.md")):  # 관측 (memory plane, append-only) — assume_check --record 가 만든다
         meta, _ = parse_item(str(f))
@@ -491,15 +502,94 @@ def ontology(root: Path):
     return outputs
 
 
+# ── 게이트 입력 — 어느 타깃에도 들지 않은 지식 파일 (pe-knowledge-files-are-gate-inputs, 유저 답 Q80-a) ────────────────────
+# 지식 파일은 소유 패키지(가장 가까운 BUILD 의 디렉토리)의 BUILD 가 이름이나 glob 으로 담아야 filegroup·kb_chunk 의
+# 입력이 된다. 담지 않으면 그 파일을 보는 게이트가 없다 — gen_build 가 모르는 디렉토리를 kb/ 아래에 만들면 그렇게 된다.
+GATE_INPUT_ROOTS = ("kb",)  # 지식 파일의 뿌리 — 채널(harness/)은 그래프 밖이라 대상이 아니다 (STYLEGUIDE §8)
+_GLOB_CALL = re.compile(r"glob\(\s*\[([^\]]*)\]\s*(?:,\s*exclude\s*=\s*\[([^\]]*)\])?", re.S)
+_QUOTED = re.compile(r'"([^"]+)"')
+
+
+def _glob_pattern(pat: str):
+    """Bazel glob 패턴 → 정규식. `*` 는 경로 조각 하나 안, `**` 는 조각 여럿을 건넌다."""
+    out, i = "", 0
+    while i < len(pat):
+        if pat.startswith("**/", i):
+            out, i = out + "(?:.*/)?", i + 3
+        elif pat.startswith("**", i):
+            out, i = out + ".*", i + 2
+        elif pat[i] == "*":
+            out, i = out + "[^/]*", i + 1
+        else:
+            out, i = out + re.escape(pat[i]), i + 1
+    return re.compile(out + r"\Z")
+
+
+def _build_of(d: Path):
+    return next((d / n for n in ("BUILD.bazel", "BUILD") if (d / n).is_file()), None)
+
+
+def check_gate_inputs(root: Path) -> list[str]:
+    """kb/ 아래 지식 파일 중 소유 패키지의 BUILD 가 이름으로도 glob 으로도 담지 않은 것 → FAIL 줄 목록.
+
+    BUILD 자신과 `.bzl`(생성 modules.bzl)은 지식 파일이 아니다. 판정은 BUILD 본문의 문자열 대조다 — 따옴표 친 상대
+    경로 하나, 또는 exclude 를 뺀 glob 패턴의 일치. 소스 트리를 직접 걷는다(샌드박스에는 선언된 입력만 있다).
+    """
+    errors = []
+    for top in GATE_INPUT_ROOTS:
+        for f in sorted(p for p in (root / top).rglob("*") if p.is_file()):
+            if f.name in ("BUILD.bazel", "BUILD") or f.suffix == ".bzl":
+                continue
+            d = f.parent
+            while _build_of(d) is None and d != root:
+                d = d.parent
+            build = _build_of(d)
+            rel = f.relative_to(d).as_posix()
+            text = build.read_text(encoding="utf-8") if build else ""
+            covered = f'"{rel}"' in text or any(
+                any(_glob_pattern(p).match(rel) for p in _QUOTED.findall(m.group(1)))
+                and not any(_glob_pattern(p).match(rel) for p in _QUOTED.findall(m.group(2) or ""))
+                for m in _GLOB_CALL.finditer(text))
+            if not covered:
+                where = build.relative_to(root).as_posix() if build else "없음"
+                errors.append(f"{f.relative_to(root).as_posix()}: 어느 filegroup·kb_chunk 에도 들지 않는다 — 소유 패키지의 "
+                              f"BUILD({where})가 이 파일을 이름으로도 glob 으로도 담지 않아 어떤 게이트도 보지 않는다. "
+                              f"gen_build 가 아는 패키지로 옮기거나 그 디렉토리를 생성기에 더한다 (pe-knowledge-files-are-gate-inputs)")
+    return errors
+
+
+def source_root(root: Path) -> Path:
+    """`bazel test` 의 runfiles 에서 소스 트리의 뿌리 — 입력 defs/kb.bzl 의 심볼릭 링크를 따라간다. 트리에서는 root 자신이다.
+
+    게이트 입력 검사는 선언되지 않은 파일을 찾는 검사라 선언된 입력만 있는 runfiles 로는 판정할 수 없다.
+    """
+    return Path(os.path.realpath(root / "defs" / "kb.bzl")).parents[1]
+
+
 # ── 드리프트 비교와 실행 ────────────────────
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--check", action="store_true", help="생성하지 않고 커밋본과 비교. 어긋나면 1")
+    ap.add_argument("--gate-inputs", action="store_true",
+                    help="게이트 입력 검사만 한다 — 소스 트리(runfiles 면 링크를 따라간 뿌리)의 kb/ 지식 파일이 BUILD 에 담겼는가")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 --root 기준")
     a = ap.parse_args()
     root = Path(a.root)
+    if a.gate_inputs:
+        src = source_root(root)
+        if not (src / "kb").is_dir():
+            print(f"FAIL [gen-build] {src}: 소스 트리의 kb/ 를 찾지 못한다 — defs/kb.bzl 이 입력에 있어야 한다")
+            return EXIT_CONFIG
+        errors = check_gate_inputs(src)
+        for e in errors:
+            print(f"FAIL [gate-input] {e}")
+        if errors:
+            print(f"\nFAIL [gate-input] — {len(errors)}건")
+            return EXIT_FAIL
+        print(f"PASS [gate-input] — {', '.join(GATE_INPUT_ROOTS)}/ 의 지식 파일 전부가 소유 패키지의 BUILD 에 담겼다")
+        return 0
     try:
         apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
     except (OSError, ValueError) as e:
@@ -511,6 +601,7 @@ def main() -> int:
             str(root / "kb/dev/requirement/BUILD.bazel"): render_chunks("kb/dev/requirement", items, iri_to_label, "//kb:requirement_readers"),
             str(root / "kb/dev/decision/BUILD.bazel"): render_decisions(items, iri_to_label),
             str(root / "chunks/decision/BUILD.bazel"): render_chunks("chunks/decision", items, iri_to_label, "//kb:decision_readers"),
+            str(root / CONTRACT_PKG / "BUILD.bazel"): render_chunks(CONTRACT_PKG, items, iri_to_label, "//kb:contract_readers", allow_empty=True),
             str(root / MEMORY_PKG / "BUILD.bazel"): render_chunks(MEMORY_PKG, items, iri_to_label, "//kb:memory_readers", allow_empty=True),
             str(root / VV_ROOT / "BUILD.bazel"): render_vv_root(items),
             str(root / ARTIFACT_ROOT / "BUILD.bazel"): render_artifact_root(root),

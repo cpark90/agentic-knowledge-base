@@ -7,8 +7,8 @@ source: tools/gen_build.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build
 package: kb/dev/artifact/gen_build
 layer: process
-at: 2026-10-05T16:40:36Z
-source_hash: 46897a06c38459a0
+at: 2026-10-07T09:06:36Z
+source_hash: 0d8153c6a57b7f0e
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/047c5c56-2b6c-4f8b-993e-32f3a35fd1d6
   - https://agentic-knowledge-base.dev/id/chunk/28655d6b-d000-4f43-8d68-9e0ce042c39c
@@ -21,6 +21,7 @@ tested:
 ids:
   cls:GenBuildError: https://agentic-knowledge-base.dev/id/chunk/04bfcfb9-d96b-42ec-9555-a58bd09f1551
   composite:head: https://agentic-knowledge-base.dev/id/composite/0fa52e6a-583b-4685-bdd2-113f05f9c650
+  composite:sec:gate-input-roots: https://agentic-knowledge-base.dev/id/composite/6f567db9-617b-4afe-bc62-3ae6f78e6dce
   composite:sec:genbuilderror: https://agentic-knowledge-base.dev/id/composite/5d2c4208-d2d8-45df-b4a3-1931a6c56dfd
   composite:sec:group-composites: https://agentic-knowledge-base.dev/id/composite/569c6e75-e264-4981-bf0b-bba156b541c8
   composite:sec:main: https://agentic-knowledge-base.dev/id/composite/e563bac1-7552-474e-a036-f6ced4999bc4
@@ -28,9 +29,12 @@ ids:
   composite:sec:render-chunks: https://agentic-knowledge-base.dev/id/composite/bd43acdb-4493-4bcb-852c-56bb2a3c929e
   composite:sec:render-composite: https://agentic-knowledge-base.dev/id/composite/b9a75b3d-1c8f-4a7a-8f7f-dc10a84362fa
   file: https://agentic-knowledge-base.dev/id/composite/9bb41e68-1b5c-4d4c-aee0-32a2899bedf9
+  fn:_build_of: https://agentic-knowledge-base.dev/id/chunk/9ea0c3bb-9662-498e-a0ad-c8a481ad765f
   fn:_check_bundle: https://agentic-knowledge-base.dev/id/chunk/816a1348-352c-462d-bbb0-ad267befb0d9
   fn:_composite_tree: https://agentic-knowledge-base.dev/id/chunk/6b2fd7de-ac08-40ec-a4c0-7976d20b1f34
+  fn:_glob_pattern: https://agentic-knowledge-base.dev/id/chunk/13aadb6d-6816-4906-8368-5b13dc8dd3f2
   fn:artifact_pkgs: https://agentic-knowledge-base.dev/id/chunk/d6d0bfc7-7f87-474c-8939-8d7ce8113eaa
+  fn:check_gate_inputs: https://agentic-knowledge-base.dev/id/chunk/c2012ece-9826-4be9-bfdc-24eaf1fda875
   fn:decision_iris: https://agentic-knowledge-base.dev/id/chunk/32315be1-6edc-4ecd-8cb0-fa9a30fc7efc
   fn:group_composites: https://agentic-knowledge-base.dev/id/chunk/2d509ef2-a992-4376-8863-e6f4bd1edce1
   fn:label_list: https://agentic-knowledge-base.dev/id/chunk/0f0f082a-c9cd-454c-ab65-ca4f3bebc461
@@ -49,8 +53,10 @@ ids:
   fn:render_norm_root: https://agentic-knowledge-base.dev/id/chunk/e54eb0d7-070d-49c3-80c1-2c299c1c0b7a
   fn:render_vv_root: https://agentic-knowledge-base.dev/id/chunk/50e03067-a51a-4276-beaa-b3062acbca52
   fn:scan: https://agentic-knowledge-base.dev/id/chunk/ad68f79e-bbb2-4a80-b6c8-518fdd88a3a2
+  fn:source_root: https://agentic-knowledge-base.dev/id/chunk/535d310e-db77-40f1-a678-68d3de7d9727
   head: https://agentic-knowledge-base.dev/id/chunk/fa831b18-16bd-4c86-8fa9-8ac3d941c6f2
   module: https://agentic-knowledge-base.dev/id/chunk/d54dd037-5b16-4649-922d-f7c9b7b5c510
+  sec:gate-input-roots: https://agentic-knowledge-base.dev/id/chunk/e976e617-0bab-4b65-a4e7-8ae7faf43f54
   sec:genbuilderror: https://agentic-knowledge-base.dev/id/chunk/d19e28ff-8c1f-4b0b-844f-86988512852f
   sec:group-composites: https://agentic-knowledge-base.dev/id/chunk/772e3f27-062d-46b0-9cb1-abdd3d0b9b82
   sec:main: https://agentic-knowledge-base.dev/id/chunk/6f05d1bb-343d-40c7-bba6-b73ba4cedde4

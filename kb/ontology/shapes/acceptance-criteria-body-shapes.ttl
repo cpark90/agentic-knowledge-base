@@ -1,4 +1,5 @@
 # shape — 합격 기준의 본문 틀: 기준 · 판정 · 등급 (kb/vv/criteria). 슬롯마다 등록 질문 하나 (결정 p4-slot-answers-one-question)
+# 대상은 V&V KB 의 contract 다. 개발 KB 의 시그니처(kb/dev/contract/)는 본문 위치로 갈라 뺀다 — 검사 범위 축소, 유저 답 Q79-a (2026-10-15).
 # 가운데 슬롯은 둘 중 하나다 — 기계가 판정하면 **판정식**, 사람이 확인하면 **확인 절차** 다. 2026-09-22 실측은 판정식 28·확인 절차 5 다.
 # 슬롯 표지의 값은 xsd:string 이다 — 형이 없으면 언어 태그가 붙은 리터럴이나 IRI 가 슬롯 표지로 통과한다 (M5 값의 형, 2026-09-26).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
@@ -7,14 +8,23 @@
 
 agt:AcceptanceCriteriaBodyShape a sh:NodeShape ;
     sh:targetClass agt:InterfaceSignature ;
+    sh:or ( agt:DevelopmentSignatureLocationShape agt:AcceptanceCriteriaSlotsShape ) ;
+    sh:message "V&V KB 합격 기준의 본문은 **합격 기준** · (**판정식** 또는 **확인 절차**) · **등급** 순이어야 한다 (p4-slot-answers-one-question). 개발 KB 의 시그니처(kb/dev/contract/)만 이 틀 밖이다 (p7-dev-plane-substance, 유저 답 Q79-a)" .
+
+# 개발 KB 의 contract 는 인터페이스 시그니처·사전·사후조건이고 판정 수단은 타입 체커다 (p7-dev-plane-substance) — 합격 기준 틀이 아니다
+agt:DevelopmentSignatureLocationShape a sh:NodeShape ;
+    sh:property [ sh:path agt:assertionLocation ; sh:datatype xsd:string ; sh:minCount 1 ; sh:pattern "^kb/dev/contract/" ;
+        sh:description "이 contract 는 개발 KB 의 시그니처인가" ;
+        sh:message "본문 위치가 kb/dev/contract/ 밖이다 — 개발 KB 의 시그니처가 아니면 합격 기준 틀을 따른다" ] .
+
+agt:AcceptanceCriteriaSlotsShape a sh:NodeShape ;
     sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "합격 기준" ; sh:order 1 ;
         sh:description "어떤 조건이 성립해야 합격인가" ;
         sh:message "첫 슬롯 **합격 기준** 이 없다 — 기준 종류와 성립 조건을 한 문장으로 적는다" ] ;
     sh:or ( agt:CriteriaFormulaBodyShape agt:CriteriaProcedureBodyShape ) ;
     sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "등급" ; sh:order 3 ;
         sh:description "이 판정을 얼마나 믿을 수 있는가" ;
-        sh:message "슬롯 **등급** 이 없다 — 판정 등급과 그 까닭을 적는다" ] ;
-    sh:message "합격 기준의 본문은 **합격 기준** · (**판정식** 또는 **확인 절차**) · **등급** 순이어야 한다 (p4-slot-answers-one-question)" .
+        sh:message "슬롯 **등급** 이 없다 — 판정 등급과 그 까닭을 적는다" ] .
 
 agt:CriteriaFormulaBodyShape a sh:NodeShape ;
     sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "판정식" ; sh:order 2 ;

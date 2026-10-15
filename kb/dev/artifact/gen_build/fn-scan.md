@@ -7,7 +7,7 @@ title: function scan in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/04bfcfb9-d96b-42ec-9555-a58bd09f1551, https://agentic-knowledge-base.dev/id/chunk/2d509ef2-a992-4376-8863-e6f4bd1edce1, https://agentic-knowledge-base.dev/id/chunk/7e58cd2b-ecf9-4a21-a66b-9e28aa4474e9, https://agentic-knowledge-base.dev/id/chunk/be13ce99-9dc5-4abe-8367-5558f1aa4b02]
 part_of: https://agentic-knowledge-base.dev/id/composite/5d2c4208-d2d8-45df-b4a3-1931a6c56dfd
@@ -45,6 +45,13 @@ def scan(root: Path):
         meta, _ = parse_item(str(f))
         lab = f"//chunks/decision:{f.stem}"
         items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": "chunks/decision"}
+        iri_to_label[meta["id"]] = lab
+    for f in sorted((root / CONTRACT_PKG).glob("*.md")):  # 개발 KB 의 시그니처 (contract plane) — Q79-a
+        meta, _ = parse_item(str(f))
+        if meta["type"] != "contract":
+            raise GenBuildError(f"{f}: {CONTRACT_PKG} 의 청크는 type: contract 여야 한다 — 실제 {meta['type']!r} (수준 허용표 6.4절)")
+        lab = f"//{CONTRACT_PKG}:{f.stem}"
+        items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": CONTRACT_PKG}
         iri_to_label[meta["id"]] = lab
     for f in sorted((root / MEMORY_PKG).glob("*.md")):  # 관측 (memory plane, append-only) — assume_check --record 가 만든다
         meta, _ = parse_item(str(f))

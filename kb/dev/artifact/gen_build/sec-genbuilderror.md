@@ -7,7 +7,7 @@ title: section genbuilderror in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/5d2c4208-d2d8-45df-b4a3-1931a6c56dfd
 composite: {id: https://agentic-knowledge-base.dev/id/composite/5d2c4208-d2d8-45df-b4a3-1931a6c56dfd, title_ko: 절 복합체 genbuilderror (tools/gen_build.py), title: section composite genbuilderror in tools/gen_build.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/d19e28ff-8c1f-4b0b-844f-86988512852f, https://agentic-knowledge-base.dev/id/chunk/04bfcfb9-d96b-42ec-9555-a58bd09f1551, https://agentic-knowledge-base.dev/id/chunk/be13ce99-9dc5-4abe-8367-5558f1aa4b02, https://agentic-knowledge-base.dev/id/chunk/a8f6816d-512e-4fb2-8bce-765ddee8bf42, https://agentic-knowledge-base.dev/id/chunk/0f0f082a-c9cd-454c-ab65-ca4f3bebc461, https://agentic-knowledge-base.dev/id/chunk/ad68f79e-bbb2-4a80-b6c8-518fdd88a3a2], part_of: https://agentic-knowledge-base.dev/id/composite/9bb41e68-1b5c-4d4c-aee0-32a2899bedf9}
@@ -25,6 +25,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/5d2c4208-d2d8-45
 HEADER ="# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test\n"
 LINKS = ("refines", "serves", "supersedes", "verifies")
 ONTO_BASE = "https://agentic-knowledge-base.dev/ontology/"
+CONTRACT_PKG = "kb/dev/contract"  # 개발 KB 의 시그니처 패키지 (Q79-a) — 비어 있어도 BUILD 는 생성한다
 MEMORY_PKG = "kb/dev/memory"  # 관측 패키지 — 비어 있어도 BUILD 는 생성한다 (//kb/dev·//kg:chunks_kg 의 끝점)
 # 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나다. 패키지 이름은 소스의 stem 이고
 # 그 안의 청크 전부는 tools/extract.py 의 생성물이다(손으로 고치면 //:extract_drift_test 가 거부한다). 묶음은 중첩

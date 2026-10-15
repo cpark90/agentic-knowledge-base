@@ -4,10 +4,11 @@ type: decision
 level: logical
 title_ko: 항상 실패시키는 안과 V&V 문구 대조에 맡기는 안은 기각된다
 title: Always failing and leaving it to V&V phrase matching are rejected
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T14:33:11+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-15T18:36:37+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/e341786c-ca43-4e4f-bea4-83b4719901ae
 ---

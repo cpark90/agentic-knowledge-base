@@ -221,6 +221,7 @@ GATES = {
     "extract-drift": {"tier": "test", "tool": "extract", "ko": "추출 드리프트", "desc": "추출 생성물이 소스와 등록부에 어긋남"},
     "extract-refs": {"tier": "analysis", "tool": "extract_refs", "ko": "인용 대상 실재", "desc": "본문 인용의 대상이 실재하지 않음"},
     "frozen": {"tier": "test", "tool": "doccheck", "ko": "동결 문서", "desc": "동결 문서의 sha256 이 kb_lib.FROZEN_DOCS 의 고정값과 다름"},
+    "gate-input": {"tier": "test", "tool": "gen_build", "ko": "게이트 입력", "desc": "소유 패키지의 BUILD 가 이름으로도 glob 으로도 담지 않은 kb/ 지식 파일"},
     "gate-registry": {"tier": "verify", "tool": "validate", "ko": "게이트 등록부", "desc": "코드의 게이트 태그 집합이 GATES 리터럴과 갈림"},
     "gates2kg": {"tier": "analysis", "tool": "gates2kg", "ko": "게이트 그래프 생성", "desc": "게이트 등록부의 키·실행 계층 위반과 판정 도구 개체의 부재"},
 }

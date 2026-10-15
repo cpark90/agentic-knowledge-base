@@ -2,16 +2,16 @@
 id: https://agentic-knowledge-base.dev/id/chunk/fa831b18-16bd-4c86-8fa9-8ac3d941c6f2
 type: artifact
 level: executable
-title_ko: 모듈 머리 r20 (tools/gen_build.py)
-title: module head r20 in tools/gen_build.py
+title_ko: 모듈 머리 r23 (tools/gen_build.py)
+title: module head r23 in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9bb41e68-1b5c-4d4c-aee0-32a2899bedf9
 ---
-**모듈 머리** — `tools/gen_build.py` 의 모듈 머리 `r20` 다. 모듈 머리
+**모듈 머리** — `tools/gen_build.py` 의 모듈 머리 `r23` 다. 모듈 머리
 
 **정의** — 없음. 선언과 상수만 있는 구역이다.
 
