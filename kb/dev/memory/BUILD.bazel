@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
 
@@ -50,6 +50,15 @@ kb_chunk(
     status = "draft",
 )
 
+kb_chunk(
+    name = "obs-coedit-20261023T185726Z",
+    src = "obs-coedit-20261023T185726Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/12fb0bb1-45e1-4bbc-b7ad-4695e8ea02e0",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
 # 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
 kb_bundle(
     name = "kg",
@@ -58,5 +67,6 @@ kb_bundle(
         ":obs-20260922T164157Z",
         ":obs-20261004T143210Z",
         ":obs-20261015T050242Z",
+        ":obs-coedit-20261023T185726Z",
     ],
 )

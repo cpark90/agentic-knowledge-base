@@ -7,10 +7,10 @@ title: Normative-document conventions — Evaluation measures three values the s
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:54:56+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T05:27:16+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/a4a5acea-aaed-4439-ac17-164495f5927c
 ---
 **규약** — `p12-evaluation-metrics`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: 코어 지표 | plane×level·고아율·세 축 대리·링크 밀도·크기 분포 — `bazel build //kg:metrics`. 문서는 수치를 적지 않고 이것을 인용한다 (d-0075)
+규약: 코어 지표 | 지식 종류와 정제 수준의 교차 분포와 고아율, 세 축 대리, 링크 밀도, 크기 분포를 `bazel build //kg:metrics`로 낸다. 문서는 수치를 적지 않고 이 생성물을 인용한다(`p4-projection-as-query`)

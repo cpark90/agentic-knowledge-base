@@ -7,7 +7,7 @@ title: function judge_load_profile in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/558e3a5c-2634-4500-bc61-15dad26a9821
 ---
@@ -18,7 +18,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/558e3a5c-2634-4500-bc61
 def judge_load_profile(root: Path, profile: str = JUDGE_PROFILE_DIR, shapes: str = JUDGE_QUESTION_SHAPES) -> Graph:
     """판정 질문·척도·임계 프로파일 온톨로지 모듈과 shape 를 한 그래프로 읽는다.
 
-    단일 정의처(2026-09-30 vnv 결함 보고 ⑥) — `tools/judge.py`(질문을 청크에 묻는다)와 `tools/label_sample.py`
+    단일 정의 위치(2026-09-30 vnv 결함 보고 ⑥) — `tools/judge.py`(질문을 단위 지식에 묻는다)와 `tools/label_sample.py`
     (`--judge-sheet`의 척도 문장을 프로파일에서 그대로 옮긴다)가 이 함수와 `judge_questions`를 같이 쓴다. 둘이
     각자 질의를 복제하면 척도 문장이 갈릴 위험이 생긴다 — 갈리면 판정자가 sheet에서 본 척도와 judge.py 가 파싱하는
     척도가 달라진다."""

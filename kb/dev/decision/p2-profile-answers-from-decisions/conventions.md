@@ -7,11 +7,11 @@ title: Normative-document conventions — Each profile extension point takes its
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T04:22:52+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:18:25+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:18:25+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/2b47645a-4247-4eb8-a741-7a7a41d206cf
 ---
 **규약** — `p2-profile-answers-from-decisions`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: **확장점마다 답을 결정에서 읽는다.** 결정이 없으면 먼저 결정을 만든다(유저 승인). 개발 프로파일의 원천은 `p7-dev-plane-substance`(실체·판정 도구·EARS 패턴)와 `pe-anchor-is-bazel-label`(앵커 해석기)이다.
+규약: **확장점마다 답을 결정에서 읽는다.** 결정이 없으면 유저 승인을 받아 먼저 결정을 만든다. 개발 프로파일에서 실체와 판정 도구, EARS 패턴의 원천은 결정 `p7-dev-plane-substance`이고, 앵커 해석기의 원천은 결정 `pe-anchor-is-bazel-label`이다.

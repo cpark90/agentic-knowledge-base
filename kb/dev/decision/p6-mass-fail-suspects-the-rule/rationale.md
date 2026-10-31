@@ -7,11 +7,11 @@ title: When a rule becomes a gate while disagreeing with reality, the artefacts 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-agrtls-practices-review}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T16:30:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/b0647639-f82c-4e20-a9ce-73b4e7fdb748
 ---
-**근거** (노트 6.7절 게이트 총람; 이 저장소 실측 2026-09-12; agrtls `docs_review`·`device_installation`) — 게이트는 강제력이
-있어 규칙의 오류를 산출물 전체에 복제한다. 결론 라벨 형식 검사가 결정 청크 전부를 보게 만들어졌을 때 197건이 걸렸고,
+**근거** (노트 6.7절 게이트 총람; 이 저장소 측정 2026-09-12; agrtls `docs_review`·`device_installation`) — 게이트는 강제력이
+있어 규칙의 오류를 산출물 전체에 복제한다. 결론 라벨 형식 검사가 결정 전부를 보게 만들어졌을 때 197건이 걸렸고,
 그중 168건은 대안 라벨의 명사구 관례였다 — 규칙 원문은 "결론 문장형"이었다. 산출물을 고쳤다면 관례를 깨고 라벨 168건을
 다시 썼을 것이다. 그래서 첫 실행의 대량 FAIL은 산출물의 문제가 아니라 규칙의 범위·정의를 되묻는 신호로 다룬다.
 

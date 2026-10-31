@@ -7,7 +7,7 @@ title: function vv_counterparts in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/92ac1970-f252-48a0-b11a-fbaa774b2f4a, https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99]
 part_of: https://agentic-knowledge-base.dev/id/composite/45dfc4dd-c694-47a7-9a8c-6398612879db
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/45dfc4dd-c694-47a7-9a8c
 def vv_counterparts(g: Graph, plane: dict, live: set) -> dict:
     """V&V 정제 계층의 대응물 — 개발 요구·검증 목표·목표가 덮는 요구·기준이 달린 목표·기준과 그 바인딩.
 
-    KB 는 청크 위치로 가른다(`kb_of`). 키: `dev_reqs`·`goals`·`covered_reqs`(목표가 derivesFrom 하는 개발 요구)·
+    KB 는 단위 지식 위치로 가른다(`kb_of`). 키: `dev_reqs`·`goals`·`covered_reqs`(목표가 derivesFrom 하는 개발 요구)·
     `goals_with_criteria`·`goals_of`(요구 → 목표들)·`criteria_of`(목표 → 기준들)·`bound`(검증기가 바인딩한 기준)·`human`.
     """
     loc = {c: str(next(g.objects(c, AGT.assertionLocation), "")) for c in live}

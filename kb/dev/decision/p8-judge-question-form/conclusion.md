@@ -8,7 +8,7 @@ status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-standard}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]
-generated: {by: orchestrator/claude-opus-5, at: 2026-09-22T19:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/a5873a98-652e-4341-b229-b3ef6a05e702
 composite: {id: https://agentic-knowledge-base.dev/id/composite/a5873a98-652e-4341-b229-b3ef6a05e702, title_ko: 판정자 질문의 형식, title: The form of a judge question}
 ---
@@ -17,7 +17,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/a5873a98-652e-43
 - **질문의 형**은 셋뿐이다. 예/아니오, 닫힌 집합에서의 선택, 척도다. 자유 서술 리뷰는 판정이 아니다.
 - **원자성** — 질문 하나가 판단 하나다. 복합 질문은 나눠 같은 입력에 병렬로 묻는다.
 - **척도의 단계**는 정도가 아니라 상황으로 적는다. "입력에 같은 문장이 있다"가 "매우 그렇다"보다 판정 가능하다.
-- **출력**은 값과 확신도다. 기록 자리는 `annotation` plane이다.
+- **출력**은 값과 확신도다. 기록 자리는 `annotation` 지식 종류다.
 - **확신도 임계** 셋이 처리를 가른다.
 
 | 확신도 | 처리 |

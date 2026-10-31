@@ -7,7 +7,7 @@ title: function _gendoc_prose_errors in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/15e8fdb5-4855-45e7-a8da-d43faba52099, https://agentic-knowledge-base.dev/id/chunk/46b79267-2ae4-4c11-9208-401a5ac9ab53, https://agentic-knowledge-base.dev/id/chunk/76e74bc8-5ade-4a57-8804-6270a72fd693]
 part_of: https://agentic-knowledge-base.dev/id/composite/a3a476aa-1402-4998-a124-e37b5596aa09
@@ -43,7 +43,7 @@ def _gendoc_prose_errors(path, text: str, rows: list, quoted: set) -> tuple[list
             errors.append((ln, f"G16 목표 표기가 `(목표 <값>)` 꼴이 아니다 — 콜론 없이 값을 바로 잇는다 (STYLEGUIDE §9): "
                                 f"{seg.strip()[:80]}"))
 
-    # G18 — 산문은 단정 서술형이다 (STYLEGUIDE §0). 인용해 옮긴 청크 본문은 원본이 같은 게이트를 이미 통과했다
+    # G18 — 산문은 단정 서술형이다 (STYLEGUIDE §0). 인용해 옮긴 단위 지식 본문은 원본이 같은 게이트를 이미 통과했다
     errors += [(ln, why) for ln, why in check_prose(path, text)[0] if ln not in quoted]
 
     # G17(보고 전용) — 시점 의존 표현 후보. 제목·표 헤더 행·인용 구역은 이름/원문이지 측정이 아니라서 뺀다

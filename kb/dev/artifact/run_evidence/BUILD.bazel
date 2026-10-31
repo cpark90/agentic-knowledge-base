@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -14,23 +14,34 @@ filegroup(
 kb_composite(
     name = "module",
     srcs = [
+        "fn-after_chain_since.md",
         "fn-as_list.md",
+        "fn-belief_lines.md",
+        "fn-belief_of.md",
+        "fn-coedit_record.md",
+        "fn-judged_pairs.md",
+        "fn-judgement_lines.md",
+        "fn-ledger_lines.md",
         "fn-main.md",
         "fn-run_rows.md",
         "head.md",
         "module.md",
         "sec-as-list.md",
-        "sec-main.md",
+        "sec-belief-rules.md",
+        "sec-coedit-record.md",
+        "sec-judged-pairs.md",
+        "sec-ledger-lines.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/27628b6a-73ec-4466-bb12-a1a1ae970dd7",
-    ordered = ["https://agentic-knowledge-base.dev/id/chunk/06ff52f5-9406-4ead-8685-51db4f0cb144", "https://agentic-knowledge-base.dev/id/composite/78c6c89d-58c3-43c8-8570-d8bfbac1700f", "https://agentic-knowledge-base.dev/id/composite/e202036d-a930-4e1b-a919-03711832262b"],
-    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/06ff52f5-9406-4ead-8685-51db4f0cb144", "https://agentic-knowledge-base.dev/id/composite/78c6c89d-58c3-43c8-8570-d8bfbac1700f", "https://agentic-knowledge-base.dev/id/composite/e202036d-a930-4e1b-a919-03711832262b"],
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/06ff52f5-9406-4ead-8685-51db4f0cb144", "https://agentic-knowledge-base.dev/id/composite/78c6c89d-58c3-43c8-8570-d8bfbac1700f", "https://agentic-knowledge-base.dev/id/composite/241f90fa-0b02-4c28-a23e-8e84aecaf4da", "https://agentic-knowledge-base.dev/id/composite/ed156a01-76a8-4195-b32e-c9096b040444", "https://agentic-knowledge-base.dev/id/composite/a7e4d5c8-a3b3-466a-93eb-1bb3d94b2ed5", "https://agentic-knowledge-base.dev/id/composite/e202036d-a930-4e1b-a919-03711832262b"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/06ff52f5-9406-4ead-8685-51db4f0cb144", "https://agentic-knowledge-base.dev/id/composite/78c6c89d-58c3-43c8-8570-d8bfbac1700f", "https://agentic-knowledge-base.dev/id/composite/241f90fa-0b02-4c28-a23e-8e84aecaf4da", "https://agentic-knowledge-base.dev/id/composite/ed156a01-76a8-4195-b32e-c9096b040444", "https://agentic-knowledge-base.dev/id/composite/a7e4d5c8-a3b3-466a-93eb-1bb3d94b2ed5", "https://agentic-knowledge-base.dev/id/composite/e202036d-a930-4e1b-a919-03711832262b"],
     plane = "artifact",
     level = "executable",
     status = "stable",
     refines = [
+        "//kb/dev/decision:p10-co-edit-evidence-from-small-commits",
         "//kb/dev/decision:p10-link-types",
-        "//kb/dev/decision:p9-evidence-ledger",
+        "//kb/dev/decision:p9-evidence-ledger-with-belief",
     ],
 )
 

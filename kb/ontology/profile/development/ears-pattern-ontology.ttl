@@ -6,13 +6,13 @@
 
 agt:EarsPattern a owl:Class ;
     rdfs:label "EARS pattern"@en , "EARS 패턴"@ko ;
-    skos:definition "요구 문장의 형식. EARS(Easy Approach to Requirements Syntax, Mavin et al. RE'09)의 다섯 패턴과 그 조합 complex 다. 패턴을 적는 까닭은 요구 문장의 트리거·상태·조건이 형식으로 드러나야 아래 수준의 판정식이 그것을 그대로 옮길 수 있기 때문이다 (결정 p7-dev-plane-substance)."@ko .
+    skos:definition "요구 문장의 형식. EARS(Easy Approach to Requirements Syntax, Mavin et al. RE'09)의 다섯 패턴과 그 조합 complex 다. 패턴을 적는 까닭은 요구 문장의 트리거·상태·조건이 형식으로 드러나야 아래 수준의 판정 술어가 그것을 그대로 옮길 수 있기 때문이다 (결정 p7-dev-plane-substance)."@ko .
 
 agt:pattern a owl:ObjectProperty ;
     rdfs:domain agt:RequirementChunk ;
     rdfs:range agt:EarsPattern ;
     rdfs:label "pattern"@en , "패턴"@ko ;
-    skos:definition "요구 문장이 따르는 EARS 패턴. 요구마다 정확히 하나이고 frontmatter `pattern:` 에서 생성된다. requirement plane 밖에서는 쓰지 않는다 — 패턴은 요구 문장의 형식이지 다른 plane의 속성이 아니다 (결정 p7-dev-plane-substance). 게이트: profile-development-shapes."@ko .
+    skos:definition "요구 문장이 따르는 EARS 패턴. 요구마다 정확히 하나이고 frontmatter `pattern:` 에서 생성된다. `requirement` 지식 종류 밖에서는 쓰지 않는다 — 패턴은 요구 문장의 형식이지 다른 지식 종류의 속성이 아니다 (결정 p7-dev-plane-substance). 게이트: profile-development-shapes."@ko .
 
 agt:ubiquitous a owl:NamedIndividual , agt:EarsPattern ;
     rdfs:label "ubiquitous"@en , "항상 패턴"@ko ;

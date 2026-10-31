@@ -1,4 +1,6 @@
 # shape — 신뢰 등급: 생성 주체와 검증 시각의 정합 (노트 8.10절, OKF v0.2)
+# verified 목록은 판정 이력이라 누적된다(p2-judgement-history-in-verified). 그래서 둘째 검사는 모든 검증 시각이 아니라
+# 가장 늦은 검증 시각 하나를 생성 시각과 비교한다(유저 답 Q-0064#Q159-a). 검증 시각이 없으면 미검증이고 검사 대상이 아니다.
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
@@ -11,8 +13,15 @@ agt:TrustShape a sh:NodeShape ;
         sh:maxCount 1 ;
         sh:message "누가 만들었는지 적어야 한다 — OKF 행위자 표기 (8.10절)" ;
     ] ;
-    sh:property [
-        sh:path prov:generatedAtTime ;
-        sh:lessThanOrEquals agt:verifiedAt ;
-        sh:message "검증 뒤에 내용이 바뀌었다 — 재검증 없이 검증 항목을 고칠 수 없다 (8.10절)" ;
+    sh:sparql [
+        sh:message "검증 뒤에 내용이 바뀌었다 — 가장 늦은 검증 시각(agt:verifiedAt)이 생성 시각(prov:generatedAtTime)보다 이르다. 목록을 덮어쓰지 않고 재검증 항목을 덧붙인다 (8.10절)" ;
+        sh:select """
+            SELECT $this ?value WHERE {
+              { SELECT $this ?value (MAX(?at) AS ?latest) WHERE {
+                  $this <http://www.w3.org/ns/prov#generatedAtTime> ?value ;
+                        <https://agentic-knowledge-base.dev/agt/verifiedAt> ?at .
+                } GROUP BY $this ?value }
+              FILTER(?latest < ?value)
+            }
+        """ ;
     ] .

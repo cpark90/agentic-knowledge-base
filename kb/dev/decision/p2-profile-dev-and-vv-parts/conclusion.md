@@ -8,7 +8,7 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-03T17:45:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/d834336a-9ec4-465b-b0e4-f44bc557677f
 composite: {id: https://agentic-knowledge-base.dev/id/composite/d834336a-9ec4-465b-b0e4-f44bc557677f, title_ko: 도메인 프로파일의 두 부분, title: The two parts of a domain profile}
@@ -17,7 +17,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/d834336a-9ec4-46
 
 | 부분 | 담는 것 | 만드는 절차 |
 |---|---|---|
-| 개발 실체 | plane별 청크·판정 도구·앵커 해석 (노트 부록 D) | 프로파일 템플릿 |
+| 개발 실체 | 지식 종류별 단위 지식·판정 도구·앵커 해석 (노트 부록 D) | 프로파일 템플릿 |
 | V&V 실체 | 현상·인과·지표·시나리오 부류·목표 거동 | 위험 분석 G1~G6 (노트 8.21절) |
 
 **V&V 실체는 개발 실체보다 먼저 또는 나란히 만든다.** 개발 실체만 있고 V&V 실체가 없는 프로파일로 V&V를 시작하지 않는다.

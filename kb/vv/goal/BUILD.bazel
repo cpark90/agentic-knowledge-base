@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
 
@@ -57,6 +57,15 @@ kb_chunk(
     plane = "requirement",
     level = "functional",
     status = "stable",
+)
+
+kb_chunk(
+    name = "belief-calibrated-against-human-labels",
+    src = "belief-calibrated-against-human-labels.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/209cb1b9-5182-4db1-886e-0e61dbd552df",
+    plane = "requirement",
+    level = "functional",
+    status = "draft",
 )
 
 kb_chunk(
@@ -168,6 +177,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "external-parties-through-interpreter",
+    src = "external-parties-through-interpreter.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/95634e87-4ff2-44cd-a23f-0b2078e91769",
+    plane = "requirement",
+    level = "functional",
+    status = "stable",
+)
+
+kb_chunk(
     name = "foreign-vocabulary-rejected",
     src = "foreign-vocabulary-rejected.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/50af6125-94e4-4d69-8181-df29db77451d",
@@ -218,7 +236,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/df934d56-8cc4-4f5f-8cbd-7ae5b6bb89f0",
     plane = "requirement",
     level = "functional",
-    status = "draft",
+    status = "stable",
 )
 
 kb_chunk(
@@ -401,6 +419,7 @@ kb_bundle(
         ":agent-catalog-complete",
         ":audit-self-sufficiency",
         ":backward-trace-to-requirement",
+        ":belief-calibrated-against-human-labels",
         ":chunk-42-lines",
         ":chunk-bound-to-project-odd",
         ":composite-order-shape",
@@ -413,6 +432,7 @@ kb_bundle(
         ":documents-generated",
         ":domain-knowledge-as-vocabulary",
         ":element-without-vocabulary-dropped",
+        ":external-parties-through-interpreter",
         ":foreign-vocabulary-rejected",
         ":gate-judges-edits",
         ":generated-build-drift",

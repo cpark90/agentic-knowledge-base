@@ -4,10 +4,10 @@ type: decision
 level: concrete
 title_ko: 규범 문서 규약 — 링크의 증거는 극성 있는 항목의 증거 기록이고 확률로 합산하지 않으며 상태 전이 규칙이 증거 기록을 읽는다
 title: Normative-document conventions — Link evidence is a ledger of signed entries, never summed into a probability; transition rules read the ledger
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:32:26+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-22T20:50:56+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/05abd2cf-de1b-4aa2-9559-10cb0f868dab
 ---

@@ -7,16 +7,16 @@ title: function split_rows in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/8d622313-8c2c-4f87-9279-fce0b31cb0ff, https://agentic-knowledge-base.dev/id/chunk/adf4efcc-f323-49f3-87da-e81bb49bf4f5]
 part_of: https://agentic-knowledge-base.dev/id/composite/3723c1d5-0d22-4da6-86ca-1b408cdc80dc
 ---
-**함수** — `split_rows(rows, q, name, th, source, stamp, enc)` 다. 판정 행을 로그 파일마다의 묶음으로 나눈다
+**함수** — `split_rows(rows, q, name, decoy, source, stamp, enc)` 다. 판정 행을 로그 파일마다의 묶음으로 나눈다
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def split_rows(rows: list[dict], q: dict, name: str, th: dict, source: str, stamp: str, enc) -> list[list[dict]]:
+def split_rows(rows: list[dict], q: dict, name: str, decoy: str, source: str, stamp: str, enc) -> list[list[dict]]:
     """판정 행을 로그 파일마다의 묶음으로 나눈다 — 한 묶음의 본문이 `memory` 상한 안이다.
 
     묶음을 실제로 렌더해 재는 까닭은 상한의 대상이 본문 전체이고 관측 문장·표 머리·요약도 그 안에 들기
@@ -28,7 +28,7 @@ def split_rows(rows: list[dict], q: dict, name: str, th: dict, source: str, stam
     cur: list[dict] = []
     for r in rows:
         cand = cur + [r]
-        over = kb_lib.token_count("\n".join(log_body(cand, q, name, th, source, stamp)), enc) > limit
+        over = kb_lib.token_count("\n".join(log_body(cand, q, name, decoy, source, stamp)), enc) > limit
         if over and cur:
             parts.append(cur)
             cur = [r]

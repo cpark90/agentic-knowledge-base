@@ -9,7 +9,7 @@
 agt:Space a owl:Class ;
     rdfs:subClassOf agt:Chunk ;
     rdfs:label "design space"@en , "설계 공간"@ko ;
-    skos:definition "설계 변수 하나의 후보 링크 집합과 양립 제약을 담는 청크. 후보가 여럿 남아 있는 동안 근거 없이 하나를 할당하는 것을 자료구조 수준에서 막으려고 존재한다 — 후보는 여기 살고 확정 링크는 head 에 살며 후보는 결코 deps 가 되지 않는다. 변수 하나가 파일 하나다. '어떤 설계 변수가 아직 열려 있고 후보가 무엇인가'를 물을 때 쓴다 (0.2절, 9.10절)."@ko .
+    skos:definition "설계 변수 하나의 후보 링크 집합과 양립 제약을 담는 단위 지식. 후보가 여럿 남아 있는 동안 근거 없이 하나를 할당하는 것을 자료구조 수준에서 막으려고 존재한다 — 후보는 여기 살고 확정 링크는 head 에 살며 후보는 결코 deps 가 되지 않는다. 변수 하나가 파일 하나다. '어떤 설계 변수가 아직 열려 있고 후보가 무엇인가'를 물을 때 쓴다 (0.2절, 9.10절)."@ko .
 
 agt:variableFrom a owl:ObjectProperty ;
     rdfs:domain agt:Space ;
@@ -33,7 +33,7 @@ agt:spaceStatus a owl:DatatypeProperty ;
     rdfs:domain agt:Space ;
     rdfs:range xsd:string ;
     rdfs:label "space status"@en , "설계 공간의 상태"@ko ;
-    skos:definition "설계 변수가 아직 열려 있는가 — open 은 후보가 여럿 남았다는 뜻이고 resolved 는 확정 후보가 정확히 하나라는 뜻이다. 청크 자신의 agt:status 와 다른 축이다: 문서로서 stable 한 공간도 변수로서는 open 일 수 있다 (0.2절)."@ko .
+    skos:definition "설계 변수가 아직 열려 있는가 — open 은 후보가 여럿 남았다는 뜻이고 resolved 는 확정 후보가 정확히 하나라는 뜻이다. 단위 지식 자신의 agt:status 와 다른 축이다: 문서로서 stable 한 공간도 변수로서는 open 일 수 있다 (0.2절)."@ko .
 
 agt:compatibilityConstraint a owl:DatatypeProperty ;
     rdfs:domain agt:Space ;
@@ -45,4 +45,4 @@ agt:preferredOver a owl:ObjectProperty , owl:AsymmetricProperty ;
     rdfs:domain agt:Link ;
     rdfs:range agt:Link ;
     rdfs:label "preferred over"@en , "선호된다"@ko ;
-    skos:definition "같은 설계 공간의 두 후보 사이의 선호 — 부분순서이고 수치가 아니다. 연성 제약이라 후보를 탈락시키지 못하고 동률만 깬다. 수치 등급(가능성 측도·확률)은 미채택이다 (8.9절)."@ko .
+    skos:definition "같은 설계 공간의 두 후보 사이의 선호. 연성 제약이라 후보를 탈락시키지 못하고 순서만 정한다. 순서의 원본은 이 부분순서이고, 순서가 없는 두 후보는 믿음 정도가 높은 쪽이 앞이며, 믿음 정도가 같거나 없으면 언어모델의 제안이 동률을 깬다 (8.9절, 결정 p9-preference-partial-order, Q-0055 Q109-b)."@ko .

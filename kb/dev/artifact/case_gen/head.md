@@ -7,7 +7,7 @@ title: module head actor in tools/case_gen.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-case-gen}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-04T14:43:34Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/1a0a0d9e-abcb-46ca-bf5b-d530a350816e
 composite: {id: https://agentic-knowledge-base.dev/id/composite/1a0a0d9e-abcb-46ca-bf5b-d530a350816e, title_ko: 모듈 머리 복합체 actor (tools/case_gen.py), title: section composite actor in tools/case_gen.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/7e6ee13b-33d6-454c-80a4-0153fd8aeb90, https://agentic-knowledge-base.dev/id/chunk/b23dee78-99ba-49f8-bcde-88ea157cbe7a], part_of: https://agentic-knowledge-base.dev/id/composite/6038262a-0bc8-4f38-bb62-357c9eaeece2}
@@ -29,7 +29,7 @@ except ImportError:
 
 EXIT_OK, EXIT_FAIL, EXIT_CONFIG = kb_lib.EXIT_OK, kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG
 GEN, DRIFT = kb_lib.CASE_GEN_GATE, kb_lib.CASE_DRIFT_GATE
-ACTOR = kb_lib.CASE_GEN_ACTOR  # 케이스의 generated.by — 역할이 아니라 프로세스다. writer 검사 밖이다 (validate check_writer)
+ACTOR = kb_lib.CASE_GEN_ACTOR  # 테스트 케이스의 generated.by — 역할이 아니라 프로세스다. writer 검사 밖이다 (validate check_writer)
 SCENARIO_DIR = kb_lib.KB_VV + "/scenario"
 CASE_DIR = kb_lib.KB_VV + "/case"
 RUN_DIR = kb_lib.VV_RUN_DIR
@@ -48,11 +48,11 @@ RULE_KEYS = {"equivalence": ("vars",), "boundary": ("vars",), "pairwise": ("vars
 ORIGIN_OBSERVED = "origin:observed"
 ODD_OUTSIDE_TAG = "odd:outside"
 FACTOR_TAG = re.compile(r"agt:[A-Za-z][A-Za-z0-9]*")
-CASE_KEYS = ("criteria", "verifies", "derivesFrom", "title_ko", "title", "summary", "stimulus", "files", "command", "accept", "reject")
+CASE_KEYS = ("criteria", "verifies", "derivesFrom", "title_ko", kb_lib.FORMER_TITLE_KEY, "title", "summary", "stimulus", "files", "command", "accept", "reject")
 CASE_REQUIRED = ("criteria", "title_ko", "title", "summary", "stimulus", "command")
 CLASS_KEYS = ("prose", "expect")
 CLASSES = ("accept", "reject")
 TEMPLATE = re.compile(r"\$\{([^{}\s]*)\}")  # `${변수}` — 셸의 `$(…)`·`$VAR` 와 vv_run 의 `{{이름}}` 은 건드리지 않는다
-UNSAMPLED = "표본 근거 없는 케이스다"
+UNSAMPLED = "표본 근거 없는 테스트 케이스다"
 ```
 <!-- 인용 끝 -->

@@ -7,11 +7,11 @@ title: Normative-document conventions — Body redundancy is tolerated as a safe
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-label-representativeness-protocol}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:54:56+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:18:25+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6053b67e-afec-4a59-b710-31b6ab85b108
 ---
 **규약** — `p4-redundancy-as-safety-margin`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: [지킴] **중복 대신 재사용한다.** 새 개념·항목을 만들기 전에 기존 것을 찾는다. 찾는 수단은 `grep -r kb/ontology/`와 라벨 목록이다. 같은 뜻의 항목 둘이 이 체계가 막는 드리프트다.
-규약: 정합성 보고 | 정확·근사 중복, 묶인 쌍의 응집 저하, 라벨 중복·형식, 용어 옛 표기 — `//kb:consistency`. 판정은 사람이 한다
+규약: [지킴] **중복 대신 재사용한다.** 새 개념·항목을 만들기 전에 `grep -r kb/ontology/`와 라벨 목록으로 기존 것을 찾는다. 같은 뜻의 항목 둘이 이 체계가 막는 드리프트다.
+규약: 정합성 보고 | `//kb:consistency`가 정확·근사 중복과 묶인 쌍의 응집 저하, 라벨 중복·형식, 용어 옛 표기를 보고한다. 판정은 사람이 한다

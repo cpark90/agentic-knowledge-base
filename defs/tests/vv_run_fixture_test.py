@@ -68,6 +68,8 @@ def main() -> int:
     errs = [f"종료 코드 {code} ≠ 기대 0"] if code != kb_lib.EXIT_OK else []
     if not body:
         errs.append("실행 기록이 임시 트리에 없다")
+    elif kb_lib.RUN_CASE_TABLE_HEADER not in body or kb_lib.RUN_CASE_TABLE_HEADER_OLD in body:
+        errs.append(f"실행 기록의 테스트 케이스 표 머리가 새 머리(`{kb_lib.RUN_CASE_TABLE_HEADER}`)가 아니다 — 전환 시각 뒤의 기록이다 (Q161-a)")
     verifier_row = "| `fx-verifier` | 1 실행 · 0 건너뜀 | pass |"
     if a.case in ("all", "verifier"):
         need = [VERIFIER_HEAD, "| `fx-verifier` |", "**pass**", "검증기 1 (pass 1 · fail 0 · skip 0)"]

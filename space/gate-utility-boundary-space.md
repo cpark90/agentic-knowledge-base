@@ -7,7 +7,7 @@ title: Whether the boundary between judging and using is drawn at the tool
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-09T18:04:39+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T23:10:52+09:00}
 ---
 유저는 미결을 "개선 및 확장이 이루어지는 frontier 포인트"로 보았다(Q54-a).
 
@@ -15,7 +15,7 @@ generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-09T18:04:39+09:00}
 
 이미 정해진 것 — 게이트 id 등록부는 `defs/kb.bzl`의 `GATES` 리터럴이다(`p6-gate-tool-code-structure`). 게이트를 어느 기계가 판정하는가는 실행 계층 다섯이다(`p6-gate-catalogue`). 같은 함수를 게이트와 지표가 함께 쓰는 것은 Q51-a의 설계다. 어느 지표가 게이트인가는 공간 `https://agentic-knowledge-base.dev/id/chunk/6c26f560-f346-44d7-9a8f-32ade0458dfa`가 따로 묻는다.
 
-현재 상태(2026-10-09 실측) — `GATES`(`GATES_TAIL` 포함)의 게이트 id는 57개이고 tool 값은 23종이다(리터럴의 `"tool"` 값을 센다). `tools/*.py` 42개 중 41개가 `kb_lib`를 참조한다(`grep -L kb_lib tools/*.py`가 `handoff.py` 하나를 낸다). 지표 `metrics.py:379`가 `kb_lib.vv_counterparts`를 부르고 게이트의 `kb_lib.rung_violations`도 그 함수를 부른다. `harness/BUILD.bazel`의 `scripts_test`는 `bazel test` 대상이고 `GATES`에 그 id가 없다.
+현재 상태(2026-10-09 측정) — `GATES`(`GATES_TAIL` 포함)의 게이트 id는 57개이고 tool 값은 23종이다(리터럴의 `"tool"` 값을 센다). `tools/*.py` 42개 중 41개가 `kb_lib`를 참조한다(`grep -L kb_lib tools/*.py`가 `handoff.py` 하나를 낸다). 지표 `metrics.py:379`가 `kb_lib.vv_counterparts`를 부르고 게이트의 `kb_lib.rung_violations`도 그 함수를 부른다. `harness/BUILD.bazel`의 `scripts_test`는 `bazel test` 대상이고 `GATES`에 그 id가 없다.
 
 답이 가르는 것 — 새 도구나 함수가 판정 쪽인지 활용 쪽인지를 즉시 판단할 수 있는지가 갈린다.
 

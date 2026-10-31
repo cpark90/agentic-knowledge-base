@@ -5,10 +5,11 @@ level: functional
 pattern: event-driven
 title_ko: 저장소의 지식이 바뀌면 그 지식에서 생성되는 하네스 부분이 함께 갱신되어야 한다
 title: When the repository's knowledge changes, the parts of the harness generated from that knowledge must be refreshed with it
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-09T18:10:52+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T13:46:23+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T01:42:54+09:00}, {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}, {by: vnv/claude-opus-5-5, at: 2026-10-24T22:56:06+09:00}, {by: vnv/claude-opus-5-5, at: 2026-10-25T13:46:23+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/cb7ac129-5b94-47cd-84a8-b87e7e238efe]
 ---
 **검증 목표** — 결정·관측·어휘가 늘거나 바뀌면 하네스(도구·게이트·뷰·skill)가 사람의 별도 수정 없이 그 변화를 반영한다는 것이 보여져야 한다. 반영의 단위는 지식에서 생성되는 하네스 부분이고, 생성되지 않는 부분은 이 목표가 재는 대상이 아니라 요구가 남긴 미확정의 자리다.
@@ -17,7 +18,7 @@ derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/cb7ac129-5b94-47cd-84a
 
 **무엇을 관측하면 성립하는가**
 
-- 지식에서 생성되는 하네스 부분이 목록으로 있고 각 부분에 재생성 바이트 비교가 걸려 있다. 지금 실물은 BUILD(`//:build_drift_test`, 원본은 청크 frontmatter)·규범 문서(`//:norms_drift_test`, 원본은 절 청크와 결정의 `conventions.md`)·생성 뷰(`//:gendoc_test`)다.
+- 지식에서 생성되는 하네스 부분이 목록으로 있고 각 부분에 재생성 바이트 비교가 걸려 있다. 지금 실물은 BUILD(`//:build_drift_test`, 원본은 단위 지식 frontmatter)·규범 문서(`//:norms_drift_test`, 원본은 절 항목과 결정의 `conventions.md`)·생성 뷰(`//:gendoc_test`)다.
 - 게이트가 판정에 쓰는 어휘·shape·ODD 가 지식 파일에서 읽히므로 온톨로지 모듈에 개념 하나를 더하면 게이트의 수용 범위가 도구 코드의 수정 없이 바뀐다.
 - 관측에서 어휘로 올라가는 승격 경로(`term_propose` → `kb/ontology/proposals/`)가 실행된 사례가 있다.
 - 지식 → 도구 코드의 역방향 경로가 없다는 사실이 공백으로 드러난다. skill 은 도구 docstring 에서 생성되므로(`//:skills_drift_test`) 방향이 도구 → 뷰이고 이 관측에 들지 않는다.

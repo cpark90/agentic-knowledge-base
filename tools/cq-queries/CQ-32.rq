@@ -1,10 +1,12 @@
 # 검증한 뒤에 내용이 바뀐 항목이 있는가.
-# 행 = 생성 시각이 검증 시각보다 뒤인 청크 하나 (생성 시각 · 검증 시각). 0행이 정상 — trust-shapes 가 거부한다
+# 행 = 생성 시각이 가장 늦은 검증 시각보다 뒤인 단위 지식 하나 (생성 시각 · 가장 늦은 검증 시각). verified 는 누적되는 이력이다. 0행이 정상 — trust-shapes 가 거부한다
 PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
 PREFIX id: <https://agentic-knowledge-base.dev/id/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 SELECT ?item ?generatedAt ?verifiedAt WHERE {
-  ?item prov:generatedAtTime ?generatedAt ; agt:verifiedAt ?verifiedAt .
+  { SELECT ?item ?generatedAt (MAX(?at) AS ?verifiedAt) WHERE {
+      ?item prov:generatedAtTime ?generatedAt ; agt:verifiedAt ?at .
+    } GROUP BY ?item ?generatedAt }
   FILTER(?generatedAt > ?verifiedAt)
 } ORDER BY ?item

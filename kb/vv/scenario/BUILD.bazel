@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -26,7 +26,10 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a3b9da01-17aa-52c7-9aa5-26bd2daa02c7", "https://agentic-knowledge-base.dev/id/chunk/fdd0f8a9-9882-5be4-9de6-993a0f7e3113", "https://agentic-knowledge-base.dev/id/chunk/83be3942-7ea8-5794-9336-b2c110a39690"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:acyclic-relation-axioms",
+    ],
 )
 
 kb_composite(
@@ -41,7 +44,10 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b17f109e-e309-5a1d-9b80-e909e85b1294", "https://agentic-knowledge-base.dev/id/chunk/93c1b878-8e2a-5978-8d78-cd149ffb166c", "https://agentic-knowledge-base.dev/id/chunk/f2f59135-498f-52c6-9a2b-f05b4091be21"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:acyclic-relation-axioms",
+    ],
 )
 
 kb_composite(
@@ -56,7 +62,10 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f2362b25-fce0-54e1-94ae-a453b7178fe9", "https://agentic-knowledge-base.dev/id/chunk/31504c97-ea87-5ab7-927a-ce70abf4a4d9", "https://agentic-knowledge-base.dev/id/chunk/24aea9bf-bdc2-5076-baaf-213f5acda2a0"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:acyclic-relation-axioms",
+    ],
 )
 
 kb_composite(
@@ -71,7 +80,7 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/fb74eba0-91b3-5fba-816c-011a4f37ca11", "https://agentic-knowledge-base.dev/id/chunk/07a91c11-d4bb-50b8-bb7a-fed3f2b0ddfd", "https://agentic-knowledge-base.dev/id/chunk/5213e007-142d-5440-b854-1444da04bd07"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/goal:agent-catalog-complete",
     ],
@@ -89,7 +98,10 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ca72384d-b350-55b7-a940-56236c261fdd", "https://agentic-knowledge-base.dev/id/chunk/b4f9eed2-8ae3-5e5d-a4c1-c281292c2246", "https://agentic-knowledge-base.dev/id/chunk/0c458191-3f66-59fb-9e40-7ee8d6f79041"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:composite-order-shape",
+    ],
 )
 
 kb_composite(
@@ -104,7 +116,10 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/ab0a4767-66e3-571f-8004-46c538f04234", "https://agentic-knowledge-base.dev/id/chunk/93cd59d3-752e-5089-90a6-24f03b464e89", "https://agentic-knowledge-base.dev/id/chunk/829c7a86-50b2-59d4-a80e-9c24bae0921e"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:composite-order-shape",
+    ],
 )
 
 kb_composite(
@@ -137,7 +152,10 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d9289be5-8c2a-5ec6-99ca-9701586f131f", "https://agentic-knowledge-base.dev/id/chunk/32aefdda-b16d-5e90-b241-e94886de56d2", "https://agentic-knowledge-base.dev/id/chunk/9b7251c8-6991-5c90-916f-b6faec9cdb72"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:decision-and-artifact-agree",
+    ],
 )
 
 kb_composite(
@@ -152,7 +170,10 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/4e4de139-7e0c-512a-ba73-0263a7cf9a15", "https://agentic-knowledge-base.dev/id/chunk/3a2355b4-bcf0-5b08-b129-ae149404c3b4", "https://agentic-knowledge-base.dev/id/chunk/0653b14b-2a0a-508d-95b6-eedb6ea09ccc"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:dispatch-workset-budget",
+    ],
 )
 
 kb_composite(
@@ -185,7 +206,7 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/61df20c2-e2b4-5edb-bf5f-912d06cd247c", "https://agentic-knowledge-base.dev/id/chunk/1db975d8-8401-5176-88de-210d99fe67b9", "https://agentic-knowledge-base.dev/id/chunk/44e8f650-ce19-505a-86b0-505b34dfaa01"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/scenario:document-table-matches-generated-stimulus",
     ],
@@ -203,7 +224,7 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/08b0f187-6366-5805-8fc7-d651a3f00d80", "https://agentic-knowledge-base.dev/id/chunk/e560644d-1b59-5c5a-a9e5-2601cca7d6be", "https://agentic-knowledge-base.dev/id/chunk/c4ec66e3-fc08-5696-a7f9-3801fbfff410"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/scenario:element-without-vocabulary-dropped-stimulus",
     ],
@@ -239,7 +260,10 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f693dd9b-a550-5b20-b56c-a59628b0552d", "https://agentic-knowledge-base.dev/id/chunk/64545f36-8857-570c-8a83-8e9286bedd20", "https://agentic-knowledge-base.dev/id/chunk/deb69f00-2898-584c-9c6a-bfd7f32fa282"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:foreign-vocabulary-rejected",
+    ],
 )
 
 kb_composite(
@@ -266,11 +290,34 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/d9954f7c-ecea-4fab-bd8a-b3ca49bd90b5",
     plane = "decision",
     level = "abstract",
+    status = "deprecated",
+    refines = [
+        "//kb/vv/goal:decision-and-artifact-agree",
+        "//kb/vv/goal:document-table-matches-generated",
+        "//kb/vv/goal:verification-round-stop-rule",
+    ],
+)
+
+kb_composite(
+    name = "risk-grade-scale-stimulus",
+    srcs = [
+        "risk-grade-scale-excluded.md",
+        "risk-grade-scale-factors.md",
+        "risk-grade-scale-stimulus.md",
+    ],
+    iri = "https://agentic-knowledge-base.dev/id/composite/fdc58e29-bcd5-42e2-b88b-c96cfb2409c9",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/eddb84e0-c59d-4087-b193-7fe111627999", "https://agentic-knowledge-base.dev/id/chunk/8686d625-d839-4178-97b8-326bcf2e97d8", "https://agentic-knowledge-base.dev/id/chunk/536b8d06-f572-4860-8743-e9335f3890cd"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/eddb84e0-c59d-4087-b193-7fe111627999", "https://agentic-knowledge-base.dev/id/chunk/8686d625-d839-4178-97b8-326bcf2e97d8", "https://agentic-knowledge-base.dev/id/chunk/536b8d06-f572-4860-8743-e9335f3890cd"],
+    plane = "decision",
+    level = "abstract",
     status = "stable",
     refines = [
         "//kb/vv/goal:decision-and-artifact-agree",
         "//kb/vv/goal:document-table-matches-generated",
         "//kb/vv/goal:verification-round-stop-rule",
+    ],
+    supersedes = [
+        "//kb/vv/scenario:risk-grade-scale",
     ],
 )
 
@@ -286,7 +333,10 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/482e5340-b183-5f66-adea-4ccf1931b159", "https://agentic-knowledge-base.dev/id/chunk/de11ca60-357f-597b-a28a-b4d22359c830", "https://agentic-knowledge-base.dev/id/chunk/ec96760a-2ac4-5171-b341-e40143ce058a"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:verification-round-stop-rule",
+    ],
 )
 
 kb_composite(
@@ -301,7 +351,10 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/8f2ba433-6442-5a41-a86b-5f8d763486f2", "https://agentic-knowledge-base.dev/id/chunk/ea7b8ff7-428a-5f65-bb8b-5852b43eba61", "https://agentic-knowledge-base.dev/id/chunk/c000ae77-7877-5fe8-be4a-dd190f72e6fa"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:chunk-42-lines",
+    ],
 )
 
 kb_composite(
@@ -334,7 +387,10 @@ kb_composite(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/94abc6b4-5443-51c2-9871-2ea56efb8a0a", "https://agentic-knowledge-base.dev/id/chunk/852389f8-db54-5797-926c-03c1adbe7c3b", "https://agentic-knowledge-base.dev/id/chunk/71a436ab-dc56-563d-82f0-9fcaa598c915"],
     plane = "decision",
     level = "logical",
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:invalidation-without-survey",
+    ],
 )
 
 # 이 패키지의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다
@@ -357,6 +413,7 @@ kb_bundle(
         ":foreign-vocabulary-rejected-stimulus",
         ":metric-varies-by-loading-option-stimulus",
         ":risk-grade-scale",
+        ":risk-grade-scale-stimulus",
         ":round-record-stop-rule-stimulus",
         ":token-budget-stimulus",
         ":verification-round-stop-rule-stimulus",

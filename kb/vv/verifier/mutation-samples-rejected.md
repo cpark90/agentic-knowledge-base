@@ -2,18 +2,21 @@
 id: https://agentic-knowledge-base.dev/id/chunk/c99fe264-8509-47c1-a3a4-a282bff89e8c
 type: artifact
 level: executable
-title_ko: 고정물 다섯이 각각 plane 단방향·수준 허용표·같은 plane·verifies 주어·부분 수준 위반으로 거부되어 failure_test 다섯이 PASS 다
+title_ko: 고정물 다섯이 각각 지식 종류 단방향·수준 허용표·같은 지식 종류·verifies 주어·부분 수준 위반으로 거부되어 failure_test 다섯이 PASS 다
+former_title_ko: ["고정물 다섯이 각각 plane 단방향·수준 허용표·같은 plane·verifies 주어·부분 수준 위반으로 거부되어 failure_test 다섯이 PASS 다"]
 title: The five fixtures are each rejected for plane direction, residency, same-plane supersedes, verifies subject and part levels, so the five failure tests pass
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/193f0438-c6bc-4e78-979d-152cfbf97323]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T20:18:09+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T13:46:23+09:00}
 layer: process
+verifies: [https://agentic-knowledge-base.dev/id/chunk/5e66ed6e-bc41-4da5-b863-a928f146a7bc]
+restored: [https://agentic-knowledge-base.dev/id/chunk/5e66ed6e-bc41-4da5-b863-a928f146a7bc]
 ---
 **검증기** — 분석 시점 고정물 다섯을 자극으로 쓴다.
 
-**자극** — `defs/tests/BUILD.bazel` 의 `failure_test` 다섯이다. 각 고정물은 유효한 청크 `fx_req`·`fx_dec`·`fx_ctr` 에 규칙 위반 하나를 더한 것이다.
+**자극** — `defs/tests/BUILD.bazel` 의 `failure_test` 다섯이다. 각 고정물은 유효한 단위 지식 `fx_req`·`fx_dec`·`fx_ctr` 에 규칙 위반 하나를 더한 것이다.
 
 ```yaml
 plane_direction_test:  {fixture: bad_plane_dir,       mutation: "decision refines contract",                  expected: "plane 단방향 위반"}
@@ -29,4 +32,4 @@ decision_levels_test:  {fixture: bad_decision_levels, mutation: "part levels [ex
 
 **판정 범위** — 고정물은 `defs/tests` 에 있는 것 전부라 표본이 전수다. 규칙마다 위반 하나씩이고 경계값(허용 구간의 끝)은 고정물에 없다. 판정자 지표는 측정 대상이 없어 표본도 없다.
 
-**검증 대응물** — 없음. 옮기기 전 케이스가 `verifies` 하던 결정 `p8-three-directions-of-verification` 의 결론은 `concrete` 수준이라 `executable` 검증기가 `verifies` 할 수 없다.
+**검증 대응물** — 이 검증기는 `defs/kb.bzl`의 항목을 `verifies` 한다. 끝은 파일 복합체의 선언 항목(`module.md`)이고, 판정 함수 같은 부분 항목은 게이트 `code-part-link` 가 끝으로 받지 않는다. 반면 옮기기 전 테스트 케이스가 `verifies` 하던 결정 `p8-three-directions-of-verification`의 결론은 `concrete` 수준이라, 같은 수준끼리만 잇는 규칙에 따라 이 검증기의 끝이 되지 않는다.

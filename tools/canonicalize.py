@@ -21,7 +21,7 @@ import re
 from rdflib import BNode, Graph, Literal, RDF, URIRef
 from rdflib.compare import to_canonical_graph
 
-try:  # 종료 코드 규약의 단일 정의처는 kb_lib — 없으면 같은 값의 폴백
+try:  # 종료 코드 규약의 단일 정의 위치는 kb_lib — 없으면 같은 값의 폴백
     from tools import kb_lib
 except ImportError:
     try:

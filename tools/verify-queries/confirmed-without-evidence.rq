@@ -1,9 +1,10 @@
-# 안티패턴: 지지 없는 확정 — 구축(+) 또는 실행(+) 증거 없이 confirmed인 링크 (노트 9.11절 증거 기록 규칙, 10.4절)
+# 안티패턴: 지지 없는 확정 — 구축(+)·실행(+)·유저 결정(+) 증거 없이 confirmed인 링크 (노트 9.11절 증거 기록 규칙, 10.4절)
+# FILTER 목록의 원본은 kb_lib.SPACE_CONFIRMING_EVIDENCE 이고 validate.check_confirming_evidence 가 둘을 대조한다
 PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
 SELECT ?link WHERE {
   ?link a agt:Link ; agt:linkState "confirmed" .
   FILTER NOT EXISTS {
     ?link agt:hasEvidence ?e . ?e agt:polarity "+" ; agt:evidenceKind ?k .
-    FILTER(?k IN (agt:constructionRecord, agt:runResult))
+    FILTER(?k IN (agt:constructionRecord, agt:runResult, agt:userDecision))
   }
 }

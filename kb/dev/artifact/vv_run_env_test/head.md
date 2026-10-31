@@ -7,7 +7,7 @@ title: module head gate in tools/vv_run_env_test.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run-env-test}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/3c8e6ba3-aa11-4e78-b59f-c1aac562f7ce
 ---
@@ -18,7 +18,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/3c8e6ba3-aa11-4e78-b59f
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import kb_lib  # noqa: E402 — 종료 코드 규약의 단일 정의처
+import kb_lib  # noqa: E402 — 종료 코드 규약의 단일 정의 위치
 import vv_run  # noqa: E402 — 판정 대상. clean_env·run_command 는 bazel 을 부르지 않는다
 
 GATE = kb_lib.VV_RUN_ENV_GATE

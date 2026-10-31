@@ -7,12 +7,12 @@ title: Document views are generated only under bazel-bin and every in-tree gener
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-19T15:45:00+09:00}
+generated: {by: vnv/claude-fable-5-1, at: 2026-10-25T00:43:01+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/06bb9a79-21e8-4eb3-8577-38b9a75002c9]
 ---
 **합격 기준** — 기준 종류는 **명세 대조**다. 뷰마다 `render(그래프, 본문) → bazel-bin/<pkg>/<kind>.md`이고 트리에는 그 사본이 없다. 트리에 두는 생성물마다 `render(원본) == 커밋본`이 바이트 단위로 성립한다.
 
-**판정식**
+**판정 술어**
 
 - 양성(뷰): `bazel build //kb/dev:adr //kg:audit`이 성공하고 생성물 머리에 `- 생성 시각:`·`- 질의:` 줄이 있다. `kb/dev/adr.md`·`kg/audit.md`는 소스 트리에 없다.
 - 양성(드리프트): `bazel test //:build_drift_test //:skills_drift_test`가 PASS다.

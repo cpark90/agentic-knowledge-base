@@ -4,10 +4,11 @@ type: decision
 level: logical
 title_ko: 논리 시나리오 배제 자극 — 저작 산문 상한 경계에 놓인 커밋된 고정물 둘의 검사에서 다루지 않는 것
 title: Logical scenario excluded stimuli — what checking two committed fixtures placed on the authored-prose limit boundary does not cover
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T22:47:36+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T01:42:54+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/4aa24cd3-1c85-5727-b2bc-cbc71c5206f9
 ---
 **배제 자극** — 다루지 않는 자극은 둘이다.

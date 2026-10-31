@@ -7,7 +7,7 @@ title: function gendoc_header in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/0c73f827-eef2-4929-a126-f9b2c056d037, https://agentic-knowledge-base.dev/id/chunk/a9138ecc-8714-414e-a8f3-69d0c646e65d, https://agentic-knowledge-base.dev/id/chunk/aac10f80-c526-4fab-ad8f-e93b193438f3, https://agentic-knowledge-base.dev/id/chunk/dcdad310-25df-4a9e-8939-6ef8be6f1e20]
 part_of: https://agentic-knowledge-base.dev/id/composite/6af6ae14-6a58-40bd-b9fc-9454588817cd
@@ -26,13 +26,13 @@ def gendoc_header(name: str, purpose: str, tool: str, query: str, reproduce: str
       tool: 생성기 경로 (`tools/<도구>.py`).
       query: 무엇을 물어 만들었는가 (G5).
       reproduce: 자기 자신을 다시 만드는 명령 (G6). 백틱은 이 함수가 붙인다.
-      inputs: 입력 파일 경로들. 목록과 지문이 여기서 나온다 (G4).
+      inputs: 입력 파일 경로들. 목록과 해시값이 여기서 나온다 (G4).
       scale: 규모 수치 (트리플 수 등).
       notice: 성격 경고 한 줄 (G7) — gendoc_view_notice · gendoc_tree_notice.
       input_kind: 입력 목록의 종류 이름 ("그래프 파일" 등).
-      stamped: False 면 생성 시각과 지문을 넣지 않는다 — 재생성 바이트 비교가 건전성 장치인 생성 트리 파일이 그렇다.
+      stamped: False 면 생성 시각과 해시값을 넣지 않는다 — 재생성 바이트 비교가 건전성 장치인 생성 트리 파일이 그렇다.
       extra: 머리 블록 뒤에 붙일 추가 불릿들.
-      input_note: 입력이 파일이 아닐 때(질의 결과·호스트 상태) 그 자리를 대신하는 한 줄. 주면 목록과 지문을 내지 않는다.
+      input_note: 입력이 파일이 아닐 때(질의 결과·호스트 상태) 그 자리를 대신하는 한 줄. 주면 목록과 해시값을 내지 않는다.
 
     Returns:
       머리 블록의 줄 목록. 마지막은 빈 줄이다.
@@ -45,10 +45,10 @@ def gendoc_header(name: str, purpose: str, tool: str, query: str, reproduce: str
     elif not files:
         body = f"{input_kind} {NONE_MARK}{scale_part}"
     elif len(files) <= GENDOC_INPUT_INLINE_MAX:
-        fp = f" · 지문 `{input_fingerprint(inputs)}`" if stamped else ""
+        fp = f" · 해시값 `{input_fingerprint(inputs)}`" if stamped else ""
         body = f"{input_kind} {len(files)}개: {listed}{fp}{scale_part}"
     else:
-        fp = f" · 지문 `{input_fingerprint(inputs)}`" if stamped else ""
+        fp = f" · 해시값 `{input_fingerprint(inputs)}`" if stamped else ""
         body = (f"{input_kind} {len(files)}개{fp}{scale_part} · 전체 목록은 "
                 f"[{GENDOC_INPUTS_HEADING}](#{slug(GENDOC_INPUTS_HEADING)})")
     out = [f"# {name} — {purpose} {GENDOC_H1_SUFFIX}", "",

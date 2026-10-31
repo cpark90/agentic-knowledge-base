@@ -3,7 +3,7 @@ load("//defs:knowledge.bzl", "kb_build_drift_test", "kb_case_drift_test", "kb_ch
 
 package(default_visibility = ["//visibility:public"])
 
-# EXTRACTED_SOURCES 의 단일 정의처는 `//defs:kb.bzl`이다(M1, 2026-10-01 — 전에는 여기 손으로 적은 목록과
+# EXTRACTED_SOURCES 의 단일 정의 위치는 `//defs:kb.bzl`이다(M1, 2026-10-01 — 전에는 여기 손으로 적은 목록과
 # `tools/kb_lib.py` 의 USES_SOURCES 상수 둘이 있었다. 둘이 갈리면 조용히 비는 사고가 있어 RESIDENCY 와 같은
 # 해법으로 하나로 모았다). 등록부 사이드카의 존재(소스 전수)와 이 목록이 같은 집합인지는 `tools/BUILD.bazel`
 # 의 `check_extracted_sources(glob(...))` 가 로드 시점에 강제한다 — `glob` 은 패키지를 못 넘으므로 여기(최상위)
@@ -34,7 +34,7 @@ kb_chunk_lint_test(
 # (docs/BUILD.bazel 소유: orchestrator). 하네스 문서(//harness:docs)도 같은 이유로 filegroup 으로 넣는다.
 # 채널 메시지·질문지·옛 채널 기록(//harness:records)과 노트(//docs:notes)는 대상으로만 쓴다.
 # 실재 판정은 runfiles 이므로 문서가 가리키는 패키지의 파일은 targets 에 선언한다.
-# 동결 문서 (유저 답 Q15-c) — 노트는 기획 원본이고 고치지 않는다. 해시의 단일 정의처는 tools/kb_lib.py 의 FROZEN_DOCS
+# 동결 문서 (유저 답 Q15-c) — 노트는 기획 원본이고 고치지 않는다. 해시의 단일 정의 위치는 tools/kb_lib.py 의 FROZEN_DOCS
 kb_frozen_docs_test(
     name = "frozen_docs_test",
     docs = ["//docs:notes"],
@@ -53,7 +53,6 @@ kb_doccheck_test(
         "//docs:glossary",
         "//harness:records",
         "//tools",
-        "//chunks",
         "//kb/dev",
         "//kb/vv",
         "//kb/ontology:modules",
@@ -61,20 +60,20 @@ kb_doccheck_test(
         "//kb/ontology:modules.bzl",
         "//kg",
         "//kb/odd:project-odd.yml",
-        "//space",  # 설계 공간 청크 — 문서가 미결의 상세로 링크한다 (Q54-a, 지시 0095)
+        "//space",  # 설계 공간 — 문서가 미결의 상세로 링크한다 (Q54-a, 지시 0095)
     ] + glob([".claude/**"]),
     empty_dirs = [
-        "kb/vv",  # V&V KB — 청크가 들어오기 전까지 runfiles 에 없다. 하위 디렉토리 = plane (pe-storage-layout), BUILD 는 gen_build 생성물
+        "kb/vv",  # V&V KB — 단위 지식이 들어오기 전까지 runfiles 에 없다. 하위 디렉토리 = 지식 종류 (pe-storage-layout), BUILD 는 gen_build 생성물
         "kb/vv/case",
         "kb/vv/criteria",
         "kb/vv/goal",
         "kb/vv/run",  # 실행 기록 — vv_run --record 가 첫 기록을 만들기 전까지 비어 있다
         "kb/vv/scenario",
         "kb/vv/verifier",
-        "kb/dev/norm",  # 규범 문서의 절 청크 — 첫 문서를 옮기기 전까지 비어 있다 (p12-norm-documents-from-section-chunks)
+        "kb/dev/norm",  # 규범 문서의 절 항목 — 첫 문서를 옮기기 전까지 비어 있다 (p12-norm-documents-from-section-chunks)
         "space",  # 설계 공간 — 5단계까지 자리만
     ],
-    # 게이트 총람(docs/tools.md)이 게이트 등록부 GATES 의 투영인지 본다 (M1 단일 정의처, 2026-10-02) —
+    # 게이트 총람(docs/tools.md)이 게이트 등록부 GATES 의 투영인지 본다 (M1 단일 정의 위치, 2026-10-02) —
     # 표의 `id` 열에 등록부 밖의 id 가 있으면 FAIL, 총람에 없는 등록 id 는 보고다
     gates = "//defs:kb.bzl",
     target_only = ["//docs:notes"],
@@ -82,11 +81,10 @@ kb_doccheck_test(
 )
 
 # 게이트 전체 = 저장소의 모든 테스트 — `bazel test //...` (test_suite 는 두지 않는다: 목록이 낡는다)
-# BUILD 드리프트 가드 (d-0159): 생성기를 다시 돌려 커밋본과 비교 — frontmatter 가 원본, BUILD 는 뷰
+# BUILD 드리프트 가드 (p12-generated-lists-with-drift-check): 생성기를 다시 돌려 커밋본과 비교 — frontmatter 가 원본, BUILD 는 뷰
 kb_build_drift_test(
     name = "build_drift_test",
     builds = [
-        "//chunks/decision:BUILD.bazel",
         "//kb/dev/artifact:BUILD.bazel",
     ] + ["//kb/dev/artifact/" + mod + ":BUILD.bazel" for mod in EXTRACTED_SOURCES + EXTRACTED_QUERY_DIRS] +
     ["//kb/dev/artifact/" + m + "-bzl:BUILD.bazel" for m in EXTRACTED_STARLARK] + [
@@ -107,7 +105,6 @@ kb_build_drift_test(
         "//kb/ontology:module_builds",
     ],
     data = [
-        "//chunks",
         "//kb/dev",
         "//kb/vv",
         "//kb/ontology:modules",
@@ -121,7 +118,7 @@ kb_gate_input_test(
     name = "gate_input_test",
 )
 
-# 추출 드리프트 가드 (코드를 청크로, 유저 승인 2026-09-30): 추출기를 다시 돌려 트리의 생성 청크·등록부와 비교 —
+# 추출 드리프트 가드 (코드를 단위 지식으로, 유저 승인 2026-09-30): 추출기를 다시 돌려 트리의 생성 단위 지식·등록부와 비교 —
 # tools/<모듈>.py 가 원본, kb/dev/artifact/<모듈>/ 는 뷰다 (p7-code-extraction-direction).
 # 판정 단위는 소스 파일 하나다 — 파일마다 타깃을 세워 FAIL 메시지가 어느 소스인지 이름으로 말하게 한다.
 # 목록 하나로 묶으면 첫 어긋남에서 멈춰 나머지 파일의 상태를 보이지 못한다. //:extract_drift_test 는 그 묶음이다.
@@ -133,7 +130,7 @@ kb_gate_input_test(
     source = "tools/" + mod + ".py",
 ) for mod in EXTRACTED_SOURCES]
 
-# 질의 디렉토리 (EXTRACTED_QUERY_DIRS, 2026-10-03) — 소스가 디렉토리 tools/<이름> 이고 질의 파일 하나가 청크 하나다.
+# 질의 디렉토리 (EXTRACTED_QUERY_DIRS, 2026-10-03) — 소스가 디렉토리 tools/<이름> 이고 질의 파일 하나가 단위 지식 하나다.
 # 게이트 id 는 같은 `extract-drift` 다. 타깃 이름의 `-` 는 `_` 로 바꿔 모듈 이름과 같은 모양으로 둔다
 [kb_extract_drift_test(
     name = "extract_drift_" + d.replace("-", "_"),
@@ -166,8 +163,8 @@ kb_skills_drift_test(
 )
 
 
-# 규범 문서 드리프트 가드 (p12-norm-documents-from-section-chunks): 생성기를 다시 돌려 트리의 규범 문서와 비교 — 절 청크
-# (kb/dev/norm/<stem>/)와 결정의 conventions.md 가 원본, 문서는 뷰다. 목록의 단일 정의처는 //defs:kb.bzl 의 NORM_DOCS 이고
+# 규범 문서 드리프트 가드 (p12-norm-documents-from-section-chunks): 생성기를 다시 돌려 트리의 규범 문서와 비교 — 절 항목
+# (kb/dev/norm/<stem>/)와 결정의 conventions.md 가 원본, 문서는 뷰다. 목록의 단일 정의 위치는 //defs:kb.bzl 의 NORM_DOCS 이고
 # 비어 있으면 비교 대상 0 이다 — 그래도 모든 `규약:` 줄이 적어도 한 문서에서 쓰이는지(고아 줄)는 돈다
 kb_norms_drift_test(
     name = "norms_drift_test",
@@ -175,16 +172,16 @@ kb_norms_drift_test(
     docs = norm_doc_labels(),
 )
 
-# 케이스 드리프트 가드 (p8-case-generation, 유저 답 Q27-a): 생성기를 다시 돌려 트리의 케이스와 비교 — logical 시나리오의
-# `keep`·`cover` 가 원본, kb/vv/case 의 생성 케이스는 뷰다. 수기 케이스는 0 이다(kb/vv/case 전부 process:case_gen).
-# 새 시나리오의 자극 청크는 `scenarios` 에 더한다.
+# 테스트 케이스 드리프트 가드 (p8-case-generation, 유저 답 Q27-a): 생성기를 다시 돌려 트리의 테스트 케이스와 비교 — logical 시나리오의
+# `keep`·`cover` 가 원본, kb/vv/case 의 생성 테스트 케이스는 뷰다. 수기 테스트 케이스는 0 이다(kb/vv/case 전부 process:case_gen).
+# 새 시나리오의 자극 단위 지식은 `scenarios` 에 더한다.
 kb_case_drift_test(
     name = "case_drift_test",
     data = [
         "//kb/odd:project-odd.yml",
         "//kb/vv",
     ],
-    # 생성 케이스를 가진 시나리오 전수. 수기 케이스가 0 이므로 all_generated 를 켠다(생성기 밖 케이스는 실패다).
+    # 생성 테스트 케이스를 가진 시나리오 전수. 수기 테스트 케이스가 0 이므로 all_generated 를 켠다(생성기 밖 테스트 케이스는 실패다).
     all_generated = True,
     scenarios = [
         "//kb/vv/scenario:acyclic-relation-axioms-stimulus.md",
@@ -205,14 +202,13 @@ kb_case_drift_test(
 )
 
 # 생성 문서 게이트 (유저 지시 2026-09-21): 에이전트가 만드는 마크다운의 가독성·건전성 규약 G1~G18.
-# 규약의 단일 정의처는 tools/kb_lib.py 이고 생성기와 이 게이트가 같은 것을 import 한다 (STYLEGUIDE §7).
-# 대상은 생성 뷰(목록의 단일 정의처 `//defs:kb.bzl` 의 VIEWS)와 생성 트리 파일(.claude/skills/*/SKILL.md · NORM_DOCS 의 규범 문서)이다 —
+# 규약의 단일 정의 위치는 tools/kb_lib.py 이고 생성기와 이 게이트가 같은 것을 import 한다 (STYLEGUIDE §7).
+# 대상은 생성 뷰(목록의 단일 정의 위치 `//defs:kb.bzl` 의 VIEWS)와 생성 트리 파일(.claude/skills/*/SKILL.md · NORM_DOCS 의 규범 문서)이다 —
 # 생성 BUILD 는 마크다운이 아니라 대상 밖이다.
 # 생성물이 가리키는 파일은 data 에 선언돼야 링크 검사(G13)에서 실재한다.
 kb_gendoc_test(
     name = "gendoc_test",
     data = [
-        "//chunks",
         "//docs:docs",
         "//docs:notes",
         "//kb/dev",

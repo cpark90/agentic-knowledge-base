@@ -7,7 +7,7 @@ title: function check_message in tools/channel_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-channel-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/45faf691-73c6-43a3-b8c9-25f7a11782bc
 ---
@@ -28,8 +28,9 @@ def check_message(it: dict) -> list[str]:
         errs.append(f"{path}: 파일명이 `<id>.md` 가 아니다 (id {mid!r})")
     frm, to, typ, st = m.get("from"), m.get("to"), m.get("type"), m.get("status")
     for key, val in (("from", frm), ("to", to)):
-        if val and val not in ROLES:
-            errs.append(f"{path}: {key} {val!r} 는 어휘 밖이다 ({'|'.join(ROLES)})")
+        if val and val not in ROLES and val not in ROLE_ALIASES:
+            errs.append(f"{path}: {key} {val!r} 는 어휘 밖이다 ({'|'.join(ROLES)}, 옛 이름 {'|'.join(ROLE_ALIASES)})")
+    frm, to = ROLE_ALIASES.get(frm, frm), ROLE_ALIASES.get(to, to)  # 옛 이름은 정규 이름과 같은 작성자다 — 아래 검사는 정규 이름으로 본다
     if frm and frm == to:
         errs.append(f"{path}: from 과 to 가 같다 ({frm})")
     if typ and typ not in MSG_TYPES:

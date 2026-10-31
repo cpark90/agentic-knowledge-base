@@ -5,9 +5,10 @@ level: concrete
 title_ko: 판정 방법을 A~D로 등급화하고 D는 ODD에 넣지 않는다
 title: Grade check methods A-D; grade D never enters the ODD
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0064-measurement-method-grades.md, id: https://agentic-knowledge-base.dev/id/chunk-d0064, title_ko: "판정 방법을 A~D로 등급화하고 D는 ODD에 넣지 않는다", title: "Grade measurement methods A-D; grade D stays out of the ODD"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c, https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0064]
 part_of: https://agentic-knowledge-base.dev/id/composite/09270524-0ea3-40bb-8360-178681e7cbca

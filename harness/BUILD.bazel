@@ -1,28 +1,27 @@
-# 하네스 — hci · orchestrator 두 세션의 운영 틀 (harness/README.md 가 프로토콜 원본). 그래프 밖이지만 프로토콜은 게이트다.
+# 하네스 — interpreter · orchestrator 두 세션의 운영 틀 (harness/README.md 가 프로토콜 원본). 그래프 밖이지만 프로토콜은 게이트다.
 load("//defs:knowledge.bzl", "kb_channel_lint_test", "kb_harness_scripts_test")
 
 package(default_visibility = ["//visibility:public"])
 
-# 채널 규약의 입력 — 메시지(channel/ 의 수신함 둘 + archive 직계)와 질문지(user/ + user/archive/ 직계).
-# legacy/(옛 채널 기록)는 옛 형식 그대로라 입력이 아니다. 메시지는 git 밖이라(.gitignore) 비어 있을 수 있다
-filegroup(
-    name = "items",
-    srcs = glob(
-        [
-            "channel/to_orchestrator/*.md",
-            "channel/to_hci/*.md",
-            "channel/archive/*.md",
-            "user/Q-*.md",
-            "user/archive/Q-*.md",
-        ],
-        allow_empty = True,
-    ),
-)
-
-# 면제는 코드가 아니라 //docs:waivers 의 선언으로 (게이트 id channel, 축 파일). 종료 코드 1 판정 / 2 설정 / 3 미실행
+# 채널 규약의 입력 — 메시지(channel/ 의 수신함들 + archive 직계)와 질문지(user/ + user/archive/ 직계)는 bazel 입력이 아니다.
+# 메시지는 git 밖 런타임 파일이고 mark.sh 가 빌드 도중에도 옮기므로, 도구가 README.md 의 실경로로 하네스 루트를 찾아 실행 시점에
+# 읽는다(유저 답 Q-0061 Q152-a). 수신함 목록은 channel_lint 의 역할 어휘에서 나온다. legacy/(옛 채널 기록)는 입력이 아니다.
+# 면제는 코드가 아니라 //docs:waivers 의 선언으로 (게이트 id channel, 축 파일). 종료 코드 1 판정 / 2 설정 / 3 미실행.
+# 이름 원천 셋은 식별자 옆 한글 이름 검사의 입력이다(유저 답 Q103 3번) — 결정 slug 는 //kb/dev 의 결정 기록,
+# agt: 는 온톨로지 모듈, id: 는 손 그래프·ODD·게이트·투영 그래프다. //kb/dev/decision 은 이 패키지에 보이지 않아 //kb/dev 로 받는다
 kb_channel_lint_test(
     name = "channel_lint_test",
-    items = ":items",
+    decisions = "//kb/dev",
+    graphs = [
+        "//kg",
+        "//kb/odd:odd",
+        "//kg:gates_kg",
+        "//kg:projections_kg",
+    ],
+    harness = "README.md",
+    ontology = "//kb/ontology:modules",
+    # 발신 전 검사 — send.sh 가 메시지를 수신함에 놓기 전에 같은 이름 원천으로 메시지 단위 검사를 돌린다(hci question 0268 (a))
+    send_check = "channel_send_check",
     waivers = "//docs:waivers",
 )
 
@@ -35,22 +34,25 @@ filegroup(
     ] + glob(["agents/*.md"]),
 )
 
-# 하네스 문서가 가리키는 대상 — 질문지·옛 채널 기록·채널 디렉토리 자리(.gitkeep)·스크립트. //:doccheck_test 의 data
+# 하네스 문서가 가리키는 대상 — 질문지·옛 채널 기록·채널 디렉토리 자리(.gitkeep)·스크립트. //:doccheck_test 의 data.
+# channel 은 git 이 추적하는 것(자리 .gitkeep 셋과 archive/legacy/)만 잡는다. 런타임 파일(메시지·.seq)은 빌드 도중 바뀌므로 잡지 않는다
 filegroup(
     name = "records",
     srcs = glob(
         [
             "user/**",
-            "channel/**",
+            "channel/*/.gitkeep",
+            "channel/archive/legacy/**",
             "scripts/*",
         ],
         allow_empty = True,
     ),
 )
 
-# 채널 스크립트의 동작 — 임시 채널(TEST_TMPDIR)에서 send → inbox → read-msg → mark 흐름과 거부 규칙을 본다. 호스트 bash 를 쓴다
+# 채널 스크립트의 동작 — 임시 채널(TEST_TMPDIR)에서 send → inbox → read-msg → mark 흐름과 거부 규칙을 본다. 호스트 bash 를 쓴다.
+# send.sh 는 발신 전 검사를 runfiles 의 channel_send_check 로 돌린다 — 시험 안에서 bazel 을 다시 부르지 않는다
 kb_harness_scripts_test(
     name = "scripts_test",
     src = "scripts_test.py",
-    scripts = glob(["scripts/*.sh"]),
+    scripts = glob(["scripts/*.sh"]) + [":channel_send_check"],
 )

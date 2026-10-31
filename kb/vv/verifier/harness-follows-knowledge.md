@@ -8,8 +8,10 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ffacb879-a5c4-4ecc-8e50-c0751aec665b]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-05T13:27:34+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T03:47:18+09:00}
 layer: process
+verifies: [https://agentic-knowledge-base.dev/id/chunk/d54dd037-5b16-4649-922d-f7c9b7b5c510, https://agentic-knowledge-base.dev/id/chunk/73abbe6d-7ee4-4c1d-8f71-4c1bc57951ac, https://agentic-knowledge-base.dev/id/chunk/0a421535-c9ff-40ab-a04f-cd96deb799a9, https://agentic-knowledge-base.dev/id/chunk/9e2e1287-6ee7-4e18-9c18-f2568a030de1]
+restored: [https://agentic-knowledge-base.dev/id/chunk/d54dd037-5b16-4649-922d-f7c9b7b5c510, https://agentic-knowledge-base.dev/id/chunk/73abbe6d-7ee4-4c1d-8f71-4c1bc57951ac, https://agentic-knowledge-base.dev/id/chunk/0a421535-c9ff-40ab-a04f-cd96deb799a9, https://agentic-knowledge-base.dev/id/chunk/9e2e1287-6ee7-4e18-9c18-f2568a030de1]
 ---
 **검증기** — 드리프트 테스트 매크로가 낸 타깃 집합과 지식 파일을 입력으로 받는 게이트를 자극으로 쓴다. 임시 자극을 만들지 않고 커밋된 트리를 읽는다.
 
@@ -37,4 +39,4 @@ expect:
 
 **판정 범위** — 기준의 네 식 가운데 생성 부분·게이트 입력·역방향 공백을 실행한다. 승격 수는 `grep` 이라 실행기의 허용 목록 밖이어서 두지 않는다. 그 수는 기준이 인용한 명령으로 따로 얻는다.
 
-**검증 대응물** — 없음. 판정 대상이 생성기 하나가 아니라 드리프트 테스트 종류의 집합이라 `executable` 개발 항목 하나에 대응하지 않는다.
+**검증 대응물** — 이 검증기는 `tools/gen_build.py`, `tools/gen_norms.py`, `tools/gendoc.py`와 `tools/validate.py`의 항목을 `verifies` 한다. 끝은 파일 복합체의 선언 항목(`module.md`)이고, 판정 함수 같은 부분 항목은 게이트 `code-part-link` 가 끝으로 받지 않는다. 다만 드리프트 매크로를 분류하는 `bazel query` 셋은 판정 대상이 `defs/knowledge.bzl` 의 매크로이고 그 파일은 추출 대상이 아니어서 코드 항목이 없으므로 링크에서 뺀다.

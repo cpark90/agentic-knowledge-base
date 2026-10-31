@@ -7,10 +7,10 @@ title: Rejecting a bespoke scenario format and embedded criteria
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/7fcedb3d-e6cb-4df2-81fc-0787c3934fea
 ---
 **대안** — 시나리오 형식을 자체 설계하는 안. 기각 — 표본 추출 표기(`keep`·`cover`)를 다시 만드는 것이며 어휘 발명이다 (노트 부록 E.5, 0.0절).
 
-**대안** — OpenSCENARIO 관행대로 합격 기준을 시나리오 파일 안에 두는 안. 기각 — 기준 변경이 케이스 변경으로 보인다 (노트 8.11절).
+**대안** — OpenSCENARIO 관행대로 합격 기준을 시나리오 파일 안에 두는 안. 기각 — 기준 변경이 테스트 케이스 변경으로 보인다 (노트 8.11절).

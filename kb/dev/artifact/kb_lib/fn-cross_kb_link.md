@@ -7,7 +7,7 @@ title: function cross_kb_link in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/d6533f17-7314-4ac1-a34c-ab4e73160294
 ---
@@ -21,7 +21,7 @@ def cross_kb_link(kind: str, src: tuple, dst: tuple) -> bool:
     KB 사이 링크는 `verifies` 하나다 (p6-executable-splits-by-kb, docs/rules.md §8). 예외는 정제 계층의 functional 행
     하나다 — V&V 검증 목표(kb/vv requirement, functional) → 개발 요구 `derivesFrom` (p8-scenario-ladder-rungs 결론
     "functional 검증 목표 ↔ 요구 — derives-from 필수", TIM 칸 `("derivesFrom", "requirement", "requirement")`).
-    판정의 단일 정의처다 — 소비자는 복원 후보 생성기 `tools/link.py` 의 `violation`(후보 탈락)과 게이트
+    판정의 단일 정의 위치다 — 소비자는 복원 후보 생성기 `tools/link.py` 의 `violation`(후보 탈락)과 게이트
     `cross-kb-link`(`tools/validate.py` 의 `check_cross_kb_link`, 저작된 링크의 거부)다.
     """
     (kb_a, plane_a, level_a), (kb_b, plane_b, _) = src, dst

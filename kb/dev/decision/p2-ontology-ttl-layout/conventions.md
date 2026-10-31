@@ -7,12 +7,12 @@ title: Normative-document conventions — An ontology TTL file runs banner, pref
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T02:19:04+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:18:25+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:18:25+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/aa03212b-6699-4c65-bbc8-0f9836401c6d
 ---
 **규약** — `p2-ontology-ttl-layout`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: [지킴] 파일 구조는 상단 배너 주석 1줄(주제) → `@prefix` 블록(agt → owl → rdfs → skos → xsd 순) → 개념 블록들의 순이다.
-규약: [지킴] 개념 블록의 술어 순서는 `a` → `rdfs:subClassOf`/`owl:disjointWith` → `rdfs:domain` → `rdfs:range` → `rdfs:label`(en, ko 순) → `skos:definition`이다.
+규약: [지킴] 파일은 주제를 적은 상단 배너 주석 1줄로 시작하고, 이어서 `@prefix` 블록을 agt, owl, rdfs, skos, xsd 순으로 둔 뒤 개념 블록들을 둔다.
+규약: [지킴] 개념 블록의 술어는 `a`, `rdfs:subClassOf`/`owl:disjointWith`, `rdfs:domain`, `rdfs:range`, `rdfs:label`, `skos:definition`의 순서로 쓰고, `rdfs:label`은 en, ko 순으로 적는다.

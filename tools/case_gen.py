@@ -1,31 +1,32 @@
 #!/usr/bin/env python3
-"""V&V 케이스 생성기 — 논리 시나리오의 `keep`·`cover` 에서 concrete 케이스 청크(`kb/vv/case/*.md` 꼴)를 결정론적으로 만든다.
+"""V&V 테스트 케이스 생성기 — 논리 시나리오의 `keep`·`cover` 에서 concrete 테스트 케이스(`kb/vv/case/*.md` 꼴)를 결정론적으로 만든다.
 
-결정 p8-case-generation: concrete 케이스는 사람이 쓰지 않는다 — `keep`+`cover` 에서 생성하고 표본 근거 없는 케이스는 거부한다.
-생성 규칙은 다섯(등가분할 · 경계값 · t-wise 조합 · 요인 주입 · 관측 재현)이고 규칙·seed 는 케이스의 provenance 에 남는다.
-결정 p8-scenario-authoring: `keep()` 은 자극의 자리이므로 입력은 `decision`(vv) **logical** 시나리오의 자극 청크(`<슬러그>-stimulus.md`)다.
-결정 p8-machine-readable-case: 출력 케이스는 `vv_run` 이 읽는 꼴 그대로다 — 펜스 `files`·`expect`, `**실행 명령**` 한 줄.
+결정 p8-case-generation: concrete 테스트 케이스는 사람이 쓰지 않는다 — `keep`+`cover` 에서 생성하고 표본 근거 없는 테스트 케이스는 거부한다.
+생성 규칙은 다섯(등가분할 · 경계값 · t-wise 조합 · 요인 주입 · 관측 재현)이고 규칙·seed 는 테스트 케이스의 provenance 에 남는다.
+결정 p8-scenario-authoring: `keep()` 은 자극의 자리이므로 입력은 `decision`(vv) **logical** 시나리오의 자극 단위 지식(`<슬러그>-stimulus.md`)이다.
+결정 p8-machine-readable-case: 출력 테스트 케이스는 `vv_run` 이 읽는 꼴 그대로다 — 펜스 `files`·`expect`, `**실행 명령**` 한 줄.
 
-입력 — 시나리오 자극 청크 본문의 `yaml` 펜스 하나(키 `keep`·`cover` 가 둘 다 있는 펜스. 그 밖의 펜스는 산문의 예시다):
+입력 — 시나리오 자극 단위 지식 본문의 `yaml` 펜스 하나(키 `keep`·`cover` 가 둘 다 있는 펜스. 그 밖의 펜스는 산문의 예시다):
   keep:  변수 → {odd: <ODD 속성 IRI(id:cond-…)> | outside, range: [lo, hi] (정수) | values: [값…], reject: [값…], domain: [lo, hi]}
          `range`·`values` 가 keep 이다. `reject` 는 열거 변수의 keep 밖 값, `domain` 은 범위 변수의 keep 밖까지 포함한 정의역이다.
-         `odd: outside` 인 변수가 든 케이스는 `odd:outside` 를 달아 커버리지에서 빠진다 (p8-scenario-authoring 규약).
+         `odd: outside` 인 변수가 든 테스트 케이스는 `odd:outside` 를 달아 커버리지에서 빠진다 (p8-scenario-authoring 규약).
   cover: [{rule: equivalence|boundary|pairwise|factor|observed, …}]  — 항목 하나가 표본 추출 근거 하나다.
          equivalence {vars} · boundary {vars} (범위 변수만) · pairwise {vars} (열거 변수 둘 이상) ·
          factor {var, factors: {agt:<요인>: <keep 밖 값>}} · observed {run: kb/vv/run/<기록>.md, values: {변수: 값}}
-  seed:  정수 — 등가분할의 대표값을 고르는 난수의 seed. 케이스의 `**표본 근거**` 에 남는다
-  case:  {criteria: <기준 IRI>, verifies: [<IRI>…], derivesFrom: [<IRI>…], title_ko, title, summary, stimulus, files: {이름: 내용},
-          command, accept: {prose, expect}, reject: {prose, expect}} — 문자열의 `${변수}` 를 케이스의 값으로 바꾼다.
-         `derivesFrom` 은 선택이다 — 케이스의 `derivesFrom` 에 시나리오 IRI 다음으로 옮긴다(수기 케이스가 가졌던 출처 링크를 잇는다).
-         생성 케이스는 `restored` 를 쓰지 않는다 — 생성기가 템플릿에서 놓는 링크는 복원이 아니라 구축이다
+  seed:  정수 — 등가분할의 대표값을 고르는 난수의 seed. 테스트 케이스의 `**표본 근거**` 에 남는다
+  case:  {criteria: <기준 IRI>, verifies: [<IRI>…], derivesFrom: [<IRI>…], title_ko, former_title_ko: [<옛 이름>…], title, summary,
+          stimulus, files: {이름: 내용}, command, accept: {prose, expect}, reject: {prose, expect}} — 문자열의 `${변수}` 를 테스트 케이스의 값으로 바꾼다.
+         `former_title_ko` 는 선택이다 — 테스트 케이스의 frontmatter `former_title_ko` 로 옮긴다(이름을 바꾼 테스트 케이스가 옛 이름을 잃지 않는다).
+         `derivesFrom` 은 선택이다 — 테스트 케이스의 `derivesFrom` 에 시나리오 IRI 다음으로 옮긴다(수기 테스트 케이스가 가졌던 출처 링크를 잇는다).
+         생성 테스트 케이스는 `restored` 를 쓰지 않는다 — 생성기가 템플릿에서 놓는 링크는 복원이 아니라 구축이다
 값을 손으로 적은 항목(`cases` 키 · 관측 재현 밖의 `values`)과 `rule` 없는 항목은 표본 근거가 없으므로 FAIL 이다.
-나머지 변수는 기준값(범위 변수는 lo, 열거 변수는 values 의 첫째)에 둔다. 값이 하나라도 keep 밖이면 케이스는 `reject` 부류다.
+나머지 변수는 기준값(범위 변수는 lo, 열거 변수는 values 의 첫째)에 둔다. 값이 하나라도 keep 밖이면 테스트 케이스는 `reject` 부류다.
 
-사용: case_gen.py --out <디렉토리> [--root .] [--scenario <자극 청크>…] [--residency defs/kb.bzl] [--odd <ODD yml>]
-      case_gen.py --check [--root .] [--scenario <자극 청크>…] [--cases kb/vv/case] [--all-generated]
---scenario 가 없으면 생성 모드는 `kb/vv/scenario/` 의 logical 자극 청크 중 입력 펜스가 있는 것 전부를 읽는다. --check 는 준 시나리오만 본다 —
+사용: case_gen.py --out <디렉토리> [--root .] [--scenario <자극 단위 지식>…] [--residency defs/kb.bzl] [--odd <ODD yml>]
+      case_gen.py --check [--root .] [--scenario <자극 단위 지식>…] [--cases kb/vv/case] [--all-generated]
+--scenario 가 없으면 생성 모드는 `kb/vv/scenario/` 의 logical 자극 단위 지식 중 입력 펜스가 있는 것 전부를 읽는다. --check 는 준 시나리오만 본다 —
 //:case_drift_test 가 대상 목록을 명시로 준다(빈 목록이면 대상 0 이고 PASS 다. 생성기이므로 SKIP 이 아니다). `--all-generated` 는
-케이스 디렉토리의 모든 케이스가 이 생성기의 것인지 본다(수기 케이스 0). 저장소에 쓰는 일은 vnv 가 `--out kb/vv/case` 로 한다.
+테스트 케이스 디렉토리의 모든 테스트 케이스가 이 생성기의 것인지 본다(수기 테스트 케이스 0). 저장소에 쓰는 일은 vnv 가 `--out kb/vv/case` 로 한다.
 출력·종료: 생성 시점 거부는 `FAIL [case-gen] …` EXIT_FAIL, --check 의 어긋남은 `FAIL [case-drift] …` EXIT_FAIL, 읽을 수 없는 입력은 EXIT_CONFIG.
 """
 from __future__ import annotations
@@ -38,6 +39,7 @@ import random
 import re
 import sys
 import uuid
+from datetime import datetime
 from pathlib import Path
 
 import yaml
@@ -53,7 +55,7 @@ except ImportError:
 
 EXIT_OK, EXIT_FAIL, EXIT_CONFIG = kb_lib.EXIT_OK, kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG
 GEN, DRIFT = kb_lib.CASE_GEN_GATE, kb_lib.CASE_DRIFT_GATE
-ACTOR = kb_lib.CASE_GEN_ACTOR  # 케이스의 generated.by — 역할이 아니라 프로세스다. writer 검사 밖이다 (validate check_writer)
+ACTOR = kb_lib.CASE_GEN_ACTOR  # 테스트 케이스의 generated.by — 역할이 아니라 프로세스다. writer 검사 밖이다 (validate check_writer)
 SCENARIO_DIR = kb_lib.KB_VV + "/scenario"
 CASE_DIR = kb_lib.KB_VV + "/case"
 RUN_DIR = kb_lib.VV_RUN_DIR
@@ -72,19 +74,19 @@ RULE_KEYS = {"equivalence": ("vars",), "boundary": ("vars",), "pairwise": ("vars
 ORIGIN_OBSERVED = "origin:observed"
 ODD_OUTSIDE_TAG = "odd:outside"
 FACTOR_TAG = re.compile(r"agt:[A-Za-z][A-Za-z0-9]*")
-CASE_KEYS = ("criteria", "verifies", "derivesFrom", "title_ko", "title", "summary", "stimulus", "files", "command", "accept", "reject")
+CASE_KEYS = ("criteria", "verifies", "derivesFrom", "title_ko", kb_lib.FORMER_TITLE_KEY, "title", "summary", "stimulus", "files", "command", "accept", "reject")
 CASE_REQUIRED = ("criteria", "title_ko", "title", "summary", "stimulus", "command")
 CLASS_KEYS = ("prose", "expect")
 CLASSES = ("accept", "reject")
 TEMPLATE = re.compile(r"\$\{([^{}\s]*)\}")  # `${변수}` — 셸의 `$(…)`·`$VAR` 와 vv_run 의 `{{이름}}` 은 건드리지 않는다
-UNSAMPLED = "표본 근거 없는 케이스다"
+UNSAMPLED = "표본 근거 없는 테스트 케이스다"
 
 
 class CaseGenError(Exception):
     """생성 시점 거부 — 메시지가 `<경로>: <근거>` 다. 여러 줄이면 줄마다 하나다."""
 
 
-# ── 입력 — 시나리오 자극 청크와 ODD ────────────────────
+# ── 입력 — 시나리오 자극 단위 지식과 ODD ────────────────────
 
 def odd_attributes(path: Path) -> set[str]:
     """ODD 문서의 속성 IRI 집합(`ATTRIBUTES.*.iri` — `id:cond-…` 꼴). 변수의 `odd` 가 이 안이어야 한다 (3.3절 ODD 참조)."""
@@ -94,7 +96,7 @@ def odd_attributes(path: Path) -> set[str]:
 
 
 def raw_frontmatter(text: str) -> dict[str, str]:
-    """frontmatter 의 키 → 원문 값. 생성 케이스가 시나리오의 `sources`·`assumes` 를 바이트 그대로 옮기는 자리다."""
+    """frontmatter 의 키 → 원문 값. 생성 테스트 케이스가 시나리오의 `sources`·`assumes` 를 바이트 그대로 옮기는 자리다."""
     lines = text.splitlines()
     end = lines[1:].index("---") + 1
     out = {}
@@ -105,10 +107,10 @@ def raw_frontmatter(text: str) -> dict[str, str]:
 
 
 def load_scenario(path: Path) -> dict:
-    """자극 청크 → {path, slug, iri, at, sources, assumes, spec}. logical `decision` 이 아니거나 입력 펜스가 없으면 거부한다."""
+    """자극 단위 지식 → {path, slug, iri, at, sources, assumes, spec, status, verified_at}. logical `decision` 이 아니거나 입력 펜스가 없으면 거부한다."""
     meta, body = parse_chunk(str(path))
     if meta["type"] != "decision" or meta["level"] != "logical":
-        raise CaseGenError(f"{path}: 케이스의 입력은 logical 시나리오(`decision`·`logical`)다 — 실제 {meta['type']}·{meta['level']} "
+        raise CaseGenError(f"{path}: 테스트 케이스의 입력은 logical 시나리오(`decision`·`logical`)다 — 실제 {meta['type']}·{meta['level']} "
                            f"(p8-scenario-ladder-rungs: 변수 범위는 logical 높이에서 채운다)")
     fences = [f for f in vv_run.yaml_blocks(body) if all(h.search(f) for h in INPUT_HEAD)]
     if len(fences) != 1:
@@ -120,14 +122,20 @@ def load_scenario(path: Path) -> dict:
     raw = raw_frontmatter(path.read_text(encoding="utf-8"))
     at = re.search(r"\bat:\s*([^,}\s]+)", raw.get("generated", ""))
     if not at:
-        raise CaseGenError(f"{path}: generated.at 이 없다 — 케이스의 생성 시각은 입력 시나리오의 시각이다(재생성이 바이트로 같아야 한다)")
+        raise CaseGenError(f"{path}: generated.at 이 없다 — 테스트 케이스의 생성 시각은 입력 시나리오의 시각이다(재생성이 바이트로 같아야 한다)")
     slug = path.stem[: -len(STIMULUS_SUFFIX)] if path.stem.endswith(STIMULUS_SUFFIX) else path.stem
+    # 테스트 케이스는 시나리오의 상태를 물려받는다 (p8-case-generation 규약 셋째 줄, 유저 답 Q131-a) — stable 이고 검증 표시가 있으면 stable 이고
+    # 재검증 표시는 process:case_gen 이 시나리오의 마지막 verified.at 을 원문 그대로 단다(실행 시각을 쓰지 않아 재생성이 바이트로 같다).
+    # 그 밖은 draft 이고 표시가 없다
+    ats = re.findall(r"\bat:\s*([^,}\s]+)", raw.get("verified", ""))
+    stable = meta.get("status") == "stable" and bool(ats)
     return {"path": path, "slug": slug, "iri": meta["id"], "at": at.group(1), "sources": raw.get("sources", ""),
-            "assumes": raw.get("assumes", ""), "spec": spec}
+            "assumes": raw.get("assumes", ""), "spec": spec, "status": "stable" if stable else "draft",
+            "verified_at": max(ats, key=datetime.fromisoformat) if stable else None}
 
 
 def discover(root: Path) -> list[Path]:
-    """`kb/vv/scenario/` 의 logical 자극 청크 중 입력 펜스가 있는 것 — 생성 모드에서 --scenario 가 없을 때의 대상이다."""
+    """`kb/vv/scenario/` 의 logical 자극 단위 지식 중 입력 펜스가 있는 것 — 생성 모드에서 --scenario 가 없을 때의 대상이다."""
     out = []
     for p in sorted((root / SCENARIO_DIR).glob("*.md")):
         meta, body = parse_chunk(str(p))
@@ -188,7 +196,7 @@ def check_interval(at: str, key: str, iv) -> list[str]:
 def check_cover(where: str, cover, keep: dict, root: Path) -> list[str]:
     """`cover` 의 형식 — 항목마다 근거 규칙 하나. 규칙 없는 항목과 손으로 적은 값은 표본 근거가 없다."""
     if not isinstance(cover, list) or not cover:
-        return [f"{where}: `cover` 는 비어 있지 않은 목록이다 — {UNSAMPLED}(근거 규칙 없이 만들 케이스가 없다)"]
+        return [f"{where}: `cover` 는 비어 있지 않은 목록이다 — {UNSAMPLED}(근거 규칙 없이 만들 테스트 케이스가 없다)"]
     errs = []
     for i, e in enumerate(cover, start=1):
         at = f"{where}: `cover` {i}번째 항목"
@@ -246,13 +254,16 @@ def check_case_template(where: str, case, keep: dict) -> list[str]:
     errs = [f"{where}: `case` 의 키 `{k}` 는 규약 밖이다 — 키는 {' · '.join(CASE_KEYS)} 다" for k in case if k not in CASE_KEYS]
     errs += [f"{where}: `case` 에 `{k}` 가 없다" for k in CASE_REQUIRED if not isinstance(case.get(k), str) or not case.get(k).strip()]
     if not str(case.get("criteria", "")).startswith(CHUNK_NS):
-        errs.append(f"{where}: `case.criteria` 는 기준 청크 IRI 다 — 케이스는 기준을 `refines` 한다 (p8-pass-criteria)")
+        errs.append(f"{where}: `case.criteria` 는 기준 단위 지식 IRI 다 — 테스트 케이스는 기준을 `refines` 한다 (p8-pass-criteria)")
     ver = case.get("verifies", [])
     if not isinstance(ver, list) or any(not str(x).startswith(CHUNK_NS) for x in ver):
-        errs.append(f"{where}: `case.verifies` 는 청크 IRI 목록이다")
+        errs.append(f"{where}: `case.verifies` 는 지식 IRI 목록이다")
     der = case.get("derivesFrom", [])
     if not isinstance(der, list) or any(not str(x).startswith(CHUNK_NS) for x in der):
-        errs.append(f"{where}: `case.derivesFrom` 는 청크 IRI 목록이다")
+        errs.append(f"{where}: `case.derivesFrom` 는 지식 IRI 목록이다")
+    former = case.get(kb_lib.FORMER_TITLE_KEY, [])
+    if not isinstance(former, list) or any(not isinstance(x, str) or not x.strip() for x in former):
+        errs.append(f"{where}: `case.{kb_lib.FORMER_TITLE_KEY}` 는 비지 않은 옛 이름 문자열의 목록이다")
     files = case.get("files", {})
     if not isinstance(files, dict) or any(not isinstance(k, str) or not isinstance(v, str) for k, v in files.items()):
         errs.append(f"{where}: `case.files` 는 `이름: 내용` 문자열 매핑이다")
@@ -303,7 +314,7 @@ def classes(var: dict) -> list[list]:
 
 
 def boundary_values(var: dict) -> list[int]:
-    """각 범위의 양 끝과 바로 안팎 — `domain` 이 있으면 그 밖은 내지 않는다(정의역 밖 값은 케이스가 아니다)."""
+    """각 범위의 양 끝과 바로 안팎 — `domain` 이 있으면 그 밖은 내지 않는다(정의역 밖 값은 테스트 케이스가 아니다)."""
     lo, hi = var["range"]
     out = []
     for x in (lo - 1, lo, lo + 1, hi - 1, hi, hi + 1):
@@ -415,10 +426,10 @@ def yaml_fence(key: str, value) -> list[str]:
     return lines
 
 
-# ── 조립 — 시나리오 하나에서 케이스 청크들 ────────────────────
+# ── 조립 — 시나리오 하나에서 테스트 케이스들 ────────────────────
 
 def render(sc: dict, a: dict, case: dict, name: str) -> str:
-    """값 배정 하나 → 케이스 청크 텍스트. frontmatter 는 현행 케이스의 키 순서를 따른다."""
+    """값 배정 하나 → 테스트 케이스 텍스트. frontmatter 는 현행 테스트 케이스의 키 순서를 따른다."""
     keep, vals = sc["spec"]["keep"], a["values"]
     cls = "accept" if all(inside(keep[k], v) for k, v in vals.items()) else "reject"
     tmpl = case.get(cls)
@@ -426,14 +437,19 @@ def render(sc: dict, a: dict, case: dict, name: str) -> str:
         raise CaseGenError(f"{sc['path']}: `{name}` 은 `{cls}` 부류인데 `case.{cls}` 가 없다")
     key = json.dumps(vals, sort_keys=True, ensure_ascii=False)
     iri = CHUNK_NS + str(uuid.uuid5(uuid.NAMESPACE_URL, f"{sc['iri']}#case:{key}"))
-    fm = ["---", f"id: {iri}", "type: schema", "level: concrete", f"title_ko: {fill(case['title_ko'], vals)}",
-          f"title: {fill(case['title'], vals)}", "status: draft", f"sources: {sc['sources']}", f"assumes: {sc['assumes']}",
-          f"generated: {{by: {ACTOR}, at: {sc['at']}}}", f"refines: [{case['criteria']}]"]
+    fm = ["---", f"id: {iri}", "type: schema", "level: concrete", f"title_ko: {fill(case['title_ko'], vals)}"]
+    if case.get(kb_lib.FORMER_TITLE_KEY):  # 템플릿의 옛 이름을 단위 지식의 옛 이름으로 옮긴다 — 키 순서는 title_ko 바로 다음이다
+        fm.append(f"{kb_lib.FORMER_TITLE_KEY}: {json.dumps([fill(x, vals) for x in case[kb_lib.FORMER_TITLE_KEY]], ensure_ascii=False)}")
+    fm += [f"title: {fill(case['title'], vals)}", f"status: {sc['status']}", f"sources: {sc['sources']}", f"assumes: {sc['assumes']}",
+           f"generated: {{by: {ACTOR}, at: {sc['at']}}}"]
+    if sc["verified_at"]:  # 시나리오가 stable 이면 그 재검증 시각을 process:case_gen 이 단다 (load_scenario)
+        fm.append(f"verified: [{{by: {ACTOR}, at: {sc['verified_at']}}}]")
+    fm.append(f"refines: [{case['criteria']}]")
     if case.get("verifies"):
         fm.append(f"verifies: [{', '.join(case['verifies'])}]")
     derives = [sc["iri"]] + [x for x in dict.fromkeys(case.get("derivesFrom") or []) if x != sc["iri"]]  # 시나리오가 첫째다 — drift 가 첫 출처로 시나리오를 찾는다
     fm += [f"derivesFrom: [{', '.join(derives)}]", "---"]
-    body = [f"**케이스** — {fill(case['summary'], vals).strip()}", "", f"**자극** — {fill(case['stimulus'], vals).strip()}", ""]
+    body = [f"**테스트 케이스** — {fill(case['summary'], vals).strip()}", "", f"**자극** — {fill(case['stimulus'], vals).strip()}", ""]
     files = fill_any(case.get("files") or {}, vals)
     if files:
         body += yaml_fence("files", files) + [""]
@@ -457,18 +473,18 @@ def provenance(sc: dict, a: dict, cls: str) -> str:
 
 
 def generate(sc: dict, root: Path, odd: set[str]) -> dict[str, str]:
-    """시나리오 하나 → {케이스 파일 이름: 텍스트}. 같은 값 배정은 케이스 하나이고 근거 태그를 모은다."""
+    """시나리오 하나 → {테스트 케이스 파일 이름: 텍스트}. 같은 값 배정은 테스트 케이스 하나이고 근거 태그를 모은다."""
     spec, where = sc["spec"], str(sc["path"])
     if not isinstance(spec, dict):
         raise CaseGenError(f"{where}: 입력 펜스는 매핑이다 — 키는 {' · '.join(INPUT_KEYS)} 다")
     errs = []
     for k in spec:
         if k == "cases":
-            errs.append(f"{where}: `cases` 는 케이스를 손으로 적은 목록이다 — {UNSAMPLED}. 값은 `cover` 의 규칙이 낸다 (p8-case-generation)")
+            errs.append(f"{where}: `cases` 는 테스트 케이스를 손으로 적은 목록이다 — {UNSAMPLED}. 값은 `cover` 의 규칙이 낸다 (p8-case-generation)")
         elif k not in INPUT_KEYS:
             errs.append(f"{where}: 입력 펜스의 키 `{k}` 는 규약 밖이다 — 키는 {' · '.join(INPUT_KEYS)} 다")
     if not isinstance(spec.get("seed"), int) or isinstance(spec.get("seed"), bool):
-        errs.append(f"{where}: `seed` 는 정수다 — 규칙과 seed 가 케이스의 provenance 에 남아야 재생성이 된다")
+        errs.append(f"{where}: `seed` 는 정수다 — 규칙과 seed 가 테스트 케이스의 provenance 에 남아야 재생성이 된다")
     kerrs = check_keep(where, spec.get("keep"), odd)
     errs += kerrs
     if not kerrs:
@@ -490,14 +506,14 @@ def generate(sc: dict, root: Path, odd: set[str]) -> dict[str, str]:
         counts[a["rule"]] = counts.get(a["rule"], 0) + 1
         name = f"{sc['slug']}-{a['rule']}-{counts[a['rule']]}.md"
         out[name] = render(sc, a, spec["case"], name)
-        errs += [f"{where}: 생성 케이스 `{name}` — {e}" for e in runner_errors(out[name])]
+        errs += [f"{where}: 생성 테스트 케이스 `{name}` — {e}" for e in runner_errors(out[name])]
     if errs:
         raise CaseGenError("\n".join(errs))
     return out
 
 
 def runner_errors(text: str) -> list[str]:
-    """생성 케이스를 vv_run 의 파서로 되읽는다 — 실행기가 케이스를 읽는 꼴이 생성 케이스의 출력 꼴이다."""
+    """생성 테스트 케이스를 vv_run 의 파서로 되읽는다 — 실행기가 테스트 케이스를 읽는 꼴이 생성 테스트 케이스의 출력 꼴이다."""
     body = kb_lib.chunk_body(text)
     line = next((m for ln in body.splitlines() if (m := vv_run.COMMAND_LINE.match(ln.strip()))), None)
     if line is None:
@@ -510,7 +526,7 @@ def runner_errors(text: str) -> list[str]:
 # ── 실행 — 생성과 드리프트 비교 ────────────────────
 
 def drift(root: Path, cases_dir: Path, scenarios: list[dict], outputs: dict[str, dict[str, str]], all_generated: bool) -> list[str]:
-    """트리의 케이스와 생성 결과의 어긋남 — 다른 바이트 · 없는 케이스 · 생성 결과에 없는 생성 케이스 · (선택) 생성기 밖의 케이스."""
+    """트리의 테스트 케이스와 생성 결과의 어긋남 — 다른 바이트 · 없는 테스트 케이스 · 생성 결과에 없는 생성 테스트 케이스 · (선택) 생성기 밖의 테스트 케이스."""
     errs = []
     for sc in scenarios:
         made = outputs[sc["slug"]]
@@ -528,26 +544,26 @@ def drift(root: Path, cases_dir: Path, scenarios: list[dict], outputs: dict[str,
         mine = isinstance(gen, dict) and gen.get("by") == ACTOR
         src = [s for s in (meta.get("derivesFrom") or []) if s in by_iri]
         if mine and src and p.name not in outputs[by_iri[src[0]]["slug"]]:
-            errs.append(f"{p.as_posix()}: 시나리오 `{by_iri[src[0]]['slug']}` 가 더는 내지 않는 생성 케이스다 — 지운다 (vnv)")
+            errs.append(f"{p.as_posix()}: 시나리오 `{by_iri[src[0]]['slug']}` 가 더는 내지 않는 생성 테스트 케이스다 — 지운다 (vnv)")
         if all_generated and not mine:
-            errs.append(f"{p.as_posix()}: 생성기 밖의 케이스다(generated.by {ACTOR} 아님) — concrete 케이스는 사람이 쓰지 않는다 (p8-case-generation)")
+            errs.append(f"{p.as_posix()}: 생성기 밖의 테스트 케이스다(generated.by {ACTOR} 아님) — concrete 테스트 케이스는 사람이 쓰지 않는다 (p8-case-generation)")
     return errs
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--root", default=".")
-    ap.add_argument("--scenario", action="append", default=[], help="입력 자극 청크(여러 번). 생성 모드에서 없으면 kb/vv/scenario 를 훑는다")
-    ap.add_argument("--out", default="", help="생성 케이스를 쓸 디렉토리 — 생성 모드에서 필수")
+    ap.add_argument("--scenario", action="append", default=[], help="입력 자극 단위 지식(여러 번). 생성 모드에서 없으면 kb/vv/scenario 를 훑는다")
+    ap.add_argument("--out", default="", help="생성 테스트 케이스를 쓸 디렉토리 — 생성 모드에서 필수")
     ap.add_argument("--check", action="store_true", help="쓰지 않고 --cases 의 트리와 비교. 어긋나면 1")
     ap.add_argument("--cases", default=CASE_DIR, help="--check 의 비교 대상 디렉토리 (--root 기준)")
-    ap.add_argument("--all-generated", action="store_true", help="--check 에서 케이스 디렉토리의 모든 케이스가 생성기의 것인지도 본다")
+    ap.add_argument("--all-generated", action="store_true", help="--check 에서 테스트 케이스 디렉토리의 모든 테스트 케이스가 생성기의 것인지도 본다")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 --root 기준")
     ap.add_argument("--odd", default="", help=f"ODD 문서 — 안 주면 <root>/{ODD_FILE}")
     a = ap.parse_args()
     root = Path(a.root)
     if not a.check and not a.out:
-        print(f"FAIL [{GEN}] --out 이 없다 — 생성 케이스를 쓸 디렉토리를 준다(저장소 반영은 vnv 가 `--out {CASE_DIR}` 로 한다)")
+        print(f"FAIL [{GEN}] --out 이 없다 — 생성 테스트 케이스를 쓸 디렉토리를 준다(저장소 반영은 vnv 가 `--out {CASE_DIR}` 로 한다)")
         return EXIT_CONFIG
     try:
         apply_plane_level_state(*load_plane_level_state(Path(a.residency) if a.residency else root / "defs" / "kb.bzl"))
@@ -578,11 +594,11 @@ def main() -> int:
         for e in errs:
             print(f"FAIL [{DRIFT}] {e}")
         if errs:
-            print(f"\nFAIL [{DRIFT}] — 어긋남 {len(errs)}건 / 시나리오 {len(scenarios)}개 · 생성 케이스 {n}개")
+            print(f"\nFAIL [{DRIFT}] — 어긋남 {len(errs)}건 / 시나리오 {len(scenarios)}개 · 생성 테스트 케이스 {n}개")
             return EXIT_FAIL
-        print(f"PASS [{DRIFT}] — " + (f"시나리오 {len(scenarios)}개 · 생성 케이스 {n}개가 트리와 일치" if scenarios else
+        print(f"PASS [{DRIFT}] — " + (f"시나리오 {len(scenarios)}개 · 생성 테스트 케이스 {n}개가 트리와 일치" if scenarios else
                                      "대상 시나리오 0개 — 목록이 비어 있어 비교할 생성 결과가 없다")
-              + (" · 생성기 밖의 케이스 0" if a.all_generated else ""))
+              + (" · 생성기 밖의 테스트 케이스 0" if a.all_generated else ""))
         return EXIT_OK
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -590,7 +606,7 @@ def main() -> int:
         for name, text in made.items():
             (out / name).write_text(text, encoding="utf-8")
     print(f"생성 {n}개 — 시나리오 {len(scenarios)}개 → {out.as_posix()}"
-          + ("" if scenarios else f" (입력 없음: `{SCENARIO_DIR}` 에 keep·cover 펜스를 가진 logical 자극 청크가 없다)"))
+          + ("" if scenarios else f" (입력 없음: `{SCENARIO_DIR}` 에 keep·cover 펜스를 가진 logical 자극 단위 지식이 없다)"))
     return EXIT_OK
 
 

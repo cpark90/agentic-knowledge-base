@@ -1,5 +1,5 @@
 # shape — 요구 문장의 본문 틀 둘: 개발 요구(kb/dev/requirement)와 검증 목표(kb/vv/goal). 슬롯마다 등록 질문 하나 (결정 p4-slot-answers-one-question)
-# 현행 형태를 그대로 기술한다. 새 슬롯을 요구하지 않는다 — 2026-09-22 실측에서 요구 35·검증 목표 33 이 전부 아래 둘 중 하나를 따랐다.
+# 현행 형태를 그대로 기술한다. 새 슬롯을 요구하지 않는다 — 2026-09-22 측정에서 요구 35·검증 목표 33 이 전부 아래 둘 중 하나를 따랐다.
 # 슬롯 표지의 값은 xsd:string 이다 — 형이 없으면 언어 태그가 붙은 리터럴이나 IRI 가 슬롯 표지로 통과한다 (M5 값의 형, 2026-09-26).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .

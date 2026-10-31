@@ -7,7 +7,7 @@ title: function check_strip in tools/vv_run_env_test.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run-env-test}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-26T10:39:33Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/34277117-5c2c-4fcc-9a6d-fa0bb51bac85]
 part_of: https://agentic-knowledge-base.dev/id/composite/78211421-fa91-4809-8250-0a840db49298
@@ -32,7 +32,7 @@ def check_strip() -> list[str]:
     left = [n for n in EXPECTED_ENV if n in env]
     if left:
         msgs.append(f"FAIL [{GATE}] clean_env(): {', '.join(left)} 이 남았다 — "
-                    "케이스의 명령이 실행기의 파이썬 문맥을 물려받는다")
+                    "테스트 케이스의 명령이 실행기의 파이썬 문맥을 물려받는다")
     if env.get(SENTINEL) != "keep":
         msgs.append(f"FAIL [{GATE}] clean_env(): 다섯 밖의 변수 {SENTINEL} 까지 사라졌다 — "
                     "격리는 환경을 비우는 것이 아니라 다섯을 걷어내는 것이다")

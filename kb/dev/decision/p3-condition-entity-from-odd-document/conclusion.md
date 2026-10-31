@@ -8,8 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:12:48+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T19:33:52+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T19:33:52+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/a42db8cd-3f7e-443f-bb88-61ac79945d82
 composite: {id: https://agentic-knowledge-base.dev/id/composite/a42db8cd-3f7e-443f-bb88-61ac79945d82, title_ko: 조건 개체의 저작, title: Authoring condition entities}
@@ -25,3 +25,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/a42db8cd-3f7e-44
 
 - **등록 없는 조건을 만들지 않는다.** 생성기는 `MODULES`에 쓰인 속성만 조건 개체로 내고 그 전부를 `agt:hasCondition`에 올린다.
 - 분류 셋은 `p0-condition-taxonomy-extensible`이 정한다. 판정 방법과 등급은 같은 결정과 `p3-odd-required-sections`가 정한다.
+
+**게이트** (노트 3.3절, verify) — ODD에 없는 조건을 참조하는 적용 범위, 가정, 시나리오 변수는 `validate`의 `odd-ref`가 거부한다. 해소는 ODD를 먼저 확장하거나(developer, design 겸임) 참조를 정정하는 것이다.

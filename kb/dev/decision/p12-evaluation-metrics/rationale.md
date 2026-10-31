@@ -7,12 +7,12 @@ title: The omission rate splits by two denominators, and measurement replays rec
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/a4a5acea-aaed-4439-ac17-164495f5927c
 ---
 **근거** (노트 12.3절)
 
-- **인지능력의 분모가 둘이다.** 지식 베이스 전체 대비 누락은 **스코프 설계
+- **인지능력의 분모가 둘이다.** 지식 베이스 전체 대비 누락은 **적용 범위 설계
   문제**이고, 작업 집합 대비 누락은 **에이전트 문제**다. 둘을 합치면 누구를
   고쳐야 하는지가 사라진다.
 - 측정은 7.9절 에이전트 검증 3단계(시뮬레이션 프로젝트)에 기록된 작업 집합을

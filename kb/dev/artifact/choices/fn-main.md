@@ -7,10 +7,9 @@ title: function main in tools/choices.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-choices}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T16:38:13Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
-uses: [https://agentic-knowledge-base.dev/id/chunk/0fa7a40a-c96a-4ddd-956f-2d07695d77a4, https://agentic-knowledge-base.dev/id/chunk/104f7d3c-d114-46c9-aab7-b44761117813, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/27565539-2b3a-4beb-b476-f7ac8360c2de, https://agentic-knowledge-base.dev/id/chunk/5c3f6ad5-769e-4850-970b-a137fa5ebc55, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e, https://agentic-knowledge-base.dev/id/chunk/f8483d91-de06-4c00-a478-83481e91771e]
+uses: [https://agentic-knowledge-base.dev/id/chunk/0fa7a40a-c96a-4ddd-956f-2d07695d77a4, https://agentic-knowledge-base.dev/id/chunk/104f7d3c-d114-46c9-aab7-b44761117813, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/27565539-2b3a-4beb-b476-f7ac8360c2de, https://agentic-knowledge-base.dev/id/chunk/464fe842-81a3-438f-901c-e9cef6f1dc88, https://agentic-knowledge-base.dev/id/chunk/5c3f6ad5-769e-4850-970b-a137fa5ebc55, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e, https://agentic-knowledge-base.dev/id/chunk/f8483d91-de06-4c00-a478-83481e91771e]
 part_of: https://agentic-knowledge-base.dev/id/composite/6c9da832-fd4f-4fba-a0f6-33561303de46
 ---
 **함수** — `main()` 다.
@@ -35,8 +34,8 @@ def main() -> int:
     for s in sorted(g.subjects(RDF.type, AGT.Space), key=str):
         links = sorted(g.objects(s, AGT.hasCandidate), key=str)
         # 선호는 후보 사이의 부분순서다 — 링크 IRI 가 아니라 그 후보의 이름으로 읽힌다 (p4-label-is-the-interface)
-        named = {l: (lambda t: name(g, t) if t is not None else kb_lib.NONE_MARK)(next(g.objects(l, AGT.linkTo), None))
-                 for l in links}
+        named = {l: (lambda t: name(g, t) if t is not None else kb_lib.NONE_MARK)(kb_lib.space_candidate_of(g, s, l))
+                 for l in links}  # 후보 쪽 끝은 방향 표(kb_lib.SPACE_CANDIDATE_DIRECTION)가 정한다
         cands = []
         for link in links:
             state = one(g, link, AGT.linkState)
@@ -68,7 +67,7 @@ def main() -> int:
         "`[ ]` 는 열린 후보, `[-]` 는 배제된 후보와 그 근거, `[x]` 는 확정된 후보다. 고르는 일은 이 뷰에서 하지 않는다",
         "bazel build //space:choices", a.files,
         f"설계 공간 {len(spaces)}개 · 후보 {total}개",
-        kb_lib.gendoc_view_notice("`space/` 의 `-space` 청크"), input_kind="그래프 파일")
+        kb_lib.gendoc_view_notice("`space/` 의 설계 공간(`-space`)"), input_kind="그래프 파일")
 
     lines = ["## 요약", "",
              "| 항목 | 값 |", "|---|---|",
@@ -80,7 +79,7 @@ def main() -> int:
              f"| 확정된 후보 `[x]` | {kb_lib.pct(count(kb_lib.LINK_STATE_CONFIRMED), total)} |",
              "", "## 변수", ""]
     if not spaces:
-        lines += [f"설계 공간이 {kb_lib.NONE_MARK}. `space/` 에 `-space` 청크를 두면 여기 나온다.", ""]
+        lines += [f"설계 공간이 {kb_lib.NONE_MARK}. `space/` 에 설계 공간(`-space`)을 두면 여기 나온다.", ""]
     for s in spaces:
         lines += [f"### {s['ko']} {QUOTE}", "",
                   f"- 변수: {s['from']} 의 `{s['kind']}` · 상태 {s['status']} · `{s['loc']}` {QUOTE}", ""]

@@ -6,5 +6,6 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?from ?kind ?to ?state ?polarity ?evidenceKind WHERE {
   ?link a agt:Link ; agt:linkFrom ?from ; agt:linkTo ?to ; agt:linkKind ?kind ; agt:linkState ?state .
   FILTER(?state IN ("candidate", "invalid"))
-  OPTIONAL { ?link agt:hasEvidence ?evidence . ?evidence agt:polarity ?polarity ; agt:evidenceKind ?evidenceKind }
+  OPTIONAL { ?link agt:hasEvidence ?evidence . ?evidence agt:polarity ?rawPolarity ; agt:evidenceKind ?evidenceKind }
+  BIND(IF(?rawPolarity = "-", "−", ?rawPolarity) AS ?polarity)   # 표시 표기 — 반박은 U+2212 다 (kb_lib.POLARITY_MARK). 그래프 값은 그대로다
 } ORDER BY ?from ?kind ?state ?to

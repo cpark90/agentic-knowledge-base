@@ -1,4 +1,4 @@
-# 청크 — plane 하위 클래스: plane 8개, 판정 방식으로 정의된다 (노트 4.2절, 5.1절 v3)
+# 단위 지식 — 지식 종류별 하위 클래스: 지식 종류 8개, 판정 방식으로 정의된다 (노트 4.2절, 5.1절 v3)
 # 순서(변화 속도): requirement → decision → contract·schema → artifact → annotation → memory → norm(규범 문서의 절 — 결정의 투영)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -7,40 +7,40 @@
 
 agt:RequirementChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;
-    rdfs:label "requirement chunk"@en , "요구 청크"@ko ;
-    skos:definition "requirement plane의 청크 — 이해관계자와 관심사를 명시한 요구 문장(EARS 권장). 판정은 이해관계자 합의이고 변화가 가장 느린 최상위 plane이며 functional level 전용이다. 주석의 합의와 다르다 — 요구의 합의는 '이것을 원한다'에 대한 동의로 정제 계층의 출발점이다 (5.1절). 게이트: residency-shapes(원본 defs/kb.bzl RESIDENCY, residency 게이트가 동일성 강제)."@ko .
+    rdfs:label "requirement chunk"@en , "요구 단위 지식"@ko ; skos:hiddenLabel "요구 지식 항목"@ko , "요구 청크"@ko ;
+    skos:definition "requirement 지식 종류의 항목 — 이해관계자와 관심사를 명시한 요구 문장(EARS 권장). 판정은 '이것을 원한다'에 대한 합의이고 변화가 가장 느린 최상위 지식 종류이며 functional 전용이고 정제 계층의 출발점이다 (5.1절). 게이트: residency-shapes·residency(원본 RESIDENCY)."@ko .
 
 agt:DecisionChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;
-    rdfs:label "decision chunk"@en , "결정 청크"@ko ;
-    skos:definition "decision plane의 청크. 결론·근거·대안·규약 중 하나의 역할을 갖는 구조화 산문이며, 결정 하나는 결론·근거·대안 세 청크와 선택 규약 청크(conventions.md — 규범 문서에 실릴 `규약:` 줄, p4-convention-slot)의 복합체다. 세 청크는 필수이고 규약 청크는 실릴 문장이 있을 때만 둔다. abstract~concrete에 거주한다 (4.2절, 4.7절, 4.12절). 게이트: residency-shapes(원본 defs/kb.bzl RESIDENCY, residency 게이트가 동일성 강제)."@ko .
+    rdfs:label "decision chunk"@en , "결정 단위 지식"@ko ; skos:hiddenLabel "결정 지식 항목"@ko , "결정 청크"@ko ;
+    skos:definition "decision 지식 종류의 항목. 결론·근거·대안(필수)·규약(선택, conventions.md, p4-convention-slot) 중 한 역할의 산문이고 넷이 결정 하나를 이룬다. abstract~concrete에 거주한다 (4.2절, 4.7절, 4.12절). 게이트: residency-shapes·residency(원본 RESIDENCY)."@ko .
 
 agt:ContractChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;
-    rdfs:label "contract chunk"@en , "계약 청크"@ko ;
-    skos:definition "contract plane의 청크. 언어 네이티브 선언 (4.12절)."@ko .
+    rdfs:label "contract chunk"@en , "계약 단위 지식"@ko ; skos:hiddenLabel "계약 지식 항목"@ko , "계약 청크"@ko ;
+    skos:definition "contract 지식 종류의 항목. 언어 네이티브 선언 (4.12절)."@ko .
 
 agt:SchemaChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;
-    rdfs:label "schema chunk"@en , "스키마 청크"@ko ;
-    skos:definition "schema plane의 청크. 스키마 언어로 쓴 본문 (4.12절)."@ko .
+    rdfs:label "schema chunk"@en , "스키마 단위 지식"@ko ; skos:hiddenLabel "스키마 지식 항목"@ko , "스키마 청크"@ko ;
+    skos:definition "schema 지식 종류의 항목. 스키마 언어로 쓴 본문 (4.12절)."@ko .
 
 agt:ArtifactChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;
-    rdfs:label "artifact chunk"@en , "산출물 청크"@ko ;
-    skos:definition "artifact plane의 청크. 언어 네이티브 코드. 본문은 심볼로 해석된다 (4.9절)."@ko .
+    rdfs:label "artifact chunk"@en , "산출물 단위 지식"@ko ; skos:hiddenLabel "산출물 지식 항목"@ko , "산출물 청크"@ko ;
+    skos:definition "artifact 지식 종류의 항목. 언어 네이티브 코드. 본문은 심볼로 해석된다 (4.9절)."@ko .
 
 agt:AnnotationChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;
-    rdfs:label "annotation chunk"@en , "주석 청크"@ko ;
-    skos:definition "annotation plane의 청크. 대상 청크 IRI를 동반한 산문 (4.12절)."@ko .
+    rdfs:label "annotation chunk"@en , "주석 단위 지식"@ko ; skos:hiddenLabel "주석 지식 항목"@ko , "주석 청크"@ko ;
+    skos:definition "annotation 지식 종류의 항목. 대상 IRI를 동반한 산문 (4.12절)."@ko .
 
 agt:MemoryChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;
-    rdfs:label "memory chunk"@en , "기억 청크"@ko ;
-    skos:definition "memory plane의 청크. 구조화 관측(시각·행동·situation 요약). 승격 규칙에 따라 주제 plane으로 올라간다 — 승격은 리뷰 규범이다 (9.4절)."@ko .
+    rdfs:label "memory chunk"@en , "기억 단위 지식"@ko ; skos:hiddenLabel "기억 지식 항목"@ko , "기억 청크"@ko ;
+    skos:definition "memory 지식 종류의 항목. 구조화 관측(시각·행동·situation 요약). 승격 규칙(리뷰 규범)으로 주제 지식 종류에 오른다 (9.4절)."@ko .
 
 agt:DocumentSectionChunk a owl:Class ;
     rdfs:subClassOf agt:Chunk ;
-    rdfs:label "document section chunk"@en , "절 청크"@ko ;
-    skos:definition "norm plane의 청크. 규범 문서(STYLEGUIDE·rules·method·AGENTS)의 절 하나를 투영하는 골격으로, 절 제목·깊이·도입 산문과 그 절에 실을 결정의 `규약:` 줄의 순서를 담는다. 문장 자체는 결정의 규약 청크에 있고 이 청크는 어느 줄을 어디에 싣는가만 정한다 — 손 문서가 두 번째 원본이 되지 않게 하려는 자리다. 문서 하나가 `kb/dev/norm/<문서 stem>/`의 복합체 하나이고 머리 청크는 문서 도입문·범례를 담는다. logical에만 거주한다 (결정 p12-norm-documents-from-section-chunks, 유저 답 Q21-a). 게이트: residency-shapes · norm-section-shapes · gen-norms · norms-drift."@ko .
+    rdfs:label "document section chunk"@en , "절 단위 지식"@ko ; skos:hiddenLabel "절 지식 항목"@ko , "절 청크"@ko ;
+    skos:definition "norm 지식 종류의 항목. 규범 문서(STYLEGUIDE·rules·method·AGENTS)의 절 하나의 골격으로, 절 제목·깊이·도입 산문과 그 절에 실을 `규약:` 줄의 순서를 담는다. 문장은 결정의 규약에 두어 손 문서가 두 번째 원본이 되지 않게 한다. logical에만 거주한다 (결정 p12-norm-documents-from-section-chunks, 유저 답 Q21-a). 게이트: residency-shapes · norm-section-shapes · gen-norms · norms-drift."@ko .

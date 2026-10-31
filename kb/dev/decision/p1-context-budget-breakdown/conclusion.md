@@ -5,10 +5,10 @@ level: concrete
 title_ko: 컨텍스트 예산은 항목별로 분해하고 지식 본문은 잔여로 둔다
 title: Decompose the context budget; knowledge body gets the remainder
 status: deprecated
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0036-agent-narrow-context-premise.md, id: https://agentic-knowledge-base.dev/id/chunk-d0036, title_ko: "200줄 컨텍스트가 모든 결정의 출발점", title: "The 200-line context is the origin of every decision"}, {resource: git:aeb0a58:chunks/decision/d-0041-context-budget-breakdown.md, id: https://agentic-knowledge-base.dev/id/chunk-d0041, title_ko: "컨텍스트 예산을 항목별로 분해하고 통제한다", title: "Break down the context budget and control each item"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-06T01:13:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T01:13:52+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T01:13:52+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08, https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8, https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0036, https://agentic-knowledge-base.dev/id/chunk-d0041]
 part_of: https://agentic-knowledge-base.dev/id/composite/ee6bf20f-7b60-4ee8-8681-af13f995682d
@@ -16,14 +16,14 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/ee6bf20f-7b60-4e
 ---
 **결론** — 에이전트가 한 번에 파악하는 맥락은 200줄 안팎이고, 이 수치가 모든
 결정의 출발점이다. 200줄은 전부 지식에 쓰이지 않으므로 예산을 항목별로 분해해
-각각 다른 수단으로 통제하고, **지식 청크 본문은 잔여**로 둔다.
+각각 다른 수단으로 통제하고, **단위 지식 본문은 잔여**로 둔다.
 
 | 항목 | 예상 소비 | 통제 수단 |
 |---|---|---|
 | 하네스 지시 (역할·규칙) | 고정 | 짧게 — 온톨로지 어휘로 압축 |
-| 작업 집합 (0.5절) | 라벨 목록 + 펼친 청크 | 스코프가 상한 |
+| 작업 집합 (0.5절) | 라벨 목록 + 펼친 단위 지식 | 적용 범위가 상한 |
 | 툴 출력 | 가변, 위험 | 5.3절 읽기 응답 형태로 제한 |
 | 대화 이력 | 누적 | 실행 모드(10.3절)로 주기적 비우기 |
-| 지식 청크 본문 | **남는 것** | 해당 없음 |
+| 단위 지식 본문 | **남는 것** | 해당 없음 |
 
-미확정: 200줄·42줄 전제가 실측으로 성립하는가. 상세는 `https://agentic-knowledge-base.dev/id/chunk/3ab6d43d-0193-4275-bb9f-5246da93b88a`다.
+미확정: 200줄·42줄 전제가 측정으로 성립하는가. 상세는 `https://agentic-knowledge-base.dev/id/chunk/3ab6d43d-0193-4275-bb9f-5246da93b88a`다.

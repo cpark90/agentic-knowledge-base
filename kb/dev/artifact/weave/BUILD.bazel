@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -18,9 +18,11 @@ kb_composite(
         "cls-Model.md",
         "fn-_audit_assumptions.md",
         "fn-_audit_comments.md",
+        "fn-_audit_draft_ends.md",
         "fn-_audit_latest_run.md",
         "fn-_audit_links.md",
         "fn-_audit_matrix.md",
+        "fn-_audit_polarity.md",
         "fn-_audit_risk_goals.md",
         "fn-_audit_verification.md",
         "fn-_audit_verified.md",
@@ -42,6 +44,7 @@ kb_composite(
         "fn-supersedes_chain.md",
         "head.md",
         "module.md",
+        "sec--audit-links.md",
         "sec--audit-verification.md",
         "sec-decision-section.md",
         "sec-model.md",

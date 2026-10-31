@@ -12,12 +12,12 @@ agt:MisreadingFactor a owl:Class ;
 agt:OmittedInputFactor a owl:Class ;
     rdfs:subClassOf agt:CognitiveFactor ;
     rdfs:label "omitted input"@en , "누락"@ko ;
-    skos:definition "필요한 입력이 작업 집합 밖에 있어 생기는 요인. 스코프 설계 문제이고 실행 요인의 한정자 missing 과 다르다 — 전자는 입력의 부재, 후자는 산출물의 부재다 (8.17절)."@ko .
+    skos:definition "필요한 입력이 작업 집합 밖에 있어 생기는 요인. 적용 범위 설계 문제이고 실행 요인의 한정자 missing 과 다르다 — 전자는 입력의 부재, 후자는 산출물의 부재다 (8.17절)."@ko .
 
 agt:StaleInputFactor a owl:Class ;
     rdfs:subClassOf agt:CognitiveFactor ;
     rdfs:label "stale input"@en , "낡음"@ko ;
-    skos:definition "입력이 suspect·invalidated 인데 valid 로 취급된 요인. 고칠 자리는 무효화 전파와 재판정이다 (8.17절)."@ko .
+    skos:definition "입력이 suspect·invalidated 인데 valid 로 취급된 요인. 고칠 자리는 무효화 전파와 재검증이다 (8.17절)."@ko .
 
 agt:MisrecognitionFactor a owl:Class ;
     rdfs:subClassOf agt:CognitiveFactor ;

@@ -7,9 +7,9 @@ title: Five roles write to the V&V KB; criteria author and verifier author work 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-12T11:50:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 layer: methodology
-verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-12T11:50:00+09:00}]
+verified: [{by: orchestrator/claude-fable-5-1, at: 2026-09-12T11:50:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7, https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193, https://agentic-knowledge-base.dev/id/chunk/ba638521-e9b0-4c38-b073-44230ac22785]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/666bd423-dc26-4857-9841-c1e3aa131223, title_ko: V&V 역할, title: V&V roles}
 part_of: https://agentic-knowledge-base.dev/id/composite/666bd423-dc26-4857-9841-c1e3aa131223
@@ -20,8 +20,8 @@ part_of: https://agentic-knowledge-base.dev/id/composite/666bd423-dc26-4857-9841
 |---|---|---|---|
 | V&V engineer | `requirement`·`decision`·`contract`·`schema`(vv) | 개발 KB 전부 | 검증 목표·시나리오·기준 저작 |
 | 검증기 저자 | `artifact`(vv) | 개발 KB `contract`·`schema`, V&V 기준 | 검증기 구현 |
-| executor (하네스) | `memory`(vv) | 케이스, 검증기 | 실행·관측 기록 |
+| executor (하네스) | `memory`(vv) | 테스트 케이스, 검증기 | 실행·관측 기록 |
 | judge | `annotation`(vv) | 실행 기록, 기준 | 결함 분류, 통과/실패 확정 |
 | audit | 없음 | 두 KB 전부 | 독립성·커버리지 감사 |
 
-작은 팀에서는 한 에이전트가 engineer와 author를 맡되 **다른 세션**에서 한다. judge는 학습된 판정자일 수 있고(8.14절), 그 경우 판정 결과가 청크 head `verified` 목록에 남으며 사람 승인이 `stable` 전이의 조건이다.
+작은 팀에서는 한 에이전트가 engineer와 author를 맡되 **다른 세션**에서 한다. judge는 학습된 판정자일 수 있고(8.14절), 그 경우 판정 결과가 단위 지식 head `verified` 목록에 남으며 사람 승인이 `stable` 전이의 조건이다.

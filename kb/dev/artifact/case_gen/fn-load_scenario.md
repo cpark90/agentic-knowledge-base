@@ -7,20 +7,20 @@ title: function load_scenario in tools/case_gen.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-case-gen}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-04T04:52:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/b23dee78-99ba-49f8-bcde-88ea157cbe7a, https://agentic-knowledge-base.dev/id/chunk/d4776922-4147-4da3-a80b-caafc1acc6ac]
 part_of: https://agentic-knowledge-base.dev/id/composite/10ce940e-ae6b-4b2e-8d0e-3bb5448ae88e
 ---
-**함수** — `load_scenario(path)` 다. 자극 청크 → {path, slug, iri, at, sources, assumes, spec}.
+**함수** — `load_scenario(path)` 다. 자극 단위 지식 → {path, slug, iri, at, sources, assumes, spec, status, verified_at}.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def load_scenario(path: Path) -> dict:
-    """자극 청크 → {path, slug, iri, at, sources, assumes, spec}. logical `decision` 이 아니거나 입력 펜스가 없으면 거부한다."""
+    """자극 단위 지식 → {path, slug, iri, at, sources, assumes, spec, status, verified_at}. logical `decision` 이 아니거나 입력 펜스가 없으면 거부한다."""
     meta, body = parse_chunk(str(path))
     if meta["type"] != "decision" or meta["level"] != "logical":
-        raise CaseGenError(f"{path}: 케이스의 입력은 logical 시나리오(`decision`·`logical`)다 — 실제 {meta['type']}·{meta['level']} "
+        raise CaseGenError(f"{path}: 테스트 케이스의 입력은 logical 시나리오(`decision`·`logical`)다 — 실제 {meta['type']}·{meta['level']} "
                            f"(p8-scenario-ladder-rungs: 변수 범위는 logical 높이에서 채운다)")
     fences = [f for f in vv_run.yaml_blocks(body) if all(h.search(f) for h in INPUT_HEAD)]
     if len(fences) != 1:
@@ -32,9 +32,15 @@ def load_scenario(path: Path) -> dict:
     raw = raw_frontmatter(path.read_text(encoding="utf-8"))
     at = re.search(r"\bat:\s*([^,}\s]+)", raw.get("generated", ""))
     if not at:
-        raise CaseGenError(f"{path}: generated.at 이 없다 — 케이스의 생성 시각은 입력 시나리오의 시각이다(재생성이 바이트로 같아야 한다)")
+        raise CaseGenError(f"{path}: generated.at 이 없다 — 테스트 케이스의 생성 시각은 입력 시나리오의 시각이다(재생성이 바이트로 같아야 한다)")
     slug = path.stem[: -len(STIMULUS_SUFFIX)] if path.stem.endswith(STIMULUS_SUFFIX) else path.stem
+    # 테스트 케이스는 시나리오의 상태를 물려받는다 (p8-case-generation 규약 셋째 줄, 유저 답 Q131-a) — stable 이고 검증 표시가 있으면 stable 이고
+    # 재검증 표시는 process:case_gen 이 시나리오의 마지막 verified.at 을 원문 그대로 단다(실행 시각을 쓰지 않아 재생성이 바이트로 같다).
+    # 그 밖은 draft 이고 표시가 없다
+    ats = re.findall(r"\bat:\s*([^,}\s]+)", raw.get("verified", ""))
+    stable = meta.get("status") == "stable" and bool(ats)
     return {"path": path, "slug": slug, "iri": meta["id"], "at": at.group(1), "sources": raw.get("sources", ""),
-            "assumes": raw.get("assumes", ""), "spec": spec}
+            "assumes": raw.get("assumes", ""), "spec": spec, "status": "stable" if stable else "draft",
+            "verified_at": max(ats, key=datetime.fromisoformat) if stable else None}
 ```
 <!-- 인용 끝 -->

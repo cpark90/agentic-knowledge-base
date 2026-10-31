@@ -7,18 +7,18 @@ title: function discover in tools/tokens.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-tokens}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-01T11:03:13Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/ee6ebd51-06bf-439a-875f-bf4afa341c35
 ---
-**함수** — `discover(root)` 다. 인자가 없을 때의 대상 — 청크 디렉토리의 frontmatter 있는 `.md` 와 저작 접미의 `.ttl` 전부다
+**함수** — `discover(root)` 다. 인자가 없을 때의 대상 — 단위 지식 디렉토리의 frontmatter 있는 `.md` 와 저작 접미의 `.ttl` 전부다
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def discover(root: Path) -> list[Path]:
-    """인자가 없을 때의 대상 — 청크 디렉토리의 frontmatter 있는 `.md` 와 저작 접미의 `.ttl` 전부다 (경로 정렬).
+    """인자가 없을 때의 대상 — 단위 지식 디렉토리의 frontmatter 있는 `.md` 와 저작 접미의 `.ttl` 전부다 (경로 정렬).
 
-    분모는 **게이트가 판정하는 전 청크**여야 한다 — `chunk_lint` 는 `.md` 와 `.ttl` 을 같은 상한으로 보므로
+    분모는 **게이트가 판정하는 전 단위 지식**이어야 한다 — `chunk_lint` 는 `.md` 와 `.ttl` 을 같은 상한으로 보므로
     온톨로지 모듈·shape 도 여기 든다 (2026-10-01 정정).
     """
     out = []

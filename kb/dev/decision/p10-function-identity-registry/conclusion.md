@@ -8,12 +8,12 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-30T14:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T23:00:30+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/fa336de6-3b07-45c0-9b66-b41ce2cdbcba
 composite: {id: https://agentic-knowledge-base.dev/id/composite/fa336de6-3b07-45c0-9b66-b41ce2cdbcba, title_ko: 함수 정체성의 등록부, title: The registry of function identity}
 ---
-**결론** — 함수 청크의 uuid는 생성되지 않는다. 파일마다 **등록부**(사이드카)가 `한정 이름 → uuid`를 갖고 그것이 정체성의 원본이다. 이름은 라벨, `contentHash`는 버전이다(`p10-split-keeps-work-identity`와 같은 사상).
+**결론** — 함수의 uuid는 생성되지 않는다. 파일마다 **등록부**(사이드카)가 `한정 이름 → uuid`를 갖고 그것이 정체성의 원본이다. 이름은 라벨, `contentHash`는 버전이다(`p10-split-keeps-work-identity`와 같은 사상).
 
 | 상황 | 추출기의 판정 |
 |---|---|

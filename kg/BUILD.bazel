@@ -8,30 +8,29 @@ filegroup(
     srcs = glob(["*-kg.ttl"]),
 )
 
-# 청크 head 그래프 — 타깃별 조각(KgInfo)의 병합 (4.3절, bazel-dependency-review 5단계). 바뀐 타깃의 조각만 다시 만들어진다.
+# 단위 지식 head 그래프 — 타깃별 조각(KgInfo)의 병합 (4.3절, bazel-dependency-review 5단계). 바뀐 타깃의 조각만 다시 만들어진다.
 kb_kg_merge(
     name = "chunks_kg",
     out = "chunks-kg.ttl",
     deps = [
-        "//chunks/decision:kg",  # v1 결정 153 — 재도출 후 deprecated로 남는다
-        "//kb/dev/artifact:kg",  # 추출된 코드 청크 (artifact plane) — tools/extract.py 의 생성물, gen_build 가 타깃으로 만든다
-        "//kb/dev/contract:kg",  # 시그니처 (contract plane) — Q79-a, gen_build 가 타깃으로 만든다
+        "//kb/dev/artifact:kg",  # 추출된 코드 단위 지식 (`artifact` 지식 종류) — tools/extract.py 의 생성물, gen_build 가 타깃으로 만든다
+        "//kb/dev/contract:kg",  # 시그니처 (`contract` 지식 종류) — Q79-a, gen_build 가 타깃으로 만든다
         "//kb/dev/decision:kg",
-        "//kb/dev/memory:kg",  # 관측 (memory plane) — assume_check --record 의 생성물, gen_build 가 타깃으로 만든다
-        "//kb/dev/norm:kg",  # 규범 문서의 절 청크 (norm plane) — 문서마다 복합체 하나, gen_build 가 타깃으로 만든다
+        "//kb/dev/memory:kg",  # 관측 (`memory` 지식 종류) — assume_check --record 의 생성물, gen_build 가 타깃으로 만든다
+        "//kb/dev/norm:kg",  # 규범 문서의 절 항목 (`norm` 지식 종류) — 문서마다 복합체 하나, gen_build 가 타깃으로 만든다
         "//kb/dev/requirement:kg",
-        # V&V KB (7단계) — 디렉토리 = plane (pe-storage-layout), gen_build 가 타깃으로 만든다. 비어 있어도 된다
+        # V&V KB (7단계) — 디렉토리 = 지식 종류 (pe-storage-layout), gen_build 가 타깃으로 만든다. 비어 있어도 된다
         "//kb/vv/case:kg",
         "//kb/vv/criteria:kg",
         "//kb/vv/goal:kg",
-        "//kb/vv/run:kg",  # 실행 기록 (memory plane, append-only) — vv_run --record 의 생성물
+        "//kb/vv/run:kg",  # 실행 기록 (`memory` 지식 종류, append-only) — vv_run --record 의 생성물
         "//kb/vv/scenario:kg",
-        "//kb/vv/verdict:kg",  # 판정 주석 (annotation plane) — 논평, p7-commentary-form
+        "//kb/vv/verdict:kg",  # 판정 주석 (`annotation` 지식 종류) — 논평, p7-commentary-form
         "//kb/vv/verifier:kg",
     ],
 )
 
-# 게이트 그래프 — 게이트 등록부(//defs:kb.bzl 의 GATES)에서 생성 (M1 단일 정의처, 2026-10-02). 손으로 쓰지 않는다.
+# 게이트 그래프 — 게이트 등록부(//defs:kb.bzl 의 GATES)에서 생성 (M1 단일 정의 위치, 2026-10-02). 손으로 쓰지 않는다.
 # 게이트는 프로세스 층의 **항목**이라 그래프에 개체가 서야 층별 집계(CQ-38)가 셀 자리를 갖는다
 # (결정 p0-service-is-a-three-layer-wiki). agt:judgedBy 의 대상은 도구의 파일 복합체이므로 등록부 사이드카가 입력이다
 genrule(
@@ -44,7 +43,7 @@ genrule(
 )
 
 # 투영 그래프 — 뷰(//defs:kb.bzl 의 VIEWS)·skill(tools/kb_lib.py 의 SKILLS)의 개체 (유저 답 Q9-a, 2026-10-03). 손으로 쓰지 않는다.
-# 뷰·skill 은 층의 항목이 아니라 원본 도구의 `module` 코드 청크의 투영이다 — prov:wasDerivedFrom 이 그 청크를 가리키고
+# 뷰·skill 은 층의 항목이 아니라 원본 도구의 `module` 코드 단위 지식의 투영이다 — prov:wasDerivedFrom 이 그 단위 지식을 가리키고
 # agt:inLayer 를 갖지 않으므로 층별 집계(CQ-38)에 세어지지 않는다 (결정 p0-service-is-a-three-layer-wiki)
 genrule(
     name = "projections_kg",
@@ -59,7 +58,6 @@ genrule(
 kb_reference_kg(
     name = "references_kg",
     srcs = [
-        "//chunks",
         "//kb/dev",
         "//kb/vv",
     ],
@@ -67,7 +65,7 @@ kb_reference_kg(
     out = "references-kg.ttl",
 )
 
-# 지식그래프 게이트: 통제 어휘(4.4절) + 청크 shape + 가정→ODD 참조(0.4절) + 카탈로그 정합성(:kg 의 catalog-kg × //kb/odd:odd)
+# 지식그래프 게이트: 통제 어휘(4.4절) + 단위 지식 shape + 가정→ODD 참조(0.4절) + 카탈로그 정합성(:kg 의 catalog-kg × //kb/odd:odd)
 # + 설계 공간(//space:design_space 의 *-space) 의 규율 — 후보는 deps 가 아니므로 Bazel 이 로드 시점에 보지 못한다.
 # 그 자리를 게이트 id `space`(validate check_space)가 대신한다 (결정 p9-candidate-storage, 요구 r-011)
 kb_gate_test(
@@ -80,10 +78,9 @@ kb_gate_test(
         ":references_kg",
         "//space:design_space",
     ],
-    # 게이트 element-drop 의 키 전수 대조 입력 — 청크 본문의 frontmatter 를 그래프가 아니라 파일로 읽는다.
+    # 게이트 element-drop 의 키 전수 대조 입력 — 단위 지식 본문의 frontmatter 를 그래프가 아니라 파일로 읽는다.
     # 소비되지 않는 키는 head 그래프에 나타나지 않으므로 생성물만 보면 조용히 버려진 요소를 볼 수 없다 (현상 P19)
     chunk_files = [
-        "//chunks",
         "//kb/dev",
         "//kb/vv",
         "//space",
@@ -92,7 +89,7 @@ kb_gate_test(
     ontology = ["//kb/ontology:modules"],
     shapes = ["//kb/ontology:shapes"],
     standard_vocab = ["@prov_o//file", "@skos//file"],
-    # size = "small" 의 기본 제한 60초에 실측 59~64초가 부딪혀 오늘 TIMEOUT 플레이크가 두 번 났다 — 판정 내용이 아니라
+    # size = "small" 의 기본 제한 60초에 측정 59~64초가 부딪혀 오늘 TIMEOUT 플레이크가 두 번 났다 — 판정 내용이 아니라
     # 예산이 문제이므로 검사를 줄이지 않고 제한만 300초로 올린다 (timeout 은 kb_gate_test 의 **kwargs 로 py_test 에 간다)
     timeout = "moderate",
     verify_queries = "//tools:verify_queries",
@@ -130,7 +127,7 @@ kb_metrics(
     spaces = ["//space:design_space"],  # 후보 링크는 연결로, 열린 공간의 후보 결정은 따로 센다 (유저 결정 Q60-a)
 )
 
-# 감사 보고서 (로드맵 8단계 "복원과 감사", 요구 audit-self-sufficiency) — 입력은 그래프 union 과 관측 청크(kb/vv/run/ 실행 기록 ·
+# 감사 보고서 (로드맵 8단계 "복원과 감사", 요구 audit-self-sufficiency) — 입력은 그래프 union 과 관측(kb/vv/run/ 실행 기록 ·
 # kb/dev/memory/ 가정 판정)뿐이다. 체계 밖 정보 0. bazel build //kg:audit → bazel-bin/kg/audit.md
 kb_weave(
     name = "audit",
@@ -147,6 +144,7 @@ kb_weave(
         "//kb/ontology:modules",
     ],
     kind = "audit",
+    spaces = ["//space:design_space"],  # union 밖 — 증거 극성 절의 설계 공간 출처(evidence · eliminated_by)에만 쓴다 (유저 답 Q117-a)
 )
 
 # 커뮤니티 탐지 뷰 — 복합체 후보·relatedTo 링크 후보 (bazel build //kg:communities → bazel-bin/kg/communities.md). 채택은 사람
@@ -159,10 +157,12 @@ kb_community(
     ],
 )
 
-# 복원 후보 생성기 뷰 (로드맵 8단계 복원) — frontmatter 링크가 없는 쌍의 후보를 체계 안 증거(cites · verifies 공동 커버 · usesConcept)로,
-# 앵커당 k ≤ 7 (bazel build //kg:link_candidates → bazel-bin/kg/link-candidates.md). 확정은 사람이 앵커 청크의 restored: 로 — 게이트가 아니다
+# 복원 후보 생성기 뷰 (로드맵 8단계 복원) — frontmatter 링크가 없는 쌍의 후보를 체계 안 증거(cites · 동시 편집 관측 · verifies 공동 커버 · usesConcept)로,
+# 앵커당 k ≤ 7 (bazel build //kg:link_candidates → bazel-bin/kg/link-candidates.md). 확정은 사람이 앵커 단위 지식의 restored: 로 — 게이트가 아니다
 kb_link_candidates(
     name = "link_candidates",
+    # 동시 편집 관측(bazel run //tools:run_evidence -- --coedit-record) — 뷰는 git 이 아니라 이 관측만 읽는다
+    coedit = ["//kb/dev/memory"],
     data = [
         ":chunks_kg",
         ":kg",  # composite-kg 의 손으로 쓴 복합체 — 형제끼리는 후보가 아니다
@@ -182,8 +182,8 @@ kb_workset_view(
     ],
 )
 
-# 미결 집계 뷰 — 설계 공간(`space/*-space.md`)과 청크의 선택 슬롯 `미확정:` 을 모은다 (p4-three-empty-values, Q54-a).
-# 미결 목록의 유일한 자리이고 손 색인 docs/open-questions.md 를 대체한다(지시 0095). bazel build //kg:open → bazel-bin/kg/open.md
+# 미결 집계 뷰 — 설계 공간(`space/*-space.md`)과 단위 지식의 선택 슬롯 `미확정:` 을 모은다 (p4-three-empty-values, Q54-a).
+# 미결 목록의 유일한 자리이고 손으로 관리하던 미결 색인 문서를 대체한다(지시 0095). bazel build //kg:open → bazel-bin/kg/open.md
 kb_open_questions(
     name = "open",
     bodies = [

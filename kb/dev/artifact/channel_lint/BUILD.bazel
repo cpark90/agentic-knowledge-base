@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -15,23 +15,29 @@ kb_composite(
     name = "module",
     srcs = [
         "fn-body_of.md",
+        "fn-check_directive_record.md",
         "fn-check_links.md",
         "fn-check_message.md",
+        "fn-check_names.md",
         "fn-check_questionnaire.md",
+        "fn-check_register.md",
+        "fn-created_at.md",
         "fn-frontmatter.md",
         "fn-kind_of.md",
+        "fn-load_names.md",
         "fn-main.md",
         "head.md",
         "module.md",
         "sec-check-links.md",
         "sec-check-message.md",
         "sec-check-questionnaire.md",
+        "sec-check-register.md",
         "sec-frontmatter.md",
         "sec-main.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/84c1731c-46ae-469d-a2b2-a52d6615da86",
-    ordered = ["https://agentic-knowledge-base.dev/id/chunk/2b6adf1a-07f9-41ca-b86b-44bcb3041a2a", "https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4-28d1816c56e6", "https://agentic-knowledge-base.dev/id/composite/45faf691-73c6-43a3-b8c9-25f7a11782bc", "https://agentic-knowledge-base.dev/id/composite/f4e440cf-7d39-4f1b-9334-79189a47b8a2", "https://agentic-knowledge-base.dev/id/composite/3740ef5b-1def-406b-ab6d-bbb40f9c7329", "https://agentic-knowledge-base.dev/id/composite/d356c13f-12da-449f-8621-56cdffd536e1"],
-    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2b6adf1a-07f9-41ca-b86b-44bcb3041a2a", "https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4-28d1816c56e6", "https://agentic-knowledge-base.dev/id/composite/45faf691-73c6-43a3-b8c9-25f7a11782bc", "https://agentic-knowledge-base.dev/id/composite/f4e440cf-7d39-4f1b-9334-79189a47b8a2", "https://agentic-knowledge-base.dev/id/composite/3740ef5b-1def-406b-ab6d-bbb40f9c7329", "https://agentic-knowledge-base.dev/id/composite/d356c13f-12da-449f-8621-56cdffd536e1"],
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/2b6adf1a-07f9-41ca-b86b-44bcb3041a2a", "https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4-28d1816c56e6", "https://agentic-knowledge-base.dev/id/composite/45faf691-73c6-43a3-b8c9-25f7a11782bc", "https://agentic-knowledge-base.dev/id/composite/f4e440cf-7d39-4f1b-9334-79189a47b8a2", "https://agentic-knowledge-base.dev/id/composite/30c94888-c0b3-4616-8c73-db2b38068fb2", "https://agentic-knowledge-base.dev/id/composite/3740ef5b-1def-406b-ab6d-bbb40f9c7329", "https://agentic-knowledge-base.dev/id/composite/d356c13f-12da-449f-8621-56cdffd536e1"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2b6adf1a-07f9-41ca-b86b-44bcb3041a2a", "https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4-28d1816c56e6", "https://agentic-knowledge-base.dev/id/composite/45faf691-73c6-43a3-b8c9-25f7a11782bc", "https://agentic-knowledge-base.dev/id/composite/f4e440cf-7d39-4f1b-9334-79189a47b8a2", "https://agentic-knowledge-base.dev/id/composite/30c94888-c0b3-4616-8c73-db2b38068fb2", "https://agentic-knowledge-base.dev/id/composite/3740ef5b-1def-406b-ab6d-bbb40f9c7329", "https://agentic-knowledge-base.dev/id/composite/d356c13f-12da-449f-8621-56cdffd536e1"],
     plane = "artifact",
     level = "executable",
     status = "stable",

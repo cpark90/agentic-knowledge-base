@@ -5,10 +5,10 @@ level: concrete
 title_ko: 결함에 한정자와 세 차원을 붙이고 분포로 진단한다
 title: Tag defects with a qualifier and three dimensions; the distribution is the diagnosis
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0142-odc-qualifier-and-dimensions.md, id: https://agentic-knowledge-base.dev/id/chunk-d0142, title_ko: "ODC 한정자·차원과 분포 진단", title: "ODC qualifier, dimensions, and distribution as diagnosis"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0142]
 part_of: https://agentic-knowledge-base.dev/id/composite/a70f283f-26aa-465e-9162-51aadc42ec13
@@ -16,7 +16,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/a70f283f-26aa-46
 ---
 **결론** — ODC의 **한정자(qualifier)** 를 쓴다 — 각 결함은 `missing`(있어야 할 것이 없음) · `incorrect`(있으나 틀림) · `extraneous`(없어야 할 것이 있음)다 — ODC v5.2의 세 값 (외부 조사 2026-09-11로 보충; 노트 원문은 둘만 적었다). 인지 요인의 "누락"과 실행 요인의 `missing`은 다르다 — 전자는 **입력의 부재**, 후자는 **산출물의 부재**다.
 
-ODC의 다른 차원도 결함 청크의 속성으로 둔다.
+ODC의 다른 차원도 결함 단위 지식의 속성으로 둔다.
 
 - **트리거**(무엇이 드러냈는가) — 검사 게이트 / 테스트 / 리뷰 / 실행 시 / ODD 이탈 대조. 검사 체계의 효과 측정
 - **영향**(무엇이 손상됐는가) — 기능 / 성능 / 추적성 / 가정 건전성 / 커버리지. 우선순위 결정

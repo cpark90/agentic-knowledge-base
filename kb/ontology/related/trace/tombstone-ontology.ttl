@@ -1,0 +1,11 @@
+# 추적성 — 지운 단위 지식의 묘비: 대체 링크의 끝점이 파일 삭제 뒤에도 그래프에 남는 자리 (노트 7.4절, 유저 답 Q-0061#Q146)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+agt:Tombstone a owl:Class ;
+    rdfs:subClassOf agt:KnowledgeItem ;
+    owl:disjointWith agt:Chunk , agt:Composite ;
+    rdfs:label "tombstone"@en , "묘비"@ko ;
+    skos:definition "파일을 지운 단위 지식의 IRI를 그래프에 남기는 지식. 본문과 수준, 상태를 갖지 않고 옛 한/영 라벨과 옛 파일의 git 영구 위치(prov:atLocation \"git:<리비전>:<경로>\")만 갖는다. 그래서 그 항목을 가리키던 supersedes 링크가 끊기지 않고 \"무엇을 대체했는가\"를 질의로 답한다. 이름과 뜻은 ActivityStreams 2.0의 Tombstone(삭제된 객체를 대신하는 자리 표시 객체)을 따른다. 노드는 손으로 쓰지 않고 chunk2kg가 살아 있는 항목의 frontmatter `sources` 항목({resource: git:…, id, title_ko, title})에서 생성한다. 게이트: tombstone-shapes(라벨 둘·위치 하나·본문 없음), chunk2kg merge(같은 IRI의 묘비 정의가 갈리면 거부)."@ko .

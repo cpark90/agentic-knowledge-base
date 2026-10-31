@@ -7,8 +7,8 @@ title: Order attached to what does not require it is false information, so order
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-10-07T03:03:35+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-07T03:03:36+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-07T03:03:36+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/c15bc5d0-4f85-4d7b-bdd2-85cca14af3ba
 ---
@@ -16,6 +16,6 @@ part_of: https://agentic-knowledge-base.dev/id/composite/c15bc5d0-4f85-4d7b-bdd2
 
 순서의 원본을 선언으로 두는 까닭은 둘이다. 첫째, 순서가 뜻을 갖는지는 저작자만 안다. 검증기 셋(양성 전체 → 음성 반쪽 → 오케스트레이션)은 순서가 검증 범위의 확장이지만, 요구의 관심사 묶음은 순서가 없다. 생성기는 그 차이를 알 수 없다. 둘째, 파일명·IRI 정렬은 결정적이라 재현되지만 뜻이 없다 — 그것을 `co:index`로 내면 "순서를 요구하지 않는 것에 순서를 붙인" 거짓 정보가 된다.
 
-결정 복합체도 예외가 아니다(유저 답 2026-09-29, 선택지 2 — 권장은 예외였다). 역할이 곧 순서라는 사실은 남되, 그것을 도구가 추측하지 않고 **생성기가 `ordered` 인자로 선언**한다. 205개에 같은 목록을 손으로 적으면 첨가이지만 생성 BUILD의 인자는 첨가가 아니다 — 저작물이 아니라 생성물이다. 규칙이 하나가 되어 도구에 예외 분기가 없다.
+결정 기록도 예외가 아니다(유저 답 2026-09-29, 선택지 2 — 권장은 예외였다). 역할이 곧 순서라는 사실은 남되, 그것을 도구가 추측하지 않고 **생성기가 `ordered` 인자로 선언**한다. 205개에 같은 목록을 손으로 적으면 첨가이지만 생성 BUILD의 인자는 첨가가 아니다 — 저작물이 아니라 생성물이다. 규칙이 하나가 되어 도구에 예외 분기가 없다.
 
 `ordered`를 메타데이터로 두는 까닭은 순서가 본문의 뜻을 바꾸지 않기 때문이다. 부분의 본문 해시는 그대로이고 바뀌는 것은 묶음의 읽기 순서다 — 복원 링크 표시 `restored`와 같은 자리다.

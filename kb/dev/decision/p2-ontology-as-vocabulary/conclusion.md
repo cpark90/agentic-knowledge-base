@@ -5,10 +5,10 @@ level: concrete
 title_ko: 온톨로지 밖 어휘로 쓴 지식은 존재하지 않는다
 title: Knowledge outside the vocabulary does not exist
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0046-ontology-as-vocabulary.md, id: https://agentic-knowledge-base.dev/id/chunk-d0046, title_ko: "온톨로지는 사다리의 단계가 아니라 전체의 어휘다", title: "The ontology is the whole system's vocabulary, not a ladder rung"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T19:33:52+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7, https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0046]
 part_of: https://agentic-knowledge-base.dev/id/composite/0a751e1a-d819-45e5-8425-54945c706108
@@ -24,6 +24,8 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/0a751e1a-d819-45
 - concrete — 어휘의 **개체**(A-Box). `OAuth2`는 `agt:AuthenticationMethod`의 인스턴스
 - executable — 개체가 가리키는 실제 산출물
 
-스코프·가정·요구·기준·링크도 전부 온톨로지 어휘로 쓴 문장이다. **온톨로지 밖의 어휘로 쓴 지식은 이 체계에 존재하지 않는다.**
+적용 범위·가정·요구·기준·링크도 전부 온톨로지 어휘로 쓴 문장이다. **온톨로지 밖의 어휘로 쓴 지식은 이 체계에 존재하지 않는다.**
 
 사람이나 에이전트가 보는 것 — 라벨 목록, 작업 집합, 코드 파일, 문서 — 은 모두 이 그래프에 대한 질의의 결과이며 저장된 사본이 아니다 (4.6절).
+
+**게이트** (노트 0.0절, 2.12절, verify) — 온톨로지에 없는 술어와 개체는 `validate`의 vocab 검사가 거부하고 게이트 id는 `vocab`이다. `--standard-vocab`을 주면 표준 어휘 원문에 없는 prov·skos 용어도 거부한다(2026-09-12). 해소는 developer가 T-Box에 개념을 먼저 더하거나(`term_propose`를 거쳐 승인) 술어를 정정하는 것이다.

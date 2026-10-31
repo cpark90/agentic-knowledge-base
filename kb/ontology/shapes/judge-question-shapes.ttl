@@ -1,4 +1,4 @@
-# shape — 판정 질문의 형식: 질문 id(IRI)·형 셋·선택 집합 255 이하 (결정 p8-judge-calibration-binding)
+# shape — 판정 질문의 형식: 질문 id(IRI)·형 셋·선택 집합 255 이하 (결정 p8-judge-session-agreement)
 # 형마다 더 요구되는 것이 달라 sh:or 세 갈래로 적는다 — choice 는 원소 둘 이상, score 는 상황 문장 둘 이상,
 # noul 은 답 공간이 고정이라 더 없다. 판정자 실물이 이 shape 를 읽는다 (tools/judge.py, kb_lib.JUDGE_QUESTION_SHAPES)
 # — 질문의 원본이 여기이고 도구는 상수를 갖지 않는다. 확신도 임계의 형식은 confidence-threshold-shapes.ttl 이다.
@@ -12,18 +12,18 @@ agt:JudgeQuestionShape a sh:NodeShape ;
     sh:targetClass agt:JudgeQuestion ;
     sh:property [ sh:path skos:definition ; sh:minCount 1 ;
         sh:description "이 질문은 무엇을 묻는가" ;
-        sh:message "판정 질문에 `skos:definition` 이 없다 — 질문 본문이 정의 자리에 있고 IRI 가 질문 id 다 (p8-judge-calibration-binding)" ] ;
+        sh:message "판정 질문에 `skos:definition` 이 없다 — 질문 본문이 정의 자리에 있고 IRI 가 질문 id 다 (p8-judge-session-agreement)" ] ;
     sh:property [ sh:path agt:questionForm ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
         sh:in ( "noul" "choice" "score" ) ;
         sh:description "답 공간이 셋 중 무엇인가" ;
-        sh:message "질문의 형은 noul·choice·score 셋 중 정확히 하나다 — 자유 서술은 판정이 아니다 (p8-judge-calibration-binding)" ] ;
+        sh:message "질문의 형은 noul·choice·score 셋 중 정확히 하나다 — 자유 서술은 판정이 아니다 (p8-judge-session-agreement)" ] ;
     sh:property [ sh:path agt:choiceOption ; sh:datatype xsd:string ; sh:maxCount 255 ;
         sh:description "닫힌 집합이 상한 안인가" ;
-        sh:message "선택 집합의 원소가 255 를 넘는다 — 독립 점수(score) 뒤 명시 선택의 2단계로 나눈다 (p8-judge-calibration-binding 규칙 ③)" ] ;
+        sh:message "선택 집합의 원소가 255 를 넘는다 — 독립 점수(score) 뒤 명시 선택의 2단계로 나눈다 (p8-judge-session-agreement 규칙 ⑤)" ] ;
     sh:or (
         [ sh:property [ sh:path agt:questionForm ; sh:hasValue "noul" ] ]
         [ sh:property [ sh:path agt:questionForm ; sh:hasValue "choice" ] ;
           sh:property [ sh:path agt:choiceOption ; sh:minCount 2 ] ]
         [ sh:property [ sh:path agt:questionForm ; sh:hasValue "score" ] ;
           sh:property [ sh:path agt:scaleSituation ; sh:minCount 2 ] ] ) ;
-    sh:message "choice 형은 `agt:choiceOption` 둘 이상, score 형은 `agt:scaleSituation` 둘 이상을 갖는다 — 단계는 정도가 아니라 확인 가능한 상황으로 적는다 (p8-judge-calibration-binding)" .
+    sh:message "choice 형은 `agt:choiceOption` 둘 이상, score 형은 `agt:scaleSituation` 둘 이상을 갖는다 — 단계는 정도가 아니라 확인 가능한 상황으로 적는다 (p8-judge-session-agreement)" .

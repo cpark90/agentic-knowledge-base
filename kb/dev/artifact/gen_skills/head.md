@@ -7,7 +7,7 @@ title: module head py-binary in tools/gen_skills.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-skills}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/826eea39-5afc-41d4-a5cc-4afd24c0f0b2
 ---
@@ -22,7 +22,7 @@ try:
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
     import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
-HEADING, slug = kb_lib.MD_HEADING, kb_lib.slug  # GitHub 제목 앵커 규칙의 단일 정의처는 kb_lib (STYLEGUIDE §7)
+HEADING, slug = kb_lib.MD_HEADING, kb_lib.slug  # GitHub 제목 앵커 규칙의 단일 정의 위치는 kb_lib (STYLEGUIDE §7)
 
 EXIT_OK, EXIT_FAIL, EXIT_CONFIG = kb_lib.EXIT_OK, kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG
 GEN, DRIFT = kb_lib.GEN_SKILLS_GATE, kb_lib.SKILLS_DRIFT_GATE
@@ -32,6 +32,6 @@ USAGE = re.compile(r"^사용[:：]?(?=\s|$)|사용[:：]\s*")
 NOTICE = kb_lib.gendoc_tree_notice("도구 docstring 과 `kb_lib.SKILLS`", "//:skills_drift_test")
 DOCS_DIR = "docs"
 TOOLS_DIR = "tools"
-RESOLVE_ANCHOR = kb_lib.GATE_CATALOGUE_ANCHOR  # docs/tools.md 의 총람 — `해소` 열이 FAIL [<id>] 의 해소다. 단일 정의처는 kb_lib
+RESOLVE_ANCHOR = kb_lib.GATE_CATALOGUE_ANCHOR  # docs/tools.md 의 총람 — `결정` 열의 결정이 FAIL [<id>] 의 해소를 적는다. 단일 정의 위치는 kb_lib
 ```
 <!-- 인용 끝 -->

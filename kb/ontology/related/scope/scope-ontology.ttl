@@ -1,4 +1,4 @@
-# 스코프 — 에이전트 접근 권한 (노트 0.4절, 3.4절)
+# 적용 범위 — 에이전트 접근 권한 (노트 0.4절, 3.4절)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -6,26 +6,27 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 agt:Scope a owl:Class ;
-    rdfs:label "scope"@en , "스코프"@ko ;
-    skos:definition "에이전트의 접근 권한. ODD 속성의 부분집합 + plane 권한. mode / include / exclude / conditional 문장으로 쓴다 (0.4절, 3.4절)."@ko .
+    rdfs:label "scope"@en , "적용 범위"@ko ;
+    skos:hiddenLabel "스코프"@ko ;
+    skos:definition "에이전트의 접근 권한. ODD 속성의 부분집합 + 지식 종류 권한. mode / include / exclude / conditional 문장으로 쓴다 (0.4절, 3.4절)."@ko .
 
 agt:subsetOf a owl:ObjectProperty ;
     rdfs:domain agt:Scope ;
     rdfs:range agt:ODD ;
     rdfs:label "subset of"@en , "부분집합이다"@ko ;
-    skos:definition "스코프가 어느 ODD의 부분집합인지. ODD에 없는 속성을 참조하는 스코프는 존재할 수 없다 (0.4절). 게이트: validate check_catalog(_check_scope_subset)."@ko .
+    skos:definition "적용 범위가 어느 ODD의 부분집합인지. ODD에 없는 속성을 참조하는 적용 범위는 존재할 수 없다 (0.4절). 게이트: validate check_catalog(_check_scope_subset)."@ko .
 
 agt:includesCondition a owl:ObjectProperty ;
     rdfs:domain agt:Scope ;
     rdfs:range agt:Condition ;
     rdfs:label "includes condition"@en , "조건을 포함한다"@ko ;
-    skos:definition "스코프 안에 있는 ODD 조건 (0.4절 include 문장)."@ko .
+    skos:definition "적용 범위 안에 있는 ODD 조건 (0.4절 include 문장)."@ko .
 
 agt:excludesCondition a owl:ObjectProperty ;
     rdfs:domain agt:Scope ;
     rdfs:range agt:Condition ;
     rdfs:label "excludes condition"@en , "조건을 제외한다"@ko ;
-    skos:definition "스코프 밖에 있는 ODD 조건 (0.4절 exclude 문장)."@ko .
+    skos:definition "적용 범위 밖에 있는 ODD 조건 (0.4절 exclude 문장)."@ko .
 
 agt:conditionalRule a owl:DatatypeProperty ;
     rdfs:domain agt:Scope ;

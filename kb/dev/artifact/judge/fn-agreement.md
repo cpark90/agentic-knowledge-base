@@ -7,7 +7,7 @@ title: function agreement in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/8f3b4eaf-dced-410d-98cc-6771157e17c6
 ---
@@ -16,7 +16,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/8f3b4eaf-dced-410d-98cc
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def agreement(rows: list[dict]) -> None:
-    """행마다 `일치` 열을 채운다 — 같은 (대상, 입력 지문)에 둘 이상의 판정자 응답이 있을 때만 일치·불일치, 단독이면
+    """행마다 `일치` 열을 채운다 — 같은 (대상, 입력 해시값)에 둘 이상의 판정자 응답이 있을 때만 일치·불일치, 단독이면
     해당 없음이다(규칙: 확신도는 자기 보고이므로 단독 응답으로는 자동 적용이 없다)."""
     groups = defaultdict(list)
     for r in rows:

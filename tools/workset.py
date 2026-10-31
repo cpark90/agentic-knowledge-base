@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""작업 집합 뷰 — 스코프 × 수준 창으로 거른 라벨 목록과 앵커 이웃을 예산 안에 담는다 (노트 0.5절, 5.6절, 11.3절).
+"""작업 집합 뷰 — 적용 범위 × 수준 창으로 거른 라벨 목록과 앵커 이웃을 예산 안에 담는다 (노트 0.5절, 5.6절, 11.3절).
 
 작업 집합은 질의 결과이며 저장하지 않는다. 읽기 응답의 기본은 라벨 목록이고 본문은 앵커 이웃만 펼친다.
-이웃은 앵커에서 k홉 안의 청크(upstream ∪ downstream, 직접 트리플과 agt:Link 개체 둘 다)이며, 펼치는 순서는
+이웃은 앵커에서 k홉 안의 단위 지식(upstream ∪ downstream, 직접 트리플과 agt:Link 개체 둘 다)이며, 펼치는 순서는
 링크 족의 우선순위다 — 앵커 ≫ references ≫ semanticallyDependsOn ≫ 구성 관계 ≫ relatedTo
 (dependency-graph-design §4, p0-workset-anchor-neighbourhood). 예산을 넘는 이웃은 라벨만 남는다.
 예산의 단위는 **토큰**이다 (결정 p1-chunk-unit-is-tokens — 옛 200줄의 같은 계수기 환산이 5,418 이다). 계수기는
@@ -11,7 +11,7 @@
       [--vocab <어휘 파일>] --out workset.md <TTL...>
 종료: 앵커가 있을 때만 예산 판정이 게이트다 — 문서 전체(라벨 목록 + 펼친 본문)가 예산을 넘으면
   `FAIL [workset-budget]` + 1(도입 2단계 구체화 조건, handoff/workset-budget-gate-2026-09-22). 앵커가 없으면
-  지금처럼 뷰에 판정만 적고 0 — 앵커 없는 뷰(스코프 전체 라벨 목록)는 구조적으로 예산을 넘어 판정 대상이 아니다.
+  지금처럼 뷰에 판정만 적고 0 — 앵커 없는 뷰(적용 범위 전체 라벨 목록)는 구조적으로 예산을 넘어 판정 대상이 아니다.
 """
 import argparse
 import sys
@@ -40,10 +40,10 @@ FAMILY_OF = {p: (i + 1, tag) for i, (tag, ps) in enumerate(FAMILIES) for p in ps
 PART = FAMILY_OF[AGT.hasDirectPart]
 
 
-# ── 스코프 창과 앵커 이웃을 예산 안에 담는다 ────────────────────
+# ── 적용 범위 창과 앵커 이웃을 예산 안에 담는다 ────────────────────
 
 def body_of(path: str) -> str:
-    """청크 본문 — 판정처는 `kb_lib.chunk_body` 하나다 (정의처 chunk2kg 의 `body_text`)."""
+    """단위 지식 본문 — 판정처는 `kb_lib.chunk_body` 하나다 (단일 정의 위치 chunk2kg 의 `body_text`)."""
     return kb_lib.chunk_body(Path(path).read_text(encoding="utf-8"))
 
 
@@ -70,10 +70,10 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--role", required=True, help="카탈로그 역할 id 접미 (developer, orchestrator, vnv, hci)")
     ap.add_argument("--levels", default="", help="수준 창, 쉼표 구분. 비면 전부")
-    ap.add_argument("--anchor", default="", help="펼칠 앵커 — 청크 IRI 또는 한글 라벨 부분 문자열")
+    ap.add_argument("--anchor", default="", help="펼칠 앵커 — 지식 IRI 또는 한글 라벨 부분 문자열")
     ap.add_argument("--hops", type=int, default=1)
     ap.add_argument("--budget", type=int, default=kb_lib.CONTEXT_TOKEN_BUDGET,
-                    help="컨텍스트 예산(토큰). 라벨 목록 + 펼친 본문 (단일 정의처 kb_lib.CONTEXT_TOKEN_BUDGET)")
+                    help="컨텍스트 예산(토큰). 라벨 목록 + 펼친 본문 (단일 정의 위치 kb_lib.CONTEXT_TOKEN_BUDGET)")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다")
     ap.add_argument("--root", default=".", help="assertionLocation 의 기준 디렉토리")
     ap.add_argument("--out", required=True)
@@ -106,7 +106,7 @@ def main() -> int:
             ko = next((str(o) for o in g.objects(c, RDFS.label) if o.language == "ko"), "")
             chunks[c] = (kb_lib.plane_of_class(cls), lvl, st, ko, "write" if cls in writes else "read",
                          str(next(g.objects(c, AGT.assertionLocation), "")))
-    # 앵커와 이웃 — K홉 확장(upstream ∪ downstream), 스코프 필터(chunks 밖은 버림), 족별 우선순위, 예산 패킹 (§4 네 단계)
+    # 앵커와 이웃 — K홉 확장(upstream ∪ downstream), 적용 범위 필터(chunks 밖은 버림), 족별 우선순위, 예산 패킹 (§4 네 단계)
     expanded, anchor, fam = [], None, {}
     if a.anchor:
         anchor = URIRef(a.anchor) if a.anchor.startswith("http") else next((c for c, v in sorted(chunks.items(), key=lambda t: str(t[0])) if a.anchor in v[3]), None)
@@ -123,7 +123,7 @@ def main() -> int:
                     if n in chunks:
                         take(n, f)
                     elif (n, AGT.hasDirectPart, None) in g:
-                        # 복합체 노드(청크 아님)는 통과해 부분까지 — 같은 복합체의 형제는 한 홉이다 (4.5절)
+                        # 복합체 노드(단위 지식 아님)는 통과해 부분까지 — 같은 복합체의 형제는 한 홉이다 (4.5절)
                         for p in g.objects(n, AGT.hasDirectPart):
                             take(p, PART)
             fam.update(found); hop.update({n: h for n in found}); frontier = list(found)
@@ -158,25 +158,25 @@ def main() -> int:
         if used + cost > a.budget:
             body.append(f"… {chunks[n][3]}{tag(n)} (펼치지 않음 — 예산 {a.budget}토큰 초과)")
             continue
-        # 청크 본문을 그대로 옮긴 자리다 — 원본이 자기 게이트를 통과했으므로 서식 규칙은 이 구역을 판정하지 않는다
+        # 단위 지식 본문을 그대로 옮긴 자리다 — 원본이 자기 게이트를 통과했으므로 서식 규칙은 이 구역을 판정하지 않는다
         body += entry
         used += cost
     verdict = "예산 안" if used <= a.budget else "예산 초과"
     inputs = list(a.files) + sorted(set(read_paths))
     head = kb_lib.gendoc_header(
         f"workset-{a.role}", f"{a.role} 역할의 작업 집합 뷰", "tools/workset.py",
-        f"카탈로그 역할 `id:role-{a.role}` 이 읽고 쓰는 plane 과 수준 창 `{','.join(l for l in LEVELS if l in window)}` 으로 살아 있는 청크를 거른 라벨 목록, "
+        f"카탈로그 역할 `id:role-{a.role}` 이 읽고 쓰는 지식 종류와 수준 창 `{','.join(l for l in LEVELS if l in window)}` 으로 살아 있는 단위 지식을 거른 라벨 목록, "
         + (f"앵커 `{a.anchor}` 에서 {a.hops}홉 이웃의 본문을 족 우선순위(anchor ≫ refs ≫ dep ≫ part ≫ rel ≫ time)로 펼쳐 예산 안에 담는다"
            if anchor else "앵커를 주지 않았으므로 본문은 펼치지 않는다 — 앵커는 `--//kb:anchor` 로 준다"),
         f"bazel build //kg:workset --//kb:role={a.role}", inputs,
         f"라벨 {len(chunks)}개 · 펼침 {len([b for b in body if b.startswith('### ')])}개",
-        kb_lib.gendoc_view_notice("청크의 frontmatter 와 본문"), input_kind="입력 파일",
+        kb_lib.gendoc_view_notice("단위 지식의 frontmatter 와 본문"), input_kind="입력 파일",
         extra=[f"- 예산 판정: 이 문서 전체(라벨 목록 {len(label_lines)-2}행 + 펼친 본문)의 합계 **{used}토큰 / 예산 {a.budget}토큰 → {verdict}**",
-               f"- 계수기: 어휘 `{kb_lib.TOKENIZER_NAME}` · 지문 `sha256:{kb_lib.TOKENIZER_VOCAB_SHA256[:12]}` "
+               f"- 계수기: 어휘 `{kb_lib.TOKENIZER_NAME}` · 해시값 `sha256:{kb_lib.TOKENIZER_VOCAB_SHA256[:12]}` "
                f"(p1-chunk-unit-is-tokens — 크기의 단위는 토큰이다)",
                f"- 정의: 여기의 예산 판정은 **문서 전체**를 어휘로 직접 잰다. `bazel build //kg:metrics` 의 역할별 예산 "
                f"준수율은 **앵커마다** 1홉 이웃의 `agt:tokenCount` 합을 재므로 두 수치는 같은 이름이되 다른 것을 센다"])
-    # 라벨은 청크에서 그대로 옮긴 값이다 — 서식 규칙은 이 구역을 판정하지 않는다
+    # 라벨은 단위 지식에서 그대로 옮긴 값이다 — 서식 규칙은 이 구역을 판정하지 않는다
     out = ["## 라벨 목록", "", kb_lib.GENDOC_QUOTE_OPEN] + label_lines + [kb_lib.GENDOC_QUOTE_CLOSE, "", "## 펼친 본문", ""] \
         + (body or [f"{kb_lib.NONE_MARK} — 앵커가 없어 본문을 펼치지 않았다", ""])
     Path(a.out).write_text(kb_lib.gendoc_assemble(head, out, inputs), encoding="utf-8")

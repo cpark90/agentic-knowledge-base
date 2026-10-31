@@ -10,7 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://age
 refines: [https://agentic-knowledge-base.dev/id/chunk/9807be26-ff48-4cca-89c1-129f52e69df4]
 serves: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
-generated: {by: orchestrator/claude-opus-5, at: 2026-09-22T19:05:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:48:52+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6364f6e3-f553-4178-946c-36246fed08a9
 composite: {id: https://agentic-knowledge-base.dev/id/composite/6364f6e3-f553-4178-946c-36246fed08a9, title_ko: 생성 문서의 본문 서식, title: The body form of a generated document}
@@ -32,6 +32,6 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/6364f6e3-f553-41
 
 산문은 단정 서술형이다. `kb_lib.check_prose`를 생성 문서에도 적용한다.
 
-**인용 구역**은 예외다. 청크 본문·라벨을 그대로 옮겨 싣는 구역은 표시로 감싸고, 그 안에서는 표·펜스·빈 값·수치·산문의 다섯을 판정하지 않는다. 생성기는 원문을 고쳐 쓸 수 없고 원본은 이미 자기 게이트를 통과했다. 문서 전체에 걸리는 제목 계층·h1·목차·링크는 구역 안에도 적용한다.
+**인용 구역**은 예외다. 단위 지식 본문·라벨을 그대로 옮겨 싣는 구역은 표시로 감싸고, 그 안에서는 표·펜스·빈 값·수치·산문의 다섯을 판정하지 않는다. 생성기는 원문을 고쳐 쓸 수 없고 원본은 이미 자기 게이트를 통과했다. 문서 전체에 걸리는 제목 계층·h1·목차·링크는 구역 안에도 적용한다.
 
 제목 줄과 링크 텍스트는 수치 표기 판정 밖이다. 이름에 든 백분율은 측정이 아니다. 측정은 전부 `kb_lib.pct`를 거친다.

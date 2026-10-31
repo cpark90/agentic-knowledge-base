@@ -7,11 +7,11 @@ title: docs/method.md ODD section continued — the gate and the output
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:54:56+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:24:08+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/bdc0f6e2-e2e2-4438-a6bd-917dec16b120
 continues: true
 ---
-게이트는 `bazel test //kb/odd:gate_test`다. 산출은 `kb/odd/*-odd.yml`(OpenODD, 부록 E.4)이고,
-그것에서 `*-odd.ttl`이 생성되며 그 위에서 스코프가 파생된다. 속성 범주는 `related/condition`에서
-생성된 택소노미 안이어야 한다.
+ODD 작성의 게이트는 `bazel test //kb/odd:gate_test`다. 산출은 OpenODD 형식의 `kb/odd/*-odd.yml`이고, 그 YAML에서
+`*-odd.ttl`이 생성되며 그 TTL 위에서 적용 범위가 파생된다(부록 E.4). 속성 범주는 `related/condition`에서
+생성된 택소노미 안에 있어야 한다.

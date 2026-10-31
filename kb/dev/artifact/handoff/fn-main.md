@@ -7,9 +7,8 @@ title: function main in tools/handoff.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-handoff}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-11T09:15:09Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 part_of: https://agentic-knowledge-base.dev/id/composite/0b8984a8-4b3a-4b30-9c38-041302b18093
 ---
 **함수** — `main()` 다.
@@ -23,7 +22,7 @@ def main() -> int:
     a = ap.parse_args()
     read_set = re.findall(r"<!-- iri: (\S+) -->", Path(a.workset).read_text(encoding="utf-8"))
     if not read_set:
-        raise SystemExit("handoff: 작업 집합에 펼친 청크가 없다 — 앵커를 주고 다시 만들어라")
+        raise SystemExit("handoff: 작업 집합에 펼친 단위 지식이 없다 — 앵커를 주고 다시 만들어라")
     for f in a.files:
         text = Path(f).read_text(encoding="utf-8")
         m = re.search(r"^sources: \[(.*)\]$", text, re.M)

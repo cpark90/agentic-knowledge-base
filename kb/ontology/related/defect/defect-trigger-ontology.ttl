@@ -14,7 +14,7 @@ agt:gateTrigger a owl:NamedIndividual , agt:DefectTrigger ;
 
 agt:testTrigger a owl:NamedIndividual , agt:DefectTrigger ;
     rdfs:label "test"@en , "테스트"@ko ;
-    skos:definition "검증 케이스의 실행이 결함을 드러냈다 (8.17절)."@ko .
+    skos:definition "테스트 케이스의 실행이 결함을 드러냈다 (8.17절)."@ko .
 
 agt:reviewTrigger a owl:NamedIndividual , agt:DefectTrigger ;
     rdfs:label "review"@en , "리뷰"@ko ;
@@ -26,4 +26,4 @@ agt:runtimeTrigger a owl:NamedIndividual , agt:DefectTrigger ;
 
 agt:oddDeviationTrigger a owl:NamedIndividual , agt:DefectTrigger ;
     rdfs:label "ODD deviation check"@en , "ODD 이탈 대조"@ko ;
-    skos:definition "실제 조건을 ODD 와 대조해 결함이 드러났다. 스코프 밖에서 돌고 있었음을 알리는 트리거다 (3.5절, 8.17절)."@ko .
+    skos:definition "실제 조건을 ODD 와 대조해 결함이 드러났다. 적용 범위 밖에서 돌고 있었음을 알리는 트리거다 (3.5절, 8.17절)."@ko .

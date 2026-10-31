@@ -7,8 +7,8 @@ title: The development KB emits five outputs and measures progress with six metr
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9, https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f44b4776-de6f-44bf-893b-72ce88179fdb, title_ko: 개발 KB의 산출과 지표, title: Outputs and metrics of the development KB}
 part_of: https://agentic-knowledge-base.dev/id/composite/f44b4776-de6f-44bf-893b-72ce88179fdb
@@ -17,10 +17,10 @@ part_of: https://agentic-knowledge-base.dev/id/composite/f44b4776-de6f-44bf-893b
 
 | 산출 | 소비자 | 형태 |
 |---|---|---|
-| 요구·결정·계약·스키마·구현 청크 | V&V KB | `verifies`의 도착점 |
+| 요구·결정·계약·스키마·구현 단위 지식 | V&V KB | `verifies`의 도착점 |
 | ODD | V&V KB, 운영 | 시나리오 변수의 분모 |
 | 코드 파일, 문서 | 빌드, 사람 | tangle·weave 뷰 (4.6절) |
 | 결정 기록 (ADR) | 사람 | `decision` 복합체의 뷰 |
 | 변경 영향 보고 | 유저 | 12.6절 |
 
-지표 — 전방 추적 커버리지(100%) · 후방 추적 커버리지(100%) · 결정 완결률(concrete 청크가 있는 결정 비율 = 진행도) · `-space` 체류 시간(유저 피드백 병목) · 계약 선행률(100%) · 대안 기록률(100%).
+지표 — 전방 추적 커버리지(100%) · 후방 추적 커버리지(100%) · 결정 완결률(concrete 단위 지식이 있는 결정 비율 = 진행도) · `-space` 체류 시간(유저 피드백 병목) · 계약 선행률(100%) · 대안 기록률(100%).

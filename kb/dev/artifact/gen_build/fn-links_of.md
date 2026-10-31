@@ -7,20 +7,25 @@ title: function links_of in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/04bfcfb9-d96b-42ec-9555-a58bd09f1551]
 part_of: https://agentic-knowledge-base.dev/id/composite/569c6e75-e264-4981-bf0b-bba156b541c8
 ---
-**함수** — `links_of(meta, iri_to_label, where)` 다.
+**함수** — `links_of(meta, iri_to_label, where)` 다. frontmatter 링크 → Bazel deps 라벨.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def links_of(meta, iri_to_label, where):
+    """frontmatter 링크 → Bazel deps 라벨. 묘비(같은 frontmatter 의 `sources` 가 선언한 지운 항목, Q-0061#Q146)는 파일이 없어
+    타깃이 아니므로 deps 가 되지 않는다 — 끝점의 실재는 선언이 보증하고 형태는 shape tombstone-shapes 가 본다."""
     out = {}
+    graves = {t["id"] for t in meta.get("_tombstones") or []}
     for key in LINKS:
         labs = []
         for iri in meta.get(key, []) or []:
+            if iri in graves:
+                continue
             if iri not in iri_to_label:
                 raise GenBuildError(f"{where}: {key} 대상 {iri} 가 타깃이 아니다 — 끊긴 링크 (참조 무결성)")
             labs.append(iri_to_label[iri])

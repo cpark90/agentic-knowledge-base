@@ -7,13 +7,13 @@ title: docs/method.md verification section continued — the round stop rule
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T23:13:50+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:17:27+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/ec6a4bb0-67a3-435c-bdab-850ae50240c4
 continues: true
 items: [p8-verification-round-stop-rule#1]
 ---
-**정지 규칙**(유저 승인 2026-10-01, 목표 `verification-round-stop-rule` stable) — 연속한 두 라운드에서 신규 결함 수가 줄지 않으면 다음
-라운드를 열지 않고 채널로 되돌린다. 라운드의 정의는 처음에 판정 주석의 `prov:generatedAtTime` 날짜였고, 유저 답 Q39-c(2026-10-04)가
-그것을 종료 사유를 단 명시 기록으로 바꿨다. 날짜 정의 아래의 첫 적용은 2026-10-01 orchestrator 세션이다 — 2·4·2·2·2에서 두 번 성립해
-라운드를 열지 않았다.
+**정지 규칙** — 연속한 두 라운드에서 신규 결함 수가 줄지 않으면 다음 라운드를 열지 않고 채널로 되돌린다. 이 규칙의 목표
+`verification-round-stop-rule`은 안정 상태다(유저 승인 2026-10-01). 라운드의 정의는 처음에 판정 주석의 `prov:generatedAtTime` 날짜였으나,
+종료 사유를 단 명시 기록으로 바뀌었다(유저 답 Q39-c, 2026-10-04). 날짜 정의 아래의 첫 적용은 2026-10-01 orchestrator 세션이고, 그 세션에서는
+신규 결함 수 2, 4, 2, 2, 2에서 규칙이 두 번 성립해 라운드를 열지 않았다.

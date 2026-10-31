@@ -4,10 +4,13 @@ type: decision
 level: logical
 title_ko: 논리 시나리오 자극 — 자기 참조 supersedes 하나를 더한 그래프의 검증
 title: Logical scenario stimulus — validating a graph with one self-referencing supersedes added
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T21:22:42+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T01:42:54+09:00}]
+refines: [https://agentic-knowledge-base.dev/id/chunk/03335ea8-fe32-45e0-9406-5e8457b81486]
+restored: [https://agentic-knowledge-base.dev/id/chunk/03335ea8-fe32-45e0-9406-5e8457b81486]
 part_of: https://agentic-knowledge-base.dev/id/composite/4eb68c72-d1c3-51c4-8bdf-22980bbad1a7
 composite: {id: https://agentic-knowledge-base.dev/id/composite/4eb68c72-d1c3-51c4-8bdf-22980bbad1a7, title_ko: 자기 참조 supersedes 하나를 더한 그래프의 검증, title: Validating a graph with one self-referencing supersedes added, ordered: [https://agentic-knowledge-base.dev/id/chunk/f2362b25-fce0-54e1-94ae-a453b7178fe9, https://agentic-knowledge-base.dev/id/chunk/31504c97-ea87-5ab7-927a-ce70abf4a4d9, https://agentic-knowledge-base.dev/id/chunk/24aea9bf-bdc2-5076-baaf-213f5acda2a0]}
 ---

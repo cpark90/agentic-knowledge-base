@@ -7,16 +7,16 @@ title: function dependents in tools/assume_check.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-assume-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-05T16:52:41Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/aa693393-615e-4f00-ada2-34df72e2832e
 ---
-**함수** — `dependents(g)` 다. 청크 → 그 청크를 가리키는 링크의 주어들 (하류 의존자).
+**함수** — `dependents(g)` 다. 지식 → 그 지식을 가리키는 링크의 주어들 (하류 의존자).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def dependents(g: Graph) -> dict:
-    """청크 → 그 청크를 가리키는 링크의 주어들 (하류 의존자). 직접 트리플과 agt:Link 개체(linkFrom·linkTo·linkKind) 둘 다."""
+    """지식 → 그 지식을 가리키는 링크의 주어들 (하류 의존자). 직접 트리플과 agt:Link 개체(linkFrom·linkTo·linkKind) 둘 다."""
     rdep = defaultdict(set)
     kinds = set(PROPAGATE)
     for p in PROPAGATE:

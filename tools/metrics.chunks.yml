@@ -1,4 +1,4 @@
-# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 단위 지식의 정체성이고 이름은 그 위의 라벨이다
 # (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
 # 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
 # 생성물은 `kb/dev/artifact/metrics/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
@@ -7,8 +7,8 @@ source: tools/metrics.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-metrics
 package: kb/dev/artifact/metrics
 layer: process
-at: 2026-10-05T16:40:36Z
-source_hash: a80b7505c42f029a
+at: 2026-10-07T09:06:36Z
+source_hash: fd26af5a6a4674d4
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f
   - https://agentic-knowledge-base.dev/id/chunk/1f7d15d7-e85d-42dd-bef3-fb9c9a6d0365
@@ -33,7 +33,7 @@ ids:
   composite:sec:axis-proxies: https://agentic-knowledge-base.dev/id/composite/8fa054a4-1f2a-4d86-b98d-3c68ca9a4619
   composite:sec:back-trace: https://agentic-knowledge-base.dev/id/composite/e8aad650-c14d-4d48-a2fb-788808b81c9c
   composite:sec:classify-chunks: https://agentic-knowledge-base.dev/id/composite/87e62ada-8184-4c95-b1be-e30d2b876be2
-  composite:sec:decision-completeness: https://agentic-knowledge-base.dev/id/composite/ea0b3b82-2b10-4fbf-91c7-d3d65d42b461
+  composite:sec:decision-units: https://agentic-knowledge-base.dev/id/composite/ea0b3b82-2b10-4fbf-91c7-d3d65d42b461
   composite:sec:fixed-sentence-coverage: https://agentic-knowledge-base.dev/id/composite/46ce1955-674a-4ac3-bec9-631ef1d8c5c7
   composite:sec:link-build: https://agentic-knowledge-base.dev/id/composite/d7f0885e-74e9-4b1e-bf89-f288680555a0
   composite:sec:main: https://agentic-knowledge-base.dev/id/composite/a6e8151a-11f0-4db0-86cd-f33732a47457
@@ -59,6 +59,7 @@ ids:
   fn:classify_chunks: https://agentic-knowledge-base.dev/id/chunk/d03431bf-2330-4c3c-9fdc-99221b37916e
   fn:composite_declarers: https://agentic-knowledge-base.dev/id/chunk/030c7af0-5dd1-4541-87a2-47f630beb3cd
   fn:decision_completeness: https://agentic-knowledge-base.dev/id/chunk/61bc81fd-0938-43f0-b90d-4c697de5bd6e
+  fn:decision_units: https://agentic-knowledge-base.dev/id/chunk/bc119f80-c2d4-4e13-bba3-e64e39bf8580
   fn:fixed_sentence_coverage: https://agentic-knowledge-base.dev/id/chunk/cca34039-f0b1-466a-bdb0-ed871d10347c
   fn:forward_trace: https://agentic-knowledge-base.dev/id/chunk/46cfcd54-cf4f-403a-8bf2-67c038422236
   fn:link_build: https://agentic-knowledge-base.dev/id/chunk/d68d1243-7e85-4ee5-90ac-241abc0db3c6
@@ -89,7 +90,7 @@ ids:
   sec:axis-proxies: https://agentic-knowledge-base.dev/id/chunk/ce2b87f3-39cd-49bd-a7ec-40ffceefda86
   sec:back-trace: https://agentic-knowledge-base.dev/id/chunk/d5e5e4ea-d1f6-4d7b-b05f-8f339c6b9b19
   sec:classify-chunks: https://agentic-knowledge-base.dev/id/chunk/7dd0f107-a35f-422e-a188-7ec1f0c1daa6
-  sec:decision-completeness: https://agentic-knowledge-base.dev/id/chunk/506aa258-36e4-4f9a-8962-1bd248696c18
+  sec:decision-units: https://agentic-knowledge-base.dev/id/chunk/506aa258-36e4-4f9a-8962-1bd248696c18
   sec:fixed-sentence-coverage: https://agentic-knowledge-base.dev/id/chunk/1ec77677-122c-405f-ad16-1381a84a0d0a
   sec:link-build: https://agentic-knowledge-base.dev/id/chunk/f1af8581-2f97-4620-984f-13757648fb02
   sec:main: https://agentic-knowledge-base.dev/id/chunk/5de5ad3c-0cc3-4680-8799-ef5a66b7500d

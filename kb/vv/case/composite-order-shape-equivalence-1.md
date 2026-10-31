@@ -4,15 +4,16 @@ type: schema
 level: concrete
 title_ko: 색인 구멍·중복이 순서 shape의 첫 sh:sparql로 거부된다
 title: An index gap and a duplicate index are each rejected by the order shape's first sh:sparql
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:case_gen, at: 2026-10-04T21:22:42+09:00}
+generated: {by: process:case_gen, at: 2026-10-24T22:39:25+09:00}
+verified: [{by: process:case_gen, at: 2026-10-24T22:39:25+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/a6673077-7796-4803-afe1-299d79fc4d02]
 verifies: [https://agentic-knowledge-base.dev/id/chunk/b7ef890e-af82-442e-8cf4-091412f49c2e]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/ca72384d-b350-55b7-a940-56236c261fdd]
 ---
-**케이스** — 색인 구멍(1,3)·색인 중복(1,1) 둘로 shape의 첫 `sh:sparql`(색인 정합)을 돌린다.
+**테스트 케이스** — 색인 구멍(1,3)·색인 중복(1,1) 둘로 shape의 첫 `sh:sparql`(색인 정합)을 돌린다.
 
 **자극** — 임시 파일 둘이다. 경로는 검증기가 정한다. 커밋하지 않는다. 개체마다 나머지 규칙은 만족시키고 어기는 것은 색인 규칙 하나뿐이다.
 

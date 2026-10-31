@@ -7,7 +7,7 @@ title: function render_decisions in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/0f0f082a-c9cd-454c-ab65-ca4f3bebc461, https://agentic-knowledge-base.dev/id/chunk/a8f6816d-512e-4fb2-8bce-765ddee8bf42, https://agentic-knowledge-base.dev/id/chunk/e284beaa-0477-4715-ba21-44028b13bf3f]
 part_of: https://agentic-knowledge-base.dev/id/composite/bd43acdb-4493-4bcb-852c-56bb2a3c929e
@@ -37,7 +37,7 @@ def render_decisions(items, iri_to_label):
         for m in p.values():
             for k, v in links_of(m, iri_to_label, lab).items():
                 links.setdefault(k, []).extend(v)
-        roles = [n for n in DECISION_READING_ORDER + (DECISION_OPTIONAL_PART,) if n in p]  # 규약 청크는 있으면 넷째다
+        roles = [n for n in DECISION_READING_ORDER + (DECISION_OPTIONAL_PART,) if n in p]  # 규약은 있으면 넷째다
         body.append("kb_decision(\n" + f"    name = {q(it['dir'])},\n"
                     + "".join(f"    {n} = {q(it['dir'] + '/' + n + '.md')},\n" for n in roles)
                     + f"    iri = {q(it['comp_iri'])},\n"

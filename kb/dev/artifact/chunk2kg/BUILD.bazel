@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -21,6 +21,7 @@ kb_composite(
         "fn-_body_slot_at_field_head.md",
         "fn-apply_plane_level_state.md",
         "fn-attach_parts.md",
+        "fn-body_slot_mark.md",
         "fn-body_slots.md",
         "fn-body_text.md",
         "fn-check_norm_bundle_form.md",
@@ -31,8 +32,11 @@ kb_composite(
         "fn-emit_chunk.md",
         "fn-emit_links.md",
         "fn-emit_parsed.md",
+        "fn-emit_tombstone.md",
         "fn-esc.md",
         "fn-is_link_block.md",
+        "fn-is_tombstone_block.md",
+        "fn-label_stmts.md",
         "fn-link_hash.md",
         "fn-link_targets.md",
         "fn-load_plane_level_state.md",
@@ -59,6 +63,7 @@ kb_composite(
         "fn-token_count.md",
         "fn-tokenizer_vocab_fingerprint.md",
         "fn-tokenizer_vocab_path.md",
+        "fn-tombstones.md",
         "fn-work_id.md",
         "head.md",
         "module.md",
@@ -73,6 +78,7 @@ kb_composite(
         "sec-ordered-key.md",
         "sec-parse-chunk.md",
         "sec-tokenizer-name.md",
+        "sec-tombstone-class.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/composite/f7d6eec7-bef4-4e94-ac55-36e7dda654ce",
     ordered = ["https://agentic-knowledge-base.dev/id/composite/b1903be2-0bdb-4f11-9c2b-cc59cc7e9a24", "https://agentic-knowledge-base.dev/id/composite/28e52252-d603-4c96-b7ee-f85197b0d7da", "https://agentic-knowledge-base.dev/id/composite/067a8c81-640e-4b58-8235-c18119d80f2e"],

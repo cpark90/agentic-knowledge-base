@@ -7,20 +7,20 @@ title: function parse_space in tools/space2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-space2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/9875f781-35a4-413a-beae-89f20bb6ea33, https://agentic-knowledge-base.dev/id/chunk/a17c39f7-acf4-442e-a8e3-c996b7156e77, https://agentic-knowledge-base.dev/id/chunk/cdaa7848-3ca1-4cc0-a72c-836fd556f15e, https://agentic-knowledge-base.dev/id/chunk/d3b6910f-bf07-4997-9d87-d61f68beb577]
 part_of: https://agentic-knowledge-base.dev/id/composite/fc3f9858-3941-435d-b741-071b871ce613
 ---
-**함수** — `parse_space(path)` 다. `-space` 청크 하나 → 방출에 필요한 값들.
+**함수** — `parse_space(path)` 다. 설계 공간(`-space`) 하나 → 방출에 필요한 값들.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def parse_space(path: str) -> dict:
-    """`-space` 청크 하나 → 방출에 필요한 값들. 형식 위반은 SpaceError 다."""
+    """설계 공간(`-space`) 하나 → 방출에 필요한 값들. 형식 위반은 SpaceError 다."""
     meta, body = chunk2kg.parse_chunk(path)
     if meta["type"] != kb_lib.SPACE_TYPE:
-        raise SpaceError(f"{path}: type 이 {kb_lib.SPACE_TYPE} 가 아니다 — 실제 {meta['type']!r} (설계 공간이 아닌 청크는 "
+        raise SpaceError(f"{path}: type 이 {kb_lib.SPACE_TYPE} 가 아니다 — 실제 {meta['type']!r} (설계 공간이 아닌 단위 지식은 "
                          f"tools/chunk2kg.py 가 head 로 올린다)")
     data = body_block(path, kb_lib.chunk_body(Path(path).read_text(encoding="utf-8")))
 
@@ -57,7 +57,7 @@ def parse_space(path: str) -> dict:
         elif item.get("eliminated_by"):
             raise SpaceError(f"{path}: 후보 {to} 는 state 가 {state} 인데 eliminated_by 가 있다 — 배제 근거는 eliminated 에만 적는다")
         if state == "confirmed" and not any(k in kb_lib.SPACE_CONFIRMING_EVIDENCE for k, _ in support):
-            raise SpaceError(f"{path}: 후보 {to} 가 confirmed 인데 지지 증거가 없다 — 구축 기록 또는 실행 결과"
+            raise SpaceError(f"{path}: 후보 {to} 가 confirmed 인데 지지 증거가 없다 — 구축 기록·실행 결과·유저 결정"
                              f"({' | '.join(kb_lib.SPACE_CONFIRMING_EVIDENCE)}) 없이 확정할 수 없다 (9.11절, 요구 r-011-no-groundless-assignment)")
         candidates.append({"to": to, "state": state, "when": str(item.get("when", "")), "support": support, "elim": elim})
 

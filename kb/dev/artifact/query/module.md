@@ -7,13 +7,12 @@ title: file tools/query.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-query}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/0c829785-f155-4ab8-bf9a-1f69b0d3e85d, https://agentic-knowledge-base.dev/id/chunk/8d962172-f5b0-4fe3-8c9c-8598334847e4, https://agentic-knowledge-base.dev/id/chunk/595590fa-f40a-4008-92c0-f971f574111b]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f0c1bfd1-a5d5-4710-83ce-f8ca7018e21b, title_ko: 파일 복합체 tools/query.py, title: file composite tools/query.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/8952bd20-8b9b-4bd8-916d-669341f4c67e, https://agentic-knowledge-base.dev/id/composite/804dd9bd-ceaa-4ecc-9233-ef543578feb9, https://agentic-knowledge-base.dev/id/composite/4358cd56-6be2-4ce1-9f2f-9fb0ed47b5d3]}
 ---
-**파일** — `tools/query.py` 다. 241줄 · 최상위 정의 10개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/query.py` 다. 241줄 · 최상위 정의 10개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

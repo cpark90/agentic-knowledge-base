@@ -5,9 +5,10 @@ level: concrete
 title_ko: 체계는 두 기반·다섯 메커니즘·두 지식 베이스로 구성된다
 title: Two foundations, five mechanisms, two knowledge bases
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0022-two-foundations-five-mechanisms.md, id: https://agentic-knowledge-base.dev/id/chunk-d0022, title_ko: "두 기반과 다섯 메커니즘", title: "Two foundations and five mechanisms"}, {resource: git:aeb0a58:chunks/decision/d-0023-out-of-scope-input-and-use.md, id: https://agentic-knowledge-base.dev/id/chunk-d0023, title_ko: "체계 밖은 입력과 활용으로 나뉜다", title: "Outside the system splits into input and use"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T21:30:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0022, https://agentic-knowledge-base.dev/id/chunk-d0023]
 part_of: https://agentic-knowledge-base.dev/id/composite/4a312eca-5b3b-40e5-9f0a-c141039ac7c1
@@ -21,8 +22,8 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/4a312eca-5b3b-40
 |---|---|
 | 온톨로지 (기반 1) | 모든 것이 표현되는 공통 어휘가 없다 |
 | ODD (기반 2) | 프로젝트 전체의 전제 조건이 적힌 곳이 없다 |
-| 청크·복합체 | 지식의 최소 단위와 조립 규칙이 없다 |
-| plane | 성격이 다른 지식이 뒤섞인다 |
+| 단위 지식·복합체 | 지식의 최소 단위와 조립 규칙이 없다 |
+| 지식 종류 | 성격이 다른 지식이 뒤섞인다 |
 | 정제 계층 | 요구와 실제 산출물이 끊어져 있다 |
 | 연결의 가능성 | 미확정 연결을 표현할 수단이 없다 |
 | 링크 | 지식 사이의 관계가 암묵적이다 |

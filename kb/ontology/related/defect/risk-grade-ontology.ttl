@@ -9,7 +9,7 @@ agt:severityGrade a owl:DatatypeProperty ;
     rdfs:domain agt:DefectFactor ;
     rdfs:range xsd:string ;
     rdfs:label "severity grade"@en , "심각도 등급"@ko ;
-    skos:definition "현상이 피해에 이를 때 손상의 크기를 나타내는 순서 척도의 등급. HARA 의 S 자리다. 순서 척도이므로 다른 등급과 곱하지 않는다 — 곱은 순위를 왜곡한다. 곱셈 금지는 리뷰 규범이다. 값 어휘는 S0~S3 이고 단계의 판정 조건은 kb/vv/scenario/risk-grade-scale.md 가 정의한다. 게이트: risk-grade-shapes."@ko .
+    skos:definition "현상이 피해에 이를 때 손상의 크기를 나타내는 순서 척도의 등급. HARA 의 S 자리다. 순서 척도이므로 다른 등급과 곱하지 않는다 — 곱은 순위를 왜곡한다. 곱셈 금지는 리뷰 규범이다. 값 어휘는 S0~S3 이고 단계의 판정 조건은 kb/vv/scenario/risk-grade-scale-stimulus.md 가 정의한다. 게이트: risk-grade-shapes."@ko .
 
 agt:exposureGrade a owl:DatatypeProperty ;
     rdfs:domain agt:DefectFactor ;

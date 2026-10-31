@@ -7,17 +7,17 @@ title: function rebase_links in tools/gen_norms.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-norms}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-03T18:27:34Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/0ad37658-cf36-48b8-923d-769303f455d1]
 part_of: https://agentic-knowledge-base.dev/id/composite/d0c409f2-67d6-42c0-b5be-319def3c320d
 ---
-**함수** — `rebase_links(text, src, out)` 다. 청크(`src`, 루트 상대) 기준 상대 링크 → 출력(`out`) 기준.
+**함수** — `rebase_links(text, src, out)` 다. 단위 지식(`src`, 루트 상대) 기준 상대 링크 → 출력(`out`) 기준.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def rebase_links(text: str, src: str, out: str) -> str:
-    """청크(`src`, 루트 상대) 기준 상대 링크 → 출력(`out`) 기준. 링크 밖의 코드 스팬·펜스 안, 절대 URL, 문서 안 앵커는 그대로다."""
+    """단위 지식(`src`, 루트 상대) 기준 상대 링크 → 출력(`out`) 기준. 링크 밖의 코드 스팬·펜스 안, 절대 URL, 문서 안 앵커는 그대로다."""
     src_dir, out_dir = os.path.dirname(src), os.path.dirname(out) or "."
 
     def fix(m: re.Match) -> str:

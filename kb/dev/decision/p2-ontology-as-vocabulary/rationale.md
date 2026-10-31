@@ -7,12 +7,12 @@ title: Confining vocabulary to one rung makes other rungs uncheckable
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/0a751e1a-d819-45e5-8425-54945c706108
 ---
 **근거** (노트 2.1절) — 온톨로지를 정제 계층의 한 단계로 두면 그 위아래 단계는 어휘 밖 문장을 쓰게 되고, 통제 어휘 검사·질의·무효화 전파가 그 단계에서 멈춘다. 다섯 단계가 같은 어휘를 쓰기 때문에 같은 개념을 서술·형식 문장·제약·개체·산출물로 연속해서 추적할 수 있다.
 
-같은 이유로 스코프·가정·요구·기준·링크를 어휘 밖 자연어로 쓰면 판정이 불가능해진다 — 그것들이 온톨로지 문장이어야 게이트가 기계로 읽는다.
+같은 이유로 적용 범위·가정·요구·기준·링크를 어휘 밖 자연어로 쓰면 판정이 불가능해진다 — 그것들이 온톨로지 문장이어야 게이트가 기계로 읽는다.
 
 저장된 뷰는 원본과 어긋나는 순간부터 거짓이 된다. 뷰를 질의로 조립하면 원본이 하나뿐이므로 어긋날 자리가 없다.

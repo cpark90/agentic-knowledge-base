@@ -8,8 +8,10 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-generated-document-standards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/02fd5ecb-544d-434e-9146-96a0e3607851]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T20:18:09+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}
 layer: process
+verifies: [https://agentic-knowledge-base.dev/id/chunk/0a421535-c9ff-40ab-a04f-cd96deb799a9, https://agentic-knowledge-base.dev/id/chunk/f27e3bb2-85d8-43e1-9020-f659f1d58743]
+restored: [https://agentic-knowledge-base.dev/id/chunk/0a421535-c9ff-40ab-a04f-cd96deb799a9, https://agentic-knowledge-base.dev/id/chunk/f27e3bb2-85d8-43e1-9020-f659f1d58743]
 ---
 **검증기** — 게이트 하나와 임시 표본 하나를 자극으로 쓴다.
 
@@ -21,10 +23,10 @@ badform.md:
   body:  ["## 표", "| a | b |", "|---|---|", "| 1 | — |", "비율은 50% 다."]
 ```
 
-**기대** — `gendoc_test` 가 PASS 다. 표본은 두 줄 ``FAIL [gendoc] badform.md:14: G14 빈 표 셀 — 비우거나 대시를 쓰지 않고 `없음` 으로 적는다 (Microsoft Writing Style Guide, Tables)`` 와 ``FAIL [gendoc] badform.md:16: G15 분모 없는 백분율 `50%` — `n/d = p.p%` 꼴로 적는다 (kb_lib.pct)`` 뒤에 요약 `FAIL [gendoc] — 2건 (생성 문서 1개)` 로 끝나고 종료 코드가 1 이다. 2026-09-21 실측과 같다.
+**기대** — `gendoc_test` 가 PASS 다. 표본은 두 줄 ``FAIL [gendoc] badform.md:14: G14 빈 표 셀 — 비우거나 대시를 쓰지 않고 `없음` 으로 적는다 (Microsoft Writing Style Guide, Tables)`` 와 ``FAIL [gendoc] badform.md:16: G15 분모 없는 백분율 `50%` — `n/d = p.p%` 꼴로 적는다 (kb_lib.pct)`` 뒤에 요약 `FAIL [gendoc] — 2건 (생성 문서 1개)` 로 끝나고 종료 코드가 1 이다. 2026-09-21 측정과 같다.
 
 **실행 명령** — `bazel test //:gendoc_test`
 
-**판정 범위** — 양성은 게이트 대상 전부라 전수다. 음성은 2026-09-19 실측에서 갈래가 가장 많던 둘(빈 값 표기 네 갈래 · 백분율)을 고른다. 머리 블록 쪽 음성은 케이스 `generated-document-provenance` 가 맡는다.
+**판정 범위** — 양성은 게이트 대상 전부라 전수다. 음성은 2026-09-19 측정에서 갈래가 가장 많던 둘(빈 값 표기 네 갈래 · 백분율)을 고른다. 머리 블록 쪽 음성은 테스트 케이스 `generated-document-provenance` 가 맡는다.
 
-**검증 대응물** — 없음. 옮기기 전 케이스가 `verifies` 하던 결정 `p12-generated-document-form`·`p12-generated-documents-are-gated` 의 결론은 `concrete` 수준이라 `executable` 검증기가 `verifies` 할 수 없다.
+**검증 대응물** — 이 검증기는 `tools/gendoc.py`와 `tools/kb_lib.py`의 항목을 `verifies` 한다. 끝은 파일 복합체의 선언 항목(`module.md`)이고, 판정 함수 같은 부분 항목은 게이트 `code-part-link` 가 끝으로 받지 않는다. 반면 옮기기 전 테스트 케이스가 `verifies` 하던 결정 `p12-generated-document-form`과 `p12-generated-documents-are-gated`의 결론은 `concrete` 수준이라, 같은 수준끼리만 잇는 규칙에 따라 이 검증기의 끝이 되지 않는다.

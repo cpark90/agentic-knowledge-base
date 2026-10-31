@@ -7,10 +7,10 @@ title: Normative-document conventions — Prefer link evidence that can be check
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:54:56+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T05:27:16+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/4f68217b-9725-4607-9748-151d55d543a8
 ---
 **규약** — `p10-link-judgement-evidence`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: 판정 근거는 검사 가능성 순이다. 순서는 구축 기록 > 동시 편집 이력 > 테스트 공동 커버 > 임베딩 유사도 > 같은 세션에서 읽음이다 (d-0110). 임베딩 유사도는 후보 추림에만 쓴다.
+규약: 판정 근거는 검사 가능성이 높은 것부터 쓰고, 그 순서는 구축 기록, 동시 편집 이력, 테스트 공동 커버, 임베딩 유사도, 같은 세션에서 읽음이다. 다만 임베딩 유사도는 후보 추림에만 쓴다.

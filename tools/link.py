@@ -1,23 +1,29 @@
 #!/usr/bin/env python3
-"""복원 후보 생성기 뷰 — frontmatter 링크가 없는 청크 쌍의 링크 후보를 체계 안 증거만으로 낸다 (로드맵 8단계 복원,
+"""복원 후보 생성기 뷰 — frontmatter 링크가 없는 단위 지식 쌍의 링크 후보를 체계 안 증거만으로 낸다 (로드맵 8단계 복원,
 p10-link-by-construction · p10-candidate-and-confirmed-link · p10-link-judgement-evidence).
 
-게이트가 아니라 **후보 생성기**다. 입력은 그래프 union 뿐이고(체계 밖 정보 0) 판정은 사람이 후보마다 한다 — 채택하면 앵커 청크의
+게이트가 아니라 **후보 생성기**다. 입력은 그래프 union 뿐이고(체계 밖 정보 0) 판정은 사람이 후보마다 한다 — 채택하면 앵커 단위 지식의
 frontmatter 에 링크 키와 `restored:` 를 적는다 (p10-restored-link-marking). 결과는 저장하지 않는다 (4.6절 뷰 원칙).
-  단위  살아 있는 청크(status ≠ deprecated). 결정 복합체(conclusion·rationale·alternatives)는 한 단위이고 앵커는 결론이다 — 링크 키는
+  단위  살아 있는 단위 지식(status ≠ deprecated). 결정 기록(conclusion·rationale·alternatives)은 한 단위이고 앵커는 결론이다 — 링크 키는
         결론에 적는다. 손으로 쓴 복합체(kg/composite-kg.ttl)의 부분은 각각 단위이되 형제끼리는 후보가 아니다
   근거  체계 안 증거만, 검사 가능성 순 (kb/ontology/related/trace/evidence-ontology.ttl):
         (a) 본문 식별자 — A 본문이 B 를 agt:cites 하는데 frontmatter 링크가 없다 → constructionRecord (본문 식별자는 구축 기록이다)
-        (b) 테스트 공동 커버 — 같은 V&V 청크가 verifies 하는 두 개발 청크 → testCoverage
+        (b) 테스트 공동 커버 — `verifies`(V&V → 개발)의 근거다 (p10-link-judgement-evidence). 테스트 케이스 C 가 개발 항목 D 를 verifies 하고
+            같은 합격 기준의 검증기 W 가 C 를 돌리며 개발 항목 A 가 D 를 refines 하면 W→A `verifies` 후보 → testCoverage, 값은 테스트 케이스.
+            정의는 kb_lib.co_cover 하나다. 같은 V&V 항목이 함께 덮는 개발 항목 두 개의 쌍으로 읽지 않는다
         (c) 개념 공유 — agt:usesConcept 교집합 ≥ --min-shared (기본 3) → proposal (도구 제안 — 확정 근거가 아니며 동률만 깬다)
         (d) 승계 — 조각 F 가 prov:specializationOf O 이면 O 를 가리키던 확정 링크(linkState confirmed, 종류는 LINK_KEYS) X→O 마다
             X→F 후보 → constructionRecord, 값 "승계: O" (p10-split-keeps-work-identity). 종류는 원 링크의 종류를 우선한다
+        (e) 동시 편집 — 동시 편집 관측(`--coedit`, kb_lib.coedit_pairs)의 쌍 → coEditHistory, 값은 관측 파일 이름. git 은 읽지 않는다 —
+            쌍은 `bazel run //tools:run_evidence -- --coedit-record` 가 고정한 관측에만 있다 (p10-co-edit-evidence-from-small-commits)
+        (f) 판정 — 판정자 둘이 쌍 판정지(`label_sample.py --pair-sheet`)로 판정하고 `run_evidence` 가 판정 로그에서 후보 링크 개체에 붙인
+            agt:judgement 증거(극성 yes=+ no=−). 같은 쌍·같은 종류의 후보에만 붙고 값은 극성들이다. 동시 편집이 첫 근거인 후보만 판정 대상이다
         임베딩 유사도는 쓰지 않는다 (ODD 가 학습 임베딩을 명시 제외). 같은 세션 읽음은 하네스가 아직 기록하지 않는다
   종류  TIM 허용 칸(kb_lib.TIM_CELLS)에서 고른다 — 인용 방향(대칭 근거는 IRI 순)을 먼저, 다음 역방향, 칸이 없으면 overlapsWith
         (relatedTo 족의 약한 잎 — 관계는 있으나 이름이 아직 없는 자리, overlap-ontology). 그것은 링크 키라 채택이 복원 비율에 든다.
         supersedes 는 시간축이라 후보가 아니다. 한 칸에 종류가 여럿이면 refines > derivesFrom > satisfies > constrains > serves > verifies 순.
         승계 후보는 원 링크의 종류가 제약을 통과하면 그것을 쓴다
-  제약  defs/kb.bzl _check_links 와 같은 규칙 — refines·serves 는 더 높은 수준으로·plane 순서 역행 금지, serves 대상은 요구,
+  제약  defs/kb.bzl _check_links 와 같은 규칙 — refines·serves 는 더 높은 수준으로·지식 종류 순서 역행 금지, serves 대상은 요구,
         verifies 는 주어 kb/vv·대상 개발 KB·같은 수준. 자기 자신·deprecated·복합체 형제·이미 링크된 쌍·KB 를 가로지르는 overlapsWith 는 탈락.
         구조상 채택될 수 없는 후보 셋을 더 거른다 — `_check_links` 는 Bazel deps(refines·serves·supersedes·verifies)만 보므로
         나머지 키는 여기서 걸러야 후보가 준다:
@@ -25,17 +31,23 @@ frontmatter 에 링크 키와 `restored:` 를 적는다 (p10-restored-link-marki
              (p6-executable-splits-by-kb). 예외는 정제 계층의 functional 행 하나 — V&V 검증 목표(kb/vv requirement, functional)
              → 개발 요구 derivesFrom (p8-scenario-ladder-rungs). 판정은 kb_lib.cross_kb_link 이고 저작된 링크는 같은 함수로
              게이트 `cross-kb-link`(validate)가 거부한다
-        (나) 코드 부분 끝점 — 추출 트리(kb_lib.EXTRACT_ROOT) 안에서 복합체의 부분인 청크(정의·절·장·모듈 머리)는 끝점이 아니다.
-             링크는 파일 복합체의 선언 청크(module.md)와 질의 청크가 갖는다 (p7-code-links-on-file-composite)
-        (다) 케이스의 derivesFrom — 케이스(generated.by = kb_lib.CASE_GEN_ACTOR)의 derivesFrom 은 생성기가 자기 시나리오로 쓴다
+        (나) 코드 부분 끝점 — 추출 트리(kb_lib.EXTRACT_ROOT) 안에서 복합체의 부분인 단위 지식(정의·절·장·모듈 머리)은 끝점이 아니다.
+             링크는 파일 복합체의 선언 단위 지식(module.md)과 질의 단위 지식이 갖는다 (p7-code-links-on-file-composite)
+        (다) 테스트 케이스의 derivesFrom — 테스트 케이스(generated.by = kb_lib.CASE_GEN_ACTOR)의 derivesFrom 은 생성기가 자기 시나리오로 쓴다
              (tools/case_gen.py). 그 밖의 대상은 후보가 아니다
-  상한  앵커(주어)당 k ≤ --k (기본 7, 로드맵 입력표) — 근거 강도 → 공유 개념 수 → 대상 라벨 순. 넘치는 것은 탈락으로 센다
-사용: link.py --out link-candidates.md [--k 7] [--min-shared 3] <TTL...>   (bazel build //kg:link_candidates)
+  상한  앵커(주어)당 k ≤ --k (기본 7, 로드맵 입력표) — 근거 강도 → 공유 개념 수 → 대상 IRI 순으로 자르고 넘치는 것은 탈락으로 센다.
+        라벨은 자르는 데 쓰지 않고 자른 뒤 표시 순서에만 쓴다 — 라벨을 바꿔도 상한 안의 후보는 같다 (p9-candidate-generation-limits, Q169-a)
+  큐    첫 근거가 동시 편집인 후보는 판정 넷(kb_lib.judged_class)으로 가른다 — 일치(+,+) · 일치(−,−) · 불일치 · 판정 없음 (task 0262,
+        Q-0061 Q145-a). 사람 확인 큐(후보 표)에는 첫 근거가 동시 편집이 아닌 후보와 일치(+,+) 전부, 일치(−,−) 의 표본(kb_lib.JUDGED_NO_SAMPLE_SIZE,
+        시드 kb_lib.JUDGED_NO_SAMPLE_SEED 의 sha256 순위)이 판정자 값과 함께 오른다 (task 0303, Q165-c). 표본 밖 일치(−,−)·불일치·판정 없음은
+        따로 절을 세운다. 판정은 후보를 확정하지도 무효로 만들지도 않는다 — 확정은 언제나 사람이 frontmatter 에 적는 행위다
+사용: link.py --out link-candidates.md [--k 7] [--min-shared 3] [--coedit <관측 .md...>] <TTL...>   (bazel build //kg:link_candidates)
 종료: 0 생성됨 · 2 입력 문제(그래프 파일 없음·파싱 불가) — 뷰라 판정 실패(1)는 없다. 후보 0건은 빈 표이지 실패가 아니다
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import sys
 from collections import Counter, defaultdict
 
@@ -46,7 +58,7 @@ try:
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
     import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
-from chunk2kg import LINK_KEYS, RESTORED_KEY  # noqa: E402 — frontmatter 링크 키의 단일 정의처
+from chunk2kg import LINK_KEYS, RESTORED_KEY  # noqa: E402 — frontmatter 링크 키의 단일 정의 위치
 
 AGT, PROV = kb_lib.AGT, kb_lib.PROV
 EXIT_OK, EXIT_CONFIG = kb_lib.EXIT_OK, kb_lib.EXIT_CONFIG
@@ -56,7 +68,7 @@ PLANES = ["requirement", "decision", "contract", "schema", "artifact", "annotati
 RELATED_KEYS = ("coUpdatesWith", "conflictsWith", "relatedTo", "overlapsWith")  # relatedTo 족 — 이미 이어진 쌍을 가리는 데 쓴다
 RELATED = "overlapsWith"  # 칸이 없을 때의 종류 — relatedTo 자신이 아니라 그 아래 약한 잎이다 (overlap-ontology)
 # 증거 종류의 강도 — 검사 가능성 순 (evidence-ontology, p10-link-judgement-evidence). 작을수록 강하다
-EVIDENCE_RANK = {"constructionRecord": 0, "testCoverage": 1, "proposal": 2}
+EVIDENCE_RANK = {"constructionRecord": 0, "coEditHistory": 1, "testCoverage": 2, "judgement": 3, "proposal": 4}
 # 한 TIM 칸에 종류가 여럿일 때의 우선순위 — 정제가 먼저, 다음 의미 의존, serves 는 refines 의 약한 형태, verifies 는 vnv 가 적는다
 KIND_PREFERENCE = ("refines", "derivesFrom", "satisfies", "constrains", "serves", "verifies", "allocates", "generates")
 # 탈락 사유 — 요약의 분포 열쇠
@@ -64,15 +76,15 @@ R_SELF, R_DEPRECATED, R_SIBLING, R_LINKED = "자기 자신(같은 단위)", "dep
 R_DIRECTION, R_CROSS_KB, R_CAP = "TIM 칸은 있으나 단방향·수준 규칙 위반", "KB 가로지름 (overlapsWith 불가 — verifies 뿐)", "상한 k 초과"
 # 구조상 채택될 수 없는 후보 — 위반 사유가 곧 탈락 사유다 (docstring 제약 (가)~(다))
 R_CROSS_LINK = "KB 가로지름 링크 (KB 사이 링크는 verifies 뿐 — 목표 → 요구 derivesFrom 만 예외)"
-R_CODE_PART = "코드 부분 청크가 끝점 (링크는 파일 복합체에)"
-R_CASE_DERIVES = "케이스의 derivesFrom (생성기가 자기 시나리오로 쓴다)"
+R_CODE_PART = "코드 부분 단위 지식이 끝점 (링크는 파일 복합체에)"
+R_CASE_DERIVES = "테스트 케이스의 derivesFrom (생성기가 자기 시나리오로 쓴다)"
 STRUCTURAL = (R_CROSS_LINK, R_CASE_DERIVES)
 
 
 # ── 단위와 매트릭스 제약 ────────────────────
 
 class Units:
-    """살아 있는 청크를 단위로 — 결정 복합체(결론 부분이 있는 것)는 결론이 대표하고, 나머지 청크는 자기 자신이 단위다."""
+    """살아 있는 단위 지식을 단위로 — 결정 기록(결론 부분이 있는 것)은 결론이 대표하고, 나머지 단위 지식은 자기 자신이 단위다."""
 
     def __init__(self, g):
         self.g = g
@@ -92,7 +104,7 @@ class Units:
         concl_name = "/" + kb_lib.DECISION_PART_FILES["conclusion"]
         for comp, ps in parts.items():
             concl = sorted((p for p in ps if self.loc.get(p, "").endswith(concl_name)), key=str)
-            if concl and all(self.plane.get(p) == "decision" for p in ps):  # 결정 복합체 — 앵커는 결론 (STYLEGUIDE §4, weave 와 같은 규칙)
+            if concl and all(self.plane.get(p) == "decision" for p in ps):  # 결정 기록 — 앵커는 결론 (STYLEGUIDE §4, weave 와 같은 규칙)
                 for p in ps:
                     if p in self.chunks:
                         self.unit_of[p] = concl[0]
@@ -119,7 +131,7 @@ class Units:
         return Path(self.loc.get(c, str(c))).stem
 
     def code_part(self, c) -> bool:
-        """추출 트리 안에서 복합체의 부분인 청크 — 링크 끝점이 아니다. 판정은 게이트 `code-part-link` 와 같은 `kb_lib.code_part` 다."""
+        """추출 트리 안에서 복합체의 부분인 단위 지식 — 링크 끝점이 아니다. 판정은 게이트 `code-part-link` 와 같은 `kb_lib.code_part` 다."""
         return kb_lib.code_part(self.loc.get(c, ""), c in self.comp_of)
 
     def case(self, c) -> bool:
@@ -127,7 +139,7 @@ class Units:
 
 
 def tim_kinds(pa: str, pb: str) -> list:
-    """(출발 plane, 도착 plane) 칸이 허용하는 링크 종류 — supersedes 제외, KIND_PREFERENCE 순."""
+    """(출발 지식 종류, 도착 지식 종류) 칸이 허용하는 링크 종류 — supersedes 제외, KIND_PREFERENCE 순."""
     kinds = {k for k, x, y in kb_lib.TIM_CELLS if x == pa and y == pb and k != "supersedes"}
     return sorted(kinds, key=lambda k: KIND_PREFERENCE.index(k) if k in KIND_PREFERENCE else len(KIND_PREFERENCE))
 
@@ -139,19 +151,19 @@ def violation(u: Units, kind: str, a, b) -> str | None:
     if kb_lib.cross_kb_link(kind, (u.kb(a), u.plane[a], u.level[a]), (u.kb(b), u.plane[b], u.level[b])):
         return R_CROSS_LINK  # 판정은 게이트 cross-kb-link 와 같은 함수다 (kb_lib.cross_kb_link — 예외는 목표 → 요구 derivesFrom)
     if kind == "derivesFrom" and u.case(a):
-        return R_CASE_DERIVES  # 케이스의 derivesFrom 은 생성기가 자기 시나리오로 쓴다 (tools/case_gen.py)
+        return R_CASE_DERIVES  # 테스트 케이스의 derivesFrom 은 생성기가 자기 시나리오로 쓴다 (tools/case_gen.py)
     if kind in ("refines", "serves"):
         if lb >= la:
             return "refines/serves 대상은 더 높은 수준이어야 한다 (6.2절)"
         if PLANES.index(u.plane[b]) > PLANES.index(u.plane[a]):
-            return "plane 단방향 위반 (5.2절)"
+            return "지식 종류 단방향 위반 (5.2절)"
         if kind == "serves" and u.plane[b] != "requirement":
             return "serves 의 대상은 requirement 뿐이다 (6.8절)"
     elif kind == "verifies":
         if u.kb(a) != kb_lib.KB_VV:
-            return "verifies 의 주어는 V&V KB 청크뿐이다 (8.5절)"
+            return "verifies 의 주어는 V&V KB 지식뿐이다 (8.5절)"
         if u.kb(b) == kb_lib.KB_VV:
-            return "verifies 의 대상은 개발 KB 청크다"
+            return "verifies 의 대상은 개발 KB 지식이다"
         if u.level[a] != u.level[b]:
             return "verifies 는 같은 수준끼리다 (8.3절)"
     return None
@@ -184,7 +196,7 @@ def resolve(u: Units, key: frozenset, prefer: dict, hint: dict | None = None):
     return (a, RELATED, b)
 
 
-def gather(u: Units, min_shared: int):
+def gather(u: Units, min_shared: int, coedit_paths=()):
     """증거 수집 → (쌍 → 증거 목록 [(강도, 종류, 값, 정렬용 공유 수)], 쌍 → 인용 방향, 탈락 분포, 쌍 → 승계 종류)."""
     g = u.g
     dropped: Counter = Counter()
@@ -213,16 +225,20 @@ def gather(u: Units, min_shared: int):
     # (a) 본문 식별자 — extract_refs 의 agt:cites (인용한 쪽이 앵커 후보)
     for s, o in sorted(g.subject_objects(AGT.cites), key=lambda so: (str(so[0]), str(so[1]))):
         pair(s, o, "constructionRecord", u.stem(o), 0, True)
-    # (b) 테스트 공동 커버 — 같은 V&V 청크가 verifies 하는 두 개발 단위
-    covers = defaultdict(set)
-    for s, o in g.subject_objects(AGT.verifies):
-        if s in u.live and o in u.unit_of:
-            covers[s].add(u.unit_of[o])
-    for s in sorted(covers, key=str):
-        targets = sorted(covers[s], key=str)
-        for i, a in enumerate(targets):
-            for b in targets[i + 1:]:
-                pair(a, b, "testCoverage", u.stem(s), 0, False)
+    # (b) 테스트 공동 커버 — verifies W→A 의 근거 (단일 정의 위치 kb_lib.co_cover). 원 링크 종류처럼 verifies 를 힌트로 준다
+    refines, verifies = defaultdict(list), defaultdict(list)
+    for p, m in ((AGT.refines, refines), (AGT.verifies, verifies)):
+        for s, o in g.subject_objects(p):
+            m[s].append(o)
+    in_dir = lambda c, d: u.loc.get(c, "").startswith(f"{kb_lib.KB_VV}/{d}/")  # noqa: E731
+    cover = kb_lib.co_cover(refines, verifies, [c for c in u.live if in_dir(c, "case")], [c for c in u.live if in_dir(c, "verifier")],
+                            [c for c in u.live if u.kb(c) == kb_lib.KB_DEV])
+    for (w, x), cases in sorted(cover.items(), key=lambda kv: (str(kv[0][0]), str(kv[0][1]))):
+        before = len(evidence.get(frozenset((u.unit_of.get(w), u.unit_of.get(x))), []))
+        pair(w, x, "testCoverage", " · ".join(u.stem(c) for c in sorted(cases, key=str)), 0, True)
+        key = frozenset((u.unit_of.get(w), u.unit_of.get(x)))
+        if len(evidence.get(key, [])) > before:
+            hint.setdefault(key, "verifies")
     # (c) 개념 공유 — 단위별 agt:usesConcept 합집합의 교집합
     concepts = defaultdict(set)
     for s, o in g.subject_objects(AGT.usesConcept):
@@ -250,7 +266,87 @@ def gather(u: Units, min_shared: int):
                 key = frozenset((u.unit_of.get(x), u.unit_of.get(frag)))
                 if len(evidence.get(key, [])) > before:
                     hint.setdefault(key, kind)
+    # (e) 동시 편집 — 관측이 고정한 쌍 (단일 정의 위치 kb_lib.coedit_pairs). 관측이 없으면 0건이다
+    iri = {str(c): c for c in u.chunks}
+    obs, coedit, _ = kb_lib.coedit_pairs(coedit_paths, set(iri))
+    for a, b in sorted(tuple(sorted(p)) for p in coedit):
+        pair(iri[a], iri[b], "coEditHistory", Path(obs).stem, 0, False)
     return evidence, prefer, dropped, hint
+
+
+def judgements(u: Units) -> dict:
+    """(f) 판정 — {(단위 쌍, 링크 종류): [극성…]}. run_evidence 가 후보 링크 개체에 붙인 agt:judgement 증거를 읽는다 (판정자마다 하나)."""
+    g, out = u.g, defaultdict(list)
+    for link in sorted(set(g.subjects(AGT.hasEvidence, None)), key=str):
+        pols = [str(next(g.objects(e, AGT.polarity), "")) for e in sorted(g.objects(link, AGT.hasEvidence), key=str)
+                if next(g.objects(e, AGT.evidenceKind), None) == AGT.judgement]
+        if not pols:
+            continue
+        a, b = next(g.objects(link, AGT.linkFrom), None), next(g.objects(link, AGT.linkTo), None)
+        kind = str(next(g.objects(link, AGT.linkKind), "")).split("/")[-1]
+        ua, ub = u.unit_of.get(a), u.unit_of.get(b)
+        if ua is not None and ub is not None and ua != ub:
+            out[(frozenset((ua, ub)), kind)] += pols
+    return out
+
+
+def judged_sections(u: Units, candidates: list) -> tuple[list[str], list[str]]:
+    """동시 편집이 첫 근거인 후보의 판정 넷 → (요약 표의 세 행, 네 절의 줄들) (task 0262 Q145-a, task 0303 Q165-c).
+
+    큐(후보 표)는 첫 근거가 동시 편집이 아닌 후보, 일치(+,+) 전부, 일치(−,−) 의 표본이고 판정자 값 열에 극성과 판정을 싣는다. 표본은
+    일치(−,−) 쌍마다 sha256(시드 ∣ 앵커 IRI ∣ 대상 IRI ∣ 링크 종류)이 가장 작은 kb_lib.JUDGED_NO_SAMPLE_SIZE 쌍이고(모자라면 전부) 판정자 값에
+    kb_lib.JUDGED_NO_SAMPLE_MARK 를 덧붙인다. 표본 밖 일치(−,−)·불일치·판정 없음은 따로 절을 세운다. 번호는 네 절을 통틀어 후보 순서다."""
+    for c in candidates:
+        pols = next((e[2].split() for e in c["evs"] if e[1] == "judgement"), [])
+        c["judged"] = kb_lib.judged_class(pols) if c["evs"][0][1] == "coEditHistory" else None
+        c["judge_cell"] = (f"{' '.join(kb_lib.POLARITY_MARK.get(p, p) for p in pols)} ({c['judged']})" if c["judged"] and pols
+                           else kb_lib.EMPTY_NOT_APPLICABLE)
+    agree_no = [c for c in candidates if c["judged"] == kb_lib.JUDGED_AGREE_NO]
+    rank = {id(c): hashlib.sha256("\t".join((kb_lib.JUDGED_NO_SAMPLE_SEED, str(c["anchor"]), str(c["target"]), str(c["kind"])))
+                                  .encode("utf-8")).hexdigest() for c in agree_no}
+    sample = {id(c) for c in sorted(agree_no, key=lambda c: rank[id(c)])[:kb_lib.JUDGED_NO_SAMPLE_SIZE]}
+    for c in agree_no:
+        if id(c) in sample:
+            c["judge_cell"] += f" · {kb_lib.JUDGED_NO_SAMPLE_MARK}"
+    queue = [c for c in candidates if c["judged"] in (None, kb_lib.JUDGED_AGREE_YES) or id(c) in sample]
+    split = {k: [c for c in candidates if c["judged"] == k] for k in (kb_lib.JUDGED_DISAGREE, kb_lib.JUDGED_NONE)}
+    outside = [c for c in agree_no if id(c) not in sample]
+    judged_n = Counter(c["judged"] for c in candidates if c["judged"])
+    four = (kb_lib.JUDGED_AGREE_YES, kb_lib.JUDGED_AGREE_NO, kb_lib.JUDGED_DISAGREE, kb_lib.JUDGED_NONE)
+    summary = ["| 동시 편집 첫 근거 후보의 판정 | " + " · ".join(f"{k} {judged_n[k]}" for k in four) + " |",
+               f"| 사람 확인 큐 크기 | {len(queue)} — 첫 근거가 동시 편집이 아닌 후보 {sum(1 for c in queue if c['judged'] is None)} · "
+               f"{kb_lib.JUDGED_AGREE_YES} {judged_n[kb_lib.JUDGED_AGREE_YES]} · {kb_lib.JUDGED_NO_SAMPLE_MARK} {len(sample)} |",
+               f"| {kb_lib.JUDGED_AGREE_NO} 표본 | {len(sample)} / {len(agree_no)} — 시드 `{kb_lib.JUDGED_NO_SAMPLE_SEED}` · 상한 "
+               f"{kb_lib.JUDGED_NO_SAMPLE_SIZE} · 큐 밖 {len(outside)} |"]
+    header = "| " + " | ".join(kb_lib.LINK_CANDIDATE_COLUMNS) + " |"
+    rule = "|" + "---|" * len(kb_lib.LINK_CANDIDATE_COLUMNS)
+    numbered = {id(c): i for i, c in enumerate(candidates, 1)}
+
+    def table(rows: list, empty: str) -> list:
+        out = [header, rule]
+        for c in rows:
+            out.append(f"| {numbered[id(c)]} | {cell(u.ko(c['anchor']))} | `{u.loc.get(c['anchor'], '')}` | `{c['kind']}` | {cell(u.ko(c['target']))} | "
+                       f"`{kb_lib.compact_iri(str(c['target']))}` | " + " · ".join(e[1] for e in c["evs"]) + " | "
+                       + " · ".join(cell(" ".join(kb_lib.POLARITY_MARK.get(p, p) for p in e[2].split()) if e[1] == "judgement" else e[2])
+                                    for e in c["evs"]) + f" | {c['judge_cell']} | {kb_lib.NONE_MARK} |")
+        if not rows:
+            out.append("| " + " | ".join([kb_lib.NONE_MARK] * 2 + [empty] + [kb_lib.NONE_MARK] * (len(kb_lib.LINK_CANDIDATE_COLUMNS) - 3)) + " |")
+        return out
+
+    o = ["## 후보 — 사람 확인 큐", "",
+         f"첫 근거가 동시 편집이 아닌 후보, 동시 편집이 첫 근거이고 판정자 둘이 {kb_lib.JUDGED_AGREE_YES} 인 후보 전부, {kb_lib.JUDGED_AGREE_NO} 인 후보의 "
+         f"표본이다. 판정자 값은 극성과 판정이고 표본에는 `{kb_lib.JUDGED_NO_SAMPLE_MARK}` 가 붙는다. 표본에서 성립하는 링크가 나오면 판정자가 놓친 "
+         "비율의 재료다.", ""]
+    o += table(queue, f"후보 {kb_lib.NONE_MARK}")
+    o += ["", f"## {kb_lib.JUDGED_AGREE_NO} — 큐 밖, 판정 증거와 함께 후보로 남음", "",
+          "동시 편집이 첫 근거이고 판정자 둘이 함께 반박한 후보 가운데 표본에 들지 않은 것이다. 사람 확인 큐에 오르지 않고 후보 상태는 그대로다.", ""]
+    o += table(outside, f"큐 밖 {kb_lib.NONE_MARK}")
+    o += ["", "## 판정 불일치", "", "동시 편집이 첫 근거이고 판정자 둘의 극성이 갈린 후보다. 사람 확인 큐에 오르지 않는다.", ""]
+    o += table(split[kb_lib.JUDGED_DISAGREE], f"불일치 {kb_lib.NONE_MARK}")
+    o += ["", "## 판정 없음", "",
+          "동시 편집이 첫 근거이고 판정자 둘의 판정이 아직 없는 후보다(단독 판정과 낡은 판정을 포함한다). 쌍 판정지 `label_sample.py --pair-sheet` 의 입력이다.", ""]
+    o += table(split[kb_lib.JUDGED_NONE], f"판정 대상 {kb_lib.NONE_MARK}")
+    return summary, o
 
 
 def cell(text: str) -> str:
@@ -263,6 +359,7 @@ def main() -> int:
     ap.add_argument("--k", type=int, default=7, help="앵커(주어)당 후보 상한 (로드맵 입력표 k ≤ 7)")
     ap.add_argument("--min-shared", type=int, default=3, help="개념 공유 후보의 agt:usesConcept 교집합 하한")
     ap.add_argument("--root", default=".")
+    ap.add_argument("--coedit", nargs="*", default=[], help="동시 편집 관측 후보 파일들 — 이름이 obs-coedit- 인 가장 늦은 것 하나만 읽는다")
     ap.add_argument("files", nargs="*", help="그래프 파일들 (없으면 kb_lib.UNION_GRAPH_PATHS + 온톨로지 모듈)")
     a = ap.parse_args()
     if a.k < 1 or a.min_shared < 1:
@@ -283,7 +380,8 @@ def main() -> int:
             if us is not None and uo is not None and us != uo:
                 linked.add(frozenset((us, uo)))
 
-    evidence, prefer, dropped, hint = gather(u, a.min_shared)
+    evidence, prefer, dropped, hint = gather(u, a.min_shared, a.coedit)
+    judged = judgements(u)
     by_anchor: dict = defaultdict(list)
     for key in sorted(evidence, key=lambda k: tuple(sorted(map(str, k)))):
         if key in linked:
@@ -297,13 +395,19 @@ def main() -> int:
             dropped[r] += 1
             continue
         anchor, kind, target = r
-        evs = sorted(evidence[key])
+        evs = list(evidence[key])
+        pols = judged.get((key, kind), [])
+        if pols:
+            evs.append((EVIDENCE_RANK["judgement"], "judgement", " ".join(pols), 0))
+        evs = sorted(evs)
         by_anchor[anchor].append({"kind": kind, "target": target, "evs": evs, "rank": evs[0][0], "shared": max(e[3] for e in evs)})
     candidates = []
+    # 상한 안의 후보는 근거 순위 → 공유 개념 수 → 대상 IRI 로 정한다. 라벨은 자른 뒤 표시 순서에만 쓴다 — 라벨을 바꿔도 구성은 같다
+    # (p9-candidate-generation-limits, Q169-a). 앵커 순회 순서(라벨)는 표시 번호만 정한다 — 앵커 사이에 공유 상태·전역 상한·중복 제거가 없다
     for anchor in sorted(by_anchor, key=lambda x: (u.ko(x), str(x))):
-        rows = sorted(by_anchor[anchor], key=lambda c: (c["rank"], -c["shared"], u.ko(c["target"]), str(c["target"])))
+        rows = sorted(by_anchor[anchor], key=lambda c: (c["rank"], -c["shared"], str(c["target"])))
         dropped[R_CAP] += max(0, len(rows) - a.k)
-        for c in rows[:a.k]:
+        for c in sorted(rows[:a.k], key=lambda c: (c["rank"], -c["shared"], u.ko(c["target"]), str(c["target"]))):
             c["anchor"] = anchor
             candidates.append(c)
 
@@ -314,43 +418,39 @@ def main() -> int:
     live_units = [x for x in u.members if u.alive(x)]
     head = kb_lib.gendoc_header(
         "link-candidates", "복원 후보 생성기 뷰", "tools/link.py",
-        f"살아 있는 단위(결정 복합체는 결론이 앵커) 쌍 중 frontmatter 링크(`{'`·`'.join(LINK_KEYS)}` + relatedTo 족)가 없는 쌍에 대해 "
-        f"(a) `agt:cites` → constructionRecord · (b) 같은 V&V 청크의 `agt:verifies` → testCoverage · (c) `agt:usesConcept` 교집합 ≥ {a.min_shared} → proposal · "
-        f"(d) 조각 F 가 `prov:specializationOf` O 이면 O 를 가리키던 확정 링크 X→O 마다 X→F → constructionRecord(값 \"승계: O\"). "
+        f"살아 있는 단위(결정 기록은 결론이 앵커) 쌍 중 frontmatter 링크(`{'`·`'.join(LINK_KEYS)}` + relatedTo 족)가 없는 쌍에 대해 "
+        f"(a) `agt:cites` → constructionRecord · (b) 같은 합격 기준의 테스트 케이스·검증기와 `agt:refines` 로 W→A `verifies` → testCoverage (`kb_lib.co_cover`) · (c) `agt:usesConcept` 교집합 ≥ {a.min_shared} → proposal · "
+        f"(d) 조각 F 가 `prov:specializationOf` O 이면 O 를 가리키던 확정 링크 X→O 마다 X→F → constructionRecord(값 \"승계: O\") · (e) 동시 편집 관측의 쌍 → coEditHistory (`kb_lib.coedit_pairs`). "
         f"종류는 `kb_lib.TIM_CELLS` 허용 칸(인용 방향 → 역방향 → 칸이 없으면 `agt:overlapsWith`), 제약은 `defs/kb.bzl` `_check_links` 에 더해 "
-        f"KB 가로지름(verifies 와 목표 → 요구 derivesFrom 밖)·코드 부분 끝점·케이스의 derivesFrom 을 거른다. 앵커당 k ≤ {a.k}",
+        f"KB 가로지름(verifies 와 목표 → 요구 derivesFrom 밖)·코드 부분 끝점·테스트 케이스의 derivesFrom 을 거른다. 앵커당 k ≤ {a.k} — 근거 순위 → 공유 개념 수 → 대상 IRI 순으로 자르고 라벨은 표시 순서에만 쓴다",
         "bazel build //kg:link_candidates", ttl, f"트리플 {len(g)} ({kb_lib.gendoc_union(ttl)}) — 체계 밖 정보 0",
-        kb_lib.gendoc_view_notice("앵커 청크의 frontmatter (`p10-candidate-and-confirmed-link` · `p10-restored-link-marking`)"),
+        kb_lib.gendoc_view_notice("앵커 단위 지식의 frontmatter (`p10-candidate-and-confirmed-link` · `p10-restored-link-marking`)"),
         input_kind="그래프 파일",
-        extra=[f"- 살아 있는 청크 {len(u.live)} · 단위 {len(live_units)} · 증거가 있는 쌍 {len(evidence)}",
-               "- 판정은 사람이 후보마다 하고 확정은 앵커 청크의 frontmatter 에 적는다"])
+        extra=[f"- 살아 있는 단위 지식 {len(u.live)} · 단위 {len(live_units)} · 증거가 있는 쌍 {len(evidence)}",
+               "- 판정은 사람이 후보마다 하고 확정은 앵커 단위 지식의 frontmatter 에 적는다. 동시 편집이 첫 근거인 후보는 판정자 둘이 먼저 "
+               "판정하고(`agt:judgement`, `run_evidence`) 일치(+,+) 전부와 일치(−,−) 의 표본만 사람 확인 큐에 오른다"])
+    summary, sections = judged_sections(u, candidates)
     o = ["## 요약", "", "| 항목 | 값 |", "|---|---|",
          f"| 후보 수 | {len(candidates)} |",
          "| 근거 종류 분포 (첫 근거 기준) | " + (" · ".join(f"{k} {v}" for k, v in sorted(primary.items(), key=lambda kv: EVIDENCE_RANK[kv[0]])) or kb_lib.NONE_MARK) + " |",
          "| 근거 종류 분포 (모든 근거) | " + (" · ".join(f"{k} {v}" for k, v in sorted(kinds.items(), key=lambda kv: EVIDENCE_RANK[kv[0]])) or kb_lib.NONE_MARK) + " |",
          "| 링크 종류 분포 | " + (" · ".join(f"`{k}` {v}" for k, v in sorted(link_kinds.items())) or kb_lib.NONE_MARK) + " |",
          f"| 앵커 수 | {len(by_anchor)} |",
-         f"| 탈락 수 | {sum(dropped.values())} — " + (" · ".join(f"{k} {v}" for k, v in sorted(dropped.items(), key=lambda kv: (-kv[1], kv[0]))) or kb_lib.NONE_MARK) + " |", "",
-         "## 후보", "",
-         "| # | 앵커 (ko) | 앵커 파일 | 링크 종류 | 대상 (ko) | 대상 IRI | 근거 종류 | 근거 값 (인용 식별자 / 케이스 슬러그 / 공유 개념 수 / 승계: 원본) | 판정 (채택 / 기각) |",
-         "|---|---|---|---|---|---|---|---|---|"]
-    for i, c in enumerate(candidates, 1):
-        o.append(f"| {i} | {cell(u.ko(c['anchor']))} | `{u.loc.get(c['anchor'], '')}` | `{c['kind']}` | {cell(u.ko(c['target']))} | `{kb_lib.compact_iri(str(c['target']))}` | "
-                 + " · ".join(e[1] for e in c["evs"]) + " | " + " · ".join(cell(e[2]) for e in c["evs"]) + f" | {kb_lib.NONE_MARK} |")
-    if not candidates:
-        o.append("| " + " | ".join([kb_lib.NONE_MARK] * 2 + [f"후보 {kb_lib.NONE_MARK}"] + [kb_lib.NONE_MARK] * 6) + " |")
+         f"| 탈락 수 | {sum(dropped.values())} — " + (" · ".join(f"{k} {v}" for k, v in sorted(dropped.items(), key=lambda kv: (-kv[1], kv[0]))) or kb_lib.NONE_MARK) + " |",
+         *summary, ""]
+    o += sections
     o += ["", "## 확정 절차", "",
-          f"1. 후보를 채택하면 앵커 청크의 frontmatter 에 링크 키와 복원 표시를 적는다 — `<링크 종류>: [<대상 IRI>]` 와 `{RESTORED_KEY}: [<대상 IRI>]`. "
-          "대상 IRI 는 표의 `id:` 를 `https://agentic-knowledge-base.dev/id/` 로 푼 전체 IRI 다. 결정 복합체의 앵커는 결론 청크다. "
-          f"`{RESTORED_KEY}` 의 IRI 가 같은 청크의 링크 대상에 없으면 `chunk2kg` 가 `FAIL [{kb_lib.RESTORED_GATE}]` 로 거부한다 (p10-restored-link-marking).",
+          f"1. 후보를 채택하면 앵커 단위 지식의 frontmatter 에 링크 키와 복원 표시를 적는다 — `<링크 종류>: [<대상 IRI>]` 와 `{RESTORED_KEY}: [<대상 IRI>]`. "
+          "대상 IRI 는 표의 `id:` 를 `https://agentic-knowledge-base.dev/id/` 로 푼 전체 IRI 다. 결정 기록의 앵커는 결론이다. "
+          f"`{RESTORED_KEY}` 의 IRI 가 같은 단위 지식의 링크 대상에 없으면 `chunk2kg` 가 `FAIL [{kb_lib.RESTORED_GATE}]` 로 거부한다 (p10-restored-link-marking).",
           "2. 효과 — 그 링크 개체(`agt:Link`)에 후보의 출처 증거 `agt:proposal` 이 확정 기록 `agt:constructionRecord`(사람이 frontmatter 에 적은 행위)와 "
           "함께 붙고, `bazel build //kg:metrics`·`//kg:audit` 의 복원 비율에 복원으로 센다. `linkState` 는 `confirmed` 다 — frontmatter 에 적힌 것은 확정이다.",
           f"3. `{RELATED}` 후보도 다른 후보와 같이 적는다 — `{RELATED}: [<대상 IRI>]` 와 `{RESTORED_KEY}: [<대상 IRI>]` 다. 그 잎은 링크 키(LINK_KEYS)라 "
           "링크 개체와 복원 표시를 받고 복원 비율에 든다. 함께 갱신할 의무까지 판정했으면 `coUpdatesWith` 로 올려 적는다 — 그 키는 직접 트리플뿐이라 복원 표시를 "
-          "받지 않는다. `verifies` 후보의 앵커는 V&V 청크이므로 vnv 가 적는다 (`kb/vv/` 는 vnv 의 write plane).",
+          "받지 않는다. `verifies` 후보의 앵커는 V&V 단위 지식이므로 vnv 가 적는다 (`kb/vv/` 는 vnv 의 쓰기 지식 종류).",
           "4. `python3 tools/gen_build.py --root . && bazel test //...` — `refines`·`serves`·`supersedes`·`verifies` 는 Bazel deps 라 "
           "BUILD 를 재생성한다. 나머지 링크 키(`overlapsWith` 를 포함해)는 deps 가 아니라 그래프 트리플뿐이므로 BUILD 가 바뀌지 않는다.",
-          "5. 기각은 관측 한 줄(memory plane)로 남긴다. 후보는 저장하지 않으므로 다음 생성에서 다시 나온다.", ""]
+          "5. 기각은 관측 한 줄(`memory` 지식 종류)로 남긴다. 후보는 저장하지 않으므로 다음 생성에서 다시 나온다.", ""]
     Path(a.out).write_text(kb_lib.gendoc_assemble(head, o, ttl, input_kind="그래프 파일"), encoding="utf-8")
     return EXIT_OK
 

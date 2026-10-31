@@ -7,7 +7,7 @@ title: function used_foreign_defs in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/3133a231-692d-411f-9a52-fa6f82f6676f, https://agentic-knowledge-base.dev/id/chunk/d767b795-a891-45b2-93cd-f2fb728b749a]
 part_of: https://agentic-knowledge-base.dev/id/composite/30b84220-a222-44db-9ae1-0486db2a18ec
@@ -25,7 +25,7 @@ def used_foreign_defs(node, mods: dict, names: dict, targets: set) -> list:
     모듈 안과 같다 — `bound_names` 에 묶인 철자는 그 모듈의 정의를 가리키지 않는다. 예외는 정의 안의 **늦은
     import** 다(`try: from tools import kb_lib` 를 함수 안에 두어 무거운 의존을 호출 시점으로 미루는 관례,
     `extract_refs.load_concepts`): 묶는 것이 대상 모듈 자신이므로 섀도잉이 아니고 최상위 import 와 같이 센다.
-    이름 → 청크의 사상은 대상 모듈의 등록부가 주고 정의가 아닌 이름(상수·모듈 변수)은 거기 없어 빠진다.
+    이름 → 단위 지식의 사상은 대상 모듈의 등록부가 주고 정의가 아닌 이름(상수·모듈 변수)은 거기 없어 빠진다.
     """
     inner = import_bindings([n for n in ast.walk(node) if isinstance(n, (ast.Import, ast.ImportFrom))], targets)
     mods, names = {**mods, **inner[0]}, {**names, **inner[1]}

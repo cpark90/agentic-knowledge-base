@@ -7,12 +7,12 @@ title: file tools/assume_check.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-assume-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-05T16:52:41Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/47ba1172-488a-4f7b-ba4b-bc63fdf39b88, https://agentic-knowledge-base.dev/id/chunk/79bcc1dd-4036-43ef-b30d-f4dff07be513, https://agentic-knowledge-base.dev/id/chunk/b36581f8-2688-46dc-9b44-3e1019a37d66]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/169b7deb-a7ef-4d53-9f52-ad8abd5d4c3a, title_ko: 파일 복합체 tools/assume_check.py, title: file composite tools/assume_check.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/c767c9b6-7391-4c5f-b482-89293d8895ee, https://agentic-knowledge-base.dev/id/composite/b33ba404-d208-425c-9ca3-34d8bec67ead, https://agentic-knowledge-base.dev/id/composite/aa693393-615e-4f00-ada2-34df72e2832e, https://agentic-knowledge-base.dev/id/composite/5dac7240-2471-496d-a65c-f55a8a067a41]}
 ---
-**파일** — `tools/assume_check.py` 다. 414줄 · 최상위 정의 17개 · 최상위 절 4개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/assume_check.py` 다. 414줄 · 최상위 정의 17개 · 최상위 절 4개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -26,15 +26,15 @@ p6-assumption-invalidation).
   valid        — 참조 조건 전부 in
   invalidated  — 하나라도 out
   unverified   — 그 밖 (판정 불가한 조건이 있다)
-판정 유형은 ODD `CHECKS.cmd` 가 있으면 "실행 검사", 없으면 "사람 확인" 이고, 판정식 등급은 참조 조건 등급의 최저(A~D)다.
-새 어휘는 없다 — 가정 자체의 `when` 판정식은 후속이며, 첫 형태는 참조 조건 판정의 연언으로 판정식을 파생한다.
+판정 유형은 ODD `CHECKS.cmd` 가 있으면 "실행 검사", 없으면 "사람 확인" 이고, 판정 술어 등급은 참조 조건 등급의 최저(A~D)다.
+새 어휘는 없다 — 가정 자체의 `when` 판정 술어는 후속이며, 첫 형태는 참조 조건 판정의 연언으로 판정 술어를 파생한다.
 
 전파 (p6-assumption-invalidation "가정이 깨지면 의존 항목이 자동으로 무효화된다", r-007 전수조사 없이):
-  직접 영향 집합  = invalidated 가정을 `agt:assumes` 하는 살아 있는 청크
+  직접 영향 집합  = invalidated 가정을 `agt:assumes` 하는 살아 있는 단위 지식
   suspect 후보    = 직접 영향 집합에 링크(refines·serves·supersedes·cites·coUpdatesWith·overlapsWith — 직접 트리플과 agt:Link 개체 둘 다)로
                     닿는 하류(그 항목을 가리키는 쪽, 전이) + 복합체 형제. 그래프가 원본이므로 bazel rdeps 가 아니라 head 그래프에서 센다.
 검증 실험 (14.1 정정본 4단계 "연결" 조건): `--break <cond-id>` 는 그 조건을 out 으로 가정한다. 그때 계산된 직접 영향 집합을
-청크 파일 frontmatter(`assumes`)를 독립적으로 스캔한 실제 의존 집합과 비교해 정밀도·재현율을 보고에 적는다.
+단위 지식 파일 frontmatter(`assumes`)를 독립적으로 스캔한 실제 의존 집합과 비교해 정밀도·재현율을 보고에 적는다.
 
 링크 상태의 물질화 (노트 9.11절 "상태는 저장값이 아니라 평가 결과", handoff link-model-robustness-cde-2026-09-19 반영 1·2):
   when 판정   확정 링크의 `agt:when` 을 kb_lib.when_eval 로 판정한다. 판정의 범위는 **ODD 속성 참조**이고 항은 `in(<조건>)`,
@@ -44,7 +44,7 @@ p6-assumption-invalidation).
               것을 막기 위해 좁게 선언하고, 포화율은 `bazel build //kg:metrics` 의 한 줄로 관측한다.
   저장하지 않는다  suspect 는 그래프에 적히지 않는다. 이 보고와 metrics 에서만 물질화된다.
 
---record 는 실행 결과를 관측(memory plane, concrete, append-only — r-026·p0-run-as-observation)으로
+--record 는 실행 결과를 관측(`memory` 지식 종류, concrete, append-only — r-026·p0-run-is-an-append-only-memory-chunk)으로
 kb/dev/memory/obs-<UTC>.md 에 쓴다. 이미 있는 파일은 덮지 않는다. 생성 뒤 tools/gen_build.py 를 돌려 BUILD 를 갱신한다.
 
 사용: bazel run //tools:assume_check -- [--break <cond-id>…] [--record] [--out report.md] [--odd kb/odd/project-odd.yml] [TTL…]

@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -24,6 +24,9 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:audit-self-sufficiency",
     ],
+    verifies = [
+        "//kb/dev/artifact/weave:module",
+    ],
 )
 
 kb_chunk(
@@ -35,6 +38,11 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:backward-trace-to-requirement",
+    ],
+    verifies = [
+        "//kb/dev/artifact/cq-queries:CQ-13",
+        "//kb/dev/artifact/metrics:module",
+        "//kb/dev/artifact/query:module",
     ],
 )
 
@@ -48,6 +56,9 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:chunk-bound-to-project-odd",
     ],
+    verifies = [
+        "//kb/dev/artifact/validate:module",
+    ],
 )
 
 kb_chunk(
@@ -59,6 +70,11 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:criteria-before-verifies",
+    ],
+    verifies = [
+        "//kb/dev/artifact/validate:module",
+        "//kb/dev/artifact/verify-queries:verifies-without-criteria",
+        "//kb/dev/artifact/weave:module",
     ],
 )
 
@@ -72,6 +88,10 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:decision-names-requirement",
     ],
+    verifies = [
+        "//kb/dev/artifact/kb-bzl:module",
+        "//kb/dev/artifact/metrics:module",
+    ],
 )
 
 kb_chunk(
@@ -83,6 +103,11 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:decision-three-chunks",
+    ],
+    verifies = [
+        "//kb/dev/artifact/chunk_lint:module",
+        "//kb/dev/artifact/gen_build:module",
+        "//kb/dev/artifact/kb-bzl:module",
     ],
 )
 
@@ -96,6 +121,11 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:documents-generated",
     ],
+    verifies = [
+        "//kb/dev/artifact/gen_build:module",
+        "//kb/dev/artifact/gen_skills:module",
+        "//kb/dev/artifact/weave:module",
+    ],
 )
 
 kb_chunk(
@@ -107,6 +137,11 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:gate-judges-edits",
+    ],
+    verifies = [
+        "//kb/dev/artifact/chunk_lint:module",
+        "//kb/dev/artifact/kb-bzl:module",
+        "//kb/dev/artifact/validate:module",
     ],
 )
 
@@ -167,7 +202,14 @@ kb_composite(
         "//kb/vv/criteria:versioned-inputs",
     ],
     verifies = [
+        "//kb/dev/artifact/chunk_lint:module",
+        "//kb/dev/artifact/doccheck:module",
+        "//kb/dev/artifact/gendoc:module",
+        "//kb/dev/artifact/kb-bzl:module",
         "//kb/dev/artifact/kb_lib:module",
+        "//kb/dev/artifact/validate:module",
+        "//kb/dev/artifact/vv_run:module",
+        "//kb/dev/artifact/vv_run_env_test:module",
     ],
 )
 
@@ -181,6 +223,9 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:generated-build-drift",
     ],
+    verifies = [
+        "//kb/dev/artifact/gen_build:module",
+    ],
 )
 
 kb_chunk(
@@ -192,6 +237,10 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:generated-document-form",
+    ],
+    verifies = [
+        "//kb/dev/artifact/gendoc:module",
+        "//kb/dev/artifact/kb_lib:module",
     ],
 )
 
@@ -205,6 +254,10 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:generated-document-provenance",
     ],
+    verifies = [
+        "//kb/dev/artifact/gendoc:module",
+        "//kb/dev/artifact/kb_lib:module",
+    ],
 )
 
 kb_chunk(
@@ -216,6 +269,12 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:harness-follows-knowledge",
+    ],
+    verifies = [
+        "//kb/dev/artifact/gen_build:module",
+        "//kb/dev/artifact/gen_norms:module",
+        "//kb/dev/artifact/gendoc:module",
+        "//kb/dev/artifact/validate:module",
     ],
 )
 
@@ -229,6 +288,11 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:invalidation-without-survey",
     ],
+    verifies = [
+        "//kb/dev/artifact/cq-queries:CQ-22",
+        "//kb/dev/artifact/query:module",
+        "//kb/dev/artifact/validate:module",
+    ],
 )
 
 kb_chunk(
@@ -240,6 +304,11 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:items-declare-assumptions",
+    ],
+    verifies = [
+        "//kb/dev/artifact/cq-queries:CQ-09",
+        "//kb/dev/artifact/query:module",
+        "//kb/dev/artifact/validate:module",
     ],
 )
 
@@ -253,6 +322,11 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:labels-before-bodies",
     ],
+    verifies = [
+        "//kb/dev/artifact/gendoc:module",
+        "//kb/dev/artifact/labels:module",
+        "//kb/dev/artifact/workset:module",
+    ],
 )
 
 kb_chunk(
@@ -264,6 +338,13 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:metric-varies-by-loading-option",
+    ],
+    verifies = [
+        "//kb/dev/artifact/gendoc:module",
+        "//kb/dev/artifact/kb_lib:module",
+        "//kb/dev/artifact/link:module",
+        "//kb/dev/artifact/metrics:module",
+        "//kb/dev/artifact/weave:module",
     ],
 )
 
@@ -277,6 +358,9 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:mutation-samples-rejected",
     ],
+    verifies = [
+        "//kb/dev/artifact/kb-bzl:module",
+    ],
 )
 
 kb_chunk(
@@ -288,6 +372,10 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:observations-append-only",
+    ],
+    verifies = [
+        "//kb/dev/artifact/chunk_lint:module",
+        "//kb/dev/artifact/validate:module",
     ],
 )
 
@@ -301,6 +389,10 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:odd-single-document",
     ],
+    verifies = [
+        "//kb/dev/artifact/odd2kg:module",
+        "//kb/dev/artifact/validate:module",
+    ],
 )
 
 kb_chunk(
@@ -312,6 +404,9 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:plane-one-way",
+    ],
+    verifies = [
+        "//kb/dev/artifact/kb-bzl:module",
     ],
 )
 
@@ -325,6 +420,11 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:read-write-sets-recorded",
     ],
+    verifies = [
+        "//kb/dev/artifact/cq-queries:CQ-24",
+        "//kb/dev/artifact/query:module",
+        "//kb/dev/artifact/validate:module",
+    ],
 )
 
 kb_chunk(
@@ -336,6 +436,9 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:reproducible-runs",
+    ],
+    verifies = [
+        "//kb/dev/artifact/validate:module",
     ],
 )
 
@@ -349,6 +452,10 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:residency-matrix",
     ],
+    verifies = [
+        "//kb/dev/artifact/kb-bzl:module",
+        "//kb/dev/artifact/validate:module",
+    ],
 )
 
 kb_chunk(
@@ -360,6 +467,9 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:supersedes-same-plane",
+    ],
+    verifies = [
+        "//kb/dev/artifact/kb-bzl:module",
     ],
 )
 
@@ -373,6 +483,10 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:verification-rung-same-level",
     ],
+    verifies = [
+        "//kb/dev/artifact/kb-bzl:module",
+        "//kb/dev/artifact/weave:module",
+    ],
 )
 
 kb_chunk(
@@ -385,6 +499,9 @@ kb_chunk(
     refines = [
         "//kb/vv/criteria:verifies-subject-vv",
     ],
+    verifies = [
+        "//kb/dev/artifact/kb-bzl:module",
+    ],
 )
 
 kb_chunk(
@@ -396,6 +513,9 @@ kb_chunk(
     status = "draft",
     refines = [
         "//kb/vv/criteria:versioned-inputs",
+    ],
+    verifies = [
+        "//kb/dev/artifact/validate:module",
     ],
 )
 

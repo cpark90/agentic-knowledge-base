@@ -7,7 +7,7 @@ title: function main in tools/term_propose.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-term-propose}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/0f329565-00ac-4268-a110-cf18eaef3332, https://agentic-knowledge-base.dev/id/chunk/2d62de0c-4e57-4e6c-ba4e-85fe1ebdc37f]
 part_of: https://agentic-knowledge-base.dev/id/composite/f37f3044-d076-4e57-b68f-4a03d2ad16d5
@@ -27,7 +27,7 @@ def main() -> int:
     ap.add_argument("--definition", required=True, help="속 + 종차 형식의 한글 정의")
     ap.add_argument("--cq", required=True, help="기여하는 역량 질문 (예: CQ12)")
     ap.add_argument("--derived-from", action="append", default=[],
-                    help=f"근거 관측·판정 주석 청크 IRI — 반복해 {MIN_EVIDENCE}개 이상")
+                    help=f"근거 관측·판정 주석 단위 지식 IRI — 반복해 {MIN_EVIDENCE}개 이상")
     ap.add_argument("--repo", default=os.environ.get("BUILD_WORKSPACE_DIRECTORY")  # bazel run 은 워크스페이스에 쓴다
                     or str(Path(__file__).resolve().parent.parent))
     args = ap.parse_args()
@@ -67,7 +67,7 @@ def main() -> int:
     types = chunk_types(repo) if evidence else {}
     for iri in evidence:
         if iri not in types:
-            errors.append(f"근거 IRI 가 kb/ 의 청크가 아니다: {iri}")
+            errors.append(f"근거 IRI 가 kb/ 의 단위 지식이 아니다: {iri}")
         elif types[iri] not in EVIDENCE_TYPES:
             errors.append(f"근거가 관측·판정 주석이 아니다 ({types[iri]}): {iri}")
 

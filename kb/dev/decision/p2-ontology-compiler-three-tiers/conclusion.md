@@ -5,10 +5,10 @@ level: concrete
 title_ko: 온톨로지 검사 3단계를 통과한 온톨로지만 릴리스된다
 title: Only an ontology that passes three tiers is released
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0050-ontology-hygiene-checks.md, id: https://agentic-knowledge-base.dev/id/chunk-d0050, title_ko: "온톨로지 위생 — 커밋 전 자동 검사와 정규화 직렬화", title: "Ontology hygiene - pre-commit checks and canonical serialization"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0050]
 part_of: https://agentic-knowledge-base.dev/id/composite/33d988f2-27b2-44d7-98f2-110215bfe237

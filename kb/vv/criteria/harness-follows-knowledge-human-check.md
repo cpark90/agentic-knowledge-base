@@ -7,10 +7,10 @@ title: The harness following the knowledge takes a PASS of the drift tests on th
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-05T13:36:40+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/df934d56-8cc4-4f5f-8cbd-7ae5b6bb89f0]
 ---
-**합격 기준** — 기준 종류는 **사람 확인**이다. 이 기준은 기계 판정식을 갖지 않는다. 판정식이 서려면 "지식에서 생성되는 하네스 부분"의 집합이 닫혀 있어야 하는데 요구가 그 경계를 미확정으로 남겼고, "개선"은 지식 변경 전후의 하네스 동작 비교라 한 리비전의 실행으로 판정되지 않는다. 그래서 수준은 logical 이 아니라 abstract 다(`p8-pass-criteria`).
+**합격 기준** — 기준 종류는 **사람 확인**이다. 이 기준은 기계 판정 술어를 갖지 않는다. 판정 술어가 서려면 "지식에서 생성되는 하네스 부분"의 집합이 닫혀 있어야 하는데 요구가 그 경계를 미확정으로 남겼고, "개선"은 지식 변경 전후의 하네스 동작 비교라 한 리비전의 실행으로 판정되지 않는다. 그래서 수준은 logical 이 아니라 abstract 다(`p8-pass-criteria`).
 
 **확인 절차**
 
@@ -24,4 +24,4 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/df934d56-8cc4-4f5f-8cbd-7a
 
 **등급** — C 다. 필요조건은 기계가 보장하고 경계와 충분성은 사람이 본다.
 
-케이스를 두지 않는다. 필요조건은 이미 게이트로 돌고 충분성은 실행 명령으로 판정되지 않는다.
+테스트 케이스를 두지 않는다. 필요조건은 이미 게이트로 돌고 충분성은 실행 명령으로 판정되지 않는다.

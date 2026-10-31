@@ -7,12 +7,13 @@ title: docs/method.md retrieval section continued — the context budget and the
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T04:22:52+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/8fb872fb-34de-4823-8019-358e4f069652
 continues: true
 ---
-조립 알고리즘은
-[`p0-workset-anchor-neighbourhood`](../../decision/p0-workset-anchor-neighbourhood/conclusion.md)
-결정이고, 첫 형태는 `workset`([`tools.md`](../../../../docs/tools.md))이다. 알고리즘의 순서는 앵커 → 이웃 확장 →
-우선순위 → 예산 패킹이다. 예산 상한식은 Δ = m·k·1,092이고, 앵커 m × 이웃 k × 청크 상한(토큰)이다 — 예산은 5,418 토큰(42×129).
+작업 집합의 조립 알고리즘은 결정
+[`p0-workset-anchor-neighbourhood`](../../decision/p0-workset-anchor-neighbourhood/conclusion.md)가 정하고,
+첫 형태는 `workset`이며 [`tools.md`](../../../../docs/tools.md)에 있다. 알고리즘은 앵커를 고르고, 이웃으로 확장하고,
+우선순위를 매긴 뒤 예산 안에 패킹한다. 예산 상한식은 `Δ = m·k·1,092`이고, 앵커 수 m과 이웃 수 k, 단위 지식의
+토큰 상한을 곱한 값이다. 예산은 42와 129의 곱인 5,418 토큰이다.

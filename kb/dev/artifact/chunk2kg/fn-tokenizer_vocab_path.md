@@ -7,7 +7,7 @@ title: function tokenizer_vocab_path in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/5e2d37fd-1039-4929-8dbf-76c76777b467
 ---
@@ -21,7 +21,7 @@ def tokenizer_vocab_path(explicit: str | os.PathLike | None = None) -> Path:
     **명시가 우선이다** — 타깃이 `--vocab=$(rootpath @tiktoken_o200k_base//file)` 로 주는 경로가 그 자리다.
     runfiles 자리는 `bazel run` 의 것이다 — `http_file` 의 산출물은 외부 저장소에 살아
     `<runfiles>/{repo}/file/{name}` 이고, cwd 가 `_main` 인 부트스트랩에서는 `../{repo}/file/{name}` 이다.
-    `{repo}` 는 canonical 이름(`+http_file+…`)과 apparent 이름 둘을 다 본다 — bzlmod 의 실측 디렉토리는
+    `{repo}` 는 canonical 이름(`+http_file+…`)과 apparent 이름 둘을 다 본다 — bzlmod 의 측정 디렉토리는
     앞의 것이고 뒤의 것만 보면 인자 없이 부른 경로가 전부 빗나간다.
     """
     if explicit:

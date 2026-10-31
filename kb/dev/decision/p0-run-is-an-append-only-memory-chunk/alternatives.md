@@ -7,8 +7,8 @@ title: Giving runs a level, merging runs with scenarios, and leaving the old dec
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T05:27:16+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T05:27:16+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/34f0e33e-c23d-42fe-bcb2-1a7d1e3ba33c
 ---
@@ -20,4 +20,4 @@ part_of: https://agentic-knowledge-base.dev/id/composite/34f0e33e-c23d-42fe-bcb2
 | 시나리오와 실행 기록을 하나의 개념으로 통합한다 | 일반화 단계가 사라지고, 관측된 한 번의 실행이 명세로 오인되어 승격 없이 재사용된다(r-004) |
 | 옛 결정을 그대로 두고 차이를 다른 결정의 근거에 적는다 | stable 결정이 실물과 다른 문장을 계속 갖는다. 결정에서 문서를 생성하면 틀린 문장이 나온다. 유저가 Q8에서 대체를 골랐다 |
 
-앞의 둘은 옛 결정 `p0-run-as-observation`의 기각을 승계한다. v1은 이 구분을 scene·scenario 3분리(d-0012) 안에서 다뤘다. 3분리는 폐기되었지만 관측과 명세를 가르는 규칙은 남는다.
+앞의 둘은 옛 결정 `p0-run-as-observation`의 기각을 승계한다. v1은 이 구분을 scene·scenario 3분리 안에서 다뤘다(그 옛 결정의 후속은 `p0-classification-by-tags`와 `p0-run-as-observation`, `p0-state-units-revision-workset`이다). 3분리는 폐기되었지만 관측과 명세를 가르는 규칙은 남는다.

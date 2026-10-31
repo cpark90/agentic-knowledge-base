@@ -7,16 +7,16 @@ title: function log_frontmatter in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/25d46f37-11ee-4e27-92e7-9584f2dcb1a0]
 part_of: https://agentic-knowledge-base.dev/id/composite/3723c1d5-0d22-4da6-86ca-1b408cdc80dc
 ---
-**함수** — `log_frontmatter(rows, q, name, th, stamp)` 다. 판정 로그의 frontmatter — 라벨이 묶음의 요약이다.
+**함수** — `log_frontmatter(rows, q, name, stamp)` 다. 판정 로그의 frontmatter — 라벨이 묶음의 요약이다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def log_frontmatter(rows: list[dict], q: dict, name: str, th: dict, stamp: str) -> list[str]:
+def log_frontmatter(rows: list[dict], q: dict, name: str, stamp: str) -> list[str]:
     """판정 로그의 frontmatter — 라벨이 묶음의 요약이다. uuid 는 파일마다 새로 난다."""
     n = counts(rows)
     judges = sorted({r["judge"] for r in rows})

@@ -23,8 +23,8 @@ id:asm-chunk-conventions a agt:Assumption ;
 # V&V 프로파일의 규칙성 가정 셋 — 위험 분석 G1~G6 의 전제 (유저 승인 2026-09-29, 항목 vv-profile-hazards).
 # 프로파일에서 파생되는 kb/vv/ 청크가 assumes: 로 이것을 참조하는 것이 등록이다. A3 은 참조 저장소가 반증한 형태에서 뽑았다.
 id:asm-links-only-interaction a agt:Assumption ;
-    rdfs:label "knowledge items interact only through links"@en , "지식 항목은 링크로만 상호작용한다"@ko ;
-    agt:proposition "지식 항목은 frontmatter 의 링크로만 상호작용한다 — 본문만 읽고 생기는 의존은 후보 링크(//kg:link_candidates)로 드러난다. 거짓이면 영향 집합 계산이 실제 의존을 놓친다" ;
+    rdfs:label "knowledge items interact only through links"@en , "지식은 링크로만 상호작용한다"@ko ;
+    agt:proposition "지식은 frontmatter 의 링크로만 상호작용한다 — 본문만 읽고 생기는 의존은 후보 링크(//kg:link_candidates)로 드러난다. 거짓이면 영향 집합 계산이 실제 의존을 놓친다" ;
     agt:refersTo id:cond-repo-layout .
 
 id:asm-finite-factor-types a agt:Assumption ;
@@ -330,7 +330,7 @@ id:src-tools-workset
         "tools/workset.py (소스 파일, 추출 원천)"@ko ;
     prov:atLocation "tools/workset.py" .
 
-# jev(TypeSafe AI System One) 조사 — 판정자 결합 결정(p8-judge-calibration-binding)의 원천. 유저 답 "1."(2026-09-29).
+# jev(TypeSafe AI System One) 조사 — 판정 질문 형의 참고 출처다(결정 p8-judge-session-agreement 의 "참고 출처의 자리"). 유저 답 "1."(2026-09-29).
 id:doc-jev-system-one
     rdfs:label "jev System One model inquiry (hci)"@en ,
         "jev System One 모델 조사 (hci)"@ko ;

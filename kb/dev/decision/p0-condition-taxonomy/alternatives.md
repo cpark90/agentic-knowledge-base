@@ -2,15 +2,15 @@
 id: https://agentic-knowledge-base.dev/id/chunk/46a21d82-b3a7-45ee-a0eb-d46dee28e3cd
 type: decision
 level: logical
-title_ko: 셋째 수준 고정과 판정 불가 조건 유지 안의 기각
+title_ko: 셋째 분류 단계 고정과 판정 불가 조건 유지 안의 기각
 title: Rejecting a fixed third level and keeping undecidable conditions in the ODD
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:58:36+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/7d50713a-5c4d-485d-8a46-a36172a1b114
 ---
-**대안** — 셋째 수준까지 온톨로지에 고정하는 안. 기각 — 프로젝트마다 세부가
+**대안** — 셋째 분류 단계까지 온톨로지에 고정하는 안. 기각 — 프로젝트마다 세부가
 달라 고정된 항목의 상당수가 비고 남는다. 빈 항목이 많은 분류는 커버리지 계산을
 왜곡한다.
 

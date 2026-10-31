@@ -6,11 +6,11 @@
 경우를 잡는다. 사용: gen_build.py [--check | --gate-inputs] [--root .] [--residency defs/kb.bzl]
 게이트 입력 검사(`--gate-inputs`, `//:gate_input_test`)는 kb/ 아래 지식 파일 중 소유 패키지의 BUILD 가 담지 않은 것을
 `FAIL [gate-input] <경로>: …` 로 낸다(pe-knowledge-files-are-gate-inputs, 유저 답 Q80-a).
-결정 디렉토리의 선택 넷째 청크 `conventions.md`(규약 청크, p4-convention-slot)는 있으면 결정 복합체의 넷째 부분이다.
-규범 문서의 절 청크(`kb/dev/norm/<문서 stem>/`, plane norm)는 문서마다 패키지 하나·`kb_composite` 하나가 되고, `items` 가
-가리키는 결정 디렉토리를 결정 복합체 IRI 로 풀어 `conventions` 인자로 넣는다(p12-norm-documents-from-section-chunks).
-출력·종료: 생성 시점 거부(세 청크 없는 결정 디렉토리·끊긴 링크·`_check_bundle` 의 패키지 밖 부분·중복 선언·이질·상한·
-`composite.ordered` 와 부분 집합의 불일치·절 청크가 가리키는 결정 디렉토리의 부재)는 `FAIL [gen-build] <경로>: …`, frontmatter 위반은
+결정 디렉토리의 선택 넷째 단위 지식 `conventions.md`(규약, p4-convention-slot)는 있으면 결정 기록의 넷째 부분이다.
+규범 문서의 절 항목(`kb/dev/norm/<문서 stem>/`, `norm` 지식 종류)은 문서마다 패키지 하나·`kb_composite` 하나가 되고, `items` 가
+가리키는 결정 디렉토리를 결정 기록 IRI 로 풀어 `conventions` 인자로 넣는다(p12-norm-documents-from-section-chunks).
+출력·종료: 생성 시점 거부(세 단위 지식 없는 결정 디렉토리·끊긴 링크·`_check_bundle` 의 패키지 밖 부분·중복 선언·이질·상한·
+`composite.ordered` 와 부분 집합의 불일치·절 항목이 가리키는 결정 디렉토리의 부재)는 `FAIL [gen-build] <경로>: …`, frontmatter 위반은
 chunk2kg 의 규칙이므로 `FAIL [chunk2kg] …`, --check 의 어긋남은 `FAIL [build-drift] <BUILD>: …` — 모두 EXIT_FAIL.
 읽을 수 없는 입력은 EXIT_CONFIG.
 """
@@ -26,55 +26,55 @@ from chunk2kg import (EXIT_CONFIG, EXIT_FAIL, NORM_TYPE, ORDERED_KEY, PART_OF_KE
                       apply_plane_level_state, load_plane_level_state, norm_item_slugs, parse_chunk)
 
 
-# ── 청크 읽기와 항목 수집 ────────────────────
+# ── 단위 지식 읽기와 항목 수집 ────────────────────
 
 class GenBuildError(Exception):
     """생성 시점 거부 — 메시지가 `<경로>: <근거>` 다."""
 
 
-HEADER ="# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test\n"
+HEADER ="# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test\n"
 LINKS = ("refines", "serves", "supersedes", "verifies")
 ONTO_BASE = "https://agentic-knowledge-base.dev/ontology/"
 CONTRACT_PKG = "kb/dev/contract"  # 개발 KB 의 시그니처 패키지 (Q79-a) — 비어 있어도 BUILD 는 생성한다
 MEMORY_PKG = "kb/dev/memory"  # 관측 패키지 — 비어 있어도 BUILD 는 생성한다 (//kb/dev·//kg:chunks_kg 의 끝점)
-# 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나다. 패키지 이름은 소스의 stem 이고
-# 그 안의 청크 전부는 tools/extract.py 의 생성물이다(손으로 고치면 //:extract_drift_test 가 거부한다). 묶음은 중첩
+# 추출된 코드 단위 지식 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나다. 패키지 이름은 소스의 stem 이고
+# 그 안의 단위 지식 전부는 tools/extract.py 의 생성물이다(손으로 고치면 //:extract_drift_test 가 거부한다). 묶음은 중첩
 # 복합체이므로 뿌리(파일 복합체)를 선언한 `module.md` 가 타깃 이름이 된다. 경로 접두는 kb_lib.EXTRACT_ROOT 와 같다 —
 # 이 도구는 rdflib 없이 돌므로 VV_ROOT 와 같은 사유로 자체 상수를 갖는다
 ARTIFACT_ROOT = "kb/dev/artifact"
-# V&V KB — 코어의 두 번째 인스턴스 (p8-vv-plane-instances): 디렉토리 = plane 실체 (pe-storage-layout 의 vv/ 번들). 패키지마다 kb_chunk 타깃,
+# V&V KB — 코어의 두 번째 인스턴스 (p8-vv-plane-instances): 디렉토리 = 지식 종류 실체 (pe-storage-layout 의 vv/ 번들). 패키지마다 kb_chunk 타깃,
 # 비어 있어도 BUILD 는 생성한다. 편집은 vnv 만(kg/catalog-kg.ttl agt:writesIn "kb/vv"), verifies 링크만 KB 를 가로지른다 (defs/kb.bzl).
 # 경로 접두는 kb_lib.KB_VV 와 같다 — 이 도구는 rdflib 없이 돌므로 자체 상수로 둔다
 VV_ROOT = "kb/vv"
 VV_PKGS = {"goal": "requirement", "scenario": "decision", "criteria": "contract", "case": "schema", "verifier": "artifact",
            "verdict": "annotation", "run": "memory"}
 SCENARIO_PKG = f"{VV_ROOT}/scenario"  # 시나리오 실체의 패키지 — 역할 접미 규약이 걸리는 자리다
-# 시나리오 세 청크의 파일 접미 — 정의처는 kb_lib.SCENARIO_ROLE_MARKERS 의 키이고 이 도구는 rdflib 없이 돌아 kb_lib 를
+# 시나리오 세 단위 지식의 파일 접미 — 단일 정의 위치는 kb_lib.SCENARIO_ROLE_MARKERS 의 키이고 이 도구는 rdflib 없이 돌아 kb_lib 를
 # 의존할 수 없으므로 VV_ROOT 와 같은 사유로 자체 상수를 갖는다. 표지 낱말(자극·요인·배제 자극)은 게이트 `decision-role` 의 몫이다
 SCENARIO_ROLE_SUFFIXES = ("stimulus", "factors", "excluded")
-# 결정 복합체의 읽기 순서 — 결론 없이 근거를 읽지 않고 대안은 결론을 전제한다. 이것을 생성기가 `ordered` 인자로 **선언**하고
+# 결정 기록의 읽기 순서 — 결론 없이 근거를 읽지 않고 대안은 결론을 전제한다. 이것을 생성기가 `ordered` 인자로 **선언**하고
 # chunk2kg 는 추측하지 않는다 (유저 승인 2026-09-29, p4-composite-order-is-declared). ADR 뷰(weave)의 조립 순서와 같다
 DECISION_READING_ORDER = ("conclusion", "rationale", "alternatives")
-# 결정의 선택 넷째 부분 — 규약 청크 (p4-convention-slot, 유저 답 Q22-b). 있으면 읽기 순서의 끝이다(결론·근거·대안 뒤).
-# 파일 이름의 정의처는 kb_lib.DECISION_PART_FILES 이고 이 도구는 rdflib 없이 돌아 VV_ROOT 와 같은 사유로 자체 상수를 갖는다
+# 결정의 선택 넷째 부분 — 규약 (p4-convention-slot, 유저 답 Q22-b). 있으면 읽기 순서의 끝이다(결론·근거·대안 뒤).
+# 파일 이름의 단일 정의 위치는 kb_lib.DECISION_PART_FILES 이고 이 도구는 rdflib 없이 돌아 VV_ROOT 와 같은 사유로 자체 상수를 갖는다
 DECISION_OPTIONAL_PART = "conventions"
-# 규범 문서의 절 청크 (p12-norm-documents-from-section-chunks) — 문서 하나 = 디렉토리 하나 = 패키지 하나 = 복합체 하나.
+# 규범 문서의 절 항목 (p12-norm-documents-from-section-chunks) — 문서 하나 = 디렉토리 하나 = 패키지 하나 = 복합체 하나.
 # 비어 있어도 뿌리 BUILD 는 생성한다 (//kb/dev·//kg:chunks_kg 의 끝점 — ARTIFACT_ROOT 와 같다)
 NORM_ROOT = "kb/dev/norm"
-# 키는 plane 이름이 아니라 실체 이름이다 — verdict = 판정 주석 (p8-vv-plane-instances 의 annotation 실체). `verdict` 는
+# 키는 지식 종류 이름이 아니라 실체 이름이다 — verdict = 판정 주석 (p8-vv-plane-instances 의 annotation 실체). `verdict` 는
 # kb_lib.RUN_VERDICTS(pass·fail·skip)가 이미 쓰는 낱말이라 지어낸 용어가 아니다 (STYLEGUIDE §0 표준어 우선).
 # run = 실행 기록 (agt:Run, append-only) — vv_run --record 가 만든다 (kb_lib.VV_RUN_DIR)
 
 
 def parse_item(path: str):
-    """청크 파일 하나 → (메타, 본문 문자열). 설계 공간 청크는 여기서 거부한다.
+    """단위 지식 파일 하나 → (메타, 본문 문자열). 설계 공간은 여기서 거부한다.
 
-    `-space` 는 청크 패키지에 살지 않는다 — kb_chunk 타깃이 되면 후보 링크가 deps 로 새기 때문이다
+    `-space` 는 단위 지식 패키지에 살지 않는다 — kb_chunk 타깃이 되면 후보 링크가 deps 로 새기 때문이다
     (결정 p9-candidate-storage). 올리는 곳은 `//space:design_space`(tools/space2kg.py)다.
     """
     meta, body = parse_chunk(path)
     if meta["type"] == SPACE_TYPE:
-        raise GenBuildError(f"{path}: 설계 공간 청크(type: {SPACE_TYPE})는 청크 패키지에 둘 수 없다 — space/ 에 두면 "
+        raise GenBuildError(f"{path}: 설계 공간(type: {SPACE_TYPE})은 단위 지식 패키지에 둘 수 없다 — space/ 에 두면 "
                             f"//space:design_space 가 올린다. 후보는 결코 deps 가 되지 않는다 (p9-candidate-storage)")
     return meta, body
 
@@ -90,7 +90,7 @@ def label_list(name, labels, indent="    "):
 
 
 def scan(root: Path):
-    """청크 파일 → (메타, 패키지, 타깃 이름). IRI → 라벨 사상을 만든다."""
+    """단위 지식 파일 → (메타, 패키지, 타깃 이름). IRI → 라벨 사상을 만든다."""
     items = {}  # label -> dict
     iri_to_label = {}
     for f in sorted((root / "kb/dev/requirement").glob("*.md")):
@@ -101,12 +101,12 @@ def scan(root: Path):
     for d in sorted(p for p in (root / "kb/dev/decision").iterdir() if p.is_dir()):
         parts = {n: parse_item(str(d / f"{n}.md"))[0] for n in ("conclusion", "rationale", "alternatives") if (d / f"{n}.md").exists()}
         if set(parts) != {"conclusion", "rationale", "alternatives"}:
-            raise GenBuildError(f"{d}: 결론·근거·대안 세 청크가 있어야 한다 (7.4절 대안 기록) — 있는 것: {sorted(parts)}")
+            raise GenBuildError(f"{d}: 결론·근거·대안 세 단위 지식이 있어야 한다 (7.4절 대안 기록) — 있는 것: {sorted(parts)}")
         opt = d / f"{DECISION_OPTIONAL_PART}.md"
-        if opt.exists():  # 규약 청크 — 세 청크 검사는 그대로이고 넷째는 선택이다 (p4-convention-slot)
+        if opt.exists():  # 규약 — 세 단위 지식 검사는 그대로이고 넷째는 선택이다 (p4-convention-slot)
             parts[DECISION_OPTIONAL_PART] = parse_item(str(opt))[0]
             if parts[DECISION_OPTIONAL_PART]["type"] != "decision":
-                raise GenBuildError(f"{opt}: 규약 청크는 type: decision 이다 — 실제 {parts[DECISION_OPTIONAL_PART]['type']!r} (p4-convention-slot)")
+                raise GenBuildError(f"{opt}: 규약은 type: decision 이다 — 실제 {parts[DECISION_OPTIONAL_PART]['type']!r} (p4-convention-slot)")
         comp = parts["conclusion"].get("composite") or {}
         lab = f"//kb/dev/decision:{d.name}"
         items[lab] = {"kind": "decision", "parts": parts, "dir": d.name, "pkg": "kb/dev/decision", "comp_iri": comp.get("id", "")}
@@ -114,55 +114,50 @@ def scan(root: Path):
             iri_to_label[m["id"]] = lab
         if comp.get("id"):
             iri_to_label[comp["id"]] = lab
-    for f in sorted((root / "chunks/decision").glob("*.md")):
-        meta, _ = parse_item(str(f))
-        lab = f"//chunks/decision:{f.stem}"
-        items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": "chunks/decision"}
-        iri_to_label[meta["id"]] = lab
-    for f in sorted((root / CONTRACT_PKG).glob("*.md")):  # 개발 KB 의 시그니처 (contract plane) — Q79-a
+    for f in sorted((root / CONTRACT_PKG).glob("*.md")):  # 개발 KB 의 시그니처 (`contract` 지식 종류) — Q79-a
         meta, _ = parse_item(str(f))
         if meta["type"] != "contract":
-            raise GenBuildError(f"{f}: {CONTRACT_PKG} 의 청크는 type: contract 여야 한다 — 실제 {meta['type']!r} (수준 허용표 6.4절)")
+            raise GenBuildError(f"{f}: {CONTRACT_PKG} 의 단위 지식은 type: contract 여야 한다 — 실제 {meta['type']!r} (수준 허용표 6.4절)")
         lab = f"//{CONTRACT_PKG}:{f.stem}"
         items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": CONTRACT_PKG}
         iri_to_label[meta["id"]] = lab
-    for f in sorted((root / MEMORY_PKG).glob("*.md")):  # 관측 (memory plane, append-only) — assume_check --record 가 만든다
+    for f in sorted((root / MEMORY_PKG).glob("*.md")):  # 관측 (`memory` 지식 종류, append-only) — assume_check --record 가 만든다
         meta, _ = parse_item(str(f))
         if meta["type"] != "memory":
-            raise GenBuildError(f"{f}: {MEMORY_PKG} 의 청크는 type: memory 여야 한다 — 실제 {meta['type']!r} (수준 허용표 6.4절)")
+            raise GenBuildError(f"{f}: {MEMORY_PKG} 의 단위 지식은 type: memory 여야 한다 — 실제 {meta['type']!r} (수준 허용표 6.4절)")
         lab = f"//{MEMORY_PKG}:{f.stem}"
         items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": MEMORY_PKG}
         iri_to_label[meta["id"]] = lab
     for d in sorted(p for p in (root / ARTIFACT_ROOT).iterdir() if p.is_dir()) if (root / ARTIFACT_ROOT).is_dir() else []:
-        pkg = f"{ARTIFACT_ROOT}/{d.name}"  # 추출된 코드 청크 — 소스 파일 하나 = 패키지 하나 (tools/extract.py 의 생성물)
+        pkg = f"{ARTIFACT_ROOT}/{d.name}"  # 추출된 코드 단위 지식 — 소스 파일 하나 = 패키지 하나 (tools/extract.py 의 생성물)
         for f in sorted(d.glob("*.md")):
             meta, _ = parse_item(str(f))
             if meta["type"] != "artifact":
-                raise GenBuildError(f"{f}: {ARTIFACT_ROOT}/ 의 청크는 type: artifact 여야 한다 — 실제 {meta['type']!r} "
-                                    f"(추출된 코드 청크, p7-code-extraction-direction)")
+                raise GenBuildError(f"{f}: {ARTIFACT_ROOT}/ 의 단위 지식은 type: artifact 여야 한다 — 실제 {meta['type']!r} "
+                                    f"(추출된 코드 단위 지식, p7-code-extraction-direction)")
             lab = f"//{pkg}:{f.stem}"
             items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": pkg}
             iri_to_label[meta["id"]] = lab
-    for d in norm_pkgs(root):  # 규범 문서의 절 청크 — 문서 하나 = 패키지 하나 (p12-norm-documents-from-section-chunks)
+    for d in norm_pkgs(root):  # 규범 문서의 절 항목 — 문서 하나 = 패키지 하나 (p12-norm-documents-from-section-chunks)
         pkg = f"{NORM_ROOT}/{d}"
         for f in sorted((root / pkg).glob("*.md")):
             meta, _ = parse_item(str(f))
             if meta["type"] != NORM_TYPE:
-                raise GenBuildError(f"{f}: {NORM_ROOT}/ 의 청크는 type: {NORM_TYPE} 이어야 한다 — 실제 {meta['type']!r} "
-                                    f"(절 청크, p12-norm-documents-from-section-chunks)")
+                raise GenBuildError(f"{f}: {NORM_ROOT}/ 의 단위 지식은 type: {NORM_TYPE} 이어야 한다 — 실제 {meta['type']!r} "
+                                    f"(절 항목, p12-norm-documents-from-section-chunks)")
             lab = f"//{pkg}:{f.stem}"
             items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": pkg}
             iri_to_label[meta["id"]] = lab
-    for sub, plane in VV_PKGS.items():  # V&V KB — 디렉토리가 plane 을 정한다. 없는 디렉토리는 빈 패키지다
+    for sub, plane in VV_PKGS.items():  # V&V KB — 디렉토리가 지식 종류를 정한다. 없는 디렉토리는 빈 패키지다
         pkg = f"{VV_ROOT}/{sub}"
         for f in sorted((root / pkg).glob("*.md")):
             meta, _ = parse_item(str(f))
             if meta["type"] != plane:
-                raise GenBuildError(f"{f}: {pkg} 의 청크는 type: {plane} 이어야 한다 — 실제 {meta['type']!r} (V&V KB 의 plane 실체, 결정 p8-vv-plane-instances)")
+                raise GenBuildError(f"{f}: {pkg} 의 단위 지식은 type: {plane} 이어야 한다 — 실제 {meta['type']!r} (V&V KB 의 지식 종류 실체, 결정 p8-vv-plane-instances)")
             lab = f"//{pkg}:{f.stem}"
             items[lab] = {"kind": "chunk", "meta": meta, "src": f.name, "pkg": pkg}
             iri_to_label[meta["id"]] = lab
-    return group_composites(items, iri_to_label)  # 청크 전부를 본 뒤에 묶는다 — 묶음은 패키지 × composite.id 다
+    return group_composites(items, iri_to_label)  # 단위 지식 전부를 본 뒤에 묶는다 — 묶음은 패키지 × composite.id 다
 
 
 MAX_PARTS = 9  # 직접 부분의 상한 (7±2, 4.5절) — defs/kb.bzl 의 MAX_PARTS·composite-shapes.ttl 과 같은 수
@@ -171,20 +166,20 @@ MAX_PARTS = 9  # 직접 부분의 상한 (7±2, 4.5절) — defs/kb.bzl 의 MAX_
 # ── 복합체 묶기와 생성 시점 판정 ────────────────────
 
 def group_composites(items, iri_to_label):
-    """같은 패키지에서 `composite.id` 로 묶인 청크들 → 복합체 항목 하나 (kb_composite). 중첩 복합체는 뿌리 하나로 모은다.
+    """같은 패키지에서 `composite.id` 로 묶인 단위 지식들 → 복합체 항목 하나 (kb_composite). 중첩 복합체는 뿌리 하나로 모은다.
 
     묶음의 판별 기준은 **같은 패키지 + 같은 뿌리 복합체**다. 디렉토리가 기준인 결정(kb_decision)과 달리 일반 복합체는
     평평한 패키지 하나에 여러 개 설 수 있어 디렉토리로는 가를 수 없고, `composite.id` 는 이미 선언이 한 번뿐임을 chunk2kg 가
     강제하는 값이다. 패키지가 기준의 한 축인 것은 Bazel 타깃의 `srcs` 가 자기 패키지 안에만 있을 수 있기 때문이다 —
     묶음은 액션의 입력 집합이고 입력 집합은 패키지를 넘지 못한다.
 
-    복합체는 청크뿐 아니라 **다른 복합체**를 부분으로 갖는다 (p4-composite-as-part-of). 선언 청크의 `composite.part_of` 가
+    복합체는 단위 지식뿐 아니라 **다른 복합체**를 부분으로 갖는다 (p4-composite-as-part-of). 선언 단위 지식의 `composite.part_of` 가
     그 자리이고, 중첩된 복합체 전부가 **뿌리 복합체 타깃 하나**가 된다 — chunk2kg 가 part_of 대상을 같은 실행의 입력
     집합에서 찾으므로 뿌리부터 잎까지 한 액션이 받아야 한다. 부분 상한 9(4.5절)를 넘는 파일을 담는 유일한 형태다
     (p7-code-links-on-file-composite: 파일 → 절 → 함수).
 
-    부분 청크의 개별 `kb_chunk` 타깃은 사라지고 뿌리 복합체 타깃 하나가 그 파일 전부를 갖는다 (결정과 같은 형식). 링크는
-    묶음 안 청크들의 것을 그 타깃으로 올린다. 타깃 이름은 **뿌리 복합체**를 선언한 청크의 파일 이름이다.
+    부분 단위 지식의 개별 `kb_chunk` 타깃은 사라지고 뿌리 복합체 타깃 하나가 그 파일 전부를 갖는다 (결정과 같은 형식). 링크는
+    묶음 안 단위 지식들의 것을 그 타깃으로 올린다. 타깃 이름은 **뿌리 복합체**를 선언한 단위 지식의 파일 이름이다.
     """
     decl, parent, members = {}, {}, {}
     for lab, it in items.items():
@@ -203,12 +198,12 @@ def group_composites(items, iri_to_label):
     for comp_iri, labs in sorted(members.items()):
         if comp_iri not in decl:
             raise GenBuildError(f"{items[sorted(labs)[0]]['pkg']}/{items[sorted(labs)[0]]['src']}: part_of 대상 복합체 {comp_iri} 를 "
-                                f"선언한 청크(composite:)가 없다 — 선언은 부분 중 하나의 frontmatter 에 둔다 (4.5절)")
+                                f"선언한 단위 지식(composite:)이 없다 — 선언은 부분 중 하나의 frontmatter 에 둔다 (4.5절)")
     children = {}
     for child, up in sorted(parent.items()):
         if up not in decl:
             raise GenBuildError(f"{items[decl[child]]['pkg']}/{items[decl[child]]['src']}: composite.{PART_OF_KEY} 대상 복합체 {up} 를 "
-                                f"선언한 청크가 없다 — 중첩 복합체는 뿌리부터 잎까지 같은 패키지에 있어야 한다 (p4-composite-as-part-of)")
+                                f"선언한 단위 지식이 없다 — 중첩 복합체는 뿌리부터 잎까지 같은 패키지에 있어야 한다 (p4-composite-as-part-of)")
         children.setdefault(up, []).append(child)
     for comp_iri in sorted(decl):  # 사슬 순환 — 반대칭 공리(4.5절 비순환)의 생성 시점 대응
         seen_chain, cur = {comp_iri}, parent.get(comp_iri)
@@ -229,12 +224,12 @@ def group_composites(items, iri_to_label):
                 "srcs": [items[l]["src"] for l in labs], "metas": [items[l]["meta"] for l in labs],
                 "part_iris": direct[root], "status": items[dlab]["meta"]["status"],
                 "plane": items[labs[0]]["meta"]["type"], "level": items[labs[0]]["meta"]["level"]}
-        for l in labs:  # 부분의 개별 청크 타깃은 사라진다 — 뿌리 복합체 타깃 하나가 그 파일 전부를 갖는다
+        for l in labs:  # 부분의 개별 단위 지식 타깃은 사라진다 — 뿌리 복합체 타깃 하나가 그 파일 전부를 갖는다
             iri_to_label[items[l]["meta"]["id"]] = dlab
             del items[l]
         for c in tree:
             iri_to_label[c] = dlab
-        items[dlab] = comp  # 타깃 이름 = 뿌리 선언 청크의 파일 이름이라 라벨이 바뀌지 않는다
+        items[dlab] = comp  # 타깃 이름 = 뿌리 선언 단위 지식의 파일 이름이라 라벨이 바뀌지 않는다
     return items, iri_to_label
 
 
@@ -251,8 +246,8 @@ def _composite_tree(root, children):
 def _check_bundle(comp_iri, dlab, labs, items, pkg, member_labs, child_comps, decl):
     """복합체 하나의 생성 시점 거부 — 패키지 밖 부분·부분 수·동질성·선언된 순서. 직접 부분 IRI 를 선언된 순서로 돌려준다.
 
-    부분은 둘이다 — 청크(최상위 `part_of`)와 다른 복합체(선언 청크의 `composite.part_of`, p4-composite-as-part-of).
-    동질성은 청크 부분으로 판정한다: 복합체 부분의 plane·level 은 그 부분의 부분에서 나오고 묶음 전체가 한 쌍이므로 같은 판정이다.
+    부분은 둘이다 — 단위 지식(최상위 `part_of`)과 다른 복합체(선언 단위 지식의 `composite.part_of`, p4-composite-as-part-of).
+    동질성은 단위 지식 부분으로 판정한다: 복합체 부분의 plane·level 은 그 부분의 부분에서 나오고 묶음 전체가 한 쌍이므로 같은 판정이다.
     """
     for l in labs:
         if items[l]["pkg"] != pkg:
@@ -263,7 +258,7 @@ def _check_bundle(comp_iri, dlab, labs, items, pkg, member_labs, child_comps, de
     n = len(chunk_iris) + len(child_comps)
     if n < 2:
         raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 부분이 {n}개다 — 복합체는 부분 둘 이상의 "
-                            f"묶음이고 부분 하나면 청크다 (4.5절)")
+                            f"묶음이고 부분 하나면 단위 지식이다 (4.5절)")
     if n > MAX_PARTS:
         raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 직접 부분이 {n}개다 — 최대 {MAX_PARTS}개(7±2, 4.5절)")
     order = (items[dlab]["meta"].get("composite") or {}).get(ORDERED_KEY)
@@ -271,7 +266,7 @@ def _check_bundle(comp_iri, dlab, labs, items, pkg, member_labs, child_comps, de
             Path(items[l]["src"]).stem.endswith("-" + suf) for l in chunk_parts for suf in SCENARIO_ROLE_SUFFIXES):
         raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 에 composite.{ORDERED_KEY} 가 없다 — 시나리오는 "
                             f"자극 → 요인 → 배제 자극의 읽기 순서를 가지므로(p8-scenario-authoring) 선언 없는 시나리오 묶음은 거짓 "
-                            f"무순서다. 선언 청크(`-{SCENARIO_ROLE_SUFFIXES[0]}`)의 composite: 에 "
+                            f"무순서다. 선언 단위 지식(`-{SCENARIO_ROLE_SUFFIXES[0]}`)의 composite: 에 "
                             f"`{ORDERED_KEY}: [<자극 IRI>, <요인 IRI>, <배제 자극 IRI>]` 를 적는다 (p4-composite-order-is-declared)")
     part_iris = chunk_iris + sorted(child_comps)
     if order is not None:
@@ -283,17 +278,22 @@ def _check_bundle(comp_iri, dlab, labs, items, pkg, member_labs, child_comps, de
     planes = sorted({items[l]["meta"]["type"] for l in chunk_parts})
     levels = sorted({items[l]["meta"]["level"] for l in chunk_parts})
     if len(planes) > 1 or len(levels) > 1:
-        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 부분이 이질이다 — plane {planes} · level {levels}. "
-                            f"부분의 plane·level 은 서로 같다 (동질성 4.5절). 수준 혼합은 결정 복합체의 예외뿐이다 "
+        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 부분이 이질이다 — 지식 종류 {planes} · level {levels}. "
+                            f"부분의 plane·level 은 서로 같다 (동질성 4.5절). 수준 혼합은 결정 기록의 예외뿐이다 "
                             f"(p7-decision-spans-three-levels)")
     return part_iris
 
 
 def links_of(meta, iri_to_label, where):
+    """frontmatter 링크 → Bazel deps 라벨. 묘비(같은 frontmatter 의 `sources` 가 선언한 지운 항목, Q-0061#Q146)는 파일이 없어
+    타깃이 아니므로 deps 가 되지 않는다 — 끝점의 실재는 선언이 보증하고 형태는 shape tombstone-shapes 가 본다."""
     out = {}
+    graves = {t["id"] for t in meta.get("_tombstones") or []}
     for key in LINKS:
         labs = []
         for iri in meta.get(key, []) or []:
+            if iri in graves:
+                continue
             if iri not in iri_to_label:
                 raise GenBuildError(f"{where}: {key} 대상 {iri} 가 타깃이 아니다 — 끊긴 링크 (참조 무결성)")
             labs.append(iri_to_label[iri])
@@ -307,7 +307,7 @@ def links_of(meta, iri_to_label, where):
 def render_composite(lab, it, iri_to_label, decisions=None):
     """복합체 묶음 하나 → kb_composite 호출. 형식은 kb_decision 과 같다 — 부분의 링크를 타깃 하나로 올린다.
 
-    `ordered` 는 선언 청크 frontmatter 의 `composite.ordered` 를 그대로 옮긴 뷰다 (p4-composite-order-is-declared).
+    `ordered` 는 선언 단위 지식 frontmatter 의 `composite.ordered` 를 그대로 옮긴 뷰다 (p4-composite-order-is-declared).
     선언이 없으면 인자도 없다 — 생성기는 순서를 추측하지 않는다.
     """
     links = {}
@@ -330,13 +330,13 @@ def pkg_group(pkg: str) -> str:
     return pkg.rsplit("/", 1)[-1]
 
 
-# ── 규범 문서의 절 청크 — 결정 slug 의 풀이와 패키지 ────────────────────
+# ── 규범 문서의 절 항목 — 결정 slug 의 풀이와 패키지 ────────────────────
 
 def norm_conventions(lab, it, decisions) -> dict:
-    """절 청크 묶음의 `items` 가 줄을 싣는 결정 slug → 결정 복합체 IRI. 결정 디렉토리가 없으면 GenBuildError 다.
+    """절 항목 묶음의 `items` 가 줄을 싣는 결정 slug → 결정 기록 IRI. 결정 디렉토리가 없으면 GenBuildError 다.
 
     링크만 하는 결정(`slug#k + slug2` 의 둘째)은 agt:projectsConvention 의 대상이 아니라 여기 넣지 않는다 — 그 실재는
-    생성기 gen_norms 가 본다. `decisions` 는 결정 디렉토리 이름 → 결정 복합체 IRI 다.
+    생성기 gen_norms 가 본다. `decisions` 는 결정 디렉토리 이름 → 결정 기록 IRI 다.
     """
     out = {}
     for m in it["metas"]:
@@ -349,7 +349,7 @@ def norm_conventions(lab, it, decisions) -> dict:
 
 
 def decision_iris(items) -> dict:
-    """결정 디렉토리 이름 → 결정 복합체 IRI — 절 청크의 `items` 가 slug 로 가리키는 대상이다."""
+    """결정 디렉토리 이름 → 결정 기록 IRI — 절 항목의 `items` 가 slug 로 가리키는 대상이다."""
     return {it["dir"]: it["comp_iri"] for it in items.values() if it["kind"] == "decision" and it.get("comp_iri")}
 
 
@@ -362,16 +362,16 @@ def norm_pkgs(root: Path):
 def render_norm_root(root: Path):
     """//kb/dev/norm — 문서별 패키지의 본문 묶음·kg 를 모은다. //kb/dev·//kg:chunks_kg 의 단일 끝점이다 (render_artifact_root 와 같은 형).
 
-    문서 목록의 단일 정의처는 defs/kb.bzl 의 NORM_DOCS 이고 디렉토리 집합과의 일치는 생성기 gen_norms 가 본다 — 여기는 트리를 따른다.
+    문서 목록의 단일 정의 위치는 defs/kb.bzl 의 NORM_DOCS 이고 디렉토리 집합과의 일치는 생성기 gen_norms 가 본다 — 여기는 트리를 따른다.
     """
     pkgs = norm_pkgs(root)
     srcs = ('    srcs = [\n' + "".join(f'        "//{NORM_ROOT}/{p}",\n' for p in pkgs) + '    ],\n') if pkgs else "    srcs = [],\n"
     body = [HEADER, 'load("//defs:kb.bzl", "kb_bundle")', "",
-            "# 규범 문서의 절 청크 (p12-norm-documents-from-section-chunks) — 문서 하나 = 패키지 하나 = 복합체 하나. 문서는\n"
-            "# tools/gen_norms.py 가 이 청크와 결정의 conventions.md 에서 생성하고 //:norms_drift_test 가 바이트로 비교한다.",
+            "# 규범 문서의 절 항목 (p12-norm-documents-from-section-chunks) — 문서 하나 = 패키지 하나 = 복합체 하나. 문서는\n"
+            "# tools/gen_norms.py 가 이 단위 지식과 결정의 conventions.md 에서 생성하고 //:norms_drift_test 가 바이트로 비교한다.",
             'package(default_visibility = ["//visibility:public"])', "", 'exports_files(["BUILD.bazel"])', "",
             f'filegroup(\n    name = {q(pkg_group(NORM_ROOT))},\n{srcs})\n',
-            "# 이 plane 의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다\nkb_bundle(\n    name = \"kg\",\n"
+            "# 이 지식 종류의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다\nkb_bundle(\n    name = \"kg\",\n"
             + (label_list("items", [f"//{NORM_ROOT}/{p}:kg" for p in pkgs]) or "    items = [],\n") + ")\n"]
     return "\n".join(body)
 
@@ -387,7 +387,7 @@ def render_chunks(pkg, items, iri_to_label, visibility, allow_empty=False):
     for lab, it in sorted(items.items()):
         if it["pkg"] != pkg:
             continue
-        if it["kind"] == "composite":  # 복합체 = 타깃 하나, 부분 청크의 개별 타깃은 없다 (p4-all-knowledge-is-composite)
+        if it["kind"] == "composite":  # 복합체 = 타깃 하나, 부분 단위 지식의 개별 타깃은 없다 (p4-all-knowledge-is-composite)
             body.append(render_composite(lab, it, iri_to_label, decision_iris(items)))
             continue
         m = it["meta"]
@@ -422,7 +422,7 @@ def render_decisions(items, iri_to_label):
         for m in p.values():
             for k, v in links_of(m, iri_to_label, lab).items():
                 links.setdefault(k, []).extend(v)
-        roles = [n for n in DECISION_READING_ORDER + (DECISION_OPTIONAL_PART,) if n in p]  # 규약 청크는 있으면 넷째다
+        roles = [n for n in DECISION_READING_ORDER + (DECISION_OPTIONAL_PART,) if n in p]  # 규약은 있으면 넷째다
         body.append("kb_decision(\n" + f"    name = {q(it['dir'])},\n"
                     + "".join(f"    {n} = {q(it['dir'] + '/' + n + '.md')},\n" for n in roles)
                     + f"    iri = {q(it['comp_iri'])},\n"
@@ -439,13 +439,13 @@ def render_decisions(items, iri_to_label):
 
 
 def render_vv_root(items):
-    """//kb/vv — 하위 plane 패키지의 본문 묶음을 모으고, 청크가 하나라도 있으면 lint_test 를 켠다 (빈 filegroup 은 $(rootpaths) 확장이 분석 에러다)."""
+    """//kb/vv — 하위 지식 종류 패키지의 본문 묶음을 모으고, 단위 지식이 하나라도 있으면 lint_test 를 켠다 (빈 filegroup 은 $(rootpaths) 확장이 분석 에러다)."""
     subs = sorted(VV_PKGS)
     nonempty = any(it["pkg"].startswith(VV_ROOT + "/") for it in items.values())
     body = [HEADER]
     if nonempty:
         body.append('load("//defs:knowledge.bzl", "kb_chunk_lint_test")\n')
-    body += ["# V&V KB — 시나리오 기반 확인의 지식 (노트 7.1절). 개발 KB 와 같은 코어의 두 번째 인스턴스 (p8-vv-plane-instances): 디렉토리 = plane.\n"
+    body += ["# V&V KB — 시나리오 기반 확인의 지식 (노트 7.1절). 개발 KB 와 같은 코어의 두 번째 인스턴스 (p8-vv-plane-instances): 디렉토리 = 지식 종류.\n"
              "# 편집은 vnv 만(kg/catalog-kg.ttl agt:writesIn \"kb/vv\"), 개발 역할은 읽기만. verifies 링크만 KB 를 가로지른다 (V&V → 개발, 같은 level).",
              'package(default_visibility = ["//visibility:public"])', "", 'exports_files(["BUILD.bazel"])', "",
              f'filegroup(\n    name = {q(pkg_group(VV_ROOT))},\n    srcs = [\n' + "".join(f'        "//{VV_ROOT}/{s}",\n' for s in subs)
@@ -453,7 +453,7 @@ def render_vv_root(items):
     if nonempty:
         body.append('kb_chunk_lint_test(\n    name = "lint_test",\n    chunks = [' + q(":" + pkg_group(VV_ROOT)) + '],\n    waivers = "//docs:waivers",  # prose 면제 선언 (docs/waivers.md)\n)\n')
     else:
-        body.append("# lint_test 는 첫 청크가 들어오면 생성기가 켠다 — 빈 filegroup 은 $(rootpaths) 확장이 분석 에러다\n")
+        body.append("# lint_test 는 첫 단위 지식이 들어오면 생성기가 켠다 — 빈 filegroup 은 $(rootpaths) 확장이 분석 에러다\n")
     return "\n".join(body)
 
 
@@ -470,13 +470,13 @@ def render_artifact_root(root: Path):
     """
     pkgs = artifact_pkgs(root)
     body = [HEADER, 'load("//defs:kb.bzl", "kb_bundle")', "",
-            "# 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나. 원본은 tools/*.py 이고\n"
-            "# 청크는 tools/extract.py 의 생성물이다. 손으로 고치면 //:extract_drift_test 가 거부한다.",
+            "# 추출된 코드 단위 지식 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나. 원본은 tools/*.py 이고\n"
+            "# 단위 지식은 tools/extract.py 의 생성물이다. 손으로 고치면 //:extract_drift_test 가 거부한다.",
             'package(default_visibility = ["//visibility:public"])', "", 'exports_files(["BUILD.bazel"])', "",
             f'filegroup(\n    name = {q(pkg_group(ARTIFACT_ROOT))},\n    srcs = [\n'
             + "".join(f'        "//{ARTIFACT_ROOT}/{p}",\n' for p in pkgs)
             + '    ],\n)\n' if pkgs else f'filegroup(\n    name = {q(pkg_group(ARTIFACT_ROOT))},\n    srcs = [],\n)\n',
-            "# 이 plane 의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다\nkb_bundle(\n    name = \"kg\",\n"
+            "# 이 지식 종류의 head 그래프 조각 묶음 — //kg:chunks_kg 가 병합한다\nkb_bundle(\n    name = \"kg\",\n"
             + (label_list("items", [f"//{ARTIFACT_ROOT}/{p}:kg" for p in pkgs]) or "    items = [],\n") + ")\n"]
     return "\n".join(body)
 
@@ -490,13 +490,13 @@ def ontology(root: Path):
     mod_dirs = sorted(p for p in root.glob("kb/ontology/*/*") if p.is_dir() and list(p.glob("*.ttl")))
     for d in mod_dirs:
         rel = d.relative_to(root / "kb/ontology").as_posix()
-        outputs[str(d / "BUILD.bazel")] = (HEADER.replace("각 청크의 frontmatter", "모듈 디렉토리의 온톨로지 TTL")
+        outputs[str(d / "BUILD.bazel")] = (HEADER.replace("각 단위 지식의 frontmatter", "모듈 디렉토리의 온톨로지 TTL")
                                            + 'load("//defs:kb.bzl", "kb_ontology_module")\n\n'
                                            'package(default_visibility = ["//visibility:public"])\n\n'
-                                           f'# 모듈 = 디렉토리, 청크 = 파일 (2.3절). IRI {ONTO_BASE}{rel}\n'
+                                           f'# 모듈 = 디렉토리, 단위 지식 = 파일 (2.3절). IRI {ONTO_BASE}{rel}\n'
                                            f"kb_ontology_module(\n    name = {q(d.name)},\n    srcs = glob([\"*.ttl\"]),\n    iri = {q(ONTO_BASE + rel)},\n)\n")
     labels = [f"//kb/ontology/{i}" for i in imports]
-    outputs[str(root / "kb/ontology/modules.bzl")] = (HEADER.replace("각 청크의 frontmatter", "project-ontology.ttl 의 owl:imports")
+    outputs[str(root / "kb/ontology/modules.bzl")] = (HEADER.replace("각 단위 지식의 frontmatter", "project-ontology.ttl 의 owl:imports")
                                                       + '"""project-ontology.ttl 이 가져오는 모듈 — owl:imports 에서 생성."""\n\nPROJECT_IMPORTS = [\n'
                                                       + "".join(f"    {q(l)},\n" for l in sorted(labels)) + "]\n")
     return outputs
@@ -600,7 +600,6 @@ def main() -> int:
         outputs = {
             str(root / "kb/dev/requirement/BUILD.bazel"): render_chunks("kb/dev/requirement", items, iri_to_label, "//kb:requirement_readers"),
             str(root / "kb/dev/decision/BUILD.bazel"): render_decisions(items, iri_to_label),
-            str(root / "chunks/decision/BUILD.bazel"): render_chunks("chunks/decision", items, iri_to_label, "//kb:decision_readers"),
             str(root / CONTRACT_PKG / "BUILD.bazel"): render_chunks(CONTRACT_PKG, items, iri_to_label, "//kb:contract_readers", allow_empty=True),
             str(root / MEMORY_PKG / "BUILD.bazel"): render_chunks(MEMORY_PKG, items, iri_to_label, "//kb:memory_readers", allow_empty=True),
             str(root / VV_ROOT / "BUILD.bazel"): render_vv_root(items),
@@ -612,7 +611,7 @@ def main() -> int:
         outputs[str(root / NORM_ROOT / "BUILD.bazel")] = render_norm_root(root)
         for d in norm_pkgs(root):  # 규범 문서마다 패키지 하나 — 결정의 투영이라 그래프·게이트만 본다 (//kb:norm_readers)
             outputs[str(root / NORM_ROOT / d / "BUILD.bazel")] = render_chunks(f"{NORM_ROOT}/{d}", items, iri_to_label, "//kb:norm_readers")
-        for sub in VV_PKGS:  # V&V plane 패키지 — 개발 청크는 볼 수 없다 (//kb:vv_readers, 8.5절 독립성)
+        for sub in VV_PKGS:  # V&V 지식 종류 패키지 — 개발 단위 지식은 볼 수 없다 (//kb:vv_readers, 8.5절 독립성)
             outputs[str(root / VV_ROOT / sub / "BUILD.bazel")] = render_chunks(f"{VV_ROOT}/{sub}", items, iri_to_label, "//kb:vv_readers", allow_empty=True)
         outputs.update(ontology(root))
     except GenBuildError as e:

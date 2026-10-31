@@ -5,10 +5,10 @@ level: concrete
 title_ko: 단기·장기는 생산 시점에 갈리고 승격 규칙은 입력이다
 title: Short-term and long-term split at production time, and the promotion rule is an input
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0127-memory-promotion-rule.md, id: https://agentic-knowledge-base.dev/id/chunk-d0127, title_ko: "단기·장기 구분과 메모리 승격 규칙", title: "Short-term vs long-term memory and the promotion rule"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-03T18:30:02+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T18:30:08+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T18:30:08+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0127]
 part_of: https://agentic-knowledge-base.dev/id/composite/46d1f19a-5541-4328-903d-caa729dcb9b4
@@ -16,8 +16,8 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/46d1f19a-5541-43
 ---
 **결론** — 지식 **생산 시점에** 단기·장기를 구분한다.
 
-- **단기기억** — `memory` plane에 두고 첫 실행 시 한 번에 읽는다
-- **장기기억** — 주제 plane으로 승격해 필요한 순간에 읽는다
+- **단기기억** — `memory` 지식 종류에 두고 첫 실행 시 한 번에 읽는다
+- **장기기억** — 주제 지식 종류로 승격해 필요한 순간에 읽는다
 
 승격은 6.3절 일반화의 최소 단위다. 설계 판단이면 `decision`, 코드 주석이면
 `annotation`으로 올라간다. **승격 규칙(언제·무엇을)은 체계가 고정하지 않는

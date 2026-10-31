@@ -1,5 +1,5 @@
-# 이 스코프 안에 무엇이 있는가 — 라벨 목록을 보여 달라.
-# 행 = 살아 있는 청크 하나 (plane · level · 한글 라벨). ?plane 을 --bind 로 묶으면 그 plane 만 (역할 스코프 × 수준 창 × 앵커는 //kg:workset)
+# 이 적용 범위 안에 무엇이 있는가 — 라벨 목록을 보여 달라.
+# 행 = 살아 있는 단위 지식 하나 (plane · level · 한글 라벨). ?지식 종류를 --bind 로 묶으면 그 지식 종류만 (역할 적용 범위 × 수준 창 × 앵커는 //kg:workset)
 PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
 PREFIX id: <https://agentic-knowledge-base.dev/id/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>

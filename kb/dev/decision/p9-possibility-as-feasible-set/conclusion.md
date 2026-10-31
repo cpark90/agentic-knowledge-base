@@ -4,10 +4,11 @@ type: decision
 level: concrete
 title_ko: 링크의 가능성은 확률이 아니라 가능 집합이다
 title: Link possibility is a feasible set, not a probability
-status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+status: deprecated
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0097-possibility-as-feasible-set.md, id: https://agentic-knowledge-base.dev/id/chunk-d0097, title_ko: "링크의 가능성은 확률이 아니라 가능 집합", title: "Link possibility as feasible set, not probability"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0097]
 part_of: https://agentic-knowledge-base.dev/id/composite/3d6c3728-c1d8-4bc4-8d9e-f6963425410c

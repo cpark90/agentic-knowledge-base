@@ -1,4 +1,4 @@
-# 청크 — 정제 계층: level은 요구에서 실산출물까지의 정제 수준이다 (노트 6.1절, v3 개정)
+# 지식 — 정제 계층: level은 요구에서 실산출물까지의 정제 수준이다 (노트 6.1절, v3 개정)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -6,11 +6,11 @@
 
 agt:Level a owl:Class ;
     rdfs:label "refinement level"@en , "정제 수준"@ko ;
-    skos:definition "요구에서 실산출물까지의 정제 수준. plane과 직교하며, plane마다 거주하는 level 구간이 정해져 있다(6.4절 수준 허용표). 상황의 추상화가 아니라 요구가 산출물이 되는 사슬이다 (6.1절). 게이트: residency-shapes(원본 defs/kb.bzl RESIDENCY, residency 게이트가 동일성 강제)."@ko .
+    skos:definition "요구에서 실산출물까지의 정제 수준. 지식 종류와 직교하며, 지식 종류마다 거주하는 level 구간이 정해져 있다(6.4절 지식 종류별 허용 수준 표). 상황의 추상화가 아니라 요구가 산출물이 되는 사슬이다 (6.1절). 게이트: residency-shapes(원본 defs/kb.bzl RESIDENCY, residency 게이트가 동일성 강제)."@ko .
 
 agt:functional a owl:NamedIndividual , agt:Level ;
     rdfs:label "functional"@en , "기능 수준"@ko ;
-    skos:definition "요구사항의 수준. 자연어(EARS 권장)로 이해관계자와 관심사를 명시한다. requirement plane 전용 — 정제 계층의 출발점이며 판정은 합의다 (6.1절). 게이트: residency-shapes(원본 defs/kb.bzl RESIDENCY, residency 게이트가 동일성 강제)."@ko .
+    skos:definition "요구사항의 수준. 자연어(EARS 권장)로 이해관계자와 관심사를 명시한다. `requirement` 지식 종류 전용 — 정제 계층의 출발점이며 판정은 합의다 (6.1절). 게이트: residency-shapes(원본 defs/kb.bzl RESIDENCY, residency 게이트가 동일성 강제)."@ko .
 
 agt:abstract a owl:NamedIndividual , agt:Level ;
     rdfs:label "abstract"@en , "추상 수준"@ko ;
@@ -18,12 +18,12 @@ agt:abstract a owl:NamedIndividual , agt:Level ;
 
 agt:logical a owl:NamedIndividual , agt:Level ;
     rdfs:label "logical"@en , "논리 수준"@ko ;
-    skos:definition "범위·제약·합격 기준의 수준. 근거와 기준의 보존소 — 선택되지 않은 대안과 배제 이유, 무엇으로 합격을 판정할 것인가가 여기 있고 판정식이 여기서 태어난다. contract·schema·decision이 거주한다 (6.1절)."@ko .
+    skos:definition "범위·제약·합격 기준의 수준. 근거와 기준의 보존소 — 선택되지 않은 대안과 배제 이유, 무엇으로 합격을 판정할 것인가가 여기 있고 판정 술어가 여기서 태어난다. contract·schema·decision이 거주한다 (6.1절)."@ko .
 
 agt:concrete a owl:NamedIndividual , agt:Level ;
     rdfs:label "concrete"@en , "구체 수준"@ko ;
-    skos:definition "특정 값의 수준. 케이스·고정 입력·구체 설정이며 표본 추출 근거가 필수다. schema·decision·artifact가 거주하고, 관측(memory)은 언제나 이 수준에만 존재한다 (6.1절, 0.5절)."@ko .
+    skos:definition "특정 값의 수준. 테스트 케이스·고정 입력·구체 설정이며 표본 추출 근거가 필수다. schema·decision·artifact가 거주하고, 관측(memory)은 언제나 이 수준에만 존재한다 (6.1절, 0.5절)."@ko .
 
 agt:executable a owl:NamedIndividual , agt:Level ;
     rdfs:label "executable"@en , "실행 수준"@ko ;
-    skos:definition "실산출물의 수준. 코드·테스트·설정·모델의 head와 앵커. artifact plane 전용 — 정제 계층의 도착점이며 판정은 실행이다. 구현은 개발 KB, verifier는 V&V KB의 artifact다 (6.1절, 7.2절). 게이트: residency-shapes(원본 defs/kb.bzl RESIDENCY, residency 게이트가 동일성 강제)."@ko .
+    skos:definition "실산출물의 수준. 코드·테스트·설정·모델의 head와 앵커. `artifact` 지식 종류 전용 — 정제 계층의 도착점이며 판정은 실행이다. 구현은 개발 KB, verifier는 V&V KB의 artifact다 (6.1절, 7.2절). 게이트: residency-shapes(원본 defs/kb.bzl RESIDENCY, residency 게이트가 동일성 강제)."@ko .

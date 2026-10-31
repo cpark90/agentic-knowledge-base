@@ -4,10 +4,13 @@ type: decision
 level: logical
 title_ko: 논리 시나리오 자극 — 신규 결함이 줄지 않은 두 라운드 뒤 셋째 라운드 기록의 정지 규칙 판정
 title: Logical scenario stimulus — judging the stop rule on a third round record after two rounds whose new defects did not fall
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T23:16:12+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T02:06:15+09:00}]
+refines: [https://agentic-knowledge-base.dev/id/chunk/1467d7fe-f090-46b6-974d-e8d33bbcfd78]
+restored: [https://agentic-knowledge-base.dev/id/chunk/1467d7fe-f090-46b6-974d-e8d33bbcfd78]
 part_of: https://agentic-knowledge-base.dev/id/composite/90e4464e-15dc-5cdc-9105-ba97d62261a8
 composite: {id: https://agentic-knowledge-base.dev/id/composite/90e4464e-15dc-5cdc-9105-ba97d62261a8, title_ko: 신규 결함이 줄지 않은 두 라운드 뒤 셋째 라운드 기록의 정지 규칙 판정, title: Judging the stop rule on a third round record after two rounds whose new defects did not fall, ordered: [https://agentic-knowledge-base.dev/id/chunk/482e5340-b183-5f66-adea-4ccf1931b159, https://agentic-knowledge-base.dev/id/chunk/de11ca60-357f-597b-a28a-b4d22359c830, https://agentic-knowledge-base.dev/id/chunk/ec96760a-2ac4-5171-b341-e40143ce058a]}
 ---

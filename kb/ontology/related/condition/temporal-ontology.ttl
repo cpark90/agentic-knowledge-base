@@ -1,6 +1,6 @@
 # 조건 — 동적 갈래의 시간 제약 어휘: 선행·배타·시한 (노트 0.4절·0.5절 v3)
 # 시간열 개체를 제거한 보완이다. 동시성·순서 요구는 logical에서 이 어휘로 형식화되고,
-# 판정식은 실행 기록의 시각 순서로 검사한다 (판정 등급 A).
+# 판정 술어는 실행 기록의 시각 순서로 검사한다 (판정 등급 A).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .

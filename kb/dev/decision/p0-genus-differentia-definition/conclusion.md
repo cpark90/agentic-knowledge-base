@@ -5,9 +5,10 @@ level: concrete
 title_ko: 모든 개념은 속과 종차로 된 텍스트 정의를 갖는다
 title: Every concept carries a genus-differentia text definition
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0034-genus-differentia-definition.md, id: https://agentic-knowledge-base.dev/id/chunk-d0034, title_ko: "정의는 속 더하기 종차로 쓴다", title: "Definitions use genus plus differentia"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0034]
 part_of: https://agentic-knowledge-base.dev/id/composite/9698cc60-f54e-4dfb-b678-e505d36b8034

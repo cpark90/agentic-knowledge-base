@@ -7,8 +7,8 @@ title: Descent is four transitions, each leaving rationale and refines
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0, https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 part_of: https://agentic-knowledge-base.dev/id/composite/3eec3426-b051-4594-8d32-be0867520885
 composite: {id: https://agentic-knowledge-base.dev/id/composite/3eec3426-b051-4594-8d32-be0867520885, title_ko: 정제 — 구체화의 네 전이, title: Descent - the four refinement transitions}
@@ -16,7 +16,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/3eec3426-b051-45
 **결론** — 정제(구체화)은 네 전이다.
 
 - **functional → abstract 형식화** — 요구를 온톨로지 어휘의 형식 문장으로 옮긴다
-- **abstract → logical 전개** — 변수에 범위·제약·판정식을 준다
+- **abstract → logical 전개** — 변수에 범위·제약·판정 술어를 준다
 - **logical → concrete 표본 추출** — 범위에서 값을 고른다
 - **concrete → executable 생성** — 산출물을 만들고 합격 기준을 바인딩한다
 

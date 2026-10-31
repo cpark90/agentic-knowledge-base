@@ -7,7 +7,7 @@ title: function check_question in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b]
 part_of: https://agentic-knowledge-base.dev/id/composite/459184ba-3aec-453b-a423-9345d0975436
@@ -23,6 +23,6 @@ def check_question(q: dict, name: str) -> None:
     if q["form"] == "choice" and len(q["options"]) > kb_lib.JUDGE_CHOICE_MAX:
         raise JudgeError(f"질문 {name}: 선택 집합 {len(q['options'])} 개가 상한 {kb_lib.JUDGE_CHOICE_MAX} 를 넘는다 — "
                          f"질문을 2단계로 나눈다: 후보마다 독립 점수(score)를 묻고 상위 {kb_lib.JUDGE_CHOICE_MAX} 이하로 좁힌 뒤 "
-                         "명시 선택(choice)을 묻는다 (p8-judge-calibration-binding 규칙 ③)")
+                         "명시 선택(choice)을 묻는다 (p8-judge-session-agreement 규칙 ⑤)")
 ```
 <!-- 인용 끝 -->

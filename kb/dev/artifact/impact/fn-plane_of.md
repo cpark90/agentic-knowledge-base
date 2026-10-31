@@ -7,7 +7,7 @@ title: function plane_of in tools/impact.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-impact}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/44b63663-ac34-40f1-92c6-a6281c93c7a6
 ---
@@ -17,6 +17,6 @@ part_of: https://agentic-knowledge-base.dev/id/composite/44b63663-ac34-40f1-92c6
 ```python
 def plane_of(label: str) -> str:
     pkg = label.split(":")[0]
-    return {"//kb/dev/requirement": "requirement", "//kb/dev/decision": "decision", "//chunks/decision": "decision(deprecated)"}.get(pkg, pkg.split("/")[-1] or "?")
+    return {"//kb/dev/requirement": "requirement", "//kb/dev/decision": "decision"}.get(pkg, pkg.split("/")[-1] or "?")
 ```
 <!-- 인용 끝 -->

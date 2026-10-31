@@ -7,7 +7,7 @@ title: function main in tools/community.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-community}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/2aa8020a-1553-48b5-8a54-b93aab820bbe, https://agentic-knowledge-base.dev/id/chunk/4dce45c5-55b4-4c63-9ef4-5f4d522ea26d, https://agentic-knowledge-base.dev/id/chunk/55c0dffc-fb43-485f-abee-4db384f48469, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/bb657e8b-5946-421e-bfcb-8829e044c9e2, https://agentic-knowledge-base.dev/id/chunk/d055d81b-2c2f-4f5d-87f5-b4425c8c4311, https://agentic-knowledge-base.dev/id/chunk/fedf25c3-0ff9-483f-b5e0-afd61a05c16f]
 part_of: https://agentic-knowledge-base.dev/id/composite/09eb4947-176f-41ad-92ee-7632b5240022
@@ -25,7 +25,7 @@ def main() -> int:
     for f in a.files:
         g.parse(f, format="turtle")
 
-    # 살아 있는 청크
+    # 살아 있는 단위 지식
     chunks = {}
     for c in g.subjects(AGT.tokenCount, None):
         if str(next(g.objects(c, AGT.status), "")) == "deprecated":
@@ -34,7 +34,7 @@ def main() -> int:
         level = str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1]
         chunks[c] = {"plane": plane, "level": level, "ko": label_ko(g, c), "loc": str(next(g.objects(c, AGT.assertionLocation), ""))}
 
-    # 선언된 복합체 → 단위 노드. 부분은 살아 있는 청크만, 한 청크가 둘에 속하면 IRI 가 작은 복합체
+    # 선언된 복합체 → 단위 노드. 부분은 살아 있는 단위 지식만, 한 단위 지식이 둘에 속하면 IRI 가 작은 복합체
     unit_of = {}
     units = {}  # 단위 → {"parts": [...], "ko", "plane", "level", "composite": bool}
     for comp in sorted(g.subjects(RDF.type, AGT.Composite), key=str):
@@ -119,20 +119,20 @@ def main() -> int:
     n_comp = sum(1 for u in units.values() if u["composite"])
     head = kb_lib.gendoc_header(
         "communities", "커뮤니티 탐지 뷰", "tools/community.py",
-        "살아 있는 청크와 그 링크(`refines`·`serves`·`cites`·`usesConcept`·`coUpdatesWith`·`conflictsWith` + 구성 관계)에 "
+        "살아 있는 단위 지식과 그 링크(`refines`·`serves`·`cites`·`usesConcept`·`coUpdatesWith`·`conflictsWith` + 구성 관계)에 "
         "결정론적 Louvain 을 돌려 — 같은 plane·level 안의 군집은 복합체 후보, plane·level 을 넘는 군집은 relatedTo 링크 후보. "
         "후보 생성기이고 판정(병합 / 묶기 / 유지)은 사람이 후보마다 한다",
         "bazel build //kg:communities", a.files,
-        f"링크 {len(triples)} · 단위 노드 {len(units)}", kb_lib.gendoc_view_notice("청크의 frontmatter 와 `kg/composite-kg.ttl`"),
+        f"링크 {len(triples)} · 단위 노드 {len(units)}", kb_lib.gendoc_view_notice("단위 지식의 frontmatter 와 `kg/composite-kg.ttl`"),
         input_kind="그래프 파일",
-        extra=[f"- 살아 있는 청크 {len(chunks)} · 단위 노드 {len(units)} (선언된 복합체 {n_comp} + 단독 청크 {len(units) - n_comp}) · "
+        extra=[f"- 살아 있는 단위 지식 {len(chunks)} · 단위 노드 {len(units)} (선언된 복합체 {n_comp} + 단독 단위 지식 {len(units) - n_comp}) · "
                f"링크 {len(triples)} ({' · '.join(f'{k} {v}' for k, v in sorted(kind_count.items())) or kb_lib.NONE_MARK}) · "
                f"모듈러리티 Q = {kb_lib.num(q)}",
                "- 방법: 결정론적 Louvain (IRI 정렬, 동점은 작은 IRI). 선언된 복합체의 부분은 한 단위로 묶고 시작하며 복합체의 수준은 결론의 수준이다. "
                "supersedes 는 시간축이라 제외. 채택은 `kg/composite-kg.ttl` 복합체 선언, 기각은 관측 한 줄"])
     lines = ["## 요약", "", "| 항목 | 값 |", "|---|---|",
              f"| 군집 수 | {len(clusters)} |",
-             f"| 크기 분포 (청크 수) | 1: {dist.get('1', 0)} · 2–9: {dist.get('2–9', 0)} · 10+: {dist.get('10+', 0)} |",
+             f"| 크기 분포 (단위 지식 수) | 1: {dist.get('1', 0)} · 2–9: {dist.get('2–9', 0)} · 10+: {dist.get('10+', 0)} |",
              f"| 복합체 후보 (같은 plane·level, 2~{MAX_PARTS}, 아직 복합체 아님) | {len(composite_cands)} |",
              f"| relatedTo 링크 후보 (plane 또는 level 을 넘음) | {len(related_cands)} |",
              f"| 선언된 복합체와 일치하는 군집 (후보 아님) | {len(already)} |",

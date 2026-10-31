@@ -4,10 +4,10 @@ type: decision
 level: logical
 title_ko: 계약 logical 칸의 지위는 함수 하나의 시그니처 후보 공간을 두 방식으로 써 본 뒤 정한다
 title: The status of the contract logical cell is decided after writing one function's signature space both ways
-status: draft
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-06T00:03:07+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-22T19:36:16+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/65050ef4-3fcb-4154-8136-9137d50aebd5
 composite: {id: https://agentic-knowledge-base.dev/id/composite/65050ef4-3fcb-4154-8136-9137d50aebd5, title_ko: 계약 logical 칸의 실험 판정, title: Deciding contract logical cells by experiment}

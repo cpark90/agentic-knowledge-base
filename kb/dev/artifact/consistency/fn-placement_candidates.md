@@ -7,7 +7,7 @@ title: function placement_candidates in tools/consistency.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/51576407-6260-4181-9396-8dd497ea9cf8, https://agentic-knowledge-base.dev/id/chunk/679d9b66-75c4-4149-9431-e4eedce13df2, https://agentic-knowledge-base.dev/id/chunk/7dd416db-02ce-4e5c-ae75-13a6abdb4250]
 part_of: https://agentic-knowledge-base.dev/id/composite/38dd33c9-2317-4c0a-a596-5bb97eecca1b
@@ -17,7 +17,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/38dd33c9-2317-4c0a-a596
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def placement_candidates(it: dict) -> list[tuple[str, str, str]]:
-    """자리 후보 — [(현재 슬롯, 발견된 다른 슬롯 표지, 그 줄)]. 슬롯이 둘 미만인 청크는 대상이 아니다 (⑪)."""
+    """자리 후보 — [(현재 슬롯, 발견된 다른 슬롯 표지, 그 줄)]. 슬롯이 둘 미만인 단위 지식은 대상이 아니다 (⑪)."""
     slots = it.get("slots") or []
     if len(slots) < 2:
         return []

@@ -7,10 +7,10 @@ title: Normative-document conventions — The -space file holds candidate links 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:54:56+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T05:27:16+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/77fa385a-9aa6-406f-b72f-bb966f6c42f8
 ---
 **규약** — `p9-design-space-file`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: `-space` 파일에 **변수** · **후보** · **제약**을 쓴다. 변수는 링크가 필요한 항목, 후보는 도착점 집합, 제약은 양립 조건이다. abstract 단계는 변수까지, logical 단계는 후보와 제약까지 채운 상태다 (d-0100).
+규약: `-space` 파일에는 **변수**와 **후보**, **제약**을 쓴다. 변수는 링크가 필요한 항목이고, 후보는 도착점 집합이며, 제약은 양립 조건이다. 추상 수준에서는 변수까지, 논리 수준에서는 후보와 제약까지 채운 상태다.

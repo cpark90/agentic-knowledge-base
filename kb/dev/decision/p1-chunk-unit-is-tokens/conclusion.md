@@ -2,29 +2,32 @@
 id: https://agentic-knowledge-base.dev/id/chunk/7afd759f-26b1-4ad8-8edb-abc971dc4393
 type: decision
 level: concrete
-title_ko: 청크의 단위는 토큰이고 상한은 예산 5,418의 1/5인 42×26 = 1,092 토큰이다
+title_ko: 단위 지식의 단위는 토큰이고 상한은 예산 5,418의 1/5인 42×26 = 1,092 토큰이다
+former_title_ko: ["청크의 단위는 토큰이고 상한은 예산 5,418의 1/5인 42×26 = 1,092 토큰이다", "지식 항목의 단위는 토큰이고 상한은 예산 5,418의 1/5인 42×26 = 1,092 토큰이다"]
 title: The chunk unit is tokens, and the limit is 42×26 = 1,092 tokens — one fifth of the 5,418-token budget
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08, https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk/de38da18-3de5-4b30-86d6-af112ca9659c]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-10-03T18:30:02+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T18:30:08+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:48:52+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T18:30:08+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T19:33:52+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:48:52+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/128d439b-0863-41e3-8eb3-7c090e7f1742
-composite: {id: https://agentic-knowledge-base.dev/id/composite/128d439b-0863-41e3-8eb3-7c090e7f1742, title_ko: 청크의 단위는 토큰이다, title: The chunk unit is tokens}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/128d439b-0863-41e3-8eb3-7c090e7f1742, title_ko: 단위 지식의 단위는 토큰이다, title: The chunk unit is tokens, former_title_ko: ["청크의 단위는 토큰이다", "지식 항목의 단위는 토큰이다"]}
 ---
-**결론** — 청크 크기의 단위는 줄이 아니라 **토큰**이다(유저 답 2026-10-01 — "42의 배수로, 공개 토크나이저 하나를 의존성으로 고정"). 계수기는 `tiktoken` `o200k_base`(어휘 파일 sha256 고정, ODD 조건 `cond-tokenizer-lock`)다.
+**결론** — 단위 지식 크기의 단위는 줄이 아니라 **토큰**이다(유저 답 2026-10-01 — "42의 배수로, 공개 토크나이저 하나를 의존성으로 고정"). 계수기는 `tiktoken` `o200k_base`(어휘 파일 sha256 고정, ODD 조건 `cond-tokenizer-lock`)다.
 
 | 항목 | 값 | 도출 |
 |---|---|---|
 | 컨텍스트 예산 | **5,418 토큰 = 42×129** | 저작 산문(요구·결정 879)의 줄당 토큰 중앙 27.09 × 200줄 — 옛 결정의 200줄을 같은 계수기로 환산 |
-| 청크 상한(저작 산문) | **1,092 토큰 = 42×26** | 예산 ÷ 5 = 1,084 → 가장 가까운 42의 배수. 한 번에 4~5개를 조망한다는 옛 근거 그대로 |
-| 청크 상한(`artifact`·`memory`) | **2,856 토큰 = 42×68** | 코드의 줄당 토큰 14.3 × 200줄 — "청크 하나가 컨텍스트 한 창을 넘지 않는다"(옛 200줄 상한의 환산) |
+| 단위 지식 상한(저작 산문) | **1,092 토큰 = 42×26** | 예산 ÷ 5 = 1,084 → 가장 가까운 42의 배수. 한 번에 4~5개를 조망한다는 옛 근거 그대로 |
+| 단위 지식 상한(`artifact`·`memory`) | **2,856 토큰 = 42×68** | 코드의 줄당 토큰 14.3 × 200줄 — "청크 하나가 컨텍스트 한 창을 넘지 않는다"(옛 200줄 상한의 환산) |
 
 근거를 **예산 ÷ 5**로 고른 까닭: 42줄은 처음부터 "200줄의 약 1/5"로 도출됐고, 그 도출을 토큰으로 옮기면 1,092다. 참조 저장소의 재결정 260(≈ 42×6)은 다른 계수기·다른 창의 수이며 그것을 쓰면 저작 산문의 43%(426)를 쪼개야 한다 — 숫자가 아니라 도출이 규칙이다. 1,092에서 초과는 저작 산문 3 · 코드 52(2,856에서는 6)다.
 
 줄 상한(42·200)은 전부 폐지되고 게이트는 토큰(`agt:tokenCount`)으로 판정한다. 분할은 `p10-split-keeps-work-identity`를 따른다. 노트 938·949·641행의 "줄"은 유저 의도대로 정정한다 — 기획 원본의 오기록이다.
 
-미확정: 토큰 상한의 강제가 시스템 묘사를 손상시키는 plane이 있는가 — 실험으로 판정한다(노트 13.2절, Q15-c·Q20-a로 이전. 원문은 42줄 기준이다).
+미확정: 토큰 상한의 강제가 시스템 묘사를 손상시키는 지식 종류가 있는가 — 실험으로 판정한다(노트 13.2절, Q15-c·Q20-a로 이전. 원문은 42줄 기준이다).
+
+**게이트** (노트 4.4절, shape) — 본문 토큰 상한 초과와 frontmatter 형식 위반(라벨 누락, 지식 종류·수준 유일성 위반, 온톨로지 밖 `type`)은 `chunk_lint`와 `chunk2kg`, shape `chunk-shapes`·`token-budget-shapes`가 거부하고, 게이트 id는 `chunk`·`chunk2kg`·`token-budget`이다. 해소는 지식 종류의 write 역할이 단위 지식을 고치는 것이다(요구와 결정은 orchestrator, 산출물은 developer). 토큰 상한 위반은 append-only 기록처럼 소급 분할이 기록을 다시 쓰는 경우에만 `docs/waivers.md`의 축 `파일`로 면제한다(2026-10-01). SHACL 쪽도 같은 선언을 받는다. `validate`의 `--waivers`가 위반의 focus node를 `agt:assertionLocation`으로 파일에 사상해 게이트 id `shacl`의 면제를 가른다. shape는 약화하지 않는다.

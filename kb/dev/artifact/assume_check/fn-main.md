@@ -7,7 +7,7 @@ title: function main in tools/assume_check.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-assume-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:52:41Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/1a52fdec-22af-4925-98d0-b91f50c202b5, https://agentic-knowledge-base.dev/id/chunk/1de413a3-d886-4f4a-b4d8-5899d68e6d2c, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/304744ba-30b6-43f2-8aee-d9532aa66c13, https://agentic-knowledge-base.dev/id/chunk/31bc1a35-7001-4936-9b80-a0bfffed1335, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/91c67aff-4114-4bf6-a319-b4aa40cbc5f1, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/a3ac2cde-76e2-4d4e-b75f-ecd7060abd39, https://agentic-knowledge-base.dev/id/chunk/a49b0fbe-30fd-4d2c-8b92-f99763bd47af, https://agentic-knowledge-base.dev/id/chunk/ae67e102-2e22-4234-8638-b2db8fa603b4, https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e, https://agentic-knowledge-base.dev/id/chunk/fc00bd15-31c6-4e4b-b28e-773cbf0b1e48, https://agentic-knowledge-base.dev/id/chunk/ff4fd3d8-23db-4fee-89d7-f5c9052f5590]
 part_of: https://agentic-knowledge-base.dev/id/composite/5dac7240-2471-496d-a65c-f55a8a067a41
@@ -71,10 +71,10 @@ def main() -> int:
     rep = kb_lib.gendoc_header(
         "assume_check", "가정 판정과 전파", "tools/assume_check.py",
         f"ODD 조건을 판정 방법으로 실제 판정한 뒤, 가정마다 그 참조 조건 판정의 연언으로 valid·invalidated·unverified 를 정하고 "
-        f"깨진 가정을 `assumes` 하는 살아 있는 청크(직접 영향)와 그 하류(suspect 후보)를 낸다 (6.9절){broke_note}",
+        f"깨진 가정을 `assumes` 하는 살아 있는 단위 지식(직접 영향)과 그 하류(suspect 후보)를 낸다 (6.9절){broke_note}",
         "bazel run //tools:assume_check", [str(odd_path)] + [str(root / f) for f in (a.ttl or DEFAULT_TTL)],
-        f"가정 {len(asms)} · 살아 있는 청크 {len(live)}",
-        kb_lib.gendoc_view_notice("ODD 조건 정의와 청크의 `assumes` 링크"),
+        f"가정 {len(asms)} · 살아 있는 단위 지식 {len(live)}",
+        kb_lib.gendoc_view_notice("ODD 조건 정의와 단위 지식의 `assumes` 링크"),
         extra=[f"- 결과: {verdict} · 가정 {len(asms)} (valid {len(asms) - n_inv - n_unv} · invalidated {n_inv} · unverified {n_unv})",
                f"- 링크: 확정 {sat['confirmed']} · `when` 을 가진 것 {sat['with_when']} · suspect 로 유도된 것 "
                f"**{kb_lib.pct(sat['suspect'], sat['confirmed'])}** (`when` 거짓 {sat['by_when']} · 트리거 {sat['by_trigger']})"])

@@ -7,9 +7,9 @@ title: function analyse_prose in tools/consistency.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/15e8fdb5-4855-45e7-a8da-d43faba52099, https://agentic-knowledge-base.dev/id/chunk/32dfc003-5ffa-4b9f-95c1-d71ffd0a4884, https://agentic-knowledge-base.dev/id/chunk/46b79267-2ae4-4c11-9208-401a5ac9ab53, https://agentic-knowledge-base.dev/id/chunk/6c400590-b47a-4724-88dc-6d918284ffac, https://agentic-knowledge-base.dev/id/chunk/764328d8-e7e9-4fdf-9e87-e04f59d61a65, https://agentic-knowledge-base.dev/id/chunk/cd6718e1-2437-43a9-b7a2-174aced3b0e1]
+uses: [https://agentic-knowledge-base.dev/id/chunk/15e8fdb5-4855-45e7-a8da-d43faba52099, https://agentic-knowledge-base.dev/id/chunk/32dfc003-5ffa-4b9f-95c1-d71ffd0a4884, https://agentic-knowledge-base.dev/id/chunk/46b79267-2ae4-4c11-9208-401a5ac9ab53, https://agentic-knowledge-base.dev/id/chunk/6c400590-b47a-4724-88dc-6d918284ffac, https://agentic-knowledge-base.dev/id/chunk/764328d8-e7e9-4fdf-9e87-e04f59d61a65, https://agentic-knowledge-base.dev/id/chunk/87a05eea-98e4-4ec6-adfb-c640e180af29, https://agentic-knowledge-base.dev/id/chunk/cd6718e1-2437-43a9-b7a2-174aced3b0e1]
 part_of: https://agentic-knowledge-base.dev/id/composite/02bb9c9f-7720-4f02-ae31-b3eee5ba6865
 ---
 **함수** — `analyse_prose(items, waivers)` 다. ⑦ 단정성 — 게이트 prose 가 거부하지 않는 나머지(추측·구어·대시 밀도)를 보고한다.
@@ -22,7 +22,7 @@ def analyse_prose(items, waivers):
     대시 밀도 = 산문 조각 안의 " — " 수 / max(1, 문장 수). 문장 = PROSE_SENTENCE_END(마침표 종결, 또는 마침표 없는 종결 "다" +
     | ) 닫는 따옴표 줄끝). "다." 만 세면 209/621, 종결 "다" 기반은 130 — 명사형 종결·인용 괄호를 놓쳐 대안 양식이 전부
     걸렸다(대리의 결함). 마침표 종결까지 세면 28 — 그 상위는 라벨 대시("- 라벨 — 설명", "| 셀 | `id` — 설명")의 불릿·표
-    청크라 라벨 대시를 뺀다(PROSE_LABEL_DASH) → 1. 문장 없이 절 대시만 있는 청크는 여전히 잡힌다.
+    단위 지식이라 라벨 대시를 뺀다(PROSE_LABEL_DASH) → 1. 문장 없이 절 대시만 있는 단위 지식은 여전히 잡힌다.
     ⑧ 첨가 · ⑨ 목록 — 같은 본문을 한 번만 읽어 ⑦ 과 함께 센다. 셋 다 보고이고 판정은 사람 몫이다.
     """
     hedge_hits, colloq_hits, dash_dense = [], [], []
@@ -43,7 +43,7 @@ def analyse_prose(items, waivers):
         lw = waived(waivers, LIST_RULES_GATE, it["path"], "파일")
         (list_waived if lw else list_hits).extend((it, ln, why) for ln, why in check_lists(text))
         segs = [seg for _, seg in prose_segments(text)]
-        dashes = sum(seg.count(" — ") - len(PROSE_LABEL_DASH.findall(seg)) for seg in segs)  # 라벨 대시는 절 연결이 아니다
+        dashes = sum(seg.count(" — ") - label_dashes(seg) for seg in segs)  # 라벨 대시는 절 연결이 아니다
         sentences = sum(len(PROSE_SENTENCE_END.findall(seg)) for seg in segs)
         density = dashes / max(sentences, 1)
         if density > 1.0:

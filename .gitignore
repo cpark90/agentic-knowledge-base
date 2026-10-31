@@ -9,7 +9,10 @@ __pycache__/
 /harness/channel/archive/*.md
 /harness/channel/.seq
 /harness/channel/.seq.lock
-/harness/channel/.watch-*.pid
+/harness/.watch-*.pid
 
 # 작업 중 임시 파일 자리 — 커밋하지 않는다 (구조 통합 Q66)
 /.scratch/
+
+# 에이전트의 임시 worktree 자리 — 저장소의 사본이므로 추적하지 않는다 (Q115-a)
+/.claude/worktrees/

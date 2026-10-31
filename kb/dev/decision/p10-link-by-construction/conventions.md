@@ -7,10 +7,10 @@ title: Normative-document conventions — Links are built by construction; recov
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:54:56+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T05:27:16+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6651b045-a578-4114-a942-eae19ab99b0c
 ---
 **규약** — `p10-link-by-construction`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: 5 | **연결** | 링크 — 편집 부산물로 구축, 복원은 예외 | 링크 없이는 무효화 범위를 계산할 수 없다 (d-0009) | [§6](#6-연결)
+규약: 5 | **연결** | 링크 — 편집 부산물로 구축, 복원은 예외 | 링크 없이는 무효화 범위를 계산할 수 없다 | [§6](#6-연결)

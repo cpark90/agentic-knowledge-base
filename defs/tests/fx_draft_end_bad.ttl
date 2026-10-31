@@ -1,0 +1,33 @@
+# 게이트 draft-end 의 고정물 — draft 청크를 끝으로 둔 링크 셋 가운데 거부는 하나다 (p4-chunk-state-machine, 유저 답 Q108-a 3단계).
+# 살아 있는 출발(stable)의 refines → draft 끝은 거부한다. 출발이 deprecated 인 링크와 끝이 stable 인 링크는 통과한다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+
+<urn:fx:live-source>
+    a agt:DecisionChunk ;
+    agt:hasLevel agt:concrete ;
+    agt:tokenCount 10 ;
+    agt:status "stable" ;
+    agt:assertionLocation "kb/dev/decision/fx-live/conclusion.md" ;
+    agt:refines <urn:fx:draft-end> , <urn:fx:stable-end> .
+
+<urn:fx:retired-source>
+    a agt:DecisionChunk ;
+    agt:hasLevel agt:concrete ;
+    agt:tokenCount 10 ;
+    agt:status "deprecated" ;
+    agt:assertionLocation "kb/dev/decision/fx-retired/conclusion.md" ;
+    agt:refines <urn:fx:draft-end> .
+
+<urn:fx:draft-end>
+    a agt:DecisionChunk ;
+    agt:hasLevel agt:concrete ;
+    agt:tokenCount 10 ;
+    agt:status "draft" ;
+    agt:assertionLocation "kb/dev/decision/fx-draft/conclusion.md" .
+
+<urn:fx:stable-end>
+    a agt:DecisionChunk ;
+    agt:hasLevel agt:concrete ;
+    agt:tokenCount 10 ;
+    agt:status "stable" ;
+    agt:assertionLocation "kb/dev/decision/fx-stable/conclusion.md" .

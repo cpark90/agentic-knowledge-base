@@ -7,7 +7,7 @@ title: function future_at in tools/endorse.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-endorse}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/e9580aea-56ec-4ca6-a78d-95befb50b334
 ---
@@ -24,7 +24,7 @@ def future_at(at: str) -> str:
     when = when.astimezone() if when.tzinfo is None else when
     now = datetime.now(timezone.utc)
     if when > now:
-        return f"--at {at} 이 지금({now.isoformat(timespec='seconds')})보다 뒤다 — 도장 시각은 `date -Iseconds` 실측값을 쓴다"
+        return f"--at {at} 이 지금({now.isoformat(timespec='seconds')})보다 뒤다 — 도장 시각은 `date -Iseconds` 측정치를 쓴다"
     return ""
 ```
 <!-- 인용 끝 -->

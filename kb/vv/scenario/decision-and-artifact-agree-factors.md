@@ -8,15 +8,15 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}, {resource: https://agentic-knowledge-base.dev/id/doc-mast-failure-taxonomy}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-links-only-interaction, https://agentic-knowledge-base.dev/id/asm-finite-factor-types, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 exposes: [https://agentic-knowledge-base.dev/agt/reasoningActionMismatch, https://agentic-knowledge-base.dev/agt/labelRot]
-generated: {by: vnv/claude-sonnet-5, at: 2026-10-05T00:45:04+09:00}
-verified: [{by: vnv/claude-opus-5-5, at: 2026-10-05T00:45:09+09:00}]
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-05T00:45:09+09:00}, {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/65c71b3f-efa7-47bb-b4fa-f7b491e99078
 specializationOf: https://agentic-knowledge-base.dev/id/chunk/fb826dc5-88fa-4bbb-bf98-7536fc095df7
 ---
 **요인** — 노출하려는 현상은 `agt:reasoningActionMismatch`(P16)가 주이고 `agt:labelRot`(P14)이 부다. 앞은 항목 사이의 어긋남이고 뒤는 한 항목 안 라벨과 본문의 어긋남이므로 같은 편집이 둘을 함께 만든다.
 
-주입하는 한정자는 `agt:incorrectQualifier` 하나다. 산출물이 없는 것이 아니라 결정과 다른 것을 하는 것이 이 부류의 결함 형태다. 부류가 주입하는 것은 어긋난 내용이고, 편집이 링크와 라벨을 재판정 대상으로 만드는가를 묻는다.
+주입하는 한정자는 `agt:incorrectQualifier` 하나다. 산출물이 없는 것이 아니라 결정과 다른 것을 하는 것이 이 부류의 결함 형태다. 부류가 주입하는 것은 어긋난 내용이고, 편집이 링크와 라벨을 재검증 대상으로 만드는가를 묻는다.
 
-기여하는 검증 목표는 `kb/vv/goal/decision-and-artifact-agree.md`(`https://agentic-knowledge-base.dev/id/chunk/9e1150bc-5668-4f5d-aa95-684f45b7bf4a`)다. 결정 본문이 바뀌면 그것을 충족한다고 적힌 산출물이 재판정 대상이 되는가를 이 부류가 자극한다.
+기여하는 검증 목표는 `kb/vv/goal/decision-and-artifact-agree.md`(`https://agentic-knowledge-base.dev/id/chunk/9e1150bc-5668-4f5d-aa95-684f45b7bf4a`)다. 결정 본문이 바뀌면 그것을 충족한다고 적힌 산출물이 재검증 대상이 되는가를 이 부류가 자극한다.
 
-관측 수단은 논리 시나리오 `decision-conclusion-mutation`이다. 결론 본문 한 문장만 다른 합성 변이 쌍을 `tools/revalidate.py`가 비교해 그 결론을 가리키는 링크를 재판정 대상으로 내고, 생성 케이스 둘이 그 판정을 한다. 개발 KB의 `artifact`는 943건이다. 그중 결정을 가리키는 `satisfies` 링크 개체는 후보 17 · 확정 0이라 저장소 자신에서 재판정될 충족 링크는 아직 없다.
+관측 수단은 논리 시나리오 `decision-conclusion-mutation`이다. 결론 본문 한 문장만 다른 합성 변이 쌍을 `tools/revalidate.py`가 비교해 그 결론을 가리키는 링크를 재검증 대상으로 내고, 생성 테스트 케이스 둘이 그 판정을 한다. 개발 KB의 `artifact`는 943건이다. 그중 결정을 가리키는 `satisfies` 링크 개체는 후보 17 · 확정 0이라 저장소 자신에서 재검증될 충족 링크는 아직 없다.

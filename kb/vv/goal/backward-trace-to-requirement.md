@@ -8,10 +8,10 @@ title: Every artifact must trace back to a requirement through the refines chain
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-21T22:30:00+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:56:06+09:00}
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 ---
-**검증 목표** — 후방 추적 커버리지가 요구 귀속의 지표라는 결정이 그래프에서 생성되는 수치 하나로 성립한다는 것이 보여져야 한다. 분자는 `refines`·`serves` 연쇄(복합체 형제 포함)로 요구에 닿는 비요구 청크, 분모는 살아 있는 비요구 청크 전부다.
+**검증 목표** — 후방 추적 커버리지가 요구 귀속의 지표라는 결정이 그래프에서 생성되는 수치 하나로 성립한다는 것이 보여져야 한다. 분자는 `refines`·`serves` 연쇄(복합체 형제 포함)로 요구에 닿는 요구가 아닌 지식, 분모는 살아 있는 요구가 아닌 지식 전부다.
 
 - **이해관계자**: 프로젝트 · **관심사**: 정제 완주
 

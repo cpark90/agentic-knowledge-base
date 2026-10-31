@@ -2,19 +2,20 @@
 id: https://agentic-knowledge-base.dev/id/chunk/4eef1ba8-9095-4b69-aa55-69ca65ff7a35
 type: decision
 level: concrete
-title_ko: 청크는 온톨로지 클래스이자 토큰 상한의 최소 단위다
+title_ko: 단위 지식은 온톨로지 클래스이자 토큰 상한의 최소 단위다
+former_title_ko: ["청크는 온톨로지 클래스이자 토큰 상한의 최소 단위다", "지식 항목은 온톨로지 클래스이자 토큰 상한의 최소 단위다"]
 title: A chunk is an ontology class and the token-bounded minimal unit
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0002-chunk-42-line-unit.md, id: https://agentic-knowledge-base.dev/id/chunk-d0002, title_ko: "42줄 청크가 최소 지식 단위", title: "42-line chunk as minimal knowledge unit"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-03T17:40:00+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T18:14:02+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-03T18:14:02+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7, https://agentic-knowledge-base.dev/id/chunk/45f9ad28-7bf6-4267-87f0-271ca83fae5a]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0002]
 overlapsWith: [https://agentic-knowledge-base.dev/id/chunk/7afd759f-26b1-4ad8-8edb-abc971dc4393]
 restored: [https://agentic-knowledge-base.dev/id/chunk/7afd759f-26b1-4ad8-8edb-abc971dc4393]
 part_of: https://agentic-knowledge-base.dev/id/composite/dd76498b-2cca-4b79-a1fe-ce5a4d33c0ca
-composite: {id: https://agentic-knowledge-base.dev/id/composite/dd76498b-2cca-4b79-a1fe-ce5a4d33c0ca, title_ko: 청크 — 온톨로지 클래스로서, title: Chunk as an ontology class}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/dd76498b-2cca-4b79-a1fe-ce5a4d33c0ca, title_ko: 단위 지식 — 온톨로지 클래스로서, title: Chunk as an ontology class, former_title_ko: ["청크 — 온톨로지 클래스로서", "지식 항목 — 온톨로지 클래스로서"]}
 ---
 **결론** — `agt:Chunk`는 온톨로지 `entity/` 모듈의 **최상위 클래스**이며, 상위
 온톨로지의 정보 내용 개체 아래에 둔다.
@@ -26,8 +27,8 @@ iao:InformationContentEntity
         └── agt:Composite   ← 본문 없이 부분만 가짐. Chunk와 disjoint
 ```
 
-**모든 지식은 청크를 가장 작은 부품으로 한다.** 청크는 하나의 plane, 하나의
+**모든 지식은 단위 지식을 가장 작은 부품으로 한다.** 단위 지식은 하나의 지식 종류, 하나의
 level에 속하고, 한 주제만 다루며, **본문이 토큰 상한을 넘지 않는** 자립적 지식
-단위다(저작 산문 1,092 · 인용 2,856, `p1-chunk-unit-is-tokens`). 상한을 넘는 것은 청크가 아니라 복합체며 분할 대상이다.
+단위다(저작 산문 1,092 · 인용 2,856, `p1-chunk-unit-is-tokens`). 상한을 넘는 것은 단위 지식이 아니라 복합체며 분할 대상이다.
 
 출처 보강(2026-09-11, 확정 문장 커버리지 감사): 노트 13.2절도 이 결정의 원문이다.

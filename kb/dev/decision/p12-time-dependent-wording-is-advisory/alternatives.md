@@ -7,8 +7,8 @@ title: Rejecting time-dependent words by gate and dropping the rule are both rej
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-generated-document-standards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-03T16:40:00+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/5f72b379-57f1-49df-b178-9b9de7afac11
 ---
@@ -16,5 +16,5 @@ part_of: https://agentic-knowledge-base.dev/id/composite/5f72b379-57f1-49df-b178
 
 | 대안 | 기각 이유 |
 |---|---|
-| G17을 게이트로 올려 낱말을 거부한다 | 2026-09-29 실측에서 후보 7/7이 오탐이었다. 오탐 있는 검사는 게이트가 아니라 보고다(`p6-mass-fail-suspects-the-rule`) |
+| G17을 게이트로 올려 낱말을 거부한다 | 2026-09-29 측정에서 후보 7/7이 오탐이었다. 오탐 있는 검사는 게이트가 아니라 보고다(`p6-mass-fail-suspects-the-rule`) |
 | 규약을 두지 않는다 | 출처 지침(Timeless documentation)이 정한 위험이 남는다. 후보 보고는 비용이 낮고 사람 판단의 입력이 된다 |

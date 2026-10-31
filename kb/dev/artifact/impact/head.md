@@ -7,7 +7,7 @@ title: module head r15 in tools/impact.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-impact}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/711360b7-62ed-4bfc-9088-27974668e958
 ---
@@ -21,6 +21,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from tools import kb_lib  # noqa: E402 — bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
-    import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록)의 단일 정의처
+    import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록)의 단일 정의 위치
 ```
 <!-- 인용 끝 -->

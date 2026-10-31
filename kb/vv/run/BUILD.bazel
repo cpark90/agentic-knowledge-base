@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
 
@@ -45,6 +45,447 @@ kb_chunk(
     name = "judge-20261003T090756Z",
     src = "judge-20261003T090756Z.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/3815425a-7408-421e-b749-344215f01f28",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z",
+    src = "judge-20261025T034358Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/722ba2f2-fe19-46b4-a7ec-417b9a9912b0",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-10",
+    src = "judge-20261025T034358Z-10.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/eaef70bc-118e-409a-81c4-043224559a25",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-11",
+    src = "judge-20261025T034358Z-11.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ff3a7f9b-4eb1-446d-bd5f-25a11cf8c036",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-12",
+    src = "judge-20261025T034358Z-12.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/45cbff34-ac63-4678-a42a-31bef13a392e",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-13",
+    src = "judge-20261025T034358Z-13.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6b696db0-06e6-4152-8071-336c2d7fe8f9",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-14",
+    src = "judge-20261025T034358Z-14.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e50a2b9c-73a6-47ac-9d46-59722c3c7f0a",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-15",
+    src = "judge-20261025T034358Z-15.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/49b9d281-a0f6-44e0-ba99-b6d3a384dcb3",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-16",
+    src = "judge-20261025T034358Z-16.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cd6b137d-841b-47b1-aeab-b2fa6bb2fc0d",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-17",
+    src = "judge-20261025T034358Z-17.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/28cd7855-9fcf-4627-a0e3-773554f6b5f1",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-18",
+    src = "judge-20261025T034358Z-18.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b7cecf3d-8b72-4f10-88d8-3a447d50eadd",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-19",
+    src = "judge-20261025T034358Z-19.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/008cd657-5130-4e47-b90f-54fec9471c2f",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-2",
+    src = "judge-20261025T034358Z-2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f9e21b46-2df0-42f9-b6e6-758bcc11de2e",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-20",
+    src = "judge-20261025T034358Z-20.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d4c8f095-e06a-4c6b-8d00-2fae92f51fba",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-21",
+    src = "judge-20261025T034358Z-21.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c0cc4964-61c5-458c-b35a-7653b509ae67",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-22",
+    src = "judge-20261025T034358Z-22.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a76a5c2d-1ea5-4263-b909-514e1e64063d",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-23",
+    src = "judge-20261025T034358Z-23.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e896d139-96ab-4290-aaf8-1e26aed29895",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-24",
+    src = "judge-20261025T034358Z-24.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/443eb379-8454-4dde-bd78-6c40063cacb0",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-25",
+    src = "judge-20261025T034358Z-25.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/0c90e9a1-565a-439a-8299-b7efa9e1d23b",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-26",
+    src = "judge-20261025T034358Z-26.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7a6c8fff-909b-42de-a913-b6cf17b6467f",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-3",
+    src = "judge-20261025T034358Z-3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a33d633d-f049-4b25-992e-5f1f06b60815",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-4",
+    src = "judge-20261025T034358Z-4.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/dc67cb10-ac5c-4dd9-935a-7cb0611b5860",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-5",
+    src = "judge-20261025T034358Z-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f2e745c4-fcfb-4c34-9633-66bd6d85d4a3",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-6",
+    src = "judge-20261025T034358Z-6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e307298f-df92-4441-b5f3-6aa177c17683",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-7",
+    src = "judge-20261025T034358Z-7.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/67aa1a58-a4ef-4dcd-800a-8a593ff70c9c",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-8",
+    src = "judge-20261025T034358Z-8.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8f85d2b4-9c31-4daa-ab08-0abe29625c34",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261025T034358Z-9",
+    src = "judge-20261025T034358Z-9.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fb05b1c8-9de2-4978-8791-80414137e07f",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z",
+    src = "judge-20261026T121116Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2a972494-765d-4d4f-b7a8-6ab239d4937c",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-10",
+    src = "judge-20261026T121116Z-10.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/057684b1-0862-4024-b6bb-44d80d523b59",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-11",
+    src = "judge-20261026T121116Z-11.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5d5f1b74-928c-4153-a092-89ab15cc5764",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-12",
+    src = "judge-20261026T121116Z-12.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c89b1084-2b59-4989-9c56-27070b621097",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-13",
+    src = "judge-20261026T121116Z-13.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/019a6545-daf6-4a00-85c0-ebed009ef1c7",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-14",
+    src = "judge-20261026T121116Z-14.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f45b02df-4e6e-4e8d-adac-89d6c5f363f9",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-15",
+    src = "judge-20261026T121116Z-15.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1182cd03-5549-4c0d-93cf-1d3d146ac613",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-16",
+    src = "judge-20261026T121116Z-16.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c18115d0-c837-4406-b006-3ca983b48aaf",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-17",
+    src = "judge-20261026T121116Z-17.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a91627fc-0ac9-4bc5-8ed7-28d616e9a67e",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-18",
+    src = "judge-20261026T121116Z-18.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ef81b1de-6bc4-4274-96ae-6d911596ae03",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-19",
+    src = "judge-20261026T121116Z-19.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/625b7128-dec4-4ef9-9dc0-204abb4a8e66",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-2",
+    src = "judge-20261026T121116Z-2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/420fa19e-a08a-4d17-be52-37496faa5c89",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-20",
+    src = "judge-20261026T121116Z-20.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ace1607c-f731-4d25-863c-936f7c5b3d3f",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-3",
+    src = "judge-20261026T121116Z-3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7146715b-6b59-4318-8a9d-e52c3b93ca11",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-4",
+    src = "judge-20261026T121116Z-4.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/264e5d55-408c-4bf4-81fe-443126ac290f",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-5",
+    src = "judge-20261026T121116Z-5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e82f86e1-826b-4c85-af04-39325d631594",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-6",
+    src = "judge-20261026T121116Z-6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5ccaacd5-7f60-4529-a07e-7e3f6ad08be3",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-7",
+    src = "judge-20261026T121116Z-7.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1b36e1f5-ee6a-45dd-b195-306ccac2abef",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-8",
+    src = "judge-20261026T121116Z-8.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2a56e0dd-73cd-45b8-9d9d-88064ed72abd",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T121116Z-9",
+    src = "judge-20261026T121116Z-9.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9fc0bc27-88a1-444e-9fba-0964c8f9e99d",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T141751Z",
+    src = "judge-20261026T141751Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ecbf8b2a-d2a6-4538-b065-31b75991223b",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T141751Z-2",
+    src = "judge-20261026T141751Z-2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f3d92bfc-aae8-41e8-a680-b0971911f9f3",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261026T141751Z-3",
+    src = "judge-20261026T141751Z-3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fb973c48-8b93-4348-91ab-0f7a5a0b5083",
     plane = "memory",
     level = "concrete",
     status = "stable",
@@ -103,6 +544,55 @@ kb_bundle(
         ":fidelity-20261003T081751Z",
         ":judge-20260929T182311Z",
         ":judge-20261003T090756Z",
+        ":judge-20261025T034358Z",
+        ":judge-20261025T034358Z-10",
+        ":judge-20261025T034358Z-11",
+        ":judge-20261025T034358Z-12",
+        ":judge-20261025T034358Z-13",
+        ":judge-20261025T034358Z-14",
+        ":judge-20261025T034358Z-15",
+        ":judge-20261025T034358Z-16",
+        ":judge-20261025T034358Z-17",
+        ":judge-20261025T034358Z-18",
+        ":judge-20261025T034358Z-19",
+        ":judge-20261025T034358Z-2",
+        ":judge-20261025T034358Z-20",
+        ":judge-20261025T034358Z-21",
+        ":judge-20261025T034358Z-22",
+        ":judge-20261025T034358Z-23",
+        ":judge-20261025T034358Z-24",
+        ":judge-20261025T034358Z-25",
+        ":judge-20261025T034358Z-26",
+        ":judge-20261025T034358Z-3",
+        ":judge-20261025T034358Z-4",
+        ":judge-20261025T034358Z-5",
+        ":judge-20261025T034358Z-6",
+        ":judge-20261025T034358Z-7",
+        ":judge-20261025T034358Z-8",
+        ":judge-20261025T034358Z-9",
+        ":judge-20261026T121116Z",
+        ":judge-20261026T121116Z-10",
+        ":judge-20261026T121116Z-11",
+        ":judge-20261026T121116Z-12",
+        ":judge-20261026T121116Z-13",
+        ":judge-20261026T121116Z-14",
+        ":judge-20261026T121116Z-15",
+        ":judge-20261026T121116Z-16",
+        ":judge-20261026T121116Z-17",
+        ":judge-20261026T121116Z-18",
+        ":judge-20261026T121116Z-19",
+        ":judge-20261026T121116Z-2",
+        ":judge-20261026T121116Z-20",
+        ":judge-20261026T121116Z-3",
+        ":judge-20261026T121116Z-4",
+        ":judge-20261026T121116Z-5",
+        ":judge-20261026T121116Z-6",
+        ":judge-20261026T121116Z-7",
+        ":judge-20261026T121116Z-8",
+        ":judge-20261026T121116Z-9",
+        ":judge-20261026T141751Z",
+        ":judge-20261026T141751Z-2",
+        ":judge-20261026T141751Z-3",
         ":run-20260919T062548Z",
         ":run-20260919T065358Z",
         ":run-20261004T042331Z",

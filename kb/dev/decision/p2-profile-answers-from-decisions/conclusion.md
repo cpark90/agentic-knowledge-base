@@ -8,8 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T04:22:52+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/2b47645a-4247-4eb8-a741-7a7a41d206cf
 composite: {id: https://agentic-knowledge-base.dev/id/composite/2b47645a-4247-4eb8-a741-7a7a41d206cf, title_ko: 프로파일의 답은 결정에서 온다, title: Profile answers come from decisions}
@@ -18,4 +18,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/2b47645a-4247-4e
 
 - 개발 프로파일의 원천은 `p7-dev-plane-substance`(실체·판정 도구·EARS 패턴)와 `pe-anchor-is-bazel-label`(앵커 해석기)이다.
 - 이 단계는 프로파일 구축 절차의 둘째 단계다. 확장점 열거 다음이고 모듈 작성 앞이다.
-- 결정의 승인은 `decision` plane의 판정 방식(`p7-dev-plane-substance` — 논증 구조 검사 + 유저 승인)을 따른다. 이 결정은 승인 절차를 새로 정하지 않는다.
+- 결정의 승인은 `decision` 지식 종류의 판정 방식(`p7-dev-plane-substance` — 논증 구조 검사 + 유저 승인)을 따른다. 이 결정은 승인 절차를 새로 정하지 않는다.

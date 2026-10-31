@@ -1,4 +1,4 @@
-# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 단위 지식의 정체성이고 이름은 그 위의 라벨이다
 # (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
 # 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
 # 생성물은 `kb/dev/artifact/run_evidence/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
@@ -7,22 +7,36 @@ source: tools/run_evidence.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-run-evidence
 package: kb/dev/artifact/run_evidence
 layer: process
-at: 2026-10-04T05:47:19Z
-source_hash: 1afad89f318fea86
+at: 2026-10-05T16:40:36Z
+source_hash: 390043ed845e0116
 refines:
-  - https://agentic-knowledge-base.dev/id/chunk/d3a36010-25a1-417b-b2e7-875ccc6955ce
+  - https://agentic-knowledge-base.dev/id/chunk/9deed62a-70ad-4a87-99a2-73c11e1a4453
   - https://agentic-knowledge-base.dev/id/chunk/c5bb1922-eb82-4b96-a49c-a46e41c239e4
+  - https://agentic-knowledge-base.dev/id/chunk/5967869a-2c73-4666-847a-af969e7e6caf
 serves: []
 tested: {}
 ids:
   composite:head: https://agentic-knowledge-base.dev/id/composite/de1cd3d5-c89a-4931-bc87-4faaa2c2551c
   composite:sec:as-list: https://agentic-knowledge-base.dev/id/composite/78c6c89d-58c3-43c8-8570-d8bfbac1700f
-  composite:sec:main: https://agentic-knowledge-base.dev/id/composite/e202036d-a930-4e1b-a919-03711832262b
+  composite:sec:belief-rules: https://agentic-knowledge-base.dev/id/composite/a7e4d5c8-a3b3-466a-93eb-1bb3d94b2ed5
+  composite:sec:coedit-record: https://agentic-knowledge-base.dev/id/composite/241f90fa-0b02-4c28-a23e-8e84aecaf4da
+  composite:sec:judged-pairs: https://agentic-knowledge-base.dev/id/composite/ed156a01-76a8-4195-b32e-c9096b040444
+  composite:sec:ledger-lines: https://agentic-knowledge-base.dev/id/composite/e202036d-a930-4e1b-a919-03711832262b
   file: https://agentic-knowledge-base.dev/id/composite/27628b6a-73ec-4466-bb12-a1a1ae970dd7
+  fn:after_chain_since: https://agentic-knowledge-base.dev/id/chunk/3149b98e-06cf-4a59-94b6-8bb92aef0b70
   fn:as_list: https://agentic-knowledge-base.dev/id/chunk/133cf34f-4423-4525-954f-2676a7e752f5
+  fn:belief_lines: https://agentic-knowledge-base.dev/id/chunk/7d5d8898-16f3-47f6-a6e3-e5e8a50f08c8
+  fn:belief_of: https://agentic-knowledge-base.dev/id/chunk/1fd3a79a-b431-4470-8d04-5282bbc0eb31
+  fn:coedit_record: https://agentic-knowledge-base.dev/id/chunk/871169c2-b1e9-4386-8e2c-e9140c2becff
+  fn:judged_pairs: https://agentic-knowledge-base.dev/id/chunk/6df5b1b2-44cf-407f-94c2-73b8f6e9093c
+  fn:judgement_lines: https://agentic-knowledge-base.dev/id/chunk/8772ef79-5ed9-4276-91cb-187dfcf70688
+  fn:ledger_lines: https://agentic-knowledge-base.dev/id/chunk/ee388c6a-08aa-4ec5-a1ad-cb4faf563811
   fn:main: https://agentic-knowledge-base.dev/id/chunk/37bb7c84-209b-4859-b4d3-f5e69f56cf66
   fn:run_rows: https://agentic-knowledge-base.dev/id/chunk/170cd5f1-d8ad-4bcc-b8d8-f89887a75a0c
   head: https://agentic-knowledge-base.dev/id/chunk/06ff52f5-9406-4ead-8685-51db4f0cb144
   module: https://agentic-knowledge-base.dev/id/chunk/39112a6e-ccc9-4b3f-b3f8-1d1a8b58783c
   sec:as-list: https://agentic-knowledge-base.dev/id/chunk/4d563fd4-ccb1-4e34-96a6-ca942b65352f
-  sec:main: https://agentic-knowledge-base.dev/id/chunk/d789e2bb-277a-4e7f-bd4d-a62dc06fbdde
+  sec:belief-rules: https://agentic-knowledge-base.dev/id/chunk/2a0f118f-b4cc-431e-9c70-e8e3b60041f1
+  sec:coedit-record: https://agentic-knowledge-base.dev/id/chunk/03548600-38d8-49a9-9134-7eb5acac5264
+  sec:judged-pairs: https://agentic-knowledge-base.dev/id/chunk/0cea4983-a546-4b65-99c9-5483ade033fe
+  sec:ledger-lines: https://agentic-knowledge-base.dev/id/chunk/d789e2bb-277a-4e7f-bd4d-a62dc06fbdde

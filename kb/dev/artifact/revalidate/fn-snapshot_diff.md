@@ -7,7 +7,7 @@ title: function snapshot_diff in tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/f6f22e05-67fd-4351-a17e-d9abe0817b50
 ---
@@ -19,7 +19,7 @@ def snapshot_diff(base_index: dict, base_unparsable: list, index: dict, addresse
     """스냅숏 둘의 차이 → (changed, head_only, base_by_iri, unread) — `base_diff` 와 같은 꼴이고 열쇠도 IRI 다.
 
     git 이 고른 변경 파일이 없으므로 양쪽 IRI 전부를 맞춘다. `head_only` 에는 본문 해시가 같고 링크 키나 주소가 바뀐 것만
-    든다 — 바뀌지 않은 청크까지 넣으면 "head 만 바뀐 청크" 가 스냅숏 전체가 된다. `addressed` 가 거짓(파일 목록)이면 경로는
+    든다 — 바뀌지 않은 단위 지식까지 넣으면 "head 만 바뀐 단위 지식" 가 스냅숏 전체가 된다. `addressed` 가 거짓(파일 목록)이면 경로는
     주소가 아니라서 경로 변경을 보고하지 않는다.
     """
     base_by_iri = dict(base_index)

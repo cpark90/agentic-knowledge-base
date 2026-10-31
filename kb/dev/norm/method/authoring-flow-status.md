@@ -7,10 +7,10 @@ title: docs/method.md authoring flow section continued — the part that runs in
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:54:56+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:16:36+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/1471db95-dd63-42f0-8759-b3d76584253a
 continues: true
 ---
-이 저장소에서 지금 실제로 도는 것은 1(요구)과 2·4·5의 결정 부분뿐이다. 다만 `-space` 없이
-결론·근거·대안을 직접 저작한다.
+이 저장소에서 지금 실제로 도는 것은 요구 작성인 1단계와, 2, 4, 5단계의 결정 부분뿐이다. 다만 `-space` 없이
+결론과 근거, 대안을 직접 저작한다.

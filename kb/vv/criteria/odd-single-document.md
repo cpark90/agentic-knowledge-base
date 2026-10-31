@@ -7,12 +7,12 @@ title: The OpenODD source under kb/odd is one file and all of its conditions car
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-21T22:35:00+09:00}
+generated: {by: vnv/claude-fable-5-1, at: 2026-10-25T00:43:01+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/d72a3063-801a-4ec0-977c-f2f75550f5c0]
 ---
 **합격 기준** — 기준 종류는 **산출물 품질**이다. `|{kb/odd/*.yml 중 원본}| = 1` 이고 `∀ 조건 c ∈ ODD: checkMethod(c) ≠ ∅ ∧ grade(c) ∈ {A, B, C, D}` 이며 `|conditions(ODD)| ≥ 1` 이다.
 
-**판정식**
+**판정 술어**
 
 - 양성(문서 수): `bazel query 'labels(srcs, //kb/odd:odd)'` 의 출력이 `//kb/odd:project-odd.yml` 과 생성 택소노미 `//kb/odd:taxonomy` 둘이고 다른 `.yml` 라벨이 없다.
 - 양성(조건): `bazel test //kb/odd:gate_test` 가 PASS 다. `condition-shapes.ttl` 의 `checkMethod`·`verificationGrade` 필수와 ODD 의 조건 ≥ 1 이 위반 0 이다.

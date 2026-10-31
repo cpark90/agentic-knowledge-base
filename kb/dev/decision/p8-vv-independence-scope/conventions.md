@@ -7,10 +7,10 @@ title: Normative-document conventions — The two KBs allow only cross-reading, 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:32:26+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:18:59+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/a6634f6f-503c-4e74-8aa1-08d272e2a38e
 ---
 **규약** — `p8-vv-independence-scope`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: 독립성 | 개발 역할은 V&V KB 쓰기 불가. 기준 수정은 요구 수정으로만. 저장 분리(`kb/vv/`), V&V → 개발 단방향 의존
+규약: 독립성 | 개발 역할은 V&V KB에 쓸 수 없고, 기준은 요구를 고쳐서만 고친다. 저장은 `kb/vv/`로 분리하고, 의존은 V&V에서 개발로 향하는 한 방향이다

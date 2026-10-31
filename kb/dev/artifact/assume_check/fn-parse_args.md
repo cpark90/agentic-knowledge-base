@@ -7,16 +7,16 @@ title: function parse_args in tools/assume_check.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-assume-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:52:41Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/aa693393-615e-4f00-ada2-34df72e2832e
 ---
-**함수** — `parse_args()` 다. 명령줄 인자 — 파서가 곧 형식의 정의처다
+**함수** — `parse_args()` 다. 명령줄 인자 — 파서가 곧 형식의 단일 정의 위치다
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def parse_args():
-    """명령줄 인자 — 파서가 곧 형식의 정의처다 (무엇을 하는가는 모듈 docstring 이 적는다)."""
+    """명령줄 인자 — 파서가 곧 형식의 단일 정의 위치다 (무엇을 하는가는 모듈 docstring 이 적는다)."""
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--odd", default="kb/odd/project-odd.yml", help="OpenODD 문서 (워크스페이스 상대)")
     ap.add_argument("--break", dest="broken", action="append", default=[], metavar="COND",

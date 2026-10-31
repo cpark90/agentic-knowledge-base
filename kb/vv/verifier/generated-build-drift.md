@@ -8,8 +8,10 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/fdd0b6c0-473b-47d1-b23e-b1e862416964]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T20:18:09+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T13:46:23+09:00}
 layer: process
+verifies: [https://agentic-knowledge-base.dev/id/chunk/d54dd037-5b16-4649-922d-f7c9b7b5c510]
+restored: [https://agentic-knowledge-base.dev/id/chunk/d54dd037-5b16-4649-922d-f7c9b7b5c510]
 ---
 **검증기** — 원본(frontmatter) 쪽 변경 하나와 커밋된 트리 전체를 자극으로 쓴다.
 
@@ -24,6 +26,6 @@ build:  kb/dev/requirement/BUILD.bazel   # 손대지 않는다 — 커밋본 그
 
 **실행 명령** — `python3 tools/gen_build.py --check --root .; bazel test //:build_drift_test`
 
-**판정 범위** — `status`는 청크 규칙의 속성으로 그대로 옮겨지는 값이라 변경 한 곳이 BUILD 한 줄에 대응한다. 라벨·IRI를 바꾸면 링크 해석까지 바뀌어 원인이 둘이 되므로 표본으로 쓰지 않는다. 뷰 쪽 변경(BUILD 직접 편집)은 같은 비교의 반대 방향이라 표본을 늘리지 않는다.
+**판정 범위** — `status`는 단위 지식 규칙의 속성으로 그대로 옮겨지는 값이라 변경 한 곳이 BUILD 한 줄에 대응한다. 라벨·IRI를 바꾸면 링크 해석까지 바뀌어 원인이 둘이 되므로 표본으로 쓰지 않는다. 뷰 쪽 변경(BUILD 직접 편집)은 같은 비교의 반대 방향이라 표본을 늘리지 않는다.
 
-**검증 대응물** — 없음. 옮기기 전 케이스가 `verifies` 하던 결정 `pe-anchor-is-bazel-label` 의 결론은 `concrete` 수준이라 `executable` 검증기가 `verifies` 할 수 없다.
+**검증 대응물** — 이 검증기는 `tools/gen_build.py`의 항목을 `verifies` 한다. 끝은 파일 복합체의 선언 항목(`module.md`)이고, 판정 함수 같은 부분 항목은 게이트 `code-part-link` 가 끝으로 받지 않는다. 반면 옮기기 전 테스트 케이스가 `verifies` 하던 결정 `pe-anchor-is-bazel-label`의 결론은 `concrete` 수준이라, 같은 수준끼리만 잇는 규칙에 따라 이 검증기의 끝이 되지 않는다.

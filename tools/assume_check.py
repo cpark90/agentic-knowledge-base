@@ -6,15 +6,15 @@ p6-assumption-invalidation).
   valid        — 참조 조건 전부 in
   invalidated  — 하나라도 out
   unverified   — 그 밖 (판정 불가한 조건이 있다)
-판정 유형은 ODD `CHECKS.cmd` 가 있으면 "실행 검사", 없으면 "사람 확인" 이고, 판정식 등급은 참조 조건 등급의 최저(A~D)다.
-새 어휘는 없다 — 가정 자체의 `when` 판정식은 후속이며, 첫 형태는 참조 조건 판정의 연언으로 판정식을 파생한다.
+판정 유형은 ODD `CHECKS.cmd` 가 있으면 "실행 검사", 없으면 "사람 확인" 이고, 판정 술어 등급은 참조 조건 등급의 최저(A~D)다.
+새 어휘는 없다 — 가정 자체의 `when` 판정 술어는 후속이며, 첫 형태는 참조 조건 판정의 연언으로 판정 술어를 파생한다.
 
 전파 (p6-assumption-invalidation "가정이 깨지면 의존 항목이 자동으로 무효화된다", r-007 전수조사 없이):
-  직접 영향 집합  = invalidated 가정을 `agt:assumes` 하는 살아 있는 청크
+  직접 영향 집합  = invalidated 가정을 `agt:assumes` 하는 살아 있는 단위 지식
   suspect 후보    = 직접 영향 집합에 링크(refines·serves·supersedes·cites·coUpdatesWith·overlapsWith — 직접 트리플과 agt:Link 개체 둘 다)로
                     닿는 하류(그 항목을 가리키는 쪽, 전이) + 복합체 형제. 그래프가 원본이므로 bazel rdeps 가 아니라 head 그래프에서 센다.
 검증 실험 (14.1 정정본 4단계 "연결" 조건): `--break <cond-id>` 는 그 조건을 out 으로 가정한다. 그때 계산된 직접 영향 집합을
-청크 파일 frontmatter(`assumes`)를 독립적으로 스캔한 실제 의존 집합과 비교해 정밀도·재현율을 보고에 적는다.
+단위 지식 파일 frontmatter(`assumes`)를 독립적으로 스캔한 실제 의존 집합과 비교해 정밀도·재현율을 보고에 적는다.
 
 링크 상태의 물질화 (노트 9.11절 "상태는 저장값이 아니라 평가 결과", handoff link-model-robustness-cde-2026-09-19 반영 1·2):
   when 판정   확정 링크의 `agt:when` 을 kb_lib.when_eval 로 판정한다. 판정의 범위는 **ODD 속성 참조**이고 항은 `in(<조건>)`,
@@ -24,7 +24,7 @@ p6-assumption-invalidation).
               것을 막기 위해 좁게 선언하고, 포화율은 `bazel build //kg:metrics` 의 한 줄로 관측한다.
   저장하지 않는다  suspect 는 그래프에 적히지 않는다. 이 보고와 metrics 에서만 물질화된다.
 
---record 는 실행 결과를 관측(memory plane, concrete, append-only — r-026·p0-run-as-observation)으로
+--record 는 실행 결과를 관측(`memory` 지식 종류, concrete, append-only — r-026·p0-run-is-an-append-only-memory-chunk)으로
 kb/dev/memory/obs-<UTC>.md 에 쓴다. 이미 있는 파일은 덮지 않는다. 생성 뒤 tools/gen_build.py 를 돌려 BUILD 를 갱신한다.
 
 사용: bazel run //tools:assume_check -- [--break <cond-id>…] [--record] [--out report.md] [--odd kb/odd/project-odd.yml] [TTL…]
@@ -44,22 +44,22 @@ from pathlib import Path
 from rdflib import Graph, RDF, RDFS, URIRef
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import kb_lib  # noqa: E402 — 네임스페이스·종료 코드의 단일 정의처
+import kb_lib  # noqa: E402 — 네임스페이스·종료 코드의 단일 정의 위치
 from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402 — 실제 의존 집합은 frontmatter 를 그래프와 독립적으로 읽는다
 from odd_check import judge_all, load_odd  # noqa: E402 — 조건 판정은 odd_check 와 같은 함수
 
 AGT, ID = kb_lib.AGT, kb_lib.ID
 EXIT_OK, EXIT_FAIL, EXIT_CONFIG, EXIT_SKIP = kb_lib.EXIT_OK, kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG, kb_lib.EXIT_SKIP
 GRADES = "ABCD"  # 판정 방법 등급 (3.9절) — 뒤로 갈수록 약하다. 연언의 등급은 최저 = 가장 뒤의 글자
-# 전파에 쓰는 링크 — 청크 → 청크 (verifies 는 V&V 청크가 주어라 아직 없다). 방향: 주어가 목적어에 의존한다
+# 전파에 쓰는 링크 — 지식 → 지식 (verifies 는 V&V 지식이 주어라 아직 없다). 방향: 주어가 목적어에 의존한다
 PROPAGATE = [AGT.refines, AGT.serves, AGT.supersedes, AGT.cites, AGT.coUpdatesWith, AGT.overlapsWith]
 # 기본 그래프 — `bazel run` 의 작업 디렉토리(runfiles)에 data 로 놓인다. 없으면 워크스페이스의 bazel-bin·소스에서 찾는다
 DEFAULT_TTL = [*kb_lib.UNION_GRAPH_PATHS, "space/design-space.ttl"]  # 활용 도구의 union 경로 + 설계 공간 (후보 링크도 `when` 을 갖는다)
-CHUNK_DIRS = ("kb", "chunks")
+CHUNK_DIRS = ("kb",)  # 단위 지식 트리의 뿌리 — 옛 `chunks/` 는 지시 0192 로 지웠다
 MEMORY_DIR = "kb/dev/memory"
 ODD_IRI = str(ID["odd-agentic-knowledge-base"])  # 관측의 출처 — ODD 개체 (base-kg 에 doc- 개체가 없다)
 DEFAULT_ASSUMPTION = str(ID["asm-chunk-conventions"])
-GENERATOR = kb_lib.ASSUME_CHECK_GENERATOR  # 관측의 generated.by — 정의처는 kb_lib (weave audit · metrics 가 같은 값으로 관측을 고른다)
+GENERATOR = kb_lib.ASSUME_CHECK_GENERATOR  # 관측의 generated.by — 단일 정의 위치는 kb_lib (weave audit · metrics 가 같은 값으로 관측을 고른다)
 
 
 # ── 가정과 조건의 해소 ────────────────────
@@ -101,7 +101,7 @@ def load_graph(paths: list[str], root: Path) -> tuple[Graph, list[str]]:
 # ── 전파와 판정과 관측 ────────────────────
 
 def dependents(g: Graph) -> dict:
-    """청크 → 그 청크를 가리키는 링크의 주어들 (하류 의존자). 직접 트리플과 agt:Link 개체(linkFrom·linkTo·linkKind) 둘 다."""
+    """지식 → 그 지식을 가리키는 링크의 주어들 (하류 의존자). 직접 트리플과 agt:Link 개체(linkFrom·linkTo·linkKind) 둘 다."""
     rdep = defaultdict(set)
     kinds = set(PROPAGATE)
     for p in PROPAGATE:
@@ -120,7 +120,7 @@ def dependents(g: Graph) -> dict:
 
 
 def propagate(g: Graph, direct: set, live: set) -> tuple[set, set]:
-    """직접 영향 집합에서 하류로 전이 폐포 + 복합체 형제 → (1홉 suspect 후보, 전이 suspect 후보). 둘 다 직접 집합을 뺀 살아 있는 청크."""
+    """직접 영향 집합에서 하류로 전이 폐포 + 복합체 형제 → (1홉 suspect 후보, 전이 suspect 후보). 둘 다 직접 집합을 뺀 살아 있는 단위 지식."""
     rdep = dependents(g)
     comp_of = {part: comp for comp, part in g.subject_objects(AGT.hasDirectPart)}
     siblings = defaultdict(set)
@@ -145,14 +145,14 @@ def propagate(g: Graph, direct: set, live: set) -> tuple[set, set]:
 
 
 def actual_dependents(root: Path, assumption: str) -> tuple[set, list[str]]:
-    """실제 의존 집합 — 청크 파일의 frontmatter `assumes` 를 그래프와 독립적으로 스캔한다 (살아 있는 청크만)."""
+    """실제 의존 집합 — 단위 지식 파일의 frontmatter `assumes` 를 그래프와 독립적으로 스캔한다 (살아 있는 단위 지식만)."""
     found, unparsable = set(), []
     for d in CHUNK_DIRS:
         for p in sorted((root / d).rglob("*.md")):
             try:
                 meta = parse_chunk(str(p))[0]
             except ValueError as e:
-                if "frontmatter가 없다" not in str(e):  # frontmatter 없는 md(README)는 청크가 아니다
+                if "frontmatter가 없다" not in str(e):  # frontmatter 없는 md(README)는 단위 지식이 아니다
                     unparsable.append(str(e))
                 continue
             if meta.get("status") != "deprecated" and assumption in (meta.get("assumes") or []):
@@ -161,7 +161,7 @@ def actual_dependents(root: Path, assumption: str) -> tuple[set, list[str]]:
 
 
 def evaluate(g: Graph, cond_rows: list[dict]) -> list[dict]:
-    """가정마다 상태·등급·유형·참조 조건 — 판정식은 참조 조건 판정의 연언이다."""
+    """가정마다 상태·등급·유형·참조 조건 — 판정 술어는 참조 조건 판정의 연언이다."""
     by_iri = {r["iri"]: r for r in cond_rows}
     out = []
     for asm in sorted(g.subjects(RDF.type, AGT.Assumption), key=str):
@@ -179,7 +179,7 @@ def evaluate(g: Graph, cond_rows: list[dict]) -> list[dict]:
 
 def observation(now: datetime, cond_rows: list[dict], asms: list[dict], impact: dict, live_n: int, broke: list[str],
                 broke_show: list[str], check: dict | None, sat: dict) -> str:
-    """관측 청크 본문 — 시각·행동·situation 요약 (STYLEGUIDE §4 memory). `memory` plane 상한(2,856토큰) 안이다."""
+    """관측 본문 — 시각·행동·situation 요약 (STYLEGUIDE §4 memory). `memory` 지식 종류 상한(2,856토큰) 안이다."""
     stamp = kb_lib.utc_stamp(now)  # G3 표기 하나 — frontmatter 와 본문이 같은 꼴을 쓴다 (유저 승인 2026-09-23)
     n_inv = sum(1 for a in asms if a["status"] == "invalidated")
     n_unv = sum(1 for a in asms if a["status"] == "unverified")
@@ -190,7 +190,7 @@ def observation(now: datetime, cond_rows: list[dict], asms: list[dict], impact: 
             "status: stable", f"sources: [{{resource: {ODD_IRI}}}]", f"assumes: [{DEFAULT_ASSUMPTION}]",
             f"generated: {{by: {GENERATOR}, at: {stamp}}}", "---"]
     act = (f"`--break {' '.join(broke_show)}` 로 조건 {len(broke)}건을 이탈로 가정한 인위 파괴 실험이다" if broke
-           else "`--break` 없는 실측이다")
+           else "`--break` 없는 측정이다")
     body = [f"**관측** — {stamp} 에 `assume_check` 가 ODD 조건 {len(cond_rows)}건을 판정하고 "
             f"가정 {len(asms)}건의 상태를 계산했다. {act}.", "",
             "| 조건 | 등급 | 판정 |", "|---|---|---|"]
@@ -198,7 +198,7 @@ def observation(now: datetime, cond_rows: list[dict], asms: list[dict], impact: 
     body += ["", "| 가정 | 판정 유형 | 등급 | 상태 | 직접 영향 | suspect 후보(전이) |", "|---|---|---|---|---|---|"]
     body += [f"| `{local(a['iri'])}` | {a['kind']} | {a['grade']} | {a['status']} | {len(impact[a['iri']][0])} | {len(impact[a['iri']][2])} |"
              for a in asms]
-    body += ["", f"situation 요약 — 살아 있는 청크 {live_n}, 무효 가정 {n_inv}, 판정 불가 가정 {n_unv}, 직접 영향 집합 {total_direct}.",
+    body += ["", f"situation 요약 — 살아 있는 단위 지식 {live_n}, 무효 가정 {n_inv}, 판정 불가 가정 {n_unv}, 직접 영향 집합 {total_direct}.",
              f"링크 요약 — 확정 링크 {sat['confirmed']}, `when` 을 가진 것 {sat['with_when']}, suspect 포화율 "
              f"{kb_lib.pct(sat['suspect'], sat['confirmed'])} (`when` 거짓 {sat['by_when']}, 트리거 {sat['by_trigger']})."]
     if check:
@@ -208,7 +208,7 @@ def observation(now: datetime, cond_rows: list[dict], asms: list[dict], impact: 
 
 
 def parse_args():
-    """명령줄 인자 — 파서가 곧 형식의 정의처다 (무엇을 하는가는 모듈 docstring 이 적는다)."""
+    """명령줄 인자 — 파서가 곧 형식의 단일 정의 위치다 (무엇을 하는가는 모듈 docstring 이 적는다)."""
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--odd", default="kb/odd/project-odd.yml", help="OpenODD 문서 (워크스페이스 상대)")
     ap.add_argument("--break", dest="broken", action="append", default=[], metavar="COND",
@@ -265,8 +265,8 @@ def report_judgements(g: Graph, live: set, asms: list[dict], impact: dict, cond_
     """조건 판정 표 · 가정 표 · 깨진 가정마다의 직접 영향 집합."""
     body = ["## 조건 판정 (odd_check 와 같은 판정)", "", "| 조건 | 라벨 | 등급 | 판정 |", "|---|---|---|---|"]
     body += [f"| `{local(r['iri'])}` | {r['title_ko']} | {r['grade']} | {r['state']}{' (--break)' if r['name'] in broke_names else ''} |" for r in cond_rows]
-    body += ["", "## 가정 — 판정식은 참조 조건 판정의 연언, 등급은 그 최저", "",
-            "| 가정 | 판정 유형 | 판정식 | 등급 | 상태 | assumes 하는 살아 있는 청크 | 직접 영향 | suspect 후보 (1홉 / 전이) |",
+    body += ["", "## 가정 — 판정 술어는 참조 조건 판정의 연언, 등급은 그 최저", "",
+            "| 가정 | 판정 유형 | 판정 술어 | 등급 | 상태 | assumes 하는 살아 있는 단위 지식 | 직접 영향 | suspect 후보 (1홉 / 전이) |",
             "|---|---|---|---|---|---|---|---|"]
     for x in asms:
         n_assumes = sum(1 for c in g.subjects(AGT.assumes, x["iri"]) if c in live)
@@ -314,7 +314,7 @@ def report_experiment(check: dict | None, n_inv: int) -> list[str]:
     body: list[str] = []
     if check:
         body += ["", "## 검증 실험 — 계산된 영향 집합 = 실제 의존 집합 (14.1 정정본 4단계 연결 조건)", "",
-                f"- 계산된 직접 영향 집합(그래프 `agt:assumes`): **{check['computed']}** · 실제 의존 집합(청크 파일 frontmatter `assumes` 스캔): **{check['actual']}**",
+                f"- 계산된 직접 영향 집합(그래프 `agt:assumes`): **{check['computed']}** · 실제 의존 집합(단위 지식 파일 frontmatter `assumes` 스캔): **{check['actual']}**",
                 f"- 정밀도 {check['precision']} · 재현율 {check['recall']} → **{'일치' if check['equal'] else '불일치'}**"]
         if check["only_computed"]:
             body.append("- 그래프에만 있는 것: " + ", ".join(check["only_computed"][:10]))
@@ -382,10 +382,10 @@ def main() -> int:
     rep = kb_lib.gendoc_header(
         "assume_check", "가정 판정과 전파", "tools/assume_check.py",
         f"ODD 조건을 판정 방법으로 실제 판정한 뒤, 가정마다 그 참조 조건 판정의 연언으로 valid·invalidated·unverified 를 정하고 "
-        f"깨진 가정을 `assumes` 하는 살아 있는 청크(직접 영향)와 그 하류(suspect 후보)를 낸다 (6.9절){broke_note}",
+        f"깨진 가정을 `assumes` 하는 살아 있는 단위 지식(직접 영향)과 그 하류(suspect 후보)를 낸다 (6.9절){broke_note}",
         "bazel run //tools:assume_check", [str(odd_path)] + [str(root / f) for f in (a.ttl or DEFAULT_TTL)],
-        f"가정 {len(asms)} · 살아 있는 청크 {len(live)}",
-        kb_lib.gendoc_view_notice("ODD 조건 정의와 청크의 `assumes` 링크"),
+        f"가정 {len(asms)} · 살아 있는 단위 지식 {len(live)}",
+        kb_lib.gendoc_view_notice("ODD 조건 정의와 단위 지식의 `assumes` 링크"),
         extra=[f"- 결과: {verdict} · 가정 {len(asms)} (valid {len(asms) - n_inv - n_unv} · invalidated {n_inv} · unverified {n_unv})",
                f"- 링크: 확정 {sat['confirmed']} · `when` 을 가진 것 {sat['with_when']} · suspect 로 유도된 것 "
                f"**{kb_lib.pct(sat['suspect'], sat['confirmed'])}** (`when` 거짓 {sat['by_when']} · 트리거 {sat['by_trigger']})"])

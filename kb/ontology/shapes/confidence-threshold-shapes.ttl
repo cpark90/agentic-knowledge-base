@@ -1,28 +1,38 @@
-# shape — 확신도 임계 셋의 형식: 임계 둘과 구간별 측정 여부·구간당 표본 하한·캘리브레이션 대상 판정자
-# (결정 p8-judge-calibration-binding 규칙 ②·⑤). 질문의 형식(judge-question-shapes.ttl)에서 갈라낸 파일이다 —
-# 한 파일이 토큰 상한을 넘었고 질문과 임계는 서로의 전제가 아니다 (p1-chunk-unit-is-tokens 의 분할).
+# shape — 판정의 임계는 확신도가 아니라 일치율이다: 판정 로그가 판정자 둘의 답과 일치 여부 열, 미끼 검출 결과를 갖는가
+# (결정 p8-judge-session-agreement 규칙 ②·③, Q-0056 Q119-a 2026-10-24). 파일 이름은 옛 확신도 임계 셋의 자리를 잇는다.
+# 데이터는 판정 로그 파일을 읽어 만든 그래프다(kb_lib.judge_log_graph) — tools/judge.py 가 로그를 쓰기 전에 이 shape 로 검사한다.
+# 일치 여부의 값 셋은 kb_lib.JUDGE_AGREEMENT, 처리의 값은 kb_lib.JUDGE_ROUTES 와 같다.
 
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-agt:ConfidenceThresholdSetShape a sh:NodeShape ;
-    sh:targetClass agt:ConfidenceThresholdSet ;
-    sh:property [ sh:path agt:autoApplyThreshold ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ;
-        sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ; sh:description "자동 적용 경계가 확률인가" ;
-        sh:message "`agt:autoApplyThreshold` 는 0 이상 1 이하의 값 하나다 — 확신도는 확률이다 (p8-judge-calibration-binding)" ] ;
-    sh:property [ sh:path agt:humanReviewThreshold ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ;
-        sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ; sh:lessThan agt:autoApplyThreshold ;
-        sh:description "사람 확인 경계가 자동 적용 경계 아래인가" ;
-        sh:message "`agt:humanReviewThreshold` 는 0 이상 1 이하이고 자동 적용 임계보다 작다 — 두 경계가 세 구간을 만든다 (p8-judge-calibration-binding)" ] ;
-    sh:property [ sh:path agt:bandAccuracyMeasured ; sh:datatype xsd:boolean ; sh:minCount 1 ; sh:maxCount 1 ;
-        sh:description "구간별 정확도를 쟀는가" ;
-        sh:message "`agt:bandAccuracyMeasured` 가 없다 — 구간별 측정 여부가 자동 적용 구간의 존재를 가른다 (p8-judge-calibration-binding 규칙 ②)" ] ;
-    sh:property [ sh:path agt:calibrationSampleFloor ; sh:datatype xsd:integer ; sh:minCount 1 ; sh:maxCount 1 ; sh:minInclusive 1 ;
-        sh:description "구간당 표본 하한이 얼마인가" ;
-        sh:message "`agt:calibrationSampleFloor` 는 1 이상의 정수 하나다 — 20 은 전체가 아니라 구간당 하한이다 (p8-judge-calibration-binding 규칙 ②)" ] ;
-    sh:property [ sh:path agt:calibratedFor ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
-        sh:description "어느 판정자에 대해 쟀는가" ;
-        sh:message "`agt:calibratedFor` 가 없다 — 판정자 식별자와 캘리브레이션 표본은 함께 버전이 바뀐다 (p8-judge-calibration-binding 규칙 ⑤)" ] ;
-    sh:message "확신도 임계 셋은 자동 적용 임계·사람 확인 임계·구간별 측정 여부·구간당 표본 하한·캘리브레이션 대상 판정자를 각각 하나씩 갖는다 (p8-judge-calibration-binding)" .
+agt:JudgementLogShape a sh:NodeShape ;
+    sh:targetClass agt:JudgementLog ;
+    sh:property [ sh:path agt:hasJudgementRow ; sh:class agt:JudgementRow ; sh:minCount 1 ;
+        sh:description "판정 행이 있는가" ;
+        sh:message "판정 로그에 판정 행이 없다 — 판정 하나도 없는 로그는 로그가 아니다 (p8-judge-session-agreement)" ] ;
+    sh:property [ sh:path ( agt:hasJudgementRow agt:judgeId ) ; sh:minCount 2 ;
+        sh:description "판정자 둘 이상의 답이 있는가" ;
+        sh:message "판정 로그의 판정자 식별자가 둘 미만이다 — 임계는 판정자 둘의 값 일치다 (p8-judge-session-agreement 규칙 ②·③)" ] ;
+    sh:property [ sh:path agt:decoyResult ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:description "미끼 검출 결과가 있는가" ;
+        sh:message "판정 로그에 미끼 검출 결과가 없다 — 임계는 일치와 미끼 검출이다. 미끼가 없으면 해당 없음과 그 사유를 적는다 (p8-judge-session-agreement 규칙 ③)" ] .
+
+agt:JudgementRowShape a sh:NodeShape ;
+    sh:targetClass agt:JudgementRow ;
+    sh:property [ sh:path agt:judgeId ; sh:datatype xsd:string ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:message "판정 행의 판정자 식별자가 하나가 아니다 (p8-judge-session-agreement)" ] ;
+    sh:property [ sh:path agt:judgeAgreement ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "일치" "불일치" "해당 없음" ) ;
+        sh:description "일치 여부 열이 닫힌 어휘 안인가" ;
+        sh:message "판정 행의 일치 여부가 일치 · 불일치 · 해당 없음 가운데 하나가 아니다 (p8-judge-session-agreement 규칙 ③)" ] ;
+    sh:property [ sh:path agt:judgeConfidence ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ;
+        sh:description "확신도 열이 남아 있는가" ;
+        sh:message "판정 행의 확신도는 0 이상 1 이하의 값 하나다 — 자기 보고라 처리를 가르지 않지만 기록은 남긴다 (p8-judge-session-agreement 규칙 ②)" ] ;
+    sh:property [ sh:path agt:judgeRoute ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "자동 적용" "사람 확인 큐" "판정 보류" ) ;
+        sh:message "판정 행의 처리가 자동 적용 · 사람 확인 큐 · 판정 보류 가운데 하나가 아니다 (p8-judge-session-agreement)" ] ;
+    sh:not [ sh:and (
+        [ sh:path agt:judgeAgreement ; sh:hasValue "해당 없음" ]
+        [ sh:path agt:judgeRoute ; sh:hasValue "자동 적용" ] ) ] ;
+    sh:message "단독 응답(일치 여부 해당 없음)에 자동 적용 표시가 붙었다 — 단독 응답으로는 자동 적용이 없다 (p8-judge-session-agreement 규칙 ③)" .

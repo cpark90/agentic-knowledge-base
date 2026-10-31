@@ -7,11 +7,11 @@ title: Normative-document conventions — Work ends only after the self-check, w
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T04:37:29+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:18:59+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:18:59+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/3e29e698-8ef5-4fe2-ac1b-867e596a5179
 ---
 **규약** — `p6-self-check-before-completion`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: **지식 파일을 고치면 `bazel test //...` 를 돌린다.** 실패하면 고친 파일을 수정한다. shape·게이트 코드를 약화시키지 않는다.
+규약: **지식 파일을 고치면 `bazel test //...` 를 돌린다.** 실패하면 shape와 게이트 코드를 약화하지 않고 고친 파일을 수정한다.

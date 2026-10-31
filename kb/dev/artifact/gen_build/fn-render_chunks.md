@@ -7,7 +7,7 @@ title: function render_chunks in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/0f0f082a-c9cd-454c-ab65-ca4f3bebc461, https://agentic-knowledge-base.dev/id/chunk/32315be1-6edc-4ecd-8cb0-fa9a30fc7efc, https://agentic-knowledge-base.dev/id/chunk/7da9bdbd-c81f-432f-a9a2-fe6561f504be, https://agentic-knowledge-base.dev/id/chunk/a8f6816d-512e-4fb2-8bce-765ddee8bf42, https://agentic-knowledge-base.dev/id/chunk/b741d4e1-90f5-4f0b-9bb2-10c4efbcdf69, https://agentic-knowledge-base.dev/id/chunk/e284beaa-0477-4715-ba21-44028b13bf3f]
 part_of: https://agentic-knowledge-base.dev/id/composite/bd43acdb-4493-4bcb-852c-56bb2a3c929e
@@ -25,7 +25,7 @@ def render_chunks(pkg, items, iri_to_label, visibility, allow_empty=False):
     for lab, it in sorted(items.items()):
         if it["pkg"] != pkg:
             continue
-        if it["kind"] == "composite":  # 복합체 = 타깃 하나, 부분 청크의 개별 타깃은 없다 (p4-all-knowledge-is-composite)
+        if it["kind"] == "composite":  # 복합체 = 타깃 하나, 부분 단위 지식의 개별 타깃은 없다 (p4-all-knowledge-is-composite)
             body.append(render_composite(lab, it, iri_to_label, decision_iris(items)))
             continue
         m = it["meta"]

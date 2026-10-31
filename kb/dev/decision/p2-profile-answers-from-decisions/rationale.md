@@ -7,8 +7,8 @@ title: The notes define a profile as a collection of decisions, and the first pr
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T04:22:52+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/2b47645a-4247-4eb8-a741-7a7a41d206cf
 ---
@@ -16,6 +16,6 @@ part_of: https://agentic-knowledge-base.dev/id/composite/2b47645a-4247-4eb8-a741
 
 이 순서는 첫 프로파일(`development`, 2026-09-18)을 만들면서 뽑은 절차로 `docs/method.md` §1에 손으로 쓰였다. 절차의 둘째 항목이 "확장점마다 답을 결정에서 읽는다. 결정이 없으면 먼저 결정을 만든다(유저 승인)"였고, 개발 프로파일의 원천으로 `p7-dev-plane-substance`와 `pe-anchor-is-bazel-label`을 들었다. `docs/method.md`가 생성 문서가 되면서 이 문장의 원본 결정이 없어 이 결정이 그 자리를 잇는다.
 
-유저 승인은 `decision` plane의 판정 방식에서 온다. `p7-dev-plane-substance`의 표는 `decision`의 판정을 "논증 구조 검사 + 유저 승인"으로 적는다. 확장점의 답을 새로 정하는 것은 결정을 새로 내는 것이므로 같은 판정을 받는다.
+유저 승인은 `decision` 지식 종류의 판정 방식에서 온다. `p7-dev-plane-substance`의 표는 `decision`의 판정을 "논증 구조 검사 + 유저 승인"으로 적는다. 확장점의 답을 새로 정하는 것은 결정을 새로 내는 것이므로 같은 판정을 받는다.
 
 미확정: 결정을 모듈 작성보다 **먼저** 두는 이유를 손 문서와 노트는 따로 적지 않았다. 위 근거는 프로파일이 결정의 모음이라는 노트의 정의에서 순서를 읽은 것이다.

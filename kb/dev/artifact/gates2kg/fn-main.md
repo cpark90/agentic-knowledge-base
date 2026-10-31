@@ -7,9 +7,9 @@ title: function main in tools/gates2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gates2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/060d5b4a-ce00-45a6-893c-e9a0c787372f, https://agentic-knowledge-base.dev/id/chunk/4023eaae-fb57-4924-bb9b-beb8a2530ff2, https://agentic-knowledge-base.dev/id/chunk/5626d1aa-8b86-4c12-ab4c-ec1e76b25bb5, https://agentic-knowledge-base.dev/id/chunk/7c84bccd-bce1-441d-ae3c-b5f960ab1dc8, https://agentic-knowledge-base.dev/id/chunk/90fe8a83-bd07-4bb1-bd2c-fcdad7d246b7, https://agentic-knowledge-base.dev/id/chunk/e51ab77c-0ffd-4d58-a3cb-d622e9134952, https://agentic-knowledge-base.dev/id/chunk/e7ef6bd8-9aff-42f5-bf43-505fb69d8d2e]
+uses: [https://agentic-knowledge-base.dev/id/chunk/060d5b4a-ce00-45a6-893c-e9a0c787372f, https://agentic-knowledge-base.dev/id/chunk/4023eaae-fb57-4924-bb9b-beb8a2530ff2, https://agentic-knowledge-base.dev/id/chunk/5626d1aa-8b86-4c12-ab4c-ec1e76b25bb5, https://agentic-knowledge-base.dev/id/chunk/7c84bccd-bce1-441d-ae3c-b5f960ab1dc8, https://agentic-knowledge-base.dev/id/chunk/7db8af6e-60b5-47c0-9736-9ff0aba5fc88, https://agentic-knowledge-base.dev/id/chunk/90fe8a83-bd07-4bb1-bd2c-fcdad7d246b7, https://agentic-knowledge-base.dev/id/chunk/e51ab77c-0ffd-4d58-a3cb-d622e9134952, https://agentic-knowledge-base.dev/id/chunk/e7ef6bd8-9aff-42f5-bf43-505fb69d8d2e]
 part_of: https://agentic-knowledge-base.dev/id/composite/cda496f2-c562-40ea-bde8-f3fa740db1b1
 ---
 **함수** — `main()` 다.
@@ -18,11 +18,18 @@ part_of: https://agentic-knowledge-base.dev/id/composite/cda496f2-c562-40ea-bde8
 ```python
 def main() -> int:
     ap = argparse.ArgumentParser(description="게이트 등록부 → 게이트 그래프 (-kg.ttl)")
-    ap.add_argument("--out", required=True, help="출력 TTL 경로 (접미사 규약 0.2절의 `-kg`)")
-    ap.add_argument("--gates", required=True, help="게이트 등록부의 원본 defs/kb.bzl")
+    ap.add_argument("--out", default="", help="출력 TTL 경로 (접미사 규약 0.2절의 `-kg`) — 총람 모드 밖에서 필수")
+    ap.add_argument("--gates", default="defs/kb.bzl", help="게이트 등록부의 원본 defs/kb.bzl")
     ap.add_argument("--registry", nargs="*", default=[], help="등록부 사이드카들 (tools/<도구>.chunks.yml) — agt:enforcedBy 의 대상")
     ap.add_argument("--projections", action="store_true", help="게이트 대신 뷰(VIEWS)·skill(SKILLS)의 투영 개체를 낸다")
+    ap.add_argument("--catalogue", default="", metavar="DOC",
+                    help="그래프 대신 문서(저장소 상대 경로)의 게이트 총람 생성 구간을 등록부에서 다시 그린다")
     a = ap.parse_args()
+    if a.catalogue:
+        return write_catalogue(a.catalogue, a.gates)
+    if not a.out:
+        print(f"FAIL [{TAG}] --out 이 없다 — 그래프 모드는 출력 TTL 경로가 필요하다", file=sys.stderr)
+        return EXIT_CONFIG
     if a.projections:
         try:
             views = kb_lib.load_bzl_dict(a.gates, kb_lib.VIEWS_NAME)

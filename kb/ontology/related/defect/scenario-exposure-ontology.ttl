@@ -1,4 +1,4 @@
-# 결함 — 시나리오 부류가 노출하려는 요인 (노트 8.21절 G5, 8.22절 요인 청크)
+# 결함 — 시나리오 부류가 노출하려는 요인 (노트 8.21절 G5, 8.22절 요인)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .

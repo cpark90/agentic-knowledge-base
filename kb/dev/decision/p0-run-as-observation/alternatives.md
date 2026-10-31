@@ -7,7 +7,7 @@ title: Rejecting a leveled run and merging run with scenario
 status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T05:27:16+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/696b52ee-952f-478e-9af1-cd83c82c9b88
 ---
 **대안** — `agt:Run`에 level을 부여해 계층 위에 올리는 안. 기각 — 관측은
@@ -18,5 +18,5 @@ part_of: https://agentic-knowledge-base.dev/id/composite/696b52ee-952f-478e-9af1
 일반화 단계가 사라지고, 관측된 한 번의 실행이 명세로 오인되어 승격 없이
 재사용된다 (r-004).
 
-**폐기** — v1은 이 구분을 scene·scenario 3분리(d-0012) 안에서 다뤘다. 3분리는
+**폐기** — v1은 이 구분을 scene·scenario 3분리 안에서 다뤘다(그 옛 결정의 후속은 이 결정과 `p0-classification-by-tags`, `p0-state-units-revision-workset`이다). 3분리는
 폐기되었지만 관측과 명세를 가르는 규칙은 이 결정으로 남는다.

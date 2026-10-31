@@ -7,7 +7,7 @@ title: function check_extracted_sources in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/1aefa82b-e840-4a41-89c0-385789709974
 ---
@@ -40,6 +40,6 @@ def check_extracted_sources(registry_globs):
     outside = [m for m in USES_TARGETS if m not in EXTRACTED_SOURCES]
     if outside:
         fail("USES_TARGETS(//defs:kb.bzl) 가 EXTRACTED_SOURCES 밖을 치역으로 둔다 — %s. " % outside +
-             "추출되지 않은 모듈에는 정의 청크가 없어 `uses` 의 대상이 실재하지 않는다 (dangling)")
+             "추출되지 않은 모듈에는 정의 단위 지식이 없어 `uses` 의 대상이 실재하지 않는다 (dangling)")
 ```
 <!-- 인용 끝 -->

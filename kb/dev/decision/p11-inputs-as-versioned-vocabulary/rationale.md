@@ -7,14 +7,14 @@ title: Inputs outside the vocabulary cannot be read; unversioned inputs yield no
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:48:52+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/81f5ea27-b01f-427d-bad5-4d35e593b94d
 ---
 **근거** (노트 11.1절·10.5절)
 
 - **입력이 어휘 밖에 있으면 체계가 읽을 수 없다.** 권한·실행 특성이 전부
-  속성으로 표현되어야 스코프 파생과 입력 검증이 질의 하나로 환원된다.
-- 어휘로 쓰면 입력 검증(10.6절)이 청크와 **같은 shape 수단**을 그대로 쓴다.
+  속성으로 표현되어야 적용 범위 파생과 입력 검증이 질의 하나로 환원된다.
+- 어휘로 쓰면 입력 검증(10.6절)이 단위 지식과 **같은 shape 수단**을 그대로 쓴다.
   입력만을 위한 두 번째 검사 체계를 만들지 않는다.
 - 입력이 바뀌면 그 위의 파생물이 바뀐다. 언제 무엇이 바뀌었는지 남아야
   파생물의 재검토 범위가 계산된다 — ODD를 버전 관리하는 이유와 같다.

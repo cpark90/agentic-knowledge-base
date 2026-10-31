@@ -5,10 +5,10 @@ level: concrete
 title_ko: 제약 전파는 게이트와 재검증 시점에서만 실행한다
 title: Run constraint propagation only at gates and rejudgement boundaries
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0101-constraint-propagation-timing.md, id: https://agentic-knowledge-base.dev/id/chunk-d0101, title_ko: "제약 전파는 게이트와 재판정 경계에서만 실행", title: "Run constraint propagation only at gates and re-judgement boundaries"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
-verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0101]
 part_of: https://agentic-knowledge-base.dev/id/composite/560ccdfa-94a3-4a43-bc41-3697c44b69cc

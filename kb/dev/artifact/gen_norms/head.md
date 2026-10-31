@@ -7,7 +7,7 @@ title: module head norm-docs-name in tools/gen_norms.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-norms}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-03T18:12:00Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/aebd48bd-5503-44d2-a028-ca367564d9a2
 composite: {id: https://agentic-knowledge-base.dev/id/composite/aebd48bd-5503-44d2-a028-ca367564d9a2, title_ko: 모듈 머리 복합체 norm-docs-name (tools/gen_norms.py), title: section composite norm-docs-name in tools/gen_norms.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/5964aabd-e71d-45eb-95eb-19a32020f049, https://agentic-knowledge-base.dev/id/chunk/e30fe78f-85fa-447c-8ec3-df25166cee41], part_of: https://agentic-knowledge-base.dev/id/composite/29a3a21d-a74b-4fc0-8764-46de4751e58a}
@@ -41,8 +41,9 @@ CONVENTIONS_FILE = kb_lib.DECISION_PART_FILES["conventions"]
 CONCLUSION_FILE = kb_lib.DECISION_PART_FILES["conclusion"]
 CONVENTION_LINE = re.compile(r"^규약:\s+(.*\S)\s*$")      # 줄 머리 `규약:` — chunk2kg.BODY_SLOT_KEYWORDS 의 같은 표지
 STRENGTH = re.compile(r"^\[(지킴|권장)\]\s+(\S.*)$")       # 강도 — 문장의 성질이라 줄 머리에 둔다 (p4-convention-slot)
+TABLE_CELL_SEP = re.compile(r"(?<!\\)\|")                  # 표 절 줄의 칸 경계 — 이스케이프된 `\|` 는 칸 안의 글자다
 STRENGTH_DEFAULT = "required"
-NORM_NUMBERED_DEFAULT = "true"  # 절 청크의 `numbered` — false 인 depth 2 절(부록)은 번호 없이 낸다
+NORM_NUMBERED_DEFAULT = "true"  # 절 항목의 `numbered` — false 인 depth 2 절(부록)은 번호 없이 낸다
 MD_LINK = re.compile(r"(!?\[[^\]\n]*\]\()([^)\s]+)(\))")  # 인라인 링크·그림 — 대상만 다시 계산한다. 텍스트는 코드 스팬을 담을 수 있다
 URL_SCHEME = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
 NOTICE_TARGET = "//:norms_drift_test"

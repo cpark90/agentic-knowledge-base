@@ -5,10 +5,10 @@ level: concrete
 title_ko: 판정 근거는 검사 가능한 것부터 쓴다
 title: Prefer link evidence that can be checked
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0110-link-judgement-evidence.md, id: https://agentic-knowledge-base.dev/id/chunk-d0110, title_ko: "링크 판정 근거는 검사 가능한 것부터", title: "Rank link judgement evidence by checkability"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-06T00:04:48+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T00:04:48+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T00:04:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0110]
 part_of: https://agentic-knowledge-base.dev/id/composite/4f68217b-9725-4607-9748-151d55d543a8

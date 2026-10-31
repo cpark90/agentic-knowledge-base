@@ -4,15 +4,16 @@ type: schema
 level: concrete
 title_ko: 신규 결함이 1·1로 줄지 않은 뒤 라운드 3을 roundEndedByCompletion 로 닫은 기록을 verify 질의로 판정한다
 title: Judging with the verify queries a record that closes round 3 by roundEndedByCompletion after new defects of 1 and 1
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:case_gen, at: 2026-10-04T23:16:12+09:00}
+verified: [{by: process:case_gen, at: 2026-10-24T02:06:15+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/a5dbd9da-c201-45bc-8019-9dbca4b89333]
 verifies: [https://agentic-knowledge-base.dev/id/chunk/a7816e3d-024c-488d-9054-075440f4cb8b]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/482e5340-b183-5f66-adea-4ccf1931b159]
 ---
-**케이스** — 라운드 기록 셋과 판정 주석 둘의 그래프가 자극이다.
+**테스트 케이스** — 라운드 기록 셋과 판정 주석 둘의 그래프가 자극이다.
 
 **자극** — 임시 파일 하나이고 경로는 검증기가 정한다. 라운드 기록은 종료 사유 하나를 `agt:usesConcept` 로 인용한다.
 

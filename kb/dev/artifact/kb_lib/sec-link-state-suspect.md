@@ -7,7 +7,7 @@ title: section link-state-suspect in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/749019ce-0d81-4c5f-b549-f44c1b0d4e55
 composite: {id: https://agentic-knowledge-base.dev/id/composite/749019ce-0d81-4c5f-b549-f44c1b0d4e55, title_ko: 절 복합체 link-state-suspect (tools/kb_lib.py), title: section composite link-state-suspect in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/ad732d7b-a214-41bd-83ad-05e232235dec, https://agentic-knowledge-base.dev/id/chunk/8b1b0dcd-b04d-42f6-a3d6-849e3fe97268, https://agentic-knowledge-base.dev/id/chunk/9a2cd33a-ee49-4782-81c9-519aaf5a1621, https://agentic-knowledge-base.dev/id/chunk/b76ee239-c1db-4b7d-b6f0-0f35e7ce919f], part_of: https://agentic-knowledge-base.dev/id/composite/3e4f98b8-3c0f-42e8-91f7-7868662123ed}
@@ -23,7 +23,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/749019ce-0d81-4c
 # (assume_check 의 보고 · metrics 의 포화율)에서만 물질화된다 — 저장하면 그래프와 판정이 어긋나고 이 저장소의 생성물은
 # bazel-out 에만 있다. 두 경로는 (a) `when` 이 거짓인 확정 링크 · (b) 선언된 트리거가 지목한 확정 링크다.
 LINK_STATE_SUSPECT = "suspect"
-# `when` 판정식의 범위는 **ODD 속성 참조의 판정**이다 (CEL 전체가 아니다). 항은 `in(<ODD 속성명 | cond 슬러그 | 조건 IRI>)`
+# `when` 판정 술어의 범위는 **ODD 속성 참조의 판정**이다 (CEL 전체가 아니다). 항은 `in(<ODD 속성명 | cond 슬러그 | 조건 IRI>)`
 # 하나이고 결합은 CEL 연산자 `!`·`&&`·`||` 와 괄호이며 리터럴 `true`·`false` 를 받는다. 비교·산술·함수 호출·ODD 밖 이름은
 # 판정하지 않고 unverified 로 남긴다 — 판정 불가를 참으로 읽으면 무효화가 조용히 멈춘다 (0.4절 restrictive).
 WHEN_TRUE, WHEN_FALSE, WHEN_UNVERIFIED = "true", "false", "unverified"

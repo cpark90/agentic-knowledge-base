@@ -7,7 +7,7 @@ title: function render_axis_sections in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/453be329-3277-4ed7-a036-50df02988fed
 ---
@@ -18,15 +18,17 @@ part_of: https://agentic-knowledge-base.dev/id/composite/453be329-3277-4ed7-a036
 def render_axis_sections(pct, live, authored, components, filled, skips, skip_parts, residency_bad, cov_line, link_ents, with_ev, origins, extracted_n, built_n, restored_total, tim_filled, TIM, BUDGET, role_rows, scope_bad):
     o = []
     o += ["", "## 세 축 대리 — 1·3·5단계 (14.1 정정본: 의미 보존 · 구체화 · 유기적 연결)", "",
-          f"- 연결: 저작된 지식의 연결 성분 **{components}**개 (살아 있는 청크 {len(live)} 중 관측·주석 {len(live) - len(authored)}건을 뺀 {len(authored)}개가 링크·복합체·`prov:specializationOf` 로 이어진 덩어리. 목표 1; 1보다 크면 아래 「주 성분 밖 청크」 절이 성분마다 목록을 낸다)",
+          f"- 연결: 저작된 지식의 연결 성분 **{components}**개 (살아 있는 단위 지식 {len(live)} 중 관측·주석 {len(live) - len(authored)}건을 뺀 {len(authored)}개가 링크·복합체·`prov:specializationOf` 로 이어진 덩어리. 목표 1; 1보다 크면 아래 「주 성분 밖 단위 지식」 절이 성분마다 목록을 낸다)",
           f"- 연결: level×level `refines` 매트릭스 채움 {pct(len(filled), 4)} — " + (", ".join(f"{a_}→{b_}" for a_, b_ in filled) or "없음") + " (목표 4/4 = 100.0%)",
-          f"- 구체화: level을 한 단계씩 내려가지 않는 `refines` {len(skips)}건 — 결정 복합체 몫 {sum(skip_parts[0].values())}건"
+          f"- 구체화: level을 한 단계씩 내려가지 않는 `refines` {len(skips)}건 — 결정 기록 몫 {sum(skip_parts[0].values())}건"
           f"(결론 {skip_parts[0]['결론']} · 그 밖의 부분 {skip_parts[0]['그 밖의 부분']})과 V&V 정제 계층 몫 {sum(skip_parts[1].values())}건"
-          "(" + " · ".join(f"{k_} {skip_parts[1][k_]}" for k_ in VV_LADDER_SKIPS) + f")은 빼고 남는 건너뜀 **{sum(skip_parts[2].values())}**건 (목표 0). "
-          "결정 복합체는 abstract·logical·concrete 를 한 복합체로 걸치므로 복합체 단위로 보면 결론(concrete)의 functional 요구 `refines` 는 "
+          "(" + " · ".join(f"{k_} {skip_parts[1][k_]}" for k_ in VV_LADDER_SKIPS) + f")과 계약 logical 몫 {sum(skip_parts[3].values())}건"
+          f"(개발 KB 파일 단위 지식 → 계약 {skip_parts[3]['파일 단위 지식 → 계약']})은 빼고 남는 건너뜀 **{sum(skip_parts[2].values())}**건 (목표 0). "
+          "결정 기록은 abstract·logical·concrete 를 한 복합체로 걸치므로 복합체 단위로 보면 결론(concrete)의 functional 요구 `refines` 는 "
           "건너뜀이 아니다 (p7-decision-spans-three-levels, 유저 결정 2026-10-04). V&V KB(`kb/vv/`) 안의 합격 기준(logical) → 검증 목표(functional) "
-          "`refines` 는 logical 높이의 검증 대응이고, 검증기(executable) → 합격 기준(logical) `refines` 는 케이스 없이 기준을 정제하는 비표본 검증기의 꼴이므로 "
-          "둘 다 건너뜀이 아니다 (p8-scenario-ladder-rungs, 유저 답 Q30-b · Q41-a). 남는 것의 plane(수준)→plane(수준): "
+          "`refines` 는 logical 높이의 검증 대응이고, 검증기(executable) → 합격 기준(logical) `refines` 는 테스트 케이스 없이 기준을 정제하는 비표본 검증기의 꼴이므로 "
+          "둘 다 건너뜀이 아니다 (p8-scenario-ladder-rungs, 유저 답 Q30-b · Q41-a). 개발 KB(`kb/dev/`) 안의 파일 단위 지식(executable) → 계약(logical) `refines` 도 "
+          "건너뜀이 아니다 — 계약·스키마의 logical 칸은 독립 내용이고 코드가 시그니처 후보를 정제한다 (p6-contract-logical-is-content, 유저 답 Q86-b). 남는 것의 지식 종류(수준)→지식 종류(수준): "
           + (" · ".join(f"`{a_}`({b_})→`{c_}`({d_}) {n_}" for (a_, b_, c_, d_), n_ in skip_parts[2].most_common()) or "없음"),
           f"- 구체화: 수준 허용표 위반 **{len(residency_bad)}**건 (목표 0)",
           cov_line,
@@ -35,15 +37,15 @@ def render_axis_sections(pct, live, authored, components, filled, skips, skip_pa
           f"- 의미 보존: 링크 개체 **{len(link_ents)}** (확정 {origins['confirmed']} · 후보 {origins['candidates']}) 중 증거 기록이 있는 것 **{pct(len(with_ev), len(link_ents))}** (목표 100.0%; 증거 종류 분포는 `audit` 링크 근거 절)",
           f"- 의미 보존: 구축 비율 — 확정 링크 개체 중 구축(구축 기록 증거뿐) {built_n} vs 복원 {restored_total}(구축 기록 아닌 증거 `proposal` 을 가진 링크 개체 — frontmatter `restored:` 표시) → 복원 비율 **{pct(restored_total, built_n + restored_total)}** (목표 20% 미만; 후보는 `bazel build //kg:link_candidates`, 확정은 `restored:` — p10-restored-link-marking)",
           f"- 의미 보존: 후보 링크 개체(`agt:CandidateLink`, linkState candidate — 본문 추출, 증거는 구축 기록) **{origins['candidates']}** — " + (" · ".join(f"`{k}` {v}" for k, v in sorted(origins['candidate_kinds'].items())) or "없음") + "; 본문 식별자 추출 직접 트리플 " + " · ".join(f"`{k}` {v}" for k, v in extracted_n.items()) + " (`usesConcept` 는 대상이 온톨로지 용어라 링크 치역 밖 — 후보 개체 없음; p10-extracted-references-are-candidates)",
-          f"- 연결: plane×plane 매트릭스 — TIM 허용 칸 채움 **{pct(len(tim_filled), len(TIM))}** ({', '.join(f'{k}:{a_}→{b_}' for k, a_, b_ in tim_filled) or '없음'}); 빈 칸은 contract·schema·artifact·V&V 항목이 생겨야 찬다",
+          f"- 연결: 지식 종류×지식 종류 매트릭스 — TIM 허용 칸 채움 **{pct(len(tim_filled), len(TIM))}** ({', '.join(f'{k}:{a_}→{b_}' for k, a_, b_ in tim_filled) or '없음'}); 빈 칸은 contract·schema·artifact·V&V 항목이 생겨야 찬다",
           "- 구체화: `refines` 한 단계씩 — 위 세 축 절의 건너뜀 수 참조"]
-    o += ["", "## 2단계 대리 — ODD와 스코프", "",
-          f"- 정의: 여기의 예산 준수율은 **앵커마다** 센다 — 스코프 안 청크 하나를 앵커로 잡고 그 1홉 이웃의 라벨과 본문을 펼친 크기가 "
+    o += ["", "## 2단계 대리 — ODD와 적용 범위", "",
+          f"- 정의: 여기의 예산 준수율은 **앵커마다** 센다 — 적용 범위 안 단위 지식 하나를 앵커로 잡고 그 1홉 이웃의 라벨과 본문을 펼친 크기가 "
           f"{BUDGET}토큰 이하인 앵커의 비율이다. 본문은 `agt:tokenCount`, 라벨·제목 행은 행마다 1 로 세므로 합계는 하한이다. "
-          "`bazel build //kg:workset` 의 예산 판정은 **문서 전체**(앵커 없이 스코프 전체의 라벨 목록)를 어휘로 직접 세므로 "
+          "`bazel build //kg:workset` 의 예산 판정은 **문서 전체**(앵커 없이 적용 범위 전체의 라벨 목록)를 어휘로 직접 세므로 "
           "두 수치는 같은 이름이되 다른 것을 센다",
-          "- 구체화: 역할·앵커별 작업 집합(스코프 안 청크를 앵커로, 1홉 이웃 라벨 + 본문 펼침)이 예산 안인 비율: " + " · ".join(role_rows),
-          f"- 구체화: ODD × plane 권한에서 파생되지 않은 스코프 **{len(scope_bad)}**건" + (f" — {', '.join(scope_bad)}" if scope_bad else "") + " (목표 0; 2026-09-26부터 게이트 `catalog` 가 같은 규칙을 강제하므로 이 수치는 그 게이트의 관측이다)",
+          "- 구체화: 역할·앵커별 작업 집합(적용 범위 안 단위 지식을 앵커로, 1홉 이웃 라벨 + 본문 펼침)이 예산 안인 비율: " + " · ".join(role_rows),
+          f"- 구체화: ODD × 지식 종류 권한에서 파생되지 않은 적용 범위 **{len(scope_bad)}**건" + (f" — {', '.join(scope_bad)}" if scope_bad else "") + " (목표 0; 2026-09-26부터 게이트 `catalog` 가 같은 규칙을 강제하므로 이 수치는 그 게이트의 관측이다)",
           "- 연결: ODD 밖 참조는 게이트(odd-ref)가 0으로 강제. 첫 모니터링 이탈은 `bazel run //tools:odd_check`"]
     return o
 ```

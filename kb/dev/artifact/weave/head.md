@@ -7,7 +7,7 @@ title: module head prov in tools/weave.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-weave}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/50eac9df-d01a-488f-8254-02ba61b00bf0
 ---
@@ -22,7 +22,7 @@ try:
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
     import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
-from chunk2kg import EARS_PATTERNS, apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402 — frontmatter 파서와 값 어휘의 단일 정의처
+from chunk2kg import EARS_PATTERNS, LINK_KEYS, apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402 — frontmatter 파서·링크 키·값 어휘의 단일 정의 위치
 
 AGT, ID = kb_lib.AGT, kb_lib.ID
 PROV = Namespace("http://www.w3.org/ns/prov#")

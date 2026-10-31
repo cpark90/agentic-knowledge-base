@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -63,9 +63,12 @@ kb_composite(
         "r-002-carry-skeleton-across-projects.md",
         "r-003-chunks-stay-inside-project.md",
         "r-004-ascend-observation-to-vocabulary.md",
+        "r-030-export-settled-knowledge-for-models.md",
+        "r-031-check-model-output-against-settled-knowledge.md",
+        "r-032-links-and-candidates-carry-degree-of-belief.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/comp-req-accumulation",
-    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced", "https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d", "https://agentic-knowledge-base.dev/id/chunk/20148952-30c4-4f76-8cbf-4d9b32c68b25", "https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced", "https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d", "https://agentic-knowledge-base.dev/id/chunk/20148952-30c4-4f76-8cbf-4d9b32c68b25", "https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901", "https://agentic-knowledge-base.dev/id/chunk/24bf5c57-22a5-411f-8bdb-a4be933fb5e7", "https://agentic-knowledge-base.dev/id/chunk/ba003973-ba31-4f98-8af2-8958c13a979d", "https://agentic-knowledge-base.dev/id/chunk/a0037ff5-559b-4f3b-894d-2bdef12e206c"],
     plane = "requirement",
     level = "functional",
     status = "stable",
@@ -101,9 +104,10 @@ kb_composite(
         "r-018-planes-stay-separate.md",
         "r-019-record-read-write-sets.md",
         "r-020-session-memory-promotes.md",
+        "r-033-external-parties-reach-the-kb-through-interpreter.md",
     ],
     iri = "https://agentic-knowledge-base.dev/id/comp-req-agent",
-    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8", "https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08", "https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af", "https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a", "https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7", "https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4", "https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93", "https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8", "https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08", "https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af", "https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a", "https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7", "https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4", "https://agentic-knowledge-base.dev/id/chunk/3b134d68-35ab-47bc-86cc-94f3eb12be93", "https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b", "https://agentic-knowledge-base.dev/id/chunk/e461c8ed-196f-4eac-9cff-4052d5833776"],
     plane = "requirement",
     level = "functional",
     status = "stable",

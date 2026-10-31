@@ -10,7 +10,7 @@
               (PROV-O·SKOS, MODULE.bazel http_file 해시 고정)의 네임스페이스에 속한 용어가
               실제로 거기 정의돼 있는지까지 본다 — 접두사만 맞는 오타를 잡는다
   odd-ref     agt:refersTo 의 대상은 ODD 그래프에 존재한다 — "ODD에 없는 속성을 참조하는
-              스코프나 가정은 존재할 수 없다" (0.4절)
+              적용 범위나 가정은 존재할 수 없다" (0.4절)
   dangling    저장소 안을 가리키는 링크의 대상이 실재한다. 주석의 대상(agt:targets)과 정의의 호출 대상
               (agt:usesDefinition — 추출기가 낸 frontmatter `uses`)도 본다 — 링크 개체가
               아니라 직접 트리플뿐이므로 여기가 유일한 실재 검사다. agt:usesConcept 의 대상은
@@ -19,28 +19,35 @@
   space       설계 공간(agt:Space)의 규칙 (p9-candidate-storage, 요구 r-011): 변수의 출발 항목과 후보의 대상이
               실재하고 · 후보의 출발점·링크 타입이 그 공간의 변수와 같고 · spaceStatus resolved 면 확정 후보가
               정확히 하나이며 · 배제된 후보에 (−) 증거, 확정된 후보에 구축·실행 (+) 증거가 있다
-  specialization  prov:specializationOf 의 대상은 살아 있는(deprecated 아닌) 같은 plane 의 청크이고 사슬은 순환하지
-              않는다 (p10-split-keeps-work-identity — 청크 uuid 는 work-id, 링크 IRI 는 뿌리 uuid 로 계산)
+  specialization  prov:specializationOf 의 대상은 살아 있는(deprecated 아닌) 같은 지식 종류의 단위 지식이고 사슬은 순환하지
+              않는다 (p10-split-keeps-work-identity — 단위 지식 uuid 는 work-id, 링크 IRI 는 뿌리 uuid 로 계산)
   cross-kb-link  frontmatter 링크 키(chunk2kg.LINK_KEYS)의 링크가 verifies 밖이면서 두 KB(kb/dev ↔ kb/vv)를 가로지르지
               않는다. 예외는 검증 목표(kb/vv requirement, functional) → 개발 요구 derivesFrom 하나다 (p6-executable-splits-by-kb ·
               p8-scenario-ladder-rungs). 판정은 복원 후보 생성기(tools/link.py)와 같은 함수 kb_lib.cross_kb_link 다
   rung-before-descent  같은 정제 수준의 V&V 대응물 없이 다음 정제 수준으로 내려간 정제가 없다 (요구 r-023, 유저 결정 Q51-a 의 R1 정제 계층
               사슬) — functional→abstract 는 목표, logical→concrete 는 기준, concrete→executable 은 검증기가 바인딩한 기준(사람
               확인 기준만 가진 요구는 면제)이다. 판정은 지표와 같은 함수 kb_lib.rung_violations 다
+  draft-end   살아 있는(deprecated 아닌) 단위 지식의 frontmatter 링크 키(chunk2kg.LINK_KEYS) 링크가 status draft 인 단위 지식을 끝으로
+              두지 않는다 (p4-chunk-state-machine, 유저 답 Q108-a 3단계). 판정은 감사 보고의 지표와 같은 함수 kb_lib.draft_end_links 다
   catalog     (--data 에 agt:Harness 가 있을 때) 카탈로그 정합성 (AGENTS.md 역할 절 · STYLEGUIDE §5 · 9.2·9.6절):
-              하네스가 hasRole 하는 역할마다 대응 스코프(id:role-<x> ↔ id:scope-<x>)가 있고 하네스가 grants 한다 ·
-              역할마다 read plane ≥ 1 · write plane 은 역할 사이에 겹치지 않는다 · maxConcurrent 합 ≤ ODD 동적 요소
+              하네스가 hasRole 하는 역할마다 대응 적용 범위(id:role-<x> ↔ id:scope-<x>)가 있고 하네스가 grants 한다 ·
+              역할마다 읽기 지식 종류 ≥ 1 · 쓰기 지식 종류는 역할 사이에 겹치지 않는다 · maxConcurrent 합 ≤ ODD 동적 요소
               id:cond-concurrent-agents 의 상한(--odd 의 agt:conditionValue). 상한을 못 뽑으면 EXIT_CONFIG ·
-              스코프는 ODD 의 부분집합이다 — agt:subsetOf 대상이 ODD 그래프의 agt:ODD 이고 include/exclude 조건이
-              그 ODD 의 agt:hasCondition 에 등록돼 있다 (0.4절, 2026-09-26 metrics 지표에서 게이트로 승격)
+              적용 범위는 ODD 의 부분집합이다 — agt:subsetOf 대상이 ODD 그래프의 agt:ODD 이고 include/exclude 조건이
+              그 ODD 의 agt:hasCondition 에 등록돼 있다 (0.4절, 2026-09-26 metrics 지표에서 게이트로 승격) ·
+              하위 역할(agt:subRoleOf)의 상위 역할은 같은 하네스의 역할이고 하위 역할의 maxConcurrent 는 0 이다(상위 역할의 세션이 맡는다)
   element-drop 소스 요소의 전수와 방출 전수의 차가 공집합이다 (현상 P19 의 관측 수단, 8.21절 G1). 둘을 본다 —
-              (a) --chunk-files 를 주면 청크 frontmatter 의 최상위 키 집합에서 chunk2kg 가 소비하는 키 집합
+              (a) --chunk-files 를 주면 단위 지식 frontmatter 의 최상위 키 집합에서 chunk2kg 가 소비하는 키 집합
               (REQUIRED ∪ LINK_KEYS ∪ kb_lib.CHUNK_OPTIONAL_KEYS)을 뺀 차. 모르는 키는 조용히 버려지는 요소다.
-              (b) 프로파일이 선언한 plane 실체 클래스 집합과 chunk2kg.PROFILE_SUBSTANCE 치역의 대칭차. 어휘에만
+              (b) 프로파일이 선언한 지식 종류 실체 클래스 집합과 chunk2kg.PROFILE_SUBSTANCE 치역의 대칭차. 어휘에만
               있으면 데이터가 그 클래스를 못 받고, 생성기에만 있으면 정의 없는 클래스가 그래프에 나타난다
+  belief-consistency (--chunk-files) 믿음 정도가 상태 전이와 선호의 동률 깨기에 새지 않았다 (요구 r-032, 설계 공간
+              degree-of-belief-space 닫기 기준 3). 코드 단위 지식(kb/dev/artifact/ 의 인용 코드)을 읽는다 — (i) 상태 전이 결정을
+              refines 로 구현한다고 선언하고 상태의 어휘를 쓰는 단위와 그 uses 폐포는 믿음 정도의 어휘를 쓰지 않는다(Q90-a),
+              (ii) 설계 공간에 닫힌 계산 규칙이 없는 동안 선호의 동률 깨기 단위와 그 uses 폐포는 믿음 정도의 어휘를 쓰지 않는다(Q137-a)
   residency   (--shapes --residency defs/kb.bzl) 수준 허용표가 한 곳에만 적혀 있다 — shape `residency-shapes.ttl` 의
               plane × level 구간이 `defs/kb.bzl` 의 `RESIDENCY` 와 같다. 원본은 Starlark 리터럴이다(분석 시점
-              판정이 파일을 읽지 못하므로). 갈리면 shape 를 맞춘다 (M1 단일 정의처, 2026-09-26)
+              판정이 파일을 읽지 못하므로). 갈리면 shape 를 맞춘다 (M1 단일 정의 위치, 2026-09-26)
   shacl       (--shapes) OWL-RL 추론 후 pySHACL 적합성 (--reason 시 추론 적용). --waivers <docs/waivers.md>
               를 주면 위반의 focus node 를 agt:assertionLocation 으로 파일에 사상해 게이트 id `shacl`
               (축 `파일`)로 선언된 면제를 집계에서 빼고 `WAIVED [shacl]` 줄로 남긴다 — shape 는 그대로다
@@ -65,7 +72,7 @@ from rdflib import OWL, RDF, RDFS, XSD, Graph, URIRef
 from rdflib.namespace import SKOS
 
 try:
-    from tools import chunk2kg  # 소비되는 frontmatter 키·plane 실체 사상의 정의처 (element-drop)
+    from tools import chunk2kg  # 소비되는 frontmatter 키·지식 종류 실체 사상의 단일 정의 위치 (element-drop)
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path에 있다
 except ImportError:
     import chunk2kg
@@ -73,10 +80,10 @@ except ImportError:
 
 AGT = kb_lib.AGT
 _FM_KEY = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*):")  # frontmatter 의 최상위 키 (element-drop)
-EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)      # 판정 실패 (단일 정의처 kb_lib — 없으면 같은 값)
+EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)      # 판정 실패 (단일 정의 위치 kb_lib — 없으면 같은 값)
 EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)  # 파일 없음·파싱 불가 입력
 EXIT_SKIP = getattr(kb_lib, "EXIT_SKIP", 3)      # 검사 대상 0건
-# 게이트 id — 단일 정의처는 `defs/kb.bzl` 의 `GATES` 리터럴이고 `kb_lib` 이 리터럴 읽기로 파생한다 (M1, 2026-10-02).
+# 게이트 id — 단일 정의 위치는 `defs/kb.bzl` 의 `GATES` 리터럴이고 `kb_lib` 이 리터럴 읽기로 파생한다 (M1, 2026-10-02).
 # 여기에 문자열을 적지 않는다 — 리터럴에 없는 id 는 이 줄에서 적재 시점에 죽고, 리터럴 밖의 태그는 게이트
 # `gate-registry` 가 거부한다. `VALIDATE_TAG` 는 게이트가 아니라 이 도구 자신의 집계·배선 태그다.
 LABELS = kb_lib.LABELS_GATE
@@ -219,8 +226,8 @@ def check_standard_vocab(graphs: dict[str, Graph], terms: set[URIRef], namespace
     return errors
 
 
-# ══ 청크와 참조의 검사 ════════════════════
-# 청크의 ODD 참조·끊긴 링크·요소 탈락·설계 공간·분할 정체성·폐기 용어를 본다.
+# ══ 단위 지식과 참조의 검사 ════════════════════
+# 단위 지식의 ODD 참조·끊긴 링크·요소 탈락·설계 공간·분할 정체성·폐기 용어를 본다.
 
 # ── ODD 참조와 끊긴 참조·요소 탈락 ────────────────────
 
@@ -249,8 +256,8 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
     온톨로지가 정의한 agt: 용어여야 한다. 온톨로지를 안 주면 병합 그래프의 주어로 대신한다.
 
     경계: 이 검사는 usesDefinition·exposesFactor(shape가 대상 실재를 봄) 대상의 폐기 여부는 보지 않는다 —
-    exposes 대상은 온톨로지 개체라 청크식 status가 없고, usesDefinition 대상은 artifact 청크라 폐기 대신
-    추출 등록부의 개명·삭제로 정체성이 관리된다(이 저장소의 artifact 청크 status: deprecated 실측 0건).
+    exposes 대상은 온톨로지 개체라 단위 지식의 status가 없고, usesDefinition 대상은 artifact 단위 지식이라 폐기 대신
+    추출 등록부의 개명·삭제로 정체성이 관리된다(이 저장소의 artifact 단위 지식 status: deprecated 측정 0건).
     """
     checked = (
         kb_lib.AGT.cites,
@@ -279,7 +286,7 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
 
 
 def _frontmatter_keys(path: str) -> set[str]:
-    """청크 파일의 최상위 frontmatter 키 — 중첩 키(`composite.ordered` 등)는 그 부모가 대표한다."""
+    """단위 지식 파일의 최상위 frontmatter 키 — 중첩 키(`composite.ordered` 등)는 그 부모가 대표한다."""
     text = Path(path).read_text(encoding="utf-8")
     if not text.startswith("---\n"):
         return set()
@@ -307,10 +314,10 @@ def check_element_drop(ontology: Graph | None, chunk_files: list[str]) -> list[s
     emitted = {URIRef(str(AGT) + q.split(":", 1)[1]) for q in chunk2kg.PROFILE_SUBSTANCE.values()}
     for term in sorted(declared - emitted, key=str):
         errors.append(f"[{kb_lib.ELEMENT_DROP_GATE}] {_where({}, term)}: 실체 클래스 {ontology.qname(term)} 가 어휘에만 있다 — "
-                      f"chunk2kg.PROFILE_SUBSTANCE 가 어느 plane 도 이 클래스로 타이핑하지 않아 데이터가 닿지 않는다 (CQ-28 고립 개념)")
+                      f"chunk2kg.PROFILE_SUBSTANCE 가 어느 지식 종류도 이 클래스로 타이핑하지 않아 데이터가 닿지 않는다 (CQ-28 고립 개념)")
     for term in sorted(emitted - declared, key=str):
         errors.append(f"[{kb_lib.ELEMENT_DROP_GATE}] chunk2kg.PROFILE_SUBSTANCE: 실체 클래스 {term} 가 생성기에만 있다 — "
-                      f"프로파일이 plane 청크 클래스의 하위로 선언하지 않았다. 정의 없는 클래스는 어휘 밖이다 (2.3절 경계 규칙)")
+                      f"프로파일이 지식 종류 클래스의 하위로 선언하지 않았다. 정의 없는 클래스는 어휘 밖이다 (2.3절 경계 규칙)")
     return errors
 
 
@@ -321,15 +328,18 @@ def check_space(merged: Graph, files: dict[str, Graph]) -> list[str]:
 
     후보는 확정 링크와 다른 자리에 살고 결코 deps 가 되지 않으므로, Bazel 이 로드 시점에 잡아 주는 것(끝점의 실재·방향)을
     여기서 그래프로 대신 판정한다. 검사는 다섯이다.
-      (a) 변수의 출발 항목(agt:variableFrom)과 각 후보의 도착점(agt:linkTo)이 실재한다 — 끊긴 후보는 실제 선택지를 오도한다.
-      (b) 후보의 출발점·링크 타입이 그 공간의 변수와 같다 — 다른 변수의 후보가 섞이면 "무엇이 열려 있는가"의 답이 틀린다.
+      (a) 변수의 출발 항목(agt:variableFrom)과 각 후보(후보 쪽 끝 — kb_lib.space_candidate_of)가 실재한다 — 끊긴 후보는 실제 선택지를 오도한다.
+      (b) 후보 링크의 변수 쪽 끝·링크 타입이 그 공간의 변수와 같다 — 다른 변수의 후보가 섞이면 "무엇이 열려 있는가"의 답이 틀린다.
+          두 끝 가운데 하나가 변수의 출발 항목이고 방향은 변수 종류(링크 타입, 출발 항목의 지식 종류)의 방향 표
+          kb_lib.SPACE_CANDIDATE_DIRECTION 과 같다 (Q-0055 Q112-b).
       (c) agt:spaceStatus 가 resolved 면 확정 후보가 정확히 하나다 — 둘이면 할당이 아니고 0 이면 해소가 아니다.
       (d) 배제된 후보(linkState invalid)에 (−) 증거가 있다 — 근거 없는 배제 금지가 r-011 의 요지다.
-      (e) 확정 후보(linkState confirmed)에 구축(+) 또는 실행(+) 증거가 있다 — 근거 없는 할당 금지 (9.11절).
+      (e) 확정 후보(linkState confirmed)에 구축(+)·실행(+)·유저 결정(+) 증거가 있다 — 근거 없는 할당 금지 (9.11절).
     """
     AGT_ = kb_lib.AGT
     gate = kb_lib.SPACE_GATE
     subjects = set(merged.subjects())
+    plane_of = kb_lib.item_plane_resolver(merged)
     errors = []
     for space in sorted(merged.subjects(RDF.type, AGT_.Space), key=str):
         where = _chunk_location(merged, space)
@@ -339,16 +349,23 @@ def check_space(merged: Graph, files: dict[str, Graph]) -> list[str]:
             if isinstance(o, URIRef) and str(o).startswith(str(kb_lib.ID)) and o not in subjects:
                 errors.append(f"[{gate}] {where}: 변수의 출발 항목이 없다: {_qname(merged, o)} — 없는 항목에 변수를 걸 수 없다 (참조 무결성 8.2절)")
         confirmed = 0
+        kind_name = str(kinds[0]).rsplit("/", 1)[-1] if kinds else ""
+        from_plane = plane_of(froms[0]) if froms else None
         for link in sorted(merged.objects(space, AGT_.hasCandidate), key=str):
-            to = next(merged.objects(link, AGT_.linkTo), None)
+            to = kb_lib.space_candidate_of(merged, space, link)
             state = str(next(merged.objects(link, AGT_.linkState), ""))
             label = _qname(merged, to) if to is not None else kb_lib.NONE_MARK
             if isinstance(to, URIRef) and str(to).startswith(str(kb_lib.ID)) and to not in subjects:  # (a)
                 errors.append(f"[{gate}] {where}: 후보의 대상이 없다: {label} — 없는 항목은 후보가 될 수 없다 (참조 무결성 8.2절)")
-            for o in merged.objects(link, AGT_.linkFrom):  # (b)
-                if froms and o not in froms:
-                    errors.append(f"[{gate}] {where}: 후보 {label} 의 출발점 {_qname(merged, o)} 이 변수의 출발 항목 "
-                                  f"{_qname(merged, froms[0])} 과 다르다 — 한 공간은 변수 하나다 (p9-candidate-storage)")
+            ends = (next(merged.objects(link, AGT_.linkFrom), None), next(merged.objects(link, AGT_.linkTo), None))
+            if froms and froms[0] not in ends:  # (b) 변수 쪽 끝
+                errors.append(f"[{gate}] {where}: 후보 {label} 의 링크가 변수의 출발 항목 {_qname(merged, froms[0])} 에 닿지 않는다 — "
+                              f"한 공간은 변수 하나다 (p9-candidate-storage)")
+            elif froms and to is not None and (kind_name, from_plane) in kb_lib.SPACE_CANDIDATE_DIRECTION:  # (b) 방향
+                want = kb_lib.space_link_ends(froms[0], kind_name, from_plane, to)
+                if ends != want:
+                    errors.append(f"[{gate}] {where}: 후보 {label} 의 링크 방향이 변수 종류 ({kind_name}, {from_plane}) 의 방향 표와 반대다 — "
+                                  f"방향 규칙은 kb_lib.SPACE_CANDIDATE_DIRECTION 하나다 (Q-0055 Q112-b)")
             for o in merged.objects(link, AGT_.linkKind):  # (b)
                 if kinds and o not in kinds:
                     errors.append(f"[{gate}] {where}: 후보 {label} 의 링크 타입 {_agt_qname(merged, o)} 이 변수의 타입 "
@@ -362,7 +379,7 @@ def check_space(merged: Graph, files: dict[str, Graph]) -> list[str]:
                 kinds_ok = {str(k).split("/")[-1] for e in merged.objects(link, AGT_.hasEvidence)
                             for k in merged.objects(e, AGT_.evidenceKind)}
                 if not kinds_ok & set(kb_lib.SPACE_CONFIRMING_EVIDENCE):
-                    errors.append(f"[{gate}] {where}: 확정된 후보 {label} 에 지지 증거가 없다 — 구축 기록 또는 실행 결과"
+                    errors.append(f"[{gate}] {where}: 확정된 후보 {label} 에 지지 증거가 없다 — 구축 기록·실행 결과·유저 결정"
                                   f"({' | '.join(kb_lib.SPACE_CONFIRMING_EVIDENCE)}) 없이 확정할 수 없다 "
                                   f"(9.11절, 요구 r-011-no-groundless-assignment)")
         status = str(next(merged.objects(space, AGT_.spaceStatus), ""))
@@ -375,7 +392,7 @@ def check_space(merged: Graph, files: dict[str, Graph]) -> list[str]:
 def check_specialization(merged: Graph, files: dict[str, Graph]) -> list[str]:
     """prov:specializationOf 규칙 (p10-split-keeps-work-identity, 게이트 id `specialization`).
 
-    분할 조각은 원 청크를 특수화한다 — 같은 것의 다른 입도다. 그래서 대상은 (a) 같은 plane 의 청크이고 (b) 살아 있어야 하며
+    분할 조각은 원 단위 지식을 특수화한다 — 같은 것의 다른 입도다. 그래서 대상은 (a) 같은 지식 종류의 단위 지식이고 (b) 살아 있어야 하며
     (deprecated 원본의 조각은 원본을 승계했어야 한다), (c) 사슬은 순환하지 않는다 (뿌리 uuid 를 계산할 수 없다). 대상 부재는
     check_dangling 이 본다. 순환은 성분마다 한 번 보고한다.
     """
@@ -386,16 +403,16 @@ def check_specialization(merged: Graph, files: dict[str, Graph]) -> list[str]:
     for s, o in sorted(merged.subject_objects(kb_lib.PROV.specializationOf), key=lambda so: (str(so[0]), str(so[1]))):
         where = _chunk_location(merged, s)
         if not isinstance(o, URIRef) or o not in plane:
-            continue  # 청크가 아닌 대상은 dangling 이 보고한다
+            continue  # 단위 지식이 아닌 대상은 dangling 이 보고한다
         spec[s] = o
         if s == o:
             errors.append(f"[{gate}] {where}: prov:specializationOf 가 자기 자신이다 — 조각은 원본을 특수화한다")
             continue
         if plane.get(s) != plane[o]:
-            errors.append(f"[{gate}] {where}: prov:specializationOf 대상 {_qname(merged, o)} 의 plane 이 다르다 ({plane.get(s)} ≠ {plane[o]}) — "
-                          f"분할 조각은 같은 plane 의 원본을 특수화한다 (p10-split-keeps-work-identity)")
+            errors.append(f"[{gate}] {where}: prov:specializationOf 대상 {_qname(merged, o)} 의 지식 종류가 다르다 ({plane.get(s)} ≠ {plane[o]}) — "
+                          f"분할 조각은 같은 지식 종류의 원본을 특수화한다 (p10-split-keeps-work-identity)")
         if str(next(merged.objects(o, kb_lib.AGT.status), "")) == "deprecated":
-            errors.append(f"[{gate}] {where}: prov:specializationOf 대상 {_qname(merged, o)} 이 deprecated 다 — 원본은 살아 있는 청크여야 한다 "
+            errors.append(f"[{gate}] {where}: prov:specializationOf 대상 {_qname(merged, o)} 이 deprecated 다 — 원본은 살아 있는 단위 지식이어야 한다 "
                           f"(폐기된 원본의 조각은 uuid 를 승계했어야 한다)")
     reported: set = set()
     for start in sorted(spec, key=str):
@@ -418,9 +435,9 @@ def check_cross_kb_link(merged: Graph) -> list[str]:
 
     대상은 frontmatter 링크 키(`chunk2kg.LINK_KEYS`)의 직접 트리플 전부다. `defs/kb.bzl` 의 `_check_links` 는 Bazel deps
     (refines·serves·supersedes·verifies)만 받으므로 satisfies·derivesFrom·overlapsWith 같은 나머지 키는 분석 시점에 보이지
-    않고, 판정에는 두 끝점의 KB·plane·수준이 필요해 타깃마다 한 청크만 보는 `chunk2kg` 도 자리가 아니다 — 병합 그래프를
+    않고, 판정에는 두 끝점의 KB·지식 종류·수준이 필요해 타깃마다 한 단위 지식만 보는 `chunk2kg` 도 자리가 아니다 — 병합 그래프를
     보는 여기가 자리다. 판정은 복원 후보 생성기와 같은 함수 `kb_lib.cross_kb_link` 다. 끝점이 복합체면 첫 부분을 따라
-    내려가 청크의 값을 쓴다(`kb_lib.link_cells` 와 같은 규칙). plane 을 정할 수 없는 끝점은 판정하지 않는다 — 실재는
+    내려가 단위 지식의 값을 쓴다(`kb_lib.link_cells` 와 같은 규칙). 지식 종류를 정할 수 없는 끝점은 판정하지 않는다 — 실재는
     `dangling` 이 본다.
     """
     gate = kb_lib.CROSS_KB_LINK_GATE
@@ -453,11 +470,11 @@ def check_cross_kb_link(merged: Graph) -> list[str]:
 
 
 def check_code_part_link(merged: Graph) -> list[str]:
-    """코드 부분 청크가 `refines`·`serves`·`verifies` 의 끝점이면 거부한다 (게이트 `code-part-link`, 유저 결정 Q47-b).
+    """코드 부분 단위 지식이 `refines`·`serves`·`verifies` 의 끝점이면 거부한다 (게이트 `code-part-link`, 유저 결정 Q47-b).
 
-    코드의 링크는 파일 복합체의 것이고 자리는 선언 청크인 파일 청크 하나다(p7-code-links-on-file-composite). 추출 트리
-    (`kb_lib.EXTRACT_ROOT`) 안에서 복합체의 부분인 청크 — 정의 청크와 구역 청크 — 가 주어든 대상이든 그 링크의 끝에 서면
-    함수 churn 과 절의 재편이 링크를 움직인다. 판정에는 부분 관계(`agt:hasDirectPart`)와 청크 위치가 함께 필요해 청크 하나만
+    코드의 링크는 파일 복합체의 것이고 자리는 선언 단위 지식인 파일 단위 지식 하나다(p7-code-links-on-file-composite). 추출 트리
+    (`kb_lib.EXTRACT_ROOT`) 안에서 복합체의 부분인 단위 지식 — 정의 단위 지식과 구역 단위 지식 — 가 주어든 대상이든 그 링크의 끝에 서면
+    함수 churn 과 절의 재편이 링크를 움직인다. 판정에는 부분 관계(`agt:hasDirectPart`)와 단위 지식 위치가 함께 필요해 단위 지식 하나만
     보는 `chunk2kg` 나 Bazel deps 만 보는 `_check_links` 는 자리가 아니다 — `cross-kb-link` 와 같이 병합 그래프를 보는 여기가
     자리다. 판정 함수는 복원 후보 생성기(link `R_CODE_PART`)와 같은 `kb_lib.code_part` 다.
     """
@@ -468,18 +485,18 @@ def check_code_part_link(merged: Graph) -> list[str]:
         for s, o in sorted(merged.subject_objects(kb_lib.AGT[key]), key=lambda so: (str(so[0]), str(so[1]))):
             for node, role in ((s, "주어"), (o, "대상")):
                 if kb_lib.code_part(str(next(merged.objects(node, kb_lib.AGT.assertionLocation), "")), node in parts):
-                    errors.append(f"[{gate}] {_chunk_location(merged, node)}: 코드 부분 청크가 agt:{key} 의 {role}다 "
+                    errors.append(f"[{gate}] {_chunk_location(merged, node)}: 코드 부분 단위 지식이 agt:{key} 의 {role}다 "
                                   f"({_chunk_location(merged, s)} → {_chunk_location(merged, o)}) — 코드의 링크는 파일 복합체의 "
-                                  f"선언 청크(module.md) 하나가 갖는다 (p7-code-links-on-file-composite)")
+                                  f"선언 단위 지식(module.md) 하나가 갖는다 (p7-code-links-on-file-composite)")
     return errors
 
 
 def check_rung_before_descent(merged: Graph) -> list[str]:
     """같은 정제 수준의 V&V 대응물 없이 다음 정제 수준으로 내려간 정제를 거부한다 (게이트 `rung-before-descent`, 요구 r-023, 유저 결정 Q51-a).
 
-    판정식은 R1 정제 계층 사슬이다 — functional→abstract 는 정제 대상 요구의 검증 목표, logical→concrete 는 결정 복합체가 닿는
+    판정 술어는 R1 정제 계층 사슬이다 — functional→abstract 는 정제 대상 요구의 검증 목표, logical→concrete 는 결정 기록이 닿는
     요구의 목표에 달린 합격 기준, concrete→executable 은 그 기준 가운데 검증기가 바인딩한 것을 요구한다(사람 확인 기준만
-    가진 요구는 면제, Q26-a). 판정에는 두 KB 의 청크·복합체 부분·링크가 함께 필요해 병합 그래프를 보는 여기가 자리다
+    가진 요구는 면제, Q26-a). 판정에는 두 KB 의 단위 지식·복합체 부분·링크가 함께 필요해 병합 그래프를 보는 여기가 자리다
     (`cross-kb-link`·`code-part-link` 와 같다). 판정 함수는 지표(metrics 7단계 절·전방 추적)와 같은 `kb_lib.rung_violations`
     · `kb_lib.vv_counterparts` 다.
     """
@@ -493,6 +510,18 @@ def check_rung_before_descent(merged: Graph) -> list[str]:
     return [f"[{gate}] {_chunk_location(merged, s)}: {rung} 정제(대상 {_chunk_location(merged, o)})이 닿는 요구 "
             f"{_chunk_location(merged, r)} — {need[rung]} (r-023-rung-before-descent, p8-scenario-ladder-rungs)"
             for rung, s, o, r in kb_lib.rung_violations(merged, plane, level, live)]
+
+
+def check_draft_end(merged: Graph) -> list[str]:
+    """`draft` 단위 지식을 끝으로 둔 확정 링크를 거부한다 (게이트 `draft-end`, 결정 p4-chunk-state-machine, 유저 답 Q108-a 3단계).
+
+    출발이 deprecated 인 링크는 신규 참조가 아니므로 거부하지 않는다. 판정 함수는 감사 보고의 "draft 끝 링크" 지표(weave
+    `_audit_draft_ends`)와 같은 `kb_lib.draft_end_links` 다 — 지표가 0건이 된 뒤에 같은 정의로 켠 게이트다.
+    """
+    gate = kb_lib.DRAFT_END_GATE
+    return [f"[{gate}] {_chunk_location(merged, s)}: 링크 `{key}` 의 끝 {_chunk_location(merged, o)} 가 draft 다 — 끝을 검토해 "
+            f"stable 로 올리거나 링크를 뺀다 (p4-chunk-state-machine)"
+            for st, s, key, o in kb_lib.draft_end_links(merged, chunk2kg.LINK_KEYS) if st != "deprecated"]
 
 
 def _chunk_location(merged: Graph, chunk: URIRef) -> str:
@@ -529,8 +558,8 @@ def check_deprecated_concepts(merged: Graph, ontology: Graph) -> list[str]:
     )
 
 
-# ══ 카탈로그·verify·단일 정의처 ════════════════════
-# 역할 카탈로그와 쓰기 권한, verify 질의, 단일 정의처, SHACL 판정을 본다.
+# ══ 카탈로그·verify·단일 정의 위치 ════════════════════
+# 역할 카탈로그와 쓰기 권한, verify 질의, 단일 정의 위치, SHACL 판정을 본다.
 
 # ── 카탈로그와 쓰기 권한 ────────────────────
 
@@ -546,14 +575,16 @@ def check_catalog(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> 
     """카탈로그 정합성 (AGENTS.md 역할 절 · STYLEGUIDE §5 · 노트 9.2·9.6절) — 규약이던 것을 게이트로 (2026-09-13).
 
     데이터 그래프에 agt:Harness 가 없으면 대상이 아니다. 하네스마다:
-      (a) hasRole 하는 역할마다 대응 스코프가 실재하고 하네스가 grants 한다. 대응은 슬러그다 — id:role-<x> ↔ id:scope-<x>
-          (kb_lib.ROLE_ID_PREFIX·SCOPE_ID_PREFIX, rules §개체 IRI 접두사). 카탈로그에 역할→스코프 술어는 없다.
+      (a) hasRole 하는 역할마다 대응 적용 범위가 실재하고 하네스가 grants 한다. 대응은 슬러그다 — id:role-<x> ↔ id:scope-<x>
+          (kb_lib.ROLE_ID_PREFIX·SCOPE_ID_PREFIX, rules §개체 IRI 접두사). 카탈로그에 역할→적용 범위 술어는 없다.
       (b) 역할마다 agt:reads 가 하나 이상이다 — 읽지 못하는 역할은 작업 집합을 받을 수 없다.
-      (c) agt:writes 의 plane 은 같은 KB(agt:writesIn — 없으면 kb/dev) 안에서 역할 사이에 겹치지 않는다 — 설계·구현·운영 분리 (9.2절).
-          V&V KB 는 코어의 두 번째 인스턴스라 plane 이름이 같으므로(p8-vv-plane-instances) 겹침은 KB 별로 본다 (2026-09-19). writesIn 값은 kb_lib.KB_ROOTS 안이어야 한다.
+      (c) agt:writes 의 지식 종류는 같은 KB(agt:writesIn — 없으면 kb/dev) 안에서 역할 사이에 겹치지 않는다 — 설계·구현·운영 분리 (9.2절).
+          V&V KB 는 코어의 두 번째 인스턴스라 지식 종류 이름이 같으므로(p8-vv-plane-instances) 겹침은 KB 별로 본다 (2026-09-19). writesIn 값은 kb_lib.KB_ROOTS 안이어야 한다.
       (d) agt:maxConcurrent 합 ≤ ODD 동적 요소 id:cond-concurrent-agents 의 상한. 상한은 --odd 그래프의 agt:conditionValue 에서
           kb_lib.odd_upper_bound 로 뽑는다. ODD 가 없거나 조건·상한을 못 뽑으면 ConfigFailure(EXIT_CONFIG) — 판정 불가지 통과가 아니다.
-    첫 실행(2026-09-13): 역할 4 · 스코프 4 · write plane 겹침 0 · 합 4 ≤ 5, FAIL 0.
+      (f) 하위 역할(agt:subRoleOf)의 상위 역할은 같은 하네스가 hasRole 하는 역할이고 하위 역할 자신이 아니다. 하위 역할은 상위 역할의
+          세션이 맡으므로 maxConcurrent 가 0 이다 — 합을 늘리지 않는다 (sub-role-ontology, 결정 p11-interpreter-generalizes-hci, Q121-a·Q124-b).
+    첫 실행(2026-09-13): 역할 4 · 적용 범위 4 · 쓰기 지식 종류 겹침 0 · 합 4 ≤ 5, FAIL 0.
     """
     AGT_, ID = kb_lib.AGT, kb_lib.ID
     gate = kb_lib.CATALOG_GATE
@@ -565,21 +596,21 @@ def check_catalog(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> 
         where = _where(files, h)
         roles = sorted(r for r in merged.objects(h, AGT_.hasRole) if isinstance(r, URIRef))
         grants = set(merged.objects(h, AGT_.grants))
-        writers: dict[tuple[str, URIRef], list[URIRef]] = {}  # (KB, plane) → 역할들
+        writers: dict[tuple[str, URIRef], list[URIRef]] = {}  # (KB, 지식 종류) → 역할들
         total = 0
         for r in roles:
             rq = _qname(merged, r)
             local = str(r)[len(str(ID)):] if str(r).startswith(str(ID)) else ""
             if not local.startswith(kb_lib.ROLE_ID_PREFIX):
-                errors.append(f"[{gate}] {where}: 역할 {rq} 의 IRI 가 id:{kb_lib.ROLE_ID_PREFIX}<slug> 가 아니다 — 대응 스코프를 찾을 수 없다 (rules §개체 IRI 접두사)")
+                errors.append(f"[{gate}] {where}: 역할 {rq} 의 IRI 가 id:{kb_lib.ROLE_ID_PREFIX}<slug> 가 아니다 — 대응 적용 범위를 찾을 수 없다 (rules §개체 IRI 접두사)")
             else:
                 scope = ID[kb_lib.SCOPE_ID_PREFIX + local[len(kb_lib.ROLE_ID_PREFIX):]]
                 if (scope, RDF.type, AGT_.Scope) not in merged:
-                    errors.append(f"[{gate}] {where}: 역할 {rq} 에 대응 스코프 {_qname(merged, scope)} 가 없다 — 역할마다 스코프를 선언한다 (STYLEGUIDE §5 카탈로그 완전성)")
+                    errors.append(f"[{gate}] {where}: 역할 {rq} 에 대응 적용 범위 {_qname(merged, scope)} 가 없다 — 역할마다 적용 범위를 선언한다 (STYLEGUIDE §5 카탈로그 완전성)")
                 elif scope not in grants:
-                    errors.append(f"[{gate}] {where}: 하네스 {_qname(merged, h)} 가 역할 {rq} 의 스코프 {_qname(merged, scope)} 를 agt:grants 하지 않는다 (STYLEGUIDE §5)")
+                    errors.append(f"[{gate}] {where}: 하네스 {_qname(merged, h)} 가 역할 {rq} 의 적용 범위 {_qname(merged, scope)} 를 agt:grants 하지 않는다 (STYLEGUIDE §5)")
             if not any(True for _ in merged.objects(r, AGT_.reads)):
-                errors.append(f"[{gate}] {where}: 역할 {rq} 의 read plane 이 0 이다 — agt:reads 를 하나 이상 선언한다 (AGENTS 표 read 열)")
+                errors.append(f"[{gate}] {where}: 역할 {rq} 의 읽기 지식 종류가 0 이다 — agt:reads 를 하나 이상 선언한다 (AGENTS 표 read 열)")
             kbs = _writes_in(merged, r)
             for kb in sorted(kbs - set(kb_lib.KB_ROOTS)):
                 errors.append(f"[{gate}] {where}: 역할 {rq} 의 agt:writesIn {kb!r} 가 KB 경로 접두({' · '.join(kb_lib.KB_ROOTS)})가 아니다 (pe-storage-layout)")
@@ -591,13 +622,20 @@ def check_catalog(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> 
                 errors.append(f"[{gate}] {where}: 역할 {rq} 에 agt:maxConcurrent 가 없다 — 합을 판정할 수 없다 (9.6절)")
                 continue
             try:
-                total += int(counts[0])
+                count = int(counts[0])
             except (TypeError, ValueError):
                 errors.append(f"[{gate}] {where}: 역할 {rq} 의 agt:maxConcurrent {counts[0]!r} 이 정수가 아니다")
+                continue
+            total += count
+            for parent in merged.objects(r, AGT_.subRoleOf):
+                if parent == r or parent not in roles:
+                    errors.append(f"[{gate}] {where}: 하위 역할 {rq} 의 상위 역할 {_qname(merged, parent)} 가 하네스 {_qname(merged, h)} 의 다른 역할이 아니다 (sub-role-ontology)")
+                if count != 0:
+                    errors.append(f"[{gate}] {where}: 하위 역할 {rq} 의 agt:maxConcurrent 가 {count} 이다 — 하위 역할은 상위 역할의 세션이 맡으므로 0 이다 (sub-role-ontology, Q121-a)")
         for (kb, plane), rs in sorted(writers.items(), key=lambda kv: (kv[0][0], str(kv[0][1]))):
             if len(rs) > 1:
                 names = ", ".join(_qname(merged, r) for r in sorted(rs))
-                errors.append(f"[{gate}] {where}: KB {kb} 의 write plane {_qname(merged, plane)} 을 역할 {names} 이 공유한다 — 설계·구현·운영은 같은 KB 안에서 같은 write plane 을 쓰지 않는다 (AGENTS 역할 절, 9.2절; agt:writesIn)")
+                errors.append(f"[{gate}] {where}: KB {kb} 의 쓰기 지식 종류 {_qname(merged, plane)} 을 역할 {names} 이 공유한다 — 설계·구현·운영은 같은 KB 안에서 같은 쓰기 지식 종류를 쓰지 않는다 (AGENTS 역할 절, 9.2절; agt:writesIn)")
         cond = kb_lib.CONCURRENT_AGENTS_CONDITION
         if odd is None:
             raise ConfigFailure(f"[{gate}] {where}: maxConcurrent 합의 상한은 ODD 조건 {_qname(merged, cond)} 인데 --odd 그래프가 없다")
@@ -614,12 +652,12 @@ def check_catalog(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> 
 
 
 def _check_scope_subset(merged: Graph, odd: Graph | None, files: dict[str, Graph]) -> list[str]:
-    """(e) 스코프는 ODD 의 부분집합이다 (0.4절, scope-ontology agt:subsetOf·agt:includesCondition 의 정의문).
+    """(e) 적용 범위는 ODD 의 부분집합이다 (0.4절, scope-ontology agt:subsetOf·agt:includesCondition 의 정의문).
 
     "ODD에 없는 속성을 참조하는 스코프는 존재할 수 없다" 와 "하네스가 부여하는 스코프는 ODD 의 부분집합이다" 의 실행
     자리다. 지금까지는 `tools/metrics.py` 의 `scope_bad` 지표가 세기만 했다 (2026-09-26 게이트로 승격).
-    스코프마다: agt:subsetOf 가 하나 이상이고 그 대상이 ODD 그래프의 agt:ODD 이며 · include/exclude 조건이 그 ODD 에
-    agt:hasCondition 으로 등록돼 있다. 첫 실행(2026-09-26, 스코프 4 · 조건 참조 14): FAIL 0.
+    적용 범위마다: agt:subsetOf 가 하나 이상이고 그 대상이 ODD 그래프의 agt:ODD 이며 · include/exclude 조건이 그 ODD 에
+    agt:hasCondition 으로 등록돼 있다. 첫 실행(2026-09-26, 적용 범위 4 · 조건 참조 14): FAIL 0.
     """
     AGT_, gate = kb_lib.AGT, kb_lib.CATALOG_GATE
     if odd is None:
@@ -629,16 +667,16 @@ def _check_scope_subset(merged: Graph, odd: Graph | None, files: dict[str, Graph
         where, sq = _where(files, scope), _qname(merged, scope)
         odds = [o for o in merged.objects(scope, AGT_.subsetOf) if isinstance(o, URIRef)]
         if not odds:
-            errors.append(f"[{gate}] {where}: 스코프 {sq} 에 agt:subsetOf 가 없다 — 어느 ODD 의 부분집합인지 밝힌다 (0.4절)")
+            errors.append(f"[{gate}] {where}: 적용 범위 {sq} 에 agt:subsetOf 가 없다 — 어느 ODD 의 부분집합인지 밝힌다 (0.4절)")
         registered: set[URIRef] = set()
         for o in odds:
             if (o, RDF.type, AGT_.ODD) not in odd:
-                errors.append(f"[{gate}] {where}: 스코프 {sq} 의 agt:subsetOf 대상 {_qname(merged, o)} 가 ODD 그래프에 agt:ODD 로 없다 — ODD 를 먼저 확장한다 (0.4절)")
+                errors.append(f"[{gate}] {where}: 적용 범위 {sq} 의 agt:subsetOf 대상 {_qname(merged, o)} 가 ODD 그래프에 agt:ODD 로 없다 — ODD 를 먼저 확장한다 (0.4절)")
             registered |= {c for c in odd.objects(o, AGT_.hasCondition) if isinstance(c, URIRef)}
         for pred in (AGT_.includesCondition, AGT_.excludesCondition):
             for c in sorted(x for x in merged.objects(scope, pred) if isinstance(x, URIRef)):
                 if c not in registered:
-                    errors.append(f"[{gate}] {where}: 스코프 {sq} 의 {_qname(merged, pred)} 대상 {_qname(merged, c)} 가 그 ODD 의 agt:hasCondition 목록에 없다 — ODD 밖 조건을 참조하는 스코프는 존재할 수 없다 (0.4절)")
+                    errors.append(f"[{gate}] {where}: 적용 범위 {sq} 의 {_qname(merged, pred)} 대상 {_qname(merged, c)} 가 그 ODD 의 agt:hasCondition 목록에 없다 — ODD 밖 조건을 참조하는 적용 범위는 존재할 수 없다 (0.4절)")
     return errors
 
 
@@ -648,11 +686,11 @@ def _writes_in(merged: Graph, role: URIRef) -> set[str]:
 
 
 def check_writer(merged: Graph) -> list[str]:
-    """생성자의 쓰기 권한 (AGENTS 표 · kg/catalog-kg.ttl agt:writesIn·agt:writes) — write plane 경계를 규약에서 기계 검사로.
+    """생성자의 쓰기 권한 (AGENTS 표 · kg/catalog-kg.ttl agt:writesIn·agt:writes) — 쓰기 지식 종류 경계를 규약에서 기계 검사로.
 
-    generated.by 가 `<역할>/<모델>` 이면 그 역할이 청크의 KB 와 plane 을 쓸 수 있어야 한다. KB 는 청크의 assertionLocation 으로
+    generated.by 가 `<역할>/<모델>` 이면 그 역할이 단위 지식의 KB 와 지식 종류를 쓸 수 있어야 한다. KB 는 단위 지식의 assertionLocation 으로
     가른다(kb_lib.kb_of — kb/vv/ 아래면 V&V KB, 아니면 개발 KB) 그리고 역할의 KB 는 agt:writesIn(없으면 kb/dev)이다 (p8-vv-roles,
-    2026-09-19). 못 쓰는 역할(hci)이 만든 청크는 같은 KB·plane 의 쓰기 권한이 있는 역할의 verified(인수)가 있어야 통과한다.
+    2026-09-19). 못 쓰는 역할(hci)이 만든 단위 지식은 같은 KB·지식 종류의 쓰기 권한이 있는 역할의 verified(인수)가 있어야 통과한다.
     역할이 아닌 생성자(`claude/…`·`process:…`)는 검사하지 않는다.
     """
     AGT = kb_lib.AGT
@@ -681,11 +719,11 @@ def check_writer(merged: Graph) -> list[str]:
             errors.append(f"[{gate}] {where}: 생성자 {by} 의 역할 {producer} 는 KB {kb} 의 {str(plane_cls).split('/')[-1]} 쓰기 권한이 없다 "
                           f"(agt:writesIn · agt:writes) — 담당 역할의 verified(인수) 또는 되돌림 (AGENTS 표 · 11.2절)")
     if unattributed:
-        print(f"info [{gate}] 역할 없는 생성자의 청크 {unattributed}개 — 검사 대상 아님 (2026-09-11 이전 표기 · process:)")
+        print(f"info [{gate}] 역할 없는 생성자의 단위 지식 {unattributed}개 — 검사 대상 아님 (2026-09-11 이전 표기 · process:)")
     return errors
 
 
-# ── verify 질의와 단일 정의처 ────────────────────
+# ── verify 질의와 단일 정의 위치 ────────────────────
 
 def check_verify(merged: Graph, query_dir: str) -> list[str]:
     """안티패턴 단계 (노트 2.5절) — '이런 트리플이 존재하면 실패'를 SPARQL로 명세.
@@ -712,14 +750,34 @@ def check_verify(merged: Graph, query_dir: str) -> list[str]:
     return errors
 
 
+def check_confirming_evidence(query_dir: str) -> list[str]:
+    """확정 근거 증거 종류의 단일 정의 위치 — verify 질의 confirmed-without-evidence 의 FILTER 목록이
+    `kb_lib.SPACE_CONFIRMING_EVIDENCE` 와 같은 집합인가 (게이트 id `verify`, 2026-10-24).
+
+    SPARQL 파일은 파이썬 상수를 읽지 못하므로 같은 집합이 두 곳에 적힌다. 원본은 상수이고 질의는 그 사본이다 —
+    space2kg·validate.check_space 가 상수를 읽고, 질의가 갈리면 여기서 FAIL 이다(유저 결정을 더한 개정 Q-0055 Q111-a).
+    """
+    from pathlib import Path
+    rq = Path(query_dir) / "confirmed-without-evidence.rq"
+    if not rq.is_file():
+        return [f"[{VERIFY}] {rq.as_posix()}: 없다 — 확정 근거 없는 확정 링크를 잡는 질의가 있어야 한다 (9.11절)"]
+    m = re.search(r"FILTER\s*\(\s*\?k\s+IN\s*\(([^)]*)\)", rq.read_text(encoding="utf-8"))
+    found = {t.strip().split(":", 1)[-1] for t in m.group(1).split(",")} if m else set()
+    want = set(kb_lib.SPACE_CONFIRMING_EVIDENCE)
+    if found != want:
+        return [f"[{VERIFY}] {rq.as_posix()}: 확정 근거 증거 종류 {sorted(found)} 가 kb_lib.SPACE_CONFIRMING_EVIDENCE "
+                f"{sorted(want)} 와 다르다 — 원본은 상수다. 질의의 FILTER 목록을 상수에 맞춘다"]
+    return []
+
+
 def check_residency(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> list[str]:
-    """수준 허용표의 단일 정의처 — shape 가 `defs/kb.bzl` 의 `RESIDENCY` 와 같은 표인가 (M1 단일 정의처, 2026-09-26).
+    """수준 허용표의 단일 정의 위치 — shape 가 `defs/kb.bzl` 의 `RESIDENCY` 와 같은 표인가 (M1 단일 정의 위치, 2026-09-26).
 
     같은 규칙을 두 곳에 적는 것을 막는다. 원본은 Starlark 쪽 리터럴이다 — Starlark 는 파일을 읽지 못하므로
-    분석 시점 판정이 쓰는 표가 원본이어야 하고, shape 는 그것의 RDF 표현이다. plane 은 shape 의
-    `sh:targetClass` 지역명 `<X>Chunk` 에서 읽는다(metrics 와 같은 규칙). 표에서 모든 수준을 허용하는 plane
+    분석 시점 판정이 쓰는 표가 원본이어야 하고, shape 는 그것의 RDF 표현이다. 지식 종류는 shape 의
+    `sh:targetClass` 지역명 `<X>Chunk` 에서 읽는다(metrics 와 같은 규칙). 표에서 모든 수준을 허용하는 지식 종류
     (annotation)은 구간 제약이 없어야 한다 — 주석은 대상에서 수준을 물려받고 그 판정은 verify 질의가 한다.
-    첫 실행(2026-09-26, plane 7 · 구간 제약 6): FAIL 0.
+    첫 실행(2026-09-26, 지식 종류 7 · 구간 제약 6): FAIL 0.
     """
     from rdflib.collection import Collection
     from rdflib.namespace import SH
@@ -733,7 +791,7 @@ def check_residency(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> lis
     declared = {p: set(v) for p, v in table.items() if set(v) != set(levels)}
     found: dict[str, set[str]] = {}
     for shape, cls in shapes.subject_objects(SH.targetClass):
-        plane = kb_lib.plane_of_class(cls)  # 클래스 → plane 은 chunk2kg.CLASS_PLANE 이 정한다 — norm 은 agt:DocumentSectionChunk 다
+        plane = kb_lib.plane_of_class(cls)  # 클래스 → 지식 종류는 chunk2kg.CLASS_PLANE 이 정한다 — norm 은 agt:DocumentSectionChunk 다
         if not plane:
             continue
         for prop in shapes.objects(shape, SH.property):
@@ -745,20 +803,20 @@ def check_residency(shapes: Graph, bzl_path: str, shape_paths: list[str]) -> lis
     for plane in sorted(set(declared) | set(found)):
         want, have = declared.get(plane), found.get(plane)
         if want is None:
-            errors.append(f"[{gate}] {where}: shape 가 plane {plane} 의 수준 구간을 {sorted(have)} 로 제한하는데 {bzl_path} 의 RESIDENCY 에는 그 제한이 없다 — 표의 원본은 {bzl_path} 다")
+            errors.append(f"[{gate}] {where}: shape 가 지식 종류 {plane} 의 수준 구간을 {sorted(have)} 로 제한하는데 {bzl_path} 의 RESIDENCY 에는 그 제한이 없다 — 표의 원본은 {bzl_path} 다")
         elif have is None:
-            errors.append(f"[{gate}] {where}: {bzl_path} 의 RESIDENCY 는 plane {plane} 을 {sorted(want)} 로 제한하는데 shape 에 대응 구간이 없다 — `{chunk2kg.PLANE_CLASS.get(plane, plane)}` 의 `agt:hasLevel` 에 `sh:in` 을 단다")
+            errors.append(f"[{gate}] {where}: {bzl_path} 의 RESIDENCY 는 지식 종류 {plane} 을 {sorted(want)} 로 제한하는데 shape 에 대응 구간이 없다 — `{chunk2kg.PLANE_CLASS.get(plane, plane)}` 의 `agt:hasLevel` 에 `sh:in` 을 단다")
         elif want != have:
             errors.append(f"[{gate}] {where}: plane {plane} 의 수준 구간이 갈린다 — {bzl_path} 는 {sorted(want)}, shape 는 {sorted(have)} 다. 원본은 {bzl_path} 이므로 shape 를 맞춘다")
     return errors
 
 
 def check_token_budget(shapes: Graph, bzl_path: str, shape_paths: list[str], vocab: str = "") -> list[str]:
-    """본문 토큰 수 상한의 단일 정의처 — shape 가 `kb_lib.BODY_TOKEN_LIMITS` 와 같은 표인가 (게이트 `token-budget`).
+    """본문 토큰 수 상한의 단일 정의 위치 — shape 가 `kb_lib.BODY_TOKEN_LIMITS` 와 같은 표인가 (게이트 `token-budget`).
 
     `residency` 와 같은 형이다. 원본은 파이썬 쪽 표이고(게이트 chunk_lint 가 파일마다 그것으로 판정한다) shape 는
-    그것의 RDF 표현이다. plane 은 shape 의 `sh:targetClass` 지역명 `<X>Chunk` 에서 읽는다. plane 목록은
-    `defs/kb.bzl` 의 PLANES 이고, 표에 없는 plane 의 상한은 기본 1,092 토큰(42×26)이다
+    그것의 RDF 표현이다. 지식 종류는 shape 의 `sh:targetClass` 지역명 `<X>Chunk` 에서 읽는다. 지식 종류 목록은
+    `defs/kb.bzl` 의 PLANES 이고, 표에 없는 지식 종류의 상한은 기본 1,092 토큰(42×26)이다
     (결정 p1-chunk-unit-is-tokens — 줄 상한 42·200 은 폐지됐다).
     `artifact`·`memory` 만 값이 다르다 — 본문이 저작이 아니라 소스·실행의 인용이기 때문이다
     (p7-code-extraction-direction "예산").
@@ -772,7 +830,7 @@ def check_token_budget(shapes: Graph, bzl_path: str, shape_paths: list[str], voc
     try:
         planes, _levels, _table = kb_lib.load_residency(bzl_path)
     except (OSError, ValueError) as e:
-        raise ConfigFailure(f"[{gate}] {bzl_path}: plane 목록을 읽을 수 없다 — {e}") from e
+        raise ConfigFailure(f"[{gate}] {bzl_path}: 지식 종류 목록을 읽을 수 없다 — {e}") from e
     declared = {p: kb_lib.body_token_limit(p) for p in planes}
     found: dict[str, set[int]] = {}
     for shape, cls in shapes.subject_objects(SH.targetClass):
@@ -788,7 +846,7 @@ def check_token_budget(shapes: Graph, bzl_path: str, shape_paths: list[str], voc
     for plane in sorted(set(declared) | set(found)):
         want, have = declared.get(plane), found.get(plane)
         if want is None:
-            errors.append(f"[{gate}] {where}: shape 가 plane {plane} 의 본문 상한을 {sorted(have)} 로 두는데 그런 plane 이 {bzl_path} 의 PLANES 에 없다")
+            errors.append(f"[{gate}] {where}: shape 가 지식 종류 {plane} 의 본문 상한을 {sorted(have)} 로 두는데 그런 지식 종류가 {bzl_path} 의 PLANES 에 없다")
         elif not have:
             errors.append(f"[{gate}] {where}: plane {plane} 의 본문 상한 {want} 토큰에 대응하는 shape 가 없다 — `{chunk2kg.PLANE_CLASS.get(plane, plane)}` 의 `agt:tokenCount` 에 `sh:maxInclusive {want}` 를 단다 (표의 원본은 tools/kb_lib.py 의 BODY_TOKEN_LIMITS 다)")
         elif have != {want}:
@@ -807,10 +865,10 @@ def check_token_budget(shapes: Graph, bzl_path: str, shape_paths: list[str], voc
 
 
 def check_gate_registry(gates_path: str, sources: list[str]) -> list[str]:
-    """게이트 id 의 단일 정의처 — 코드의 태그 집합이 `GATES`·`TOOL_TAGS` 리터럴과 같은가 (게이트 `gate-registry`).
+    """게이트 id 의 단일 정의 위치 — 코드의 태그 집합이 `GATES`·`TOOL_TAGS` 리터럴과 같은가 (게이트 `gate-registry`).
 
     `residency`·`token-budget` 과 같은 형이다. 원본은 `defs/kb.bzl` 의 두 리터럴이고 파이썬 쪽은 그것을 읽어
-    상수를 파생한다. 2026-10-01 실측에서 같은 목록이 넷으로 갈려 있었으므로(상수 26 · 코드의 태그 · 총람의
+    상수를 파생한다. 2026-10-01 측정에서 같은 목록이 넷으로 갈려 있었으므로(상수 26 · 코드의 태그 · 총람의
     `id` 열 · 하네스 목록) 네 방향을 본다 — ① 등록부 밖의 태그, ② 손으로 둔 `*_GATE` 상수, ③ `getattr`
     폴백의 값 드리프트, ④ 등록됐으나 코드에 닿지 않는 id. ④ 의 도달은 태그 자신 또는 파생 상수 이름이다.
     판정 도구가 파이썬 밖인 게이트(`starlark`·`bazel`)는 태그를 찍을 자리가 없어 ④ 에서 빠진다.
@@ -833,7 +891,7 @@ def check_gate_registry(gates_path: str, sources: list[str]) -> list[str]:
     errors = []
     for tag in sorted(set(hits) - registered):
         errors.append(f"[{gate}] {hits[tag][0]}: 태그 `{tag}` 가 {gates_path} 의 GATES·TOOL_TAGS 밖이다 — "
-                      f"게이트면 GATES 에, 입력 문제·보고 태그면 TOOL_TAGS 에 등재한다 (단일 정의처는 그 리터럴이다)")
+                      f"게이트면 GATES 에, 입력 문제·보고 태그면 TOOL_TAGS 에 등재한다 (단일 정의 위치는 그 리터럴이다)")
     hand = re.compile(r"^([A-Z][A-Z0-9_]*_GATE)\s*=\s*[\"']([a-z0-9-]+)[\"']", re.M)
     fallback = re.compile(r"getattr\(\s*kb_lib\s*,\s*[\"']([A-Z][A-Z0-9_]*_GATE)[\"']\s*,\s*[\"']([a-z0-9-]+)[\"']")
     by_name = {kb_lib.gate_constant_name(g): g for g in gates}
@@ -845,7 +903,7 @@ def check_gate_registry(gates_path: str, sources: list[str]) -> list[str]:
         text += body
         for name, value in hand.findall(body):
             errors.append(f"[{gate}] {p.as_posix()}: 상수 {name} 에 게이트 id {value!r} 를 손으로 적었다 — "
-                          f"{gates_path} 의 GATES 가 단일 정의처이고 kb_lib 이 그 리터럴로 파생한다 (kb_lib.{name})")
+                          f"{gates_path} 의 GATES 가 단일 정의 위치이고 kb_lib 이 그 리터럴로 파생한다 (kb_lib.{name})")
         for name, value in fallback.findall(body):
             want = by_name.get(name)
             if want is None:
@@ -918,6 +976,166 @@ def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[st
             + f" — sh:message 가 수정 방향이다\n{text}"]
 
 
+# ── 믿음 정도 일관성 ────────────────────
+# 코드 단위 지식(추출 생성물 kb/dev/artifact/)의 인용 코드를 읽어, 믿음 정도가 상태 전이와 선호의 동률 깨기에 새지 않았는가를 본다
+# (게이트 belief-consistency, 요구 r-032, 설계 공간 degree-of-belief-space 닫기 기준 3, Q90-a·Q137-a). 추출물은 소스와
+# extract-drift 게이트로 묶여 있으므로 소스를 다시 읽지 않는다.
+_CODE_FENCE = re.compile(r"^```(python|sparql)\s*$")
+_AGT_TOKEN = re.compile(r"(?:\bagt:|<https://agentic-knowledge-base\.dev/agt/)([A-Za-z_][A-Za-z0-9_]*)")
+# 상태의 어휘 — 링크 상태(link-state-ontology)·후보와 확정 링크 클래스(p10-candidate-and-confirmed-link)·설계 공간 상태와 그 파이썬 상수
+_STATE_WORDS = re.compile(r"^(?:linkState|CandidateLink|ConfirmedLink|spaceStatus|LINK_STATE_[A-Z_]+)$")
+_PREFERENCE_WORDS = re.compile(r"^preferredOver$")   # 선호의 부분순서 (space-ontology, p9-preference-partial-order)
+_BELIEF_WORDS = re.compile(r"belief", re.IGNORECASE)  # 믿음 정도의 어휘(belief-ontology)와 그것을 계산하는 이름
+# 상태 전이를 정한 결정(결론)과 선호의 부분순서를 정한 결정(결론) — 코드가 refines 로 이 결론을 구현한다고 선언한다
+_TRANSITION_DECISIONS = (str(kb_lib.ID) + "chunk/9deed62a-70ad-4a87-99a2-73c11e1a4453",   # p9-evidence-ledger-with-belief
+                         str(kb_lib.ID) + "chunk/5287133e-f7a3-4913-8aaf-062647cf5491")   # p10-candidate-and-confirmed-link
+_TIE_BREAK_DECISIONS = (str(kb_lib.ID) + "chunk/c6c78803-bdb6-4ca2-9b07-bba7878f3a01",)    # p9-preference-partial-order
+_CLOSED_RULES = """
+PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
+SELECT DISTINCT ?rule WHERE {
+  ?space a agt:Space ; agt:hasCandidate ?c .
+  ?c agt:linkFrom ?rule ; agt:linkState "confirmed" .
+  ?node agt:beliefRule ?rule .
+}"""
+
+
+def _code_words(lang: str, code: str) -> set[str]:
+    """인용 코드 → 그 코드가 쓰는 이름들. 주석과 docstring 은 이름이 아니다.
+
+    파이썬은 AST 의 이름·속성·정의·인자·가져오기 이름과, 문자열 상수 안의 `agt:` 용어다(TTL 을 문자열로 내는 코드가 있다).
+    SPARQL 은 주석 줄을 뺀 글의 `agt:` 용어다. AST 로 읽히지 않는 조각은 tokenize 의 이름과 문자열로 읽는다."""
+    import ast
+    import io
+    import textwrap
+    import tokenize
+    words: set[str] = set()
+    if lang == "sparql":
+        text = "\n".join(ln for ln in code.splitlines() if not ln.lstrip().startswith("#"))
+        return set(_AGT_TOKEN.findall(text))
+    src = textwrap.dedent(code)
+    try:
+        tree = ast.parse(src)
+    except SyntaxError:
+        try:
+            for tok in tokenize.generate_tokens(io.StringIO(src).readline):
+                if tok.type == tokenize.NAME:
+                    words.add(tok.string)
+                elif tok.type == tokenize.STRING:
+                    words |= set(_AGT_TOKEN.findall(tok.string))
+        except (tokenize.TokenError, IndentationError):
+            pass
+        return words
+    docstrings = set()
+    for node in ast.walk(tree):
+        body = getattr(node, "body", None)
+        if isinstance(body, list) and body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, ast.Constant) \
+                and isinstance(body[0].value.value, str):
+            docstrings.add(id(body[0].value))
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Name):
+            words.add(node.id)
+        elif isinstance(node, ast.Attribute):
+            words.add(node.attr)
+        elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            words.add(node.name)
+        elif isinstance(node, ast.arg):
+            words.add(node.arg)
+        elif isinstance(node, ast.keyword) and node.arg:
+            words.add(node.arg)
+        elif isinstance(node, ast.alias):
+            words.add(node.asname or node.name)
+        elif isinstance(node, ast.Constant) and isinstance(node.value, str) and id(node) not in docstrings:
+            words |= set(_AGT_TOKEN.findall(node.value))
+    return words
+
+
+def _code_unit(path: str) -> tuple[dict, str | None, str]:
+    """단위 지식 파일 → (frontmatter, 언어, 인용 코드). 인용 코드(파이썬·SPARQL 펜스)가 없으면 언어가 None 이다.
+
+    frontmatter 는 최상위 `키: 값` 줄을 chunk2kg.parse_value 로 읽는다 — 값 어휘(수준·지식 종류)의 판정은 chunk 게이트의 몫이다."""
+    lines = Path(path).read_text(encoding="utf-8").splitlines()
+    end = kb_lib.frontmatter_end(lines)
+    meta = {}
+    for raw in lines[1:end - 1] if end else []:
+        m = _FM_KEY.match(raw)
+        if m:
+            meta[m.group(1)] = chunk2kg.parse_value(raw.partition(":")[2].strip())
+    lang, code = None, []
+    for ln in lines[end:]:
+        if lang is None:
+            m = _CODE_FENCE.match(ln.strip())
+            if m:
+                lang = m.group(1)
+            continue
+        if ln.strip() == "```":
+            break
+        code.append(ln)
+    return meta, lang, "\n".join(code)
+
+
+def check_belief_consistency(merged: Graph, chunk_files: list[str]) -> list[str]:
+    """믿음 정도의 일관성 (게이트 belief-consistency) — 두 조건을 코드 단위 지식(파이썬 정의·SPARQL 질의)에서 본다.
+
+    (i) 상태 전이 규칙은 믿음 정도를 읽지 않는다(Q90-a). 상태 전이 규칙은 상태 전이를 정한 결정(_TRANSITION_DECISIONS)을 자기
+        또는 같은 디렉토리의 파일 단위 지식(module.md)의 refines 로 구현한다고 선언한 코드 가운데 상태의 어휘(_STATE_WORDS)를 쓰는
+        단위다. 그 단위와 그것이 uses 로 부르는 정의들(전이 폐포)이 믿음 정도의 어휘(_BELIEF_WORDS)를 쓰면 FAIL 이다.
+    (ii) 닫힌 계산 규칙이 없는 동안 병기 값은 선호의 동률 깨기에 쓰이지 않는다(Q137-a). 동률 깨기 코드는 선호의 부분순서를 정한
+        결정(_TIE_BREAK_DECISIONS)을 refines 로 구현한다고 선언했거나 선호의 어휘(agt:preferredOver)를 쓰는 단위다. 닫힌 계산 규칙은
+        설계 공간의 후보 링크 가운데 상태가 confirmed 이고 출발점이 믿음 정도 노드의 계산 규칙인 것이다(_CLOSED_RULES). 그것이
+        그래프에 없으면, 동률 깨기 단위와 그 uses 폐포가 믿음 정도의 어휘를 쓸 때 FAIL 이다.
+    단위의 판정은 이름 수준이다 — 주석과 docstring 은 보지 않고, 값의 흐름을 따라가지 않는다."""
+    gate = kb_lib.BELIEF_CONSISTENCY_GATE
+    units: dict[str, tuple[str, dict, set[str]]] = {}   # 단위 IRI → (경로, frontmatter, 이름들)
+    module_refines: dict[str, set[str]] = {}            # 디렉토리 → 파일 단위 지식의 refines
+    for path in chunk_files:
+        if not path.endswith(".md"):
+            continue
+        try:
+            meta, lang, code = _code_unit(path)
+        except (OSError, ValueError):
+            continue   # 읽을 수 없는 단위 지식은 chunk 게이트의 몫이다
+        if meta.get("type") != "artifact":
+            continue
+        if Path(path).name == "module.md":
+            module_refines[str(Path(path).parent)] = set(meta.get("refines") or [])
+        if lang and isinstance(meta.get("id"), str):
+            units[meta["id"]] = (path, meta, _code_words(lang, code))
+
+    def declared(iri: str) -> set[str]:
+        path, meta, _ = units[iri]
+        return set(meta.get("refines") or []) | module_refines.get(str(Path(path).parent), set())
+
+    def closure(iri: str) -> list[str]:
+        seen, todo = [iri], [iri]
+        while todo:
+            for nxt in units[todo.pop()][1].get("uses") or []:
+                if nxt in units and nxt not in seen:
+                    seen.append(nxt)
+                    todo.append(nxt)
+        return seen
+
+    def readers(iri: str) -> list[tuple[str, list[str]]]:
+        return [(u, sorted(w for w in units[u][2] if _BELIEF_WORDS.search(w))) for u in closure(iri)
+                if any(_BELIEF_WORDS.search(w) for w in units[u][2])]
+
+    errors: list[str] = []
+    closed = {str(r[0]) for r in merged.query(_CLOSED_RULES)} if len(merged) else set()
+    for iri in sorted(units):
+        path, _, words = units[iri]
+        if declared(iri) & set(_TRANSITION_DECISIONS) and any(_STATE_WORDS.match(w) for w in words):
+            for u, found in readers(iri):
+                via = "" if u == iri else f" — uses 로 부르는 {units[u][0]} 에서"
+                errors.append(f"[{gate}] {path}: 상태 전이 규칙이 믿음 정도를 읽는다{via} ({', '.join(found)}) — "
+                              "상태 전이는 증거 기록만 읽는다 (조건 i, p9-evidence-ledger-with-belief, Q90-a)")
+        tie_break = declared(iri) & set(_TIE_BREAK_DECISIONS) or any(_PREFERENCE_WORDS.match(w) for w in words)
+        if tie_break and not closed:
+            for u, found in readers(iri):
+                via = "" if u == iri else f" — uses 로 부르는 {units[u][0]} 에서"
+                errors.append(f"[{gate}] {path}: 닫힌 계산 규칙이 없는데 선호의 동률 깨기가 믿음 정도를 읽는다{via} ({', '.join(found)}) — "
+                              "설계 공간 degree-of-belief-space 에서 규칙이 닫히기 전에는 병기 값만 둔다 (조건 ii, p9-preference-partial-order, Q137-a)")
+    return errors
+
+
 # ── SHACL 판정과 실행 ────────────────────
 
 def main() -> int:
@@ -937,7 +1155,7 @@ def main() -> int:
                                                "없으면 runfiles 의 고정 파일을 쓴다 (ODD id:cond-tokenizer-lock)")
     ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 실행 계층)")
     ap.add_argument("--chunk-files", nargs="*", default=[],
-                    help="청크 파일들(*.md) — 주면 element-drop 의 frontmatter 키 전수 대조가 켜진다")
+                    help="단위 지식 파일들(*.md) — 주면 element-drop 의 frontmatter 키 전수 대조가 켜진다")
     ap.add_argument("--standard-vocab", nargs="*", default=[],
                     help="등록 표준 어휘 원문(PROV-O·SKOS 등). 주면 그 네임스페이스의 용어가 원문에 정의돼 있는지까지 본다")
     ap.add_argument("--waivers", default="", metavar="FILE",
@@ -953,7 +1171,7 @@ def main() -> int:
         print(f"FAIL [{VALIDATE_TAG}] waiver 표 — {e}")
         return EXIT_CONFIG
 
-    if args.gates:  # 게이트 등록부 — 그래프가 아니라 리터럴과 소스를 본다 (M1 단일 정의처, 2026-10-02)
+    if args.gates:  # 게이트 등록부 — 그래프가 아니라 리터럴과 소스를 본다 (M1 단일 정의 위치, 2026-10-02)
         try:
             errors += check_gate_registry(args.gates, args.gate_sources)
         except ConfigFailure as e:  # 리터럴·소스를 읽을 수 없다 — 배선 문제
@@ -1003,6 +1221,7 @@ def main() -> int:
         errors += check_cross_kb_link(merged)
         errors += check_code_part_link(merged)
         errors += check_rung_before_descent(merged)
+        errors += check_draft_end(merged)
         errors += check_writer(merged)
         try:
             errors += check_catalog(merged, odd_merged if args.odd else None, located)
@@ -1021,8 +1240,11 @@ def main() -> int:
                 return EXIT_CONFIG
         errors += check_shacl(merged, shapes_merged, args.reason, args.shapes, waivers)
     errors += check_element_drop(onto_merged if args.ontology else None, args.chunk_files)
+    if args.chunk_files:
+        errors += check_belief_consistency(merged, args.chunk_files)
     if args.verify_queries:
         errors += check_verify(merged, args.verify_queries)
+        errors += check_confirming_evidence(args.verify_queries)
 
     for w in warnings:
         print(f"warn {w}")

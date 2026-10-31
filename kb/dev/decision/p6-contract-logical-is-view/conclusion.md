@@ -4,10 +4,10 @@ type: decision
 level: logical
 title_ko: contract·schema의 logical 칸은 결정 logical의 뷰이고 파일을 만들지 않는다
 title: The logical cells of contract and schema are views of decision logical, with no files
-status: draft
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-15T13:59:31+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-22T19:36:16+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/5b0e1575-3f87-44c6-a70e-0ba626e77cff
 composite: {id: https://agentic-knowledge-base.dev/id/composite/5b0e1575-3f87-44c6-a70e-0ba626e77cff, title_ko: 계약 logical 칸의 뷰 처리, title: Contract logical cells as views}

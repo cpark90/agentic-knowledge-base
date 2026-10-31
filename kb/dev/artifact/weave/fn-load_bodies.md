@@ -7,17 +7,17 @@ title: function load_bodies in tools/weave.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-weave}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/cdaa7848-3ca1-4cc0-a72c-836fd556f15e]
 part_of: https://agentic-knowledge-base.dev/id/composite/1a6c538a-b92e-4130-b298-48a8fe030574
 ---
-**함수** — `load_bodies(paths)` 다. 청크 파일들 → {IRI: 본문} — frontmatter 는 chunk2kg 의 파서로 읽고 본문은 그 아래 전부.
+**함수** — `load_bodies(paths)` 다. 단위 지식 파일들 → {IRI: 본문} — frontmatter 는 chunk2kg 의 파서로 읽고 본문은 그 아래 전부.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def load_bodies(paths: list[str]) -> dict:
-    """청크 파일들 → {IRI: 본문} — frontmatter 는 chunk2kg 의 파서로 읽고 본문은 그 아래 전부."""
+    """단위 지식 파일들 → {IRI: 본문} — frontmatter 는 chunk2kg 의 파서로 읽고 본문은 그 아래 전부."""
     out = {}
     for p in paths:
         if not p.endswith(".md"):

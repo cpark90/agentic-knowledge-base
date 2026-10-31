@@ -7,8 +7,9 @@ title: function space_linkage_edges in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/464fe842-81a3-438f-901c-e9cef6f1dc88]
 part_of: https://agentic-knowledge-base.dev/id/composite/e7a31401-e48b-4980-aece-491ec241ffe6
 ---
 **함수** — `space_linkage_edges(g)` 다. 설계 공간 그래프의 연결 쌍 — (공간, 변수 출발 항목)과 후보마다
@@ -20,12 +21,14 @@ def space_linkage_edges(g: Graph) -> list:
 
     후보의 state(open·eliminated·confirmed)를 가리지 않는다 — 배제된 후보도 공간이 담은 지식이다.
     """
-    var_from, has_cand, link_to = SPACE_LINKAGE_PREDICATES
+    var_from, has_cand, _ = SPACE_LINKAGE_PREDICATES
     edges = []
     for space, frm in g.subject_objects(var_from):
         edges.append((space, frm))
-        for link in g.objects(space, has_cand):
-            edges.extend((space, to) for to in g.objects(link, link_to))
+        for link in g.objects(space, has_cand):  # 후보는 변수 출발 항목이 아닌 쪽 끝이다 (방향은 SPACE_CANDIDATE_DIRECTION)
+            cand = space_candidate_of(g, space, link)
+            if cand is not None:
+                edges.append((space, cand))
     return sorted(edges, key=lambda e: (str(e[0]), str(e[1])))
 ```
 <!-- 인용 끝 -->

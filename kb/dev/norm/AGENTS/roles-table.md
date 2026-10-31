@@ -13,5 +13,5 @@ part_of: https://agentic-knowledge-base.dev/id/composite/093e6219-b761-40c7-92c6
 continues: true
 form: table
 columns: [역할, 책임, write, read, 구동, git]
-items: [p7-dev-roles-and-scopes#4 + p12-norm-sections-written-by-orchestrator, p7-dev-roles-and-scopes#5 + p8-vv-independence-scope, p7-dev-roles-and-scopes#6 + p8-vv-roles, p7-dev-roles-and-scopes#7 + p11-hci-investigates-and-commits]
+items: [p7-dev-roles-and-scopes#4 + p12-norm-sections-written-by-orchestrator, p7-dev-roles-and-scopes#5 + p8-vv-independence-scope, p7-dev-roles-and-scopes#6 + p8-vv-roles, p7-dev-roles-and-scopes#10 + p11-interpreter-generalizes-hci, p7-dev-roles-and-scopes#7 + p11-hci-investigates-and-commits]
 ---

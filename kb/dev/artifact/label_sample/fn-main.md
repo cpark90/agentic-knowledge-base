@@ -7,10 +7,10 @@ title: function main in tools/label_sample.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-label-sample}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/00a89f1d-2167-43fb-9e95-4a70385078ae, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/2cabfcc4-8242-47a2-9710-9ed682ab9f2b, https://agentic-knowledge-base.dev/id/chunk/38526768-723a-44ce-a114-eb98395d5c68, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/68ed1ed6-9607-4a24-b3d7-5631a30d0616, https://agentic-knowledge-base.dev/id/chunk/843527db-1776-4186-b34b-1b9da6b107be, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/e4f07e46-7a6b-4f61-81c0-8bec7cc4a0f7]
-part_of: https://agentic-knowledge-base.dev/id/composite/fff3d0e5-ad0f-4eb4-b8c9-e9ae7d1ce791
+uses: [https://agentic-knowledge-base.dev/id/chunk/00a89f1d-2167-43fb-9e95-4a70385078ae, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/2cabfcc4-8242-47a2-9710-9ed682ab9f2b, https://agentic-knowledge-base.dev/id/chunk/38526768-723a-44ce-a114-eb98395d5c68, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/68ed1ed6-9607-4a24-b3d7-5631a30d0616, https://agentic-knowledge-base.dev/id/chunk/843527db-1776-4186-b34b-1b9da6b107be, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/a1fe4e07-ebf7-4d59-8408-970b8c42755d, https://agentic-knowledge-base.dev/id/chunk/e4f07e46-7a6b-4f61-81c0-8bec7cc4a0f7]
+part_of: https://agentic-knowledge-base.dev/id/composite/9341c57d-c9c7-4528-a0a4-3db8f66d0ce7
 ---
 **함수** — `main()` 다.
 
@@ -25,13 +25,24 @@ def main() -> int:
     ap.add_argument("--sizes", default="req=10,conc=20,rat=15,alt=15")
     ap.add_argument("--decoys", type=int, default=10)
     ap.add_argument("--profile", default=kb_lib.JUDGE_PROFILE_DIR,
-                    help="판정 질문·척도의 원본 디렉토리 — sheet 의 척도 문장을 여기서 그대로 읽는다(단일 정의처)")
+                    help="판정 질문·척도의 원본 디렉토리 — sheet 의 척도 문장을 여기서 그대로 읽는다(단일 정의 위치)")
     ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
                     help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다")
-    ap.add_argument("chunks", nargs="+")
+    ap.add_argument("--pair-sheet", default="", metavar="DIR",
+                    help="쌍 판정지 pairs-NN.md 를 쓸 디렉토리(워크스페이스 밖) — 링크 후보 쌍 판정 모드")
+    ap.add_argument("--pairs", default="bazel-bin/kg/link-candidates.md", metavar="VIEW",
+                    help="링크 후보 뷰 bazel-bin/kg/link-candidates.md — 동시 편집 첫 근거 후보를 여기서 고른다")
+    ap.add_argument("--decoys-neg", type=int, default=15, help="음성 미끼 수 — 근거 없는 같은 KB 안 무작위 쌍")
+    ap.add_argument("--decoys-pos", type=int, default=9, help="양성 미끼 수 — 확정된 overlapsWith 링크 쌍(있는 만큼)")
+    ap.add_argument("--batch", type=int, default=20, help="묶음 하나의 쌍 수")
+    ap.add_argument("chunks", nargs="*")
     a = ap.parse_args()
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     apply_plane_level_state(*load_plane_level_state(a.residency))
+    if a.pair_sheet:
+        return pair_sheet(a, root)
+    if not a.chunks:
+        ap.error("단위 지식 .md 가 없다 — 라벨 대표성 표본은 위치 인자로 받는다")
     sizes = {k: int(v) for k, v in (kv.split("=") for kv in a.sizes.split(","))}
 
     if a.judge_sheet:
@@ -74,7 +85,7 @@ def main() -> int:
         real += rng.sample(pool[s], n)
     chosen = {r["id"] for r in real}
 
-    # 미끼 — 실표본과 겹치지 않는 청크에서 라벨을, 같은 층의 또 다른 청크에서 본문을
+    # 미끼 — 실표본과 겹치지 않는 단위 지식에서 라벨을, 같은 층의 또 다른 단위 지식에서 본문을
     decoys = []
     rest = [it for s in sizes for it in pool[s] if it["id"] not in chosen]
     rng.shuffle(rest)
@@ -98,7 +109,7 @@ def main() -> int:
         f"층화 표본 {len(real)}건과 미끼 {len(decoys)}건을 seed {a.seed} 로 섞어 — 각 항목에 대해 (1) 라벨만 보고 본문이 무엇을 말할지 "
         f"한 문장으로 예측하고 (2) 본문을 받은 뒤 예측과 대조해 척도(`agt:{QUESTION}`: {scale_text}) 중 하나와 확신도 0~1 을 적는다",
         f"bazel run //tools:label_sample -- --seed {a.seed} --out {a.out}", [it["path"] for it in items],
-        f"항목 {len(items)}개 · seed {a.seed}", kb_lib.gendoc_view_notice("각 청크의 라벨과 본문"), input_kind="청크 파일")
+        f"항목 {len(items)}개 · seed {a.seed}", kb_lib.gendoc_view_notice("각 단위 지식의 라벨과 본문"), input_kind="단위 지식 파일")
     rows = ["| # | 라벨 (ko) | 라벨 (en) |", "|---|---|---|"]
     key = []
     for i, it in enumerate(items, 1):
@@ -107,7 +118,7 @@ def main() -> int:
                     "title_ko": it["title_ko"], "title": it["title"], "body": it["body"],
                     "decoy": "decoy_body_from" in it, "decoy_body_from": it.get("decoy_body_from")})
     rows.append("")
-    (out / "sheet.md").write_text(kb_lib.gendoc_assemble(sheet, rows, [it["path"] for it in items], input_kind="청크 파일"),
+    (out / "sheet.md").write_text(kb_lib.gendoc_assemble(sheet, rows, [it["path"] for it in items], input_kind="단위 지식 파일"),
                                   encoding="utf-8")
     (out / "key.json").write_text(json.dumps(key, ensure_ascii=False, indent=1), encoding="utf-8")
     msg = f"표본 {len(real)} + 미끼 {len(decoys)} → {out}/sheet.md, key.json"

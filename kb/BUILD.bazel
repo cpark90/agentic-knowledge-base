@@ -1,5 +1,5 @@
 # kb/ — 두 지식 베이스와 코어(온톨로지·ODD). 가시성 정책의 원본 (bazel-dependency-review 4단계).
-# 방향: V&V → 개발만 (8.5절), plane 단방향 requirement ← decision ← contract/schema ← artifact ← annotation ← memory (5.2절).
+# 방향: V&V → 개발만 (8.5절), 지식 종류 단방향 requirement ← decision ← contract/schema ← artifact ← annotation ← memory (5.2절).
 load("@bazel_skylib//rules:common_settings.bzl", "int_flag", "string_flag")
 load("//defs:knowledge.bzl", "kb_consistency")
 
@@ -14,7 +14,6 @@ package_group(
         "//kg/...",
         "//tools/...",
         "//defs/...",
-        "//chunks/...",  # 옛 결정(decision plane)이 요구를 refines 한다 (2026-09-13 연결 성분 1)
     ],
 )
 
@@ -30,7 +29,7 @@ package_group(
     ],
 )
 
-# plane 단방향 — requirement 는 모두가, decision 은 requirement 를 제외한 모두가 본다
+# 지식 종류 단방향 — requirement 는 모두가, decision 은 requirement 를 제외한 모두가 본다
 package_group(
     name = "requirement_readers",
     includes = [":dev_readers"],
@@ -48,16 +47,15 @@ package_group(
         "//kb/dev/artifact/...",
         "//kb/dev/annotation/...",
         "//kb/dev/memory/...",
-        "//kb/dev/norm/...",  # 절 청크는 결정의 투영이다 — 결정을 refines 할 수 있다 (p12-norm-documents-from-section-chunks)
+        "//kb/dev/norm/...",  # 절 항목은 결정의 투영이다 — 결정을 refines 할 수 있다 (p12-norm-documents-from-section-chunks)
         "//kb/vv/...",
         "//kg/...",
         "//tools/...",
         "//defs/...",
-        "//chunks/...",
     ],
 )
 
-# contract 는 개발 KB 의 시그니처 (Q79-a). 같은 plane 의 정제와 하류 plane(artifact)·그래프·게이트·뷰가 본다
+# contract 는 개발 KB 의 시그니처 (Q79-a). 같은 지식 종류의 정제와 하류 지식 종류(`artifact`)·그래프·게이트·뷰가 본다
 package_group(
     name = "contract_readers",
     packages = [
@@ -72,8 +70,8 @@ package_group(
     ],
 )
 
-# artifact 는 코드의 자리 (p7-code-extraction-direction 의 추출 생성물). plane 단방향대로 annotation·memory 와
-# 그래프·게이트·뷰가 본다. V&V 는 verifies 로 이 plane 을 가리키므로 함께 든다 (8.5절 — 방향은 V&V → 개발뿐이다)
+# artifact 는 코드의 자리 (p7-code-extraction-direction 의 추출 생성물). 지식 종류 단방향대로 annotation·memory 와
+# 그래프·게이트·뷰가 본다. V&V 는 verifies 로 이 지식 종류를 가리키므로 함께 든다 (8.5절 — 방향은 V&V → 개발뿐이다)
 package_group(
     name = "artifact_readers",
     packages = [
@@ -90,7 +88,7 @@ package_group(
     ],
 )
 
-# memory 는 마지막 plane — 아무 plane 도 관측을 refines 하지 않는다. 관측 자신과 그래프·게이트·뷰만 본다 (5.2절)
+# memory 는 마지막 지식 종류 — 아무 지식 종류도 관측을 refines 하지 않는다. 관측 자신과 그래프·게이트·뷰만 본다 (5.2절)
 package_group(
     name = "memory_readers",
     packages = [
@@ -104,7 +102,7 @@ package_group(
     ],
 )
 
-# norm 은 규범 문서의 절 — 결정의 투영이라 마지막 plane 이고 아무 plane 도 그것을 refines 하지 않는다. 절 청크 자신과
+# norm 은 규범 문서의 절 — 결정의 투영이라 마지막 지식 종류고 아무 지식 종류도 그것을 refines 하지 않는다. 절 항목 자신과
 # 그래프·게이트·뷰만 본다 (p12-norm-documents-from-section-chunks, 5.2절)
 package_group(
     name = "norm_readers",
@@ -138,7 +136,6 @@ kb_consistency(
     bodies = [
         "//kb/dev",
         "//kb/vv",  # 2026-09-19 V&V 사슬이 들어와 비어 있지 않다
-        "//chunks",
     ],
     glossary = "//docs:glossary",
     waivers = "//docs:waivers",  # ⑥ term-drift 면제 선언 (docs/waivers.md)

@@ -5,10 +5,10 @@ level: concrete
 title_ko: 설계 결함은 카탈로그로 주기 평가한다
 title: Design defects are assessed periodically against a catalogue
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0055-ontology-pitfall-catalogue.md, id: https://agentic-knowledge-base.dev/id/chunk-d0055, title_ko: "온톨로지 결함 카탈로그로 설계 결함을 주기 평가한다", title: "Periodic ontology evaluation via a pitfall catalogue"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0055]
 part_of: https://agentic-knowledge-base.dev/id/composite/e2647f3b-9122-4cad-93ea-8f5bd85b2a51

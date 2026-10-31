@@ -7,11 +7,11 @@ title: Authored links and extracted references differ in evidence quality but sh
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-19T17:20:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/91fabd55-5c34-4d7e-a663-4dc72e486767
 ---
-**근거** (노트 10.4절·9.11절; hci 조사 2026-09-18 선택지 A, 유저 승인 2026-09-19) — 저작된 청크 간 링크 504건은 전부 링크
+**근거** (노트 10.4절·9.11절; hci 조사 2026-09-18 선택지 A, 유저 승인 2026-09-19) — 저작된 단위 지식 간 링크 504건은 전부 링크
 개체와 증거를 갖는데, 본문에서 추출한 참조(`cites` 30·`usesConcept` 156)는 상태 없이 단언돼 있었다. 어휘의 `agt:CandidateLink`는 실물이 0이라
 후보 → 확정 절차가 데이터를 갖지 못했다. 추출 참조가 바로 그 자리다.
 

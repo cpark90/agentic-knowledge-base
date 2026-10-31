@@ -8,10 +8,10 @@ title: The audit report must be generated from declared inputs alone
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-19T15:40:00+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:56:06+09:00}
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/ba638521-e9b0-4c38-b073-44230ac22785]
 ---
-**검증 목표** — 감사와 온보딩이 체계의 출력만으로 동작한다는 결정이 샌드박스 빌드로 강제된다는 것이 보여져야 한다. 감사 보고서의 입력은 그래프 union과 관측 청크 본문뿐이고 체계 밖 정보는 0이다.
+**검증 목표** — 감사와 온보딩이 체계의 출력만으로 동작한다는 결정이 샌드박스 빌드로 강제된다는 것이 보여져야 한다. 감사 보고서의 입력은 그래프 union과 관측 본문뿐이고 체계 밖 정보는 0이다.
 
 - **이해관계자**: 업체 · 감사 역할 · **관심사**: 자족성
 

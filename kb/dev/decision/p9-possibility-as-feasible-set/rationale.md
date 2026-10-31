@@ -4,10 +4,11 @@ type: decision
 level: logical
 title_ko: 빈도 데이터가 없으면 등급은 말할 수 없다
 title: Without frequency data, graded belief is unsayable
-status: stable
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-22T20:50:56+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-22T20:54:26+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/3d6c3728-c1d8-4bc4-8d9e-f6963425410c
 ---
 **근거** (노트 9.2절) — 등급의 근거가 될 빈도 데이터가 이 체계에 없다. "이 링크가 60% 성립한다"는 말할 수 없고, **"이 링크는 성립 가능하다 / 불가능하다"** 는 말할 수 있다.

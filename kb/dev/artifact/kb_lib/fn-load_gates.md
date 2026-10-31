@@ -7,7 +7,7 @@ title: function load_gates in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/04fe68bc-58a1-45bd-ac00-78d263cbba81]
 part_of: https://agentic-knowledge-base.dev/id/composite/513aca4d-e5f0-46c8-8d13-784c71691884
@@ -17,7 +17,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/513aca4d-e5f0-46c8-8d13
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def load_gates(path: str | Path | None = None) -> dict[str, dict[str, str]]:
-    """`defs/kb.bzl` 의 `GATES` 리터럴을 읽는다 — id → {tier, tool, ko, desc} (load_residency 와 같은 해법).
+    """`defs/kb.bzl` 의 `GATES` 리터럴을 읽는다 — id → {tier, tool, ko, desc, decision} (load_residency 와 같은 해법).
 
     `path` 가 없으면 `gates_bzl_path()` 가 찾는다. 리터럴을 못 읽으면 ValueError 다 — 등록부가 조용히 비면
     태그 집합 대조가 무력해지므로 통과시키지 않는다.

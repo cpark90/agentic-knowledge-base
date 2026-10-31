@@ -7,17 +7,17 @@ title: function load_items in tools/consistency.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/24dc9c0c-05f9-414a-b183-f9974cd57c05]
 part_of: https://agentic-knowledge-base.dev/id/composite/c10c407c-9993-4ba9-a09f-bfdc6e910b5e
 ---
-**함수** — `load_items(paths)` 다. 청크 경로 → 살아 있는 항목 목록.
+**함수** — `load_items(paths)` 다. 단위 지식 경로 → 살아 있는 항목 목록.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def load_items(paths):
-    """청크 경로 → 살아 있는 항목 목록. 파싱 실패는 ValueError 로 올라가 main 이 CONFIG 로 바꾼다."""
+    """단위 지식 경로 → 살아 있는 항목 목록. 파싱 실패는 ValueError 로 올라가 main 이 CONFIG 로 바꾼다."""
     items = []
     for p in paths:
         if not p.endswith(".md"):

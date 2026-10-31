@@ -7,18 +7,22 @@ title: section cell in tools/open_questions.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-open-questions}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/ee1861ba-64c4-4bbb-8da8-cfc4336823c0
-composite: {id: https://agentic-knowledge-base.dev/id/composite/ee1861ba-64c4-4bbb-8da8-cfc4336823c0, title_ko: 절 복합체 cell (tools/open_questions.py), title: section composite cell in tools/open_questions.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/43b7143b-3078-49ce-bbe6-d8f4b777749d, https://agentic-knowledge-base.dev/id/chunk/524a116b-45f4-4802-ba70-3d9426371ad6, https://agentic-knowledge-base.dev/id/chunk/1d3aee1d-549c-4ef9-be65-508014ca8f93, https://agentic-knowledge-base.dev/id/chunk/1f886c5e-4c41-43ff-9555-867c1f4f13d4, https://agentic-knowledge-base.dev/id/chunk/9be2f024-78e1-424a-926b-c50d75da9888], part_of: https://agentic-knowledge-base.dev/id/composite/4fe6beea-c6ab-454b-bad0-2cfede25066c}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/ee1861ba-64c4-4bbb-8da8-cfc4336823c0, title_ko: 절 복합체 cell (tools/open_questions.py), title: section composite cell in tools/open_questions.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/43b7143b-3078-49ce-bbe6-d8f4b777749d, https://agentic-knowledge-base.dev/id/chunk/524a116b-45f4-4802-ba70-3d9426371ad6, https://agentic-knowledge-base.dev/id/chunk/1d3aee1d-549c-4ef9-be65-508014ca8f93, https://agentic-knowledge-base.dev/id/chunk/ba8f30b1-0233-40d8-be6d-4b9fdc60db2e, https://agentic-knowledge-base.dev/id/chunk/2dd3cb51-cd3b-45a5-979a-41cc7e02aeae, https://agentic-knowledge-base.dev/id/chunk/1f886c5e-4c41-43ff-9555-867c1f4f13d4, https://agentic-knowledge-base.dev/id/chunk/9be2f024-78e1-424a-926b-c50d75da9888], part_of: https://agentic-knowledge-base.dev/id/composite/4fe6beea-c6ab-454b-bad0-2cfede25066c}
 ---
 **절** — `tools/open_questions.py` 의 절 `cell` 다. 본문의 미확정 슬롯과 설계 공간을 모아 낸다
 
-**정의** — `cell` · `question_of` · `space_rows` · `main` (소스 순서).
+**정의** — `cell` · `question_of` · `age_days` · `age_cell` · `space_rows` · `main` (소스 순서).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 # ── 본문의 미확정 슬롯과 설계 공간을 모아 낸다 ────────────────────
+
+
+
+
 
 
 

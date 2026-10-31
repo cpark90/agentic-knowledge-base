@@ -2,19 +2,21 @@
 id: https://agentic-knowledge-base.dev/id/chunk/01f8fc6f-7be6-5cd7-a78a-519ba63aaa4c
 type: schema
 level: concrete
-title_ko: 어휘에 슬롯이 없는 frontmatter 키 provenanceNote를 가진 임시 청크가 FAIL [element-drop]으로 거부되고 그 키만 뺀 통제는 종료 0이다
+title_ko: 어휘에 슬롯이 없는 frontmatter 키 provenanceNote를 가진 임시 단위 지식이 FAIL [element-drop]으로 거부되고 그 키만 뺀 통제는 종료 0이다
+former_title_ko: ["어휘에 슬롯이 없는 frontmatter 키 provenanceNote를 가진 임시 청크가 FAIL [element-drop]으로 거부되고 그 키만 뺀 통제는 종료 0이다", "어휘에 슬롯이 없는 frontmatter 키 provenanceNote를 가진 임시 지식 항목이 FAIL [element-drop]으로 거부되고 그 키만 뺀 통제는 종료 0이다"]
 title: A temporary chunk carrying the frontmatter key provenanceNote without a vocabulary slot is rejected with FAIL [element-drop], and the control without that key exits 0
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}, {resource: https://agentic-knowledge-base.dev/id/doc-harness-ontology}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-missing-vocabulary-is-signal, https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:case_gen, at: 2026-10-04T21:22:42+09:00}
+generated: {by: process:case_gen, at: 2026-10-25T14:28:16+09:00}
+verified: [{by: process:case_gen, at: 2026-10-25T14:28:16+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/4e216613-6a9b-40a2-8c31-d3a13fae72ae]
 verifies: [https://agentic-knowledge-base.dev/id/chunk/c7e1eccd-8eb4-4af6-8844-6b95cfcff5fb]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/08b0f187-6366-5805-8fc7-d651a3f00d80]
 ---
-**케이스** — 어휘에 슬롯이 없는 frontmatter 키 `provenanceNote`를 가진 임시 청크 하나를 자극으로 쓴다.
+**테스트 케이스** — 어휘에 슬롯이 없는 frontmatter 키 `provenanceNote`를 가진 임시 단위 지식 하나를 자극으로 쓴다.
 
-**자극** — 임시 파일 둘이고 경로는 검증기가 정한다. 커밋하지 않는다. 자극은 필수 키 일곱을 갖추고 키 `provenanceNote` 하나를 더 갖는다. 통제는 그 키만 뺀 같은 청크다.
+**자극** — 임시 파일 둘이고 경로는 검증기가 정한다. 커밋하지 않는다. 자극은 필수 키 일곱을 갖추고 키 `provenanceNote` 하나를 더 갖는다. 통제는 그 키만 뺀 같은 단위 지식이다.
 
 ```yaml
 files:

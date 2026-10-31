@@ -7,9 +7,9 @@ title: function parse_chunk in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/03312fa3-ef91-4e77-b39e-47c5554aba7e, https://agentic-knowledge-base.dev/id/chunk/040b7a8d-10e8-4e6e-96db-b8495e467218, https://agentic-knowledge-base.dev/id/chunk/0771e060-41a6-434b-bb56-61bcf3e3b7ec, https://agentic-knowledge-base.dev/id/chunk/1d31fc8d-2de8-4f7d-8e58-8a0252739342, https://agentic-knowledge-base.dev/id/chunk/41b351ab-939c-41ad-ab8f-bf2396bb0114, https://agentic-knowledge-base.dev/id/chunk/848f96db-27ef-4fda-84af-e59077e7dc0c, https://agentic-knowledge-base.dev/id/chunk/9081dacd-219d-4944-b3c6-d5d9a6955f49]
+uses: [https://agentic-knowledge-base.dev/id/chunk/03312fa3-ef91-4e77-b39e-47c5554aba7e, https://agentic-knowledge-base.dev/id/chunk/040b7a8d-10e8-4e6e-96db-b8495e467218, https://agentic-knowledge-base.dev/id/chunk/0771e060-41a6-434b-bb56-61bcf3e3b7ec, https://agentic-knowledge-base.dev/id/chunk/1d31fc8d-2de8-4f7d-8e58-8a0252739342, https://agentic-knowledge-base.dev/id/chunk/41b351ab-939c-41ad-ab8f-bf2396bb0114, https://agentic-knowledge-base.dev/id/chunk/848f96db-27ef-4fda-84af-e59077e7dc0c, https://agentic-knowledge-base.dev/id/chunk/9081dacd-219d-4944-b3c6-d5d9a6955f49, https://agentic-knowledge-base.dev/id/chunk/ee10ae76-e59e-44e2-87ad-d798ab4c0311]
 part_of: https://agentic-knowledge-base.dev/id/composite/ee14f038-7ba4-416d-8e2c-3314fe17ab94
 ---
 **함수** — `parse_chunk(path)` 다. frontmatter dict와 **본문 문자열**을 돌려준다
@@ -25,7 +25,7 @@ def parse_chunk(path: str) -> tuple[dict, str]:
     text = Path(path).read_text(encoding="utf-8")
     lines = text.splitlines()
     if not lines or lines[0].strip() != "---":
-        raise ValueError(f"{path}: frontmatter가 없다 — 한 청크는 한 파일이고 head는 frontmatter다")
+        raise ValueError(f"{path}: frontmatter가 없다 — 한 단위 지식은 한 파일이고 head는 frontmatter다")
     try:
         end = lines[1:].index("---") + 1
     except ValueError:
@@ -41,29 +41,29 @@ def parse_chunk(path: str) -> tuple[dict, str]:
         key, val = key.strip(), val.strip()
         meta[key] = parse_value(val)
 
-    body = body_text(path, text).splitlines()  # 본문의 단일 판정처 — 게이트·방출·실측이 같은 문자열을 본다
+    body = body_text(path, text).splitlines()  # 본문의 단일 판정처 — 게이트·방출·측정이 같은 문자열을 본다
     meta["_content_hash"] = hashlib.sha256("\n".join(body).encode("utf-8")).hexdigest()[:12]
     meta["_body_slots"] = body_slots(body)  # 본문이 쓴 슬롯 표지 (결정 p4-slot-answers-one-question)
 
     for k in REQUIRED:
         if not meta.get(k):
             raise ValueError(f"{path}: frontmatter에 {k} 가 없다")
-    if meta["type"] == SPACE_TYPE:  # 설계 공간 — plane 이 아니라 클래스다. 본문(후보·제약)은 space2kg 가 읽는다 (p9-candidate-storage)
+    if meta["type"] == SPACE_TYPE:  # 설계 공간 — 지식 종류가 아니라 클래스다. 본문(후보·제약)은 space2kg 가 읽는다 (p9-candidate-storage)
         if meta["level"] != SPACE_LEVEL:
-            raise ValueError(f"{path}: `-space` 청크의 level 은 {SPACE_LEVEL} 이다 — 후보·제약·배제 근거가 사는 수준이다 "
+            raise ValueError(f"{path}: 설계 공간(`-space`)의 level 은 {SPACE_LEVEL} 이다 — 후보·제약·배제 근거가 사는 수준이다 "
                              f"(p9-candidate-storage). 실제 {meta['level']!r}")
     elif meta["type"] not in PLANE_CLASS:
-        raise ValueError(f"{path}: 알 수 없는 type {meta['type']!r} — plane 이름이거나 `{SPACE_TYPE}` 여야 한다")
+        raise ValueError(f"{path}: 알 수 없는 type {meta['type']!r} — 지식 종류 이름이거나 `{SPACE_TYPE}` 여야 한다")
     if meta["level"] not in LEVELS:
         raise ValueError(f"{path}: 알 수 없는 level {meta['level']!r}")
     if meta["status"] not in STATES:
         raise ValueError(f"{path}: 알 수 없는 status {meta['status']!r}")
-    if "pattern" in meta:  # EARS 패턴 — 요구 문장의 형식이지 다른 plane 의 속성이 아니다 (p7-dev-plane-substance)
+    if "pattern" in meta:  # EARS 패턴 — 요구 문장의 형식이지 다른 지식 종류의 속성이 아니다 (p7-dev-plane-substance)
         if meta["type"] != "requirement":
             raise ValueError(f"{path}: pattern 은 type: requirement 에서만 쓴다 — 실제 type {meta['type']!r} (EARS 패턴은 요구 문장의 형식이다)")
         if meta["pattern"] not in EARS_PATTERNS:
             raise ValueError(f"{path}: 알 수 없는 pattern {meta['pattern']!r} — {' | '.join(EARS_PATTERNS)} 중 하나다 (EARS, Mavin RE'09)")
-    if LAYER_KEY in meta:  # 서비스 층 — plane 과 직교하므로 plane 제한이 없고 값 어휘만 닫힌다 (p0-service-is-a-three-layer-wiki)
+    if LAYER_KEY in meta:  # 서비스 층 — 지식 종류와 직교하므로 지식 종류 제한이 없고 값 어휘만 닫힌다 (p0-service-is-a-three-layer-wiki)
         if meta[LAYER_KEY] not in LAYERS:
             raise ValueError(f"{path}: 알 수 없는 {LAYER_KEY} {meta[LAYER_KEY]!r} — {' | '.join(LAYERS)} 중 하나다 "
                              f"(서비스의 세 층. 명시가 없으면 {LAYER_DEFAULT} 다)")
@@ -74,7 +74,7 @@ def parse_chunk(path: str) -> tuple[dict, str]:
     if (meta.get(USES_KEY) or []) and meta["type"] != "artifact":  # agt:usesDefinition 의 정의역은 agt:ArtifactChunk 다
         raise ValueError(f"{path}: {USES_KEY} 는 type: artifact 에서만 쓴다 — 실제 type {meta['type']!r} "
                          f"(agt:usesDefinition 의 정의역·치역은 agt:ArtifactChunk 이고 값의 원본은 추출기다)")
-    if meta["type"] != SPACE_TYPE:  # 절 키 — 형식과 plane 제한 (p12-norm-documents-from-section-chunks)
+    if meta["type"] != SPACE_TYPE:  # 절 키 — 형식과 지식 종류 제한 (p12-norm-documents-from-section-chunks)
         check_norm_keys(path, meta)
     if meta["type"] == "annotation":  # 주석 — 첫 줄과 슬롯을 읽는다 (p7-commentary-form). 형식 판정은 shape 가 한다
         meta["_comment"] = comment_form(body)
@@ -101,7 +101,7 @@ def parse_chunk(path: str) -> tuple[dict, str]:
     if not HANGUL.search(meta["title_ko"]):
         raise ValueError(f"{path}: title_ko {meta['title_ko']!r} 에 한글이 없다 — 라벨은 한/영 1:1, 한글 라벨은 한글로 쓴다(0.6절)")
     comp = meta.get("composite")
-    if isinstance(comp, dict):  # 구조({id, title_ko, title})는 main 이 검사한다 — 여기서는 청크 라벨과 같은 언어 규칙만
+    if isinstance(comp, dict):  # 구조({id, title_ko, title})는 main 이 검사한다 — 여기서는 단위 지식 라벨과 같은 언어 규칙만
         if comp.get("title") and HANGUL.search(comp["title"]):
             raise ValueError(f"{path}: composite.title {comp['title']!r} 에 한글이 있다 — 복합체 라벨도 한/영 1:1(0.6절)")
         if comp.get("title_ko") and not HANGUL.search(comp["title_ko"]):
@@ -109,18 +109,24 @@ def parse_chunk(path: str) -> tuple[dict, str]:
         if ORDERED_KEY in comp:  # 순서의 선언 — 부분 집합과의 일치는 묶음 전체를 아는 main 이 본다 (p4-composite-order-is-declared)
             for e in order_errors(path, comp[ORDERED_KEY], f"composite.{ORDERED_KEY}"):
                 raise ValueError(e)
+    for where, d in (("", meta), ("composite.", comp if isinstance(comp, dict) else {})):  # 옛 이름 — 과거 표기 (p0-skos-label-synonyms)
+        former = d.get(FORMER_TITLE_KEY, [])
+        if not isinstance(former, list) or len(set(former)) < len(former) or \
+                any(not isinstance(f, str) or not HANGUL.search(f) or f == d.get("title_ko") for f in former):
+            raise ValueError(f"{path}: {where}{FORMER_TITLE_KEY} 는 현재 이름과 다른 한글 옛 이름의 목록 [\"…\"] 이다 — 실제 {former!r}")
     gen = meta["generated"]
     if not isinstance(gen, dict) or not gen.get("by") or not gen.get("at"):
         raise ValueError(f"{path}: generated 는 {{by: …, at: …}} 여야 한다 (OKF 행위자 표기)")
     for v in meta.get("verified", []):
         if not isinstance(v, dict) or not v.get("by") or not v.get("at"):
             raise ValueError(f"{path}: verified 항목은 {{by: …, at: …}} 여야 한다")
-    if SPECIALIZATION_KEY in meta:  # 분할 조각 → 원 청크 (단일 IRI). 같은 plane·실재·비순환은 묶음 전체를 아는 곳(validate·merge)이 본다
+    if SPECIALIZATION_KEY in meta:  # 분할 조각 → 원 단위 지식 (단일 IRI). 같은 지식 종류·실재·비순환은 묶음 전체를 아는 곳(validate·merge)이 본다
         spec = meta[SPECIALIZATION_KEY]
         if not isinstance(spec, str) or not spec:
-            raise SpecializationError(f"{path}: {SPECIALIZATION_KEY} 는 원 청크 IRI 하나여야 한다 — 실제 {spec!r} (p10-split-keeps-work-identity)")
+            raise SpecializationError(f"{path}: {SPECIALIZATION_KEY} 는 원 단위 지식 IRI 하나여야 한다 — 실제 {spec!r} (p10-split-keeps-work-identity)")
         if spec == meta["id"]:
-            raise SpecializationError(f"{path}: {SPECIALIZATION_KEY} 가 자기 자신 {spec} 이다 — 조각은 다른 청크(원본)를 특수화한다")
+            raise SpecializationError(f"{path}: {SPECIALIZATION_KEY} 가 자기 자신 {spec} 이다 — 조각은 다른 단위 지식(원본)을 특수화한다")
+    meta["_tombstones"] = tombstones(path, meta)  # 묘비 선언 — 형식은 여기서, 같은 IRI 의 정의 일치는 방출·병합이 본다
 
     return meta, "\n".join(body)
 ```

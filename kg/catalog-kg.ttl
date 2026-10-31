@@ -10,10 +10,10 @@
 
 id:h-akb a agt:Harness ;
     rdfs:label "agentic-knowledge-base Bazel harness"@en , "agentic-knowledge-base Bazel 하네스"@ko ;
-    agt:hasRole id:role-orchestrator , id:role-developer , id:role-vnv , id:role-hci ;
-    agt:grants id:scope-orchestrator , id:scope-developer , id:scope-vnv , id:scope-hci .
+    agt:hasRole id:role-orchestrator , id:role-developer , id:role-vnv , id:role-interpreter , id:role-hci ;
+    agt:grants id:scope-orchestrator , id:scope-developer , id:scope-vnv , id:scope-interpreter , id:scope-hci .
 
-### 채널 — 유저 소통은 hci가 전담한다 (harness/README.md가 프로토콜 원본)
+### 채널 — 유저 소통은 interpreter의 하위 역할 hci가 전담한다 (harness/README.md가 프로토콜 원본)
 
 id:chan-user-feedback a agt:Channel ;
     rdfs:label "user channel (questionnaires, user ↔ hci)"@en , "유저 채널 (질문지, 유저 ↔ hci)"@ko ;
@@ -21,14 +21,15 @@ id:chan-user-feedback a agt:Channel ;
     prov:atLocation "harness/user" .
 
 id:chan-to-orchestrator a agt:Channel ;
-    rdfs:label "agent channel inbox of orchestrator (written by hci)"@en , "에이전트 채널 — orchestrator 수신함 (hci가 쓴다)"@ko ;
-    agt:ownedBy id:role-hci ;
+    rdfs:label "agent channel inbox of orchestrator (written by interpreter)"@en , "에이전트 채널 — orchestrator 수신함 (interpreter가 쓴다)"@ko ;
+    agt:ownedBy id:role-interpreter ;  # 옛 이름 hci 로 보낸 메시지도 interpreter 가 쓴 것이다 (hci 는 같은 세션의 하위 역할)
     prov:atLocation "harness/channel/to_orchestrator" .
 
-id:chan-to-hci a agt:Channel ;
-    rdfs:label "agent channel inbox of hci (written by orchestrator)"@en , "에이전트 채널 — hci 수신함 (orchestrator가 쓴다)"@ko ;
+# 2단계에서 id:chan-to-hci(harness/channel/to_hci)를 개명했다. 옛 IRI 를 가리키는 곳은 이 그래프 밖에 없다
+id:chan-to-interpreter a agt:Channel ;
+    rdfs:label "agent channel inbox of interpreter (written by orchestrator)"@en , "에이전트 채널 — interpreter 수신함 (orchestrator가 쓴다)"@ko ;
     agt:ownedBy id:role-orchestrator ;
-    prov:atLocation "harness/channel/to_hci" .
+    prov:atLocation "harness/channel/to_interpreter" .
 
 ### 역할 — plane 권한 요구 (9.2절). 설계/구현/운영은 같은 write plane을 공유하지 않는다.
 
@@ -54,12 +55,22 @@ id:role-vnv a agt:Role ;
     agt:executionMode agt:dispatch ;
     agt:maxConcurrent 1 .
 
-# hci 는 유저 소통에 더해 조사와 git 관리를 맡는다 — 옛 inspection 역할을 이관 (유저 결정 2026-09-13)
-id:role-hci a agt:Role ;
-    rdfs:label "human-computer interaction"@en , "유저 소통"@ko ;
-    agt:reads agt:RequirementChunk , agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk ;
+# interpreter 는 외부 대상(유저, 타 프로젝트의 에이전트, 다음 프로젝트)의 요청을 해석해 지식 베이스에 대한 동작으로 옮긴다.
+# 세션은 하나이고 대상은 메시지의 origin 으로 가른다 (Q121-a). 한글 이름은 Q123-b, 외부 대상의 쓰기는 후보 제안까지다 (Q125-b)
+id:role-interpreter a agt:Role ;
+    rdfs:label "interpreter"@en , "인터프리터"@ko ;
+    agt:reads agt:RequirementChunk , agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk , agt:DocumentSectionChunk ;
     agt:executionMode agt:sessionPersistent ;
     agt:maxConcurrent 1 .
+
+# hci 는 interpreter 의 유저 대상 하위 역할이다 (Q124-b). 질문지와 git 관리(유저 요청 시)가 유저 전용 몫이다.
+# 세션은 하나(Q121-a)이므로 hci 하위 역할은 같은 interpreter 세션이 맡는다. 그래서 maxConcurrent 는 0 이고 합을 늘리지 않는다
+id:role-hci a agt:Role ;
+    rdfs:label "human-computer interaction"@en , "유저 소통"@ko ;
+    agt:subRoleOf id:role-interpreter ;
+    agt:reads agt:RequirementChunk , agt:DecisionChunk , agt:ContractChunk , agt:SchemaChunk , agt:ArtifactChunk , agt:AnnotationChunk , agt:MemoryChunk , agt:DocumentSectionChunk ;
+    agt:executionMode agt:sessionPersistent ;
+    agt:maxConcurrent 0 .
 
 ### 스코프 — ODD 조건의 부분집합 + plane 권한 (0.4절, 3.4절)
 
@@ -68,8 +79,7 @@ id:scope-orchestrator a agt:Scope ;
     agt:mode "restrictive" ;
     agt:subsetOf id:odd-agentic-knowledge-base ;
     agt:includesCondition id:cond-build-system , id:cond-repo-layout ,
-        id:cond-language-policy , id:cond-concurrent-agents ;
-    agt:conditionalRule "include write plane artifact if 관련 decision 청크의 level = concrete (9.1절 '구현 전 상세 설계'의 기계적 강제)" .
+        id:cond-language-policy , id:cond-concurrent-agents .
 
 id:scope-developer a agt:Scope ;
     rdfs:label "developer scope"@en , "개발자 스코프"@ko ;
@@ -78,7 +88,8 @@ id:scope-developer a agt:Scope ;
     agt:includesCondition id:cond-build-system , id:cond-python-runtime ,
         id:cond-dependency-lock ;
     agt:excludesCondition id:cond-network ;
-    agt:conditionalRule "노트 10.2절 9역할 카탈로그의 design 역할(T-Box·ODD 편집)을 이 저장소에서는 developer가 겸한다 — 부분집합 사용은 프로젝트 재량 (유저 결정 C4, 2026-09-10). V&V KB(kb/vv/)는 읽기 전용" .
+    agt:conditionalRule "include write plane artifact if 관련 decision 청크의 level = concrete (9.1절 '구현 전 상세 설계'의 기계적 강제. artifact 를 쓰는 역할은 developer 다)" ;
+    agt:conditionalRule "노트 11.2절 9역할 카탈로그의 design 역할(T-Box·ODD 편집)을 이 저장소에서는 developer가 겸한다 — 부분집합 사용은 프로젝트 재량 (유저 결정 C4, 2026-09-10). V&V KB(kb/vv/)는 읽기 전용" .
 
 id:scope-vnv a agt:Scope ;
     rdfs:label "verification and validation scope"@en , "검증·확인 스코프"@ko ;
@@ -88,10 +99,19 @@ id:scope-vnv a agt:Scope ;
         id:cond-repo-layout ;
     agt:conditionalRule "판정만 한다 — 판정 대상(artifact·decision)은 수정하지 않는다 (저작·판정 분리). V&V KB(kb/vv/)의 유일한 편집 주체다 — verifies의 주어는 V&V KB 청크뿐이고, 개발 역할은 kb/vv/를 읽기만 한다 (노트 7.1·7.5절)" .
 
+id:scope-interpreter a agt:Scope ;
+    rdfs:label "interpreter scope"@en , "인터프리터 스코프"@ko ;
+    agt:mode "restrictive" ;
+    agt:subsetOf id:odd-agentic-knowledge-base ;
+    agt:includesCondition id:cond-language-policy , id:cond-repo-layout ,
+        id:cond-build-system , id:cond-concurrent-agents ;
+    agt:conditionalRule "외부 교환함의 응답 쪽을 쓴다(2단계 이후). 그 밖의 쓰기는 에이전트 채널의 자기 몫(harness/channel/to_orchestrator/** 발신과 자기 수신함 harness/channel/to_interpreter/** 의 상태 전이)과 자기 역할 메모리로 한정하고 읽기는 저장소 전체다. 외부 대상의 쓰기 요청은 후보 제안까지로 정제한다(Q125-b)" ;
+    agt:conditionalRule "git 쓰기(add/commit/push)는 유저가 요청했고 bazel test //... 가 PASS 일 때만 한다" .
+
 id:scope-hci a agt:Scope ;
     rdfs:label "human-computer interaction scope"@en , "유저 소통 스코프"@ko ;
     agt:mode "restrictive" ;
     agt:subsetOf id:odd-agentic-knowledge-base ;
     agt:includesCondition id:cond-language-policy , id:cond-repo-layout ,
         id:cond-build-system , id:cond-concurrent-agents ;
-    agt:conditionalRule "쓰기는 유저 채널(harness/user/**)과 에이전트 채널의 자기 몫(harness/channel/to_orchestrator/** 발신, harness/channel/to_hci/** 상태 전이)으로 한정, 읽기는 저장소 전체. 지식 산출물 반영은 유저가 질문지에 답을 적고 status: answered 로 태깅한 뒤 담당 역할이 수행한다. 조사는 hci 가 직접 한다. git 쓰기(add/commit/push)는 유저가 요청했고 bazel test //... 가 PASS 일 때만 한다" .
+    agt:conditionalRule "쓰기는 유저 채널(harness/user/**)과 자기 역할 메모리로 한정, 읽기는 저장소 전체. to_orchestrator 발신과 조사는 상위 역할 interpreter 의 공통 몫이고 같은 세션이 맡는다 (p11-interpreter-generalizes-hci). 지식 산출물 반영은 유저가 질문지에 답을 적고 status: answered 로 태깅한 뒤 담당 역할이 수행한다. git 쓰기(add/commit/push)는 유저가 요청했고 bazel test //... 가 PASS 일 때만 한다" .

@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -56,6 +56,7 @@ kb_composite(
         "p0-workset-anchor-neighbourhood": "https://agentic-knowledge-base.dev/id/composite/0e7f41dc-e010-4c71-809f-51535f17e6ce",
         "p1-chunk-unit-is-tokens": "https://agentic-knowledge-base.dev/id/composite/128d439b-0863-41e3-8eb3-7c090e7f1742",
         "p1-context-budget-items": "https://agentic-knowledge-base.dev/id/composite/4b1cecd2-e105-480b-93fd-c5d769657b22",
+        "p10-co-edit-evidence-from-small-commits": "https://agentic-knowledge-base.dev/id/composite/59017e3e-2652-43b4-9918-0b6b91e8dce3",
         "p10-context-handoff-yields-links": "https://agentic-knowledge-base.dev/id/composite/65989bd8-c9ca-4659-8069-5b9913ce7b7e",
         "p10-embedding-similarity-narrows-only": "https://agentic-knowledge-base.dev/id/composite/41924645-e7b3-4971-9d53-34676190d8fd",
         "p10-extracted-references-are-candidates": "https://agentic-knowledge-base.dev/id/composite/91fabd55-5c34-4d7e-a663-4dc72e486767",
@@ -112,7 +113,7 @@ kb_composite(
         "p9-constraint-propagation-timing": "https://agentic-knowledge-base.dev/id/composite/560ccdfa-94a3-4a43-bc41-3697c44b69cc",
         "p9-contradiction-handling": "https://agentic-knowledge-base.dev/id/composite/60c37dde-858e-4e6a-b878-b8340bcef798",
         "p9-design-space-file": "https://agentic-knowledge-base.dev/id/composite/77fa385a-9aa6-406f-b72f-bb966f6c42f8",
-        "p9-possibility-as-feasible-set": "https://agentic-knowledge-base.dev/id/composite/3d6c3728-c1d8-4bc4-8d9e-f6963425410c",
+        "p9-feasible-set-for-settlement": "https://agentic-knowledge-base.dev/id/composite/b735df63-3e97-47c1-946e-2f9d10e0aa04",
         "pe-anchor-is-bazel-label": "https://agentic-knowledge-base.dev/id/composite/a0067e4e-afc9-4817-ac08-3aeba8da718f",
         "pe-generated-outputs-stay-in-bazel-out": "https://agentic-knowledge-base.dev/id/composite/444519a5-c8d8-416b-88a5-b1bc2fd92ccc",
         "pe-notation-and-cel": "https://agentic-knowledge-base.dev/id/composite/ffcf1fe8-be2a-4a21-b532-ff6f7bb4b727",

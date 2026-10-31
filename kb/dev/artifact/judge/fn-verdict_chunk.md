@@ -7,7 +7,7 @@ title: function verdict_chunk in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/bb657e8b-5946-421e-bfcb-8829e044c9e2]
 part_of: https://agentic-knowledge-base.dev/id/composite/3723c1d5-0d22-4da6-86ca-1b408cdc80dc
@@ -32,7 +32,7 @@ def verdict_chunk(row: dict, q: dict, name: str, stamp: str) -> str:
             f"대상: {row['iri']}", "",
             f"본문: {kb_lib.EMPTY_NOT_APPLICABLE}", "",
             f"해소: {kb_lib.COMMENT_OPEN} — 처리는 `{row['route']}` 다. 판정자는 설명을 만들지 못하므로 본문은 "
-            f"사람 또는 System 2 에이전트가 쓴다 (p8-judge-calibration-binding 규칙 ④). 입력 지문은 "
+            f"사람 또는 System 2 에이전트가 쓴다 (p8-judge-session-agreement 규칙 ⑤). 입력 해시값은 "
             f"`{row['fingerprint'][:12]}…` 이고 일치는 `{row.get('agree', kb_lib.JUDGE_AGREEMENT[2])}` 다. 전체는 판정 로그에 있다."]
     return "\n".join(head + body) + "\n"
 ```

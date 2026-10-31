@@ -7,8 +7,9 @@ title: function decision_completeness in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/bc119f80-c2d4-4e13-bba3-e64e39bf8580]
 part_of: https://agentic-knowledge-base.dev/id/composite/ea0b3b82-2b10-4fbf-91c7-d3d65d42b461
 ---
 **함수** — `decision_completeness(g, chunks, plane, status, comp_of, siblings, open_candidates)` 다. 살아 있는 결정 중 대안 부분을 가진 것과 못 가진 것을 돌려준다
@@ -18,8 +19,8 @@ part_of: https://agentic-knowledge-base.dev/id/composite/ea0b3b82-2b10-4fbf-91c7
 def decision_completeness(g, chunks, plane, status, comp_of, siblings, open_candidates=frozenset()):
     """살아 있는 결정 중 대안 부분을 가진 것과 못 가진 것을 돌려준다 (유저 결정 2026-10-04 — 결정 완결률).
 
-    결정의 단위는 **결론** 슬롯 청크를 부분으로 가진 복합체다. 복합체 밖의 결론 청크는 그 하나가 결정이다. 결론이 하나라도
-    deprecated 가 아니면 살아 있다. 대안은 같은 복합체에 **대안** 슬롯 청크가 있는가로 본다. 복합체 밖의 결론 청크는
+    결정의 단위는 **결론** 슬롯 단위 지식을 부분으로 가진 복합체다. 복합체 밖의 결론은 그 하나가 결정이다. 결론이 하나라도
+    deprecated 가 아니면 살아 있다. 대안은 같은 복합체에 **대안** 슬롯 단위 지식이 있는가로 본다. 복합체 밖의 결론은
     형제가 없으므로 자기 본문의 슬롯을 본다.
 
     열린 공간의 후보 결정은 분모·분자에서 빼고 따로 센다 (유저 결정 Q60-a) — 결론이 `open_candidates`
@@ -28,12 +29,7 @@ def decision_completeness(g, chunks, plane, status, comp_of, siblings, open_cand
     """
     def slots(c):
         return {str(v) for v in g.objects(c, AGT.bodySlot)}
-    units = defaultdict(list)
-    for c in chunks:
-        if plane[c] == "decision" and "결론" in slots(c):
-            units[comp_of.get(c, c)].append(c)
-    alive = [u for u, cs in units.items() if any(status[c] != "deprecated" for c in cs)]
-    candidate_units = [u for u in alive if any(c in open_candidates for c in units[u])]
+    units, alive, candidate_units = decision_units(g, chunks, plane, status, comp_of, open_candidates)
     live_units = [u for u in alive if u not in set(candidate_units)]
     def has_alt(u):
         return any("대안" in slots(p) for p in (siblings.get(u) or (u,)))

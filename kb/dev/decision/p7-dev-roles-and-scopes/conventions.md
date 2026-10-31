@@ -7,18 +7,20 @@ title: Normative-document conventions — Write access to the development KB is 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-15T16:19:30+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T17:44:41+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/92f76b7c-3bd8-4e3c-a014-61c6aec60af4
 ---
 **규약** — `p7-dev-roles-and-scopes`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: 역할 | design(요구·결정·계약·스키마·ODD) / developer(`artifact`·개발 KB의 `contract`) / orchestrator(dispatch 결정) / V&V(`annotation`만)
-규약: **문서와 그래프는 일치해야 한다.** 아래 역할 표의 형식 원본은 `kg/catalog-kg.ttl`이다. 역할·권한을 바꾸면 두 곳을 같은 커밋에서 바꾼다.
-규약: 각 역할은 자기 write plane 밖을 수정하지 않는다.
-규약: **orchestrator** (=메인) | 계획·dispatch·통합. 요구(유저 관심사의 EARS 저작 — stable 전이는 유저 승인)·결정 저작. 직접 구현하지 않는다. 유저와 직접 대화하지 않고 채널로 hci와 소통한다 | `requirement` · `decision` · `memory`(세션·판정 관측, 2026-09-14) · `norm`(규범 문서의 절 청크, 2026-10-04, Q21-a) | 전 plane | 세션 유지 | ✗
-규약: **developer** (dispatch) | 분배된 산출물(코드·설정·온톨로지 개념) 저작. 노트 10.2절 9역할 중 design(T-Box·ODD 편집)을 겸한다 — 유저 결정 C4 | `artifact` · `contract`(개발 KB의 시그니처, Q79-a) (+T-Box·ODD) | `contract`·`schema`·`decision`. **`kb/vv/`는 읽기 전용** | dispatch | ✗
-규약: **vnv** (dispatch) | 판정 전용: `bazel test //...` PASS 확인 + 결과 주석. **V&V KB(`kb/vv/`)의 유일한 편집 주체** — `verifies`의 주어는 V&V 청크뿐. 노트 8.20절의 다섯 V&V 하위 역할(engineer·검증기 저자·executor·judge·audit)을 겸하되 다른 세션에서 한다 | `kb/vv/`의 전 plane(`agt:writesIn "kb/vv"`, 2026-09-19 — 판정 주석도 V&V KB 안의 annotation plane) | `requirement`·`artifact`·`decision` | dispatch | ✗
-규약: **hci** (별도 세션) | **유저 소통 전담 — 유일한 유저 창구.** 유저의 의도·결정을 질문지(유저 채널)로 받아 지시·지식으로 정제해 orchestrator에 넘기고, 질문과 결과를 유저에게 되돌린다. **조사와 git 관리**(add/commit/push, 유저 요청 시)를 맡는다 — 옛 inspection 역할을 2026-09-13에 이관 | — (채널만) | `requirement`·전 plane + 저장소 전체 | 세션 유지 | ✓
-규약: **채널 쓰기 경계.** 채널은 둘이다. 유저 채널은 hci가 질문지를 쓰고 유저가 답을 적는다. 에이전트 채널은 **단일 작성자**다. `to_orchestrator/`에는 hci만, `to_hci/`에는 orchestrator만 쓰고(`harness/scripts/send.sh`), 상태 전이와 보관은 수신자가 한다(`harness/scripts/mark.sh`). hci의 작성·수정 범위는 이 채널 몫과 자기 역할 메모리(`.claude/agent-memory/hci/`)뿐이고 조회 범위는 저장소 전체다. developer·vnv는 채널에 쓰지 않는다. 그들의 질문과 결과는 hand-back으로 orchestrator에 돌아가고 orchestrator가 채널에 올린다(2026-10-03).
-규약: 커밋 전 `bazel test //...` PASS를 확인한다. 커밋은 hci(유저 요청 시) 또는 유저가 한다.
+규약: 역할 | design은 요구, 결정, 계약, 스키마, ODD / developer는 `artifact`와 개발 KB의 `contract` / orchestrator는 dispatch 결정 / V&V는 `annotation`만
+규약: **문서와 그래프는 일치해야 한다.** 아래 역할 표의 형식 원본이 `kg/catalog-kg.ttl`이므로 역할·권한을 바꾸면 두 곳을 같은 커밋에서 바꾼다.
+규약: 각 역할은 자기 쓰기 지식 종류 밖을 수정하지 않는다.
+규약: **orchestrator** (메인) | 계획, dispatch, 통합과 요구·결정 저작을 맡고, 요구는 유저 관심사의 EARS 저작이며 `stable` 전이는 유저가 승인한다. 구현하지 않고 유저와 직접 대화하지 않으며 채널로 interpreter와 소통한다 | `requirement`, `decision`, 세션·판정 관측인 `memory`, 규범 문서의 절인 `norm`(memory는 2026-09-14, norm은 2026-10-04와 Q21-a) | 전 지식 종류 | 세션 유지 | ✗
+규약: **developer** (dispatch) | 분배된 산출물인 코드와 설정, 온톨로지 개념을 저작하고, 노트 11.2절 9역할 중 T-Box·ODD 편집인 design을 겸한다(유저 결정 C4) | `artifact`, 개발 KB의 시그니처인 `contract`와 T-Box·ODD(Q79-a) | `contract`·`schema`·`decision`. **`kb/vv/`는 읽기 전용** | dispatch | ✗
+규약: **vnv** (dispatch) | `bazel test //...` PASS 확인과 결과 주석만 맡는다. **V&V KB인 `kb/vv/`의 유일한 편집 주체**여서 `verifies`의 주어는 V&V 단위 지식뿐이다. 노트 8.20절의 V&V 하위 역할 다섯을 다른 세션에서 겸한다 | `kb/vv/`의 전 지식 종류(`agt:writesIn "kb/vv"`, 판정 주석도 V&V KB의 `annotation`, 2026-09-19) | `requirement`·`artifact`·`decision` | dispatch | ✗
+규약: **hci** (interpreter의 하위 역할) | **interpreter의 유저 대상 하위 역할이고 유저 소통의 유일한 창구다.** 유저의 의도와 결정을 질문지로 받아 정제해 orchestrator에 넘기고 질문과 결과를 유저에게 되돌린다. 유저 전용 몫인 질문지와, 유저 요청 시 add/commit/push를 하는 **git 관리**를 맡는다 | — (유저 채널과 자기 역할 메모리) | `requirement`·전 지식 종류·저장소 전체 | interpreter 세션 | ✓
+규약: **채널 쓰기 경계** — 채널은 둘이다. 유저 채널에는 hci가 질문지를 쓰고 유저가 답을 적으며, 에이전트 채널은 **단일 작성자**다. `to_orchestrator/`에는 interpreter(하위 역할 hci 포함)만, `to_interpreter/`에는 orchestrator만 `harness/scripts/send.sh`로 쓰고, 상태 전이와 보관은 수신자가 `harness/scripts/mark.sh`로 한다. interpreter 세션은 이 채널 몫과 유저 채널, 자기 역할 메모리만 쓰고 저장소 전체를 조회한다. developer·vnv는 채널에 쓰지 않고, 그 질문과 결과는 hand-back으로 orchestrator가 받아 채널에 올린다.
+규약: 커밋 전 `bazel test //...` PASS를 확인한다. 커밋은 유저가 하거나, 유저가 요청하면 hci가 한다.
+규약: **interpreter** (별도 세션) | **외부 대상과 orchestrator 사이 소통의 창구다.** 외부 대상 셋(Q-0063#Q157)을 세션 하나로 맡고, 공통 몫은 요청의 해석과 저장소 조회로 직접 답하기, 지시 작성, 되묻기 중계, 결과 검증이다 | — (에이전트 채널 발신) | 전 지식 종류·저장소 전체 | 세션 유지 | 하위 역할 hci가 한다

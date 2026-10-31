@@ -8,11 +8,11 @@ title: Runs reproduce under the same revision and seed
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-10-06T11:26:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T23:10:52+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T23:10:52+09:00}]
 
 ---
-**요구** — 체계는 같은 리비전·seed·환경에서 검증 실행과 케이스 생성이 같은 결과를 내도록 하여야 한다.
+**요구** — 체계는 같은 리비전·seed·환경에서 검증 실행과 테스트 케이스 생성이 같은 결과를 내도록 하여야 한다.
 
 - **이해관계자**: 업체 · V&V · **관심사**: 재현성
 - **출처**: 노트 8.12절 · 8.23절 · 8.26절 (요구 공백 — 재도출 감사 §3, git:2f15842^:docs/decomposition-audit.md, 2026-09-10 보충)

@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
-"""케이스 생성기(tools/case_gen.py)의 고정물 시험 — 양성 둘과 음성 넷 (결정 p8-case-generation, 유저 답 Q27-a).
+"""테스트 케이스 생성기(tools/case_gen.py)의 고정물 시험 — 양성 셋과 음성 넷 (결정 p8-case-generation, 유저 답 Q27-a).
 
-고정물은 `defs/tests/case_gen/` 의 작은 가짜 V&V 트리 하나다 — logical 시나리오 자극 청크 하나(`fx-cap-stimulus.md`, 변수 셋 ·
-다섯 규칙 · seed 11) · 관측 재현의 근거인 실행 기록 하나 · ODD 문서 하나 · 커밋된 생성 케이스 열셋(`kb/vv/case/`)이다.
-  ok          트리의 케이스가 재생성과 바이트로 같고 전부 생성기의 것이다 — PASS [case-drift]. 두 번 생성한 결과가 같고(결정론),
-              생성 케이스가 chunk2kg 의 frontmatter 규칙을 지킨다
-  derives     `case` 템플릿에 선택 키 `derivesFrom` 을 더해 생성한다 — 생성 케이스 전부의 `derivesFrom` 이 [시나리오, 더한 IRI] 이고
+고정물은 `defs/tests/case_gen/` 의 작은 가짜 V&V 트리 하나다 — logical 시나리오 자극 단위 지식 하나(`fx-cap-stimulus.md`, 변수 셋 ·
+다섯 규칙 · seed 11) · 관측 재현의 근거인 실행 기록 하나 · ODD 문서 하나 · 커밋된 생성 테스트 케이스 열셋(`kb/vv/case/`)이다.
+  ok          트리의 테스트 케이스가 재생성과 바이트로 같고 전부 생성기의 것이다 — PASS [case-drift]. 두 번 생성한 결과가 같고(결정론),
+              생성 테스트 케이스가 chunk2kg 의 frontmatter 규칙을 지킨다
+  derives     `case` 템플릿에 선택 키 `derivesFrom` 을 더해 생성한다 — 생성 테스트 케이스 전부의 `derivesFrom` 이 [시나리오, 더한 IRI] 이고
               `restored` 가 없으며, 그 출력을 --cases 로 준 --check 가 PASS [case-drift] 다
-  unsampled   `cover` 에 근거 규칙(`rule`) 없는 항목을 더한다 — FAIL [case-gen] 표본 근거 없는 케이스
-  handvalues  입력 펜스에 값을 손으로 적은 `cases` 목록을 더한다 — FAIL [case-gen] 표본 근거 없는 케이스
-  drift       커밋된 생성 케이스 하나의 기대 문장을 바꾼다 — FAIL [case-drift]
-  handwritten 생성기 밖의 케이스(generated.by 가 역할) 하나를 더하고 --all-generated 로 본다 — FAIL [case-drift] 수기 케이스
+  former      `case` 템플릿에 선택 키 `former_title_ko` 를 더해 생성한다 — 생성 테스트 케이스 전부의 frontmatter `former_title_ko` 가
+              `${변수}` 를 채운 템플릿의 옛 이름이고, 그 출력을 --cases 로 준 --check 가 PASS [case-drift] 다
+  unsampled   `cover` 에 근거 규칙(`rule`) 없는 항목을 더한다 — FAIL [case-gen] 표본 근거 없는 테스트 케이스
+  handvalues  입력 펜스에 값을 손으로 적은 `cases` 목록을 더한다 — FAIL [case-gen] 표본 근거 없는 테스트 케이스
+  drift       커밋된 생성 테스트 케이스 하나의 기대 문장을 바꾼다 — FAIL [case-drift]
+  handwritten 생성기 밖의 테스트 케이스(generated.by 가 역할) 하나를 더하고 --all-generated 로 본다 — FAIL [case-drift] 수기 테스트 케이스
 음성 시험은 고정물을 TEST_TMPDIR 에 복사해 한 곳만 바꾼다 — 고정물 자체는 언제나 양성이다.
-사용: case_gen_fixture_test.py --case ok|derives|unsampled|handvalues|drift|handwritten
+사용: case_gen_fixture_test.py --case ok|derives|former|unsampled|handvalues|drift|handwritten
 """
 from __future__ import annotations
 
@@ -36,14 +38,17 @@ HAND = "kb/vv/case/fx-hand.md"
 UNSAMPLED = case_gen.UNSAMPLED
 SCENARIO_IRI = "https://agentic-knowledge-base.dev/id/chunk/00000000-0000-4000-8000-00000000c001"
 DERIVES = "https://agentic-knowledge-base.dev/id/chunk/00000000-0000-4000-8000-00000000c004"
+FORMER_LINE = '  former_title_ko: ["크기 ${tokens}의 옛 고정물 청크 검사"]\n'
+TITLE_LINE = '  title_ko: "크기 ${tokens}·종류 ${kind}·표시 ${flag}의 고정물 청크 검사"\n'
 VERIFIES_LINE = "  verifies: [https://agentic-knowledge-base.dev/id/chunk/00000000-0000-4000-8000-00000000c003]\n"
 EXPECT = {
-    "ok": (0, ["PASS [case-drift]", "생성 케이스 13개", "생성기 밖의 케이스 0"]),
-    "derives": (0, ["PASS [case-drift]", "생성 케이스 13개"]),
+    "ok": (0, ["PASS [case-drift]", "생성 테스트 케이스 13개", "생성기 밖의 테스트 케이스 0"]),
+    "derives": (0, ["PASS [case-drift]", "생성 테스트 케이스 13개"]),
+    "former": (0, ["PASS [case-drift]", "생성 테스트 케이스 13개"]),
     "unsampled": (1, ["FAIL [case-gen]", "근거 규칙이 없다", UNSAMPLED]),
     "handvalues": (1, ["FAIL [case-gen]", "`cases`", UNSAMPLED]),
     "drift": (1, ["FAIL [case-drift]", "fx-cap-boundary-5.md", "생성 결과와 어긋난다"]),
-    "handwritten": (1, ["FAIL [case-drift]", "fx-hand.md", "생성기 밖의 케이스"]),
+    "handwritten": (1, ["FAIL [case-drift]", "fx-hand.md", "생성기 밖의 테스트 케이스"]),
 }
 
 
@@ -54,6 +59,11 @@ def mutate(root: Path, case: str) -> None:
         text = p.read_text(encoding="utf-8")
         assert VERIFIES_LINE in text, "고정물 시나리오의 verifies 줄이 바뀌었다"
         p.write_text(text.replace(VERIFIES_LINE, VERIFIES_LINE + f"  derivesFrom: [{DERIVES}]\n"), encoding="utf-8")
+    elif case == "former":
+        p = root / SCENARIO
+        text = p.read_text(encoding="utf-8")
+        assert TITLE_LINE in text, "고정물 시나리오의 title_ko 줄이 바뀌었다"
+        p.write_text(text.replace(TITLE_LINE, TITLE_LINE + FORMER_LINE), encoding="utf-8")
     elif case == "unsampled":
         p = root / SCENARIO
         p.write_text(p.read_text(encoding="utf-8").replace("seed: 11\n", "  - {vars: [kind]}\nseed: 11\n"), encoding="utf-8")
@@ -92,21 +102,27 @@ def main() -> int:
     mutate(root, a.case)
     check = ["--check", "--root", str(root), "--residency", RESIDENCY, "--scenario", SCENARIO]
     errs = []
-    if a.case == "derives":
-        d = tmp / "derives"
+    if a.case in ("derives", "former"):
+        d = tmp / a.case
         c, o = run(["--root", str(root), "--residency", RESIDENCY, "--scenario", SCENARIO, "--out", str(d)])
         if c != 0:
-            errs.append(f"derivesFrom 을 가진 템플릿의 생성이 종료 {c} 다 — {o.strip()}")
+            errs.append(f"선택 키 `{a.case}` 를 가진 템플릿의 생성이 종료 {c} 다 — {o.strip()}")
         apply_plane_level_state(*load_plane_level_state(Path(RESIDENCY)))
         made = sorted(d.glob("*.md"))
         if not made:
-            errs.append("생성 케이스가 없다")
+            errs.append("생성 테스트 케이스가 없다")
         for f in made:
             meta, _ = parse_chunk(str(f))
+            if a.case == "former":
+                tokens = meta["title_ko"].split("크기 ", 1)[1].split("·", 1)[0]
+                want = [f"크기 {tokens}의 옛 고정물 청크 검사"]
+                if meta.get(case_gen.kb_lib.FORMER_TITLE_KEY) != want:
+                    errs.append(f"{f.name}: former_title_ko 가 {meta.get(case_gen.kb_lib.FORMER_TITLE_KEY)} 다 — 템플릿의 옛 이름 {want} 가 아니다")
+                continue
             if meta.get("derivesFrom") != [SCENARIO_IRI, DERIVES]:
                 errs.append(f"{f.name}: derivesFrom 이 {meta.get('derivesFrom')} 다 — [시나리오, 템플릿의 IRI] 가 아니다")
             if "restored" in meta:
-                errs.append(f"{f.name}: 생성 케이스에 restored 가 있다 — 생성기의 링크는 구축이다")
+                errs.append(f"{f.name}: 생성 테스트 케이스에 restored 가 있다 — 생성기의 링크는 구축이다")
         check += ["--cases", str(d)]
     code, out = run(check + (["--all-generated"] if a.case in ("ok", "handwritten") else []))
     want_code, phrases = EXPECT[a.case]

@@ -7,7 +7,7 @@ title: function render_adr in tools/weave.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-weave}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/5c3f6ad5-769e-4850-970b-a137fa5ebc55, https://agentic-knowledge-base.dev/id/chunk/7a42dec5-1fd8-42b8-b484-cc1380047b67, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/ed7fa3c5-2a34-4aaf-9cd1-e9f6e86d8e1f, https://agentic-knowledge-base.dev/id/chunk/f6cf75ba-7624-4742-a6f9-b56a69f540b1]
 part_of: https://agentic-knowledge-base.dev/id/composite/ec24ef39-7e27-4fff-bba3-6fdb1829b342
@@ -20,16 +20,16 @@ def render_adr(m: Model, bodies: dict, inputs: list[str], root: Path) -> str:
     comps = m.decision_composites()
     live = [(c, r) for c, r in comps if m.status[r["conclusion"]] != "deprecated"]
     deprecated_n = len(comps) - len(live)
-    decision_comps = {c for c, _ in comps}  # 손으로 쓴 복합체(composite-kg)의 부분인 옛 단일 파일 결정은 결정 복합체가 아니다
+    decision_comps = {c for c, _ in comps}  # 시나리오 복합체처럼 부분의 파일명이 결론·근거·대안이 아닌 복합체는 결정 기록이 아니다
     singles_all = sorted((c for c in m.chunks if m.plane[c] == "decision" and m.comp_of.get(c) not in decision_comps), key=lambda c: m.location[c])
     singles = [c for c in singles_all if m.live(c)]
-    o = head("adr", "결정 기록", "살아 있는 결정 전부 — 결정 복합체(`agt:Composite` 의 부분이 conclusion·rationale·alternatives 청크, 결론의 status ≠ deprecated)마다 "
-             "결론 라벨 · 상태 · 수준 · 세 본문, 그 뒤 결정 복합체에 속하지 않는 살아 있는 `agt:DecisionChunk`(단일 파일)마다 라벨 · 상태 · 수준 · 본문. "
+    o = head("adr", "결정 기록", "살아 있는 결정 전부 — 결정 기록(`agt:Composite` 의 부분이 conclusion·rationale·alternatives 단위 지식, 결론의 status ≠ deprecated)마다 "
+             "결론 라벨 · 상태 · 수준 · 세 본문, 그 뒤 결정 기록에 속하지 않는 살아 있는 `agt:DecisionChunk`(V&V 시나리오)마다 라벨 · 상태 · 수준 · 본문. "
              "둘 다 `agt:refines`/`agt:serves` 대상 · `agt:supersedes` 연쇄 · `prov:wasDerivedFrom` · `agt:assumes` 를 낸다", m.g, inputs,
-             [f"- 결정 복합체 {len(live)} (deprecated {deprecated_n} 제외) · 단일 파일 결정 {len(singles)} (v1·harness 유래 `chunks/decision/`, deprecated {len(singles_all) - len(singles)} 제외)"])
+             [f"- 결정 기록 {len(live)} (deprecated {deprecated_n} 제외) · 결정 기록 밖의 결정 {len(singles)} (V&V 시나리오, deprecated {len(singles_all) - len(singles)} 제외)"])
     titles_c = [m.ko(r["conclusion"]) for _, r in live]
     titles_s = [m.ko(c) for c in singles]
-    # 결정은 복합체든 단일 파일이든 동격이므로 같은 깊이(h3)에 두고, 두 무리를 h2 로 묶는다 (G8 — 제목 계층은 한 단계씩)
+    # 결정은 복합체든 복합체 밖이든 동격이므로 같은 깊이(h3)에 두고, 두 무리를 h2 로 묶는다 (G8 — 제목 계층은 한 단계씩)
     anchors = anchors_of(["목차", COMPOSITES_HEADING] + titles_c + [SINGLES_HEADING] + titles_s)
     a_comp, a_single = anchors[1], anchors[2 + len(live)]
     a_c, a_s = anchors[2:2 + len(live)], anchors[3 + len(live):]
@@ -46,7 +46,8 @@ def render_adr(m: Model, bodies: dict, inputs: list[str], root: Path) -> str:
         levels = " (" + " · ".join(f"{k} {m.level[r[k]]}" for k in ("rationale", "alternatives") if k in r) + ")"
         body += decision_section(m, bodies, root, "###", title, m.unit_ref(comp), parts, levels, f" · 복합체 `{kb_lib.compact_iri(str(comp))}`")
     body += [f"## {SINGLES_HEADING}", "",
-             f"결론·근거·대안이 한 본문 안에 있는 옛 형식의 결정 {len(singles)}건이다. 손으로 쓴 복합체(`kg/composite-kg.ttl`)에 속한 것은 그 복합체를 적는다.", ""]
+             f"결론·근거·대안 세 파일의 결정 기록에 속하지 않는 결정 {len(singles)}건이다. V&V 시나리오의 자극·요인·배제 자극 단위 지식이 여기 든다. "
+             "시나리오 복합체에 속한 단위 지식은 그 복합체를 적는다.", ""]
     for c, title in zip(singles, titles_s):
         comp = m.comp_of.get(c)
         comp_line = f" · 복합체 {m.ko(comp)} (`{kb_lib.compact_iri(str(comp))}`)" if comp is not None else ""

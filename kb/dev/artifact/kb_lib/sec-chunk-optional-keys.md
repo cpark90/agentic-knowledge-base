@@ -7,7 +7,7 @@ title: section chunk-optional-keys in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b-5fcc2cc9f893
 ---
@@ -20,11 +20,11 @@ part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b
 # ── 요소 탈락 검사 (`element-drop`) — 현상 P19 의 관측 수단 (위험 분석 G1, vnv 설계 2026-09-29) ────────────────
 # "어휘가 없는 소스 요소는 슬롯이 없어 조용히 빠진다"(참조 저장소 R3)를 소스 전수와 방출 전수의 차로 잡는다.
 # 차가 공집합이 아니면 FAIL 이다 — 조용히 버려진 요소가 있다는 뜻이고, 대응은 어휘 확장이다(가정 asm-missing-vocabulary-is-signal).
-# 검사 둘의 소스 집합은 (a) 청크 frontmatter 의 최상위 키, (b) 프로파일이 선언한 plane 실체 클래스다.
-# chunk2kg 가 emit_chunk 에서 직접 읽는 선택 키. 필수 키는 chunk2kg.REQUIRED, 링크 키는 chunk2kg.LINK_KEYS 가 정의처이고
+# 검사 둘의 소스 집합은 (a) 단위 지식 frontmatter 의 최상위 키, (b) 프로파일이 선언한 지식 종류 실체 클래스다.
+# chunk2kg 가 emit_chunk 에서 직접 읽는 선택 키. 필수 키는 chunk2kg.REQUIRED, 링크 키는 chunk2kg.LINK_KEYS 가 단일 정의 위치이고
 # 이 셋의 합집합이 "소비되는 키"다. chunk2kg 가 새 키를 읽으면 여기에 등재한다 — 등재 없이 쓰인 키는 이 게이트가 잡는다.
 CHUNK_OPTIONAL_KEYS = ("verified", "sources", "assumes", "pattern", "coUpdatesWith", "part_of", "composite",
-                       "restored", "specializationOf", "targets", EXPOSES_KEY, USES_KEY, LAYER_KEY,
+                       "restored", "specializationOf", "targets", EXPOSES_KEY, USES_KEY, LAYER_KEY, FORMER_TITLE_KEY,
                        *NORM_SECTION_KEYS, *NORM_HEAD_KEYS)  # 절 키 — heading·depth·continues 는 방출, items 는 projectsConvention, numbered·form·columns·link_column·머리 키는 생성기 gen_norms 가 읽는다
 ```
 <!-- 인용 끝 -->

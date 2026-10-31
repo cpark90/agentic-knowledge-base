@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_decision")
 
@@ -29,6 +29,9 @@ filegroup(
         "p0-deprecate-not-delete/alternatives.md",
         "p0-deprecate-not-delete/conclusion.md",
         "p0-deprecate-not-delete/rationale.md",
+        "p0-description-says-what-graph-cannot/alternatives.md",
+        "p0-description-says-what-graph-cannot/conclusion.md",
+        "p0-description-says-what-graph-cannot/rationale.md",
         "p0-english-label-without-hangul/alternatives.md",
         "p0-english-label-without-hangul/conclusion.md",
         "p0-english-label-without-hangul/conventions.md",
@@ -60,6 +63,9 @@ filegroup(
         "p0-layer-extends-beyond-chunks/alternatives.md",
         "p0-layer-extends-beyond-chunks/conclusion.md",
         "p0-layer-extends-beyond-chunks/rationale.md",
+        "p0-layer-scope-variable/alternatives.md",
+        "p0-layer-scope-variable/conclusion.md",
+        "p0-layer-scope-variable/rationale.md",
         "p0-layer-stays-on-chunks/alternatives.md",
         "p0-layer-stays-on-chunks/conclusion.md",
         "p0-layer-stays-on-chunks/rationale.md",
@@ -78,6 +84,9 @@ filegroup(
         "p0-one-word-one-concept/alternatives.md",
         "p0-one-word-one-concept/conclusion.md",
         "p0-one-word-one-concept/rationale.md",
+        "p0-owner-namespace-segment/alternatives.md",
+        "p0-owner-namespace-segment/conclusion.md",
+        "p0-owner-namespace-segment/rationale.md",
         "p0-premise-as-assumption/alternatives.md",
         "p0-premise-as-assumption/conclusion.md",
         "p0-premise-as-assumption/conventions.md",
@@ -92,6 +101,9 @@ filegroup(
         "p0-requirement-layer-marked/alternatives.md",
         "p0-requirement-layer-marked/conclusion.md",
         "p0-requirement-layer-marked/rationale.md",
+        "p0-requirement-layer-variable/alternatives.md",
+        "p0-requirement-layer-variable/conclusion.md",
+        "p0-requirement-layer-variable/rationale.md",
         "p0-run-as-observation/alternatives.md",
         "p0-run-as-observation/conclusion.md",
         "p0-run-as-observation/rationale.md",
@@ -106,6 +118,10 @@ filegroup(
         "p0-self-explanatory-definitions/conclusion.md",
         "p0-self-explanatory-definitions/conventions.md",
         "p0-self-explanatory-definitions/rationale.md",
+        "p0-sentence-composition/alternatives.md",
+        "p0-sentence-composition/conclusion.md",
+        "p0-sentence-composition/conventions.md",
+        "p0-sentence-composition/rationale.md",
         "p0-service-is-a-three-layer-wiki/alternatives.md",
         "p0-service-is-a-three-layer-wiki/conclusion.md",
         "p0-service-is-a-three-layer-wiki/conventions.md",
@@ -120,6 +136,9 @@ filegroup(
         "p0-temporal-constraint-vocabulary/alternatives.md",
         "p0-temporal-constraint-vocabulary/conclusion.md",
         "p0-temporal-constraint-vocabulary/rationale.md",
+        "p0-temporal-identity-variable/alternatives.md",
+        "p0-temporal-identity-variable/conclusion.md",
+        "p0-temporal-identity-variable/rationale.md",
         "p0-terms-from-glossary/alternatives.md",
         "p0-terms-from-glossary/conclusion.md",
         "p0-terms-from-glossary/conventions.md",
@@ -157,9 +176,15 @@ filegroup(
         "p1-context-budget-items/conclusion.md",
         "p1-context-budget-items/conventions.md",
         "p1-context-budget-items/rationale.md",
+        "p1-node-text-token-band/alternatives.md",
+        "p1-node-text-token-band/conclusion.md",
+        "p1-node-text-token-band/rationale.md",
         "p1-partial-observability-harness-projections/alternatives.md",
         "p1-partial-observability-harness-projections/conclusion.md",
         "p1-partial-observability-harness-projections/rationale.md",
+        "p1-store-formal-read-narrow/alternatives.md",
+        "p1-store-formal-read-narrow/conclusion.md",
+        "p1-store-formal-read-narrow/rationale.md",
         "p1-three-breaks-common-vocabulary/alternatives.md",
         "p1-three-breaks-common-vocabulary/conclusion.md",
         "p1-three-breaks-common-vocabulary/rationale.md",
@@ -169,6 +194,10 @@ filegroup(
         "p10-candidate-and-confirmed-link/alternatives.md",
         "p10-candidate-and-confirmed-link/conclusion.md",
         "p10-candidate-and-confirmed-link/rationale.md",
+        "p10-co-edit-evidence-from-small-commits/alternatives.md",
+        "p10-co-edit-evidence-from-small-commits/conclusion.md",
+        "p10-co-edit-evidence-from-small-commits/conventions.md",
+        "p10-co-edit-evidence-from-small-commits/rationale.md",
         "p10-confirm-authority-by-evidence-kind/alternatives.md",
         "p10-confirm-authority-by-evidence-kind/conclusion.md",
         "p10-confirm-authority-by-evidence-kind/rationale.md",
@@ -250,6 +279,9 @@ filegroup(
         "p11-catalog-role-has-granted-scope/conclusion.md",
         "p11-catalog-role-has-granted-scope/conventions.md",
         "p11-catalog-role-has-granted-scope/rationale.md",
+        "p11-coordination-topology-is-declared/alternatives.md",
+        "p11-coordination-topology-is-declared/conclusion.md",
+        "p11-coordination-topology-is-declared/rationale.md",
         "p11-dev-profile-role-permissions/alternatives.md",
         "p11-dev-profile-role-permissions/conclusion.md",
         "p11-dev-profile-role-permissions/conventions.md",
@@ -278,6 +310,13 @@ filegroup(
         "p11-inputs-as-versioned-vocabulary/alternatives.md",
         "p11-inputs-as-versioned-vocabulary/conclusion.md",
         "p11-inputs-as-versioned-vocabulary/rationale.md",
+        "p11-interpreter-generalizes-hci/alternatives.md",
+        "p11-interpreter-generalizes-hci/conclusion.md",
+        "p11-interpreter-generalizes-hci/conventions.md",
+        "p11-interpreter-generalizes-hci/rationale.md",
+        "p11-lesson-promotion/alternatives.md",
+        "p11-lesson-promotion/conclusion.md",
+        "p11-lesson-promotion/rationale.md",
         "p11-memory-promotion-rule/alternatives.md",
         "p11-memory-promotion-rule/conclusion.md",
         "p11-memory-promotion-rule/rationale.md",
@@ -315,6 +354,9 @@ filegroup(
         "p12-cognition-measurement/alternatives.md",
         "p12-cognition-measurement/conclusion.md",
         "p12-cognition-measurement/rationale.md",
+        "p12-composition-workflow/alternatives.md",
+        "p12-composition-workflow/conclusion.md",
+        "p12-composition-workflow/rationale.md",
         "p12-cross-project-reuse/alternatives.md",
         "p12-cross-project-reuse/conclusion.md",
         "p12-cross-project-reuse/rationale.md",
@@ -344,6 +386,9 @@ filegroup(
         "p12-generated-documents-are-gated/alternatives.md",
         "p12-generated-documents-are-gated/conclusion.md",
         "p12-generated-documents-are-gated/rationale.md",
+        "p12-generated-lists-with-drift-check/alternatives.md",
+        "p12-generated-lists-with-drift-check/conclusion.md",
+        "p12-generated-lists-with-drift-check/rationale.md",
         "p12-incident-postmortem/alternatives.md",
         "p12-incident-postmortem/conclusion.md",
         "p12-incident-postmortem/rationale.md",
@@ -379,6 +424,9 @@ filegroup(
         "p12-user-feedback-space-file/alternatives.md",
         "p12-user-feedback-space-file/conclusion.md",
         "p12-user-feedback-space-file/rationale.md",
+        "p13-authoring-ui-shares-the-gate/alternatives.md",
+        "p13-authoring-ui-shares-the-gate/conclusion.md",
+        "p13-authoring-ui-shares-the-gate/rationale.md",
         "p13-chunk-editor-requirements/alternatives.md",
         "p13-chunk-editor-requirements/conclusion.md",
         "p13-chunk-editor-requirements/rationale.md",
@@ -394,6 +442,9 @@ filegroup(
         "p16-design-tension-register/alternatives.md",
         "p16-design-tension-register/conclusion.md",
         "p16-design-tension-register/rationale.md",
+        "p2-catalog-resolved-union/alternatives.md",
+        "p2-catalog-resolved-union/conclusion.md",
+        "p2-catalog-resolved-union/rationale.md",
         "p2-competency-questions/alternatives.md",
         "p2-competency-questions/conclusion.md",
         "p2-competency-questions/conventions.md",
@@ -594,10 +645,16 @@ filegroup(
         "p4-projection-as-query/conclusion.md",
         "p4-projection-as-query/conventions.md",
         "p4-projection-as-query/rationale.md",
+        "p4-recipe-as-assembly-spec/alternatives.md",
+        "p4-recipe-as-assembly-spec/conclusion.md",
+        "p4-recipe-as-assembly-spec/rationale.md",
         "p4-redundancy-as-safety-margin/alternatives.md",
         "p4-redundancy-as-safety-margin/conclusion.md",
         "p4-redundancy-as-safety-margin/conventions.md",
         "p4-redundancy-as-safety-margin/rationale.md",
+        "p4-search-before-authoring/alternatives.md",
+        "p4-search-before-authoring/conclusion.md",
+        "p4-search-before-authoring/rationale.md",
         "p4-shape-file-per-target-with-message/alternatives.md",
         "p4-shape-file-per-target-with-message/conclusion.md",
         "p4-shape-file-per-target-with-message/conventions.md",
@@ -704,6 +761,9 @@ filegroup(
         "p6-plane-level-occupancy/conclusion.md",
         "p6-plane-level-occupancy/conventions.md",
         "p6-plane-level-occupancy/rationale.md",
+        "p6-recipe-convention-over-shape/alternatives.md",
+        "p6-recipe-convention-over-shape/conclusion.md",
+        "p6-recipe-convention-over-shape/rationale.md",
         "p6-refinement-ladder/alternatives.md",
         "p6-refinement-ladder/conclusion.md",
         "p6-refinement-ladder/conventions.md",
@@ -712,10 +772,16 @@ filegroup(
         "p6-self-check-before-completion/conclusion.md",
         "p6-self-check-before-completion/conventions.md",
         "p6-self-check-before-completion/rationale.md",
+        "p6-three-failure-mode-defences/alternatives.md",
+        "p6-three-failure-mode-defences/conclusion.md",
+        "p6-three-failure-mode-defences/rationale.md",
         "p6-transition-gates/alternatives.md",
         "p6-transition-gates/conclusion.md",
         "p6-transition-gates/conventions.md",
         "p6-transition-gates/rationale.md",
+        "p6-validate-the-union/alternatives.md",
+        "p6-validate-the-union/conclusion.md",
+        "p6-validate-the-union/rationale.md",
         "p6-weakening-a-check-needs-user-approval/alternatives.md",
         "p6-weakening-a-check-needs-user-approval/conclusion.md",
         "p6-weakening-a-check-needs-user-approval/conventions.md",
@@ -789,10 +855,16 @@ filegroup(
         "p7-extraction-range-by-principle/alternatives.md",
         "p7-extraction-range-by-principle/conclusion.md",
         "p7-extraction-range-by-principle/rationale.md",
+        "p7-reference-reach-recorded-per-unit/alternatives.md",
+        "p7-reference-reach-recorded-per-unit/conclusion.md",
+        "p7-reference-reach-recorded-per-unit/rationale.md",
         "p7-schema-derivation/alternatives.md",
         "p7-schema-derivation/conclusion.md",
         "p7-schema-derivation/conventions.md",
         "p7-schema-derivation/rationale.md",
+        "p7-spec-stores-references-not-artifacts/alternatives.md",
+        "p7-spec-stores-references-not-artifacts/conclusion.md",
+        "p7-spec-stores-references-not-artifacts/rationale.md",
         "p8-agent-verification-target/alternatives.md",
         "p8-agent-verification-target/conclusion.md",
         "p8-agent-verification-target/rationale.md",
@@ -804,6 +876,9 @@ filegroup(
         "p8-case-generation/conclusion.md",
         "p8-case-generation/conventions.md",
         "p8-case-generation/rationale.md",
+        "p8-contract-hangs-off-capability/alternatives.md",
+        "p8-contract-hangs-off-capability/conclusion.md",
+        "p8-contract-hangs-off-capability/rationale.md",
         "p8-coverage-denominator-profile-input/alternatives.md",
         "p8-coverage-denominator-profile-input/conclusion.md",
         "p8-coverage-denominator-profile-input/rationale.md",
@@ -896,6 +971,9 @@ filegroup(
         "p8-simulation-project/alternatives.md",
         "p8-simulation-project/conclusion.md",
         "p8-simulation-project/rationale.md",
+        "p8-spec-as-verifiable-contract/alternatives.md",
+        "p8-spec-as-verifiable-contract/conclusion.md",
+        "p8-spec-as-verifiable-contract/rationale.md",
         "p8-testbed/alternatives.md",
         "p8-testbed/conclusion.md",
         "p8-testbed/rationale.md",
@@ -945,10 +1023,22 @@ filegroup(
         "p8-vv-workflow/conclusion.md",
         "p8-vv-workflow/conventions.md",
         "p8-vv-workflow/rationale.md",
+        "p9-belief-by-beta-binomial/alternatives.md",
+        "p9-belief-by-beta-binomial/conclusion.md",
+        "p9-belief-by-beta-binomial/rationale.md",
+        "p9-belief-by-calibrated-judge/alternatives.md",
+        "p9-belief-by-calibrated-judge/conclusion.md",
+        "p9-belief-by-calibrated-judge/rationale.md",
+        "p9-belief-by-evidence-kind-rank/alternatives.md",
+        "p9-belief-by-evidence-kind-rank/conclusion.md",
+        "p9-belief-by-evidence-kind-rank/rationale.md",
         "p9-candidate-generation-limits/alternatives.md",
         "p9-candidate-generation-limits/conclusion.md",
         "p9-candidate-generation-limits/conventions.md",
         "p9-candidate-generation-limits/rationale.md",
+        "p9-candidate-place-variable/alternatives.md",
+        "p9-candidate-place-variable/conclusion.md",
+        "p9-candidate-place-variable/rationale.md",
         "p9-candidate-storage/alternatives.md",
         "p9-candidate-storage/conclusion.md",
         "p9-candidate-storage/conventions.md",
@@ -962,6 +1052,9 @@ filegroup(
         "p9-candidates-per-level/alternatives.md",
         "p9-candidates-per-level/conclusion.md",
         "p9-candidates-per-level/rationale.md",
+        "p9-closed-policy-vocabulary/alternatives.md",
+        "p9-closed-policy-vocabulary/conclusion.md",
+        "p9-closed-policy-vocabulary/rationale.md",
         "p9-conditional-links/alternatives.md",
         "p9-conditional-links/conclusion.md",
         "p9-conditional-links/rationale.md",
@@ -983,10 +1076,18 @@ filegroup(
         "p9-design-space-file/conclusion.md",
         "p9-design-space-file/conventions.md",
         "p9-design-space-file/rationale.md",
+        "p9-evidence-ledger-with-belief/alternatives.md",
+        "p9-evidence-ledger-with-belief/conclusion.md",
+        "p9-evidence-ledger-with-belief/conventions.md",
+        "p9-evidence-ledger-with-belief/rationale.md",
         "p9-evidence-ledger/alternatives.md",
         "p9-evidence-ledger/conclusion.md",
         "p9-evidence-ledger/conventions.md",
         "p9-evidence-ledger/rationale.md",
+        "p9-feasible-set-for-settlement/alternatives.md",
+        "p9-feasible-set-for-settlement/conclusion.md",
+        "p9-feasible-set-for-settlement/conventions.md",
+        "p9-feasible-set-for-settlement/rationale.md",
         "p9-language-model-place/alternatives.md",
         "p9-language-model-place/conclusion.md",
         "p9-language-model-place/rationale.md",
@@ -1000,6 +1101,12 @@ filegroup(
         "p9-same-level-relations/alternatives.md",
         "p9-same-level-relations/conclusion.md",
         "p9-same-level-relations/rationale.md",
+        "p9-source-gated-axes/alternatives.md",
+        "p9-source-gated-axes/conclusion.md",
+        "p9-source-gated-axes/rationale.md",
+        "p9-total-order-selection-policy/alternatives.md",
+        "p9-total-order-selection-policy/conclusion.md",
+        "p9-total-order-selection-policy/rationale.md",
         "p9-uncertainty-as-link-uncertainty/alternatives.md",
         "p9-uncertainty-as-link-uncertainty/conclusion.md",
         "p9-uncertainty-as-link-uncertainty/rationale.md",
@@ -1007,13 +1114,22 @@ filegroup(
         "pe-anchor-is-bazel-label/conclusion.md",
         "pe-anchor-is-bazel-label/conventions.md",
         "pe-anchor-is-bazel-label/rationale.md",
+        "pe-atomic-generation/alternatives.md",
+        "pe-atomic-generation/conclusion.md",
+        "pe-atomic-generation/rationale.md",
         "pe-bazel-rules/alternatives.md",
         "pe-bazel-rules/conclusion.md",
         "pe-bazel-rules/rationale.md",
+        "pe-build-view-from-validated-graph/alternatives.md",
+        "pe-build-view-from-validated-graph/conclusion.md",
+        "pe-build-view-from-validated-graph/rationale.md",
         "pe-generated-outputs-stay-in-bazel-out/alternatives.md",
         "pe-generated-outputs-stay-in-bazel-out/conclusion.md",
         "pe-generated-outputs-stay-in-bazel-out/conventions.md",
         "pe-generated-outputs-stay-in-bazel-out/rationale.md",
+        "pe-harness-on-bazel/alternatives.md",
+        "pe-harness-on-bazel/conclusion.md",
+        "pe-harness-on-bazel/rationale.md",
         "pe-kg-hand-and-generated-files/alternatives.md",
         "pe-kg-hand-and-generated-files/conclusion.md",
         "pe-kg-hand-and-generated-files/conventions.md",
@@ -1022,6 +1138,9 @@ filegroup(
         "pe-knowledge-files-are-gate-inputs/conclusion.md",
         "pe-knowledge-files-are-gate-inputs/conventions.md",
         "pe-knowledge-files-are-gate-inputs/rationale.md",
+        "pe-lock-snapshot-reproducibility/alternatives.md",
+        "pe-lock-snapshot-reproducibility/conclusion.md",
+        "pe-lock-snapshot-reproducibility/rationale.md",
         "pe-notation-and-cel/alternatives.md",
         "pe-notation-and-cel/conclusion.md",
         "pe-notation-and-cel/conventions.md",
@@ -1030,6 +1149,9 @@ filegroup(
         "pe-odd-is-openodd/conclusion.md",
         "pe-odd-is-openodd/conventions.md",
         "pe-odd-is-openodd/rationale.md",
+        "pe-output-address-from-spec-slot/alternatives.md",
+        "pe-output-address-from-spec-slot/conclusion.md",
+        "pe-output-address-from-spec-slot/rationale.md",
         "pe-scenario-is-openscenario/alternatives.md",
         "pe-scenario-is-openscenario/conclusion.md",
         "pe-scenario-is-openscenario/rationale.md",
@@ -1058,9 +1180,6 @@ kb_decision(
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0026-two-axes-plane-level",
-    ],
 )
 
 kb_decision(
@@ -1075,9 +1194,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0026-two-axes-plane-level",
     ],
 )
 
@@ -1095,9 +1211,6 @@ kb_decision(
         "//kb/dev/requirement:r-013-labels-before-bodies",
         "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
-    supersedes = [
-        "//chunks/decision:d-0008-odd-foundation",
-    ],
 )
 
 kb_decision(
@@ -1112,9 +1225,6 @@ kb_decision(
     status = "deprecated",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0029-scope-specification-form",
     ],
 )
 
@@ -1150,8 +1260,20 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0024-no-invented-terms",
+)
+
+kb_decision(
+    name = "p0-description-says-what-graph-cannot",
+    conclusion = "p0-description-says-what-graph-cannot/conclusion.md",
+    rationale = "p0-description-says-what-graph-cannot/rationale.md",
+    alternatives = "p0-description-says-what-graph-cannot/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/32c36837-41f4-4fe9-9179-5de0af953140",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/1dd16cce-1f0c-4c29-bb91-c0dcabaca309", "https://agentic-knowledge-base.dev/id/chunk/968be327-2883-46cd-8625-3cd471c024ea", "https://agentic-knowledge-base.dev/id/chunk/488ee68e-255b-40be-b3b7-c7a64c587f68"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/1dd16cce-1f0c-4c29-bb91-c0dcabaca309", "https://agentic-knowledge-base.dev/id/chunk/968be327-2883-46cd-8625-3cd471c024ea", "https://agentic-knowledge-base.dev/id/chunk/488ee68e-255b-40be-b3b7-c7a64c587f68"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
 )
 
@@ -1218,9 +1340,6 @@ kb_decision(
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0024-no-invented-terms",
-    ],
 )
 
 kb_decision(
@@ -1271,10 +1390,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical", "concrete"],
     status = "stable",
     refines = [
+        "//kb/dev/decision:p0-temporal-identity-variable",
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0026-two-axes-plane-level",
     ],
 )
 
@@ -1288,6 +1405,21 @@ kb_decision(
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a57ebc46-86e6-4111-949a-c3929298390c", "https://agentic-knowledge-base.dev/id/chunk/f69d0d1d-0b1d-40b3-b3a9-102012d8d579", "https://agentic-knowledge-base.dev/id/chunk/0fc6a68b-990a-41bb-bcf3-96c84529afe8"],
     part_levels = ["logical", "logical", "logical"],
     status = "draft",
+)
+
+kb_decision(
+    name = "p0-layer-scope-variable",
+    conclusion = "p0-layer-scope-variable/conclusion.md",
+    rationale = "p0-layer-scope-variable/rationale.md",
+    alternatives = "p0-layer-scope-variable/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/23f8d9d8-ce9f-42c2-8f69-3f39abc5e09a",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/e62fb24f-20a6-48c9-abf7-4205dd3e7b0b", "https://agentic-knowledge-base.dev/id/chunk/b79a0835-5b59-4d17-a11e-3799daea778b", "https://agentic-knowledge-base.dev/id/chunk/b3892c31-96a4-4f58-aa9f-e3dd2805fa73"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e62fb24f-20a6-48c9-abf7-4205dd3e7b0b", "https://agentic-knowledge-base.dev/id/chunk/b79a0835-5b59-4d17-a11e-3799daea778b", "https://agentic-knowledge-base.dev/id/chunk/b3892c31-96a4-4f58-aa9f-e3dd2805fa73"],
+    part_levels = ["abstract", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+    ],
 )
 
 kb_decision(
@@ -1316,9 +1448,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0024-no-invented-terms",
-    ],
 )
 
 kb_decision(
@@ -1336,9 +1465,6 @@ kb_decision(
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0024-no-invented-terms",
-    ],
 )
 
 kb_decision(
@@ -1355,9 +1481,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0008-odd-foundation",
-    ],
 )
 
 kb_decision(
@@ -1373,8 +1496,20 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0024-no-invented-terms",
+)
+
+kb_decision(
+    name = "p0-owner-namespace-segment",
+    conclusion = "p0-owner-namespace-segment/conclusion.md",
+    rationale = "p0-owner-namespace-segment/rationale.md",
+    alternatives = "p0-owner-namespace-segment/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/c6b1526b-31e7-41f3-9f13-9cc419803e2d",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/d99ab099-4192-4021-a7f6-7876f5954b69", "https://agentic-knowledge-base.dev/id/chunk/3c38797e-70a8-475a-9f1f-3eeb0f3c5aef", "https://agentic-knowledge-base.dev/id/chunk/73aac8a1-f5f3-4f40-9258-c67c8e0b400d"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d99ab099-4192-4021-a7f6-7876f5954b69", "https://agentic-knowledge-base.dev/id/chunk/3c38797e-70a8-475a-9f1f-3eeb0f3c5aef", "https://agentic-knowledge-base.dev/id/chunk/73aac8a1-f5f3-4f40-9258-c67c8e0b400d"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:deterministic-notation",
     ],
 )
 
@@ -1435,6 +1570,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p0-requirement-layer-variable",
+    conclusion = "p0-requirement-layer-variable/conclusion.md",
+    rationale = "p0-requirement-layer-variable/rationale.md",
+    alternatives = "p0-requirement-layer-variable/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/cdcb1752-9256-4d86-8518-df164eb2e6da",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/729d224e-9907-4d61-9216-8c0777f4ef5a", "https://agentic-knowledge-base.dev/id/chunk/9c659e8c-473b-4026-bf6e-4d91806b9665", "https://agentic-knowledge-base.dev/id/chunk/c613c380-5482-4e08-9c33-1dd20dd77470"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/729d224e-9907-4d61-9216-8c0777f4ef5a", "https://agentic-knowledge-base.dev/id/chunk/9c659e8c-473b-4026-bf6e-4d91806b9665", "https://agentic-knowledge-base.dev/id/chunk/c613c380-5482-4e08-9c33-1dd20dd77470"],
+    part_levels = ["abstract", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
+    ],
+)
+
+kb_decision(
     name = "p0-run-as-observation",
     conclusion = "p0-run-as-observation/conclusion.md",
     rationale = "p0-run-as-observation/rationale.md",
@@ -1447,9 +1597,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
         "//kb/dev/requirement:r-021-two-kbs-separated",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0008-odd-foundation",
     ],
 )
 
@@ -1487,9 +1634,6 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0029-scope-specification-form",
-    ],
 )
 
 kb_decision(
@@ -1509,6 +1653,22 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p0-sentence-composition",
+    conclusion = "p0-sentence-composition/conclusion.md",
+    rationale = "p0-sentence-composition/rationale.md",
+    alternatives = "p0-sentence-composition/alternatives.md",
+    conventions = "p0-sentence-composition/conventions.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/021b81f0-1ca3-4627-99cd-d603cd2eda2e",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/859aeb88-b65f-422a-9549-6592005b47aa", "https://agentic-knowledge-base.dev/id/chunk/47f637c1-3a8e-46a9-8814-2d6afdd6ef03", "https://agentic-knowledge-base.dev/id/chunk/3ed30196-bd1a-47f7-a04f-cd69f34f062d", "https://agentic-knowledge-base.dev/id/chunk/8653a2fc-5122-4edc-9336-39c2fff537ad"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/859aeb88-b65f-422a-9549-6592005b47aa", "https://agentic-knowledge-base.dev/id/chunk/47f637c1-3a8e-46a9-8814-2d6afdd6ef03", "https://agentic-knowledge-base.dev/id/chunk/3ed30196-bd1a-47f7-a04f-cd69f34f062d", "https://agentic-knowledge-base.dev/id/chunk/8653a2fc-5122-4edc-9336-39c2fff537ad"],
+    part_levels = ["concrete", "logical", "logical", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:deterministic-notation",
+    ],
+)
+
+kb_decision(
     name = "p0-service-is-a-three-layer-wiki",
     conclusion = "p0-service-is-a-three-layer-wiki/conclusion.md",
     rationale = "p0-service-is-a-three-layer-wiki/rationale.md",
@@ -1520,6 +1680,8 @@ kb_decision(
     part_levels = ["concrete", "logical", "logical", "concrete"],
     status = "stable",
     refines = [
+        "//kb/dev/decision:p0-layer-scope-variable",
+        "//kb/dev/decision:p0-requirement-layer-variable",
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
 )
@@ -1538,9 +1700,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0024-no-invented-terms",
-    ],
 )
 
 kb_decision(
@@ -1556,9 +1715,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0008-odd-foundation",
-    ],
 )
 
 kb_decision(
@@ -1570,6 +1726,21 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/b8b2e18e-ae67-4590-a830-e4cf4d54e81b", "https://agentic-knowledge-base.dev/id/chunk/0d88fe7e-5085-4fbb-89c9-ba8627a97c56", "https://agentic-knowledge-base.dev/id/chunk/85326ce7-7fd1-4a81-8b14-11403fb44e98"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b8b2e18e-ae67-4590-a830-e4cf4d54e81b", "https://agentic-knowledge-base.dev/id/chunk/0d88fe7e-5085-4fbb-89c9-ba8627a97c56", "https://agentic-knowledge-base.dev/id/chunk/85326ce7-7fd1-4a81-8b14-11403fb44e98"],
     part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+)
+
+kb_decision(
+    name = "p0-temporal-identity-variable",
+    conclusion = "p0-temporal-identity-variable/conclusion.md",
+    rationale = "p0-temporal-identity-variable/rationale.md",
+    alternatives = "p0-temporal-identity-variable/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/4d329cea-48b1-454e-861a-a3f1a0831831",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/a7b7d807-9b90-4682-a116-a585da5c9c6e", "https://agentic-knowledge-base.dev/id/chunk/932bd51c-c7f5-4e7a-b847-84eeccafa690", "https://agentic-knowledge-base.dev/id/chunk/2f57df5c-24c3-4a01-a198-bdb2581835d3"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a7b7d807-9b90-4682-a116-a585da5c9c6e", "https://agentic-knowledge-base.dev/id/chunk/932bd51c-c7f5-4e7a-b847-84eeccafa690", "https://agentic-knowledge-base.dev/id/chunk/2f57df5c-24c3-4a01-a198-bdb2581835d3"],
+    part_levels = ["abstract", "logical", "logical"],
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
@@ -1606,9 +1777,6 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0026-two-axes-plane-level",
-    ],
 )
 
 kb_decision(
@@ -1623,9 +1791,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0021-domain-neutral-skeleton",
     ],
 )
 
@@ -1659,9 +1824,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0036-agent-narrow-context-premise",
     ],
 )
 
@@ -1735,9 +1897,6 @@ kb_decision(
         "//kb/dev/requirement:context-budget",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0036-agent-narrow-context-premise",
-    ],
 )
 
 kb_decision(
@@ -1758,6 +1917,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p1-node-text-token-band",
+    conclusion = "p1-node-text-token-band/conclusion.md",
+    rationale = "p1-node-text-token-band/rationale.md",
+    alternatives = "p1-node-text-token-band/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/403c7a1c-fe4f-48d4-932d-b9cc39517dcc",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/65b29e82-58ca-4539-afa0-6d3aedc87aff", "https://agentic-knowledge-base.dev/id/chunk/73b8a4b9-da3e-4b0b-9491-faacaccea2b2", "https://agentic-knowledge-base.dev/id/chunk/40df4797-aaec-4a26-bffc-7295dbfad95c"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/65b29e82-58ca-4539-afa0-6d3aedc87aff", "https://agentic-knowledge-base.dev/id/chunk/73b8a4b9-da3e-4b0b-9491-faacaccea2b2", "https://agentic-knowledge-base.dev/id/chunk/40df4797-aaec-4a26-bffc-7295dbfad95c"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+)
+
+kb_decision(
     name = "p1-partial-observability-harness-projections",
     conclusion = "p1-partial-observability-harness-projections/conclusion.md",
     rationale = "p1-partial-observability-harness-projections/rationale.md",
@@ -1770,8 +1944,20 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0036-agent-narrow-context-premise",
+)
+
+kb_decision(
+    name = "p1-store-formal-read-narrow",
+    conclusion = "p1-store-formal-read-narrow/conclusion.md",
+    rationale = "p1-store-formal-read-narrow/rationale.md",
+    alternatives = "p1-store-formal-read-narrow/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/72187560-4939-4225-8319-7c8e0345b251",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/6de551e6-a52c-404b-8b7e-46895823edbb", "https://agentic-knowledge-base.dev/id/chunk/d3c90085-77cc-454d-8e8b-c5010b9e86ba", "https://agentic-knowledge-base.dev/id/chunk/d4d6d54b-2fba-4d88-8cb3-957874cc7473"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/6de551e6-a52c-404b-8b7e-46895823edbb", "https://agentic-knowledge-base.dev/id/chunk/d3c90085-77cc-454d-8e8b-c5010b9e86ba", "https://agentic-knowledge-base.dev/id/chunk/d4d6d54b-2fba-4d88-8cb3-957874cc7473"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:context-budget",
     ],
 )
 
@@ -1788,9 +1974,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0036-agent-narrow-context-premise",
     ],
 )
 
@@ -1818,6 +2001,22 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/5287133e-f7a3-4913-8aaf-062647cf5491", "https://agentic-knowledge-base.dev/id/chunk/59a97c5d-4eef-4d6c-b8cc-cd12d2f5115e", "https://agentic-knowledge-base.dev/id/chunk/ab836292-c3ab-459a-9eb1-721a5f4a48da"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5287133e-f7a3-4913-8aaf-062647cf5491", "https://agentic-knowledge-base.dev/id/chunk/59a97c5d-4eef-4d6c-b8cc-cd12d2f5115e", "https://agentic-knowledge-base.dev/id/chunk/ab836292-c3ab-459a-9eb1-721a5f4a48da"],
     part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+)
+
+kb_decision(
+    name = "p10-co-edit-evidence-from-small-commits",
+    conclusion = "p10-co-edit-evidence-from-small-commits/conclusion.md",
+    rationale = "p10-co-edit-evidence-from-small-commits/rationale.md",
+    alternatives = "p10-co-edit-evidence-from-small-commits/alternatives.md",
+    conventions = "p10-co-edit-evidence-from-small-commits/conventions.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/59017e3e-2652-43b4-9918-0b6b91e8dce3",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/5967869a-2c73-4666-847a-af969e7e6caf", "https://agentic-knowledge-base.dev/id/chunk/8754e66e-76e0-4af1-b3f3-da03f803135d", "https://agentic-knowledge-base.dev/id/chunk/0b8bc291-b49e-4904-a9c1-ee4d563ca25e", "https://agentic-knowledge-base.dev/id/chunk/b979a455-9004-4e4f-ab9f-f10ddcca463b"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5967869a-2c73-4666-847a-af969e7e6caf", "https://agentic-knowledge-base.dev/id/chunk/8754e66e-76e0-4af1-b3f3-da03f803135d", "https://agentic-knowledge-base.dev/id/chunk/0b8bc291-b49e-4904-a9c1-ee4d563ca25e", "https://agentic-knowledge-base.dev/id/chunk/b979a455-9004-4e4f-ab9f-f10ddcca463b"],
+    part_levels = ["concrete", "logical", "logical", "concrete"],
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
@@ -1912,9 +2111,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0105-link-storage-and-anchors",
-    ],
 )
 
 kb_decision(
@@ -1932,9 +2128,6 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0009-link-by-construction",
-    ],
 )
 
 kb_decision(
@@ -1950,9 +2143,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0105-link-storage-and-anchors",
     ],
 )
 
@@ -1987,9 +2177,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0105-link-storage-and-anchors",
-    ],
 )
 
 kb_decision(
@@ -2004,9 +2191,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0105-link-storage-and-anchors",
     ],
 )
 
@@ -2023,9 +2207,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-021-two-kbs-separated",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0009-link-by-construction",
     ],
 )
 
@@ -2102,9 +2283,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0105-link-storage-and-anchors",
-    ],
 )
 
 kb_decision(
@@ -2119,9 +2297,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0009-link-by-construction",
     ],
 )
 
@@ -2139,9 +2314,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0105-link-storage-and-anchors",
-    ],
 )
 
 kb_decision(
@@ -2157,9 +2329,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0105-link-storage-and-anchors",
     ],
 )
 
@@ -2188,9 +2357,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0124-agent-catalog-scope",
-    ],
 )
 
 kb_decision(
@@ -2211,6 +2377,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p11-coordination-topology-is-declared",
+    conclusion = "p11-coordination-topology-is-declared/conclusion.md",
+    rationale = "p11-coordination-topology-is-declared/rationale.md",
+    alternatives = "p11-coordination-topology-is-declared/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/2c1f938b-829d-4a41-b29b-b82d166d0ab5",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/1184d3d7-3cfe-4478-a8c3-b3864e5adc23", "https://agentic-knowledge-base.dev/id/chunk/5895ac5f-7189-416c-a753-fad653349483", "https://agentic-knowledge-base.dev/id/chunk/835dd3bd-865f-4e18-8bf7-c515966d43e1"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/1184d3d7-3cfe-4478-a8c3-b3864e5adc23", "https://agentic-knowledge-base.dev/id/chunk/5895ac5f-7189-416c-a753-fad653349483", "https://agentic-knowledge-base.dev/id/chunk/835dd3bd-865f-4e18-8bf7-c515966d43e1"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:explicit-versioned-inputs",
+    ],
+)
+
+kb_decision(
     name = "p11-dev-profile-role-permissions",
     conclusion = "p11-dev-profile-role-permissions/conclusion.md",
     rationale = "p11-dev-profile-role-permissions/rationale.md",
@@ -2224,9 +2405,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
         "//kb/dev/requirement:r-021-two-kbs-separated",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0124-agent-catalog-scope",
     ],
 )
 
@@ -2244,9 +2422,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:context-budget",
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0124-agent-catalog-scope",
     ],
 )
 
@@ -2294,9 +2469,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:explicit-versioned-inputs",
     ],
-    supersedes = [
-        "//chunks/decision:d-0121-inputs-and-uses-are-outside",
-    ],
 )
 
 kb_decision(
@@ -2313,9 +2485,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0124-agent-catalog-scope",
-    ],
 )
 
 kb_decision(
@@ -2330,9 +2499,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:explicit-versioned-inputs",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0121-inputs-and-uses-are-outside",
     ],
 )
 
@@ -2350,8 +2516,36 @@ kb_decision(
         "//kb/dev/requirement:explicit-versioned-inputs",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0121-inputs-and-uses-are-outside",
+)
+
+kb_decision(
+    name = "p11-interpreter-generalizes-hci",
+    conclusion = "p11-interpreter-generalizes-hci/conclusion.md",
+    rationale = "p11-interpreter-generalizes-hci/rationale.md",
+    alternatives = "p11-interpreter-generalizes-hci/alternatives.md",
+    conventions = "p11-interpreter-generalizes-hci/conventions.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/9fef5341-55b1-4fda-8a93-e5ffdfbfcf83",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/fd376243-16f1-4f4c-a463-099b87637565", "https://agentic-knowledge-base.dev/id/chunk/a1b7d36b-0909-463b-b4f9-2134a1681e80", "https://agentic-knowledge-base.dev/id/chunk/b3586277-3689-4fe1-934d-ac6896a3c79d", "https://agentic-knowledge-base.dev/id/chunk/a574bc7c-f3c3-4d44-9b47-7e6dc3cd16c2"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/fd376243-16f1-4f4c-a463-099b87637565", "https://agentic-knowledge-base.dev/id/chunk/a1b7d36b-0909-463b-b4f9-2134a1681e80", "https://agentic-knowledge-base.dev/id/chunk/b3586277-3689-4fe1-934d-ac6896a3c79d", "https://agentic-knowledge-base.dev/id/chunk/a574bc7c-f3c3-4d44-9b47-7e6dc3cd16c2"],
+    part_levels = ["concrete", "logical", "logical", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+)
+
+kb_decision(
+    name = "p11-lesson-promotion",
+    conclusion = "p11-lesson-promotion/conclusion.md",
+    rationale = "p11-lesson-promotion/rationale.md",
+    alternatives = "p11-lesson-promotion/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/8bfb469f-8a22-4afb-9348-80b2c95875b3",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/0aadb80d-420a-493d-9c6b-fb7a502d786b", "https://agentic-knowledge-base.dev/id/chunk/59d82bb0-70da-41be-9d91-a3e6de770855", "https://agentic-knowledge-base.dev/id/chunk/59dada96-6a07-48b6-abc1-a3fd9b9fb358"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/0aadb80d-420a-493d-9c6b-fb7a502d786b", "https://agentic-knowledge-base.dev/id/chunk/59d82bb0-70da-41be-9d91-a3e6de770855", "https://agentic-knowledge-base.dev/id/chunk/59dada96-6a07-48b6-abc1-a3fd9b9fb358"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -2367,9 +2561,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0124-agent-catalog-scope",
     ],
 )
 
@@ -2475,9 +2666,6 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0150-artifact-review-support",
-    ],
 )
 
 kb_decision(
@@ -2495,9 +2683,6 @@ kb_decision(
         "//kb/dev/requirement:audit-self-sufficiency",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0144-user-feedback-loop-space-file",
-    ],
 )
 
 kb_decision(
@@ -2512,9 +2697,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0144-user-feedback-loop-space-file",
     ],
 )
 
@@ -2535,6 +2717,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p12-composition-workflow",
+    conclusion = "p12-composition-workflow/conclusion.md",
+    rationale = "p12-composition-workflow/rationale.md",
+    alternatives = "p12-composition-workflow/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/16438f48-86f5-4fd8-a6b6-f971064cf38e",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/00e1e7b4-42b3-40a3-8ac5-c0483a50ee05", "https://agentic-knowledge-base.dev/id/chunk/149d6c23-b665-4569-9b2d-98241152cb97", "https://agentic-knowledge-base.dev/id/chunk/7c1d46d7-e9a8-4684-afc4-0e1d4f695252"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/00e1e7b4-42b3-40a3-8ac5-c0483a50ee05", "https://agentic-knowledge-base.dev/id/chunk/149d6c23-b665-4569-9b2d-98241152cb97", "https://agentic-knowledge-base.dev/id/chunk/7c1d46d7-e9a8-4684-afc4-0e1d4f695252"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+)
+
+kb_decision(
     name = "p12-cross-project-reuse",
     conclusion = "p12-cross-project-reuse/conclusion.md",
     rationale = "p12-cross-project-reuse/rationale.md",
@@ -2546,9 +2743,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0144-user-feedback-loop-space-file",
     ],
 )
 
@@ -2564,9 +2758,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-021-two-kbs-separated",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0121-inputs-and-uses-are-outside",
     ],
 )
 
@@ -2584,9 +2775,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:documents-are-generated",
     ],
-    supersedes = [
-        "//chunks/decision:d-0150-artifact-review-support",
-    ],
 )
 
 kb_decision(
@@ -2603,9 +2791,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-021-two-kbs-separated",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0144-user-feedback-loop-space-file",
     ],
 )
 
@@ -2682,6 +2867,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p12-generated-lists-with-drift-check",
+    conclusion = "p12-generated-lists-with-drift-check/conclusion.md",
+    rationale = "p12-generated-lists-with-drift-check/rationale.md",
+    alternatives = "p12-generated-lists-with-drift-check/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/6348f062-c916-4bb7-9e3c-14fc848c8b54",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/5c3a7f0a-bb54-4b9c-8bcd-626ab770e047", "https://agentic-knowledge-base.dev/id/chunk/267316e8-efa5-48d5-be40-69ec0182ec9a", "https://agentic-knowledge-base.dev/id/chunk/9e9bbd44-bda4-4810-984d-bd76d16c89cb"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5c3a7f0a-bb54-4b9c-8bcd-626ab770e047", "https://agentic-knowledge-base.dev/id/chunk/267316e8-efa5-48d5-be40-69ec0182ec9a", "https://agentic-knowledge-base.dev/id/chunk/9e9bbd44-bda4-4810-984d-bd76d16c89cb"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
+    ],
+)
+
+kb_decision(
     name = "p12-incident-postmortem",
     conclusion = "p12-incident-postmortem/conclusion.md",
     rationale = "p12-incident-postmortem/rationale.md",
@@ -2694,9 +2894,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0150-artifact-review-support",
     ],
 )
 
@@ -2712,9 +2909,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0150-artifact-review-support",
     ],
 )
 
@@ -2799,9 +2993,6 @@ kb_decision(
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0144-user-feedback-loop-space-file",
-    ],
 )
 
 kb_decision(
@@ -2850,8 +3041,20 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0144-user-feedback-loop-space-file",
+)
+
+kb_decision(
+    name = "p13-authoring-ui-shares-the-gate",
+    conclusion = "p13-authoring-ui-shares-the-gate/conclusion.md",
+    rationale = "p13-authoring-ui-shares-the-gate/rationale.md",
+    alternatives = "p13-authoring-ui-shares-the-gate/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/4f30d4af-1a70-4db1-9bf3-1b2fe3bd8b5b",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/556b1d8b-17e2-4999-a7cf-12a2cb5e23d0", "https://agentic-knowledge-base.dev/id/chunk/da2b13ef-9082-4917-bf7f-827578fc334f", "https://agentic-knowledge-base.dev/id/chunk/083fe860-db1e-41b3-afb8-1a2afb19c42d"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/556b1d8b-17e2-4999-a7cf-12a2cb5e23d0", "https://agentic-knowledge-base.dev/id/chunk/da2b13ef-9082-4917-bf7f-827578fc334f", "https://agentic-knowledge-base.dev/id/chunk/083fe860-db1e-41b3-afb8-1a2afb19c42d"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -2868,9 +3071,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0154-chunk-editor-requirements",
-    ],
 )
 
 kb_decision(
@@ -2885,9 +3085,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0154-chunk-editor-requirements",
     ],
 )
 
@@ -2937,6 +3134,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p2-catalog-resolved-union",
+    conclusion = "p2-catalog-resolved-union/conclusion.md",
+    rationale = "p2-catalog-resolved-union/rationale.md",
+    alternatives = "p2-catalog-resolved-union/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/5beca94e-efeb-4e6c-89a7-12c3fa80103e",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/a5643dfc-04dd-48e8-997a-47ae456bef7f", "https://agentic-knowledge-base.dev/id/chunk/b10bcecd-3636-4034-ba39-50cb686eb144", "https://agentic-knowledge-base.dev/id/chunk/f8ebcca7-2f3b-42b4-b8ff-18009d655d20"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a5643dfc-04dd-48e8-997a-47ae456bef7f", "https://agentic-knowledge-base.dev/id/chunk/b10bcecd-3636-4034-ba39-50cb686eb144", "https://agentic-knowledge-base.dev/id/chunk/f8ebcca7-2f3b-42b4-b8ff-18009d655d20"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+)
+
+kb_decision(
     name = "p2-competency-questions",
     conclusion = "p2-competency-questions/conclusion.md",
     rationale = "p2-competency-questions/rationale.md",
@@ -2949,9 +3161,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0050-ontology-hygiene-checks",
     ],
 )
 
@@ -3001,9 +3210,6 @@ kb_decision(
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0046-ontology-as-vocabulary",
-    ],
 )
 
 kb_decision(
@@ -3018,9 +3224,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0050-ontology-hygiene-checks",
     ],
 )
 
@@ -3055,9 +3258,6 @@ kb_decision(
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0046-ontology-as-vocabulary",
-    ],
 )
 
 kb_decision(
@@ -3072,9 +3272,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0050-ontology-hygiene-checks",
     ],
 )
 
@@ -3107,9 +3304,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0050-ontology-hygiene-checks",
     ],
 )
 
@@ -3159,10 +3353,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
-    supersedes = [
-        "//chunks/decision:d-0021-domain-neutral-skeleton",
-        "//chunks/decision:d-0056-skeleton-and-domain-profile",
-    ],
 )
 
 kb_decision(
@@ -3177,9 +3367,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0050-ontology-hygiene-checks",
     ],
 )
 
@@ -3196,9 +3383,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
-    supersedes = [
-        "//chunks/decision:d-0046-ontology-as-vocabulary",
-    ],
 )
 
 kb_decision(
@@ -3213,9 +3397,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0050-ontology-hygiene-checks",
     ],
 )
 
@@ -3305,9 +3486,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
-    supersedes = [
-        "//chunks/decision:d-0046-ontology-as-vocabulary",
-    ],
 )
 
 kb_decision(
@@ -3339,9 +3517,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0061-odd-exit-is-a-signal",
     ],
 )
 
@@ -3375,9 +3550,6 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0008-odd-foundation",
-    ],
 )
 
 kb_decision(
@@ -3392,9 +3564,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0061-odd-exit-is-a-signal",
     ],
 )
 
@@ -3412,9 +3581,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0061-odd-exit-is-a-signal",
-    ],
 )
 
 kb_decision(
@@ -3429,9 +3595,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0061-odd-exit-is-a-signal",
     ],
 )
 
@@ -3448,9 +3611,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0058-odd-is-a-document",
-    ],
 )
 
 kb_decision(
@@ -3466,9 +3626,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0061-odd-exit-is-a-signal",
-    ],
 )
 
 kb_decision(
@@ -3483,9 +3640,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0058-odd-is-a-document",
     ],
 )
 
@@ -3553,9 +3707,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0058-odd-is-a-document",
-    ],
 )
 
 kb_decision(
@@ -3571,9 +3722,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0061-odd-exit-is-a-signal",
     ],
 )
 
@@ -3591,9 +3739,6 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0058-odd-is-a-document",
-    ],
 )
 
 kb_decision(
@@ -3609,9 +3754,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0073-composite-standard-part-of",
-    ],
 )
 
 kb_decision(
@@ -3626,9 +3768,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0071-plane-class-level-property",
     ],
 )
 
@@ -3647,9 +3786,6 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0002-chunk-42-line-unit",
-    ],
 )
 
 kb_decision(
@@ -3666,9 +3802,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:context-budget",
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0002-chunk-42-line-unit",
     ],
 )
 
@@ -3687,9 +3820,6 @@ kb_decision(
         "//kb/dev/requirement:deterministic-notation",
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0071-plane-class-level-property",
-    ],
 )
 
 kb_decision(
@@ -3705,9 +3835,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0071-plane-class-level-property",
-    ],
 )
 
 kb_decision(
@@ -3722,9 +3849,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0071-plane-class-level-property",
     ],
 )
 
@@ -3758,9 +3882,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0071-plane-class-level-property",
-    ],
 )
 
 kb_decision(
@@ -3792,9 +3913,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0073-composite-standard-part-of",
     ],
 )
 
@@ -3844,9 +3962,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0073-composite-standard-part-of",
-    ],
 )
 
 kb_decision(
@@ -3894,9 +4009,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0081-plane-assignment-tool-surface",
-    ],
 )
 
 kb_decision(
@@ -3929,9 +4041,6 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0071-plane-class-level-property",
-    ],
 )
 
 kb_decision(
@@ -3949,8 +4058,20 @@ kb_decision(
         "//kb/dev/requirement:documents-are-generated",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0073-composite-standard-part-of",
+)
+
+kb_decision(
+    name = "p4-recipe-as-assembly-spec",
+    conclusion = "p4-recipe-as-assembly-spec/conclusion.md",
+    rationale = "p4-recipe-as-assembly-spec/rationale.md",
+    alternatives = "p4-recipe-as-assembly-spec/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/34c7f15b-534a-47b4-813a-16c2edda3703",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/17b2eb03-21df-428a-88b1-3eb575903186", "https://agentic-knowledge-base.dev/id/chunk/56e06c99-9d2f-4dbb-b207-aa6dbbe39761", "https://agentic-knowledge-base.dev/id/chunk/0fc69c06-f72c-43c4-b621-ba5e8c735948"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/17b2eb03-21df-428a-88b1-3eb575903186", "https://agentic-knowledge-base.dev/id/chunk/56e06c99-9d2f-4dbb-b207-aa6dbbe39761", "https://agentic-knowledge-base.dev/id/chunk/0fc69c06-f72c-43c4-b621-ba5e8c735948"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
     ],
 )
 
@@ -3968,6 +4089,21 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:context-budget",
         "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+)
+
+kb_decision(
+    name = "p4-search-before-authoring",
+    conclusion = "p4-search-before-authoring/conclusion.md",
+    rationale = "p4-search-before-authoring/rationale.md",
+    alternatives = "p4-search-before-authoring/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/54ecc54e-24cd-420e-b5c9-4405958c87ec",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/afc0ae45-1b24-4d30-886c-76cac11671b4", "https://agentic-knowledge-base.dev/id/chunk/47d4c9d1-69c8-474e-b3e9-f055f3e988fe", "https://agentic-knowledge-base.dev/id/chunk/562c9027-07e2-4343-af2c-79c956652a22"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/afc0ae45-1b24-4d30-886c-76cac11671b4", "https://agentic-knowledge-base.dev/id/chunk/47d4c9d1-69c8-474e-b3e9-f055f3e988fe", "https://agentic-knowledge-base.dev/id/chunk/562c9027-07e2-4343-af2c-79c956652a22"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
@@ -4097,9 +4233,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0002-chunk-42-line-unit",
-    ],
 )
 
 kb_decision(
@@ -4115,9 +4248,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0081-plane-assignment-tool-surface",
     ],
 )
 
@@ -4136,9 +4266,6 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0002-chunk-42-line-unit",
-    ],
 )
 
 kb_decision(
@@ -4155,9 +4282,6 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0002-chunk-42-line-unit",
-    ],
 )
 
 kb_decision(
@@ -4173,9 +4297,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0081-plane-assignment-tool-surface",
-    ],
 )
 
 kb_decision(
@@ -4190,9 +4311,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0085-formal-language-makes-reproducibility",
     ],
 )
 
@@ -4210,9 +4328,6 @@ kb_decision(
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0085-formal-language-makes-reproducibility",
-    ],
 )
 
 kb_decision(
@@ -4228,9 +4343,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0005-abstraction-ladder",
     ],
 )
 
@@ -4248,9 +4360,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0005-abstraction-ladder",
-    ],
 )
 
 kb_decision(
@@ -4267,9 +4376,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0085-formal-language-makes-reproducibility",
-    ],
 )
 
 kb_decision(
@@ -4281,7 +4387,7 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/5b404a5b-f164-4fda-b7a6-9d43bea03825", "https://agentic-knowledge-base.dev/id/chunk/f06f4fc5-9885-4e6e-808c-459796abde0f", "https://agentic-knowledge-base.dev/id/chunk/8c9a29b3-784e-4c41-873a-8971ec925c4b"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/5b404a5b-f164-4fda-b7a6-9d43bea03825", "https://agentic-knowledge-base.dev/id/chunk/f06f4fc5-9885-4e6e-808c-459796abde0f", "https://agentic-knowledge-base.dev/id/chunk/8c9a29b3-784e-4c41-873a-8971ec925c4b"],
     part_levels = ["logical", "logical", "logical"],
-    status = "draft",
+    status = "deprecated",
 )
 
 kb_decision(
@@ -4292,10 +4398,14 @@ kb_decision(
     iri = "https://agentic-knowledge-base.dev/id/composite/94fefcc9-d789-4738-8ca9-66d310af6b59",
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/c8069fb9-f2fe-4df9-b34f-c4b8e571b14e", "https://agentic-knowledge-base.dev/id/chunk/a9d4ef7d-a834-40b1-aca0-024757f47a7c", "https://agentic-knowledge-base.dev/id/chunk/d2709269-f4b3-40aa-8ee4-0409bdf508c6"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c8069fb9-f2fe-4df9-b34f-c4b8e571b14e", "https://agentic-knowledge-base.dev/id/chunk/a9d4ef7d-a834-40b1-aca0-024757f47a7c", "https://agentic-knowledge-base.dev/id/chunk/d2709269-f4b3-40aa-8ee4-0409bdf508c6"],
-    part_levels = ["logical", "logical", "logical"],
+    part_levels = ["concrete", "logical", "logical"],
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+    supersedes = [
+        "//kb/dev/decision:p6-contract-logical-by-experiment",
+        "//kb/dev/decision:p6-contract-logical-is-view",
     ],
 )
 
@@ -4308,7 +4418,7 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/1ac89243-1c3f-4814-8e13-79a5e507ab0b", "https://agentic-knowledge-base.dev/id/chunk/0dcfdaa7-7916-41a4-8331-9937ead60ba8", "https://agentic-knowledge-base.dev/id/chunk/8008333f-4186-4dbd-b67a-621ad1193a5e"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/1ac89243-1c3f-4814-8e13-79a5e507ab0b", "https://agentic-knowledge-base.dev/id/chunk/0dcfdaa7-7916-41a4-8331-9937ead60ba8", "https://agentic-knowledge-base.dev/id/chunk/8008333f-4186-4dbd-b67a-621ad1193a5e"],
     part_levels = ["logical", "logical", "logical"],
-    status = "draft",
+    status = "deprecated",
 )
 
 kb_decision(
@@ -4355,9 +4465,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0085-formal-language-makes-reproducibility",
     ],
 )
 
@@ -4431,9 +4538,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0085-formal-language-makes-reproducibility",
-    ],
 )
 
 kb_decision(
@@ -4466,8 +4570,20 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0081-plane-assignment-tool-surface",
+)
+
+kb_decision(
+    name = "p6-recipe-convention-over-shape",
+    conclusion = "p6-recipe-convention-over-shape/conclusion.md",
+    rationale = "p6-recipe-convention-over-shape/rationale.md",
+    alternatives = "p6-recipe-convention-over-shape/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/62ae5796-417d-448f-a95a-5c028891aef7",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/81bba3f9-07ee-4c46-b888-4e9380596b59", "https://agentic-knowledge-base.dev/id/chunk/eaf61cb9-4317-42cf-b29a-75c6db72428f", "https://agentic-knowledge-base.dev/id/chunk/8f0f7c70-8378-4b4a-95cb-75d3932a50d1"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/81bba3f9-07ee-4c46-b888-4e9380596b59", "https://agentic-knowledge-base.dev/id/chunk/eaf61cb9-4317-42cf-b29a-75c6db72428f", "https://agentic-knowledge-base.dev/id/chunk/8f0f7c70-8378-4b4a-95cb-75d3932a50d1"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
 )
 
@@ -4485,9 +4601,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0005-abstraction-ladder",
-    ],
 )
 
 kb_decision(
@@ -4500,6 +4613,21 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/e6d66083-207d-45f6-8779-2b79e141111e", "https://agentic-knowledge-base.dev/id/chunk/ad872d64-810f-4735-b01d-941166f0cfe6", "https://agentic-knowledge-base.dev/id/chunk/9d4442de-cc3b-4882-91b4-3c236f92ff02", "https://agentic-knowledge-base.dev/id/chunk/86e2ac76-b4a0-4183-a400-474f74113e80"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e6d66083-207d-45f6-8779-2b79e141111e", "https://agentic-knowledge-base.dev/id/chunk/ad872d64-810f-4735-b01d-941166f0cfe6", "https://agentic-knowledge-base.dev/id/chunk/9d4442de-cc3b-4882-91b4-3c236f92ff02", "https://agentic-knowledge-base.dev/id/chunk/86e2ac76-b4a0-4183-a400-474f74113e80"],
     part_levels = ["concrete", "logical", "logical", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+)
+
+kb_decision(
+    name = "p6-three-failure-mode-defences",
+    conclusion = "p6-three-failure-mode-defences/conclusion.md",
+    rationale = "p6-three-failure-mode-defences/rationale.md",
+    alternatives = "p6-three-failure-mode-defences/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ea65a62f-fb81-43aa-878a-09fcb883fdfd",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/bee4f5da-0ec3-48fd-831b-d4d7f6ab5389", "https://agentic-knowledge-base.dev/id/chunk/ff29ad03-15d9-4391-99f6-b9077470925c", "https://agentic-knowledge-base.dev/id/chunk/b806af01-644d-4817-984a-18084ea20f0d"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/bee4f5da-0ec3-48fd-831b-d4d7f6ab5389", "https://agentic-knowledge-base.dev/id/chunk/ff29ad03-15d9-4391-99f6-b9077470925c", "https://agentic-knowledge-base.dev/id/chunk/b806af01-644d-4817-984a-18084ea20f0d"],
+    part_levels = ["concrete", "concrete", "concrete"],
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-013-labels-before-bodies",
@@ -4521,6 +4649,21 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
         "//kb/dev/requirement:r-021-two-kbs-separated",
+    ],
+)
+
+kb_decision(
+    name = "p6-validate-the-union",
+    conclusion = "p6-validate-the-union/conclusion.md",
+    rationale = "p6-validate-the-union/rationale.md",
+    alternatives = "p6-validate-the-union/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/6e580ff9-3d4a-423c-987d-4724894725a5",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/7e598dbd-7b2f-4f30-9640-87c3be26d62f", "https://agentic-knowledge-base.dev/id/chunk/09ec638e-da51-455f-af35-fc6fb1c7793e", "https://agentic-knowledge-base.dev/id/chunk/e1a6d550-fdde-434c-98b8-611e2c7e4031"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/7e598dbd-7b2f-4f30-9640-87c3be26d62f", "https://agentic-knowledge-base.dev/id/chunk/09ec638e-da51-455f-af35-fc6fb1c7793e", "https://agentic-knowledge-base.dev/id/chunk/e1a6d550-fdde-434c-98b8-611e2c7e4031"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -4843,6 +4986,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p7-reference-reach-recorded-per-unit",
+    conclusion = "p7-reference-reach-recorded-per-unit/conclusion.md",
+    rationale = "p7-reference-reach-recorded-per-unit/rationale.md",
+    alternatives = "p7-reference-reach-recorded-per-unit/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/3343eae6-4b88-48c8-abfc-da8bb1af307a",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/82bd5b30-ee45-4572-9ee0-f6207e625287", "https://agentic-knowledge-base.dev/id/chunk/6d39d7fe-baea-46c6-bc60-61a1fae7a230", "https://agentic-knowledge-base.dev/id/chunk/8cd85968-e7f0-47c4-aa93-4d4c96ab8cf8"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/82bd5b30-ee45-4572-9ee0-f6207e625287", "https://agentic-knowledge-base.dev/id/chunk/6d39d7fe-baea-46c6-bc60-61a1fae7a230", "https://agentic-knowledge-base.dev/id/chunk/8cd85968-e7f0-47c4-aa93-4d4c96ab8cf8"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:context-budget",
+    ],
+)
+
+kb_decision(
     name = "p7-schema-derivation",
     conclusion = "p7-schema-derivation/conclusion.md",
     rationale = "p7-schema-derivation/rationale.md",
@@ -4855,6 +5013,21 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+)
+
+kb_decision(
+    name = "p7-spec-stores-references-not-artifacts",
+    conclusion = "p7-spec-stores-references-not-artifacts/conclusion.md",
+    rationale = "p7-spec-stores-references-not-artifacts/rationale.md",
+    alternatives = "p7-spec-stores-references-not-artifacts/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/959d935b-e16d-4955-acf0-12c81c12e8aa",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/da4d5601-74be-485c-aee2-2de09d4e510d", "https://agentic-knowledge-base.dev/id/chunk/b7ab2486-78bc-4e4b-9aa0-38fc0d319782", "https://agentic-knowledge-base.dev/id/chunk/f97fc9f8-73ec-4a87-85fb-5a8c2894be79"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/da4d5601-74be-485c-aee2-2de09d4e510d", "https://agentic-knowledge-base.dev/id/chunk/b7ab2486-78bc-4e4b-9aa0-38fc0d319782", "https://agentic-knowledge-base.dev/id/chunk/f97fc9f8-73ec-4a87-85fb-5a8c2894be79"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:explicit-versioned-inputs",
     ],
 )
 
@@ -4911,6 +5084,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p8-contract-hangs-off-capability",
+    conclusion = "p8-contract-hangs-off-capability/conclusion.md",
+    rationale = "p8-contract-hangs-off-capability/rationale.md",
+    alternatives = "p8-contract-hangs-off-capability/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/bc99c810-3637-44a9-b446-350ceb648180",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/3bd73a17-5b74-43ac-947d-15f500f2c6ca", "https://agentic-knowledge-base.dev/id/chunk/89ed49c3-1dce-4dee-a038-566f05d300e6", "https://agentic-knowledge-base.dev/id/chunk/a589cdf9-9e75-4233-858c-eb2dae890647"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/3bd73a17-5b74-43ac-947d-15f500f2c6ca", "https://agentic-knowledge-base.dev/id/chunk/89ed49c3-1dce-4dee-a038-566f05d300e6", "https://agentic-knowledge-base.dev/id/chunk/a589cdf9-9e75-4233-858c-eb2dae890647"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+)
+
+kb_decision(
     name = "p8-coverage-denominator-profile-input",
     conclusion = "p8-coverage-denominator-profile-input/conclusion.md",
     rationale = "p8-coverage-denominator-profile-input/rationale.md",
@@ -4959,9 +5147,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0130-testing-as-application",
-    ],
 )
 
 kb_decision(
@@ -4976,9 +5161,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0140-three-defect-factors",
     ],
 )
 
@@ -4996,9 +5178,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-021-two-kbs-separated",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0130-testing-as-application",
     ],
 )
 
@@ -5155,9 +5334,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
     ],
-    supersedes = [
-        "//chunks/decision:d-0140-three-defect-factors",
-    ],
 )
 
 kb_decision(
@@ -5172,9 +5348,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0140-three-defect-factors",
     ],
 )
 
@@ -5191,9 +5364,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-021-two-kbs-separated",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0136-pass-criteria-separate-chunk",
     ],
 )
 
@@ -5228,9 +5398,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-021-two-kbs-separated",
         "//kb/dev/requirement:reproducible-runs",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0136-pass-criteria-separate-chunk",
     ],
 )
 
@@ -5327,9 +5494,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:verification-means-trust",
     ],
-    supersedes = [
-        "//chunks/decision:d-0136-pass-criteria-separate-chunk",
-    ],
 )
 
 kb_decision(
@@ -5345,8 +5509,20 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
-    supersedes = [
-        "//chunks/decision:d-0130-testing-as-application",
+)
+
+kb_decision(
+    name = "p8-spec-as-verifiable-contract",
+    conclusion = "p8-spec-as-verifiable-contract/conclusion.md",
+    rationale = "p8-spec-as-verifiable-contract/rationale.md",
+    alternatives = "p8-spec-as-verifiable-contract/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/bff15384-be48-4304-95be-bcc0f46ef542",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/f756f425-70ed-4158-9675-e2240ffdf3c0", "https://agentic-knowledge-base.dev/id/chunk/dcbd854a-5c12-4131-8693-f7631ad0f8cb", "https://agentic-knowledge-base.dev/id/chunk/bc0492c3-6e12-40ae-87db-73152143cee8"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f756f425-70ed-4158-9675-e2240ffdf3c0", "https://agentic-knowledge-base.dev/id/chunk/dcbd854a-5c12-4131-8693-f7631ad0f8cb", "https://agentic-knowledge-base.dev/id/chunk/bc0492c3-6e12-40ae-87db-73152143cee8"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
 )
 
@@ -5362,9 +5538,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-021-two-kbs-separated",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0136-pass-criteria-separate-chunk",
     ],
 )
 
@@ -5399,9 +5572,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
-    supersedes = [
-        "//chunks/decision:d-0130-testing-as-application",
-    ],
 )
 
 kb_decision(
@@ -5417,9 +5587,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
-    supersedes = [
-        "//chunks/decision:d-0130-testing-as-application",
-    ],
 )
 
 kb_decision(
@@ -5434,9 +5601,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-001-accumulate-domain-knowledge",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0140-three-defect-factors",
     ],
 )
 
@@ -5470,9 +5634,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-021-two-kbs-separated",
     ],
-    supersedes = [
-        "//chunks/decision:d-0130-testing-as-application",
-    ],
 )
 
 kb_decision(
@@ -5485,7 +5646,7 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/a7816e3d-024c-488d-9054-075440f4cb8b", "https://agentic-knowledge-base.dev/id/chunk/1c2804b6-ea98-4a24-b6ae-18e7ae6fb4a9", "https://agentic-knowledge-base.dev/id/chunk/9dc19dfd-7c12-4029-bac7-090286321af6", "https://agentic-knowledge-base.dev/id/chunk/a3dad389-efdd-480a-8b27-f327483e1bbd"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/a7816e3d-024c-488d-9054-075440f4cb8b", "https://agentic-knowledge-base.dev/id/chunk/1c2804b6-ea98-4a24-b6ae-18e7ae6fb4a9", "https://agentic-knowledge-base.dev/id/chunk/9dc19dfd-7c12-4029-bac7-090286321af6", "https://agentic-knowledge-base.dev/id/chunk/a3dad389-efdd-480a-8b27-f327483e1bbd"],
     part_levels = ["concrete", "logical", "logical", "concrete"],
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/dev/requirement:verification-means-trust",
     ],
@@ -5589,6 +5750,42 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p9-belief-by-beta-binomial",
+    conclusion = "p9-belief-by-beta-binomial/conclusion.md",
+    rationale = "p9-belief-by-beta-binomial/rationale.md",
+    alternatives = "p9-belief-by-beta-binomial/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/6287d29d-adee-457f-9deb-1a37dab89ca6",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/2dc8dfc7-565d-48c6-9f76-6b81afcd6eea", "https://agentic-knowledge-base.dev/id/chunk/88497dd1-3af2-4d5c-a364-421dab6a6be4", "https://agentic-knowledge-base.dev/id/chunk/d960c1a5-27fe-4818-960d-7a1a00ff8969"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2dc8dfc7-565d-48c6-9f76-6b81afcd6eea", "https://agentic-knowledge-base.dev/id/chunk/88497dd1-3af2-4d5c-a364-421dab6a6be4", "https://agentic-knowledge-base.dev/id/chunk/d960c1a5-27fe-4818-960d-7a1a00ff8969"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
+    name = "p9-belief-by-calibrated-judge",
+    conclusion = "p9-belief-by-calibrated-judge/conclusion.md",
+    rationale = "p9-belief-by-calibrated-judge/rationale.md",
+    alternatives = "p9-belief-by-calibrated-judge/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/f383d72c-472a-4807-984a-76b137bc5e1d",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/88b97e4d-57de-4ec9-8824-5decb2f9184f", "https://agentic-knowledge-base.dev/id/chunk/95d45893-5c33-4f3f-96b6-972c17dafbc2", "https://agentic-knowledge-base.dev/id/chunk/0643cbf2-e3aa-4933-8b74-bb24c85d0703"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/88b97e4d-57de-4ec9-8824-5decb2f9184f", "https://agentic-knowledge-base.dev/id/chunk/95d45893-5c33-4f3f-96b6-972c17dafbc2", "https://agentic-knowledge-base.dev/id/chunk/0643cbf2-e3aa-4933-8b74-bb24c85d0703"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
+    name = "p9-belief-by-evidence-kind-rank",
+    conclusion = "p9-belief-by-evidence-kind-rank/conclusion.md",
+    rationale = "p9-belief-by-evidence-kind-rank/rationale.md",
+    alternatives = "p9-belief-by-evidence-kind-rank/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/16f7371f-4f26-4563-989c-40a59c4822ea",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/8b6a4563-17d3-4c5c-a9a1-ea46f0babdbc", "https://agentic-knowledge-base.dev/id/chunk/1f2a7697-a98f-4fd5-ade5-9f6b304afb2c", "https://agentic-knowledge-base.dev/id/chunk/02341c70-c7b3-4bcc-a45b-c7582ebcb9fe"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/8b6a4563-17d3-4c5c-a9a1-ea46f0babdbc", "https://agentic-knowledge-base.dev/id/chunk/1f2a7697-a98f-4fd5-ade5-9f6b304afb2c", "https://agentic-knowledge-base.dev/id/chunk/02341c70-c7b3-4bcc-a45b-c7582ebcb9fe"],
+    part_levels = ["logical", "logical", "logical"],
+    status = "draft",
+)
+
+kb_decision(
     name = "p9-candidate-generation-limits",
     conclusion = "p9-candidate-generation-limits/conclusion.md",
     rationale = "p9-candidate-generation-limits/rationale.md",
@@ -5603,8 +5800,20 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0100-design-space-file",
+)
+
+kb_decision(
+    name = "p9-candidate-place-variable",
+    conclusion = "p9-candidate-place-variable/conclusion.md",
+    rationale = "p9-candidate-place-variable/rationale.md",
+    alternatives = "p9-candidate-place-variable/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/97f58cf4-62e3-42d5-9f8a-eab5b8eddcce",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/0aba0e96-bb4f-47a2-96d5-208a406f3d31", "https://agentic-knowledge-base.dev/id/chunk/bd30d659-57db-4c01-a4f4-8f8f9b4d4969", "https://agentic-knowledge-base.dev/id/chunk/94799365-94e5-4803-ab86-710e792468a4"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/0aba0e96-bb4f-47a2-96d5-208a406f3d31", "https://agentic-knowledge-base.dev/id/chunk/bd30d659-57db-4c01-a4f4-8f8f9b4d4969", "https://agentic-knowledge-base.dev/id/chunk/94799365-94e5-4803-ab86-710e792468a4"],
+    part_levels = ["abstract", "abstract", "abstract"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
     ],
 )
 
@@ -5633,8 +5842,14 @@ kb_decision(
     iri = "https://agentic-knowledge-base.dev/id/composite/d04bde2f-a133-40eb-9e19-e0d1377735ed",
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/c1354a5b-cf02-4b9f-9376-65d3b6c89a7e", "https://agentic-knowledge-base.dev/id/chunk/47e983b0-6b6d-4dee-83e4-f1b2001a3988", "https://agentic-knowledge-base.dev/id/chunk/ca5b814a-2546-44c3-ae9f-b8ec1feff1b6"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c1354a5b-cf02-4b9f-9376-65d3b6c89a7e", "https://agentic-knowledge-base.dev/id/chunk/47e983b0-6b6d-4dee-83e4-f1b2001a3988", "https://agentic-knowledge-base.dev/id/chunk/ca5b814a-2546-44c3-ae9f-b8ec1feff1b6"],
-    part_levels = ["logical", "logical", "logical"],
-    status = "draft",
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/decision:p9-candidate-place-variable",
+    ],
+    supersedes = [
+        "//kb/dev/decision:p9-candidates-outside-decision-plane",
+    ],
 )
 
 kb_decision(
@@ -5646,7 +5861,7 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/95b9afa8-18df-42c4-b2ea-8028744b2153", "https://agentic-knowledge-base.dev/id/chunk/7ea4b8cd-65fd-48a3-90ac-2a4741191c4f", "https://agentic-knowledge-base.dev/id/chunk/2b6c67dd-d87f-4e59-bcd9-cb8e32671fbc"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/95b9afa8-18df-42c4-b2ea-8028744b2153", "https://agentic-knowledge-base.dev/id/chunk/7ea4b8cd-65fd-48a3-90ac-2a4741191c4f", "https://agentic-knowledge-base.dev/id/chunk/2b6c67dd-d87f-4e59-bcd9-cb8e32671fbc"],
     part_levels = ["logical", "logical", "logical"],
-    status = "draft",
+    status = "deprecated",
 )
 
 kb_decision(
@@ -5661,6 +5876,21 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+)
+
+kb_decision(
+    name = "p9-closed-policy-vocabulary",
+    conclusion = "p9-closed-policy-vocabulary/conclusion.md",
+    rationale = "p9-closed-policy-vocabulary/rationale.md",
+    alternatives = "p9-closed-policy-vocabulary/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/89fef3f3-3d51-4599-8978-a4308453ba39",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/f1c5a605-771b-4cc4-adbe-1dd237407427", "https://agentic-knowledge-base.dev/id/chunk/d6abc9e6-c3ab-4417-b387-fcaa33c5a76f", "https://agentic-knowledge-base.dev/id/chunk/04194c8d-79e2-4a55-b424-6a121c26d7b6"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f1c5a605-771b-4cc4-adbe-1dd237407427", "https://agentic-knowledge-base.dev/id/chunk/d6abc9e6-c3ab-4417-b387-fcaa33c5a76f", "https://agentic-knowledge-base.dev/id/chunk/04194c8d-79e2-4a55-b424-6a121c26d7b6"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
 )
 
@@ -5694,9 +5924,6 @@ kb_decision(
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-013-labels-before-bodies",
     ],
-    supersedes = [
-        "//chunks/decision:d-0100-design-space-file",
-    ],
 )
 
 kb_decision(
@@ -5711,9 +5938,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0096-uncertainty-as-link-uncertainty",
     ],
 )
 
@@ -5731,9 +5955,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0100-design-space-file",
-    ],
 )
 
 kb_decision(
@@ -5748,9 +5969,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0096-uncertainty-as-link-uncertainty",
     ],
 )
 
@@ -5768,9 +5986,6 @@ kb_decision(
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
     ],
-    supersedes = [
-        "//chunks/decision:d-0100-design-space-file",
-    ],
 )
 
 kb_decision(
@@ -5783,10 +5998,49 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/d3a36010-25a1-417b-b2e7-875ccc6955ce", "https://agentic-knowledge-base.dev/id/chunk/bb21779a-b314-46f3-b9f7-2dd0f35ac358", "https://agentic-knowledge-base.dev/id/chunk/aa5949c4-b69d-4388-be81-f640d3a57169", "https://agentic-knowledge-base.dev/id/chunk/33828ab4-58ae-4533-b8a6-2f38e2dd0403"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d3a36010-25a1-417b-b2e7-875ccc6955ce", "https://agentic-knowledge-base.dev/id/chunk/bb21779a-b314-46f3-b9f7-2dd0f35ac358", "https://agentic-knowledge-base.dev/id/chunk/aa5949c4-b69d-4388-be81-f640d3a57169", "https://agentic-knowledge-base.dev/id/chunk/33828ab4-58ae-4533-b8a6-2f38e2dd0403"],
     part_levels = ["concrete", "logical", "logical", "concrete"],
+    status = "deprecated",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+        "//kb/dev/requirement:r-021-two-kbs-separated",
+    ],
+)
+
+kb_decision(
+    name = "p9-evidence-ledger-with-belief",
+    conclusion = "p9-evidence-ledger-with-belief/conclusion.md",
+    rationale = "p9-evidence-ledger-with-belief/rationale.md",
+    alternatives = "p9-evidence-ledger-with-belief/alternatives.md",
+    conventions = "p9-evidence-ledger-with-belief/conventions.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/724d0dfe-3f2e-4bc6-bf43-8a3580b089d7",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/9deed62a-70ad-4a87-99a2-73c11e1a4453", "https://agentic-knowledge-base.dev/id/chunk/a1f1f37b-225c-4bea-8d76-c7e1f074c3d4", "https://agentic-knowledge-base.dev/id/chunk/dbba58ab-f612-47f1-8304-c07661d276f3", "https://agentic-knowledge-base.dev/id/chunk/6a01679b-100b-4cb8-b3fe-5bc2cdcf5a8d"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/9deed62a-70ad-4a87-99a2-73c11e1a4453", "https://agentic-knowledge-base.dev/id/chunk/a1f1f37b-225c-4bea-8d76-c7e1f074c3d4", "https://agentic-knowledge-base.dev/id/chunk/dbba58ab-f612-47f1-8304-c07661d276f3", "https://agentic-knowledge-base.dev/id/chunk/6a01679b-100b-4cb8-b3fe-5bc2cdcf5a8d"],
+    part_levels = ["concrete", "logical", "logical", "concrete"],
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
         "//kb/dev/requirement:r-021-two-kbs-separated",
+    ],
+    supersedes = [
+        "//kb/dev/decision:p9-evidence-ledger",
+    ],
+)
+
+kb_decision(
+    name = "p9-feasible-set-for-settlement",
+    conclusion = "p9-feasible-set-for-settlement/conclusion.md",
+    rationale = "p9-feasible-set-for-settlement/rationale.md",
+    alternatives = "p9-feasible-set-for-settlement/alternatives.md",
+    conventions = "p9-feasible-set-for-settlement/conventions.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/b735df63-3e97-47c1-946e-2f9d10e0aa04",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/d8fdd8fc-692f-430e-8d89-6542564f6626", "https://agentic-knowledge-base.dev/id/chunk/2adc498c-d752-4c85-a365-859d50169ade", "https://agentic-knowledge-base.dev/id/chunk/fa68a8a1-1b51-416d-bc01-2014a7c3fdf9", "https://agentic-knowledge-base.dev/id/chunk/acdae2eb-d9c0-4834-83e0-d7d08041c5bc"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/d8fdd8fc-692f-430e-8d89-6542564f6626", "https://agentic-knowledge-base.dev/id/chunk/2adc498c-d752-4c85-a365-859d50169ade", "https://agentic-knowledge-base.dev/id/chunk/fa68a8a1-1b51-416d-bc01-2014a7c3fdf9", "https://agentic-knowledge-base.dev/id/chunk/acdae2eb-d9c0-4834-83e0-d7d08041c5bc"],
+    part_levels = ["concrete", "logical", "logical", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+    supersedes = [
+        "//kb/dev/decision:p9-possibility-as-feasible-set",
     ],
 )
 
@@ -5815,12 +6069,9 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/204c3abf-f882-4a82-92d0-a375d4e859e2", "https://agentic-knowledge-base.dev/id/chunk/91828cd5-3534-4ec1-970c-ca02f27c914c", "https://agentic-knowledge-base.dev/id/chunk/fd66dd3b-a47e-4e41-8ff1-2213702371dc", "https://agentic-knowledge-base.dev/id/chunk/13a81b9e-7890-424b-a81e-9c0d9cbde6db"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/204c3abf-f882-4a82-92d0-a375d4e859e2", "https://agentic-knowledge-base.dev/id/chunk/91828cd5-3534-4ec1-970c-ca02f27c914c", "https://agentic-knowledge-base.dev/id/chunk/fd66dd3b-a47e-4e41-8ff1-2213702371dc", "https://agentic-knowledge-base.dev/id/chunk/13a81b9e-7890-424b-a81e-9c0d9cbde6db"],
     part_levels = ["concrete", "logical", "logical", "concrete"],
-    status = "stable",
+    status = "deprecated",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0096-uncertainty-as-link-uncertainty",
     ],
 )
 
@@ -5836,9 +6087,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0100-design-space-file",
     ],
 )
 
@@ -5859,6 +6107,36 @@ kb_decision(
 )
 
 kb_decision(
+    name = "p9-source-gated-axes",
+    conclusion = "p9-source-gated-axes/conclusion.md",
+    rationale = "p9-source-gated-axes/rationale.md",
+    alternatives = "p9-source-gated-axes/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/de0d3031-0a4f-4bcf-bc8f-fedfbb99b3aa",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/405d77a3-d480-42cd-a81c-5bb548b673db", "https://agentic-knowledge-base.dev/id/chunk/c6bf2509-fe9f-4d8a-9fab-a03c703426d0", "https://agentic-knowledge-base.dev/id/chunk/12b1b8e3-dd24-4f07-96d4-fda69d1352d7"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/405d77a3-d480-42cd-a81c-5bb548b673db", "https://agentic-knowledge-base.dev/id/chunk/c6bf2509-fe9f-4d8a-9fab-a03c703426d0", "https://agentic-knowledge-base.dev/id/chunk/12b1b8e3-dd24-4f07-96d4-fda69d1352d7"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+)
+
+kb_decision(
+    name = "p9-total-order-selection-policy",
+    conclusion = "p9-total-order-selection-policy/conclusion.md",
+    rationale = "p9-total-order-selection-policy/rationale.md",
+    alternatives = "p9-total-order-selection-policy/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/edb7941d-bfc4-43d0-84ce-b2201e7fddb1",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/b8033cb3-5883-44dc-b70e-9a31fd55c7d6", "https://agentic-knowledge-base.dev/id/chunk/4b77a857-6942-4a5c-a66b-2728b5f63026", "https://agentic-knowledge-base.dev/id/chunk/a038e9ec-5d1d-4930-80ff-049ee154332d"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/b8033cb3-5883-44dc-b70e-9a31fd55c7d6", "https://agentic-knowledge-base.dev/id/chunk/4b77a857-6942-4a5c-a66b-2728b5f63026", "https://agentic-knowledge-base.dev/id/chunk/a038e9ec-5d1d-4930-80ff-049ee154332d"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:reproducible-runs",
+    ],
+)
+
+kb_decision(
     name = "p9-uncertainty-as-link-uncertainty",
     conclusion = "p9-uncertainty-as-link-uncertainty/conclusion.md",
     rationale = "p9-uncertainty-as-link-uncertainty/rationale.md",
@@ -5870,9 +6148,6 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
-    ],
-    supersedes = [
-        "//chunks/decision:d-0096-uncertainty-as-link-uncertainty",
     ],
 )
 
@@ -5893,6 +6168,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "pe-atomic-generation",
+    conclusion = "pe-atomic-generation/conclusion.md",
+    rationale = "pe-atomic-generation/rationale.md",
+    alternatives = "pe-atomic-generation/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/99254d62-ee67-4d34-aa30-a42211166fd5",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/f8a8acdf-ff53-4bce-9a56-fd043f1bb077", "https://agentic-knowledge-base.dev/id/chunk/8a24627c-2be8-4eb4-98ed-8989fad9d199", "https://agentic-knowledge-base.dev/id/chunk/112755c0-2004-4bec-998c-7f8d1e4b52b6"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/f8a8acdf-ff53-4bce-9a56-fd043f1bb077", "https://agentic-knowledge-base.dev/id/chunk/8a24627c-2be8-4eb4-98ed-8989fad9d199", "https://agentic-knowledge-base.dev/id/chunk/112755c0-2004-4bec-998c-7f8d1e4b52b6"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
+    ],
+)
+
+kb_decision(
     name = "pe-bazel-rules",
     conclusion = "pe-bazel-rules/conclusion.md",
     rationale = "pe-bazel-rules/rationale.md",
@@ -5909,6 +6199,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "pe-build-view-from-validated-graph",
+    conclusion = "pe-build-view-from-validated-graph/conclusion.md",
+    rationale = "pe-build-view-from-validated-graph/rationale.md",
+    alternatives = "pe-build-view-from-validated-graph/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/00a6593d-57a6-445d-8e50-3dbb23b9df1b",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/2f34d682-f7f2-43a2-9489-662da426e01f", "https://agentic-knowledge-base.dev/id/chunk/d4612105-5fef-4f38-bc63-1ba04d56d94e", "https://agentic-knowledge-base.dev/id/chunk/14188a4f-f9a6-47b8-88d2-4041f32647af"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/2f34d682-f7f2-43a2-9489-662da426e01f", "https://agentic-knowledge-base.dev/id/chunk/d4612105-5fef-4f38-bc63-1ba04d56d94e", "https://agentic-knowledge-base.dev/id/chunk/14188a4f-f9a6-47b8-88d2-4041f32647af"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:documents-are-generated",
+    ],
+)
+
+kb_decision(
     name = "pe-generated-outputs-stay-in-bazel-out",
     conclusion = "pe-generated-outputs-stay-in-bazel-out/conclusion.md",
     rationale = "pe-generated-outputs-stay-in-bazel-out/rationale.md",
@@ -5921,6 +6226,22 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:documents-are-generated",
+    ],
+)
+
+kb_decision(
+    name = "pe-harness-on-bazel",
+    conclusion = "pe-harness-on-bazel/conclusion.md",
+    rationale = "pe-harness-on-bazel/rationale.md",
+    alternatives = "pe-harness-on-bazel/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/da7b19bc-5643-490f-9a51-3c45c7d06273",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/7015f9e5-91dc-4993-8ff7-9ceefa108ded", "https://agentic-knowledge-base.dev/id/chunk/26ca7798-4339-4995-83cb-2ec6a1e28aad", "https://agentic-knowledge-base.dev/id/chunk/769522bb-af31-4b5a-a1e6-fd01b6025a7d"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/7015f9e5-91dc-4993-8ff7-9ceefa108ded", "https://agentic-knowledge-base.dev/id/chunk/26ca7798-4339-4995-83cb-2ec6a1e28aad", "https://agentic-knowledge-base.dev/id/chunk/769522bb-af31-4b5a-a1e6-fd01b6025a7d"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+        "//kb/dev/requirement:reproducible-runs",
     ],
 )
 
@@ -5958,6 +6279,21 @@ kb_decision(
 )
 
 kb_decision(
+    name = "pe-lock-snapshot-reproducibility",
+    conclusion = "pe-lock-snapshot-reproducibility/conclusion.md",
+    rationale = "pe-lock-snapshot-reproducibility/rationale.md",
+    alternatives = "pe-lock-snapshot-reproducibility/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/ab3d3668-34d4-43a1-b5d2-220cdbd6ca30",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/acd33470-3f79-4c6a-b2a5-4add868a694d", "https://agentic-knowledge-base.dev/id/chunk/cb8f9e96-f81a-4f66-bf73-31c0a8de3be2", "https://agentic-knowledge-base.dev/id/chunk/e555ebbc-3c77-4220-b757-b638d85522f9"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/acd33470-3f79-4c6a-b2a5-4add868a694d", "https://agentic-knowledge-base.dev/id/chunk/cb8f9e96-f81a-4f66-bf73-31c0a8de3be2", "https://agentic-knowledge-base.dev/id/chunk/e555ebbc-3c77-4220-b757-b638d85522f9"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:explicit-versioned-inputs",
+    ],
+)
+
+kb_decision(
     name = "pe-notation-and-cel",
     conclusion = "pe-notation-and-cel/conclusion.md",
     rationale = "pe-notation-and-cel/rationale.md",
@@ -5987,6 +6323,21 @@ kb_decision(
     status = "stable",
     refines = [
         "//kb/dev/requirement:r-005-odd-single-document",
+    ],
+)
+
+kb_decision(
+    name = "pe-output-address-from-spec-slot",
+    conclusion = "pe-output-address-from-spec-slot/conclusion.md",
+    rationale = "pe-output-address-from-spec-slot/rationale.md",
+    alternatives = "pe-output-address-from-spec-slot/alternatives.md",
+    iri = "https://agentic-knowledge-base.dev/id/composite/e69281eb-93ed-4314-8a54-0c18ff5cf4f1",
+    ordered = ["https://agentic-knowledge-base.dev/id/chunk/4edeeed1-0c25-4965-a4f6-5ed608c2b07c", "https://agentic-knowledge-base.dev/id/chunk/c3d2d14a-33fd-4aa3-b95f-644da452cb45", "https://agentic-knowledge-base.dev/id/chunk/2e821855-c9fe-4b77-aac6-302ca8735fc0"],
+    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/4edeeed1-0c25-4965-a4f6-5ed608c2b07c", "https://agentic-knowledge-base.dev/id/chunk/c3d2d14a-33fd-4aa3-b95f-644da452cb45", "https://agentic-knowledge-base.dev/id/chunk/2e821855-c9fe-4b77-aac6-302ca8735fc0"],
+    part_levels = ["concrete", "concrete", "concrete"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:deterministic-notation",
     ],
 )
 
@@ -6047,6 +6398,7 @@ kb_bundle(
         ":p0-condition-taxonomy",
         ":p0-condition-taxonomy-extensible",
         ":p0-deprecate-not-delete",
+        ":p0-description-says-what-graph-cannot",
         ":p0-english-label-without-hangul",
         ":p0-entity-iri-forms",
         ":p0-figure-caption-and-source",
@@ -6056,23 +6408,28 @@ kb_bundle(
         ":p0-identity-review-convention-only",
         ":p0-iri-design",
         ":p0-layer-extends-beyond-chunks",
+        ":p0-layer-scope-variable",
         ":p0-layer-stays-on-chunks",
         ":p0-no-invented-terms",
         ":p0-notation-format",
         ":p0-odd-scope-assumption",
         ":p0-one-word-one-concept",
+        ":p0-owner-namespace-segment",
         ":p0-premise-as-assumption",
         ":p0-prose-assertive-register",
         ":p0-requirement-layer-default-kept",
         ":p0-requirement-layer-marked",
+        ":p0-requirement-layer-variable",
         ":p0-run-as-observation",
         ":p0-run-is-an-append-only-memory-chunk",
         ":p0-scope-specification-form",
         ":p0-self-explanatory-definitions",
+        ":p0-sentence-composition",
         ":p0-service-is-a-three-layer-wiki",
         ":p0-skos-label-synonyms",
         ":p0-state-units-revision-workset",
         ":p0-temporal-constraint-vocabulary",
+        ":p0-temporal-identity-variable",
         ":p0-terms-from-glossary",
         ":p0-two-axes-plane-level",
         ":p0-two-foundations-five-mechanisms",
@@ -6084,10 +6441,13 @@ kb_bundle(
         ":p1-chunk-unit-is-tokens",
         ":p1-context-budget-breakdown",
         ":p1-context-budget-items",
+        ":p1-node-text-token-band",
         ":p1-partial-observability-harness-projections",
+        ":p1-store-formal-read-narrow",
         ":p1-three-breaks-common-vocabulary",
         ":p1-workset-budget-fails-only-with-anchor",
         ":p10-candidate-and-confirmed-link",
+        ":p10-co-edit-evidence-from-small-commits",
         ":p10-confirm-authority-by-evidence-kind",
         ":p10-context-handoff-yields-links",
         ":p10-embedding-similarity-narrows-only",
@@ -6111,6 +6471,7 @@ kb_bundle(
         ":p10-user-confirms-every-link",
         ":p11-agent-catalog-derives-scope",
         ":p11-catalog-role-has-granted-scope",
+        ":p11-coordination-topology-is-declared",
         ":p11-dev-profile-role-permissions",
         ":p11-execution-mode-and-workset",
         ":p11-harness-two-channels",
@@ -6119,6 +6480,8 @@ kb_bundle(
         ":p11-input-validation-shapes",
         ":p11-inputs-are-parameters",
         ":p11-inputs-as-versioned-vocabulary",
+        ":p11-interpreter-generalizes-hci",
+        ":p11-lesson-promotion",
         ":p11-memory-promotion-rule",
         ":p11-parallel-attempts-need-no-new-machinery",
         ":p11-role-sessions-and-dispatch-models",
@@ -6130,6 +6493,7 @@ kb_bundle(
         ":p12-audit-and-onboarding-self-sufficiency",
         ":p12-change-impact-analysis",
         ":p12-cognition-measurement",
+        ":p12-composition-workflow",
         ":p12-cross-project-reuse",
         ":p12-dev-vv-kb-exchange",
         ":p12-documents-are-generated",
@@ -6138,6 +6502,7 @@ kb_bundle(
         ":p12-generated-document-header",
         ":p12-generated-document-input-section",
         ":p12-generated-documents-are-gated",
+        ":p12-generated-lists-with-drift-check",
         ":p12-incident-postmortem",
         ":p12-knowledge-retrieval-by-label",
         ":p12-metrics-gate-at-stage-completion",
@@ -6149,11 +6514,13 @@ kb_bundle(
         ":p12-symbolic-diagnosis",
         ":p12-time-dependent-wording-is-advisory",
         ":p12-user-feedback-space-file",
+        ":p13-authoring-ui-shares-the-gate",
         ":p13-chunk-editor-requirements",
         ":p13-traceability-matrix-screen",
         ":p14-adoption-stages",
         ":p14-stage-pass-conditions",
         ":p16-design-tension-register",
+        ":p2-catalog-resolved-union",
         ":p2-competency-questions",
         ":p2-definition-names-its-gate",
         ":p2-judgement-history-in-verified",
@@ -6213,7 +6580,9 @@ kb_bundle(
         ":p4-one-file-one-topic",
         ":p4-plane-subclass-level-property",
         ":p4-projection-as-query",
+        ":p4-recipe-as-assembly-spec",
         ":p4-redundancy-as-safety-margin",
+        ":p4-search-before-authoring",
         ":p4-shape-file-per-target-with-message",
         ":p4-shape-only-strengthens",
         ":p4-shape-values-are-typed",
@@ -6244,9 +6613,12 @@ kb_bundle(
         ":p6-invalidation-propagation",
         ":p6-mass-fail-suspects-the-rule",
         ":p6-plane-level-occupancy",
+        ":p6-recipe-convention-over-shape",
         ":p6-refinement-ladder",
         ":p6-self-check-before-completion",
+        ":p6-three-failure-mode-defences",
         ":p6-transition-gates",
+        ":p6-validate-the-union",
         ":p6-weakening-a-check-needs-user-approval",
         ":p6-what-evolves-has-a-home",
         ":p7-alternatives-mandatory",
@@ -6268,10 +6640,13 @@ kb_bundle(
         ":p7-developer-requires-concrete",
         ":p7-extraction-range-by-list",
         ":p7-extraction-range-by-principle",
+        ":p7-reference-reach-recorded-per-unit",
         ":p7-schema-derivation",
+        ":p7-spec-stores-references-not-artifacts",
         ":p8-agent-verification-target",
         ":p8-agent-vv",
         ":p8-case-generation",
+        ":p8-contract-hangs-off-capability",
         ":p8-coverage-denominator-profile-input",
         ":p8-coverage-denominator-risk-weighted",
         ":p8-coverage-denominator-t-wise",
@@ -6299,6 +6674,7 @@ kb_bundle(
         ":p8-scenario-ladder-rungs",
         ":p8-simulation-credibility",
         ":p8-simulation-project",
+        ":p8-spec-as-verifiable-contract",
         ":p8-testbed",
         ":p8-three-directions-of-verification",
         ":p8-two-knowledge-bases",
@@ -6313,11 +6689,16 @@ kb_bundle(
         ":p8-vv-reports",
         ":p8-vv-roles",
         ":p8-vv-workflow",
+        ":p9-belief-by-beta-binomial",
+        ":p9-belief-by-calibrated-judge",
+        ":p9-belief-by-evidence-kind-rank",
         ":p9-candidate-generation-limits",
+        ":p9-candidate-place-variable",
         ":p9-candidate-storage",
         ":p9-candidates-in-decision-plane",
         ":p9-candidates-outside-decision-plane",
         ":p9-candidates-per-level",
+        ":p9-closed-policy-vocabulary",
         ":p9-conditional-links",
         ":p9-constraint-propagation-timing",
         ":p9-constraint-sources-and-kinds",
@@ -6325,18 +6706,27 @@ kb_bundle(
         ":p9-csp-mapping-of-links",
         ":p9-design-space-file",
         ":p9-evidence-ledger",
+        ":p9-evidence-ledger-with-belief",
+        ":p9-feasible-set-for-settlement",
         ":p9-language-model-place",
         ":p9-possibility-as-feasible-set",
         ":p9-preference-partial-order",
         ":p9-same-level-relations",
+        ":p9-source-gated-axes",
+        ":p9-total-order-selection-policy",
         ":p9-uncertainty-as-link-uncertainty",
         ":pe-anchor-is-bazel-label",
+        ":pe-atomic-generation",
         ":pe-bazel-rules",
+        ":pe-build-view-from-validated-graph",
         ":pe-generated-outputs-stay-in-bazel-out",
+        ":pe-harness-on-bazel",
         ":pe-kg-hand-and-generated-files",
         ":pe-knowledge-files-are-gate-inputs",
+        ":pe-lock-snapshot-reproducibility",
         ":pe-notation-and-cel",
         ":pe-odd-is-openodd",
+        ":pe-output-address-from-spec-slot",
         ":pe-scenario-is-openscenario",
         ":pe-storage-layout",
         ":pe-three-layer-binding",

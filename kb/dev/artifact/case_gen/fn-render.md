@@ -7,17 +7,17 @@ title: function render in tools/case_gen.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-case-gen}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-04T12:40:09Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/57d4b0bb-fce0-462b-ba05-e71e7206bf74, https://agentic-knowledge-base.dev/id/chunk/769e8138-5647-40e0-8626-1ff77d838b92, https://agentic-knowledge-base.dev/id/chunk/b055ea3f-2020-43a8-8cc6-942e7df8e99f, https://agentic-knowledge-base.dev/id/chunk/b23dee78-99ba-49f8-bcde-88ea157cbe7a, https://agentic-knowledge-base.dev/id/chunk/b32a6a71-a1e8-4f65-89b7-47ea42f67f32, https://agentic-knowledge-base.dev/id/chunk/e222b91b-3e94-4d2c-a3f9-cf2851ce0d9f]
 part_of: https://agentic-knowledge-base.dev/id/composite/d35350bd-7f95-4059-82b7-88108831c060
 ---
-**함수** — `render(sc, a, case, name)` 다. 값 배정 하나 → 케이스 청크 텍스트.
+**함수** — `render(sc, a, case, name)` 다. 값 배정 하나 → 테스트 케이스 텍스트.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def render(sc: dict, a: dict, case: dict, name: str) -> str:
-    """값 배정 하나 → 케이스 청크 텍스트. frontmatter 는 현행 케이스의 키 순서를 따른다."""
+    """값 배정 하나 → 테스트 케이스 텍스트. frontmatter 는 현행 테스트 케이스의 키 순서를 따른다."""
     keep, vals = sc["spec"]["keep"], a["values"]
     cls = "accept" if all(inside(keep[k], v) for k, v in vals.items()) else "reject"
     tmpl = case.get(cls)
@@ -25,14 +25,19 @@ def render(sc: dict, a: dict, case: dict, name: str) -> str:
         raise CaseGenError(f"{sc['path']}: `{name}` 은 `{cls}` 부류인데 `case.{cls}` 가 없다")
     key = json.dumps(vals, sort_keys=True, ensure_ascii=False)
     iri = CHUNK_NS + str(uuid.uuid5(uuid.NAMESPACE_URL, f"{sc['iri']}#case:{key}"))
-    fm = ["---", f"id: {iri}", "type: schema", "level: concrete", f"title_ko: {fill(case['title_ko'], vals)}",
-          f"title: {fill(case['title'], vals)}", "status: draft", f"sources: {sc['sources']}", f"assumes: {sc['assumes']}",
-          f"generated: {{by: {ACTOR}, at: {sc['at']}}}", f"refines: [{case['criteria']}]"]
+    fm = ["---", f"id: {iri}", "type: schema", "level: concrete", f"title_ko: {fill(case['title_ko'], vals)}"]
+    if case.get(kb_lib.FORMER_TITLE_KEY):  # 템플릿의 옛 이름을 단위 지식의 옛 이름으로 옮긴다 — 키 순서는 title_ko 바로 다음이다
+        fm.append(f"{kb_lib.FORMER_TITLE_KEY}: {json.dumps([fill(x, vals) for x in case[kb_lib.FORMER_TITLE_KEY]], ensure_ascii=False)}")
+    fm += [f"title: {fill(case['title'], vals)}", f"status: {sc['status']}", f"sources: {sc['sources']}", f"assumes: {sc['assumes']}",
+           f"generated: {{by: {ACTOR}, at: {sc['at']}}}"]
+    if sc["verified_at"]:  # 시나리오가 stable 이면 그 재검증 시각을 process:case_gen 이 단다 (load_scenario)
+        fm.append(f"verified: [{{by: {ACTOR}, at: {sc['verified_at']}}}]")
+    fm.append(f"refines: [{case['criteria']}]")
     if case.get("verifies"):
         fm.append(f"verifies: [{', '.join(case['verifies'])}]")
     derives = [sc["iri"]] + [x for x in dict.fromkeys(case.get("derivesFrom") or []) if x != sc["iri"]]  # 시나리오가 첫째다 — drift 가 첫 출처로 시나리오를 찾는다
     fm += [f"derivesFrom: [{', '.join(derives)}]", "---"]
-    body = [f"**케이스** — {fill(case['summary'], vals).strip()}", "", f"**자극** — {fill(case['stimulus'], vals).strip()}", ""]
+    body = [f"**테스트 케이스** — {fill(case['summary'], vals).strip()}", "", f"**자극** — {fill(case['stimulus'], vals).strip()}", ""]
     files = fill_any(case.get("files") or {}, vals)
     if files:
         body += yaml_fence("files", files) + [""]

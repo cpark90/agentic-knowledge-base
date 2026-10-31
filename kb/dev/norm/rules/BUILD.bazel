@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -84,7 +84,7 @@ kb_composite(
         "p8-vv-independence-scope": "https://agentic-knowledge-base.dev/id/composite/a6634f6f-503c-4e74-8aa1-08d272e2a38e",
         "p8-vv-roles": "https://agentic-knowledge-base.dev/id/composite/666bd423-dc26-4857-9841-c1e3aa131223",
         "p9-candidate-storage": "https://agentic-knowledge-base.dev/id/composite/b4561dfb-19ea-4f34-b57e-c241cae4b9da",
-        "p9-evidence-ledger": "https://agentic-knowledge-base.dev/id/composite/05abd2cf-de1b-4aa2-9559-10cb0f868dab",
+        "p9-evidence-ledger-with-belief": "https://agentic-knowledge-base.dev/id/composite/724d0dfe-3f2e-4bc6-bf43-8a3580b089d7",
         "pe-kg-hand-and-generated-files": "https://agentic-knowledge-base.dev/id/composite/3b6eaa94-2497-48bd-96c7-2b84963394d7",
         "pe-odd-is-openodd": "https://agentic-knowledge-base.dev/id/composite/f867e42b-0106-4796-8861-4bdc493e15db",
     },

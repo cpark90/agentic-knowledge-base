@@ -7,9 +7,9 @@ title: Rejecting a bespoke file format and build tool
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 layer: methodology
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/22ffbbd9-3eba-4e36-aeaf-8e5ff96113aa
 ---
-**대안** — 청크의 파일 형식과 의존·검사 실행기를 자체 설계하는 안(이 저장소의 초기 Bazel 하네스는 형식만 자체였다). 기각 — 어휘를 지어내지 않는다(0.0절)의 형식판이며, OKF·Bazel이 이미 제공하는 것을 다시 만들면 소비자 호환과 증분 재판정을 잃는다 (노트 부록 E.1, 유저 결정 2026-09-07 A안).
+**대안** — 단위 지식의 파일 형식과 의존·검사 실행기를 자체 설계하는 안(이 저장소의 초기 Bazel 하네스는 형식만 자체였다). 기각 — 어휘를 지어내지 않는다(0.0절)의 형식판이며, OKF·Bazel이 이미 제공하는 것을 다시 만들면 소비자 호환과 증분 재검증을 잃는다 (노트 부록 E.1, 유저 결정 2026-09-07 A안).

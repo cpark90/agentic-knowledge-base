@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""테스트 통과 도장 — 추출된 코드 청크의 `verified` 를 사람이 아니라 게이트가 찍는다 (p7-code-extraction-direction "도장").
+"""테스트 통과 도장 — 추출된 코드 단위 지식의 `verified` 를 사람이 아니라 게이트가 찍는다 (p7-code-extraction-direction "도장").
 
-`artifact` plane 의 `verified` 는 사람 검토가 아니라 **테스트 통과**다. 코드는 자주 바뀌므로 사람 도장을 요구하면
-수정마다 `generatedAtTime ≤ verifiedAt` 게이트가 걸린다. 판정 주체를 바꾸는 것이지 검사를 약화하는 것이 아니다 —
+`artifact` 지식 종류의 `verified` 는 사람 검토가 아니라 **테스트 통과**다. 코드는 자주 바뀌므로 사람 도장을 요구하면
+수정마다 "가장 늦은 `verifiedAt` ≥ `generatedAtTime`" 게이트가 걸린다. 판정 주체를 바꾸는 것이지 검사를 약화하는 것이 아니다 —
 사람 도장은 결정·요구에 남는다 (`tools/endorse.py`).
 
 **규범: `bazel test //...` 가 종료 0 으로 끝난 뒤에만 이 도구를 돌린다.** 이 도구는 자기 안에서 `bazel test` 를
 부르지 않는다 — `bazel run` 안의 중첩 Bazel 호출은 같은 출력 기반을 잠그기 때문이다. 그래서 도장은 호출자의
 주장이고, 도구가 지키는 것은 **그 주장이 가리키는 내용이 실재하는가** 하나다: `--rev` 를 주지 않으면 소스 파일이
 커밋되어 있어야 하고(작업 트리가 더러우면 리비전이 그 내용을 가리키지 않는다) 도장에는 그때의 소스 해시를 함께
-적는다. 소스가 그 뒤에 바뀌면 추출기가 `verified` 를 **빼서** 낸다 — 수정 뒤 미검증이고 재판정이 자동이다.
+적는다. 소스가 그 뒤에 바뀌면 추출기가 `verified` 를 **빼서** 낸다 — 수정 뒤 미검증이고 재검증이 자동이다.
 
-도장의 자리는 등록부(`<소스>.chunks.yml`)의 `tested` 다. 생성 청크는 뷰이므로 거기에 손으로 적을 자리가 없다.
+도장의 자리는 등록부(`<소스>.chunks.yml`)의 `tested` 다. 생성 단위 지식은 뷰이므로 거기에 손으로 적을 자리가 없다.
 추출기가 `tested.source_hash` 가 지금 소스와 같을 때만 `verified: [{by: process:bazel-test, at: <tested.at>}]` 를
-모든 생성 청크에 낸다. 리비전은 등록부와 파일 청크 본문에 남는다 — `agt:verifiedAt`·`agt:verifiedBy` 밖의 키를
+모든 생성 단위 지식에 낸다. 리비전은 등록부와 파일 단위 지식 본문에 남는다 — `agt:verifiedAt`·`agt:verifiedBy` 밖의 키를
 head 그래프가 받지 않으므로 그래프에 리비전을 넣지 않는다.
 
 사용: bazel run //tools:stamp -- tools/kb_lib.chunks.yml [--rev <리비전>] [--at <ISO 8601 UTC>] [--root <루트>]
@@ -96,7 +96,7 @@ def main() -> int:
             return EXIT_FAIL
         when = when.astimezone() if when.tzinfo is None else when
         if when > datetime.now(timezone.utc):
-            print(f"FAIL [{TAG}] --at {a.at}: 지금보다 뒤다 — 미래 시각의 도장은 쓰지 않는다 (`date -Iseconds` 실측값)", file=sys.stderr)
+            print(f"FAIL [{TAG}] --at {a.at}: 지금보다 뒤다 — 미래 시각의 도장은 쓰지 않는다 (`date -Iseconds` 측정치)", file=sys.stderr)
             return EXIT_FAIL
     done = []
     for rel in a.registries:
@@ -111,7 +111,7 @@ def main() -> int:
             return EXIT_FAIL
     for src, rev in done:
         print(f"도장 {src} — 리비전 {rev[:12]} · {at}. `bazel run //tools:extract -- {src}` 와 "
-              f"`python3 tools/gen_build.py --root .` 를 돌려 청크에 반영하라")
+              f"`python3 tools/gen_build.py --root .` 를 돌려 단위 지식에 반영하라")
     return 0
 
 

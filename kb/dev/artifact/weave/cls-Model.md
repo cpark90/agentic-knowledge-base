@@ -7,17 +7,17 @@ title: class Model in tools/weave.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-weave}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/104f7d3c-d114-46c9-aab7-b44761117813]
 part_of: https://agentic-knowledge-base.dev/id/composite/1a6c538a-b92e-4130-b298-48a8fe030574
 ---
-**클래스** — `class Model` 다. head 그래프의 청크·복합체를 뷰가 쓰는 형태로 — plane·level·status·라벨·위치·시각, 복합체 ↔ 부분.
+**클래스** — `class Model` 다. head 그래프의 단위 지식·복합체를 뷰가 쓰는 형태로 — plane·level·status·라벨·위치·시각, 복합체 ↔ 부분.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 class Model:
-    """head 그래프의 청크·복합체를 뷰가 쓰는 형태로 — plane·level·status·라벨·위치·시각, 복합체 ↔ 부분."""
+    """head 그래프의 단위 지식·복합체를 뷰가 쓰는 형태로 — plane·level·status·라벨·위치·시각, 복합체 ↔ 부분."""
 
     def __init__(self, g: Graph):
         self.g = g
@@ -34,7 +34,7 @@ class Model:
 
     def _plane(self, c) -> str:
         for t in self.g.objects(c, RDF.type):
-            plane = kb_lib.plane_of_class(t)  # 정의처 chunk2kg.CLASS_PLANE — norm 의 클래스는 agt:DocumentSectionChunk 다
+            plane = kb_lib.plane_of_class(t)  # 단일 정의 위치 chunk2kg.CLASS_PLANE — norm 의 클래스는 agt:DocumentSectionChunk 다
             if plane:
                 return plane
         return ""
@@ -52,7 +52,7 @@ class Model:
         return c in self.chunks and self.status[c] != "deprecated"
 
     def decision_roles(self, comp) -> dict:
-        """복합체의 부분을 결론·근거·대안 역할로 — 파일명이 역할이다 (STYLEGUIDE §4). 결정 복합체가 아니면 빈 dict."""
+        """복합체의 부분을 결론·근거·대안 역할로 — 파일명이 역할이다 (STYLEGUIDE §4). 결정 기록이 아니면 빈 dict."""
         roles = {}
         for p in self.parts.get(comp, ()):
             if self.plane.get(p) != "decision":
@@ -73,11 +73,11 @@ class Model:
         return sorted(out, key=lambda cr: self.location[cr[1]["conclusion"]])
 
     def decision_unit(self, c):
-        """청크가 속한 결정 단위 — 복합체면 복합체, 아니면 청크 자신 (단일 파일 결정)."""
+        """단위 지식이 속한 결정 단위 — 복합체면 복합체, 아니면 단위 지식 자신 (복합체 밖의 결정)."""
         return self.comp_of.get(c, c)
 
     def unit_label(self, unit) -> str:
-        """결정 단위의 라벨 — 복합체면 결론 라벨, 청크면 자기 라벨."""
+        """결정 단위의 라벨 — 복합체면 결론 라벨, 단위 지식이면 자기 라벨."""
         roles = self.decision_roles(unit) if unit not in self.chunks else {}
         return self.ko(roles["conclusion"]) if roles else self.ko(unit)
 

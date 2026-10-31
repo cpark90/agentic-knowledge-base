@@ -7,7 +7,7 @@ title: module head gate in tools/tokens.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-tokens}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-01T16:05:21Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/4fe35c96-c167-4a3e-b640-a888f6bcefe5
 ---
@@ -26,15 +26,15 @@ except ImportError:
 
 EXIT_OK, EXIT_FAIL, EXIT_CONFIG, EXIT_SKIP = kb_lib.EXIT_OK, kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG, kb_lib.EXIT_SKIP
 GATE = kb_lib.TOKENS_TAG  # 보고 접두 — 이 도구는 게이트 타깃이 아니다 (상한의 강제는 chunk_lint·token-budget 이다)
-CHUNK_ROOTS = ("chunks", "kb/dev", "kb/vv", "kb/ontology", "space")  # 인자가 없을 때 훑는 자리 — 청크가 사는 디렉토리
-# 온톨로지 모듈과 shape 은 `.ttl` 청크다 — 같은 크기 규칙을 받으므로(chunk_lint 가 `--chunks` 로 받는다)
-# 실측의 분모도 그것을 담아야 한다 (2026-10-01 정정: `.md` 만 훑어 TTL 청크 78개가 분모에서 빠져 있었다).
-# TTL 청크의 판별은 접미사 규약이고 정의처는 `kb_lib.ALLOWED_TTL_SUFFIXES` 의 저작 접미 둘이다 — `-kg`·`-odd`·
-# `-space` 는 생성물이라 청크가 아니다.
+CHUNK_ROOTS = ("kb/dev", "kb/vv", "kb/ontology", "space")  # 인자가 없을 때 훑는 자리 — 단위 지식이 사는 디렉토리
+# 온톨로지 모듈과 shape 은 `.ttl` 단위 지식이다 — 같은 크기 규칙을 받으므로(chunk_lint 가 `--chunks` 로 받는다)
+# 측정의 분모도 그것을 담아야 한다 (2026-10-01 정정: `.md` 만 훑어 TTL 단위 지식 78개가 분모에서 빠져 있었다).
+# TTL 단위 지식의 판별은 접미사 규약이고 단일 정의 위치는 `kb_lib.ALLOWED_TTL_SUFFIXES` 의 저작 접미 둘이다 — `-kg`·`-odd`·
+# `-space` 는 생성물이라 단위 지식이 아니다.
 TTL_CHUNK_SUFFIXES = ("-ontology", "-rules", "-shapes")
 MULTIPLES = 20          # 42의 배수를 몇 개까지 보는가 — 42×1 … 42×20
-LINE_BUDGET_LINES = 200  # 환산의 분모가 된 옛 예산의 줄 수 (d-0002 "42줄은 200줄의 1/5") — 지금 예산은 토큰이다
-BUDGET_PLANES = ("requirement", "decision")  # 줄당 토큰의 표본 — 저작된 산문의 plane 이다
+LINE_BUDGET_LINES = 200  # 환산의 분모가 된 옛 예산의 줄 수 (p4-chunk-as-ontology-class 가 대체한 옛 결정의 "42줄은 200줄의 1/5") — 지금 예산은 토큰이다
+BUDGET_PLANES = ("requirement", "decision")  # 줄당 토큰의 표본 — 저작된 산문의 지식 종류다
 VIEW_PLANES = 5  # 조망 단위 — 한 번에 4~5개를 조망한다 (노트 949행). 예산 ÷ 이 수가 상한의 한 근거다
 TOP_N = 20
 ```

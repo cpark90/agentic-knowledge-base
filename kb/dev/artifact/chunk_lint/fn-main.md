@@ -7,7 +7,7 @@ title: function main in tools/chunk_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/15e8fdb5-4855-45e7-a8da-d43faba52099, https://agentic-knowledge-base.dev/id/chunk/32dfc003-5ffa-4b9f-95c1-d71ffd0a4884, https://agentic-knowledge-base.dev/id/chunk/4978379c-7c15-4dc1-9832-9ada51fe6cf0, https://agentic-knowledge-base.dev/id/chunk/608da358-1b32-4e5f-b999-82b185e41ef4, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/8f6003ae-4fdf-49cc-b1d5-d299b6f34395, https://agentic-knowledge-base.dev/id/chunk/9995ae36-ac6f-4afb-9596-0ef58fa2a582, https://agentic-knowledge-base.dev/id/chunk/adf4efcc-f323-49f3-87da-e81bb49bf4f5, https://agentic-knowledge-base.dev/id/chunk/b2c2e02d-e0ff-47a5-ae59-c97c4f96b895, https://agentic-knowledge-base.dev/id/chunk/b61b3d07-041e-43c2-bb5d-cf3239db7602, https://agentic-knowledge-base.dev/id/chunk/db4948aa-0374-4100-8ea3-fcc9111717da]
 part_of: https://agentic-knowledge-base.dev/id/composite/7b250e22-fd3e-4d64-9b95-214bd55ce9d3
@@ -50,10 +50,10 @@ def main() -> int:
     waived_notes = []  # 면제된 위반 — 집계에서 빼되 목록에는 남긴다 (docs/waivers.md 머리의 규약, ⑥ 이 선례)
     prose_files = 0
     decision_files = 0  # 역할 표지 검사 대상(살아 있는 결정)의 수 — PASS 줄의 실태
-    live_files = 0      # 첨가·목록 검사 대상(살아 있는 .md 청크)의 수
-    comment_files = 0   # 주석 검사 대상(살아 있는 annotation 청크)의 수
+    live_files = 0      # 첨가·목록 검사 대상(살아 있는 .md 단위 지식)의 수
+    comment_files = 0   # 주석 검사 대상(살아 있는 annotation 단위 지식)의 수
     judge_logs = 0      # 판정 로그 검사 대상의 수 — 0 이면 거부할 것이 없고 그것은 SKIP 이 아니라 PASS 다
-    summary_files = 0   # 요약 지지 참조 검사 대상(`핵심:` 슬롯을 쓴 살아 있는 청크)의 수
+    summary_files = 0   # 요약 지지 참조 검사 대상(`핵심:` 슬롯을 쓴 살아 있는 단위 지식)의 수
 
     for f in args.chunks:
         p = Path(f)
@@ -64,7 +64,7 @@ def main() -> int:
             return EXIT_CONFIG
         n = kb_lib.token_count(kb_lib.body_text(p, text), enc)
         plane = split_frontmatter(text)[0].get("type") if p.suffix == ".md" else None
-        limit = kb_lib.body_token_limit(plane)  # plane 별 프로파일 파라미터 — 정의처는 kb_lib.BODY_TOKEN_LIMITS 하나다
+        limit = kb_lib.body_token_limit(plane)  # 지식 종류별 프로파일 파라미터 — 단일 정의 위치는 kb_lib.BODY_TOKEN_LIMITS 하나다
         if n > limit:
             line = (
                 f"[{CHUNK}] {f}: 본문 {n}토큰 > {limit}토큰 — 분할하라 (4.10절 분할 신호"
@@ -116,7 +116,7 @@ def main() -> int:
         print(f"\nFAIL [chunk_lint] — {len(errors)}건 (면제 {len(waived_notes)}건)")
         return EXIT_FAIL
 
-    print(f"PASS [chunk_lint] — 청크 {len(args.chunks)}개 (산문 검사 {prose_files}개, 결정 역할 표지 {decision_files}개, "
+    print(f"PASS [chunk_lint] — 단위 지식 {len(args.chunks)}개 (산문 검사 {prose_files}개, 결정 역할 표지 {decision_files}개, "
           f"첨가·목록 {live_files}개, 주석 {comment_files}개, 판정 로그 {judge_logs}개, 요약 지지 참조 {summary_files}개, "
           f"면제 {len(waived_notes)}건), TTL {len(args.ttl)}개")
     return 0

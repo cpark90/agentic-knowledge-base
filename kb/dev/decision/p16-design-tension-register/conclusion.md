@@ -8,7 +8,7 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-03T17:45:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/be996f41-420f-4a51-a295-3b348336cbf7
 composite: {id: https://agentic-knowledge-base.dev/id/composite/be996f41-420f-4a51-a295-3b348336cbf7, title_ko: 설계 긴장 등록부, title: Design tension register}
@@ -19,4 +19,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/be996f41-420f-4a
 - 어느 한쪽을 택하지 않고 균형점을 정한다. 균형점이 정해진 긴장과 정해지지 않은 긴장을 구분한다.
 - **균형점이 정해지지 않은 긴장은 미해결 질문(노트 Part XVII)에도 올린다.** 등록부는 긴장의 양쪽을 기록하고, 미해결 질문은 답을 기다린다.
 
-노트의 등록부에서 균형점이 정해지지 않은 긴장은 "역할 세분화 vs 오염 전파"다. 균형점은 실측 뒤에 정한다.
+노트의 등록부에서 균형점이 정해지지 않은 긴장은 "역할 세분화 vs 오염 전파"다. 균형점은 측정 뒤에 정한다.

@@ -7,11 +7,11 @@ title: Normative-document conventions — A premise becomes an assumption refere
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-dependency-graph-design}, {resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:12:48+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T00:47:22+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/c6086cf0-0a2c-47d6-96d4-644307e4529c
 ---
 **규약** — `p0-premise-as-assumption`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: [지킴] **전제가 있으면 가정을 만들고 `assumes`로 가리킨다.** 가정은 ODD 조건 위의 명제다. 고유 전제를 아직 적지 않은 청크는 기본 가정 `id:asm-chunk-conventions`를 `assumes`하고, 실제 전제가 드러나면 고유 가정을 앞에 더한다. 기본 가정만 가진 항목은 전제를 아직 적지 않은 것이다. 리뷰에서 잡는다.
+규약: [지킴] **전제가 있으면 가정을 만들고 `assumes`로 가리킨다.** 가정은 ODD 조건 위의 명제다. 고유 전제를 아직 적지 않은 단위 지식은 기본 가정 `id:asm-chunk-conventions`를 `assumes`하고, 실제 전제가 드러나면 고유 가정을 앞에 더한다. 따라서 기본 가정만 가진 항목은 전제를 아직 적지 않은 항목이며, 리뷰가 그런 항목을 잡는다.

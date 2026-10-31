@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""설계 공간 청크(`-space`) → 설계 공간 그래프(`*-space.ttl`) 생성.
+"""설계 공간(`-space`) → 설계 공간 그래프(`*-space.ttl`) 생성.
 
-설계 변수 하나가 파일 하나다. 후보 링크는 확정 링크와 **다른 자리**에 저장된다 — 확정은 청크 head(frontmatter
-링크 키 → Bazel deps), 후보는 `-space` 청크다. **후보는 결코 deps 가 되지 않는다**: 이 생성기는 `kb_chunk` 타깃을
+설계 변수 하나가 파일 하나다. 후보 링크는 확정 링크와 **다른 자리**에 저장된다 — 확정은 단위 지식 head(frontmatter
+링크 키 → Bazel deps), 후보는 설계 공간(`-space`)이다. **후보는 결코 deps 가 되지 않는다**: 이 생성기는 `kb_chunk` 타깃을
 만들지 않고 A-Box 그래프만 내며, 그 그래프는 `//kg:gate_test` 의 `--data` 로 들어가 통제 어휘·SHACL·안티패턴
 질의·`check_space` 의 판정을 받는다 (결정 p9-candidate-storage · p9-design-space-file).
 
-frontmatter 는 청크와 같고(`tools/chunk2kg.py` 의 REQUIRED) `type: agt:Space` · `level: logical` 이다.
+frontmatter 는 단위 지식과 같고(`tools/chunk2kg.py` 의 REQUIRED) `type: agt:Space` · `level: logical` 이다.
 본문은 언어 태그 `yaml` 을 단 펜스 블록 하나이고 키는 여섯이다:
 
   variable     {from: <출발 항목 IRI>, kind: <링크 타입>} (필수) — 미확정은 언제나 두 항목이 연결되는가의
@@ -14,9 +14,13 @@ frontmatter 는 청크와 같고(`tools/chunk2kg.py` 의 REQUIRED) `type: agt:Sp
   status       open | resolved (필수) — resolved 면 `state: confirmed` 인 후보가 정확히 하나다
   candidates   후보 목록 (선택 — abstract 단계는 variable 까지만 채운다). 항목의 키는 다섯이다:
                to(대상 IRI, 필수) · state(open|eliminated|confirmed, 필수) · when(CEL 술어, 선택) ·
-               evidence(지지 증거 목록 [{kind, ref}], 선택) · eliminated_by(배제 근거 {kind, ref}, eliminated 전용·필수)
+               evidence(지지 증거 목록 [{kind, ref}], 선택) · eliminated_by(배제 근거 {kind, ref}, eliminated 전용·필수).
+               증거 종류 userDecision 의 ref 는 `Q-NNNN#Qn` 또는 `legacy/<파일 이름>.md` 다 (kb_lib.USER_DECISION_REF)
   constraints  양립 제약 CEL 술어 목록 (선택) → agt:compatibilityConstraint
   preferences  후보 사이의 부분순서 [{prefer: <IRI>, over: <IRI>}] (선택) → agt:preferredOver. 수치는 붙이지 않는다
+  후보 링크의 방향은 변수 종류(링크 타입, 출발 항목의 지식 종류)마다 kb_lib.SPACE_CANDIDATE_DIRECTION 이 정한다 — 결정
+  변수의 refines 는 후보가 출발점이고, 코드 변수의 refines 는 출발 항목이 출발점이다. 그래서 head 의 확정 링크와
+  (출발, 끝, 종류)가 같다. 지식 종류는 --head 그래프에서 읽는다 (Q-0055 Q112-b).
   후보의 표면 상태는 링크 상태의 기존 값으로 내린다 (kb_lib.SPACE_STATE_LINK) — open 은 agt:CandidateLink 와
   linkState candidate, eliminated 는 linkState invalid, confirmed 는 agt:ConfirmedLink 와 linkState confirmed 다.
   배제 근거·지지 증거는 증거 기록 한 줄(agt:Evidence)로 나가고 극성은 배제가 `-`, 지지가 `+` 다. 기각된 후보는
@@ -24,7 +28,7 @@ frontmatter 는 청크와 같고(`tools/chunk2kg.py` 의 REQUIRED) `type: agt:Sp
 
 출력·종료: 위반은 `FAIL [space] <경로>: <메시지>` + EXIT_FAIL, 읽을 수 없는 입력은 EXIT_CONFIG.
            생성기이므로 입력 0건은 빈 그래프다 (SKIP 아님).
-사용: space2kg.py --out <생성.ttl> <-space 청크…>   (bazel build //space:design_space)
+사용: space2kg.py --out <생성.ttl> --head <chunks-kg.ttl> <설계 공간 -space…>   (bazel build //space:design_space)
 """
 
 from __future__ import annotations
@@ -35,9 +39,10 @@ import sys
 from pathlib import Path
 
 import yaml
+from rdflib import Graph, URIRef
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import chunk2kg  # noqa: E402 — frontmatter 파서·링크 IRI 규칙의 정의처
+import chunk2kg  # noqa: E402 — frontmatter 파서·링크 IRI 규칙의 단일 정의 위치
 
 try:
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
@@ -51,9 +56,9 @@ CANDIDATE_KEYS = ("to", "state", "when", "evidence", "eliminated_by")
 EVIDENCE_KEYS = ("kind", "ref")
 # 증거 종류 — evidence-ontology 의 살아 있는 개체 (폐기된 counterfactualTest 는 뺀다)
 EVIDENCE_KINDS = ("constructionRecord", "coEditHistory", "testCoverage", "runResult", "proposal",
-                  "embeddingSimilarity", "coRead")
+                  "embeddingSimilarity", "coRead", "userDecision", "judgement")
 PREAMBLE = """\
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 `-space` 청크의 frontmatter 와 본문이다.
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 설계 공간(`-space`)의 frontmatter 와 본문이다.
 # 생성: tools/space2kg.py (bazel build //space:design_space)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
@@ -113,15 +118,18 @@ def evidence_of(path: str, where: str, value, polarity: str) -> list[tuple[str, 
                              f"(evidence-ontology, 10.8절)")
         if not ref:
             raise SpaceError(f"{path}: {where} 의 증거에 ref 가 비어 있다 — 극성 {polarity} 의 증거는 실체를 가리켜야 한다 (9.11절)")
+        if kind == kb_lib.USER_DECISION_KIND and not kb_lib.USER_DECISION_REF.match(ref):
+            raise SpaceError(f"{path}: {where} 의 유저 결정 증거 ref {ref!r} 가 질문지와 질문 번호(`Q-NNNN#Qn`)도 "
+                             f"`legacy/<파일 이름>.md` 도 아니다 — 유저 결정은 질문지의 답을 가리킨다 (Q-0055 Q111-a)")
         out.append((kind, ref))
     return out
 
 
 def parse_space(path: str) -> dict:
-    """`-space` 청크 하나 → 방출에 필요한 값들. 형식 위반은 SpaceError 다."""
+    """설계 공간(`-space`) 하나 → 방출에 필요한 값들. 형식 위반은 SpaceError 다."""
     meta, body = chunk2kg.parse_chunk(path)
     if meta["type"] != kb_lib.SPACE_TYPE:
-        raise SpaceError(f"{path}: type 이 {kb_lib.SPACE_TYPE} 가 아니다 — 실제 {meta['type']!r} (설계 공간이 아닌 청크는 "
+        raise SpaceError(f"{path}: type 이 {kb_lib.SPACE_TYPE} 가 아니다 — 실제 {meta['type']!r} (설계 공간이 아닌 단위 지식은 "
                          f"tools/chunk2kg.py 가 head 로 올린다)")
     data = body_block(path, kb_lib.chunk_body(Path(path).read_text(encoding="utf-8")))
 
@@ -158,7 +166,7 @@ def parse_space(path: str) -> dict:
         elif item.get("eliminated_by"):
             raise SpaceError(f"{path}: 후보 {to} 는 state 가 {state} 인데 eliminated_by 가 있다 — 배제 근거는 eliminated 에만 적는다")
         if state == "confirmed" and not any(k in kb_lib.SPACE_CONFIRMING_EVIDENCE for k, _ in support):
-            raise SpaceError(f"{path}: 후보 {to} 가 confirmed 인데 지지 증거가 없다 — 구축 기록 또는 실행 결과"
+            raise SpaceError(f"{path}: 후보 {to} 가 confirmed 인데 지지 증거가 없다 — 구축 기록·실행 결과·유저 결정"
                              f"({' | '.join(kb_lib.SPACE_CONFIRMING_EVIDENCE)}) 없이 확정할 수 없다 (9.11절, 요구 r-011-no-groundless-assignment)")
         candidates.append({"to": to, "state": state, "when": str(item.get("when", "")), "support": support, "elim": elim})
 
@@ -183,21 +191,36 @@ def parse_space(path: str) -> dict:
 
 # ── 그래프 방출과 보고 ────────────────────
 
+def direction_error(space: dict, plane_of) -> str:
+    """변수 종류(링크 타입, 출발 항목의 지식 종류)가 방향 표에 있는가 — 없으면 오류 문장, 있으면 빈 문자열 (Q-0055 Q112-b)."""
+    frm, kind = space["var"]
+    plane = plane_of(URIRef(frm)) or kb_lib.NONE_MARK
+    space["from_plane"] = plane
+    if (kind, plane) in kb_lib.SPACE_CANDIDATE_DIRECTION:
+        return ""
+    known = " · ".join(f"({k}, {p})" for k, p in kb_lib.SPACE_CANDIDATE_DIRECTION)
+    return (f"{space['path']}: 변수 종류 ({kind}, {plane}) 의 후보 링크 방향이 정해지지 않았다 — 방향 표 "
+            f"kb_lib.SPACE_CANDIDATE_DIRECTION 의 종류는 {known} 다. 출발 항목의 지식 종류는 head 그래프에서 읽는다 (Q-0055 Q112-b)")
+
+
 def emit(space: dict, enc) -> list[tuple[str, str]]:
     """설계 공간 하나 → (IRI, 블록) 목록 — 공간 개체 · 후보 링크 개체 · 증거 항목."""
     esc, meta = chunk2kg.esc, space["meta"]
     frm, kind = space["var"]
     out, candidate_iris = [], []
     for c in space["candidates"]:
-        h = chunk2kg.link_hash(frm, kind, c["to"])
-        link = f"{chunk2kg.ID_BASE}link/{h}"
+        start, end = kb_lib.space_link_ends(frm, kind, space["from_plane"], c["to"])  # 방향은 변수 종류의 표 하나가 정한다 (Q112-b)
+        h = chunk2kg.link_hash(start, kind, end)
+        # 세 값은 head 의 확정 링크와 같지만 IRI 는 접미 -space 로 가른다 — 같은 IRI 면 gate 의 병합 그래프에서 후보의 상태·증거가
+        # 확정 링크 개체에 섞인다(배제된 후보와 폐기 결정에 남은 확정 링크가 한 개체가 된다)
+        link = f"{chunk2kg.ID_BASE}link/{h}-space"
         classes, state = kb_lib.SPACE_STATE_LINK[c["state"]]
         evidences = []
         for i, (ekind, ref) in enumerate(c["support"]):
             evidences.append((f"{chunk2kg.ID_BASE}evidence/{h}-space{i}", ekind, ref, "+"))
         if c["elim"]:
             evidences.append((f"{chunk2kg.ID_BASE}evidence/{h}-eliminated", c["elim"][0], c["elim"][1], "-"))
-        stmts = [f"a {classes}", f"agt:linkFrom <{frm}>", f"agt:linkTo <{c['to']}>", f"agt:linkKind agt:{kind}",
+        stmts = [f"a {classes}", f"agt:linkFrom <{start}>", f"agt:linkTo <{end}>", f"agt:linkKind agt:{kind}",
                  f'agt:linkState "{state}"']
         if c["when"]:
             stmts.append(f'agt:when "{esc(c["when"])}"')
@@ -249,10 +272,11 @@ def main() -> int:
     ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
                     help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(design_space 규칙이 명시로 넘긴다)")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다 (p1-chunk-unit-is-tokens)")
+    ap.add_argument("--head", default="", help="head 그래프(//kg:chunks_kg) — 변수 출발 항목의 지식 종류로 후보 링크의 방향을 정한다 (Q112-b)")
     ap.add_argument("files", nargs="*")
     a = ap.parse_args()
     enc = None
-    if a.files:  # parse_chunk 를 실제로 부를 때만 값 어휘가 있어야 한다 — 아직 `-space` 청크가 없으면(빈 grap) 필요 없다
+    if a.files:  # parse_chunk 를 실제로 부를 때만 값 어휘가 있어야 한다 — 아직 설계 공간(`-space`)이 없으면(빈 grap) 필요 없다
         try:
             chunk2kg.apply_plane_level_state(*chunk2kg.load_plane_level_state(a.residency))
         except (OSError, ValueError) as e:
@@ -290,6 +314,15 @@ def main() -> int:
                           f"변수 하나가 파일 하나다 (p9-candidate-storage)")
             continue
         variables[space["var"]] = space["path"]
+    if blocks:  # 변수 종류의 둘째 값(출발 항목의 지식 종류)은 head 에 있다 — 없으면 방향을 정할 수 없으므로 죽는다
+        head = Graph()
+        try:
+            head.parse(a.head, format="turtle")
+        except Exception as e:  # noqa: BLE001 — rdflib 의 파싱 예외는 종류가 여럿이다
+            print(f"FAIL [{GATE}] --head {a.head!r}: 읽을 수 없다 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
+        plane_of = kb_lib.item_plane_resolver(head)
+        errors += [e for e in (direction_error(space, plane_of) for space in blocks) if e]
     if errors:
         for e in errors:
             print(f"FAIL [{GATE}] {e}", file=sys.stderr)

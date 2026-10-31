@@ -7,7 +7,7 @@ title: function resolve in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/2734434f-58d6-4d30-884c-b79d2c51061b, https://agentic-knowledge-base.dev/id/chunk/54593928-2d60-46f2-8052-357ae60657a0, https://agentic-knowledge-base.dev/id/chunk/66148879-b856-4716-aa7c-9e2273143711, https://agentic-knowledge-base.dev/id/chunk/e177d79e-6e9e-494e-a9f6-6a3fe42a641c]
 part_of: https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986-80ad97804df0
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986
 def resolve(reg: dict, names: list[str], hashes: dict[str, str], pkg_dir: Path, check: bool, prev: dict | None = None) -> Ids:
     """등록부 갱신 규칙 (a)~(d). 개명·삭제는 사람의 편집이므로 안내만 하고 등록부를 고치지 않는다.
 
-    `prev` 는 트리의 {정규화 해시: 한정 이름} 이다 — 없으면 파이썬 청크의 것(`previous_hashes`)을 읽는다.
+    `prev` 는 트리의 {정규화 해시: 한정 이름} 이다 — 없으면 파이썬 단위 지식의 것(`previous_hashes`)을 읽는다.
     """
     want, have = set(names), set(reg["ids"])
     gone = sorted(have - want)          # 등록부에 있는데 소스에 없는 이름
@@ -30,7 +30,7 @@ def resolve(reg: dict, names: list[str], hashes: dict[str, str], pkg_dir: Path, 
         was = prev.get(hashes.get(q, ""))
         if was and was in gone:
             renames.append((was, q))
-            if "composite:" + was in gone and "composite:" + q in fresh:  # 절 복합체의 키는 절 청크의 키를 따른다
+            if "composite:" + was in gone and "composite:" + q in fresh:  # 절 복합체의 키는 절 항목의 키를 따른다
                 renames.append(("composite:" + was, "composite:" + q))
     if renames:
         raise ExtractError(f"{reg['source']}: 개명이다 — 본문이 같고 이름만 바뀐 정의가 {len(renames)}건이다. 등록부 "

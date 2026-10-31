@@ -7,7 +7,7 @@ title: function load_tokenizer in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/6b251b77-d183-4d67-973b-146eb11735d6, https://agentic-knowledge-base.dev/id/chunk/8cbc7b96-a195-459d-89bb-a7d1e25755d2]
 part_of: https://agentic-knowledge-base.dev/id/composite/5e2d37fd-1039-4929-8dbf-76c76777b467
@@ -20,7 +20,7 @@ def load_tokenizer(vocab: str | os.PathLike | None = None):
     """고정된 어휘로 `tiktoken.Encoding` 을 만든다. 해시가 다르면 `ValueError` 로 거부한다.
 
     네트워크를 쓰지 않는다 — `tiktoken` 의 내려받기 경로(`load_tiktoken_bpe`)를 거치지 않고 고정된 파일을
-    직접 해독한다. 파일 형식은 줄마다 `<base64 토큰> <순위>` 다. 특수 토큰은 두지 않는다 — 청크 본문에
+    직접 해독한다. 파일 형식은 줄마다 `<base64 토큰> <순위>` 다. 특수 토큰은 두지 않는다 — 단위 지식 본문에
     `<|endoftext|>` 같은 문자열이 있어도 보통 텍스트로 센다.
     `import tiktoken` 은 함수 안에 둔다. `kb_lib` 를 import 하는 도구 대부분은 계수기를 의존하지 않고
     그 BUILD 타깃에 패키지가 없다 (`chunk2kg` · `doccheck` 가 그렇다).

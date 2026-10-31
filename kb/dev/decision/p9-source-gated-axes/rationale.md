@@ -1,0 +1,20 @@
+---
+id: https://agentic-knowledge-base.dev/id/chunk/c6bf2509-fe9f-4d8a-9fab-a03c703426d0
+type: decision
+level: concrete
+title_ko: 지어낸 픽스처는 정직한 과소 반영보다 나쁘고 측정한 결손은 모두 수용 사유를 가졌다
+title: Invented fixtures are worse than honest under-representation, and every measured gap carried an acceptance reason
+status: stable
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-harness-recipes}, {resource: git:aeb0a58:chunks/decision/d-0020-source-gated-axes.md}]
+assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T04:26:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T04:26:48+09:00}]
+part_of: https://agentic-knowledge-base.dev/id/composite/de0d3031-0a4f-4bcf-bc8f-fedfbb99b3aa
+---
+**근거** — 출처는 harness-concrete `RECIPE_STANDARD`의 §2다.
+
+- 원천에 없던 시나리오나 정책을 지어내는 것은 정직한 과소 반영보다 나쁘다. 표현이 원천을 왜곡하기 시작하면 원천에서 표현으로 가는 충실도의 감사인 coverage-audit(`p12-composition-workflow`)의 방향 자체가 무의미해지기 때문이다.
+- 측정이 이를 뒷받침한다. 시나리오 축의 커버리지는 의도적으로 전수에 못 미치고, 그 결손들은 전부 수용 사유가 기록된 결과다. 100%를 만들려면 원천에 없던 픽스처를 지어내야 했다.
+- 수용 사유의 전형은 자동 게이트나 계약이 출력을 판정하는 구조적 수락이 실행 시나리오인 행위적 수락을 대체하는 경우다.
+
+이 저장소에서는 후보를 좁히는 작업은 자유롭되 근거 없이 하나를 할당하지 않는다는 규칙(노트 Part XIV "충실한 수행과 과도한 추측")과 같은 균형점이다. 판정 방법이 없는 조건을 ODD에 두지 않는 규칙(0.4절)과도 같은 결의 정직성 원칙이다.

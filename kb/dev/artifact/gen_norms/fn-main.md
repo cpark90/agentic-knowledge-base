@@ -7,7 +7,7 @@ title: function main in tools/gen_norms.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-norms}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-03T16:28:47Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/060d5b4a-ce00-45a6-893c-e9a0c787372f, https://agentic-knowledge-base.dev/id/chunk/e30fe78f-85fa-447c-8ec3-df25166cee41, https://agentic-knowledge-base.dev/id/chunk/f535cb9d-5732-45d9-857d-ac0129c7eead]
 part_of: https://agentic-knowledge-base.dev/id/composite/85f4907d-b39a-4898-8cf9-888cf6204fb4
@@ -57,7 +57,7 @@ def main() -> int:
                 p.write_text(content, encoding="utf-8")
     if a.check:
         for out in drift:
-            print(f"FAIL [{DRIFT}] {out}: 원본(절 청크 · 결정의 규약 줄)과 어긋난다 — python3 tools/gen_norms.py --root . 를 돌려 커밋하라")
+            print(f"FAIL [{DRIFT}] {out}: 원본(절 항목 · 결정의 규약 줄)과 어긋난다 — python3 tools/gen_norms.py --root . 를 돌려 커밋하라")
         if drift:
             print(f"\nFAIL [{DRIFT}] — 어긋남 {len(drift)}건 / 생성 문서 {len(outputs)}개")
             return EXIT_FAIL

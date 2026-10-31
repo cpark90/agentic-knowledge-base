@@ -7,7 +7,7 @@ title: function raw_frontmatter in tools/case_gen.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-case-gen}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-04T04:52:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/10ce940e-ae6b-4b2e-8d0e-3bb5448ae88e
 ---
@@ -16,7 +16,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/10ce940e-ae6b-4b2e-8d0e
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def raw_frontmatter(text: str) -> dict[str, str]:
-    """frontmatter 의 키 → 원문 값. 생성 케이스가 시나리오의 `sources`·`assumes` 를 바이트 그대로 옮기는 자리다."""
+    """frontmatter 의 키 → 원문 값. 생성 테스트 케이스가 시나리오의 `sources`·`assumes` 를 바이트 그대로 옮기는 자리다."""
     lines = text.splitlines()
     end = lines[1:].index("---") + 1
     out = {}

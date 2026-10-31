@@ -1,7 +1,7 @@
 # composite-kg — 손으로 쓰는 복합체의 자리 (노트 4.5절, 4.7절). 지금은 비어 있다.
 # 복합체는 생성 경로로 선다 — 결정은 `kb_decision`, 그 밖은 `kb_composite`(2026-09-29, 유저 답 "도구를 고친다").
 # 선언은 부분 청크의 frontmatter `composite:`/`part_of:`이고 생성기가 `agt:Composite`·`hasDirectPart`를 낸다.
-# 손으로 쓴 41건은 그 경로로 옮겼고, 남았던 `comp-project-harness`(부분 `chunk-d0001` 하나)는 지웠다 —
+# 손으로 쓴 41건은 그 경로로 옮겼고, 남았던 `comp-project-harness`(부분은 옛 결정 하나였고 지금은 `pe-harness-on-bazel`이 대체한다)는 지웠다 —
 # 부분이 하나면 청크이지 복합체가 아니다(`kb_composite` 부분 ≥ 2, orchestrator 판정 2026-09-29).
 # 파일은 union 그래프의 입력으로 남는다 — 생성 경로가 표현하지 못하는 복합체가 다시 생기면 그 이유와 함께 여기 쓴다.
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .

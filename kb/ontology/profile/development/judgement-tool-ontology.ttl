@@ -9,10 +9,10 @@
 
 agt:JudgementTool a owl:Class ;
     rdfs:label "judgement tool"@en , "판정 도구"@ko ;
-    skos:definition "청크가 그 plane의 판정 방식을 통과했는지를 실제로 가리는 도구. plane은 판정 방식으로 정의되고(5.1절) 프로파일이 그 방식의 도구를 채운다 — 도구 없는 plane은 게이트를 통과할 수 없다 (5.4절, 결정 p7-dev-plane-substance). 게이트: 실체 클래스마다의 값 제약(owl:hasValue, judgement-tool-assignment-ontology.ttl)."@ko .
+    skos:definition "단위 지식이 그 지식 종류의 판정 방식을 통과했는지를 실제로 가리는 도구. 지식 종류는 판정 방식으로 정의되고(5.1절) 프로파일이 그 방식의 도구를 채운다 — 도구 없는 지식 종류는 게이트를 통과할 수 없다 (5.4절, 결정 p7-dev-plane-substance). 게이트: 실체 클래스마다의 값 제약(owl:hasValue, judgement-tool-assignment-ontology.ttl)."@ko .
 
 agt:judgedBy a owl:ObjectProperty ;
     rdfs:domain agt:Chunk ;
     rdfs:range agt:JudgementTool ;
     rdfs:label "judged by"@en , "판정 도구로 판정됨"@ko ;
-    skos:definition "청크를 판정하는 도구. 프로파일이 실체 클래스마다 값 제약(owl:hasValue)으로 고정하므로 청크가 개별로 적지 않는다. 클래스 자체에 직접 트리플로 달지 않는 까닭은 게이트의 RDFS 추론이 정의역으로 그 클래스를 청크로 만들기 때문이다 (결정 p7-dev-plane-substance)."@ko .
+    skos:definition "단위 지식을 판정하는 도구. 프로파일이 실체 클래스마다 값 제약(owl:hasValue)으로 고정하므로 단위 지식이 개별로 적지 않는다. 클래스 자체에 직접 트리플로 달지 않는 까닭은 게이트의 RDFS 추론이 정의역으로 그 클래스를 단위 지식으로 만들기 때문이다 (결정 p7-dev-plane-substance)."@ko .

@@ -5,10 +5,10 @@ level: concrete
 title_ko: 평가는 체계가 이미 산출하는 세 값으로 측정한다
 title: Evaluation measures three values the system already produces
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0145-evaluation-metrics.md, id: https://agentic-knowledge-base.dev/id/chunk-d0145, title_ko: "평가의 세 측정 단위", title: "Three units of evaluation measurement"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-06T00:03:19+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T00:03:22+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T00:03:22+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/5fa5f214-c074-42b7-b2a1-fadba6620193, https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0145]
 part_of: https://agentic-knowledge-base.dev/id/composite/a4a5acea-aaed-4439-ac17-164495f5927c

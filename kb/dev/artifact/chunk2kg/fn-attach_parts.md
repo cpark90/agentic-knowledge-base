@@ -7,16 +7,16 @@ title: function attach_parts in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/c5e6231f-44b9-4294-805c-08d03635fc72
 ---
-**함수** — `attach_parts(composites, part_refs)` 다. 청크의 `part_of` 와 선언된 복합체의 `composite.part_of` 를 복합체의 members 에 붙인다
+**함수** — `attach_parts(composites, part_refs)` 다. 단위 지식의 `part_of` 와 선언된 복합체의 `composite.part_of` 를 복합체의 members 에 붙인다
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def attach_parts(composites: dict, part_refs: list) -> list:
-    """청크의 `part_of` 와 선언된 복합체의 `composite.part_of` 를 복합체의 members 에 붙인다 — 위반 메시지 목록을 돌려준다.
+    """단위 지식의 `part_of` 와 선언된 복합체의 `composite.part_of` 를 복합체의 members 에 붙인다 — 위반 메시지 목록을 돌려준다.
 
     대상이 이 묶음(실행의 입력 집합) 안에 선언되지 않았거나 자기 자신이거나 사슬이 순환하면 위반이다 (4.5절 비순환,
     p4-composite-as-part-of).
@@ -25,7 +25,7 @@ def attach_parts(composites: dict, part_refs: list) -> list:
     for chunk_iri, comp_iri, path in part_refs:
         if comp_iri not in composites:
             errors.append(f"{path}: part_of 대상 복합체 {comp_iri} 가 이 묶음 안에 선언되지 않았다 — 묶음은 이 실행의 입력 집합이고 "
-                          f"액션 하나가 부분 청크 전부와 선언 청크를 함께 받아야 한다 (defs/kb.bzl 의 kb_composite·kb_decision)")
+                          f"액션 하나가 부분 단위 지식 전부와 선언 단위 지식을 함께 받아야 한다 (defs/kb.bzl 의 kb_composite·kb_decision)")
         else:
             composites[comp_iri]["members"].append((chunk_iri, path))
     for comp_iri, c in sorted(composites.items()):  # 복합체가 복합체의 부분이 되는 자리 (p4-composite-as-part-of)

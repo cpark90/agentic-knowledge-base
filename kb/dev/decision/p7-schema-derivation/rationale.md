@@ -7,9 +7,9 @@ title: Schema ascription and change propagation exist only through derivation li
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 layer: methodology
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/d7435609-eefb-48a3-bab6-2cab0f56476e
 ---
-**근거** (노트 7.6절, 7.1절, 10.11절) — 스키마가 결정 없이 생기면 후방 추적 귀속(7.1절)이 끊긴다 — 어느 요구가 이 필드를 요구했는지 답할 수 없다. `constrains`가 있어야 비호환 변경이 어느 계약을 재판정 대상으로 만드는지 계산되고(10.11절), 호환/비호환을 `wasRevisionOf`/`supersedes`로 나누는 것은 4.10절 정체성 규칙(같은 것의 개정 vs 새 것)의 적용이다.
+**근거** (노트 7.6절, 7.1절, 10.11절) — 스키마가 결정 없이 생기면 후방 추적 귀속(7.1절)이 끊긴다 — 어느 요구가 이 필드를 요구했는지 답할 수 없다. `constrains`가 있어야 비호환 변경이 어느 계약을 재검증 대상으로 만드는지 계산되고(10.11절), 호환/비호환을 `wasRevisionOf`/`supersedes`로 나누는 것은 4.10절 정체성 규칙(같은 것의 개정 vs 새 것)의 적용이다.

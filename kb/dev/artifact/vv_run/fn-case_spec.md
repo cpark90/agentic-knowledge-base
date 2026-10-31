@@ -7,7 +7,7 @@ title: function case_spec in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/f1c79e23-8146-427e-83da-3d62ae01bb20]
 part_of: https://agentic-knowledge-base.dev/id/composite/d941f238-14e0-4a1b-8d8f-918968b9587f
@@ -35,7 +35,7 @@ def case_spec(body: str) -> tuple[dict, list[str]]:
             if k not in SPEC_KEYS:
                 errs.append(f"`yaml` 펜스의 키 `{k}` 는 규약 밖이다 — 키는 {' · '.join(SPEC_KEYS)} 뿐이다")
             elif k in spec:
-                errs.append(f"키 `{k}` 가 펜스 둘에 있다 — 한 케이스에 하나다")
+                errs.append(f"키 `{k}` 가 펜스 둘에 있다 — 한 테스트 케이스에 하나다")
             else:
                 spec[k] = data[k]
     files = spec.get("files")

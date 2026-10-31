@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """설계 공간의 체크박스 뷰 — 열린 설계 변수와 그 후보를 choices.md 로 생성한다 (결정 p9-candidate-storage 13.5절).
 
-후보는 `-space` 청크에 살고 사람에게는 체크박스로 보인다 — `[ ]` 는 열린 후보, `[-]` 는 배제된 후보와 그 근거,
+후보는 설계 공간(`-space`)에 살고 사람에게는 체크박스로 보인다 — `[ ]` 는 열린 후보, `[-]` 는 배제된 후보와 그 근거,
 `[x]` 는 확정된 후보다. `[x]` 하나만 남으면 그 변수는 resolved 다. 무엇을 아직 고르지 않았는지 한 화면에서 읽는
-것이 이 뷰의 목적이고, 고르는 일은 여기서 하지 않는다 — 확정은 `-space` 청크의 `state` 를 고치고 생성기가 후보를
+것이 이 뷰의 목적이고, 고르는 일은 여기서 하지 않는다 — 확정은 설계 공간(`-space`)의 `state` 를 고치고 생성기가 후보를
 head 로 옮기는 것이며 그것이 한 줄 diff 로 리뷰된다.
 
   입력  설계 공간 그래프(`*-space.ttl`, tools/space2kg.py 의 생성물)와 head 그래프(후보·출발 항목의 라벨).
@@ -30,7 +30,7 @@ except ImportError:
 
 AGT = kb_lib.AGT
 QUOTE = kb_lib.GENDOC_QUOTE_LINE  # 라벨은 그래프에서 그대로 가져온 값이다 — 생성기가 고쳐 쓰지 않는다
-# 링크 상태 → 체크 표시 (p9-candidate-storage 13.5절). 상태의 정의처는 kb_lib.SPACE_STATE_LINK 다
+# 링크 상태 → 체크 표시 (p9-candidate-storage 13.5절). 상태의 단일 정의 위치는 kb_lib.SPACE_STATE_LINK 다
 MARK = {kb_lib.LINK_STATE_CANDIDATE: "[ ]", kb_lib.LINK_STATE_INVALID: "[-]", kb_lib.LINK_STATE_CONFIRMED: "[x]"}
 
 
@@ -76,8 +76,8 @@ def main() -> int:
     for s in sorted(g.subjects(RDF.type, AGT.Space), key=str):
         links = sorted(g.objects(s, AGT.hasCandidate), key=str)
         # 선호는 후보 사이의 부분순서다 — 링크 IRI 가 아니라 그 후보의 이름으로 읽힌다 (p4-label-is-the-interface)
-        named = {l: (lambda t: name(g, t) if t is not None else kb_lib.NONE_MARK)(next(g.objects(l, AGT.linkTo), None))
-                 for l in links}
+        named = {l: (lambda t: name(g, t) if t is not None else kb_lib.NONE_MARK)(kb_lib.space_candidate_of(g, s, l))
+                 for l in links}  # 후보 쪽 끝은 방향 표(kb_lib.SPACE_CANDIDATE_DIRECTION)가 정한다
         cands = []
         for link in links:
             state = one(g, link, AGT.linkState)
@@ -109,7 +109,7 @@ def main() -> int:
         "`[ ]` 는 열린 후보, `[-]` 는 배제된 후보와 그 근거, `[x]` 는 확정된 후보다. 고르는 일은 이 뷰에서 하지 않는다",
         "bazel build //space:choices", a.files,
         f"설계 공간 {len(spaces)}개 · 후보 {total}개",
-        kb_lib.gendoc_view_notice("`space/` 의 `-space` 청크"), input_kind="그래프 파일")
+        kb_lib.gendoc_view_notice("`space/` 의 설계 공간(`-space`)"), input_kind="그래프 파일")
 
     lines = ["## 요약", "",
              "| 항목 | 값 |", "|---|---|",
@@ -121,7 +121,7 @@ def main() -> int:
              f"| 확정된 후보 `[x]` | {kb_lib.pct(count(kb_lib.LINK_STATE_CONFIRMED), total)} |",
              "", "## 변수", ""]
     if not spaces:
-        lines += [f"설계 공간이 {kb_lib.NONE_MARK}. `space/` 에 `-space` 청크를 두면 여기 나온다.", ""]
+        lines += [f"설계 공간이 {kb_lib.NONE_MARK}. `space/` 에 설계 공간(`-space`)을 두면 여기 나온다.", ""]
     for s in spaces:
         lines += [f"### {s['ko']} {QUOTE}", "",
                   f"- 변수: {s['from']} 의 `{s['kind']}` · 상태 {s['status']} · `{s['loc']}` {QUOTE}", ""]

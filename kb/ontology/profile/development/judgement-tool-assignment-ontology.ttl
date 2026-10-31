@@ -1,4 +1,4 @@
-# 개발 프로파일 — 판정 도구의 배정: 도구 개체 일곱과 plane 실체마다의 값 제약 (결정 p7-dev-plane-substance, 노트 5.4절·7.2절)
+# 개발 프로파일 — 판정 도구의 배정: 도구 개체 일곱과 지식 종류 실체마다의 값 제약 (결정 p7-dev-plane-substance, 노트 5.4절·7.2절)
 # 어휘(클래스 agt:JudgementTool · 속성 agt:judgedBy)는 judgement-tool-ontology.ttl 이 정의한다 — 한 용어는
 # 한 파일에서만 정의된다 (2.3절, 게이트 boundary). 여기 있는 것은 개체의 정의와 클래스에 붙는 공리다.
 

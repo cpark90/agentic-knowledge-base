@@ -7,18 +7,22 @@ title: section resolve in tools/link.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/35504745-0bb4-47e0-ae4a-3da6e0e07b3d
-composite: {id: https://agentic-knowledge-base.dev/id/composite/35504745-0bb4-47e0-ae4a-3da6e0e07b3d, title_ko: 절 복합체 resolve (tools/link.py), title: section composite resolve in tools/link.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/852eee3d-030c-4577-bb5b-ced0af3d9025, https://agentic-knowledge-base.dev/id/chunk/aff29f4a-80e3-4986-a736-70f7ada9fa55, https://agentic-knowledge-base.dev/id/chunk/884c28fc-a47e-4e4b-ac96-a98f560a3d07, https://agentic-knowledge-base.dev/id/chunk/ec5e9dfa-5521-4e0c-8ae8-6be045e70e81, https://agentic-knowledge-base.dev/id/chunk/6c4416f9-52c1-404c-8a6d-1c07e65cc077], part_of: https://agentic-knowledge-base.dev/id/composite/b28a66c9-4140-4beb-bb95-69e12a91e607}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/35504745-0bb4-47e0-ae4a-3da6e0e07b3d, title_ko: 절 복합체 resolve (tools/link.py), title: section composite resolve in tools/link.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/852eee3d-030c-4577-bb5b-ced0af3d9025, https://agentic-knowledge-base.dev/id/chunk/aff29f4a-80e3-4986-a736-70f7ada9fa55, https://agentic-knowledge-base.dev/id/chunk/884c28fc-a47e-4e4b-ac96-a98f560a3d07, https://agentic-knowledge-base.dev/id/chunk/b459c8d8-41ff-4f75-8df6-c9dfa12627cf, https://agentic-knowledge-base.dev/id/chunk/d953c65e-1082-4bf2-be6e-7d71429b9ef8, https://agentic-knowledge-base.dev/id/chunk/ec5e9dfa-5521-4e0c-8ae8-6be045e70e81, https://agentic-knowledge-base.dev/id/chunk/6c4416f9-52c1-404c-8a6d-1c07e65cc077], part_of: https://agentic-knowledge-base.dev/id/composite/b28a66c9-4140-4beb-bb95-69e12a91e607}
 ---
 **절** — `tools/link.py` 의 절 `resolve` 다. 증거 수집과 보고
 
-**정의** — `resolve` · `gather` · `cell` · `main` (소스 순서).
+**정의** — `resolve` · `gather` · `judgements` · `judged_sections` · `cell` · `main` (소스 순서).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 # ── 증거 수집과 보고 ────────────────────
+
+
+
+
 
 
 

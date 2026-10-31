@@ -3,12 +3,13 @@ id: https://agentic-knowledge-base.dev/id/chunk/06bb9a79-21e8-4eb3-8577-38b9a750
 type: requirement
 level: functional
 pattern: ubiquitous
-title_ko: 문서·코드 뷰는 청크에서 생성되고 별도 원본으로 저장되지 않아야 한다
+title_ko: 문서·코드 뷰는 지식에서 생성되고 별도 원본으로 저장되지 않아야 한다
+former_title_ko: ["문서·코드 뷰는 청크에서 생성되고 별도 원본으로 저장되지 않아야 한다", "문서·코드 뷰는 지식 항목에서 생성되고 별도 원본으로 저장되지 않아야 한다"]
 title: Document and code views must be generated from chunks and never stored as separate sources
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-19T15:40:00+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T13:46:23+09:00}
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 ---
 **검증 목표** — 문서를 저장하지 않고 질의로 생성하며 생성 시각과 질의를 적는다는 결정이 생성기와 드리프트 검사로 강제된다는 것이 보여져야 한다. 문서 뷰는 `bazel-bin`에만 있고, 트리에 두는 생성물(BUILD·skill)은 드리프트 검사가 원본과 대조한다.

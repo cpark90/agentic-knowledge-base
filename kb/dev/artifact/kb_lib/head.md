@@ -7,7 +7,7 @@ title: module head agt in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/dca529bc-79c6-4569-af4c-122c0d736686
 ---
@@ -46,8 +46,8 @@ ALLOWED_TTL_SUFFIXES = (
     "-odd",
 )
 
-# 개체 IRI 접두사 (docs/rules.md §개체 IRI 접두사) — 카탈로그 정합성 검사(validate `catalog`)가 역할 ↔ 스코프 대응을
-# id:role-<slug> ↔ id:scope-<slug> 로 푼다. 카탈로그에 역할→스코프 술어는 없고 슬러그가 대응의 원본이다 (STYLEGUIDE §5)
+# 개체 IRI 접두사 (docs/rules.md §개체 IRI 접두사) — 카탈로그 정합성 검사(validate `catalog`)가 역할 ↔ 적용 범위 대응을
+# id:role-<slug> ↔ id:scope-<slug> 로 푼다. 카탈로그에 역할→적용 범위 술어는 없고 슬러그가 대응의 원본이다 (STYLEGUIDE §5)
 ROLE_ID_PREFIX = "role-"
 SCOPE_ID_PREFIX = "scope-"
 # ODD 동적 요소 — 역할별 agt:maxConcurrent 합의 상한 (AGENTS.md 역할 절, kb/odd/project-odd.yml concurrent_agents)

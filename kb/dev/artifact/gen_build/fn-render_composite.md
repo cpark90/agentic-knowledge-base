@@ -7,7 +7,7 @@ title: function render_composite in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/0f0f082a-c9cd-454c-ab65-ca4f3bebc461, https://agentic-knowledge-base.dev/id/chunk/a8f6816d-512e-4fb2-8bce-765ddee8bf42, https://agentic-knowledge-base.dev/id/chunk/e1b40b31-0dc4-45a2-b4a1-345ee72df9df, https://agentic-knowledge-base.dev/id/chunk/e284beaa-0477-4715-ba21-44028b13bf3f]
 part_of: https://agentic-knowledge-base.dev/id/composite/b9a75b3d-1c8f-4a7a-8f7f-dc10a84362fa
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/b9a75b3d-1c8f-4a7a-8f7f
 def render_composite(lab, it, iri_to_label, decisions=None):
     """복합체 묶음 하나 → kb_composite 호출. 형식은 kb_decision 과 같다 — 부분의 링크를 타깃 하나로 올린다.
 
-    `ordered` 는 선언 청크 frontmatter 의 `composite.ordered` 를 그대로 옮긴 뷰다 (p4-composite-order-is-declared).
+    `ordered` 는 선언 단위 지식 frontmatter 의 `composite.ordered` 를 그대로 옮긴 뷰다 (p4-composite-order-is-declared).
     선언이 없으면 인자도 없다 — 생성기는 순서를 추측하지 않는다.
     """
     links = {}

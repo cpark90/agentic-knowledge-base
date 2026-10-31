@@ -7,7 +7,7 @@
 
 agt:ODD a owl:Class ;
     rdfs:label "operational design domain"@en , "운영 설계 영역"@ko ;
-    skos:definition "프로젝트 전체가 설계된 운영 조건의 명세. 실제로 작성·유지되는 문서이며, 스코프·가정·시나리오·커버리지가 여기서 파생된다 (3.1절, 3.3절)."@ko .
+    skos:definition "프로젝트 전체가 설계된 운영 조건의 명세. 실제로 작성·유지되는 문서이며, 적용 범위·가정·시나리오·커버리지가 여기서 파생된다 (3.1절, 3.3절)."@ko .
 
 agt:hasCondition a owl:ObjectProperty ;
     rdfs:domain agt:ODD ;
@@ -18,7 +18,7 @@ agt:hasCondition a owl:ObjectProperty ;
 agt:mode a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:label "mode"@en , "기본 모드"@ko ;
-    skos:definition "명세의 기본 모드: restrictive(명시 포함만 허용) 또는 permissive(명시 제외만 금지). ODD와 스코프가 공유하는 명세 형식 (0.4절). 게이트: condition-shapes·scope-shapes."@ko .
+    skos:definition "명세의 기본 모드: restrictive(명시 포함만 허용) 또는 permissive(명시 제외만 금지). ODD와 적용 범위가 공유하는 명세 형식 (0.4절). 게이트: condition-shapes·scope-shapes."@ko .
 
 agt:excludes a owl:DatatypeProperty ;
     rdfs:range xsd:string ;

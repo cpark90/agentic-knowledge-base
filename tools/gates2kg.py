@@ -1,28 +1,34 @@
 #!/usr/bin/env python3
-"""게이트 등록부(`defs/kb.bzl` 의 `GATES`) → 게이트 그래프(-kg.ttl), 뷰·skill 표 → 투영 그래프 생성기 (M1 단일 정의처, 2026-10-02).
+"""게이트 등록부(`defs/kb.bzl` 의 `GATES`) → 게이트 그래프(-kg.ttl), 뷰·skill 표 → 투영 그래프 생성기 (M1 단일 정의 위치, 2026-10-02).
 
-게이트는 프로세스 층의 **항목**이다(결정 p0-service-is-a-three-layer-wiki) — 어느 청크의 투영으로도 환원되지
-않으므로 그래프에 개체가 서야 층별 집계(CQ-38)가 셀 자리를 갖는다. 2026-10-01 실측에서 같은 목록이 넷으로
-갈려 있었고(상수 26 · 코드의 태그 · 총람의 `id` 열 · 하네스 목록) 단일 정의처가 없다는 것이 그 진단이었다.
+게이트는 프로세스 층의 **항목**이다(결정 p0-service-is-a-three-layer-wiki) — 어느 단위 지식의 투영으로도 환원되지
+않으므로 그래프에 개체가 서야 층별 집계(CQ-38)가 셀 자리를 갖는다. 2026-10-01 측정에서 같은 목록이 넷으로
+갈려 있었고(상수 26 · 코드의 태그 · 총람의 `id` 열 · 하네스 목록) 단일 정의 위치가 없다는 것이 그 진단이었다.
 
 원본은 `GATES`·`TOOL_TAGS` 리터럴이고 TTL 은 생성물이다 — `kg/` 에 손으로 쓰지 않는다(`odd2kg`·`space2kg` 와
 같은 자리). 개체 하나가 게이트 하나이고 IRI 는 `id:gate-<게이트 id>` 다. 도구 태그(`TOOL_TAGS`)는 게이트가
 아니므로 개체를 받지 않는다.
 
 생성 = 검사:
-  - 항목마다 네 키(`tier`·`tool`·`ko`·`desc`)가 있고 `tier` 는 `GATE_TIERS` 안이다
+  - 항목마다 다섯 키(`tier`·`tool`·`ko`·`desc`·`decision`)가 있고 `tier` 는 `GATE_TIERS` 안이다
   - 판정 도구가 파이썬 안이면 등록부 사이드카(`tools/<도구>.chunks.yml`)의 `ids: file:` 이 실재한다 —
     `agt:enforcedBy` 의 대상이 그 파일 복합체이고, 없으면 끊긴 링크를 내는 대신 여기서 거부한다
-  - 파이썬 밖(`starlark`·`bazel`)인 게이트는 가리킬 코드 청크가 없어 `agt:enforcedBy` 를 갖지 않는다
+  - 파이썬 밖(`starlark`·`bazel`)인 게이트는 가리킬 코드 단위 지식이 없어 `agt:enforcedBy` 를 갖지 않는다
 
 투영 모드(`--projections`)는 같은 입력에서 뷰·skill 의 개체를 낸다(유저 답 Q9-a, 2026-10-03). 뷰·skill 은 층의
-항목이 아니라 프로세스 층 원본 청크의 **투영**이다 — 개체는 `agt:View`·`agt:Skill` 이고 `prov:wasDerivedFrom` 이
-원본 도구의 `module` 코드 청크(등록부 사이드카의 `ids: module:`)를 가리키며 `agt:inLayer` 를 갖지 않는다. 층은 원본만
-가지므로 CQ-38 의 층 집계가 같은 것을 두 번 세지 않는다. 표의 단일 정의처는 `VIEWS`(뷰 타깃 → 생성 도구)와
-`kb_lib.SKILLS`(skill → 원본 도구)이고, 원본 도구의 `module` 청크가 없으면 끊긴 링크 대신 생성 시점에 거부한다.
+항목이 아니라 프로세스 층 원본 단위 지식의 **투영**이다 — 개체는 `agt:View`·`agt:Skill` 이고 `prov:wasDerivedFrom` 이
+원본 도구의 `module` 코드 단위 지식(등록부 사이드카의 `ids: module:`)을 가리키며 `agt:inLayer` 를 갖지 않는다. 층은 원본만
+가지므로 CQ-38 의 층 집계가 같은 것을 두 번 세지 않는다. 표의 단일 정의 위치는 `VIEWS`(뷰 타깃 → 생성 도구)와
+`kb_lib.SKILLS`(skill → 원본 도구)이고, 원본 도구의 `module` 단위 지식이 없으면 끊긴 링크 대신 생성 시점에 거부한다.
+
+총람 모드(`--catalogue <문서>`)는 같은 등록부에서 손 문서 안의 게이트 총람 표를 다시 그린다(유저 답 Q150-a). 문서의
+두 표지(`kb_lib.GATE_CATALOGUE_OPEN`·`GATE_CATALOGUE_CLOSE`) 사이만 바꾸고 표 앞뒤의 산문은 건드리지 않는다. 표지가
+없거나 겹치면 쓰지 않고 거부한다. 렌더러는 `kb_lib.gate_catalogue_table` 이고 `doccheck --gates` 가 같은 함수로
+다시 그려 커밋본과 바이트로 비교한다.
 
 사용: gates2kg.py --out gates-kg.ttl --gates defs/kb.bzl [--registry tools/<도구>.chunks.yml ...]
       gates2kg.py --projections --out projections-kg.ttl --gates defs/kb.bzl --registry tools/<도구>.chunks.yml ...
+      gates2kg.py --catalogue docs/tools.md [--gates defs/kb.bzl]   # 저장소 루트에서 돈다
 출력·종료: 위반은 `FAIL [gates2kg] <원본>: <메시지>` + EXIT_FAIL. 읽을 수 없는 입력은 EXIT_CONFIG.
 """
 from __future__ import annotations
@@ -31,7 +37,7 @@ import argparse
 import sys
 from pathlib import Path
 
-try:  # 리터럴 읽기와 종료 코드 규약의 단일 정의처는 kb_lib 다
+try:  # 리터럴 읽기와 종료 코드 규약의 단일 정의 위치는 kb_lib 다
     from tools import kb_lib
 except ImportError:
     import kb_lib
@@ -58,7 +64,7 @@ def tool_composites(registries: list[str], key: str = "file") -> dict[str, str]:
     """등록부 사이드카들 → 도구 이름 → `ids:` 블록의 `key` 줄 IRI (기본 `file:` — 파일 복합체).
 
     사이드카는 손이 원본인 등록부이고 파일 복합체가 도구 하나의 개체다 (p7-code-links-on-file-composite).
-    투영 모드는 `module:`(모듈 docstring 청크)을 읽는다 — 뷰·skill 의 내용이 나오는 원본 청크다.
+    투영 모드는 `module:`(모듈 docstring 단위 지식)을 읽는다 — 뷰·skill 의 내용이 나오는 원본 단위 지식이다.
     YAML 파서를 싣지 않는다 — 필요한 것은 `ids:` 블록의 한 줄뿐이고 이 생성기는 타깃마다 돈다.
     """
     out: dict[str, str] = {}
@@ -90,7 +96,7 @@ def emit(gates: dict, tiers: tuple, layer: str, tools: dict[str, str], outside: 
     blocks = []
     for gate_id in sorted(gates):
         spec = gates[gate_id]
-        missing = [k for k in ("tier", "tool", "ko", "desc") if not spec.get(k)]
+        missing = [k for k in ("tier", "tool", "ko", "desc", "decision") if not spec.get(k)]
         if missing:
             errors.append(f"{where}: 게이트 {gate_id!r} 에 {', '.join(missing)} 가 없다")
             continue
@@ -122,7 +128,7 @@ def emit(gates: dict, tiers: tuple, layer: str, tools: dict[str, str], outside: 
 PROJECTION_HEADER = (
     "# 투영 그래프 — 생성물이다. 손으로 쓰지 않는다 (tools/gates2kg.py --projections).\n"
     "# 원본은 defs/kb.bzl 의 VIEWS 와 tools/kb_lib.py 의 SKILLS 이고 개체 하나가 뷰 또는 skill 하나다.\n"
-    "# 투영은 층을 갖지 않는다 — 층은 prov:wasDerivedFrom 이 가리키는 원본 청크만 갖는다 (유저 답 Q9-a).\n"
+    "# 투영은 층을 갖지 않는다 — 층은 prov:wasDerivedFrom 이 가리키는 원본 단위 지식만 갖는다 (유저 답 Q9-a).\n"
     "@prefix agt: <https://agentic-knowledge-base.dev/agt/> .\n"
     "@prefix id: <%s> .\n"
     "@prefix prov: <http://www.w3.org/ns/prov#> .\n"
@@ -137,7 +143,7 @@ def view_slug(label: str) -> str:
 
 
 def emit_projections(views: dict[str, str], skills: tuple, modules: dict[str, str], where: str) -> str:
-    """뷰 표·skill 표 → 투영 TTL. 원본 도구의 `module` 청크가 없으면 생성 시점에 거부한다."""
+    """뷰 표·skill 표 → 투영 TTL. 원본 도구의 `module` 단위 지식이 없으면 생성 시점에 거부한다."""
     errors = []
     blocks = []
     rows = [("View", kb_lib.VIEW_ID_PREFIX + view_slug(label), label, f"생성 뷰 {label}", tool,
@@ -149,7 +155,7 @@ def emit_projections(views: dict[str, str], skills: tuple, modules: dict[str, st
     for kind, slug, en, ko, tool, desc in rows:
         iri = modules.get(tool)
         if not iri:
-            errors.append(f"{where}: {kind} {en!r} 의 원본 도구 {tool!r} 의 module 청크를 찾을 수 없다 — "
+            errors.append(f"{where}: {kind} {en!r} 의 원본 도구 {tool!r} 의 module 단위 지식을 찾을 수 없다 — "
                           f"tools/{tool}.chunks.yml 의 `ids: module:` 가 prov:wasDerivedFrom 의 대상이다")
             continue
         props = [
@@ -165,13 +171,44 @@ def emit_projections(views: dict[str, str], skills: tuple, modules: dict[str, st
     return PROJECTION_HEADER + "\n" + "\n\n".join(blocks) + "\n"
 
 
+def write_catalogue(doc: str, gates_path: str) -> int:
+    """문서의 게이트 총람 생성 구간을 등록부에서 다시 그려 쓴다 — 표지 밖의 손 산문은 그대로다."""
+    try:
+        gates = kb_lib.load_gates(gates_path)
+        tiers = kb_lib.load_bzl_list(gates_path, "GATE_TIERS")
+        text = Path(doc).read_text(encoding="utf-8")
+    except (OSError, ValueError) as e:
+        print(f"FAIL [{TAG}] 총람 입력을 읽을 수 없다 — {e}", file=sys.stderr)
+        return EXIT_CONFIG
+    missing = sorted(g for g, s in gates.items() if not s.get("decision"))
+    if missing:
+        print(f"FAIL [{TAG}] {gates_path}: decision 이 없는 게이트 — {', '.join(missing)}", file=sys.stderr)
+        return EXIT_FAIL
+    new = kb_lib.splice_gate_catalogue(text, kb_lib.gate_catalogue_table(gates, tiers, doc))
+    if new is None:
+        print(f"FAIL [{TAG}] {doc}: 생성 구간 표지가 하나씩 정확히 있지 않다 — "
+              f"{kb_lib.GATE_CATALOGUE_OPEN} 와 {kb_lib.GATE_CATALOGUE_CLOSE}", file=sys.stderr)
+        return EXIT_FAIL
+    if new != text:
+        Path(doc).write_text(new, encoding="utf-8")
+    print(f"PASS [{TAG}] — 총람 {doc}: 게이트 {len(gates)}개", file=sys.stderr)
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="게이트 등록부 → 게이트 그래프 (-kg.ttl)")
-    ap.add_argument("--out", required=True, help="출력 TTL 경로 (접미사 규약 0.2절의 `-kg`)")
-    ap.add_argument("--gates", required=True, help="게이트 등록부의 원본 defs/kb.bzl")
+    ap.add_argument("--out", default="", help="출력 TTL 경로 (접미사 규약 0.2절의 `-kg`) — 총람 모드 밖에서 필수")
+    ap.add_argument("--gates", default="defs/kb.bzl", help="게이트 등록부의 원본 defs/kb.bzl")
     ap.add_argument("--registry", nargs="*", default=[], help="등록부 사이드카들 (tools/<도구>.chunks.yml) — agt:enforcedBy 의 대상")
     ap.add_argument("--projections", action="store_true", help="게이트 대신 뷰(VIEWS)·skill(SKILLS)의 투영 개체를 낸다")
+    ap.add_argument("--catalogue", default="", metavar="DOC",
+                    help="그래프 대신 문서(저장소 상대 경로)의 게이트 총람 생성 구간을 등록부에서 다시 그린다")
     a = ap.parse_args()
+    if a.catalogue:
+        return write_catalogue(a.catalogue, a.gates)
+    if not a.out:
+        print(f"FAIL [{TAG}] --out 이 없다 — 그래프 모드는 출력 TTL 경로가 필요하다", file=sys.stderr)
+        return EXIT_CONFIG
     if a.projections:
         try:
             views = kb_lib.load_bzl_dict(a.gates, kb_lib.VIEWS_NAME)

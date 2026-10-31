@@ -7,7 +7,7 @@ title: function render in tools/gen_skills.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-skills}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/9337f5de-4a6b-420b-b51d-2a1afe8ebbae, https://agentic-knowledge-base.dev/id/chunk/f4e15fab-b378-46c2-b8ae-ca2982aa9dcd]
 part_of: https://agentic-knowledge-base.dev/id/composite/b9b38ba6-d689-44c6-814b-4526153a07b1
@@ -28,7 +28,7 @@ def render(entry: dict, title: str, what: str, usage: str, section_doc: str, dep
     if ": " in when or " #" in when or when[:1] in "[]{}&*!|>'\"%@`,":
         raise GenSkillsError(f"kb_lib.SKILLS[{tool}].when: YAML 평문 스칼라로 쓸 수 없는 문자(': ' · ' #' · 특수 첫 글자)가 있다")
     cmds = "\n".join(entry["commands"])
-    # 생성 트리 파일이므로 생성 시각·지문을 넣지 않는다 (규약 G3·G4 의 예외) — //:skills_drift_test 의 바이트 비교가
+    # 생성 트리 파일이므로 생성 시각·해시값을 넣지 않는다 (규약 G3·G4 의 예외) — //:skills_drift_test 의 바이트 비교가
     # 그 자리의 건전성 장치다. 나머지 머리 블록은 Bazel 뷰와 같은 순서다
     head = kb_lib.gendoc_header(
         tool, title or f"{tool} 도구의 skill", "tools/gen_skills.py",
@@ -46,7 +46,7 @@ def render(entry: dict, title: str, what: str, usage: str, section_doc: str, dep
         f"- 도구: `{TOOLS_DIR}/{tool}.py` (`bazel run //{TOOLS_DIR}:{tool}`) — 사용법은 docstring 이 원본이다", "",
         "```text", usage, "```", "",
         "## 실패 시", "",
-        f"`FAIL [<id>]` 의 해소는 [`{DOCS_DIR}/tools.md` 게이트 총람]({up}{DOCS_DIR}/tools.md#{RESOLVE_ANCHOR})의 `해소` 열이다. "
+        f"`FAIL [<id>]` 의 해소는 [`{DOCS_DIR}/tools.md` 게이트 총람]({up}{DOCS_DIR}/tools.md#{RESOLVE_ANCHOR})의 `결정` 열이 가리키는 결정에 있다. "
         "종료 코드는 `kb_lib` 상수다 (0 OK · 1 FAIL · 2 CONFIG · 3 SKIP). SKIP 은 PASS 가 아니다.", "",
     ])
 ```

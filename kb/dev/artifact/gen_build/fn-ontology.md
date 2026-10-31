@@ -7,7 +7,7 @@ title: function ontology in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/a8f6816d-512e-4fb2-8bce-765ddee8bf42]
 part_of: https://agentic-knowledge-base.dev/id/composite/bd43acdb-4493-4bcb-852c-56bb2a3c929e
@@ -25,13 +25,13 @@ def ontology(root: Path):
     mod_dirs = sorted(p for p in root.glob("kb/ontology/*/*") if p.is_dir() and list(p.glob("*.ttl")))
     for d in mod_dirs:
         rel = d.relative_to(root / "kb/ontology").as_posix()
-        outputs[str(d / "BUILD.bazel")] = (HEADER.replace("각 청크의 frontmatter", "모듈 디렉토리의 온톨로지 TTL")
+        outputs[str(d / "BUILD.bazel")] = (HEADER.replace("각 단위 지식의 frontmatter", "모듈 디렉토리의 온톨로지 TTL")
                                            + 'load("//defs:kb.bzl", "kb_ontology_module")\n\n'
                                            'package(default_visibility = ["//visibility:public"])\n\n'
-                                           f'# 모듈 = 디렉토리, 청크 = 파일 (2.3절). IRI {ONTO_BASE}{rel}\n'
+                                           f'# 모듈 = 디렉토리, 단위 지식 = 파일 (2.3절). IRI {ONTO_BASE}{rel}\n'
                                            f"kb_ontology_module(\n    name = {q(d.name)},\n    srcs = glob([\"*.ttl\"]),\n    iri = {q(ONTO_BASE + rel)},\n)\n")
     labels = [f"//kb/ontology/{i}" for i in imports]
-    outputs[str(root / "kb/ontology/modules.bzl")] = (HEADER.replace("각 청크의 frontmatter", "project-ontology.ttl 의 owl:imports")
+    outputs[str(root / "kb/ontology/modules.bzl")] = (HEADER.replace("각 단위 지식의 frontmatter", "project-ontology.ttl 의 owl:imports")
                                                       + '"""project-ontology.ttl 이 가져오는 모듈 — owl:imports 에서 생성."""\n\nPROJECT_IMPORTS = [\n'
                                                       + "".join(f"    {q(l)},\n" for l in sorted(labels)) + "]\n")
     return outputs

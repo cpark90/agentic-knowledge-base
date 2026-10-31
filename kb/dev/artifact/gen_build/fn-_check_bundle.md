@@ -7,7 +7,7 @@ title: function _check_bundle in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/04bfcfb9-d96b-42ec-9555-a58bd09f1551]
 part_of: https://agentic-knowledge-base.dev/id/composite/569c6e75-e264-4981-bf0b-bba156b541c8
@@ -19,8 +19,8 @@ part_of: https://agentic-knowledge-base.dev/id/composite/569c6e75-e264-4981-bf0b
 def _check_bundle(comp_iri, dlab, labs, items, pkg, member_labs, child_comps, decl):
     """복합체 하나의 생성 시점 거부 — 패키지 밖 부분·부분 수·동질성·선언된 순서. 직접 부분 IRI 를 선언된 순서로 돌려준다.
 
-    부분은 둘이다 — 청크(최상위 `part_of`)와 다른 복합체(선언 청크의 `composite.part_of`, p4-composite-as-part-of).
-    동질성은 청크 부분으로 판정한다: 복합체 부분의 plane·level 은 그 부분의 부분에서 나오고 묶음 전체가 한 쌍이므로 같은 판정이다.
+    부분은 둘이다 — 단위 지식(최상위 `part_of`)과 다른 복합체(선언 단위 지식의 `composite.part_of`, p4-composite-as-part-of).
+    동질성은 단위 지식 부분으로 판정한다: 복합체 부분의 plane·level 은 그 부분의 부분에서 나오고 묶음 전체가 한 쌍이므로 같은 판정이다.
     """
     for l in labs:
         if items[l]["pkg"] != pkg:
@@ -31,7 +31,7 @@ def _check_bundle(comp_iri, dlab, labs, items, pkg, member_labs, child_comps, de
     n = len(chunk_iris) + len(child_comps)
     if n < 2:
         raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 부분이 {n}개다 — 복합체는 부분 둘 이상의 "
-                            f"묶음이고 부분 하나면 청크다 (4.5절)")
+                            f"묶음이고 부분 하나면 단위 지식이다 (4.5절)")
     if n > MAX_PARTS:
         raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 직접 부분이 {n}개다 — 최대 {MAX_PARTS}개(7±2, 4.5절)")
     order = (items[dlab]["meta"].get("composite") or {}).get(ORDERED_KEY)
@@ -39,7 +39,7 @@ def _check_bundle(comp_iri, dlab, labs, items, pkg, member_labs, child_comps, de
             Path(items[l]["src"]).stem.endswith("-" + suf) for l in chunk_parts for suf in SCENARIO_ROLE_SUFFIXES):
         raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 에 composite.{ORDERED_KEY} 가 없다 — 시나리오는 "
                             f"자극 → 요인 → 배제 자극의 읽기 순서를 가지므로(p8-scenario-authoring) 선언 없는 시나리오 묶음은 거짓 "
-                            f"무순서다. 선언 청크(`-{SCENARIO_ROLE_SUFFIXES[0]}`)의 composite: 에 "
+                            f"무순서다. 선언 단위 지식(`-{SCENARIO_ROLE_SUFFIXES[0]}`)의 composite: 에 "
                             f"`{ORDERED_KEY}: [<자극 IRI>, <요인 IRI>, <배제 자극 IRI>]` 를 적는다 (p4-composite-order-is-declared)")
     part_iris = chunk_iris + sorted(child_comps)
     if order is not None:
@@ -51,8 +51,8 @@ def _check_bundle(comp_iri, dlab, labs, items, pkg, member_labs, child_comps, de
     planes = sorted({items[l]["meta"]["type"] for l in chunk_parts})
     levels = sorted({items[l]["meta"]["level"] for l in chunk_parts})
     if len(planes) > 1 or len(levels) > 1:
-        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 부분이 이질이다 — plane {planes} · level {levels}. "
-                            f"부분의 plane·level 은 서로 같다 (동질성 4.5절). 수준 혼합은 결정 복합체의 예외뿐이다 "
+        raise GenBuildError(f"{pkg}/{items[dlab]['src']}: 복합체 {comp_iri} 의 부분이 이질이다 — 지식 종류 {planes} · level {levels}. "
+                            f"부분의 plane·level 은 서로 같다 (동질성 4.5절). 수준 혼합은 결정 기록의 예외뿐이다 "
                             f"(p7-decision-spans-three-levels)")
     return part_iris
 ```

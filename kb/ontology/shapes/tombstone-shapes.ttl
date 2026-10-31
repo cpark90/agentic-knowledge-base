@@ -1,0 +1,45 @@
+# shape — 묘비: 파일을 지운 단위 지식이 그래프에 남기는 최소 노드 (trace 모듈 tombstone-ontology, 유저 답 Q-0061#Q146)
+# 묘비는 단위 지식도 결정도 아니다 — agt:Tombstone 은 agt:Chunk·agt:Composite 와 서로소인 agt:KnowledgeItem 의 하위 클래스라서
+# 단위 지식 검사(chunk-shapes)와 결정 본문 검사(decision-body-shapes, 대상 agt:DesignDecision)가 클래스 계층만으로 이 노드를 겨누지 않는다.
+# 여기서는 묘비가 가질 최소 속성 넷(클래스·한글 라벨·영어 라벨·git 영구 위치)과 본문이 없음을 본다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:TombstoneShape a sh:NodeShape ;
+    sh:targetClass agt:Tombstone ;
+    sh:nodeKind sh:IRI ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:qualifiedValueShape [ sh:languageIn ( "ko" ) ] ;
+        sh:qualifiedMinCount 1 ; sh:qualifiedMaxCount 1 ;
+        sh:message "묘비는 옛 항목의 한글 라벨 하나를 갖는다 (0.6절)" ;
+    ] ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:qualifiedValueShape [ sh:languageIn ( "en" ) ] ;
+        sh:qualifiedMinCount 1 ; sh:qualifiedMaxCount 1 ;
+        sh:message "묘비는 옛 항목의 영어 라벨 하나를 갖는다 (0.6절)" ;
+    ] ;
+    sh:property [
+        sh:path prov:atLocation ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:pattern "^git:[0-9a-f]{7,40}:[^:]+$" ;
+        sh:message "묘비는 옛 파일의 git 영구 위치 하나(`git:<리비전>:<경로>`)를 갖는다 — 원문은 `git show <리비전>:<경로>` 로 읽는다" ;
+    ] ;
+    sh:property [
+        sh:path agt:tokenCount ;
+        sh:maxCount 0 ;
+        sh:message "묘비는 본문이 없다 — 토큰 수가 있으면 같은 IRI 의 단위 지식이 살아 있는 것이고 묘비가 아니다" ;
+    ] .
+
+# supersedes 의 끝점 — 치역을 agt:KnowledgeItem 으로 넓힌 뒤에도 옛 치역(agt:Chunk) 검사와 같은 강도를 지킨다.
+# 옛 치역에서는 RDFS 함의가 끝점을 단위 지식으로 타이핑해 ChunkShape 가 복합체·없는 IRI 를 거부했다. 지금은 이 shape 가 끝점을
+# 단위 지식 또는 묘비로만 받는다 — 복합체 IRI 와 아무 타입도 없는 IRI 를 함께 거부한다 (Q-0061#Q146).
+agt:SupersedesTargetShape a sh:NodeShape ;
+    sh:targetObjectsOf agt:supersedes ;
+    sh:or ( [ sh:class agt:Chunk ] [ sh:class agt:Tombstone ] ) ;
+    sh:message "supersedes 의 대상은 단위 지식(파일로 살아 있는 옛 항목) 또는 묘비(파일을 지운 옛 항목)다 — 복합체나 그래프에 없는 IRI 는 받지 않는다 (8.11절, Q-0061#Q146)" .

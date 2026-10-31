@@ -7,12 +7,12 @@ title: A predicate outside the ontology is rejected by the vocab check and every
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-19T14:45:00+09:00}
+generated: {by: vnv/claude-fable-5-1, at: 2026-10-25T00:43:01+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/50af6125-94e4-4d69-8181-df29db77451d]
 ---
 **합격 기준** — 기준 종류는 **명세 대조**다. 데이터 그래프의 모든 술어 `p`에 대해 `p ∈ 온톨로지 정의 ∪ 등록 표준 어휘`가 성립한다. 명세는 `//kb/ontology:modules`의 정의와 `--standard-vocab`으로 등록된 원문이다.
 
-**판정식**
+**판정 술어**
 
 - 음성(agt): `agt:` 네임스페이스이되 온톨로지에 없는 술어를 가진 데이터 그래프를 검사에 넣으면 `FAIL [vocab] <경로>: 온톨로지에 정의되지 않은 agt: 술어 <IRI>`로 끝난다.
 - 음성(미등록): 등록되지 않은 네임스페이스의 술어는 `FAIL [vocab] <경로>: 미등록 어휘의 술어 <IRI>`로 끝난다.

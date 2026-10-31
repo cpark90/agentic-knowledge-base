@@ -7,7 +7,7 @@ title: module head agt in tools/community.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-community}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/0ef43353-941b-4b48-b8b1-2ef9a8eacf53
 ---
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/0ef43353-941b-4b48-b8b1
 ```python
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
 # 군집 계산에 쓰는 링크 종류 (족: references · semanticallyDependsOn · relatedTo). 시간축 supersedes 는 뺀다.
-# 목록의 단일 정의처는 kb_lib 다 (STYLEGUIDE §7) — 연결 성분이 보는 집합(`LINKAGE_PREDICATES`)과 이름이 갈려 있다:
+# 목록의 단일 정의 위치는 kb_lib 다 (STYLEGUIDE §7) — 연결 성분이 보는 집합(`LINKAGE_PREDICATES`)과 이름이 갈려 있다:
 # 군집은 연결·귀속 지표가 아니라 후보 생성기이므로 정체성 관계 `prov:specializationOf` 를 엣지로 쓰지 않는다
 EDGE_KINDS = list(kb_lib.COMMUNITY_EDGE_KINDS)
 MAX_PARTS = 9  # 복합체 부분 상한 (7±2, composite-kg 배너)

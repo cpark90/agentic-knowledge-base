@@ -7,7 +7,7 @@ title: function main in tools/labels.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-labels}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/dcdad310-25df-4a9e-8939-6ef8be6f1e20, https://agentic-knowledge-base.dev/id/chunk/f13654f3-9b08-41f4-a1f1-9688dccc4dd0]
 part_of: https://agentic-knowledge-base.dev/id/composite/fba87a37-4ad2-4ccb-b556-a27d4ef6b9d2
@@ -40,11 +40,11 @@ def main() -> int:
 
     head = kb_lib.gendoc_header(
         "index", "라벨 목록", "tools/labels.py",
-        "청크 파일마다 frontmatter 의 한글 라벨 · 영문 라벨 · plane/level · 상태 · 본문 줄 수 · 복합체 여부를 "
-        "plane 디렉토리와 항목 디렉토리로 묶어 — 라벨 목록이 본문보다 먼저 읽히는 것의 파일 형태다 (4.4절)",
+        "단위 지식 파일마다 frontmatter 의 한글 라벨 · 영문 라벨 · plane/level · 상태 · 본문 줄 수 · 복합체 여부를 "
+        "지식 종류 디렉토리와 항목 디렉토리로 묶어 — 라벨 목록이 본문보다 먼저 읽히는 것의 파일 형태다 (4.4절)",
         "bazel build //kb/dev:index", args.files,
-        f"청크 {len(args.files)}개 · 디렉토리 {len(groups)}개",
-        kb_lib.gendoc_view_notice("각 청크의 frontmatter"), input_kind="청크 파일")
+        f"단위 지식 {len(args.files)}개 · 디렉토리 {len(groups)}개",
+        kb_lib.gendoc_view_notice("각 단위 지식의 frontmatter"), input_kind="단위 지식 파일")
 
     out: list[str] = []
     for plane in sorted(by_plane):
@@ -52,14 +52,14 @@ def main() -> int:
         for d in by_plane[plane]:
             if d != plane:
                 out += [f"### {d}", ""]
-            out.append(kb_lib.GENDOC_QUOTE_OPEN)  # 라벨은 청크에서 그대로 옮긴 값이다 — 생성기가 고쳐 쓰지 않는다
+            out.append(kb_lib.GENDOC_QUOTE_OPEN)  # 라벨은 단위 지식에서 그대로 옮긴 값이다 — 생성기가 고쳐 쓰지 않는다
             for meta, n, path in sorted(groups[d], key=lambda t: (t[0]["type"], t[0]["level"], t[0]["title_ko"])):
                 comp = " · 복합체" if meta.get("composite") else ""
                 # 링크는 저장소 루트 기준이다 — 이 파일은 전 패키지를 한 파일로 합치므로 파일명 상대 링크가 성립하지 않는다 (G13)
                 out.append(f"- [{meta['title_ko']}](/{kb_lib.gendoc_input_name(path)}) — {meta['title']} · "
                            f"{meta['type']}/{meta['level']} · {meta['status']} · {n}줄{comp}")
             out += [kb_lib.GENDOC_QUOTE_CLOSE, ""]
-    Path(args.out).write_text(kb_lib.gendoc_assemble(head, out, args.files, input_kind="청크 파일"), encoding="utf-8")
+    Path(args.out).write_text(kb_lib.gendoc_assemble(head, out, args.files, input_kind="단위 지식 파일"), encoding="utf-8")
     return 0
 ```
 <!-- 인용 끝 -->

@@ -7,7 +7,7 @@ title: function check_cover in tools/case_gen.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-case-gen}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-04T05:09:24Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/9f708a60-c62b-47ce-8e23-c140b412416d]
 part_of: https://agentic-knowledge-base.dev/id/composite/c1361b91-dc50-48d4-bb3e-7e5d11c04516
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/c1361b91-dc50-48d4-bb3e
 def check_cover(where: str, cover, keep: dict, root: Path) -> list[str]:
     """`cover` 의 형식 — 항목마다 근거 규칙 하나. 규칙 없는 항목과 손으로 적은 값은 표본 근거가 없다."""
     if not isinstance(cover, list) or not cover:
-        return [f"{where}: `cover` 는 비어 있지 않은 목록이다 — {UNSAMPLED}(근거 규칙 없이 만들 케이스가 없다)"]
+        return [f"{where}: `cover` 는 비어 있지 않은 목록이다 — {UNSAMPLED}(근거 규칙 없이 만들 테스트 케이스가 없다)"]
     errs = []
     for i, e in enumerate(cover, start=1):
         at = f"{where}: `cover` {i}번째 항목"

@@ -7,7 +7,7 @@ title: function main in tools/impact.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-impact}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/2a84b29d-2217-4f0a-80af-ef04b3cb55cb, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/d75bedf5-7e0c-4441-b80e-9ead963a2b0e]
 part_of: https://agentic-knowledge-base.dev/id/composite/44b63663-ac34-40f1-92c6-a6281c93c7a6
@@ -19,10 +19,10 @@ part_of: https://agentic-knowledge-base.dev/id/composite/44b63663-ac34-40f1-92c6
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("target")
-    ap.add_argument("--universe", default="//kb/... + //chunks/...")
+    ap.add_argument("--universe", default="//kb/...")
     a = ap.parse_args()
     cwd = os.environ.get("BUILD_WORKSPACE_DIRECTORY", ".")
-    # 패키지의 본문 filegroup 은 이름이 디렉토리 이름과 같다 (STYLEGUIDE §6) — 묶음이지 지식 항목이 아니다
+    # 패키지의 본문 filegroup 은 이름이 디렉토리 이름과 같다 (STYLEGUIDE §6) — 묶음이지 단위 지식이 아니다
     is_group = lambda l: l.split(":")[-1] == l.split(":")[0].rsplit("/", 1)[-1]
     is_item = lambda l: ":kg" not in l and not is_group(l) and l != a.target
     direct = [l for l in q(f"rdeps({a.universe}, {a.target}, 1)", cwd) if is_item(l)]
@@ -31,14 +31,14 @@ def main() -> int:
     decisions = [l for l in trans if plane_of(l).startswith("decision") and "deprecated" not in plane_of(l)]
     head = kb_lib.gendoc_header(
         "impact", f"{a.target} 의 영향 집합", "tools/impact.py",
-        f"`rdeps({a.universe}, {a.target})` 로 이 타깃에 (전이적으로) 의존하는 지식 항목 — 직접 의존자는 고치면 suspect 가 될 링크이고, "
+        f"`rdeps({a.universe}, {a.target})` 로 이 타깃에 (전이적으로) 의존하는 단위 지식 — 직접 의존자는 고치면 suspect 가 될 링크이고, "
         "그중 결정은 유저 승인이 stable 전이 조건이다 (5.4절)",
         f"bazel run //tools:impact -- {a.target}", [], f"영향 항목 {len(trans)}",
-        kb_lib.gendoc_view_notice("각 청크의 frontmatter 링크 (BUILD 는 그 뷰다)"),
+        kb_lib.gendoc_view_notice("각 단위 지식의 frontmatter 링크 (BUILD 는 그 뷰다)"),
         input_note=f"`bazel query` 결과 — 파일이 아니라 질의다 (universe `{a.universe}`)")
     body = []
     body.append(f"- 영향 항목(전이): **{len(trans)}** · 직접 의존자(= suspect 가 될 링크): **{len(direct)}**")
-    body.append("- plane 분포: " + (" · ".join(f"{k} {v}" for k, v in planes.most_common()) or kb_lib.NONE_MARK))
+    body.append("- 지식 종류 분포: " + (" · ".join(f"{k} {v}" for k, v in planes.most_common()) or kb_lib.NONE_MARK))
     body.append(f"- 유저 승인이 필요한 결정: **{len(decisions)}** (decision 은 유저 승인이 stable 전이 조건, 5.4절)")
     body += [f"- 자율 진행 범위: {'안' if not decisions else '**밖** — 승인 필요 수가 0이 아니다'} (method §12)", ""]
     body += ["## 직접 의존자", ""]

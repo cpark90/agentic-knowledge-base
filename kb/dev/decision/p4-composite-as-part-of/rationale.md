@@ -7,7 +7,7 @@ title: Transitivity and antisymmetry already exist; part-of does not know order
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/85fcc7f3-446f-46d6-b386-693544fefe6e
 ---
 **근거** (노트 4.5절)
@@ -18,4 +18,4 @@ part_of: https://agentic-knowledge-base.dev/id/composite/85fcc7f3-446f-46d6-b386
 - 상위 온톨로지의 `part-of`는 **순서를 모른다.** 순서는 별도 표준 어휘로 얹되,
   필요한 복합체에만 얹는다.
 - 복합체에 본문이 없다는 것은 4.1절 `Chunk`/`Composite` disjoint의 귀결이다 —
-  본문은 청크에만 있고, 전체는 부분의 목록으로만 존재한다.
+  본문은 단위 지식에만 있고, 전체는 부분의 목록으로만 존재한다.

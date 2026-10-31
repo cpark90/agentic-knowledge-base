@@ -7,7 +7,7 @@ title: function main in tools/stamp.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-stamp}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/0c73f827-eef2-4929-a126-f9b2c056d037, https://agentic-knowledge-base.dev/id/chunk/580b14fa-6057-4000-9927-c60a4acee79a]
 part_of: https://agentic-knowledge-base.dev/id/composite/9de96dc9-03ab-40b9-a90a-4481f8f9deb7
@@ -33,7 +33,7 @@ def main() -> int:
             return EXIT_FAIL
         when = when.astimezone() if when.tzinfo is None else when
         if when > datetime.now(timezone.utc):
-            print(f"FAIL [{TAG}] --at {a.at}: 지금보다 뒤다 — 미래 시각의 도장은 쓰지 않는다 (`date -Iseconds` 실측값)", file=sys.stderr)
+            print(f"FAIL [{TAG}] --at {a.at}: 지금보다 뒤다 — 미래 시각의 도장은 쓰지 않는다 (`date -Iseconds` 측정치)", file=sys.stderr)
             return EXIT_FAIL
     done = []
     for rel in a.registries:
@@ -48,7 +48,7 @@ def main() -> int:
             return EXIT_FAIL
     for src, rev in done:
         print(f"도장 {src} — 리비전 {rev[:12]} · {at}. `bazel run //tools:extract -- {src}` 와 "
-              f"`python3 tools/gen_build.py --root .` 를 돌려 청크에 반영하라")
+              f"`python3 tools/gen_build.py --root .` 를 돌려 단위 지식에 반영하라")
     return 0
 ```
 <!-- 인용 끝 -->

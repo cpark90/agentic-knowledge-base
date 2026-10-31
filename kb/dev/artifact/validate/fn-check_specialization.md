@@ -7,7 +7,7 @@ title: function check_specialization in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/7253cc54-4d5c-47ee-b402-6574573c23ef, https://agentic-knowledge-base.dev/id/chunk/8a2be483-4fc8-411f-8f35-b7719552e4e4, https://agentic-knowledge-base.dev/id/chunk/a7d95ff4-ef90-4353-a266-826a544f37d8]
 part_of: https://agentic-knowledge-base.dev/id/composite/700062aa-fcac-4d30-8481-7021a666d072
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/700062aa-fcac-4d30-8481
 def check_specialization(merged: Graph, files: dict[str, Graph]) -> list[str]:
     """prov:specializationOf 규칙 (p10-split-keeps-work-identity, 게이트 id `specialization`).
 
-    분할 조각은 원 청크를 특수화한다 — 같은 것의 다른 입도다. 그래서 대상은 (a) 같은 plane 의 청크이고 (b) 살아 있어야 하며
+    분할 조각은 원 단위 지식을 특수화한다 — 같은 것의 다른 입도다. 그래서 대상은 (a) 같은 지식 종류의 단위 지식이고 (b) 살아 있어야 하며
     (deprecated 원본의 조각은 원본을 승계했어야 한다), (c) 사슬은 순환하지 않는다 (뿌리 uuid 를 계산할 수 없다). 대상 부재는
     check_dangling 이 본다. 순환은 성분마다 한 번 보고한다.
     """
@@ -30,16 +30,16 @@ def check_specialization(merged: Graph, files: dict[str, Graph]) -> list[str]:
     for s, o in sorted(merged.subject_objects(kb_lib.PROV.specializationOf), key=lambda so: (str(so[0]), str(so[1]))):
         where = _chunk_location(merged, s)
         if not isinstance(o, URIRef) or o not in plane:
-            continue  # 청크가 아닌 대상은 dangling 이 보고한다
+            continue  # 단위 지식이 아닌 대상은 dangling 이 보고한다
         spec[s] = o
         if s == o:
             errors.append(f"[{gate}] {where}: prov:specializationOf 가 자기 자신이다 — 조각은 원본을 특수화한다")
             continue
         if plane.get(s) != plane[o]:
-            errors.append(f"[{gate}] {where}: prov:specializationOf 대상 {_qname(merged, o)} 의 plane 이 다르다 ({plane.get(s)} ≠ {plane[o]}) — "
-                          f"분할 조각은 같은 plane 의 원본을 특수화한다 (p10-split-keeps-work-identity)")
+            errors.append(f"[{gate}] {where}: prov:specializationOf 대상 {_qname(merged, o)} 의 지식 종류가 다르다 ({plane.get(s)} ≠ {plane[o]}) — "
+                          f"분할 조각은 같은 지식 종류의 원본을 특수화한다 (p10-split-keeps-work-identity)")
         if str(next(merged.objects(o, kb_lib.AGT.status), "")) == "deprecated":
-            errors.append(f"[{gate}] {where}: prov:specializationOf 대상 {_qname(merged, o)} 이 deprecated 다 — 원본은 살아 있는 청크여야 한다 "
+            errors.append(f"[{gate}] {where}: prov:specializationOf 대상 {_qname(merged, o)} 이 deprecated 다 — 원본은 살아 있는 단위 지식이어야 한다 "
                           f"(폐기된 원본의 조각은 uuid 를 승계했어야 한다)")
     reported: set = set()
     for start in sorted(spec, key=str):

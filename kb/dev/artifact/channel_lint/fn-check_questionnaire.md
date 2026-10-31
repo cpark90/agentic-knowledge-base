@@ -7,9 +7,9 @@ title: function check_questionnaire in tools/channel_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-channel-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/7ea462e4-8c9b-4768-98eb-df193fcee568]
+uses: [https://agentic-knowledge-base.dev/id/chunk/7ea462e4-8c9b-4768-98eb-df193fcee568, https://agentic-knowledge-base.dev/id/chunk/b0e2a072-409f-46a0-b744-5bbc0f5eaade]
 part_of: https://agentic-knowledge-base.dev/id/composite/f4e440cf-7d39-4f1b-9334-79189a47b8a2
 ---
 **함수** — `check_questionnaire(it)` 다. 질문지 하나의 자기 완결 검사.
@@ -40,6 +40,7 @@ def check_questionnaire(it: dict) -> list[str]:
     if st == "closed" and blank:
         errs.append(f"{path}: closed 인데 빈 `답:` 줄이 {blank}개다 — 답을 받지 않은 질문을 닫지 않는다 (보류면 `보류` 라 적는다)")
     it["blank"] = blank
+    errs += check_directive_record(path, it["text"])
     return errs
 ```
 <!-- 인용 끝 -->

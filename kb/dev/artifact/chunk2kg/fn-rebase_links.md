@@ -7,7 +7,7 @@ title: function rebase_links in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/1b8a9132-b68b-46c7-a14e-55e7048494e2, https://agentic-knowledge-base.dev/id/chunk/38150f41-1adc-4ea1-9c7f-f722f721fe9a, https://agentic-knowledge-base.dev/id/chunk/4dcdeb22-0819-48a5-96a4-72da225a3003, https://agentic-knowledge-base.dev/id/chunk/8a9578b7-a0d9-4b0a-951e-aed33d8b8825, https://agentic-knowledge-base.dev/id/chunk/9e16611b-2397-4b7d-a033-267e745a1aeb, https://agentic-knowledge-base.dev/id/chunk/f418fcb4-df9f-496c-9cc7-09f83dc5d1e5]
 part_of: https://agentic-knowledge-base.dev/id/composite/2c7e96e6-1c7a-4f75-b63b-8c0d0db3e828
@@ -19,9 +19,9 @@ part_of: https://agentic-knowledge-base.dev/id/composite/2c7e96e6-1c7a-4f75-b63b
 def rebase_links(blocks: list, spec: dict) -> tuple:
     """(IRI, 블록) 목록의 링크·증거 블록 IRI 를 뿌리 uuid 로 다시 계산하고 같은 IRI 의 블록을 합친다 → (블록 목록, 오류 목록).
 
-    spec 은 조각 → 원본 사상(청크 블록의 prov:specializationOf). 링크 블록의 linkFrom·linkTo 를 work_id 로 올려 link_hash 를 다시
+    spec 은 조각 → 원본 사상(단위 지식 블록의 prov:specializationOf). 링크 블록의 linkFrom·linkTo 를 work_id 로 올려 link_hash 를 다시
     구하고, 해시가 바뀐 링크의 증거 IRI(같은 해시 + 접미)도 함께 바꾼다. 원본을 가리키던 링크 X→O 와 조각을 가리키는 X→F 는
-    같은 IRI 가 되어 한 블록이 된다 — 술어별 목적어의 합집합(linkTo 둘, evidenceRef 둘). 청크·복합체 블록은 그대로 둔다.
+    같은 IRI 가 되어 한 블록이 된다 — 술어별 목적어의 합집합(linkTo 둘, evidenceRef 둘). 단위 지식·복합체 블록은 그대로 둔다.
     사슬 순환은 오류(게이트 id specialization, 순환마다 한 번)다. 합쳐진 블록의 목적어는 정렬 합집합이라 조각 순서와 무관하게 결정적이다.
     """
     errors = [f"{SPECIALIZATION_KEY} 사슬이 순환한다: {' → '.join(cyc + (cyc[0],))} — 조각은 원본을, 원본은 조각을 가리키지 않는다"

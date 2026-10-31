@@ -5,12 +5,12 @@
 게이트가 아니라 **후보 생성기**다: 채택(복합체 선언)·묶기(relatedTo 링크)·기각은 사람이 후보마다 판정하고,
 결과는 저장하지 않는다 (4.6절 뷰 원칙). 판정란은 비워 둔다.
 
-  입력  살아 있는 청크(status ≠ deprecated)와 링크 — refines·serves·cites·usesConcept·coUpdatesWith·conflictsWith
+  입력  살아 있는 단위 지식(status ≠ deprecated)과 링크 — refines·serves·cites·usesConcept·coUpdatesWith·conflictsWith
         (직접 트리플과 agt:Link 개체 둘 다) + 구성 관계 hasDirectPart. supersedes 는 시간축이라 제외한다.
   계산  결정론적 Louvain (외부 의존 없음). 노드·이웃·군집 순회를 IRI 정렬로 고정하고 동점은 작은 IRI 가 이기므로
         같은 입력이면 같은 출력이다. 이미 선언된 복합체의 부분은 처음부터 한 단위로 묶어 계산이 선언을 쪼개지 않는다
-        — 복합체는 선언이고 커뮤니티는 계산이다 (근거 청크). 복합체의 수준은 결론의 수준이다 (defs/kb.bzl ChunkInfo).
-  판정  같은 plane·level 안의 군집(청크 2~9, 아직 복합체가 아닌 것)만 복합체 후보,
+        — 복합체는 선언이고 커뮤니티는 계산이다 (근거). 복합체의 수준은 결론의 수준이다 (defs/kb.bzl ChunkInfo).
+  판정  같은 plane·level 안의 군집(단위 지식 2~9, 아직 복합체가 아닌 것)만 복합체 후보,
         plane 또는 level 을 넘는 군집은 relatedTo 링크 후보 — 쌍이 아니라 군집 단위.
 
 사용: community.py --out communities.md <TTL...>   (bazel build //kg:communities)
@@ -28,7 +28,7 @@ except ImportError:
 
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
 # 군집 계산에 쓰는 링크 종류 (족: references · semanticallyDependsOn · relatedTo). 시간축 supersedes 는 뺀다.
-# 목록의 단일 정의처는 kb_lib 다 (STYLEGUIDE §7) — 연결 성분이 보는 집합(`LINKAGE_PREDICATES`)과 이름이 갈려 있다:
+# 목록의 단일 정의 위치는 kb_lib 다 (STYLEGUIDE §7) — 연결 성분이 보는 집합(`LINKAGE_PREDICATES`)과 이름이 갈려 있다:
 # 군집은 연결·귀속 지표가 아니라 후보 생성기이므로 정체성 관계 `prov:specializationOf` 를 엣지로 쓰지 않는다
 EDGE_KINDS = list(kb_lib.COMMUNITY_EDGE_KINDS)
 MAX_PARTS = 9  # 복합체 부분 상한 (7±2, composite-kg 배너)
@@ -139,7 +139,7 @@ def main() -> int:
     for f in a.files:
         g.parse(f, format="turtle")
 
-    # 살아 있는 청크
+    # 살아 있는 단위 지식
     chunks = {}
     for c in g.subjects(AGT.tokenCount, None):
         if str(next(g.objects(c, AGT.status), "")) == "deprecated":
@@ -148,7 +148,7 @@ def main() -> int:
         level = str(next(g.objects(c, AGT.hasLevel), "")).split("/")[-1]
         chunks[c] = {"plane": plane, "level": level, "ko": label_ko(g, c), "loc": str(next(g.objects(c, AGT.assertionLocation), ""))}
 
-    # 선언된 복합체 → 단위 노드. 부분은 살아 있는 청크만, 한 청크가 둘에 속하면 IRI 가 작은 복합체
+    # 선언된 복합체 → 단위 노드. 부분은 살아 있는 단위 지식만, 한 단위 지식이 둘에 속하면 IRI 가 작은 복합체
     unit_of = {}
     units = {}  # 단위 → {"parts": [...], "ko", "plane", "level", "composite": bool}
     for comp in sorted(g.subjects(RDF.type, AGT.Composite), key=str):
@@ -233,20 +233,20 @@ def main() -> int:
     n_comp = sum(1 for u in units.values() if u["composite"])
     head = kb_lib.gendoc_header(
         "communities", "커뮤니티 탐지 뷰", "tools/community.py",
-        "살아 있는 청크와 그 링크(`refines`·`serves`·`cites`·`usesConcept`·`coUpdatesWith`·`conflictsWith` + 구성 관계)에 "
+        "살아 있는 단위 지식과 그 링크(`refines`·`serves`·`cites`·`usesConcept`·`coUpdatesWith`·`conflictsWith` + 구성 관계)에 "
         "결정론적 Louvain 을 돌려 — 같은 plane·level 안의 군집은 복합체 후보, plane·level 을 넘는 군집은 relatedTo 링크 후보. "
         "후보 생성기이고 판정(병합 / 묶기 / 유지)은 사람이 후보마다 한다",
         "bazel build //kg:communities", a.files,
-        f"링크 {len(triples)} · 단위 노드 {len(units)}", kb_lib.gendoc_view_notice("청크의 frontmatter 와 `kg/composite-kg.ttl`"),
+        f"링크 {len(triples)} · 단위 노드 {len(units)}", kb_lib.gendoc_view_notice("단위 지식의 frontmatter 와 `kg/composite-kg.ttl`"),
         input_kind="그래프 파일",
-        extra=[f"- 살아 있는 청크 {len(chunks)} · 단위 노드 {len(units)} (선언된 복합체 {n_comp} + 단독 청크 {len(units) - n_comp}) · "
+        extra=[f"- 살아 있는 단위 지식 {len(chunks)} · 단위 노드 {len(units)} (선언된 복합체 {n_comp} + 단독 단위 지식 {len(units) - n_comp}) · "
                f"링크 {len(triples)} ({' · '.join(f'{k} {v}' for k, v in sorted(kind_count.items())) or kb_lib.NONE_MARK}) · "
                f"모듈러리티 Q = {kb_lib.num(q)}",
                "- 방법: 결정론적 Louvain (IRI 정렬, 동점은 작은 IRI). 선언된 복합체의 부분은 한 단위로 묶고 시작하며 복합체의 수준은 결론의 수준이다. "
                "supersedes 는 시간축이라 제외. 채택은 `kg/composite-kg.ttl` 복합체 선언, 기각은 관측 한 줄"])
     lines = ["## 요약", "", "| 항목 | 값 |", "|---|---|",
              f"| 군집 수 | {len(clusters)} |",
-             f"| 크기 분포 (청크 수) | 1: {dist.get('1', 0)} · 2–9: {dist.get('2–9', 0)} · 10+: {dist.get('10+', 0)} |",
+             f"| 크기 분포 (단위 지식 수) | 1: {dist.get('1', 0)} · 2–9: {dist.get('2–9', 0)} · 10+: {dist.get('10+', 0)} |",
              f"| 복합체 후보 (같은 plane·level, 2~{MAX_PARTS}, 아직 복합체 아님) | {len(composite_cands)} |",
              f"| relatedTo 링크 후보 (plane 또는 level 을 넘음) | {len(related_cands)} |",
              f"| 선언된 복합체와 일치하는 군집 (후보 아님) | {len(already)} |",

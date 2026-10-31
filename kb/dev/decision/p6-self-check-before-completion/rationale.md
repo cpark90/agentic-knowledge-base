@@ -7,8 +7,8 @@ title: Judgement belongs to gates outside the agent, so completion is defined by
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-07T03:03:35+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-07T03:03:36+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-07T03:03:36+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/3e29e698-8ef5-4fe2-ac1b-867e596a5179
 ---
@@ -18,6 +18,6 @@ part_of: https://agentic-knowledge-base.dev/id/composite/3e29e698-8ef5-4fe2-ac1b
 
 정규화의 이유는 노트 2.5절이다. 직렬화 순서가 불안정하면 git diff가 의미 없는 변경으로 차고 무효화 판정의 입력이 오염된다. 정규화 직렬화는 온톨로지 검사 3단계의 첫 단계다(`p2-ontology-compiler-three-tiers`). 손으로 쓰는 TTL을 정규형 검사에서 뺀 판정은 2026-09-13이다. 그 파일의 서식(배너·주석·술어 순서)이 원본이기 때문이다.
 
-커밋 전 시점은 노트 10.6절의 재검증 시점에서 온다. 커밋은 링크·가정을 일괄 재판정하는 경계다.
+커밋 전 시점은 노트 10.6절의 재검증 시점에서 온다. 커밋은 링크·가정을 일괄 재검증하는 경계다.
 
 미확정: 셀프체크의 실행을 커밋 훅 같은 기계 장치로 강제하지 않은 이유는 기록에서 확인하지 못했다. 정규화 검사를 테스트로 배선하지 않은 이유도 확인하지 못했다.

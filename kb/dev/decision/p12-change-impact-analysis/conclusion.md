@@ -5,9 +5,10 @@ level: concrete
 title_ko: 변경 영향은 기존 질의의 조합으로 변경 전에 계산한다
 title: Change impact is computed before the change by composing existing queries
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0148-change-impact-analysis.md, id: https://agentic-knowledge-base.dev/id/chunk-d0148, title_ko: "변경 영향 분석 절차", title: "Change impact analysis procedure"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0148]
 part_of: https://agentic-knowledge-base.dev/id/composite/6b8cc1c0-c8c4-4aa4-a9e5-b72e150d72ab

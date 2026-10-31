@@ -7,7 +7,7 @@ title: docs/rules.md section — Composites, only where integration is needed
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T23:29:17+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 overlapsWith: [https://agentic-knowledge-base.dev/id/chunk/4eef1ba8-9095-4b69-aa55-69ca65ff7a35]
 restored: [https://agentic-knowledge-base.dev/id/chunk/4eef1ba8-9095-4b69-aa55-69ca65ff7a35]
 layer: methodology
@@ -20,5 +20,5 @@ columns: [규칙, 내용, 근거]
 link_column: 근거
 items: [p4-composition-rules#1, p4-composition-rules#2 + p7-code-links-on-file-composite, p4-composite-as-part-of#1 + p4-composite-order-is-declared, p4-composition-rules#3, p4-composition-rules#4]
 ---
-복합체(`agt:Composite`)는 **chunk의 part-of 묶음**이다. 본문이 없고, 라벨과 순서 있는 부분
-목록이 전부다. `agt:Chunk`와 disjoint하며 둘 다 `agt:KnowledgeItem`의 하위다.
+복합체는 **단위 지식의 part-of 묶음**이고, 클래스는 `agt:Composite`다. 복합체에는 본문이 없고 라벨과 순서 있는 부분
+목록만 있다. `agt:Composite`는 `agt:Chunk`와 서로소이고, 둘 다 `agt:KnowledgeItem`의 하위 클래스다.

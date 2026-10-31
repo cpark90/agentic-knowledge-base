@@ -7,7 +7,7 @@ title: function emit in tools/gates2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gates2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/f15f1ad5-6a97-49e0-a1b6-d7cc84dd3b8e]
 part_of: https://agentic-knowledge-base.dev/id/composite/cda496f2-c562-40ea-bde8-f3fa740db1b1
@@ -22,7 +22,7 @@ def emit(gates: dict, tiers: tuple, layer: str, tools: dict[str, str], outside: 
     blocks = []
     for gate_id in sorted(gates):
         spec = gates[gate_id]
-        missing = [k for k in ("tier", "tool", "ko", "desc") if not spec.get(k)]
+        missing = [k for k in ("tier", "tool", "ko", "desc", "decision") if not spec.get(k)]
         if missing:
             errors.append(f"{where}: 게이트 {gate_id!r} 에 {', '.join(missing)} 가 없다")
             continue

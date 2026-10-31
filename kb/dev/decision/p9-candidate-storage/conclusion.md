@@ -2,20 +2,21 @@
 id: https://agentic-knowledge-base.dev/id/chunk/7c9d74e6-1a77-4d52-a126-644a65bfab93
 type: decision
 level: concrete
-title_ko: 후보는 -space 청크에 살고 절대 deps가 되지 않으며 확정은 head로 옮겨진다
+title_ko: 후보는 -space 단위 지식에 살고 절대 deps가 되지 않으며 확정은 head로 옮겨진다
+former_title_ko: ["후보는 -space 청크에 살고 절대 deps가 되지 않으며 확정은 head로 옮겨진다", "후보는 -space 지식 항목에 살고 절대 deps가 되지 않으며 확정은 head로 옮겨진다"]
 title: Candidates live in -space chunks, never become deps, and are moved to the head on confirmation
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-22T21:20:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 layer: methodology
-verified: [{by: orchestrator/claude-opus-5, at: 2026-09-22T21:25:00+09:00}]
+verified: [{by: orchestrator/claude-opus-5, at: 2026-09-22T21:25:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c, https://agentic-knowledge-base.dev/id/chunk/166b54ec-3988-4fa3-87c4-8ab006ed9a08]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/b4561dfb-19ea-4f34-b57e-c241cae4b9da, title_ko: 후보의 저장 자리, title: Where candidates live}
 part_of: https://agentic-knowledge-base.dev/id/composite/b4561dfb-19ea-4f34-b57e-c241cae4b9da
 ---
-**결론** — 후보 링크는 확정 링크와 **다른 자리**에 저장된다. 확정은 청크 head(프런트매터 타입 키 → Bazel deps), 후보는 `-space` 청크. **후보는 절대 deps가 되지 않는다.** 확정되는 순간 생성기가 `-space`에서 head로 옮기고, 그것이 한 줄 diff로 리뷰된다 (노트 9.10절).
+**결론** — 후보 링크는 확정 링크와 **다른 자리**에 저장된다. 확정은 단위 지식 head(프런트매터 타입 키 → Bazel deps), 후보는 `-space` 단위 지식. **후보는 절대 deps가 되지 않는다.** 확정되는 순간 생성기가 `-space`에서 head로 옮기고, 그것이 한 줄 diff로 리뷰된다 (노트 9.10절).
 
-`-space`는 `type: agt:Space`, level logical의 OKF 청크다. **변수 하나 = 파일 하나.** 필드 — `variable`(출발 청크 + 링크 타입), `status`(open|resolved), `candidates`(각각 `to`·`state`·`eliminated_by`·`when`·`evidence` 증거 기록), `constraints`(CEL), `preferences`. 기각된 후보는 삭제되지 않는다 — logical은 근거의 보존소다.
+`-space`는 `type: agt:Space`, level logical의 OKF 단위 지식이다. **변수 하나 = 파일 하나.** 필드 — `variable`(출발 단위 지식 + 링크 타입), `status`(open|resolved), `candidates`(각각 `to`·`state`·`eliminated_by`·`when`·`evidence` 증거 기록), `constraints`(CEL), `preferences`. 기각된 후보는 삭제되지 않는다 — logical은 근거의 보존소다.
 
 한 파일 안에서 후보의 재료와 확정 결과가 나란히 있다 — OKF `sources`에는 있고 `satisfies`에는 없는 항목이 "읽었지만 기각된 것"이고 그 근거는 `-space`에 있다. `space2kg`가 `chunk2kg`의 파서로 `-space`를 읽어 `agt:CandidateLink`로 올리고, 확정 링크는 `prov:wasDerivedFrom`으로 자신이 후보였던 개체를 가리킨다. 유저에게는 체크박스 파일(13.5절)로 뷰로 나온다 — `[ ]` open, `[-]` eliminated + 이유, `[x]` 확정; `[x]` 하나만 남으면 `resolved`.

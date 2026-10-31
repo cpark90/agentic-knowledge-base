@@ -7,7 +7,7 @@ title: Promotion is confirmed by a person checking that a proposal from an obser
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-22T19:06:46+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/1ef46f34-e0ff-4996-bad4-ee3340ec290a]
 ---
 **합격 기준** — 기준 종류는 **사람 확인**이다. 어떤 관측 `o` 에 대해 `proposal(o) ∈ kb/ontology/proposals/` 였다가 승인 뒤 `term ∈ 확장 모듈 ∧ (term prov:wasDerivedFrom o)` 인 사례가 하나 이상 있는지를 사람이 본다.
@@ -21,4 +21,4 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/1ef46f34-e0ff-4996-bad4-ee
 
 **등급** — C 다. 도구 실행은 기계이지만 반복 패턴의 인정과 승인은 사람이다.
 
-케이스를 두지 않는다. `term_propose` 는 `bazel run` 이라 vv_run 의 허용 목록 밖이고, 2026-09-21 기준 승인 큐에 제안이 없어 양성 표본이 없다. 판정의 원본은 `tools/term_propose.py` 와 이 절차다.
+테스트 케이스를 두지 않는다. `term_propose` 는 `bazel run` 이라 vv_run 의 허용 목록 밖이고, 2026-09-21 기준 승인 큐에 제안이 없어 양성 표본이 없다. 판정의 원본은 `tools/term_propose.py` 와 이 절차다.

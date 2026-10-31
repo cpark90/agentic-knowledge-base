@@ -4,11 +4,12 @@ type: decision
 level: concrete
 title_ko: 검증 라운드는 종료 사유를 단 명시 기록이고 정지 규칙은 그 기록 사이의 신규 결함 수로 판정한다
 title: A verification round is an explicit record with an end reason, and the stop rule is judged on the new defects between records
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ee402e65-6abe-43ec-86ef-554f2ada9207]
 generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T23:13:50+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T02:06:05+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/1da87f55-7c99-4879-831b-613ea302dc21
 composite: {id: https://agentic-knowledge-base.dev/id/composite/1da87f55-7c99-4879-831b-613ea302dc21, title_ko: 검증 라운드의 기록과 정지 규칙, title: Verification round records and the stop rule}

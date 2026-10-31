@@ -8,8 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-dependency-graph-design}, {resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/f29f5a66-774b-48b3-bda1-fc2529e611af]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:13:51+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/b6248cd7-b607-4c13-adde-c2ee0f57a5a3
 composite: {id: https://agentic-knowledge-base.dev/id/composite/b6248cd7-b607-4c13-adde-c2ee0f57a5a3, title_ko: 링크의 세 족과 구성 관계, title: Three link families and composition}
@@ -19,7 +19,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/b6248cd7-b607-4c
 | 족 | 뜻 | 잎 | 전파 |
 |---|---|---|---|
 | `agt:references` | 본문이 식별자로 가리킴 | `cites` · `targets` · `usesDefinition` | 대상 변경 → 출발점 `suspect` |
-| `agt:semanticallyDependsOn` | 빼면 의미상 불완전 | `refines` · `satisfies` · `constrains` · `verifies` · `derivesFrom` · `usesConcept` · `assumes` · `generates` · `allocates` | 같음. plane 단방향 안에서만 |
+| `agt:semanticallyDependsOn` | 빼면 의미상 불완전 | `refines` · `satisfies` · `constrains` · `verifies` · `derivesFrom` · `usesConcept` · `assumes` · `generates` · `allocates` | 같음. 지식 종류 단방향 안에서만 |
 | `agt:relatedTo` | 앞의 두 족에 들지 않는 관련성 | `coUpdatesWith` · `conflictsWith` · `overlapsWith` | 대칭. 양쪽 `suspect` |
 | (구성 관계) | 함께 읽힘·순서 | `hasDirectPart` | 부분이 무효면 전체 `suspect` |
 

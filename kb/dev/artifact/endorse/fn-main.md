@@ -7,7 +7,7 @@ title: function main in tools/endorse.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-endorse}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/76dd3d85-14b0-4166-9ac3-75140ae7ea66]
 part_of: https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d-a8a449270a57
@@ -18,7 +18,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d
 ```python
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--by", required=True, help="<역할>/<모델> — 카탈로그에 있는, 그 plane 을 쓰는 역할")
+    ap.add_argument("--by", required=True, help="<역할>/<모델> — 카탈로그에 있는, 그 지식 종류를 쓰는 역할")
     ap.add_argument("--at", required=True, help="ISO 8601")
     ap.add_argument("files", nargs="+")
     a = ap.parse_args()

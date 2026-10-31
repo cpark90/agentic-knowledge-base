@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""실행기 환경 격리 게이트 — 케이스의 명령이 실행기의 파이썬 문맥을 물려받지 않는지 `bazel test` 안에서 판정한다
+"""실행기 환경 격리 게이트 — 테스트 케이스의 명령이 실행기의 파이썬 문맥을 물려받지 않는지 `bazel test` 안에서 판정한다
 (결정 p8-verifier-env-isolation, 주석 runner-env-leaks-into-case).
 
-실행기를 어떻게 불렀는가가 케이스의 판정을 바꾸면 그 판정은 재현이 아니다. `bazel run //tools:vv_run` 의 스텁이
-`PYTHONSAFEPATH=1` 을 두던 때 케이스가 부르는 검증기는 `import kb_lib` 에서 `ModuleNotFoundError` 로 죽었고
-`python3 tools/vv_run.py` 는 같은 케이스를 통과시켰다. `vv_run.clean_env()` 가 그 문맥을 걷어낸다.
+실행기를 어떻게 불렀는가가 테스트 케이스의 판정을 바꾸면 그 판정은 재현이 아니다. `bazel run //tools:vv_run` 의 스텁이
+`PYTHONSAFEPATH=1` 을 두던 때 테스트 케이스가 부르는 검증기는 `import kb_lib` 에서 `ModuleNotFoundError` 로 죽었고
+`python3 tools/vv_run.py` 는 같은 테스트 케이스를 통과시켰다. `vv_run.clean_env()` 가 그 문맥을 걷어낸다.
 
-**이 게이트는 실행기 전체가 아니라 환경 격리만 판정한다.** 케이스가 `bazel test` 를 부르므로 실행기 전체는
+**이 게이트는 실행기 전체가 아니라 환경 격리만 판정한다.** 테스트 케이스가 `bazel test` 를 부르므로 실행기 전체는
 테스트 타깃 안에서 돌릴 수 없다(중첩 실행). 그러나 `clean_env()` 와 `run_command()` 는 bazel 을 부르지 않는다 —
 판정 대상을 격리의 동작으로 좁히면 중첩 없이 `bazel test //...` 안에 든다.
 
@@ -31,7 +31,7 @@ import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import kb_lib  # noqa: E402 — 종료 코드 규약의 단일 정의처
+import kb_lib  # noqa: E402 — 종료 코드 규약의 단일 정의 위치
 import vv_run  # noqa: E402 — 판정 대상. clean_env·run_command 는 bazel 을 부르지 않는다
 
 GATE = kb_lib.VV_RUN_ENV_GATE
@@ -67,7 +67,7 @@ def check_strip() -> list[str]:
     left = [n for n in EXPECTED_ENV if n in env]
     if left:
         msgs.append(f"FAIL [{GATE}] clean_env(): {', '.join(left)} 이 남았다 — "
-                    "케이스의 명령이 실행기의 파이썬 문맥을 물려받는다")
+                    "테스트 케이스의 명령이 실행기의 파이썬 문맥을 물려받는다")
     if env.get(SENTINEL) != "keep":
         msgs.append(f"FAIL [{GATE}] clean_env(): 다섯 밖의 변수 {SENTINEL} 까지 사라졌다 — "
                     "격리는 환경을 비우는 것이 아니라 다섯을 걷어내는 것이다")
@@ -97,7 +97,7 @@ def check_cwd(root: Path) -> list[str]:
     got = Path(r["out"].strip()).resolve()
     if r["rc"] != 0 or got != root.resolve():
         return [f"FAIL [{GATE}] {CWD_PROBE}: 작업 디렉토리가 {got} 다 — 워크스페이스 루트 {root.resolve()} 여야 "
-                "케이스가 적은 상대 경로가 자극에 닿는다"]
+                "테스트 케이스가 적은 상대 경로가 자극에 닿는다"]
     return []
 
 

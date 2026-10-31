@@ -5,9 +5,10 @@ level: concrete
 title_ko: 온톨로지 자체가 용어집이다
 title: The ontology is the glossary
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0031-notation-format.md, id: https://agentic-knowledge-base.dev/id/chunk-d0031, title_ko: "표기 형식과 용어집의 위치", title: "Notation format and where the glossary lives"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7, https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0031]
 part_of: https://agentic-knowledge-base.dev/id/composite/fc68c83c-8feb-47ce-8dea-30f24d2ee645

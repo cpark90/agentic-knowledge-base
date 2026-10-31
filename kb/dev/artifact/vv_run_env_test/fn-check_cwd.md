@@ -7,7 +7,7 @@ title: function check_cwd in tools/vv_run_env_test.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run-env-test}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-26T10:39:33Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/78211421-fa91-4809-8250-0a840db49298
 ---
@@ -27,7 +27,7 @@ def check_cwd(root: Path) -> list[str]:
     got = Path(r["out"].strip()).resolve()
     if r["rc"] != 0 or got != root.resolve():
         return [f"FAIL [{GATE}] {CWD_PROBE}: 작업 디렉토리가 {got} 다 — 워크스페이스 루트 {root.resolve()} 여야 "
-                "케이스가 적은 상대 경로가 자극에 닿는다"]
+                "테스트 케이스가 적은 상대 경로가 자극에 닿는다"]
     return []
 ```
 <!-- 인용 끝 -->

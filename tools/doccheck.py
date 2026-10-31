@@ -16,14 +16,14 @@
           규칙이다 — 표지가 아니라 규칙이므로 `kg/chunks-kg.ttl` 처럼 적힌 생성물은 없는 경로로 잡힌다.
           `파일:줄` 표기는 파일만 본다. 경로에는 ':' 이 없으므로 그 밖의 ':' 은 라벨로 보고 건너뛴다.
   prose   산문 문체 (STYLEGUIDE §0 단정 서술형, 유저 결정 2026-09-13) — 경어·비격식 종결(습니다·세요·해요·죠 …)이 문장 끝에
-          오거나 산문에 느낌표가 있다 (kb_lib.check_prose 가 단일 정의처). 코드 펜스·코드 스팬·HTML 주석·따옴표 안과 `!=`·`![`
+          오거나 산문에 느낌표가 있다 (kb_lib.check_prose 가 단일 정의 위치). 코드 펜스·코드 스팬·HTML 주석·따옴표 안과 `!=`·`![`
           는 산문이 아니다. --waivers(docs/waivers.md)에 게이트 id `prose`(축 파일)로 면제된 문서는 세지 않는다. 추측·구어는
           판정이 필요하므로 게이트가 아니라 consistency ⑦ 보고다.
 
-  report  **보고 모드**(`--report`, 게이트가 아니다) — 문서(위치 인자, 없으면 진입점 문서 넷 `REPORT_DOCS`)가 적은
+  report  **보고 모드**(`--report`, 게이트가 아니다) — 문서(위치 인자, 없으면 진입점 문서 셋 `REPORT_DOCS`)가 적은
           수치를 생성물의 같은 이름 값과 쌍으로 대조해 어긋난 쌍을 센다. 위치 인자를 주면 `REPORT_DOCS` 대신 그
           목록을 대조 대상으로 쓰고, **이 모드에서만** 루트 밖 절대 경로를 허용한다(`report_doc_path` — `vv_run`
-          이 케이스 자극을 워크스페이스 밖 임시 디렉토리에 두므로, 2026-10-01 vnv 요청). 이름 열넷의 원본은 V&V 기준
+          이 테스트 케이스 자극을 워크스페이스 밖 임시 디렉토리에 두므로, 2026-10-01 vnv 요청). 이름 열넷의 원본은 V&V 기준
           `kb/vv/criteria/document-table-matches-generated.md` 의 대조 대상 목록이고, 현상은 `agt:documentLag`(P18)이다.
           짝짓기는 이름 뒤 24자 창의 수치이므로 근사다 — 이름과 값이 산문으로 떨어져 있으면 쌍이 서지 않는다.
           시점을 선언한 스냅샷 단락은 대조 밖이고, 생성물 원본이 없는 이름은 문서가 생성 명령이나 시각을 병기하면
@@ -35,7 +35,7 @@
 
 사용  doccheck.py [--root DIR] [--waivers FILE] <문서 ...> [--target-only FILE ...]
       bazel run //tools:doccheck -- *.md docs/*.md --target-only docs/agent-knowledge-system-notes.md
-      bazel run //tools:doccheck -- --report      # 문서 수치 대 생성물 수치, FAIL 아님 (진입점 문서 넷)
+      bazel run //tools:doccheck -- --report      # 문서 수치 대 생성물 수치, FAIL 아님 (진입점 문서 셋)
       bazel run //tools:doccheck -- --report /tmp/x/doc.md   # 위치 인자가 있으면 그 문서로 바꾼다, 루트 밖도 된다
       루트는 --root, 없으면 BUILD_WORKSPACE_DIRECTORY(bazel run), 없으면 현재 디렉토리(bazel test 의 runfiles).
       실재 판정은 루트 아래 파일계로 한다 — 테스트에서는 선언된 입력(runfiles)만 실재한다.
@@ -50,19 +50,19 @@ import sys
 import urllib.parse
 from pathlib import Path
 
-try:  # 규약 상수·마크다운 헬퍼의 단일 정의처는 kb_lib (STYLEGUIDE §7)
+try:  # 규약 상수·마크다운 헬퍼의 단일 정의 위치는 kb_lib (STYLEGUIDE §7)
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
     try:
         import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
-    except ImportError as e:  # 산문 검사·앵커 규칙의 단일 정의처라 없으면 돌릴 수 없다
+    except ImportError as e:  # 산문 검사·앵커 규칙의 단일 정의 위치라 없으면 돌릴 수 없다
         raise SystemExit(f"FAIL [doccheck] kb_lib 을 찾을 수 없다 — {e}")
 EXIT_FAIL = kb_lib.EXIT_FAIL      # 판정 실패
 EXIT_CONFIG = kb_lib.EXIT_CONFIG  # 파일 없음·인자 오류·읽을 수 없는 입력
 EXIT_SKIP = kb_lib.EXIT_SKIP      # 검사 대상 0건 — PASS 가 아니다
 
 TAG = kb_lib.DOCCHECK_GATE
-FROZEN = kb_lib.FROZEN_GATE  # 동결 문서 게이트 id — 원본 해시의 단일 정의처는 kb_lib.FROZEN_DOCS
+FROZEN = kb_lib.FROZEN_GATE  # 동결 문서 게이트 id — 원본 해시의 단일 정의 위치는 kb_lib.FROZEN_DOCS
 PROSE = kb_lib.PROSE_GATE  # 산문 게이트 id — waivers.md 가 같은 이름으로 면제를 선언한다
 PATH_PREFIXES = ("kb/", "kg/", "tools/", "docs/", "defs/", "chunks/", "space/", "harness/", ".claude/")
 SKIP_MARKS = ("*", "<", "{", "…", "$", "//", "bazel-bin/", "bazel-out", ".wip")
@@ -145,11 +145,9 @@ def check_paths(doc: Path, lines: list[str], repo: Repo) -> list[str]:
     return errors
 
 
-# ── 게이트 총람의 투영 — 손 표의 `id` 열 대 GATES 리터럴 (M1 단일 정의처, 2026-10-02) ────────────────────
+# ── 게이트 총람의 투영 — 생성 구간 대 GATES 리터럴의 재생성 (M1 단일 정의 위치 2026-10-02, 유저 답 Q150-a) ────────
 
-GATE_CATALOGUE_HEADING = "## 게이트 총람"  # docs/tools.md 의 절 머리 — 이 절이 등록부의 투영이다
-GATE_CATALOGUE_ID_COLUMN = "id"            # 그 절 표의 열 이름 — 셀의 백틱 토큰이 게이트 id 다
-BACKTICK_TOKEN = re.compile(r"`([a-z0-9][a-z0-9_-]*)`")
+GATE_CATALOGUE_HEADING = "## 게이트 총람"  # docs/tools.md 의 절 머리 — 이 절의 생성 구간이 등록부의 투영이다
 
 
 def gate_catalogue_section(lines: list[str]) -> tuple[list[str], int]:
@@ -161,66 +159,52 @@ def gate_catalogue_section(lines: list[str]) -> tuple[list[str], int]:
     return lines[start:end], start + 1
 
 
-def gate_catalogue_ids(section: list[str]) -> set[str]:
-    """총람 표의 `id` 열에 적힌 게이트 id 전수 — 열 자리는 헤더 행이 정한다."""
-    col = None
-    out: set[str] = set()
-    for line in section:
-        if not line.startswith("|"):
-            continue
-        cells = [c.strip() for c in line.strip().strip("|").split("|")]
-        if col is None:
-            col = cells.index(GATE_CATALOGUE_ID_COLUMN) if GATE_CATALOGUE_ID_COLUMN in cells else None
-            continue
-        if set(line.strip()) <= set("|-: ") or col is None or len(cells) <= col:
-            continue
-        out |= {m.group(1) for m in BACKTICK_TOKEN.finditer(cells[col])}
-    return out
-
-
 def check_gate_catalogue(doc: Path, lines: list[str], gates_path: str) -> tuple[list[str], list[str]]:
     """총람이 게이트 등록부의 투영인가 — (게이트 위반, 보고 줄).
 
-    등록부(`defs/kb.bzl` 의 `GATES`·`TOOL_TAGS`)가 원본이고 총람은 손으로 쓴 투영이다 (3단계에서 생성 뷰로
-    바꾼다). **게이트로 올리는 방향은 하나다** — 표의 `id` 열에 등록부 밖의 id 가 있으면 FAIL. 그 반대 방향
-    (등록됐으나 총람에 없는 id)은 보고다: 총람 표는 노트 6.7절의 규칙 단위로 묶여 있고 하네스 자체의 게이트는
-    표 아래 산문이 적으므로, 누락은 저작 판단이 필요하고 기계가 가를 수 없다.
+    등록부(`defs/kb.bzl` 의 `GATES`)가 원본이고 총람 표는 그 생성 투영이다. 절 안의 생성 구간(두 표지 사이)을
+    `kb_lib.gate_catalogue_table` 로 다시 그려 바이트로 비교한다 — 생성기 `gates2kg --catalogue` 와 같은 렌더러다.
+    표지가 없거나 겹치거나 절 밖에 있으면 FAIL, 구간이 재생성과 다르면 FAIL 이다. 표 앞뒤의 산문은 손 문서라
+    비교하지 않는다.
     """
     section, _ = gate_catalogue_section(lines)
     if not section:
         return [f"{doc}: `{GATE_CATALOGUE_HEADING}` 절이 없다 — 게이트 등록부의 투영이 사라졌다"], []
     try:
         gates = kb_lib.load_gates(gates_path)
-        tool_tags = kb_lib.load_tool_tags(gates_path)
+        tiers = kb_lib.load_bzl_list(gates_path, "GATE_TIERS")
     except (OSError, ValueError) as e:
         return [f"{doc}: 게이트 등록부를 읽을 수 없다 — {e}"], []
-    registered = set(gates) | set(tool_tags)
-    in_table = gate_catalogue_ids(section)
-    errors = [f"{doc}: 총람 표의 `{GATE_CATALOGUE_ID_COLUMN}` 열에 등록부 밖의 id `{gid}` 가 있다 — "
-              f"원본은 {gates_path} 의 GATES 이고 총람은 그 투영이다"
-              for gid in sorted(in_table - registered)]
-    tokens = {m.group(1) for line in section for m in BACKTICK_TOKEN.finditer(line)}
-    absent = sorted(registered - tokens)
-    report = [f"report [{TAG}] 총람에 없는 등록 게이트 {len(absent)}개 — {', '.join(absent)}" if absent else
-              f"report [{TAG}] 총람이 등록부 {len(registered)}개를 모두 적는다"]
-    return errors, report
+    regen = f"python3 tools/gates2kg.py --catalogue {doc.as_posix()}"
+    text = "\n".join(section)
+    if kb_lib.gate_catalogue_block(text) is None:
+        return [f"{doc}: 게이트 총람 절에 생성 구간 표지가 하나씩 정확히 있지 않다 — "
+                f"{kb_lib.GATE_CATALOGUE_OPEN} 와 {kb_lib.GATE_CATALOGUE_CLOSE}"], []
+    missing = sorted(g for g, s in gates.items() if not s.get("decision"))
+    if missing:
+        return [f"{doc}: 등록부에 decision 이 없는 게이트 — {', '.join(missing)} (원본 {gates_path})"], []
+    expected = kb_lib.splice_gate_catalogue(text, kb_lib.gate_catalogue_table(gates, tiers, doc.as_posix()))
+    if expected != text:
+        return [f"{doc}: 게이트 총람 표가 등록부 {gates_path} 의 재생성과 다르다 — 손으로 고치지 않는다. "
+                f"재생성: {regen}"], []
+    return [], [f"report [{TAG}] 총람 표가 등록부 {len(gates)}개의 재생성과 같다"]
 
 
 # ── 보고 모드 — 문서의 수치 대 생성물의 수치 (V&V 기준 document-table-matches-generated, 현상 agt:documentLag) ──────────
 
-REPORT_DOCS = ("docs/roadmap.md", "docs/rules.md", "docs/method.md", "docs/tools.md")
+REPORT_DOCS = ("docs/rules.md", "docs/method.md", "docs/tools.md")
 VIEW_PATHS = {"metrics": "bazel-bin/kg/metrics.md", "audit": "bazel-bin/kg/audit.md",
               "candidates": "bazel-bin/kg/link-candidates.md"}
 VIEW_BUILD = "bazel build //kg:metrics //kg:audit //kg:link_candidates"
-# (이름, 문서에서 이름을 찾는 정규식, ((생성물, 값 한 그룹을 뽑는 정규식), …)) — 이름 열넷의 원본은 V&V 기준 청크의 대조 대상 목록이다.
+# (이름, 문서에서 이름을 찾는 정규식, ((생성물, 값 한 그룹을 뽑는 정규식), …)) — 이름 열넷의 원본은 V&V 기준 단위 지식의 대조 대상 목록이다.
 # 같은 이름의 생성물 값이 둘 이상인 것(매트릭스 채움·후보 링크)은 어느 하나와 같으면 일치로 본다 — 그 애매성 자체가 현상 P21 이다
 NUMBER_NAMES = (
-    ("살아 있는 청크", r"살아 있는 청크", (("metrics", r"살아 있는 것 ([\d,]*\d)"),)),
-    ("고아율", r"고아율", (("metrics", r"## 고아율[\s\S]{0,400}?살아 있는 청크: \*\*[\d,]*\d/[\d,]*\d = ([\d.]+%)"),)),
+    ("살아 있는 단위 지식", r"살아 있는 (?:청크|지식 항목|단위 지식)", (("metrics", r"살아 있는 것 ([\d,]*\d)"),)),
+    ("고아율", r"고아율", (("metrics", r"## 고아율[\s\S]{0,400}?살아 있는 단위 지식: \*\*[\d,]*\d/[\d,]*\d = ([\d.]+%)"),)),
     ("연결 성분", r"연결 성분", (("metrics", r"연결 성분 \*\*(\d+)\*\*"),)),
     ("매트릭스 채움", r"매트릭스", (("metrics", r"`refines` 매트릭스 채움 (\d+/\d+)"), ("metrics", r"TIM 허용 칸 채움 \*\*(\d+/\d+)"))),
     ("CQ19", r"CQ19", (("metrics", r"executable까지 닿은 요구: \*\*[\d,]*\d/[\d,]*\d = ([\d.]+%)"),)),
-    ("CQ20", r"CQ20", (("metrics", r"비요구 청크\(관측·주석 제외\): \*\*[\d,]*\d/[\d,]*\d = ([\d.]+%)"),)),
+    ("CQ20", r"CQ20", (("metrics", r"비요구 단위 지식\(관측·주석 제외\): \*\*[\d,]*\d/[\d,]*\d = ([\d.]+%)"),)),
     ("링크 개체", r"링크 개체", (("metrics", r"링크 개체 \*\*([\d,]*\d)\*\*"), ("audit", r"`agt:Link` \*\*([\d,]*\d)\*\*"))),
     ("확정 링크의 구축·복원 내역", r"확정 링크|구축(?=[ *`]*\d)|복원(?=[ *`]*\d)",
      (("metrics", r"\(확정 ([\d,]*\d) · 후보"), ("metrics", r"구축\(구축 기록 증거뿐\) ([\d,]*\d)"), ("metrics", r"vs 복원 ([\d,]*\d)"))),
@@ -299,7 +283,7 @@ def generated_values(root: Path) -> tuple[dict, list[str], set[str]]:
 def report_numbers(root: Path, repo: Repo, docs: tuple[str, ...] = REPORT_DOCS) -> tuple[list[str], int, int]:
     """(보고 줄, 대조 쌍 수, 어긋난 쌍 수). 쌍은 (문서, 이름) 하나이고 창의 수치 중 하나가 생성물 값과 같으면 일치다.
 
-    `docs` 를 안 주면 진입점 문서 넷(`REPORT_DOCS`)이다. 주면 그 목록으로 바꾼다 — vv_run 처럼 자극을 워크스페이스
+    `docs` 를 안 주면 진입점 문서 셋(`REPORT_DOCS`)이다. 주면 그 목록으로 바꾼다 — vv_run 처럼 자극을 워크스페이스
     밖 임시 경로에 두는 호출자를 위해 이 목록의 각 항목은 루트 밖 절대 경로일 수 있다(2026-10-01, vnv 요청).
     """
     values, missing, skipped = generated_values(root)
@@ -344,7 +328,7 @@ def report_numbers(root: Path, repo: Repo, docs: tuple[str, ...] = REPORT_DOCS) 
 
 def report_doc_path(path: str, root: Path, workdir: str | None) -> str:
     """보고 모드의 문서 경로 — `to_rel` 과 달리 루트 밖 절대 경로를 거부하지 않는다(2026-10-01, vnv 요청 —
-    `vv_run` 이 케이스 자극을 워크스페이스 밖 임시 디렉토리에 두므로 그 파일을 보고 대상으로 줄 수 있어야 한다).
+    `vv_run` 이 테스트 케이스 자극을 워크스페이스 밖 임시 디렉토리에 두므로 그 파일을 보고 대상으로 줄 수 있어야 한다).
     루트 안이면 상대 경로로 돌려준다(표시가 짧다) — 심볼릭 링크는 따라가지 않는다(runfiles 의 링크가 루트 밖을 가리킨다).
     """
     p = Path(path)
@@ -405,14 +389,14 @@ def main() -> int:
     ap.add_argument("--waivers", default="", metavar="FILE",
                     help="docs/waivers.md — 게이트 id prose(축 파일)로 면제된 문서의 산문 위반은 세지 않는다. 없으면 면제 없음")
     ap.add_argument("--report", action="store_true",
-                    help="보고 모드 — 문서(위치 인자, 없으면 진입점 문서 넷)의 수치를 생성물의 같은 이름 값과 대조한다. "
+                    help="보고 모드 — 문서(위치 인자, 없으면 진입점 문서 셋)의 수치를 생성물의 같은 이름 값과 대조한다. "
                          "이 모드의 위치 인자는 루트 밖 절대 경로를 허용한다. 판정이 아니므로 종료 코드는 0 이다")
     ap.add_argument("--gates", default="", metavar="FILE",
-                    help="게이트 등록부의 원본 defs/kb.bzl — 주면 `docs/tools.md` 게이트 총람이 그 리터럴의 투영인지 "
-                         "본다. 표의 `id` 열에 등록부 밖의 id 가 있으면 FAIL 이고, 반대 방향(총람에 없는 등록 id)은 보고다")
+                    help="게이트 등록부의 원본 defs/kb.bzl — 주면 `docs/tools.md` 게이트 총람의 생성 구간이 그 리터럴의 "
+                         "재생성과 바이트로 같은지 본다. 다르면 FAIL 이다 (재생성: gates2kg.py --catalogue)")
     ap.add_argument("--frozen", action="store_true",
                     help="동결 모드 — 위치 인자의 문서가 kb_lib.FROZEN_DOCS 의 sha256 과 같은지만 본다 (게이트 id frozen)")
-    ap.add_argument("files", nargs="*", help="검사할 문서 (--report 면 대조할 문서 — 없으면 진입점 문서 넷)")
+    ap.add_argument("files", nargs="*", help="검사할 문서 (--report 면 대조할 문서 — 없으면 진입점 문서 셋)")
     args = ap.parse_args()
 
     workdir = os.environ.get("BUILD_WORKING_DIRECTORY")
@@ -431,7 +415,7 @@ def main() -> int:
         return 0
     repo = Repo(root, set(args.empty_dir))
     if args.report:  # 게이트가 아니다 — 어긋난 쌍이 있어도 0 이다 (현상 agt:documentLag 의 관측 수단)
-        # 위치 인자가 있으면 REPORT_DOCS(진입점 문서 넷) 대신 그 목록을 대조 대상으로 쓴다(2026-10-01, vnv 요청) —
+        # 위치 인자가 있으면 REPORT_DOCS(진입점 문서 셋) 대신 그 목록을 대조 대상으로 쓴다(2026-10-01, vnv 요청) —
         # 이 경로는 루트 밖 절대 경로를 허용한다(`report_doc_path`, `to_rel` 과 달리 거부하지 않는다).
         docs = tuple(report_doc_path(f, root, workdir) for f in args.files) if args.files else REPORT_DOCS
         for line in report_numbers(root, repo, docs)[0]:
@@ -459,7 +443,7 @@ def main() -> int:
         return EXIT_CONFIG
 
     errors: list[tuple[str, str]] = []  # (게이트 id, 메시지) — 링크·경로는 doccheck, 산문은 prose
-    reports: list[str] = []  # 보고 줄 — 판정이 아니다 (게이트 총람의 누락은 저작 판단이다)
+    reports: list[str] = []  # 보고 줄 — 판정이 아니다
     gates_path = args.gates
     if gates_path and not os.path.isabs(gates_path) and workdir:
         gates_path = os.path.join(workdir, gates_path)

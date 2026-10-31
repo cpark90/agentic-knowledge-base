@@ -7,10 +7,10 @@ title: Normative-document conventions — The V&V chain per requirement has ten 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:54:56+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T00:47:29+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/ad7a39e2-6ef7-4ba3-a4df-92cf2c9409ca
 ---
 **규약** — `p8-vv-workflow`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: 워크플로 10단계 | 목표 파생 → 시나리오 형식화 → 논리 시나리오+기준 → 케이스 생성 → 검증기 → 환경 할당 → 실행 → 판정 → 보고 → 되먹임. **1~3은 개발 확정 전 시작**
+규약: 워크플로 10단계 | 목표 파생, 시나리오 형식화, 논리 시나리오와 기준, 테스트 케이스 생성, 검증기, 환경 할당, 실행, 판정, 보고, 되먹임의 차례로 간다. **1~3단계는 개발 확정 전에 시작한다**

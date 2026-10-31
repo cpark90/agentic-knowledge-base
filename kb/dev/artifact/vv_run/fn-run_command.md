@@ -7,7 +7,7 @@ title: function run_command in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/1f07f858-5d83-4783-b792-6d5a462e0c7c, https://agentic-knowledge-base.dev/id/chunk/4b6ece88-9936-435d-b114-96c75670880e]
 part_of: https://agentic-knowledge-base.dev/id/composite/38aa6392-7bfb-42b7-84e5-6278007e131f
@@ -20,7 +20,7 @@ def run_command(cmd: str, root: Path, vocab: str | os.PathLike = "") -> dict:
     """셸로 실행 — 워크스페이스 루트에서. 종료 코드·소요·출력 꼬리를 남긴다.
 
     `python3 ` 로 시작하는 명령은 인터프리터를 vv_run 자신의 것(`sys.executable` — 하네스의 pip 폐포가 보이는 쪽)으로
-    바꾼다. bare `python3` 에는 `tiktoken` 같은 서드파티 의존이 없을 수 있어(이 저장소 실측, 2026-10-01) 토큰 계수가
+    바꾼다. bare `python3` 에는 `tiktoken` 같은 서드파티 의존이 없을 수 있어(이 저장소 측정, 2026-10-01) 토큰 계수가
     들어간 검증기가 `ModuleNotFoundError` 로 자극에 닿기 전에 죽는다 — 그 처리가 `verifier_env()` 다.
     `vocab` 은 `main()` 이 해소한 어휘 파일의 절대 경로이고 그 자리로 `KB_TOKENIZER_VOCAB` 가 간다.
     """

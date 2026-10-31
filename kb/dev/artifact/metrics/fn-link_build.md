@@ -7,7 +7,7 @@ title: function link_build in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/75bab730-77dc-4a3d-945e-72e305b4eb8c, https://agentic-knowledge-base.dev/id/chunk/8bfec137-25dc-4b30-8a96-8897afc667ad, https://agentic-knowledge-base.dev/id/chunk/b92bd358-40c4-4414-b59c-70676927564b, https://agentic-knowledge-base.dev/id/chunk/ff5236c7-129e-43c7-9466-8cf55445d254]
 part_of: https://agentic-knowledge-base.dev/id/composite/d7f0885e-74e9-4b1e-bf89-f288680555a0
@@ -18,7 +18,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/d7f0885e-74e9-4b1e-bf89
 ```python
 def link_build(g):
     """링크 개체와 증거·후보·구축·복원·suspect 포화·TIM 채움을 돌려준다."""
-    # 3단계 대리 — 링크마다 근거 · 구축/복원 비율 · plane×plane 매트릭스 채움 (TIM 이 허용하는 칸)
+    # 3단계 대리 — 링크마다 근거 · 구축/복원 비율 · 지식 종류×지식 종류 매트릭스 채움 (TIM 이 허용하는 칸)
     link_ents = list(g.subjects(RDF.type, AGT.Link))
     with_ev = [l for l in link_ents if (l, AGT.hasEvidence, None) in g]
     origins = kb_lib.link_origins(g)  # 후보·구축·복원의 단일 정의 — 상태와 증거 종류 기준 (p10-restored-link-marking · p10-extracted-references-are-candidates)
@@ -27,7 +27,7 @@ def link_build(g):
     # assume_check 가 낸다. 포화율을 보지 않으면 트리거를 좁힌 것이 맞는지 알 수 없다 (handoff link-model-robustness-cde-2026-09-19)
     sat = kb_lib.suspect_saturation(g)
     trig_on = " · ".join(f"`{k}`" for k, _rule, _basis in kb_lib.suspect_triggers_on()) or kb_lib.NONE_MARK
-    TIM = kb_lib.TIM_CELLS  # 허용 칸의 정의처는 kb_lib — weave audit 이 같은 매트릭스를 낸다. 복합체 IRI 의 plane 보정도 kb_lib.link_cells
+    TIM = kb_lib.TIM_CELLS  # 허용 칸의 단일 정의 위치는 kb_lib — weave audit 이 같은 매트릭스를 낸다. 복합체 IRI 의 지식 종류 보정도 kb_lib.link_cells
     seen_cells = kb_lib.link_cells(g)
     tim_filled = [c for c in TIM if c in seen_cells]
     return link_ents, with_ev, origins, extracted_n, built_n, restored_total, sat, trig_on, TIM, tim_filled

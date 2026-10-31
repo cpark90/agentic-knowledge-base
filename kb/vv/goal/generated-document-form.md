@@ -8,11 +8,11 @@ title: The body form of a generated document must follow one convention fixed be
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-generated-document-standards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-10-06T11:34:24+09:00}
-verified: [{by: vnv/claude-sonnet-5-5, at: 2026-10-06T11:34:24+09:00}]
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}
+verified: [{by: vnv/claude-sonnet-5-5, at: 2026-10-06T11:34:24+09:00}, {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/9807be26-ff48-4cca-89c1-129f52e69df4]
 ---
-**검증 목표** — 본문 서식이 마크다운 표준 규칙 일곱과 빈 값 한 표기이고 생성 문서가 게이트 `gendoc` 의 입력이라는 결정 둘이 함수 하나로 강제된다는 것이 보여져야 한다. 규약의 단일 정의처는 `tools/kb_lib.py` 이고 생성기와 게이트가 같은 것을 import 한다.
+**검증 목표** — 본문 서식이 마크다운 표준 규칙 일곱과 빈 값 한 표기이고 생성 문서가 게이트 `gendoc` 의 입력이라는 결정 둘이 함수 하나로 강제된다는 것이 보여져야 한다. 규약의 단일 정의 위치는 `tools/kb_lib.py` 이고 생성기와 게이트가 같은 것을 import 한다.
 
 - **이해관계자**: 문서를 읽는 사람과 에이전트 · **관심사**: 한 번 익힌 읽기 방식의 재사용
 

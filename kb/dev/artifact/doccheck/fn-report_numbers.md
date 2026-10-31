@@ -7,7 +7,7 @@ title: function report_numbers in tools/doccheck.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-doccheck}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/145ba81b-fdd4-4cf8-aa11-b8ceb3165a08, https://agentic-knowledge-base.dev/id/chunk/204439f0-e005-4a79-befc-167bfd308ec9, https://agentic-knowledge-base.dev/id/chunk/6d777811-ef05-4ecd-a3c1-78c66baba749, https://agentic-knowledge-base.dev/id/chunk/9ad037aa-26ed-4502-92a5-7bc7dd0855a3]
 part_of: https://agentic-knowledge-base.dev/id/composite/379df7df-38d0-4a60-b9ed-27e40b758ea3
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/379df7df-38d0-4a60-b9ed
 def report_numbers(root: Path, repo: Repo, docs: tuple[str, ...] = REPORT_DOCS) -> tuple[list[str], int, int]:
     """(보고 줄, 대조 쌍 수, 어긋난 쌍 수). 쌍은 (문서, 이름) 하나이고 창의 수치 중 하나가 생성물 값과 같으면 일치다.
 
-    `docs` 를 안 주면 진입점 문서 넷(`REPORT_DOCS`)이다. 주면 그 목록으로 바꾼다 — vv_run 처럼 자극을 워크스페이스
+    `docs` 를 안 주면 진입점 문서 셋(`REPORT_DOCS`)이다. 주면 그 목록으로 바꾼다 — vv_run 처럼 자극을 워크스페이스
     밖 임시 경로에 두는 호출자를 위해 이 목록의 각 항목은 루트 밖 절대 경로일 수 있다(2026-10-01, vnv 요청).
     """
     values, missing, skipped = generated_values(root)

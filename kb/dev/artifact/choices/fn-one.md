@@ -9,7 +9,6 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-choices}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T16:38:13Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 part_of: https://agentic-knowledge-base.dev/id/composite/6c9da832-fd4f-4fba-a0f6-33561303de46
 ---
 **함수** — `one(g, s, p)` 다.

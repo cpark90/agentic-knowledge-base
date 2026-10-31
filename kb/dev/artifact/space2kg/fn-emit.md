@@ -7,9 +7,9 @@ title: function emit in tools/space2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-space2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/181f6c99-94f8-4b1c-8461-f34fc0d42c58, https://agentic-knowledge-base.dev/id/chunk/9875f781-35a4-413a-beae-89f20bb6ea33]
+uses: [https://agentic-knowledge-base.dev/id/chunk/181f6c99-94f8-4b1c-8461-f34fc0d42c58, https://agentic-knowledge-base.dev/id/chunk/908a996f-e2c4-43ce-a43f-63ff651548af, https://agentic-knowledge-base.dev/id/chunk/9875f781-35a4-413a-beae-89f20bb6ea33]
 part_of: https://agentic-knowledge-base.dev/id/composite/2716ece9-44f6-48ff-b2ab-1ad0ea6fa6c0
 ---
 **함수** — `emit(space, enc)` 다. 설계 공간 하나 → (IRI, 블록) 목록 — 공간 개체 · 후보 링크 개체 · 증거 항목.
@@ -22,15 +22,18 @@ def emit(space: dict, enc) -> list[tuple[str, str]]:
     frm, kind = space["var"]
     out, candidate_iris = [], []
     for c in space["candidates"]:
-        h = chunk2kg.link_hash(frm, kind, c["to"])
-        link = f"{chunk2kg.ID_BASE}link/{h}"
+        start, end = kb_lib.space_link_ends(frm, kind, space["from_plane"], c["to"])  # 방향은 변수 종류의 표 하나가 정한다 (Q112-b)
+        h = chunk2kg.link_hash(start, kind, end)
+        # 세 값은 head 의 확정 링크와 같지만 IRI 는 접미 -space 로 가른다 — 같은 IRI 면 gate 의 병합 그래프에서 후보의 상태·증거가
+        # 확정 링크 개체에 섞인다(배제된 후보와 폐기 결정에 남은 확정 링크가 한 개체가 된다)
+        link = f"{chunk2kg.ID_BASE}link/{h}-space"
         classes, state = kb_lib.SPACE_STATE_LINK[c["state"]]
         evidences = []
         for i, (ekind, ref) in enumerate(c["support"]):
             evidences.append((f"{chunk2kg.ID_BASE}evidence/{h}-space{i}", ekind, ref, "+"))
         if c["elim"]:
             evidences.append((f"{chunk2kg.ID_BASE}evidence/{h}-eliminated", c["elim"][0], c["elim"][1], "-"))
-        stmts = [f"a {classes}", f"agt:linkFrom <{frm}>", f"agt:linkTo <{c['to']}>", f"agt:linkKind agt:{kind}",
+        stmts = [f"a {classes}", f"agt:linkFrom <{start}>", f"agt:linkTo <{end}>", f"agt:linkKind agt:{kind}",
                  f'agt:linkState "{state}"']
         if c["when"]:
             stmts.append(f'agt:when "{esc(c["when"])}"')

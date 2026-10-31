@@ -8,8 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:13:20+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/3e29e698-8ef5-4fe2-ac1b-867e596a5179
 composite: {id: https://agentic-knowledge-base.dev/id/composite/3e29e698-8ef5-4fe2-ac1b-867e596a5179, title_ko: 셀프체크 — 완료 전 게이트와 재생성, title: Self-check — gates and regeneration before completion}
@@ -21,11 +21,11 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/3e29e698-8ef5-4f
 
 | 바꾼 원본 | 다시 만드는 명령 | 생략을 잡는 검사 |
 |---|---|---|
-| 청크 frontmatter의 링크 | `python3 tools/gen_build.py --root .` | `//:build_drift_test` |
+| 단위 지식 frontmatter의 링크 | `python3 tools/gen_build.py --root .` | `//:build_drift_test` |
 | 도구 docstring·`kb_lib.SKILLS` | `python3 tools/gen_skills.py --root .` | `//:skills_drift_test` |
 | 소스 파일 | `bazel run //tools:extract -- <소스>` | `//:extract_drift_test` |
-| 결정의 `conventions.md`·`norm` 절 청크 | `python3 tools/gen_norms.py --root .` | `//:norms_drift_test` |
+| 결정의 `conventions.md`·`norm` 절 항목 | `python3 tools/gen_norms.py --root .` | `//:norms_drift_test` |
 | 기계가 만든 TTL | `bazel run //tools:canonicalize -- --write <파일>` | 없음 |
 
-- 재생성의 생략은 다음 게이트 실행에서 드리프트 테스트가 FAIL로 잡는다. 정규화만은 잡는 테스트가 없다. `canonicalize`의 `--check`를 부르는 테스트 타깃이 없기 때문이다(2026-10-04 BUILD 실측). 손으로 쓰는 TTL은 정규화 대상이 아니다.
+- 재생성의 생략은 다음 게이트 실행에서 드리프트 테스트가 FAIL로 잡는다. 정규화만은 잡는 테스트가 없다. `canonicalize`의 `--check`를 부르는 테스트 타깃이 없기 때문이다(2026-10-04 BUILD 측정). 손으로 쓰는 TTL은 정규화 대상이 아니다.
 - 셀프체크의 실행 자체를 강제하는 게이트는 없다. 셀프체크는 리뷰 규범이다. 실행 여부는 `result`와 세션 보고에 적은 PASS로 드러난다.

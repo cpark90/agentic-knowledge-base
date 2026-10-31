@@ -4,10 +4,11 @@ type: decision
 level: logical
 title_ko: 논리 시나리오 자극 — 생성물과 다른 수치 하나를 적은 문서의 대조
 title: Logical scenario stimulus — comparing a document that carries one number differing from the generated view
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T23:35:51+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T01:42:54+09:00}]
 overlapsWith: [https://agentic-knowledge-base.dev/id/chunk/15d8c8e5-5bd9-44ba-ae32-7580a70fc20c, https://agentic-knowledge-base.dev/id/chunk/c4972f95-7e4e-43f6-b1fa-45426d0ca688]
 restored: [https://agentic-knowledge-base.dev/id/chunk/15d8c8e5-5bd9-44ba-ae32-7580a70fc20c, https://agentic-knowledge-base.dev/id/chunk/c4972f95-7e4e-43f6-b1fa-45426d0ca688]
 refines: [https://agentic-knowledge-base.dev/id/chunk/31b9d3b9-577d-486a-8792-1146783508ae]

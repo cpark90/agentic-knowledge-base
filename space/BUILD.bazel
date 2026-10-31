@@ -7,7 +7,7 @@ load("//defs:knowledge.bzl", "kb_chunk_lint_test")
 
 package(default_visibility = ["//visibility:public"])
 
-# 설계 공간 청크 — 변수 하나가 파일 하나다. 아직 없으면 빈 그래프와 빈 뷰가 나온다
+# 설계 공간 — 변수 하나가 파일 하나다. 아직 없으면 빈 그래프와 빈 뷰가 나온다
 SPACES = glob(
     ["*-space.md"],
     allow_empty = True,
@@ -20,15 +20,17 @@ filegroup(
 
 # 설계 공간 그래프 — `//kg:gate_test` 의 --data 다 (접미사 규약 0.2절의 `-space`)
 # space2kg.py 는 chunk2kg.parse_chunk 로 SPACES 를 읽으므로 PLANES·LEVELS·STATES 원본(//defs:kb.bzl)을 액션 입력으로
-# 준다(M1 단일 정의처 — 오케스트레이터 판정 2026-09-27: 폴백 없이, 없으면 죽는다).
+# 준다(M1 단일 정의 위치 — 오케스트레이터 판정 2026-09-27: 폴백 없이, 없으면 죽는다).
 genrule(
     name = "design_space",
     srcs = SPACES + [
         "//defs:kb.bzl",
         "@tiktoken_o200k_base//file",  # agt:Space 는 agt:Chunk 의 하위라 agt:tokenCount 를 갖는다 (p1-chunk-unit-is-tokens)
+        "//kg:chunks_kg",  # 변수 출발 항목의 지식 종류 — 후보 링크의 방향을 정하는 변수 종류의 둘째 값이다 (Q-0055 Q112-b)
     ],
     outs = ["design-space.ttl"],
     cmd = "$(location //tools:space2kg) --out $@ --residency $(location //defs:kb.bzl) " +
+          "--head $(location //kg:chunks_kg) " +
           "--vocab $(location @tiktoken_o200k_base//file) %s" % " ".join(["$(execpaths %s)" % s for s in SPACES]),
     tools = ["//tools:space2kg"],
 )
@@ -47,7 +49,7 @@ genrule(
     tools = ["//tools:choices"],
 )
 
-# 토큰 상한·산문 문체는 설계 공간 청크에도 걸린다 (STYLEGUIDE §0·§4). 첫 청크가 들어오면 켜진다 —
+# 토큰 상한·산문 문체는 설계 공간에도 걸린다 (STYLEGUIDE §0·§4). 첫 설계 공간이 들어오면 켜진다 —
 # 빈 filegroup 은 $(rootpaths) 확장이 분석 에러다 (kb/vv 의 lint_test 와 같은 사유)
 [kb_chunk_lint_test(
     name = "lint_test",

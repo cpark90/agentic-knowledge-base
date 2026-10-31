@@ -2,13 +2,14 @@
 id: https://agentic-knowledge-base.dev/id/chunk/ebff2353-68b1-432c-a716-d28a7943107f
 type: decision
 level: logical
-title_ko: 관측과 명세를 같은 이름으로 부르면 일반화 단계가 사라지고 실행 기록의 실물은 2026-09-19부터 memory 청크다
+title_ko: 관측과 명세를 같은 이름으로 부르면 일반화 단계가 사라지고 실행 기록의 실물은 2026-09-19부터 memory 단위 지식이다
+former_title_ko: ["관측과 명세를 같은 이름으로 부르면 일반화 단계가 사라지고 실행 기록의 실물은 2026-09-19부터 memory 청크다", "관측과 명세를 같은 이름으로 부르면 일반화 단계가 사라지고 실행 기록의 실물은 2026-09-19부터 memory 지식 항목이다"]
 title: Naming observation and specification alike erases the generalization step, and run records have been memory chunks since 2026-09-19
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/34f0e33e-c23d-42fe-bcb2-1a7d1e3ba33c
 ---
@@ -21,9 +22,9 @@ part_of: https://agentic-knowledge-base.dev/id/composite/34f0e33e-c23d-42fe-bcb2
 
 저장 자리를 바로잡는 근거는 실물이다.
 
-- 2026-09-19부터 `vv_run --record`가 실행 기록을 `kb/vv/run/run-<UTC 시각>.md`의 memory 청크로 쓴다(`tools/vv_run.py` docstring). 이미 있는 파일은 덮지 않는다. 판정 로그도 같은 디렉토리의 실행 기록이다(`docs/rules.md` 판정 로그 행).
-- `memory` plane의 수준은 concrete 하나다(`defs/kb.bzl` `RESIDENCY`). `p8-vv-plane-instances`가 `memory`를 실행 기록 `agt:Run`으로 정한다.
-- 저장소에 `run-kg` 파일은 없다(2026-10-03 실측). 실행 기록의 head는 다른 청크와 같이 `chunks-kg.ttl`에 생성된다.
+- 2026-09-19부터 `vv_run --record`가 실행 기록을 `kb/vv/run/run-<UTC 시각>.md`의 memory 단위 지식으로 쓴다(`tools/vv_run.py` docstring). 이미 있는 파일은 덮지 않는다. 판정 로그도 같은 디렉토리의 실행 기록이다(`docs/rules.md` 판정 로그 행).
+- `memory` 지식 종류의 수준은 concrete 하나다(`defs/kb.bzl` `RESIDENCY`). `p8-vv-plane-instances`가 `memory`를 실행 기록 `agt:Run`으로 정한다.
+- 저장소에 `run-kg` 파일은 없다(2026-10-03 측정). 실행 기록의 head는 다른 단위 지식과 같이 `chunks-kg.ttl`에 생성된다.
 - 대체를 택한 까닭은 Q8-a다. 통일 기획 3단계는 결정에서 규범 문서를 생성하므로 결정의 문장이 실물과 같아야 한다.
 
-`agt:Runbook`의 개체는 2026-10-03 실측으로 0건이다. 그 저장 진술은 옛 결론의 문언을 그대로 둔다.
+`agt:Runbook`의 개체는 2026-10-03 측정으로 0건이다. 그 저장 진술은 옛 결론의 문언을 그대로 둔다.

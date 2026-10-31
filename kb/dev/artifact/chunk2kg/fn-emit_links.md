@@ -7,7 +7,7 @@ title: function emit_links in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/4dcdeb22-0819-48a5-96a4-72da225a3003]
 part_of: https://agentic-knowledge-base.dev/id/composite/eb257ae0-1a24-4c24-8425-e44c940a91b2
@@ -19,8 +19,8 @@ part_of: https://agentic-knowledge-base.dev/id/composite/eb257ae0-1a24-4c24-8425
 def emit_links(meta: dict) -> list:
     """frontmatter 링크 하나 = agt:Link 개체 하나 + 증거 하나 (9.11절, 10.10절).
 
-    링크는 청크를 저작할 때 편집 연산의 부산물로 생겼으므로(10.3절 구축) 증거 종류는 구축 기록이고,
-    참조는 그 청크 자신(생성 기록 generatedBy·generatedAtTime 을 지닌다). restored: 에 적힌 대상의 링크는 복원 링크라 증거가 한 줄 더
+    링크는 단위 지식을 저작할 때 편집 연산의 부산물로 생겼으므로(10.3절 구축) 증거 종류는 구축 기록이고,
+    참조는 그 단위 지식 자신(생성 기록 generatedBy·generatedAtTime 을 지닌다). restored: 에 적힌 대상의 링크는 복원 링크라 증거가 한 줄 더
     붙는다 — 후보의 출처 proposal(도구·에이전트가 제안하고 사람이 frontmatter 에 적어 확정, p10-restored-link-marking). 확정 기록
     constructionRecord 는 복원 링크에도 남는다: 사람이 frontmatter 에 적은 행위가 편집 시점 기록이고, 9.11절 규칙(구축(+) 또는 실행(+)
     없이 확정 불가)을 verify 질의 confirmed-without-evidence 가 강제하므로 proposal 만으로는 확정이 성립하지 않는다. 상태는 둘 다 확정이다.

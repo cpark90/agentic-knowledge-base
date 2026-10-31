@@ -8,10 +8,10 @@ title: Session experience survives via promotion rules
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T23:10:52+09:00}
 part_of: https://agentic-knowledge-base.dev/id/comp-req-agent
 ---
-**요구** — 세션이 끝나면, 체계는 시행착오를 memory plane에 남기고 승격 규칙에 따라 주제 plane으로 올릴 수 있어야 한다.
+**요구** — 세션이 끝나면, 체계는 시행착오를 `memory` 지식 종류에 남기고 승격 규칙에 따라 주제 지식 종류로 올릴 수 있어야 한다.
 
 - **이해관계자**: 에이전트 · **관심사**: 일반화
 - **출처**: 노트 1.3절(일반화 단절)·10.4절

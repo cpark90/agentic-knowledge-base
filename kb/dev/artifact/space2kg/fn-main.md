@@ -7,9 +7,9 @@ title: function main in tools/space2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-space2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/9875f781-35a4-413a-beae-89f20bb6ea33, https://agentic-knowledge-base.dev/id/chunk/a8dde51e-2d80-4281-9dad-fcf5f948abdb, https://agentic-knowledge-base.dev/id/chunk/cd2d5603-718a-4f3a-886a-3ce4d6b89880]
+uses: [https://agentic-knowledge-base.dev/id/chunk/95affdef-9253-4022-a9ec-ea650d4b30ed, https://agentic-knowledge-base.dev/id/chunk/9875f781-35a4-413a-beae-89f20bb6ea33, https://agentic-knowledge-base.dev/id/chunk/a8dde51e-2d80-4281-9dad-fcf5f948abdb, https://agentic-knowledge-base.dev/id/chunk/afdf06df-8670-440e-8cd5-b5447c7d760a, https://agentic-knowledge-base.dev/id/chunk/cd2d5603-718a-4f3a-886a-3ce4d6b89880]
 part_of: https://agentic-knowledge-base.dev/id/composite/2716ece9-44f6-48ff-b2ab-1ad0ea6fa6c0
 ---
 **함수** — `main()` 다.
@@ -22,10 +22,11 @@ def main() -> int:
     ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
                     help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(design_space 규칙이 명시로 넘긴다)")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다 (p1-chunk-unit-is-tokens)")
+    ap.add_argument("--head", default="", help="head 그래프(//kg:chunks_kg) — 변수 출발 항목의 지식 종류로 후보 링크의 방향을 정한다 (Q112-b)")
     ap.add_argument("files", nargs="*")
     a = ap.parse_args()
     enc = None
-    if a.files:  # parse_chunk 를 실제로 부를 때만 값 어휘가 있어야 한다 — 아직 `-space` 청크가 없으면(빈 grap) 필요 없다
+    if a.files:  # parse_chunk 를 실제로 부를 때만 값 어휘가 있어야 한다 — 아직 설계 공간(`-space`)이 없으면(빈 grap) 필요 없다
         try:
             chunk2kg.apply_plane_level_state(*chunk2kg.load_plane_level_state(a.residency))
         except (OSError, ValueError) as e:
@@ -63,6 +64,15 @@ def main() -> int:
                           f"변수 하나가 파일 하나다 (p9-candidate-storage)")
             continue
         variables[space["var"]] = space["path"]
+    if blocks:  # 변수 종류의 둘째 값(출발 항목의 지식 종류)은 head 에 있다 — 없으면 방향을 정할 수 없으므로 죽는다
+        head = Graph()
+        try:
+            head.parse(a.head, format="turtle")
+        except Exception as e:  # noqa: BLE001 — rdflib 의 파싱 예외는 종류가 여럿이다
+            print(f"FAIL [{GATE}] --head {a.head!r}: 읽을 수 없다 — {e}", file=sys.stderr)
+            return EXIT_CONFIG
+        plane_of = kb_lib.item_plane_resolver(head)
+        errors += [e for e in (direction_error(space, plane_of) for space in blocks) if e]
     if errors:
         for e in errors:
             print(f"FAIL [{GATE}] {e}", file=sys.stderr)

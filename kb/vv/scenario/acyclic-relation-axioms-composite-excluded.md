@@ -4,10 +4,11 @@ type: decision
 level: logical
 title_ko: 논리 시나리오 배제 자극 — 자기 참조 부분관계 하나를 더한 그래프의 검증에서 다루지 않는 것
 title: Logical scenario excluded stimuli — what validating a graph with one self-referencing part relation added does not cover
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T21:22:42+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T01:42:54+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/8b1ba340-919d-55cc-b0f0-ab499caf96bc
 ---
 **배제 자극** — 다루지 않는 자극은 둘이다.

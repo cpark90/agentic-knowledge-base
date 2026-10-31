@@ -3,15 +3,16 @@ id: https://agentic-knowledge-base.dev/id/chunk/2c574d24-71bb-4ea1-9812-0b2d0dc2
 type: requirement
 level: functional
 pattern: ubiquitous
-title_ko: verifies의 주어는 V&V 청크뿐이다
+title_ko: verifies의 주어는 V&V 단위 지식뿐이다
+former_title_ko: ["verifies의 주어는 V&V 청크뿐이다", "verifies의 주어는 V&V 지식 항목뿐이다"]
 title: Only V&V chunks may be the subject of verifies
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 part_of: https://agentic-knowledge-base.dev/id/comp-req-verification
 ---
-**요구** — 체계는 verifies 링크의 주어를 V&V KB의 청크로만 허용하여야 한다.
+**요구** — 체계는 verifies 링크의 주어를 V&V KB의 단위 지식으로만 허용하여야 한다.
 
 - **이해관계자**: 검증자 · **관심사**: 독립성
 - **출처**: 노트 6.1절·7.2절 / 구조도 검증기

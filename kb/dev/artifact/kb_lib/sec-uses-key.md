@@ -7,18 +7,18 @@ title: section uses-key in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9eb3404e-6904-4245-8c6b-5fcc2cc9f893
 ---
-**절** — `tools/kb_lib.py` 의 절 `uses-key` 다. 정의 청크의 호출 관계 (`uses`) — references 족의 잎 agt:usesDefinition (유저 답 2026-09-30, 채널 uses-definition)
+**절** — `tools/kb_lib.py` 의 절 `uses-key` 다. 정의 단위 지식의 호출 관계 (`uses`) — references 족의 잎 agt:usesDefinition (유저 답 2026-09-30, 채널 uses-definition)
 
 **정의** — 없음. 선언과 상수만 있는 구역이다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-# ── 정의 청크의 호출 관계 (`uses`) — references 족의 잎 agt:usesDefinition (유저 답 2026-09-30, 채널 uses-definition) ────
-# 코드 청크가 어느 최상위 정의를 이름으로 쓰는지를 frontmatter `uses: [<청크 IRI>…]` 로 적고 — 같은 모듈의 정의와
+# ── 정의 단위 지식의 호출 관계 (`uses`) — references 족의 잎 agt:usesDefinition (유저 답 2026-09-30, 채널 uses-definition) ────
+# 코드 단위 지식이 어느 최상위 정의를 이름으로 쓰는지를 frontmatter `uses: [<단위 지식 IRI>…]` 로 적고 — 같은 모듈의 정의와
 # 치역 경계(`USES_TARGETS`) 안의 모듈의 정의가 그 대상이다 —
 # chunk2kg 가 agt:usesDefinition 을 방출한다. 값의 원본은 손이 아니라 추출기다 — tools/extract.py 가 정의의 AST 에서 낸다.
 # **링크 키가 아니다**(references 족, 확장 규칙 2026-09-26): Bazel deps(gen_build.LINKS)도 링크 개체(agt:Link)도 되지 않아
@@ -29,7 +29,7 @@ USES_PREDICATE = "agt:usesDefinition"
 # 경계는 둘이고 둘 다 `defs/kb.bzl` 에 산다. **방출 경계** `EXTRACTED_SOURCES` 는 어느 소스에서 `uses` 를
 # 내는가이고 — 표본 하나(`tools/kb_lib.py`, 트리플 54)에서 먼저 내고 링크 밀도·게이트 시간을 잰 뒤(유저 답 1,
 # 2026-09-30) 37 파일 전부로 넓혔다 — **치역 경계** `USES_TARGETS` 는 모듈 밖의 어느 모듈을 가리킬 수 있는가다
-# (유저 답 1, 2026-10-01 — 표본 쌍 `kb_lib` 하나부터). **단일 정의처는 그 두 리터럴**이다(M1,
+# (유저 답 1, 2026-10-01 — 표본 쌍 `kb_lib` 하나부터). **단일 정의 위치는 그 두 리터럴**이다(M1,
 # RESIDENCY·load_residency 와 같은 해법) — 여기 손으로 목록을 적지 않는다. `load_extracted_sources` 가 이름으로
 # 지정된 리터럴을 읽어 돌려주고, 호출자(`tools/extract.py`)가 `tools/<이름>.py`(방출 경계)·대상 모듈의
 # 등록부(치역 경계)로 옮긴다. `BUILD.bazel`(`//tools:tools` 패키지의 `check_extracted_sources`)이 등록부 사이드카의
@@ -37,11 +37,11 @@ USES_PREDICATE = "agt:usesDefinition"
 # 비기 전에 bazel 명령이 먼저 죽는다.
 USES_SOURCES_NAME = "EXTRACTED_SOURCES"  # 방출 경계 리터럴의 이름
 USES_TARGETS_NAME = "USES_TARGETS"       # 치역 경계 리터럴의 이름
-# 질의 디렉토리 리터럴의 이름 — `tools/<이름>/*.rq` 의 질의 파일 하나가 `artifact` 청크 하나다(2단계 편입, 2026-10-03).
-# 단일 정의처는 `defs/kb.bzl` 의 그 리터럴이고 `tools/extract.py` 가 `load_extracted_sources` 로 읽어 디렉토리 소스를 허용한다
+# 질의 디렉토리 리터럴의 이름 — `tools/<이름>/*.rq` 의 질의 파일 하나가 산출물 단위 지식 하나다(2단계 편입, 2026-10-03).
+# 단일 정의 위치는 `defs/kb.bzl` 의 그 리터럴이고 `tools/extract.py` 가 `load_extracted_sources` 로 읽어 디렉토리 소스를 허용한다
 EXTRACTED_QUERY_DIRS_NAME = "EXTRACTED_QUERY_DIRS"
-# Starlark 소스 리터럴의 이름 — `defs/<이름>.bzl` 의 최상위 정의 하나가 `artifact` 청크 하나다(유저 답 Q32-a, 2026-10-04).
-# 단일 정의처는 `defs/kb.bzl` 의 그 리터럴이고 `tools/extract.py` 가 `load_extracted_sources` 로 읽어 `.bzl` 소스를 허용한다
+# Starlark 소스 리터럴의 이름 — `defs/<이름>.bzl` 의 최상위 정의 하나가 산출물 단위 지식 하나다(유저 답 Q32-a, 2026-10-04).
+# 단일 정의 위치는 `defs/kb.bzl` 의 그 리터럴이고 `tools/extract.py` 가 `load_extracted_sources` 로 읽어 `.bzl` 소스를 허용한다
 EXTRACTED_STARLARK_NAME = "EXTRACTED_STARLARK"
 EXTRACT_QUERY_SUFFIX = ".rq"             # 질의 디렉토리에서 추출하는 파일의 접미사 — SPARQL 질의 하나
 ```

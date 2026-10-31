@@ -7,7 +7,7 @@ title: function observation in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/2df3a3fc-2a35-47a4-b103-ee43239c8b3a, https://agentic-knowledge-base.dev/id/chunk/6571b574-6129-4cb6-8626-ee254df01e2a, https://agentic-knowledge-base.dev/id/chunk/a720999d-da2c-4b54-9c40-b64df9c9a74a, https://agentic-knowledge-base.dev/id/chunk/ddab0191-16a5-4584-9734-a7d026cb29f8, https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e]
 part_of: https://agentic-knowledge-base.dev/id/composite/e9c6807f-239f-4a44-beed-743506b59164
@@ -19,8 +19,8 @@ part_of: https://agentic-knowledge-base.dev/id/composite/e9c6807f-239f-4a44-beed
 def observation(now: datetime, cases: list[dict], rev: str, dirty: int, env: str, verifiers: list[dict] | None = None) -> str:
     """실행 기록 본문 — 시각·행동·situation 요약 (STYLEGUIDE §4 memory). frontmatter 는 assume_check 의 관측과 같은 형식이다.
 
-    검증기가 있으면 케이스 표 뒤에 검증기 표(`kb_lib.RUN_VERIFIER_TABLE_HEADER`)를 빈 줄로 띄워 둔다 — 케이스 표를 읽는 쪽
-    (run_evidence·weave audit)은 첫 빈 줄에서 표를 닫으므로 검증기 행을 케이스로 읽지 않는다. 검증기가 없으면 본문은 케이스만의 꼴 그대로다.
+    검증기가 있으면 테스트 케이스 표 뒤에 검증기 표(`kb_lib.RUN_VERIFIER_TABLE_HEADER`)를 빈 줄로 띄워 둔다 — 테스트 케이스 표를 읽는 쪽
+    (run_evidence·weave audit)은 첫 빈 줄에서 표를 닫으므로 검증기 행을 테스트 케이스로 읽지 않는다. 검증기가 없으면 본문은 테스트 케이스만의 꼴 그대로다.
     """
     stamp = kb_lib.utc_stamp(now)  # G3 표기 하나 — frontmatter 와 본문이 같은 꼴을 쓴다 (유저 승인 2026-09-23)
     verifiers = list(verifiers or [])
@@ -31,8 +31,8 @@ def observation(now: datetime, cases: list[dict], rev: str, dirty: int, env: str
     head = ["---", f"id: {ID}chunk/{uuid.uuid4()}", "type: memory", "level: concrete", f"title_ko: {ko}", f"title: {en}",
             "status: stable", f"sources: [{{resource: {ODD_IRI}}}]", f"assumes: [{', '.join(ASSUMPTIONS)}]",
             f"generated: {{by: {GENERATOR}, at: {stamp}}}", "---"]
-    who = f"케이스 {len(cases)}건" + (f"·검증기 {len(verifiers)}건" if verifiers else "")
-    whose = "케이스·검증기의 기대" if verifiers else "케이스의 기대"
+    who = f"테스트 케이스 {len(cases)}건" + (f"·검증기 {len(verifiers)}건" if verifiers else "")
+    whose = "테스트 케이스·검증기의 기대" if verifiers else "테스트 케이스의 기대"
     body = [f"**관측** — {stamp} 에 `vv_run` 이 {who}의 실행 명령 {n['명령']}건 중 "
             f"허용 목록의 검증기 {n['실행']}건을 실행하고 그중 {n['대조']}건을 {whose}(`exit`·`contains`)와 대조했다. "
             f"리비전 `{rev}` (워킹트리 추적 파일 변경 {revision_note(dirty)}) · {env} · seed 없음.", "",
@@ -51,11 +51,11 @@ def observation(now: datetime, cases: list[dict], rev: str, dirty: int, env: str
         body += rows
     nv = counts(verifiers)
     verifier_note = f" · 검증기 pass {nv['pass']} · fail {nv['fail']} · skip {nv['skip']}" if verifiers else ""
-    body += ["", f"판정 요약 — 케이스 pass {nc['pass']} · fail {nc['fail']} · skip {nc['skip']}{verifier_note} · 명령 실행 {n['실행']} · 건너뜀 {n['건너뜀']} · "
+    body += ["", f"판정 요약 — 테스트 케이스 pass {nc['pass']} · fail {nc['fail']} · skip {nc['skip']}{verifier_note} · 명령 실행 {n['실행']} · 건너뜀 {n['건너뜀']} · "
              f"기대 대조 {n['대조']} · 어긋남 {n['어긋남']} · 재현 불가 후보 {kb_lib.pct(len(items) if dirty else 0, len(items))}. "
-             f"SKIP 은 PASS 가 아니다 — 건너뛴 명령이 있는 케이스는 skip 이다. "
+             f"SKIP 은 PASS 가 아니다 — 건너뛴 명령이 있는 테스트 케이스는 skip 이다. "
              f"기대를 적은 명령은 종료 코드와 `contains` 문구가 둘 다 맞아야 맞은 것이고, 적지 않은 명령은 종료 0 만 본다. "
-             f"재현 불가 후보는 워킹트리에 추적 파일 변경이 있는 실행의 케이스 판정이다 — 같은 리비전을 다시 체크아웃해도 같은 입력이 아니다."]
+             f"재현 불가 후보는 워킹트리에 추적 파일 변경이 있는 실행의 테스트 케이스 판정이다 — 같은 리비전을 다시 체크아웃해도 같은 입력이 아니다."]
     return "\n".join(head + body) + "\n"
 ```
 <!-- 인용 끝 -->

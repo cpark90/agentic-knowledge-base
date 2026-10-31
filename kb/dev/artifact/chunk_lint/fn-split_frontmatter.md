@@ -7,7 +7,7 @@ title: function split_frontmatter in tools/chunk_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/ea7476e7-b990-4825-a271-6356855d2118
 ---
@@ -32,6 +32,9 @@ def split_frontmatter(text: str) -> tuple[dict[str, str], list[str], int]:
         m = _FM_GENERATED_BY.match(raw)
         if m:
             fields["generated.by"] = m.group(1)
+        m = _FM_GENERATED_AT.match(raw)
+        if m:
+            fields["generated.at"] = m.group(1)
     return fields, lines[end + 1 :], end + 2
 ```
 <!-- 인용 끝 -->

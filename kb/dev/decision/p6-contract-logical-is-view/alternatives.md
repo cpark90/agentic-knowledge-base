@@ -4,10 +4,10 @@ type: decision
 level: logical
 title_ko: 계약 logical 뷰 후보의 같은 공간 다른 후보 둘
 title: The two other candidates beside the view candidate
-status: draft
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-15T15:50:59+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-22T19:36:16+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/5b0e1575-3f87-44c6-a70e-0ba626e77cff
 ---

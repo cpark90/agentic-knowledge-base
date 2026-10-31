@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -41,6 +41,7 @@ kb_composite(
         "p0-prose-assertive-register": "https://agentic-knowledge-base.dev/id/composite/b1717fd1-9b2e-419a-8fc5-21184b6941a7",
         "p0-run-is-an-append-only-memory-chunk": "https://agentic-knowledge-base.dev/id/composite/34f0e33e-c23d-42fe-bcb2-1a7d1e3ba33c",
         "p0-self-explanatory-definitions": "https://agentic-knowledge-base.dev/id/composite/7e4beefd-65a6-45b8-9386-340c88a2a538",
+        "p0-sentence-composition": "https://agentic-knowledge-base.dev/id/composite/021b81f0-1ca3-4627-99cd-d603cd2eda2e",
         "p0-service-is-a-three-layer-wiki": "https://agentic-knowledge-base.dev/id/composite/c4b958be-e5e4-43b6-b23f-989f628cb07f",
         "p0-skos-label-synonyms": "https://agentic-knowledge-base.dev/id/composite/8a718aed-4f88-4847-9d00-800c0f14a0e7",
         "p0-terms-from-glossary": "https://agentic-knowledge-base.dev/id/composite/cd23fc9b-1ca6-41e7-b749-5dcb0991796b",

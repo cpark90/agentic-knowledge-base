@@ -26,7 +26,7 @@ agt:GateShape a sh:NodeShape ;
         sh:path agt:enforcedBy ;
         sh:maxCount 1 ;
         sh:nodeKind sh:IRI ;
-        sh:message "강제하는 도구는 하나다 — 파이썬 밖(Starlark·Bazel)인 게이트는 가리킬 코드 청크가 없어 이 술어가 없다" ;
+        sh:message "강제하는 도구는 하나다 — 파이썬 밖(Starlark·Bazel)인 게이트는 가리킬 코드 지식이 없어 이 술어가 없다" ;
     ] ;
     sh:property [
         sh:path skos:definition ;
@@ -37,5 +37,5 @@ agt:GateShape a sh:NodeShape ;
         sh:path rdfs:label ;
         sh:minCount 2 ;
         sh:maxCount 2 ;
-        sh:message "라벨은 한/영 각 하나다 — 라벨만 보고 무엇을 거부하는지 예측할 수 있어야 한다 (d-0082)" ;
+        sh:message "라벨은 한/영 각 하나다 — 라벨만 보고 무엇을 거부하는지 예측할 수 있어야 한다 (p4-label-is-the-interface)" ;
     ] .

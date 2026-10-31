@@ -1,5 +1,5 @@
 # 어느 항목도 복합체에 속하지 않는가 (고아 후보).
-# 행 = 복합체의 부분도 아니고 링크의 어느 끝에도 없는 살아 있는 청크 하나 (plane). 링크 술어는 tools/metrics.py LINKS 와 같다 (고아율과 같은 정의)
+# 행 = 복합체의 부분도 아니고 링크의 어느 끝에도 없는 살아 있는 단위 지식 하나 (지식 종류). 링크 술어는 tools/metrics.py LINKS 와 같다 (고아율과 같은 정의)
 PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
 PREFIX id: <https://agentic-knowledge-base.dev/id/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>

@@ -1,4 +1,4 @@
-# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 단위 지식의 정체성이고 이름은 그 위의 라벨이다
 # (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
 # 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
 # 생성물은 `kb/dev/artifact/extract/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
@@ -7,8 +7,8 @@ source: tools/extract.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-extract
 package: kb/dev/artifact/extract
 layer: process
-at: 2026-10-05T16:40:36Z
-source_hash: 4985119de6fda352
+at: 2026-10-07T09:06:36Z
+source_hash: 80b521075bcb736f
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd
   - https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23

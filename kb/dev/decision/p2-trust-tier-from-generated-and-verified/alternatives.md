@@ -7,15 +7,16 @@ title: Storing the trust tier in a separate field is rejected
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-03T14:30:00+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:08:51+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: developer/claude-opus-5-5, at: 2026-10-24T22:08:51+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/3255e515-87cf-431e-8910-100f7849129f
 ---
-**대안** — 하나를 기각한다.
+**대안** — 둘을 기각한다.
 
 | 대안 | 기각 이유 |
 |---|---|
 | 등급을 frontmatter의 `trust` 필드로 저장한다 | 노트가 `trust` 필드라 부른 것은 OKF `verified` 목록과 같은 것이다. 필드를 새로 만들지 않는다(`p2-judgement-history-in-verified`) |
+| 재검증 때 `verified` 목록을 지금 판정 하나로 덮어쓰고 이력은 git에 맡긴다 | 판정 이력과 유저 승인 기록이 파일에서 사라지고, 판정자 드리프트를 밀폐 게이트에서 잴 수 없다. 누적을 정한 `p2-judgement-history-in-verified`와 어긋난다(Q-0064#Q159-b 기각) |
 
 검증 뒤 수정을 FAIL 대신 경고로 다루는 안은 검토 기록이 없다.

@@ -8,7 +8,7 @@ template 행(ID·라벨 ko/en·정의·상위·역량 질문 기여·근거 관�
 
   1. 에이전트가 관측에서 개념 후보를 뽑아 이 도구로 제안
   2. 검사: 상위 개념 실재, 항·라벨 중복 없음, 정의 존재, 케밥 ID, 근거 실재
-     (근거는 관측·판정 주석 청크 둘 이상 — 일반화는 반복에서 온다)
+     (근거는 관측·판정 주석 단위 지식 둘 이상 — 일반화는 반복에서 온다)
   3. 통과한 것만 proposals/<slug>-proposal.ttl 로 (실패는 비영 종료).
      근거는 prov:wasDerivedFrom 트리플로 제안에 함께 적힌다
   4. 유저 승인 → 해당 모듈 파일로 이동
@@ -48,7 +48,7 @@ KIND_PARENT_PRED = {
     "object-property": "rdfs:subPropertyOf",
     "datatype-property": "rdfs:subPropertyOf",
 }
-# 근거가 될 수 있는 청크 종류 — 일반화의 입력은 관측과 판정 주석이다 (노트 14.1)
+# 근거가 될 수 있는 단위 지식 종류 — 일반화의 입력은 관측과 판정 주석이다 (노트 14.1)
 EVIDENCE_TYPES = ("memory", "annotation")
 MIN_EVIDENCE = 2
 ONTOLOGY_DIR = Path("kb") / "ontology"
@@ -67,7 +67,7 @@ def ontology_graph(repo: Path) -> Graph:
 
 
 def chunk_types(repo: Path) -> dict[str, str]:
-    """청크 IRI → frontmatter `type` (kb/ 아래 Markdown 청크)."""
+    """단위 지식 IRI → frontmatter `type` (kb/ 아래 Markdown 단위 지식)."""
     out = {}
     for f in (repo / "kb").rglob("*.md"):
         lines = f.read_text(encoding="utf-8").splitlines()
@@ -91,7 +91,7 @@ def main() -> int:
     ap.add_argument("--definition", required=True, help="속 + 종차 형식의 한글 정의")
     ap.add_argument("--cq", required=True, help="기여하는 역량 질문 (예: CQ12)")
     ap.add_argument("--derived-from", action="append", default=[],
-                    help=f"근거 관측·판정 주석 청크 IRI — 반복해 {MIN_EVIDENCE}개 이상")
+                    help=f"근거 관측·판정 주석 단위 지식 IRI — 반복해 {MIN_EVIDENCE}개 이상")
     ap.add_argument("--repo", default=os.environ.get("BUILD_WORKSPACE_DIRECTORY")  # bazel run 은 워크스페이스에 쓴다
                     or str(Path(__file__).resolve().parent.parent))
     args = ap.parse_args()
@@ -131,7 +131,7 @@ def main() -> int:
     types = chunk_types(repo) if evidence else {}
     for iri in evidence:
         if iri not in types:
-            errors.append(f"근거 IRI 가 kb/ 의 청크가 아니다: {iri}")
+            errors.append(f"근거 IRI 가 kb/ 의 단위 지식이 아니다: {iri}")
         elif types[iri] not in EVIDENCE_TYPES:
             errors.append(f"근거가 관측·판정 주석이 아니다 ({types[iri]}): {iri}")
 

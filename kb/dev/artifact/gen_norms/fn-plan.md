@@ -7,17 +7,17 @@ title: function plan in tools/gen_norms.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-norms}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-04T03:04:11Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/02b29145-5996-4360-8974-d74d70cd6de4, https://agentic-knowledge-base.dev/id/chunk/1b092132-a9fd-4db3-8feb-374efcc07e19, https://agentic-knowledge-base.dev/id/chunk/d0952dad-2a90-465f-bce8-0789223da6e8, https://agentic-knowledge-base.dev/id/chunk/e30fe78f-85fa-447c-8ec3-df25166cee41]
 part_of: https://agentic-knowledge-base.dev/id/composite/85f4907d-b39a-4898-8cf9-888cf6204fb4
 ---
-**함수** — `plan(root, docs, conventions)` 다. 문서 stem → 적재된 문서, (slug, k) → 쓰인 자리 (문서 stem, 절 청크 경로) 목록.
+**함수** — `plan(root, docs, conventions)` 다. 문서 stem → 적재된 문서, (slug, k) → 쓰인 자리 (문서 stem, 절 항목 경로) 목록.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def plan(root: Path, docs: dict[str, str], conventions: dict) -> tuple[dict, dict]:
-    """문서 stem → 적재된 문서, (slug, k) → 쓰인 자리 (문서 stem, 절 청크 경로) 목록. 항목의 실재·강도를 여기서 판정하고 위반은 모아 GenNormsError 로 낸다."""
+    """문서 stem → 적재된 문서, (slug, k) → 쓰인 자리 (문서 stem, 절 항목 경로) 목록. 항목의 실재·강도를 여기서 판정하고 위반은 모아 GenNormsError 로 낸다."""
     errors: list[str] = []
     loaded, uses = {}, {}
     for stem in sorted(docs):
@@ -53,10 +53,10 @@ def plan(root: Path, docs: dict[str, str], conventions: dict) -> tuple[dict, dic
                             errors.append(f"{s['_path']}: 항목 {slug}#{k} 에 빈 칸이 있다 — 빈 값은 `{kb_lib.NONE_MARK}` 으로 적는다 (G14)")
                     elif required and c["lines"][k - 1][0] is None:
                         errors.append(f"{s['_path']}: 항목 {slug}#{k} 의 줄에 강도가 없다 — 문서 {stem} 은 강도를 요구한다"
-                                      f"(머리 청크 strength: required). 줄을 `규약: [지킴] …` 또는 `규약: [권장] …` 으로 쓴다")
+                                      f"(머리 단위 지식 strength: required). 줄을 `규약: [지킴] …` 또는 `규약: [권장] …` 으로 쓴다")
                     for extra in x["links"]:
                         if not conventions.get(extra, {}).get("linkable"):
-                            errors.append(f"{s['_path']}: 항목 {slug}#{k} 의 링크 결정 {extra!r} 의 결론 청크가 없다 — "
+                            errors.append(f"{s['_path']}: 항목 {slug}#{k} 의 링크 결정 {extra!r} 의 결론이 없다 — "
                                           f"{DECISION_ROOT}/{extra}/{CONCLUSION_FILE}")
         loaded[stem] = doc
     for slug, c in sorted(conventions.items()):
@@ -66,7 +66,7 @@ def plan(root: Path, docs: dict[str, str], conventions: dict) -> tuple[dict, dic
             used = uses.get((slug, k), [])
             if not used:
                 errors.append(f"{c['path']}: 줄 {slug}#{k} 를 어느 규범 문서도 싣지 않는다(고아 줄) — 줄은 적어도 한 문서에서 "
-                              f"쓰인다. 절 청크의 items 에 `{slug}#{k}` 를 더한다 (p12-norm-documents-from-section-chunks)")
+                              f"쓰인다. 절 항목의 items 에 `{slug}#{k}` 를 더한다 (p12-norm-documents-from-section-chunks)")
             for stem in sorted({d for d, _ in used}):
                 paths = sorted(path for d, path in used if d == stem)
                 if len(paths) > 1:

@@ -7,10 +7,10 @@ title: If the ODD is wrong, everything above it is wrong
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d53cfcf9-c765-4bfe-b787-a420967a6f35
 ---
-**근거** (노트 3.6절) — ODD 위에 스코프·가정·기준·케이스가 서 있으므로 ODD가 잘못되면 그 전부가 잘못된다. 그래서 편집 통제 수준을 2.4절 T-Box와 같게 둔다.
+**근거** (노트 3.6절) — ODD 위에 적용 범위·가정·기준·테스트 케이스가 서 있으므로 ODD가 잘못되면 그 전부가 잘못된다. 그래서 편집 통제 수준을 2.4절 T-Box와 같게 둔다.
 
 순서를 온톨로지 → ODD → 파생물로 고정하는 이유는 어휘 밖 속성이 ODD에 들어오는 것을 막기 위해서다. 그것을 허용하면 ODD가 새 어휘의 생성지가 되어 2.5절 용어 제안 워크플로를 우회한다.
 

@@ -8,7 +8,8 @@ status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-standard}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
-generated: {by: orchestrator/claude-opus-5, at: 2026-09-22T20:20:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T19:32:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/1718358a-d741-45d7-bed6-df7818724e78
 composite: {id: https://agentic-knowledge-base.dev/id/composite/1718358a-d741-45d7-bed6-df7818724e78, title_ko: 빈 값의 세 뜻, title: The three meanings of an empty value}
@@ -21,8 +22,10 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/1718358a-d741-45
 | `해당 없음` | 이 항목에는 적용되지 않는다 | 없다 |
 | `미확정` | 아직 모른다 | 미결로 집계되고 답이 오면 채운다 |
 
-`N/A`·`TBD`·`미정`과 단독 대시를 쓰지 않는다. 자리를 비워 두지도 않는다. 생성 문서의 `없음` 표기(`p12-generated-document-form`)는 이 셋의 부분집합이고, 정의처는 `tools/kb_lib.py`의 상수 하나다.
+`N/A`·`TBD`·`미정`과 단독 대시를 쓰지 않는다. 자리를 비워 두지도 않는다. 생성 문서의 `없음` 표기(`p12-generated-document-form`)는 이 셋의 부분집합이고, 단일 정의 위치는 `tools/kb_lib.py`의 상수 하나다.
 
-`미확정`은 청크의 선택 슬롯이다. 미결을 문서(`docs/open-questions/`)가 아니라 항목 안에 두면 집계가 생성물이 되고, 답이 왔을 때 고칠 자리가 하나다.
+`미확정`은 단위 지식의 선택 슬롯이다. 미결을 문서(`docs/open-questions/`)가 아니라 항목 안에 두면 집계가 생성물이 되고, 답이 왔을 때 고칠 자리가 하나다.
 
-검사는 보고로 시작해 게이트가 됐다. `consistency` ⑧이 세 값 밖의 표기를 세고, 수치가 0이 된 2026-09-22에 `chunk_lint`의 게이트 `empty-value`로 올렸다. 대상은 살아 있는 청크이고 `deprecated`는 기록이라 대상이 아니다. 낱말의 산문 용법은 오탐이므로 `docs/waivers.md`에 선언하고 집계에서 뺀다.
+검사는 보고로 시작해 게이트가 됐다. `consistency` ⑧이 세 값 밖의 표기를 세고, 수치가 0이 된 2026-09-22에 `chunk_lint`의 게이트 `empty-value`로 올렸다. 대상은 살아 있는 단위 지식이고 `deprecated`는 기록이라 대상이 아니다. 낱말의 산문 용법은 오탐이므로 `docs/waivers.md`에 선언하고 집계에서 뺀다.
+
+게이트 `empty-value`는 test 계층이고 근거는 `STYLEGUIDE.md` §0이다. 표에서는 단독 대시 셀을 거부한다. 해소는 저작자가 세 값 중 하나로 바꾸는 것이다.

@@ -7,7 +7,7 @@ title: function load_union in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/808534e8-8fca-4ace-ace9-9e4b7084233e, https://agentic-knowledge-base.dev/id/chunk/f05d76f0-e96f-4c89-a78e-86eeb1bf91d1]
 part_of: https://agentic-knowledge-base.dev/id/composite/6d4f42a2-870a-44fb-9a63-05749c2b9dcd
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/6d4f42a2-870a-44fb-9a63
 def load_union(ttls: list[str], root: Path) -> Graph:
     """TTL 들을 하나의 Graph 로 (query.py·metrics.py 와 같은 방식). 빈 목록이면 UNION_GRAPH_PATHS + 온톨로지 glob.
 
-    없는 파일은 ValueError — 호출자가 EXIT_CONFIG 로 다룬다. .ttl 이 아닌 입력(청크 .md 등)은 건너뛴다.
+    없는 파일은 ValueError — 호출자가 EXIT_CONFIG 로 다룬다. .ttl 이 아닌 입력(단위 지식 .md 등)은 건너뛴다.
     """
     files: list[Path] = []
     if ttls:

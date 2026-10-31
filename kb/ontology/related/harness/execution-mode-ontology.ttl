@@ -10,11 +10,11 @@ agt:ExecutionMode a owl:Class ;
 
 agt:dispatch a owl:NamedIndividual , agt:ExecutionMode ;
     rdfs:label "dispatch"@en , "디스패치"@ko ;
-    skos:definition "깨끗한 컨텍스트로 위임. 대상에게는 역할 스코프로 거른 situation만 전달한다 (9.3절)."@ko .
+    skos:definition "깨끗한 컨텍스트로 위임. 대상에게는 역할 적용 범위로 거른 situation만 전달한다 (9.3절)."@ko .
 
 agt:sessionPersistent a owl:NamedIndividual , agt:ExecutionMode ;
     rdfs:label "session persistent"@en , "세션 유지"@ko ;
-    skos:definition "누적 지식을 보존하는 모드. memory plane 승격 규칙으로 주기적으로 비운다 (9.3절)."@ko .
+    skos:definition "누적 지식을 보존하는 모드. `memory` 지식 종류 승격 규칙으로 주기적으로 비운다 (9.3절)."@ko .
 
 agt:executionMode a owl:ObjectProperty ;
     rdfs:domain agt:Role ;

@@ -7,9 +7,9 @@ title: function main in tools/link.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/5b372e8e-c287-4ed0-b9d6-16c0366ee0c8, https://agentic-knowledge-base.dev/id/chunk/5c3f6ad5-769e-4850-970b-a137fa5ebc55, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/63c8b052-77ba-4c50-bc59-9b1fea9e598d, https://agentic-knowledge-base.dev/id/chunk/884c28fc-a47e-4e4b-ac96-a98f560a3d07, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/aff29f4a-80e3-4986-a736-70f7ada9fa55, https://agentic-knowledge-base.dev/id/chunk/ec5e9dfa-5521-4e0c-8ae8-6be045e70e81, https://agentic-knowledge-base.dev/id/chunk/f1f06f16-947e-47c4-b831-f8359170bfed]
+uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/5b372e8e-c287-4ed0-b9d6-16c0366ee0c8, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/63c8b052-77ba-4c50-bc59-9b1fea9e598d, https://agentic-knowledge-base.dev/id/chunk/884c28fc-a47e-4e4b-ac96-a98f560a3d07, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/aff29f4a-80e3-4986-a736-70f7ada9fa55, https://agentic-knowledge-base.dev/id/chunk/b459c8d8-41ff-4f75-8df6-c9dfa12627cf, https://agentic-knowledge-base.dev/id/chunk/d953c65e-1082-4bf2-be6e-7d71429b9ef8, https://agentic-knowledge-base.dev/id/chunk/f1f06f16-947e-47c4-b831-f8359170bfed]
 part_of: https://agentic-knowledge-base.dev/id/composite/35504745-0bb4-47e0-ae4a-3da6e0e07b3d
 ---
 **함수** — `main()` 다.
@@ -22,6 +22,7 @@ def main() -> int:
     ap.add_argument("--k", type=int, default=7, help="앵커(주어)당 후보 상한 (로드맵 입력표 k ≤ 7)")
     ap.add_argument("--min-shared", type=int, default=3, help="개념 공유 후보의 agt:usesConcept 교집합 하한")
     ap.add_argument("--root", default=".")
+    ap.add_argument("--coedit", nargs="*", default=[], help="동시 편집 관측 후보 파일들 — 이름이 obs-coedit- 인 가장 늦은 것 하나만 읽는다")
     ap.add_argument("files", nargs="*", help="그래프 파일들 (없으면 kb_lib.UNION_GRAPH_PATHS + 온톨로지 모듈)")
     a = ap.parse_args()
     if a.k < 1 or a.min_shared < 1:
@@ -42,7 +43,8 @@ def main() -> int:
             if us is not None and uo is not None and us != uo:
                 linked.add(frozenset((us, uo)))
 
-    evidence, prefer, dropped, hint = gather(u, a.min_shared)
+    evidence, prefer, dropped, hint = gather(u, a.min_shared, a.coedit)
+    judged = judgements(u)
     by_anchor: dict = defaultdict(list)
     for key in sorted(evidence, key=lambda k: tuple(sorted(map(str, k)))):
         if key in linked:
@@ -56,13 +58,19 @@ def main() -> int:
             dropped[r] += 1
             continue
         anchor, kind, target = r
-        evs = sorted(evidence[key])
+        evs = list(evidence[key])
+        pols = judged.get((key, kind), [])
+        if pols:
+            evs.append((EVIDENCE_RANK["judgement"], "judgement", " ".join(pols), 0))
+        evs = sorted(evs)
         by_anchor[anchor].append({"kind": kind, "target": target, "evs": evs, "rank": evs[0][0], "shared": max(e[3] for e in evs)})
     candidates = []
+    # 상한 안의 후보는 근거 순위 → 공유 개념 수 → 대상 IRI 로 정한다. 라벨은 자른 뒤 표시 순서에만 쓴다 — 라벨을 바꿔도 구성은 같다
+    # (p9-candidate-generation-limits, Q169-a). 앵커 순회 순서(라벨)는 표시 번호만 정한다 — 앵커 사이에 공유 상태·전역 상한·중복 제거가 없다
     for anchor in sorted(by_anchor, key=lambda x: (u.ko(x), str(x))):
-        rows = sorted(by_anchor[anchor], key=lambda c: (c["rank"], -c["shared"], u.ko(c["target"]), str(c["target"])))
+        rows = sorted(by_anchor[anchor], key=lambda c: (c["rank"], -c["shared"], str(c["target"])))
         dropped[R_CAP] += max(0, len(rows) - a.k)
-        for c in rows[:a.k]:
+        for c in sorted(rows[:a.k], key=lambda c: (c["rank"], -c["shared"], u.ko(c["target"]), str(c["target"]))):
             c["anchor"] = anchor
             candidates.append(c)
 
@@ -73,43 +81,39 @@ def main() -> int:
     live_units = [x for x in u.members if u.alive(x)]
     head = kb_lib.gendoc_header(
         "link-candidates", "복원 후보 생성기 뷰", "tools/link.py",
-        f"살아 있는 단위(결정 복합체는 결론이 앵커) 쌍 중 frontmatter 링크(`{'`·`'.join(LINK_KEYS)}` + relatedTo 족)가 없는 쌍에 대해 "
-        f"(a) `agt:cites` → constructionRecord · (b) 같은 V&V 청크의 `agt:verifies` → testCoverage · (c) `agt:usesConcept` 교집합 ≥ {a.min_shared} → proposal · "
-        f"(d) 조각 F 가 `prov:specializationOf` O 이면 O 를 가리키던 확정 링크 X→O 마다 X→F → constructionRecord(값 \"승계: O\"). "
+        f"살아 있는 단위(결정 기록은 결론이 앵커) 쌍 중 frontmatter 링크(`{'`·`'.join(LINK_KEYS)}` + relatedTo 족)가 없는 쌍에 대해 "
+        f"(a) `agt:cites` → constructionRecord · (b) 같은 합격 기준의 테스트 케이스·검증기와 `agt:refines` 로 W→A `verifies` → testCoverage (`kb_lib.co_cover`) · (c) `agt:usesConcept` 교집합 ≥ {a.min_shared} → proposal · "
+        f"(d) 조각 F 가 `prov:specializationOf` O 이면 O 를 가리키던 확정 링크 X→O 마다 X→F → constructionRecord(값 \"승계: O\") · (e) 동시 편집 관측의 쌍 → coEditHistory (`kb_lib.coedit_pairs`). "
         f"종류는 `kb_lib.TIM_CELLS` 허용 칸(인용 방향 → 역방향 → 칸이 없으면 `agt:overlapsWith`), 제약은 `defs/kb.bzl` `_check_links` 에 더해 "
-        f"KB 가로지름(verifies 와 목표 → 요구 derivesFrom 밖)·코드 부분 끝점·케이스의 derivesFrom 을 거른다. 앵커당 k ≤ {a.k}",
+        f"KB 가로지름(verifies 와 목표 → 요구 derivesFrom 밖)·코드 부분 끝점·테스트 케이스의 derivesFrom 을 거른다. 앵커당 k ≤ {a.k} — 근거 순위 → 공유 개념 수 → 대상 IRI 순으로 자르고 라벨은 표시 순서에만 쓴다",
         "bazel build //kg:link_candidates", ttl, f"트리플 {len(g)} ({kb_lib.gendoc_union(ttl)}) — 체계 밖 정보 0",
-        kb_lib.gendoc_view_notice("앵커 청크의 frontmatter (`p10-candidate-and-confirmed-link` · `p10-restored-link-marking`)"),
+        kb_lib.gendoc_view_notice("앵커 단위 지식의 frontmatter (`p10-candidate-and-confirmed-link` · `p10-restored-link-marking`)"),
         input_kind="그래프 파일",
-        extra=[f"- 살아 있는 청크 {len(u.live)} · 단위 {len(live_units)} · 증거가 있는 쌍 {len(evidence)}",
-               "- 판정은 사람이 후보마다 하고 확정은 앵커 청크의 frontmatter 에 적는다"])
+        extra=[f"- 살아 있는 단위 지식 {len(u.live)} · 단위 {len(live_units)} · 증거가 있는 쌍 {len(evidence)}",
+               "- 판정은 사람이 후보마다 하고 확정은 앵커 단위 지식의 frontmatter 에 적는다. 동시 편집이 첫 근거인 후보는 판정자 둘이 먼저 "
+               "판정하고(`agt:judgement`, `run_evidence`) 일치(+,+) 전부와 일치(−,−) 의 표본만 사람 확인 큐에 오른다"])
+    summary, sections = judged_sections(u, candidates)
     o = ["## 요약", "", "| 항목 | 값 |", "|---|---|",
          f"| 후보 수 | {len(candidates)} |",
          "| 근거 종류 분포 (첫 근거 기준) | " + (" · ".join(f"{k} {v}" for k, v in sorted(primary.items(), key=lambda kv: EVIDENCE_RANK[kv[0]])) or kb_lib.NONE_MARK) + " |",
          "| 근거 종류 분포 (모든 근거) | " + (" · ".join(f"{k} {v}" for k, v in sorted(kinds.items(), key=lambda kv: EVIDENCE_RANK[kv[0]])) or kb_lib.NONE_MARK) + " |",
          "| 링크 종류 분포 | " + (" · ".join(f"`{k}` {v}" for k, v in sorted(link_kinds.items())) or kb_lib.NONE_MARK) + " |",
          f"| 앵커 수 | {len(by_anchor)} |",
-         f"| 탈락 수 | {sum(dropped.values())} — " + (" · ".join(f"{k} {v}" for k, v in sorted(dropped.items(), key=lambda kv: (-kv[1], kv[0]))) or kb_lib.NONE_MARK) + " |", "",
-         "## 후보", "",
-         "| # | 앵커 (ko) | 앵커 파일 | 링크 종류 | 대상 (ko) | 대상 IRI | 근거 종류 | 근거 값 (인용 식별자 / 케이스 슬러그 / 공유 개념 수 / 승계: 원본) | 판정 (채택 / 기각) |",
-         "|---|---|---|---|---|---|---|---|---|"]
-    for i, c in enumerate(candidates, 1):
-        o.append(f"| {i} | {cell(u.ko(c['anchor']))} | `{u.loc.get(c['anchor'], '')}` | `{c['kind']}` | {cell(u.ko(c['target']))} | `{kb_lib.compact_iri(str(c['target']))}` | "
-                 + " · ".join(e[1] for e in c["evs"]) + " | " + " · ".join(cell(e[2]) for e in c["evs"]) + f" | {kb_lib.NONE_MARK} |")
-    if not candidates:
-        o.append("| " + " | ".join([kb_lib.NONE_MARK] * 2 + [f"후보 {kb_lib.NONE_MARK}"] + [kb_lib.NONE_MARK] * 6) + " |")
+         f"| 탈락 수 | {sum(dropped.values())} — " + (" · ".join(f"{k} {v}" for k, v in sorted(dropped.items(), key=lambda kv: (-kv[1], kv[0]))) or kb_lib.NONE_MARK) + " |",
+         *summary, ""]
+    o += sections
     o += ["", "## 확정 절차", "",
-          f"1. 후보를 채택하면 앵커 청크의 frontmatter 에 링크 키와 복원 표시를 적는다 — `<링크 종류>: [<대상 IRI>]` 와 `{RESTORED_KEY}: [<대상 IRI>]`. "
-          "대상 IRI 는 표의 `id:` 를 `https://agentic-knowledge-base.dev/id/` 로 푼 전체 IRI 다. 결정 복합체의 앵커는 결론 청크다. "
-          f"`{RESTORED_KEY}` 의 IRI 가 같은 청크의 링크 대상에 없으면 `chunk2kg` 가 `FAIL [{kb_lib.RESTORED_GATE}]` 로 거부한다 (p10-restored-link-marking).",
+          f"1. 후보를 채택하면 앵커 단위 지식의 frontmatter 에 링크 키와 복원 표시를 적는다 — `<링크 종류>: [<대상 IRI>]` 와 `{RESTORED_KEY}: [<대상 IRI>]`. "
+          "대상 IRI 는 표의 `id:` 를 `https://agentic-knowledge-base.dev/id/` 로 푼 전체 IRI 다. 결정 기록의 앵커는 결론이다. "
+          f"`{RESTORED_KEY}` 의 IRI 가 같은 단위 지식의 링크 대상에 없으면 `chunk2kg` 가 `FAIL [{kb_lib.RESTORED_GATE}]` 로 거부한다 (p10-restored-link-marking).",
           "2. 효과 — 그 링크 개체(`agt:Link`)에 후보의 출처 증거 `agt:proposal` 이 확정 기록 `agt:constructionRecord`(사람이 frontmatter 에 적은 행위)와 "
           "함께 붙고, `bazel build //kg:metrics`·`//kg:audit` 의 복원 비율에 복원으로 센다. `linkState` 는 `confirmed` 다 — frontmatter 에 적힌 것은 확정이다.",
           f"3. `{RELATED}` 후보도 다른 후보와 같이 적는다 — `{RELATED}: [<대상 IRI>]` 와 `{RESTORED_KEY}: [<대상 IRI>]` 다. 그 잎은 링크 키(LINK_KEYS)라 "
           "링크 개체와 복원 표시를 받고 복원 비율에 든다. 함께 갱신할 의무까지 판정했으면 `coUpdatesWith` 로 올려 적는다 — 그 키는 직접 트리플뿐이라 복원 표시를 "
-          "받지 않는다. `verifies` 후보의 앵커는 V&V 청크이므로 vnv 가 적는다 (`kb/vv/` 는 vnv 의 write plane).",
+          "받지 않는다. `verifies` 후보의 앵커는 V&V 단위 지식이므로 vnv 가 적는다 (`kb/vv/` 는 vnv 의 쓰기 지식 종류).",
           "4. `python3 tools/gen_build.py --root . && bazel test //...` — `refines`·`serves`·`supersedes`·`verifies` 는 Bazel deps 라 "
           "BUILD 를 재생성한다. 나머지 링크 키(`overlapsWith` 를 포함해)는 deps 가 아니라 그래프 트리플뿐이므로 BUILD 가 바뀌지 않는다.",
-          "5. 기각은 관측 한 줄(memory plane)로 남긴다. 후보는 저장하지 않으므로 다음 생성에서 다시 나온다.", ""]
+          "5. 기각은 관측 한 줄(`memory` 지식 종류)로 남긴다. 후보는 저장하지 않으므로 다음 생성에서 다시 나온다.", ""]
     Path(a.out).write_text(kb_lib.gendoc_assemble(head, o, ttl, input_kind="그래프 파일"), encoding="utf-8")
     return EXIT_OK
 ```

@@ -7,7 +7,7 @@ title: function check_spec_form in tools/chunk_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/764328d8-e7e9-4fdf-9e87-e04f59d61a65, https://agentic-knowledge-base.dev/id/chunk/cd6718e1-2437-43a9-b7a2-174aced3b0e1]
 part_of: https://agentic-knowledge-base.dev/id/composite/7b250e22-fd3e-4d64-9b95-214bd55ce9d3
@@ -20,7 +20,7 @@ def check_spec_form(text: str) -> list[tuple[str, int, str]]:
     """첨가와 목록 규칙 (STYLEGUIDE §0, 결정 p4-slot-answers-one-question·p4-three-empty-values) → [(게이트 id, 줄 번호, 이유)].
 
     판정은 consistency ⑧·⑨ 와 같은 함수(kb_lib.check_addition·check_lists)가 한다. 여기서 하는 것은 게이트 id 를 붙이고
-    메시지의 인용을 수정 방향으로 만드는 일뿐이다 — 검사를 복제하지 않는다 (STYLEGUIDE §7 단일 정의처).
+    메시지의 인용을 수정 방향으로 만드는 일뿐이다 — 검사를 복제하지 않는다 (STYLEGUIDE §7 단일 정의 위치).
     """
     meta, filler, empty = kb_lib.check_addition(text)
     out = [(ADDITION, ln, f'메타 문장 "{expr}" — 슬롯에는 그 슬롯의 질문에 답하는 문장만 쓴다 (STYLEGUIDE §0): {quote}')

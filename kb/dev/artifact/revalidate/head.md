@@ -7,7 +7,7 @@ title: module head chunk-dirs in tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/974f7eff-3756-4a18-af98-04c75441cd70
 ---
@@ -21,17 +21,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from tools import kb_lib  # noqa: E402
 except ImportError:
-    import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록·빈 값 표기)의 단일 정의처
+    import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록·빈 값 표기)의 단일 정의 위치
 from chunk2kg import (ID_BASE, SPECIALIZATION_KEY, SpecializationError, apply_plane_level_state,  # noqa: E402
                       link_hash, load_plane_level_state, parse_chunk, work_id)
 from chunk2kg import LINK_KEYS as OBJECT_LINK_KEYS  # noqa: E402 — 링크 개체(agt:Link)를 내는 키. assumes·part_of 는 개체가 없다
 
-CHUNK_DIRS = ("kb", "chunks")
+CHUNK_DIRS = ("kb",)  # 단위 지식 트리의 뿌리 — 옛 `chunks/` 는 지시 0192 로 지웠다
 USES_KEY = kb_lib.USES_KEY  # 정의 → 정의 (agt:usesDefinition, 치역은 같은 모듈 + USES_TARGETS). `호출부` 열의 입력이다
 # frontmatter 의 링크 키 — 목록 값. part_of 는 스칼라
 LINK_KEYS = ("refines", "serves", "supersedes", "verifies", "assumes", "satisfies", "constrains", "derivesFrom", "allocates",
              "coUpdatesWith", "overlapsWith")
-# 하류 조회가 세는 타깃 종류 — 복합체 묶음(kb_composite)이 빠지면 추출된 코드 청크의 rdeps 가 늘 0 이다
+# 하류 조회가 세는 타깃 종류 — 복합체 묶음(kb_composite)이 빠지면 추출된 코드 단위 지식의 rdeps 가 늘 0 이다
 ITEM_KINDS = "kb_chunk|kb_decision|kb_composite"
 ```
 <!-- 인용 끝 -->

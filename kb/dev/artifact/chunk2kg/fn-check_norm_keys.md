@@ -7,17 +7,17 @@ title: function check_norm_keys in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/4eb70032-9c6d-47dc-a0b0-34e02f426e80, https://agentic-knowledge-base.dev/id/chunk/cc796185-bb2d-4940-a069-48a9334eecc8]
 part_of: https://agentic-knowledge-base.dev/id/composite/679fc45f-a074-446c-aa6b-755cb0329d4f
 ---
-**함수** — `check_norm_keys(path, meta)` 다. 절 키의 형식 — plane 제한과 값의 꼴.
+**함수** — `check_norm_keys(path, meta)` 다. 절 키의 형식 — 지식 종류 제한과 값의 꼴.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def check_norm_keys(path: str, meta: dict) -> None:
-    """절 키의 형식 — plane 제한과 값의 꼴. 머리 청크·절 청크의 구분(선언 여부)은 묶음 전체를 아는 main 이 본다."""
+    """절 키의 형식 — 지식 종류 제한과 값의 꼴. 머리 단위 지식·절 항목의 구분(선언 여부)은 묶음 전체를 아는 main 이 본다."""
     keys = [k for k in NORM_SECTION_KEYS + NORM_HEAD_KEYS if k in meta]
     if meta["type"] != NORM_TYPE:
         if keys:

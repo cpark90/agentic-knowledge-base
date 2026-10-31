@@ -2,13 +2,14 @@
 id: https://agentic-knowledge-base.dev/id/chunk/84edf144-5585-40a3-af74-67eb25e0f52c
 type: decision
 level: logical
-title_ko: 함수 청크마다 링크·9개씩 자르기·파일을 단일 청크로는 기각된다
+title_ko: 함수마다 링크·9개씩 자르기·파일을 단일 단위 지식으로는 기각된다
+former_title_ko: ["함수 청크마다 링크·9개씩 자르기·파일을 단일 청크로는 기각된다", "함수마다 링크·9개씩 자르기·파일을 단일 지식 항목으로는 기각된다"]
 title: Links on every function chunk, cutting nine at a time, and one chunk per file are rejected
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-10-05T00:30:10+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-05T00:30:20+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T23:00:30+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/b9ff4ae2-fb83-447d-9aae-73d5264cfae3
 ---
@@ -16,6 +17,6 @@ part_of: https://agentic-knowledge-base.dev/id/composite/b9ff4ae2-fb83-447d-9aae
 
 | 대안 | 기각 이유 |
 |---|---|
-| 함수 청크마다 링크를 단다 | 리팩터링마다 수십 건의 재판정 후보. 생성물에 손으로 쓴 링크는 다음 추출에서 지워진다 |
+| 함수마다 링크를 단다 | 리팩터링마다 수십 건의 재검증 후보. 생성물에 손으로 쓴 링크는 다음 추출에서 지워진다 |
 | 부분을 9개씩 순서대로 자른다 | 순서에 뜻이 없는 묶음이 생긴다 — "순서를 요구하지 않는 것에 순서를 붙이면 거짓 정보"와 같은 오류다. 함수 하나를 더하면 모든 묶음의 경계가 밀린다 |
-| 파일 하나를 단일 청크로 둔다 | 1,681줄이 한 청크가 되어 토큰 상한 자립 단위의 뜻을 잃고, 검증기가 함수 단위로 `verifies`할 자리가 없다 |
+| 파일 하나를 단일 단위 지식으로 둔다 | 1,681줄이 한 단위 지식이 되어 토큰 상한 자립 단위의 뜻을 잃고, 검증기가 함수 단위로 `verifies`할 자리가 없다 |

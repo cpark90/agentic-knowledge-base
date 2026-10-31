@@ -7,15 +7,17 @@ title: The user set the register; honorifics and exclamations are decided by sen
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-spec-writing-standard}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-03T15:00:00+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T00:40:22+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/b1717fd1-9b2e-419a-8fc5-21184b6941a7
 ---
 **근거** — 유저 지시(2026-09-13)는 문서와 에이전트가 만드는 문장을 논문체의 단정한 서술형으로 고치고 하네스에 반영하라는 것이다. 같은 날 `STYLEGUIDE.md`·`CLAUDE.md`·`INTENT.md`·`README.md`와 `docs/`가 이 문체로 다시 쓰였다. 이 규약과 한 문장 한 주장의 권장이 그때 `STYLEGUIDE.md` §0에 함께 들어갔다.
 
-강제를 게이트와 보고로 나눈 까닭은 판정 가능성이다. 경어·비격식 종결과 느낌표는 문장 끝의 형태로 참·거짓이 갈린다. 추측·구어 후보는 판정이 필요하다. `doccheck`와 `consistency`의 설명이 이 구분을 그대로 적는다. 그래서 ⑦은 파일·줄·표현의 목록을 내고, 대시 밀도는 문장당 대시 수가 1.0을 넘는 청크로 보고한다. 코드·따옴표 안은 산문이 아니므로 두 검사 모두 세지 않는다.
+강제를 게이트와 보고로 나눈 까닭은 판정 가능성이다. 경어·비격식 종결과 느낌표는 문장 끝의 형태로 참·거짓이 갈린다. 추측·구어 후보는 판정이 필요하다. `doccheck`와 `consistency`의 설명이 이 구분을 그대로 적는다. 그래서 ⑦은 파일·줄·표현의 목록을 내고, 대시 밀도는 문장당 대시 수가 1.0을 넘는 단위 지식으로 보고한다. 코드·따옴표 안은 산문이 아니므로 두 검사 모두 세지 않는다.
 
 명세 문서 작성 규격(유저 제안)은 표현 규칙 9.5절에 "한 문장 한 사실"을 적는다. 그 제안은 2026-09-22에 왔으므로 이 권장의 출처가 아니라 뒤에 같은 규칙을 적은 문서다.
 
 미확정: 한 문장 한 주장과 대시·강조·괄호의 권장이 2026-09-13에 들어간 이유는 그날의 기록에 따로 적히지 않았다.
+
+2026-10-23에 유저는 이 결정을 둘로 나눴다(유저 답 Q104-a). 종결형과 어조는 이 결정에 남고, 한 문장 한 주장과 대시, 괄호, 강조, 불릿의 권장은 문장 구성 규칙 아홉과 함께 결정 `p0-sentence-composition`으로 옮겼다. 위의 "미확정"은 옮긴 권장에 관한 것이다.

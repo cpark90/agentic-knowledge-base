@@ -5,16 +5,16 @@ level: concrete
 title_ko: 지속성과 버전을 IRI 구조로 표현한다
 title: Persistence and version are expressed in the IRI structure
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0032-iri-design.md, id: https://agentic-knowledge-base.dev/id/chunk-d0032, title_ko: "불투명 지속 IRI와 해시 버전 IRI", title: "Opaque persistent IRI and content-hash version IRI"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-06T01:13:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T01:13:52+09:00}]
-refines: [https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9, https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T01:13:52+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
+refines: [https://agentic-knowledge-base.dev/id/chunk/f87ff3b1-40e7-4a23-827b-735744f377f9, https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd, https://agentic-knowledge-base.dev/id/chunk/a7b7d807-9b90-4682-a116-a585da5c9c6e]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0032]
 part_of: https://agentic-knowledge-base.dev/id/composite/eb847899-2640-4bca-955a-7f511528bc1d
 composite: {id: https://agentic-knowledge-base.dev/id/composite/eb847899-2640-4bca-955a-7f511528bc1d, title_ko: 불투명 지속 IRI와 해시 버전 IRI, title: Opaque persistent IRI and content-hash version IRI}
 ---
-**결론** — 청크·복합체·링크·가정은 전부 개체이므로 IRI가 필요하다. 지속성과
+**결론** — 단위 지식·복합체·링크·가정은 전부 개체이므로 IRI가 필요하다. 지속성과
 버전을 IRI 구조로 표현한다.
 
 - **지속 IRI** — `agt:chunk/<uuid>`. 내용과 무관한 불투명 식별자

@@ -5,9 +5,10 @@ level: concrete
 title_ko: 동의어는 없애지 않고 prefLabel·altLabel·hiddenLabel로 등록한다
 title: Synonyms are registered as prefLabel, altLabel and hiddenLabel rather than eliminated
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0033-skos-label-synonyms.md, id: https://agentic-knowledge-base.dev/id/chunk-d0033, title_ko: "동의어는 없애지 않고 SKOS 라벨로 등록한다", title: "Register synonyms as SKOS labels instead of removing them"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-12T00:50:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0033]
 part_of: https://agentic-knowledge-base.dev/id/composite/8a718aed-4f88-4847-9d00-800c0f14a0e7

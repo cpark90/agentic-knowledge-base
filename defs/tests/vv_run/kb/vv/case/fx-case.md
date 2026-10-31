@@ -9,7 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: developer/claude-opus-5-5, at: 2026-10-04T00:00:00+09:00}
 ---
-**케이스** — 읽기 전용 검증기 하나를 부른다.
+**테스트 케이스** — 읽기 전용 검증기 하나를 부른다.
 
 **기대** — 종료 코드가 0이고 출력에 `usage: chunk2kg.py`가 있다.
 

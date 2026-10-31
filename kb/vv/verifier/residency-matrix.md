@@ -8,10 +8,12 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/56b4c449-63d5-4f3c-8b25-2983028beab8]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T20:18:09+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T13:46:23+09:00}
 layer: process
+verifies: [https://agentic-knowledge-base.dev/id/chunk/5e66ed6e-bc41-4da5-b863-a928f146a7bc, https://agentic-knowledge-base.dev/id/chunk/9e2e1287-6ee7-4e18-9c18-f2568a030de1]
+restored: [https://agentic-knowledge-base.dev/id/chunk/5e66ed6e-bc41-4da5-b863-a928f146a7bc, https://agentic-knowledge-base.dev/id/chunk/9e2e1287-6ee7-4e18-9c18-f2568a030de1]
 ---
-**검증기** — 수준 허용표 밖 조합 둘(청크 하나·복합체 하나)과 커밋된 저장소 전체를 자극으로 쓴다.
+**검증기** — 수준 허용표 밖 조합 둘(단위 지식 하나·복합체 하나)과 커밋된 저장소 전체를 자극으로 쓴다.
 
 **자극** — `defs/tests/BUILD.bazel`의 고정물 `bad_residency`와 `bad_decision_levels`다. 둘 다 `manual` 태그라 `//...`에 잡히지 않는다.
 
@@ -26,6 +28,6 @@ bad_decision_levels:  {conclusion: fx_dec.md, part_levels: [executable, logical,
 
 **실행 명령** — `bazel test //defs/tests:residency_test //defs/tests:decision_levels_test //kg:gate_test //kb/ontology:gate_test`
 
-**판정 범위** — `requirement`는 허용 구간이 `functional` 하나뿐인 plane이라 구간 밖 값의 선택이 가장 단순하다. 복합체 표본은 결론 수준을 `executable`로 두어 `kb_decision`이 `kb_chunk`와 같은 `_check_residency`를 부분마다 적용함을 보인다.
+**판정 범위** — `requirement`는 허용 구간이 `functional` 하나뿐인 지식 종류라 구간 밖 값의 선택이 가장 단순하다. 복합체 표본은 결론 수준을 `executable`로 두어 `kb_decision`이 `kb_chunk`와 같은 `_check_residency`를 부분마다 적용함을 보인다.
 
-**검증 대응물** — 없음. 옮기기 전 케이스가 `verifies` 하던 결정 `p6-plane-level-occupancy` 의 결론은 `concrete` 수준이라 `executable` 검증기가 `verifies` 할 수 없다.
+**검증 대응물** — 이 검증기는 `defs/kb.bzl`과 `tools/validate.py`의 항목을 `verifies` 한다. 끝은 파일 복합체의 선언 항목(`module.md`)이고, 판정 함수 같은 부분 항목은 게이트 `code-part-link` 가 끝으로 받지 않는다. 반면 옮기기 전 테스트 케이스가 `verifies` 하던 결정 `p6-plane-level-occupancy`의 결론은 `concrete` 수준이라, 같은 수준끼리만 잇는 규칙에 따라 이 검증기의 끝이 되지 않는다.

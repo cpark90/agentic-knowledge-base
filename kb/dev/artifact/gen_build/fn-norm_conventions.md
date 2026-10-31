@@ -7,20 +7,20 @@ title: function norm_conventions in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/04bfcfb9-d96b-42ec-9555-a58bd09f1551]
 part_of: https://agentic-knowledge-base.dev/id/composite/6400a2c9-ed32-428b-bd76-5952553e5e04
 ---
-**함수** — `norm_conventions(lab, it, decisions)` 다. 절 청크 묶음의 `items` 가 줄을 싣는 결정 slug → 결정 복합체 IRI.
+**함수** — `norm_conventions(lab, it, decisions)` 다. 절 항목 묶음의 `items` 가 줄을 싣는 결정 slug → 결정 기록 IRI.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def norm_conventions(lab, it, decisions) -> dict:
-    """절 청크 묶음의 `items` 가 줄을 싣는 결정 slug → 결정 복합체 IRI. 결정 디렉토리가 없으면 GenBuildError 다.
+    """절 항목 묶음의 `items` 가 줄을 싣는 결정 slug → 결정 기록 IRI. 결정 디렉토리가 없으면 GenBuildError 다.
 
     링크만 하는 결정(`slug#k + slug2` 의 둘째)은 agt:projectsConvention 의 대상이 아니라 여기 넣지 않는다 — 그 실재는
-    생성기 gen_norms 가 본다. `decisions` 는 결정 디렉토리 이름 → 결정 복합체 IRI 다.
+    생성기 gen_norms 가 본다. `decisions` 는 결정 디렉토리 이름 → 결정 기록 IRI 다.
     """
     out = {}
     for m in it["metas"]:

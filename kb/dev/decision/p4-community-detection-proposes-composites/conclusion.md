@@ -7,7 +7,7 @@ title: Community detection only proposes composite candidates; adoption is a hum
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-dependency-graph-design}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T00:50:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 layer: methodology
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 part_of: https://agentic-knowledge-base.dev/id/composite/165ef75a-d4f3-4de2-aba2-ea3a8efb787a
@@ -19,8 +19,8 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/165ef75a-d4f3-4d
 
 | 단계 | 내용 |
 |---|---|
-| 입력 | 살아 있는 청크와 `refines`·`cites`·`coUpdatesWith` 링크 (head 그래프) |
-| 계산 | 커뮤니티 분할. 같은 plane·level 안의 군집만 복합체 후보, plane·level을 넘는 군집은 `relatedTo` 링크 후보 |
+| 입력 | 살아 있는 단위 지식과 `refines`·`cites`·`coUpdatesWith` 링크 (head 그래프) |
+| 계산 | 커뮤니티 분할. 같은 지식 종류·level 안의 군집만 복합체 후보, 지식 종류·level을 넘는 군집은 `relatedTo` 링크 후보 |
 | 판정 | 복합체의 통합 기준 둘 — 함께 읽혀야 이해되는가, 순서가 뜻을 갖는가 — 을 사람이 후보마다 본다 |
 | 기록 | 채택은 복합체 선언, 기각은 관측 한 줄. 후보 자체는 남기지 않는다 |
 

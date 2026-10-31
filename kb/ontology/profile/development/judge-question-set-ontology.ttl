@@ -1,4 +1,4 @@
-# 개발 프로파일 — 등록된 판정 질문 셋: 게이트가 판정할 수 없어 규약으로 남은 규칙과 논평 라벨을 판정자에게 묻는 질문 (결정 p8-judge-calibration-binding, docs/tools.md 게이트 밖)
+# 개발 프로파일 — 등록된 판정 질문 셋: 게이트가 판정할 수 없어 규약으로 남은 규칙과 논평 라벨을 판정자에게 묻는 질문 (결정 p8-judge-session-agreement, docs/tools.md 게이트 밖)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -6,7 +6,7 @@
 
 agt:labelRepresentsBody a owl:NamedIndividual , agt:JudgeQuestion ;
     rdfs:label "does the label represent the body"@en , "라벨이 본문을 대표하는가"@ko ;
-    skos:definition "청크의 한글 라벨이 본문의 주장을 대표하는 정도를 세 단계로 묻는다. 이 규칙은 기계가 판정할 수 없어 게이트 밖 규약으로 남아 있었다 (STYLEGUIDE §4, docs/tools.md 게이트 밖). 입력은 라벨과 본문이고 답은 단계와 확신도다."@ko ;
+    skos:definition "단위 지식의 한글 라벨이 본문의 주장을 대표하는 정도를 세 단계로 묻는다. 이 규칙은 기계가 판정할 수 없어 게이트 밖 규약으로 남아 있었다 (STYLEGUIDE §4, docs/tools.md 게이트 밖). 입력은 라벨과 본문이고 답은 단계와 확신도다."@ko ;
     agt:questionForm "score" ;
     agt:scaleSituation "0 — 라벨의 낱말이 본문에 하나도 없다" ;
     agt:scaleSituation "1 — 라벨의 낱말이 본문에 있으나 주장 대신 소재만 가리킨다" ;
@@ -14,7 +14,7 @@ agt:labelRepresentsBody a owl:NamedIndividual , agt:JudgeQuestion ;
 
 agt:bodyHasOneClaim a owl:NamedIndividual , agt:JudgeQuestion ;
     rdfs:label "does the body hold one claim"@en , "본문이 한 주장만 담는가"@ko ;
-    skos:definition "청크 본문의 문장 전부가 한 주장을 지지하는지 묻는다. 둘 이상의 독립된 주장이 있으면 아니다. 이 규칙도 게이트 밖 규약이고 42줄과 분할 신호가 대리 지표였다 (STYLEGUIDE §0, docs/tools.md 게이트 밖). 입력은 본문이고 답은 예·아니오와 '예'의 확률이다."@ko ;
+    skos:definition "단위 지식 본문의 문장 전부가 한 주장을 지지하는지 묻는다. 둘 이상의 독립된 주장이 있으면 아니다. 이 규칙도 게이트 밖 규약이고 42줄과 분할 신호가 대리 지표였다 (STYLEGUIDE §0, docs/tools.md 게이트 밖). 입력은 본문이고 답은 예·아니오와 '예'의 확률이다."@ko ;
     agt:questionForm "noul" .
 
 agt:commentLabelChoice a owl:NamedIndividual , agt:JudgeQuestion ;
@@ -23,3 +23,13 @@ agt:commentLabelChoice a owl:NamedIndividual , agt:JudgeQuestion ;
     agt:questionForm "choice" ;
     agt:choiceOption "praise" , "nitpick" , "suggestion" , "issue" ;
     agt:choiceOption "question" , "thought" , "chore" .
+
+agt:overlapsHolds a owl:NamedIndividual , agt:JudgeQuestion ;
+    rdfs:label "do the two items overlap"@en , "두 항목이 겹치는가"@ko ;
+    skos:definition "링크 후보 가운데 첫 근거가 동시 편집이고 종류가 겹침인 쌍의 두 항목이 실제로 겹치는지 묻는다. 동시 편집 증거만으로는 링크를 확정하지 않으므로(결정 p10-co-edit-evidence-from-small-commits) 판정자 둘의 일치로 사람 확인 큐에 올릴 후보를 거른다(결정 p8-judge-session-agreement). 입력은 두 항목의 라벨과 본문, agt:overlapsWith 의 정의 원문이다. 두 본문이 같은 낱말을 공유하는 것만으로는 겹침이 아니고, 같은 대상의 같은 국면을 함께 서술해야 겹침이다. 답은 예·아니오와 '예'의 확률이다."@ko ;
+    agt:questionForm "noul" .
+
+agt:proposedLinkHolds a owl:NamedIndividual , agt:JudgeQuestion ;
+    rdfs:label "does the proposed link hold"@en , "제안된 링크가 성립하는가"@ko ;
+    skos:definition "링크 후보 뷰가 추적 매트릭스의 칸에서 고른 종류의 링크가 앵커에서 대상으로 성립하는지 묻는다. 겹침이 아닌 종류(정제·충족·의미 의존 등)의 동시 편집 후보가 대상이고, 쓰는 까닭은 agt:overlapsHolds 와 같다. 입력은 링크 종류와 그 skos:definition, 앵커와 대상의 라벨과 본문이다. 두 항목이 관련된다는 것만으로는 성립이 아니고, 정의가 요구하는 관계를 본문에서 확인해야 성립이다. 답은 예·아니오와 '예'의 확률이다."@ko ;
+    agt:questionForm "noul" .

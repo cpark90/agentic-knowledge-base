@@ -7,12 +7,12 @@ title: The old channel piled up items behind a long closing chain; inboxes and q
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-strawberry-harness}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-10-04T11:51:45+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/bb2307b6-884f-43ba-bee6-7b1185c43e3a
 ---
-**근거** — 옛 채널의 실측(2026-10-03)이 출발점이다. 항목 111건 가운데 열린 것은 넷이었다. 넷은 유저 판단 대기 1, 판정지 1, 진행 중인 인수인계 2다. 그런데 인수 기록 38건이 `answered`에서, 중계된 질문 9건이 `relayed`에서 멈춰 있었다. 발신자가 `closed`로 바꿔야 hci가 지울 수 있고, 지우는 순서가 인수 기록·인수인계·유저 항목의 사슬을 따라야 했기 때문이다. 닫는 동작이 세 역할에 나뉘어 있어 아무도 닫지 않았다.
+**근거** — 옛 채널의 측정(2026-10-03)이 출발점이다. 항목 111건 가운데 열린 것은 넷이었다. 넷은 유저 판단 대기 1, 판정지 1, 진행 중인 인수인계 2다. 그런데 인수 기록 38건이 `answered`에서, 중계된 질문 9건이 `relayed`에서 멈춰 있었다. 발신자가 `closed`로 바꿔야 hci가 지울 수 있고, 지우는 순서가 인수 기록·인수인계·유저 항목의 사슬을 따라야 했기 때문이다. 닫는 동작이 세 역할에 나뉘어 있어 아무도 닫지 않았다.
 
 수신함은 완료를 **수신자의 한 동작**으로 만든다. `done`으로 표시하면 보관된다. 그 동작의 조건이 짝의 실재다. `result` 없는 `task`와 `answer` 없는 `question`은 닫히지 않는다. 시간으로 완료를 가정하지 않는다는 옛 규칙이 그대로 남고 사슬은 한 단계가 된다.
 

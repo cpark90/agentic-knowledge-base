@@ -33,7 +33,7 @@
 <urn:fx:rung-criterion>
     a agt:ContractChunk ; agt:hasLevel agt:logical ; agt:tokenCount 10 ;
     agt:assertionLocation "kb/vv/criteria/fx-criterion.md" ;
-    agt:bodySlot "판정식" ;
+    agt:bodySlot "판정 술어" ;
     agt:refines <urn:fx:rung-goal> .
 
 <urn:fx:rung-case>

@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
 
@@ -249,6 +249,2931 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-overlapsholds-pair-0185df1b",
+    src = "judge-overlapsholds-pair-0185df1b.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fd148ab3-8f40-44bb-b700-c112ce698711",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0273882a",
+    src = "judge-overlapsholds-pair-0273882a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6c1a3797-ee9c-4962-bc57-e672af264f51",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-042d2ffe",
+    src = "judge-overlapsholds-pair-042d2ffe.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b0ba811b-a335-4337-a4ce-4ee6b7c747f2",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-04452f70",
+    src = "judge-overlapsholds-pair-04452f70.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f2727552-7509-4469-a58b-3ca1485cba5e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0478c3a4",
+    src = "judge-overlapsholds-pair-0478c3a4.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6a97216d-4428-419d-a87a-681b797b962f",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-05a34389",
+    src = "judge-overlapsholds-pair-05a34389.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c10f471e-e21a-474e-84ea-58f62663490c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-06ccab37",
+    src = "judge-overlapsholds-pair-06ccab37.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7f2e1e9e-5091-4e47-b62f-007bf9ae21e6",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-080bc5c6",
+    src = "judge-overlapsholds-pair-080bc5c6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/022b95c1-7e27-4dbf-a31b-3c2bc530f6b5",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-09bb6e8e",
+    src = "judge-overlapsholds-pair-09bb6e8e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b0673ef8-cb09-4784-9951-3c009a1b25d9",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-09f8314d",
+    src = "judge-overlapsholds-pair-09f8314d.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3237329f-fefb-48ca-9281-0336819af55f",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0a909717",
+    src = "judge-overlapsholds-pair-0a909717.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4f2f874a-8295-4d60-9db2-ddcb2824d39f",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0ae01e4a",
+    src = "judge-overlapsholds-pair-0ae01e4a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/57d025df-c89c-465f-a40b-06dd9553fc5e",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0b87c5b3",
+    src = "judge-overlapsholds-pair-0b87c5b3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7d4aaf6a-1e86-429a-b5c9-759723553836",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0b8c16c7",
+    src = "judge-overlapsholds-pair-0b8c16c7.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e1caa0ef-6482-4ad7-b5a3-7eff2b688c83",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0bb2b1fa",
+    src = "judge-overlapsholds-pair-0bb2b1fa.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/828e6099-29af-4109-8e5b-93ff6f64e287",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0bfe2b8f",
+    src = "judge-overlapsholds-pair-0bfe2b8f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1a01ff1f-1d71-409c-b8d5-d21298070825",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0d105ccc",
+    src = "judge-overlapsholds-pair-0d105ccc.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c2fcd186-01f6-4e8c-9ed7-2ec2b5a4ac84",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0d13203a",
+    src = "judge-overlapsholds-pair-0d13203a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/68e538ce-fbea-4a54-a2c1-c946d5c54021",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0d6a55ec",
+    src = "judge-overlapsholds-pair-0d6a55ec.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7608f92a-545f-4fe3-812a-e9a04cb7566f",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0da7eb2a",
+    src = "judge-overlapsholds-pair-0da7eb2a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/994fecb7-7169-44cc-85a4-685e837e1ed6",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0e866d38",
+    src = "judge-overlapsholds-pair-0e866d38.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/deae5ba0-c7a3-473c-b76d-7495c6493ca1",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-0f596f09",
+    src = "judge-overlapsholds-pair-0f596f09.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/969f7c2e-3c7c-46bb-b4f5-ea4e01b4e43c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-1025ad7e",
+    src = "judge-overlapsholds-pair-1025ad7e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6ce85f2b-a7a0-4ccd-962b-e53b9959dc87",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-102ae39b",
+    src = "judge-overlapsholds-pair-102ae39b.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1f0999be-f868-412e-961a-0e9992f24ad3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-118c559f",
+    src = "judge-overlapsholds-pair-118c559f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b96af2a1-7d1f-4d44-906d-5e247943767d",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-1495e67c",
+    src = "judge-overlapsholds-pair-1495e67c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/daf16804-7798-49c6-a5be-157c968c8755",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-14e7fdae",
+    src = "judge-overlapsholds-pair-14e7fdae.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f1897824-f594-498c-80d7-45069bec321d",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-14f3b1d9",
+    src = "judge-overlapsholds-pair-14f3b1d9.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/eb7ba605-89ef-4b2d-8a7a-e51234d5c6ec",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-161359d3",
+    src = "judge-overlapsholds-pair-161359d3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9c6b8139-b477-46bb-9c19-991aafdb729c",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-16fe62b6",
+    src = "judge-overlapsholds-pair-16fe62b6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/da6f3448-c18d-4092-867d-4ed520b59b52",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-1706799a",
+    src = "judge-overlapsholds-pair-1706799a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ad4c4b0f-10a9-4b7d-8a1b-884b2e823a80",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-17a5da74",
+    src = "judge-overlapsholds-pair-17a5da74.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/760c4830-bb41-478f-a86d-cd2be1f3c7b5",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-19ac9d1a",
+    src = "judge-overlapsholds-pair-19ac9d1a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2654a7de-c063-4d9e-ace5-7a6b2d790071",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-1adda481",
+    src = "judge-overlapsholds-pair-1adda481.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f0a64101-e1bf-453d-bcf5-b8b7b32f7290",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-1b0505c2",
+    src = "judge-overlapsholds-pair-1b0505c2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/331d1efa-6d5c-48d6-a877-b3cbebf55cfd",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-1d9aa014",
+    src = "judge-overlapsholds-pair-1d9aa014.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/93f6848d-10fd-4ecb-833d-a7afa8a16d9f",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-1f1671d0",
+    src = "judge-overlapsholds-pair-1f1671d0.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/130da555-a82b-4160-9093-3d8c03983c66",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-20412123",
+    src = "judge-overlapsholds-pair-20412123.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8c89d766-aee1-4e94-a012-3cc43ae2f0b5",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-2121260b",
+    src = "judge-overlapsholds-pair-2121260b.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8ccdd3e5-107d-434c-b9cc-109e71ed002c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-236ceb08",
+    src = "judge-overlapsholds-pair-236ceb08.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/90c479f2-6d2d-470e-aa91-f6c75a796067",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-23ebf5ef",
+    src = "judge-overlapsholds-pair-23ebf5ef.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/711c564b-f62c-49a1-b11e-38963f296f37",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-26815d42",
+    src = "judge-overlapsholds-pair-26815d42.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d2ada991-bb19-4c06-942f-e78c7b9bbdff",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-26a70dc4",
+    src = "judge-overlapsholds-pair-26a70dc4.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7d6ccd64-1515-4082-ae6d-97eb05ef64c8",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-26cbbf30",
+    src = "judge-overlapsholds-pair-26cbbf30.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/24cb2ac5-e22e-44a6-a29f-a59f3140c45a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-27a1ea9c",
+    src = "judge-overlapsholds-pair-27a1ea9c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6526e05b-6843-4dcf-8be1-b76ecb8a71bf",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-2806a79b",
+    src = "judge-overlapsholds-pair-2806a79b.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3e096bf1-32bd-4c41-98e0-699adfd066e2",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-284bcfc0",
+    src = "judge-overlapsholds-pair-284bcfc0.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d8ca78c6-4415-44bd-9e91-b591ad4cf075",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-290a0370",
+    src = "judge-overlapsholds-pair-290a0370.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1cd572ca-2b30-4422-876d-dea3d2dde377",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-2a4026ef",
+    src = "judge-overlapsholds-pair-2a4026ef.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9bc3bc74-2165-4838-b634-d06ee274f564",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-2ab31101",
+    src = "judge-overlapsholds-pair-2ab31101.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f7079514-2215-4e7e-93df-dd26b3387ccb",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-2b36836b",
+    src = "judge-overlapsholds-pair-2b36836b.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9c499d2e-e181-43f0-8e61-64c3c051efed",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-2be62634",
+    src = "judge-overlapsholds-pair-2be62634.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1ff1ee90-db7b-4f86-b81a-6d0d7fa02787",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-2c13d472",
+    src = "judge-overlapsholds-pair-2c13d472.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/01c3376a-f266-49d8-9bd4-66b537b40dc4",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-2c46380e",
+    src = "judge-overlapsholds-pair-2c46380e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6c7bc474-e775-495a-a33e-1d1b67d2ecf3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-2d412161",
+    src = "judge-overlapsholds-pair-2d412161.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/55cac3db-e407-4430-8442-961b4525ae9f",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-2dcbe486",
+    src = "judge-overlapsholds-pair-2dcbe486.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/818d3cb1-b2b0-4cf2-af92-b67169e97228",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-2fe9aece",
+    src = "judge-overlapsholds-pair-2fe9aece.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9947d4ee-6b29-4a8c-b16f-97a323f6627e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-3134df11",
+    src = "judge-overlapsholds-pair-3134df11.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/efc82e04-d74d-48e1-8ead-af0a8ed603ba",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-31e353d8",
+    src = "judge-overlapsholds-pair-31e353d8.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a8a060ca-a6ad-4095-82af-62ed9a548d59",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-328efd2e",
+    src = "judge-overlapsholds-pair-328efd2e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c28e7df9-bce8-49a0-ac03-4d5c0d60fc6e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-33c7589a",
+    src = "judge-overlapsholds-pair-33c7589a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cd5aba66-652c-4a8d-8000-3fa9a3be6f4b",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-33e3dcd2",
+    src = "judge-overlapsholds-pair-33e3dcd2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/67730493-2767-4d9f-8a8b-090a1a20bfbc",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-345833e9",
+    src = "judge-overlapsholds-pair-345833e9.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/34f22d64-a2a1-4acd-ba7e-d263cfe3760e",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-3508fb53",
+    src = "judge-overlapsholds-pair-3508fb53.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/69166cbf-f95d-4386-9438-98500fa4da6d",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-35b3f024",
+    src = "judge-overlapsholds-pair-35b3f024.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cea25b93-68cd-4af2-b9d0-d51ceb5b14de",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-35f013ae",
+    src = "judge-overlapsholds-pair-35f013ae.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/22433ae0-7560-4bfa-b185-f769cf4941fe",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-36a4d6f0",
+    src = "judge-overlapsholds-pair-36a4d6f0.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5559ea47-6e3d-4d64-9b12-17760933cb0a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-373e14b5",
+    src = "judge-overlapsholds-pair-373e14b5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a462dcac-8f89-4479-989c-67f993e6234a",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-37909a02",
+    src = "judge-overlapsholds-pair-37909a02.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c320fcee-d253-4bb9-98c5-279ecdb512b3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-38c892d8",
+    src = "judge-overlapsholds-pair-38c892d8.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3cd5f400-5fa5-46f6-8a1b-12d8f31488b8",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-3a1b7e30",
+    src = "judge-overlapsholds-pair-3a1b7e30.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6fd5e6b4-8b50-47eb-94f7-359cc4598ff5",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-3bf366e7",
+    src = "judge-overlapsholds-pair-3bf366e7.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b62c0714-959f-4013-8175-4dfaa5d6414b",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-3cef3a9c",
+    src = "judge-overlapsholds-pair-3cef3a9c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/79cef737-33af-4d88-8ad3-856eaac5892d",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-3f9738b5",
+    src = "judge-overlapsholds-pair-3f9738b5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/68757e66-6d56-4771-bf5b-d115f96fad0e",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-411d102d",
+    src = "judge-overlapsholds-pair-411d102d.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/bddecb32-e887-410b-a5ae-af46bc5d8ed3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-415c9a13",
+    src = "judge-overlapsholds-pair-415c9a13.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e6e2b990-beb8-45bd-b63d-2c9b99e5a107",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4209e571",
+    src = "judge-overlapsholds-pair-4209e571.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/34e2e2de-5edc-421a-96d0-93e46533373f",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-42443267",
+    src = "judge-overlapsholds-pair-42443267.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f7c62ef6-ee05-4039-9a8a-01a8b1c02955",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-44042959",
+    src = "judge-overlapsholds-pair-44042959.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8aed4564-0aec-48b3-a5eb-0cb283d80bf3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4a42c610",
+    src = "judge-overlapsholds-pair-4a42c610.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/566b2e3d-f55b-4f98-95c0-de257864fadb",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4a7add89",
+    src = "judge-overlapsholds-pair-4a7add89.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d1ae71ab-c5eb-4aa9-9a85-fbf9f30208c5",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4a7e91dc",
+    src = "judge-overlapsholds-pair-4a7e91dc.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cec40f05-af9b-4670-80bc-ad8d9deefdd6",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4bbd3585",
+    src = "judge-overlapsholds-pair-4bbd3585.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/481bf8ac-b4d0-41a1-97d2-c5f95150d92b",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4c909b64",
+    src = "judge-overlapsholds-pair-4c909b64.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7aa8255c-a516-401a-8f74-745a121a0280",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4cc59aa0",
+    src = "judge-overlapsholds-pair-4cc59aa0.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ab432093-1cd3-4fb9-955b-37adef10bc2e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4da99731",
+    src = "judge-overlapsholds-pair-4da99731.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ae9bd7dc-b51f-4b57-86d9-75111626f5a0",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4e52b5c2",
+    src = "judge-overlapsholds-pair-4e52b5c2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/de7f94fa-7ab8-433b-870b-17e0d306af8c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4e9994b0",
+    src = "judge-overlapsholds-pair-4e9994b0.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/506aa7c0-7cfc-45ca-9255-91430eb22ddc",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4f6dcc88",
+    src = "judge-overlapsholds-pair-4f6dcc88.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/25ff5db9-d2d9-48e9-a423-1feca60da74e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4fb470fe",
+    src = "judge-overlapsholds-pair-4fb470fe.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/21f8f5d3-bc55-4a14-91b7-247d83c67ebc",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-4fd65583",
+    src = "judge-overlapsholds-pair-4fd65583.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/dd8c4835-e4ee-42de-8976-296f9634c8bc",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-506c3073",
+    src = "judge-overlapsholds-pair-506c3073.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2e68c159-c238-45c7-9771-7fb853c6108a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-50d447ec",
+    src = "judge-overlapsholds-pair-50d447ec.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5226465a-719a-48d7-91d8-53dec0aee7f1",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-512ef969",
+    src = "judge-overlapsholds-pair-512ef969.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/bab3d133-f80b-4f90-a257-1c4289c3d89f",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-513a820d",
+    src = "judge-overlapsholds-pair-513a820d.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1ad9dc66-2ef9-405b-b073-3b7987d6731f",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-535fad39",
+    src = "judge-overlapsholds-pair-535fad39.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f3dbf3f8-5b27-428c-a9a0-5a07cc6946d1",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-54bbfa90",
+    src = "judge-overlapsholds-pair-54bbfa90.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/eddbaabc-c88b-47a8-8b73-24939dd1f33b",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-563f5acb",
+    src = "judge-overlapsholds-pair-563f5acb.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b477b81d-bb85-4022-9352-350e55bdf0a9",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-56e9704f",
+    src = "judge-overlapsholds-pair-56e9704f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/78fed620-1053-4bb1-a414-52ff1e79d823",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-5a00f3d3",
+    src = "judge-overlapsholds-pair-5a00f3d3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/eb213411-e1ab-465b-8ee2-3e44c6c4ad52",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-5abb4ff2",
+    src = "judge-overlapsholds-pair-5abb4ff2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/193fd662-4cf1-4edf-a701-b90a702760cf",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-5b140329",
+    src = "judge-overlapsholds-pair-5b140329.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8d2bec92-cc41-4160-a2fc-c4e0477acef8",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-5ba20399",
+    src = "judge-overlapsholds-pair-5ba20399.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/affccf1d-f003-4e4a-ab90-4fb1c58cceeb",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-5c46749c",
+    src = "judge-overlapsholds-pair-5c46749c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fa97adb7-cfbc-4857-ab81-f403bb541d17",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-5d0d563f",
+    src = "judge-overlapsholds-pair-5d0d563f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f739be72-36fc-452e-9e93-80a664c40364",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-5f49b400",
+    src = "judge-overlapsholds-pair-5f49b400.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/512e6b33-59ea-4c98-90ca-483950514b9e",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-5f5853ec",
+    src = "judge-overlapsholds-pair-5f5853ec.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b399e35c-4341-4666-a974-c2b4a688973e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-61e03ddb",
+    src = "judge-overlapsholds-pair-61e03ddb.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/0c032c8c-5b29-4675-bbe3-41a0e1bada2c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-6291dbd1",
+    src = "judge-overlapsholds-pair-6291dbd1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/54e79f8a-69ca-4914-8600-1bd6ff9b4bfb",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-62b11071",
+    src = "judge-overlapsholds-pair-62b11071.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a96ea34b-cc87-496c-9f4c-0c8b68246b6c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-6452bba1",
+    src = "judge-overlapsholds-pair-6452bba1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f4def190-1bf2-4aa6-81bd-78cd33c63292",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-652196e5",
+    src = "judge-overlapsholds-pair-652196e5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6b451a5a-8958-405d-ab29-6ab1e32e2226",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-6635534c",
+    src = "judge-overlapsholds-pair-6635534c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/16e291ae-ede2-4b0a-80a7-270e77547d62",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-67ff6294",
+    src = "judge-overlapsholds-pair-67ff6294.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/80d0d50c-1c50-4079-84e5-118f4fdb54dd",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-695f60e8",
+    src = "judge-overlapsholds-pair-695f60e8.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f9d0aacc-c378-4c99-a642-4f568c715d71",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-6a83fb21",
+    src = "judge-overlapsholds-pair-6a83fb21.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5847d0da-342d-4e51-82f5-99c4a4d5cce3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-6b33e90a",
+    src = "judge-overlapsholds-pair-6b33e90a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/39646b5c-5c20-4c3f-b781-415a140a7511",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-6cb00284",
+    src = "judge-overlapsholds-pair-6cb00284.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b4aee99b-df5d-4ca7-a4cb-5a8ee93f90b8",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-6cb79294",
+    src = "judge-overlapsholds-pair-6cb79294.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a977a70f-29aa-4b51-9651-154451640454",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-6d224a94",
+    src = "judge-overlapsholds-pair-6d224a94.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a9ba943a-7763-4441-a134-035524c80c38",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-6e08d662",
+    src = "judge-overlapsholds-pair-6e08d662.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a296666f-4ac9-4655-810a-64d38a78494c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-6ee19ac8",
+    src = "judge-overlapsholds-pair-6ee19ac8.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/71b5be94-9e6f-4e75-8be3-b2c7cbcde7f4",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-6faaaa3c",
+    src = "judge-overlapsholds-pair-6faaaa3c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/502378ae-24c7-4d4b-803c-a64627e45932",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7060b9f9",
+    src = "judge-overlapsholds-pair-7060b9f9.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/563680e7-dabb-4f4a-ba94-3bf41cef0049",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7070f02d",
+    src = "judge-overlapsholds-pair-7070f02d.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4f585038-d71b-44f7-9c57-eac59af94ad6",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-709ae1bd",
+    src = "judge-overlapsholds-pair-709ae1bd.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/64e4d60a-b6f2-4c89-a196-356c69ed7cd2",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7191a648",
+    src = "judge-overlapsholds-pair-7191a648.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/aa0e742b-cbbb-4209-b5b5-5a0803a37b32",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-71e7d7bb",
+    src = "judge-overlapsholds-pair-71e7d7bb.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d8723864-6fb6-4e8e-83ad-3c19ad780a5e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-72a0cafa",
+    src = "judge-overlapsholds-pair-72a0cafa.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d09968df-b949-4969-8be7-d0eb8bd3d5b7",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-751fd186",
+    src = "judge-overlapsholds-pair-751fd186.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/096fd1be-95ce-44f5-b0fc-03c2ba2cd66e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-75202088",
+    src = "judge-overlapsholds-pair-75202088.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/76bf57ab-ac8c-4c83-a634-084c0376633a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-77b198ef",
+    src = "judge-overlapsholds-pair-77b198ef.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/849a3fd7-e408-4521-95a4-6917b2c6fb5f",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7819166e",
+    src = "judge-overlapsholds-pair-7819166e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1c69a500-7ff3-4278-8549-e0f64139d124",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-790bc35b",
+    src = "judge-overlapsholds-pair-790bc35b.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8b71f354-8b72-4d17-8c69-ddb5447dda54",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7bae0254",
+    src = "judge-overlapsholds-pair-7bae0254.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/27218b3e-9b9d-4ea9-8830-9a929ead3178",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7bd45bec",
+    src = "judge-overlapsholds-pair-7bd45bec.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/271561a0-d036-45e8-82ec-3a83f4848624",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7c1ce4f5",
+    src = "judge-overlapsholds-pair-7c1ce4f5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c49805b1-f7c9-48db-8f31-950783a37aca",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7e3dc0e4",
+    src = "judge-overlapsholds-pair-7e3dc0e4.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/83fb5bec-2e74-4bae-a726-aa079b73c373",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7e8c38f3",
+    src = "judge-overlapsholds-pair-7e8c38f3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2d867553-1652-45ce-bc9d-a19f69bc7b52",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7ee0e95e",
+    src = "judge-overlapsholds-pair-7ee0e95e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/37db210d-8239-4f19-a40e-de62b5e54fce",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7f13e77f",
+    src = "judge-overlapsholds-pair-7f13e77f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a5b14a0c-12fc-438e-874d-b2cc80d5fbc3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-7f38d834",
+    src = "judge-overlapsholds-pair-7f38d834.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/23a6c34c-65d0-4288-ac55-2af51652b607",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-8366ca20",
+    src = "judge-overlapsholds-pair-8366ca20.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/34f9aef1-390b-4e56-9abf-83818ebf4085",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-84430eaf",
+    src = "judge-overlapsholds-pair-84430eaf.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6a20b14e-1ac2-4f59-a739-79daabbaf0be",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-850d03fc",
+    src = "judge-overlapsholds-pair-850d03fc.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9d41cae3-cb1e-4257-a839-f745c3f5cae6",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-869a42e6",
+    src = "judge-overlapsholds-pair-869a42e6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/40b6fe80-d227-4f21-b923-8dfca8171ef9",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-87a99ee3",
+    src = "judge-overlapsholds-pair-87a99ee3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3b491336-411a-4c62-915b-ce78cdf6bc30",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-88181b5f",
+    src = "judge-overlapsholds-pair-88181b5f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/19f74862-119c-4ca6-8016-2b4bc91bd9df",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-88a69650",
+    src = "judge-overlapsholds-pair-88a69650.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/831b2b75-7274-4a6b-a830-343a6b0d9678",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-899a4c75",
+    src = "judge-overlapsholds-pair-899a4c75.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/94cfc3e4-c48e-4153-a316-cdd1114532b7",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-89fb6db1",
+    src = "judge-overlapsholds-pair-89fb6db1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e9a1bc6d-ac48-4cbf-9966-3b8fa0e84416",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-8a93ea86",
+    src = "judge-overlapsholds-pair-8a93ea86.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/0d01eed2-1b43-409e-b8c2-0265ff6438d8",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-8b070112",
+    src = "judge-overlapsholds-pair-8b070112.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/0dbcab6d-a61b-469e-bc66-4d8f0b89d8b1",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-8b51b447",
+    src = "judge-overlapsholds-pair-8b51b447.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/eeb34445-f554-4102-b1dd-e87b40e45de3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-8be8352e",
+    src = "judge-overlapsholds-pair-8be8352e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/98db3013-b54b-4460-bda5-5780255d470d",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-8dbb6dee",
+    src = "judge-overlapsholds-pair-8dbb6dee.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/05d32187-1070-49df-917b-5088a08a496f",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-8fa33798",
+    src = "judge-overlapsholds-pair-8fa33798.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e0b0a880-2384-4a68-8b18-3f4af1ac2c48",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-90b92c32",
+    src = "judge-overlapsholds-pair-90b92c32.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7599392f-2867-4ca1-b8c9-588ae96954c9",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-939d013f",
+    src = "judge-overlapsholds-pair-939d013f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3affdac5-710a-45c7-b8e2-d928c3cf3fcb",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-93a3daed",
+    src = "judge-overlapsholds-pair-93a3daed.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/91f2d9cf-e77f-49b0-abed-408fec290fb6",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-95c60a68",
+    src = "judge-overlapsholds-pair-95c60a68.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8c85b73f-79b6-49a5-adb8-45bd09105487",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-974a9bb9",
+    src = "judge-overlapsholds-pair-974a9bb9.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/74b60dcf-c87d-4e1f-985a-baa16eb09620",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-97fcf70a",
+    src = "judge-overlapsholds-pair-97fcf70a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8e647dc1-9389-4664-8f37-189c20df8d27",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-999e7e07",
+    src = "judge-overlapsholds-pair-999e7e07.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d5ea5ebb-bdf1-4001-aaa7-c06b95ab311a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-9af0f00d",
+    src = "judge-overlapsholds-pair-9af0f00d.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3c65f1ee-e3e1-4e1f-8e3c-622e780eaf9e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-9b32dad2",
+    src = "judge-overlapsholds-pair-9b32dad2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/18ad8381-c1fb-4e5b-a4cd-9e234e42dce6",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-9b43a581",
+    src = "judge-overlapsholds-pair-9b43a581.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3616d7ad-1c3d-4c42-a63e-95ee3a778be8",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-9ba69f76",
+    src = "judge-overlapsholds-pair-9ba69f76.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e054081b-761c-472b-966e-b86f2e8d578a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-9bfe9671",
+    src = "judge-overlapsholds-pair-9bfe9671.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9dc38a30-9a2c-471f-8889-b7a124b9e73a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-9e0e11c7",
+    src = "judge-overlapsholds-pair-9e0e11c7.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ed233a2c-7777-4c36-b0e7-dd033d50f44c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-9f566333",
+    src = "judge-overlapsholds-pair-9f566333.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6fe9c802-2f50-4e2e-8f1e-d17efb9e1d30",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a0f69ef8",
+    src = "judge-overlapsholds-pair-a0f69ef8.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d641c1b4-009c-4acb-bd29-2ba0d600d3d6",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a137357a",
+    src = "judge-overlapsholds-pair-a137357a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/75056d71-8503-4855-bf19-856bb82de86d",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a31c4e94",
+    src = "judge-overlapsholds-pair-a31c4e94.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c6fb27a9-16b5-4603-8618-bcc8f80dc8ce",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a328a60c",
+    src = "judge-overlapsholds-pair-a328a60c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e0292287-93c1-4d0a-94f7-c94cd9516ba3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a45aa6dd",
+    src = "judge-overlapsholds-pair-a45aa6dd.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/aba0f90b-76dd-4509-a1bf-37e3706915c2",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a4f52ede",
+    src = "judge-overlapsholds-pair-a4f52ede.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e45faf1f-2a11-4f74-90a0-d12c03e2cf71",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a5c903e1",
+    src = "judge-overlapsholds-pair-a5c903e1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fa22d01f-fd4c-4785-aa08-8907c4c4d74d",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a6b6cea8",
+    src = "judge-overlapsholds-pair-a6b6cea8.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cdb78d72-e449-4ebc-a402-0198ab79f9dd",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a6bc5548",
+    src = "judge-overlapsholds-pair-a6bc5548.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6a6521af-339b-4fab-8825-a36e1a8c736e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a7f28903",
+    src = "judge-overlapsholds-pair-a7f28903.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3ad9e2e9-b186-4bd4-b967-b648ae6cac5b",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a8021270",
+    src = "judge-overlapsholds-pair-a8021270.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/913fbf93-2116-4d14-a82a-a7073162f797",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a9099c4f",
+    src = "judge-overlapsholds-pair-a9099c4f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5672d8cd-eebc-4c9f-9033-0899df1a3890",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-a99ccc5e",
+    src = "judge-overlapsholds-pair-a99ccc5e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/750c06a5-dfc3-45c2-98fe-ad0558293430",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-aa52cd92",
+    src = "judge-overlapsholds-pair-aa52cd92.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/95af4532-e377-478e-8c47-a8f5dca14964",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-aba8be31",
+    src = "judge-overlapsholds-pair-aba8be31.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d8e8f21b-e503-4be3-9af6-64a899811bca",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ad49ee77",
+    src = "judge-overlapsholds-pair-ad49ee77.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ed23c2ae-4726-497d-99dc-a58d734dd8e5",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ade2939f",
+    src = "judge-overlapsholds-pair-ade2939f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5ac4c02a-596c-48ef-b341-8cf8b3d8fb4a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-af45827f",
+    src = "judge-overlapsholds-pair-af45827f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3aaa635c-f28e-45ec-b891-a750cff0b6c3",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b03f722c",
+    src = "judge-overlapsholds-pair-b03f722c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9b2b29e2-b90a-4b1a-a151-1146708d6e69",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b113b9fe",
+    src = "judge-overlapsholds-pair-b113b9fe.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/97682183-0cfd-47aa-9478-b9a1c6f005ee",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b27d69fe",
+    src = "judge-overlapsholds-pair-b27d69fe.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/aa97492c-6a9d-4d71-a6e1-4558844af37f",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b350595d",
+    src = "judge-overlapsholds-pair-b350595d.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/26b99af4-5cc6-473e-a26f-709e7fc68224",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b4003501",
+    src = "judge-overlapsholds-pair-b4003501.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d64e6e34-96e4-4159-a8f6-43d37eeeee3a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b4bc5696",
+    src = "judge-overlapsholds-pair-b4bc5696.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a3a07346-3985-4ac1-b766-7f7fe1cd7b5d",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b60d5ffb",
+    src = "judge-overlapsholds-pair-b60d5ffb.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a1ac5a9c-5818-4b2c-bda8-115db21662e1",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b62fc293",
+    src = "judge-overlapsholds-pair-b62fc293.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/dacb6255-f74a-4707-8eb9-dd3c02107176",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b68e6ad0",
+    src = "judge-overlapsholds-pair-b68e6ad0.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/33717e4c-3ad5-47c0-9e99-b4ba77b66d90",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b73bd5fe",
+    src = "judge-overlapsholds-pair-b73bd5fe.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/19fa4cce-9a50-43c7-93cc-92e8880493ee",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b79e1c28",
+    src = "judge-overlapsholds-pair-b79e1c28.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e27ebd23-89a4-4fc3-8804-4643809da0bf",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-b7c740e8",
+    src = "judge-overlapsholds-pair-b7c740e8.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2af11ba3-b46c-475a-8840-73eba099339c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ba838459",
+    src = "judge-overlapsholds-pair-ba838459.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/dee44f97-cf98-43e9-886b-d01c18f1e615",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-bb594403",
+    src = "judge-overlapsholds-pair-bb594403.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e73b0fb4-11db-4c64-9299-7844f42408ca",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-bc0ca28c",
+    src = "judge-overlapsholds-pair-bc0ca28c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/dd2a779c-9c45-4a68-863b-2b6fd95582d8",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-bd0baa01",
+    src = "judge-overlapsholds-pair-bd0baa01.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4b88a041-c101-4289-906a-f4e97e12df05",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-bf171bd3",
+    src = "judge-overlapsholds-pair-bf171bd3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8759c2cd-d6b8-4f9c-b98b-bf2bc472e01e",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-bf1cac3b",
+    src = "judge-overlapsholds-pair-bf1cac3b.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/80f64f06-7ee5-4ff8-bf04-85f271c544f5",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-bfdb1537",
+    src = "judge-overlapsholds-pair-bfdb1537.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ee6955a7-7ab5-402e-8679-ddece7317230",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-bff61df1",
+    src = "judge-overlapsholds-pair-bff61df1.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/11057290-7e32-4db1-b4b3-16cd8dbcc946",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c0096f1f",
+    src = "judge-overlapsholds-pair-c0096f1f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c5899a74-ac72-4459-8e44-ca4b7e514870",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c00c9134",
+    src = "judge-overlapsholds-pair-c00c9134.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5c3abd4b-6cb8-4516-b6c8-6c01c5f35323",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c11f4894",
+    src = "judge-overlapsholds-pair-c11f4894.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/59271af5-743b-4d96-a01a-84093e675b59",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c216f08a",
+    src = "judge-overlapsholds-pair-c216f08a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/857154d3-42c9-471b-913c-b7367b55e171",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c24bbdbc",
+    src = "judge-overlapsholds-pair-c24bbdbc.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/329fd3e3-2938-40fe-b0d3-54ec5904c91c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c2e7307c",
+    src = "judge-overlapsholds-pair-c2e7307c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/38f17f28-5171-4bbd-96b2-40dfc0e25a39",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c2f4f54b",
+    src = "judge-overlapsholds-pair-c2f4f54b.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c894bb47-6125-42ba-ae54-f87ef8aa50f3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c3c6b8e4",
+    src = "judge-overlapsholds-pair-c3c6b8e4.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fe914854-0786-4070-9d36-584cefe6ca13",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c3c87ede",
+    src = "judge-overlapsholds-pair-c3c87ede.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/329b56c8-49d7-4430-9292-282b89272eb8",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c51042f9",
+    src = "judge-overlapsholds-pair-c51042f9.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6874be3a-ed78-4ef7-8d57-6e9f4699542c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c7167fac",
+    src = "judge-overlapsholds-pair-c7167fac.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/216f8a17-54c1-4c28-abc6-13b1f552ed00",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c71bef12",
+    src = "judge-overlapsholds-pair-c71bef12.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/35d81017-d9ad-433e-a2fa-f71e51944447",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c7250e97",
+    src = "judge-overlapsholds-pair-c7250e97.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cd8ee584-c8c9-4079-8f88-230bc0073994",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-c8c46560",
+    src = "judge-overlapsholds-pair-c8c46560.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cbe00be5-c40f-4eaf-b3de-5d6a7e75e3f8",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ca8b7fca",
+    src = "judge-overlapsholds-pair-ca8b7fca.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5c7a2302-7c84-4793-b81a-d3f10f557d7e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-caed007d",
+    src = "judge-overlapsholds-pair-caed007d.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4467e159-0f19-4bba-b9b8-c7861f476465",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-cb2c5b31",
+    src = "judge-overlapsholds-pair-cb2c5b31.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ab2649a7-fa52-4ea9-8cd7-dc7d60c335de",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-cc0e91d6",
+    src = "judge-overlapsholds-pair-cc0e91d6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/22eabb23-8a68-4b1b-a1fb-66b562f61946",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-cd0c7f57",
+    src = "judge-overlapsholds-pair-cd0c7f57.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/08bad212-5396-4e07-9c2e-c81328f81bf4",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-cd117613",
+    src = "judge-overlapsholds-pair-cd117613.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/69d5fa2f-aa5e-4163-9117-9a923fd0e4dc",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-cde6465c",
+    src = "judge-overlapsholds-pair-cde6465c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a7c4eecb-0a67-4cff-b404-ae7499f715c4",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-cea5cf99",
+    src = "judge-overlapsholds-pair-cea5cf99.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/195ef6b6-e6dd-4a44-9f53-ee42095f8627",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d06b4ecc",
+    src = "judge-overlapsholds-pair-d06b4ecc.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1d72f0e2-15e9-4af6-bf22-a4324a92bd61",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d0d217d6",
+    src = "judge-overlapsholds-pair-d0d217d6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b6cd66a8-4d9a-4c0d-80e1-edb18c1109b2",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d155c117",
+    src = "judge-overlapsholds-pair-d155c117.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/274d257c-ca7a-476b-9037-03deafd712d7",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d3091efe",
+    src = "judge-overlapsholds-pair-d3091efe.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/be8107e4-17a4-4b30-9d7a-5ca5e7f9cfcf",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d3a94ef5",
+    src = "judge-overlapsholds-pair-d3a94ef5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/20b83906-0da5-4d0c-841a-4c7dd40e4523",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d4c3f4c8",
+    src = "judge-overlapsholds-pair-d4c3f4c8.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b7d9fea2-811b-4413-9f7f-5402b3a0be88",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d5cdcc1d",
+    src = "judge-overlapsholds-pair-d5cdcc1d.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8076b1e9-323e-4e79-a155-89538eadd18b",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d61a85f7",
+    src = "judge-overlapsholds-pair-d61a85f7.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/66185110-c388-4477-8f2f-eac9ca5933bd",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d625c4ef",
+    src = "judge-overlapsholds-pair-d625c4ef.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d0750957-a2b7-4b87-9cec-cc7ebf4915a5",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d62947ba",
+    src = "judge-overlapsholds-pair-d62947ba.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8713c1d2-689d-49e3-b344-161e8c358eed",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d68ce7ee",
+    src = "judge-overlapsholds-pair-d68ce7ee.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3a8db63d-e067-4f86-b9c2-9592bd7d7b18",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d7b397ec",
+    src = "judge-overlapsholds-pair-d7b397ec.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/83727f55-7b12-4b00-a435-9293e3f1491d",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-da393456",
+    src = "judge-overlapsholds-pair-da393456.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1e7b184c-0922-4033-9511-690fbfe759f2",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-db14d67e",
+    src = "judge-overlapsholds-pair-db14d67e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7126972c-9bed-4c0b-9113-a9890712e41c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-db7847fc",
+    src = "judge-overlapsholds-pair-db7847fc.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c039129d-0505-4dde-9962-4773167c825a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-dbfe343d",
+    src = "judge-overlapsholds-pair-dbfe343d.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8affb0b5-33c7-427b-8dfe-65556b24b77d",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-dc0dc67e",
+    src = "judge-overlapsholds-pair-dc0dc67e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5e0f4274-5763-4718-8897-48669da456e4",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-dc79bd63",
+    src = "judge-overlapsholds-pair-dc79bd63.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b3c1f48a-afc6-4368-8099-cbca4e19dbd3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-dc862641",
+    src = "judge-overlapsholds-pair-dc862641.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/dad117b8-4dfe-479b-a6df-6d233089a2c5",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-dcd8b6ea",
+    src = "judge-overlapsholds-pair-dcd8b6ea.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8a621819-c40c-45bc-a32a-b720a20da7ab",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-df0bde79",
+    src = "judge-overlapsholds-pair-df0bde79.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d27d40a7-c34b-4447-8713-e668481ebeb1",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-dfe85bcf",
+    src = "judge-overlapsholds-pair-dfe85bcf.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/145c1acc-f049-457c-8de4-3ffd3fe724b7",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-e046d1e4",
+    src = "judge-overlapsholds-pair-e046d1e4.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8006b550-aeac-4304-bfa3-a825a3c96d25",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-e0a95153",
+    src = "judge-overlapsholds-pair-e0a95153.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c360574b-e02c-4676-a657-832f0129a5f6",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-e17dd5b9",
+    src = "judge-overlapsholds-pair-e17dd5b9.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4ba0ad6e-5b0f-44c9-a45c-daec9808329c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-e1f97ea2",
+    src = "judge-overlapsholds-pair-e1f97ea2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a46a4a1d-aa57-4fdd-85f7-ad41d98d9d3d",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-e3221986",
+    src = "judge-overlapsholds-pair-e3221986.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/56c029d0-46ca-42e9-926e-1ac3b7c40a2a",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-e51615e5",
+    src = "judge-overlapsholds-pair-e51615e5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/223736a5-d634-4c20-8c90-60b2d2a527c7",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-e516bc17",
+    src = "judge-overlapsholds-pair-e516bc17.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/68d0f6fe-5b23-474d-b1b9-057cb7b07ab8",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-e62ce2ec",
+    src = "judge-overlapsholds-pair-e62ce2ec.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/66e08da3-2931-482f-94fb-92bba03348c4",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-e6847805",
+    src = "judge-overlapsholds-pair-e6847805.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2f05b533-a251-4865-b978-702c4e686674",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-e8b3e5bb",
+    src = "judge-overlapsholds-pair-e8b3e5bb.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a06204ab-af87-46a1-b907-8d84711c3d7b",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-e8e9122c",
+    src = "judge-overlapsholds-pair-e8e9122c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4c29dfdd-9c4a-4110-a20f-07b0345967af",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ea2ca97a",
+    src = "judge-overlapsholds-pair-ea2ca97a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5ee37b2d-e222-482c-ae64-1496cd3d9752",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ea7eb418",
+    src = "judge-overlapsholds-pair-ea7eb418.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f874978d-7c40-40ac-9fc9-89291a895042",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-eb19b42a",
+    src = "judge-overlapsholds-pair-eb19b42a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/631e2ea0-b5e4-4f18-8f64-9b94694a25f2",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ec00f4b8",
+    src = "judge-overlapsholds-pair-ec00f4b8.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c1489f92-9c01-4289-bbea-5b73d40e9261",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ec65fcf0",
+    src = "judge-overlapsholds-pair-ec65fcf0.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cad6c43b-1c43-4031-889c-00d03ecbfcb5",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ee692d04",
+    src = "judge-overlapsholds-pair-ee692d04.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/40650be7-11fa-432e-b0ab-b5b67e11e058",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-eeff52fb",
+    src = "judge-overlapsholds-pair-eeff52fb.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/735fceae-c783-49c3-96d5-2684fc2555a0",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ef4431ab",
+    src = "judge-overlapsholds-pair-ef4431ab.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a848268e-d7d8-496a-a085-c48050693ca0",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-efc0c7ec",
+    src = "judge-overlapsholds-pair-efc0c7ec.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1656439a-4c90-4106-a105-c091dbd28ad2",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f054f6fd",
+    src = "judge-overlapsholds-pair-f054f6fd.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/59fb20ba-4202-4ae5-965c-2ed0f2c56541",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f098dd57",
+    src = "judge-overlapsholds-pair-f098dd57.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7424d371-eaee-4deb-b07c-be1fb6515859",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f0c24c99",
+    src = "judge-overlapsholds-pair-f0c24c99.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/55ba9791-f354-4366-a3bd-68e22ba93557",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f0fa26fb",
+    src = "judge-overlapsholds-pair-f0fa26fb.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/71e2b26c-477e-4ab2-9bba-fd143c8fc214",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f1db78ef",
+    src = "judge-overlapsholds-pair-f1db78ef.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d141baef-a871-4c57-ae0d-35ae98197546",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f1efd4ff",
+    src = "judge-overlapsholds-pair-f1efd4ff.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c57269cd-a4f2-49a7-be9c-17a9d19f52a9",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f3942654",
+    src = "judge-overlapsholds-pair-f3942654.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/dd60ee87-77c6-48b0-9762-4f7efe2ab123",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f460256e",
+    src = "judge-overlapsholds-pair-f460256e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/12a3a55d-e120-4b24-b07d-3de887e18fd3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f471868e",
+    src = "judge-overlapsholds-pair-f471868e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7851bfec-6ba3-41e9-a00d-9a025212840e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f48e6f91",
+    src = "judge-overlapsholds-pair-f48e6f91.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/610161cc-ae38-4326-8d8a-51ab73a203d0",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f5541f7d",
+    src = "judge-overlapsholds-pair-f5541f7d.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/041fc5b9-fd5a-46d0-a98c-e82d965f0cc4",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f5b510b0",
+    src = "judge-overlapsholds-pair-f5b510b0.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/436fd549-5d0f-4eec-ad26-c2492e9be093",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f7fa657b",
+    src = "judge-overlapsholds-pair-f7fa657b.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/7f3a6ca1-e6a8-466f-aa8d-c5c5870e1f4a",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f812713d",
+    src = "judge-overlapsholds-pair-f812713d.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3241a0b8-11c7-4701-8f0e-5eb9c24a0e0e",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f8518bab",
+    src = "judge-overlapsholds-pair-f8518bab.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/bf451829-49a4-4c9b-b618-2131cf85f8b9",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f8d61f21",
+    src = "judge-overlapsholds-pair-f8d61f21.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/86cbe838-ebb9-4e65-ab61-9d12dc893a93",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f98a7285",
+    src = "judge-overlapsholds-pair-f98a7285.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b4f8a46c-1fca-4d5b-872a-4e6e8036c343",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-f9b947c3",
+    src = "judge-overlapsholds-pair-f9b947c3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4268144a-111c-4a17-887c-8fd9228202a9",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-fadc33ae",
+    src = "judge-overlapsholds-pair-fadc33ae.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/afe5b91e-c46d-444e-9243-69a306fe48c3",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-fc9a6793",
+    src = "judge-overlapsholds-pair-fc9a6793.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f9a913aa-04d7-4b4f-ad4d-d01400b4961f",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-fdd618c6",
+    src = "judge-overlapsholds-pair-fdd618c6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5e27bbbe-b620-46fe-be02-5ad1fc3e48a0",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-feccca17",
+    src = "judge-overlapsholds-pair-feccca17.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/339bb6a0-04b8-4655-8e12-26e3c9273b8d",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-fef8e185",
+    src = "judge-overlapsholds-pair-fef8e185.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/838a249f-7055-4379-bfe7-89663ae58e15",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ff3d6402",
+    src = "judge-overlapsholds-pair-ff3d6402.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b188c58e-7595-4123-a6f7-68cc9fde89ee",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-ff7ba6a6",
+    src = "judge-overlapsholds-pair-ff7ba6a6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/dd343376-6780-411b-beaf-436b9aae4cc9",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-0bf1b82a",
+    src = "judge-proposedlinkholds-pair-0bf1b82a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/98891e0e-7903-4a42-ab13-922bbceeaafb",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-0c8785ba",
+    src = "judge-proposedlinkholds-pair-0c8785ba.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/cfd02a54-486d-44a8-b20c-dae78cf53423",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-0e8160ac",
+    src = "judge-proposedlinkholds-pair-0e8160ac.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c472b5bf-37d8-42dc-94a2-053d18086e41",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-203fe084",
+    src = "judge-proposedlinkholds-pair-203fe084.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e6a86818-ff16-47f2-8d8c-6cd47855530a",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-295daa1b",
+    src = "judge-proposedlinkholds-pair-295daa1b.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/50458f9b-c62c-42a5-8398-a64255a99ec4",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-2ac54d13",
+    src = "judge-proposedlinkholds-pair-2ac54d13.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e70b7a62-6799-4f4a-9f7a-8ea187fe44fa",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-36c5d013",
+    src = "judge-proposedlinkholds-pair-36c5d013.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/751ff4fb-94b2-4013-9dd3-8fc775049c76",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-3c25498a",
+    src = "judge-proposedlinkholds-pair-3c25498a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8bd55453-45a1-4edf-8a2d-12c9b595315f",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-4b9f4f44",
+    src = "judge-proposedlinkholds-pair-4b9f4f44.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/f76d764a-80c5-42ec-9aa8-d5fa227ee24a",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-57611177",
+    src = "judge-proposedlinkholds-pair-57611177.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ac41fd3a-63a8-4b65-89f6-73c12168353c",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-66fe724a",
+    src = "judge-proposedlinkholds-pair-66fe724a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/515fba13-83d7-4c66-8fb9-28501cf84c99",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-6a4e2271",
+    src = "judge-proposedlinkholds-pair-6a4e2271.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a42e62cb-f024-4f40-873f-b70b59bf5202",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-6b6d94c4",
+    src = "judge-proposedlinkholds-pair-6b6d94c4.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3de9a8db-c304-4abf-b48b-8ed5dc1f5d7e",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-7747dca0",
+    src = "judge-proposedlinkholds-pair-7747dca0.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/564dff5c-ce3b-4433-b21d-132a42c760ad",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-7f49aa34",
+    src = "judge-proposedlinkholds-pair-7f49aa34.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e7b140b9-143f-411c-8748-8661a8fe32d1",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-8b391660",
+    src = "judge-proposedlinkholds-pair-8b391660.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3305dd0b-c848-463a-a838-bb47dfd0a7f6",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-8bfae5d2",
+    src = "judge-proposedlinkholds-pair-8bfae5d2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/c5337b60-5f2a-4375-8694-edf2ca371461",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-93104e85",
+    src = "judge-proposedlinkholds-pair-93104e85.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/eea7ecca-b31e-4446-8a15-8b4f30334739",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-9f2451af",
+    src = "judge-proposedlinkholds-pair-9f2451af.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8f6f8e7d-3563-4acc-9596-27943a2fdfa1",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-c28b84a6",
+    src = "judge-proposedlinkholds-pair-c28b84a6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d49f8d9b-81a1-4be4-8741-977424b1ee0a",
+    plane = "annotation",
+    level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-cc749b37",
+    src = "judge-proposedlinkholds-pair-cc749b37.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4d779336-5816-4df8-a827-1f05ce3ca3c8",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-d160859a",
+    src = "judge-proposedlinkholds-pair-d160859a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/6e5afe8f-57b7-453f-b385-1b3640bb2302",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-d168e13f",
+    src = "judge-proposedlinkholds-pair-d168e13f.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/a879c1a0-8a3b-43e8-b692-eb4920207cf1",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-d2900ad6",
+    src = "judge-proposedlinkholds-pair-d2900ad6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/90af1d0b-089c-43d1-97a9-29f9735b2977",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-dc557a0e",
+    src = "judge-proposedlinkholds-pair-dc557a0e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/43a13892-3a13-48f1-aabf-9f00443abbcd",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-f3bfd486",
+    src = "judge-proposedlinkholds-pair-f3bfd486.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/abf88aac-b460-4c37-b76b-beb190e17f16",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-f5416d5c",
+    src = "judge-proposedlinkholds-pair-f5416d5c.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3b15b317-1860-46dc-ad6e-68d21a0f12f3",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
     name = "layer-assignment-audit",
     src = "layer-assignment-audit.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/1c32f4e0-cea2-405c-b42c-3674669b6805",
@@ -422,6 +3347,331 @@ kb_bundle(
         ":judge-labelrepresentsbody-r-025-verify-product-and-agent-judge-b-claude-sonnet-5",
         ":judge-labelrepresentsbody-r-026-observations-append-only-judge-a-claude-sonnet-5",
         ":judge-labelrepresentsbody-r-026-observations-append-only-judge-b-claude-sonnet-5",
+        ":judge-overlapsholds-pair-0185df1b",
+        ":judge-overlapsholds-pair-0273882a",
+        ":judge-overlapsholds-pair-042d2ffe",
+        ":judge-overlapsholds-pair-04452f70",
+        ":judge-overlapsholds-pair-0478c3a4",
+        ":judge-overlapsholds-pair-05a34389",
+        ":judge-overlapsholds-pair-06ccab37",
+        ":judge-overlapsholds-pair-080bc5c6",
+        ":judge-overlapsholds-pair-09bb6e8e",
+        ":judge-overlapsholds-pair-09f8314d",
+        ":judge-overlapsholds-pair-0a909717",
+        ":judge-overlapsholds-pair-0ae01e4a",
+        ":judge-overlapsholds-pair-0b87c5b3",
+        ":judge-overlapsholds-pair-0b8c16c7",
+        ":judge-overlapsholds-pair-0bb2b1fa",
+        ":judge-overlapsholds-pair-0bfe2b8f",
+        ":judge-overlapsholds-pair-0d105ccc",
+        ":judge-overlapsholds-pair-0d13203a",
+        ":judge-overlapsholds-pair-0d6a55ec",
+        ":judge-overlapsholds-pair-0da7eb2a",
+        ":judge-overlapsholds-pair-0e866d38",
+        ":judge-overlapsholds-pair-0f596f09",
+        ":judge-overlapsholds-pair-1025ad7e",
+        ":judge-overlapsholds-pair-102ae39b",
+        ":judge-overlapsholds-pair-118c559f",
+        ":judge-overlapsholds-pair-1495e67c",
+        ":judge-overlapsholds-pair-14e7fdae",
+        ":judge-overlapsholds-pair-14f3b1d9",
+        ":judge-overlapsholds-pair-161359d3",
+        ":judge-overlapsholds-pair-16fe62b6",
+        ":judge-overlapsholds-pair-1706799a",
+        ":judge-overlapsholds-pair-17a5da74",
+        ":judge-overlapsholds-pair-19ac9d1a",
+        ":judge-overlapsholds-pair-1adda481",
+        ":judge-overlapsholds-pair-1b0505c2",
+        ":judge-overlapsholds-pair-1d9aa014",
+        ":judge-overlapsholds-pair-1f1671d0",
+        ":judge-overlapsholds-pair-20412123",
+        ":judge-overlapsholds-pair-2121260b",
+        ":judge-overlapsholds-pair-236ceb08",
+        ":judge-overlapsholds-pair-23ebf5ef",
+        ":judge-overlapsholds-pair-26815d42",
+        ":judge-overlapsholds-pair-26a70dc4",
+        ":judge-overlapsholds-pair-26cbbf30",
+        ":judge-overlapsholds-pair-27a1ea9c",
+        ":judge-overlapsholds-pair-2806a79b",
+        ":judge-overlapsholds-pair-284bcfc0",
+        ":judge-overlapsholds-pair-290a0370",
+        ":judge-overlapsholds-pair-2a4026ef",
+        ":judge-overlapsholds-pair-2ab31101",
+        ":judge-overlapsholds-pair-2b36836b",
+        ":judge-overlapsholds-pair-2be62634",
+        ":judge-overlapsholds-pair-2c13d472",
+        ":judge-overlapsholds-pair-2c46380e",
+        ":judge-overlapsholds-pair-2d412161",
+        ":judge-overlapsholds-pair-2dcbe486",
+        ":judge-overlapsholds-pair-2fe9aece",
+        ":judge-overlapsholds-pair-3134df11",
+        ":judge-overlapsholds-pair-31e353d8",
+        ":judge-overlapsholds-pair-328efd2e",
+        ":judge-overlapsholds-pair-33c7589a",
+        ":judge-overlapsholds-pair-33e3dcd2",
+        ":judge-overlapsholds-pair-345833e9",
+        ":judge-overlapsholds-pair-3508fb53",
+        ":judge-overlapsholds-pair-35b3f024",
+        ":judge-overlapsholds-pair-35f013ae",
+        ":judge-overlapsholds-pair-36a4d6f0",
+        ":judge-overlapsholds-pair-373e14b5",
+        ":judge-overlapsholds-pair-37909a02",
+        ":judge-overlapsholds-pair-38c892d8",
+        ":judge-overlapsholds-pair-3a1b7e30",
+        ":judge-overlapsholds-pair-3bf366e7",
+        ":judge-overlapsholds-pair-3cef3a9c",
+        ":judge-overlapsholds-pair-3f9738b5",
+        ":judge-overlapsholds-pair-411d102d",
+        ":judge-overlapsholds-pair-415c9a13",
+        ":judge-overlapsholds-pair-4209e571",
+        ":judge-overlapsholds-pair-42443267",
+        ":judge-overlapsholds-pair-44042959",
+        ":judge-overlapsholds-pair-4a42c610",
+        ":judge-overlapsholds-pair-4a7add89",
+        ":judge-overlapsholds-pair-4a7e91dc",
+        ":judge-overlapsholds-pair-4bbd3585",
+        ":judge-overlapsholds-pair-4c909b64",
+        ":judge-overlapsholds-pair-4cc59aa0",
+        ":judge-overlapsholds-pair-4da99731",
+        ":judge-overlapsholds-pair-4e52b5c2",
+        ":judge-overlapsholds-pair-4e9994b0",
+        ":judge-overlapsholds-pair-4f6dcc88",
+        ":judge-overlapsholds-pair-4fb470fe",
+        ":judge-overlapsholds-pair-4fd65583",
+        ":judge-overlapsholds-pair-506c3073",
+        ":judge-overlapsholds-pair-50d447ec",
+        ":judge-overlapsholds-pair-512ef969",
+        ":judge-overlapsholds-pair-513a820d",
+        ":judge-overlapsholds-pair-535fad39",
+        ":judge-overlapsholds-pair-54bbfa90",
+        ":judge-overlapsholds-pair-563f5acb",
+        ":judge-overlapsholds-pair-56e9704f",
+        ":judge-overlapsholds-pair-5a00f3d3",
+        ":judge-overlapsholds-pair-5abb4ff2",
+        ":judge-overlapsholds-pair-5b140329",
+        ":judge-overlapsholds-pair-5ba20399",
+        ":judge-overlapsholds-pair-5c46749c",
+        ":judge-overlapsholds-pair-5d0d563f",
+        ":judge-overlapsholds-pair-5f49b400",
+        ":judge-overlapsholds-pair-5f5853ec",
+        ":judge-overlapsholds-pair-61e03ddb",
+        ":judge-overlapsholds-pair-6291dbd1",
+        ":judge-overlapsholds-pair-62b11071",
+        ":judge-overlapsholds-pair-6452bba1",
+        ":judge-overlapsholds-pair-652196e5",
+        ":judge-overlapsholds-pair-6635534c",
+        ":judge-overlapsholds-pair-67ff6294",
+        ":judge-overlapsholds-pair-695f60e8",
+        ":judge-overlapsholds-pair-6a83fb21",
+        ":judge-overlapsholds-pair-6b33e90a",
+        ":judge-overlapsholds-pair-6cb00284",
+        ":judge-overlapsholds-pair-6cb79294",
+        ":judge-overlapsholds-pair-6d224a94",
+        ":judge-overlapsholds-pair-6e08d662",
+        ":judge-overlapsholds-pair-6ee19ac8",
+        ":judge-overlapsholds-pair-6faaaa3c",
+        ":judge-overlapsholds-pair-7060b9f9",
+        ":judge-overlapsholds-pair-7070f02d",
+        ":judge-overlapsholds-pair-709ae1bd",
+        ":judge-overlapsholds-pair-7191a648",
+        ":judge-overlapsholds-pair-71e7d7bb",
+        ":judge-overlapsholds-pair-72a0cafa",
+        ":judge-overlapsholds-pair-751fd186",
+        ":judge-overlapsholds-pair-75202088",
+        ":judge-overlapsholds-pair-77b198ef",
+        ":judge-overlapsholds-pair-7819166e",
+        ":judge-overlapsholds-pair-790bc35b",
+        ":judge-overlapsholds-pair-7bae0254",
+        ":judge-overlapsholds-pair-7bd45bec",
+        ":judge-overlapsholds-pair-7c1ce4f5",
+        ":judge-overlapsholds-pair-7e3dc0e4",
+        ":judge-overlapsholds-pair-7e8c38f3",
+        ":judge-overlapsholds-pair-7ee0e95e",
+        ":judge-overlapsholds-pair-7f13e77f",
+        ":judge-overlapsholds-pair-7f38d834",
+        ":judge-overlapsholds-pair-8366ca20",
+        ":judge-overlapsholds-pair-84430eaf",
+        ":judge-overlapsholds-pair-850d03fc",
+        ":judge-overlapsholds-pair-869a42e6",
+        ":judge-overlapsholds-pair-87a99ee3",
+        ":judge-overlapsholds-pair-88181b5f",
+        ":judge-overlapsholds-pair-88a69650",
+        ":judge-overlapsholds-pair-899a4c75",
+        ":judge-overlapsholds-pair-89fb6db1",
+        ":judge-overlapsholds-pair-8a93ea86",
+        ":judge-overlapsholds-pair-8b070112",
+        ":judge-overlapsholds-pair-8b51b447",
+        ":judge-overlapsholds-pair-8be8352e",
+        ":judge-overlapsholds-pair-8dbb6dee",
+        ":judge-overlapsholds-pair-8fa33798",
+        ":judge-overlapsholds-pair-90b92c32",
+        ":judge-overlapsholds-pair-939d013f",
+        ":judge-overlapsholds-pair-93a3daed",
+        ":judge-overlapsholds-pair-95c60a68",
+        ":judge-overlapsholds-pair-974a9bb9",
+        ":judge-overlapsholds-pair-97fcf70a",
+        ":judge-overlapsholds-pair-999e7e07",
+        ":judge-overlapsholds-pair-9af0f00d",
+        ":judge-overlapsholds-pair-9b32dad2",
+        ":judge-overlapsholds-pair-9b43a581",
+        ":judge-overlapsholds-pair-9ba69f76",
+        ":judge-overlapsholds-pair-9bfe9671",
+        ":judge-overlapsholds-pair-9e0e11c7",
+        ":judge-overlapsholds-pair-9f566333",
+        ":judge-overlapsholds-pair-a0f69ef8",
+        ":judge-overlapsholds-pair-a137357a",
+        ":judge-overlapsholds-pair-a31c4e94",
+        ":judge-overlapsholds-pair-a328a60c",
+        ":judge-overlapsholds-pair-a45aa6dd",
+        ":judge-overlapsholds-pair-a4f52ede",
+        ":judge-overlapsholds-pair-a5c903e1",
+        ":judge-overlapsholds-pair-a6b6cea8",
+        ":judge-overlapsholds-pair-a6bc5548",
+        ":judge-overlapsholds-pair-a7f28903",
+        ":judge-overlapsholds-pair-a8021270",
+        ":judge-overlapsholds-pair-a9099c4f",
+        ":judge-overlapsholds-pair-a99ccc5e",
+        ":judge-overlapsholds-pair-aa52cd92",
+        ":judge-overlapsholds-pair-aba8be31",
+        ":judge-overlapsholds-pair-ad49ee77",
+        ":judge-overlapsholds-pair-ade2939f",
+        ":judge-overlapsholds-pair-af45827f",
+        ":judge-overlapsholds-pair-b03f722c",
+        ":judge-overlapsholds-pair-b113b9fe",
+        ":judge-overlapsholds-pair-b27d69fe",
+        ":judge-overlapsholds-pair-b350595d",
+        ":judge-overlapsholds-pair-b4003501",
+        ":judge-overlapsholds-pair-b4bc5696",
+        ":judge-overlapsholds-pair-b60d5ffb",
+        ":judge-overlapsholds-pair-b62fc293",
+        ":judge-overlapsholds-pair-b68e6ad0",
+        ":judge-overlapsholds-pair-b73bd5fe",
+        ":judge-overlapsholds-pair-b79e1c28",
+        ":judge-overlapsholds-pair-b7c740e8",
+        ":judge-overlapsholds-pair-ba838459",
+        ":judge-overlapsholds-pair-bb594403",
+        ":judge-overlapsholds-pair-bc0ca28c",
+        ":judge-overlapsholds-pair-bd0baa01",
+        ":judge-overlapsholds-pair-bf171bd3",
+        ":judge-overlapsholds-pair-bf1cac3b",
+        ":judge-overlapsholds-pair-bfdb1537",
+        ":judge-overlapsholds-pair-bff61df1",
+        ":judge-overlapsholds-pair-c0096f1f",
+        ":judge-overlapsholds-pair-c00c9134",
+        ":judge-overlapsholds-pair-c11f4894",
+        ":judge-overlapsholds-pair-c216f08a",
+        ":judge-overlapsholds-pair-c24bbdbc",
+        ":judge-overlapsholds-pair-c2e7307c",
+        ":judge-overlapsholds-pair-c2f4f54b",
+        ":judge-overlapsholds-pair-c3c6b8e4",
+        ":judge-overlapsholds-pair-c3c87ede",
+        ":judge-overlapsholds-pair-c51042f9",
+        ":judge-overlapsholds-pair-c7167fac",
+        ":judge-overlapsholds-pair-c71bef12",
+        ":judge-overlapsholds-pair-c7250e97",
+        ":judge-overlapsholds-pair-c8c46560",
+        ":judge-overlapsholds-pair-ca8b7fca",
+        ":judge-overlapsholds-pair-caed007d",
+        ":judge-overlapsholds-pair-cb2c5b31",
+        ":judge-overlapsholds-pair-cc0e91d6",
+        ":judge-overlapsholds-pair-cd0c7f57",
+        ":judge-overlapsholds-pair-cd117613",
+        ":judge-overlapsholds-pair-cde6465c",
+        ":judge-overlapsholds-pair-cea5cf99",
+        ":judge-overlapsholds-pair-d06b4ecc",
+        ":judge-overlapsholds-pair-d0d217d6",
+        ":judge-overlapsholds-pair-d155c117",
+        ":judge-overlapsholds-pair-d3091efe",
+        ":judge-overlapsholds-pair-d3a94ef5",
+        ":judge-overlapsholds-pair-d4c3f4c8",
+        ":judge-overlapsholds-pair-d5cdcc1d",
+        ":judge-overlapsholds-pair-d61a85f7",
+        ":judge-overlapsholds-pair-d625c4ef",
+        ":judge-overlapsholds-pair-d62947ba",
+        ":judge-overlapsholds-pair-d68ce7ee",
+        ":judge-overlapsholds-pair-d7b397ec",
+        ":judge-overlapsholds-pair-da393456",
+        ":judge-overlapsholds-pair-db14d67e",
+        ":judge-overlapsholds-pair-db7847fc",
+        ":judge-overlapsholds-pair-dbfe343d",
+        ":judge-overlapsholds-pair-dc0dc67e",
+        ":judge-overlapsholds-pair-dc79bd63",
+        ":judge-overlapsholds-pair-dc862641",
+        ":judge-overlapsholds-pair-dcd8b6ea",
+        ":judge-overlapsholds-pair-df0bde79",
+        ":judge-overlapsholds-pair-dfe85bcf",
+        ":judge-overlapsholds-pair-e046d1e4",
+        ":judge-overlapsholds-pair-e0a95153",
+        ":judge-overlapsholds-pair-e17dd5b9",
+        ":judge-overlapsholds-pair-e1f97ea2",
+        ":judge-overlapsholds-pair-e3221986",
+        ":judge-overlapsholds-pair-e51615e5",
+        ":judge-overlapsholds-pair-e516bc17",
+        ":judge-overlapsholds-pair-e62ce2ec",
+        ":judge-overlapsholds-pair-e6847805",
+        ":judge-overlapsholds-pair-e8b3e5bb",
+        ":judge-overlapsholds-pair-e8e9122c",
+        ":judge-overlapsholds-pair-ea2ca97a",
+        ":judge-overlapsholds-pair-ea7eb418",
+        ":judge-overlapsholds-pair-eb19b42a",
+        ":judge-overlapsholds-pair-ec00f4b8",
+        ":judge-overlapsholds-pair-ec65fcf0",
+        ":judge-overlapsholds-pair-ee692d04",
+        ":judge-overlapsholds-pair-eeff52fb",
+        ":judge-overlapsholds-pair-ef4431ab",
+        ":judge-overlapsholds-pair-efc0c7ec",
+        ":judge-overlapsholds-pair-f054f6fd",
+        ":judge-overlapsholds-pair-f098dd57",
+        ":judge-overlapsholds-pair-f0c24c99",
+        ":judge-overlapsholds-pair-f0fa26fb",
+        ":judge-overlapsholds-pair-f1db78ef",
+        ":judge-overlapsholds-pair-f1efd4ff",
+        ":judge-overlapsholds-pair-f3942654",
+        ":judge-overlapsholds-pair-f460256e",
+        ":judge-overlapsholds-pair-f471868e",
+        ":judge-overlapsholds-pair-f48e6f91",
+        ":judge-overlapsholds-pair-f5541f7d",
+        ":judge-overlapsholds-pair-f5b510b0",
+        ":judge-overlapsholds-pair-f7fa657b",
+        ":judge-overlapsholds-pair-f812713d",
+        ":judge-overlapsholds-pair-f8518bab",
+        ":judge-overlapsholds-pair-f8d61f21",
+        ":judge-overlapsholds-pair-f98a7285",
+        ":judge-overlapsholds-pair-f9b947c3",
+        ":judge-overlapsholds-pair-fadc33ae",
+        ":judge-overlapsholds-pair-fc9a6793",
+        ":judge-overlapsholds-pair-fdd618c6",
+        ":judge-overlapsholds-pair-feccca17",
+        ":judge-overlapsholds-pair-fef8e185",
+        ":judge-overlapsholds-pair-ff3d6402",
+        ":judge-overlapsholds-pair-ff7ba6a6",
+        ":judge-proposedlinkholds-pair-0bf1b82a",
+        ":judge-proposedlinkholds-pair-0c8785ba",
+        ":judge-proposedlinkholds-pair-0e8160ac",
+        ":judge-proposedlinkholds-pair-203fe084",
+        ":judge-proposedlinkholds-pair-295daa1b",
+        ":judge-proposedlinkholds-pair-2ac54d13",
+        ":judge-proposedlinkholds-pair-36c5d013",
+        ":judge-proposedlinkholds-pair-3c25498a",
+        ":judge-proposedlinkholds-pair-4b9f4f44",
+        ":judge-proposedlinkholds-pair-57611177",
+        ":judge-proposedlinkholds-pair-66fe724a",
+        ":judge-proposedlinkholds-pair-6a4e2271",
+        ":judge-proposedlinkholds-pair-6b6d94c4",
+        ":judge-proposedlinkholds-pair-7747dca0",
+        ":judge-proposedlinkholds-pair-7f49aa34",
+        ":judge-proposedlinkholds-pair-8b391660",
+        ":judge-proposedlinkholds-pair-8bfae5d2",
+        ":judge-proposedlinkholds-pair-93104e85",
+        ":judge-proposedlinkholds-pair-9f2451af",
+        ":judge-proposedlinkholds-pair-c28b84a6",
+        ":judge-proposedlinkholds-pair-cc749b37",
+        ":judge-proposedlinkholds-pair-d160859a",
+        ":judge-proposedlinkholds-pair-d168e13f",
+        ":judge-proposedlinkholds-pair-d2900ad6",
+        ":judge-proposedlinkholds-pair-dc557a0e",
+        ":judge-proposedlinkholds-pair-f3bfd486",
+        ":judge-proposedlinkholds-pair-f5416d5c",
         ":layer-assignment-audit",
         ":note-fidelity-projection-input",
         ":risk-causality-weak-pairs",

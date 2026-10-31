@@ -1,4 +1,4 @@
-# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 단위 지식의 정체성이고 이름은 그 위의 라벨이다
 # (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
 # 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
 # 생성물은 `kb/dev/artifact/doccheck/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
@@ -7,8 +7,8 @@ source: tools/doccheck.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-doccheck
 package: kb/dev/artifact/doccheck
 layer: process
-at: 2026-10-02T00:08:55Z
-source_hash: 977d390101930849
+at: 2026-10-05T16:40:36Z
+source_hash: f1dd860a9a2366b1
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5
   - https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f
@@ -31,7 +31,6 @@ ids:
   fn:check_gate_catalogue: https://agentic-knowledge-base.dev/id/chunk/58750c29-c6bb-4d83-b464-517f160f955d
   fn:check_links: https://agentic-knowledge-base.dev/id/chunk/4daa5f81-6009-493b-af58-f97f9a3f388c
   fn:check_paths: https://agentic-knowledge-base.dev/id/chunk/d8304dd3-dfe1-49f3-bb99-12294f298b9c
-  fn:gate_catalogue_ids: https://agentic-knowledge-base.dev/id/chunk/c32e7981-57d1-4c87-bd5a-a41189661360
   fn:gate_catalogue_section: https://agentic-knowledge-base.dev/id/chunk/7985ad2f-b7d8-45b2-8d1f-a688617bb614
   fn:generated_values: https://agentic-knowledge-base.dev/id/chunk/6d777811-ef05-4ecd-a3c1-78c66baba749
   fn:main: https://agentic-knowledge-base.dev/id/chunk/16c7fdef-8fd8-4248-95ec-85ff4668d9bd

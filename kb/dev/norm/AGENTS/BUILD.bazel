@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -36,6 +36,7 @@ kb_composite(
         "p11-execution-mode-and-workset": "https://agentic-knowledge-base.dev/id/composite/7e1f24c0-e217-46a1-8599-5fd5ac39e486",
         "p11-harness-two-channels": "https://agentic-knowledge-base.dev/id/composite/bb2307b6-884f-43ba-bee6-7b1185c43e3a",
         "p11-input-validation-shapes": "https://agentic-knowledge-base.dev/id/composite/23431e57-2877-4a0f-9f25-9f8dabdfc792",
+        "p11-interpreter-generalizes-hci": "https://agentic-knowledge-base.dev/id/composite/9fef5341-55b1-4fda-8a93-e5ffdfbfcf83",
         "p11-role-sessions-and-dispatch-models": "https://agentic-knowledge-base.dev/id/composite/04ec773f-bf28-4ae8-a8d6-5fc4012dff58",
         "p11-session-output-goes-to-artifacts": "https://agentic-knowledge-base.dev/id/composite/23cf6ac9-f4b7-498b-88dc-84e70d2d5f8c",
         "p11-user-question-has-five-parts": "https://agentic-knowledge-base.dev/id/composite/85053389-9f78-4781-9357-d559a7b7ed90",

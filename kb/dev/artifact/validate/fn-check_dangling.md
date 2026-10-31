@@ -7,7 +7,7 @@ title: function check_dangling in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/6900e30a-aaf6-462a-b290-9877e3439e9b, https://agentic-knowledge-base.dev/id/chunk/8a2be483-4fc8-411f-8f35-b7719552e4e4, https://agentic-knowledge-base.dev/id/chunk/8d31b7a9-85c6-48b3-875b-1223f473d503]
 part_of: https://agentic-knowledge-base.dev/id/composite/621b8722-ef63-42b3-8470-9560e072a62a
@@ -30,8 +30,8 @@ def check_dangling(merged: Graph, ontology: Graph | None, files: dict[str, Graph
     온톨로지가 정의한 agt: 용어여야 한다. 온톨로지를 안 주면 병합 그래프의 주어로 대신한다.
 
     경계: 이 검사는 usesDefinition·exposesFactor(shape가 대상 실재를 봄) 대상의 폐기 여부는 보지 않는다 —
-    exposes 대상은 온톨로지 개체라 청크식 status가 없고, usesDefinition 대상은 artifact 청크라 폐기 대신
-    추출 등록부의 개명·삭제로 정체성이 관리된다(이 저장소의 artifact 청크 status: deprecated 실측 0건).
+    exposes 대상은 온톨로지 개체라 단위 지식의 status가 없고, usesDefinition 대상은 artifact 단위 지식이라 폐기 대신
+    추출 등록부의 개명·삭제로 정체성이 관리된다(이 저장소의 artifact 단위 지식 status: deprecated 측정 0건).
     """
     checked = (
         kb_lib.AGT.cites,

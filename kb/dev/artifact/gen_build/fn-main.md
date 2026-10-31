@@ -7,7 +7,7 @@ title: function main in tools/gen_build.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-build}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/04bfcfb9-d96b-42ec-9555-a58bd09f1551, https://agentic-knowledge-base.dev/id/chunk/50e03067-a51a-4276-beaa-b3062acbca52, https://agentic-knowledge-base.dev/id/chunk/535d310e-db77-40f1-a678-68d3de7d9727, https://agentic-knowledge-base.dev/id/chunk/552acfff-57db-463e-82cb-cdace15cb87d, https://agentic-knowledge-base.dev/id/chunk/7e58cd2b-ecf9-4a21-a66b-9e28aa4474e9, https://agentic-knowledge-base.dev/id/chunk/869af6ba-5152-4bae-8ae4-1081f5177303, https://agentic-knowledge-base.dev/id/chunk/9cf3ed9e-81a6-4add-97ba-b933477041ad, https://agentic-knowledge-base.dev/id/chunk/ad68f79e-bbb2-4a80-b6c8-518fdd88a3a2, https://agentic-knowledge-base.dev/id/chunk/c2012ece-9826-4be9-bfdc-24eaf1fda875, https://agentic-knowledge-base.dev/id/chunk/e54eb0d7-070d-49c3-80c1-2c299c1c0b7a, https://agentic-knowledge-base.dev/id/chunk/f27e5261-f973-4030-9f81-9dab47f4a21a]
 part_of: https://agentic-knowledge-base.dev/id/composite/e563bac1-7552-474e-a036-f6ced4999bc4
@@ -48,7 +48,6 @@ def main() -> int:
         outputs = {
             str(root / "kb/dev/requirement/BUILD.bazel"): render_chunks("kb/dev/requirement", items, iri_to_label, "//kb:requirement_readers"),
             str(root / "kb/dev/decision/BUILD.bazel"): render_decisions(items, iri_to_label),
-            str(root / "chunks/decision/BUILD.bazel"): render_chunks("chunks/decision", items, iri_to_label, "//kb:decision_readers"),
             str(root / CONTRACT_PKG / "BUILD.bazel"): render_chunks(CONTRACT_PKG, items, iri_to_label, "//kb:contract_readers", allow_empty=True),
             str(root / MEMORY_PKG / "BUILD.bazel"): render_chunks(MEMORY_PKG, items, iri_to_label, "//kb:memory_readers", allow_empty=True),
             str(root / VV_ROOT / "BUILD.bazel"): render_vv_root(items),
@@ -60,7 +59,7 @@ def main() -> int:
         outputs[str(root / NORM_ROOT / "BUILD.bazel")] = render_norm_root(root)
         for d in norm_pkgs(root):  # 규범 문서마다 패키지 하나 — 결정의 투영이라 그래프·게이트만 본다 (//kb:norm_readers)
             outputs[str(root / NORM_ROOT / d / "BUILD.bazel")] = render_chunks(f"{NORM_ROOT}/{d}", items, iri_to_label, "//kb:norm_readers")
-        for sub in VV_PKGS:  # V&V plane 패키지 — 개발 청크는 볼 수 없다 (//kb:vv_readers, 8.5절 독립성)
+        for sub in VV_PKGS:  # V&V 지식 종류 패키지 — 개발 단위 지식은 볼 수 없다 (//kb:vv_readers, 8.5절 독립성)
             outputs[str(root / VV_ROOT / sub / "BUILD.bazel")] = render_chunks(f"{VV_ROOT}/{sub}", items, iri_to_label, "//kb:vv_readers", allow_empty=True)
         outputs.update(ontology(root))
     except GenBuildError as e:

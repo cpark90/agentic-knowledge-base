@@ -8,12 +8,14 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/c0fb71e0-f5bf-44eb-90f4-542b546bf081]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T20:18:09+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}
 layer: process
+verifies: [https://agentic-knowledge-base.dev/id/chunk/d54dd037-5b16-4649-922d-f7c9b7b5c510, https://agentic-knowledge-base.dev/id/chunk/2db0c822-35f4-4cf1-b6ab-f74e1627b428, https://agentic-knowledge-base.dev/id/chunk/202358d3-fd6f-4b1c-867d-37e5a20adf9c]
+restored: [https://agentic-knowledge-base.dev/id/chunk/d54dd037-5b16-4649-922d-f7c9b7b5c510, https://agentic-knowledge-base.dev/id/chunk/2db0c822-35f4-4cf1-b6ab-f74e1627b428, https://agentic-knowledge-base.dev/id/chunk/202358d3-fd6f-4b1c-867d-37e5a20adf9c]
 ---
 **검증기** — 문서 뷰 둘과 트리의 생성물 두 종을 자극으로 쓴다.
 
-**자극** — `//kb/dev:adr`(살아 있는 결정 복합체 전부의 ADR)과 `//kg:audit`(감사 보고서)이다. 드리프트 검사의 대상은 `gen_build`가 만드는 BUILD 전부와 `.claude/skills/*/SKILL.md` 전부다. 음성 표본은 서술로만 둔다.
+**자극** — `//kb/dev:adr`(살아 있는 결정 기록 전부의 ADR)과 `//kg:audit`(감사 보고서)이다. 드리프트 검사의 대상은 `gen_build`가 만드는 BUILD 전부와 `.claude/skills/*/SKILL.md` 전부다. 음성 표본은 서술로만 둔다.
 
 ```yaml
 views:    [{target: //kb/dev:adr, out: bazel-bin/kb/dev/adr.md}, {target: //kg:audit, out: bazel-bin/kg/audit.md}]
@@ -27,4 +29,4 @@ negative: {edit: tools/vv_run.py 의 docstring 첫 문장, regenerate: false}   
 
 **판정 범위** — 뷰는 본문을 쓰는 것(adr)과 관측을 쓰는 것(audit)을 하나씩 골라 `bodies` 입력의 두 용법을 덮는다. 트리 생성물은 두 종이 전부라 표본이 전수다. BUILD 쪽 음성은 기준 `generated-build-drift`가 이미 가지므로 여기서는 skill 쪽만 둔다.
 
-**검증 대응물** — 없음. 옮기기 전 케이스가 `verifies` 하던 결정 `p12-documents-are-generated` 의 결론은 `concrete` 수준이라 `executable` 검증기가 `verifies` 할 수 없다.
+**검증 대응물** — 이 검증기는 `tools/gen_build.py`, `tools/gen_skills.py`와 `tools/weave.py`의 항목을 `verifies` 한다. 끝은 파일 복합체의 선언 항목(`module.md`)이고, 판정 함수 같은 부분 항목은 게이트 `code-part-link` 가 끝으로 받지 않는다. 반면 옮기기 전 테스트 케이스가 `verifies` 하던 결정 `p12-documents-are-generated`의 결론은 `concrete` 수준이라, 같은 수준끼리만 잇는 규칙에 따라 이 검증기의 끝이 되지 않는다.

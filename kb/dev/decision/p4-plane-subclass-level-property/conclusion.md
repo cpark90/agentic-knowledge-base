@@ -2,21 +2,22 @@
 id: https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2
 type: decision
 level: concrete
-title_ko: plane은 Chunk의 하위 클래스이고 level은 속성이다
+title_ko: 지식 종류는 Chunk의 하위 클래스이고 level은 속성이다
+former_title_ko: ["plane은 Chunk의 하위 클래스이고 level은 속성이다"]
 title: Plane is a subclass of Chunk and level is a property
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0071-plane-class-level-property.md, id: https://agentic-knowledge-base.dev/id/chunk-d0071, title_ko: "plane은 하위 클래스, level은 속성", title: "Plane as subclass, level as property"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-01T21:00:00+09:00}
-verified: [{by: orchestrator/claude-fable-5-1, at: 2026-10-01T21:05:00+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-fable-5-1, at: 2026-10-01T21:05:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/11e18898-7eae-41f7-8fb3-f1e2ccbfcbc4, https://agentic-knowledge-base.dev/id/chunk/f4facde9-b206-4be7-8599-3e373e6d3bc0]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0071]
 overlapsWith: [https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328]
 restored: [https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328]
 part_of: https://agentic-knowledge-base.dev/id/composite/db06bc97-7100-4ad3-bad0-83fb1c876e1c
-composite: {id: https://agentic-knowledge-base.dev/id/composite/db06bc97-7100-4ad3-bad0-83fb1c876e1c, title_ko: plane과 level의 온톨로지 표현, title: Ontological form of plane and level}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/db06bc97-7100-4ad3-bad0-83fb1c876e1c, title_ko: 지식 종류와 level의 온톨로지 표현, title: Ontological form of plane and level, former_title_ko: ["plane과 level의 온톨로지 표현"]}
 ---
-**결론** — **plane은 `agt:Chunk`의 하위 클래스다.** 일곱 개다.
+**결론** — **지식 종류는 `agt:Chunk`의 하위 클래스다.** 일곱 개다.
 
 ```
 agt:Chunk
@@ -27,5 +28,5 @@ agt:Chunk
 ```
 
 **level은 속성이다.** `agt:hasLevel`의 값은 다섯 개체 `agt:functional` …
-`agt:executable` 중 하나다. 청크 개체의 최소 선언은 타입(plane 클래스),
+`agt:executable` 중 하나다. 단위 지식 개체의 최소 선언은 타입(지식 종류 클래스),
 `agt:hasLevel`, 한/영 `rdfs:label`, `agt:tokenCount`(2026-10-01 — 단위는 토큰, 그 전에는 `lineCount`)다.

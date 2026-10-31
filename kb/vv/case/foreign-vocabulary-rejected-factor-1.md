@@ -4,15 +4,16 @@ type: schema
 level: concrete
 title_ko: 미정의 술어 agt:unknownPredicate를 담은 임시 그래프가 FAIL [vocab]로 거부되고 커밋된 그래프는 gate_test를 통과한다
 title: A temporary graph carrying the undefined predicate agt:unknownPredicate is rejected as FAIL [vocab] and committed graphs pass gate_test
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:case_gen, at: 2026-10-04T23:54:21+09:00}
+generated: {by: process:case_gen, at: 2026-10-25T00:47:16+09:00}
+verified: [{by: process:case_gen, at: 2026-10-25T00:47:16+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f2618270-3e11-40c7-b5d0-36c828923ff0]
 verifies: [https://agentic-knowledge-base.dev/id/chunk/c7e1eccd-8eb4-4af6-8844-6b95cfcff5fb]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/f693dd9b-a550-5b20-b56c-a59628b0552d]
 ---
-**케이스** — 온톨로지 밖 술어 하나만을 어기는 데이터 그래프와 커밋된 그래프 전체를 자극으로 쓴다.
+**테스트 케이스** — 온톨로지 밖 술어 하나만을 어기는 데이터 그래프와 커밋된 그래프 전체를 자극으로 쓴다.
 
 **자극** — 임시 파일 하나다. 이름은 `vv-vocab-kg.ttl`이고 경로는 검증기가 정한다. 커밋하지 않는다. 개체는 shape와 writer 검사를 만족시키고 어기는 것은 미정의 술어 한 줄뿐이다.
 
@@ -25,7 +26,7 @@ files:
     id:chunk-vv-vocab-sample a agt:ContractChunk , agt:InterfaceSignature ;
         rdfs:label "vocabulary sample"@en ; rdfs:label "어휘 표본"@ko ;
         agt:hasLevel agt:logical ; agt:tokenCount 1 ; agt:status "draft" ;
-        agt:bodySlot "합격 기준" ; agt:bodySlot "판정식" ; agt:bodySlot "등급" ;
+        agt:bodySlot "합격 기준" ; agt:bodySlot "판정 술어" ; agt:bodySlot "등급" ;
         agt:generatedBy "vnv/claude-opus-5" ; agt:assertionLocation "kb/vv/criteria/vv-vocab-sample.md" ;
         agt:unknownPredicate "x" .
 ```

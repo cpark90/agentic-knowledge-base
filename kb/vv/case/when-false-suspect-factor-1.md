@@ -4,17 +4,18 @@ type: schema
 level: concrete
 title_ko: when이 거짓인 확정 링크 하나가 cond-build-system을 깬 assume_check에서 suspect로 유도되고 종료 코드 1이며 깨지 않은 같은 자극은 종료 0이다
 title: A single confirmed link whose when is false is derived to suspect by assume_check with cond-build-system broken, and the same stimulus without the break exits 0
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:case_gen, at: 2026-10-04T21:22:42+09:00}
+generated: {by: process:case_gen, at: 2026-10-25T14:28:16+09:00}
+verified: [{by: process:case_gen, at: 2026-10-25T14:28:16+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/762f6674-5a5a-4284-bd2d-6374ba22596c]
 verifies: [https://agentic-knowledge-base.dev/id/chunk/2921c7a6-95a6-49b2-83d1-4b90bfd44c1a]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/94abc6b4-5443-51c2-9871-2ea56efb8a0a]
 ---
-**케이스** — `when`이 거짓인 확정 링크 하나를 자극으로 쓴다.
+**테스트 케이스** — `when`이 거짓인 확정 링크 하나를 자극으로 쓴다.
 
-**자극** — 임시 파일 하나다. 이름은 `vv-when-cycle.ttl`이고 경로는 검증기가 정한다. 커밋하지 않는다. 확정 링크 하나가 `in(cond-build-system)`인 `when`과 지지 증거를 갖는다. 가정·의존 청크는 없다.
+**자극** — 임시 파일 하나다. 이름은 `vv-when-cycle.ttl`이고 경로는 검증기가 정한다. 커밋하지 않는다. 확정 링크 하나가 `in(cond-build-system)`인 `when`과 지지 증거를 갖는다. 가정·의존 지식은 없다.
 
 ```yaml
 files:

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # 역할 수신함의 미처리(done 이 아닌) 메시지를 id 순으로 보인다.
-#   inbox.sh <role>        # role = hci | orchestrator
+#   inbox.sh <role>        # role = interpreter | orchestrator (옛 이름 hci 는 interpreter 와 같은 수신함이다)
 # 종료 코드는 메시지가 있든 없든 0 이다. 비어 있으면 그렇다고 적는다.
 . "$(dirname "$0")/lib.sh"
 
-[ "$#" -ge 1 ] || die "사용법: inbox.sh <hci|orchestrator>"
+[ "$#" -ge 1 ] || die "사용법: inbox.sh <interpreter|orchestrator>"
 DIR="$(inbox_dir "$1")"
 mkdir -p "$DIR"
 
@@ -18,6 +18,6 @@ for f in "$DIR"/*.md; do
     "$(field "$f" id)" "$(field "$f" from)" "$(field "$f" type)" "$st" "$(field "$f" subject)"
 done
 if [ "$found" = 0 ]; then
-  echo "(수신함이 비었다: $1)"
+  echo "(수신함이 비었다: $(canon_role "$1"))"
 fi
 exit 0

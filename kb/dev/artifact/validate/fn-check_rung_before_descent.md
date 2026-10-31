@@ -7,7 +7,7 @@ title: function check_rung_before_descent in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/8a2be483-4fc8-411f-8f35-b7719552e4e4, https://agentic-knowledge-base.dev/id/chunk/a7d95ff4-ef90-4353-a266-826a544f37d8, https://agentic-knowledge-base.dev/id/chunk/b743d72c-4fe1-4898-bd6f-aeed9063b344]
 part_of: https://agentic-knowledge-base.dev/id/composite/700062aa-fcac-4d30-8481-7021a666d072
@@ -19,9 +19,9 @@ part_of: https://agentic-knowledge-base.dev/id/composite/700062aa-fcac-4d30-8481
 def check_rung_before_descent(merged: Graph) -> list[str]:
     """같은 정제 수준의 V&V 대응물 없이 다음 정제 수준으로 내려간 정제를 거부한다 (게이트 `rung-before-descent`, 요구 r-023, 유저 결정 Q51-a).
 
-    판정식은 R1 정제 계층 사슬이다 — functional→abstract 는 정제 대상 요구의 검증 목표, logical→concrete 는 결정 복합체가 닿는
+    판정 술어는 R1 정제 계층 사슬이다 — functional→abstract 는 정제 대상 요구의 검증 목표, logical→concrete 는 결정 기록이 닿는
     요구의 목표에 달린 합격 기준, concrete→executable 은 그 기준 가운데 검증기가 바인딩한 것을 요구한다(사람 확인 기준만
-    가진 요구는 면제, Q26-a). 판정에는 두 KB 의 청크·복합체 부분·링크가 함께 필요해 병합 그래프를 보는 여기가 자리다
+    가진 요구는 면제, Q26-a). 판정에는 두 KB 의 단위 지식·복합체 부분·링크가 함께 필요해 병합 그래프를 보는 여기가 자리다
     (`cross-kb-link`·`code-part-link` 와 같다). 판정 함수는 지표(metrics 7단계 절·전방 추적)와 같은 `kb_lib.rung_violations`
     · `kb_lib.vv_counterparts` 다.
     """

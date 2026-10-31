@@ -5,9 +5,10 @@ level: concrete
 title_ko: 유저는 -space 리포트를 편집해 결정하고 그것이 유일한 UI 요구다
 title: The user decides by editing the -space report, and that is the only UI requirement
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0144-user-feedback-loop-space-file.md, id: https://agentic-knowledge-base.dev/id/chunk-d0144, title_ko: "사용자 피드백 루프와 -space 파일 형식", title: "User feedback loop and the -space file format"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f715c53f-c9bd-49cc-b580-6e2d2343cd5c]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0144]
 part_of: https://agentic-knowledge-base.dev/id/composite/4458fad7-b74e-477f-816a-517940cebde2

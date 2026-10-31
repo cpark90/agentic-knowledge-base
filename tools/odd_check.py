@@ -3,7 +3,7 @@
 
 CHECKS.<속성>.cmd 가 있으면 실행한다 — 종료 0 = ODD 안, 1 = 이탈, 그 밖(없음·오류) = unverified.
 이탈은 결함이 아니라 신호다: 기본 대응은 작업 중단 + 유저 에스컬레이션이며, 이탈 속성에 의존하는 항목이 무효화 대상이다.
-판정 함수(load_odd·judge_condition·judge_all)는 assume_check 가 재사용한다 — 가정의 판정식은 참조 조건 판정의 연언이다.
+판정 함수(load_odd·judge_condition·judge_all)는 assume_check 가 재사용한다 — 가정의 판정 술어는 참조 조건 판정의 연언이다.
 사용: bazel run //tools:odd_check -- [--odd kb/odd/project-odd.yml] [--out report.md]
 """
 import argparse
@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from tools import kb_lib  # noqa: E402 — bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
-    import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록)의 단일 정의처
+    import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록)의 단일 정의 위치
 
 STATES = ("in", "out", "unverified")
 ID_BASE = "https://agentic-knowledge-base.dev/id/"

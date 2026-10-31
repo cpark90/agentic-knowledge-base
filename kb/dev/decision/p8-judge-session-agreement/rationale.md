@@ -7,11 +7,11 @@ title: Self-reported confidence has no calibration, so the only ground for a ver
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-jev-system-one}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-30T14:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/abf9e76a-0b1d-42c4-b70c-f77c7902f8db
 ---
-**근거** — 세션 판정자의 확신도는 학습된 확률이 아니라 자기 보고다. 0.9라는 값이 "0.9 구간의 답 무리가 90% 맞다"를 뜻하려면 그 구간을 잰 표본이 있어야 하는데, 세션은 같은 입력에 같은 확률을 내지 않으므로 구간 자체가 서지 않는다. 2026-09-11 실험이 캘리브레이션에서 "판정 불가"로 끝난 것이 그 실측이다. 그래서 임계를 확신도에 두면 근거 없는 수치에 자동 적용을 건다.
+**근거** — 세션 판정자의 확신도는 학습된 확률이 아니라 자기 보고다. 0.9라는 값이 "0.9 구간의 답 무리가 90% 맞다"를 뜻하려면 그 구간을 잰 표본이 있어야 하는데, 세션은 같은 입력에 같은 확률을 내지 않으므로 구간 자체가 서지 않는다. 2026-09-11 실험이 캘리브레이션에서 "판정 불가"로 끝난 것이 그 측정이다. 그래서 임계를 확신도에 두면 근거 없는 수치에 자동 적용을 건다.
 
 독립 판정자 둘의 일치는 다르다. 같은 입력·같은 질문에 서로 모르는 두 세션이 같은 값을 내면 그것은 입력이 답을 결정한다는 증거이고, 미끼를 둘 다 잡으면 답이 입력을 읽은 결과라는 증거다. 69/70(2026-09-11)이 그 형태의 유일한 표본이며 일치율 임계의 출발점이다.
 

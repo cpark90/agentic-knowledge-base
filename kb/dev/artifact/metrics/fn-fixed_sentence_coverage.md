@@ -7,17 +7,17 @@ title: function fixed_sentence_coverage in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e]
 part_of: https://agentic-knowledge-base.dev/id/composite/46ce1955-674a-4ac3-bec9-631ef1d8c5c7
 ---
-**함수** — `fixed_sentence_coverage(a, live, plane, parts, siblings)` 다. 설계 노트의 [확정] 절 중 청크가 인용한 절의 비율을 한 줄로 돌려준다.
+**함수** — `fixed_sentence_coverage(a, live, plane, parts, siblings)` 다. 설계 노트의 [확정] 절 중 단위 지식이 인용한 절의 비율을 한 줄로 돌려준다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def fixed_sentence_coverage(a, live, plane, parts, siblings):
-    """설계 노트의 [확정] 절 중 청크가 인용한 절의 비율을 한 줄로 돌려준다."""
+    """설계 노트의 [확정] 절 중 단위 지식이 인용한 절의 비율을 한 줄로 돌려준다."""
     # 1단계 의미 보존 대리 — 확정 문장 커버리지: [확정]이 있는 절 중 결정이 인용하는 절의 비율
     cov_line = "- 의미 보존: 확정 문장 커버리지 — `--notes` 없음"
     if a.notes:

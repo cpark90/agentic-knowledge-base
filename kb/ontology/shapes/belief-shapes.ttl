@@ -1,0 +1,29 @@
+# shape — 믿음 정도 노드의 형식: 값은 0 이상 1 이하 하나, 계산 규칙은 설계 결정 하나, 입력 증거 수는 0 이상의 정수 하나다
+# (요구 r-032, 결정 p9-evidence-ledger-with-belief). 데이터는 tools/run_evidence.py 가 references-kg.ttl 에 싣는 agt:DegreeOfBelief 노드다.
+# 상태 전이 규칙이 믿음 정도를 읽지 않는다는 조건은 shape 가 아니라 게이트 belief-consistency(validate)가 본다.
+
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:DegreeOfBeliefShape a sh:NodeShape ;
+    sh:targetClass agt:DegreeOfBelief ;
+    sh:property [ sh:path agt:beliefValue ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:minInclusive 0.0 ; sh:maxInclusive 1.0 ;
+        sh:description "값이 0 이상 1 이하의 십진수 하나인가" ;
+        sh:message "믿음 정도의 값은 0 이상 1 이하의 십진수 하나다 (요구 r-032)" ] ;
+    sh:property [ sh:path agt:beliefRule ; sh:nodeKind sh:IRI ; sh:class agt:DesignDecision ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:description "계산 규칙이 설계 결정 하나인가" ;
+        sh:message "믿음 정도의 계산 규칙은 설계 결정 하나다 — 어느 규칙이 낸 값인지 모르면 병기할 수 없다 (설계 공간 degree-of-belief-space)" ] ;
+    sh:property [ sh:path agt:beliefEvidenceCount ; sh:datatype xsd:nonNegativeInteger ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:minInclusive 0 ;
+        sh:description "입력 증거 수가 0 이상의 정수 하나인가" ;
+        sh:message "믿음 정도의 입력 증거 수는 0 이상의 정수 하나다 (요구 r-032)" ] ;
+    sh:property [ sh:path agt:beliefVariance ; sh:datatype xsd:decimal ; sh:maxCount 1 ; sh:minInclusive 0.0 ;
+        sh:description "사후 분산이 있으면 0 이상의 십진수 하나인가" ;
+        sh:message "믿음 정도의 사후 분산은 0 이상의 십진수 하나다 (후보 결정 p9-belief-by-beta-binomial)" ] .
+
+agt:DegreeOfBeliefLinkShape a sh:NodeShape ;
+    sh:targetObjectsOf agt:hasDegreeOfBelief ;
+    sh:class agt:DegreeOfBelief ;
+    sh:message "agt:hasDegreeOfBelief 의 대상은 믿음 정도 노드다 (요구 r-032)" .

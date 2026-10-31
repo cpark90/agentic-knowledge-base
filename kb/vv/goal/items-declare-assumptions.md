@@ -8,10 +8,10 @@ title: Every item must declare its assumptions and an assumption referring outsi
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-19T15:40:00+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T13:46:23+09:00}
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249]
 ---
-**검증 목표** — 경계 셋(ODD·스코프·가정) 중 가정이 ODD 속성 위의 명제이고 ODD에 없는 속성을 참조하는 가정은 존재할 수 없다는 결정이 게이트로 강제된다는 것이 보여져야 한다. 살아 있는 청크는 전부 `assumes`를 갖는다.
+**검증 목표** — 경계 셋(ODD·적용 범위·가정) 중 가정이 ODD 속성 위의 명제이고 ODD에 없는 속성을 참조하는 가정은 존재할 수 없다는 결정이 게이트로 강제된다는 것이 보여져야 한다. 살아 있는 단위 지식은 전부 `assumes`를 갖는다.
 
 - **이해관계자**: 프로젝트 · 감사 역할 · **관심사**: 경계와 갱신
 

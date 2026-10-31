@@ -24,7 +24,7 @@ try:
     from tools import kb_lib  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
     import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
-HEADING, slug = kb_lib.MD_HEADING, kb_lib.slug  # GitHub 제목 앵커 규칙의 단일 정의처는 kb_lib (STYLEGUIDE §7)
+HEADING, slug = kb_lib.MD_HEADING, kb_lib.slug  # GitHub 제목 앵커 규칙의 단일 정의 위치는 kb_lib (STYLEGUIDE §7)
 
 EXIT_OK, EXIT_FAIL, EXIT_CONFIG = kb_lib.EXIT_OK, kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG
 GEN, DRIFT = kb_lib.GEN_SKILLS_GATE, kb_lib.SKILLS_DRIFT_GATE
@@ -34,7 +34,7 @@ USAGE = re.compile(r"^사용[:：]?(?=\s|$)|사용[:：]\s*")
 NOTICE = kb_lib.gendoc_tree_notice("도구 docstring 과 `kb_lib.SKILLS`", "//:skills_drift_test")
 DOCS_DIR = "docs"
 TOOLS_DIR = "tools"
-RESOLVE_ANCHOR = kb_lib.GATE_CATALOGUE_ANCHOR  # docs/tools.md 의 총람 — `해소` 열이 FAIL [<id>] 의 해소다. 단일 정의처는 kb_lib
+RESOLVE_ANCHOR = kb_lib.GATE_CATALOGUE_ANCHOR  # docs/tools.md 의 총람 — `결정` 열의 결정이 FAIL [<id>] 의 해소를 적는다. 단일 정의 위치는 kb_lib
 
 
 # ── docstring 파싱과 이름 규약 ────────────────────
@@ -114,7 +114,7 @@ def render(entry: dict, title: str, what: str, usage: str, section_doc: str, dep
     if ": " in when or " #" in when or when[:1] in "[]{}&*!|>'\"%@`,":
         raise GenSkillsError(f"kb_lib.SKILLS[{tool}].when: YAML 평문 스칼라로 쓸 수 없는 문자(': ' · ' #' · 특수 첫 글자)가 있다")
     cmds = "\n".join(entry["commands"])
-    # 생성 트리 파일이므로 생성 시각·지문을 넣지 않는다 (규약 G3·G4 의 예외) — //:skills_drift_test 의 바이트 비교가
+    # 생성 트리 파일이므로 생성 시각·해시값을 넣지 않는다 (규약 G3·G4 의 예외) — //:skills_drift_test 의 바이트 비교가
     # 그 자리의 건전성 장치다. 나머지 머리 블록은 Bazel 뷰와 같은 순서다
     head = kb_lib.gendoc_header(
         tool, title or f"{tool} 도구의 skill", "tools/gen_skills.py",
@@ -132,7 +132,7 @@ def render(entry: dict, title: str, what: str, usage: str, section_doc: str, dep
         f"- 도구: `{TOOLS_DIR}/{tool}.py` (`bazel run //{TOOLS_DIR}:{tool}`) — 사용법은 docstring 이 원본이다", "",
         "```text", usage, "```", "",
         "## 실패 시", "",
-        f"`FAIL [<id>]` 의 해소는 [`{DOCS_DIR}/tools.md` 게이트 총람]({up}{DOCS_DIR}/tools.md#{RESOLVE_ANCHOR})의 `해소` 열이다. "
+        f"`FAIL [<id>]` 의 해소는 [`{DOCS_DIR}/tools.md` 게이트 총람]({up}{DOCS_DIR}/tools.md#{RESOLVE_ANCHOR})의 `결정` 열이 가리키는 결정에 있다. "
         "종료 코드는 `kb_lib` 상수다 (0 OK · 1 FAIL · 2 CONFIG · 3 SKIP). SKIP 은 PASS 가 아니다.", "",
     ])
 

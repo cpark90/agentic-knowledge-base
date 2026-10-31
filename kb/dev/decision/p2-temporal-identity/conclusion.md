@@ -5,9 +5,10 @@ level: concrete
 title_ko: 정체성은 IRI이고 상태 변화는 wasRevisionOf 연쇄다
 title: Identity is the IRI; state change is a wasRevisionOf chain
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0051-temporal-identity-iri.md, id: https://agentic-knowledge-base.dev/id/chunk-d0051, title_ko: "개체의 시간 정체성은 IRI이고 상태 변화는 wasRevisionOf다", title: "Temporal identity is the IRI; state change is wasRevisionOf"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/33419d0a-16bb-46ee-b5c0-7a84026523fd]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0051]
 part_of: https://agentic-knowledge-base.dev/id/composite/215abd9c-4b8f-458e-aec7-6d09034dd8bd

@@ -1,4 +1,4 @@
-# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 청크의 정체성이고 이름은 그 위의 라벨이다
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 단위 지식의 정체성이고 이름은 그 위의 라벨이다
 # (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
 # 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
 # 생성물은 `kb/dev/artifact/kb_lib/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
@@ -7,8 +7,8 @@ source: tools/kb_lib.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib
 package: kb/dev/artifact/kb_lib
 layer: process
-at: 2026-10-05T16:40:36Z
-source_hash: a108597885b6d6a6
+at: 2026-10-07T09:06:36Z
+source_hash: 9a8a6f24563bdf05
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869
   - https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd
@@ -42,6 +42,7 @@ ids:
   composite:sec:-odd-range: https://agentic-knowledge-base.dev/id/composite/5804ea44-62d7-4b14-9187-5a7bb71425e1
   composite:sec:-skills-authoring: https://agentic-knowledge-base.dev/id/composite/624bc78e-4e6c-4b96-b0f7-e9c6f5087b46
   composite:sec:chunk-optional-keys: https://agentic-knowledge-base.dev/id/composite/7c4ca42f-97b5-4062-8abe-d80775ed9e28
+  composite:sec:coedit-max-files: https://agentic-knowledge-base.dev/id/composite/66e7a8ca-2ebd-4dc8-8cc0-23fa46a065fb
   composite:sec:comment-labels: https://agentic-knowledge-base.dev/id/composite/e67a7134-fbfe-4dc8-8017-7a090509050d
   composite:sec:decision-role-markers: https://agentic-knowledge-base.dev/id/composite/16e9d882-17fe-413c-9550-93298ad90413
   composite:sec:empty-reviewed: https://agentic-knowledge-base.dev/id/composite/2a5c7bf9-6e66-4ad7-80de-c8a96b80bb4a
@@ -49,14 +50,17 @@ ids:
   composite:sec:exposes-key: https://agentic-knowledge-base.dev/id/composite/a38e2467-9acd-4d20-9dc3-17cf3a398b89
   composite:sec:extract-actor: https://agentic-knowledge-base.dev/id/composite/a228d4f1-cdb8-4a79-bd48-f9b961eaa607
   composite:sec:frozen-docs: https://agentic-knowledge-base.dev/id/composite/513aca4d-e5f0-46c8-8d13-784c71691884
+  composite:sec:gate-catalogue-open: https://agentic-knowledge-base.dev/id/composite/81809a6f-d845-4673-8a0f-b53283ae332c
   composite:sec:gates-name: https://agentic-knowledge-base.dev/id/composite/cf732fdc-d595-4d0b-8344-6af01989d95c
   composite:sec:gendoc-quote: https://agentic-knowledge-base.dev/id/composite/6af6ae14-6a58-40bd-b9fc-9454588817cd
   composite:sec:gendoc-union-members: https://agentic-knowledge-base.dev/id/composite/6b2ef1c0-06f1-44c5-9b0f-6ba8a1fedb8d
   composite:sec:gendoc-version: https://agentic-knowledge-base.dev/id/composite/ad8f9fc0-eedf-44e1-a93f-65f667e359ce
   composite:sec:human-check-slot: https://agentic-knowledge-base.dev/id/composite/45dfc4dd-c694-47a7-9a8c-6398612879db
   composite:sec:judge-generator: https://agentic-knowledge-base.dev/id/composite/558e3a5c-2634-4500-bc61-15dad26a9821
+  composite:sec:judge-pair-questions: https://agentic-knowledge-base.dev/id/composite/6309baee-3513-4835-affe-e76a4382e7d5
   composite:sec:kb-dev: https://agentic-knowledge-base.dev/id/composite/d6533f17-7314-4ac1-a34c-ab4e73160294
   composite:sec:layer-key: https://agentic-knowledge-base.dev/id/composite/581eccf7-5ec4-435b-8757-e8042fb462e3
+  composite:sec:link-candidate-columns: https://agentic-knowledge-base.dev/id/composite/940cfa49-d6bf-444b-93a1-ee4441b63501
   composite:sec:link-state-suspect: https://agentic-knowledge-base.dev/id/composite/749019ce-0d81-4c5f-b549-f44c1b0d4e55
   composite:sec:linkage-excluded-planes: https://agentic-knowledge-base.dev/id/composite/e7a31401-e48b-4980-aece-491ec241ffe6
   composite:sec:md-fence: https://agentic-knowledge-base.dev/id/composite/5c506aa2-9c1f-48ba-b959-5260d60d13ac
@@ -86,19 +90,26 @@ ids:
   fn:_target_matches: https://agentic-knowledge-base.dev/id/chunk/4292d5fd-0111-4512-921f-82e93540b998
   fn:_when_tokens: https://agentic-knowledge-base.dev/id/chunk/8b1b0dcd-b04d-42f6-a3d6-849e3fe97268
   fn:body_token_limit: https://agentic-knowledge-base.dev/id/chunk/adf4efcc-f323-49f3-87da-e81bb49bf4f5
+  fn:case_verifiers: https://agentic-knowledge-base.dev/id/chunk/33676d8e-31ee-4546-8550-deab439480eb
   fn:check_addition: https://agentic-knowledge-base.dev/id/chunk/764328d8-e7e9-4fdf-9e87-e04f59d61a65
   fn:check_gendoc: https://agentic-knowledge-base.dev/id/chunk/e95cd557-a497-404a-9265-5ebfe0776084
   fn:check_lists: https://agentic-knowledge-base.dev/id/chunk/cd6718e1-2437-43a9-b7a2-174aced3b0e1
   fn:check_prose: https://agentic-knowledge-base.dev/id/chunk/15e8fdb5-4855-45e7-a8da-d43faba52099
   fn:chunk_body: https://agentic-knowledge-base.dev/id/chunk/cdaa7848-3ca1-4cc0-a72c-836fd556f15e
   fn:chunk_planes: https://agentic-knowledge-base.dev/id/chunk/a7d95ff4-ef90-4353-a266-826a544f37d8
+  fn:co_cover: https://agentic-knowledge-base.dev/id/chunk/67eb756b-e7f0-4da2-af55-90f4bc3058e9
   fn:code_part: https://agentic-knowledge-base.dev/id/chunk/3e0a2fd1-776d-4762-b6e5-538b8cd4987d
+  fn:coedit_pairs: https://agentic-knowledge-base.dev/id/chunk/12124054-d49f-44e2-be10-6fbdb102b578
+  fn:coedit_short: https://agentic-knowledge-base.dev/id/chunk/f5c8131e-c94d-4c0b-82fe-9e7ad9d36c69
   fn:compact_iri: https://agentic-knowledge-base.dev/id/chunk/5c3f6ad5-769e-4850-970b-a137fa5ebc55
   fn:cross_kb_link: https://agentic-knowledge-base.dev/id/chunk/f3fcb094-a1c5-414e-ab93-287b0bec0449
   fn:decision_role_marker: https://agentic-knowledge-base.dev/id/chunk/a5547d6c-a232-4c09-83b0-81eb591e8bc6
   fn:defined_terms: https://agentic-knowledge-base.dev/id/chunk/8d31b7a9-85c6-48b3-875b-1223f473d503
+  fn:draft_end_links: https://agentic-knowledge-base.dev/id/chunk/48ebda88-1408-4667-9fbf-c8462a169843
   fn:find_links: https://agentic-knowledge-base.dev/id/chunk/a0841084-48a1-45f6-842a-57f5b8cbf0c9
   fn:frontmatter_end: https://agentic-knowledge-base.dev/id/chunk/078b2808-e9ad-4d17-b2a5-9ab6a30d04f0
+  fn:gate_catalogue_block: https://agentic-knowledge-base.dev/id/chunk/4b222206-08d6-4720-9b58-644cd8cdd017
+  fn:gate_catalogue_table: https://agentic-knowledge-base.dev/id/chunk/7cd8593d-71b7-426d-836f-f3ce1157dc54
   fn:gate_constant_name: https://agentic-knowledge-base.dev/id/chunk/e9c220ba-d7c1-4597-a620-d9ad84df3644
   fn:gates_bzl_path: https://agentic-knowledge-base.dev/id/chunk/04fe68bc-58a1-45bd-ac00-78d263cbba81
   fn:gendoc_assemble: https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7
@@ -116,8 +127,13 @@ ids:
   fn:human_check_criteria: https://agentic-knowledge-base.dev/id/chunk/92ac1970-f252-48a0-b11a-fbaa774b2f4a
   fn:input_fingerprint: https://agentic-knowledge-base.dev/id/chunk/aac10f80-c526-4fab-ad8f-e93b193438f3
   fn:is_well_known: https://agentic-knowledge-base.dev/id/chunk/90abf3f7-3c52-496f-9cb4-a2af556264cb
+  fn:item_plane_resolver: https://agentic-knowledge-base.dev/id/chunk/95affdef-9253-4022-a9ec-ea650d4b30ed
   fn:judge_load_profile: https://agentic-knowledge-base.dev/id/chunk/2cabfcc4-8242-47a2-9710-9ed682ab9f2b
+  fn:judge_log_graph: https://agentic-knowledge-base.dev/id/chunk/e7ab69be-0a39-47d8-b2cd-89083d854b3f
+  fn:judge_log_rows: https://agentic-knowledge-base.dev/id/chunk/07748717-33f2-409f-8b8d-9c1a2fc37bc4
+  fn:judge_log_violations: https://agentic-knowledge-base.dev/id/chunk/4398e3e6-d783-4d00-a75b-cd5e24700a7c
   fn:judge_questions: https://agentic-knowledge-base.dev/id/chunk/00a89f1d-2167-43fb-9e95-4a70385078ae
+  fn:judged_class: https://agentic-knowledge-base.dev/id/chunk/8c071cee-5922-4176-a0d9-848167ee9316
   fn:kb_of: https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99
   fn:label_fingerprint: https://agentic-knowledge-base.dev/id/chunk/48ed45d6-a852-4def-9baa-eee654691bc7
   fn:label_of: https://agentic-knowledge-base.dev/id/chunk/104f7d3c-d114-46c9-aab7-b44761117813
@@ -142,15 +158,24 @@ ids:
   fn:odd_states: https://agentic-knowledge-base.dev/id/chunk/9a2cd33a-ee49-4782-81c9-519aaf5a1621
   fn:odd_upper_bound: https://agentic-knowledge-base.dev/id/chunk/29b60ef2-eb29-4888-b4c0-c2e627041d68
   fn:open_space_candidates: https://agentic-knowledge-base.dev/id/chunk/3f9e7300-40c1-4755-9e4d-f22da6f54774
+  fn:pair_fingerprint: https://agentic-knowledge-base.dev/id/chunk/13c498a5-52b6-4be6-a555-4099859edbbf
+  fn:pair_question: https://agentic-knowledge-base.dev/id/chunk/674eca0b-5a5b-45f5-b382-4fa958bafcdc
+  fn:pair_record_fingerprint: https://agentic-knowledge-base.dev/id/chunk/9ba49f50-c949-45ae-816e-d24210ec8af6
+  fn:pair_target: https://agentic-knowledge-base.dev/id/chunk/df43fa6f-d424-49d0-aec2-0aea8545572a
+  fn:parse_pair_target: https://agentic-knowledge-base.dev/id/chunk/d536eb83-d269-4b4d-a6ed-281a4a2f54c2
   fn:pct: https://agentic-knowledge-base.dev/id/chunk/f243c562-ded5-4297-9b93-44e75ff0822e
   fn:plane_of_node: https://agentic-knowledge-base.dev/id/chunk/2aa8020a-1553-48b5-8a54-b93aab820bbe
   fn:prose_segments: https://agentic-knowledge-base.dev/id/chunk/46b79267-2ae4-4c11-9208-401a5ac9ab53
+  fn:record_header_old: https://agentic-knowledge-base.dev/id/chunk/37d74334-40cf-4370-ba39-2a78da325338
   fn:resolve_glob: https://agentic-knowledge-base.dev/id/chunk/808534e8-8fca-4ace-ace9-9e4b7084233e
   fn:resolve_path: https://agentic-knowledge-base.dev/id/chunk/f05d76f0-e96f-4c89-a78e-86eeb1bf91d1
   fn:rung_violations: https://agentic-knowledge-base.dev/id/chunk/b743d72c-4fe1-4898-bd6f-aeed9063b344
   fn:scan_gate_tags: https://agentic-knowledge-base.dev/id/chunk/fd705af7-dd6d-489f-9d6f-620aecadba08
   fn:slug: https://agentic-knowledge-base.dev/id/chunk/a9138ecc-8714-414e-a8f3-69d0c646e65d
+  fn:space_candidate_of: https://agentic-knowledge-base.dev/id/chunk/464fe842-81a3-438f-901c-e9cef6f1dc88
+  fn:space_link_ends: https://agentic-knowledge-base.dev/id/chunk/908a996f-e2c4-43ce-a43f-63ff651548af
   fn:space_linkage_edges: https://agentic-knowledge-base.dev/id/chunk/3591b8e8-245b-4398-94da-2db2b7e3339d
+  fn:splice_gate_catalogue: https://agentic-knowledge-base.dev/id/chunk/a7114439-153f-4210-a8f9-965a33ad05f4
   fn:suspect_by_trigger: https://agentic-knowledge-base.dev/id/chunk/a171dc2a-1e86-477b-b9e7-4327ae6185f1
   fn:suspect_by_when: https://agentic-knowledge-base.dev/id/chunk/9e7b4f02-5771-4b99-bd5c-6b89ee5cbe45
   fn:suspect_saturation: https://agentic-knowledge-base.dev/id/chunk/8bfec137-25dc-4b30-8a96-8897afc667ad
@@ -169,6 +194,7 @@ ids:
   sec:-odd-range: https://agentic-knowledge-base.dev/id/chunk/cf44d030-4ea7-4aeb-b13c-87a4aa84ab0d
   sec:-skills-authoring: https://agentic-knowledge-base.dev/id/chunk/ac500e24-d795-4cb2-9409-433d7e56a013
   sec:chunk-optional-keys: https://agentic-knowledge-base.dev/id/chunk/e31f02b8-f20b-4349-9076-c3fabce682f4
+  sec:coedit-max-files: https://agentic-knowledge-base.dev/id/chunk/474fdd6f-fa92-45e7-b6b0-8f53e655a16e
   sec:comment-labels: https://agentic-knowledge-base.dev/id/chunk/cd1dfd07-5449-47a5-93d2-39f46bcccf85
   sec:decision-role-markers: https://agentic-knowledge-base.dev/id/chunk/6fcb9067-8131-4868-8b29-752ae0babca5
   sec:empty-reviewed: https://agentic-knowledge-base.dev/id/chunk/d9a18587-01e9-4d06-8413-80ea98ce260b
@@ -176,14 +202,17 @@ ids:
   sec:exposes-key: https://agentic-knowledge-base.dev/id/chunk/c1b71815-fa52-4137-af7f-397c51beee38
   sec:extract-actor: https://agentic-knowledge-base.dev/id/chunk/0ae6e19c-609b-4bb9-a904-7f7e9f7e97c9
   sec:frozen-docs: https://agentic-knowledge-base.dev/id/chunk/67fe8f0c-7c7a-415f-b18f-71f20ba94969
+  sec:gate-catalogue-open: https://agentic-knowledge-base.dev/id/chunk/cae833c9-afb4-421a-adc6-c944075ba989
   sec:gates-name: https://agentic-knowledge-base.dev/id/chunk/4eed8c76-8291-4781-b89d-aa92a749110d
   sec:gendoc-quote: https://agentic-knowledge-base.dev/id/chunk/070081ed-1981-4571-a0f9-3514d0f9f242
   sec:gendoc-union-members: https://agentic-knowledge-base.dev/id/chunk/e3781341-dacf-4bdc-a798-ec3dcfb231a7
   sec:gendoc-version: https://agentic-knowledge-base.dev/id/chunk/580a3b59-587a-4b6a-9e51-73b42edc5251
   sec:human-check-slot: https://agentic-knowledge-base.dev/id/chunk/bc02070e-9233-4ae6-8a48-37d3a1ee0362
   sec:judge-generator: https://agentic-knowledge-base.dev/id/chunk/b4059229-f009-4ea7-b6f0-9b5fdb9a936f
+  sec:judge-pair-questions: https://agentic-knowledge-base.dev/id/chunk/fcb30a31-da2f-4bba-9dab-90c28d339362
   sec:kb-dev: https://agentic-knowledge-base.dev/id/chunk/5a68bc5c-e462-4ae7-851e-58acb707017a
   sec:layer-key: https://agentic-knowledge-base.dev/id/chunk/b4403a87-b970-44a2-b550-f28855ca6d39
+  sec:link-candidate-columns: https://agentic-knowledge-base.dev/id/chunk/cf9e740e-2c3d-44e8-9d49-d75654ff849e
   sec:link-state-suspect: https://agentic-knowledge-base.dev/id/chunk/ad732d7b-a214-41bd-83ad-05e232235dec
   sec:linkage-excluded-planes: https://agentic-knowledge-base.dev/id/chunk/395769c8-969a-4f2c-9cd8-6d0f4a6c6684
   sec:md-fence: https://agentic-knowledge-base.dev/id/chunk/f128d09c-7a12-42c1-adb4-65e6b8b83f69

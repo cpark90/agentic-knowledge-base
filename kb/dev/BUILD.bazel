@@ -1,5 +1,5 @@
 # 개발 KB — 요구에서 실산출물을 생산하기 위한 지식 (노트 7.1절).
-# plane별 하위 패키지(requirement/ decision/ …)의 BUILD 는 tools/gen_build.py 가 frontmatter 에서 생성한다.
+# 지식 종류별 하위 패키지(requirement/ decision/ …)의 BUILD 는 tools/gen_build.py 가 frontmatter 에서 생성한다.
 load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_index", "kb_weave")
 
 # 문서 뷰의 입력 — query·metrics 와 같은 그래프 union (head · 참조 · 시드/카탈로그/복합체 · ODD · 온톨로지 모듈)
@@ -16,11 +16,11 @@ package(default_visibility = ["//visibility:public"])
 filegroup(
     name = "dev",
     srcs = [
-        "//kb/dev/artifact",  # 추출된 코드 청크 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나
-        "//kb/dev/contract",  # 시그니처 (contract plane) — Q79-a, 비어 있어도 된다
+        "//kb/dev/artifact",  # 추출된 코드 단위 지식 (p7-code-extraction-direction) — 소스 파일 하나 = 패키지 하나
+        "//kb/dev/contract",  # 시그니처 (`contract` 지식 종류) — Q79-a, 비어 있어도 된다
         "//kb/dev/decision",
         "//kb/dev/memory",  # 관측 (assume_check --record) — 비어 있어도 된다
-        "//kb/dev/norm",  # 규범 문서의 절 청크 (p12-norm-documents-from-section-chunks) — 비어 있어도 된다
+        "//kb/dev/norm",  # 규범 문서의 절 항목 (p12-norm-documents-from-section-chunks) — 비어 있어도 된다
         "//kb/dev/requirement",
     ] + glob(
         ["*.md"],
@@ -41,12 +41,11 @@ kb_index(
 )
 
 # 문서 뷰 (4.6절 weave, p12-documents-are-generated) — 저장하지 않고 생성한다. 생성물은 bazel-bin/kb/dev/<kind>.md 이고 머리에 생성 시각과 질의가 있다
-# ADR: 살아 있는 결정 복합체마다 결론·근거·대안 본문 + refines 요구 + supersedes 연쇄 (bazel build //kb/dev:adr)
+# ADR: 살아 있는 결정 기록마다 결론·근거·대안 본문 + refines 요구 + supersedes 연쇄 (bazel build //kb/dev:adr)
 kb_weave(
     name = "adr",
     bodies = [
         ":dev",
-        "//chunks",  # 단일 파일 결정(v1·harness 유래)의 본문 — 샌드박스에는 선언된 입력만 있다
     ],
     data = _VIEW_GRAPHS,
     kind = "adr",

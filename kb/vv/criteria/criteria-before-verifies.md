@@ -2,19 +2,20 @@
 id: https://agentic-knowledge-base.dev/id/chunk/23979ee5-fd7a-4e14-9f91-6d3ec2794725
 type: contract
 level: logical
-title_ko: 모든 verifies의 주어는 contract 청크를 refines 하고 verify 질의의 결과 행은 0이다
+title_ko: 모든 verifies의 주어는 계약을 refines 하고 verify 질의의 결과 행은 0이다
+former_title_ko: ["모든 verifies의 주어는 contract 청크를 refines 하고 verify 질의의 결과 행은 0이다", "모든 verifies의 주어는 contract 지식 항목을 refines 하고 verify 질의의 결과 행은 0이다"]
 title: Every verifies subject refines a contract chunk and the verify query returns zero rows
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-fable-5-1, at: 2026-09-19T15:45:00+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T00:43:01+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/73d83879-75e4-43f9-a07a-4335711e2ac1]
 ---
 **합격 기준** — 기준 종류는 **불변식**이다. 병합 그래프의 모든 `?s agt:verifies ?o`에 대해 `?s agt:refines ?c . ?c a agt:ContractChunk`가 성립한다.
 
-**판정식**
+**판정 술어**
 
-- 음성: 기준을 `refines` 하지 않는 케이스 하나를 head 그래프에 더하면 `//kg:gate_test`가 `FAIL [verify] tools/verify-queries/verifies-without-criteria.rq: <주어> <대상>  (안티패턴: 기준 없는 verifies …)`로 끝나고 종료 코드가 1이다.
+- 음성: 기준을 `refines` 하지 않는 테스트 케이스 하나를 head 그래프에 더하면 `//kg:gate_test`가 `FAIL [verify] tools/verify-queries/verifies-without-criteria.rq: <주어> <대상>  (안티패턴: 기준 없는 verifies …)`로 끝나고 종료 코드가 1이다.
 - 양성: `bazel test //kg:gate_test`가 PASS다. 질의의 결과 행이 0이다.
 - 대조: `bazel build //kg:audit`의 검증 현황 절에 기준 없는 `verifies` **0**이 있다. 감사는 같은 정의로 센다.
 

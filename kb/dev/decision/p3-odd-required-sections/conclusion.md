@@ -5,9 +5,10 @@ level: concrete
 title_ko: ODD는 일곱 절과 속성별 판정 방법으로 쓴다
 title: The ODD has seven sections and a check per property
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0059-odd-required-sections.md, id: https://agentic-knowledge-base.dev/id/chunk-d0059, title_ko: "ODD 문서의 절 구성과 속성 표기 형식", title: "Required sections and attribute notation of the ODD document"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c, https://agentic-knowledge-base.dev/id/chunk/e5c0cbc6-cabf-4594-8733-fa2e045f1249]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0059]
 part_of: https://agentic-knowledge-base.dev/id/composite/80a7e3df-fc4f-452e-94fc-4acead84d77b

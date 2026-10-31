@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
 
@@ -26,6 +26,7 @@ kb_composite(
         "fn-classify_chunks.md",
         "fn-composite_declarers.md",
         "fn-decision_completeness.md",
+        "fn-decision_units.md",
         "fn-fixed_sentence_coverage.md",
         "fn-forward_trace.md",
         "fn-link_build.md",
@@ -56,7 +57,7 @@ kb_composite(
         "sec-axis-proxies.md",
         "sec-back-trace.md",
         "sec-classify-chunks.md",
-        "sec-decision-completeness.md",
+        "sec-decision-units.md",
         "sec-fixed-sentence-coverage.md",
         "sec-link-build.md",
         "sec-main.md",

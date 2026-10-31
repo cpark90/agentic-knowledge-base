@@ -5,13 +5,14 @@ level: concrete
 title_ko: 일반화는 관측을 어휘로 일반화하는 네 전이다
 title: Ascent is four transitions generalizing observation into vocabulary
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0006-ascent-generalization.md, id: https://agentic-knowledge-base.dev/id/chunk-d0006, title_ko: "상승 — 관측을 어휘로 일반화", title: "Ascent - generalizing observation into vocabulary"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/ae4f5c32-39ac-4bc0-b16b-ae8d96dfd901, https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0006]
-overlapsWith: [https://agentic-knowledge-base.dev/id/chunk-d0017]
-restored: [https://agentic-knowledge-base.dev/id/chunk-d0017]
+overlapsWith: [https://agentic-knowledge-base.dev/id/chunk/0aadb80d-420a-493d-9c6b-fb7a502d786b]
+restored: [https://agentic-knowledge-base.dev/id/chunk/0aadb80d-420a-493d-9c6b-fb7a502d786b]
 part_of: https://agentic-knowledge-base.dev/id/composite/7602294f-6051-4712-b9d6-f4ed896a8316
 composite: {id: https://agentic-knowledge-base.dev/id/composite/7602294f-6051-4712-b9d6-f4ed896a8316, title_ko: 일반화 — 관측의 일반화, title: Ascent - generalizing observations}
 ---

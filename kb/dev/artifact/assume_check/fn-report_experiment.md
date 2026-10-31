@@ -7,7 +7,7 @@ title: function report_experiment in tools/assume_check.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-assume-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:52:41Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/5dac7240-2471-496d-a65c-f55a8a067a41
 ---
@@ -20,7 +20,7 @@ def report_experiment(check: dict | None, n_inv: int) -> list[str]:
     body: list[str] = []
     if check:
         body += ["", "## 검증 실험 — 계산된 영향 집합 = 실제 의존 집합 (14.1 정정본 4단계 연결 조건)", "",
-                f"- 계산된 직접 영향 집합(그래프 `agt:assumes`): **{check['computed']}** · 실제 의존 집합(청크 파일 frontmatter `assumes` 스캔): **{check['actual']}**",
+                f"- 계산된 직접 영향 집합(그래프 `agt:assumes`): **{check['computed']}** · 실제 의존 집합(단위 지식 파일 frontmatter `assumes` 스캔): **{check['actual']}**",
                 f"- 정밀도 {check['precision']} · 재현율 {check['recall']} → **{'일치' if check['equal'] else '불일치'}**"]
         if check["only_computed"]:
             body.append("- 그래프에만 있는 것: " + ", ".join(check["only_computed"][:10]))

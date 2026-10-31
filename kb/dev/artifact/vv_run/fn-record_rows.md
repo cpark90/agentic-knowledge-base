@@ -7,17 +7,17 @@ title: function record_rows in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/dda506f2-0686-4187-a9dc-b23cf1e83388]
 part_of: https://agentic-knowledge-base.dev/id/composite/e9c6807f-239f-4a44-beed-743506b59164
 ---
-**함수** — `record_rows(items)` 다. 실행 기록의 케이스 표·검증기 표의 데이터 행 — 두 표의 열은 같다(항목 · 실행 명령 · 결과 · 소요).
+**함수** — `record_rows(items)` 다. 실행 기록의 테스트 케이스 표·검증기 표의 데이터 행 — 두 표의 열은 같다(항목 · 실행 명령 · 결과 · 소요).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def record_rows(items: list[dict]) -> list[str]:
-    """실행 기록의 케이스 표·검증기 표의 데이터 행 — 두 표의 열은 같다(항목 · 실행 명령 · 결과 · 소요)."""
+    """실행 기록의 테스트 케이스 표·검증기 표의 데이터 행 — 두 표의 열은 같다(항목 · 실행 명령 · 결과 · 소요)."""
     rows = []
     for c in items:
         ran = sum(1 for x in c["commands"] if x["skip"] is None)

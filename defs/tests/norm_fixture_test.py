@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """규범 문서 생성기(tools/gen_norms.py)의 고정물 시험 — 양성 하나와 음성 여덟 (결정 p12-norm-documents-from-section-chunks).
 
-고정물은 `defs/tests/norm/` 의 작은 가짜 트리 하나다 — 결정 둘(`fx-a` 의 규약 줄 열하나, `fx-b` 는 링크만)과 절 청크 열(머리 · depth 2 ·
-depth 3 · 번호 없는 depth 2 · 묶음 둘 · 표 · 이어짐 둘 · 순서 목록)과 둘째 문서의 절 청크 둘(`fy/` — 머리 · 공유 절)과 커밋된
+고정물은 `defs/tests/norm/` 의 작은 가짜 트리 하나다 — 결정 둘(`fx-a` 의 규약 줄 열하나, `fx-b` 는 링크만)과 절 항목 열(머리 · depth 2 ·
+depth 3 · 번호 없는 depth 2 · 묶음 둘 · 표 · 이어짐 둘 · 순서 목록)과 둘째 문서의 절 항목 둘(`fy/` — 머리 · 공유 절)과 커밋된
 생성 결과 `FX.md`·`FY.md` 다. 문서 목록은 `norm/norm_docs.bzl` 이 준다(실제 목록 //defs:kb.bzl 의 NORM_DOCS 는 비어 있다).
   ok      트리의 `FX.md`·`FY.md` 가 재생성과 바이트로 같다 — PASS [norms-drift]. `FY.md` 는 `FX.md` 가 싣는 줄 `fx-a#4` 를
           다시 싣는다 — 서로 다른 문서가 같은 줄을 한 번씩 싣는 것은 허용된다(양성)
@@ -13,9 +13,9 @@ depth 3 · 번호 없는 depth 2 · 묶음 둘 · 표 · 이어짐 둘 · 순서
   cells   표 절의 줄 하나에 칸을 하나 더한다 — FAIL [gen-norms] 칸 수가 표의 열 수와 다르다
   linkcol 표 절의 `link_column` 을 `columns` 의 마지막이 아닌 열로 바꾼다 — FAIL [gen-norms] 링크 열은 마지막 원소다
   tablestrength 표 절의 줄에 강도 `[지킴]` 을 단다 — FAIL [gen-norms] 표의 줄은 강도를 갖지 않는다
-  firstcont 이어짐 절 청크(`continues: true`)를 문서의 첫 절로 옮긴다 — FAIL [gen-norms] 첫 절은 이어짐일 수 없다
-  writer  카탈로그(kg/catalog-kg.ttl)로 writer 검사(validate.check_writer)를 돌린다 — `generated.by: orchestrator/…` 의 절 청크는
-          통과하고 `developer/…` 의 절 청크는 거부된다 (절 청크는 orchestrator 저작, p12-norm-documents-from-section-chunks)
+  firstcont 이어짐 절 항목(`continues: true`)을 문서의 첫 절로 옮긴다 — FAIL [gen-norms] 첫 절은 이어짐일 수 없다
+  writer  카탈로그(kg/catalog-kg.ttl)로 writer 검사(validate.check_writer)를 돌린다 — `generated.by: orchestrator/…` 의 절 항목은
+          통과하고 `developer/…` 의 절 항목은 거부된다 (절 항목은 orchestrator 저작, p12-norm-documents-from-section-chunks)
 고정물에는 묶음 복합체 하나(three·four, p4-composite-as-part-of)가 있다 — 양성이 깊이 우선으로 펼친 절 순서와 바이트를 고정한다.
 양성은 묶음의 꼴 넷도 바이트로 고정한다 — 링크 열이 있는 표(six), 링크 열이 없어 표 앞에 `원본:` 줄이 나오는 표를 가진 이어짐 절
 (seven — 원본 줄은 행의 주 결정과 `+ slug2` 의 둘째 결정을 함께 싣는다), 항목마다 `1.` 인 순서 목록(eight), 목록 뒤의 이어짐
@@ -93,13 +93,13 @@ EXPECT = {  # 사례 → (종료 코드, 출력에 있어야 하는 문구)
     "cells": (1, "의 칸 수 3 가 표의 열 수 2"),
     "linkcol": (1, "는 columns 의 마지막 원소"),
     "tablestrength": (1, "는 표 절의 행인데 줄에 강도 [지킴] 가 있다"),
-    "firstcont": (1, "문서의 첫 절은 이어짐 절 청크"),
-    "writer": (0, "PASS [writer] orchestrator 저작 절 청크 통과 · developer 저작 절 청크 거부"),
+    "firstcont": (1, "문서의 첫 절은 이어짐 절 항목"),
+    "writer": (0, "PASS [writer] orchestrator 저작 절 항목 통과 · developer 저작 절 항목 거부"),
 }
 
 
 def run_writer() -> tuple[int, str]:
-    """카탈로그 + 절 청크 둘(생성자만 다르다)의 그래프에 writer 검사를 돌린다. 기대는 orchestrator 통과 · developer 거부다."""
+    """카탈로그 + 절 항목 둘(생성자만 다르다)의 그래프에 writer 검사를 돌린다. 기대는 orchestrator 통과 · developer 거부다."""
     from rdflib import Graph, Literal, URIRef
     from rdflib.namespace import RDF
     agt = kb_lib.AGT

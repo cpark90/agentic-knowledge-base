@@ -7,7 +7,7 @@ title: function render_vv_extra in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/fa0aa6c4-7e2a-449b-9f07-9dd03faa3122
 ---
@@ -18,10 +18,10 @@ part_of: https://agentic-knowledge-base.dev/id/composite/fa0aa6c4-7e2a-449b-9f07
 def render_vv_extra(g, pct, vv_all, producers, outsiders, mutations):
     """7단계 대리의 독립성과 변이 검출률 행 (유저 결정 2026-10-04)."""
     loc = lambda c: str(next(g.objects(c, AGT.assertionLocation), "")) or kb_lib.NONE_MARK
-    o = [f"- 연결: 독립성 — V&V KB(`kb/vv/`) 청크 {len(vv_all)}건(deprecated 포함) 중 생성자가 vnv 역할(`{VNV_PRODUCER}`)도 프로세스(`{PROCESS_PRODUCER}`)도 "
+    o = [f"- 연결: 독립성 — V&V KB(`kb/vv/`) 단위 지식 {len(vv_all)}건(deprecated 포함) 중 생성자가 vnv 역할(`{VNV_PRODUCER}`)도 프로세스(`{PROCESS_PRODUCER}`)도 "
          f"아닌 것 **{len(outsiders)}**건 (목표 0). git 커밋의 메시지·작성자는 역할을 담지 않으므로 frontmatter `generated.by` 의 접두로 센다. 생성자 접두: "
          + " · ".join(f"`{k_}` {v_}" for k_, v_ in producers.most_common())
-         + ("; 해당 청크: " + " · ".join(f"`{loc(c)}`" for c in outsiders) if outsiders else "")]
+         + ("; 해당 단위 지식: " + " · ".join(f"`{loc(c)}`" for c in outsiders) if outsiders else "")]
     if mutations is None:
         o.append("- 의미 보존: 변이 검출률 — `--mutations` 없음")
         return o

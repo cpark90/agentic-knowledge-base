@@ -4,12 +4,14 @@ type: decision
 level: logical
 title_ko: 논리 시나리오 자극 — 자기 참조 refines 하나를 더한 그래프의 검증
 title: Logical scenario stimulus — validating a graph with one self-referencing refines added
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T23:35:51+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T01:42:54+09:00}]
+refines: [https://agentic-knowledge-base.dev/id/chunk/03335ea8-fe32-45e0-9406-5e8457b81486]
 overlapsWith: [https://agentic-knowledge-base.dev/id/chunk/f2362b25-fce0-54e1-94ae-a453b7178fe9]
-restored: [https://agentic-knowledge-base.dev/id/chunk/f2362b25-fce0-54e1-94ae-a453b7178fe9]
+restored: [https://agentic-knowledge-base.dev/id/chunk/f2362b25-fce0-54e1-94ae-a453b7178fe9, https://agentic-knowledge-base.dev/id/chunk/03335ea8-fe32-45e0-9406-5e8457b81486]
 part_of: https://agentic-knowledge-base.dev/id/composite/18974862-aa2e-5f8a-aeb2-cd17a89c3c59
 composite: {id: https://agentic-knowledge-base.dev/id/composite/18974862-aa2e-5f8a-aeb2-cd17a89c3c59, title_ko: 자기 참조 refines 하나를 더한 그래프의 검증, title: Validating a graph with one self-referencing refines added, ordered: [https://agentic-knowledge-base.dev/id/chunk/b17f109e-e309-5a1d-9b80-e909e85b1294, https://agentic-knowledge-base.dev/id/chunk/93c1b878-8e2a-5978-8d78-cd149ffb166c, https://agentic-knowledge-base.dev/id/chunk/f2f59135-498f-52c6-9a2b-f05b4091be21]}
 ---

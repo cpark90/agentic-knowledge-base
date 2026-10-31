@@ -7,7 +7,7 @@ title: function check_element_drop in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/2dd75424-2fca-48ab-9dbb-17d3b0c71ea1, https://agentic-knowledge-base.dev/id/chunk/6900e30a-aaf6-462a-b290-9877e3439e9b]
 part_of: https://agentic-knowledge-base.dev/id/composite/621b8722-ef63-42b3-8470-9560e072a62a
@@ -37,10 +37,10 @@ def check_element_drop(ontology: Graph | None, chunk_files: list[str]) -> list[s
     emitted = {URIRef(str(AGT) + q.split(":", 1)[1]) for q in chunk2kg.PROFILE_SUBSTANCE.values()}
     for term in sorted(declared - emitted, key=str):
         errors.append(f"[{kb_lib.ELEMENT_DROP_GATE}] {_where({}, term)}: 실체 클래스 {ontology.qname(term)} 가 어휘에만 있다 — "
-                      f"chunk2kg.PROFILE_SUBSTANCE 가 어느 plane 도 이 클래스로 타이핑하지 않아 데이터가 닿지 않는다 (CQ-28 고립 개념)")
+                      f"chunk2kg.PROFILE_SUBSTANCE 가 어느 지식 종류도 이 클래스로 타이핑하지 않아 데이터가 닿지 않는다 (CQ-28 고립 개념)")
     for term in sorted(emitted - declared, key=str):
         errors.append(f"[{kb_lib.ELEMENT_DROP_GATE}] chunk2kg.PROFILE_SUBSTANCE: 실체 클래스 {term} 가 생성기에만 있다 — "
-                      f"프로파일이 plane 청크 클래스의 하위로 선언하지 않았다. 정의 없는 클래스는 어휘 밖이다 (2.3절 경계 규칙)")
+                      f"프로파일이 지식 종류 클래스의 하위로 선언하지 않았다. 정의 없는 클래스는 어휘 밖이다 (2.3절 경계 규칙)")
     return errors
 ```
 <!-- 인용 끝 -->

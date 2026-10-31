@@ -4,10 +4,13 @@ type: decision
 level: logical
 title_ko: 논리 시나리오 자극 — 앵커를 준 vnv 작업 집합 뷰의 예산 판정
 title: Logical scenario stimulus — the budget verdict of the anchored vnv workset view
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T22:58:21+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T01:42:54+09:00}]
+refines: [https://agentic-knowledge-base.dev/id/chunk/7a0e2c24-70d8-4d00-ae0f-d083b8ec87a8]
+restored: [https://agentic-knowledge-base.dev/id/chunk/7a0e2c24-70d8-4d00-ae0f-d083b8ec87a8]
 part_of: https://agentic-knowledge-base.dev/id/composite/753f40c0-a1f4-5fcc-a1ae-e7b5961e4e18
 composite: {id: https://agentic-knowledge-base.dev/id/composite/753f40c0-a1f4-5fcc-a1ae-e7b5961e4e18, title_ko: 앵커를 준 vnv 작업 집합 뷰의 예산 판정, title: The budget verdict of the anchored vnv workset view, ordered: [https://agentic-knowledge-base.dev/id/chunk/4e4de139-7e0c-512a-ba73-0263a7cf9a15, https://agentic-knowledge-base.dev/id/chunk/3a2355b4-bcf0-5b08-b129-ae149404c3b4, https://agentic-knowledge-base.dev/id/chunk/0653b14b-2a0a-508d-95b6-eedb6ea09ccc]}
 ---

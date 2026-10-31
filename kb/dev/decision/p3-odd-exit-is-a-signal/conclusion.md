@@ -5,9 +5,10 @@ level: concrete
 title_ko: 실행 시 모니터링이 이탈을 잡고 이탈은 결함이 아니라 신호다
 title: Runtime comparison catches the exit; the exit is a signal, not a defect
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0061-odd-exit-is-a-signal.md, id: https://agentic-knowledge-base.dev/id/chunk-d0061, title_ko: "ODD 이탈은 결함이 아니라 신호다", title: "ODD exit is a signal, not a defect"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-22T19:05:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/e0d0bf5c-8c1c-4638-9f64-89f94185d366, https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0061]
 part_of: https://agentic-knowledge-base.dev/id/composite/ce551363-f48f-40a3-95f8-b35a0ddd377d

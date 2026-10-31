@@ -7,7 +7,7 @@ title: function tool_composites in tools/gates2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gates2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/ff1c5437-57a6-409e-86e7-767ffd3d41ff
 ---
@@ -19,7 +19,7 @@ def tool_composites(registries: list[str], key: str = "file") -> dict[str, str]:
     """등록부 사이드카들 → 도구 이름 → `ids:` 블록의 `key` 줄 IRI (기본 `file:` — 파일 복합체).
 
     사이드카는 손이 원본인 등록부이고 파일 복합체가 도구 하나의 개체다 (p7-code-links-on-file-composite).
-    투영 모드는 `module:`(모듈 docstring 청크)을 읽는다 — 뷰·skill 의 내용이 나오는 원본 청크다.
+    투영 모드는 `module:`(모듈 docstring 단위 지식)을 읽는다 — 뷰·skill 의 내용이 나오는 원본 단위 지식이다.
     YAML 파서를 싣지 않는다 — 필요한 것은 `ids:` 블록의 한 줄뿐이고 이 생성기는 타깃마다 돈다.
     """
     out: dict[str, str] = {}

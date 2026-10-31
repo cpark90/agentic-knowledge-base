@@ -4,10 +4,11 @@ type: decision
 level: logical
 title_ko: 논리 시나리오 배제 자극 — 앵커를 준 vnv 작업 집합 뷰의 예산 판정에서 다루지 않는 것
 title: Logical scenario excluded stimuli — what the budget verdict of the anchored vnv workset view does not cover
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T22:46:33+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T01:42:54+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/753f40c0-a1f4-5fcc-a1ae-e7b5961e4e18
 ---
 **배제 자극** — 다루지 않는 자극은 둘이다.

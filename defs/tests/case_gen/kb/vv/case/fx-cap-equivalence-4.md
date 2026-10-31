@@ -12,7 +12,7 @@ refines: [https://agentic-knowledge-base.dev/id/chunk/00000000-0000-4000-8000-00
 verifies: [https://agentic-knowledge-base.dev/id/chunk/00000000-0000-4000-8000-00000000c003]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/00000000-0000-4000-8000-00000000c001]
 ---
-**케이스** — 크기 1의 `cyclic` 청크 하나를 검사한다.
+**테스트 케이스** — 크기 1의 `cyclic` 청크 하나를 검사한다.
 
 **자극** — 임시 파일 하나다. 이름은 `fx.md`이고 경로는 검증기가 정한다.
 

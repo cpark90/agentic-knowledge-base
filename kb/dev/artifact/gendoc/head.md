@@ -9,7 +9,6 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gendoc}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 part_of: https://agentic-knowledge-base.dev/id/composite/f2a94f2c-1866-41da-848c-d018a7dfc647
 ---
 **모듈 머리** — `tools/gendoc.py` 의 모듈 머리 `tag` 다. 모듈 머리

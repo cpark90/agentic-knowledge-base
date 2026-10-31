@@ -7,7 +7,7 @@ title: Selection, valuation, and closure make the ODD
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 refines: [https://agentic-knowledge-base.dev/id/chunk/fd0d3d18-4aab-4c4c-8f72-41702860b68c, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 part_of: https://agentic-knowledge-base.dev/id/composite/4640aa0e-49a7-4fee-952d-e33ec4d57cbb
 composite: {id: https://agentic-knowledge-base.dev/id/composite/4640aa0e-49a7-4fee-952d-e33ec4d57cbb, title_ko: ODD는 온톨로지의 닫힌 뷰다, title: The ODD is a closed projection of the ontology}
@@ -22,4 +22,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/4640aa0e-49a7-4f
 
 두 번째 연산도 구분의 근거다 — 값 할당은 개체를 만드는 일이므로 **A-Box**이고 온톨로지는 T-Box다 (2.4절). 파일 접미사가 이 분리를 강제한다.
 
-온톨로지가 어휘라면 ODD는 그 어휘로 쓴 **첫 번째 문서**다. 스코프·가정·요구·설계 공간은 전부 ODD 안에서 쓴다.
+온톨로지가 어휘라면 ODD는 그 어휘로 쓴 **첫 번째 문서**다. 적용 범위·가정·요구·설계 공간은 전부 ODD 안에서 쓴다.

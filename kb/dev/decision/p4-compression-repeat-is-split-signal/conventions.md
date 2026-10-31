@@ -7,10 +7,10 @@ title: "Normative-document conventions — The number of times a chunk survived 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-agrtls-practices-review}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T02:19:04+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:18:25+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/ff721aef-2663-430e-a491-4e0cc61f73b2
 ---
 **규약** — `p4-compression-repeat-is-split-signal`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: [권장] 상한 근처로 억지 압축하지 않는다. 분할 신호를 따른다.
+규약: [권장] 상한 근처로 억지 압축하지 않고 분할 신호를 따른다.

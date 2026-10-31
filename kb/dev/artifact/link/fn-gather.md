@@ -7,16 +7,16 @@ title: function gather in tools/link.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/f1f06f16-947e-47c4-b831-f8359170bfed]
+uses: [https://agentic-knowledge-base.dev/id/chunk/12124054-d49f-44e2-be10-6fbdb102b578, https://agentic-knowledge-base.dev/id/chunk/67eb756b-e7f0-4da2-af55-90f4bc3058e9, https://agentic-knowledge-base.dev/id/chunk/f1f06f16-947e-47c4-b831-f8359170bfed]
 part_of: https://agentic-knowledge-base.dev/id/composite/35504745-0bb4-47e0-ae4a-3da6e0e07b3d
 ---
-**함수** — `gather(u, min_shared)` 다. 증거 수집 → (쌍 → 증거 목록 [(강도, 종류, 값, 정렬용 공유 수)], 쌍 → 인용 방향, 탈락 분포, 쌍 → 승계 종류).
+**함수** — `gather(u, min_shared, coedit_paths)` 다. 증거 수집 → (쌍 → 증거 목록 [(강도, 종류, 값, 정렬용 공유 수)], 쌍 → 인용 방향, 탈락 분포, 쌍 → 승계 종류).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def gather(u: Units, min_shared: int):
+def gather(u: Units, min_shared: int, coedit_paths=()):
     """증거 수집 → (쌍 → 증거 목록 [(강도, 종류, 값, 정렬용 공유 수)], 쌍 → 인용 방향, 탈락 분포, 쌍 → 승계 종류)."""
     g = u.g
     dropped: Counter = Counter()
@@ -45,16 +45,20 @@ def gather(u: Units, min_shared: int):
     # (a) 본문 식별자 — extract_refs 의 agt:cites (인용한 쪽이 앵커 후보)
     for s, o in sorted(g.subject_objects(AGT.cites), key=lambda so: (str(so[0]), str(so[1]))):
         pair(s, o, "constructionRecord", u.stem(o), 0, True)
-    # (b) 테스트 공동 커버 — 같은 V&V 청크가 verifies 하는 두 개발 단위
-    covers = defaultdict(set)
-    for s, o in g.subject_objects(AGT.verifies):
-        if s in u.live and o in u.unit_of:
-            covers[s].add(u.unit_of[o])
-    for s in sorted(covers, key=str):
-        targets = sorted(covers[s], key=str)
-        for i, a in enumerate(targets):
-            for b in targets[i + 1:]:
-                pair(a, b, "testCoverage", u.stem(s), 0, False)
+    # (b) 테스트 공동 커버 — verifies W→A 의 근거 (단일 정의 위치 kb_lib.co_cover). 원 링크 종류처럼 verifies 를 힌트로 준다
+    refines, verifies = defaultdict(list), defaultdict(list)
+    for p, m in ((AGT.refines, refines), (AGT.verifies, verifies)):
+        for s, o in g.subject_objects(p):
+            m[s].append(o)
+    in_dir = lambda c, d: u.loc.get(c, "").startswith(f"{kb_lib.KB_VV}/{d}/")  # noqa: E731
+    cover = kb_lib.co_cover(refines, verifies, [c for c in u.live if in_dir(c, "case")], [c for c in u.live if in_dir(c, "verifier")],
+                            [c for c in u.live if u.kb(c) == kb_lib.KB_DEV])
+    for (w, x), cases in sorted(cover.items(), key=lambda kv: (str(kv[0][0]), str(kv[0][1]))):
+        before = len(evidence.get(frozenset((u.unit_of.get(w), u.unit_of.get(x))), []))
+        pair(w, x, "testCoverage", " · ".join(u.stem(c) for c in sorted(cases, key=str)), 0, True)
+        key = frozenset((u.unit_of.get(w), u.unit_of.get(x)))
+        if len(evidence.get(key, [])) > before:
+            hint.setdefault(key, "verifies")
     # (c) 개념 공유 — 단위별 agt:usesConcept 합집합의 교집합
     concepts = defaultdict(set)
     for s, o in g.subject_objects(AGT.usesConcept):
@@ -82,6 +86,11 @@ def gather(u: Units, min_shared: int):
                 key = frozenset((u.unit_of.get(x), u.unit_of.get(frag)))
                 if len(evidence.get(key, [])) > before:
                     hint.setdefault(key, kind)
+    # (e) 동시 편집 — 관측이 고정한 쌍 (단일 정의 위치 kb_lib.coedit_pairs). 관측이 없으면 0건이다
+    iri = {str(c): c for c in u.chunks}
+    obs, coedit, _ = kb_lib.coedit_pairs(coedit_paths, set(iri))
+    for a, b in sorted(tuple(sorted(p)) for p in coedit):
+        pair(iri[a], iri[b], "coEditHistory", Path(obs).stem, 0, False)
     return evidence, prefer, dropped, hint
 ```
 <!-- 인용 끝 -->

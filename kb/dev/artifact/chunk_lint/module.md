@@ -7,39 +7,39 @@ title: file tools/chunk_lint.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk-lint}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/d93492e4-f343-4736-b4a5-d04f48a3a75f, https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97, https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f1d91f37-d353-405b-bd98-41132f8d5390, title_ko: 파일 복합체 tools/chunk_lint.py, title: file composite tools/chunk_lint.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/0149c880-a2a1-45d1-bad4-6d54b7932fc3, https://agentic-knowledge-base.dev/id/composite/ea7476e7-b990-4825-a271-6356855d2118, https://agentic-knowledge-base.dev/id/composite/7b250e22-fd3e-4d64-9b95-214bd55ce9d3]}
 ---
-**파일** — `tools/chunk_lint.py` 다. 385줄 · 최상위 정의 8개 · 최상위 절 3개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/chunk_lint.py` 다. 400줄 · 최상위 정의 8개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 #!/usr/bin/env python3
-"""청크·명명·산문 린트.
+"""단위 지식·명명·산문 린트.
 
-  --chunks <files>   청크 본문(assertion) 파일 검사 (노트 4.1절):
+  --chunks <files>   단위 지식 본문(assertion) 파일 검사 (노트 4.1절):
                      본문 1,092 토큰 이하 (게이트 id `chunk`). 단위는 줄이 아니라 **토큰**이고 계수기는
                      `o200k_base`(어휘 파일 sha256 고정)다 — 줄 상한 42·200 은 폐지됐다
                      (결정 p1-chunk-unit-is-tokens, 유저 결정 2026-10-01). YAML frontmatter(head 메타데이터)와
                      앞뒤 빈 줄은 본문이 아니고 본문을 떼는 판정처는 `kb_lib.body_text` 하나다.
-                     **상한은 plane 별 프로파일 파라미터**이고 정의처는 `kb_lib.BODY_TOKEN_LIMITS` 하나다 —
+                     **상한은 지식 종류별 프로파일 파라미터**이고 단일 정의 위치는 `kb_lib.BODY_TOKEN_LIMITS` 하나다 —
                      `artifact`·`memory` 는 2,856 토큰이다(본문이 저작이 아니라 소스·실행의 인용이라 저작 산문의
                      예산이 인위적 분할을 부른다, p7-code-extraction-direction "예산").
-                     .md 청크는 산문 문체(STYLEGUIDE §0 단정 서술형, 2026-09-13)도 본다 — 경어·비격식 종결이 문장 끝에
+                     .md 단위 지식은 산문 문체(STYLEGUIDE §0 단정 서술형, 2026-09-13)도 본다 — 경어·비격식 종결이 문장 끝에
                      오거나 산문에 느낌표가 있으면 위반(kb_lib.check_prose, 게이트 id `prose`). 코드·따옴표·주석 안과
-                     `!=`·`![` 는 산문이 아니다. TTL 청크는 산문 검사 대상이 아니다. 추측·구어는 consistency ⑦ 보고다.
+                     `!=`·`![` 는 산문이 아니다. TTL 단위 지식은 산문 검사 대상이 아니다. 추측·구어는 consistency ⑦ 보고다.
                      type: decision 인 .md 는 역할 표지(STYLEGUIDE §4, 게이트 id `decision-role`)도 본다 — 본문 첫 산문 줄이
                      굵은 표지로 시작해야 한다. conclusion.md·rationale.md·alternatives.md 는 각각 **결론**·**근거**·**대안**,
                      선택 넷째 conventions.md 는 **규약**(결정 p4-convention-slot — 이어지는 `규약:` 줄은 목록 항목이 아니다),
                      V&V 시나리오 패키지(kb/vv/scenario)의 `<슬러그>-stimulus.md`·`-factors.md`·`-excluded.md` 는 각각
-                     **자극**·**요인**·**배제 자극**(결정 p8-scenario-authoring), 그 밖의 파일명(단일 파일 옛 결정
-                     chunks/decision/d-*.md, 단일 청크 시나리오)은 **결론** 이다. 표지 안의 한정어(**대안 없음**)는
-                     같은 표지다(kb_lib.DECISION_ROLE_MARKER). status: deprecated 는 대상이 아니다.
-                     살아 있는 .md 청크(status draft·stable·suspect, kb_lib.LIVE_STATES)는 첨가와 목록 규칙도 본다
+                     **자극**·**요인**·**배제 자극**(결정 p8-scenario-authoring)이고, 그 밖의 파일명은 역할 이름
+                     밖이라 위반이다(단일 파일 꼴 폐지, 유저 답 Q-0061 Q147-a). 표지 안의 한정어(**대안 없음**)는
+                     같은 표지이고, 그 판정은 방출과 같은 kb_lib.body_slot_mark 다. status: deprecated 는 대상이 아니다.
+                     살아 있는 .md 단위 지식(status draft·stable·suspect, kb_lib.LIVE_STATES)은 첨가와 목록 규칙도 본다
                      (명세 문서 작성 규격 4.1·4.3·9.4, 유저 승인 2026-09-22 — 결정 p4-slot-answers-one-question·
                      p4-three-empty-values). 게이트 id 셋은 `addition`(메타 문장 "다음과 같다"·채움 문구 "특이사항 없음"),
                      `empty-value`(세 빈 값 `없음`·`해당 없음`·`미확정` 밖의 `N/A`·`TBD`·`미정`·표의 단독 대시 셀),
@@ -50,16 +50,17 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/f1d91f37-d353-40
                      `해소: 열림` 인 주석이 있으면 FAIL 이다. 그 밖의 라벨·장식·해소 상태는 기록이고 막지 않는다. 첫 줄 꼴과
                      닫힌 어휘·본문 문장 상한은 shape(kb/ontology/shapes/review-comment-body-shapes.ttl)가 본다.
                      `generated.by` 가 `process:judge` 이고 `type: memory` 인 .md 는 **판정 로그**다 (결정
-                     p8-judge-calibration-binding). 게이트 id `judge-log` 는 판정만 부르지 않고 로그의 형식만 본다 —
-                     판정 표의 헤더가 `kb_lib.JUDGE_LOG_TABLE_HEADER` 와 같고 행마다 질문 id·값·확신도·**판정자 식별자**
-                     (세션·모델, 2026-09-30 — 외부 서비스가 아니라 세션 판정자다)·입력 지문(sha256 64자)·시각(ISO 8601 UTC)이
+                     p8-judge-session-agreement). 게이트 id `judge-log` 는 판정만 부르지 않고 로그의 형식만 본다 —
+                     판정 표의 헤더가 `kb_lib.JUDGE_LOG_TABLE_HEADER` 와 같고(기록 시각이 전환 시각
+                     `kb_lib.RECORD_HEADER_SINCE` 이전인 로그는 `_OLD` 와 같고, Q161-a) 행마다 질문 id·값·확신도·**판정자 식별자**
+                     (세션·모델, 2026-09-30 — 외부 서비스가 아니라 세션 판정자다)·입력 해시값(sha256 64자)·시각(ISO 8601 UTC)이
                      비어 있지 않으며 처리가 임계의 세 값 안, `일치` 열이 `일치`·`불일치`·`해당 없음` 셋 안이어야 한다.
                      **판정 로그가 0건이면 거부할 것이 없고 그것은 SKIP 이 아니라 PASS 다** — 로그의 존재를 요구하는
                      것은 이 게이트의 몫이 아니다. 판정 자체는 게이트 밖 도구(`bazel run //tools:judge`)가 한다.
-                     살아 있는 .md 청크 본문의 선택 슬롯 `핵심:`(요약 항목)은 **요약 지지 참조** 검사(게이트 id
+                     살아 있는 .md 단위 지식 본문의 선택 슬롯 `핵심:`(요약 항목)은 **요약 지지 참조** 검사(게이트 id
                      `summary-support`, 2026-09-30, judge-without-service 기계 환원 ①)도 받는다 — 항목마다 `[#id]`·
                      `d-NNNN`·IRI(백틱)·마크다운 링크 중 하나로 본문의 지지 근거를 가리켜야 한다. 슬롯이 없으면 대상이
-                     아니다. 오탐 실측(2026-09-30): 저장소가 아직 이 슬롯을 쓰지 않아 0/0 — 사용이 늘면 재실측한다.
+                     아니다. 오탐 측정(2026-09-30): 저장소가 아직 이 슬롯을 쓰지 않아 0/0 — 사용이 늘면 재측정한다.
   --ttl <files>      TTL 파일명이 산출물 접미사 규약(0.2절)을 따르는지 검사.
   --vocab <file>     토큰 계수기의 어휘 파일. 없으면 runfiles 의 고정 파일을 쓴다 — 해시가 다르면 거부한다.
   --waivers <file>   docs/waivers.md — 게이트 id `chunk`·`prose`·`addition`·`empty-value`·`list-rules`·`blocking-comment`·

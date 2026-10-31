@@ -4,10 +4,13 @@ type: decision
 level: logical
 title_ko: 논리 시나리오 자극 — 직접 부분 밖을 가리키는 순서 항목을 가진 복합체의 검증
 title: Logical scenario stimulus — validating an ordered composite whose item points outside its direct parts
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T21:22:42+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T01:42:54+09:00}]
+refines: [https://agentic-knowledge-base.dev/id/chunk/f0fdfa51-3dd6-4e7f-adee-88b3ad41b93a]
+restored: [https://agentic-knowledge-base.dev/id/chunk/f0fdfa51-3dd6-4e7f-adee-88b3ad41b93a]
 part_of: https://agentic-knowledge-base.dev/id/composite/3dd16af0-6fda-5dab-930f-94602d130ec2
 composite: {id: https://agentic-knowledge-base.dev/id/composite/3dd16af0-6fda-5dab-930f-94602d130ec2, title_ko: 직접 부분 밖을 가리키는 순서 항목을 가진 복합체의 검증, title: Validating an ordered composite whose item points outside its direct parts, ordered: [https://agentic-knowledge-base.dev/id/chunk/ab0a4767-66e3-571f-8004-46c538f04234, https://agentic-knowledge-base.dev/id/chunk/93cd59d3-752e-5089-90a6-24f03b464e89, https://agentic-knowledge-base.dev/id/chunk/829c7a86-50b2-59d4-a80e-9c24bae0921e]}
 ---

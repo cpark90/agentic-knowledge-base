@@ -7,7 +7,7 @@ title: function generate in tools/gen_norms.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gen-norms}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-03T16:28:47Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/0eed9071-0543-4627-8e10-d058808ca3cc, https://agentic-knowledge-base.dev/id/chunk/412335c9-3334-4503-8547-23227e453d66, https://agentic-knowledge-base.dev/id/chunk/b036d7e1-16f6-449e-a9cd-4ad07e213b53, https://agentic-knowledge-base.dev/id/chunk/e30fe78f-85fa-447c-8ec3-df25166cee41]
 part_of: https://agentic-knowledge-base.dev/id/composite/85f4907d-b39a-4898-8cf9-888cf6204fb4
@@ -21,7 +21,7 @@ def generate(root: Path, docs: dict[str, str], only: str = "") -> dict[str, str]
     norm_dirs = sorted(p.name for p in (root / NORM_ROOT).iterdir() if p.is_dir()) if (root / NORM_ROOT).is_dir() else []
     if sorted(docs) != norm_dirs:
         raise GenNormsError(f"{NORM_ROOT}: 문서 디렉토리 {norm_dirs} 와 defs/kb.bzl 의 {NORM_DOCS_NAME} 키 {sorted(docs)} 가 다르다 — "
-                            f"문서 목록의 단일 정의처는 {NORM_DOCS_NAME} 이고 디렉토리마다 항목 하나다")
+                            f"문서 목록의 단일 정의 위치는 {NORM_DOCS_NAME} 이고 디렉토리마다 항목 하나다")
     outs = list(docs.values())
     bad = [o for o in outs if not o.endswith(".md") or o.startswith(("/", "../")) or outs.count(o) > 1]
     if bad:

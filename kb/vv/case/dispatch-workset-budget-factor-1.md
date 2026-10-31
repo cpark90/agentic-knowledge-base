@@ -4,15 +4,16 @@ type: schema
 level: concrete
 title_ko: 결정 p11-execution-mode-and-workset의 결론을 앵커로 준 vnv 작업 집합 뷰가 기본 예산에서 빌드되고 예산 10에서 FAIL [workset-budget]로 거부된다
 title: The vnv workset anchored on the conclusion of the decision p11-execution-mode-and-workset builds within the default budget and is refused with FAIL [workset-budget] at budget 10
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:case_gen, at: 2026-10-04T22:58:21+09:00}
+verified: [{by: process:case_gen, at: 2026-10-24T01:42:54+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/7db997bc-4f86-4b0c-aa3f-e941657a94a7]
 verifies: [https://agentic-knowledge-base.dev/id/chunk/82e341ba-c47f-4677-8013-491082b24b6c]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/4e4de139-7e0c-512a-ba73-0263a7cf9a15]
 ---
-**케이스** — 앵커를 준 뷰·앵커 없는 통제·예산을 좁힌 음성 자극(예산 10) 셋을 종료 코드로 판정한다.
+**테스트 케이스** — 앵커를 준 뷰·앵커 없는 통제·예산을 좁힌 음성 자극(예산 10) 셋을 종료 코드로 판정한다.
 
 **자극** — `//kg:workset`을 셋으로 빌드한다. 첫째는 앵커 + 기본 예산, 둘째는 앵커 없는 통제, 셋째는 같은 앵커 + 예산 10(음성 자극)이다.
 

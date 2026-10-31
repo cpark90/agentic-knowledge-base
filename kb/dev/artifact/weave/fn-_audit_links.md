@@ -10,7 +10,7 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/f6cf75ba-7624-4742-a6f9-b56a69f540b1, https://agentic-knowledge-base.dev/id/chunk/ff5236c7-129e-43c7-9466-8cf55445d254]
-part_of: https://agentic-knowledge-base.dev/id/composite/f146d0f6-736d-44dc-9acf-ad9f25562d4a
+part_of: https://agentic-knowledge-base.dev/id/composite/ebcf6e73-cc0b-447d-ac23-00290abee9ca
 ---
 **함수** — `_audit_links(m, g, pct)` 다. 링크 개체의 증거 종류 분포와 복원 비율 (kb_lib.link_origins — 증거 종류가 구축·복원의 기준이다).
 

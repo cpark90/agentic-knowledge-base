@@ -7,7 +7,7 @@ title: function check_case_template in tools/case_gen.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-case-gen}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-04T12:40:09Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/c1361b91-dc50-48d4-bb3e-7e5d11c04516
 ---
@@ -22,13 +22,16 @@ def check_case_template(where: str, case, keep: dict) -> list[str]:
     errs = [f"{where}: `case` 의 키 `{k}` 는 규약 밖이다 — 키는 {' · '.join(CASE_KEYS)} 다" for k in case if k not in CASE_KEYS]
     errs += [f"{where}: `case` 에 `{k}` 가 없다" for k in CASE_REQUIRED if not isinstance(case.get(k), str) or not case.get(k).strip()]
     if not str(case.get("criteria", "")).startswith(CHUNK_NS):
-        errs.append(f"{where}: `case.criteria` 는 기준 청크 IRI 다 — 케이스는 기준을 `refines` 한다 (p8-pass-criteria)")
+        errs.append(f"{where}: `case.criteria` 는 기준 단위 지식 IRI 다 — 테스트 케이스는 기준을 `refines` 한다 (p8-pass-criteria)")
     ver = case.get("verifies", [])
     if not isinstance(ver, list) or any(not str(x).startswith(CHUNK_NS) for x in ver):
-        errs.append(f"{where}: `case.verifies` 는 청크 IRI 목록이다")
+        errs.append(f"{where}: `case.verifies` 는 지식 IRI 목록이다")
     der = case.get("derivesFrom", [])
     if not isinstance(der, list) or any(not str(x).startswith(CHUNK_NS) for x in der):
-        errs.append(f"{where}: `case.derivesFrom` 는 청크 IRI 목록이다")
+        errs.append(f"{where}: `case.derivesFrom` 는 지식 IRI 목록이다")
+    former = case.get(kb_lib.FORMER_TITLE_KEY, [])
+    if not isinstance(former, list) or any(not isinstance(x, str) or not x.strip() for x in former):
+        errs.append(f"{where}: `case.{kb_lib.FORMER_TITLE_KEY}` 는 비지 않은 옛 이름 문자열의 목록이다")
     files = case.get("files", {})
     if not isinstance(files, dict) or any(not isinstance(k, str) or not isinstance(v, str) for k, v in files.items()):
         errs.append(f"{where}: `case.files` 는 `이름: 내용` 문자열 매핑이다")

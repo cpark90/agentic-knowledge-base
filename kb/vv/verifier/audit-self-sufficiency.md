@@ -8,8 +8,10 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/a3798247-024d-49f1-996e-159100ae3f9e]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T20:18:09+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}
 layer: process
+verifies: [https://agentic-knowledge-base.dev/id/chunk/202358d3-fd6f-4b1c-867d-37e5a20adf9c]
+restored: [https://agentic-knowledge-base.dev/id/chunk/202358d3-fd6f-4b1c-867d-37e5a20adf9c]
 ---
 **검증기** — 감사 보고서 타깃 하나와 그 선언 입력을 자극으로 쓴다.
 
@@ -27,4 +29,4 @@ tool:   //tools:weave      # git · 네트워크 호출 없음 — 리비전은 
 
 **판정 범위** — 감사 보고서는 체계 밖 정보의 유혹이 가장 큰 뷰(리비전·환경·수치)라 자족성의 경계값이다. 입력 목록을 `bazel query`로 그대로 인용하면 선언과 실제가 한 명령으로 대조된다. 온보딩 쪽(라벨 목록)은 입력이 그래프뿐이라 같은 분기의 더 쉬운 값이고 표본을 늘리지 않는다.
 
-**검증 대응물** — 없음. 옮기기 전 케이스가 `verifies` 하던 결정 `p12-audit-and-onboarding-self-sufficiency` 의 결론은 `concrete` 수준이라 `executable` 검증기가 `verifies` 할 수 없다.
+**검증 대응물** — 이 검증기는 `tools/weave.py`의 항목을 `verifies` 한다. 끝은 파일 복합체의 선언 항목(`module.md`)이고, 판정 함수 같은 부분 항목은 게이트 `code-part-link` 가 끝으로 받지 않는다. 반면 옮기기 전 테스트 케이스가 `verifies` 하던 결정 `p12-audit-and-onboarding-self-sufficiency`의 결론은 `concrete` 수준이라, 같은 수준끼리만 잇는 규칙에 따라 이 검증기의 끝이 되지 않는다.

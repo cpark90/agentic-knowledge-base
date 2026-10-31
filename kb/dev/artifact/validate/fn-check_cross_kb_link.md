@@ -7,7 +7,7 @@ title: function check_cross_kb_link in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/8a2be483-4fc8-411f-8f35-b7719552e4e4, https://agentic-knowledge-base.dev/id/chunk/a7d95ff4-ef90-4353-a266-826a544f37d8, https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99, https://agentic-knowledge-base.dev/id/chunk/f3fcb094-a1c5-414e-ab93-287b0bec0449]
 part_of: https://agentic-knowledge-base.dev/id/composite/700062aa-fcac-4d30-8481-7021a666d072
@@ -21,9 +21,9 @@ def check_cross_kb_link(merged: Graph) -> list[str]:
 
     대상은 frontmatter 링크 키(`chunk2kg.LINK_KEYS`)의 직접 트리플 전부다. `defs/kb.bzl` 의 `_check_links` 는 Bazel deps
     (refines·serves·supersedes·verifies)만 받으므로 satisfies·derivesFrom·overlapsWith 같은 나머지 키는 분석 시점에 보이지
-    않고, 판정에는 두 끝점의 KB·plane·수준이 필요해 타깃마다 한 청크만 보는 `chunk2kg` 도 자리가 아니다 — 병합 그래프를
+    않고, 판정에는 두 끝점의 KB·지식 종류·수준이 필요해 타깃마다 한 단위 지식만 보는 `chunk2kg` 도 자리가 아니다 — 병합 그래프를
     보는 여기가 자리다. 판정은 복원 후보 생성기와 같은 함수 `kb_lib.cross_kb_link` 다. 끝점이 복합체면 첫 부분을 따라
-    내려가 청크의 값을 쓴다(`kb_lib.link_cells` 와 같은 규칙). plane 을 정할 수 없는 끝점은 판정하지 않는다 — 실재는
+    내려가 단위 지식의 값을 쓴다(`kb_lib.link_cells` 와 같은 규칙). 지식 종류를 정할 수 없는 끝점은 판정하지 않는다 — 실재는
     `dangling` 이 본다.
     """
     gate = kb_lib.CROSS_KB_LINK_GATE

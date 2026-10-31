@@ -7,12 +7,12 @@ title: Self-containment breeds repetition; its cost is budget; drift shows as a 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-label-representativeness-protocol}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-11T03:30:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6053b67e-afec-4a59-b710-31b6ab85b108
 ---
-**근거** — 청크는 자립적이어야 한다(4.4절). 자립성은 곧 맥락의 반복을 요구한다 —
-근거 청크가 결론의 맥락을 되풀이하지 않으면 홀로 읽히지 않는다. 그래서 본문 중복은
+**근거** — 단위 지식은 자립적이어야 한다(4.4절). 자립성은 곧 맥락의 반복을 요구한다 —
+근거이 결론의 맥락을 되풀이하지 않으면 홀로 읽히지 않는다. 그래서 본문 중복은
 결함이 아니라 자립성의 **결과**이며, 에이전트가 좁게 보는 상황(1.1절)에서는 필요한
 정보가 한 번 더 있는 것이 빠져 있는 것보다 안전하다 — 유저가 이를 안전율이라 불렀다.
 

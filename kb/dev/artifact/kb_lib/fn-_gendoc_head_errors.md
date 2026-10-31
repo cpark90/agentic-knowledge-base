@@ -7,7 +7,7 @@ title: function _gendoc_head_errors in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/a9138ecc-8714-414e-a8f3-69d0c646e65d, https://agentic-knowledge-base.dev/id/chunk/d5a80e19-21cd-4de4-b68c-641a875cd7de]
 part_of: https://agentic-knowledge-base.dev/id/composite/a3a476aa-1402-4998-a124-e37b5596aa09
@@ -41,13 +41,13 @@ def _gendoc_head_errors(body: list[str], first: int, rows: list) -> list[tuple[i
         else:
             v = {k: head[i][1][2:].split(": ", 1)[-1] for i, k in enumerate(want)}
             if GENDOC_VERSION.split("/")[0] + "/" not in v["생성기"]:
-                errors.append((head[0][0], f"G2 생성기 줄에 규약 버전 표기 `{GENDOC_VERSION}` 가 없다 — kb_lib.GENDOC_VERSION 이 단일 정의처다"))
+                errors.append((head[0][0], f"G2 생성기 줄에 규약 버전 표기 `{GENDOC_VERSION}` 가 없다 — kb_lib.GENDOC_VERSION 이 단일 정의 위치다"))
             if "생성 시각" in v and not GENDOC_TIME_RE.fullmatch(v["생성 시각"].strip()):
                 errors.append((head[want.index("생성 시각")][0],
                                f"G3 생성 시각이 `{GENDOC_TIME_FORMAT}` 가 아니다 (실제 {v['생성 시각'].strip()!r}) — kb_lib.now_utc 를 쓴다"))
             i_in = head[want.index("입력")][0]
-            if "생성 시각" in v and "지문 `sha256:" not in v["입력"]:
-                errors.append((i_in, "G4 입력 줄에 지문(`sha256:<앞 12자>`)이 없다 — kb_lib.input_fingerprint 를 쓴다"))
+            if "생성 시각" in v and "해시값 `sha256:" not in v["입력"]:
+                errors.append((i_in, "G4 입력 줄에 해시값(`sha256:<앞 12자>`)이 없다 — kb_lib.input_fingerprint 를 쓴다"))
             errors += [(i_in, e) for e in gendoc_union_errors(v["입력"])]
             if "개:" not in v["입력"] and f"#{slug(GENDOC_INPUTS_HEADING)}" not in v["입력"] and NONE_MARK not in v["입력"]:
                 errors.append((i_in, f"G4 입력 줄에 파일 목록이 없다 — 개수만 적지 않는다. 많으면 `{GENDOC_INPUTS_HEADING}` 절로 접는다"))

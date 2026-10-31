@@ -7,11 +7,11 @@ title: If how the runner is invoked changes the verdict, reproducibility does no
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5, at: 2026-09-23T12:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/2a051063-7217-4597-b03f-4a4346e85b0e
 ---
-**근거** — 2026-09-23 실측이 결함을 드러냈다. `bazel run //tools:vv_run`의 파이썬 스텁이 `PYTHONSAFEPATH=1`을 두고 하위 프로세스가 그것을 물려받아, 케이스가 부르는 `python3 tools/validate.py`가 `import kb_lib`에서 `ModuleNotFoundError`로 죽었다. 같은 케이스가 `python3 tools/vv_run.py`로는 통과했다. **실행기를 부르는 방식이 케이스의 판정을 바꾸고 있었다.**
+**근거** — 2026-09-23 측정이 결함을 드러냈다. `bazel run //tools:vv_run`의 파이썬 스텁이 `PYTHONSAFEPATH=1`을 두고 하위 프로세스가 그것을 물려받아, 테스트 케이스가 부르는 `python3 tools/validate.py`가 `import kb_lib`에서 `ModuleNotFoundError`로 죽었다. 같은 테스트 케이스가 `python3 tools/vv_run.py`로는 통과했다. **실행기를 부르는 방식이 테스트 케이스의 판정을 바꾸고 있었다.**
 
 요구 `reproducible-runs`는 실행이 같은 리비전과 seed에서 재현된다고 정한다. 재현의 전제는 실행 환경이 기록된 것에서만 온다는 것이다. 실행기가 자기 문맥을 하위 프로세스에 흘리면 그 문맥은 기록되지 않고 재현되지도 않는다.
 

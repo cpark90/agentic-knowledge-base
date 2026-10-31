@@ -20,7 +20,7 @@ agt:semanticallyDependsOn a owl:ObjectProperty ;
     rdfs:subPropertyOf agt:dependsOn ;
     rdfs:domain agt:KnowledgeItem ;
     rdfs:label "semantically depends on"@en , "의미상 의존한다"@ko ;
-    skos:definition "대상을 빼면 출발점이 의미상 불완전해지는 관계 — 정의와 사용, 전제와 결론. 방향은 사용·결론 → 정의·전제이고 plane 단방향 규칙 안에서만 성립한다 (5.2절, 8.2절)."@ko .
+    skos:definition "대상을 빼면 출발점이 의미상 불완전해지는 관계 — 정의와 사용, 전제와 결론. 방향은 사용·결론 → 정의·전제이고 지식 종류 단방향 규칙 안에서만 성립한다 (5.2절, 8.2절)."@ko .
 
 agt:relatedTo a owl:ObjectProperty , owl:SymmetricProperty ;
     rdfs:subPropertyOf agt:dependsOn , skos:related ;

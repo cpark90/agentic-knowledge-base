@@ -1,4 +1,4 @@
-# 청크 — 지식 항목의 속성 (노트 4.2절, 4.5절, 4.9절, 4.11절)
+# 지식 — 속성 (노트 4.2절, 4.5절, 4.9절, 4.11절)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -8,20 +8,20 @@
 agt:hasLevel a owl:ObjectProperty ;
     rdfs:domain agt:KnowledgeItem ;
     rdfs:range agt:Level ;
-    rdfs:label "has level"@en , "추상화 수준을 갖는다"@ko ;
-    skos:definition "지식 항목의 추상화 수준. 정확히 하나. 수준 전이는 새 청크와 refines 링크로 한다 (4.2절). 게이트: chunk-shapes(정확히 하나·agt:Level 개체)."@ko .
+    rdfs:label "has level"@en , "정제 수준을 갖는다"@ko ;
+    skos:definition "지식의 정제 수준. 정확히 하나. 수준 전이는 새 단위 지식과 refines 링크로 한다 (4.2절). 게이트: chunk-shapes(정확히 하나·agt:Level 개체)."@ko .
 
 agt:tokenCount a owl:DatatypeProperty ;
     rdfs:domain agt:Chunk ;
     rdfs:range xsd:integer ;
     rdfs:label "token count"@en , "본문 토큰 수"@ko ;
-    skos:definition "assertion 본문의 토큰 수. 크기의 단위는 줄이 아니라 토큰이고 계수기는 o200k_base 하나다 — 어휘 파일이 sha256 으로 고정되고 네트워크 없이 읽힌다 (결정 p1-chunk-unit-is-tokens, 유저 결정 2026-10-01). 상한은 plane 별 프로파일 파라미터다: 저작 산문 1,092(42×26) · artifact·memory 2,856(42×68). 청크 파일에서 자동 계산된다 (4.1절). 게이트: chunk(chunk_lint 가 파일마다)·token-budget(token-budget-shapes 와 validate 의 check_token_budget)."@ko .
+    skos:definition "assertion 본문의 토큰 수. 크기의 단위는 줄이 아니라 토큰이고 계수기는 o200k_base 하나다 — 어휘 파일이 sha256 으로 고정되고 네트워크 없이 읽힌다 (결정 p1-chunk-unit-is-tokens, 유저 결정 2026-10-01). 상한은 지식 종류별 프로파일 파라미터다: 저작 산문 1,092(42×26) · artifact·memory 2,856(42×68). 단위 지식 파일에서 자동 계산된다 (4.1절). 게이트: chunk(chunk_lint 가 파일마다)·token-budget(token-budget-shapes 와 validate 의 check_token_budget)."@ko .
 
 agt:status a owl:DatatypeProperty ;
     rdfs:domain agt:KnowledgeItem ;
     rdfs:range xsd:string ;
     rdfs:label "status"@en , "상태"@ko ;
-    skos:definition "지식 항목 상태 기계의 현재 값. OKF의 draft / stable / deprecated 를 그대로 쓰고, 무효화 메커니즘이 요구하는 suspect(재검토 필요) / invalidated(가정 거짓) 둘을 확장으로 더한다. stable 은 4.11절의 valid 에 해당한다 (4.11절). 게이트: chunk-shapes(sh:in)."@ko .
+    skos:definition "지식 상태 기계의 현재 값. OKF의 draft / stable / deprecated 를 그대로 쓰고, 무효화 메커니즘이 요구하는 suspect(재검토 필요) / invalidated(가정 거짓) 둘을 확장으로 더한다. stable 은 4.11절의 valid 에 해당한다 (4.11절). 게이트: chunk-shapes(sh:in)."@ko .
 
 agt:hasDirectPart a owl:ObjectProperty , owl:IrreflexiveProperty ;
     rdfs:domain agt:Composite ;
@@ -33,7 +33,7 @@ agt:assertionLocation a owl:DatatypeProperty ;
     rdfs:domain agt:Chunk ;
     rdfs:range xsd:string ;
     rdfs:label "assertion location"@en , "본문 위치"@ko ;
-    skos:definition "청크 IRI에서 assertion 본문 저장 위치로의 사상. 산문 계열은 저장소 상대 파일 경로, 코드 계열은 심볼 ID (4.9절)."@ko .
+    skos:definition "단위 지식 IRI에서 assertion 본문 저장 위치로의 사상. 산문 계열은 저장소 상대 파일 경로, 코드 계열은 심볼 ID (4.9절)."@ko .
 
 agt:contentHash a owl:DatatypeProperty ;
     rdfs:domain agt:Chunk ;

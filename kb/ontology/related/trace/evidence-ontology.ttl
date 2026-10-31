@@ -32,7 +32,7 @@ agt:runResult a owl:NamedIndividual , agt:EvidenceKind ;
 
 agt:proposal a owl:NamedIndividual , agt:EvidenceKind ;
     rdfs:label "proposal"@en , "제안"@ko ;
-    skos:definition "언어모델이 후보를 제안했다는 사실. 극성은 +이되 확정 근거가 아니며 동률만 깬다 — 에이전트는 센서다 (9.11절, 2.5절)."@ko .
+    skos:definition "언어모델이 후보를 제안했다는 사실. 극성은 +이되 확정 근거가 아니다. 선호의 부분순서와 믿음 정도로도 순서가 없는 두 후보의 동률을 깬다 — 에이전트는 센서다 (9.11절, 2.5절, 결정 p9-preference-partial-order)."@ko .
 
 agt:embeddingSimilarity a owl:NamedIndividual , agt:EvidenceKind ;
     rdfs:label "embedding similarity"@en , "임베딩 유사도"@ko ;
@@ -41,3 +41,11 @@ agt:embeddingSimilarity a owl:NamedIndividual , agt:EvidenceKind ;
 agt:coRead a owl:NamedIndividual , agt:EvidenceKind ;
     rdfs:label "co-read"@en , "같은 세션에서 읽음"@ko ;
     skos:definition "한 작업에서 두 항목을 함께 읽었다는 사실. 구축 기록의 약한 형태로 검사 가능성이 가장 낮다 (10.8절)."@ko .
+
+agt:userDecision a owl:NamedIndividual , agt:EvidenceKind ;
+    rdfs:label "user decision"@en , "유저 결정"@ko ;
+    skos:definition "질문지에 적힌 유저의 답. 참조는 질문지와 질문 번호(`Q-NNNN#Qn`)이고, 질문 번호가 없던 옛 기록은 `legacy/<파일 이름>.md` 다. 구축 기록·실행 결과와 함께 확정 근거가 된다 (Q-0055 Q111-a, 결정 p9-evidence-ledger-with-belief)."@ko .
+
+agt:judgement a owl:NamedIndividual , agt:EvidenceKind ;
+    rdfs:label "judgement"@en , "판정"@ko ;
+    skos:definition "판정자 세션 둘이 결정 p8-judge-session-agreement 의 규칙으로 낸 판정. 확신도를 함께 적고, 성립이면 극성 +, 불성립이면 − 다. 확정 근거가 아니다 (Q-0056 Q118-a)."@ko .

@@ -7,23 +7,23 @@ title: function revalidation_rows in tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/98b89c74-895c-4fc5-94d8-8db422c2b0f4, https://agentic-knowledge-base.dev/id/chunk/cf1b3c55-9f8f-446c-87d0-87ab5c66320f, https://agentic-knowledge-base.dev/id/chunk/e7c83ee2-f6d7-442d-98f1-d053996cdfd4]
 part_of: https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f
 ---
-**함수** — `revalidation_rows(root, cwd, universe, changed, index, incoming, composite_parts, callers, downstream)` 다. 재판정 대상 → (rows, per_chunk, label, iri_to_label).
+**함수** — `revalidation_rows(root, cwd, universe, changed, index, incoming, composite_parts, callers, downstream)` 다. 재검증 대상 → (rows, per_chunk, label, iri_to_label).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def revalidation_rows(root: Path, cwd: str, universe: str, changed: list, index: dict, incoming: dict,
                       composite_parts: dict, callers: dict, downstream: bool = True) -> tuple:
-    """재판정 대상 → (rows, per_chunk, label, iri_to_label).
+    """재검증 대상 → (rows, per_chunk, label, iri_to_label).
 
     대상은 다섯이다 — frontmatter 링크 양방향 · 복합체 형제 · `uses` 호출부 · `bazel rdeps` 의 하류 · 도장.
     `downstream` 이 거짓(스냅숏 비교)이면 타깃 라벨 사상과 `bazel query` 를 부르지 않는다 — 하류 의존자 열이 빈다.
     """
-    # 3. 재판정 대상 — (a) frontmatter 링크 양방향 (b) bazel rdeps
+    # 3. 재검증 대상 — (a) frontmatter 링크 양방향 (b) bazel rdeps
     iri_to_label = owner_labels(root) if downstream else {}
     owners = sorted({iri_to_label[iri] for _p, kind, iri, *_ in changed if kind != "삭제" and iri in iri_to_label})
     rd = bazel_rdeps(cwd, owners, universe) if owners else {}
@@ -49,7 +49,7 @@ def revalidation_rows(root: Path, cwd: str, universe: str, changed: list, index:
             rows.append((path, "deps", "←", f"`{t}`", "bazel rdeps 전이"))
         verified = bool((meta or {}).get("verified"))
         if verified:
-            rows.append((path, "verified", "·", "이 청크 자신 — 검증 뒤 본문이 바뀌었다 (writer 검사 대상)", "frontmatter"))
+            rows.append((path, "verified", "·", "이 단위 지식 자신 — 검증 뒤 본문이 바뀌었다 (writer 검사 대상)", "frontmatter"))
         per_chunk.append((path, kind, m.get("title_ko", ""), len(out_links) + len(in_links), (len(direct or []), len(trans or [])),
                           len(called_by), verified, note))
     return rows, per_chunk, label, iri_to_label

@@ -4,15 +4,16 @@ type: schema
 level: concrete
 title_ko: 생성물과 다른 수치 140/148를 적은 임시 문서는 doccheck --report에서 어긋남을 내고 같은 수치를 적은 통제는 어긋난 쌍 0을 낸다
 title: A temporary document carrying the number 140/148 that disagrees with the generated view is reported as a mismatch by doccheck --report, and the control reports zero mismatched pairs
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-vv-profile-hazards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:case_gen, at: 2026-10-04T23:35:51+09:00}
+verified: [{by: process:case_gen, at: 2026-10-24T01:42:54+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/b173e680-0135-4d83-9e0f-d8fb77d77407]
 verifies: [https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/61df20c2-e2b4-5edb-bf5f-912d06cd247c]
 ---
-**케이스** — 기준 `document-table-matches-generated`의 이름별 값 일치 대조를 `doccheck --report`의 위치 인자로 잰다.
+**테스트 케이스** — 기준 `document-table-matches-generated`의 이름별 값 일치 대조를 `doccheck --report`의 위치 인자로 잰다.
 
 **자극** — 임시 문서 둘이고 경로는 검증기가 정한다. 커밋하지 않는다. 자극은 이름 `확정 문장 커버리지` 뒤에 `140/148`를 적어 대조 쌍 하나만 어긋나게 한다. 통제는 같은 이름에 목표 값을 적은 같은 형의 문서다.
 

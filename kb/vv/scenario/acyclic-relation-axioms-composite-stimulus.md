@@ -4,10 +4,13 @@ type: decision
 level: logical
 title_ko: 논리 시나리오 자극 — 자기 참조 부분관계 하나를 더한 그래프의 검증
 title: Logical scenario stimulus — validating a graph with one self-referencing part relation added
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T21:22:42+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T01:42:54+09:00}]
+refines: [https://agentic-knowledge-base.dev/id/chunk/03335ea8-fe32-45e0-9406-5e8457b81486]
+restored: [https://agentic-knowledge-base.dev/id/chunk/03335ea8-fe32-45e0-9406-5e8457b81486]
 part_of: https://agentic-knowledge-base.dev/id/composite/8b1ba340-919d-55cc-b0f0-ab499caf96bc
 composite: {id: https://agentic-knowledge-base.dev/id/composite/8b1ba340-919d-55cc-b0f0-ab499caf96bc, title_ko: 자기 참조 부분관계 하나를 더한 그래프의 검증, title: Validating a graph with one self-referencing part relation added, ordered: [https://agentic-knowledge-base.dev/id/chunk/a3b9da01-17aa-52c7-9aa5-26bd2daa02c7, https://agentic-knowledge-base.dev/id/chunk/fdd0f8a9-9882-5be4-9de6-993a0f7e3113, https://agentic-knowledge-base.dev/id/chunk/83be3942-7ea8-5794-9336-b2c110a39690]}
 ---

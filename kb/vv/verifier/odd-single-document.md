@@ -8,12 +8,14 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/7cdb48a1-5b6d-491e-ad54-0a0e2975dd41]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T20:18:09+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}
 layer: process
+verifies: [https://agentic-knowledge-base.dev/id/chunk/9e2e1287-6ee7-4e18-9c18-f2568a030de1, https://agentic-knowledge-base.dev/id/chunk/195a3146-351c-4ae5-bea7-61bc6edf7704]
+restored: [https://agentic-knowledge-base.dev/id/chunk/9e2e1287-6ee7-4e18-9c18-f2568a030de1, https://agentic-knowledge-base.dev/id/chunk/195a3146-351c-4ae5-bea7-61bc6edf7704]
 ---
 **검증기** — ODD 타깃 하나와 그 게이트를 자극으로 쓴다.
 
-**자극** — `//kb/odd:odd`(`kb_odd_kg`, `src = project-odd.yml`)와 `//kb/odd:gate_test` 다. 2026-09-21 실측의 문서는 조건 7(`build_system`·`python_runtime`·`repository_layout`·`language_policy`·`dependency_lock`·`network_connectivity`·`concurrent_agents`)이고 `CHECKS` 가 조건마다 `grade`·`method`·`cmd` 를 갖는다.
+**자극** — `//kb/odd:odd`(`kb_odd_kg`, `src = project-odd.yml`)와 `//kb/odd:gate_test` 다. 2026-09-21 측정의 문서는 조건 7(`build_system`·`python_runtime`·`repository_layout`·`language_policy`·`dependency_lock`·`network_connectivity`·`concurrent_agents`)이고 `CHECKS` 가 조건마다 `grade`·`method`·`cmd` 를 갖는다.
 
 ```yaml
 srcs:     [//kb/odd:project-odd.yml, //kb/odd:taxonomy]   # 원본 하나 + 생성 택소노미
@@ -27,4 +29,4 @@ negative: {condition: zz_no_checks, CHECKS: absent}        # 서술 표본 — o
 
 **판정 범위** — ODD 가 하나뿐이라 표본이 전수다. 조건 7 은 등급 A 5 · B 2 로 두 등급을 덮는다. C·D 조건은 문서에 없어 등급 어휘의 나머지는 shape 의 `sh:in` 으로만 검사된다.
 
-**검증 대응물** — 없음. 옮기기 전 케이스가 `verifies` 하던 결정 `p3-odd-is-a-document` 의 결론은 `concrete` 수준이라 `executable` 검증기가 `verifies` 할 수 없다.
+**검증 대응물** — 이 검증기는 `tools/validate.py`와 `tools/odd2kg.py`의 항목을 `verifies` 한다. 끝은 파일 복합체의 선언 항목(`module.md`)이고, 판정 함수 같은 부분 항목은 게이트 `code-part-link` 가 끝으로 받지 않는다. 반면 옮기기 전 테스트 케이스가 `verifies` 하던 결정 `p3-odd-is-a-document`의 결론은 `concrete` 수준이라, 같은 수준끼리만 잇는 규칙에 따라 이 검증기의 끝이 되지 않는다.

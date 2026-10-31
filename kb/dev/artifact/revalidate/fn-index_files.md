@@ -7,17 +7,17 @@ title: function index_files in tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/e7c83ee2-f6d7-442d-98f1-d053996cdfd4]
 part_of: https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68
 ---
-**함수** — `index_files(files)` 다. (주소, 파일) 목록의 청크 색인 → (index, incoming, composite_parts, callers, unparsable).
+**함수** — `index_files(files)` 다. (주소, 파일) 목록의 단위 지식 색인 → (index, incoming, composite_parts, callers, unparsable).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def index_files(files: list) -> tuple:
-    """(주소, 파일) 목록의 청크 색인 → (index, incoming, composite_parts, callers, unparsable). 워킹트리와 스냅숏이 같은 규칙을 쓴다."""
+    """(주소, 파일) 목록의 단위 지식 색인 → (index, incoming, composite_parts, callers, unparsable). 워킹트리와 스냅숏이 같은 규칙을 쓴다."""
     index, incoming, unparsable = {}, defaultdict(list), []
     for rel, p in files:
         try:

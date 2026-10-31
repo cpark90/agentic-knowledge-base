@@ -4,15 +4,16 @@ type: schema
 level: concrete
 title_ko: itemContent가 hasDirectPart 밖인 co:List가 순서 shape의 둘째 sh:sparql로 거부되고 정합한 co:List는 통과한다
 title: A co:List whose itemContent lies outside hasDirectPart is rejected by the order shape's second sh:sparql, and a consistent co:List passes
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:case_gen, at: 2026-10-04T21:22:42+09:00}
+verified: [{by: process:case_gen, at: 2026-10-24T01:42:54+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/a6673077-7796-4803-afe1-299d79fc4d02]
 verifies: [https://agentic-knowledge-base.dev/id/chunk/b7ef890e-af82-442e-8cf4-091412f49c2e]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/ab0a4767-66e3-571f-8004-46c538f04234]
 ---
-**케이스** — itemContent가 직접 부분 밖인 자극 하나와 정합한 통제 하나로 shape의 둘째 `sh:sparql`(부분 집합 일치)을 돌린다.
+**테스트 케이스** — itemContent가 직접 부분 밖인 자극 하나와 정합한 통제 하나로 shape의 둘째 `sh:sparql`(부분 집합 일치)을 돌린다.
 
 **자극** — 임시 파일 둘이다. 경로는 검증기가 정한다. 커밋하지 않는다. 개체마다 나머지 규칙은 만족시키고 어기는 것은 부분 집합 규칙 하나뿐이다.
 

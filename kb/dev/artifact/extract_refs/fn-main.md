@@ -7,9 +7,8 @@ title: function main in tools/extract_refs.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract-refs}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-19T14:57:33Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 uses: [https://agentic-knowledge-base.dev/id/chunk/135475ce-ddaa-4fff-8e37-dd26b1e3277d, https://agentic-knowledge-base.dev/id/chunk/387e5197-3f50-4685-a292-423f00120e05]
 part_of: https://agentic-knowledge-base.dev/id/composite/444fc7bd-680b-4c09-aec8-0e5de0cc1175
 ---
@@ -21,7 +20,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", required=True)
     ap.add_argument("--ontology", nargs="*", default=[],
-                    help="온톨로지 모듈 파일들(*-ontology.ttl). 주면 agt:usesConcept 도 방출한다. 뒤에 `--` 를 두고 청크 파일을 잇는다")
+                    help="온톨로지 모듈 파일들(*-ontology.ttl). 주면 agt:usesConcept 도 방출한다. 뒤에 `--` 를 두고 단위 지식 파일을 잇는다")
     ap.add_argument("files", nargs="*")
     args = ap.parse_args()
 
@@ -29,7 +28,7 @@ def main() -> int:
 
     known, bodies, errors = set(), [], []
     spec: dict[str, str] = {}  # 조각 → 원본 — 후보 링크 IRI 의 뿌리 uuid (chunk2kg 와 같은 규칙)
-    # 청크는 .md 뿐이다 — 매크로가 `-- $(SRCS)` 로 넘기면 온톨로지 .ttl 도 섞여 오므로 조용히 건너뛴다
+    # 단위 지식은 .md 뿐이다 — 매크로가 `-- $(SRCS)` 로 넘기면 온톨로지 .ttl 도 섞여 오므로 조용히 건너뛴다
     for path in sorted(p for p in args.files if p.endswith(".md")):
         try:
             iri, spec_of, body = read(path)
@@ -107,10 +106,10 @@ def main() -> int:
         print(f"[extract-refs] 개념을 사용한 항목 {concept_blocks}개, usesConcept 링크 {concept_links}개", file=sys.stderr)
         for term, n in sorted(unknown.items(), key=lambda kv: (-kv[1], kv[0])):
             where = ", ".join(sorted(set(unknown_where[term]))[:3])
-            print(f"info [usesConcept] 온톨로지에 없는 표기 agt:{term} — 청크 {n}개 ({where}{' …' if len(set(unknown_where[term])) > 3 else ''})",
+            print(f"info [usesConcept] 온톨로지에 없는 표기 agt:{term} — 단위 지식 {n}개 ({where}{' …' if len(set(unknown_where[term])) > 3 else ''})",
                   file=sys.stderr)
         if unknown:
-            print(f"info [usesConcept] 온톨로지에 없는 표기 {len(unknown)}종 / 청크-표기 쌍 {sum(unknown.values())}개 — 링크로 만들지 않음",
+            print(f"info [usesConcept] 온톨로지에 없는 표기 {len(unknown)}종 / 단위 지식-표기 쌍 {sum(unknown.values())}개 — 링크로 만들지 않음",
                   file=sys.stderr)
     return 0
 ```

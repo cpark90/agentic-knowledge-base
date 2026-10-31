@@ -7,10 +7,10 @@ title: Normative-document conventions — Reports are projected, not stored; fiv
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:54:56+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:18:59+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/12dac333-3480-43ae-9b38-2884efe35bd0
 ---
 **규약** — `p8-vv-reports`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: 보고 5종 | 검증 상태 · 커버리지 · 결함 분포 · 가정 건전성 · 독립성. 저장하지 않고 뷰, 리비전·질의 명기
+규약: 보고 5종 | 검증 상태와 커버리지, 결함 분포, 가정 건전성, 독립성을 보고한다. 보고는 저장하지 않고 뷰로 생성하며 리비전과 질의를 명기한다

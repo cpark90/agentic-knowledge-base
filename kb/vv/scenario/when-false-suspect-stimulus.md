@@ -4,10 +4,13 @@ type: decision
 level: logical
 title_ko: 논리 시나리오 자극 — when이 거짓인 확정 링크 하나의 가정 판정
 title: Logical scenario stimulus — assumption checking of one confirmed link whose when is false
-status: draft
+status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T21:22:42+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T14:28:16+09:00}
+verified: [{by: vnv/claude-opus-5-5, at: 2026-10-24T01:42:54+09:00}, {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}, {by: vnv/claude-opus-5-5, at: 2026-10-25T14:28:16+09:00}]
+refines: [https://agentic-knowledge-base.dev/id/chunk/91dbec7f-3480-49ec-a83b-0273b572afde]
+restored: [https://agentic-knowledge-base.dev/id/chunk/91dbec7f-3480-49ec-a83b-0273b572afde]
 part_of: https://agentic-knowledge-base.dev/id/composite/4751cd7f-fc42-512c-83a6-077b508c4877
 composite: {id: https://agentic-knowledge-base.dev/id/composite/4751cd7f-fc42-512c-83a6-077b508c4877, title_ko: when이 거짓인 확정 링크 하나의 가정 판정, title: Assumption checking of one confirmed link whose when is false, ordered: [https://agentic-knowledge-base.dev/id/chunk/94abc6b4-5443-51c2-9871-2ea56efb8a0a, https://agentic-knowledge-base.dev/id/chunk/852389f8-db54-5797-926c-03c1adbe7c3b, https://agentic-knowledge-base.dev/id/chunk/71a436ab-dc56-563d-82f0-9fcaa598c915]}
 ---
@@ -25,7 +28,7 @@ case:
   title_ko: "when이 거짓인 확정 링크 하나가 ${broken}을 깬 assume_check에서 suspect로 유도되고 종료 코드 1이며 깨지 않은 같은 자극은 종료 0이다"
   title: "A single confirmed link whose when is false is derived to suspect by assume_check with ${broken} broken, and the same stimulus without the break exits 0"
   summary: "`when`이 거짓인 확정 링크 하나를 자극으로 쓴다."
-  stimulus: "임시 파일 하나다. 이름은 `vv-when-cycle.ttl`이고 경로는 검증기가 정한다. 커밋하지 않는다. 확정 링크 하나가 `in(${broken})`인 `when`과 지지 증거를 갖는다. 가정·의존 청크는 없다."
+  stimulus: "임시 파일 하나다. 이름은 `vv-when-cycle.ttl`이고 경로는 검증기가 정한다. 커밋하지 않는다. 확정 링크 하나가 `in(${broken})`인 `when`과 지지 증거를 갖는다. 가정·의존 지식은 없다."
   files:
     vv-when-cycle.ttl: |
       @prefix agt: <https://agentic-knowledge-base.dev/agt/> .

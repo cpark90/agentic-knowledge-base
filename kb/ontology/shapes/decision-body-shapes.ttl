@@ -1,25 +1,25 @@
-# shape — 설계 결정의 본문 틀 셋: 결론·근거·대안. 세 청크 규칙(kb_decision)이 이미 강제하는 형태를 슬롯 질문과 함께 기술한다 (결정 p4-slot-answers-one-question)
-# 옛 단일 파일 결정(chunks/decision/d-*.md)은 한 파일이 결론과 근거를 함께 담으므로 sh:xone 이 아니라 sh:or 다 — 2026-09-22 실측에서 156건이 둘 이상을 만족했다.
+# shape — 설계 결정의 본문 틀 셋: 결론·근거·대안. 세 단위 지식 규칙(kb_decision)이 이미 강제하는 형태를 슬롯 질문과 함께 기술한다 (결정 p4-slot-answers-one-question)
+# sh:or 가 아니라 sh:xone 이다 — 본문은 역할 표지 가운데 정확히 하나로 시작한다. 옛 단일 파일 결정(2026-09-22 측정 156건이 둘 이상을 만족했다)은 지시 0192 로 지웠고, 마지막 단일 파일 시나리오 risk-grade-scale 은 2026-10-24 자극·요인·배제 자극 세 항목으로 나뉘어 원 파일이 deprecated 가 됐다(유저 답 Q-0061 Q147-a). 그 뒤 sh:xone 위반은 0건이다. p8-reproducibility 결론의 **자극 열** 오검출은 슬롯 판정(chunk2kg.body_slot_mark)의 한정어 꼴 규칙으로 걷혔다.
 # 슬롯 표지의 값은 xsd:string 이다 — 형이 없으면 언어 태그가 붙은 리터럴이나 IRI 가 슬롯 표지로 통과한다 (M5 값의 형, 2026-09-26).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# V&V 시나리오도 decision plane 이라 같은 틀에 든다 (결정 p8-scenario-authoring) — 표지 낱말만 자극·요인·배제 자극으로 갈리고
-# 슬롯은 결정의 결론·근거·대안 그대로다. 그래서 새 틀이 아니라 이 sh:or 의 대안 셋이다. 파일명과 표지의 대응
+# V&V 시나리오도 `decision` 지식 종류라 같은 틀에 든다 (결정 p8-scenario-authoring) — 표지 낱말만 자극·요인·배제 자극으로 갈리고
+# 슬롯은 결정의 결론·근거·대안 그대로다. 그래서 새 틀이 아니라 이 sh:xone 의 대안 셋이다. 파일명과 표지의 대응
 # (`-stimulus` 자극 · `-factors` 요인 · `-excluded` 배제 자극)은 게이트 `decision-role`(chunk_lint)이 본다 — shape 는 노드만 보고
-# 파일 stem 을 모른다. 단일 청크 시나리오(이행기)는 **결론** 표지로 첫 대안을 만족한다.
+# 파일 stem 을 모른다.
 agt:DecisionBodyShape a sh:NodeShape ;
     sh:targetClass agt:DesignDecision ;
-    sh:or ( agt:DecisionConclusionBodyShape agt:DecisionRationaleBodyShape agt:DecisionAlternativesBodyShape
+    sh:xone ( agt:DecisionConclusionBodyShape agt:DecisionRationaleBodyShape agt:DecisionAlternativesBodyShape
             agt:DecisionConventionsBodyShape
             agt:ScenarioStimulusBodyShape agt:ScenarioFactorsBodyShape agt:ScenarioExcludedBodyShape ) ;
-    sh:message "설계 결정의 본문은 역할 표지 **결론**·**근거**·**대안**·**규약**(V&V 시나리오는 **자극**·**요인**·**배제 자극**) 중 하나로 시작해야 한다 — 세 청크와 선택 규약 청크가 한 결정을 이룬다 (p7-dev-plane-substance, p4-slot-answers-one-question, p8-scenario-authoring, p4-convention-slot)" .
+    sh:message "설계 결정의 본문은 역할 표지 **결론**·**근거**·**대안**·**규약**(V&V 시나리오는 **자극**·**요인**·**배제 자극**) 중 정확히 하나로 시작해야 한다 — 세 단위 지식과 선택 규약이 한 결정을 이룬다 (p7-dev-plane-substance, p4-slot-answers-one-question, p8-scenario-authoring, p4-convention-slot)" .
 
 agt:ScenarioStimulusBodyShape a sh:NodeShape ;
     sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "자극" ; sh:order 1 ;
         sh:description "무엇을 자극하는가 (결정의 결론 자리)" ;
-        sh:message "슬롯 **자극** 이 없다 — actor·action·순서·`keep()` 를 적고 요인·배제 자극은 형제 청크에 둔다" ] .
+        sh:message "슬롯 **자극** 이 없다 — actor·action·순서·`keep()` 를 적고 요인·배제 자극은 형제 단위 지식에 둔다" ] .
 
 agt:ScenarioFactorsBodyShape a sh:NodeShape ;
     sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "요인" ; sh:order 1 ;
@@ -34,7 +34,7 @@ agt:ScenarioExcludedBodyShape a sh:NodeShape ;
 agt:DecisionConclusionBodyShape a sh:NodeShape ;
     sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "결론" ; sh:order 1 ;
         sh:description "무엇을 정했는가" ;
-        sh:message "슬롯 **결론** 이 없다 — 정한 것을 한 문장으로 적고 근거·대안은 형제 청크에 둔다" ] .
+        sh:message "슬롯 **결론** 이 없다 — 정한 것을 한 문장으로 적고 근거·대안은 형제 단위 지식에 둔다" ] .
 
 agt:DecisionRationaleBodyShape a sh:NodeShape ;
     sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "근거" ; sh:order 1 ;
@@ -48,5 +48,5 @@ agt:DecisionAlternativesBodyShape a sh:NodeShape ;
 
 agt:DecisionConventionsBodyShape a sh:NodeShape ;
     sh:property [ sh:path agt:bodySlot ; sh:datatype xsd:string ; sh:hasValue "규약" ; sh:order 1 ;
-        sh:description "이 결정이 규범 문서에 싣는 문장은 무엇인가 (선택 넷째 청크 conventions.md)" ;
+        sh:description "이 결정이 규범 문서에 싣는 문장은 무엇인가 (선택 넷째 단위 지식 conventions.md)" ;
         sh:message "슬롯 **규약** 이 없다 — 첫 줄 `**규약** — …` 뒤에 줄마다 `규약: [지킴] …`·`규약: [권장] …`·`규약: …` 을 적는다 (p4-convention-slot)" ] .

@@ -7,17 +7,17 @@ title: function execute in tools/vv_run.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-vv-run}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/388a8426-2072-4508-a920-535321ed7eaa, https://agentic-knowledge-base.dev/id/chunk/4d982d54-0f5c-4d2c-bfd0-f5babb65918c, https://agentic-knowledge-base.dev/id/chunk/4f74f6b4-a466-4f0e-95c2-4f22a919fbd0, https://agentic-knowledge-base.dev/id/chunk/72467e81-75de-4b48-92ac-2d429de91d8e, https://agentic-knowledge-base.dev/id/chunk/a52db838-3103-4131-8ba5-17b938049c08]
 part_of: https://agentic-knowledge-base.dev/id/composite/9c609b2d-87cb-474b-9ee8-9a132ba26991
 ---
-**함수** — `execute(cases, root, vocab)` 다. 케이스마다
+**함수** — `execute(cases, root, vocab)` 다. 테스트 케이스마다
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def execute(cases: list[dict], root: Path, vocab: str | os.PathLike = "") -> None:
-    """케이스마다 자극을 쓰고 실행 대상 명령을 순서대로 돌린 뒤 기대와 대조한다 (제자리 갱신). 자극은 실행 뒤 지운다.
+    """테스트 케이스마다 자극을 쓰고 실행 대상 명령을 순서대로 돌린 뒤 기대와 대조한다 (제자리 갱신). 자극은 실행 뒤 지운다.
 
     `vocab` 은 `main()` 이 해소한 토큰 계수기 어휘의 절대 경로다 — 검증기 명령이 `--vocab` 없이도 같은 어휘를 읽는다.
     """
@@ -35,7 +35,7 @@ def execute(cases: list[dict], root: Path, vocab: str | os.PathLike = "") -> Non
                 shutil.rmtree(tmp, ignore_errors=True)  # 커밋하지 않는다 — 자극은 실행 동안만 있다
         ran = [c for c in case["commands"] if c["skip"] is None]
         skipped = len(case["commands"]) - len(ran)
-        # 건너뛴 명령이 하나라도 있으면 케이스는 pass 가 아니다 — 음성 자극이 건너뛰어진 케이스는 "게이트가 거부한다" 를
+        # 건너뛴 명령이 하나라도 있으면 테스트 케이스는 pass 가 아니다 — 음성 자극이 건너뛰어진 테스트 케이스는 "게이트가 거부한다" 를
         # 보이는 절반이 빈 채로 남는다. 판정 어휘는 셋 그대로다(kb_lib.RUN_VERDICTS): 실행한 명령이 기대와 어긋나면 fail,
         # 명령 전부를 실행해 전부 기대와 맞으면 pass, 그 밖(건너뜀이 있거나 실행한 명령이 없음)은 skip 이다. SKIP 은 PASS 가 아니다.
         # 기대는 둘이다 — 종료 코드와 `contains` 의 문구. 둘 다 맞아야 pass 다 (p8-machine-readable-case)

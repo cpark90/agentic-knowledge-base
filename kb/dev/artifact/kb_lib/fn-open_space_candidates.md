@@ -7,8 +7,9 @@ title: function open_space_candidates in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/464fe842-81a3-438f-901c-e9cef6f1dc88]
 part_of: https://agentic-knowledge-base.dev/id/composite/e7a31401-e48b-4980-aece-491ec241ffe6
 ---
 **함수** — `open_space_candidates(g)` 다. 열린 공간(`agt:spaceStatus "open"`)의 열린 후보(state open → linkState candidate)가 가리키는 대상 IRI 집합이다.
@@ -21,15 +22,16 @@ def open_space_candidates(g: Graph) -> set:
     결정 완결률이 이 집합에 결론이 든 결정을 따로 센다 (유저 결정 Q60-a). resolved 공간의 confirmed 후보는 확정 결정이므로
     들지 않는다.
     """
-    _, has_cand, link_to = SPACE_LINKAGE_PREDICATES
+    _, has_cand, _ = SPACE_LINKAGE_PREDICATES
     open_state = SPACE_STATE_LINK["open"][1]
     out = set()
     for space, st in g.subject_objects(AGT.spaceStatus):
         if str(st) != SPACE_STATUS[0]:
             continue
         for link in g.objects(space, has_cand):
-            if str(next(g.objects(link, AGT.linkState), "")) == open_state:
-                out.update(g.objects(link, link_to))
+            cand = space_candidate_of(g, space, link)
+            if cand is not None and str(next(g.objects(link, AGT.linkState), "")) == open_state:
+                out.add(cand)
     return out
 ```
 <!-- 인용 끝 -->

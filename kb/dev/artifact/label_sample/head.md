@@ -7,7 +7,7 @@ title: module head live in tools/label_sample.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-label-sample}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/06cd565d-e749-42fe-88da-1a56fd71a2a5
 ---
@@ -21,8 +21,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from tools import kb_lib  # noqa: E402
 except ImportError:
-    import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록)·판정자 프로파일 질의·지문의 단일 정의처
-from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402
+    import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록)·판정자 프로파일 질의·해시값의 단일 정의 위치
+from chunk2kg import LINK_KEYS, apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402
 
 LIVE = {"draft", "stable", "suspect"}
 QUESTION = "labelRepresentsBody"  # 이 실험이 언제나 묻는 질문 — 프로파일의 지역명(judge-question-set-ontology.ttl)

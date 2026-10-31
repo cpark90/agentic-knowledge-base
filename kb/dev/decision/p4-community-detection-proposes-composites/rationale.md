@@ -7,7 +7,7 @@ title: Composites are declared and communities are computed, so detection fits o
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-dependency-graph-design}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-fable-5-1, at: 2026-09-12T00:50:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/165ef75a-d4f3-4de2-aba2-ea3a8efb787a
 ---
@@ -19,5 +19,5 @@ part_of: https://agentic-knowledge-base.dev/id/composite/165ef75a-d4f3-4de2-aba2
 
 LARGER의 절제 실험에서 커뮤니티 제거의 손실(−4.1)은 그래프 확장 제거(−13.5)보다 훨씬 작다 —
 커뮤니티는 보조 신호이지 검색의 주된 요소가 아니다. 이 체계의 복합체 동질성 규칙(같은
-plane·level) 때문에 plane을 넘는 군집은 복합체가 될 수 없고, 그런 군집이 말하는 "함께 갱신됨"은
+지식 종류·level) 때문에 지식 종류를 넘는 군집은 복합체가 될 수 없고, 그런 군집이 말하는 "함께 갱신됨"은
 `relatedTo` 링크의 영역이다. 그래서 탐지의 출력은 복합체 후보와 링크 후보 두 갈래로 나뉜다.

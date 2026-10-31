@@ -7,7 +7,7 @@ title: function load_bzl_list in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/513aca4d-e5f0-46c8-8d13-784c71691884
 ---
@@ -16,7 +16,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/513aca4d-e5f0-46c8-8d13
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def load_bzl_list(path: str | Path, name: str) -> tuple[str, ...]:
-    """`defs/kb.bzl` 의 이름 목록 리터럴을 읽는다 — 리터럴 읽기의 정의처(`load_extracted_sources` 가 이것을 쓴다).
+    """`defs/kb.bzl` 의 이름 목록 리터럴을 읽는다 — 리터럴 읽기의 단일 정의 위치(`load_extracted_sources` 가 이것을 쓴다).
 
     값은 문자열 목록이고 Starlark 주석은 지운 뒤 `ast.literal_eval` 로 읽는다. 못 읽으면 ValueError 다 —
     판정 불가지 통과는 조용히 비는 것과 같다.

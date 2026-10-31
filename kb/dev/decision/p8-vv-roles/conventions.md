@@ -7,10 +7,10 @@ title: Normative-document conventions — Five roles write to the V&V KB; criter
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:32:26+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T01:18:59+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/666bd423-dc26-4857-9841-c1e3aa131223
 ---
 **규약** — `p8-vv-roles`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: 역할 | 검증기 저자 ≠ V&V engineer (또는 다른 세션). audit은 쓰기 없음
+규약: 역할 | 검증기 저자는 V&V engineer와 다른 사람이거나 다른 세션이어야 하고, audit은 쓰지 않는다

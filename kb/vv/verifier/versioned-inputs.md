@@ -8,8 +8,10 @@ status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/6280e8fa-8289-458a-a3c1-9ededacd2478]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-04T20:18:09+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}
 layer: process
+verifies: [https://agentic-knowledge-base.dev/id/chunk/9e2e1287-6ee7-4e18-9c18-f2568a030de1]
+restored: [https://agentic-knowledge-base.dev/id/chunk/9e2e1287-6ee7-4e18-9c18-f2568a030de1]
 ---
 **검증기** — 해시 고정된 외부 입력 둘과 그 원문을 쓰는 게이트 둘을 자극으로 쓴다.
 
@@ -27,4 +29,4 @@ negative: {term: skos:defnition}   # 서술 표본 — 접두어는 맞고 원�
 
 **판정 범위** — 외부 입력 중 원문 대조까지 있는 것은 표준 어휘 둘뿐이라 이 둘이 버전 고정의 전 분기(선언·해시·실재)를 덮는다. pip 잠금은 해시 고정의 같은 분기라 표본을 늘리지 않는다. 오타 표본은 접두어 검사가 통과시키는 값이라 원문 대조만이 잡는다는 것을 보인다.
 
-**검증 대응물** — 없음. 옮기기 전 케이스가 `verifies` 하던 결정 `p11-inputs-as-versioned-vocabulary` 의 결론은 `concrete` 수준이라 `executable` 검증기가 `verifies` 할 수 없다.
+**검증 대응물** — 이 검증기는 `tools/validate.py`의 항목을 `verifies` 한다. 끝은 파일 복합체의 선언 항목(`module.md`)이고, 판정 함수 같은 부분 항목은 게이트 `code-part-link` 가 끝으로 받지 않는다. 반면 옮기기 전 테스트 케이스가 `verifies` 하던 결정 `p11-inputs-as-versioned-vocabulary`의 결론은 `concrete` 수준이라, 같은 수준끼리만 잇는 규칙에 따라 이 검증기의 끝이 되지 않는다.

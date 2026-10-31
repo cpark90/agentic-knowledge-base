@@ -7,9 +7,8 @@ title: function main in tools/query.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-query}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 uses: [https://agentic-knowledge-base.dev/id/chunk/01f3ebf5-d8ae-43ce-94b0-5cc0537f8dd0, https://agentic-knowledge-base.dev/id/chunk/0721b4a7-9459-4293-abe0-4cb723016280, https://agentic-knowledge-base.dev/id/chunk/07b3db3b-4826-4478-878d-5e9c9d7d4ae0, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/26644059-7309-45ef-a32b-71465fa1d2fb, https://agentic-knowledge-base.dev/id/chunk/5b372e8e-c287-4ed0-b9d6-16c0366ee0c8, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/67261510-0d9f-421b-8c52-2714e157ad27, https://agentic-knowledge-base.dev/id/chunk/f9b6b36a-3732-4fca-b346-5a371afb405e]
 part_of: https://agentic-knowledge-base.dev/id/composite/4358cd56-6be2-4ce1-9f2f-9fb0ed47b5d3
 ---
@@ -51,7 +50,7 @@ def main() -> int:
             return EXIT_CONFIG
 
     try:
-        g = kb_lib.load_union(a.ttl, root)  # 로딩 로직의 단일 정의처 — weave·metrics 와 같은 union
+        g = kb_lib.load_union(a.ttl, root)  # 로딩 로직의 단일 정의 위치 — weave·metrics 와 같은 union
     except ValueError as e:
         print(f"CONFIG {e}", file=sys.stderr)
         return EXIT_CONFIG
@@ -79,7 +78,7 @@ def main() -> int:
             "cq-summary", "역량 질문 행 수 요약", "tools/query.py",
             f"등재된 역량 질문 {len(queries)}건을 전부 돌려 질문과 행 수만 — 한 질의의 답은 `bazel run //tools:query -- <CQ> --labels`",
             "bazel run //tools:query", [str(f) for f in rq_files] + list(a.ttl), f"트리플 {len(g)} · 질의 {len(queries)}",
-            kb_lib.gendoc_view_notice("질의 파일 `tools/cq-queries/*.rq` 와 청크"))))
+            kb_lib.gendoc_view_notice("질의 파일 `tools/cq-queries/*.rq` 와 단위 지식"))))
         print("\n".join(summary_lines))
         return EXIT_OK
     except Exception as e:  # 실행 중 실패(질의 결함·바인딩 타입) — 산출물이 아니라 질의를 고친다

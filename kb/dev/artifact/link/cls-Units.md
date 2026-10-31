@@ -7,17 +7,17 @@ title: class Units in tools/link.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/104f7d3c-d114-46c9-aab7-b44761117813, https://agentic-knowledge-base.dev/id/chunk/3e0a2fd1-776d-4762-b6e5-538b8cd4987d, https://agentic-knowledge-base.dev/id/chunk/a7d95ff4-ef90-4353-a266-826a544f37d8, https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99]
 part_of: https://agentic-knowledge-base.dev/id/composite/570df80b-916d-466e-a9fe-8a9ac66eea54
 ---
-**클래스** — `class Units` 다. 살아 있는 청크를 단위로 — 결정 복합체(결론 부분이 있는 것)는 결론이 대표하고, 나머지 청크는 자기 자신이 단위다.
+**클래스** — `class Units` 다. 살아 있는 단위 지식을 단위로 — 결정 기록(결론 부분이 있는 것)은 결론이 대표하고, 나머지 단위 지식은 자기 자신이 단위다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 class Units:
-    """살아 있는 청크를 단위로 — 결정 복합체(결론 부분이 있는 것)는 결론이 대표하고, 나머지 청크는 자기 자신이 단위다."""
+    """살아 있는 단위 지식을 단위로 — 결정 기록(결론 부분이 있는 것)은 결론이 대표하고, 나머지 단위 지식은 자기 자신이 단위다."""
 
     def __init__(self, g):
         self.g = g
@@ -37,7 +37,7 @@ class Units:
         concl_name = "/" + kb_lib.DECISION_PART_FILES["conclusion"]
         for comp, ps in parts.items():
             concl = sorted((p for p in ps if self.loc.get(p, "").endswith(concl_name)), key=str)
-            if concl and all(self.plane.get(p) == "decision" for p in ps):  # 결정 복합체 — 앵커는 결론 (STYLEGUIDE §4, weave 와 같은 규칙)
+            if concl and all(self.plane.get(p) == "decision" for p in ps):  # 결정 기록 — 앵커는 결론 (STYLEGUIDE §4, weave 와 같은 규칙)
                 for p in ps:
                     if p in self.chunks:
                         self.unit_of[p] = concl[0]
@@ -64,7 +64,7 @@ class Units:
         return Path(self.loc.get(c, str(c))).stem
 
     def code_part(self, c) -> bool:
-        """추출 트리 안에서 복합체의 부분인 청크 — 링크 끝점이 아니다. 판정은 게이트 `code-part-link` 와 같은 `kb_lib.code_part` 다."""
+        """추출 트리 안에서 복합체의 부분인 단위 지식 — 링크 끝점이 아니다. 판정은 게이트 `code-part-link` 와 같은 `kb_lib.code_part` 다."""
         return kb_lib.code_part(self.loc.get(c, ""), c in self.comp_of)
 
     def case(self, c) -> bool:

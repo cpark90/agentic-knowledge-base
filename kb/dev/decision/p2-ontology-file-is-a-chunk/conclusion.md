@@ -2,19 +2,20 @@
 id: https://agentic-knowledge-base.dev/id/chunk/e461ba9e-53dd-4f09-aa99-2c06ab73f9eb
 type: decision
 level: concrete
-title_ko: 온톨로지는 파일이 청크이고 디렉토리가 모듈이며 한 개념은 한 파일에서만 정의된다
+title_ko: 온톨로지는 파일이 단위 지식이고 디렉토리가 모듈이며 한 개념은 한 파일에서만 정의된다
+former_title_ko: ["온톨로지는 파일이 청크이고 디렉토리가 모듈이며 한 개념은 한 파일에서만 정의된다", "온톨로지는 파일이 지식 항목이고 디렉토리가 모듈이며 한 개념은 한 파일에서만 정의된다"]
 title: In the ontology a file is a chunk and a directory is a module, and each concept is defined in exactly one file
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7, https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:14:21+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-04T12:19:10+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/2c53f95f-200a-4ae9-8dbe-b28de0df7378
 composite: {id: https://agentic-knowledge-base.dev/id/composite/2c53f95f-200a-4ae9-8dbe-b28de0df7378, title_ko: 온톨로지의 파일과 모듈 배치, title: Ontology file and module layout}
 ---
-**결론** — 온톨로지는 파일이 청크이고 디렉토리가 모듈이며 모듈이 Bazel 패키지다. 노트 2.3절의 모듈 구조를 파일 단위로 내린 규약이다.
+**결론** — 온톨로지는 파일이 단위 지식이고 디렉토리가 모듈이며 모듈이 Bazel 패키지다. 노트 2.3절의 모듈 구조를 파일 단위로 내린 규약이다.
 
 - **새 개념은 주제가 맞는 기존 모듈 디렉토리의 새 파일로 추가한다.** 기존 파일에 덧붙이는 것은 그 파일의 주제일 때만이다.
 - **새 주제는 새 모듈 디렉토리로 추가한다.** 모듈은 `project-ontology.ttl`의 `owl:imports`와 `kb/ontology/BUILD.bazel`의 `//kb/ontology:modules`에 손으로 등록한다. 모듈의 `BUILD.bazel`은 모듈 디렉토리에서, `modules.bzl`은 `owl:imports`에서 `tools/gen_build.py`가 생성한다.

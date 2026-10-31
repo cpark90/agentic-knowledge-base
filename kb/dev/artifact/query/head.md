@@ -9,7 +9,6 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-query}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 part_of: https://agentic-knowledge-base.dev/id/composite/f0c1bfd1-a5d5-4710-83ce-f8ca7018e21b
 ---
 **모듈 머리** — `tools/query.py` 의 모듈 머리 `default-query-dir` 다. 모듈 머리

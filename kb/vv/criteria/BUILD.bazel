@@ -1,4 +1,4 @@
-# 생성 파일 — 손으로 고치지 않는다. 원본은 각 청크의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
+# 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
 load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
 
@@ -72,6 +72,15 @@ kb_chunk(
     refines = [
         "//kb/vv/goal:backward-trace-to-requirement",
     ],
+)
+
+kb_chunk(
+    name = "belief-calibrated-against-human-labels",
+    src = "belief-calibrated-against-human-labels.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8eb6cdbb-1b7f-4741-94dc-2c50c799253c",
+    plane = "contract",
+    level = "logical",
+    status = "draft",
 )
 
 kb_chunk(
@@ -219,6 +228,18 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "external-parties-through-interpreter",
+    src = "external-parties-through-interpreter.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e0eabf1c-ab57-47f1-b10e-870f8299aa26",
+    plane = "contract",
+    level = "logical",
+    status = "stable",
+    refines = [
+        "//kb/vv/goal:external-parties-through-interpreter",
+    ],
+)
+
+kb_chunk(
     name = "foreign-vocabulary-rejected",
     src = "foreign-vocabulary-rejected.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/f2618270-3e11-40c7-b5d0-36c828923ff0",
@@ -284,7 +305,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/ffacb879-a5c4-4ecc-8e50-c0751aec665b",
     plane = "contract",
     level = "logical",
-    status = "draft",
+    status = "stable",
     refines = [
         "//kb/vv/goal:harness-follows-knowledge",
     ],
@@ -539,6 +560,7 @@ kb_bundle(
         ":agent-catalog-complete",
         ":audit-self-sufficiency",
         ":backward-trace-to-requirement",
+        ":belief-calibrated-against-human-labels",
         ":chunk-42-lines",
         ":chunk-bound-to-project-odd",
         ":composite-order-shape",
@@ -551,6 +573,7 @@ kb_bundle(
         ":documents-generated",
         ":domain-knowledge-as-vocabulary",
         ":element-without-vocabulary-dropped",
+        ":external-parties-through-interpreter",
         ":foreign-vocabulary-rejected",
         ":gate-judges-edits",
         ":generated-build-drift",

@@ -8,7 +8,7 @@ title: One ODD document per project
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: https://agentic-knowledge-base.dev/id/doc-structure}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T16:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T23:10:52+09:00}
 part_of: https://agentic-knowledge-base.dev/id/comp-req-project
 composite: {id: https://agentic-knowledge-base.dev/id/comp-req-project, title_ko: 요구 — 프로젝트 경계와 완주, title: requirements — project boundary and completion}
 ---
@@ -17,4 +17,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/comp-req-project, title_ko
 - **이해관계자**: 프로젝트 · **관심사**: 경계와 갱신
 - **출처**: 노트 한 줄 요약·3.1절
 
-스코프·가정·시나리오·커버리지가 전부 ODD에서 파생된다 — ODD 없이는 어느 것도 정의되지 않는다.
+적용 범위·가정·시나리오·커버리지가 전부 ODD에서 파생된다 — ODD 없이는 어느 것도 정의되지 않는다.

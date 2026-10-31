@@ -3,7 +3,7 @@ load("//defs:kb.bzl", "kb_ontology_module")
 
 package(default_visibility = ["//visibility:public"])
 
-# 모듈 = 디렉토리, 청크 = 파일 (2.3절). IRI https://agentic-knowledge-base.dev/ontology/related/trace
+# 모듈 = 디렉토리, 단위 지식 = 파일 (2.3절). IRI https://agentic-knowledge-base.dev/ontology/related/trace
 kb_ontology_module(
     name = "trace",
     srcs = glob(["*.ttl"]),

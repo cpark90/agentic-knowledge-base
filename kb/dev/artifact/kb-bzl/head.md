@@ -7,7 +7,7 @@ title: module head chunkinfo in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9a583117-c61c-48f7-b30a-f60bddda9bfe
 ---
@@ -18,14 +18,14 @@ part_of: https://agentic-knowledge-base.dev/id/composite/9a583117-c61c-48f7-b30a
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```starlark
 ChunkInfo = provider(
-    doc = "지식 항목(청크 또는 복합체)이 의존자에게 내보내는 것 — 링크의 끝점은 파일이 아니라 plane·level을 아는 타깃이다.",
+    doc = "지식(단위 지식 하나 또는 복합체)이 의존자에게 내보내는 것 — 링크의 끝점은 파일이 아니라 plane·level을 아는 타깃이다.",
     fields = {
         "iri": "항목 IRI (복합체면 복합체 IRI)",
         "plane": "requirement | decision | contract | schema | artifact | annotation | memory | norm",
-        "level": "functional | abstract | logical | concrete | executable (결정 복합체면 결론의 수준, 그 밖의 복합체면 부분 전부의 수준)",
+        "level": "functional | abstract | logical | concrete | executable (결정 기록이면 결론의 수준, 그 밖의 복합체면 부분 전부의 수준)",
         "status": "draft | stable | suspect | invalidated | deprecated",
-        "srcs": "청크 파일들 (depset)",
-        "parts": "복합체의 부분 IRI 목록 (청크면 빈 목록)",
+        "srcs": "단위 지식 파일들 (depset)",
+        "parts": "복합체의 부분 IRI 목록 (단위 지식이면 빈 목록)",
     },
 )
 
@@ -35,7 +35,7 @@ OntologyModuleInfo = provider(
 )
 
 KgInfo = provider(
-    doc = "타깃별 head 그래프 조각 — 청크 head·복합체 트리플의 TTL. //kg:chunks_kg 는 이 depset 의 병합이다 (바뀐 타깃만 재생성).",
+    doc = "타깃별 head 그래프 조각 — 단위 지식 head·복합체 트리플의 TTL. //kg:chunks_kg 는 이 depset 의 병합이다 (바뀐 타깃만 재생성).",
     fields = {"ttl": "head TTL 조각 (depset)"},
 )
 ```

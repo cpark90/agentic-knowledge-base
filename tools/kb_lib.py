@@ -1,6 +1,6 @@
 """공용 그래프 적재·어휘 헬퍼.
 
-접미사 규약(노트 0.2절)과 네임스페이스(0.3절, 0.7절)의 단일 정의처.
+접미사 규약(노트 0.2절)과 네임스페이스(0.3절, 0.7절)의 단일 정의 위치.
 """
 
 from __future__ import annotations
@@ -15,13 +15,14 @@ from pathlib import Path
 from rdflib import Graph, Namespace, RDF, RDFS, OWL, URIRef
 from rdflib.namespace import SKOS
 
-# 본문을 떼는 규칙과 토큰 계수기의 정의처는 `chunk2kg` 다 — head 액션은 타깃마다 돌고 rdflib 를 싣지 않으므로
+# 본문을 떼는 규칙과 토큰 계수기의 단일 정의 위치는 `chunk2kg` 다 — head 액션은 타깃마다 돌고 rdflib 를 싣지 않으므로
 # (`py_binary //tools:chunk2kg` 의 deps 가 비어 있다) 계수기가 이 모듈에 있으면 액션마다 rdflib 적재를 문다.
-# 여기서는 이름만 다시 내보낸다: 쓰는 자리는 `kb_lib.body_text`·`kb_lib.token_count` 하나다 (STYLEGUIDE §7 단일 정의처).
-try:  # PLANES·LEVELS·STATES 리터럴 읽기 함수의 정의처도 chunk2kg 하나다(오케스트레이터 판정, 2026-09-27) —
+# 여기서는 이름만 다시 내보낸다: 쓰는 자리는 `kb_lib.body_text`·`kb_lib.token_count` 하나다 (STYLEGUIDE §7 단일 정의 위치).
+try:  # PLANES·LEVELS·STATES 리터럴 읽기 함수의 단일 정의 위치도 chunk2kg 하나다(오케스트레이터 판정, 2026-09-27) —
     from tools.chunk2kg import load_plane_level_state  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
-    from tools.chunk2kg import BODY_SLOT_MARKERS  # 본문 슬롯 표지 낱말의 정의처(단일) — 겹침 검사(아래)의 입력
-    from tools.chunk2kg import NORM_HEAD_KEYS, NORM_SECTION_KEYS, plane_of_class  # 절 키·클래스 → plane 의 정의처 (norm plane)
+    from tools.chunk2kg import BODY_SLOT_MARKERS  # 본문 슬롯 표지 낱말의 단일 정의 위치 — 겹침 검사(아래)의 입력
+    from tools.chunk2kg import BODY_SLOT_SPAN, body_slot_mark  # 표지 판정의 단일 정의 위치 — 방출·decision-role·consistency 가 쓴다
+    from tools.chunk2kg import NORM_HEAD_KEYS, NORM_SECTION_KEYS, plane_of_class  # 절 키·클래스 → 지식 종류의 단일 정의 위치 (`norm` 지식 종류)
     from tools.chunk2kg import (TOKENIZER_NAME, TOKENIZER_PACKAGE, TOKENIZER_PACKAGE_VERSION,  # noqa: F401
                                 TOKENIZER_VOCAB_ENV, TOKENIZER_VOCAB_FILE, TOKENIZER_VOCAB_REPO,
                                 TOKENIZER_VOCAB_SHA256, body_text, load_tokenizer, token_count,
@@ -29,6 +30,7 @@ try:  # PLANES·LEVELS·STATES 리터럴 읽기 함수의 정의처도 chunk2kg 
 except ImportError:
     from chunk2kg import load_plane_level_state  # 직접 실행: 스크립트 디렉토리 기준 (chunk2kg.py 가 같은 srcs 에 있어야 한다)
     from chunk2kg import BODY_SLOT_MARKERS
+    from chunk2kg import BODY_SLOT_SPAN, body_slot_mark
     from chunk2kg import NORM_HEAD_KEYS, NORM_SECTION_KEYS, plane_of_class
     from chunk2kg import (TOKENIZER_NAME, TOKENIZER_PACKAGE, TOKENIZER_PACKAGE_VERSION,  # noqa: F401
                           TOKENIZER_VOCAB_ENV, TOKENIZER_VOCAB_FILE, TOKENIZER_VOCAB_REPO,
@@ -64,24 +66,24 @@ ALLOWED_TTL_SUFFIXES = (
     "-odd",
 )
 
-# 개체 IRI 접두사 (docs/rules.md §개체 IRI 접두사) — 카탈로그 정합성 검사(validate `catalog`)가 역할 ↔ 스코프 대응을
-# id:role-<slug> ↔ id:scope-<slug> 로 푼다. 카탈로그에 역할→스코프 술어는 없고 슬러그가 대응의 원본이다 (STYLEGUIDE §5)
+# 개체 IRI 접두사 (docs/rules.md §개체 IRI 접두사) — 카탈로그 정합성 검사(validate `catalog`)가 역할 ↔ 적용 범위 대응을
+# id:role-<slug> ↔ id:scope-<slug> 로 푼다. 카탈로그에 역할→적용 범위 술어는 없고 슬러그가 대응의 원본이다 (STYLEGUIDE §5)
 ROLE_ID_PREFIX = "role-"
 SCOPE_ID_PREFIX = "scope-"
 # ODD 동적 요소 — 역할별 agt:maxConcurrent 합의 상한 (AGENTS.md 역할 절, kb/odd/project-odd.yml concurrent_agents)
 CONCURRENT_AGENTS_CONDITION = ID["cond-concurrent-agents"]
 # ══ 게이트 등록부와 저장소 경계 ════════════════════
-# 단일 정의처가 `defs/kb.bzl` 의 리터럴이고 파이썬이 그것을 읽어 파생하는 것 둘 — 게이트 id 와 수준 허용표다.
-# 둘 다 분석 시점 판정에 쓰이므로 표가 Starlark 쪽에 살고, 읽기 함수와 파생이 이 장에 있다 (M1 단일 정의처).
+# 단일 정의 위치가 `defs/kb.bzl` 의 리터럴이고 파이썬이 그것을 읽어 파생하는 것 둘 — 게이트 id 와 수준 허용표다.
+# 둘 다 분석 시점 판정에 쓰이므로 표가 Starlark 쪽에 살고, 읽기 함수와 파생이 이 장에 있다 (M1 단일 정의 위치).
 
 # ── 게이트 등록부의 파생 (`GATES` → 모듈 속성 `<이름>_GATE`) — 상수를 손으로 두지 않는다 (M1, 2026-10-02) ───────
-# 단일 정의처는 `defs/kb.bzl` 의 `GATES`·`TOOL_TAGS` 리터럴이다(`RESIDENCY`·`EXTRACTED_SOURCES` 와 같은 해법).
+# 단일 정의 위치는 `defs/kb.bzl` 의 `GATES`·`TOOL_TAGS` 리터럴이다(`RESIDENCY`·`EXTRACTED_SOURCES` 와 같은 해법).
 # Starlark 는 파일을 읽지 못하므로 분석 시점에 쓰이는 표가 그쪽에 살고 파이썬은 리터럴을 읽어 파생한다.
 # 파생은 **적재 시점**이고 이름은 id 를 대문자 밑줄로 옮긴 것이다 — `chunk` → `CHUNK_GATE` · `judge-log` →
 # `JUDGE_LOG_GATE`. 리터럴에서 id 를 지우면 그 이름을 쓰는 도구가 적재 시점에 `AttributeError` 로 죽는다
 # (음성 시험 ②, 유저 지시 2026-10-01) — 조용히 빈 태그로 돌지 않는다. 리터럴을 못 읽으면 ValueError 다.
 GATES_NAME = "GATES"            # 게이트 등록부 리터럴의 이름
-GATES_TAIL_NAME = "GATES_TAIL"  # 그 이어짐 리터럴의 이름 — 리터럴 하나가 추출 청크 하나라 인용 상한을 넘지 않게 id 순서로 잇는다
+GATES_TAIL_NAME = "GATES_TAIL"  # 그 이어짐 리터럴의 이름 — 리터럴 하나가 추출 단위 지식 하나라 인용 상한을 넘지 않게 id 순서로 잇는다
 TOOL_TAGS_NAME = "TOOL_TAGS"    # 게이트가 아닌 도구 태그 목록 리터럴의 이름
 GATE_LAYER_NAME = "GATE_LAYER"  # 게이트가 속한 서비스 층(전부 하나) 리터럴의 이름
 GATE_ID_PREFIX = "gate-"        # 개체 IRI 접두사 (docs/rules.md §개체 IRI 접두사) — id:gate-<게이트 id>
@@ -118,12 +120,12 @@ def gates_bzl_path() -> Path:
             if cand.is_file():
                 return cand
     raise FileNotFoundError(
-        "defs/kb.bzl 을 찾을 수 없다 — 게이트 등록부 GATES 의 단일 정의처다. "
+        "defs/kb.bzl 을 찾을 수 없다 — 게이트 등록부 GATES 의 단일 정의 위치다. "
         "py_test·py_binary 의 data 에 //defs:kb.bzl 을 더하거나 %s 로 경로를 준다" % GATES_BZL_ENV)
 
 
 def load_gates(path: str | Path | None = None) -> dict[str, dict[str, str]]:
-    """`defs/kb.bzl` 의 `GATES` 리터럴을 읽는다 — id → {tier, tool, ko, desc} (load_residency 와 같은 해법).
+    """`defs/kb.bzl` 의 `GATES` 리터럴을 읽는다 — id → {tier, tool, ko, desc, decision} (load_residency 와 같은 해법).
 
     `path` 가 없으면 `gates_bzl_path()` 가 찾는다. 리터럴을 못 읽으면 ValueError 다 — 등록부가 조용히 비면
     태그 집합 대조가 무력해지므로 통과시키지 않는다.
@@ -149,7 +151,7 @@ def load_gates(path: str | Path | None = None) -> dict[str, dict[str, str]]:
 
 
 def load_bzl_list(path: str | Path, name: str) -> tuple[str, ...]:
-    """`defs/kb.bzl` 의 이름 목록 리터럴을 읽는다 — 리터럴 읽기의 정의처(`load_extracted_sources` 가 이것을 쓴다).
+    """`defs/kb.bzl` 의 이름 목록 리터럴을 읽는다 — 리터럴 읽기의 단일 정의 위치(`load_extracted_sources` 가 이것을 쓴다).
 
     값은 문자열 목록이고 Starlark 주석은 지운 뒤 `ast.literal_eval` 로 읽는다. 못 읽으면 ValueError 다 —
     판정 불가지 통과는 조용히 비는 것과 같다.
@@ -251,19 +253,71 @@ for _gate_id in GATES:  # 파생 — 상수를 손으로 두지 않는다. 리�
     globals()[gate_constant_name(_gate_id)] = _gate_id
 for _tool_tag in TOOL_TAGS:  # 도구 태그는 `<이름>_TAG` 로 갈린다 — 게이트가 아니라는 사실이 이름에 있다
     globals()[_tool_tag.replace("-", "_").upper() + "_TAG"] = _tool_tag
-# ── 두 KB 의 경계와 수준 허용표와 그래프 적재 (pe-storage-layout · M1 단일 정의처 · 2.3절 정의 경계) ──────────
-# 두 KB 의 경로 접두 (pe-storage-layout) — 역할의 agt:writesIn 값이자 청크 assertionLocation 의 KB 판정 기준 (p8-vv-roles, 2026-09-19).
+# ── 게이트 총람 표 — 손 문서(`docs/tools.md`) 안의 생성 구간 (유저 답 Q150-a) ────────────────────────────
+# 총람 표는 등록부 `GATES` 의 투영이고 손으로 쓴 셀이 없다. 표 앞뒤의 산문은 손 문서로 남고 두 표지 사이의 구간만
+# 생성한다. 생성기는 `gates2kg --catalogue <문서>` 이고 검사는 `doccheck --gates`(`//:doccheck_test`)가 같은 함수로
+# 다시 그려 바이트로 비교한다 — 생성기와 게이트가 한 렌더러를 공유한다(`check_gendoc` 과 같은 자리).
+# 게이트의 배경·해소·측정은 등록부가 아니라 `decision` 키가 가리키는 결정에 있고 표는 그 결정에 링크한다.
+GATE_CATALOGUE_OPEN = ("<!-- 생성 시작: 게이트 등록부 defs/kb.bzl 의 GATES 투영 — 손으로 고치지 않는다. "
+                       "재생성 python3 tools/gates2kg.py --catalogue docs/tools.md, 검사 //:doccheck_test -->")
+GATE_CATALOGUE_CLOSE = "<!-- 생성 끝 -->"
+GATE_CATALOGUE_HEADER = ("id", "게이트", "무엇을 거부하는가", "실행 계층", "판정 도구", "결정")
+DECISION_DIR = "kb/dev/decision"
+
+
+def gate_catalogue_table(gates: dict[str, dict[str, str]], tiers: tuple[str, ...] | list[str], doc: str) -> list[str]:
+    """등록부 → 총람 표의 줄들. 행 순서는 실행 계층(`GATE_TIERS` 선언 순)과 id 다.
+
+    `doc` 은 표가 들어갈 문서의 저장소 상대 경로이고 결정 링크의 상대 경로를 정한다. 셀은 등록부의 값을 그대로
+    옮긴다 — `|` 는 셀 구분자라 이스케이프한다.
+    """
+    order = {t: i for i, t in enumerate(tiers)}
+    base = os.path.dirname(doc) or "."
+
+    def cell(s: str) -> str:
+        return s.replace("|", "\\|")
+
+    lines = ["| " + " | ".join(GATE_CATALOGUE_HEADER) + " |", "|" + "---|" * len(GATE_CATALOGUE_HEADER)]
+    for gid in sorted(gates, key=lambda g: (order.get(gates[g]["tier"], len(order)), g)):
+        s = gates[gid]
+        link = os.path.relpath(f"{DECISION_DIR}/{s['decision']}/conclusion.md", base).replace(os.sep, "/")
+        lines.append(f"| `{gid}` | {cell(s['ko'])} | {cell(s['desc'])} | {s['tier']} | `{s['tool']}` | "
+                     f"[`{s['decision']}`]({link}) |")
+    return lines
+
+
+def gate_catalogue_block(text: str) -> tuple[int, int] | None:
+    """문서 줄들에서 생성 구간의 (여는 표지 줄 색인, 닫는 표지 줄 색인) — 표지가 하나씩 정확히 없으면 None 이다."""
+    lines = text.split("\n")
+    opens = [i for i, l in enumerate(lines) if l == GATE_CATALOGUE_OPEN]
+    closes = [i for i, l in enumerate(lines) if l == GATE_CATALOGUE_CLOSE]
+    if len(opens) != 1 or len(closes) != 1 or closes[0] < opens[0]:
+        return None
+    return opens[0], closes[0]
+
+
+def splice_gate_catalogue(text: str, table: list[str]) -> str | None:
+    """문서의 생성 구간을 표로 바꾼 전문 — 표지가 없거나 겹치면 None 이다(손 산문을 덮어쓰지 않는다)."""
+    span = gate_catalogue_block(text)
+    if span is None:
+        return None
+    lines = text.split("\n")
+    return "\n".join(lines[: span[0] + 1] + [""] + table + [""] + lines[span[1]:])
+
+
+# ── 두 KB 의 경계와 수준 허용표와 그래프 적재 (pe-storage-layout · M1 단일 정의 위치 · 2.3절 정의 경계) ──────────
+# 두 KB 의 경로 접두 (pe-storage-layout) — 역할의 agt:writesIn 값이자 단위 지식 assertionLocation 의 KB 판정 기준 (p8-vv-roles, 2026-09-19).
 # gen_build 는 rdflib 없이 돌므로 같은 접두를 자체 상수(VV_ROOT)로 갖는다 — chunk2kg 의 PLANE 상수와 같은 사유
 KB_DEV = "kb/dev"
 KB_VV = "kb/vv"
 KB_ROOTS = (KB_DEV, KB_VV)
-# 케이스의 generated.by — 역할이 아니라 프로세스다(writer 검사 밖). 정의처는 여기이고 소비자는 `tools/case_gen.py`(케이스를 쓴다)와
-# `tools/link.py`(케이스의 derivesFrom 은 생성기가 자기 시나리오로 쓰므로 후보로 내지 않는다)다
+# 테스트 케이스의 generated.by — 역할이 아니라 프로세스다(writer 검사 밖). 단일 정의 위치는 여기이고 소비자는 `tools/case_gen.py`(테스트 케이스를 쓴다)와
+# `tools/link.py`(테스트 케이스의 derivesFrom 은 생성기가 자기 시나리오로 쓰므로 후보로 내지 않는다)다
 CASE_GEN_ACTOR = "process:case_gen"
 
 
 def kb_of(location: str) -> str:
-    """청크 위치(assertionLocation)가 속한 KB — kb/vv/ 아래면 V&V KB, 그 밖(kb/dev·chunks/…)은 개발 KB."""
+    """단위 지식 위치(assertionLocation)가 속한 KB — kb/vv/ 아래면 V&V KB, 그 밖(kb/dev·chunks/…)은 개발 KB."""
     return KB_VV if location.startswith(KB_VV + "/") else KB_DEV
 
 
@@ -273,7 +327,7 @@ def cross_kb_link(kind: str, src: tuple, dst: tuple) -> bool:
     KB 사이 링크는 `verifies` 하나다 (p6-executable-splits-by-kb, docs/rules.md §8). 예외는 정제 계층의 functional 행
     하나다 — V&V 검증 목표(kb/vv requirement, functional) → 개발 요구 `derivesFrom` (p8-scenario-ladder-rungs 결론
     "functional 검증 목표 ↔ 요구 — derives-from 필수", TIM 칸 `("derivesFrom", "requirement", "requirement")`).
-    판정의 단일 정의처다 — 소비자는 복원 후보 생성기 `tools/link.py` 의 `violation`(후보 탈락)과 게이트
+    판정의 단일 정의 위치다 — 소비자는 복원 후보 생성기 `tools/link.py` 의 `violation`(후보 탈락)과 게이트
     `cross-kb-link`(`tools/validate.py` 의 `check_cross_kb_link`, 저작된 링크의 거부)다.
     """
     (kb_a, plane_a, level_a), (kb_b, plane_b, _) = src, dst
@@ -284,7 +338,7 @@ def cross_kb_link(kind: str, src: tuple, dst: tuple) -> bool:
     return not ladder_goal
 
 
-# 수준 허용표의 단일 정의처 — `defs/kb.bzl` 의 `LEVELS`·`RESIDENCY` 리터럴이다 (M1 단일 정의처, 2026-09-26).
+# 수준 허용표의 단일 정의 위치 — `defs/kb.bzl` 의 `LEVELS`·`RESIDENCY` 리터럴이다 (M1 단일 정의 위치, 2026-09-26).
 # Starlark 는 파일을 읽지 못하므로 표는 Starlark 쪽에 있어야 하고, 파이썬은 그 리터럴을 읽어 파생한다.
 # 파생처는 둘이다 — `tools/metrics.py` 의 거주 위반 지표와 `tools/validate.py` 의 게이트 `residency`
 # (shape `residency-shapes.ttl` 이 이 표와 같은지 판정한다).
@@ -292,12 +346,12 @@ _BZL_RESIDENCY = re.compile(r"^\s*RESIDENCY\s*=\s*\{(.*?)^\}", re.M | re.S)
 
 
 def load_residency(path: str | Path) -> tuple[list[str], list[str], dict[str, list[str]]]:
-    """`defs/kb.bzl` 의 `PLANES`·`LEVELS`·`RESIDENCY` 를 읽는다 — (plane 순서, 수준 순서, plane → 허용 수준들).
+    """`defs/kb.bzl` 의 `PLANES`·`LEVELS`·`RESIDENCY` 를 읽는다 — (지식 종류 순서, 수준 순서, 지식 종류 → 허용 수준들).
 
     `PLANES`·`LEVELS` 리터럴은 `tools/chunk2kg.py` 의 `load_plane_level_state` 를 그대로 불러 쓴다 — 리터럴 읽기
-    함수(정규식 + `ast.literal_eval`)의 정의처를 하나로 모은 것이다(`chunk2kg`가 rdflib 없이 타깃마다 돌아 이
+    함수(정규식 + `ast.literal_eval`)의 단일 정의 위치를 하나로 모은 것이다(`chunk2kg`가 rdflib 없이 타깃마다 돌아 이
     모듈을 반대로 import할 수 없으므로 방향은 이쪽에서만 간다, `weave`·`extract_refs`가 `chunk2kg.py` 를 srcs 로
-    끌어 쓰는 것과 같은 방식). `RESIDENCY` 표는 이 파일이 정의처인 채로 남는다 — `LEVELS`·`PLANES` 만 참조하는 값
+    끌어 쓰는 것과 같은 방식). `RESIDENCY` 표는 이 파일이 단일 정의 위치인 채로 남는다 — `LEVELS`·`PLANES` 만 참조하는 값
     치환이라 그 값을 chunk2kg 에서 받아 여기서 마무리한다. 표를 못 읽으면 ValueError — 판정 불가지 통과가 아니다.
     """
     import ast
@@ -450,44 +504,40 @@ def waived(waivers: list[dict], gate_id: str, target: str, axis: str) -> bool:
                for w in waivers)
 
 
-# ══ 청크 본문의 형식 규칙 ════════════════════
+# ══ 단위 지식 본문의 형식 규칙 ════════════════════
 # 결정의 역할 표지·본문 슬롯·주석의 형식·산문 문체·빈 값과 첨가와 목록이 이 장이다. 게이트 여섯의 원본이다.
 
 # ── 결정의 역할 표지 (STYLEGUIDE §4, 게이트 id `decision-role` — chunk_lint) ────────────────────────────────
-# type: decision 인 .md 의 본문 첫 산문 줄은 굵은 역할 표지로 시작한다. 세 파일 결정은 파일 stem 이 표지를 정하고, 단일 파일 옛 결정
-# (chunks/decision/d-*.md)은 결론 표지만 요구한다. 표지 안의 한정어("**대안 없음**"·"**대안 — 미확정**"·"**대안(미해결)**")는 같은 역할
-# 표지로 본다 — 첫 실행(2026-09-13) 결론 187/187·근거 187/187 은 맨 표지, 대안 21/187 이 한정어 형태였고 그것은 "대안 없음"을 기록하라는
-# 규칙(노트 7.4절)의 이행이지 표지 누락이 아니다 (p6-mass-fail-suspects-the-rule). 굵은 span 이 역할 낱말로 시작하지 않으면 위반이다
-# 넷째 `conventions` 는 선택 규약 청크다 (p4-convention-slot, 유저 답 Q22-b) — 있으면 첫 산문 줄이 **규약** 이고 셋의 검사는 그대로다
+# type: decision 인 .md 의 본문 첫 산문 줄은 굵은 역할 표지로 시작한다. 파일 stem 이 표지를 정하고, stem 이 역할 이름이
+# 아닌 결정 파일은 받지 않는다 — 단일 파일 꼴은 마지막 시나리오가 세 항목으로 나뉘어 0건이 됐다(유저 답 Q-0061 Q147-a). 표지와 한정어("**대안 없음**"·"**대안 — 미확정**"·"**대안(미해결)**")의
+# 판정은 방출과 같은 `body_slot_mark`(chunk2kg) 하나다 (p4-slot-marker-by-position) — 첫 실행(2026-09-13) 대안 21/187 이 한정어
+# 형태였고 그것은 "대안 없음"을 기록하라는 규칙(노트 7.4절)의 이행이지 표지 누락이 아니다 (p6-mass-fail-suspects-the-rule).
+# 넷째 `conventions` 는 선택 규약이다 (p4-convention-slot, 유저 답 Q22-b) — 있으면 첫 산문 줄이 **규약** 이고 셋의 검사는 그대로다
 DECISION_ROLE_MARKERS = {"conclusion": "결론", "rationale": "근거", "alternatives": "대안", "conventions": "규약"}
-DECISION_SINGLE_FILE_MARKER = "결론"
 # V&V 시나리오의 역할 표지 (결정 p8-scenario-authoring) — 시나리오는 `decision`(vv) 복합체이고 결론·근거·대안이 각각
 # 자극·요인·배제 자극이다. 표지 낱말만 갈리고 슬롯은 결정의 셋 그대로다(SCENARIO_ROLE_TO_DECISION_SLOT) — 그래서
 # shape 는 결정의 본문 틀(decision-body-shapes.ttl)에 대안 셋을 더한 것이고 새 틀이 아니다.
-# 파일명 규약은 `<슬러그>-stimulus.md`·`<슬러그>-factors.md`·`<슬러그>-excluded.md` 이고 선언 청크(타깃 이름)는 stimulus 다.
-# **규약이 걸리는 자리를 V&V 시나리오 패키지로 한정한다** — 접미만 보면 옛 결정 `chunks/decision/d-0140-three-defect-factors.md`
-# 의 stem 이 `-factors` 로 끝나 표지가 결론에서 요인으로 뒤바뀐다(실측). 시나리오 실체의 패키지는 kb/vv/scenario 다.
+# 파일명 규약은 `<슬러그>-stimulus.md`·`<슬러그>-factors.md`·`<슬러그>-excluded.md` 이고 선언 단위 지식(타깃 이름)은 stimulus 다.
+# **규약이 걸리는 자리를 V&V 시나리오 패키지로 한정한다** — 접미만 보면 옛 결정 트리에 있던 결정(후속은 p8-defect-factor-taxonomy)
+# 의 stem 이 `-factors` 로 끝나 표지가 결론에서 요인으로 뒤바뀐다(측정). 시나리오 실체의 패키지는 kb/vv/scenario 다.
 SCENARIO_DIR = "scenario"  # gen_build.VV_PKGS 의 키 — V&V 시나리오 실체의 패키지 이름
 SCENARIO_ROLE_MARKERS = {"stimulus": "자극", "factors": "요인", "excluded": "배제 자극"}
 SCENARIO_ROLE_TO_DECISION_SLOT = {"자극": "결론", "요인": "근거", "배제 자극": "대안"}
-# 단일 청크 시나리오(부류 셋을 한 파일에 담은 이행기의 형태)는 stem 이 세 접미 밖이므로 결론 표지로 계속 통과한다 —
-# 기존 허용의 유지이고 약화가 아니다. 세 청크로 다시 쓰면 그때부터 세 표지가 강제된다.
-DECISION_ROLE_MARKER = re.compile(
-    r"^\s*\*\*(" + "|".join(sorted(set(DECISION_ROLE_MARKERS.values()) | set(SCENARIO_ROLE_MARKERS.values()),
-                                  key=len, reverse=True)) + r")[^*\n]*\*\*")
+# 부류 셋을 한 파일에 담은 단일 파일 시나리오(이행기의 꼴)는 받지 않는다. 그 꼴의 마지막 항목 risk-grade-scale 이 2026-10-24
+# 세 항목으로 나뉜 뒤 결론 표지로 떨어지는 기본값을 지웠다(유저 답 Q-0061 Q147-a) — 받아들이는 꼴이 줄었고 검사는 좁아졌다.
 
 
 # ── 본문 슬롯 표지 집합의 정합성 (STYLEGUIDE §4, 2026-09-29 — 표지가 늘어날 때 겹침을 보는 규칙이 없던 공백을 메운다) ──
-# 정의처는 하나(chunk2kg.BODY_SLOT_MARKERS)이지만 표지를 **늘리는** 사람이 그 파일만 보고 기존 표지와 겹치는지
+# 단일 정의 위치는 하나(chunk2kg.BODY_SLOT_MARKERS)이지만 표지를 **늘리는** 사람이 그 파일만 보고 기존 표지와 겹치는지
 # 확인할 방법이 없었다 — 어제 자극·요인·배제 자극을 더하면서 본문 중간의 "요인 분류"·"요인별로" 같은 굵은 강조가
-# 슬롯으로 잘못 방출된 사고(2026-09-29 실측)가 그 공백의 증거다. 이 검사는 자리 판정(_body_slot_at_field_head)이
+# 슬롯으로 잘못 방출된 사고(2026-09-29 측정)가 그 공백의 증거다. 이 검사는 자리 판정(_body_slot_at_field_head)이
 # 아니라 **표지 낱말 집합 자체**의 두 위험을 본다 — chunk2kg 를 매번 import 하는 도구(kb_lib 의 모든 소비자)가
-# 로드 시점에 자동으로 돈다(단일 정의처의 방어, import 부작용).
+# 로드 시점에 자동으로 돈다(단일 정의 위치의 방어, import 부작용).
 #   1. 중복 등록 — 같은 표지 낱말이 튜플에 두 번 있으면 실수로 다시 추가한 것이다.
 #   2. 접두 겹침 — 표지 A 가 다른 표지 B 의 문자열 **접두**이면(B.startswith(A)), `_body_slot_at_field_head` 의
 #      startswith 매칭이 자리가 같을 때 어느 표지가 이기는지 BODY_SLOT_MARKERS 의 등록 순서에 기대게 된다 — 그
 #      순서 의존은 다음 표지 추가마다 다시 사고를 낼 수 있는 잠복 결함이다.
-# 실측(2026-09-29): 현재 20개 표지는 둘 다 통과한다. `자극` 은 `배제 자극` 의 **부분 문자열**이지만 `배제 자극` 이
+# 측정(2026-09-29): 현재 20개 표지는 둘 다 통과한다. `자극` 은 `배제 자극` 의 **부분 문자열**이지만 `배제 자극` 이
 # `배제`로 시작해 `자극`으로 시작하지 않으므로(접두 아님) 위반이 아니다 — `_body_slot_at_field_head` 의 매칭이
 # 자리(줄 머리·불릿·` · ` 다음)로 이미 걸러 `배제 자극` 줄에서 `자극` 이 별도로 잡히지 않는다. 이 검사는 그 사실을
 # 로드 시점에 **단정**해 둔다 — 다음에 표지를 늘릴 때 접두 관계가 생기면 이 자리에서 바로 죽는다.
@@ -510,31 +560,24 @@ def validate_body_slot_markers(markers: tuple[str, ...]) -> None:
 validate_body_slot_markers(BODY_SLOT_MARKERS)
 
 
-DECISION_FLAT_DIR = "decision"  # chunks/decision — v1 평평한 결정 디렉토리, 대안 청크는 `<슬러그>-alternatives.md` 로 구분한다
-DECISION_ALTERNATIVES_STEM = "alternatives"
-
-
 def decision_role_marker(path) -> str:
-    """파일 경로가 요구하는 역할 표지 — 시나리오 패키지의 세 접미가 자극·요인·배제 자극, 결정 세 청크의 stem 이 결론·근거·대안,
-    그 밖(단일 파일 결정·단일 청크 시나리오)이 결론이다.
-    `chunks/decision/` 에서 stem 이 `-alternatives` 로 끝나면 대안이다."""
+    """파일 경로가 요구하는 역할 표지 — 시나리오 패키지의 세 접미가 자극·요인·배제 자극, 결정 부분 파일의 stem 이 결론·근거·대안·규약이다.
+    그 밖의 파일명은 빈 문자열이다 — 역할 이름 밖의 결정 파일이고 게이트 `decision-role` 이 거부한다."""
     p = Path(path)
     if p.parent.name == SCENARIO_DIR:
         for suffix, mark in SCENARIO_ROLE_MARKERS.items():
             if p.stem.endswith("-" + suffix):
                 return mark
-    if p.parent.name == DECISION_FLAT_DIR and p.stem.endswith("-" + DECISION_ALTERNATIVES_STEM):
-        return DECISION_ROLE_MARKERS[DECISION_ALTERNATIVES_STEM]  # v1 평평한 디렉토리의 `<슬러그>-alternatives.md`
-    return DECISION_ROLE_MARKERS.get(p.stem, DECISION_SINGLE_FILE_MARKER)
+    return DECISION_ROLE_MARKERS.get(p.stem, "")
 
 
 # ── 주석의 형식 (STYLEGUIDE §4 annotation, 결정 p7-commentary-form — 게이트 id `blocking-comment`: chunk_lint) ────────────
-# annotation 청크는 주석이다. 첫 줄이 `<라벨> (<장식>): <요지>` 이고 이어서 줄 머리 슬롯 넷(대상·본문·제안·해소)이 온다.
+# annotation 단위 지식은 주석이다. 첫 줄이 `<라벨> (<장식>): <요지>` 이고 이어서 줄 머리 슬롯 넷(대상·본문·제안·해소)이 온다.
 # 라벨 일곱과 장식 셋의 표기 원천은 Conventional Comments 이고 해소 셋은 결정이 정했다 — 셋 다 닫힌 어휘다.
 # **게이트 효과는 하나뿐이다.** `issue (blocking)` 이면서 `해소: 열림` 인 주석이 있으면 게이트가 막는다. 그 밖의 조합은
 # 기록이고 막지 않는다. 형식(첫 줄 꼴·닫힌 어휘·본문 문장 상한)은 shape(review-comment-body-shapes.ttl)가 보고,
 # 이 한 조건만 chunk_lint 가 본다 — 판정 도구는 해소 상태의 존재만 보고 이유의 내용을 보지 않는다 (p5-verification-tools-per-plane).
-# 값 어휘의 정의처는 여기다. chunk2kg 는 rdflib 없이 타깃마다 돌므로 같은 문자열을 getattr 폴백으로 갖는다 (LINK_STATE_* 와 같은 형태)
+# 값 어휘의 단일 정의 위치는 여기다. chunk2kg 는 rdflib 없이 타깃마다 돌므로 같은 문자열을 getattr 폴백으로 갖는다 (LINK_STATE_* 와 같은 형태)
 COMMENT_LABELS = ("praise", "nitpick", "suggestion", "issue", "question", "thought", "chore")
 COMMENT_DECORATIONS = ("blocking", "non-blocking", "if-minor")
 COMMENT_RESOLUTIONS = ("열림", "해소", "기각")
@@ -559,13 +602,13 @@ PROSE_HEDGES = re.compile(r"것 같|듯하|듯싶|아닐까|않을까|수도 있
 PROSE_COLLOQUIAL = re.compile(r"근데|그냥|좀|엄청|뭔가|약간")
 # 문장 끝의 대리(consistency ⑦ 대시 밀도의 분모) — 둘 중 하나: 마침표 뒤에 공백·줄끝·`|`·`)`·닫는 따옴표(굵게 `**` 는 사이에
 # 와도 된다; "4.13절" 처럼 숫자·글자가 이어지면 마침표가 아니다), 또는 마침표 없는 종결 "다" 뒤에 `|`(표 셀)·`)`·닫는 따옴표·줄끝.
-# 실측(2026-09-13, 살아 있는 청크 621): "다." 만 세면 209건 > 1.0, 종결 "다" 기반으로 넓혀도 130건 — 명사형 종결("기각."·
+# 측정(2026-09-13, 살아 있는 단위 지식 621): "다." 만 세면 209건 > 1.0, 종결 "다" 기반으로 넓혀도 130건 — 명사형 종결("기각."·
 # "…시점.")과 "…다 (10.3절)." 의 인용 괄호를 놓쳐 대안 양식("**대안** — X 안. 기각 — Y다 (절).")이 전부 걸렸다(대리의
 # 결함, p6-mass-fail-suspects-the-rule). 마침표 종결을 세면 28건이고 대안 양식은 빠진다
 PROSE_SENTENCE_END = re.compile(r"(?:다(?=\**\s*(?:[|)\"”」'’]|$))|\.(?=\**(?:[|)\"”」'’\s]|$)))")
 # 라벨 대시 — 줄·불릿·번호·표 셀 첫머리에서 종결(`다`·`.`) 없는 짧은 라벨(≤40자; 코드 스팬이 지워져 비어 있어도 된다) 바로
-# 뒤의 첫 " — " ("**결론** — …", "- **케이스 저장소** — …", "| 결정 | `d-…` — 결론…", "- 답하는 질문 — …"). 절을 이어 붙인
-# 대시가 아니라 구조적 구분자라 대시 밀도의 분자에서 뺀다 — 라벨 대시를 세면 표·불릿 중심 청크가 상위를 차지했다(28건 중 상위
+# 뒤의 첫 " — " ("**결론** — …", "- **테스트 케이스 저장소** — …", "| 결정 | `d-…` — 결론…", "- 답하는 질문 — …"). 절을 이어 붙인
+# 대시가 아니라 구조적 구분자라 대시 밀도의 분자에서 뺀다 — 라벨 대시를 세면 표·불릿 중심 단위 지식이 상위를 차지했다(28건 중 상위
 # 전부). 절 끝 "…한다 — " 는 `다` 로 끝나므로 라벨이 아니다
 PROSE_LABEL_DASH = re.compile(r"(?:^|\|)[ \t]*(?:[-*+][ \t]+|\d+[.)][ \t]+)?(?:[^—|.\n]{0,40}?[^다\s—|.\n])?[ \t]*—[ \t]")
 
@@ -647,7 +690,7 @@ def check_prose(path: str | Path, text: str, waivers: list[dict] | None = None):
 
 # ── 빈 값·첨가·목록 (명세 문서 작성 규격 4.1·4.3·9.4, 유저 승인 2026-09-22 — 결정 p4-three-empty-values) ─────
 # 세 빈 값은 서로 다른 사실이다. 하나로 합치면 검토하고 비운 자리·해당하지 않는 자리·답을 기다리는 자리가 같은 모양이
-# 되어 감사가 셋을 가르지 못한다. 생성 문서 규약의 NONE_MARK 는 이 셋의 첫 값이고 정의처는 여기 하나다 (STYLEGUIDE §7).
+# 되어 감사가 셋을 가르지 못한다. 생성 문서 규약의 NONE_MARK 는 이 셋의 첫 값이고 단일 정의 위치는 여기 하나다 (STYLEGUIDE §7).
 EMPTY_REVIEWED = "없음"            # 찾아봤고 없다 — 다음 행동이 없다
 EMPTY_NOT_APPLICABLE = "해당 없음"  # 이 항목에는 적용되지 않는다 — 다음 행동이 없다
 EMPTY_UNDECIDED = "미확정"          # 아직 모른다 — 미결로 집계되고 답이 오면 채운다
@@ -661,7 +704,7 @@ EMPTY_DASH_CELL = re.compile(r"[-–—]")  # 단독 대시로 비운 표 셀 �
 # 어려워 넣지 않는다. 여기 있는 넷은 뒤따르는 내용을 예고할 뿐 자기 자신이 주장이 아니다
 PROSE_META = re.compile(r"다음과 같다|(?:이|아래) (?:절|장|문서|청크|표)에서는|아래에서 (?:설명한다|다룬다|기술한다)|(?:앞서|앞에서) (?:말했|언급했|설명했)")
 # 채움 문구 — 빈 값을 피하려고 슬롯을 때우는 문장. 세 빈 값과 다르다: `없음` 은 규칙이 요구하는 값이고 채움은 값이
-# 아닌 문장이다. 실측 위반 0 이므로 제안 9.4절의 예시 형태를 그대로 옮긴다
+# 아닌 문장이다. 측정 위반 0 이므로 제안 9.4절의 예시 형태를 그대로 옮긴다
 PROSE_FILLER = re.compile(r"특이사항(?:은)? 없|일반적[인이] (?:방식|방법)을? (?:따른다|쓴다)|추후 (?:결정한다|정한다|보완한다|채운다)")
 # 목록 규칙 (4.3절) — 상한 셋과 항목 정규식. 순서 목록의 번호는 모든 항목이 `1.` 이고 번호는 렌더러가 매긴다
 LIST_MAX_ITEMS = 9
@@ -673,7 +716,7 @@ MD_LIST_ITEM = re.compile(r"^(\s*)(?:[-*+]|(\d+)[.)])(?:\s+|$)")
 # 게이트 id — 보고(consistency ⑧·⑨)와 게이트(chunk_lint)가 같은 이름을 쓴다. docs/waivers.md 가 이 이름으로 면제를 선언하고
 # (축 `파일`), 면제된 항목은 집계에서 빼되 목록에는 남긴다. 축을 셋으로 가르는 까닭은 규약의 원본이 둘이기 때문이다 —
 # 메타 문장·채움은 p4-slot-answers-one-question, 빈 값 표기는 p4-three-empty-values, 목록 규칙은 두 결정의 4.3절이다
-# 살아 있는 청크의 status. 보고와 게이트의 대상 집합이 같아야 수치가 갈리지 않는다 — invalidated·deprecated 는
+# 살아 있는 단위 지식의 status. 보고와 게이트의 대상 집합이 같아야 수치가 갈리지 않는다 — invalidated·deprecated 는
 # 고칠 대상이 아니라 기록이므로 둘 다 제외한다 (나머지 둘은 chunk2kg.STATES)
 LIVE_STATES = ("draft", "stable", "suspect")
 
@@ -760,7 +803,7 @@ def check_lists(text: str) -> list[tuple[int, str]]:
 UNION_GRAPH_PATHS = ("kg/chunks-kg.ttl", "kg/references-kg.ttl", "kg/base-kg.ttl", "kg/catalog-kg.ttl", "kg/composite-kg.ttl",
                      "kg/gates-kg.ttl", "kb/odd/project-odd.ttl")
 UNION_GRAPH_GLOBS = ("kb/ontology/**/*-ontology.ttl",)
-# IRI 축약 — 표 출력용. rdflib 의 qname 은 로컬부에 `/` 가 있는 청크 IRI(id:chunk/<uuid>)를 만들지 못한다
+# IRI 축약 — 표 출력용. rdflib 의 qname 은 로컬부에 `/` 가 있는 단위 지식 IRI(id:chunk/<uuid>)를 만들지 못한다
 COMPACT_PREFIXES = ((str(AGT), "agt:"), (str(ID), "id:"), ("http://www.w3.org/ns/prov#", "prov:"),
                     (str(RDFS), "rdfs:"), (str(OWL), "owl:"), (str(RDF), "rdf:"),
                     ("http://www.w3.org/2004/02/skos/core#", "skos:"), ("http://www.w3.org/2001/XMLSchema#", "xsd:"))
@@ -793,7 +836,7 @@ def resolve_glob(pattern: str, root: Path) -> list[Path]:
 def load_union(ttls: list[str], root: Path) -> Graph:
     """TTL 들을 하나의 Graph 로 (query.py·metrics.py 와 같은 방식). 빈 목록이면 UNION_GRAPH_PATHS + 온톨로지 glob.
 
-    없는 파일은 ValueError — 호출자가 EXIT_CONFIG 로 다룬다. .ttl 이 아닌 입력(청크 .md 등)은 건너뛴다.
+    없는 파일은 ValueError — 호출자가 EXIT_CONFIG 로 다룬다. .ttl 이 아닌 입력(단위 지식 .md 등)은 건너뛴다.
     """
     files: list[Path] = []
     if ttls:
@@ -828,9 +871,9 @@ def compact_iri(iri: str) -> str:
 
 
 def chunk_body(text: str) -> str:
-    """청크 파일의 본문 — frontmatter 를 뺀 나머지, 앞뒤 빈 줄 제거. frontmatter 가 없으면 전문이 본문이다.
+    """단위 지식 파일의 본문 — frontmatter 를 뺀 나머지, 앞뒤 빈 줄 제거. frontmatter 가 없으면 전문이 본문이다.
 
-    판정처는 `body_text` 하나다 (정의처 chunk2kg). 경로를 받지 않는 호출자를 위한 이름이고 규칙은 같다 —
+    판정처는 `body_text` 하나다 (단일 정의 위치 chunk2kg). 경로를 받지 않는 호출자를 위한 이름이고 규칙은 같다 —
     토큰을 세는 자리와 본문을 읽는 자리가 같은 문자열을 봐야 크기 규칙이 뜻을 갖는다.
     """
     return body_text("chunk.md", text)
@@ -839,66 +882,168 @@ def chunk_body(text: str) -> str:
 # ── 문서 뷰 (weave — p12-documents-are-generated: 문서는 저장하지 않고 생성하며 생성 시각과 질의를 적는다) ─────────────────
 WEAVE_KINDS = ("adr", "requirements", "changelog", "audit")
 # 작업 집합 예산 게이트 (도입 2단계 구체화 조건 "역할·앵커별 작업 집합 ≤ 예산", handoff/workset-budget-gate-2026-09-22) —
-# 앵커가 주어졌을 때만 문서 전체(라벨 목록 + 펼친 본문) 줄 수가 예산을 넘으면 FAIL. 앵커 없는 뷰(스코프 전체 라벨
+# 앵커가 주어졌을 때만 문서 전체(라벨 목록 + 펼친 본문) 줄 수가 예산을 넘으면 FAIL. 앵커 없는 뷰(적용 범위 전체 라벨
 # 목록, 구조적으로 예산을 넘는다)는 판정 밖이라 `//kg:workset` 기본 빌드는 깨지지 않는다
-DECISION_PART_FILES = {"conclusion": "conclusion.md", "rationale": "rationale.md", "alternatives": "alternatives.md",  # 결정 복합체의 세 부분 (STYLEGUIDE §4)
-                       "conventions": "conventions.md"}  # + 선택 넷째 규약 청크 (p4-convention-slot)
+DECISION_PART_FILES = {"conclusion": "conclusion.md", "rationale": "rationale.md", "alternatives": "alternatives.md",  # 결정 기록의 세 부분 (STYLEGUIDE §4)
+                       "conventions": "conventions.md"}  # + 선택 넷째 규약 (p4-convention-slot)
 
 
-# ── 실행 기록과 관측 (r-026 append-only · p0-run-as-observation · p8-vv-plane-instances memory = 실행 기록) ──────────────
+# ── 실행 기록과 관측 (r-026 append-only · p0-run-is-an-append-only-memory-chunk · p8-vv-plane-instances memory = 실행 기록) ──
 # 관측은 도구가 쓴다 — 생성자는 역할이 아닌 `process:<도구>` 라 writer 검사 밖이다 (validate check_writer). 카탈로그의 executor
-# 하위 역할을 도구가 맡는 첫 형태다. V&V 실행 기록은 V&V KB 의 memory plane 디렉토리(kb/vv/run — gen_build VV_PKGS), 가정 판정
+# 하위 역할을 도구가 맡는 첫 형태다. V&V 실행 기록은 V&V KB 의 `memory` 지식 종류 디렉토리(kb/vv/run — gen_build VV_PKGS), 가정 판정
 # 관측은 개발 KB 의 memory 디렉토리(kb/dev/memory — assume_check)에 놓인다. weave audit 이 두 곳의 최신 관측을 그대로 요약한다
 VV_RUN_DIR = KB_VV + "/run"
 DEV_MEMORY_DIR = KB_DEV + "/memory"
 RUN_GENERATOR = "process:vv_run"                # V&V 실행 기록의 generated.by (tools/vv_run.py --record)
-ASSUME_CHECK_GENERATOR = "process:assume_check"  # 가정 판정 관측의 generated.by (tools/assume_check.py GENERATOR · metrics · weave audit 의 정의처)
-RUN_CASE_TABLE_HEADER = "| 케이스 | 실행 명령 | 결과 | 소요 |"  # 실행 기록 본문의 케이스 표 — audit 이 이 헤더로 표를 찾는다
-# 실행 기록 본문의 검증기 표 — 검증기(`kb/vv/verifier/`)의 실행 명령 행. 케이스 표와 표를 나눠 행의 종류를 헤더가 정한다.
-# run_evidence 는 케이스 표만 읽는다 — 검증기는 `verifies` 가 없어(수준이 맞지 않는다) 증거 쌍이 서지 않는다 (유저 답 Q29-a)
+ASSUME_CHECK_GENERATOR = "process:assume_check"  # 가정 판정 관측의 generated.by (tools/assume_check.py GENERATOR · metrics · weave audit 의 단일 정의 위치)
+RUN_CASE_TABLE_HEADER = "| 테스트 케이스 | 실행 명령 | 결과 | 소요 |"  # 실행 기록 본문의 테스트 케이스 표 — audit 이 이 헤더로 표를 찾는다
+# 기록 표 머리의 전환 (유저 답 Q161-a, Q-0065) — 판정 로그의 `입력 지문` 열이 `입력 해시값` 으로, 실행 기록의 `케이스` 열이
+# `테스트 케이스` 로 바뀌었다. 기록은 append-only 라 옛 기록을 고치지 않는다 — 머리를 읽는 곳은 기록 시각(frontmatter 의
+# `generated.at`)으로 머리를 가린다: 이 시각 이전 기록은 옛 머리(`*_OLD`)만, 이후 기록은 새 머리만 받는다. 시각을 읽지 못한
+# 기록은 새 머리를 요구한다. 전환 시각의 단일 정의 위치가 이 상수다
+RECORD_HEADER_SINCE = "2026-10-25T12:26:39+09:00"
+RUN_CASE_TABLE_HEADER_OLD = "| 케이스 | 실행 명령 | 결과 | 소요 |"  # 전환 시각 이전 실행 기록의 테스트 케이스 표 머리
+# 실행 기록 본문의 검증기 표 — 검증기(`kb/vv/verifier/`)의 실행 명령 행. 테스트 케이스 표와 표를 나눠 행의 종류를 헤더가 정한다.
+# run_evidence 는 테스트 케이스 표만 읽는다 — 검증기 행은 테스트 케이스의 결정을 갖지 않는다. 검증기는 테스트 케이스와 같은 합격 기준을 refines 하는
+# 자리로만 사슬에 든다 (`case_verifiers`, 유저 답 Q96-a)
 RUN_VERIFIER_TABLE_HEADER = "| 검증기 | 실행 명령 | 결과 | 소요 |"
 ASSUME_CHECK_TABLE_HEADER = "| 가정 | 판정 유형 | 등급 | 상태 | 직접 영향 | suspect 후보(전이) |"  # 가정 판정 관측의 가정 표 (assume_check.observation)
-RUN_VERDICTS = ("pass", "fail", "skip")          # 케이스 판정 — SKIP 은 PASS 가 아니다 (docs/tools.md 실패 종류 3)
+RUN_VERDICTS = ("pass", "fail", "skip")          # 테스트 케이스 판정 — SKIP 은 PASS 가 아니다 (docs/tools.md 실패 종류 3)
+
+
+# ── 동시 편집 관측 (결정 p10-co-edit-evidence-from-small-commits, 유저 답 Q96-a) ──
+# 동시 편집 쌍은 `bazel run //tools:run_evidence -- --coedit-record` 가 git 에서 뽑아 개발 KB 의 관측 하나로 고정한다. git 은 밀폐 빌드
+# 밖이므로 증거 기록(run_evidence)과 링크 후보 뷰(link)는 git 을 읽지 않고 가장 늦은 이 관측만 읽는다 — 같은 리비전에서 같은 후보가 나온다.
+COEDIT_MAX_FILES = 20                       # 쌍을 뽑는 커밋의 상한 — 바뀐 단위 지식 파일 수. 이 값의 단일 정의 위치는 여기 하나다
+COEDIT_GENERATOR = "process:run_evidence"   # 동시 편집 관측의 generated.by — 역할이 아니라 writer 검사 밖이다
+COEDIT_PREFIX = "obs-coedit-"               # 파일명 obs-coedit-<UTC>.md — 같은 디렉토리의 가정 판정 관측과 접두로 갈린다
+COEDIT_ITEM_PATH = re.compile(r"^(kb/.+|space/[^/]+|chunks/.+)\.md$")  # 단위 지식 파일 — 단위 지식·설계 공간 (id 가 없는 파일은 쌍에서 뺀다). `chunks/` 는 git 이력의 경로라 남긴다(트리에서는 지시 0192 로 지웠다)
+COEDIT_TABLE_HEADER = "| 커밋 | 시각 | 항목 수 | 쌍 수 | 함께 바뀐 항목 |"  # 행마다 항목들의 모든 두 조합이 쌍이다
+_COEDIT_UUID = re.compile(r"^chunk/([0-9a-f]{8})-[0-9a-f-]{27}$")
+_COEDIT_ITEM = re.compile(r"`([^`]+)`")
+
+
+def coedit_short(iri: str) -> str:
+    """관측에 적는 단위 지식 IRI 의 짧은 꼴 — `id/` 뒤의 국소 이름이고, `chunk/<uuid>` 는 uuid 앞 8자로 줄인다.
+
+    짧은 꼴이 겹치는 항목은 관측을 쓰는 쪽이 국소 이름 전체로 적는다. 읽는 쪽(`coedit_pairs`)은 두 꼴을 다 푼다.
+    """
+    local = iri[len(str(ID)):] if iri.startswith(str(ID)) else iri
+    m = _COEDIT_UUID.match(local)
+    return f"chunk/{m.group(1)}" if m else local
+
+
+def coedit_pairs(paths, known) -> tuple[str | None, set, int]:
+    """동시 편집 관측 → (읽은 관측의 경로, 쌍 집합 {frozenset((IRI, IRI))}, 풀지 못한 항목 수).
+
+    `paths` 가운데 파일명이 `COEDIT_PREFIX` 로 시작하는 것의 가장 늦은 것 하나만 읽는다 — 관측은 추가 전용이고 늦은 것이 앞선
+    것을 대신한다. `known` 은 지금 트리의 단위 지식 IRI 들이고, 짧은 꼴과 국소 이름 전체를 IRI 로 푸는 데 쓴다.
+    관측이 없으면 (None, 빈 집합, 0) 이다.
+    """
+    obs = sorted((p for p in paths if Path(p).name.startswith(COEDIT_PREFIX) and p.endswith(".md")), key=lambda p: Path(p).name)
+    if not obs:
+        return None, set(), 0
+    table: dict[str, set] = {}
+    for iri in known:
+        for form in {coedit_short(iri), iri[len(str(ID)):] if iri.startswith(str(ID)) else iri}:
+            table.setdefault(form, set()).add(iri)
+    pairs, unresolved, inside = set(), 0, False
+    for ln in chunk_body(Path(obs[-1]).read_text(encoding="utf-8")).splitlines():
+        s = ln.strip()
+        if not inside:
+            inside = s == COEDIT_TABLE_HEADER
+            continue
+        if not s.startswith("|"):
+            break
+        cells = [c.strip() for c in s.strip("|").split("|")]
+        if len(cells) < 5 or set(cells[0]) <= {"-"}:
+            continue
+        items = []
+        for form in _COEDIT_ITEM.findall(cells[4]):
+            hit = table.get(form, set())
+            if len(hit) == 1:
+                items.append(next(iter(hit)))
+            else:
+                unresolved += 1
+        items = sorted(set(items))
+        pairs.update(frozenset((a, b)) for i, a in enumerate(items) for b in items[i + 1:])
+    return obs[-1], pairs, unresolved
+
+
+def case_verifiers(refines: dict, cases, verifiers) -> dict:
+    """테스트 케이스 → 그 테스트 케이스를 돌린 검증기들. 둘이 같은 합격 기준을 `refines` 하면 그 검증기가 테스트 케이스를 돌린 것이다.
+
+    지금의 V&V 구조에서 테스트 케이스와 검증기는 둘 다 합격 기준을 정제한다 — 테스트 케이스가 검증기를 직접 가리키지 않는다. 실행 증거의 사슬
+    (run_evidence)과 테스트 공동 커버(`co_cover`)가 이 한 정의를 쓴다. `refines` 는 IRI → 정제 대상 IRI 목록이다.
+    """
+    by_criteria: dict = {}
+    for w in verifiers:
+        for k in refines.get(w, ()):
+            by_criteria.setdefault(k, set()).add(w)
+    return {c: set().union(*(by_criteria.get(k, set()) for k in refines.get(c, ()))) for c in cases}
+
+
+def co_cover(refines: dict, verifies: dict, cases, verifiers, codes) -> dict:
+    """테스트 공동 커버 → {(검증기 W, 개발 항목 A): {테스트 케이스 C}} — `verifies` W→A 의 근거다 (결정 p10-link-judgement-evidence).
+
+    테스트 케이스 C 가 개발 항목 D 를 `verifies` 하고, 같은 합격 기준의 검증기 W 가 C 를 돌리며, `codes` 의 항목 A 가 D 를 `refines` 하면
+    테스트 C 가 W 의 대상과 A 를 함께 덮는다. 같은 V&V 항목이 함께 덮는 개발 항목 두 개의 쌍으로 읽지 않는다.
+    """
+    refined_by: dict = {}
+    for a in codes:
+        for d in refines.get(a, ()):
+            refined_by.setdefault(d, set()).add(a)
+    out: dict = {}
+    for c, ws in case_verifiers(refines, cases, verifiers).items():
+        for d in verifies.get(c, ()):
+            for a in refined_by.get(d, ()):
+                for w in ws:
+                    out.setdefault((w, a), set()).add(c)
+    return out
 
 
 # ══ 판정자·추적 매트릭스·위험·설계 공간 ════════════════════
-# 게이트 밖 판정자의 규약, plane×plane 허용 칸, 위험 표지와 요소 탈락, 후보의 자리가 이 장이다.
+# 게이트 밖 판정자의 규약, 지식 종류×지식 종류 허용 칸, 위험 표지와 요소 탈락, 후보의 자리가 이 장이다.
 
 # ── 판정자 (게이트 밖 도구 tools/judge.py — 결정 p8-judge-session-agreement, 노트 8.14절) ────────────────────────
 # 판정자는 외부 서비스가 아니라 **세션 판정자**(다른 세션·다른 역할의 에이전트)다(유저 답 2026-09-30,
 # 결정 p8-judge-session-agreement가 옛 결정 p8-judge-calibration-binding을 대체한다). 판정은 `bazel run` 전용이고 세션 판정자의 응답은
 # `--responses` 로 오프라인 입력된다 — 네트워크 호출이 없으므로 `bazel test` 의 밀폐성은 애초에 걸리지 않지만, 판정
 # 자체가 세션마다 달라질 수 있어 여전히 게이트 밖이다. 게이트는 **판정 로그의 형식과 필수 필드만** 본다(게이트 id
-# judge-log, chunk_lint). 로그의 자리는 V&V KB 의 memory plane 실체, 곧 실행 기록 디렉토리다(vv_run 과 같은 곳,
+# judge-log, chunk_lint). 로그의 자리는 V&V KB 의 `memory` 지식 종류 실체, 곧 실행 기록 디렉토리다(vv_run 과 같은 곳,
 # 파일명 접두로 갈린다) — 판정은 노트 8.20절 다섯 V&V 하위 역할 중 judge 의 실행이고 kb/dev/memory 는 개발 KB 쪽
-# 관측의 자리다. 결과 주석은 annotation plane 실체(kb/vv/verdict)에 주석 형식(p7-commentary-form)으로 나간다.
+# 관측의 자리다. 결과 주석은 `annotation` 지식 종류 실체(kb/vv/verdict)에 주석 형식(p7-commentary-form)으로 나간다.
 JUDGE_GENERATOR = "process:judge"         # 판정 로그·결과 주석의 generated.by — 역할이 아니라 writer 검사 밖이다
 JUDGE_LOG_DIR = VV_RUN_DIR                # 판정 로그의 자리 = 실행 기록 디렉토리 (append-only, r-026)
 JUDGE_LOG_PREFIX = "judge-"               # 파일명 judge-<UTC>.md — vv_run 의 run-<UTC>.md 와 한 디렉토리에서 갈린다
-JUDGE_VERDICT_DIR = KB_VV + "/verdict"    # 결과 주석의 자리 = 판정 주석 (annotation plane 실체)
+JUDGE_VERDICT_DIR = KB_VV + "/verdict"    # 결과 주석의 자리 = 판정 주석 (`annotation` 지식 종류 실체)
 # 판정 로그 본문의 판정 표 — 열이 곧 필수 필드다. 열 하나를 지우면 헤더가 달라져 게이트가 거부한다.
-# `일치` 는 필수 여섯 밖의 읽기 열이다 — 같은 (질문·입력 지문)을 둘 이상의 세션 판정자가 답했을 때만 뜻을 갖고,
+# `일치` 는 필수 여섯 밖의 읽기 열이다 — 같은 (질문·입력 해시값)을 둘 이상의 세션 판정자가 답했을 때만 뜻을 갖고,
 # 단독 응답이면 `해당 없음`이다(2026-09-30, 판정자 둘의 일치가 새 임계의 재료 — 결정 p8-judge-session-agreement)
-JUDGE_LOG_TABLE_HEADER = "| 질문 id | 대상 | 값 | 확신도 | 판정자 식별자 | 입력 지문 | 시각 | 처리 | 일치 |"
-JUDGE_LOG_FIELDS = ("질문 id", "값", "확신도", "판정자 식별자", "입력 지문", "시각")  # 결정이 필수로 정한 여섯 — 대상·처리·일치는 읽기 위한 열이다
+JUDGE_LOG_TABLE_HEADER = "| 질문 id | 대상 | 값 | 확신도 | 판정자 식별자 | 입력 해시값 | 시각 | 처리 | 일치 |"
+JUDGE_LOG_TABLE_HEADER_OLD = "| 질문 id | 대상 | 값 | 확신도 | 판정자 식별자 | 입력 지문 | 시각 | 처리 | 일치 |"  # RECORD_HEADER_SINCE 이전 로그의 머리
+JUDGE_LOG_FIELDS = ("질문 id", "값", "확신도", "판정자 식별자", "입력 해시값", "시각")  # 결정이 필수로 정한 여섯 — 대상·처리·일치는 읽기 위한 열이다
 JUDGE_FORMS = ("noul", "choice", "score")  # 질문의 형 셋 — judge-question-shapes 의 sh:in 과 같은 집합
 JUDGE_CHOICE_MAX = 255                     # 선택 집합의 상한 (규칙 ③) — 넘으면 점수 → 선택 2단계다
-JUDGE_ROUTES = ("자동 적용", "사람 확인 큐", "판정 보류")  # 임계가 가르는 세 처리 (옛 p8-judge-question-form 의 표)
+JUDGE_ROUTES = ("자동 적용", "사람 확인 큐", "판정 보류")  # 임계가 가르는 세 처리 (p8-judge-session-agreement ④ — 자동 적용은 정확도·판별력을 잰 뒤에만 켠다)
 JUDGE_QUEUE = JUDGE_ROUTES[1]              # 구간별 정확도를 재기 전의 유일한 처리 (규칙 ②) — 세션 판정자의 확신도는 자기 보고라 지금은 전부 이 처리다
-JUDGE_AGREEMENT = ("일치", "불일치", "해당 없음")  # `일치` 열의 닫힌 어휘 — 세션 판정자 둘 이상이 같은 (질문·지문)에 답했을 때만 일치·불일치, 단독이면 해당 없음
-JUDGE_THRESHOLDS = "judgeThresholds"       # 임계 셋 개체의 지역명 (judge-threshold-ontology) — 도구가 값을 여기서 읽는다
-# 판정 로그·결과 주석이 `assumes:` 로 참조하는 가정 (kg/base-kg.ttl). 청크 규약 하나뿐이다 — 판정 서비스 가정
+JUDGE_AGREEMENT = ("일치", "불일치", "해당 없음")  # `일치` 열의 닫힌 어휘 — 세션 판정자 둘 이상이 같은 (질문·해시값)에 답했을 때만 일치·불일치, 단독이면 해당 없음
+# 판정 로그의 임계는 확신도가 아니라 일치율이다 (Q-0056 Q119-a) — 로그를 그래프로 읽어(judge_log_graph) 이 shape 로 검사한다.
+# 미끼 검출 결과는 로그 본문의 한 줄이고 이 접두로 시작한다 (agt:decoyResult)
+JUDGE_LOG_SHAPES = "kb/ontology/shapes/confidence-threshold-shapes.ttl"
+JUDGE_LOG_DECOY = "미끼 검출 결과 — "
+# 판정 로그·결과 주석이 `assumes:` 로 참조하는 가정 (kg/base-kg.ttl). 단위 지식 규약 하나뿐이다 — 판정 서비스 가정
 # (`asm-judge-service`)은 서비스 도입 자체가 되돌려져 2026-09-30에 뺐다(handoff/judge-without-service-2026-09-30.md)
 JUDGE_ASSUMPTIONS = ("asm-chunk-conventions",)
-JUDGE_FINGERPRINT = re.compile(r"^[0-9a-f]{64}$")           # 입력 지문 = 입력 바이트의 sha256
+JUDGE_FINGERPRINT = re.compile(r"^[0-9a-f]{64}$")           # 입력 해시값 = 입력 바이트의 sha256
 JUDGE_CONFIDENCE = re.compile(r"^(?:0(?:\.\d+)?|1(?:\.0+)?)$")  # 확신도 = 0 이상 1 이하의 십진 표기
 
 
 def label_fingerprint(item: dict) -> str:
-    """세션 판정자에게 실제로 보인 입력(라벨 + 본문)의 지문 — sha256(제목 ko \\n 제목 en \\n\\n 본문).
+    """세션 판정자에게 실제로 보인 입력(라벨 + 본문)의 해시값 — sha256(제목 ko \\n 제목 en \\n\\n 본문).
 
-    단일 정의처(2026-09-30 vnv 결함 보고 ①) — `tools/judge.py`(판정 응답의 대조 키)와 `tools/label_sample.py`
-    (`--judge-sheet`의 `labels.md`가 싣는 지문)가 이 함수 하나를 쓴다. 청크 파일을 다시 읽어 만드는 지문(바이트
+    단일 정의 위치(2026-09-30 vnv 결함 보고 ①) — `tools/judge.py`(판정 응답의 대조 키)와 `tools/label_sample.py`
+    (`--judge-sheet`의 `labels.md`가 싣는 해시값)가 이 함수 하나를 쓴다. 단위 지식 파일을 다시 읽어 만드는 해시값(바이트
     sha256)과 다르다 — 라벨 대표성 실험의 미끼는 파일 내용과 판정자에게 보인 내용이 다르므로, 대조 키는 항상
     "보인 것"이어야 한다. `item`은 `title_ko`·`title`·`body` 키를 갖는 딕셔너리다(label_sample.py의 표본 항목,
     judge.py의 --decoys key.json 항목과 같은 모양)."""
@@ -906,14 +1051,14 @@ def label_fingerprint(item: dict) -> str:
                           .encode("utf-8")).hexdigest()
 
 
-JUDGE_PROFILE_DIR = "kb/ontology/profile/development"      # 질문·척도·임계 온톨로지 모듈 디렉토리 — 단일 정의처
+JUDGE_PROFILE_DIR = "kb/ontology/profile/development"      # 질문·척도·임계 온톨로지 모듈 디렉토리 — 단일 정의 위치
 JUDGE_QUESTION_SHAPES = "kb/ontology/shapes/judge-question-shapes.ttl"
 
 
 def judge_load_profile(root: Path, profile: str = JUDGE_PROFILE_DIR, shapes: str = JUDGE_QUESTION_SHAPES) -> Graph:
     """판정 질문·척도·임계 프로파일 온톨로지 모듈과 shape 를 한 그래프로 읽는다.
 
-    단일 정의처(2026-09-30 vnv 결함 보고 ⑥) — `tools/judge.py`(질문을 청크에 묻는다)와 `tools/label_sample.py`
+    단일 정의 위치(2026-09-30 vnv 결함 보고 ⑥) — `tools/judge.py`(질문을 단위 지식에 묻는다)와 `tools/label_sample.py`
     (`--judge-sheet`의 척도 문장을 프로파일에서 그대로 옮긴다)가 이 함수와 `judge_questions`를 같이 쓴다. 둘이
     각자 질의를 복제하면 척도 문장이 갈릴 위험이 생긴다 — 갈리면 판정자가 sheet에서 본 척도와 judge.py 가 파싱하는
     척도가 달라진다."""
@@ -924,6 +1069,84 @@ def judge_load_profile(root: Path, profile: str = JUDGE_PROFILE_DIR, shapes: str
     for f in files:
         g.parse(f, format="turtle")
     return g
+
+
+def record_header_old(at) -> bool:
+    """기록 시각 `at`(frontmatter `generated.at` 의 값, 없으면 None) → 그 기록이 옛 표 머리(`*_OLD`)를 받는가.
+
+    시간대가 있는 시각이 `RECORD_HEADER_SINCE` 이전일 때만 참이다. 시각이 없거나, 읽지 못하거나, 시간대가 없으면 거짓이고
+    그 기록은 새 머리를 요구한다 (Q161-a). 기록 머리를 시각으로 가르는 판단의 단일 정의 위치가 이 함수다 (Q164-a)."""
+    if at is None:
+        return False
+    try:
+        when = datetime.fromisoformat(str(at).replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return when.tzinfo is not None and when < datetime.fromisoformat(RECORD_HEADER_SINCE)
+
+
+def judge_log_rows(text: str) -> list[dict]:
+    """판정 로그 파일의 글 → 판정 표의 행들 [{열 이름: 칸}]. 칸의 역따옴표는 벗긴다. 표가 없으면 빈 목록이다.
+
+    `judge_log_graph`(shape 검사)와 `run_evidence`(판정 증거)가 이 한 읽기를 쓴다. 쌍 판정 행의 `대상` 칸은 `parse_pair_target` 이 푼다.
+    표 머리는 기록 시각(frontmatter `generated.at`)으로 가린다 — `RECORD_HEADER_SINCE` 이전 로그는 `JUDGE_LOG_TABLE_HEADER_OLD` 만,
+    이후 로그와 시각을 읽지 못한 로그는 `JUDGE_LOG_TABLE_HEADER` 만 받는다. 행의 열 이름은 어느 쪽이든 새 머리의 것이다."""
+    cols = [c.strip() for c in JUDGE_LOG_TABLE_HEADER.split("|")[1:-1]]
+    m = re.search(r"^generated:\s*\{[^}]*?\bat:\s*([^,}\s]+)", text, re.MULTILINE)
+    header = JUDGE_LOG_TABLE_HEADER_OLD if record_header_old(m.group(1) if m else None) else JUDGE_LOG_TABLE_HEADER
+    lines = chunk_body(text).split("\n")
+    start = next((i for i, l in enumerate(lines) if l.strip() == header), None)
+    rows = []
+    for line in lines[start + 2:] if start is not None else []:
+        if not line.strip().startswith("|"):
+            break
+        cells = [c.strip().strip("`").strip() for c in line.strip().split("|")[1:-1]]
+        if len(cells) == len(cols):
+            rows.append(dict(zip(cols, cells)))
+    return rows
+
+
+def judge_log_graph(text: str) -> Graph:
+    """판정 로그 파일의 글 → 그래프 (agt:JudgementLog 하나와 표의 행마다 agt:JudgementRow 하나, judge-threshold-ontology).
+
+    판정 표는 `JUDGE_LOG_TABLE_HEADER` 의 열을 읽고(`judge_log_rows`), 미끼 검출 결과는 `JUDGE_LOG_DECOY` 로 시작하는 줄의 나머지다.
+    `대상` 칸은 `agt:judgeTarget` 이다 — 쌍 꼴(`parse_pair_target`)이면 앵커와 대상 둘, IRI 하나면 그 하나다. 열이나 줄이
+    없으면 그 트리플을 내지 않는다 — 없음의 판정은 shape(`JUDGE_LOG_SHAPES`)가 한다. 저장하지 않는 파생 그래프다.
+    """
+    from rdflib import BNode, Literal
+    from rdflib.namespace import XSD
+    m = re.search(r"^id:\s*(\S+)\s*$", text, re.MULTILINE)
+    log = URIRef(m.group(1)) if m else BNode()
+    g = Graph()
+    g.add((log, RDF.type, AGT.JudgementLog))
+    for cell in judge_log_rows(text):
+        row = BNode()
+        g.add((log, AGT.hasJudgementRow, row))
+        g.add((row, RDF.type, AGT.JudgementRow))
+        g.add((row, AGT.judgeId, Literal(cell["판정자 식별자"])))
+        g.add((row, AGT.judgeAgreement, Literal(cell["일치"])))
+        g.add((row, AGT.judgeRoute, Literal(cell["처리"])))
+        pair = parse_pair_target(cell["대상"])
+        for t in (pair[:2] if pair else ([cell["대상"]] if cell["대상"].startswith(str(ID)) else [])):
+            g.add((row, AGT.judgeTarget, URIRef(t)))
+        if JUDGE_CONFIDENCE.match(cell["확신도"]):
+            g.add((row, AGT.judgeConfidence, Literal(cell["확신도"], datatype=XSD.decimal)))
+    for line in chunk_body(text).split("\n"):
+        if line.startswith(JUDGE_LOG_DECOY):
+            g.add((log, AGT.decoyResult, Literal(line[len(JUDGE_LOG_DECOY):].strip())))
+    return g
+
+
+def judge_log_violations(text: str, shapes_path) -> list:
+    """판정 로그의 글을 `JUDGE_LOG_SHAPES` 로 검사한 위반 메시지 목록 — 빈 목록이면 통과다 (Q-0056 Q119-a)."""
+    from pyshacl import validate as shacl_validate
+    from rdflib.namespace import SH
+    shapes = Graph()
+    shapes.parse(str(shapes_path), format="turtle")
+    conforms, report, _ = shacl_validate(judge_log_graph(text), shacl_graph=shapes)
+    if conforms:
+        return []
+    return sorted({str(msg) for msg in report.objects(None, SH.resultMessage)})
 
 
 def judge_questions(g: Graph) -> dict:
@@ -944,10 +1167,10 @@ def judge_questions(g: Graph) -> dict:
     return out
 
 
-# ── 추적 매트릭스 (TIM — plane×plane 의 허용 칸; 노트 14.1 정정본 3단계 "매트릭스", metrics 3단계 대리 · weave audit 이 같은 정의) ──
-# (링크 종류, 출발 plane, 도착 plane). 앞 7칸은 개발 KB 안의 정제·대체·만족 링크, 뒤 6칸은 V&V 사슬(p8-scenario-ladder-rungs ·
-# p8-pass-criteria): 목표 derivesFrom 요구 · 기준 refines 목표 · 케이스 refines 기준 · 검증기 refines 케이스, 같은 높이의 verifies —
-# concrete 케이스 → 결정, executable 검증기 → 산출물. logical 높이는 기준이 목표를 refines 하는 것으로 검증 대응이 성립하므로
+# ── 추적 매트릭스 (TIM — 지식 종류×지식 종류의 허용 칸; 노트 14.1 정정본 3단계 "매트릭스", metrics 3단계 대리 · weave audit 이 같은 정의) ──
+# (링크 종류, 출발 지식 종류, 도착 지식 종류). 앞 7칸은 개발 KB 안의 정제·대체·만족 링크, 뒤 6칸은 V&V 사슬(p8-scenario-ladder-rungs ·
+# p8-pass-criteria): 목표 derivesFrom 요구 · 기준 refines 목표 · 테스트 케이스 refines 기준 · 검증기 refines 테스트 케이스, 같은 높이의 verifies —
+# concrete 테스트 케이스 → 결정, executable 검증기 → 산출물. logical 높이는 기준이 목표를 refines 하는 것으로 검증 대응이 성립하므로
 # contract→decision `verifies` 칸이 없다 (유저 답 Q30-b, 2026-10-04)
 TIM_CELLS = (("refines", "decision", "requirement"), ("serves", "decision", "requirement"), ("supersedes", "decision", "decision"),
              ("satisfies", "contract", "decision"), ("derivesFrom", "schema", "decision"), ("constrains", "schema", "contract"),
@@ -961,7 +1184,7 @@ TIM_CELLS = (("refines", "decision", "requirement"), ("serves", "decision", "req
 # refines 해야 한다"를 이미 강제하므로 그 칸이 표에 없던 것은 누락이었다. 중첩 복합체 보정을 고치자(link_cells) 드러났다.
 # `refines`:artifact→decision 은 코드의 정제 계층이다 (p7-code-links-on-file-composite, 유저 승인 2026-09-30) — 파일 복합체가 결정을 `refines` 하고
 # 그 결정이 요구에 닿는다. `serves` 가 아닌 까닭은 그 술어의 정의역이 agt:DecisionChunk 이기 때문이다(fulfilment-ontology):
-# artifact 청크가 요구를 직접 serves 하면 추론이 그것을 결정 청크로 만들고 shape DecisionSubstanceShape 이 거부한다.
+# artifact 단위 지식이 요구를 직접 serves 하면 추론이 그것을 결정으로 만들고 shape DecisionSubstanceShape 이 거부한다.
 # 링크의 구축·복원 구분 (유저 결정 2026-09-12 (b), p10-restored-link-marking) — 기준은 술어가 아니라 **증거 종류**다.
 # 구축 = 증거가 구축 기록(constructionRecord)뿐인 확정 agt:Link. 본문 식별자 추출(extract_refs)은 직접 트리플(LINK_EXTRACTED)과
 # 후보 링크 개체(agt:CandidateLink — cites 만, 증거는 구축 기록)로 나가며 구축·복원 어느 쪽에도 세지 않고 후보로 따로 센다.
@@ -977,33 +1200,33 @@ CONSTRUCTION_EVIDENCE = AGT.constructionRecord
 # chunk2kg·extract_refs 는 rdflib 없이 돌므로 같은 문자열을 getattr 폴백으로 갖는다
 LINK_STATE_CANDIDATE = "candidate"
 LINK_STATE_CONFIRMED = "confirmed"
-# 청크 uuid 는 work-id 다 (p10-split-keeps-work-identity, 유저 승인 2026-09-19). 분할 조각은 frontmatter `specializationOf: <원 IRI>`
+# 단위 지식 uuid 는 work-id 다 (p10-split-keeps-work-identity, 유저 승인 2026-09-19). 분할 조각은 frontmatter `specializationOf: <원 IRI>`
 # 로 원본을 가리키고 chunk2kg 가 prov:specializationOf 를 방출한다. 링크 IRI 는 양 끝의 뿌리 uuid(사슬을 따라 올라간 work-id)로
-# 계산한다. 대상은 살아 있는 같은 plane 의 청크여야 하고 사슬은 순환하지 않는다 — validate check_specialization 이 FAIL [specialization],
+# 계산한다. 대상은 살아 있는 같은 지식 종류의 단위 지식이어야 하고 사슬은 순환하지 않는다 — validate check_specialization 이 FAIL [specialization],
 # 대상 부재는 check_dangling 이 FAIL [dangling] 으로 거부한다. 순환은 chunk2kg 도 (뿌리를 계산할 수 없으므로) 같은 게이트 id 로 거부한다
 
 # ── V&V 정제 계층 사슬 (게이트 `rung-before-descent` — 요구 r-023-rung-before-descent, 유저 결정 Q51-a · Q52-a) ──────────
-# 같은 정제 수준의 V&V 검증 대응물(p8-scenario-ladder-rungs 가 정제 수준마다 정한 대응물)이 있어야 다음 정제 수준으로 정제한다. 판정식은
+# 같은 정제 수준의 V&V 검증 대응물(p8-scenario-ladder-rungs 가 정제 수준마다 정한 대응물)이 있어야 다음 정제 수준으로 정제한다. 판정 술어는
 # R1 정제 계층 사슬이다 — 정제 수준마다 개발 정제 하나와 그 정제가 닿는 요구의 V&V 대응물을 짝짓는다.
 #   functional→abstract  개발 정제(결정 결론 concrete → 요구 functional `refines`·`serves`)의 대상 요구를 derivesFrom 하는 목표가 있다
-#   logical→concrete     logical·concrete 부분을 함께 가진 결정 복합체가 닿는 요구의 목표 가운데 합격 기준이 `refines` 하는 것이 있다
+#   logical→concrete     logical·concrete 부분을 함께 가진 결정 기록이 닿는 요구의 목표 가운데 합격 기준이 `refines` 하는 것이 있다
 #   concrete→executable  executable 이 concrete 를 `refines` 하면 그 복합체가 닿는 요구의 목표 → 기준 가운데 검증기가 바인딩한 것이
-#                        있다. 바인딩은 검증기 → 기준 `refines` 이거나 검증기 → 케이스 → 기준 `refines` 다. 사람 확인 기준만 가진
+#                        있다. 바인딩은 검증기 → 기준 `refines` 이거나 검증기 → 테스트 케이스 → 기준 `refines` 다. 사람 확인 기준만 가진
 #                        요구는 면제다(Q26-a) — 사람 확인의 판정은 전방 추적 지표와 같은 `HUMAN_CHECK_SLOT` 이다
 # 소비자는 게이트(validate check_rung_before_descent)와 지표(metrics vv_facts · forward_trace)다. 대응물의 집합을 한 곳에서 계산한다
-HUMAN_CHECK_SLOT = "확인 절차"  # 사람 확인 합격 기준의 가운데 슬롯 (acceptance-criteria-body-shapes — 기계 판정이면 판정식)
+HUMAN_CHECK_SLOT = "확인 절차"  # 사람 확인 합격 기준의 가운데 슬롯 (acceptance-criteria-body-shapes — 기계 판정이면 판정 술어)
 RUNG_DESCENTS = ("functional→abstract", "logical→concrete", "concrete→executable")
 
 
 def human_check_criteria(g: Graph, plane: dict) -> set:
-    """가운데 슬롯이 `HUMAN_CHECK_SLOT` 인 합격 기준(contract 청크)의 집합 — 사람 확인 기준이다."""
+    """가운데 슬롯이 `HUMAN_CHECK_SLOT` 인 합격 기준(contract 단위 지식)의 집합 — 사람 확인 기준이다."""
     return {c for c, v in g.subject_objects(AGT.bodySlot) if plane.get(c) == "contract" and str(v) == HUMAN_CHECK_SLOT}
 
 
 def vv_counterparts(g: Graph, plane: dict, live: set) -> dict:
     """V&V 정제 계층의 대응물 — 개발 요구·검증 목표·목표가 덮는 요구·기준이 달린 목표·기준과 그 바인딩.
 
-    KB 는 청크 위치로 가른다(`kb_of`). 키: `dev_reqs`·`goals`·`covered_reqs`(목표가 derivesFrom 하는 개발 요구)·
+    KB 는 단위 지식 위치로 가른다(`kb_of`). 키: `dev_reqs`·`goals`·`covered_reqs`(목표가 derivesFrom 하는 개발 요구)·
     `goals_with_criteria`·`goals_of`(요구 → 목표들)·`criteria_of`(목표 → 기준들)·`bound`(검증기가 바인딩한 기준)·`human`.
     """
     loc = {c: str(next(g.objects(c, AGT.assertionLocation), "")) for c in live}
@@ -1034,8 +1257,8 @@ def vv_counterparts(g: Graph, plane: dict, live: set) -> dict:
 def rung_violations(g: Graph, plane: dict, level: dict, live: set) -> list[tuple]:
     """정제 계층 사슬의 위반 — `(정제 수준, 정제의 주어, 정제의 대상, 요구)` 의 목록. 정제 수준은 `RUNG_DESCENTS` 의 값이다.
 
-    결정 복합체는 한 단위다(p7-decision-spans-three-levels) — 복합체가 닿는 요구는 그 부분들에서 `refines`·`serves` 를 따라
-    올라가 처음 만나는 개발 요구이고, 올라간 끝이 결정 청크나 복합체면 그 복합체의 부분들에서 다시 오른다.
+    결정 기록은 한 단위다(p7-decision-spans-three-levels) — 복합체가 닿는 요구는 그 부분들에서 `refines`·`serves` 를 따라
+    올라가 처음 만나는 개발 요구이고, 올라간 끝이 결정이나 복합체면 그 복합체의 부분들에서 다시 오른다.
     """
     vc = vv_counterparts(g, plane, live)
     dev = {c for c in live if kb_of(str(next(g.objects(c, AGT.assertionLocation), ""))) == KB_DEV}
@@ -1095,16 +1318,16 @@ def rung_violations(g: Graph, plane: dict, level: dict, live: set) -> list[tuple
                 out.append((RUNG_DESCENTS[2], y, x, r))
     return sorted(set(out), key=lambda v: tuple(map(str, v)))
 
-# ── 위험에서 파생된 항목의 표지 (`exposes`) — 위험 분석 G5 (노트 8.21절, 8.22절 "요인" 청크) ─────────────────
+# ── 위험에서 파생된 항목의 표지 (`exposes`) — 위험 분석 G5 (노트 8.21절, 8.22절 "요인" 단위 지식) ─────────────────
 # 항목이 어느 결함 요인(현상)을 노출하려고 서 있는지를 frontmatter `exposes: [<agt: 현상 IRI>…]` 로 적고
-# chunk2kg 가 agt:exposesFactor 를 방출한다. **링크 키가 아니다**: 대상이 청크가 아니라 온톨로지 개체라
+# chunk2kg 가 agt:exposesFactor 를 방출한다. **링크 키가 아니다**: 대상이 지식이 아니라 온톨로지 개체라
 # 링크 개체(agt:Link)의 치역 밖이고 Bazel deps 도 되지 않는다 — agt:targets 와 같은 자리다.
 # 대상이 agt:DefectFactor 의 하위 개체인지는 shape exposes-factor-shapes.ttl 이 판정한다(없는 개체도 거기서 FAIL).
 EXPOSES_KEY = "exposes"
 EXPOSES_PREDICATE = "agt:exposesFactor"
 
-# ── 정의 청크의 호출 관계 (`uses`) — references 족의 잎 agt:usesDefinition (유저 답 2026-09-30, 채널 uses-definition) ────
-# 코드 청크가 어느 최상위 정의를 이름으로 쓰는지를 frontmatter `uses: [<청크 IRI>…]` 로 적고 — 같은 모듈의 정의와
+# ── 정의 단위 지식의 호출 관계 (`uses`) — references 족의 잎 agt:usesDefinition (유저 답 2026-09-30, 채널 uses-definition) ────
+# 코드 단위 지식이 어느 최상위 정의를 이름으로 쓰는지를 frontmatter `uses: [<단위 지식 IRI>…]` 로 적고 — 같은 모듈의 정의와
 # 치역 경계(`USES_TARGETS`) 안의 모듈의 정의가 그 대상이다 —
 # chunk2kg 가 agt:usesDefinition 을 방출한다. 값의 원본은 손이 아니라 추출기다 — tools/extract.py 가 정의의 AST 에서 낸다.
 # **링크 키가 아니다**(references 족, 확장 규칙 2026-09-26): Bazel deps(gen_build.LINKS)도 링크 개체(agt:Link)도 되지 않아
@@ -1115,7 +1338,7 @@ USES_PREDICATE = "agt:usesDefinition"
 # 경계는 둘이고 둘 다 `defs/kb.bzl` 에 산다. **방출 경계** `EXTRACTED_SOURCES` 는 어느 소스에서 `uses` 를
 # 내는가이고 — 표본 하나(`tools/kb_lib.py`, 트리플 54)에서 먼저 내고 링크 밀도·게이트 시간을 잰 뒤(유저 답 1,
 # 2026-09-30) 37 파일 전부로 넓혔다 — **치역 경계** `USES_TARGETS` 는 모듈 밖의 어느 모듈을 가리킬 수 있는가다
-# (유저 답 1, 2026-10-01 — 표본 쌍 `kb_lib` 하나부터). **단일 정의처는 그 두 리터럴**이다(M1,
+# (유저 답 1, 2026-10-01 — 표본 쌍 `kb_lib` 하나부터). **단일 정의 위치는 그 두 리터럴**이다(M1,
 # RESIDENCY·load_residency 와 같은 해법) — 여기 손으로 목록을 적지 않는다. `load_extracted_sources` 가 이름으로
 # 지정된 리터럴을 읽어 돌려주고, 호출자(`tools/extract.py`)가 `tools/<이름>.py`(방출 경계)·대상 모듈의
 # 등록부(치역 경계)로 옮긴다. `BUILD.bazel`(`//tools:tools` 패키지의 `check_extracted_sources`)이 등록부 사이드카의
@@ -1123,28 +1346,32 @@ USES_PREDICATE = "agt:usesDefinition"
 # 비기 전에 bazel 명령이 먼저 죽는다.
 USES_SOURCES_NAME = "EXTRACTED_SOURCES"  # 방출 경계 리터럴의 이름
 USES_TARGETS_NAME = "USES_TARGETS"       # 치역 경계 리터럴의 이름
-# 질의 디렉토리 리터럴의 이름 — `tools/<이름>/*.rq` 의 질의 파일 하나가 `artifact` 청크 하나다(2단계 편입, 2026-10-03).
-# 단일 정의처는 `defs/kb.bzl` 의 그 리터럴이고 `tools/extract.py` 가 `load_extracted_sources` 로 읽어 디렉토리 소스를 허용한다
+# 질의 디렉토리 리터럴의 이름 — `tools/<이름>/*.rq` 의 질의 파일 하나가 산출물 단위 지식 하나다(2단계 편입, 2026-10-03).
+# 단일 정의 위치는 `defs/kb.bzl` 의 그 리터럴이고 `tools/extract.py` 가 `load_extracted_sources` 로 읽어 디렉토리 소스를 허용한다
 EXTRACTED_QUERY_DIRS_NAME = "EXTRACTED_QUERY_DIRS"
-# Starlark 소스 리터럴의 이름 — `defs/<이름>.bzl` 의 최상위 정의 하나가 `artifact` 청크 하나다(유저 답 Q32-a, 2026-10-04).
-# 단일 정의처는 `defs/kb.bzl` 의 그 리터럴이고 `tools/extract.py` 가 `load_extracted_sources` 로 읽어 `.bzl` 소스를 허용한다
+# Starlark 소스 리터럴의 이름 — `defs/<이름>.bzl` 의 최상위 정의 하나가 산출물 단위 지식 하나다(유저 답 Q32-a, 2026-10-04).
+# 단일 정의 위치는 `defs/kb.bzl` 의 그 리터럴이고 `tools/extract.py` 가 `load_extracted_sources` 로 읽어 `.bzl` 소스를 허용한다
 EXTRACTED_STARLARK_NAME = "EXTRACTED_STARLARK"
 EXTRACT_QUERY_SUFFIX = ".rq"             # 질의 디렉토리에서 추출하는 파일의 접미사 — SPARQL 질의 하나
 
-# ── 서비스 층 (`layer`) — plane과 직교하는 역할 속성 agt:inLayer (결정 p0-service-is-a-three-layer-wiki, 2026-10-01) ────
+# ── 서비스 층 (`layer`) — 지식 종류와 직교하는 역할 속성 agt:inLayer (결정 p0-service-is-a-three-layer-wiki, 2026-10-01) ────
 # 항목이 서비스의 어느 층(지식·방법론·프로세스)에서 역할을 갖는지를 frontmatter `layer:` 로 적고 chunk2kg 가
-# agt:inLayer 를 방출한다. **링크 키가 아니다**: 대상이 청크가 아니라 온톨로지 개체라 링크 개체(agt:Link)의 치역
+# agt:inLayer 를 방출한다. **링크 키가 아니다**: 대상이 지식이 아니라 온톨로지 개체라 링크 개체(agt:Link)의 치역
 # 밖이고 Bazel deps 도 되지 않는다 — agt:targets·agt:exposesFactor 와 같은 자리다.
 # **명시가 없어도 방출한다** — 기본값은 지식 층이고, 표시 누락이 산발로 세어지지 않아야 하므로 기본값을 그래프에
-# 적는다(결정 근거 "기본값을 지식으로 두는 까닭"). 값 어휘 → 개체의 사상은 chunk2kg.LAYERS 가 정의처이고
+# 적는다(결정 근거 "기본값을 지식으로 두는 까닭"). 값 어휘 → 개체의 사상은 chunk2kg.LAYERS 가 단일 정의 위치이고
 # (EARS_PATTERNS 와 같은 자리 — 그 도구는 rdflib 없이 타깃마다 돈다), 값의 닫힌 집합은 shape layer-shapes.ttl 이 판정한다.
 LAYER_KEY = "layer"
 LAYER_PREDICATE = "agt:inLayer"
+# 옛 이름 `former_title_ko` — 이름이 바뀐 지식의 과거 표기다(결정 p0-skos-label-synonyms: hiddenLabel 은 과거 표기). 단위 지식의
+# 최상위 키는 단위 지식의 옛 이름, `composite:` 선언 안의 같은 키는 복합체의 옛 이름이고 chunk2kg 가 둘 다 `skos:hiddenLabel` @ko 로
+# 낸다. 채널 검사 `names` 는 이미 보낸 메시지가 그때의 이름을 적어도 통과시키려고 읽는다 — 발신 전 검사는 현재 이름만 받는다
+FORMER_TITLE_KEY = "former_title_ko"
 
 
 def load_extracted_sources(path: str | Path, name: str = USES_SOURCES_NAME) -> tuple[str, ...]:
     """`defs/kb.bzl` 의 이름 목록 리터럴(`EXTRACTED_SOURCES` 방출 경계 · `USES_TARGETS` 치역 경계)을 읽는다
-    (M1 단일 정의처, load_residency 와 같은 해법, 2026-10-01). 값은 모듈 이름이고 접미사를 붙이지 않는 이유는
+    (M1 단일 정의 위치, load_residency 와 같은 해법, 2026-10-01). 값은 모듈 이름이고 접미사를 붙이지 않는 이유는
     `BUILD.bazel` 의 값과 같은 모양을 유지해서다 — 호출자가 필요한 모양(`tools/<이름>.py`·`tools/<이름>.chunks.yml`)
     으로 옮긴다. 표를 못 읽으면 ValueError — 판정 불가지 통과가 아니다(판정 불가지 통과는 조용히 비는 것과 같다).
     """
@@ -1153,22 +1380,22 @@ def load_extracted_sources(path: str | Path, name: str = USES_SOURCES_NAME) -> t
 # ── 요소 탈락 검사 (`element-drop`) — 현상 P19 의 관측 수단 (위험 분석 G1, vnv 설계 2026-09-29) ────────────────
 # "어휘가 없는 소스 요소는 슬롯이 없어 조용히 빠진다"(참조 저장소 R3)를 소스 전수와 방출 전수의 차로 잡는다.
 # 차가 공집합이 아니면 FAIL 이다 — 조용히 버려진 요소가 있다는 뜻이고, 대응은 어휘 확장이다(가정 asm-missing-vocabulary-is-signal).
-# 검사 둘의 소스 집합은 (a) 청크 frontmatter 의 최상위 키, (b) 프로파일이 선언한 plane 실체 클래스다.
-# chunk2kg 가 emit_chunk 에서 직접 읽는 선택 키. 필수 키는 chunk2kg.REQUIRED, 링크 키는 chunk2kg.LINK_KEYS 가 정의처이고
+# 검사 둘의 소스 집합은 (a) 단위 지식 frontmatter 의 최상위 키, (b) 프로파일이 선언한 지식 종류 실체 클래스다.
+# chunk2kg 가 emit_chunk 에서 직접 읽는 선택 키. 필수 키는 chunk2kg.REQUIRED, 링크 키는 chunk2kg.LINK_KEYS 가 단일 정의 위치이고
 # 이 셋의 합집합이 "소비되는 키"다. chunk2kg 가 새 키를 읽으면 여기에 등재한다 — 등재 없이 쓰인 키는 이 게이트가 잡는다.
 CHUNK_OPTIONAL_KEYS = ("verified", "sources", "assumes", "pattern", "coUpdatesWith", "part_of", "composite",
-                       "restored", "specializationOf", "targets", EXPOSES_KEY, USES_KEY, LAYER_KEY,
+                       "restored", "specializationOf", "targets", EXPOSES_KEY, USES_KEY, LAYER_KEY, FORMER_TITLE_KEY,
                        *NORM_SECTION_KEYS, *NORM_HEAD_KEYS)  # 절 키 — heading·depth·continues 는 방출, items 는 projectsConvention, numbered·form·columns·link_column·머리 키는 생성기 gen_norms 가 읽는다
 
 # ── 설계 공간 (`-space`) — 열린 설계 변수와 그 후보 (결정 p9-candidate-storage · p9-design-space-file) ───────────
-# 후보 링크는 확정 링크와 다른 자리에 산다: 확정은 청크 head(frontmatter 링크 키 → Bazel deps), 후보는 `-space` 청크다.
+# 후보 링크는 확정 링크와 다른 자리에 산다: 확정은 단위 지식 head(frontmatter 링크 키 → Bazel deps), 후보는 설계 공간(`-space`)이다.
 # **후보는 결코 deps 가 되지 않는다** — `-space` 는 kb_chunk 타깃이 아니라 A-Box 그래프(`*-space.ttl`)로만 올라가고
-# 그 그래프는 //kg:gate_test 의 --data 다. type 은 plane 이름이 아니라 온톨로지 클래스 `agt:Space` 이고 level 은 logical 이다.
+# 그 그래프는 //kg:gate_test 의 --data 다. type 은 지식 종류 이름이 아니라 온톨로지 클래스 `agt:Space` 이고 level 은 logical 이다.
 # 후보의 표면 상태 어휘 셋은 링크 상태(agt:linkState)의 기존 값으로 내린다 — 새 상태 어휘를 만들지 않는다 (STYLEGUIDE §0 재사용):
 #   open → candidate(agt:CandidateLink) · eliminated → invalid · confirmed → confirmed(agt:ConfirmedLink)
 # 배제 근거는 증거 기록의 (−) 한 줄이다 (agt:Evidence · agt:polarity "-") — 근거 없는 배제 금지가 r-011 의 요지다.
-SPACE_TYPE = "agt:Space"    # `-space` 청크의 frontmatter type
-SPACE_LEVEL = "logical"     # `-space` 청크의 level — 후보·제약·배제 근거가 사는 수준 (6.4절 수준 허용표)
+SPACE_TYPE = "agt:Space"    # 설계 공간(`-space`)의 frontmatter type
+SPACE_LEVEL = "logical"     # 설계 공간(`-space`)의 level — 후보·제약·배제 근거가 사는 수준 (6.4절 수준 허용표)
 SPACE_STATUS = ("open", "resolved")                            # agt:spaceStatus 의 값 어휘
 SPACE_STATES = ("open", "eliminated", "confirmed")             # 후보의 표면 상태 어휘 (본문 `state:`)
 LINK_STATE_INVALID = "invalid"                                 # 배제된 후보의 링크 상태 (link-state-ontology)
@@ -1179,19 +1406,48 @@ SPACE_STATE_LINK = {
     "eliminated": ("agt:Link", LINK_STATE_INVALID),
     "confirmed": ("agt:Link , agt:ConfirmedLink", LINK_STATE_CONFIRMED),
 }
-# 확정 근거가 될 수 있는 증거 종류 (9.11절 "구축(+) 또는 실행(+) 없이 확정 불가") — verify 질의 confirmed-without-evidence 와 같은 집합
-SPACE_CONFIRMING_EVIDENCE = ("constructionRecord", "runResult")
+# 확정 근거가 될 수 있는 증거 종류 (9.11절 "구축(+) 또는 실행(+) 없이 확정 불가", 결정 p9-evidence-ledger-with-belief 의 확정 규칙).
+# 유저 결정은 질문지의 답이므로 확정 근거다 (Q-0055 Q111-a, 2026-10-24). 단일 정의 위치는 이 상수다 — space2kg · validate 가 읽고,
+# verify 질의 confirmed-without-evidence 의 FILTER 목록이 이 집합과 같은지를 validate.check_confirming_evidence 가 본다
+SPACE_CONFIRMING_EVIDENCE = ("constructionRecord", "runResult", "userDecision")
+# 유저 결정 증거의 참조 꼴 (Q-0055 Q111-a) — 질문지와 질문 번호 `Q-NNNN#Qn`, 또는 질문 번호 이전 기록의 `legacy/<파일 이름>.md`
+USER_DECISION_KIND = "userDecision"
+USER_DECISION_REF = re.compile(r"^Q-\d{4}#Q\d+$|^legacy/[^/\s]+\.md$")
+# 변수 종류 → 후보 링크의 방향 (Q-0055 Q112-b). 변수 종류는 (링크 타입, 변수 출발 항목의 지식 종류)이다 — 같은 refines 라도 결정
+# 변수(출발이 요구 또는 abstract 결정, 후보가 그것을 정제하는 결정)와 코드 변수(출발이 파일 복합체, 그것이 정제하는 계약이
+# 후보)는 방향이 반대다. 값 "candidate" 는 후보가 출발점이고 변수의 출발 항목이 끝점이다, "variable" 은 그 반대다. 어느 쪽이든 확정되면
+# 출발점 단위 지식의 frontmatter 에 그 링크 키가 적히므로 head 의 확정 링크와 (출발, 끝, 종류)가 같다. 표에 없는 변수 종류는
+# space2kg 가 거부한다(조용히 한쪽으로 읽지 않는다). 방향 규칙은 이 표 하나에만 있다
+SPACE_CANDIDATE_DIRECTION = {
+    ("refines", "requirement"): "candidate",
+    ("refines", "decision"): "candidate",
+    ("refines", "artifact"): "variable",
+}
+
+
+def space_link_ends(var_from: str, kind: str, from_plane: str, candidate: str) -> tuple:
+    """설계 변수의 후보 하나 → 후보 링크의 (출발, 끝). 방향은 `SPACE_CANDIDATE_DIRECTION` 이 정하고 표 밖이면 KeyError 다."""
+    if SPACE_CANDIDATE_DIRECTION[(kind, from_plane)] == "candidate":
+        return candidate, var_from
+    return var_from, candidate
+
+
+def space_candidate_of(g: Graph, space, link):
+    """후보 링크 개체 → 후보 — 두 끝 가운데 변수의 출발 항목(agt:variableFrom)이 아닌 쪽이다. 없으면 None."""
+    var_from = next(g.objects(space, AGT.variableFrom), None)
+    frm, to = next(g.objects(link, AGT.linkFrom), None), next(g.objects(link, AGT.linkTo), None)
+    return frm if to == var_from and frm != var_from else to
 
 
 # ══ 링크 상태와 suspect 트리거 ════════════════════
-# 링크의 상태는 저장값이 아니라 평가 결과다. 그 평가와 트리거 선언, 연결 지표의 제외 plane 이 이 장이다.
+# 링크의 상태는 저장값이 아니라 평가 결과다. 그 평가와 트리거 선언, 연결 지표의 제외 지식 종류, 링크 후보의 쌍 판정(task 0262)이 이 장이다.
 
 # ── 링크 상태의 물질화 — suspect 는 저장값이 아니라 평가 결과다 (노트 9.11절, link-state-ontology agt:linkState) ────
 # 그래프에 적히는 linkState 는 candidate·confirmed·invalid 셋뿐이다. suspect 는 두 경로의 평가 결과이고 생성물
 # (assume_check 의 보고 · metrics 의 포화율)에서만 물질화된다 — 저장하면 그래프와 판정이 어긋나고 이 저장소의 생성물은
 # bazel-out 에만 있다. 두 경로는 (a) `when` 이 거짓인 확정 링크 · (b) 선언된 트리거가 지목한 확정 링크다.
 LINK_STATE_SUSPECT = "suspect"
-# `when` 판정식의 범위는 **ODD 속성 참조의 판정**이다 (CEL 전체가 아니다). 항은 `in(<ODD 속성명 | cond 슬러그 | 조건 IRI>)`
+# `when` 판정 술어의 범위는 **ODD 속성 참조의 판정**이다 (CEL 전체가 아니다). 항은 `in(<ODD 속성명 | cond 슬러그 | 조건 IRI>)`
 # 하나이고 결합은 CEL 연산자 `!`·`&&`·`||` 와 괄호이며 리터럴 `true`·`false` 를 받는다. 비교·산술·함수 호출·ODD 밖 이름은
 # 판정하지 않고 unverified 로 남긴다 — 판정 불가를 참으로 읽으면 무효화가 조용히 멈춘다 (0.4절 restrictive).
 WHEN_TRUE, WHEN_FALSE, WHEN_UNVERIFIED = "true", "false", "unverified"
@@ -1306,7 +1562,7 @@ def when_eval(expr: str, states: dict) -> tuple:
 
 
 # ── suspect 트리거의 선언 — 링크 타입별로 좁다 (handoff link-model-robustness-cde-2026-09-19 반영 2) ──────────────
-# 자리: 이 상수가 선언의 원본이다 (STYLEGUIDE §7 — 규약 상수의 단일 정의처는 kb_lib).
+# 자리: 이 상수가 선언의 원본이다 (STYLEGUIDE §7 — 규약 상수의 단일 정의 위치는 kb_lib).
 # 형식: (링크 종류, 전파 규칙, 켜짐, 근거). **선언에 없는 종류는 돌지 않는다** — 기본이 꺼짐이다.
 # 근거: 외부 실무(Eclipse Capra 와 추적성 유지 연구, docs/references.md 추적성)가 전파를 전 타입에 켜면 추적 매트릭스가
 # suspect 로 포화한다고 보고한다. 그래서 정의문이 이미 전파를 규정한 supersedes 하나로 시작하고 나머지는 포화율
@@ -1412,6 +1668,20 @@ def suspect_saturation(g: Graph, extra: dict | None = None) -> dict:
             "with_when": sum(1 for l, _k, _f, _t in _confirmed_links(g) if (l, AGT.when, None) in g)}
 
 
+def draft_end_links(g: Graph, link_keys) -> list[tuple[str, URIRef, str, URIRef]]:
+    """`draft` 를 끝으로 둔 확정 링크 — (출발 status, 출발, 링크 키, 끝). 결정 p4-chunk-state-machine 의 "draft 청크는 링크의 끝이 될 수 없다".
+
+    링크는 frontmatter 링크 키(`link_keys` — 호출자가 단일 정의 위치 chunk2kg.LINK_KEYS 를 준다)가 낸 직접 트리플이고, 출발과 끝이 둘 다
+    단위 지식(`agt:tokenCount` 를 가진 노드)이며 끝의 status 가 draft 인 것이다. 끝이 복합체이면 status 가 없어 세지 않는다. 출발이
+    deprecated 인 링크도 낸다 — 거르는 일은 호출자가 한다. 소비자는 감사 보고의 지표(weave `_audit_draft_ends`)와 게이트
+    `draft-end`(validate `check_draft_end`)이고 같은 정의를 쓴다 (유저 답 Q108-a 3단계).
+    """
+    chunks = set(g.subjects(AGT.tokenCount, None))
+    status = {c: str(next(g.objects(c, AGT.status), "")) for c in chunks}
+    return sorted(((status[s], s, key, o) for key in link_keys for s, o in g.subject_objects(AGT[key])
+                   if s in chunks and o in chunks and status[o] == "draft"), key=lambda r: (str(r[1]), r[2], str(r[3])))
+
+
 def link_origins(g: Graph) -> dict:
     """링크 개체(agt:Link)의 후보·구축·복원 구분 — metrics 3단계 대리와 weave audit 링크 근거 절이 이 하나의 정의를 쓴다.
 
@@ -1444,26 +1714,30 @@ def link_origins(g: Graph) -> dict:
             "extracted": extracted, "ratio": (len(restored) / total) if total else None}
 
 
-# ── 연결 지표 제외 plane (유저 승인 2026-09-23 · 2026-09-29 — handoff/verdict-in-metrics-2026-09-27) ──────────────
+# ── 연결 지표 제외 지식 종류 (유저 승인 2026-09-23 · 2026-09-29 — handoff/verdict-in-metrics-2026-09-27) ──────────────
 # 연결 성분과 CQ20 후방 추적 귀속은 **저작된 지식**만 잰다. `memory`(관측)는 실행의 부산물이고, `annotation`(판정
 # 주석)은 산출물에 대한 리뷰이지 요구를 향해 정제되는 항목이 아니다 — 둘 다 저작된 지식의 고립·귀속을 재는 지표의
-# 대상이 아니다. `metrics.py` 하나가 이 상수로 성분 계산과 `reaches_req` 분모 두 자리를 채운다.
+# 대상이 아니다. `metrics.py` 하나가 이 상수로 성분 계산을, 아래 `ASCRIPTION_EXCLUDED_PLANES` 로 `reaches_req` 분모를 채운다.
 LINKAGE_EXCLUDED_PLANES = ("memory", "annotation")
+# CQ20 후방 추적의 분모에서 더 빼는 지식 종류 (유저 답 Q116-a, 2026-10-24). 규범 절(`norm`)은 결정의 규약 줄을 문서로 싣는
+# 투영이라 요구를 향해 정제되지 않는다. 열린 공간의 후보 결정도 분모에서 빠지며, 그 판정은 결정 완결률과 같은 함수
+# (`metrics.decision_units`)가 한다. 연결 성분은 이 상수를 쓰지 않는다. 규범 절도 저작된 지식이라 고립을 재야 하기 때문이다.
+ASCRIPTION_EXCLUDED_PLANES = LINKAGE_EXCLUDED_PLANES + ("norm",)
 
-# 연결로 세는 술어 — 단일 정의처 (STYLEGUIDE §7, 유저 지시 2026-10-01). 같은 절에 둔다: 제외 plane 과 함께 읽히는 선언이다.
-# 추적 링크의 잎(docs/rules.md §4 링크 족 표)과 시간축 `supersedes` 다. 링크 밀도·plane×plane 매트릭스(TIM)가
+# 연결로 세는 술어 — 단일 정의 위치 (STYLEGUIDE §7, 유저 지시 2026-10-01). 같은 절에 둔다: 제외 지식 종류와 함께 읽히는 선언이다.
+# 추적 링크의 잎(docs/rules.md §4 링크 족 표)과 시간축 `supersedes` 다. 링크 밀도·지식 종류×지식 종류 매트릭스(TIM)가
 # 보는 집합이고 `metrics.LINKS` 가 이 이름을 쓴다.
 TRACE_LINKS = tuple(AGT[p] for p in ("refines", "serves", "satisfies", "verifies", "cites", "targets", "assumes", "supersedes",
                                      "derivesFrom", "constrains", "usesConcept", "allocates", "generates", "coUpdatesWith",
                                      "conflictsWith", "overlapsWith", "usesDefinition"))
-# 연결 성분이 보는 술어 — 추적 링크 잎 + 구성 관계 + `prov:specializationOf` 다. 분할 조각은 원 청크의 정체성을
+# 연결 성분이 보는 술어 — 추적 링크 잎 + 구성 관계 + `prov:specializationOf` 다. 분할 조각은 원 단위 지식의 정체성을
 # 나눠 가진 것이지 새 지식이 아니므로(p10-split-keeps-work-identity) `specializationOf` 하나만 가진 조각은 고립이
 # 아니다. 그 술어는 PROV-O 이고 링크의 세 족과 구성 관계 밖이라(p10-link-families, `supersedes` 와 같은 자리) 링크
 # 밀도·TIM 에는 들지 않는다 — 연결과 귀속에만 든다.
 LINKAGE_PREDICATES = TRACE_LINKS + (AGT.hasDirectPart, PROV.specializationOf)
 # 연결 성분이 설계 공간 그래프(`//space:design_space`)에서 보는 술어 — 공간 → 변수 출발 항목(`agt:variableFrom`)과
-# 공간 → 후보 링크 개체 → 후보(`agt:hasCandidate` ∘ `agt:linkTo`)다 (유저 결정 Q60-a). 후보 결론은 head 에 `refines` 를
-# 갖지 않으므로(p9-candidate-storage "후보는 절대 deps가 되지 않는다") 이 길이 없으면 후보 결정 복합체가 고립 성분이 된다.
+# 공간 → 후보 링크 개체 → 후보(`agt:hasCandidate` ∘ 변수 출발 항목이 아닌 쪽 끝, `space_candidate_of`)다 (유저 결정 Q60-a). 후보 결론은 head 에 `refines` 를
+# 갖지 않으므로(p9-candidate-storage "후보는 절대 deps가 되지 않는다") 이 길이 없으면 후보 결정 기록이 고립 성분이 된다.
 # 연결에만 든다 — 후보는 확정 링크가 아니므로 링크 밀도·TIM·확정 링크 수·전방 추적에는 들지 않는다.
 SPACE_LINKAGE_PREDICATES = (AGT.variableFrom, AGT.hasCandidate, AGT.linkTo)
 
@@ -1473,12 +1747,14 @@ def space_linkage_edges(g: Graph) -> list:
 
     후보의 state(open·eliminated·confirmed)를 가리지 않는다 — 배제된 후보도 공간이 담은 지식이다.
     """
-    var_from, has_cand, link_to = SPACE_LINKAGE_PREDICATES
+    var_from, has_cand, _ = SPACE_LINKAGE_PREDICATES
     edges = []
     for space, frm in g.subject_objects(var_from):
         edges.append((space, frm))
-        for link in g.objects(space, has_cand):
-            edges.extend((space, to) for to in g.objects(link, link_to))
+        for link in g.objects(space, has_cand):  # 후보는 변수 출발 항목이 아닌 쪽 끝이다 (방향은 SPACE_CANDIDATE_DIRECTION)
+            cand = space_candidate_of(g, space, link)
+            if cand is not None:
+                edges.append((space, cand))
     return sorted(edges, key=lambda e: (str(e[0]), str(e[1])))
 
 
@@ -1488,23 +1764,24 @@ def open_space_candidates(g: Graph) -> set:
     결정 완결률이 이 집합에 결론이 든 결정을 따로 센다 (유저 결정 Q60-a). resolved 공간의 confirmed 후보는 확정 결정이므로
     들지 않는다.
     """
-    _, has_cand, link_to = SPACE_LINKAGE_PREDICATES
+    _, has_cand, _ = SPACE_LINKAGE_PREDICATES
     open_state = SPACE_STATE_LINK["open"][1]
     out = set()
     for space, st in g.subject_objects(AGT.spaceStatus):
         if str(st) != SPACE_STATUS[0]:
             continue
         for link in g.objects(space, has_cand):
-            if str(next(g.objects(link, AGT.linkState), "")) == open_state:
-                out.update(g.objects(link, link_to))
+            cand = space_candidate_of(g, space, link)
+            if cand is not None and str(next(g.objects(link, AGT.linkState), "")) == open_state:
+                out.add(cand)
     return out
 
 
 def linkage_predicates(g: Graph) -> tuple:
     """연결 성분이 보는 술어 — `LINKAGE_PREDICATES` 에 세 족(`agt:dependsOn` 아래)의 잎을 T-Box 에서 더한 집합이다.
 
-    족은 `rdfs:subPropertyOf` 로 정의되므로(p10-link-families) 고정 목록만 보면 새 잎이 성분에서 빠진다 — 실측
-    2026-10-04: 절 청크의 `agt:projectsConvention`(⊑ `agt:references`)이 빠져 성분 26. 그래서 하위 속성을 전이적으로
+    족은 `rdfs:subPropertyOf` 로 정의되므로(p10-link-families) 고정 목록만 보면 새 잎이 성분에서 빠진다 — 측정
+    2026-10-04: 절 항목의 `agt:projectsConvention`(⊑ `agt:references`)이 빠져 성분 26. 그래서 하위 속성을 전이적으로
     따라간다. T-Box 가 입력에 없으면(`agt:dependsOn` 의 하위가 없으면) 조용히 고정 목록으로 줄지 않고 죽는다.
     """
     seen, stack = set(), [AGT.dependsOn]
@@ -1515,7 +1792,7 @@ def linkage_predicates(g: Graph) -> tuple:
     if not seen:
         raise SystemExit("linkage_predicates: agt:dependsOn 의 하위 속성이 그래프에 없다 — 온톨로지 모듈을 입력으로 준다")
     return LINKAGE_PREDICATES + tuple(sorted(seen - set(LINKAGE_PREDICATES), key=str))
-# CQ20 후방 추적 귀속이 거슬러 오르는 술어 — 조각은 원 청크를 거쳐 요구에 닿는다. 복합체 형제 경유는 따로다.
+# CQ20 후방 추적 귀속이 거슬러 오르는 술어 — 조각은 원 단위 지식을 거쳐 요구에 닿는다. 복합체 형제 경유는 따로다.
 ASCRIPTION_PREDICATES = (AGT.refines, AGT.serves, PROV.specializationOf)
 # 군집 탐지(`community`)의 엣지 종류 — 세 족의 잎만 본다. 시간축 `supersedes` 는 빼고, 정체성 관계
 # `specializationOf` 도 빼므로 군집은 조각과 원본을 한 단위로 제안하지 않는다 (군집은 연결·귀속 지표가 아니다).
@@ -1524,7 +1801,7 @@ COMMUNITY_EDGE_KINDS = tuple(AGT[p] for p in ("refines", "serves", "cites", "use
 
 
 def plane_of_node(g: Graph, c) -> str:
-    """청크 노드의 plane — rdf:type 가운데 plane 청크 클래스인 것(plane_of_class). 실체 클래스는 건너뛴다. 없으면 빈 문자열이다."""
+    """단위 지식 노드의 지식 종류 — rdf:type 가운데 지식 종류 클래스인 것(plane_of_class). 실체 클래스는 건너뛴다. 없으면 빈 문자열이다."""
     for t in g.objects(c, RDF.type):
         plane = plane_of_class(t)
         if plane:
@@ -1533,7 +1810,7 @@ def plane_of_node(g: Graph, c) -> str:
 
 
 def chunk_planes(g: Graph) -> dict:
-    """청크 → plane 이름 — rdf:type 중 plane 청크 클래스인 첫 것 (plane_of_class, 정의처 chunk2kg.CLASS_PLANE)."""
+    """단위 지식 → 지식 종류 이름 — rdf:type 중 지식 종류 클래스인 첫 것 (plane_of_class, 단일 정의 위치 chunk2kg.CLASS_PLANE)."""
     out = {}
     for c in g.subjects(AGT.tokenCount, None):
         plane = plane_of_node(g, c)
@@ -1542,13 +1819,11 @@ def chunk_planes(g: Graph) -> dict:
     return out
 
 
-def link_cells(g: Graph) -> set:
-    """링크 개체(agt:Link)가 채운 (종류, 출발 plane, 도착 plane) 칸의 집합.
+def item_plane_resolver(g: Graph):
+    """항목 → 지식 종류의 함수. 단위 지식은 제 지식 종류고, 복합체는 부분(agt:hasDirectPart)을 따라 내려가 첫 단위 지식의 지식 종류다.
 
-    복합체 IRI 는 plane 이 없으므로 복합체의 부분(agt:hasDirectPart)을 따라 내려가 첫 청크의 plane 으로 보정한다 —
-    결정 복합체의 부분은 전부 decision 이다. **중첩 복합체는 깊이만큼 따라간다**(p4-composite-as-part-of): 코드의
-    추출은 파일 → 절 → 정의 두 단이라(p7-code-links-on-file-composite) 1단만 보면 파일 복합체를 가리키는 링크가
-    칸을 채우지 못한다. 순환은 방문 집합으로 막는다 — 판정은 verify 질의 `composite-cycle` 이 한다.
+    **중첩 복합체는 깊이만큼 따라간다**(p4-composite-as-part-of) — 코드의 추출은 파일 → 절 → 정의 두 단이다
+    (p7-code-links-on-file-composite). 순환은 방문 집합으로 막고 판정은 verify 질의 `composite-cycle` 이 한다. 없으면 None 이다.
     """
     plane = chunk_planes(g)
     part_of_comp = {}
@@ -1563,7 +1838,16 @@ def link_cells(g: Graph) -> set:
             seen.add(node)
             node = part_of_comp.get(node)
         return None
+    return plane_of
 
+
+def link_cells(g: Graph) -> set:
+    """링크 개체(agt:Link)가 채운 (종류, 출발 지식 종류, 도착 지식 종류) 칸의 집합.
+
+    복합체 IRI 는 지식 종류가 없으므로 `item_plane_resolver` 로 부분의 지식 종류를 따라 보정한다 — 결정 기록의 부분은 전부
+    decision 이다. 1단만 보면 파일 복합체를 가리키는 링크가 칸을 채우지 못한다.
+    """
+    plane_of = item_plane_resolver(g)
     cells = set()
     for link in g.subjects(RDF.type, AGT.Link):
         f, t = next(g.objects(link, AGT.linkFrom), None), next(g.objects(link, AGT.linkTo), None)
@@ -1574,11 +1858,80 @@ def link_cells(g: Graph) -> set:
     return cells
 
 
+# ── 쌍 판정의 질문과 대상 꼴 ────────────────────
+# 동시 편집이 첫 근거인 링크 후보를 판정자 둘이 쌍 단위로 판정한다. 질문은 종류가 겹침이면 `overlapsHolds`, 그 밖이면
+# `proposedLinkHolds` 이고 둘 다 noul 형이다. 판정 로그의 `대상` 열은 `<앵커 IRI> ↔ <대상 IRI> · <링크 종류>` 의 고정 꼴이다 —
+# 링크 종류를 함께 적는 까닭은 `proposedLinkHolds` 의 답이 종류마다 다르고 증거를 붙일 후보 링크 개체의 IRI 가 종류를 담기 때문이다.
+JUDGE_PAIR_QUESTIONS = {"overlapsWith": "overlapsHolds"}   # 링크 종류 → 질문. 표에 없는 종류는 JUDGE_PAIR_DEFAULT 다
+JUDGE_PAIR_DEFAULT = "proposedLinkHolds"
+JUDGE_PAIR_SEP, JUDGE_PAIR_KIND_SEP = " ↔ ", " · "
+JUDGE_PAIR_TARGET = re.compile(r"^(\S+) ↔ (\S+) · ([A-Za-z]+)$")
+JUDGE_NOUL_POLARITY = {"yes": "+", "no": "-"}              # noul 값 → 증거 극성. 그 밖의 값은 증거가 아니다
+POLARITY_MARK = {"+": "+", "-": "−"}                  # 증거 극성 → 생성 뷰의 표기. 반박은 U+2212 다 — 단독 하이픈은 G14 의 빈 칸 표기와 겹친다 (agt:polarity 정의 "지지(+) 또는 반박(−)")
+
+
+def pair_question(kind: str) -> str:
+    """링크 종류 → 그 후보를 묻는 판정 질문의 지역명."""
+    return JUDGE_PAIR_QUESTIONS.get(kind, JUDGE_PAIR_DEFAULT)
+
+
+def pair_target(anchor: str, target: str, kind: str) -> str:
+    """판정 로그 `대상` 열의 쌍 꼴 — `parse_pair_target` 이 되읽는다."""
+    return f"{anchor}{JUDGE_PAIR_SEP}{target}{JUDGE_PAIR_KIND_SEP}{kind}"
+
+
+def parse_pair_target(cell: str) -> tuple[str, str, str] | None:
+    """판정 로그 `대상` 열 → (앵커 IRI, 대상 IRI, 링크 종류). 쌍 꼴이 아니면(단일 항목 판정) None 이다."""
+    m = JUDGE_PAIR_TARGET.match(cell.strip().strip("`").strip())
+    return (m.group(1), m.group(2), m.group(3)) if m else None
+
+
+# ── 쌍 판정의 해시값과 링크 후보 뷰의 판정 넷 ────────────────────
+# 링크 후보 뷰(tools/link.py)의 후보 표 열 — 쌍 판정지(`label_sample.py --pair-sheet`)가 이 열 이름으로 표를 되읽는다
+LINK_CANDIDATE_COLUMNS = ("#", "앵커 (ko)", "앵커 파일", "링크 종류", "대상 (ko)", "대상 IRI", "근거 종류",
+                          "근거 값 (인용 식별자 / 테스트 케이스 슬러그 / 공유 개념 수 / 승계: 원본 / 판정 극성)", "판정자 값",
+                          "판정 (채택 / 기각)")
+# 동시 편집이 첫 근거인 후보의 판정 넷 — 판정 증거(agt:judgement)의 극성으로 가른다. 사람 확인 큐에는 일치(+,+) 전부와 일치(−,−)의
+# 표본이 오른다 (task 0303, Q165-c)
+JUDGED_AGREE_YES, JUDGED_AGREE_NO, JUDGED_DISAGREE, JUDGED_NONE = "일치(+,+)", "일치(−,−)", "불일치", "판정 없음"
+# 일치(−,−) 표본 — 쌍마다 sha256(시드 ∣ 앵커 IRI ∣ 대상 IRI ∣ 링크 종류)으로 순위를 매겨 가장 작은 크기만큼 큐에 올린다. 사람이 표본에서
+# 성립하는 링크를 찾으면 판정자가 놓친 비율의 재료다. 표본 밖 일치(−,−)는 큐 밖 절에 후보로 남는다 (task 0303, Q165-c)
+JUDGED_NO_SAMPLE_SEED = "20261025"
+JUDGED_NO_SAMPLE_SIZE = 20
+JUDGED_NO_SAMPLE_MARK = "표본(−,−)"
+
+
+def judged_class(polarities: list) -> str:
+    """판정 증거의 극성 목록 → 판정 넷 가운데 하나. 판정자 둘 미만이면 판정 없음이다 — 단독 응답은 일치를 이루지 못한다."""
+    if len(polarities) < 2:
+        return JUDGED_NONE
+    if set(polarities) == {"+"}:
+        return JUDGED_AGREE_YES
+    if set(polarities) == {"-"}:
+        return JUDGED_AGREE_NO
+    return JUDGED_DISAGREE
+
+
+def pair_fingerprint(question: str, kind: str, anchor: dict, target: dict) -> str:
+    """쌍 판정의 대조 해시값 — sha256(질문 id ∣ 링크 종류 ∣ 앵커 라벨·본문 ∣ 대상 라벨·본문).
+
+    `label_fingerprint` 와 같은 원칙이다 — 판정자에게 **보인 것**의 해시값이고, 쌍 판정지(`label_sample.py --pair-sheet`)가 싣고
+    `judge.py --pairs` 가 응답을 찾는 데 쓴다. 두 항목은 `title_ko`·`title`·`body` 키의 딕셔너리다."""
+    def shown(it: dict) -> str:
+        return f"{it.get('title_ko', '')}\n{it.get('title', '')}\n\n{it.get('body', '')}"
+    return hashlib.sha256("\x1f".join((question, kind, shown(anchor), shown(target))).encode("utf-8")).hexdigest()
+
+
+def pair_record_fingerprint(anchor_bytes: bytes, target_bytes: bytes) -> str:
+    """쌍 판정 로그의 `입력 해시값` — sha256(앵커 파일 바이트 ∥ 대상 파일 바이트). 두 파일 중 하나라도 바뀌면 판정이 낡는다."""
+    return hashlib.sha256(anchor_bytes + target_bytes).hexdigest()
+
+
 # ══ 생성 skill 과 마크다운 구조 ════════════════════
 # 도구 docstring 에서 skill 을 내는 표와 마크다운 펜스·제목·링크의 공용 헬퍼가 이 장이다.
 
 # ── 생성 skill (gen_skills — agrtls K "skill 은 손으로 쓰지 않고 지식·절차에서 생성한다", 로드맵 6단계) ──────────────────
-# 어떤 도구를 skill 로 내는가와 그 절차의 원본 절은 이 표가 단일 정의처다. 본문(무엇·언제·사용법)은 도구 모듈의 docstring 이
+# 어떤 도구를 skill 로 내는가와 그 절차의 원본 절은 이 표가 단일 정의 위치다. 본문(무엇·언제·사용법)은 도구 모듈의 docstring 이
 # 원본이고, 생성기(tools/gen_skills.py)가 둘을 합쳐 .claude/skills/<도구-kebab>/SKILL.md 를 트리에 쓴다. 생성물은 BUILD 와
 # 같은 이유로 커밋 대상이며(도구 없이도 skill 이 읽혀야 한다) //:skills_drift_test 가 재생성과 비교한다.
 #   tool      tools/<tool>.py 이며 tools/BUILD.bazel 에 같은 이름의 py_binary 가 있어야 한다
@@ -1586,10 +1939,10 @@ def link_cells(g: Graph) -> set:
 #   when      언제 쓰는가 한 문장(단정 서술형) — skill frontmatter 의 description
 #   commands  대표 명령 1~3
 SKILLS_DIR = ".claude/skills"
-# docs/tools.md 의 "## 게이트 총람 — …" 제목 앵커 — 단일 정의처(M1, 2026-10-02). gen_skills.py 의 안내문과 아래
+# docs/tools.md 의 "## 게이트 총람 — …" 제목 앵커 — 단일 정의 위치(M1, 2026-10-02). gen_skills.py 의 안내문과 아래
 # SKILLS 표의 gendoc·doccheck 절이 이 상수를 참조한다 — 제목을 고치면 이 한 곳만 고친다.
 GATE_CATALOGUE_ANCHOR = "게이트-총람--원본은-gates-리터럴이고-이-표는-그-투영이다"
-_SKILLS_READING = (  # 조회·갱신 — 작업 집합·질의·영향·가정·재판정·ODD·도장·용어 제안·정합성·미결·후보·지표
+_SKILLS_READING = (  # 조회·갱신 — 작업 집합·질의·영향·가정·재검증·ODD·도장·용어 제안·정합성·미결·후보·지표
     {"tool": "workset", "section": "method.md#8-조회",
      "when": "dispatch 전에 역할·수준 창·앵커로 거른 작업 집합(라벨 목록과 이웃 본문)을 컨텍스트 예산 안에서 뽑을 때 쓴다.",
      "commands": ["bazel build //kg:workset --//kb:role=developer --//kb:anchor='<라벨|IRI>' --//kb:levels=concrete",
@@ -1599,21 +1952,21 @@ _SKILLS_READING = (  # 조회·갱신 — 작업 집합·질의·영향·가정�
      "commands": ["bazel run //tools:query", "bazel run //tools:query -- CQ-07 --labels",
                   "bazel run //tools:query -- CQ-19 --labels --bind '?x=<IRI|id:슬러그|라벨>'"]},
     {"tool": "impact", "section": "method.md#12-영향-분석",
-     "when": "청크·결정을 고치기 전에 영향 항목 수·plane 분포·suspect 가 될 링크 수·승인이 필요한 결정 수를 계산할 때 쓴다.",
+     "when": "단위 지식·결정을 고치기 전에 영향 항목 수·지식 종류 분포·suspect 가 될 링크 수·승인이 필요한 결정 수를 계산할 때 쓴다.",
      "commands": ["bazel run //tools:impact -- //kb/dev/requirement:<타깃>", "bazel run //tools:impact -- //kb/dev/decision:<결정> --universe //kb/..."]},
     {"tool": "assume_check", "section": "method.md#7-갱신",
      "when": "가정을 ODD 조건으로 판정해 깨진 가정의 직접 영향 집합과 suspect 후보를 내거나 --break 로 인위 파괴 실험을 할 때 쓴다.",
      "commands": ["bazel run //tools:assume_check", "bazel run //tools:assume_check -- --break cond-build-system",
                   "bazel run //tools:assume_check -- --record && python3 tools/gen_build.py --root ."]},
     {"tool": "revalidate", "section": "method.md#7-갱신",
-     "when": "청크 본문을 고친 뒤 base 리비전 대비 재판정 대상(링크 상대·복합체 형제·하류 의존자)을 표로 낼 때 쓴다.",
+     "when": "단위 지식 본문을 고친 뒤 base 리비전 대비 재검증 대상(링크 상대·복합체 형제·하류 의존자)을 표로 낼 때 쓴다.",
      "commands": ["bazel run //tools:revalidate -- --base HEAD", "bazel run //tools:revalidate -- --base <rev> --out /tmp/revalidate.md"]},
     {"tool": "odd_check", "section": "method.md#2-odd-작성",
      "when": "세션 시작이나 환경 변경 뒤에 실제 조건이 ODD 안인지 CHECKS 명령으로 판정해 이탈을 보고할 때 쓴다.",
      "commands": ["bazel run //tools:odd_check", "bazel run //tools:odd_check -- --out /tmp/odd-check.md"]},
     {"tool": "endorse", "section": "method.md#13-저작-흐름과-완료",
-     "when": "쓰기 권한 역할이 검토를 마친 청크에 verified 를 붙여 writer 검사를 해소할 때 쓴다.",
-     "commands": ["bazel run //tools:endorse -- --by orchestrator/<모델> --at <ISO 8601> <청크 파일…>"]},
+     "when": "쓰기 권한 역할이 검토를 마친 단위 지식에 verified 를 붙여 writer 검사를 해소할 때 쓴다.",
+     "commands": ["bazel run //tools:endorse -- --by orchestrator/<모델> --at <ISO 8601> <단위 지식 파일…>"]},
     {"tool": "term_propose", "section": "method.md#10-일반화",
      "when": "관측에서 뽑은 개념 후보를 검사를 거쳐 온톨로지 승인 큐(kb/ontology/proposals/)에 제안할 때 쓴다.",
      "commands": ["bazel run //tools:term_propose -- --id <slug> --kind class --parent agt:<상위> --label-ko '<한글>' --label-en '<english>' --definition '<속+종차>' --cq CQ-NN --derived-from <관측 IRI> --derived-from <관측 IRI>"]},
@@ -1621,7 +1974,7 @@ _SKILLS_READING = (  # 조회·갱신 — 작업 집합·질의·영향·가정�
      "when": "커밋 전에 중복·라벨 형식·용어 옛 표기·단정성(추측·구어·대시 밀도)·첨가(메타 문장·채움·빈 값 이상 표기)·목록 규칙 후보를 보고로 확인할 때 쓴다.",
      "commands": ["bazel build //kb:consistency && cat bazel-bin/kb/consistency.md"]},
     {"tool": "open_questions", "section": "method.md#9-뷰",
-     "when": "무엇이 아직 미결인지 — 설계 공간(`space/*-space.md`)의 status·후보와 청크의 선택 슬롯 `미확정:` 에 든 질문을 문서에 적지 않고 집계에서 인용할 때 쓴다.",
+     "when": "무엇이 아직 미결인지 — 설계 공간(`space/*-space.md`)의 status·후보와 단위 지식의 선택 슬롯 `미확정:` 에 든 질문을 문서에 적지 않고 집계에서 인용할 때 쓴다.",
      "commands": ["bazel build //kg:open && cat bazel-bin/kg/open.md"]},
     {"tool": "choices", "section": "method.md#5-후보-관리",
      "when": "무엇을 아직 고르지 않았는가 — 열린 설계 변수와 그 후보를 체크박스(`[ ]` 열림 · `[-]` 배제 + 근거 · `[x]` 확정)로 확인할 때 쓴다.",
@@ -1633,33 +1986,33 @@ _SKILLS_READING = (  # 조회·갱신 — 작업 집합·질의·영향·가정�
 
 
 # ── 생성 skill — 저작·검증 도구의 표 (앞 절의 이어지는 블록) ────────────────────
-# 표를 둘로 나눈 까닭은 하나였을 때 절 청크가 `artifact` 상한(2,856 토큰)을 넘었기 때문이다
+# 표를 둘로 나눈 까닭은 하나였을 때 절 항목이 `artifact` 상한(2,856 토큰)을 넘었기 때문이다
 # (결정 p1-chunk-unit-is-tokens 의 분할). 표의 순서가 skill 의 순서이므로 두 블록을 **이어 붙인**
-# `SKILLS` 가 여전히 단일 정의처다 — 생성물의 바이트는 나누기 전과 같다.
+# `SKILLS` 가 여전히 단일 정의 위치다 — 생성물의 바이트는 나누기 전과 같다.
 _SKILLS_AUTHORING = (  # 저작·검증 — 추출·BUILD·링크 복원·V&V 실행·판정·문서 뷰·생성 문서·문서 현행성·토큰
-    {"tool": "extract", "section": "method.md#3-청크-저작",
-     "when": "소스 파일을 고친 뒤 `artifact` plane 의 함수·절·파일 청크를 다시 추출하고 등록부의 개명·신설·삭제를 맞출 때 쓴다.",
+    {"tool": "extract", "section": "method.md#3-단위-지식-저작",
+     "when": "소스 파일을 고친 뒤 `artifact` 지식 종류의 함수·절·파일 단위 지식을 다시 추출하고 등록부의 개명·신설·삭제를 맞출 때 쓴다.",
      "commands": ["bazel run //tools:extract -- tools/kb_lib.py", "bazel test //:extract_drift_test",
                   "python3 tools/gen_build.py --root . && bazel test //..."]},
     {"tool": "gen_build", "section": "method.md#6-연결",
-     "when": "청크를 추가·삭제하거나 frontmatter 링크(refines·serves·supersedes·verifies)를 고친 뒤 BUILD 를 재생성하고 드리프트를 검사할 때 쓴다.",
+     "when": "단위 지식을 추가·삭제하거나 frontmatter 링크(refines·serves·supersedes·verifies)를 고친 뒤 BUILD 를 재생성하고 드리프트를 검사할 때 쓴다.",
      "commands": ["python3 tools/gen_build.py --root .", "python3 tools/gen_build.py --check --root .", "bazel test //:build_drift_test"]},
     {"tool": "link", "section": "method.md#6-연결",
-     "when": "frontmatter 링크가 없는 청크 쌍의 복원 후보를 체계 안 증거(본문 인용·테스트 공동 커버·개념 공유)로 뽑아 사람이 restored 표시로 확정할 때 쓴다.",
+     "when": "frontmatter 링크가 없는 단위 지식 쌍의 복원 후보를 체계 안 증거(본문 인용·테스트 공동 커버·개념 공유)로 뽑아 사람이 restored 표시로 확정할 때 쓴다.",
      "commands": ["bazel build //kg:link_candidates && cat bazel-bin/kg/link-candidates.md",
-                  "python3 tools/gen_build.py --root . && bazel test //...   # 앵커 청크에 링크 키와 restored: 를 적은 뒤"]},
+                  "python3 tools/gen_build.py --root . && bazel test //...   # 앵커 단위 지식에 링크 키와 restored: 를 적은 뒤"]},
     {"tool": "vv_run", "section": "method.md#11-검증--vv-kb로",
-     "when": "V&V 케이스·검증기 청크의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 "
+     "when": "V&V 테스트 케이스·검증기의 허용 목록 명령(읽기 전용 검증기 열 — `assume_check` 포함, `--record`·저장소 안 `--out` 은 SKIP)을 "
              "실행해 그 기대(종료 코드·문구)와 대조하고 pass·fail·skip 을 판정해 실행 기록(kb/vv/run/, append-only)을 남길 때 쓴다.",
      "commands": ["bazel run //tools:vv_run -- --record", "bazel run //tools:vv_run -- --verifier <슬러그>",
                   "python3 tools/gen_build.py --root . && bazel test //..."]},
     {"tool": "judge", "section": "method.md#11-검증--vv-kb로",
-     "when": "게이트 밖에서 등록된 판정 질문을 청크에 물어 값과 확신도를 받고 판정 로그·결과 주석을 남길 때 쓴다. "
+     "when": "게이트 밖에서 등록된 판정 질문을 단위 지식에 물어 값과 확신도를 받고 판정 로그·결과 주석을 남길 때 쓴다. "
              "판정자는 외부 서비스가 아니라 세션 판정자다 — 응답은 `--responses`로 오프라인 입력한다.",
      "commands": ["bazel run //tools:judge -- --list",
-                  "bazel run //tools:judge -- --question labelRepresentsBody --responses r1.json --record <청크 파일…>",
+                  "bazel run //tools:judge -- --question labelRepresentsBody --responses r1.json --record <단위 지식 파일…>",
                   "bazel run //tools:judge -- --question bodyHasOneClaim --responses r1.json --responses r2.json "
-                  "--decoys key.json --into /tmp/judge <청크 파일…>"]},
+                  "--decoys key.json --into /tmp/judge <단위 지식 파일…>"]},
     {"tool": "weave", "section": "method.md#9-뷰",
      "when": "결정 기록·요구 색인·변경 이력·감사 보고서를 저장하지 않고 그래프와 관측에서 생성해 인용할 때 쓴다.",
      "commands": ["bazel build //kg:audit && cat bazel-bin/kg/audit.md", "bazel build //kb/dev:adr //kb/dev:requirements //kb/dev:changelog"]},
@@ -1672,8 +2025,8 @@ _SKILLS_AUTHORING = (  # 저작·검증 — 추출·BUILD·링크 복원·V&V �
      "commands": ["bazel run //tools:doccheck -- *.md docs/*.md --target-only docs/agent-knowledge-system-notes.md",
                   "bazel test //:doccheck_test"]},
     {"tool": "tokens", "section": "rules.md#1-chunk--자립적-최소-지식-단위",
-     "when": "청크가 상한(저작 산문 1,092 · 인용 2,856)에 얼마나 가까운지 보거나 분할 대상을 고를 때 쓴다 — plane 별 "
-             "분포·42의 배수별 초과 수·컨텍스트 예산의 환산·상위 20 청크를 고정된 어휘로 낸다.",
+     "when": "단위 지식이 상한(저작 산문 1,092 · 인용 2,856)에 얼마나 가까운지 보거나 분할 대상을 고를 때 쓴다 — 지식 종류별 "
+             "분포·42의 배수별 초과 수·컨텍스트 예산의 환산·상위 20 단위 지식을 고정된 어휘로 낸다.",
      "commands": ["bazel run //tools:tokens", "bazel run //tools:tokens -- --out /tmp/tokens.md",
                   "bazel run //tools:tokens -- kb/dev/decision/<결정>/conclusion.md"]},
 )
@@ -1791,19 +2144,19 @@ def find_links(line: str):
         yield dest
 
 # ══ 생성 문서와 코드의 추출 ════════════════════
-# 에이전트가 만드는 마크다운의 규약 G1~G18 과 코드를 청크로 올리는 추출의 규약이 이 장이다.
+# 에이전트가 만드는 마크다운의 규약 G1~G18 과 코드를 단위 지식으로 올리는 추출의 규약이 이 장이다.
 
 
 # ── 생성 문서 규약 G1~G18 — 에이전트가 만드는 마크다운의 형태 (유저 지시 2026-09-21) ─────────────
-# 출력 형태를 생성 전에 고정하고, 파싱·형식 복구를 없애며, 확신 상태(입력 지문·생성 시각·질의)를 값으로 남긴다.
-# 여기가 규약의 단일 정의처다 — 상수·머리 블록 방출·검사가 한 곳에 있고 생성기와 게이트가 같은 것을 import 한다 (STYLEGUIDE §7).
-# G16(표기 통일성)·G17 오탐률 실측(2026-09-29, 생성 뷰 전부 + SKILL.md 19)으로 G16 은 표기 통일성 부분만 게이트로
+# 출력 형태를 생성 전에 고정하고, 파싱·형식 복구를 없애며, 확신 상태(입력 해시값·생성 시각·질의)를 값으로 남긴다.
+# 여기가 규약의 단일 정의 위치다 — 상수·머리 블록 방출·검사가 한 곳에 있고 생성기와 게이트가 같은 것을 import 한다 (STYLEGUIDE §7).
+# G16(표기 통일성)·G17 오탐률 측정(2026-09-29, 생성 뷰 전부 + SKILL.md 19)으로 G16 은 표기 통일성 부분만 게이트로
 # 올렸다(19건 중 1건, 오탐 0) — "목표를 붙여야 하는가"는 여전히 사람 판단이다. G17 은 후보 7건 전부가 오탐이라
 # (CQ 정식 문구·주석 인용·이미 값이 있는 문장의 부연) 게이트로 올리지 않고 check_gendoc 의 둘째 반환값(보고 전용)으로만 낸다.
 GENDOC_VERSION = "gendoc/1"               # OKF 행위자 표기의 버전 (docs/rules.md 생성자 표기). 도구별이 아니라 규약 하나의 버전이다
 GENDOC_TIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"  # G3 — ISO 8601 UTC 초 해상도. 오프셋 표기(+00:00)·분 해상도를 쓰지 않는다
 GENDOC_TIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
-NONE_MARK = EMPTY_REVIEWED                # G14 — 생성 문서의 빈 값 표기. 빈 셀·em dash·"N/A" 를 쓰지 않는다. 정의처는 EMPTY_VALUE 셋의 첫 값 하나다
+NONE_MARK = EMPTY_REVIEWED                # G14 — 생성 문서의 빈 값 표기. 빈 셀·em dash·"N/A" 를 쓰지 않는다. 단일 정의 위치는 EMPTY_VALUE 셋의 첫 값 하나다
 RATIO_DIGITS = 1                          # G15 — 백분율 소수 자릿수
 VALUE_DIGITS = 3                          # G15 — 백분율이 아닌 수치(모듈러리티 Q·Jaccard·링크 밀도·소요 초)의 자릿수
 GENDOC_TOC_MIN = 120                      # G12 — 본문이 이 줄 수를 넘으면 목차 절을 둔다 (ISO/IEC/IEEE 26514:2022 9.10.5)
@@ -1814,11 +2167,11 @@ GENDOC_HEAD_KEYS = ("생성기", "생성 시각", "입력", "질의", "재현") 
 GENDOC_H1_SUFFIX = "(생성 파일)"
 GENDOC_VIEW_MARK = "이 파일은 뷰다."              # G7 — Bazel 뷰
 GENDOC_TREE_MARK = "생성 파일 — 손으로 고치지 않는다."  # G7 — 생성 트리 파일 (SKILL·BUILD)
-GENDOC_DETERMINISTIC_NOTE = "생성 시각·입력 지문은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다"
-# 인용 구역 — 생성물이 청크 본문을 그대로 옮긴 자리. 원본 청크가 자기 게이트(chunk_lint prose·본문 토큰 상한)를 이미 통과했고
+GENDOC_DETERMINISTIC_NOTE = "생성 시각·입력 해시값은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다"
+# 인용 구역 — 생성물이 단위 지식 본문을 그대로 옮긴 자리. 원본 단위 지식이 자기 게이트(chunk_lint prose·본문 토큰 상한)를 이미 통과했고
 # 생성기는 원문을 고쳐 쓰지 않으므로(p12-generated-document-form), 서식 규칙 G10·G11·G14·G15·G16·G18 은 이 구역을
 # 판정하지 않는다. 문서 전체에 걸리는 구조 규칙 G8·G9·G12·G13 은 구역 안에도 그대로 적용한다 — 인용이 문서를 깨뜨리면 안 된다.
-GENDOC_QUOTE_OPEN = "<!-- 인용 시작: 청크에서 그대로 옮긴 값 — 원본이 자기 게이트를 통과했다 -->"
+GENDOC_QUOTE_OPEN = "<!-- 인용 시작: 단위 지식에서 그대로 옮긴 값 — 원본이 자기 게이트를 통과했다 -->"
 GENDOC_QUOTE_CLOSE = "<!-- 인용 끝 -->"
 GENDOC_QUOTE_LINE = "<!-- 인용 -->"  # 한 줄짜리 인용 — 라벨처럼 그래프에서 그대로 가져온 값을 담은 줄의 끝에 붙인다
 GENDOC_QUOTE_EXEMPT = ("G10", "G11", "G14", "G15", "G16", "G18")
@@ -1829,11 +2182,11 @@ _GENDOC_EMPTY_CELL = re.compile(r"^(?:|-|—|–|N/A|n/a|없음\s*\(\s*\))$")
 # G16 — 목표 표기(STYLEGUIDE §9 권장, 결정 p12-generated-document-form "목표 표기" 행): 목표가 정의된 수치에는
 # `(목표 <값>)`을 붙이고 표기를 한 꼴로 맞춘다. "붙여야 하는가"(그 수치에 목표가 정의돼 있는가)는 문서 밖 지식이라
 # 사람 판단으로 남긴다 — 여기서 기계 판정하는 것은 이미 쓰인 표기의 통일성뿐이다. 콜론 변형 `(목표: …)`은 그 밖의
-# 전부(`(목표 …)`, 공백 하나 뒤 값)와 갈라진 표기다(2026-09-29 오탐률 실측 — 생성 뷰 전부에서 19건 중 1건, 오탐 0).
+# 전부(`(목표 …)`, 공백 하나 뒤 값)와 갈라진 표기다(2026-09-29 오탐률 측정 — 생성 뷰 전부에서 19건 중 1건, 오탐 0).
 GENDOC_TARGET_BAD_RE = re.compile(r"\(목표:")
 # G17(보고 전용, 게이트 아님) — 시점 의존 표현(STYLEGUIDE §9 권장): "현재·최신·지금"을 값 대신 쓰지 않는다.
-# "값 대신 쓰였는가"는 기계로 못 가른다 — 2026-09-29 오탐률 실측에서 인용·제목·표 헤더를 뺀 후보 7건 전부가
-# CQ 정식 문구·주석 청크 본문의 인용·이미 값이 적힌 문장의 부연이라 오탐이었다(kg/cq.md·kg/metrics.md·kg/open.md).
+# "값 대신 쓰였는가"는 기계로 못 가른다 — 2026-09-29 오탐률 측정에서 인용·제목·표 헤더를 뺀 후보 7건 전부가
+# CQ 정식 문구·주석 단위 지식 본문의 인용·이미 값이 적힌 문장의 부연이라 오탐이었다(kg/cq.md·kg/metrics.md·kg/open.md).
 # 그래서 게이트로 올리지 않고 후보만 낸다 — 판정은 사람 몫이다.
 GENDOC_TIME_WORD_RE = re.compile(r"현재|최신|지금")
 
@@ -1965,7 +2318,7 @@ def gendoc_union_errors(value: str) -> list[str]:
 
 
 def input_fingerprint(paths) -> str:
-    """G4 의 입력 지문 — 정렬된 경로 순으로 내용을 이어 SHA-256, 앞 12자. 리비전보다 정확하고 샌드박스에서도 얻는다."""
+    """G4 의 입력 해시값 — 정렬된 경로 순으로 내용을 이어 SHA-256, 앞 12자. 리비전보다 정확하고 샌드박스에서도 얻는다."""
     h = hashlib.sha256()
     for p in sorted(paths, key=gendoc_input_name):
         try:
@@ -1978,7 +2331,7 @@ def input_fingerprint(paths) -> str:
 # ── 인용 구역과 머리 블록 — 원문을 옮기는 자리와 머리 다섯 키 (G2~G7) ────────────
 
 def gendoc_quote(body: str) -> list[str]:
-    """청크 본문을 그대로 옮긴 구역 — 서식 규칙의 판정 밖임을 표시한다 (원문을 고쳐 쓰지 않는다)."""
+    """단위 지식 본문을 그대로 옮긴 구역 — 서식 규칙의 판정 밖임을 표시한다 (원문을 고쳐 쓰지 않는다)."""
     return [GENDOC_QUOTE_OPEN, "", body, "", GENDOC_QUOTE_CLOSE, ""]
 
 
@@ -1998,7 +2351,7 @@ def gendoc_quoted_lines(lines: list[str]) -> set[int]:
 
 
 def gendoc_view_notice(source: str) -> str:
-    """G7 — Bazel 뷰의 성격 경고. source 는 고칠 원본(청크·frontmatter·그래프)이다."""
+    """G7 — Bazel 뷰의 성격 경고. source 는 고칠 원본(단위 지식·frontmatter·그래프)이다."""
     return f"{GENDOC_VIEW_MARK} 저장하지 않고 인용한다. 고칠 것은 {source}이다 (`p12-documents-are-generated`)"
 
 
@@ -2017,13 +2370,13 @@ def gendoc_header(name: str, purpose: str, tool: str, query: str, reproduce: str
       tool: 생성기 경로 (`tools/<도구>.py`).
       query: 무엇을 물어 만들었는가 (G5).
       reproduce: 자기 자신을 다시 만드는 명령 (G6). 백틱은 이 함수가 붙인다.
-      inputs: 입력 파일 경로들. 목록과 지문이 여기서 나온다 (G4).
+      inputs: 입력 파일 경로들. 목록과 해시값이 여기서 나온다 (G4).
       scale: 규모 수치 (트리플 수 등).
       notice: 성격 경고 한 줄 (G7) — gendoc_view_notice · gendoc_tree_notice.
       input_kind: 입력 목록의 종류 이름 ("그래프 파일" 등).
-      stamped: False 면 생성 시각과 지문을 넣지 않는다 — 재생성 바이트 비교가 건전성 장치인 생성 트리 파일이 그렇다.
+      stamped: False 면 생성 시각과 해시값을 넣지 않는다 — 재생성 바이트 비교가 건전성 장치인 생성 트리 파일이 그렇다.
       extra: 머리 블록 뒤에 붙일 추가 불릿들.
-      input_note: 입력이 파일이 아닐 때(질의 결과·호스트 상태) 그 자리를 대신하는 한 줄. 주면 목록과 지문을 내지 않는다.
+      input_note: 입력이 파일이 아닐 때(질의 결과·호스트 상태) 그 자리를 대신하는 한 줄. 주면 목록과 해시값을 내지 않는다.
 
     Returns:
       머리 블록의 줄 목록. 마지막은 빈 줄이다.
@@ -2036,10 +2389,10 @@ def gendoc_header(name: str, purpose: str, tool: str, query: str, reproduce: str
     elif not files:
         body = f"{input_kind} {NONE_MARK}{scale_part}"
     elif len(files) <= GENDOC_INPUT_INLINE_MAX:
-        fp = f" · 지문 `{input_fingerprint(inputs)}`" if stamped else ""
+        fp = f" · 해시값 `{input_fingerprint(inputs)}`" if stamped else ""
         body = f"{input_kind} {len(files)}개: {listed}{fp}{scale_part}"
     else:
-        fp = f" · 지문 `{input_fingerprint(inputs)}`" if stamped else ""
+        fp = f" · 해시값 `{input_fingerprint(inputs)}`" if stamped else ""
         body = (f"{input_kind} {len(files)}개{fp}{scale_part} · 전체 목록은 "
                 f"[{GENDOC_INPUTS_HEADING}](#{slug(GENDOC_INPUTS_HEADING)})")
     out = [f"# {name} — {purpose} {GENDOC_H1_SUFFIX}", "",
@@ -2056,7 +2409,7 @@ def gendoc_header(name: str, purpose: str, tool: str, query: str, reproduce: str
 def gendoc_inputs_section(inputs, input_kind: str = "입력 파일", stamped: bool = True) -> list[str]:
     """G4 — 머리 블록에 접은 입력 목록의 전체. 입력이 GENDOC_INPUT_INLINE_MAX 를 넘으면 문서 어딘가에 이 절이 있어야 한다.
 
-    `stamped` 가 거짓이면(생성 트리 파일 — 머리 블록에 지문이 없다) 지문 문장을 내지 않는다.
+    `stamped` 가 거짓이면(생성 트리 파일 — 머리 블록에 해시값이 없다) 해시값 문장을 내지 않는다.
 
     파일 하나하나를 전부 적되 디렉토리로 묶는다 — 목록이 본문을 덮지 않으면서 어느 파일이 들어갔는지 판별된다.
     """
@@ -2065,7 +2418,7 @@ def gendoc_inputs_section(inputs, input_kind: str = "입력 파일", stamped: bo
     for f in files:
         d, _, base = f.rpartition("/")
         groups.setdefault(d + "/" if d else "./", []).append(base)
-    fp = "지문은 이 목록의 파일 내용을 경로 순으로 이어 낸 SHA-256 의 앞 12자다. " if stamped else ""
+    fp = "해시값은 이 목록의 파일 내용을 경로 순으로 이어 낸 SHA-256 의 앞 12자다. " if stamped else ""
     out = [f"## {GENDOC_INPUTS_HEADING}", "",
            f"{input_kind} {len(files)}개다. {fp}디렉토리로 묶었고 빠진 파일은 없다.", ""]
     body = [f"- `{d}` — " + " · ".join(f"`{b}`" for b in sorted(bs)) for d, bs in sorted(groups.items())]
@@ -2085,7 +2438,7 @@ def gendoc_assemble(head: list[str], body: list[str], inputs, input_kind: str = 
 
     목차 앵커는 문서 전체의 제목으로 계산한다 — 같은 slug 의 -1, -2 구분이 실제 문서와 같아야 링크가 산다.
     본문이 이미 목차 절을 가지면 덧붙이지 않는다. `stamped` 는 머리 블록(gendoc_header)과 같은 값을 준다 — 거짓이면 입력 파일
-    절이 지문 문장을 내지 않는다.
+    절이 해시값 문장을 내지 않는다.
     """
     n_files = len({gendoc_input_name(p) for p in inputs})
     tail = gendoc_inputs_section(inputs, input_kind, stamped) if n_files > GENDOC_INPUT_INLINE_MAX else []
@@ -2166,13 +2519,13 @@ def _gendoc_head_errors(body: list[str], first: int, rows: list) -> list[tuple[i
         else:
             v = {k: head[i][1][2:].split(": ", 1)[-1] for i, k in enumerate(want)}
             if GENDOC_VERSION.split("/")[0] + "/" not in v["생성기"]:
-                errors.append((head[0][0], f"G2 생성기 줄에 규약 버전 표기 `{GENDOC_VERSION}` 가 없다 — kb_lib.GENDOC_VERSION 이 단일 정의처다"))
+                errors.append((head[0][0], f"G2 생성기 줄에 규약 버전 표기 `{GENDOC_VERSION}` 가 없다 — kb_lib.GENDOC_VERSION 이 단일 정의 위치다"))
             if "생성 시각" in v and not GENDOC_TIME_RE.fullmatch(v["생성 시각"].strip()):
                 errors.append((head[want.index("생성 시각")][0],
                                f"G3 생성 시각이 `{GENDOC_TIME_FORMAT}` 가 아니다 (실제 {v['생성 시각'].strip()!r}) — kb_lib.now_utc 를 쓴다"))
             i_in = head[want.index("입력")][0]
-            if "생성 시각" in v and "지문 `sha256:" not in v["입력"]:
-                errors.append((i_in, "G4 입력 줄에 지문(`sha256:<앞 12자>`)이 없다 — kb_lib.input_fingerprint 를 쓴다"))
+            if "생성 시각" in v and "해시값 `sha256:" not in v["입력"]:
+                errors.append((i_in, "G4 입력 줄에 해시값(`sha256:<앞 12자>`)이 없다 — kb_lib.input_fingerprint 를 쓴다"))
             errors += [(i_in, e) for e in gendoc_union_errors(v["입력"])]
             if "개:" not in v["입력"] and f"#{slug(GENDOC_INPUTS_HEADING)}" not in v["입력"] and NONE_MARK not in v["입력"]:
                 errors.append((i_in, f"G4 입력 줄에 파일 목록이 없다 — 개수만 적지 않는다. 많으면 `{GENDOC_INPUTS_HEADING}` 절로 접는다"))
@@ -2303,7 +2656,7 @@ def _gendoc_prose_errors(path, text: str, rows: list, quoted: set) -> tuple[list
             errors.append((ln, f"G16 목표 표기가 `(목표 <값>)` 꼴이 아니다 — 콜론 없이 값을 바로 잇는다 (STYLEGUIDE §9): "
                                 f"{seg.strip()[:80]}"))
 
-    # G18 — 산문은 단정 서술형이다 (STYLEGUIDE §0). 인용해 옮긴 청크 본문은 원본이 같은 게이트를 이미 통과했다
+    # G18 — 산문은 단정 서술형이다 (STYLEGUIDE §0). 인용해 옮긴 단위 지식 본문은 원본이 같은 게이트를 이미 통과했다
     errors += [(ln, why) for ln, why in check_prose(path, text)[0] if ln not in quoted]
 
     # G17(보고 전용) — 시점 의존 표현 후보. 제목·표 헤더 행·인용 구역은 이름/원문이지 측정이 아니라서 뺀다
@@ -2326,7 +2679,7 @@ def check_gendoc(path, text: str, exists=None) -> tuple[list[tuple[int, str]], l
 
     check_prose 와 같은 모양(게이트/보고 분리)으로 낸다 — errors 는 게이트가 `FAIL [gendoc] <파일>:<줄>: <근거>` 로
     찍는다. g17_candidates 는 보고 전용이고 게이트는 보지 않는다 — "값 대신 쓰였는가"를 기계로 못 가르기 때문이다
-    (2026-09-29 오탐률 실측, GENDOC_TIME_WORD_RE 주석). exists 는 `경로 → bool` 로 링크 대상의 실재를 판정한다
+    (2026-09-29 오탐률 측정, GENDOC_TIME_WORD_RE 주석). exists 는 `경로 → bool` 로 링크 대상의 실재를 판정한다
     (G13). 없으면 문서 안 앵커만 본다.
     """
     errors: list[tuple[int, str]] = []
@@ -2352,46 +2705,46 @@ def check_gendoc(path, text: str, exists=None) -> tuple[list[tuple[int, str]], l
 
 
 # ── 코드의 추출 (extract — p7-code-extraction-direction · p7-code-links-on-file-composite, 유저 승인 2026-09-30) ──────
-# 코드가 원본이고 함수 청크는 생성물이다. 규약의 단일 정의처가 여기이고 추출기(tools/extract.py)와 게이트가 같은 것을 읽는다.
+# 코드가 원본이고 함수 단위 지식은 생성물이다. 규약의 단일 정의 위치가 여기이고 추출기(tools/extract.py)와 게이트가 같은 것을 읽는다.
 #   등록부   소스 파일 옆의 사이드카 `<소스>.chunks.yml` — 한정 이름 → uuid 의 원본. 손으로 쓰는 것은 정체성(uuid)과
 #            파일 단위 링크(refines·serves)뿐이고, 신설 uuid·소스 시각·소스 해시는 추출기가 더한다. 사이드카를 소스 옆에
 #            두는 까닭은 둘이다 — 생성 트리(kb/dev/artifact/)는 바이트 동일 비교 대상이라 손 파일을 둘 수 없고,
 #            소스와 같은 디렉토리에 있어야 이동·개명이 한 diff 에 들어온다
-#   한정 이름 `file`(파일 복합체) · `module`(파일 청크) · `section:<키>` · `composite:<키>` · `fn:<함수명>`
+#   한정 이름 `file`(파일 복합체) · `module`(파일 단위 지식) · `section:<키>` · `composite:<키>` · `fn:<함수명>`
 #   절 키    그 절에서 처음 나오는 최상위 이름 — 소스에서 계산되고 등록부가 그 이름에 uuid 를 붙인다
-#   생성물   kb/dev/artifact/<모듈>/ 의 청크 전부. 손으로 고치면 게이트 `extract-drift` 가 거부한다
+#   생성물   kb/dev/artifact/<모듈>/ 의 단위 지식 전부. 손으로 고치면 게이트 `extract-drift` 가 거부한다
 EXTRACT_ACTOR = "process:extract"     # generated.by — 역할이 아니라 프로세스다. writer 검사 대상 밖이다 (validate check_writer)
 # `artifact` 의 `verified` 는 사람 검토가 아니라 **테스트 통과**다 (p7-code-extraction-direction "도장"). 도장의 자리는
 # 등록부의 `tested: {rev, at, source_hash}` 이고 추출기가 `source_hash` 가 지금 소스와 같을 때만 `verified` 를 낸다 —
-# 소스가 도장 뒤에 바뀌면 `verified` 가 빠져 수정 뒤 미검증이 되고 재판정이 자동이다. 사람 도장은 결정·요구에 남는다.
+# 소스가 도장 뒤에 바뀌면 `verified` 가 빠져 수정 뒤 미검증이 되고 재검증이 자동이다. 사람 도장은 결정·요구에 남는다.
 STAMP_ACTOR = "process:bazel-test"    # verified.by — 판정 주체가 사람에서 게이트로 바뀐 자리다
 STAMP_KEY = "tested"                  # 등록부의 도장 필드
-EXTRACT_ROOT = KB_DEV + "/artifact"   # 생성 청크가 사는 곳 — 파일 하나 = 패키지 하나
+EXTRACT_ROOT = KB_DEV + "/artifact"   # 생성 단위 지식이 사는 곳 — 파일 하나 = 패키지 하나
 EXTRACT_REGISTRY_SUFFIX = ".chunks.yml"  # 등록부 사이드카 — tools/kb_lib.py → tools/kb_lib.chunks.yml
 # 절 주석의 깊이 — 상자 그리기 문자가 깊이를 정한다. `═` 가 장, `─` 가 절이다. 소스의 절 주석이 복합체 구조의 원본이고
 # 추출기는 순서를 뜻으로 읽는다(코드의 순서는 뜻을 가진다). 부분 상한 9(4.5절)를 넘으면 잘라 맞추지 않고 절 주석을 요구한다
 EXTRACT_MARKERS = {"═": 1, "─": 2}
 EXTRACT_MARKER_RE = re.compile(r"^#\s*([═─])\1+\s*(.*?)\s*[═─]*\s*$")
-# 인용 구역 — 생성 청크가 소스에서 그대로 옮긴 자리. 생성기는 원문을 고쳐 쓰지 않는다(p7-code-extraction-direction).
+# 인용 구역 — 생성 단위 지식이 소스에서 그대로 옮긴 자리. 생성기는 원문을 고쳐 쓰지 않는다(p7-code-extraction-direction).
 # 산문·첨가·목록 게이트는 코드 펜스 안을 이미 판정하지 않으므로(prose_segments·md_lines) 이 표지는 그 사실의 선언이다.
 SOURCE_QUOTE_OPEN = "<!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->"
 SOURCE_QUOTE_CLOSE = "<!-- 인용 끝 -->"
-# 코드 부분 청크 — 추출 트리 안에서 복합체의 부분인 청크(정의 청크와 절·장·모듈 머리의 구역 청크)다. 링크의 자리는 파일
-# 복합체의 선언 청크인 파일 청크 하나이므로(p7-code-links-on-file-composite, 유저 결정 Q47-b) 부분은 아래 종류의 링크
+# 코드 부분 단위 지식 — 추출 트리 안에서 복합체의 부분인 단위 지식(정의 단위 지식과 절·장·모듈 머리의 구역 단위 지식)이다. 링크의 자리는 파일
+# 복합체의 선언 단위 지식인 파일 단위 지식 하나이므로(p7-code-links-on-file-composite, 유저 결정 Q47-b) 부분은 아래 종류의 링크
 # 끝점이 아니다. 복원 후보 생성기(link `R_CODE_PART`)와 게이트 `code-part-link`(validate check_code_part_link)가 이 판정 하나를 쓴다
 CODE_PART_LINK_KINDS = ("refines", "serves", "verifies")
 
 
 def code_part(location: str, is_part: bool) -> bool:
-    """추출 트리(`EXTRACT_ROOT`) 안에서 복합체의 부분인 청크인가. 파일 청크는 복합체를 선언할 뿐 부분이 아니므로 거짓이다."""
+    """추출 트리(`EXTRACT_ROOT`) 안에서 복합체의 부분인 단위 지식인가. 파일 단위 지식은 복합체를 선언할 뿐 부분이 아니므로 거짓이다."""
     return is_part and location.startswith(EXTRACT_ROOT + "/")
 
-# ── 본문 토큰 수의 상한 — plane 별 프로파일 파라미터 (STYLEGUIDE §4, 결정 p1-chunk-unit-is-tokens) ───────────
-# 크기의 단위는 줄이 아니라 **토큰**이다 (유저 결정 2026-10-01). 줄 상한(42·200)은 폐지됐고 숫자는 실측이 정한다 —
-# 컨텍스트 예산은 저작 산문의 줄당 토큰 중앙값 × 옛 200줄 = 5,418(42×129)이고, 저작 산문의 청크 상한은 그 예산의
+# ── 본문 토큰 수의 상한 — 지식 종류별 프로파일 파라미터 (STYLEGUIDE §4, 결정 p1-chunk-unit-is-tokens) ───────────
+# 크기의 단위는 줄이 아니라 **토큰**이다 (유저 결정 2026-10-01). 줄 상한(42·200)은 폐지됐고 숫자는 측정이 정한다 —
+# 컨텍스트 예산은 저작 산문의 줄당 토큰 중앙값 × 옛 200줄 = 5,418(42×129)이고, 저작 산문의 단위 지식 상한은 그 예산의
 # 1/5 에 가장 가까운 42의 배수 1,092(42×26)다. "한 번에 4~5개를 조망한다"는 42줄의 옛 근거를 같은 계수기로 옮긴
 # 값이다 — 숫자가 아니라 도출이 규칙이다.
-# `artifact`·`memory` = 2,856(42×68): 코드의 줄당 토큰 × 200줄. 두 plane 의 본문은 저작이 아니라 소스·실행의
+# `artifact`·`memory` = 2,856(42×68): 코드의 줄당 토큰 × 200줄. 두 지식 종류의 본문은 저작이 아니라 소스·실행의
 # 인용이라 저작 산문의 예산이 인위적 분할을 부른다 — 함수를 쪼개는 것은 지식이 코드를 망가뜨리는 것이다.
 # "청크 하나가 컨텍스트 한 창을 넘지 않는다"가 이 상한의 뜻이다.
                        # 선언한다(축 파일) — append-only 기록(판정 로그 등)의 소급 분할은 기록을 다시 쓰는 일이라 면제가 유일한 해소다
@@ -2402,9 +2755,9 @@ BODY_TOKEN_LIMITS = {"artifact": TOKEN_LIMIT_MULTIPLE * 68, "memory": TOKEN_LIMI
 
 
 def body_token_limit(plane: str | None) -> int:
-    """plane 의 본문 토큰 수 상한 — 표에 없으면 기본 1,092 다. 이 함수가 단일 판정처다.
+    """지식 종류의 본문 토큰 수 상한 — 표에 없으면 기본 1,092 다. 이 함수가 단일 판정처다.
 
     shape(kb/ontology/shapes/token-budget-shapes.ttl)는 이 표의 RDF 표현이고 게이트 `token-budget`
-    (validate check_token_budget)이 둘의 동일성을 강제한다 — `residency` 와 같은 형이다 (M1 단일 정의처).
+    (validate check_token_budget)이 둘의 동일성을 강제한다 — `residency` 와 같은 형이다 (M1 단일 정의 위치).
     """
     return BODY_TOKEN_LIMITS.get(plane or "", MAX_BODY_TOKENS)

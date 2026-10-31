@@ -1,9 +1,9 @@
 # 참조 표준과 프로파일
 
-체계의 본문은 프로젝트 어휘로만 쓰되, **구조를 어디서 가져왔는지** 기록한다.
-지어낸 용어를 쓰지 않는다는 원칙의 뒷면이다. 표준에서 가져왔으면
-그 사실이 남아야 검증도 되고, 표준이 개정될 때 무엇을 다시 볼지도 알 수 있다.
-원래 설계 노트의 부록이었다.
+이 문서는 체계가 **구조를 어디서 가져왔는지** 기록한다. 체계의 본문은 프로젝트 어휘로만 쓰므로, 출처는 이
+문서에 따로 남긴다. 이 기록은 지어낸 용어를 쓰지 않는다는 원칙을 뒷받침한다. 표준에서 가져온 사실이 남아 있어야
+그 구조를 검증할 수 있고, 표준이 개정될 때 무엇을 다시 볼지도 알 수 있기 때문이다. 이 문서는 원래 설계 노트의
+부록이었다.
 
 ## 1. 참조 표준 — 어느 구조를 어디서 가져왔나
 
@@ -14,7 +14,7 @@
 | 경계 조건 3분류(정적/환경/동적), 객관적 판정 방법 요구 | ISO 34503 |
 | 명세 형식 mode / include / exclude / conditional | ISO 34503 |
 | 설계 조건과 실제 조건의 구분, 실행 시 관측 요구 | ISO 34503, ASAM OpenODD |
-| ODD를 독립 문서로 두고 스코프·시나리오·커버리지를 파생 | ISO 34503, ASAM OpenODD, BSI PAS 1883 |
+| ODD를 독립 문서로 두고 적용 범위와 시나리오, 커버리지를 파생 | ISO 34503, ASAM OpenODD, BSI PAS 1883 |
 | 명시 제외 절 — 검토 후 제외와 미검토의 구분 | ISO 34503 |
 | ODD 이탈 — 실제 조건과 설계 조건의 대조, 이탈 시 대응 | ISO 34503, ISO 21448 |
 | 판정 등급, 안전 정지(최소 위험 조건) | ISO 34503, SAE J3016 |
@@ -51,8 +51,8 @@
 
 | 가져온 구조 | 출처 |
 |---|---|
-| 자립적 최소 단위(청크) — 7±2, 라벨 필수, 한 주제 | 인지과학(Miller), 구조적 글쓰기(Horn) |
-| plane = 하위 클래스 — 정보 유형의 특수화 | 모듈형 문서(DITA specialization) |
+| 자립적 최소 단위(단위 지식) — 7±2, 라벨 필수, 한 주제 | 인지과학(Miller), 구조적 글쓰기(Horn) |
+| 지식 종류는 하위 클래스 — 정보 유형의 특수화 | 모듈형 문서(DITA specialization) |
 | 참조 재사용 | 모듈형 문서(DITA conref) |
 | 이름 붙은 그래프 4분 구조, 내용 해시 IRI(trusty URI) | 나노출판(nanopublication) |
 | tangle / weave — 별도 도구가 아닌 그래프 질의 | 문학적 프로그래밍(Knuth) |
@@ -70,25 +70,26 @@
 | 후보 추림과 판정 분리 — 임베딩 검색 → 분류 → 확인 | 추적성 복원 연구 (LiSSA 계열) |
 | 산출물 밖 링크 모델, 앵커 해석기 | Eclipse Capra |
 | 링크 붕괴, 변경 통지 트리거, 규칙 기반 갱신 | Eclipse Capra, 추적성 유지 연구 |
-| 추적 매트릭스 — plane × plane 격자 | Eclipse Capra |
-| 재판정 규칙 — 변경 유형별 링크 갱신 | 추적성 유지 연구 |
+| 추적 매트릭스 — 지식 종류끼리의 격자 | Eclipse Capra |
+| 재검증 규칙 — 변경 유형별 링크 갱신 | 추적성 유지 연구 |
 
 ### 기타
 
 | 가져온 구조 | 출처 |
 |---|---|
 | 호 일관성 — 증분 제약 전파 | CSP 표준 알고리즘 |
-| plane 후보 — 소프트웨어 산출물 유형과 판정 방식 | SWEBOK 산출물, 아키텍처 뷰포인트 |
+| 지식 종류 후보 — 소프트웨어 산출물 유형과 판정 방식 | SWEBOK 산출물, 아키텍처 뷰포인트 |
 | 요인 하위 유형 8·한정자 3(missing·incorrect·extraneous)·트리거·영향 | 직교 결함 분류 ODC v5.2 (Chillarege, IBM) |
 | 도입 순서 — 단계별 측정 가능 산출 | (고유) |
 
 ## 1.1 외부 조사로 확인한 세부 (2026-09-11)
 
-부록 E의 바인딩과 용어집이 기대는 명세를 원문에서 확인했다. 확인/정정/미확인을 구분한다.
+부록 E의 바인딩과 용어집이 기대는 명세를 원문에서 확인했다. 표의 "이 저장소" 열은 확인한 것과 정정한 것,
+확인하지 못한 것을 구분해 적는다.
 
 | 대상 | 확인된 세부 | 이 저장소 |
 |---|---|---|
-| **OKF v0.2** ([SPEC](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)) | 필수 `type`뿐. 권장 `title`·`description`·`resource`·`tags`. **`sources`는 객체 목록** — `resource`(필수)·`id`·`title`·`author`·`usage_count`·`last_modified`. `generated {by, at}`, `verified` = `{by, at}` 목록. `status` = draft/stable/deprecated(기본 stable), `stale_after`. 행위자 `<producer>/<version>`·`human:<id>`·`process:<id>`. 예약 `index.md`(frontmatter 없음)·`log.md`(ISO 날짜 제목). 미지 키는 거부 불가·보존. `type: Attested Computation`에 `runtime`·`parameters`·`computation`·`executor`·`attester` | **정정**: `sources`를 `[{resource: IRI}]`로 이행. `stale_after` ↔ 8.27 증거 노화 후보. 판정식 "계산 필드"는 Attested Computation |
+| **OKF v0.2** ([SPEC](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)) | 필수 `type`뿐. 권장 `title`·`description`·`resource`·`tags`. **`sources`는 객체 목록** — `resource`(필수)·`id`·`title`·`author`·`usage_count`·`last_modified`. `generated {by, at}`, `verified` = `{by, at}` 목록. `status` = draft/stable/deprecated(기본 stable), `stale_after`. 행위자 `<producer>/<version>`·`human:<id>`·`process:<id>`. 예약 `index.md`(frontmatter 없음)·`log.md`(ISO 날짜 제목). 미지 키는 거부 불가·보존. `type: Attested Computation`에 `runtime`·`parameters`·`computation`·`executor`·`attester` | **정정**: `sources`를 `[{resource: IRI}]`로 이행. `stale_after` ↔ 8.27 증거 노화 후보. 판정 술어의 "계산 필드"는 Attested Computation에 대응한다 |
 | **ASAM OpenODD 1.0** ([6.4 모듈](https://publications.pages.asam.net/standards/ASAM_OpenODD/ASAM_OpenODD/latest/specification/06_model_concept/06_04_openodd_modules.html), [10.2 택소노미 YAML](https://publications.pages.asam.net/standards/ASAM_OpenODD/ASAM_OpenODD/latest/specification/10_yaml/10_02_openodd_export_taxonomy_yaml.html)) | 모듈 = `id`·`title`(LangString)·`description`·`comment`·`is_root`·`is_active`·`labels`·`tags`, INCLUDE·EXCLUDE 각 최대 하나, 연산자 AND/OR. **MODULE = INCLUDE ∧ ¬EXCLUDE**. 식 5종 `LowerBound`·`UpperBound`·`Equal`·`Range [a .. b]`·`CategoricalList`. `unknown` 리터럴 = 값 부재일 때 참. 택소노미 YAML: 최상위 `TAXONOMY:`, 속성은 `이름: float velocity`·`boolean`·범주 목록, 단위 체계 | **2026-09-11 정합**: `project-odd.yml`을 YAML 매핑 참조 모양으로 재작성(Release Presentation 2025-04-03 slide 6·8 — `TAXONOMY:`·`MODULES:`·`INCLUDE_AND:`, 식 리터럴/`"[a .. b] unit"`). 확장 키는 대문자 `ATTRIBUTES`·`LITERALS`·`CHECKS`·`EXCLUSIONS_REVIEWED`·`EXCLUDE_WHEN_UNKNOWN`. `taxonomy.yml`은 `TAXONOMY:` 아래 범주 3 레코드(속성은 ODD 문서가 확장) |
 | **ASAM OpenSCENARIO DSL 2.x** ([coverage](https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_DSL/latest/language-reference/coverage_main.html), [scenarios](https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_DSL/latest/conceptual-overview/writing_a_scenario.html)) | `keep(it in [a..b])` 제약, `do serial/parallel` 시간 구성, actor = 시나리오를 담는 구조체. **`cover(expr, event:, target:)`** = 커버리지 수집점, 스칼라 식, 목표 횟수 | 부록 E.5·9.10·8.23의 `keep`/`cover` 용법과 일치 |
 | **CEL** ([langdef](https://github.com/google/cel-spec/blob/master/doc/langdef.md), [cel-go](https://pkg.go.dev/github.com/google/cel-go/cel)) | 메모리 안전·부작용 없음·종료 보장·강타입·결정론. 값 또는 오류. **미지값(unknown)** 은 cel-go의 부분 평가(`PartialVars`·`OptTrackState`·잔여 AST)로 다룬다 | `when`의 세 값(참·거짓·판정 불가)은 값·오류·미지 → 잔여 식으로 사상 |
@@ -101,17 +102,17 @@
 | **ISO 25964 · ISO/IEC/IEEE 42010** | 통제 어휘 = 개념마다 일관된 라벨 하나를 정한 목록. 뷰 = 뷰포인트 규약에 따라 관심사를 담는 산출물 | 용어집 "통제 어휘"·"뷰" |
 | **rules_python** ([sdist](https://github.com/bazel-contrib/rules_python/issues/2410)) | sdist 빌드 지원(저장소 규칙·빌드 액션). PyYAML ≥ 6.0.1은 sdist 빌드 가능 | **2026-09-11 적용**: `pyyaml==6.0.2`를 잠금에 추가(호스트 휠 + sdist 두 해시), `kb_yaml.py` 삭제 |
 | **LEDGER** ([2606.28379](https://arxiv.org/abs/2606.28379), ACL 2026 Findings) | 노드 (id, 요약, 임베딩, 타입 section/paragraph/figure/table/equation, 위치, 시각). 엣지 CONTAINS(DOM) · REFERENCES(최소 명시 참조) · DEPENDS(반사실 검사 — 빼면 의미상 불완전) · RELATED(코사인 ≥ 0.7, REFERENCES·DEPENDS 없을 때만, 양방향). 검색: 대상 식별 → 상·하류 확장 → 우선순위(대상 > REFERENCES > DEPENDS > CONTAINS > RELATED) → 예산 패킹. 편집 후 검사 3: 참조 무결성·용어 일관성·의미 응집. 76% vs 56% 일관성, 편집당 ~1,535 토큰, 85~92% 토큰 절감 | `dependency-graph-design.md` 대응표. DEPENDS의 반사실 검사는 이 체계에서 `proposal` 종류 |
-| **LARGER** ([2605.16352](https://arxiv.org/abs/2605.16352)) | 정식 제목 *Lexically Anchored Repository Graph Exploration and Retrieval*. 노드 4종 directory·file·class·function, 엣지 contains·imports·invokes·코드–테스트/문서 교차 링크. 에이전트의 어휘 검색 결과가 그래프 진입점(active set), 앵커마다 K-hop·신뢰 임계 θ·상위 k 확장, 컨텍스트 사영 Π. LocBench Acc@5 +11.8 | 앵커 = 청크 IRI, K-hop 확장 = 작업 집합 조립(§4) |
+| **LARGER** ([2605.16352](https://arxiv.org/abs/2605.16352)) | 정식 제목 *Lexically Anchored Repository Graph Exploration and Retrieval*. 노드 4종 directory·file·class·function, 엣지 contains·imports·invokes·코드–테스트/문서 교차 링크. 에이전트의 어휘 검색 결과가 그래프 진입점(active set), 앵커마다 K-hop·신뢰 임계 θ·상위 k 확장, 컨텍스트 사영 Π. LocBench Acc@5 +11.8 | 앵커는 지식 IRI에, K-hop 확장은 작업 집합 조립(§4)에 대응한다 |
 
-**미확인으로 남긴 것**은 역량 질문의 국문 정역, ISTQB 국문 용어집의 "합격 판정 기준" 표기, ISO 34503
-국문 명칭이다. OpenODD 모듈 YAML 키는 ASAM 릴리스 발표 slide 8에서 확인했다. 명세 10.3 페이지 자체는
-404다.
+**확인하지 못하고 남긴 것**은 셋이다. 역량 질문의 국문 정역과 ISTQB 국문 용어집의 "합격 판정 기준" 표기, ISO
+34503의 국문 명칭이다. OpenODD 모듈의 YAML 키는 ASAM 릴리스 발표 slide 8에서 확인했다. 다만 명세 10.3 페이지는
+404 오류를 낸다.
 
 ### 생성 문서 작성 (가독성·건전성)
 
-에이전트·도구가 내는 생성 문서의 서식 규약(`p12-generated-document-header`·
-`p12-generated-document-form`·`p12-generated-documents-are-gated`)이 딛고 선 원천이다.
-규칙은 게이트 `gendoc`이 강제하고, 구현은 `tools/kb_lib.py`가 단일 정의처다.
+이 절은 에이전트와 도구가 내는 생성 문서의 서식 규약이 기대는 원천을 적는다. 그 규약은 결정
+`p12-generated-document-header`와 `p12-generated-document-form`, `p12-generated-documents-are-gated`다. 규칙은
+게이트 `gendoc`이 강제하고, 구현의 단일 정의 위치는 `tools/kb_lib.py`다.
 
 | 가져온 구조 | 출처 |
 |---|---|
@@ -127,22 +128,22 @@
 | 같은 입력이면 같은 산출물이 나온다 — 수작업 편집 단계를 두지 않는다 | Reproducible Builds, Definition |
 | 정보 산출물의 식별과 버전 표기 | IEC/IEEE 82079-1:2019 7.2 |
 
-**받지 않은 것**은 셋이다. markdownlint를 의존성으로 들이는 것은 Node 런타임이 ODD 밖이라
-받지 않고 규칙 번호만 출처로 인용한다. `SOURCE_DATE_EPOCH`로 시각을 고정하는 Reproducible
-Builds의 방식은 뷰의 최신성 표시와 상충하므로 재현 판정을 입력 지문으로 옮겼다.
-ASD-STE100의 문장 20단어·문단 6문장 상한은 영어 기술 문서의 수치라 한글 산문에 옮길 근거가 없다.
+**받지 않은 것**은 셋이다. 첫째, markdownlint는 Node 런타임이 ODD 밖이어서 의존성으로 들이지 않고, 규칙 번호만
+출처로 인용한다. 둘째, Reproducible Builds가 `SOURCE_DATE_EPOCH`로 시각을 고정하는 방식은 뷰의 최신성 표시와
+상충한다. 그래서 재현 판정은 입력의 해시값으로 옮겼다. 셋째, ASD-STE100의 상한인 문장당 20단어와 문단당 6문장은
+영어 기술 문서의 수치이므로, 한글 산문에 옮길 근거가 없다.
 
 ## 2. 참조 프로파일
 
-코어를 소프트웨어 개발 작업에 특수화한 결정들은 [`ontology.md`](ontology.md)의 "참조
-프로파일" 표로 옮겼다. 그것은 출처 기록이 아니라 어휘의 일부이기 때문이다.
+코어를 소프트웨어 개발 작업에 특수화한 결정들은 [`ontology.md`](ontology.md)의 "참조 프로파일" 표로 옮겼다. 그
+결정들은 출처 기록이 아니라 어휘의 일부이기 때문이다.
 
 ## 3. 관련 산출물과 사례
 
-- **하네스 지식**의 원천은 두 참조 저장소다.
-  `../harness-functional`은 ODD + functional에 해당하며 어휘 TBox·shapes·도구를 담는다.
-  `../harness-concrete`는 logical + concrete에 해당하며 union root·부품 라이브러리·조립 명세를 담는다.
-  두 저장소는 내용의 원천일 뿐 빌드 의존이 아니다. 두 저장소의 일반 방법론은 결정 d-0013~d-0020과
-  d-0156~d-0185로 승격되어 있고 출처는 `derived_from`으로 남아 있다.
-- **사례 프로젝트**는 device harvest 웹서비스(`~/git/agrtls/webservice`)다. 이 체계의
-  검증 케이스로 쓰기로 한 대상이며, 아직 적용되지 않았다.
+- **하네스 지식**의 원천은 두 참조 저장소다. `../harness-functional`은 ODD와 functional 수준에 해당하고, 어휘
+  TBox와 shapes, 도구를 담는다. `../harness-concrete`는 logical과 concrete 수준에 해당하고, union root와 부품
+  라이브러리, 조립 명세를 담는다. 두 저장소는 내용의 원천일 뿐 빌드 의존이 아니다. 두 저장소의 일반 방법론은
+  결정 기록 27개(`p1-store-formal-read-narrow`, `p2-catalog-resolved-union` 등)로 승격되었고, 출처는
+  `derived_from`으로 남아 있다.
+- **사례 프로젝트**는 device harvest 웹서비스(`~/git/agrtls/webservice`)다. 이 체계를 검증하는 사례로 쓰기로 한
+  대상이고, 아직 적용하지 않았다.

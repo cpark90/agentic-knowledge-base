@@ -7,16 +7,16 @@ title: function check_norm_bundle_form in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/679fc45f-a074-446c-aa6b-755cb0329d4f
 ---
-**함수** — `check_norm_bundle_form(path, meta)` 다. 묶음의 꼴(form·columns·link_column)과 이어짐(continues)의 형식 — 한 청크 안에서 판정되는 것만 본다.
+**함수** — `check_norm_bundle_form(path, meta)` 다. 묶음의 꼴(form·columns·link_column)과 이어짐(continues)의 형식 — 한 단위 지식 안에서 판정되는 것만 본다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def check_norm_bundle_form(path: str, meta: dict) -> None:
-    """묶음의 꼴(form·columns·link_column)과 이어짐(continues)의 형식 — 한 청크 안에서 판정되는 것만 본다.
+    """묶음의 꼴(form·columns·link_column)과 이어짐(continues)의 형식 — 한 단위 지식 안에서 판정되는 것만 본다.
 
     칸 수·표 줄의 강도·첫 절의 이어짐은 결정의 줄과 문서의 순서를 아는 생성기(tools/gen_norms.py)가 판정한다.
     """
@@ -27,7 +27,7 @@ def check_norm_bundle_form(path: str, meta: dict) -> None:
         if meta[NORM_CONTINUES_KEY] == "true":
             have = [k for k in (NORM_HEADING_KEY, NORM_DEPTH_KEY, NORM_NUMBERED_KEY) if k in meta]
             if have:
-                raise ValueError(f"{path}: 이어짐 절 청크({NORM_CONTINUES_KEY}: true)는 {', '.join(have)} 를 갖지 않는다 — "
+                raise ValueError(f"{path}: 이어짐 절 항목({NORM_CONTINUES_KEY}: true)은 {', '.join(have)} 를 갖지 않는다 — "
                                  f"제목이 없고 깊이는 앞 절을 잇는다")
     form = meta.get(NORM_FORM_KEY, NORM_FORM_DEFAULT)
     if form not in NORM_FORMS:

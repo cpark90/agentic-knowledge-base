@@ -5,11 +5,12 @@ level: concrete
 title_ko: 입력 사이에는 순서가 있고 앞이 바뀌면 뒤가 재검토된다
 title: Inputs are ordered; a change upstream forces review downstream
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0129-input-dependency-order.md, id: https://agentic-knowledge-base.dev/id/chunk-d0129, title_ko: "입력 간 의존 순서", title: "Dependency order among inputs"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
-supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0129]
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d48f87c5-7224-4e99-b3e1-efa4f8f114ef]
+supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0129]
 part_of: https://agentic-knowledge-base.dev/id/composite/1b1b47e5-a634-4953-bfd9-7b77bf651857
 composite: {id: https://agentic-knowledge-base.dev/id/composite/1b1b47e5-a634-4953-bfd9-7b77bf651857, title_ko: 입력 간 의존 순서, title: Dependency order among inputs}
 ---

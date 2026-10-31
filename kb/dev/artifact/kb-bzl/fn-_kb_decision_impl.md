@@ -7,7 +7,7 @@ title: function _kb_decision_impl in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/f39dff5d-eec4-44a9-a9eb-ac03d49b15bb
 ---
@@ -17,9 +17,9 @@ part_of: https://agentic-knowledge-base.dev/id/composite/f39dff5d-eec4-44a9-a9eb
 ```starlark
 def _kb_decision_impl(ctx):
     levels = ctx.attr.part_levels
-    n = 4 if ctx.file.conventions else 3  # 세 청크는 필수이고 규약 청크는 선택 넷째다 (p4-convention-slot, 유저 답 Q22-b)
+    n = 4 if ctx.file.conventions else 3  # 세 단위 지식은 필수이고 규약은 선택 넷째다 (p4-convention-slot, 유저 답 Q22-b)
     if len(levels) != n or len(ctx.attr.part_iris) != n:
-        fail("%s: 결정은 결론·근거·대안 세 청크(+ 선택 규약 청크)의 복합체다 (7.4절, p4-convention-slot) — 부분 파일 %d · 수준 %d · IRI %d" %
+        fail("%s: 결정은 결론·근거·대안 세 단위 지식(+ 선택 규약)의 복합체다 (7.4절, p4-convention-slot) — 부분 파일 %d · 수준 %d · IRI %d" %
              (ctx.label, n, len(levels), len(ctx.attr.part_iris)))
     for lv in levels:
         _check_residency(ctx.label, "decision", lv)

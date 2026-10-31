@@ -1,20 +1,20 @@
-# 청크 — 지식 항목의 핵심 구조: KnowledgeItem / Chunk / Composite (노트 4.1절, 4.5절)
+# 지식 — 핵심 구조: KnowledgeItem / Chunk / Composite (노트 4.1절, 4.5절)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 agt:KnowledgeItem a owl:Class ;
-    rdfs:label "knowledge item"@en , "지식 항목"@ko ;
+    rdfs:label "knowledge item"@en , "지식"@ko ; skos:hiddenLabel "지식 항목"@ko ;
     skos:definition "체계가 관리하는 정보 내용 개체의 최상위 클래스. 상위 온톨로지 도입 시 iao:InformationContentEntity 아래로 정렬한다 (4.1절)."@ko .
 
 agt:Chunk a owl:Class ;
     rdfs:subClassOf agt:KnowledgeItem ;
-    rdfs:label "chunk"@en , "청크"@ko ;
-    skos:definition "본문 토큰 수가 plane별 상한 이하인 자립적 최소 지식 단위. 하나의 plane, 하나의 level에 속하고 한 파일이다 (4.1절, 4.9절). 단위는 줄이 아니라 토큰이고 상한(저작 산문·인용)과 계수기는 결정 p1-chunk-unit-is-tokens가 정하며 값의 단일 정의처는 tools/kb_lib.py의 BODY_TOKEN_LIMITS다. 게이트: 토큰 상한은 chunk_lint·token-budget-shapes·token-budget, plane·level 하나씩은 chunk-shapes·defs/kb.bzl, 한 파일은 kb_chunk 규칙 구조다. 한 주제는 리뷰 규범이다."@ko .
+    rdfs:label "chunk"@en , "단위 지식"@ko ; skos:hiddenLabel "청크"@ko ;
+    skos:definition "본문 토큰 수가 지식 종류별 상한 이하인 자립적 최소 지식 단위. 하나의 지식 종류, 하나의 level에 속하고 한 파일이다 (4.1절, 4.9절). 단위는 줄이 아니라 토큰이고 상한(저작 산문·인용)과 계수기는 결정 p1-chunk-unit-is-tokens가 정하며 값의 단일 정의 위치는 tools/kb_lib.py의 BODY_TOKEN_LIMITS다. 게이트: 토큰 상한은 chunk_lint·token-budget-shapes·token-budget, 지식 종류·level 하나씩은 chunk-shapes·defs/kb.bzl, 한 파일은 kb_chunk 규칙 구조다. 한 주제는 리뷰 규범이다."@ko .
 
 agt:Composite a owl:Class ;
     rdfs:subClassOf agt:KnowledgeItem ;
     owl:disjointWith agt:Chunk ;
     rdfs:label "composite"@en , "복합체"@ko ;
-    skos:definition "본문 없이 순서 있는 부분(청크·복합체)만 갖는 지식 항목 (4.5절). 부분의 plane은 전체와 같고, 수준은 결정 복합체(결론 concrete·근거·대안 logical)를 제외하고 같다. 게이트: composite-heterogeneous 질의."@ko .
+    skos:definition "본문 없이 순서 있는 부분(단위 지식·복합체)만 갖는 지식 (4.5절). 부분의 지식 종류는 전체와 같고, 수준은 결정 기록(결론 concrete·근거·대안 logical)을 제외하고 같다. 게이트: composite-heterogeneous 질의."@ko .

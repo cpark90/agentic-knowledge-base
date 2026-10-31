@@ -7,10 +7,10 @@ title: Normative-document conventions — Traceability is observed through five 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T03:54:56+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T05:27:16+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/759aa68a-d77b-425c-b819-42ead2a9b0e9
 ---
 **규약** — `p10-traceability-metrics`의 결론을 규범 문서에 싣는 문장이다.
 
-규약: 연결 | 링크 밀도 > 0, 복원 비율이 낮다 (d-0112)
+규약: 연결 | 링크 밀도 > 0, 복원 비율이 낮다

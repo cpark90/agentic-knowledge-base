@@ -47,7 +47,7 @@
 <urn:fx:bad-c-criterion>
     a agt:ContractChunk ; agt:hasLevel agt:logical ; agt:tokenCount 10 ;
     agt:assertionLocation "kb/vv/criteria/fx-c-criterion.md" ;
-    agt:bodySlot "판정식" ;
+    agt:bodySlot "판정 술어" ;
     agt:refines <urn:fx:bad-c-goal> .
 
 <urn:fx:bad-c-conclusion>

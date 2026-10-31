@@ -16,7 +16,7 @@ agt:constrains a owl:ObjectProperty ;
     rdfs:domain agt:SchemaChunk ;
     rdfs:range agt:ContractChunk ;
     rdfs:label "constrains"@en , "제약한다"@ko ;
-    skos:definition "스키마가 인터페이스에 거는 제약. 인터페이스가 추적의 기준축이므로 이 링크가 plane 사이를 잇는 축을 지난다 (8.2절)."@ko .
+    skos:definition "스키마가 인터페이스에 거는 제약. 인터페이스가 추적의 기준축이므로 이 링크가 지식 종류 사이를 잇는 축을 지난다 (8.2절)."@ko .
 
 agt:verifies a owl:ObjectProperty ;
     rdfs:subPropertyOf agt:semanticallyDependsOn ;
@@ -29,7 +29,7 @@ agt:usesConcept a owl:ObjectProperty ;
     rdfs:subPropertyOf agt:semanticallyDependsOn ;
     rdfs:domain agt:KnowledgeItem ;
     rdfs:label "uses concept"@en , "개념을 사용한다"@ko ;
-    skos:definition "항목의 본문이 어느 온톨로지 개념을 쓰는가. 치역이 지식 항목이 아니라 어휘의 개념이므로 범위를 지정하지 않는다. 개념 정의가 바뀌면 그것을 쓰는 항목이 suspect가 된다 (2.7절)."@ko .
+    skos:definition "항목의 본문이 어느 온톨로지 개념을 쓰는가. 치역이 지식이 아니라 어휘의 개념이므로 범위를 지정하지 않는다. 개념 정의가 바뀌면 그것을 쓰는 항목이 suspect가 된다 (2.7절)."@ko .
 
 agt:allocates a owl:ObjectProperty ;
     rdfs:subPropertyOf agt:semanticallyDependsOn ;
@@ -43,4 +43,4 @@ agt:serves a owl:ObjectProperty ;
     rdfs:domain agt:DecisionChunk ;
     rdfs:range agt:RequirementChunk ;
     rdfs:label "serves"@en , "기여한다"@ko ;
-    skos:definition "결정이 어느 요구의 어느 관심사에 기여하는가. functional → abstract 전이 게이트가 요구하는 명시다. 기여는 refines 또는 serves 로 요구에 닿는 것이고, 닿지 않는 설계는 거부된다. 게이트: CQ-37 · V&V 케이스 decision-names-requirement(metrics 후방 추적 귀속). refines의 특수형이므로 요구까지의 연쇄 질의에 그대로 걸린다 (6.8절, 7.3절)."@ko .
+    skos:definition "결정이 어느 요구의 어느 관심사에 기여하는가. functional → abstract 전이 게이트가 요구하는 명시다. 기여는 refines 또는 serves 로 요구에 닿는 것이고, 닿지 않는 설계는 거부된다. 게이트: CQ-37 · V&V 테스트 케이스 decision-names-requirement(metrics 후방 추적 귀속). refines의 특수형이므로 요구까지의 연쇄 질의에 그대로 걸린다 (6.8절, 7.3절)."@ko .

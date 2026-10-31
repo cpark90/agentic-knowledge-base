@@ -7,11 +7,11 @@ title: An unchecked artifact passes while broken
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-generated-document-standards}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5, at: 2026-09-21T21:10:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/872f4058-1ca6-432e-a0df-ba39a47b867b
 ---
-**근거** — 규약을 문서에만 적으면 지켜지지 않는다. 2026-09-19 실측이 그것을 보인다.
+**근거** — 규약을 문서에만 적으면 지켜지지 않는다. 2026-09-19 측정이 그것을 보인다.
 
 - `p12-documents-are-generated`가 요구한 "생성 시각과 질의"를 여섯 생성물이 어겼다. `metrics`·`cq`·`communities`·`consistency`·`index`·`workset`이다. 결정은 2026-09-10에 stable이었다.
 - `docs/rules.md`의 `<생성기>/<버전>` 표기를 지킨 생성물이 0종이었다.

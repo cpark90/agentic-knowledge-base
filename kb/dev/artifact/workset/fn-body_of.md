@@ -7,17 +7,17 @@ title: function body_of in tools/workset.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-workset}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/cdaa7848-3ca1-4cc0-a72c-836fd556f15e]
 part_of: https://agentic-knowledge-base.dev/id/composite/efdb6344-03eb-4727-97ba-fe8aadcc7424
 ---
-**함수** — `body_of(path)` 다. 청크 본문 — 판정처는 `kb_lib.chunk_body` 하나다
+**함수** — `body_of(path)` 다. 단위 지식 본문 — 판정처는 `kb_lib.chunk_body` 하나다
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def body_of(path: str) -> str:
-    """청크 본문 — 판정처는 `kb_lib.chunk_body` 하나다 (정의처 chunk2kg 의 `body_text`)."""
+    """단위 지식 본문 — 판정처는 `kb_lib.chunk_body` 하나다 (단일 정의 위치 chunk2kg 의 `body_text`)."""
     return kb_lib.chunk_body(Path(path).read_text(encoding="utf-8"))
 ```
 <!-- 인용 끝 -->

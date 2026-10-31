@@ -7,12 +7,12 @@ title: file tools/term_propose.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-term-propose}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/4754eb68-ad27-45ad-912c-0385087cd063, https://agentic-knowledge-base.dev/id/chunk/b136d285-c4ba-461b-99cf-bda07c2243d8]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/f141ce57-8f04-4bda-a9ff-756f81f57846, title_ko: 파일 복합체 tools/term_propose.py, title: file composite tools/term_propose.py, ordered: [https://agentic-knowledge-base.dev/id/composite/3eff15a8-c6b8-46a9-a707-b95a948c619d, https://agentic-knowledge-base.dev/id/composite/f37f3044-d076-4e57-b68f-4a03d2ad16d5]}
 ---
-**파일** — `tools/term_propose.py` 다. 170줄 · 최상위 정의 3개 · 최상위 절 2개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/term_propose.py` 다. 170줄 · 최상위 정의 3개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -28,7 +28,7 @@ template 행(ID·라벨 ko/en·정의·상위·역량 질문 기여·근거 관�
 
   1. 에이전트가 관측에서 개념 후보를 뽑아 이 도구로 제안
   2. 검사: 상위 개념 실재, 항·라벨 중복 없음, 정의 존재, 케밥 ID, 근거 실재
-     (근거는 관측·판정 주석 청크 둘 이상 — 일반화는 반복에서 온다)
+     (근거는 관측·판정 주석 단위 지식 둘 이상 — 일반화는 반복에서 온다)
   3. 통과한 것만 proposals/<slug>-proposal.ttl 로 (실패는 비영 종료).
      근거는 prov:wasDerivedFrom 트리플로 제안에 함께 적힌다
   4. 유저 승인 → 해당 모듈 파일로 이동

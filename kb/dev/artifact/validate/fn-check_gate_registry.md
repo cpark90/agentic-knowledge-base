@@ -7,20 +7,20 @@ title: function check_gate_registry in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/386f974f-846c-47c9-99dc-ee866783f5c5, https://agentic-knowledge-base.dev/id/chunk/488bd7ba-cb14-4e6c-94f4-119987372f1f, https://agentic-knowledge-base.dev/id/chunk/e51ab77c-0ffd-4d58-a3cb-d622e9134952, https://agentic-knowledge-base.dev/id/chunk/e7ef6bd8-9aff-42f5-bf43-505fb69d8d2e, https://agentic-knowledge-base.dev/id/chunk/e9c220ba-d7c1-4597-a620-d9ad84df3644, https://agentic-knowledge-base.dev/id/chunk/fd705af7-dd6d-489f-9d6f-620aecadba08]
 part_of: https://agentic-knowledge-base.dev/id/composite/d62da398-7c0d-493a-9514-8d3ccebe5ca7
 ---
-**함수** — `check_gate_registry(gates_path, sources)` 다. 게이트 id 의 단일 정의처 — 코드의 태그 집합이 `GATES`·`TOOL_TAGS` 리터럴과 같은가 (게이트 `gate-registry`).
+**함수** — `check_gate_registry(gates_path, sources)` 다. 게이트 id 의 단일 정의 위치 — 코드의 태그 집합이 `GATES`·`TOOL_TAGS` 리터럴과 같은가 (게이트 `gate-registry`).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def check_gate_registry(gates_path: str, sources: list[str]) -> list[str]:
-    """게이트 id 의 단일 정의처 — 코드의 태그 집합이 `GATES`·`TOOL_TAGS` 리터럴과 같은가 (게이트 `gate-registry`).
+    """게이트 id 의 단일 정의 위치 — 코드의 태그 집합이 `GATES`·`TOOL_TAGS` 리터럴과 같은가 (게이트 `gate-registry`).
 
     `residency`·`token-budget` 과 같은 형이다. 원본은 `defs/kb.bzl` 의 두 리터럴이고 파이썬 쪽은 그것을 읽어
-    상수를 파생한다. 2026-10-01 실측에서 같은 목록이 넷으로 갈려 있었으므로(상수 26 · 코드의 태그 · 총람의
+    상수를 파생한다. 2026-10-01 측정에서 같은 목록이 넷으로 갈려 있었으므로(상수 26 · 코드의 태그 · 총람의
     `id` 열 · 하네스 목록) 네 방향을 본다 — ① 등록부 밖의 태그, ② 손으로 둔 `*_GATE` 상수, ③ `getattr`
     폴백의 값 드리프트, ④ 등록됐으나 코드에 닿지 않는 id. ④ 의 도달은 태그 자신 또는 파생 상수 이름이다.
     판정 도구가 파이썬 밖인 게이트(`starlark`·`bazel`)는 태그를 찍을 자리가 없어 ④ 에서 빠진다.
@@ -43,7 +43,7 @@ def check_gate_registry(gates_path: str, sources: list[str]) -> list[str]:
     errors = []
     for tag in sorted(set(hits) - registered):
         errors.append(f"[{gate}] {hits[tag][0]}: 태그 `{tag}` 가 {gates_path} 의 GATES·TOOL_TAGS 밖이다 — "
-                      f"게이트면 GATES 에, 입력 문제·보고 태그면 TOOL_TAGS 에 등재한다 (단일 정의처는 그 리터럴이다)")
+                      f"게이트면 GATES 에, 입력 문제·보고 태그면 TOOL_TAGS 에 등재한다 (단일 정의 위치는 그 리터럴이다)")
     hand = re.compile(r"^([A-Z][A-Z0-9_]*_GATE)\s*=\s*[\"']([a-z0-9-]+)[\"']", re.M)
     fallback = re.compile(r"getattr\(\s*kb_lib\s*,\s*[\"']([A-Z][A-Z0-9_]*_GATE)[\"']\s*,\s*[\"']([a-z0-9-]+)[\"']")
     by_name = {kb_lib.gate_constant_name(g): g for g in gates}
@@ -55,7 +55,7 @@ def check_gate_registry(gates_path: str, sources: list[str]) -> list[str]:
         text += body
         for name, value in hand.findall(body):
             errors.append(f"[{gate}] {p.as_posix()}: 상수 {name} 에 게이트 id {value!r} 를 손으로 적었다 — "
-                          f"{gates_path} 의 GATES 가 단일 정의처이고 kb_lib 이 그 리터럴로 파생한다 (kb_lib.{name})")
+                          f"{gates_path} 의 GATES 가 단일 정의 위치이고 kb_lib 이 그 리터럴로 파생한다 (kb_lib.{name})")
         for name, value in fallback.findall(body):
             want = by_name.get(name)
             if want is None:

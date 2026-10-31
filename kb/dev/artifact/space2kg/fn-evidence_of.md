@@ -7,7 +7,7 @@ title: function evidence_of in tools/space2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-space2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/9875f781-35a4-413a-beae-89f20bb6ea33]
 part_of: https://agentic-knowledge-base.dev/id/composite/fc3f9858-3941-435d-b741-071b871ce613
@@ -29,6 +29,9 @@ def evidence_of(path: str, where: str, value, polarity: str) -> list[tuple[str, 
                              f"(evidence-ontology, 10.8절)")
         if not ref:
             raise SpaceError(f"{path}: {where} 의 증거에 ref 가 비어 있다 — 극성 {polarity} 의 증거는 실체를 가리켜야 한다 (9.11절)")
+        if kind == kb_lib.USER_DECISION_KIND and not kb_lib.USER_DECISION_REF.match(ref):
+            raise SpaceError(f"{path}: {where} 의 유저 결정 증거 ref {ref!r} 가 질문지와 질문 번호(`Q-NNNN#Qn`)도 "
+                             f"`legacy/<파일 이름>.md` 도 아니다 — 유저 결정은 질문지의 답을 가리킨다 (Q-0055 Q111-a)")
         out.append((kind, ref))
     return out
 ```

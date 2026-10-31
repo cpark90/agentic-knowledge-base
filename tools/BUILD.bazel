@@ -29,15 +29,15 @@ exports_files([
     "requirements_lock.txt",
 ])
 
-# 등록부 사이드카 — 한정 이름 → uuid 가 코드 청크의 정체성이다 (p10-function-identity-registry).
+# 등록부 사이드카 — 한정 이름 → uuid 가 코드 단위 지식의 정체성이다 (p10-function-identity-registry).
 # //:extract_drift_* 가 파일마다 자기 등록부를 runfiles 로 읽는다.
 exports_files(glob(["*.chunks.yml"]))
 
-# EXTRACTED_SOURCES(//defs:kb.bzl, 단일 정의처)와 이 패키지의 등록부 사이드카 존재가 같은 집합인지 로드
+# EXTRACTED_SOURCES(//defs:kb.bzl, 단일 정의 위치)와 이 패키지의 등록부 사이드카 존재가 같은 집합인지 로드
 # 시점에 강제한다(M1, 2026-10-01) — 글로벌 glob 은 패키지를 못 넘으므로 이 자리(tools 패키지)에서 돈다.
 check_extracted_sources(glob(["*.chunks.yml"]))
 
-# 게이트 등록부(`GATES`·`TOOL_TAGS`, //defs:kb.bzl 의 단일 정의처)의 자기 정합성을 로드 시점에 강제한다
+# 게이트 등록부(`GATES`·`TOOL_TAGS`, //defs:kb.bzl 의 단일 정의 위치)의 자기 정합성을 로드 시점에 강제한다
 # (M1, 2026-10-02) — 항목마다 네 키, 계층은 어휘 안, 두 목록은 서로소. `check_extracted_sources` 와 같은 자리다.
 check_gates()
 
@@ -67,12 +67,12 @@ filegroup(
 )
 
 # chunk2kg.py 를 함께 싣는 까닭: load_residency 가 PLANES·LEVELS 리터럴 읽기를 chunk2kg.load_plane_level_state 에서
-# import 해 쓴다 — 리터럴 읽기 함수의 정의처를 하나로 모은 형태다(오케스트레이터 판정, 2026-09-27). 방향은 이쪽
+# import 해 쓴다 — 리터럴 읽기 함수의 단일 정의 위치를 하나로 모은 형태다(오케스트레이터 판정, 2026-09-27). 방향은 이쪽
 # 뿐이다 — chunk2kg 는 rdflib 없이 타깃마다 돌아 kb_lib 를 반대로 import 하지 않는다.
 py_library(
     name = "kb_lib",
     srcs = ["kb_lib.py", "chunk2kg.py"],
-    # 게이트 등록부(`GATES`)의 단일 정의처 — kb_lib 이 적재 시점에 리터럴을 읽어 `*_GATE` 상수를 파생하므로
+    # 게이트 등록부(`GATES`)의 단일 정의 위치 — kb_lib 이 적재 시점에 리터럴을 읽어 `*_GATE` 상수를 파생하므로
     # 이 모듈을 쓰는 모든 타깃의 runfiles 에 따라가야 한다. 없으면 적재 시점에 죽는다(의도된 음성 동작)
     data = ["//defs:kb.bzl"],
     deps = [requirement("rdflib")],
@@ -83,7 +83,7 @@ py_binary(
     name = "validate",
     srcs = ["validate.py"],
     args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
-    data = ["@tiktoken_o200k_base//file"],  # 게이트 token-budget 이 어휘 지문을 고정값과 대조한다 (sha256 만 — tiktoken 은 필요 없다)
+    data = ["@tiktoken_o200k_base//file"],  # 게이트 token-budget 이 어휘 해시값을 고정값과 대조한다 (sha256 만 — tiktoken 은 필요 없다)
     deps = [
         ":kb_lib",
         requirement("owlrl"),
@@ -92,7 +92,7 @@ py_binary(
     ],
 )
 
-# 청크 린트. chunk2kg.py 를 함께 실은 까닭은 주석 본문의 파서(comment_form)가 방출기와 같아야 하기 때문이다 —
+# 단위 지식 린트. chunk2kg.py 를 함께 실은 까닭은 주석 본문의 파서(comment_form)가 방출기와 같아야 하기 때문이다 —
 # 게이트와 그래프가 다른 판정을 쓰면 `issue (blocking)` 의 게이트 효과가 방출과 갈린다 (p7-commentary-form)
 py_binary(
     name = "chunk_lint",
@@ -109,9 +109,9 @@ py_binary(
     ],
 )
 
-# 청크 파일(frontmatter) → head 그래프(-kg) 생성기. 한 청크는 한 파일 (4.3절, 4.9절)
+# 단위 지식 파일(frontmatter) → head 그래프(-kg) 생성기. 한 단위 지식은 한 파일 (4.3절, 4.9절)
 # `agt:tokenCount` 를 방출하므로 계수기가 이 타깃의 입력이다 (p1-chunk-unit-is-tokens). rdflib 는 여기 없다 —
-# 본문을 떼는 규칙과 계수기의 정의처를 이 모듈에 둔 까닭이 그것이다 (타깃마다 돌므로 적재 비용을 아낀다)
+# 본문을 떼는 규칙과 계수기의 단일 정의 위치를 이 모듈에 둔 까닭이 그것이다 (타깃마다 돌므로 적재 비용을 아낀다)
 py_binary(
     name = "chunk2kg",
     srcs = ["chunk2kg.py"],
@@ -120,9 +120,16 @@ py_binary(
     deps = [requirement("tiktoken")],
 )
 
-# 설계 공간 청크(`-space`) → 설계 공간 그래프(*-space.ttl) 생성기 (결정 p9-candidate-storage). 변수 하나가 파일 하나다.
+# 채널 규약 게이트를 고정물에 돌릴 때(//defs/tests 의 channel 시험) — 게이트 자체는 //harness:channel_lint_test 다
+py_binary(
+    name = "channel_lint",
+    srcs = ["channel_lint.py"],
+    deps = [":kb_lib"],
+)
+
+# 설계 공간(`-space`) → 설계 공간 그래프(*-space.ttl) 생성기 (결정 p9-candidate-storage). 변수 하나가 파일 하나다.
 # 후보 링크는 여기서만 그래프가 된다 — kb_chunk 타깃을 만들지 않으므로 **후보는 결코 deps 가 되지 않는다**.
-# frontmatter 파서와 링크 IRI 규칙(link_hash)은 chunk2kg 가 정의처다. PyYAML 은 본문 블록용(odd2kg 와 같은 잠금)
+# frontmatter 파서와 링크 IRI 규칙(link_hash)은 chunk2kg 가 단일 정의 위치다. PyYAML 은 본문 블록용(odd2kg 와 같은 잠금)
 py_binary(
     name = "space2kg",
     srcs = [
@@ -135,6 +142,7 @@ py_binary(
     deps = [
         ":kb_lib",
         requirement("pyyaml"),
+        requirement("rdflib"),  # --head 그래프에서 변수 출발 항목의 지식 종류를 읽는다 (Q-0055 Q112-b)
         requirement("tiktoken"),
     ],
 )
@@ -164,7 +172,7 @@ py_binary(
     deps = [requirement("pyyaml")],
 )
 
-# 게이트 등록부 → 게이트 그래프(-kg.ttl) 생성기 (M1 단일 정의처, 2026-10-02). 게이트는 프로세스 층의 항목이고
+# 게이트 등록부 → 게이트 그래프(-kg.ttl) 생성기 (M1 단일 정의 위치, 2026-10-02). 게이트는 프로세스 층의 항목이고
 # 개체 하나가 게이트 하나다 (id:gate-<게이트 id>). 원본은 //defs:kb.bzl 의 GATES 리터럴이라 kb_lib 의 리터럴
 # 읽기를 그대로 쓴다. agt:judgedBy 의 대상은 등록부 사이드카의 파일 복합체이므로 사이드카가 액션의 입력이다
 py_binary(
@@ -203,6 +211,7 @@ py_binary(
     srcs = [
         "chunk2kg.py",
         "consistency.py",
+        "gen_norms.py",  # 규약 줄과 표 칸 경계(⑫ 규칙 6)
     ],
     main = "consistency.py",
     deps = [":kb_lib"],  # 종료 코드·waiver 표 읽기 (2026-09-12 A·C)
@@ -216,7 +225,7 @@ py_binary(
         "label_sample.py",
     ],
     main = "label_sample.py",
-    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록)의 단일 정의처
+    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록)의 단일 정의 위치
 )
 
 # BUILD 생성기 (bazel-dependency-review 2단계): frontmatter·owl:imports → 패키지 BUILD. 원본은 그래프, BUILD 는 뷰
@@ -229,17 +238,17 @@ py_binary(
     main = "gen_build.py",
 )
 
-# 인수 (writer 검사 해소): 쓰기 역할이 검토한 청크에 verified 를 붙인다. bazel run //tools:endorse -- --by orchestrator/<모델> --at <시각> <파일>
+# 인수 (writer 검사 해소): 쓰기 역할이 검토한 단위 지식에 verified 를 붙인다. bazel run //tools:endorse -- --by orchestrator/<모델> --at <시각> <파일>
 py_binary(
     name = "endorse",
     srcs = ["endorse.py"],
     deps = [
-        ":kb_lib",  # 종료 코드 규약의 단일 정의처
+        ":kb_lib",  # 종료 코드 규약의 단일 정의 위치
         requirement("rdflib"),  # kb_lib 이 요구
     ],
 )
 
-# 읽기 집합 인수인계 (10.3절): workset 뷰의 펼친 청크 → 새 청크의 sources. 하네스 기록 전의 첫 형태
+# 읽기 집합 인수인계 (10.3절): workset 뷰의 펼친 단위 지식 → 새 단위 지식의 sources. 하네스 기록 전의 첫 형태
 py_binary(
     name = "handoff",
     srcs = ["handoff.py"],
@@ -249,10 +258,10 @@ py_binary(
 py_binary(
     name = "impact",
     srcs = ["impact.py"],
-    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록)의 단일 정의처
+    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록)의 단일 정의 위치
 )
 
-# 작업 집합 뷰 (0.5절, 5.6절): 스코프 × 수준 창 → 라벨 목록 + 앵커 이웃, 예산 패킹
+# 작업 집합 뷰 (0.5절, 5.6절): 적용 범위 × 수준 창 → 라벨 목록 + 앵커 이웃, 예산 패킹
 py_binary(
     name = "workset",
     srcs = ["workset.py"],
@@ -275,7 +284,7 @@ py_binary(
     ],
 )
 
-# 미결 집계 뷰 (p4-three-empty-values): head 그래프의 `agt:bodySlot "미확정"` 인 청크 → 질문 · 청크 · plane/level · 상세 문서.
+# 미결 집계 뷰 (p4-three-empty-values): head 그래프의 `agt:bodySlot "미확정"` 인 단위 지식 → 질문 · 단위 지식 · plane/level · 상세 문서.
 # 설계 공간(--spaces)을 공간마다 한 행으로, 공간을 가리키지 않는 슬롯을 질문 한 줄로 낸다. 미결 목록의 유일한 자리다(지시 0095). 게이트가 아니다
 py_binary(
     name = "open_questions",
@@ -301,7 +310,7 @@ py_binary(
     ],
 )
 
-# 재검증 후보 (dependency-graph-design §5): bazel run //tools:revalidate -- [--base HEAD]. 본문 해시가 바뀐 청크의 링크·하류 의존자를 재판정 대상으로.
+# 재검증 후보 (dependency-graph-design §5): bazel run //tools:revalidate -- [--base HEAD]. 본문 해시가 바뀐 단위 지식의 링크·하류 의존자를 재검증 대상으로.
 # git 과 bazel query 를 부르므로 odd_check 처럼 테스트 타깃이 아니다
 py_binary(
     name = "revalidate",
@@ -310,7 +319,7 @@ py_binary(
         "revalidate.py",
     ],
     main = "revalidate.py",
-    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록·빈 값 표기)의 단일 정의처
+    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록·빈 값 표기)의 단일 정의 위치
 )
 
 # ODD 모니터링 (3.5절): bazel run //tools:odd_check — CHECKS.cmd 실행, 이탈 보고. 네트워크·호스트 상태를 보므로 테스트 타깃이 아니다
@@ -349,7 +358,7 @@ py_binary(
 )
 
 # V&V executor (8.20절, 7단계 → 8단계): bazel run //tools:vv_run -- [--record] [--case <슬러그>…]
-# 케이스의 `bazel test` 양성 명령을 실행하고 실행 기록(kb/vv/run/, memory plane, append-only)을 쓴다. 케이스·기록은 워크스페이스에서
+# 테스트 케이스의 `bazel test` 양성 명령을 실행하고 실행 기록(kb/vv/run/, `memory` 지식 종류, append-only)을 쓴다. 테스트 케이스·기록은 워크스페이스에서
 # 읽고 쓰며 bazel 을 중첩 실행하므로(odd_check 와 같은 사유) 테스트 타깃이 아니다. 생성자 process:vv_run 은 역할이 아니라 writer 검사 밖이다
 py_binary(
     name = "vv_run",
@@ -361,24 +370,24 @@ py_binary(
     # 다른 도구와 같은 꼴로 어휘 경로를 명시한다 — runfiles 탐색은 canonical 저장소 이름에 달려 있어 배선의
     # 원본으로 쓸 수 없다. 실행기는 이 값을 KB_TOKENIZER_VOCAB 로 검증기에 넘긴다 (p8-verifier-env-isolation)
     args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
-    data = ["@tiktoken_o200k_base//file"],  # 케이스의 검증기 명령에 토큰 계수기 어휘가 필요하다 — KB_TOKENIZER_VOCAB 자리 (p8-verifier-env-isolation)
+    data = ["@tiktoken_o200k_base//file"],  # 테스트 케이스의 검증기 명령에 토큰 계수기 어휘가 필요하다 — KB_TOKENIZER_VOCAB 자리 (p8-verifier-env-isolation)
     deps = [
         ":kb_lib",
-        requirement("pyyaml"),  # 케이스 본문의 `yaml` 펜스 — 기계가 읽는 자극·기대 (p8-machine-readable-case)
+        requirement("pyyaml"),  # 테스트 케이스 본문의 `yaml` 펜스 — 기계가 읽는 자극·기대 (p8-machine-readable-case)
         requirement("rdflib"),
         # 아래 셋은 vv_run 자신이 쓰지 않는다 — READ_ONLY_VERIFIERS(validate·chunk_lint·space2kg 등)가 bare `python3` 로
         # 불릴 때 vv_run 자신의 sys.path(하네스의 pip 폐포)를 PYTHONPATH 로 빌려주는 자리다 (verifier_env, p8-verifier-env-isolation).
-        # 생략하면 그 검증기들이 `ModuleNotFoundError` 로 자극에 닿기 전에 죽는다(이 저장소 실측, 2026-10-01).
+        # 생략하면 그 검증기들이 `ModuleNotFoundError` 로 자극에 닿기 전에 죽는다(이 저장소 측정, 2026-10-01).
         requirement("tiktoken"),  # chunk_lint·chunk2kg·space2kg 의 토큰 계수기
         requirement("pyshacl"),   # validate 의 shacl 검사
         requirement("owlrl"),     # validate 의 --reason(OWL-RL 추론)
     ],
 )
 
-# V&V 케이스 생성기 (결정 p8-case-generation, 유저 답 Q27-a): logical 시나리오의 `keep`·`cover` → concrete 케이스 청크(`kb/vv/case/*.md` 꼴).
+# V&V 테스트 케이스 생성기 (결정 p8-case-generation, 유저 답 Q27-a): logical 시나리오의 `keep`·`cover` → concrete 테스트 케이스(`kb/vv/case/*.md` 꼴).
 # 출력은 지정 디렉토리에 쓰고 저장소 반영은 vnv 가 한다. 드리프트 검사는 //:case_drift_test (kb_case_drift_test).
 # 손으로: python3 tools/case_gen.py --out <디렉토리> [--scenario kb/vv/scenario/<슬러그>-stimulus.md]
-# 생성 케이스를 vv_run 의 파서(case_spec·check_case)로 되읽으므로 vv_run.py 가 srcs 에 든다
+# 생성 테스트 케이스를 vv_run 의 파서(case_spec·check_case)로 되읽으므로 vv_run.py 가 srcs 에 든다
 py_binary(
     name = "case_gen",
     srcs = [
@@ -393,7 +402,7 @@ py_binary(
     ],
 )
 
-# 판정자 (8.14절, 결정 p8-judge-calibration-binding): bazel run //tools:judge -- --question <질문 id> [--fixture <json>] [--record]
+# 판정자 (8.14절, 결정 p8-judge-session-agreement): bazel run //tools:judge -- --question <질문 id> [--fixture <json>] [--record]
 # **게이트 밖 도구다** — 외부 서비스(구조화 출력 전용 모델)를 부르므로 테스트 타깃이 될 수 없다. 게이트는 판정 로그의 형식만
 # 본다(게이트 id judge-log, chunk_lint). 질문·척도·임계는 프로파일 온톨로지와 shape 가 원본이라 data 로 놓아 runfiles 에서 읽는다.
 # 자격은 환경 변수로만 받고 없으면 호출하지 않는다. 생성자 process:judge 는 역할이 아니라 writer 검사 밖이다
@@ -412,21 +421,22 @@ py_binary(
     main = "judge.py",
     deps = [
         ":kb_lib",
+        requirement("pyshacl"),  # 판정 로그를 쓰기 전의 일치율 shape 검사 (kb_lib.judge_log_violations, Q-0056 Q119-a)
         requirement("rdflib"),
         requirement("tiktoken"),
     ],
 )
 
 # 실행기 환경 격리 게이트: bazel test //tools:vv_run_env_test
-# 실행기 **전체**는 위 주석대로 테스트 타깃이 될 수 없다 — 케이스가 `bazel test` 를 부르므로 중첩 실행이 된다. 그러나 `clean_env()` 와
-# `run_command()` 는 bazel 을 부르지 않는다. 판정 대상을 환경 격리의 동작으로 좁혀 케이스 실행 없이 `bazel test //...` 안에서 잰다
+# 실행기 **전체**는 위 주석대로 테스트 타깃이 될 수 없다 — 테스트 케이스가 `bazel test` 를 부르므로 중첩 실행이 된다. 그러나 `clean_env()` 와
+# `run_command()` 는 bazel 을 부르지 않는다. 판정 대상을 환경 격리의 동작으로 좁혀 테스트 케이스 실행 없이 `bazel test //...` 안에서 잰다
 # (결정 p8-verifier-env-isolation, 주석 runner-env-leaks-into-case). 이름이 vv_run_test 가 아닌 까닭은 실행기 전체를 덮지 않기 때문이다
 kb_runner_env_test(
     name = "vv_run_env_test",
     probe = "chunk_lint",
 )
 
-# 게이트 등록부 검사 (M1 단일 정의처, 2026-10-02): 코드의 태그 집합 = //defs:kb.bzl 의 GATES·TOOL_TAGS 리터럴.
+# 게이트 등록부 검사 (M1 단일 정의 위치, 2026-10-02): 코드의 태그 집합 = //defs:kb.bzl 의 GATES·TOOL_TAGS 리터럴.
 # 그래프를 입력으로 받지 않는 유일한 validate 타깃이다 — 판정 대상이 소스 전수이므로 //kg:gate_test 에 묶지 않는다
 # (묶으면 도구를 한 줄 고칠 때마다 그래프 게이트 전체가 다시 돈다). 게이트 id `gate-registry`
 kb_gate_test(
@@ -443,11 +453,11 @@ py_binary(
         "labels.py",
     ],
     main = "labels.py",
-    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록·목차·링크)의 단일 정의처
+    deps = [":kb_lib"],  # 생성 문서 규약(머리 블록·목차·링크)의 단일 정의 위치
 )
 
-# 실행 증거 → satisfies 후보의 증거 기록 생성기 (p9-evidence-ledger) — 출력은 //kg:references_kg 에 이어 붙는다(kb_reference_kg).
-# 링크 IRI 규칙(뿌리 uuid · link_hash)과 frontmatter 파서는 chunk2kg 가 정의처
+# 실행 증거 → satisfies 후보의 증거 기록 생성기 (p9-evidence-ledger-with-belief) — 출력은 //kg:references_kg 에 이어 붙는다(kb_reference_kg).
+# 링크 IRI 규칙(뿌리 uuid · link_hash)과 frontmatter 파서는 chunk2kg 가 단일 정의 위치
 py_binary(
     name = "run_evidence",
     srcs = [
@@ -461,7 +471,7 @@ py_binary(
     ],
 )
 
-# 청크 본문의 인용 → 참조 그래프(-kg) 생성기 (8.2절). 대상이 없으면 실패한다. 후보 링크 개체의 IRI 규칙(뿌리 uuid · link_hash)은 chunk2kg 가 정의처
+# 단위 지식 본문의 인용 → 참조 그래프(-kg) 생성기 (8.2절). 대상이 없으면 실패한다. 후보 링크 개체의 IRI 규칙(뿌리 uuid · link_hash)은 chunk2kg 가 단일 정의 위치
 py_binary(
     name = "extract_refs",
     srcs = [
@@ -493,7 +503,7 @@ py_binary(
 )
 
 # 문서 뷰 생성기 (4.6절 weave, p12-documents-are-generated): ADR · 요구 색인 · 변경 이력. 생성물은 bazel-bin 에만 (kb_weave: //kb/dev:adr …)
-# 본문 파서(chunk2kg)와 생성 문서 규약(kb_lib.gendoc_header·heading_anchors)을 그대로 쓴다 — 단일 정의처
+# 본문 파서(chunk2kg)와 생성 문서 규약(kb_lib.gendoc_header·heading_anchors)을 그대로 쓴다 — 단일 정의 위치
 py_binary(
     name = "weave",
     srcs = [
@@ -507,13 +517,13 @@ py_binary(
     ],
 )
 
-# 코드 추출기 (코드를 청크로, 유저 승인 2026-09-30): tools/*.py + 등록부 → kb/dev/artifact/<모듈>/ 의 청크 트리.
+# 코드 추출기 (코드를 단위 지식으로, 유저 승인 2026-09-30): tools/*.py + 등록부 → kb/dev/artifact/<모듈>/ 의 단위 지식 트리.
 # 드리프트 검사는 //:extract_drift_test (kb_extract_drift_test). 손으로: bazel run //tools:extract -- tools/kb_lib.py
 py_binary(
     name = "extract",
     srcs = ["extract.py"],
     args = ["--vocab=$(rootpath @tiktoken_o200k_base//file)"],
-    data = ["@tiktoken_o200k_base//file"],  # 생성 청크의 artifact 상한 보고 — 단위는 토큰이다
+    data = ["@tiktoken_o200k_base//file"],  # 생성 단위 지식의 artifact 상한 보고 — 단위는 토큰이다
     deps = [
         ":kb_lib",
         requirement("rdflib"),
@@ -551,7 +561,7 @@ py_binary(
     ],
 )
 
-# 규범 문서 생성기 (p12-norm-documents-from-section-chunks): 절 청크(kb/dev/norm/<stem>/) + 결정의 conventions.md → 규범 문서
+# 규범 문서 생성기 (p12-norm-documents-from-section-chunks): 절 항목(kb/dev/norm/<stem>/) + 결정의 conventions.md → 규범 문서
 # (트리, 커밋 대상 — 목록은 //defs:kb.bzl 의 NORM_DOCS). 드리프트 검사는 //:norms_drift_test. 손으로: python3 tools/gen_norms.py --root .
 py_binary(
     name = "gen_norms",
@@ -572,17 +582,17 @@ py_binary(
 )
 
 # 생성 문서 게이트 (유저 지시 2026-09-21): 생성 마크다운의 머리 블록·본문 서식·주장 건전성 G1~G18.
-# 규약의 단일 정의처는 kb_lib 이고 게이트는 //:gendoc_test (kb_gendoc_test). 손으로: bazel run //tools:gendoc -- bazel-bin/kg/metrics.md
+# 규약의 단일 정의 위치는 kb_lib 이고 게이트는 //:gendoc_test (kb_gendoc_test). 손으로: bazel run //tools:gendoc -- bazel-bin/kg/metrics.md
 py_binary(
     name = "gendoc",
     srcs = ["gendoc.py"],
     deps = [":kb_lib"],
 )
 
-# 토큰 계수기 (유저 결정 2026-10-01 "청크의 단위는 토큰이다"): bazel run //tools:tokens -- [청크…] [--out report.md]
+# 토큰 계수기 (유저 결정 2026-10-01 "청크의 단위는 토큰이다"): bazel run //tools:tokens -- [단위 지식…] [--out report.md]
 # 어휘 파일은 MODULE.bazel 의 http_file 이 sha256 으로 고정하고 data 로 runfiles 에 놓인다 — 네트워크를 쓰지 않는다.
 # args 의 `$(rootpath …)` 가 그 경로를 넘긴다(사용자 인자보다 앞에 온다). chunk_lint.py 를 함께 싣는 까닭은
-# frontmatter 파서(split_frontmatter)가 게이트와 같아야 하기 때문이다 — plane 을 읽는 규칙이 갈리면 분포의 분모가 갈린다
+# frontmatter 파서(split_frontmatter)가 게이트와 같아야 하기 때문이다 — 지식 종류를 읽는 규칙이 갈리면 분포의 분모가 갈린다
 py_binary(
     name = "tokens",
     srcs = [

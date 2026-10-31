@@ -7,9 +7,9 @@ title: Discarding them, or counting them together
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/334ec611-70bf-40cd-85df-7ed0431ac556
 ---
-**대안** — **ODD 밖 케이스를 폐기하는 안.** 배제 — 이탈 반복 관측이 사라져 ODD 확장 후보를 판단할 재료가 없어진다.
+**대안** — **ODD 밖 테스트 케이스를 폐기하는 안.** 배제 — 이탈 반복 관측이 사라져 ODD 확장 후보를 판단할 재료가 없어진다.
 
-**안 케이스와 함께 집계하는 안.** 배제 — 커버리지 분모가 ODD라는 정의(Part VIII)와 충돌하며, 밖 케이스를 늘려 커버리지를 올리는 왜곡이 가능해진다.
+**안 테스트 케이스와 함께 집계하는 안.** 배제 — 커버리지 분모가 ODD라는 정의(Part VIII)와 충돌하며, 밖 테스트 케이스를 늘려 커버리지를 올리는 왜곡이 가능해진다.

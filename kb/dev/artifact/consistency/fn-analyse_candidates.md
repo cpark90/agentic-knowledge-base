@@ -7,7 +7,7 @@ title: function analyse_candidates in tools/consistency.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/9fd939d6-21cd-4952-92e8-2091cf6b93a7]
 part_of: https://agentic-knowledge-base.dev/id/composite/c5f10c9e-1f63-4c4a-82da-957ca0cb0e28
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/c5f10c9e-1f63-4c4a-82da
 def analyse_candidates(items, exact, near, linked):
     """⑩ 중복 확정 후보 — ①·③의 미묶음 쌍을 판정자 질문("이 두 블록은 같은 주장을 담는가?")의 입력으로 다시 낸다.
 
-    ⑪ 자리 후보 — 슬롯 표지가 둘 이상인 청크에서, 다른 슬롯의 표지 낱말이 자리 밖으로 등장하는 문장.
+    ⑪ 자리 후보 — 슬롯 표지가 둘 이상인 단위 지식에서, 다른 슬롯의 표지 낱말이 자리 밖으로 등장하는 문장.
     """
     total_pairs = len(exact) and sum(len(g) * (len(g) - 1) // 2 for g in exact)
     unlinked_exact = [g for g in exact if not all(linked(x, y) for x, y in combinations(g, 2))]

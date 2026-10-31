@@ -7,17 +7,17 @@ title: function previous_hashes in tools/extract.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/2d2767c3-e91e-464b-8f72-7fabdd6cca14, https://agentic-knowledge-base.dev/id/chunk/8f365d81-2dc9-4f87-8f66-153ed897e871]
 part_of: https://agentic-knowledge-base.dev/id/composite/afe5a31d-455c-4ff6-8986-80ad97804df0
 ---
-**함수** — `previous_hashes(pkg_dir)` 다. 트리에 있는 생성 청크 → {정규화 해시: 한정 이름}.
+**함수** — `previous_hashes(pkg_dir)` 다. 트리에 있는 생성 단위 지식 → {정규화 해시: 한정 이름}.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def previous_hashes(pkg_dir: Path) -> dict[str, str]:
-    """트리에 있는 생성 청크 → {정규화 해시: 한정 이름}. 개명은 이름을 뺀 본문이 같은 것으로 판정한다."""
+    """트리에 있는 생성 단위 지식 → {정규화 해시: 한정 이름}. 개명은 이름을 뺀 본문이 같은 것으로 판정한다."""
     out = {}
     for f in sorted(pkg_dir.glob("*.md")):
         stem = f.stem

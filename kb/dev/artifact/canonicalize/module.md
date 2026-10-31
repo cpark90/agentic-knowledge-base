@@ -7,13 +7,12 @@ title: file tools/canonicalize.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-canonicalize}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-12T07:47:38Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/a9cc1a02-29b3-4f53-8711-8d60a4bea3cf]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/cf91a784-b983-40fa-afff-ff9105164656, title_ko: 파일 복합체 tools/canonicalize.py, title: file composite tools/canonicalize.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/811c8a9a-7991-488b-927b-a703841a532b, https://agentic-knowledge-base.dev/id/composite/29d788bd-8690-47f5-8a29-184a6e40d389]}
 ---
-**파일** — `tools/canonicalize.py` 다. 160줄 · 최상위 정의 4개 · 최상위 절 2개이고 이 청크는 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/canonicalize.py` 다. 160줄 · 최상위 정의 4개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -42,7 +41,7 @@ import re
 from rdflib import BNode, Graph, Literal, RDF, URIRef
 from rdflib.compare import to_canonical_graph
 
-try:  # 종료 코드 규약의 단일 정의처는 kb_lib — 없으면 같은 값의 폴백
+try:  # 종료 코드 규약의 단일 정의 위치는 kb_lib — 없으면 같은 값의 폴백
     from tools import kb_lib
 except ImportError:
     try:

@@ -5,10 +5,10 @@ level: concrete
 title_ko: 재현성은 형식 언어가 만들고 그 파일 자체가 산출물이다
 title: Reproducibility comes from a formal language whose file is the artifact
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0085-formal-language-makes-reproducibility.md, id: https://agentic-knowledge-base.dev/id/chunk-d0085, title_ko: "재현성은 인터프리터가 아니라 형식 언어가 만든다", title: "Reproducibility comes from a formal language, not an interpreter"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-06T11:26:44+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}]
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0085]
 part_of: https://agentic-knowledge-base.dev/id/composite/3b728259-9d19-4617-a431-35fccffec28c

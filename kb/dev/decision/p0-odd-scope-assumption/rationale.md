@@ -7,12 +7,12 @@ title: Without an ODD there is no set to be a subset of and no proposition to ju
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/d892c74e-912c-45df-a36b-cccefabeed74
 ---
 **근거** (노트 0.4절)
 
-- 스코프가 **무엇의** 부분집합인지, 가정이 **무엇 위의** 명제인지는 ODD 없이
+- 적용 범위가 **무엇의** 부분집합인지, 가정이 **무엇 위의** 명제인지는 ODD 없이
   정의되지 않는다. 파생 관계를 어휘에 고정해야 셋이 같은 속성 집합을 가리킨다.
 - ODD 밖 속성 참조를 게이트가 거부하면, 경계의 확장이 항상 ODD 갱신이라는
   한 자리에서 일어난다. 항목마다 슬쩍 늘어나는 전제가 생기지 않는다.

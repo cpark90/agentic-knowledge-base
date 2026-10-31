@@ -2,22 +2,23 @@
 id: https://agentic-knowledge-base.dev/id/chunk/578a6482-7bea-4b79-9206-92870d919a33
 type: decision
 level: concrete
-title_ko: 청크의 물리 형식은 OKF, 어휘·제약은 온톨로지, 의존·검사·뷰는 Bazel이 맡는다
+title_ko: 단위 지식의 물리 형식은 OKF, 어휘·제약은 온톨로지, 의존·검사·뷰는 Bazel이 맡는다
+former_title_ko: ["청크의 물리 형식은 OKF, 어휘·제약은 온톨로지, 의존·검사·뷰는 Bazel이 맡는다", "지식 항목의 물리 형식은 OKF, 어휘·제약은 온톨로지, 의존·검사·뷰는 Bazel이 맡는다"]
 title: OKF carries physical form, the ontology carries vocabulary and constraints, Bazel carries dependencies, checks and projections
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-10-06T10:57:19+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T10:57:27+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T10:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
 layer: methodology
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/22ffbbd9-3eba-4e36-aeaf-8e5ff96113aa, title_ko: 세 요소의 바인딩, title: Three-layer binding}
 part_of: https://agentic-knowledge-base.dev/id/composite/22ffbbd9-3eba-4e36-aeaf-8e5ff96113aa
 ---
-**결론** — 세 요소 (노트 부록 E.1): **OKF v0.2** — 청크의 물리 형식. 파일 하나 = 청크 하나, 프런트매터 = head, 본문 = assertion / **온톨로지(Turtle + LinkML)** — 어휘·제약. `type`은 plane 클래스로 제한, 관계는 TIM 링크 타입으로 제한 / **Bazel** — 확정 링크 = deps, 게이트 = test, 뷰 = build output, 재판정 = 증분 재실행.
+**결론** — 세 요소 (노트 부록 E.1): **OKF v0.2** — 단위 지식의 물리 형식. 파일 하나 = 단위 지식 하나, 프런트매터 = head, 본문 = assertion / **온톨로지(Turtle + LinkML)** — 어휘·제약. `type`은 지식 종류 클래스로 제한, 관계는 TIM 링크 타입으로 제한 / **Bazel** — 확정 링크 = deps, 게이트 = test, 뷰 = build output, 재검증 = 증분 재실행.
 
-OKF 필드 사상 (E.2): plane 클래스 → `type` · 라벨 → `title` + `title_ko` · provenance → `sources`(하네스가 편집 시 채움, 비면 verify 실패) · 시각 → `generated.at` · 청크 상태 → `status`(draft/stable/deprecated + 확장 suspect/invalidated) · 판정 이력 → `verified` 목록 · 판정식 → 계산 필드(`runtime: cel`) · 라벨 목록 → `index.md`(생성) · 변경 이력 → `log.md`(생성) · 확정 링크 → 확장 키 `refines`·`satisfies`·… · IRI → 확장 키 `id`(uuid).
+OKF 필드 사상 (E.2): 지식 종류 클래스 → `type` · 라벨 → `title` + `title_ko` · provenance → `sources`(하네스가 편집 시 채움, 비면 verify 실패) · 시각 → `generated.at` · 지식 상태 → `status`(draft/stable/deprecated + 확장 suspect/invalidated) · 판정 이력 → `verified` 목록 · 판정 술어 → 계산 필드(`runtime: cel`) · 라벨 목록 → `index.md`(생성) · 변경 이력 → `log.md`(생성) · 확정 링크 → 확장 키 `refines`·`satisfies`·… · IRI → 확장 키 `id`(uuid).
 
 이 저장소: OKF 사상 A안 채택(2026-09-07), `type`·`status`·`generated`·`verified` 반영. `title`·`sources`·`id` 정렬은 도입 순서 (a) (유저 결정 Q6).
 
-외부 조사로 채운 세부 (OKF v0.2 SPEC, 2026-09-11) — `sources`는 IRI 목록이 아니라 **객체 목록** `[{resource, id?, title?, author?, usage_count?, last_modified?}]`이라 이 저장소의 프런트매터를 `[{resource: …}]`로 이행했다. `status`는 draft/stable/deprecated(기본 stable)이고 `suspect`·`invalidated`는 확장값. `stale_after`(이 시각 이후 낡음)가 있어 8.27절 증거 노화의 후보다. 판정식의 "계산 필드"는 `type: Attested Computation`의 `runtime`·`parameters`·`computation`·`executor`·`attester`에 해당한다. `index.md`는 frontmatter 없이(번들 루트의 `okf_version`만), `log.md`는 ISO 날짜를 제목으로 한 이력.
+외부 조사로 채운 세부 (OKF v0.2 SPEC, 2026-09-11) — `sources`는 IRI 목록이 아니라 **객체 목록** `[{resource, id?, title?, author?, usage_count?, last_modified?}]`이라 이 저장소의 프런트매터를 `[{resource: …}]`로 이행했다. `status`는 draft/stable/deprecated(기본 stable)이고 `suspect`·`invalidated`는 확장값. `stale_after`(이 시각 이후 낡음)가 있어 8.27절 증거 노화의 후보다. 판정 술어의 "계산 필드"는 `type: Attested Computation`의 `runtime`·`parameters`·`computation`·`executor`·`attester`에 해당한다. `index.md`는 frontmatter 없이(번들 루트의 `okf_version`만), `log.md`는 ISO 날짜를 제목으로 한 이력.

@@ -7,7 +7,7 @@ title: module head agt in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9b099dc3-facc-4593-9927-5f2afdd09add
 composite: {id: https://agentic-knowledge-base.dev/id/composite/9b099dc3-facc-4593-9927-5f2afdd09add, title_ko: 모듈 머리 복합체 agt (tools/judge.py), title: section composite agt in tools/judge.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/8be49e66-32e1-48fa-8df2-5e42684f3eea, https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b, https://agentic-knowledge-base.dev/id/chunk/50114263-78e9-4af8-9078-cd158d3f76eb, https://agentic-knowledge-base.dev/id/chunk/81e5e72c-14de-43e1-ac54-19566c8df95e], part_of: https://agentic-knowledge-base.dev/id/composite/85cd0960-2c5b-4a4c-b5be-bcf71f036c54}
@@ -23,11 +23,11 @@ try:
     from tools import kb_lib  # noqa: E402 — bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
 except ImportError:
     import kb_lib  # noqa: E402 — 직접 실행
-try:  # noqa: E402 — 대상의 IRI·수준은 frontmatter 파서가 읽는다. 값 어휘의 원본은 defs/kb.bzl 이다 (M1 단일 정의처)
+try:  # noqa: E402 — 대상의 IRI·수준은 frontmatter 파서가 읽는다. 값 어휘의 원본은 defs/kb.bzl 이다 (M1 단일 정의 위치)
     from tools.chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk
 except ImportError:
     from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402
-try:  # noqa: E402 — 본문 추출은 label_sample.py 하나가 원본이다(단일 정의처, 2026-09-30 vnv 결함 보고)
+try:  # noqa: E402 — 본문 추출은 label_sample.py 하나가 원본이다(단일 정의 위치, 2026-09-30 vnv 결함 보고)
     from tools.label_sample import body_of as sample_body_of
 except ImportError:
     from label_sample import body_of as sample_body_of  # noqa: E402
@@ -40,8 +40,8 @@ GENERATOR = kb_lib.JUDGE_GENERATOR
 PROFILE_DIR = kb_lib.JUDGE_PROFILE_DIR
 SHAPES = kb_lib.JUDGE_QUESTION_SHAPES
 ODD_IRI = str(ID["odd-agentic-knowledge-base"])
-ASSUMPTIONS = [str(ID[a]) for a in kb_lib.JUDGE_ASSUMPTIONS]  # 청크 규약 — 판정 서비스 가정은 도입이 되돌려져 없다 (2026-09-30)
-# 로그 한 파일의 상한은 **토큰**이고 정의처는 `kb_lib.BODY_TOKEN_LIMITS` 다 (결정 p1-chunk-unit-is-tokens).
+ASSUMPTIONS = [str(ID[a]) for a in kb_lib.JUDGE_ASSUMPTIONS]  # 단위 지식 규약 — 판정 서비스 가정은 도입이 되돌려져 없다 (2026-09-30)
+# 로그 한 파일의 상한은 **토큰**이고 단일 정의 위치는 `kb_lib.BODY_TOKEN_LIMITS` 다 (결정 p1-chunk-unit-is-tokens).
 # 판정 행 수로 자르지 않는다 — 행의 길이가 질문·판정자·값에 따라 달라 행 수는 크기를 뜻하지 않는다. `split_rows`
 # 가 묶음을 실제로 렌더해 재고, 그래서 새로 쓰는 로그는 게이트(`chunk`)를 통과한다.
 _SLUG = re.compile(r"[^a-z0-9]+")

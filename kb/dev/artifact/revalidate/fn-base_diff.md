@@ -7,7 +7,7 @@ title: function base_diff in tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/0deeb79a-02b2-44fa-9441-ad82b1ed51af, https://agentic-knowledge-base.dev/id/chunk/1d01a493-eef5-4980-970b-5ba70be5e80e]
 part_of: https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68
@@ -19,11 +19,11 @@ part_of: https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164
 def base_diff(base: str, cwd: str, index: dict) -> tuple:
     """base 리비전과 워킹트리의 차이 → (changed, head_only, base_by_iri, unread).
 
-    비교의 열쇠도 IRI 다 — 경로로 비교하면 개명·이동이 "삭제 + 신규" 로 보여 재판정 대상이 부푼다.
+    비교의 열쇠도 IRI 다 — 경로로 비교하면 개명·이동이 "삭제 + 신규" 로 보여 재검증 대상이 부푼다.
     `changed` 는 (경로, 종류, iri, meta_wt|None, meta_base|None, 사유) 이고 `head_only` 는 본문 해시가 같은 것이다.
     """
     a_base = base
-    # 2. base 와의 차이 — 상태 M/A/D/R 인 청크 파일 + 미추적 파일
+    # 2. base 와의 차이 — 상태 M/A/D/R 인 단위 지식 파일 + 미추적 파일
     status = {}
     for line in run(["git", "diff", "--name-status", a_base, "--", *CHUNK_DIRS], cwd).splitlines():
         parts = line.split("\t")
@@ -35,7 +35,7 @@ def base_diff(base: str, cwd: str, index: dict) -> tuple:
             status[path] = ("A", path)
 
     # 정체성은 uuid(frontmatter `id`)이고 경로는 주소다 (p10-split-keeps-work-identity · p10-function-identity-registry).
-    # 경로로 비교하면 개명·이동이 "삭제 + 신규" 로 보여 재판정 대상이 부풀고 링크가 깨진 것처럼 읽힌다.
+    # 경로로 비교하면 개명·이동이 "삭제 + 신규" 로 보여 재검증 대상이 부풀고 링크가 깨진 것처럼 읽힌다.
     by_path = {rel: iri for iri, (rel, _m) in index.items()}
     base_by_iri, unread = {}, []
     for path, (st, base_path) in sorted(status.items()):

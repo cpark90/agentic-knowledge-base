@@ -16,7 +16,7 @@ from pathlib import Path
 
 import yaml
 
-try:  # 종료 코드 규약의 단일 정의처는 kb_lib — 이 도구는 rdflib 없이 돌므로 없으면 같은 값의 폴백
+try:  # 종료 코드 규약의 단일 정의 위치는 kb_lib — 이 도구는 rdflib 없이 돌므로 없으면 같은 값의 폴백
     from tools import kb_lib
 except ImportError:
     try:

@@ -7,9 +7,8 @@ title: function main in tools/gendoc.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gendoc}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
-verified: [{by: process:bazel-test, at: 2026-09-30T15:34:48Z}]
 uses: [https://agentic-knowledge-base.dev/id/chunk/e95cd557-a497-404a-9265-5ebfe0776084]
 part_of: https://agentic-knowledge-base.dev/id/composite/b6587551-3784-48fb-ae97-e98493afa24b
 ---
@@ -60,7 +59,7 @@ def main() -> int:
         for e in errors:
             print(f"FAIL [{TAG}] {e}")
         print(f"\nFAIL [{TAG}] — {len(errors)}건 (생성 문서 {len(docs)}개). "
-              f"규약의 단일 정의처는 `tools/kb_lib.py` 의 `gendoc_header`·`check_gendoc` 이다 — 게이트가 아니라 생성기를 고친다")
+              f"규약의 단일 정의 위치는 `tools/kb_lib.py` 의 `gendoc_header`·`check_gendoc` 이다 — 게이트가 아니라 생성기를 고친다")
         return EXIT_FAIL
     print(f"PASS [{TAG}] — 생성 문서 {len(docs)}개")
     return EXIT_OK

@@ -7,18 +7,18 @@ title: function vv_facts in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/6553eed2-c1d9-41a4-b5c8-549f5d93193e, https://agentic-knowledge-base.dev/id/chunk/b20316b8-e52e-4c0b-8208-f80ef26cec99]
 part_of: https://agentic-knowledge-base.dev/id/composite/281c4f1d-6048-495f-872e-1aa02b250baa
 ---
-**함수** — `vv_facts(g, chunks, live, plane)` 다. V&V KB 의 청크 분포와 verifies 링크·기준 없는 verifies·검증 대응물을 돌려준다.
+**함수** — `vv_facts(g, chunks, live, plane)` 다. V&V KB 의 단위 지식 분포와 verifies 링크·기준 없는 verifies·검증 대응물을 돌려준다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def vv_facts(g, chunks, live, plane):
-    """V&V KB 의 청크 분포와 verifies 링크·기준 없는 verifies·검증 대응물을 돌려준다."""
-    # 7단계 대리 — V&V KB (p8-vv-plane-instances: 코어의 두 번째 인스턴스, kb/vv/). KB 는 청크 위치(assertionLocation)로 가른다 (kb_lib.kb_of)
+    """V&V KB 의 단위 지식 분포와 verifies 링크·기준 없는 verifies·검증 대응물을 돌려준다."""
+    # 7단계 대리 — V&V KB (p8-vv-plane-instances: 코어의 두 번째 인스턴스, kb/vv/). KB 는 단위 지식 위치(assertionLocation)로 가른다 (kb_lib.kb_of)
     loc = {c: str(next(g.objects(c, AGT.assertionLocation), "")) for c in chunks}
     vv = {c for c in live if kb_lib.kb_of(loc[c]) == kb_lib.KB_VV}
     vv_by = Counter(plane[c] for c in vv)

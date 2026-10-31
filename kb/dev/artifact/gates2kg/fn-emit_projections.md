@@ -7,7 +7,7 @@ title: function emit_projections in tools/gates2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gates2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/b8f959c8-3cb6-443b-828c-c3952f8b8020, https://agentic-knowledge-base.dev/id/chunk/f15f1ad5-6a97-49e0-a1b6-d7cc84dd3b8e]
 part_of: https://agentic-knowledge-base.dev/id/composite/cda496f2-c562-40ea-bde8-f3fa740db1b1
@@ -17,7 +17,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/cda496f2-c562-40ea-bde8
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 def emit_projections(views: dict[str, str], skills: tuple, modules: dict[str, str], where: str) -> str:
-    """뷰 표·skill 표 → 투영 TTL. 원본 도구의 `module` 청크가 없으면 생성 시점에 거부한다."""
+    """뷰 표·skill 표 → 투영 TTL. 원본 도구의 `module` 단위 지식이 없으면 생성 시점에 거부한다."""
     errors = []
     blocks = []
     rows = [("View", kb_lib.VIEW_ID_PREFIX + view_slug(label), label, f"생성 뷰 {label}", tool,
@@ -29,7 +29,7 @@ def emit_projections(views: dict[str, str], skills: tuple, modules: dict[str, st
     for kind, slug, en, ko, tool, desc in rows:
         iri = modules.get(tool)
         if not iri:
-            errors.append(f"{where}: {kind} {en!r} 의 원본 도구 {tool!r} 의 module 청크를 찾을 수 없다 — "
+            errors.append(f"{where}: {kind} {en!r} 의 원본 도구 {tool!r} 의 module 단위 지식을 찾을 수 없다 — "
                           f"tools/{tool}.chunks.yml 의 `ids: module:` 가 prov:wasDerivedFrom 의 대상이다")
             continue
         props = [

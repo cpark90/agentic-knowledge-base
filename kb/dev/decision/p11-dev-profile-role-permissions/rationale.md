@@ -7,13 +7,13 @@ title: Editing the vocabulary and the boundary belongs to design; writing the V&
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:48:52+09:00}
 part_of: https://agentic-knowledge-base.dev/id/composite/4dbb535c-ea05-4b67-accf-29c2ef7f6ee3
 ---
 **근거** (노트 11.2절)
 
 - **design이 T-Box와 ODD 편집 권한을 갖는다.** 어휘와 경계의 변경은 설계
-  판단이고, 구현 역할이 만지면 모든 청크의 가정이 딛고 선 바닥이 조용히
+  판단이고, 구현 역할이 만지면 모든 지식의 가정이 딛고 선 바닥이 조용히
   움직인다.
 - **V&V가 검증 역할 `artifact`(RW)와 `annotation`(W)을 갖는다.** V&V KB 쓰기가
   개발 역할과 분리되어야 만든 쪽이 판정 기준을 고치는 일이 구조적으로 막힌다

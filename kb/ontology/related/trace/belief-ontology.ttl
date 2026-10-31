@@ -1,0 +1,40 @@
+# 추적성 — 믿음 정도: 증거 기록에서 계산 규칙 하나로 계산해 후보 링크 곁에 병기하는 값 (요구 r-032, 결정 p9-evidence-ledger-with-belief)
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+agt:DegreeOfBelief a owl:Class ;
+    rdfs:label "degree of belief"@en , "믿음 정도"@ko ;
+    skos:definition "링크의 증거 기록에서 계산 규칙 하나로 계산한 [0,1]의 값과 그 규칙, 입력 증거 수의 묶음이다. 링크 곁에 병기하고 상태 전이와 확정·배제 판정에 들지 않는다. 선호의 동률 깨기에는 닫힌 계산 규칙의 값만 쓴다 (결정 p9-evidence-ledger-with-belief, p9-preference-partial-order, Q90-a, Q137-a)."@ko .
+
+agt:hasDegreeOfBelief a owl:ObjectProperty ;
+    rdfs:domain agt:Link ;
+    rdfs:range agt:DegreeOfBelief ;
+    rdfs:label "has degree of belief"@en , "믿음 정도를 갖는다"@ko ;
+    skos:definition "링크에서 그 링크의 믿음 정도로 간다. 계산 규칙마다 하나씩 둘 수 있다. 상태 전이 규칙은 이 속성을 읽지 않는다 (게이트 belief-consistency)."@ko .
+
+agt:beliefValue a owl:DatatypeProperty ;
+    rdfs:domain agt:DegreeOfBelief ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "belief value"@en , "믿음 정도 값"@ko ;
+    skos:definition "계산 규칙이 낸 0 이상 1 이하의 값이다. 보정하지 않은 규칙의 값은 확률로 해석하지 않는다 (설계 공간 degree-of-belief-space)."@ko .
+
+agt:beliefRule a owl:ObjectProperty ;
+    rdfs:domain agt:DegreeOfBelief ;
+    rdfs:range agt:DesignDecision ;
+    rdfs:label "belief rule"@en , "계산 규칙"@ko ;
+    skos:definition "이 값을 낸 계산 규칙이다. 대상은 설계 공간 degree-of-belief-space의 후보 결정 결론이고, 그 공간에서 열린 후보인지 닫힌 후보인지는 공간이 정한다."@ko .
+
+agt:beliefEvidenceCount a owl:DatatypeProperty ;
+    rdfs:domain agt:DegreeOfBelief ;
+    rdfs:range xsd:nonNegativeInteger ;
+    rdfs:label "belief evidence count"@en , "입력 증거 수"@ko ;
+    skos:definition "계산 규칙이 입력으로 읽은 증거 항목의 수다. 같은 링크라도 규칙마다 읽는 증거 종류가 달라 수가 다를 수 있다."@ko .
+
+agt:beliefVariance a owl:DatatypeProperty ;
+    rdfs:domain agt:DegreeOfBelief ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "belief variance"@en , "믿음 정도 분산"@ko ;
+    skos:definition "사후 분포를 갖는 계산 규칙이 값과 함께 내는 사후 분산이다. 근거가 적게 쌓인 링크를 드러낸다 (후보 결정 p9-belief-by-beta-binomial)."@ko .

@@ -7,13 +7,13 @@ title: AGENTS.md section — Self-check
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-04T04:37:29+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T00:46:21+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/1267fef2-8d09-45ef-94f3-ee31ceaafac9
 heading: 셀프체크
 depth: 2
 ---
-작업 완료 전 반드시 실행한다.
+작업을 마치기 전에 아래 명령을 반드시 실행한다.
 
 ```bash
 bazel test //...        # 게이트 전체. 반드시 PASS

@@ -5,9 +5,10 @@ level: concrete
 title_ko: 고유 관계는 subPropertyOf로 표준 관계 아래에 매단다
 title: Bespoke relations hang under standard ones via subPropertyOf
 status: stable
-sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
+sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0053-standard-relation-vocabulary.md, id: https://agentic-knowledge-base.dev/id/chunk-d0053, title_ko: "관계도 표준을 쓰고 고유 관계는 subPropertyOf로 매단다", title: "Reuse standard relations; hang custom ones under subPropertyOf"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-09-10T18:00:00+09:00}
+generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/27699a04-a588-4c4b-89c6-b7be0c173ced, https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0053]
 part_of: https://agentic-knowledge-base.dev/id/composite/ad815628-628e-40a9-a3da-05db0480bb7e

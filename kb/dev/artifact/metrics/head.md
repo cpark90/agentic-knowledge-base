@@ -7,7 +7,7 @@ title: module head agt in tools/metrics.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-metrics}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/3c529991-238b-41b3-abc4-9d4e944f0a32
 ---
@@ -17,24 +17,24 @@ part_of: https://agentic-knowledge-base.dev/id/composite/3c529991-238b-41b3-abc4
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-AGT = kb_lib.AGT  # 네임스페이스의 단일 정의처는 kb_lib (STYLEGUIDE §7)
+AGT = kb_lib.AGT  # 네임스페이스의 단일 정의 위치는 kb_lib (STYLEGUIDE §7)
 ID = kb_lib.ID
 PROV = kb_lib.PROV
 DEFAULT_ASSUMPTION = ID["asm-chunk-conventions"]  # 기본 가정 (dependency-graph-design §6 "기본 가정 후 좁힘", docs/rules.md 가정 절)
-LINKS = list(kb_lib.TRACE_LINKS)  # 추적 링크 잎의 단일 정의처는 kb_lib (STYLEGUIDE §7) — 링크 밀도·TIM 이 보는 집합이다.
+LINKS = list(kb_lib.TRACE_LINKS)  # 추적 링크 잎의 단일 정의 위치는 kb_lib (STYLEGUIDE §7) — 링크 밀도·TIM 이 보는 집합이다.
 # `usesDefinition` 은 references 족의 잎 — 링크 개체는 없고 직접 트리플만 센다. 연결 성분은 여기에 구성 관계와
 # `prov:specializationOf` 를 더한 `kb_lib.LINKAGE_PREDICATES` 를, CQ20 후방 추적은 `kb_lib.ASCRIPTION_PREDICATES` 를 본다
 # 후보·구축·복원의 구분은 kb_lib.link_origins 하나다 — 후보 = linkState candidate 인 링크 개체(본문 추출 cites, extract_refs),
 # 구축 = 구축 기록 증거뿐인 확정 링크 개체, 복원 = 증거 종류가 구축 기록이 아닌 확정 링크 개체(restored: 표시 → proposal).
 # 복원 비율 = 복원 / (확정 구축 + 복원). weave audit 이 같은 함수를 쓴다 (유저 결정 2026-09-12 (b), p10-extracted-references-are-candidates)
-# plane 순서·수준 순서·수준 허용표의 단일 정의처는 `defs/kb.bzl` 이다 (M1 단일 정의처, 2026-09-26).
+# 지식 종류 순서·수준 순서·수준 허용표의 단일 정의 위치는 `defs/kb.bzl` 이다 (M1 단일 정의 위치, 2026-09-26).
 # --residency 로 그 파일을 읽어 채운다 — 리스트를 제자리에서 채우므로 아래 함수들의 참조가 그대로 산다.
 PLANES: list[str] = []
 LEVELS: list[str] = []
 RESIDENCY: dict[str, list[str]] = {}
-DECISION_SPAN = ("abstract", "logical", "concrete")  # 결정 복합체가 걸치는 수준 (p7-decision-spans-three-levels) — 건너뜀 분해의 기준
+DECISION_SPAN = ("abstract", "logical", "concrete")  # 결정 기록이 걸치는 수준 (p7-decision-spans-three-levels) — 건너뜀 분해의 기준
 VNV_PRODUCER, PROCESS_PRODUCER = "vnv/", "process:"  # V&V KB 를 써도 되는 생성자 접두 — 독립성 지표 (역할 vnv 와 도구 프로세스)
-HUMAN_CHECK_SLOT = kb_lib.HUMAN_CHECK_SLOT  # 사람 확인 합격 기준의 가운데 슬롯 — 정의처는 kb_lib (게이트 `rung-before-descent` 와 공유)
+HUMAN_CHECK_SLOT = kb_lib.HUMAN_CHECK_SLOT  # 사람 확인 합격 기준의 가운데 슬롯 — 단일 정의 위치는 kb_lib (게이트 `rung-before-descent` 와 공유)
 GRADES = "ABCD"  # 판정 방법 등급 (3.9절) — 연언의 등급은 최저 = 가장 뒤의 글자 (assume_check 와 같은 정의)
 ```
 <!-- 인용 끝 -->

@@ -9,7 +9,7 @@ if [ "${FORCE:-0}" != "1" ]; then
   case "$a" in y|Y) ;; *) echo "취소했다"; exit 0;; esac
 fi
 
-for d in to_orchestrator to_hci archive; do
+for d in to_orchestrator to_interpreter archive; do
   [ -d "$CHANNEL_DIR/$d" ] || continue
   find "$CHANNEL_DIR/$d" -maxdepth 1 -type f -name '*.md' -delete
 done
