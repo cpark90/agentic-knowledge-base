@@ -7,9 +7,9 @@ title: function main in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/0b44a7ed-753e-4f76-bfba-efd520b3c3f1, https://agentic-knowledge-base.dev/id/chunk/136a10e2-560c-4817-b3e1-630cbe303a57, https://agentic-knowledge-base.dev/id/chunk/21357a69-21e9-470e-8d6c-43908a9308d7, https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b, https://agentic-knowledge-base.dev/id/chunk/37cdc474-ee6d-4363-a323-e1a7ea998ddc, https://agentic-knowledge-base.dev/id/chunk/39f2a0d8-63e6-48ef-a57b-5291a656e915, https://agentic-knowledge-base.dev/id/chunk/44e9469f-eeb7-42a0-890d-1e784afb4dd1, https://agentic-knowledge-base.dev/id/chunk/473ab4af-5806-45ea-a923-d7f635544fdb, https://agentic-knowledge-base.dev/id/chunk/50114263-78e9-4af8-9078-cd158d3f76eb, https://agentic-knowledge-base.dev/id/chunk/8a58cf85-fc7e-418d-91fc-ce025cf2cff9, https://agentic-knowledge-base.dev/id/chunk/8d5e7694-cb0b-42c7-a734-a6f0e8782caf, https://agentic-knowledge-base.dev/id/chunk/d1ca967e-c2f5-4f0e-8d10-03adbb6b5c13, https://agentic-knowledge-base.dev/id/chunk/f7d7344d-7095-485f-976f-8de7b92e5e4d, https://agentic-knowledge-base.dev/id/chunk/f804ba0b-8ec8-42b5-b53e-733d51e50546]
+uses: [https://agentic-knowledge-base.dev/id/chunk/0b44a7ed-753e-4f76-bfba-efd520b3c3f1, https://agentic-knowledge-base.dev/id/chunk/136a10e2-560c-4817-b3e1-630cbe303a57, https://agentic-knowledge-base.dev/id/chunk/21357a69-21e9-470e-8d6c-43908a9308d7, https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b, https://agentic-knowledge-base.dev/id/chunk/37cdc474-ee6d-4363-a323-e1a7ea998ddc, https://agentic-knowledge-base.dev/id/chunk/39f2a0d8-63e6-48ef-a57b-5291a656e915, https://agentic-knowledge-base.dev/id/chunk/44e9469f-eeb7-42a0-890d-1e784afb4dd1, https://agentic-knowledge-base.dev/id/chunk/473ab4af-5806-45ea-a923-d7f635544fdb, https://agentic-knowledge-base.dev/id/chunk/50114263-78e9-4af8-9078-cd158d3f76eb, https://agentic-knowledge-base.dev/id/chunk/8a58cf85-fc7e-418d-91fc-ce025cf2cff9, https://agentic-knowledge-base.dev/id/chunk/8d5e7694-cb0b-42c7-a734-a6f0e8782caf, https://agentic-knowledge-base.dev/id/chunk/c72423ba-8082-4594-8317-046edbd135ed, https://agentic-knowledge-base.dev/id/chunk/d1ca967e-c2f5-4f0e-8d10-03adbb6b5c13, https://agentic-knowledge-base.dev/id/chunk/f7d7344d-7095-485f-976f-8de7b92e5e4d, https://agentic-knowledge-base.dev/id/chunk/f804ba0b-8ec8-42b5-b53e-733d51e50546]
 part_of: https://agentic-knowledge-base.dev/id/composite/d3829a12-5161-4435-a412-0e94e23dc6ac
 ---
 **함수** — `main()` 다.
@@ -32,7 +32,7 @@ def main() -> int:
     ap.add_argument("--out", default="", metavar="FILE", help="보고를 파일로도 쓴다")
     ap.add_argument("--profile", default=PROFILE_DIR, help="질문·척도·임계의 원본 디렉토리")
     ap.add_argument("--list", action="store_true", help="등록된 질문만 나열하고 멈춘다")
-    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 워크스페이스 루트 기준")
+    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 이 모듈의 것(kb_lib.default_residency)")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 판정 로그를 `memory` 상한 안으로 가르는 데 쓴다. "
                                                "없으면 runfiles 의 고정 파일을 쓴다 (p1-chunk-unit-is-tokens)")
     ap.add_argument("chunks", nargs="*", help="판정 대상 단위 지식 파일 — 라벨 대표성 실험(`--decoys`)만 쓰면 생략할 수 있다")
@@ -41,9 +41,9 @@ def main() -> int:
 
     try:
         try:
-            apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
+            apply_plane_level_state(*load_plane_level_state(a.residency or kb_lib.default_residency()))
         except (OSError, ValueError) as e:
-            raise JudgeError(f"{a.residency or root / 'defs/kb.bzl'}: 값 어휘의 원본을 읽을 수 없다 — {e}")
+            raise JudgeError(f"{a.residency or kb_lib.default_residency()}: 값 어휘의 원본을 읽을 수 없다 — {e}")
         g = load_profile(root, a.profile, SHAPES)
         qs = questions(g)
         if a.list:

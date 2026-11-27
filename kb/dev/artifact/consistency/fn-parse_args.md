@@ -7,8 +7,9 @@ title: function parse_args in tools/consistency.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-consistency}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/c72423ba-8082-4594-8317-046edbd135ed]
 part_of: https://agentic-knowledge-base.dev/id/composite/c10c407c-9993-4ba9-a09f-bfdc6e910b5e
 ---
 **함수** — `parse_args()` 다.
@@ -23,7 +24,7 @@ def parse_args():
     ap.add_argument("--glossary", default="")
     ap.add_argument("--waivers", default="",
                     help=f"docs/waivers.md — 게이트 id {GATE_TERM}·{ADDITION_GATE}·{EMPTY_VALUE_GATE}·{LIST_RULES_GATE}, 축 파일")
-    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
+    ap.add_argument("--residency", default=kb_lib.default_residency(),
                     help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(kb_consistency 매크로가 명시로 넘긴다)")
     ap.add_argument("chunks", nargs="+")
     return ap.parse_args()

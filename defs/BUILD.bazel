@@ -1,4 +1,6 @@
+load("@bazel_skylib//rules:common_settings.bzl", "string_flag")
 load(":kb.bzl", "check_extracted_starlark")
+load(":knowledge.bzl", "kb_id_base_var")
 
 # Starlark 매크로 패키지 — 타깃 없음. defs/knowledge.bzl 을 load 해서 쓴다.
 # 문서가 이 파일들을 경로로 가리키므로 doccheck 의 runfiles 근거로 노출한다.
@@ -10,3 +12,19 @@ exports_files(["kb.bzl", "knowledge.bzl"])
 exports_files(glob(["*.chunks.yml"]))
 
 check_extracted_starlark(glob(["*.chunks.yml"]))
+
+# 단위 지식 IRI 이름공간 (task 0327 손질 9) — 의존 저장소가 자기 지식의 `id:` 이름공간을 고르는 자리다.
+# 값이 비면 도구의 기본값(tools/chunk2kg.py 의 ID_BASE_DEFAULT)이고 리터럴은 거기 하나다. 지식 타깃은 루트 모듈의 것에만,
+# 도구 바이너리(`bazel run`)는 어느 저장소의 것에든 적용된다.
+# 의존 저장소: `common --@agentic_knowledge_base//defs:id_base=https://<도메인>/id/` (.bazelrc)
+string_flag(
+    name = "id_base",
+    build_setting_default = "",
+    visibility = ["//visibility:public"],
+)
+
+# 위 설정을 Make 변수 $(KB_ID_BASE) 로 노출한다 — knowledge.bzl 의 genrule·py_test 가 `toolchains` 로 쓴다
+kb_id_base_var(
+    name = "id_base_var",
+    visibility = ["//visibility:public"],
+)

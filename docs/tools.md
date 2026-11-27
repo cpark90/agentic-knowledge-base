@@ -56,6 +56,7 @@ development, V&V**의 셋으로 나눠 적는다. 코어 도구는 두 KB가 공
 | `element-drop` | 요소 탈락 | 어휘에 슬롯이 없어 조용히 빠진 소스 요소 | verify | `validate` | [`p8-odc-defect-subtypes`](../kb/dev/decision/p8-odc-defect-subtypes/conclusion.md) |
 | `gate-registry` | 게이트 등록부 | 코드의 게이트 태그 집합이 GATES 리터럴과 갈림 | verify | `validate` | [`p6-gate-tool-code-structure`](../kb/dev/decision/p6-gate-tool-code-structure/conclusion.md) |
 | `labels` | 라벨 완전성 | agt: 용어의 한·영 라벨 또는 skos:definition 누락 | verify | `validate` | [`p2-ontology-compiler-three-tiers`](../kb/dev/decision/p2-ontology-compiler-three-tiers/conclusion.md) |
+| `logical-consistency` | 논리 정합성 | OWL 2 RL 폐포의 모순 — 추론기의 오류 노드와 owl:Nothing 소속 | verify | `validate` | [`p2-ontology-compiler-three-tiers`](../kb/dev/decision/p2-ontology-compiler-three-tiers/conclusion.md) |
 | `odd-ref` | ODD 참조 | ODD 에 없는 조건을 참조하는 적용 범위·가정·변수 | verify | `validate` | [`p3-condition-entity-from-odd-document`](../kb/dev/decision/p3-condition-entity-from-odd-document/conclusion.md) |
 | `residency` | 수준 허용표 단일 정의 위치 | 수준 허용표 shape 가 RESIDENCY 리터럴과 갈림 | verify | `validate` | [`p6-plane-level-occupancy`](../kb/dev/decision/p6-plane-level-occupancy/conclusion.md) |
 | `rung-before-descent` | 정제 계층 사슬 | 같은 정제 수준의 V&V 대응물(목표·기준·검증기 바인딩) 없이 다음 정제 수준으로 내려간 정제 | verify | `validate` | [`p8-scenario-ladder-rungs`](../kb/dev/decision/p8-scenario-ladder-rungs/conclusion.md) |
@@ -131,16 +132,23 @@ bazel run //tools:term_propose -- --id <slug> --kind class --parent agt:… \
     --label-ko … --label-en … --definition … --cq CQ# \
     --derived-from <관측 IRI> --derived-from <관측 IRI>   # 용어 제안 → 승인 큐
 bazel build //kb/odd:odd //kb/dev:index              # 생성물: ODD 그래프·택소노미, 라벨 목록
+bazel build //kb/ontology:owl_catalog                # 생성물: 표준 OWL 도구용 대응표·모듈 합본
 tools/relock.sh                                      # 파이썬 의존성 재고정
 ```
+
+**표준 OWL 도구로 열기**(유저 결정 Q176-a·Q177-c) — `bazel build //kb/ontology:owl_catalog` 뒤 Protégé나 OWL API,
+ROBOT 같은 표준 도구로 `bazel-bin/kb/ontology/owl_catalog/project-ontology.ttl`을 연다. 같은 디렉토리의
+OASIS XML Catalog `catalog-v001.xml`이 `owl:imports`의 모듈 IRI를 그 옆의 모듈 합본으로 풀기 때문에 네트워크 없이
+열린다. 합본은 모듈 원본 파일의 합집합에 `owl:Ontology` 머리를 더한 정규형이고, 생성은 `canonicalize --catalog`가
+맡으며 IRI는 모듈 BUILD의 `iri`에서 읽는다. ROBOT은 `--catalog`로 그 대응표를 받는다.
 
 #### 온톨로지 검사 3단계 (노트 2.5절 — 온톨로지 검사기)
 
 | 단계 | 정의 | 이 저장소 |
 |---|---|---|
 | 구문·스타일 (report) | 라벨·정의 누락, 참조 구문, 폐기 규약 | `validate.py`의 labels·boundary + `chunk_lint` |
-| **안티패턴** (verify) | "이런 트리플이 존재하면 실패"를 SPARQL로 명세 | `validate.py --verify-queries` — `tools/verify-queries/*.rq` 하나가 안티패턴 하나. 목록의 원본은 그 디렉토리이고 질의마다 `kb/dev/artifact/verify-queries/`의 단위 지식이다 |
-| 논리 정합성 (reason) | OWL 추론기 (RL 프로파일 안) | SHACL + `--reason`(OWL-RL). shape로 자연스러운 것(지식 종류별 허용 수준 표·카디널리티)은 shape에 남긴다 |
+| **안티패턴** (verify) | "이런 트리플이 존재하면 실패"를 SPARQL로 명세 | `validate.py --verify-queries` — `tools/verify-queries/*.rq` 하나가 안티패턴 하나. 게이트 매크로는 질의 filegroup의 파일을 넘기고, 질의가 0개로 풀리면 PASS가 아니라 `EXIT_CONFIG`다(task 0327). 목록의 원본은 그 디렉토리이고 질의마다 `kb/dev/artifact/verify-queries/`의 단위 지식이다 |
+| 논리 정합성 (reason) | OWL 추론기 (RL 프로파일 안) | `//kg:reason_test`(`validate.py --reason`). `//kg:gate_test`와 같은 온톨로지·ODD·A-Box에 OWL 2 RL 폐포(`owlrl`)를 한 번 만들고, 게이트 `logical-consistency`가 추론기의 오류 노드(서로소 클래스의 공통 개체 등)와 `owl:Nothing` 소속을 거부한다. FAIL 줄은 개체 IRI와 그 모순을 낳은 공리, 클래스, 단언 유형을 적는다. 같은 폐포에 기존 shape를 적용해(게이트 `shacl`) 추론으로만 드러나는 위반을 잡고, `gate_test`와 겹치는 검사는 돌리지 않는다. shape로 자연스러운 것(지식 종류별 허용 수준 표·카디널리티)은 shape에 남긴다 |
 
 **용어 제안 워크플로**(`term_propose`)는 일반화가 온톨로지에 닿을 때의 절차다. 이 워크플로는 에이전트를 신뢰할
 수 없는 센서로 다루므로, 에이전트는 제안만 한다. 제안은 네 검사를 통과해야 `kb/ontology/proposals/` 승인 큐에
@@ -163,7 +171,8 @@ tools/relock.sh                                      # 파이썬 의존성 재�
 | `rung-before-descent` | 같은 정제 수준의 V&V 대응물 없이 다음 정제 수준으로 내려간 정제가 없다 — R1 정제 계층 사슬(functional→abstract 목표 · logical→concrete 기준 · concrete→executable 검증기가 바인딩한 기준, 사람 확인 기준만 가진 요구는 면제). 판정 함수 `kb_lib.rung_violations` 는 `metrics` 와 대응물 집합(`kb_lib.vv_counterparts`)을 공유한다 | [rules §8](rules.md#8-vv-규칙--vv-kb-노트-8285-811815-84-911) |
 | `draft-end` | 살아 있는 단위 지식의 frontmatter 링크가 `draft` 지식을 끝으로 두지 않는다. 판정 함수 `kb_lib.draft_end_links` 는 감사 보고의 "draft 끝 링크" 지표와 같다 | [rules §1](rules.md#1-chunk--자립적-최소-지식-단위) |
 | `verify` | 안티패턴 질의 결과 행 = 위반 | 위 표 |
-| `shacl` | shape 적합성 (아래). `--waivers <waivers.md>`를 주면 위반의 focus node를 `agt:assertionLocation`으로 파일에 사상해 게이트 id `shacl`(축 `파일`)로 선언된 면제를 집계에서 빼고 `WAIVED [shacl] <파일>: <sh:resultMessage>` 줄로 남긴다 (2026-10-01) | [rules](rules.md) |
+| `logical-consistency` | `--reason`일 때만 돈다. OWL 2 RL 폐포의 모순, 곧 추론기의 오류 노드와 `owl:Nothing` 소속이 없다. 폐포는 `owlrl`이 한 번 만들고 같은 폐포를 `shacl`이 추론 없이 읽는다. pySHACL의 `inference="both"`는 RDFS 의미론을 더한 폐포라 RL 밖이고, 그 폐포를 밖에서 볼 수 없어 모순 판정에 폐포를 다시 계산해야 하므로 쓰지 않는다 | 위 표 |
+| `shacl` | shape 적합성 (아래). `--reason`이 없으면 RDFS 추론을 얹고, 있으면 OWL 2 RL 폐포 위에서 본다. `--waivers <waivers.md>`를 주면 위반의 focus node를 `agt:assertionLocation`으로 파일에 사상해 게이트 id `shacl`(축 `파일`)로 선언된 면제를 집계에서 빼고 `WAIVED [shacl] <파일>: <sh:resultMessage>` 줄로 남긴다 (2026-10-01) | [rules](rules.md) |
 
 `vocab`이 핵심 방어선이다. 어휘 우회를 막지 못하면 나머지 규칙도 전부 우회되기 때문이다.
 
@@ -234,7 +243,14 @@ shape의 면제도 `waivers.md` 하나에 선언한다(2026-10-01). `//kg:gate_t
 
 단위 지식을 파싱하는 도구는 전부 `--residency <defs/kb.bzl>`를 받는다(2026-09-27). 그 도구는 `chunk2kg`와
 `consistency`, `weave`, `labels`, `space2kg`, `revalidate`, `vv_run`, `assume_check`, `label_sample`, `gen_build`다.
-인자가 없으면 도구는 `EXIT_CONFIG`로 끝나므로, 직접 실행할 때는 `--residency defs/kb.bzl`을 밝혀 적는다.
+`consistency`와 `labels`, `space2kg`, `label_sample`, `weave`, `revalidate`, `assume_check`는 인자가 없으면 이 모듈의
+`defs/kb.bzl`(`kb_lib.default_residency`)을 쓴다. 그래서 다른 저장소가 이 모듈을 Bazel 의존으로 쓸 때도 값 어휘가 같다(task 0327).
+그 밖의 도구는 인자가 없으면 `EXIT_CONFIG`로 끝나므로, 직접 실행할 때는 `--residency defs/kb.bzl`을 밝혀 적는다.
+
+도구가 읽는 파일의 뿌리는 둘이다(task 0327). 이 모듈이 원본인 코어, 곧 온톨로지 모듈과 판정 프로파일, shape, 질의
+디렉토리는 `kb_lib.core_root`(runfiles의 이 모듈 디렉토리) 기준이다. 호출 저장소의 지식, 곧 `kg/`의 그래프와 ODD, 온톨로지
+확장은 작업 트리(`BUILD_WORKSPACE_DIRECTORY`) 기준이다. 단위 지식 IRI 이름공간 `id:`는 빌드 설정 `//defs:id_base`가 정하고,
+값이 비면 `tools/chunk2kg.py`의 `ID_BASE_DEFAULT`다.
 
 #### 생성기 = 검사기
 

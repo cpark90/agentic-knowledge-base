@@ -7,14 +7,14 @@ title: section tokenizer-name in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/5e2d37fd-1039-4929-8dbf-76c76777b467
-composite: {id: https://agentic-knowledge-base.dev/id/composite/5e2d37fd-1039-4929-8dbf-76c76777b467, title_ko: 절 복합체 tokenizer-name (tools/chunk2kg.py), title: section composite tokenizer-name in tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/1cfb1c75-6407-431a-96f9-0e38abd07445, https://agentic-knowledge-base.dev/id/chunk/6b251b77-d183-4d67-973b-146eb11735d6, https://agentic-knowledge-base.dev/id/chunk/8cbc7b96-a195-459d-89bb-a7d1e25755d2, https://agentic-knowledge-base.dev/id/chunk/46cd72ea-813e-4ee5-b990-fede1470c237, https://agentic-knowledge-base.dev/id/chunk/1d31fc8d-2de8-4f7d-8e58-8a0252739342, https://agentic-knowledge-base.dev/id/chunk/260d24aa-5aab-4ff7-81b7-40def184e51f], part_of: https://agentic-knowledge-base.dev/id/composite/28e52252-d603-4c96-b7ee-f85197b0d7da}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/5e2d37fd-1039-4929-8dbf-76c76777b467, title_ko: 절 복합체 tokenizer-name (tools/chunk2kg.py), title: section composite tokenizer-name in tools/chunk2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/1cfb1c75-6407-431a-96f9-0e38abd07445, https://agentic-knowledge-base.dev/id/chunk/6b251b77-d183-4d67-973b-146eb11735d6, https://agentic-knowledge-base.dev/id/chunk/c0a24368-1326-49c2-a33a-29918b01c696, https://agentic-knowledge-base.dev/id/chunk/a521ceb8-1a46-412a-a169-2cb07a11c69a, https://agentic-knowledge-base.dev/id/chunk/8cbc7b96-a195-459d-89bb-a7d1e25755d2, https://agentic-knowledge-base.dev/id/chunk/46cd72ea-813e-4ee5-b990-fede1470c237, https://agentic-knowledge-base.dev/id/chunk/1d31fc8d-2de8-4f7d-8e58-8a0252739342, https://agentic-knowledge-base.dev/id/chunk/260d24aa-5aab-4ff7-81b7-40def184e51f], part_of: https://agentic-knowledge-base.dev/id/composite/28e52252-d603-4c96-b7ee-f85197b0d7da}
 ---
 **절** — `tools/chunk2kg.py` 의 절 `tokenizer-name` 다. 본문과 토큰 계수기 — 크기의 단위는 토큰이다 (결정 p1-chunk-unit-is-tokens)
 
-**정의** — `tokenizer_vocab_path` · `tokenizer_vocab_fingerprint` · `load_tokenizer` · `body_text` · `token_count` (소스 순서).
+**정의** — `tokenizer_vocab_path` · `runfiles_roots` · `runfiles_repo_dirs` · `tokenizer_vocab_fingerprint` · `load_tokenizer` · `body_text` · `token_count` (소스 순서).
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
@@ -36,10 +36,10 @@ TOKENIZER_PACKAGE = "tiktoken"                # 계수기 패키지 (lock 의 �
 TOKENIZER_PACKAGE_VERSION = "0.12.0"
 TOKENIZER_VOCAB_REPO = "tiktoken_o200k_base"  # MODULE.bazel 의 http_file 이름 (apparent 이름)
 # runfiles 디렉토리의 이름은 **canonical 저장소 이름**이다 — `use_repo_rule` 로 만든 저장소는 bzlmod 에서
-# `+<규칙 이름>+<저장소 이름>` 이 되고 측정 디렉토리가 `+http_file+tiktoken_o200k_base` 다. apparent 이름만
-# 찾으면 인자 없이 부른 runfiles 탐색이 전부 빗나간다 (이 저장소 측정 2026-10-01 — vv_run 이 KB_TOKENIZER_VOCAB
-# 를 못 채워 테스트 케이스 token-budget·chunk-42-lines 가 자극에 닿기 전에 죽었다). 둘 다 본다.
-TOKENIZER_VOCAB_REPO_CANONICAL = f"+http_file+{TOKENIZER_VOCAB_REPO}"
+# `<모듈 canonical>+<규칙 이름>+<저장소 이름>` 이 된다. 이 모듈이 루트면 `+http_file+tiktoken_o200k_base` 이고(이 저장소
+# 측정 2026-10-01 — apparent 이름만 찾던 탐색이 빗나가 vv_run 이 KB_TOKENIZER_VOCAB 를 못 채웠다), 다른 저장소의 의존이면
+# 앞에 이 모듈의 canonical 이름이 붙는다. 그래서 canonical 이름을 고정하지 않고 runfiles 의 `_repo_mapping` 으로 apparent
+# 이름을 푼다 (`runfiles_repo_dirs`, task 0327 손질 4).
 TOKENIZER_VOCAB_FILE = "o200k_base.tiktoken"  # http_file 의 downloaded_file_path
 TOKENIZER_VOCAB_SHA256 = "446a9538cb6c348e3516120d7c08b09f57c36495e2acfffe59a5bf8b0cfb1a2d"
 TOKENIZER_VOCAB_ENV = "KB_TOKENIZER_VOCAB"    # 어휘 파일 경로의 환경 변수 — bazel 밖 실행의 자리

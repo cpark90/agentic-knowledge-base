@@ -753,6 +753,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-overlapsholds-pair-2dee70cf",
+    src = "judge-overlapsholds-pair-2dee70cf.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/1c3e07fe-1b37-4fac-b3c4-b831e6d2710f",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "judge-overlapsholds-pair-2fe9aece",
     src = "judge-overlapsholds-pair-2fe9aece.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/9947d4ee-6b29-4a8c-b16f-97a323f6627e",
@@ -3403,6 +3412,7 @@ kb_bundle(
         ":judge-overlapsholds-pair-2c46380e",
         ":judge-overlapsholds-pair-2d412161",
         ":judge-overlapsholds-pair-2dcbe486",
+        ":judge-overlapsholds-pair-2dee70cf",
         ":judge-overlapsholds-pair-2fe9aece",
         ":judge-overlapsholds-pair-3134df11",
         ":judge-overlapsholds-pair-31e353d8",

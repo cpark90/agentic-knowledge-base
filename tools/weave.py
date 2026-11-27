@@ -743,13 +743,13 @@ def main() -> int:
     ap.add_argument("--root", default=os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     ap.add_argument("--bodies", nargs="*", default=[], metavar="MD", help="단위 지식 파일들 — adr 의 결론·근거·대안 본문, audit 의 관측 본문")
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — bodies 를 읽을 때만 쓴다"
-                                                      "(load_bodies → parse_chunk). 안 주면 --root 기준 defs/kb.bzl 를 쓴다")
+                                                      "(load_bodies → parse_chunk). 안 주면 이 모듈의 defs/kb.bzl(kb_lib.default_residency)을 쓴다")
     ap.add_argument("--spaces", nargs="*", default=[], help="설계 공간 그래프(//space:design_space) — union 에 섞지 않고 audit 의 증거 극성 절에만 쓴다")
     ap.add_argument("ttl", nargs="*", help="그래프 파일들 (없으면 kb_lib.UNION_GRAPH_PATHS + 온톨로지 모듈)")
     a = ap.parse_args()
     root = Path(a.root)
     if a.bodies:  # load_bodies 가 parse_chunk 를 부르므로 그때만 값 어휘가 있어야 한다
-        residency = a.residency or str(root / "defs" / "kb.bzl")
+        residency = a.residency or kb_lib.default_residency()  # 이 모듈의 값 어휘 원본 (task 0327 손질 6)
         try:
             apply_plane_level_state(*load_plane_level_state(residency))
         except (OSError, ValueError) as e:

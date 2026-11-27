@@ -7,12 +7,12 @@ title: file tools/space2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-space2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/7c9d74e6-1a77-4d52-a126-644a65bfab93, https://agentic-knowledge-base.dev/id/chunk/828f6e56-8841-4778-94b7-fe42d706243f, https://agentic-knowledge-base.dev/id/chunk/5b6ac70d-af5e-48ed-8e23-c7a66921493f]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/89a47e26-d93e-47e7-ae74-ba6e801d1d5a, title_ko: 파일 복합체 tools/space2kg.py, title: file composite tools/space2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/06619efb-02eb-4124-9d89-7e2245f5d90c, https://agentic-knowledge-base.dev/id/composite/fc3f9858-3941-435d-b741-071b871ce613, https://agentic-knowledge-base.dev/id/composite/2716ece9-44f6-48ff-b2ab-1ad0ea6fa6c0]}
 ---
-**파일** — `tools/space2kg.py` 다. 340줄 · 최상위 정의 8개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/space2kg.py` 다. 339줄 · 최상위 정의 8개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -54,7 +54,6 @@ frontmatter 는 단위 지식과 같고(`tools/chunk2kg.py` 의 REQUIRED) `type:
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 from pathlib import Path
 

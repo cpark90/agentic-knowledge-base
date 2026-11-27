@@ -17,7 +17,6 @@ p12-knowledge-retrieval-by-label: 결과는 라벨 목록).
 from __future__ import annotations
 
 import argparse
-import os
 import re
 import sys
 from pathlib import Path
@@ -52,7 +51,8 @@ class CqQuery:
         form = heads[1] if len(heads) > 1 else ""
         self.form = form[len(FORM_PREFIX):].lstrip() if form.startswith(FORM_PREFIX) else form  # 접두는 출력이 한 번만 붙인다
         self.text = text
-        self.prepared = prepareQuery(text)  # 파싱 실패는 여기서 예외 — 호출자가 EXIT_CONFIG
+        # `id:` 접두는 질의 파일이 선언하지 않고 여기서 준다 — 이름공간이 호출 저장소의 값(kb_lib.ID)이다 (task 0327 손질 9)
+        self.prepared = prepareQuery(text, initNs={"id": ID})  # 파싱 실패는 여기서 예외 — 호출자가 EXIT_CONFIG
 
 
 def find_queries(paths: list[str], root: Path) -> list[Path]:
@@ -60,6 +60,8 @@ def find_queries(paths: list[str], root: Path) -> list[Path]:
     out: list[Path] = []
     for p in paths:
         cand = Path(p) if Path(p).exists() else (kb_lib.resolve_path(p, root) or (root / p if (root / p).is_dir() else None))
+        if cand is None and kb_lib.core_path(p, root).is_dir():  # 기본 질의 디렉토리는 이 모듈의 코어다 (task 0327 손질 5)
+            cand = kb_lib.core_path(p, root)
         if cand is None:
             raise ValueError(f"{p}: 질의 파일·디렉토리가 없다")
         out += sorted(cand.glob("*.rq")) if cand.is_dir() else [cand]
@@ -177,7 +179,7 @@ def main() -> int:
     ap.add_argument("--ttl", nargs="*", default=[], metavar="TTL", help="그래프 파일들 (기본: kb_lib.UNION_GRAPH_PATHS + 온톨로지 모듈)")
     ap.add_argument("--report", default="", metavar="OUT", help="뷰 cq.md 를 쓴다 (전체 CQ · 상위 행 라벨)")
     a = ap.parse_args()
-    root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
+    root = kb_lib.workspace_root()  # 호출 저장소의 지식 — 코어(온톨로지·질의)는 kb_lib.core_root 가 따로 찾는다
 
     try:
         rq_files = find_queries(a.queries, root)

@@ -7,20 +7,23 @@ title: section union-graph-paths in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
-part_of: https://agentic-knowledge-base.dev/id/composite/6d4f42a2-870a-44fb-9a63-05749c2b9dcd
-composite: {id: https://agentic-knowledge-base.dev/id/composite/6d4f42a2-870a-44fb-9a63-05749c2b9dcd, title_ko: 절 복합체 union-graph-paths (tools/kb_lib.py), title: section composite union-graph-paths in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/fd21796e-0d7a-4cf4-b8bf-9b2f659a1853, https://agentic-knowledge-base.dev/id/chunk/f05d76f0-e96f-4c89-a78e-86eeb1bf91d1, https://agentic-knowledge-base.dev/id/chunk/808534e8-8fca-4ace-ace9-9e4b7084233e, https://agentic-knowledge-base.dev/id/chunk/5b372e8e-c287-4ed0-b9d6-16c0366ee0c8, https://agentic-knowledge-base.dev/id/chunk/5c3f6ad5-769e-4850-970b-a137fa5ebc55, https://agentic-knowledge-base.dev/id/chunk/cdaa7848-3ca1-4cc0-a72c-836fd556f15e], part_of: https://agentic-knowledge-base.dev/id/composite/cd5a8ce9-a52a-40c7-89b0-b41f163cfde2}
+part_of: https://agentic-knowledge-base.dev/id/composite/cd5a8ce9-a52a-40c7-89b0-b41f163cfde2
 ---
 **절** — `tools/kb_lib.py` 의 절 `union-graph-paths` 다. 그래프 union 과 라벨 인터페이스 (query · cq 뷰)
 
-**정의** — `resolve_path` · `resolve_glob` · `load_union` · `compact_iri` · `chunk_body` (소스 순서).
+**정의** — 없음. 선언과 상수만 있는 구역이다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 # ── 그래프 union 과 라벨 인터페이스 (query · cq 뷰) ────────────────────────────────────────────────
 # 활용 도구가 읽는 그래프 — metrics 와 같은 입력(head·참조·시드·카탈로그·복합체·게이트·ODD)에 온톨로지 모듈을 더한 union.
-# 경로는 워크스페이스 상대이고 `bazel run` 의 runfiles 에는 data 로 같은 경로에 놓인다. 온톨로지는 모듈 디렉토리 재귀 glob.
+# 경로는 두 뿌리로 푼다 (task 0327 손질 5). **호출 저장소의 지식**(아래 `UNION_GRAPH_PATHS` · 호출 저장소의 온톨로지 확장)은
+# 작업 디렉토리 기준이다 — runfiles(현재 디렉토리) → `<뿌리>/bazel-bin` → `<뿌리>` 순이고 뿌리는 `bazel run` 의
+# `BUILD_WORKSPACE_DIRECTORY` 다. **이 모듈의 코어**(온톨로지 모듈 · 판정 프로파일 · shape)는 `core_root()` 기준이다 — runfiles
+# 에서는 이 모듈의 저장소 디렉토리이고 소스에서 직접 돌리면 이 저장소다. 이 저장소가 루트면 두 뿌리가 같은 파일을 가리키므로
+# 실경로로 중복을 뺀다.
 UNION_GRAPH_PATHS = ("kg/chunks-kg.ttl", "kg/references-kg.ttl", "kg/base-kg.ttl", "kg/catalog-kg.ttl", "kg/composite-kg.ttl",
                      "kg/gates-kg.ttl", "kb/odd/project-odd.ttl")
 UNION_GRAPH_GLOBS = ("kb/ontology/**/*-ontology.ttl",)

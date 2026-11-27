@@ -7,9 +7,9 @@ title: function main in tools/query.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-query}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/01f3ebf5-d8ae-43ce-94b0-5cc0537f8dd0, https://agentic-knowledge-base.dev/id/chunk/0721b4a7-9459-4293-abe0-4cb723016280, https://agentic-knowledge-base.dev/id/chunk/07b3db3b-4826-4478-878d-5e9c9d7d4ae0, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/26644059-7309-45ef-a32b-71465fa1d2fb, https://agentic-knowledge-base.dev/id/chunk/5b372e8e-c287-4ed0-b9d6-16c0366ee0c8, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/67261510-0d9f-421b-8c52-2714e157ad27, https://agentic-knowledge-base.dev/id/chunk/f9b6b36a-3732-4fca-b346-5a371afb405e]
+uses: [https://agentic-knowledge-base.dev/id/chunk/01f3ebf5-d8ae-43ce-94b0-5cc0537f8dd0, https://agentic-knowledge-base.dev/id/chunk/0721b4a7-9459-4293-abe0-4cb723016280, https://agentic-knowledge-base.dev/id/chunk/07b3db3b-4826-4478-878d-5e9c9d7d4ae0, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/26644059-7309-45ef-a32b-71465fa1d2fb, https://agentic-knowledge-base.dev/id/chunk/5b372e8e-c287-4ed0-b9d6-16c0366ee0c8, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/67261510-0d9f-421b-8c52-2714e157ad27, https://agentic-knowledge-base.dev/id/chunk/8ed1af77-96cb-4d77-ae1e-028946b9ebb8, https://agentic-knowledge-base.dev/id/chunk/f9b6b36a-3732-4fca-b346-5a371afb405e]
 part_of: https://agentic-knowledge-base.dev/id/composite/4358cd56-6be2-4ce1-9f2f-9fb0ed47b5d3
 ---
 **함수** — `main()` 다.
@@ -26,7 +26,7 @@ def main() -> int:
     ap.add_argument("--ttl", nargs="*", default=[], metavar="TTL", help="그래프 파일들 (기본: kb_lib.UNION_GRAPH_PATHS + 온톨로지 모듈)")
     ap.add_argument("--report", default="", metavar="OUT", help="뷰 cq.md 를 쓴다 (전체 CQ · 상위 행 라벨)")
     a = ap.parse_args()
-    root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
+    root = kb_lib.workspace_root()  # 호출 저장소의 지식 — 코어(온톨로지·질의)는 kb_lib.core_root 가 따로 찾는다
 
     try:
         rq_files = find_queries(a.queries, root)

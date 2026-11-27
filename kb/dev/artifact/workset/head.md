@@ -7,7 +7,7 @@ title: module head agt in tools/workset.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-workset}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/daba0b21-4c2e-4be6-8cc6-9cef10baa82f
 ---
@@ -18,7 +18,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/daba0b21-4c2e-4be6-8cc6
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
-ID = Namespace("https://agentic-knowledge-base.dev/id/")
+ID = kb_lib.ID  # 단위 지식 IRI 이름공간 — 단일 정의 위치 chunk2kg, KB_ID_BASE 가 바꾼다 (task 0327 손질 9)
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]
 # 이웃 링크의 족 — 표의 순서가 곧 펼침 우선순위. supersedes 는 족 밖의 시간축이라 맨 뒤 (kb/ontology/related/trace)
 FAMILIES = [

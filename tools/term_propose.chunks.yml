@@ -7,8 +7,8 @@ source: tools/term_propose.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-term-propose
 package: kb/dev/artifact/term_propose
 layer: process
-at: 2026-10-05T16:40:36Z
-source_hash: 68fc565ddbc21a54
+at: 2026-10-31T18:06:07Z
+source_hash: 2ad25c1b707a4f5d
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/4754eb68-ad27-45ad-912c-0385087cd063
   - https://agentic-knowledge-base.dev/id/chunk/b136d285-c4ba-461b-99cf-bda07c2243d8

@@ -441,7 +441,7 @@ def main() -> int:
     o += sections
     o += ["", "## 확정 절차", "",
           f"1. 후보를 채택하면 앵커 단위 지식의 frontmatter 에 링크 키와 복원 표시를 적는다 — `<링크 종류>: [<대상 IRI>]` 와 `{RESTORED_KEY}: [<대상 IRI>]`. "
-          "대상 IRI 는 표의 `id:` 를 `https://agentic-knowledge-base.dev/id/` 로 푼 전체 IRI 다. 결정 기록의 앵커는 결론이다. "
+          f"대상 IRI 는 표의 `id:` 를 `{kb_lib.ID_BASE}` 로 푼 전체 IRI 다. 결정 기록의 앵커는 결론이다. "
           f"`{RESTORED_KEY}` 의 IRI 가 같은 단위 지식의 링크 대상에 없으면 `chunk2kg` 가 `FAIL [{kb_lib.RESTORED_GATE}]` 로 거부한다 (p10-restored-link-marking).",
           "2. 효과 — 그 링크 개체(`agt:Link`)에 후보의 출처 증거 `agt:proposal` 이 확정 기록 `agt:constructionRecord`(사람이 frontmatter 에 적은 행위)와 "
           "함께 붙고, `bazel build //kg:metrics`·`//kg:audit` 의 복원 비율에 복원으로 센다. `linkState` 는 `confirmed` 다 — frontmatter 에 적힌 것은 확정이다.",

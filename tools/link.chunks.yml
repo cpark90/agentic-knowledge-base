@@ -7,8 +7,8 @@ source: tools/link.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-link
 package: kb/dev/artifact/link
 layer: process
-at: 2026-10-07T09:06:36Z
-source_hash: 9285eace7b49ff7c
+at: 2026-10-31T18:06:07Z
+source_hash: cfd55220151a150a
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/8d09b0e4-44b4-47b2-9ff6-5da9f3b22e12
   - https://agentic-knowledge-base.dev/id/chunk/5287133e-f7a3-4913-8aaf-062647cf5491

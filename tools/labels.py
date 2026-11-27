@@ -9,7 +9,6 @@ index.md는 OKF 예약 파일이며 손으로 쓰지 않는다 (유저 결정 20
 사용: labels.py --out index.md <단위 지식 파일...>
 """
 import argparse
-import os
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -32,7 +31,7 @@ def plane_of(group: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
-    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
+    ap.add_argument("--residency", default=kb_lib.default_residency(),
                     help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(kb_index 매크로가 명시로 넘긴다)")
     ap.add_argument("files", nargs="+")
     args = ap.parse_args()

@@ -7,8 +7,8 @@ source: tools/extract.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-extract
 package: kb/dev/artifact/extract
 layer: process
-at: 2026-10-07T09:06:36Z
-source_hash: 80b521075bcb736f
+at: 2026-10-31T18:06:07Z
+source_hash: 7909117e6e0eb710
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd
   - https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23

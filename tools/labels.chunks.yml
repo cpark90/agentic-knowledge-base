@@ -7,8 +7,8 @@ source: tools/labels.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-labels
 package: kb/dev/artifact/labels
 layer: process
-at: 2026-10-02T00:08:55Z
-source_hash: a36ed74a1e73b6cb
+at: 2026-10-31T18:06:07Z
+source_hash: 086e1029e9be7d21
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/8d962172-f5b0-4fe3-8c9c-8598334847e4
   - https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f

@@ -7,8 +7,8 @@ source: tools/consistency.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-consistency
 package: kb/dev/artifact/consistency
 layer: process
-at: 2026-10-10T00:35:55Z
-source_hash: add43d9bc2d8919b
+at: 2026-10-31T18:06:07Z
+source_hash: 3e8165add0fb0834
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/9d3f4240-66d0-4dfd-9124-9499e65cb57a
   - https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97

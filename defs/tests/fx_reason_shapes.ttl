@@ -1,0 +1,12 @@
+# 게이트 logical-consistency 의 음성 고정물 짝 shape — 대상 클래스 <urn:fx:Target> 의 개체는 <urn:fx:p> 를 하나 이상 갖는다.
+# fx_reason_bad.ttl 의 <urn:fx:alias-only> 는 동치 클래스를 거쳐서만 대상이 되므로, 위반은 OWL 2 RL 폐포 위에서만 나온다.
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<urn:fx:TargetShape>
+    a sh:NodeShape ;
+    sh:targetClass <urn:fx:Target> ;
+    sh:property [
+        sh:path <urn:fx:p> ;
+        sh:minCount 1 ;
+        sh:message "fx:Target 의 개체는 fx:p 를 갖는다" ;
+    ] .

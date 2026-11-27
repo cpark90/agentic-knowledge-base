@@ -9,7 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
 layer: process
-part_of: https://agentic-knowledge-base.dev/id/composite/6d4f42a2-870a-44fb-9a63-05749c2b9dcd
+part_of: https://agentic-knowledge-base.dev/id/composite/0edbd7df-e79b-4b9f-b913-f8e16daf03ad
 ---
 **함수** — `resolve_glob(pattern, root)` 다. 재귀 glob 을 같은 순서로 찾는다
 

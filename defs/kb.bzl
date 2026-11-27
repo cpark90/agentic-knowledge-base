@@ -241,6 +241,7 @@ GATES_TAIL = {
     "judge-log": {"tier": "test", "tool": "chunk_lint", "ko": "판정 로그", "desc": "판정 로그의 표 형식과 필수 필드 위반", "decision": "p8-judge-session-agreement"},
     "labels": {"tier": "verify", "tool": "validate", "ko": "라벨 완전성", "desc": "agt: 용어의 한·영 라벨 또는 skos:definition 누락", "decision": "p2-ontology-compiler-three-tiers"},
     "list-rules": {"tier": "test", "tool": "chunk_lint", "ko": "목록 규칙", "desc": "손 번호·항목 수·중첩·길이·빈 항목의 목록 규칙 위반", "decision": "p4-slot-answers-one-question"},
+    "logical-consistency": {"tier": "verify", "tool": "validate", "ko": "논리 정합성", "desc": "OWL 2 RL 폐포의 모순 — 추론기의 오류 노드와 owl:Nothing 소속", "decision": "p2-ontology-compiler-three-tiers"},
     "naming": {"tier": "test", "tool": "chunk_lint", "ko": "파일 접미사", "desc": "TTL 파일 이름이 접미사 규약 밖", "decision": "p0-artifact-filename-suffix"},
     "norms-drift": {"tier": "test", "tool": "gen_norms", "ko": "규범 문서 드리프트", "desc": "생성 규범 문서가 절 항목과 결정의 규약 줄에 어긋남", "decision": "p12-norm-documents-from-section-chunks"},
     "odd-ref": {"tier": "verify", "tool": "validate", "ko": "ODD 참조", "desc": "ODD 에 없는 조건을 참조하는 적용 범위·가정·변수", "decision": "p3-condition-entity-from-odd-document"},
@@ -414,6 +415,17 @@ def _lint_action(ctx, files):
     )
     return marker
 
+def _id_base_env(ctx):
+    """단위 지식 IRI 이름공간의 환경 변수 — 빌드 설정 `//defs:id_base` 의 값을 **루트 모듈의 타깃에만** 준다 (task 0327 손질 9).
+
+    값이 비면 도구가 자기 기본값(`chunk2kg.ID_BASE_DEFAULT`)을 쓴다. 이 모듈이 다른 저장소의 의존일 때 이 모듈 자신의
+    타깃(`ctx.label.repo_name` 이 비지 않는다)은 설정을 받지 않는다 — 플래그는 빌드 전체에 하나라서, 그러지 않으면 코어의
+    지식이 의존 저장소의 이름공간으로 다시 이름 붙는다. `ctx.attr._id_base` 가 그 설정을 가리킨다.
+    """
+    if ctx.label.repo_name:
+        return {}
+    return {"KB_ID_BASE": ctx.attr._id_base[BuildSettingInfo].value}
+
 def _head_action(ctx, files, ordered = [], conventions = {}):
     """타깃 하나의 head 그래프 조각 — chunk2kg --fragment. 프런트매터 오류·복합체 불일치는 여기서 실패한다.
 
@@ -441,6 +453,7 @@ def _head_action(ctx, files, ordered = [], conventions = {}):
         arguments = args + [f.path for f in files],
         inputs = files + [residency, vocab],
         outputs = [out],
+        env = _id_base_env(ctx),  # 링크·증거 IRI 의 이름공간 (task 0327 손질 9)
         mnemonic = "KbHead",
         progress_message = "head 그래프 조각 %s" % ctx.label,
     )
@@ -457,6 +470,7 @@ _LINK_ATTRS = {
     "_chunk2kg": attr.label(default = "//tools:chunk2kg", executable = True, cfg = "exec"),
     "_residency": attr.label(default = "//defs:kb.bzl", allow_single_file = True, doc = "PLANES·LEVELS·STATES 값 어휘의 원본 (M1 단일 정의 위치)"),
     "_vocab": attr.label(default = "@tiktoken_o200k_base//file", allow_single_file = True, doc = "토큰 계수기의 어휘 파일 — 크기 판정과 agt:tokenCount 의 계수기 (p1-chunk-unit-is-tokens)"),
+    "_id_base": attr.label(default = "//defs:id_base", doc = "단위 지식 IRI 이름공간의 빌드 설정 (task 0327 손질 9)"),
 }
 
 def _kb_chunk_impl(ctx):
@@ -673,6 +687,7 @@ def _kb_workset_view_impl(ctx):
         arguments = [args],
         inputs = ctx.files.data + [ctx.file._vocab],
         outputs = [out],
+        env = _id_base_env(ctx),  # 라벨 목록의 `id:` 축약 (task 0327 손질 9)
         mnemonic = "KbWorkset",
         progress_message = "작업 집합 %s (role=%s anchor=%s)" % (ctx.label, role, anchor or "-"),
     )
@@ -690,5 +705,6 @@ kb_workset_view = rule(
         "_budget": attr.label(default = "//kb:budget"),
         "_workset": attr.label(default = "//tools:workset", executable = True, cfg = "exec"),
         "_vocab": attr.label(default = "@tiktoken_o200k_base//file", allow_single_file = True),
+        "_id_base": attr.label(default = "//defs:id_base"),
     },
 )

@@ -7,8 +7,9 @@ title: function judge_load_profile in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/5690d157-cae5-4d04-8a72-b47782cadf6b]
 part_of: https://agentic-knowledge-base.dev/id/composite/558e3a5c-2634-4500-bc61-15dad26a9821
 ---
 **함수** — `judge_load_profile(root, profile, shapes)` 다. 판정 질문·척도·임계 프로파일 온톨로지 모듈과 shape 를 한 그래프로 읽는다.
@@ -23,7 +24,10 @@ def judge_load_profile(root: Path, profile: str = JUDGE_PROFILE_DIR, shapes: str
     각자 질의를 복제하면 척도 문장이 갈릴 위험이 생긴다 — 갈리면 판정자가 sheet에서 본 척도와 judge.py 가 파싱하는
     척도가 달라진다."""
     g = Graph()
-    files = sorted((root / profile).glob("*.ttl")) + ([root / shapes] if (root / shapes).is_file() else [])
+    # 기본값은 이 모듈의 코어(runfiles)에서, 명시한 다른 자리는 호출 저장소의 뿌리에서 읽는다 (task 0327 손질 5)
+    prof = core_path(profile, root) if profile == JUDGE_PROFILE_DIR else root / profile
+    shp = core_path(shapes, root) if shapes == JUDGE_QUESTION_SHAPES else root / shapes
+    files = sorted(prof.glob("*.ttl")) + ([shp] if shp.is_file() else [])
     if not files:
         raise ValueError(f"{profile}: 프로파일 TTL 이 없다 — 질문·척도·임계의 원본이 거기다")
     for f in files:

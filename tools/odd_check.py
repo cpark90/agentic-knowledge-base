@@ -22,7 +22,7 @@ except ImportError:
     import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록)의 단일 정의 위치
 
 STATES = ("in", "out", "unverified")
-ID_BASE = "https://agentic-knowledge-base.dev/id/"
+ID_BASE = kb_lib.ID_BASE  # 단일 정의 위치 chunk2kg — KB_ID_BASE 가 바꾼다 (task 0327 손질 9)
 
 
 # ── ODD 적재와 조건 판정 ────────────────────

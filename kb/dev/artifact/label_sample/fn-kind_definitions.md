@@ -7,8 +7,9 @@ title: function kind_definitions in tools/label_sample.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-label-sample}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/4584a981-d251-4a2b-8951-263c3541bc22]
 part_of: https://agentic-knowledge-base.dev/id/composite/9341c57d-c9c7-4528-a0a4-3db8f66d0ce7
 ---
 **함수** — `kind_definitions(root)` 다. 링크 종류(agt: 지역명) → 한글 skos:definition — 온톨로지 모듈이 원본이다.
@@ -20,7 +21,7 @@ def kind_definitions(root: Path) -> dict[str, str]:
     from rdflib import Graph, Literal
     from rdflib.namespace import SKOS
     g = Graph()
-    for f in sorted((root / "kb/ontology").rglob("*-ontology.ttl")):
+    for f in kb_lib.resolve_core_glob("kb/ontology/**/*-ontology.ttl", root):  # 코어 + 호출 저장소의 확장 (task 0327 손질 5)
         g.parse(f, format="turtle")
     out = {}
     for s, o in g.subject_objects(SKOS.definition):

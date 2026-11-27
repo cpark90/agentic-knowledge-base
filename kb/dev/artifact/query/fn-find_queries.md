@@ -7,9 +7,9 @@ title: function find_queries in tools/query.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-query}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/f05d76f0-e96f-4c89-a78e-86eeb1bf91d1]
+uses: [https://agentic-knowledge-base.dev/id/chunk/5690d157-cae5-4d04-8a72-b47782cadf6b, https://agentic-knowledge-base.dev/id/chunk/f05d76f0-e96f-4c89-a78e-86eeb1bf91d1]
 part_of: https://agentic-knowledge-base.dev/id/composite/804dd9bd-ceaa-4ecc-9233-ef543578feb9
 ---
 **함수** — `find_queries(paths, root)` 다. 디렉토리 또는 .rq 파일 목록 → 정렬된 .rq 경로.
@@ -21,6 +21,8 @@ def find_queries(paths: list[str], root: Path) -> list[Path]:
     out: list[Path] = []
     for p in paths:
         cand = Path(p) if Path(p).exists() else (kb_lib.resolve_path(p, root) or (root / p if (root / p).is_dir() else None))
+        if cand is None and kb_lib.core_path(p, root).is_dir():  # 기본 질의 디렉토리는 이 모듈의 코어다 (task 0327 손질 5)
+            cand = kb_lib.core_path(p, root)
         if cand is None:
             raise ValueError(f"{p}: 질의 파일·디렉토리가 없다")
         out += sorted(cand.glob("*.rq")) if cand.is_dir() else [cand]

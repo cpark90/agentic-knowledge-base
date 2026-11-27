@@ -7,12 +7,12 @@ title: file tools/canonicalize.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-canonicalize}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/a9cc1a02-29b3-4f53-8711-8d60a4bea3cf]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/cf91a784-b983-40fa-afff-ff9105164656, title_ko: 파일 복합체 tools/canonicalize.py, title: file composite tools/canonicalize.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/811c8a9a-7991-488b-927b-a703841a532b, https://agentic-knowledge-base.dev/id/composite/29d788bd-8690-47f5-8a29-184a6e40d389]}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/cf91a784-b983-40fa-afff-ff9105164656, title_ko: 파일 복합체 tools/canonicalize.py, title: file composite tools/canonicalize.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/811c8a9a-7991-488b-927b-a703841a532b, https://agentic-knowledge-base.dev/id/composite/29d788bd-8690-47f5-8a29-184a6e40d389, https://agentic-knowledge-base.dev/id/composite/48c79ecc-7011-4d44-bc3e-be0cc65036b7]}
 ---
-**파일** — `tools/canonicalize.py` 다. 160줄 · 최상위 정의 4개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/canonicalize.py` 다. 252줄 · 최상위 정의 8개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -23,10 +23,13 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/cf91a784-b983-40
 
   canonicalize.py --check <files>   파일이 정규형과 일치하는지 검사 (비영 종료)
   canonicalize.py --write <files>   파일을 정규형으로 다시 쓴다 (주석은 사라진다)
+  canonicalize.py --catalog <dir> --root <ttl> --module <iri> <name> <files...> [--module-import <iri> <iri>]
+                                    표준 OWL 도구용 OASIS XML Catalog 와 모듈 합본을 <dir> 에 쓴다 (Q176-a·Q177-c)
 
 정규형: 정렬된 @prefix 블록 + 주어(subject) 정렬 블록, 술어는 rdf:type 우선 후 정렬,
 목적어 정렬. 익명 노드는 rdflib 정준화(canonicalization)로 라벨을 고정한다.
 출력·종료: --check 위반은 `FAIL [canon] <경로>: …` + EXIT_FAIL. 읽을 수 없거나 파싱되지 않는 입력은 EXIT_CONFIG.
+--catalog 는 빌드 액션(`kb_owl_catalog`)의 실행 경로다. 최상위 파일의 owl:imports 가 대응표 밖이면 `FAIL [canon]` + EXIT_FAIL.
 """
 
 from __future__ import annotations
@@ -38,7 +41,9 @@ from pathlib import Path
 
 import re
 
-from rdflib import BNode, Graph, Literal, RDF, URIRef
+from xml.sax.saxutils import quoteattr
+
+from rdflib import BNode, Graph, Literal, OWL, RDF, URIRef
 from rdflib.compare import to_canonical_graph
 
 try:  # 종료 코드 규약의 단일 정의 위치는 kb_lib — 없으면 같은 값의 폴백

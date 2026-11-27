@@ -291,7 +291,7 @@ def parse_args():
     ap.add_argument("--base", default="HEAD", help="비교할 git 리비전 (기본 HEAD)")
     ap.add_argument("--universe", default="//...", help="rdeps 의 우주")
     ap.add_argument("--out", default="")
-    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 --root(워크스페이스) 기준")
+    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 이 모듈의 것(kb_lib.default_residency)")
     ap.add_argument("--base-dir", action="append", default=[], metavar="DIR",
                     help="스냅숏 비교의 base — 이 디렉토리 아래 `*.md` 전부. git 리비전 대신이다 (반복 가능)")
     ap.add_argument("--head-dir", action="append", default=[], metavar="DIR", help="스냅숏 비교의 head — 워킹트리 대신이다 (반복 가능)")
@@ -377,9 +377,9 @@ def main() -> int:
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     cwd = str(root)
     try:
-        apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
+        apply_plane_level_state(*load_plane_level_state(a.residency or kb_lib.default_residency()))
     except (OSError, ValueError) as e:
-        print(f"CONFIG [revalidate] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}", file=sys.stderr)
+        print(f"CONFIG [revalidate] {a.residency or kb_lib.default_residency()}: 읽을 수 없다 — {e}", file=sys.stderr)
         return 2
 
     problem = snapshot_mode(a)

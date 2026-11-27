@@ -7,9 +7,9 @@ title: function main in tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/16f66a60-7480-4e95-a2d5-253ed492fa39, https://agentic-knowledge-base.dev/id/chunk/1f76c401-7790-442a-8a89-cbeb275631a6, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/4d7ba4f8-3559-4026-8352-97c8b9835a2b, https://agentic-knowledge-base.dev/id/chunk/520a6151-01ee-4804-9141-0829d19e2768, https://agentic-knowledge-base.dev/id/chunk/5e22443d-209f-4479-a064-9c08165f38f4, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/66bcf711-ad13-41b9-bbcb-519f83fd163f, https://agentic-knowledge-base.dev/id/chunk/70a7f6f9-c766-45c6-96fe-9992867d3d83, https://agentic-knowledge-base.dev/id/chunk/74004d79-dc3f-461f-85e1-3e42bfe1a332, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/c97d3b27-6804-4dd0-9ac1-4ab2908eaeeb, https://agentic-knowledge-base.dev/id/chunk/d63b7431-1668-41dd-b872-475b380f0fd4]
+uses: [https://agentic-knowledge-base.dev/id/chunk/16f66a60-7480-4e95-a2d5-253ed492fa39, https://agentic-knowledge-base.dev/id/chunk/1f76c401-7790-442a-8a89-cbeb275631a6, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/4d7ba4f8-3559-4026-8352-97c8b9835a2b, https://agentic-knowledge-base.dev/id/chunk/520a6151-01ee-4804-9141-0829d19e2768, https://agentic-knowledge-base.dev/id/chunk/5e22443d-209f-4479-a064-9c08165f38f4, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/66bcf711-ad13-41b9-bbcb-519f83fd163f, https://agentic-knowledge-base.dev/id/chunk/70a7f6f9-c766-45c6-96fe-9992867d3d83, https://agentic-knowledge-base.dev/id/chunk/74004d79-dc3f-461f-85e1-3e42bfe1a332, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/c72423ba-8082-4594-8317-046edbd135ed, https://agentic-knowledge-base.dev/id/chunk/c97d3b27-6804-4dd0-9ac1-4ab2908eaeeb, https://agentic-knowledge-base.dev/id/chunk/d63b7431-1668-41dd-b872-475b380f0fd4]
 part_of: https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f
 ---
 **함수** — `main()` 다.
@@ -21,9 +21,9 @@ def main() -> int:
     root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
     cwd = str(root)
     try:
-        apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
+        apply_plane_level_state(*load_plane_level_state(a.residency or kb_lib.default_residency()))
     except (OSError, ValueError) as e:
-        print(f"CONFIG [revalidate] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}", file=sys.stderr)
+        print(f"CONFIG [revalidate] {a.residency or kb_lib.default_residency()}: 읽을 수 없다 — {e}", file=sys.stderr)
         return 2
 
     problem = snapshot_mode(a)

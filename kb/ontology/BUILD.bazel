@@ -1,5 +1,5 @@
 load("//defs:kb.bzl", "kb_ontology_module")
-load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_gate_test")
+load("//defs:knowledge.bzl", "kb_chunk_lint_test", "kb_gate_test", "kb_owl_catalog")
 load(":modules.bzl", "PROJECT_IMPORTS")
 
 package(default_visibility = ["//visibility:public"])
@@ -33,6 +33,15 @@ filegroup(
         "//kb/ontology/related/trace",
         "//kb/ontology/related/trust",
     ],
+)
+
+# 표준 OWL 도구(Protégé·OWL API·ROBOT)용 디렉토리 — 유저 결정 Q176-a·Q177-c. `bazel build //kb/ontology:owl_catalog` 뒤
+# bazel-bin/kb/ontology/owl_catalog/project-ontology.ttl 을 연다. 그 옆의 catalog-v001.xml 이 owl:imports 를 모듈 합본으로 푼다.
+# IRI 는 모듈 BUILD 의 `iri` 에서 읽고, 생성물은 bazel-out 에만 있다(pe-generated-outputs-stay-in-bazel-out)
+kb_owl_catalog(
+    name = "owl_catalog",
+    modules = PROJECT_IMPORTS,
+    root = ":project",
 )
 
 filegroup(

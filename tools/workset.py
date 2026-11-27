@@ -26,7 +26,7 @@ except ImportError:
     import kb_lib  # 직접 실행: 스크립트 디렉토리 기준
 
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
-ID = Namespace("https://agentic-knowledge-base.dev/id/")
+ID = kb_lib.ID  # 단위 지식 IRI 이름공간 — 단일 정의 위치 chunk2kg, KB_ID_BASE 가 바꾼다 (task 0327 손질 9)
 LEVELS = ["functional", "abstract", "logical", "concrete", "executable"]
 # 이웃 링크의 족 — 표의 순서가 곧 펼침 우선순위. supersedes 는 족 밖의 시간축이라 맨 뒤 (kb/ontology/related/trace)
 FAMILIES = [

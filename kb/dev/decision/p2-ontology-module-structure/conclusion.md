@@ -7,8 +7,8 @@ title: Modules split by entity/related and vocabulary/rules, imported by a thin 
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0048-ontology-module-structure.md, id: https://agentic-knowledge-base.dev/id/chunk-d0048, title_ko: "온톨로지는 entity/related와 어휘/형식화로 나눈 모듈이다", title: "Ontology modules split by entity/related and vocabulary/formalization"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
-verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-11-27T10:14:18+09:00}
+verified: [{by: process:label-judge-20260911, at: 2026-09-11T18:50:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T10:14:18+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/d8e8aa97-d95c-4962-a88a-94e047702e4d, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0048]
 part_of: https://agentic-knowledge-base.dev/id/composite/301046f4-6db7-42f5-aea0-ffe4599d4a15
@@ -25,3 +25,5 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/301046f4-6db7-42
 **두 분리가 핵심이다.** (a) **entity / related** — 적용 범위·가정·채널·정책·하네스는 어느 지식 종류에도 속하지 않고 모든 지식 종류와 상호작용한다. (b) **어휘 / 형식화** — 개념과 포섭 관계는 `defect`에, 실행 기록에서 결함을 추론하는 규칙은 `defect-rules`에 둔다.
 
 **경계 규칙** — 모듈은 서로를 import할 수 있어도 다른 모듈의 개념을 정의해 넣을 수 없다. **코어 + 확장** — 확장은 새 모듈 추가로만 하고 기존 모듈을 수정하지 않는다.
+
+**표준 OWL 도구로 열기** — 모듈은 파일 여러 개이고 `owl:Ontology` 선언이 없으므로, 저장소 밖의 표준 OWL 도구(Protégé·OWL API)는 import를 원본 파일로 풀지 못한다. 그래서 빌드 타깃 `//kb/ontology:owl_catalog`가 `bazel-bin/kb/ontology/owl_catalog/` 한 디렉토리에 모듈마다 합본 하나와 대응표 `catalog-v001.xml`, `project-ontology.ttl` 사본을 만들고, 표준 도구는 그 사본을 연다(Q176-a, Q177-c). 합본은 생성물이어서 소스 트리에 두지 않고, 모듈 파일은 그대로다. 모듈 IRI의 원본은 모듈 BUILD의 `iri =` 하나다.

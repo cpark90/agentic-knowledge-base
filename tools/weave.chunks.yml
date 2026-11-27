@@ -7,8 +7,8 @@ source: tools/weave.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-weave
 package: kb/dev/artifact/weave
 layer: process
-at: 2026-10-05T16:40:36Z
-source_hash: ecf9d7372be164fc
+at: 2026-10-31T18:06:07Z
+source_hash: d1a319e2062b8be9
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/c0b7f63a-353e-4fdf-9389-961b6f3e130c
   - https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f

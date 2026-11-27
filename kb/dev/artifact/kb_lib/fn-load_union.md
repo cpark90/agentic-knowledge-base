@@ -7,10 +7,10 @@ title: function load_union in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/808534e8-8fca-4ace-ace9-9e4b7084233e, https://agentic-knowledge-base.dev/id/chunk/f05d76f0-e96f-4c89-a78e-86eeb1bf91d1]
-part_of: https://agentic-knowledge-base.dev/id/composite/6d4f42a2-870a-44fb-9a63-05749c2b9dcd
+uses: [https://agentic-knowledge-base.dev/id/chunk/4584a981-d251-4a2b-8951-263c3541bc22, https://agentic-knowledge-base.dev/id/chunk/f05d76f0-e96f-4c89-a78e-86eeb1bf91d1]
+part_of: https://agentic-knowledge-base.dev/id/composite/0edbd7df-e79b-4b9f-b913-f8e16daf03ad
 ---
 **함수** — `load_union(ttls, root)` 다. TTL 들을 하나의 Graph 로 (query.py·metrics.py 와 같은 방식).
 
@@ -20,6 +20,7 @@ def load_union(ttls: list[str], root: Path) -> Graph:
     """TTL 들을 하나의 Graph 로 (query.py·metrics.py 와 같은 방식). 빈 목록이면 UNION_GRAPH_PATHS + 온톨로지 glob.
 
     없는 파일은 ValueError — 호출자가 EXIT_CONFIG 로 다룬다. .ttl 이 아닌 입력(단위 지식 .md 등)은 건너뛴다.
+    온톨로지 glob 은 코어와 호출 저장소의 합이다(`resolve_core_glob`).
     """
     files: list[Path] = []
     if ttls:
@@ -35,7 +36,7 @@ def load_union(ttls: list[str], root: Path) -> Graph:
                 raise ValueError(f"{p}: 그래프 파일이 없다 — bazel build //kg:chunks_kg //kg:references_kg //kg:gates_kg //kb/odd:odd")
             files.append(f)
         for pat in UNION_GRAPH_GLOBS:
-            found = resolve_glob(pat, root)
+            found = resolve_core_glob(pat, root)
             if not found:
                 raise ValueError(f"{pat}: 온톨로지 모듈이 없다")
             files += found

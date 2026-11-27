@@ -7,9 +7,9 @@ title: function main in tools/label_sample.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-label-sample}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/00a89f1d-2167-43fb-9e95-4a70385078ae, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/2cabfcc4-8242-47a2-9710-9ed682ab9f2b, https://agentic-knowledge-base.dev/id/chunk/38526768-723a-44ce-a114-eb98395d5c68, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/68ed1ed6-9607-4a24-b3d7-5631a30d0616, https://agentic-knowledge-base.dev/id/chunk/843527db-1776-4186-b34b-1b9da6b107be, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/a1fe4e07-ebf7-4d59-8408-970b8c42755d, https://agentic-knowledge-base.dev/id/chunk/e4f07e46-7a6b-4f61-81c0-8bec7cc4a0f7]
+uses: [https://agentic-knowledge-base.dev/id/chunk/00a89f1d-2167-43fb-9e95-4a70385078ae, https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/2cabfcc4-8242-47a2-9710-9ed682ab9f2b, https://agentic-knowledge-base.dev/id/chunk/38526768-723a-44ce-a114-eb98395d5c68, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/68ed1ed6-9607-4a24-b3d7-5631a30d0616, https://agentic-knowledge-base.dev/id/chunk/843527db-1776-4186-b34b-1b9da6b107be, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/a1fe4e07-ebf7-4d59-8408-970b8c42755d, https://agentic-knowledge-base.dev/id/chunk/c72423ba-8082-4594-8317-046edbd135ed, https://agentic-knowledge-base.dev/id/chunk/e4f07e46-7a6b-4f61-81c0-8bec7cc4a0f7]
 part_of: https://agentic-knowledge-base.dev/id/composite/9341c57d-c9c7-4528-a0a4-3db8f66d0ce7
 ---
 **함수** — `main()` 다.
@@ -26,7 +26,7 @@ def main() -> int:
     ap.add_argument("--decoys", type=int, default=10)
     ap.add_argument("--profile", default=kb_lib.JUDGE_PROFILE_DIR,
                     help="판정 질문·척도의 원본 디렉토리 — sheet 의 척도 문장을 여기서 그대로 읽는다(단일 정의 위치)")
-    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
+    ap.add_argument("--residency", default=kb_lib.default_residency(),
                     help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다")
     ap.add_argument("--pair-sheet", default="", metavar="DIR",
                     help="쌍 판정지 pairs-NN.md 를 쓸 디렉토리(워크스페이스 밖) — 링크 후보 쌍 판정 모드")

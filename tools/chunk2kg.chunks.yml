@@ -7,8 +7,8 @@ source: tools/chunk2kg.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg
 package: kb/dev/artifact/chunk2kg
 layer: process
-at: 2026-10-07T09:06:36Z
-source_hash: 6f18afb8e022726d
+at: 2026-10-31T18:06:07Z
+source_hash: 62f376d9d63f357a
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/ab66f02d-6126-4507-b73a-c29429769f11
   - https://agentic-knowledge-base.dev/id/chunk/01f6a247-ed75-405f-b286-3d59b8acc9d2
@@ -57,6 +57,7 @@ ids:
   fn:emit_parsed: https://agentic-knowledge-base.dev/id/chunk/321d9509-8da2-4406-9fa3-a287cafc8d55
   fn:emit_tombstone: https://agentic-knowledge-base.dev/id/chunk/c313808a-9a95-42a4-8ca1-8ffe3e2e8e65
   fn:esc: https://agentic-knowledge-base.dev/id/chunk/d75bcbfe-969b-45d4-81f9-fc42145f892b
+  fn:id_base: https://agentic-knowledge-base.dev/id/chunk/16348364-cc1d-4c34-9b3f-ca27ea8e9ad4
   fn:is_link_block: https://agentic-knowledge-base.dev/id/chunk/f418fcb4-df9f-496c-9cc7-09f83dc5d1e5
   fn:is_tombstone_block: https://agentic-knowledge-base.dev/id/chunk/480b1d93-d4ad-4a70-8cea-3d25a7966d12
   fn:label_stmts: https://agentic-knowledge-base.dev/id/chunk/578f22f5-4d9d-43ef-8b3a-1459989cf6e9
@@ -80,6 +81,8 @@ ids:
   fn:plane_of_class: https://agentic-knowledge-base.dev/id/chunk/9bfb814f-db8d-42dc-b618-9f691a50596d
   fn:rebase_links: https://agentic-knowledge-base.dev/id/chunk/3bc19461-0841-4806-aafd-93fdbc5f9ab3
   fn:render_block: https://agentic-knowledge-base.dev/id/chunk/38150f41-1adc-4ea1-9c7f-f722f721fe9a
+  fn:runfiles_repo_dirs: https://agentic-knowledge-base.dev/id/chunk/a521ceb8-1a46-412a-a169-2cb07a11c69a
+  fn:runfiles_roots: https://agentic-knowledge-base.dev/id/chunk/c0a24368-1326-49c2-a33a-29918b01c696
   fn:spec_cycles: https://agentic-knowledge-base.dev/id/chunk/1b8a9132-b68b-46c7-a14e-55e7048494e2
   fn:split_outside_brackets: https://agentic-knowledge-base.dev/id/chunk/71a80c9a-cb89-49ce-ae62-9d1fda16125b
   fn:split_top_level: https://agentic-knowledge-base.dev/id/chunk/a13334ee-3c25-4384-bac2-a81868a47526

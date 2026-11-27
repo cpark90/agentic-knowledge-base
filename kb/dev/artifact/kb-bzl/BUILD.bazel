@@ -19,6 +19,7 @@ kb_composite(
         "fn-_check_links.md",
         "fn-_check_order.md",
         "fn-_check_residency.md",
+        "fn-_id_base_env.md",
         "fn-_is_vv.md",
         "fn-_kb_chunk_impl.md",
         "fn-_kb_composite_impl.md",

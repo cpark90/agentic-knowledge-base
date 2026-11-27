@@ -7,7 +7,7 @@ title: section -link-attrs in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/327a7a64-22f6-4b2b-a0d2-542146d25d6f
 composite: {id: https://agentic-knowledge-base.dev/id/composite/327a7a64-22f6-4b2b-a0d2-542146d25d6f, title_ko: 절 복합체 -link-attrs (defs/kb.bzl), title: section composite -link-attrs in defs/kb.bzl, ordered: [https://agentic-knowledge-base.dev/id/chunk/681baacc-3465-444d-a6cd-65f4e14d2444, https://agentic-knowledge-base.dev/id/chunk/529ee1d7-f1a4-4eda-a71b-562040bdba47], part_of: https://agentic-knowledge-base.dev/id/composite/84e893d0-8cc4-4710-b3b9-3885ce121377}
@@ -29,6 +29,7 @@ _LINK_ATTRS = {
     "_chunk2kg": attr.label(default = "//tools:chunk2kg", executable = True, cfg = "exec"),
     "_residency": attr.label(default = "//defs:kb.bzl", allow_single_file = True, doc = "PLANES·LEVELS·STATES 값 어휘의 원본 (M1 단일 정의 위치)"),
     "_vocab": attr.label(default = "@tiktoken_o200k_base//file", allow_single_file = True, doc = "토큰 계수기의 어휘 파일 — 크기 판정과 agt:tokenCount 의 계수기 (p1-chunk-unit-is-tokens)"),
+    "_id_base": attr.label(default = "//defs:id_base", doc = "단위 지식 IRI 이름공간의 빌드 설정 (task 0327 손질 9)"),
 }
 
 

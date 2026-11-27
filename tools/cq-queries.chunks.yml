@@ -7,8 +7,8 @@ source: tools/cq-queries
 resource: https://agentic-knowledge-base.dev/id/src-tools-cq-queries
 package: kb/dev/artifact/cq-queries
 layer: process
-at: 2026-10-05T16:40:36Z
-source_hash: 2f8c8dbc7392635a
+at: 2026-10-31T18:06:07Z
+source_hash: 725975b6062f13f5
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/0c829785-f155-4ab8-bf9a-1f69b0d3e85d
 serves: []

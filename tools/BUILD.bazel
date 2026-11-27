@@ -1,7 +1,9 @@
 load("@kb_pip//:requirements.bzl", "requirement")
-load("@rules_python//python:defs.bzl", "py_binary", "py_library")
+load("@rules_python//python:defs.bzl", "py_library")
 load("//defs:kb.bzl", "check_extracted_sources", "check_gates")
-load("//defs:knowledge.bzl", "kb_gate_test", "kb_runner_env_test")
+
+# `py_binary` 는 이름공간 환경 변수(KB_ID_BASE ← //defs:id_base)를 더한 도구 바이너리다 (task 0327 손질 9)
+load("//defs:knowledge.bzl", "kb_gate_test", "kb_runner_env_test", py_binary = "kb_tool_binary")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -168,7 +170,11 @@ py_binary(
 # OpenODD 문서 → ODD 그래프(-odd.ttl) 생성기 (3.2절, 부록 E.4). PyYAML (2026-09-11 잠금)
 py_binary(
     name = "odd2kg",
-    srcs = ["odd2kg.py"],
+    srcs = [
+        "chunk2kg.py",  # `id:` 이름공간의 단일 정의 위치 — rdflib 없이 읽힌다 (task 0327 손질 9)
+        "odd2kg.py",
+    ],
+    main = "odd2kg.py",
     deps = [requirement("pyyaml")],
 )
 
@@ -197,6 +203,7 @@ py_binary(
     srcs = ["query.py"],
     data = [
         ":cq_queries",
+        "//kb/ontology:modules",  # 이 모듈의 온톨로지 코어 — 의존 저장소의 `bazel run` 에서도 runfiles 로 찾는다 (task 0327 손질 5)
         "//kg:gates_kg",  # 층별 집계(CQ-38)의 게이트 행 — kb_lib.UNION_GRAPH_PATHS 와 같은 union
     ],
     deps = [
@@ -223,6 +230,10 @@ py_binary(
     srcs = [
         "chunk2kg.py",
         "label_sample.py",
+    ],
+    data = [
+        "//kb/ontology:modules",  # 링크 종류의 정의와 판정 프로파일 — 이 모듈의 코어 (task 0327 손질 5)
+        "//kb/ontology:shapes",
     ],
     main = "label_sample.py",
     deps = [":kb_lib"],  # 생성 문서 규약(머리 블록)의 단일 정의 위치
@@ -303,6 +314,7 @@ py_binary(
         "chunk2kg.py",
         "link.py",
     ],
+    data = ["//kb/ontology:modules"],  # union 의 온톨로지 코어 (task 0327 손질 5)
     main = "link.py",
     deps = [
         ":kb_lib",
@@ -343,6 +355,7 @@ py_binary(
     ],
     data = [
         "//kb/odd:odd",
+        "//kb/ontology:modules",  # 이 모듈의 온톨로지 코어 (task 0327 손질 5)
         "//kg",
         "//kg:chunks_kg",
         "//kg:gates_kg",
@@ -380,7 +393,7 @@ py_binary(
         # 생략하면 그 검증기들이 `ModuleNotFoundError` 로 자극에 닿기 전에 죽는다(이 저장소 측정, 2026-10-01).
         requirement("tiktoken"),  # chunk_lint·chunk2kg·space2kg 의 토큰 계수기
         requirement("pyshacl"),   # validate 의 shacl 검사
-        requirement("owlrl"),     # validate 의 --reason(OWL-RL 추론)
+        requirement("owlrl"),     # validate 의 --reason(OWL 2 RL 폐포, 게이트 logical-consistency)
     ],
 )
 
@@ -510,6 +523,7 @@ py_binary(
         "chunk2kg.py",
         "weave.py",
     ],
+    data = ["//kb/ontology:modules"],  # union 의 온톨로지 코어 (task 0327 손질 5)
     main = "weave.py",
     deps = [
         ":kb_lib",

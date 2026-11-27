@@ -607,10 +607,10 @@ TOKENIZER_PACKAGE = "tiktoken"                # 계수기 패키지 (lock 의 �
 TOKENIZER_PACKAGE_VERSION = "0.12.0"
 TOKENIZER_VOCAB_REPO = "tiktoken_o200k_base"  # MODULE.bazel 의 http_file 이름 (apparent 이름)
 # runfiles 디렉토리의 이름은 **canonical 저장소 이름**이다 — `use_repo_rule` 로 만든 저장소는 bzlmod 에서
-# `+<규칙 이름>+<저장소 이름>` 이 되고 측정 디렉토리가 `+http_file+tiktoken_o200k_base` 다. apparent 이름만
-# 찾으면 인자 없이 부른 runfiles 탐색이 전부 빗나간다 (이 저장소 측정 2026-10-01 — vv_run 이 KB_TOKENIZER_VOCAB
-# 를 못 채워 테스트 케이스 token-budget·chunk-42-lines 가 자극에 닿기 전에 죽었다). 둘 다 본다.
-TOKENIZER_VOCAB_REPO_CANONICAL = f"+http_file+{TOKENIZER_VOCAB_REPO}"
+# `<모듈 canonical>+<규칙 이름>+<저장소 이름>` 이 된다. 이 모듈이 루트면 `+http_file+tiktoken_o200k_base` 이고(이 저장소
+# 측정 2026-10-01 — apparent 이름만 찾던 탐색이 빗나가 vv_run 이 KB_TOKENIZER_VOCAB 를 못 채웠다), 다른 저장소의 의존이면
+# 앞에 이 모듈의 canonical 이름이 붙는다. 그래서 canonical 이름을 고정하지 않고 runfiles 의 `_repo_mapping` 으로 apparent
+# 이름을 푼다 (`runfiles_repo_dirs`, task 0327 손질 4).
 TOKENIZER_VOCAB_FILE = "o200k_base.tiktoken"  # http_file 의 downloaded_file_path
 TOKENIZER_VOCAB_SHA256 = "446a9538cb6c348e3516120d7c08b09f57c36495e2acfffe59a5bf8b0cfb1a2d"
 TOKENIZER_VOCAB_ENV = "KB_TOKENIZER_VOCAB"    # 어휘 파일 경로의 환경 변수 — bazel 밖 실행의 자리
@@ -624,8 +624,8 @@ def tokenizer_vocab_path(explicit: str | os.PathLike | None = None) -> Path:
     **명시가 우선이다** — 타깃이 `--vocab=$(rootpath @tiktoken_o200k_base//file)` 로 주는 경로가 그 자리다.
     runfiles 자리는 `bazel run` 의 것이다 — `http_file` 의 산출물은 외부 저장소에 살아
     `<runfiles>/{repo}/file/{name}` 이고, cwd 가 `_main` 인 부트스트랩에서는 `../{repo}/file/{name}` 이다.
-    `{repo}` 는 canonical 이름(`+http_file+…`)과 apparent 이름 둘을 다 본다 — bzlmod 의 측정 디렉토리는
-    앞의 것이고 뒤의 것만 보면 인자 없이 부른 경로가 전부 빗나간다.
+    `{repo}` 는 `runfiles_repo_dirs` 가 apparent 이름에서 푼 canonical 디렉토리다 — 이 모듈이 루트일 때와 다른
+    저장소의 의존일 때 이름이 다르므로 고정하지 않는다.
     """
     if explicit:
         p = Path(explicit)
@@ -635,18 +635,51 @@ def tokenizer_vocab_path(explicit: str | os.PathLike | None = None) -> Path:
     env = os.environ.get(TOKENIZER_VOCAB_ENV)
     if env:
         return tokenizer_vocab_path(env)
-    rels = [f"{repo}/file/{TOKENIZER_VOCAB_FILE}"
-            for repo in (TOKENIZER_VOCAB_REPO_CANONICAL, TOKENIZER_VOCAB_REPO)]
-    runfiles = os.environ.get("RUNFILES_DIR", "")
-    bases = ([Path(runfiles)] if runfiles else []) + [Path(".."), Path("external")]
-    for base in bases:
-        for rel in rels:
-            if (base / rel).is_file():
-                return base / rel
+    for repo_dir in runfiles_repo_dirs(TOKENIZER_VOCAB_REPO):
+        cand = repo_dir / "file" / TOKENIZER_VOCAB_FILE
+        if cand.is_file():
+            return cand
     raise FileNotFoundError(
         f"어휘 파일 {TOKENIZER_VOCAB_FILE} 을 찾지 못했다 — `bazel run //tools:tokens` 로 돌리거나 "
         f"{TOKENIZER_VOCAB_ENV} 에 경로를 준다 (고정처는 MODULE.bazel 의 http_file {TOKENIZER_VOCAB_REPO}, "
-        f"runfiles 의 이름은 {TOKENIZER_VOCAB_REPO_CANONICAL} 다)")
+        f"runfiles 의 이름은 `_repo_mapping` 이 푼 canonical 이름이다)")
+
+
+def runfiles_roots() -> list[Path]:
+    """runfiles 뿌리 후보 — 환경 변수(`RUNFILES_DIR`·`TEST_SRCDIR`) · 이 모듈 위치의 위 · cwd 의 위 순이고 중복은 뺀다.
+
+    이 파일은 runfiles 에서 `<뿌리>/<이 모듈의 canonical 이름>/tools/chunk2kg.py` 에 놓인다. 그래서 심볼릭 링크를
+    풀지 않은 경로의 세 단계 위가 뿌리다. cwd 는 `bazel run`·`bazel test` 에서 `<뿌리>/_main` 이다.
+    """
+    cands = [os.environ.get("RUNFILES_DIR", ""), os.environ.get("TEST_SRCDIR", "")]
+    out: list[Path] = []
+    for c in [Path(c) for c in cands if c] + [Path(__file__).absolute().parent.parent.parent, Path("..").absolute()]:
+        if c.is_dir() and c not in out:
+            out.append(c)
+    return out
+
+
+def runfiles_repo_dirs(apparent: str) -> list[Path]:
+    """apparent 저장소 이름 → runfiles 안의 저장소 디렉토리 후보 (task 0327 손질 4).
+
+    `<뿌리>/_repo_mapping` 의 행(`<출발 canonical>,<apparent>,<대상 canonical>`)에서 apparent 이름이 같은 행의 대상을
+    먼저 보고, 매핑 파일이 없으면 이름이 `apparent` 이거나 `+<apparent>` 로 끝나는 디렉토리를 본다. 같은 apparent 이름을
+    다른 모듈이 다른 저장소에 쓸 수 있으나 어휘 파일은 sha256 대조(`load_tokenizer`)가 거부하므로 후보가 여럿이어도 된다.
+    """
+    out: list[Path] = []
+    for root in runfiles_roots() + [Path("external")]:
+        names: list[str] = []
+        mapping = root / "_repo_mapping"
+        if mapping.is_file():
+            for line in mapping.read_text(encoding="utf-8").splitlines():
+                parts = line.split(",")
+                if len(parts) == 3 and parts[1] == apparent and parts[2] not in names:
+                    names.append(parts[2])
+        if root.is_dir():
+            names += sorted(d.name for d in root.iterdir()
+                            if d.is_dir() and (d.name == apparent or d.name.endswith("+" + apparent)) and d.name not in names)
+        out += [root / n for n in names if (root / n).is_dir() and root / n not in out]
+    return out
 
 
 def tokenizer_vocab_fingerprint(path: str | os.PathLike) -> str:
@@ -1055,7 +1088,29 @@ LINK_KEYS = ("refines", "serves", "supersedes", "verifies", "satisfies", "constr
              "overlapsWith")  # overlapsWith 는 relatedTo 족의 약한 잎 — 링크 키라 링크 개체·복원 표시를 받는다 (overlap-ontology)
 RESTORED_KEY = "restored"  # 복원 링크의 표시 (p10-restored-link-marking) — 값은 같은 단위 지식의 링크 키 대상 IRI 목록
 RESTORED_GATE = getattr(kb_lib, "RESTORED_GATE", "restored")  # 게이트 id — FAIL [restored] (단일 정의 위치 kb_lib)
-ID_BASE = "https://agentic-knowledge-base.dev/id/"
+# 단위 지식 IRI 이름공간 — 호출 저장소가 고른다 (task 0327 손질 9).
+# `id:` 이름공간 리터럴의 단일 정의 위치다. `kb_lib` 이 `ID_BASE`·`ID` 로 다시 내보내고 다른 도구는 그것을 쓴다 — 이 모듈이
+# 원본인 까닭은 head 액션이 rdflib 없이 돌아 `kb_lib` 을 import 하지 못하기 때문이다(토큰 계수기와 같은 자리). 값은 환경
+# 변수 `KB_ID_BASE` 가 주고, 비었으면 이 저장소의 도메인이다. Bazel 에서는 빌드 설정 `//defs:id_base` 가 이 환경 변수를
+# 채운다 — 지식 타깃은 루트 모듈의 것에만, 도구 바이너리(`bazel run`)는 어느 저장소의 것에든 준다(defs/knowledge.bzl
+# `kb_id_base_var`·`kb_tool_binary`, defs/kb.bzl `_id_base_env`). `agt:` 어휘 이름공간은 매개화하지 않는다 —
+# 코어 어휘는 의존 저장소와 공유한다.
+ID_BASE_DEFAULT = "https://agentic-knowledge-base.dev/id/"
+ID_BASE_ENV = "KB_ID_BASE"
+
+
+def id_base() -> str:
+    """단위 지식 IRI 이름공간 — `KB_ID_BASE` 가 비었으면 `ID_BASE_DEFAULT` 다. `/` 로 끝나는 http(s) IRI 가 아니면 ValueError 다."""
+    v = os.environ.get(ID_BASE_ENV, "").strip()
+    if not v:
+        return ID_BASE_DEFAULT
+    if not re.fullmatch(r"https?://[^\s<>\"{}|\\^`]+/", v):
+        raise ValueError(f"{ID_BASE_ENV}={v!r}: 단위 지식 IRI 이름공간은 `/` 로 끝나는 http(s) IRI 여야 한다")
+    return v
+
+
+ID_BASE = id_base()
+
 # 증거 종류 — 구축(편집 부산물, 10.3절)은 구축 기록, 복원(restored: 표시 — 도구·에이전트가 제안하고 사람이 확정)은 제안 (evidence-ontology)
 EVIDENCE_BUILT = "agt:constructionRecord"
 EVIDENCE_RESTORED = "agt:proposal"

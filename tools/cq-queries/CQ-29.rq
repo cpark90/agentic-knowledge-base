@@ -1,7 +1,6 @@
 # 한/영 라벨이나 정의가 빠진 용어가 있는가.
 # 행 = rdfs:label@ko · rdfs:label@en · skos:definition 중 빠진 것이 있는 agt: 용어 하나 (빠진 것). 0행이 정상 — labels 게이트가 강제한다
 PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
-PREFIX id: <https://agentic-knowledge-base.dev/id/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>

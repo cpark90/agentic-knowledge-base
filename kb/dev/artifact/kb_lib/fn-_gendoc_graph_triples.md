@@ -7,9 +7,9 @@ title: function _gendoc_graph_triples in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/f05d76f0-e96f-4c89-a78e-86eeb1bf91d1]
+uses: [https://agentic-knowledge-base.dev/id/chunk/8ed1af77-96cb-4d77-ae1e-028946b9ebb8, https://agentic-knowledge-base.dev/id/chunk/f05d76f0-e96f-4c89-a78e-86eeb1bf91d1]
 part_of: https://agentic-knowledge-base.dev/id/composite/6b2ef1c0-06f1-44c5-9b0f-6ba8a1fedb8d
 ---
 **함수** — `_gendoc_graph_triples(path)` 다. 그래프 파일 하나의 트리플 집합 — 경로 그대로, 없으면 워크스페이스 루트 기준으로 찾는다.
@@ -21,7 +21,7 @@ def _gendoc_graph_triples(path: str):
 
     빈 노드는 파싱마다 새 노드다. 생성기의 union 적재(`load_union` · `metrics`)도 파일마다 따로 파싱하므로 두 셈이 같다.
     """
-    f = Path(path) if Path(path).is_file() else resolve_path(str(path), Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY") or "."))
+    f = Path(path) if Path(path).is_file() else resolve_path(str(path), workspace_root())
     if f is None:
         return None
     key = str(f.resolve())

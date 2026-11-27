@@ -65,19 +65,22 @@ kb_reference_kg(
     out = "references-kg.ttl",
 )
 
+# 두 게이트 테스트(gate_test · reason_test)의 A-Box — 같은 그래프 집합을 한 곳에만 적는다 (유저 결정 Q174-a)
+GATE_GRAPHS = [
+    ":chunks_kg",
+    ":gates_kg",
+    ":kg",
+    ":projections_kg",
+    ":references_kg",
+    "//space:design_space",
+]
+
 # 지식그래프 게이트: 통제 어휘(4.4절) + 단위 지식 shape + 가정→ODD 참조(0.4절) + 카탈로그 정합성(:kg 의 catalog-kg × //kb/odd:odd)
 # + 설계 공간(//space:design_space 의 *-space) 의 규율 — 후보는 deps 가 아니므로 Bazel 이 로드 시점에 보지 못한다.
 # 그 자리를 게이트 id `space`(validate check_space)가 대신한다 (결정 p9-candidate-storage, 요구 r-011)
 kb_gate_test(
     name = "gate_test",
-    data = [
-        ":chunks_kg",
-        ":gates_kg",
-        ":kg",
-        ":projections_kg",
-        ":references_kg",
-        "//space:design_space",
-    ],
+    data = GATE_GRAPHS,
     # 게이트 element-drop 의 키 전수 대조 입력 — 단위 지식 본문의 frontmatter 를 그래프가 아니라 파일로 읽는다.
     # 소비되지 않는 키는 head 그래프에 나타나지 않으므로 생성물만 보면 조용히 버려진 요소를 볼 수 없다 (현상 P19)
     chunk_files = [
@@ -95,6 +98,21 @@ kb_gate_test(
     verify_queries = "//tools:verify_queries",
     # shape 는 약화하지 않고 면제만 선언한다 — 게이트 id `shacl`(축 `파일`). append-only 판정 로그의 토큰 상한
     # 초과처럼 소급 분할이 기록을 다시 쓰는 일인 자리가 그것이다 (docs/waivers.md, 2026-10-01)
+    waivers = "//docs:waivers",
+)
+
+# 논리 정합성 게이트 — 온톨로지 검사 3단계의 셋째 단계 (결정 p2-ontology-compiler-three-tiers, 유저 결정 Q174-a).
+# gate_test 와 같은 온톨로지·ODD·A-Box 에 OWL 2 RL 폐포를 한 번 만들고(결정 p2-owl2-rl-profile) 게이트 `logical-consistency`
+# (추론기의 오류 노드와 owl:Nothing 소속)와 그 폐포 위의 `shacl` 만 돌린다. gate_test 와 겹치는 검사는 돌리지 않으므로
+# 두 테스트가 `bazel test //...` 에서 나란히 돈다. shape 면제는 gate_test 와 같은 표다
+kb_gate_test(
+    name = "reason_test",
+    data = GATE_GRAPHS,
+    odd = ["//kb/odd:odd"],
+    ontology = ["//kb/ontology:modules"],
+    reason = True,
+    shapes = ["//kb/ontology:shapes"],
+    timeout = "moderate",
     waivers = "//docs:waivers",
 )
 

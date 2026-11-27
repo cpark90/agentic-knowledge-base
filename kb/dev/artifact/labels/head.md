@@ -2,16 +2,16 @@
 id: https://agentic-knowledge-base.dev/id/chunk/019a25f2-901b-47ff-94e4-2449c78f7e2b
 type: artifact
 level: executable
-title_ko: 모듈 머리 r16 (tools/labels.py)
-title: module head r16 in tools/labels.py
+title_ko: 모듈 머리 r15 (tools/labels.py)
+title: module head r15 in tools/labels.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-labels}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T20:48:33Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/f367e186-3a1a-4660-aeb4-7473d4b28b2a
 ---
-**모듈 머리** — `tools/labels.py` 의 모듈 머리 `r16` 다. 모듈 머리
+**모듈 머리** — `tools/labels.py` 의 모듈 머리 `r15` 다. 모듈 머리
 
 **정의** — 없음. 선언과 상수만 있는 구역이다.
 

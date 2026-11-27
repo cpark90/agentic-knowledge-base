@@ -22,7 +22,8 @@ try:  # PLANES·LEVELS·STATES 리터럴 읽기 함수의 단일 정의 위치�
     from tools.chunk2kg import load_plane_level_state  # bazel runfiles: 워크스페이스 루트가 sys.path 에 있다
     from tools.chunk2kg import BODY_SLOT_MARKERS  # 본문 슬롯 표지 낱말의 단일 정의 위치 — 겹침 검사(아래)의 입력
     from tools.chunk2kg import BODY_SLOT_SPAN, body_slot_mark  # 표지 판정의 단일 정의 위치 — 방출·decision-role·consistency 가 쓴다
-    from tools.chunk2kg import NORM_HEAD_KEYS, NORM_SECTION_KEYS, plane_of_class  # 절 키·클래스 → 지식 종류의 단일 정의 위치 (`norm` 지식 종류)
+    from tools.chunk2kg import NORM_HEAD_KEYS, NORM_SECTION_KEYS, plane_of_class
+    from tools.chunk2kg import ID_BASE, ID_BASE_DEFAULT, ID_BASE_ENV, runfiles_repo_dirs  # noqa: F401 — `id:` 이름공간의 단일 정의 위치 (task 0327 손질 9)
     from tools.chunk2kg import (TOKENIZER_NAME, TOKENIZER_PACKAGE, TOKENIZER_PACKAGE_VERSION,  # noqa: F401
                                 TOKENIZER_VOCAB_ENV, TOKENIZER_VOCAB_FILE, TOKENIZER_VOCAB_REPO,
                                 TOKENIZER_VOCAB_SHA256, body_text, load_tokenizer, token_count,
@@ -32,6 +33,7 @@ except ImportError:
     from chunk2kg import BODY_SLOT_MARKERS
     from chunk2kg import BODY_SLOT_SPAN, body_slot_mark
     from chunk2kg import NORM_HEAD_KEYS, NORM_SECTION_KEYS, plane_of_class
+    from chunk2kg import ID_BASE, ID_BASE_DEFAULT, ID_BASE_ENV, runfiles_repo_dirs  # noqa: F401 — `id:` 이름공간의 단일 정의 위치 (task 0327 손질 9)
     from chunk2kg import (TOKENIZER_NAME, TOKENIZER_PACKAGE, TOKENIZER_PACKAGE_VERSION,  # noqa: F401
                           TOKENIZER_VOCAB_ENV, TOKENIZER_VOCAB_FILE, TOKENIZER_VOCAB_REPO,
                           TOKENIZER_VOCAB_SHA256, body_text, load_tokenizer, token_count,
@@ -39,7 +41,7 @@ except ImportError:
 
 # 이 체계 고유 어휘 (노트 0.3절, 0.7절)
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
-ID = Namespace("https://agentic-knowledge-base.dev/id/")
+ID = Namespace(ID_BASE)  # 단위 지식 IRI 이름공간 — 리터럴은 chunk2kg.ID_BASE_DEFAULT 하나이고 KB_ID_BASE 가 바꾼다 (task 0327 손질 9)
 PROV = Namespace("http://www.w3.org/ns/prov#")  # 출처·귀속·특수화는 PROV-O 만 쓴다 (STYLEGUIDE §5)
 
 # 외부 표준 어휘 — 정의를 변경하지 않고 그대로 쓴다 (0.3절)
@@ -799,7 +801,11 @@ def check_lists(text: str) -> list[tuple[int, str]]:
 
 # ── 그래프 union 과 라벨 인터페이스 (query · cq 뷰) ────────────────────────────────────────────────
 # 활용 도구가 읽는 그래프 — metrics 와 같은 입력(head·참조·시드·카탈로그·복합체·게이트·ODD)에 온톨로지 모듈을 더한 union.
-# 경로는 워크스페이스 상대이고 `bazel run` 의 runfiles 에는 data 로 같은 경로에 놓인다. 온톨로지는 모듈 디렉토리 재귀 glob.
+# 경로는 두 뿌리로 푼다 (task 0327 손질 5). **호출 저장소의 지식**(아래 `UNION_GRAPH_PATHS` · 호출 저장소의 온톨로지 확장)은
+# 작업 디렉토리 기준이다 — runfiles(현재 디렉토리) → `<뿌리>/bazel-bin` → `<뿌리>` 순이고 뿌리는 `bazel run` 의
+# `BUILD_WORKSPACE_DIRECTORY` 다. **이 모듈의 코어**(온톨로지 모듈 · 판정 프로파일 · shape)는 `core_root()` 기준이다 — runfiles
+# 에서는 이 모듈의 저장소 디렉토리이고 소스에서 직접 돌리면 이 저장소다. 이 저장소가 루트면 두 뿌리가 같은 파일을 가리키므로
+# 실경로로 중복을 뺀다.
 UNION_GRAPH_PATHS = ("kg/chunks-kg.ttl", "kg/references-kg.ttl", "kg/base-kg.ttl", "kg/catalog-kg.ttl", "kg/composite-kg.ttl",
                      "kg/gates-kg.ttl", "kb/odd/project-odd.ttl")
 UNION_GRAPH_GLOBS = ("kb/ontology/**/*-ontology.ttl",)
@@ -809,9 +815,53 @@ COMPACT_PREFIXES = ((str(AGT), "agt:"), (str(ID), "id:"), ("http://www.w3.org/ns
                     ("http://www.w3.org/2004/02/skos/core#", "skos:"), ("http://www.w3.org/2001/XMLSchema#", "xsd:"))
 
 
+# ── 코어와 작업 트리의 두 뿌리 (task 0327 손질 5·6) ────────────────────────────────────────────────
+# 이 모듈이 다른 저장소의 Bazel 의존이 되면 도구가 읽는 파일의 뿌리가 둘로 갈린다. 이 모듈이 원본인 T-Box·값 어휘(코어)는
+# runfiles 의 이 모듈 디렉토리에 있고, 호출 저장소의 지식은 그 저장소의 작업 트리에 있다. 이 절의 함수가 두 뿌리를 가른다.
+
+def core_root() -> Path:
+    """이 모듈의 코어 뿌리 — 이 파일(`<뿌리>/tools/kb_lib.py`)의 두 단계 위다 (task 0327 손질 5).
+
+    심볼릭 링크를 풀지 않는다. runfiles 에서 풀지 않은 경로는 `<runfiles>/<이 모듈의 canonical 이름>/` 이고 거기에는 타깃의
+    `data` 로 선언된 코어 파일만 있다. 의존 저장소에서 `bazel run @agentic_knowledge_base//tools:query` 로 돌려도 이 뿌리는
+    이 모듈을 가리키고, 호출 저장소의 작업 트리(`BUILD_WORKSPACE_DIRECTORY`)는 가리키지 않는다.
+    """
+    return Path(__file__).absolute().parent.parent
+
+
+def workspace_root() -> Path:
+    """호출 저장소의 뿌리 — `bazel run` 이 주는 `BUILD_WORKSPACE_DIRECTORY`, 없으면 현재 디렉토리다 (task 0327 손질 5)."""
+    return Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY") or ".")
+
+
+def core_path(rel: str, root: Path | None = None) -> Path:
+    """코어 파일의 경로 — 이 모듈의 뿌리(`core_root`)에 있으면 그것, 없으면 호출 저장소의 뿌리 아래다 (task 0327 손질 5).
+
+    판정 프로파일·shape 처럼 이 모듈이 원본인 T-Box 파일의 자리다. 뒤의 자리는 소스에서 직접 돌리는 경우의 것이다.
+    """
+    cand = core_root() / rel
+    if cand.exists():
+        return cand
+    return (root if root is not None else workspace_root()) / rel
+
+
+def default_residency() -> str:
+    """`--residency` 의 기본값 — 이 모듈의 `defs/kb.bzl` 이다 (task 0327 손질 6). `gates_bzl_path` 와 같은 탐색을 쓴다."""
+    try:
+        return str(gates_bzl_path())
+    except FileNotFoundError:
+        return str(workspace_root() / "defs" / "kb.bzl")
+
+
+# ── 그래프 union 의 적재 ────────────────────────────────────────────────
+
 def resolve_path(path: str, root: Path) -> Path | None:
-    """워크스페이스 상대 경로를 runfiles(현재 디렉토리) → bazel-bin → 소스 순으로 찾는다. 없으면 None (호출자가 EXIT_CONFIG)."""
-    for cand in (Path(path), root / "bazel-bin" / path, root / path):
+    """워크스페이스 상대 경로를 runfiles(현재 디렉토리) → bazel-bin → 소스 → 이 모듈의 코어 순으로 찾는다. 없으면 None (호출자가 EXIT_CONFIG).
+
+    마지막 자리는 의존 저장소가 자기 그래프를 두지 않은 코어 생성물(`kg/gates-kg.ttl`)의 것이다 — 타깃의 `data` 로 선언돼
+    runfiles 에 놓인 것만 거기 있다.
+    """
+    for cand in (Path(path), root / "bazel-bin" / path, root / path, core_root() / path):
         if cand.is_file():
             return cand
     return None
@@ -833,10 +883,29 @@ def resolve_glob(pattern: str, root: Path) -> list[Path]:
     return []
 
 
+def resolve_core_glob(pattern: str, root: Path) -> list[Path]:
+    """코어와 호출 저장소의 재귀 glob 합 — 코어(`core_root`)의 결과에 호출 저장소(`resolve_glob`)의 결과를 더하고 실경로로 중복을 뺀다.
+
+    온톨로지는 코어 어휘와 의존 저장소의 확장 모듈이 함께 쓰여야 한다 (task 0327 손질 5). 코어 뿌리 밑의 runfiles 사본은 빼지 않는다 —
+    거기가 runfiles 자체이기 때문이다.
+    """
+    import glob as _glob
+    out: list[Path] = []
+    seen: set[str] = set()
+    core = sorted(Path(p) for p in _glob.glob(str(core_root() / pattern), recursive=True))
+    for f in core + resolve_glob(pattern, root):
+        key = os.path.realpath(f)
+        if key not in seen:
+            seen.add(key)
+            out.append(f)
+    return out
+
+
 def load_union(ttls: list[str], root: Path) -> Graph:
     """TTL 들을 하나의 Graph 로 (query.py·metrics.py 와 같은 방식). 빈 목록이면 UNION_GRAPH_PATHS + 온톨로지 glob.
 
     없는 파일은 ValueError — 호출자가 EXIT_CONFIG 로 다룬다. .ttl 이 아닌 입력(단위 지식 .md 등)은 건너뛴다.
+    온톨로지 glob 은 코어와 호출 저장소의 합이다(`resolve_core_glob`).
     """
     files: list[Path] = []
     if ttls:
@@ -852,7 +921,7 @@ def load_union(ttls: list[str], root: Path) -> Graph:
                 raise ValueError(f"{p}: 그래프 파일이 없다 — bazel build //kg:chunks_kg //kg:references_kg //kg:gates_kg //kb/odd:odd")
             files.append(f)
         for pat in UNION_GRAPH_GLOBS:
-            found = resolve_glob(pat, root)
+            found = resolve_core_glob(pat, root)
             if not found:
                 raise ValueError(f"{pat}: 온톨로지 모듈이 없다")
             files += found
@@ -1063,7 +1132,10 @@ def judge_load_profile(root: Path, profile: str = JUDGE_PROFILE_DIR, shapes: str
     각자 질의를 복제하면 척도 문장이 갈릴 위험이 생긴다 — 갈리면 판정자가 sheet에서 본 척도와 judge.py 가 파싱하는
     척도가 달라진다."""
     g = Graph()
-    files = sorted((root / profile).glob("*.ttl")) + ([root / shapes] if (root / shapes).is_file() else [])
+    # 기본값은 이 모듈의 코어(runfiles)에서, 명시한 다른 자리는 호출 저장소의 뿌리에서 읽는다 (task 0327 손질 5)
+    prof = core_path(profile, root) if profile == JUDGE_PROFILE_DIR else root / profile
+    shp = core_path(shapes, root) if shapes == JUDGE_QUESTION_SHAPES else root / shapes
+    files = sorted(prof.glob("*.ttl")) + ([shp] if shp.is_file() else [])
     if not files:
         raise ValueError(f"{profile}: 프로파일 TTL 이 없다 — 질문·척도·임계의 원본이 거기다")
     for f in files:
@@ -2249,7 +2321,7 @@ def _gendoc_graph_triples(path: str):
 
     빈 노드는 파싱마다 새 노드다. 생성기의 union 적재(`load_union` · `metrics`)도 파일마다 따로 파싱하므로 두 셈이 같다.
     """
-    f = Path(path) if Path(path).is_file() else resolve_path(str(path), Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY") or "."))
+    f = Path(path) if Path(path).is_file() else resolve_path(str(path), workspace_root())
     if f is None:
         return None
     key = str(f.resolve())

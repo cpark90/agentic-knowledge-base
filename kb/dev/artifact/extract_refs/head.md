@@ -7,7 +7,7 @@ title: module head exit-fail in tools/extract_refs.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract-refs}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/1ddb8a02-e2d5-48e7-a66d-3c960e6a523a
 ---
@@ -35,7 +35,7 @@ SPECIALIZATION_GATE = getattr(kb_lib, "SPECIALIZATION_GATE", "specialization")
 
 CITE =re.compile(r"\bd-(\d{4})\b")
 CONCEPT = re.compile(r"\bagt:([A-Za-z][A-Za-z0-9]*)")
-IRI = "https://agentic-knowledge-base.dev/id/chunk-d{}"
+IRI = ID_BASE + "chunk-d{}"  # 이름공간은 chunk2kg.ID_BASE 하나다 (task 0327 손질 9)
 AGT = "https://agentic-knowledge-base.dev/agt/"
 CANDIDATE_KIND = "cites"  # 후보 링크 개체로 나가는 추출 참조 — usesConcept 는 치역 밖 (모듈 docstring)
 EVIDENCE = "agt:constructionRecord"  # 본문의 식별자는 구축 기록이다 (유저 결정 2026-09-12 (b), p10-link-by-construction)
@@ -44,7 +44,7 @@ PREAMBLE = """\
 # 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식 본문의 인용·개념 표기다.
 # 생성: tools/extract_refs.py (bazel build //kg:references_kg)
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
-@prefix id: <https://agentic-knowledge-base.dev/id/> .
-"""
+@prefix id: <{id_base}> .
+""".format(id_base=ID_BASE)
 ```
 <!-- 인용 끝 -->

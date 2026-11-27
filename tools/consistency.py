@@ -56,7 +56,6 @@
 사용: consistency.py --out consistency.md [--theta 0.5] [--theta-cohesion θ/2] [--glossary docs/glossary.md] [--waivers docs/waivers.md] <단위 지식 .md …>
 """
 import argparse
-import os
 import re
 import sys
 from collections import defaultdict
@@ -511,7 +510,7 @@ def parse_args():
     ap.add_argument("--glossary", default="")
     ap.add_argument("--waivers", default="",
                     help=f"docs/waivers.md — 게이트 id {GATE_TERM}·{ADDITION_GATE}·{EMPTY_VALUE_GATE}·{LIST_RULES_GATE}, 축 파일")
-    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
+    ap.add_argument("--residency", default=kb_lib.default_residency(),
                     help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(kb_consistency 매크로가 명시로 넘긴다)")
     ap.add_argument("chunks", nargs="+")
     return ap.parse_args()

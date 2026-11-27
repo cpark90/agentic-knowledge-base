@@ -9,7 +9,7 @@ sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
-part_of: https://agentic-knowledge-base.dev/id/composite/6d4f42a2-870a-44fb-9a63-05749c2b9dcd
+part_of: https://agentic-knowledge-base.dev/id/composite/0edbd7df-e79b-4b9f-b913-f8e16daf03ad
 ---
 **함수** — `chunk_body(text)` 다. 단위 지식 파일의 본문 — frontmatter 를 뺀 나머지, 앞뒤 빈 줄 제거.
 

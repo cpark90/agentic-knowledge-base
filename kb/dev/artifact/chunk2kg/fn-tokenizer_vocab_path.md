@@ -7,8 +7,9 @@ title: function tokenizer_vocab_path in tools/chunk2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-chunk2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
+uses: [https://agentic-knowledge-base.dev/id/chunk/a521ceb8-1a46-412a-a169-2cb07a11c69a]
 part_of: https://agentic-knowledge-base.dev/id/composite/5e2d37fd-1039-4929-8dbf-76c76777b467
 ---
 **함수** — `tokenizer_vocab_path(explicit)` 다. 고정된 어휘 파일의 경로.
@@ -21,8 +22,8 @@ def tokenizer_vocab_path(explicit: str | os.PathLike | None = None) -> Path:
     **명시가 우선이다** — 타깃이 `--vocab=$(rootpath @tiktoken_o200k_base//file)` 로 주는 경로가 그 자리다.
     runfiles 자리는 `bazel run` 의 것이다 — `http_file` 의 산출물은 외부 저장소에 살아
     `<runfiles>/{repo}/file/{name}` 이고, cwd 가 `_main` 인 부트스트랩에서는 `../{repo}/file/{name}` 이다.
-    `{repo}` 는 canonical 이름(`+http_file+…`)과 apparent 이름 둘을 다 본다 — bzlmod 의 측정 디렉토리는
-    앞의 것이고 뒤의 것만 보면 인자 없이 부른 경로가 전부 빗나간다.
+    `{repo}` 는 `runfiles_repo_dirs` 가 apparent 이름에서 푼 canonical 디렉토리다 — 이 모듈이 루트일 때와 다른
+    저장소의 의존일 때 이름이 다르므로 고정하지 않는다.
     """
     if explicit:
         p = Path(explicit)
@@ -32,17 +33,13 @@ def tokenizer_vocab_path(explicit: str | os.PathLike | None = None) -> Path:
     env = os.environ.get(TOKENIZER_VOCAB_ENV)
     if env:
         return tokenizer_vocab_path(env)
-    rels = [f"{repo}/file/{TOKENIZER_VOCAB_FILE}"
-            for repo in (TOKENIZER_VOCAB_REPO_CANONICAL, TOKENIZER_VOCAB_REPO)]
-    runfiles = os.environ.get("RUNFILES_DIR", "")
-    bases = ([Path(runfiles)] if runfiles else []) + [Path(".."), Path("external")]
-    for base in bases:
-        for rel in rels:
-            if (base / rel).is_file():
-                return base / rel
+    for repo_dir in runfiles_repo_dirs(TOKENIZER_VOCAB_REPO):
+        cand = repo_dir / "file" / TOKENIZER_VOCAB_FILE
+        if cand.is_file():
+            return cand
     raise FileNotFoundError(
         f"어휘 파일 {TOKENIZER_VOCAB_FILE} 을 찾지 못했다 — `bazel run //tools:tokens` 로 돌리거나 "
         f"{TOKENIZER_VOCAB_ENV} 에 경로를 준다 (고정처는 MODULE.bazel 의 http_file {TOKENIZER_VOCAB_REPO}, "
-        f"runfiles 의 이름은 {TOKENIZER_VOCAB_REPO_CANONICAL} 다)")
+        f"runfiles 의 이름은 `_repo_mapping` 이 푼 canonical 이름이다)")
 ```
 <!-- 인용 끝 -->

@@ -39,7 +39,7 @@ from pathlib import Path
 from tools import judge, kb_lib, label_sample, link, run_evidence
 from tools.chunk2kg import apply_plane_level_state, load_plane_level_state
 
-ID = "https://agentic-knowledge-base.dev/id/"
+ID = kb_lib.ID_BASE  # 이름공간의 단일 정의 위치 (task 0327 손질 9)
 
 
 def chunk(name: str, cls: str, level: str, loc: str, by: str = "human") -> str:

@@ -4,8 +4,11 @@
 `bazel test //...` 가 곧 게이트 전체 실행이다.
 """
 
-load("//defs:kb.bzl", "USES_TARGETS")  # `uses` 치역 경계의 단일 정의 위치 — 대상 모듈의 등록부를 추출 드리프트 테스트의 입력으로 준다
+# USES_TARGETS 는 `uses` 치역 경계의 단일 정의 위치다 — 대상 모듈의 등록부를 추출 드리프트 테스트의 입력으로 준다.
+# OntologyModuleInfo 는 모듈 IRI·원본 파일의 원본이다 — kb_owl_catalog 가 읽는다
+load("//defs:kb.bzl", "OntologyModuleInfo", "USES_TARGETS")
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
+load("@bazel_skylib//rules:common_settings.bzl", "BuildSettingInfo")
 load("@kb_pip//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_binary", "py_test")
 
@@ -70,6 +73,66 @@ def _flag_args(flag, targets):
         return []
     return [flag] + ["$(rootpaths %s)" % t for t in targets]
 
+def _tool(name):
+    """genrule 명령 안의 도구 위치 — `Label` 로 이 모듈 기준으로 푼다 (task 0327 손질 1).
+
+    문자열 `$(location //tools:…)` 는 매크로를 부른 저장소 기준으로 풀려 의존 저장소에서 분석이 실패한다. `str(Label(…))` 은
+    canonical 라벨(`@@…//tools:…`)이라 어느 저장소에서 불러도 이 모듈의 도구를 가리킨다. `tools` 목록에도 같은 `Label` 을 준다.
+    """
+    return "$(location %s)" % Label("//tools:" + name)
+
+# ── 단위 지식 IRI 이름공간 (task 0327 손질 9) ──
+# 빌드 설정 `//defs:id_base`(string_flag, 기본값 빈 문자열)의 값을 환경 변수 `KB_ID_BASE` 로 도구에 넘긴다. 값이 비면 도구가
+# 자기 기본값(`chunk2kg.ID_BASE_DEFAULT`)을 쓰므로 이름공간 리터럴은 파이썬 한 곳에만 있다. 지식 타깃에는 설정을 **루트 모듈의 것에만** 준다 —
+# 이 모듈이 의존일 때 이 모듈 자신의 타깃(`native.repo_name()` 이 비지 않는다)은 받지 않는다. 플래그는 빌드 전체에 하나라서,
+# 그러지 않으면 코어의 지식이 의존 저장소의 이름공간으로 다시 이름 붙는다. `defs/kb.bzl` 의 `_id_base_env` 가 규칙 쪽의 같은 규약이다.
+_ID_BASE_VAR = Label("//defs:id_base_var")
+
+def _kb_id_base_var_impl(ctx):
+    return [platform_common.TemplateVariableInfo({"KB_ID_BASE": ctx.attr._flag[BuildSettingInfo].value})]
+
+kb_id_base_var = rule(
+    implementation = _kb_id_base_var_impl,
+    doc = "빌드 설정 //defs:id_base 를 Make 변수 $(KB_ID_BASE) 로 노출한다 — genrule·py_test 의 `toolchains` 로 쓴다 (task 0327 손질 9).",
+    attrs = {"_flag": attr.label(default = "//defs:id_base", providers = [BuildSettingInfo])},
+)
+
+def _id_root():
+    return native.repo_name() == ""
+
+def _id_cmd():
+    """genrule 명령 앞에 붙는 이름공간 export — 루트 모듈의 타깃만."""
+    return "export KB_ID_BASE='$(KB_ID_BASE)'; " if _id_root() else ""
+
+def _id_toolchains():
+    """genrule 의 `toolchains` — `$(KB_ID_BASE)` 의 출처. 루트 모듈의 타깃만."""
+    return [_ID_BASE_VAR] if _id_root() else []
+
+def kb_tool_binary(**kwargs):
+    """도구 바이너리 — py_binary 에 이름공간 환경 변수를 더한다 (task 0327 손질 9). `tools/BUILD.bazel` 이 `py_binary` 로 load 한다.
+
+    도구는 `bazel run` 으로 호출 저장소의 작업 트리를 읽으므로, 지식 타깃과 달리 **어느 저장소의 타깃이든** 설정을 받는다 —
+    의존 저장소에서 `bazel run @agentic_knowledge_base//tools:query` 를 돌리면 그 저장소의 이름공간으로 `id:` 를 푼다. genrule 의
+    `tools` 로 쓰일 때는 `env` 가 적용되지 않고 genrule 명령의 export 가 그 자리다.
+    """
+    env = dict(kwargs.pop("env", {}))
+    env["KB_ID_BASE"] = "$(KB_ID_BASE)"
+    py_binary(
+        env = env,
+        toolchains = kwargs.pop("toolchains", []) + [_ID_BASE_VAR],
+        **kwargs
+    )
+
+def _with_id(kwargs):
+    """py_test·py_binary 의 kwargs 에 이름공간 환경 변수와 Make 변수의 출처를 더한다 — 루트 모듈의 타깃만."""
+    if not _id_root():
+        return kwargs
+    env = dict(kwargs.pop("env", {}))
+    env["KB_ID_BASE"] = "$(KB_ID_BASE)"
+    kwargs["env"] = env
+    kwargs["toolchains"] = kwargs.pop("toolchains", []) + [_ID_BASE_VAR]
+    return kwargs
+
 def kb_gate_test(
         name,
         ontology = [],
@@ -93,9 +156,14 @@ def kb_gate_test(
       shapes: SHACL shape 라벨들 (*-shapes).
       odd: ODD 라벨들 (*-odd). 주면 agt:refersTo → ODD 참조 게이트가 켜진다.
       data: A-Box 라벨들 (*-kg, *-space). 통제 어휘 검사 대상.
+      verify_queries: verify 질의(`*.rq`) filegroup 라벨 (`//tools:verify_queries`, 의존 저장소는 `@agentic_knowledge_base//tools:verify_queries`).
+        주면 안티패턴 질의가 켜진다. 질의가 0개로 풀리면 PASS 가 아니라 CONFIG 다 (task 0327 손질 2).
       chunk_files: 단위 지식 본문 라벨들 (패키지 이름의 filegroup — `//kb/dev` 등). 주면 게이트 `element-drop` 의 frontmatter 키 전수 대조가 켜진다 —
         소비되지 않는 키는 조용히 버려지는 소스 요소다 (현상 P19, 8.21절 G1).
-      reason: SHACL 전에 OWL-RL 추론 적용.
+      reason: 추론 모드 (유저 결정 Q174-a). OWL 2 RL 폐포를 한 번 만들어 게이트 `logical-consistency`(추론기의 오류 노드와
+        owl:Nothing 소속)와 그 폐포 위의 `shacl` 만 돌린다. 나머지 검사는 추론 없는 게이트 테스트가 이미 돌리므로 그 입력
+        (`verify_queries`·`chunk_files`·`residency`·`gates`·`gate_sources`·`standard_vocab`)을 함께 주면 로드 시점에 멈추고,
+        `ontology` 는 있어야 한다. 같은 그래프 집합의 두 테스트(`//kg:gate_test`·`//kg:reason_test`)가 나란히 돈다.
       residency: 수준 허용표의 원본 라벨 (//defs:kb.bzl). 주면 게이트 `residency` 와 `token-budget` 이 켜진다 —
         shape 의 plane × level 구간이 그 파일의 `RESIDENCY` 와 같은지, 지식 종류별 본문 토큰 상한이
         `kb_lib.BODY_TOKEN_LIMITS` 와 같은지 본다. 표를 두 곳에 적는 것을 막는다 (M1 단일 정의 위치).
@@ -113,17 +181,26 @@ def kb_gate_test(
         (agrtls-practices-review C, `kb_chunk_lint_test` 의 `chunk` 면제와 같은 규약).
       **kwargs: py_test 로 전달.
     """
+    if reason:
+        overlap = [k for k, v in [("verify_queries", verify_queries), ("chunk_files", chunk_files), ("residency", residency),
+                                  ("gates", gates), ("gate_sources", gate_sources), ("standard_vocab", standard_vocab)] if v]
+        if overlap or not ontology:
+            fail("kb_gate_test(%s): reason = True 는 ontology 가 있어야 하고 %s 를 받지 않는다 — 그 검사는 추론 없는 게이트 테스트가 돌린다" %
+                 (name, ", ".join(overlap) or "겹치는 검사의 입력"))
     vocab = Label("@tiktoken_o200k_base//file")  # 게이트 token-budget 의 계수기 해시값 (p1-chunk-unit-is-tokens)
-    graphs = ontology + shapes + odd + data + standard_vocab + chunk_files + [vocab]
+    vocabs = [] if reason else [vocab]  # 추론 모드는 token-budget 을 돌리지 않는다
+    graphs = ontology + shapes + odd + data + standard_vocab + chunk_files + vocabs
     args = (
-        ["--vocab", "$(rootpath %s)" % vocab] +
+        (["--vocab", "$(rootpath %s)" % vocab] if vocabs else []) +
         _flag_args("--ontology", ontology) +
         _flag_args("--shapes", shapes) +
         _flag_args("--odd", odd) +
         _flag_args("--data", data) +
         _flag_args("--chunk-files", chunk_files) +
         _flag_args("--standard-vocab", standard_vocab) +
-        (["--verify-queries", "tools/verify-queries"] if verify_queries else []) +
+        # 질의 filegroup 의 파일 경로를 그대로 넘긴다 — 고정 경로 `tools/verify-queries` 는 의존 저장소의 runfiles 에서 빗나가
+        # 질의 0개로 PASS 했다. 0개면 validate 가 CONFIG(종료 2)로 멈춘다 (task 0327 손질 2)
+        (["--verify-queries", "$(rootpaths %s)" % verify_queries] if verify_queries else []) +
         (["--residency", "$(rootpath %s)" % residency] if residency else []) +
         (["--waivers", "$(rootpath %s)" % waivers] if waivers else []) +
         (["--gates", "$(rootpath %s)" % gates] if gates else []) +
@@ -150,8 +227,64 @@ def kb_gate_test(
         data = _with_gates(graphs),
         deps = _RDF_DEPS,
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
+
+def _kb_owl_catalog_impl(ctx):
+    root = ctx.attr.root[OntologyModuleInfo]
+    root_files = root.srcs.to_list()
+    if len(root_files) != 1:
+        fail("%s: 최상위 모듈 %s 은 파일 하나여야 한다 — 표준 도구가 여는 사본이 그 파일이다" % (ctx.label, ctx.attr.root.label))
+    iris = [m[OntologyModuleInfo].iri for m in ctx.attr.modules]
+    if sorted(iris) != sorted(root.imports):
+        fail("%s: modules 의 IRI 가 최상위 모듈의 imports 와 다르다 — modules 에는 PROJECT_IMPORTS 를 준다" % ctx.label)
+    d = ctx.label.name
+    base = ctx.attr.root.label.package
+    catalog = ctx.actions.declare_file(d + "/catalog-v001.xml")
+    outs = [catalog, ctx.actions.declare_file(d + "/" + root_files[0].basename)]
+    inputs = list(root_files)
+    args = ctx.actions.args()
+    args.add("--catalog", catalog.dirname)
+    args.add("--root", root_files[0])
+    for m in ctx.attr.modules:
+        info = m[OntologyModuleInfo]
+        rel = m.label.package
+        if base and rel.startswith(base + "/"):
+            rel = rel[len(base) + 1:]
+        merged = ctx.actions.declare_file("%s/%s.ttl" % (d, rel.replace("/", "-")))
+        outs.append(merged)
+        files = sorted(info.srcs.to_list(), key = lambda f: f.path)
+        inputs += files
+        args.add("--module")
+        args.add(info.iri)
+        args.add(merged.basename)
+        args.add_all(files)
+        for imp in info.imports:
+            args.add_all("--module-import", [info.iri, imp])
+    ctx.actions.run(
+        executable = ctx.executable._canonicalize,
+        arguments = [args],
+        inputs = inputs,
+        outputs = outs,
+        mnemonic = "KbOwlCatalog",
+        progress_message = "OWL 대응표 %s" % ctx.label,
+    )
+    return [DefaultInfo(files = depset(outs))]
+
+kb_owl_catalog = rule(
+    implementation = _kb_owl_catalog_impl,
+    doc = """표준 OWL 도구(Protégé·OWL API·ROBOT)용 디렉토리 하나 — 대응표·모듈 합본·최상위 파일 사본 (Q176-a·Q177-c).
+
+    `bazel-bin/<패키지>/<이름>/` 에 OASIS XML Catalog `catalog-v001.xml` 과 모듈마다 합본 TTL 하나, 최상위 파일 사본을 쓴다.
+    모듈은 파일 여럿이고 owl:Ontology 선언이 없어서 IRI 하나를 파일 하나에 대응시키는 대응표가 원본 파일을 바로 가리키지
+    못하므로, 합본이 그 자리를 맡는다. IRI 는 모듈 BUILD 의 `iri` 를 OntologyModuleInfo 에서 읽으므로 두 번 적지 않는다.
+    생성은 `tools/canonicalize.py --catalog` 이고 합본은 정규형이다. 저장 파일은 없다(pe-generated-outputs-stay-in-bazel-out).""",
+    attrs = {
+        "root": attr.label(providers = [OntologyModuleInfo], mandatory = True, doc = "최상위 모듈 — owl:imports 를 담은 파일 하나"),
+        "modules": attr.label_list(providers = [OntologyModuleInfo], mandatory = True, doc = "대응표에 올릴 모듈 — 최상위 모듈의 imports 와 같은 집합"),
+        "_canonicalize": attr.label(default = Label("//tools:canonicalize"), executable = True, cfg = "exec"),
+    },
+)
 
 def kb_taxonomy(name, ontology, out = "taxonomy.yml"):
     """related/condition 온톨로지에서 OpenODD 택소노미(속성 범주)를 생성한다 (부록 E.4)."""
@@ -159,8 +292,9 @@ def kb_taxonomy(name, ontology, out = "taxonomy.yml"):
         name = name,
         srcs = ontology,
         outs = [out],
-        cmd = "$(location //tools:taxonomy) --out $@ $(SRCS)",
+        cmd = _id_cmd() + _tool("taxonomy") + " --out $@ $(SRCS)",
         tools = [Label("//tools:taxonomy")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
 def kb_odd_kg(name, src, taxonomy, out):
@@ -173,8 +307,9 @@ def kb_odd_kg(name, src, taxonomy, out):
         name = name,
         srcs = [src, taxonomy],
         outs = [out],
-        cmd = "$(location //tools:odd2kg) --taxonomy $(location %s) --out $@ $(location %s)" % (taxonomy, src),
+        cmd = _id_cmd() + _tool("odd2kg") + " --taxonomy $(location %s) --out $@ $(location %s)" % (taxonomy, src),
         tools = [Label("//tools:odd2kg")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
 def kb_cq_report(name, data, queries, out = "cq.md"):
@@ -186,8 +321,9 @@ def kb_cq_report(name, data, queries, out = "cq.md"):
         name = name,
         srcs = data + [queries],
         outs = [out],
-        cmd = "$(location //tools:query) --report $@ --queries $(execpaths %s) --ttl %s" % (queries, " ".join(["$(execpaths %s)" % d for d in data])),
+        cmd = _id_cmd() + _tool("query") + " --report $@ --queries $(execpaths %s) --ttl %s" % (queries, " ".join(["$(execpaths %s)" % d for d in data])),
         tools = [Label("//tools:query")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
 def kb_metrics(name, data, notes = None, bodies = [], spaces = [], out = "metrics.md"):
@@ -208,8 +344,9 @@ def kb_metrics(name, data, notes = None, bodies = [], spaces = [], out = "metric
         name = name,
         srcs = data + ([notes] if notes else []) + bodies + spaces + [residency] + mutations,
         outs = [out],
-        cmd = "$(location //tools:metrics) --out $@ --residency $(location %s) %s%s" % (residency, " ".join(["$(execpaths %s)" % d for d in data]), extra),
+        cmd = _id_cmd() + _tool("metrics") + " --out $@ --residency $(location %s) %s%s" % (residency, " ".join(["$(execpaths %s)" % d for d in data]), extra),
         tools = [Label("//tools:metrics")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
 def kb_consistency(name, bodies, glossary = None, waivers = None, theta = "0.5", out = "consistency.md"):
@@ -229,10 +366,11 @@ def kb_consistency(name, bodies, glossary = None, waivers = None, theta = "0.5",
         name = name,
         srcs = bodies + ([glossary] if glossary else []) + ([waivers] if waivers else []) + [residency],
         outs = [out],
-        cmd = "$(location //tools:consistency) --out $@ --theta %s --residency $(location %s)%s %s" % (
+        cmd = _id_cmd() + _tool("consistency") + " --out $@ --theta %s --residency $(location %s)%s %s" % (
             theta, residency, extra, " ".join(["$(execpaths %s)" % b for b in bodies])
         ),
         tools = [Label("//tools:consistency")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
     build_test(
         name = name + "_build_test",
@@ -250,8 +388,9 @@ def kb_community(name, data, out = "communities.md"):
         name = name,
         srcs = data,
         outs = [out],
-        cmd = "$(location //tools:community) --out $@ %s" % " ".join(["$(execpaths %s)" % d for d in data]),
+        cmd = _id_cmd() + _tool("community") + " --out $@ %s" % " ".join(["$(execpaths %s)" % d for d in data]),
         tools = [Label("//tools:community")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
 def kb_open_questions(name, data, bodies = [], spaces = [], out = "open.md"):
@@ -274,8 +413,9 @@ def kb_open_questions(name, data, bodies = [], spaces = [], out = "open.md"):
         name = name,
         srcs = data + spaces + bodies,
         outs = [out],
-        cmd = "$(location //tools:open_questions) --out $@ %s%s" % (" ".join(["$(execpaths %s)" % d for d in data]), extra),
+        cmd = _id_cmd() + _tool("open_questions") + " --out $@ %s%s" % (" ".join(["$(execpaths %s)" % d for d in data]), extra),
         tools = [Label("//tools:open_questions")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
 def kb_link_candidates(name, data, k = 7, min_shared = 3, coedit = [], out = "link-candidates.md"):
@@ -300,8 +440,9 @@ def kb_link_candidates(name, data, k = 7, min_shared = 3, coedit = [], out = "li
         name = name,
         srcs = data + coedit,
         outs = [out],
-        cmd = "$(location //tools:link) --out $@ --k %d --min-shared %d%s %s" % (k, min_shared, coedit_arg, " ".join(["$(execpaths %s)" % d for d in data])),
+        cmd = _id_cmd() + _tool("link") + " --out $@ --k %d --min-shared %d%s %s" % (k, min_shared, coedit_arg, " ".join(["$(execpaths %s)" % d for d in data])),
         tools = [Label("//tools:link")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
 def kb_weave(name, kind, data, bodies = [], spaces = [], out = None):
@@ -333,8 +474,9 @@ def kb_weave(name, kind, data, bodies = [], spaces = [], out = None):
         name = name,
         srcs = data + bodies + spaces + residency,
         outs = [out],
-        cmd = "$(location //tools:weave) --kind %s --out $@ %s%s" % (kind, " ".join(["$(execpaths %s)" % d for d in data]), extra),
+        cmd = _id_cmd() + _tool("weave") + " --kind %s --out $@ %s%s" % (kind, " ".join(["$(execpaths %s)" % d for d in data]), extra),
         tools = [Label("//tools:weave")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
 def kb_skills_drift_test(name, skills, docs, tools = Label("//tools"), **kwargs):
@@ -358,7 +500,7 @@ def kb_skills_drift_test(name, skills, docs, tools = Label("//tools"), **kwargs)
         data = _with_gates([skills, tools] + docs),
         deps = [requirement("rdflib")],  # kb_lib(SKILLS 표의 단일 정의 위치)가 요구
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 _GEN_NORMS_SRCS = [
@@ -391,7 +533,7 @@ def kb_norms_drift_test(name, docs, data = [], args = [], **kwargs):
         data = _with_gates(data + docs),
         deps = [requirement("rdflib")],  # kb_lib(생성 문서 규약 G1~G18 의 단일 정의 위치)가 요구
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 def kb_norms_fixture_test(name, src, case, fixture, **kwargs):
@@ -415,7 +557,7 @@ def kb_norms_fixture_test(name, src, case, fixture, **kwargs):
         data = _with_gates([fixture, Label("//kg:kg")]),  # writer 사례의 카탈로그 kg/catalog-kg.ttl
         deps = [requirement("rdflib")],
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 _CASE_GEN_SRCS = [
@@ -457,7 +599,7 @@ def kb_case_drift_test(name, scenarios = [], cases = "kb/vv/case", data = [], al
         data = _with_gates(data + scenarios),
         deps = _CASE_GEN_DEPS,
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 def kb_case_gen_fixture_test(name, src, case, fixture, **kwargs):
@@ -481,7 +623,7 @@ def kb_case_gen_fixture_test(name, src, case, fixture, **kwargs):
         data = _with_gates([fixture]),
         deps = _CASE_GEN_DEPS,
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 _VV_RUN_FIXTURE_SRCS = [
@@ -517,7 +659,7 @@ def kb_vv_run_fixture_test(name, src, case, fixture, **kwargs):
             requirement("pyyaml"),  # vv_run 이 항목 본문의 `yaml` 펜스를 읽는다
         ],
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 _REVALIDATE_FIXTURE_SRCS = [
@@ -545,7 +687,7 @@ def kb_revalidate_fixture_test(name, src, case, fixture, **kwargs):
         data = _with_gates([fixture]),
         deps = [requirement("rdflib")],  # kb_lib 이 요구
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 _ROUND_FIXTURE_SRCS = [
@@ -576,7 +718,7 @@ def kb_round_fixture_test(name, src, case, data = [], **kwargs):
             requirement("pyyaml"),  # vv_run 이 항목 본문의 `yaml` 펜스를 읽는다
         ],
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 _GEN_BUILD_SRCS = [
@@ -606,7 +748,7 @@ def kb_build_drift_test(name, builds, data = [], **kwargs):
         args = ["--check", "--root", "."],
         data = _with_gates(data + builds),
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 def kb_gate_input_test(name, **kwargs):
@@ -629,7 +771,7 @@ def kb_gate_input_test(name, **kwargs):
         data = _with_gates([]),
         size = kwargs.pop("size", "small"),
         tags = kwargs.pop("tags", []) + ["external"],
-        **kwargs
+        **_with_id(kwargs)
     )
 
 def kb_extract_drift_test(name, source, chunks, registry, tools = Label("//tools"), **kwargs):
@@ -665,7 +807,7 @@ def kb_extract_drift_test(name, source, chunks, registry, tools = Label("//tools
                ["//tools:%s.chunks.yml" % m for m in USES_TARGETS if "tools/%s.py" % m != source],
         deps = [requirement("rdflib")],  # kb_lib(추출 규약의 단일 정의 위치)가 요구
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 def kb_index(name, srcs, out = "index.md"):
@@ -683,10 +825,11 @@ def kb_index(name, srcs, out = "index.md"):
         name = name,
         srcs = srcs + [residency],
         outs = [out],
-        cmd = "$(location //tools:labels) --out $@ --residency $(location %s) %s" % (
+        cmd = _id_cmd() + _tool("labels") + " --out $@ --residency $(location %s) %s" % (
             residency, " ".join(["$(execpaths %s)" % s for s in srcs])
         ),
         tools = [Label("//tools:labels")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
 def kb_reference_kg(name, srcs, out = None, ontology = []):
@@ -712,10 +855,11 @@ def kb_reference_kg(name, srcs, out = None, ontology = []):
         name = name,
         srcs = srcs + ontology + [Label("//defs:kb.bzl")],
         outs = [out],
-        cmd = ("$(location //tools:extract_refs) --out $@.refs%s $(SRCS) && " % onto +
-               "$(location //tools:run_evidence) --out $@.runs --residency $(location //defs:kb.bzl) $(SRCS) && " +
+        cmd = (_id_cmd() + _tool("extract_refs") + " --out $@.refs%s $(SRCS) && " % onto +
+               _tool("run_evidence") + " --out $@.runs --residency $(location %s) $(SRCS) && " % Label("//defs:kb.bzl") +
                "cat $@.refs $@.runs > $@ && rm -f $@.refs $@.runs"),
         tools = [Label("//tools:extract_refs"), Label("//tools:run_evidence")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
 def kb_chunk_lint_test(name, chunks = [], ttl = [], waivers = None, **kwargs):
@@ -746,7 +890,7 @@ def kb_chunk_lint_test(name, chunks = [], ttl = [], waivers = None, **kwargs):
             requirement("tiktoken"),  # 토큰 계수기 (p1-chunk-unit-is-tokens)
         ],
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], waivers = None, gates = None, **kwargs):
@@ -787,7 +931,7 @@ def kb_doccheck_test(name, srcs, target_only = [], data = [], empty_dirs = [], w
         data = _with_gates(srcs + target_only + data + ([waivers] if waivers else [])),
         deps = [requirement("rdflib")],  # kb_lib(종료 코드 규약의 단일 정의 위치)가 요구
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 def kb_gendoc_test(name, docs, data = [], empty_dirs = [], **kwargs):
@@ -815,7 +959,7 @@ def kb_gendoc_test(name, docs, data = [], empty_dirs = [], **kwargs):
         data = _with_gates(docs + data),
         deps = [requirement("rdflib")],  # kb_lib(규약의 단일 정의 위치)가 요구
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 def kb_runner_env_test(name, probe = "chunk_lint", **kwargs):
@@ -848,7 +992,7 @@ def kb_runner_env_test(name, probe = "chunk_lint", **kwargs):
             requirement("pyyaml"),  # vv_run 이 테스트 케이스 본문의 `yaml` 펜스를 읽는다 — import 에 필요하다
         ],
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 def kb_channel_lint_test(name, harness, waivers, decisions, ontology, graphs, send_check = None, **kwargs):
@@ -891,6 +1035,7 @@ def kb_channel_lint_test(name, harness, waivers, decisions, ontology, graphs, se
             main = Label("//tools:channel_lint.py"),
             data = [":" + send_check + "_args", decisions, ontology] + graphs,
             deps = [Label("//tools:kb_lib")],
+            **_with_id({})
         )
     py_test(
         name = name,
@@ -903,7 +1048,7 @@ def kb_channel_lint_test(name, harness, waivers, decisions, ontology, graphs, se
         deps = [Label("//tools:kb_lib")],  # 게이트 등록부 리터럴은 kb_lib 타깃이 runfiles 에 싣는다
         size = kwargs.pop("size", "small"),
         tags = kwargs.pop("tags", []) + ["external"],
-        **kwargs
+        **_with_id(kwargs)
     )
 
 def kb_harness_scripts_test(name, src, scripts, **kwargs):
@@ -924,7 +1069,7 @@ def kb_harness_scripts_test(name, src, scripts, **kwargs):
         main = src,
         data = scripts,
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )
 
 def kb_frozen_docs_test(name, docs, **kwargs):
@@ -946,5 +1091,5 @@ def kb_frozen_docs_test(name, docs, **kwargs):
         data = _with_gates(docs),
         deps = [requirement("rdflib")],  # kb_lib(동결 해시의 단일 정의 위치)가 요구
         size = kwargs.pop("size", "small"),
-        **kwargs
+        **_with_id(kwargs)
     )

@@ -7,8 +7,8 @@ source: tools/space2kg.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-space2kg
 package: kb/dev/artifact/space2kg
 layer: process
-at: 2026-10-02T00:08:55Z
-source_hash: 24eab54b4ee90981
+at: 2026-10-31T18:06:07Z
+source_hash: 50b243525115ab41
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/7c9d74e6-1a77-4d52-a126-644a65bfab93
   - https://agentic-knowledge-base.dev/id/chunk/828f6e56-8841-4778-94b7-fe42d706243f

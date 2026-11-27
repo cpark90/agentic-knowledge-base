@@ -7,10 +7,10 @@ title: function check_shacl in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T15:04:08Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/32dfc003-5ffa-4b9f-95c1-d71ffd0a4884, https://agentic-knowledge-base.dev/id/chunk/8a2be483-4fc8-411f-8f35-b7719552e4e4]
-part_of: https://agentic-knowledge-base.dev/id/composite/d62da398-7c0d-493a-9514-8d3ccebe5ca7
+part_of: https://agentic-knowledge-base.dev/id/composite/c119e011-edad-4e1c-8320-30f9527b9a13
 ---
 **함수** — `check_shacl(merged, shapes, reason, shape_paths, waivers)` 다. pySHACL 적합성 — 위반마다
 
@@ -23,6 +23,8 @@ def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[st
     shape 는 약화하지 않는다. 면제의 자리는 `docs/waivers.md` 하나(게이트 id `shacl`, 축 `파일`)이고 면제된
     위반은 집계에서 빼되 `WAIVED [shacl] <파일>: <sh:resultMessage>` 줄로 남긴다 — `chunk_lint` 의 `chunk`
     면제와 같은 규약이다. focus node → 파일은 그래프의 `agt:assertionLocation` 이 정한다.
+    `reason` 이면 `merged` 가 이미 OWL 2 RL 폐포(`owl_rl_closure`)이므로 추론하지 않는다 — 폐포를 두 번 만들지 않는다.
+    그렇지 않으면 RDFS 추론을 얹는다.
     """
     from pyshacl import validate as shacl_validate
     from rdflib.namespace import SH
@@ -32,7 +34,7 @@ def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[st
         merged,
         shacl_graph=shapes,
         ont_graph=None,
-        inference="rdfs" if not reason else "both",
+        inference="none" if reason else "rdfs",
         abort_on_first=False,
         allow_infos=True,
         allow_warnings=False,

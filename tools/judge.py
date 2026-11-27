@@ -574,7 +574,7 @@ def record_args(a, root: Path):
         enc = kb_lib.load_tokenizer(a.vocab or None)
     except (FileNotFoundError, ValueError) as e:
         raise JudgeError(f"어휘 파일 — {e}") from e
-    return (at(root, a.into) if a.into else root), enc, root / kb_lib.JUDGE_LOG_SHAPES
+    return (at(root, a.into) if a.into else root), enc, kb_lib.core_path(kb_lib.JUDGE_LOG_SHAPES, root)
 
 
 def pairs_main(a, root: Path, qs: dict) -> int:
@@ -638,7 +638,7 @@ def main() -> int:
     ap.add_argument("--out", default="", metavar="FILE", help="보고를 파일로도 쓴다")
     ap.add_argument("--profile", default=PROFILE_DIR, help="질문·척도·임계의 원본 디렉토리")
     ap.add_argument("--list", action="store_true", help="등록된 질문만 나열하고 멈춘다")
-    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 워크스페이스 루트 기준")
+    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 이 모듈의 것(kb_lib.default_residency)")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 판정 로그를 `memory` 상한 안으로 가르는 데 쓴다. "
                                                "없으면 runfiles 의 고정 파일을 쓴다 (p1-chunk-unit-is-tokens)")
     ap.add_argument("chunks", nargs="*", help="판정 대상 단위 지식 파일 — 라벨 대표성 실험(`--decoys`)만 쓰면 생략할 수 있다")
@@ -647,9 +647,9 @@ def main() -> int:
 
     try:
         try:
-            apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
+            apply_plane_level_state(*load_plane_level_state(a.residency or kb_lib.default_residency()))
         except (OSError, ValueError) as e:
-            raise JudgeError(f"{a.residency or root / 'defs/kb.bzl'}: 값 어휘의 원본을 읽을 수 없다 — {e}")
+            raise JudgeError(f"{a.residency or kb_lib.default_residency()}: 값 어휘의 원본을 읽을 수 없다 — {e}")
         g = load_profile(root, a.profile, SHAPES)
         qs = questions(g)
         if a.list:

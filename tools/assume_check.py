@@ -34,7 +34,6 @@ kb/dev/memory/obs-<UTC>.md 에 쓴다. 이미 있는 파일은 덮지 않는다.
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 import uuid
 from collections import defaultdict
@@ -65,10 +64,8 @@ GENERATOR = kb_lib.ASSUME_CHECK_GENERATOR  # 관측의 generated.by — 단일 �
 # ── 가정과 조건의 해소 ────────────────────
 
 def resolve(path: str, root: Path) -> Path | None:
-    for cand in (Path(path), root / "bazel-bin" / path, root / path):
-        if cand.is_file():
-            return cand
-    return None
+    """작업 트리 기준 탐색과 이 모듈의 코어 폴백 — `kb_lib.resolve_path` 하나를 쓴다 (task 0327 손질 5)."""
+    return kb_lib.resolve_path(path, root)
 
 
 def local(iri) -> str:
@@ -215,7 +212,7 @@ def parse_args():
                     help="이 조건(id:cond-… 의 슬러그 또는 ODD 속성명)을 out 으로 가정한다 — 인위 파괴 실험. 반복 가능")
     ap.add_argument("--record", action="store_true", help=f"결과를 관측으로 {MEMORY_DIR}/obs-<UTC>.md 에 append-only 로 쓴다")
     ap.add_argument("--out", default="", help="보고를 파일로도 쓴다")
-    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 워크스페이스 루트 기준")
+    ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — 안 주면 이 모듈의 것(kb_lib.default_residency)")
     ap.add_argument("ttl", nargs="*", help=f"그래프 TTL (기본: {' '.join(DEFAULT_TTL)})")
     return ap.parse_args()
 
@@ -329,12 +326,12 @@ def report_experiment(check: dict | None, n_inv: int) -> list[str]:
 
 def main() -> int:
     a = parse_args()
-    root = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."))
+    root = kb_lib.workspace_root()
     now = datetime.now(timezone.utc).replace(microsecond=0)
     try:
-        apply_plane_level_state(*load_plane_level_state(a.residency or root / "defs" / "kb.bzl"))
+        apply_plane_level_state(*load_plane_level_state(a.residency or kb_lib.default_residency()))
     except (OSError, ValueError) as e:
-        print(f"FAIL [assume_check] {a.residency or root / 'defs/kb.bzl'}: 읽을 수 없다 — {e}")
+        print(f"FAIL [assume_check] {a.residency or kb_lib.default_residency()}: 읽을 수 없다 — {e}")
         return EXIT_CONFIG
 
     odd_path = root / a.odd

@@ -7,8 +7,8 @@ source: defs/kb.bzl
 resource: https://agentic-knowledge-base.dev/id/src-defs-kb
 package: kb/dev/artifact/kb-bzl
 layer: process
-at: 2026-10-15T10:04:45Z
-source_hash: ea75371008ba06f3
+at: 2026-10-31T18:06:07Z
+source_hash: 599ea388d15275b1
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/c5bb1922-eb82-4b96-a49c-a46e41c239e4
   - https://agentic-knowledge-base.dev/id/chunk/ee51de32-a48b-4ade-a147-4953bce27364
@@ -49,6 +49,7 @@ ids:
   fn:_check_links: https://agentic-knowledge-base.dev/id/chunk/708eb95d-56a9-4df5-883c-65f3f6821507
   fn:_check_order: https://agentic-knowledge-base.dev/id/chunk/1bd8f244-2394-47da-84b8-ccc6b62491f3
   fn:_check_residency: https://agentic-knowledge-base.dev/id/chunk/6eac2ae1-8d4b-41bd-9b7e-17100fd21d92
+  fn:_id_base_env: https://agentic-knowledge-base.dev/id/chunk/f779747e-220b-4ee0-b27f-1bf4f23584c5
   fn:_is_vv: https://agentic-knowledge-base.dev/id/chunk/bc4094f8-5d74-42ab-8efd-d981c7993732
   fn:_kb_chunk_impl: https://agentic-knowledge-base.dev/id/chunk/529ee1d7-f1a4-4eda-a71b-562040bdba47
   fn:_kb_composite_impl: https://agentic-knowledge-base.dev/id/chunk/9ea0fc86-c0a7-40b9-9890-52de62a048a9

@@ -7,7 +7,7 @@ title: module head agt in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/dca529bc-79c6-4569-af4c-122c0d736686
 ---
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/dca529bc-79c6-4569-af4c
 ```python
 # 이 체계 고유 어휘 (노트 0.3절, 0.7절)
 AGT = Namespace("https://agentic-knowledge-base.dev/agt/")
-ID = Namespace("https://agentic-knowledge-base.dev/id/")
+ID = Namespace(ID_BASE)  # 단위 지식 IRI 이름공간 — 리터럴은 chunk2kg.ID_BASE_DEFAULT 하나이고 KB_ID_BASE 가 바꾼다 (task 0327 손질 9)
 PROV = Namespace("http://www.w3.org/ns/prov#")  # 출처·귀속·특수화는 PROV-O 만 쓴다 (STYLEGUIDE §5)
 
 # 외부 표준 어휘 — 정의를 변경하지 않고 그대로 쓴다 (0.3절)

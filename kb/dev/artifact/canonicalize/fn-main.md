@@ -7,9 +7,9 @@ title: function main in tools/canonicalize.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-canonicalize}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-12T07:47:38Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/221ff1dd-1b9e-4518-831b-2c8e960001ac]
+uses: [https://agentic-knowledge-base.dev/id/chunk/221ff1dd-1b9e-4518-831b-2c8e960001ac, https://agentic-knowledge-base.dev/id/chunk/8f13de9c-0e9b-48f7-9212-7bbc47a6f349]
 part_of: https://agentic-knowledge-base.dev/id/composite/29d788bd-8690-47f5-8a29-184a6e40d389
 ---
 **함수** — `main()` 다.
@@ -21,8 +21,19 @@ def main() -> int:
     mode = ap.add_mutually_exclusive_group(required=True)
     mode.add_argument("--check", action="store_true")
     mode.add_argument("--write", action="store_true")
-    ap.add_argument("files", nargs="+")
+    mode.add_argument("--catalog", metavar="DIR", help="대응표·모듈 합본·최상위 파일 사본을 쓸 디렉토리")
+    ap.add_argument("--root", help="--catalog: 최상위 온톨로지 파일 (owl:imports 를 담는다)")
+    ap.add_argument("--module", nargs="+", action="append", default=[], metavar="ARG",
+                    help="--catalog: <모듈 IRI> <합본 파일 이름> <원본 TTL...> — 모듈마다 한 번")
+    ap.add_argument("--module-import", nargs=2, action="append", default=[], metavar=("IRI", "IMPORT"),
+                    help="--catalog: 모듈 합본에 옮길 owl:imports 하나")
+    ap.add_argument("files", nargs="*")
     args = ap.parse_args()
+
+    if args.catalog:
+        return write_catalog(Path(args.catalog), args.root, args.module, args.module_import)
+    if not args.files:
+        ap.error("--check·--write 는 파일이 하나 이상 필요하다")
 
     # `bazel run` 은 runfiles 디렉토리에서 실행되므로, 사용자가 준 상대 경로는
     # 호출 위치(BUILD_WORKING_DIRECTORY) 기준으로 되돌려 원본 파일을 가리키게 한다.

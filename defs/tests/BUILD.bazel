@@ -4,6 +4,7 @@ load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load("//defs:kb.bzl", "kb_chunk", "kb_composite", "kb_decision")
 load("//defs:knowledge.bzl", "kb_case_gen_fixture_test", "kb_gendoc_test", "kb_norms_fixture_test", "kb_revalidate_fixture_test", "kb_round_fixture_test", "kb_vv_run_fixture_test")
 load(":negative.bzl", "failure_test")
+load("//kb/ontology:modules.bzl", "PROJECT_IMPORTS")
 load("@kb_pip//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_test")
 
@@ -542,6 +543,47 @@ build_test(
     ],
 )
 
+# 게이트 `verify` 의 입력 — `--verify-queries` 를 줬는데 질의가 0개로 풀리면 PASS 가 아니라 CONFIG(종료 2)다 (task 0327 손질 2).
+# 의존 저장소에서 고정 경로 `tools/verify-queries` 가 빗나가 질의 0개로 PASS 하던 거짓 통과의 꼴을 재현한다 — 질의가 아닌 파일 하나를 준다
+genrule(
+    name = "verify_queries_empty_rejected",
+    srcs = [
+        "fx_cross_kb_ladder.ttl",
+        "//kb/ontology:modules",
+    ],
+    outs = ["verify_queries_empty_rejected.out"],
+    cmd = "( $(execpath //tools:validate) --ontology $(execpaths //kb/ontology:modules) " +
+          "--data $(execpath fx_cross_kb_ladder.ttl) --verify-queries $(execpath fx_cross_kb_ladder.ttl) > $@ ) || echo \"exit=$$?\" >> $@; " +
+          "grep -qxF 'exit=2' $@ && grep -qF 'FAIL [verify]' $@ && grep -qF 'verify 질의가 0개다' $@ && ! grep -qF 'PASS [validate]' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+# 양성 — 질의 filegroup 을 라벨로 주면 질의가 실제로 돈다. 고정물에는 출처가 없으므로 질의 `sources-empty` 가 두 건을 잡는다
+# (질의 0개의 거짓 통과였다면 PASS 였을 자리다)
+genrule(
+    name = "verify_queries_label_runs",
+    srcs = [
+        "fx_cross_kb_ladder.ttl",
+        "//kb/ontology:modules",
+        "//tools:verify_queries",
+    ],
+    outs = ["verify_queries_label_runs.out"],
+    cmd = "! $(execpath //tools:validate) --ontology $(execpaths //kb/ontology:modules) " +
+          "--data $(execpath fx_cross_kb_ladder.ttl) --verify-queries $(execpaths //tools:verify_queries) > $@ && " +
+          "grep -qF 'FAIL [verify] ' $@ && grep -qF 'sources-empty.rq: urn:fx:ladder-goal' $@ && ! grep -qF 'verify 질의가 0개다' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+build_test(
+    name = "verify_queries_input_test",
+    targets = [
+        ":verify_queries_empty_rejected",
+        ":verify_queries_label_runs",
+    ],
+)
+
 # 게이트 `code-part-link`(validate check_code_part_link) — 추출 트리 안에서 복합체의 부분인 단위 지식(정의·구역 단위 지식)이
 # refines·serves·verifies 의 끝점이면 거부한다 (p7-code-links-on-file-composite, 유저 결정 Q47-b). 음성은 절 항목이 결정을
 # refines 하는 꼴(2026-10-05 전 추출기의 구역 단위 지식 링크 복사), 양성은 같은 링크가 파일 단위 지식(module.md)에만 있는 꼴이다.
@@ -647,6 +689,50 @@ genrule(
 build_test(
     name = "draft_end_gate_test",
     targets = [":draft_end_gate_rejected"],
+)
+
+# 게이트 `logical-consistency`(validate --reason 의 check_logical_consistency) — OWL 2 RL 폐포의 모순을 거부한다 (유저 결정 Q174-a,
+# 결정 p2-ontology-compiler-three-tiers · p2-owl2-rl-profile). 고정물 하나에 위반 셋이다 — 실제 T-Box 의 서로소 공리
+# (agt:Composite owl:disjointWith agt:Chunk)의 두 클래스에 함께 속한 개체, owl:Nothing 의 하위 클래스에 속한 개체, 동치 클래스를
+# 거쳐서만 shape 의 대상이 되는 개체다. 셋째는 같은 폐포 위의 shape 적합성(게이트 `shacl`)이 잡는다. FAIL 줄이 개체 IRI 와
+# 공리의 파일, 단언 유형을 적는지 본다. 양성은 같은 T-Box 만의 폐포가 모순 없이 통과하는 꼴이다
+genrule(
+    name = "logical_consistency_gate_rejected",
+    srcs = [
+        "fx_reason_bad.ttl",
+        "fx_reason_shapes.ttl",
+        "//kb/ontology:modules",
+    ],
+    outs = ["logical_consistency_gate_rejected.out"],
+    cmd = "! $(execpath //tools:validate) --reason --ontology $(execpaths //kb/ontology:modules) " +
+          "--data $(execpath fx_reason_bad.ttl) --shapes $(execpath fx_reason_shapes.ttl) > $@ && " +
+          "grep -qF 'FAIL [logical-consistency] kb/dev/decision/fx-both/conclusion.md: 개체 <urn:fx:both> 가 서로소 클래스 " +
+          "agt:Composite 와 agt:Chunk 에 함께 속한다 — 공리 agt:Composite owl:disjointWith agt:Chunk" +
+          "(kb/ontology/entity/knowledge-item/knowledge-item-ontology.ttl), 단언 유형 agt:Composite / agt:DecisionChunk' $@ && " +
+          "grep -qF 'FAIL [logical-consistency] kb/dev/decision/fx-void/conclusion.md: 개체 <urn:fx:void> 가 owl:Nothing 에 속한다 " +
+          "— 불만족 클래스 <urn:fx:Empty>(defs/tests/fx_reason_bad.ttl)' $@ && " +
+          "grep -qF 'FAIL [shacl] defs/tests/fx_reason_shapes.ttl: shape 부적합' $@ && grep -qF 'Focus Node: <urn:fx:alias-only>' $@ && " +
+          "grep -qF 'FAIL [validate] — 3건 (추론 모드)' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+genrule(
+    name = "logical_consistency_gate_accepted",
+    srcs = ["//kb/ontology:modules"],
+    outs = ["logical_consistency_gate_accepted.out"],
+    cmd = "$(execpath //tools:validate) --reason --ontology $(execpaths //kb/ontology:modules) > $@ && " +
+          "grep -qF 'PASS [logical-consistency] — OWL 2 RL 폐포' $@ && ! grep -qF 'FAIL [' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+build_test(
+    name = "logical_consistency_gate_test",
+    targets = [
+        ":logical_consistency_gate_accepted",
+        ":logical_consistency_gate_rejected",
+    ],
 )
 
 # 게이트 `belief-consistency`(validate check_belief_consistency) — 믿음 정도가 상태 전이와 선호의 동률 깨기에 새지 않았는가
@@ -1022,4 +1108,27 @@ build_test(
         ":channel_names_rejected",
         ":channel_register_rejected",
     ],
+)
+
+# 표준 OWL 도구용 디렉토리(//kb/ontology:owl_catalog, 유저 결정 Q176-a·Q177-c)의 양성 시험 — 대응표 항목 수가 최상위 모듈의
+# imports 수와 같고, 항목마다 IRI 가 최상위 파일 사본의 owl:imports 에 있으며, 가리키는 합본이 같은 디렉토리에 있고 그 IRI 의
+# owl:Ontology 머리를 갖는지, 사본이 원본과 같은 바이트인지 본다. 고정물 없이 실제 생성물을 본다
+genrule(
+    name = "owl_catalog_contents",
+    srcs = [
+        "//kb/ontology:owl_catalog",
+        "//kb/ontology:project",
+    ],
+    outs = ["owl_catalog_contents.ok"],
+    cmd = "set -e -o pipefail; c=''; for f in $(locations //kb/ontology:owl_catalog); do case $$f in */catalog-v001.xml) c=$$f;; esac; done; " +
+          "d=$$(dirname $$c); test $$(grep -c '<uri name=' $$c) = %d; cmp $(location //kb/ontology:project) $$d/project-ontology.ttl; " % len(PROJECT_IMPORTS) +
+          "grep -o '<uri name=\"[^\"]*\" uri=\"[^\"]*\"' $$c | cut -d'\"' -f2,4 | tr '\"' ' ' | while read iri file; do " +
+          "grep -qF \"<$$iri> ,\" $$d/project-ontology.ttl || grep -qF \"<$$iri> .\" $$d/project-ontology.ttl; " +
+          "grep -A1 -xF \"<$$iri>\" $$d/$$file | grep -q '^    a owl:Ontology'; done; echo ok > $@",
+    tags = ["manual"],
+)
+
+build_test(
+    name = "owl_catalog_positive_test",
+    targets = [":owl_catalog_contents"],
 )

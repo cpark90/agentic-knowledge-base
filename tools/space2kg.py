@@ -34,7 +34,6 @@ frontmatter 는 단위 지식과 같고(`tools/chunk2kg.py` 의 REQUIRED) `type:
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 from pathlib import Path
 
@@ -269,7 +268,7 @@ def render(iri: str, stmts: list) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--out", required=True)
-    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
+    ap.add_argument("--residency", default=kb_lib.default_residency(),
                     help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다(design_space 규칙이 명시로 넘긴다)")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 없으면 runfiles 의 고정 파일을 쓴다 (p1-chunk-unit-is-tokens)")
     ap.add_argument("--head", default="", help="head 그래프(//kg:chunks_kg) — 변수 출발 항목의 지식 종류로 후보 링크의 방향을 정한다 (Q112-b)")

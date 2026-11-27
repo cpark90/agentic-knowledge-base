@@ -7,7 +7,7 @@ title: function main in tools/odd2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-odd2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-12T07:47:38Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/4401cc9a-d248-44ec-8285-6a183e9e3b21, https://agentic-knowledge-base.dev/id/chunk/4884310b-8897-44ad-945d-5f70435d9635, https://agentic-knowledge-base.dev/id/chunk/8399b16f-1c78-445a-9ae6-89835f8bf293]
 part_of: https://agentic-knowledge-base.dev/id/composite/f9e4439a-33de-4e81-bb1a-e3ffec0bf77d
@@ -62,7 +62,7 @@ def main() -> int:
     title = doc["MODULES"][root].get("title") or {}
     mode = "restrictive" if doc.get("EXCLUDE_WHEN_UNKNOWN", True) else "permissive"
     ex = [f'"{esc(e["concept"])} — reviewed {e["reviewed"]}, 이유: {esc(e["reason"])}"' for e in doc.get("EXCLUSIONS_REVIEWED") or []]
-    out = [PREAMBLE.format(src=a.src), f"id:odd-{root.replace('_', '-')} a agt:ODD ;",
+    out = [PREAMBLE.format(src=a.src, id_base=ID_BASE), f"id:odd-{root.replace('_', '-')} a agt:ODD ;",
            f'    rdfs:label "{esc(title.get("en", root))}"@en , "{esc(title.get("ko", root))}"@ko ;', f'    agt:mode "{mode}" ;',
            "    agt:hasCondition " + " , ".join(iri for iri, *_ in conds) + (" ;" if ex else " .")]
     if ex:

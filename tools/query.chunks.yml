@@ -7,8 +7,8 @@ source: tools/query.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-query
 package: kb/dev/artifact/query
 layer: process
-at: 2026-09-30T08:07:48Z
-source_hash: e820926466fd4714
+at: 2026-10-31T18:06:07Z
+source_hash: 2879ea572db314ca
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/0c829785-f155-4ab8-bf9a-1f69b0d3e85d
   - https://agentic-knowledge-base.dev/id/chunk/8d962172-f5b0-4fe3-8c9c-8598334847e4

@@ -7,21 +7,21 @@ title: Only an ontology that passes three tiers is released
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0050-ontology-hygiene-checks.md, id: https://agentic-knowledge-base.dev/id/chunk-d0050, title_ko: "온톨로지 위생 — 커밋 전 자동 검사와 정규화 직렬화", title: "Ontology hygiene - pre-commit checks and canonical serialization"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
+generated: {by: claude/fable-5, at: 2026-11-27T09:57:54+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T09:57:54+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0050]
 part_of: https://agentic-knowledge-base.dev/id/composite/33d988f2-27b2-44d7-98f2-110215bfe237
 composite: {id: https://agentic-knowledge-base.dev/id/composite/33d988f2-27b2-44d7-98f2-110215bfe237, title_ko: 온톨로지 검사기 — 온톨로지 검사 3단계, title: The ontology compiler and its three check tiers}
 ---
-**결론** — 온톨로지는 **컴파일된다.** 손으로 쓴 Turtle이 그대로 기반이 되지 않고, **온톨로지 검사 3단계**를 통과한 것만 릴리스된다. OBO Foundry가 ROBOT·ODK로 정착시킨 구조를 그대로 쓰고 새로 만들지 않는다.
+**결론** — 온톨로지는 **컴파일된다.** 손으로 쓴 Turtle이 그대로 기반이 되지 않고, **온톨로지 검사 3단계**를 통과한 것만 릴리스된다. 세 단계의 구조는 OBO Foundry가 ROBOT·ODK로 정착시킨 것을 그대로 쓰고, 판정은 이 저장소의 게이트가 한다(Q175-a).
 
 | 단계 | 도구 | 검사 |
 |---|---|---|
-| 구문·스타일 | `robot report` | 라벨·정의 누락, 잘못된 참조, 폐기 규약 (0.6·0.9·0.10절) |
-| 안티패턴 | SPARQL + `robot verify` | "바람직하지 않은 상황"을 질의로 명세. 결과가 나오면 실패 |
-| 논리 정합성 | OWL 추론기 | 불만족 클래스, 의도치 않은 동치, 순환 분류 계층 (2.9절 RL 안에서) |
+| 구문·스타일 | `validate.py`의 labels·boundary 검사와 `chunk_lint` (ROBOT `report`에 해당) | 라벨·정의 누락, 잘못된 참조, 폐기 규약 (0.6·0.9·0.10절) |
+| 안티패턴 | SPARQL verify 질의 `tools/verify-queries/*.rq` (ROBOT `verify`에 해당) | "바람직하지 않은 상황"을 질의로 명세. 결과가 나오면 실패 |
+| 논리 정합성 | `//kg:reason_test` — OWL 2 RL 폐포를 한 번 만들고 게이트 `logical-consistency`와 그 폐포 위의 `shacl`을 돌린다 (2.9절 RL 안에서, Q174-a) | 모순(추론기의 오류 노드, `owl:Nothing` 소속)과 추론된 그래프의 shape 위반. 개체 없는 불만족 클래스, 의도치 않은 동치, 순환 분류 계층은 아직 판정하지 않는다 |
 
 **안티패턴 단계가 이 체계의 게이트 대부분을 흡수한다.** "근거 없는 할당"(Part IX), "ODD에 없는 조건을 참조하는 가정"(3.3절), "`sources`가 빈 청크"(4.3절), "`verifies`에 기준이 없음"(7.11절), "수준 허용표 밖의 plane·level 조합"(6.4절)은 전부 "이런 트리플이 존재하면 실패"라는 SPARQL 한 줄이다. shape로 쓰기 어색한 제약은 verify 질의로 쓴다.
 
-**빌드 시스템이 컴파일러다.** Bazel의 `ontology()` 규칙이 세 단계를 테스트로 묶는다 — 통과 전에는 병합되지 않는다. **정규화 직렬화**가 첫 단계에 포함된다.
+**빌드 시스템이 컴파일러다.** Bazel 테스트 `//kg:gate_test`(앞의 두 단계)와 `//kg:reason_test`(셋째 단계)가 세 단계를 묶어 `bazel test //...`에서 나란히 돈다 — 통과 전에는 병합되지 않는다. **정규화 직렬화**가 첫 단계에 포함된다.

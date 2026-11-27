@@ -1,7 +1,6 @@
 # 이 적용 범위 안에 무엇이 있는가 — 라벨 목록을 보여 달라.
 # 행 = 살아 있는 단위 지식 하나 (plane · level · 한글 라벨). ?지식 종류를 --bind 로 묶으면 그 지식 종류만 (역할 적용 범위 × 수준 창 × 앵커는 //kg:workset)
 PREFIX agt: <https://agentic-knowledge-base.dev/agt/>
-PREFIX id: <https://agentic-knowledge-base.dev/id/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?item ?plane ?level ?label WHERE {
   ?item a ?plane ; agt:hasLevel ?level ; agt:status ?status ; rdfs:label ?label .

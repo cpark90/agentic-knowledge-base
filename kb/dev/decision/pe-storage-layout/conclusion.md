@@ -7,8 +7,8 @@ title: Storage is kb/{ontology,odd,dev,vv}; only vv references dev; each directo
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: hci/claude-opus-5, at: 2026-09-10T20:00:00+09:00}
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}]
+generated: {by: hci/claude-opus-5, at: 2026-11-01T04:38:36+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-01T04:38:36+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/42fde00d-395f-4193-9eef-5c86f0d4abc7, https://agentic-knowledge-base.dev/id/chunk/f389ae99-4988-4e0f-9ab7-81235bb9c5c8]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/6d696b3f-6d63-476e-bb56-65f27d8d2ed5, title_ko: 저장 구조, title: Storage layout}
 part_of: https://agentic-knowledge-base.dev/id/composite/6d696b3f-6d63-476e-bb56-65f27d8d2ed5
@@ -23,4 +23,4 @@ kb/
 └── vv/          OKF 번들 — goal/ scenario/ criteria/ case/ verifier/ + domain.osc
 ```
 
-`vv/`만 `dev/`를 참조한다. 각 디렉터리의 `index.md`가 라벨 목록이다. 이 저장소: `kb/dev`·`kb/vv`는 있고(같은 저장소 별도 패키지, 유저 결정 2026-09-10), `ontology/`·`odd/`의 `kb/` 이동은 완료(2026-09-10, 순서 (b)), `index.md`는 생성물로만 (Q4).
+`vv/`만 `dev/`를 참조한다. 각 디렉터리의 `index.md`가 라벨 목록이다. 이 저장소: `kb/dev`·`kb/vv`는 있고(같은 저장소 별도 패키지, 유저 결정 2026-09-10), `ontology/`·`odd/`의 `kb/` 이동은 완료(2026-09-10, 순서 (b)), `index.md`는 생성물로만 (Q4). `domain.osc`는 시나리오 도메인 모델의 `.osc` 라이브러리 자리이고, 시나리오의 원본 형식을 따라 이 저장소에는 아직 두지 않는다(결정 `pe-scenario-is-openscenario`, Q173-a).

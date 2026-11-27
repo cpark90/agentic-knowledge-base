@@ -18,7 +18,7 @@ from rdflib import Graph, URIRef
 
 from tools import kb_lib, metrics
 
-ID = "https://agentic-knowledge-base.dev/id/"
+ID = kb_lib.ID_BASE  # 이름공간의 단일 정의 위치 (task 0327 손질 9)
 PFX = "@prefix agt: <https://agentic-knowledge-base.dev/agt/> .\n"
 
 

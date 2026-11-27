@@ -8,8 +8,10 @@ title: Rejecting cross-project chunk reuse
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:48:52+09:00}
-verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:48:52+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-11-01T05:42:59+09:00}
+verified: [{by: orchestrator/claude-fable-5, at: 2026-09-11T18:20:00+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:48:52+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-01T05:42:59+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/8dbf8cd0-81dd-478f-b73e-3aeea905768f
 ---
 **대안** — 지식을 프로젝트 간에 재사용하는 안. 기각 — 지식은 프로젝트 ODD 안에서만 유효하다. 넘는 것은 어휘·제약·ODD 코어·결함 어휘·교훈이며, 그래서 일반화가 지식이 아니라 온톨로지까지 닿아야 한다 (12.7절).
+
+**대안** — 다음 프로젝트가 이 저장소의 `tools/`·`defs/`·온톨로지 코어를 복사하고 `sources`로 출처를 남기는 안. 기각 — 두 사본이 표류하고 그것을 잡을 수단이 없으며, 코어 수정 금지를 기계로 지킬 수 없다 (Q172-a).

@@ -23,6 +23,10 @@ except ImportError:
         import kb_lib
     except ImportError:
         kb_lib = None
+try:  # `id:` 이름공간의 단일 정의 위치는 chunk2kg — rdflib 없이 읽힌다 (task 0327 손질 9)
+    from tools.chunk2kg import ID_BASE
+except ImportError:
+    from chunk2kg import ID_BASE
 EXIT_FAIL = getattr(kb_lib, "EXIT_FAIL", 1)
 EXIT_CONFIG = getattr(kb_lib, "EXIT_CONFIG", 2)
 TAG = "odd2kg"
@@ -44,7 +48,7 @@ RANGE = re.compile(r'^\s*\[\s*([-\d.]+)\s*\.\.\s*([-\d.]+)\s*\]\s*(\w+)?\s*$')
 PREAMBLE = """\
 # 생성 파일 — 손으로 고치지 않는다. 원본은 OpenODD 문서 {src} (tools/odd2kg.py).
 @prefix agt: <https://agentic-knowledge-base.dev/agt/> .
-@prefix id: <https://agentic-knowledge-base.dev/id/> .
+@prefix id: <{id_base}> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 """
 
@@ -117,7 +121,7 @@ def main() -> int:
     title = doc["MODULES"][root].get("title") or {}
     mode = "restrictive" if doc.get("EXCLUDE_WHEN_UNKNOWN", True) else "permissive"
     ex = [f'"{esc(e["concept"])} — reviewed {e["reviewed"]}, 이유: {esc(e["reason"])}"' for e in doc.get("EXCLUSIONS_REVIEWED") or []]
-    out = [PREAMBLE.format(src=a.src), f"id:odd-{root.replace('_', '-')} a agt:ODD ;",
+    out = [PREAMBLE.format(src=a.src, id_base=ID_BASE), f"id:odd-{root.replace('_', '-')} a agt:ODD ;",
            f'    rdfs:label "{esc(title.get("en", root))}"@en , "{esc(title.get("ko", root))}"@ko ;', f'    agt:mode "{mode}" ;',
            "    agt:hasCondition " + " , ".join(iri for iri, *_ in conds) + (" ;" if ex else " .")]
     if ex:

@@ -7,7 +7,7 @@ title: class CqQuery in tools/query.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-query}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-22T11:38:01Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/804dd9bd-ceaa-4ecc-9233-ef543578feb9
 ---
@@ -25,6 +25,7 @@ class CqQuery:
         form = heads[1] if len(heads) > 1 else ""
         self.form = form[len(FORM_PREFIX):].lstrip() if form.startswith(FORM_PREFIX) else form  # 접두는 출력이 한 번만 붙인다
         self.text = text
-        self.prepared = prepareQuery(text)  # 파싱 실패는 여기서 예외 — 호출자가 EXIT_CONFIG
+        # `id:` 접두는 질의 파일이 선언하지 않고 여기서 준다 — 이름공간이 호출 저장소의 값(kb_lib.ID)이다 (task 0327 손질 9)
+        self.prepared = prepareQuery(text, initNs={"id": ID})  # 파싱 실패는 여기서 예외 — 호출자가 EXIT_CONFIG
 ```
 <!-- 인용 끝 -->

@@ -149,7 +149,7 @@ def kind_definitions(root: Path) -> dict[str, str]:
     from rdflib import Graph, Literal
     from rdflib.namespace import SKOS
     g = Graph()
-    for f in sorted((root / "kb/ontology").rglob("*-ontology.ttl")):
+    for f in kb_lib.resolve_core_glob("kb/ontology/**/*-ontology.ttl", root):  # 코어 + 호출 저장소의 확장 (task 0327 손질 5)
         g.parse(f, format="turtle")
     out = {}
     for s, o in g.subject_objects(SKOS.definition):
@@ -289,7 +289,7 @@ def main() -> int:
     ap.add_argument("--decoys", type=int, default=10)
     ap.add_argument("--profile", default=kb_lib.JUDGE_PROFILE_DIR,
                     help="판정 질문·척도의 원본 디렉토리 — sheet 의 척도 문장을 여기서 그대로 읽는다(단일 정의 위치)")
-    ap.add_argument("--residency", default=os.path.join(os.environ.get("BUILD_WORKSPACE_DIRECTORY", "."), "defs/kb.bzl"),
+    ap.add_argument("--residency", default=kb_lib.default_residency(),
                     help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — parse_chunk 가 쓴다")
     ap.add_argument("--pair-sheet", default="", metavar="DIR",
                     help="쌍 판정지 pairs-NN.md 를 쓸 디렉토리(워크스페이스 밖) — 링크 후보 쌍 판정 모드")

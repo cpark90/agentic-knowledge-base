@@ -75,9 +75,9 @@ except ImportError:
 TAG = kb_lib.EXTRACT_GATE
 DRIFT_TAG = kb_lib.EXTRACT_DRIFT_GATE
 EXIT_FAIL, EXIT_CONFIG = kb_lib.EXIT_FAIL, kb_lib.EXIT_CONFIG
-CHUNK_IRI = "https://agentic-knowledge-base.dev/id/chunk/"
-COMPOSITE_IRI = "https://agentic-knowledge-base.dev/id/composite/"
-DEFAULT_ASSUMES = "https://agentic-knowledge-base.dev/id/asm-chunk-conventions"
+CHUNK_IRI = f"{kb_lib.ID_BASE}chunk/"  # 이름공간은 kb_lib.ID_BASE 하나다 (task 0327 손질 9)
+COMPOSITE_IRI = f"{kb_lib.ID_BASE}composite/"
+DEFAULT_ASSUMES = f"{kb_lib.ID_BASE}asm-chunk-conventions"
 MAX_PARTS = 9  # 직접 부분의 상한 (7±2, 4.5절) — defs/kb.bzl · gen_build 와 같은 수
 _NAME_TOKEN = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 

@@ -7,9 +7,9 @@ title: function main in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/02c3daad-5974-4be8-80ea-4c6b338b45de, https://agentic-knowledge-base.dev/id/chunk/05336a2f-bef3-4bc3-9b6d-976a1e9adb9d, https://agentic-knowledge-base.dev/id/chunk/07104b21-b283-4e54-a921-6b9a61fb6e45, https://agentic-knowledge-base.dev/id/chunk/0bc1d5ff-d788-47b3-a1b4-43a27654be04, https://agentic-knowledge-base.dev/id/chunk/0eba15f1-9ab6-4d48-bb9a-8809fc98a603, https://agentic-knowledge-base.dev/id/chunk/386f974f-846c-47c9-99dc-ee866783f5c5, https://agentic-knowledge-base.dev/id/chunk/40832ce8-b21d-4635-9f79-0212625c61fe, https://agentic-knowledge-base.dev/id/chunk/488bd7ba-cb14-4e6c-94f4-119987372f1f, https://agentic-knowledge-base.dev/id/chunk/56006161-22a8-4cff-9d03-2ec71941b721, https://agentic-knowledge-base.dev/id/chunk/6bf4337c-24c7-4689-8354-d179c822e031, https://agentic-knowledge-base.dev/id/chunk/6f429584-5f62-4039-9848-4d26e16a22ac, https://agentic-knowledge-base.dev/id/chunk/74027bd0-148f-4997-9b67-43e438793d0b, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/7848189e-1a29-4f71-9bab-09f2623ff65f, https://agentic-knowledge-base.dev/id/chunk/7b782704-6d75-4344-9b72-f812f73bbfb0, https://agentic-knowledge-base.dev/id/chunk/7cd61807-8e8e-44e7-a140-c95f9f82e4f9, https://agentic-knowledge-base.dev/id/chunk/9126a0ff-4c8a-4088-969f-2b596ee08bdd, https://agentic-knowledge-base.dev/id/chunk/9865784d-08b9-47b0-826d-a088f38dd912, https://agentic-knowledge-base.dev/id/chunk/9d1171df-d5e6-4602-9c49-05605607011c, https://agentic-knowledge-base.dev/id/chunk/a0953baf-5b58-4667-ba87-2c4653097756, https://agentic-knowledge-base.dev/id/chunk/a45854d1-6d8a-4a1a-890e-a55aa166d992, https://agentic-knowledge-base.dev/id/chunk/ba1f7e1e-92c3-4692-9023-f2fb9dddbbc4, https://agentic-knowledge-base.dev/id/chunk/bcd2cb8b-0f77-4111-9cd6-194809eb4d2b, https://agentic-knowledge-base.dev/id/chunk/d26c3802-192f-4414-81da-25abd63211fc, https://agentic-knowledge-base.dev/id/chunk/d44afb5e-6469-4c49-9b40-d3b2f01ae0a6, https://agentic-knowledge-base.dev/id/chunk/e51ab77c-0ffd-4d58-a3cb-d622e9134952, https://agentic-knowledge-base.dev/id/chunk/e9b943fe-3fee-4433-8018-038f1deb41c6, https://agentic-knowledge-base.dev/id/chunk/f5bba732-244e-40a1-a3a0-f5c8e97043be, https://agentic-knowledge-base.dev/id/chunk/f5d521a5-98ba-4f17-ada0-7ddbb7162850, https://agentic-knowledge-base.dev/id/chunk/fd4f59ff-fa52-4ead-afda-fc34d6efe930]
+uses: [https://agentic-knowledge-base.dev/id/chunk/02c3daad-5974-4be8-80ea-4c6b338b45de, https://agentic-knowledge-base.dev/id/chunk/05336a2f-bef3-4bc3-9b6d-976a1e9adb9d, https://agentic-knowledge-base.dev/id/chunk/07104b21-b283-4e54-a921-6b9a61fb6e45, https://agentic-knowledge-base.dev/id/chunk/0bc1d5ff-d788-47b3-a1b4-43a27654be04, https://agentic-knowledge-base.dev/id/chunk/0eba15f1-9ab6-4d48-bb9a-8809fc98a603, https://agentic-knowledge-base.dev/id/chunk/165313bb-866c-4352-820a-719686c0ca28, https://agentic-knowledge-base.dev/id/chunk/20010c39-d032-41e2-8566-e7d12dc09fd6, https://agentic-knowledge-base.dev/id/chunk/386f974f-846c-47c9-99dc-ee866783f5c5, https://agentic-knowledge-base.dev/id/chunk/40832ce8-b21d-4635-9f79-0212625c61fe, https://agentic-knowledge-base.dev/id/chunk/488bd7ba-cb14-4e6c-94f4-119987372f1f, https://agentic-knowledge-base.dev/id/chunk/56006161-22a8-4cff-9d03-2ec71941b721, https://agentic-knowledge-base.dev/id/chunk/6bf4337c-24c7-4689-8354-d179c822e031, https://agentic-knowledge-base.dev/id/chunk/6f429584-5f62-4039-9848-4d26e16a22ac, https://agentic-knowledge-base.dev/id/chunk/74027bd0-148f-4997-9b67-43e438793d0b, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/7848189e-1a29-4f71-9bab-09f2623ff65f, https://agentic-knowledge-base.dev/id/chunk/7b782704-6d75-4344-9b72-f812f73bbfb0, https://agentic-knowledge-base.dev/id/chunk/7cd61807-8e8e-44e7-a140-c95f9f82e4f9, https://agentic-knowledge-base.dev/id/chunk/9126a0ff-4c8a-4088-969f-2b596ee08bdd, https://agentic-knowledge-base.dev/id/chunk/9865784d-08b9-47b0-826d-a088f38dd912, https://agentic-knowledge-base.dev/id/chunk/9d1171df-d5e6-4602-9c49-05605607011c, https://agentic-knowledge-base.dev/id/chunk/a0953baf-5b58-4667-ba87-2c4653097756, https://agentic-knowledge-base.dev/id/chunk/a45854d1-6d8a-4a1a-890e-a55aa166d992, https://agentic-knowledge-base.dev/id/chunk/ba1f7e1e-92c3-4692-9023-f2fb9dddbbc4, https://agentic-knowledge-base.dev/id/chunk/bcd2cb8b-0f77-4111-9cd6-194809eb4d2b, https://agentic-knowledge-base.dev/id/chunk/d26c3802-192f-4414-81da-25abd63211fc, https://agentic-knowledge-base.dev/id/chunk/d44afb5e-6469-4c49-9b40-d3b2f01ae0a6, https://agentic-knowledge-base.dev/id/chunk/e51ab77c-0ffd-4d58-a3cb-d622e9134952, https://agentic-knowledge-base.dev/id/chunk/e9b943fe-3fee-4433-8018-038f1deb41c6, https://agentic-knowledge-base.dev/id/chunk/f5bba732-244e-40a1-a3a0-f5c8e97043be, https://agentic-knowledge-base.dev/id/chunk/f5d521a5-98ba-4f17-ada0-7ddbb7162850, https://agentic-knowledge-base.dev/id/chunk/fd4f59ff-fa52-4ead-afda-fc34d6efe930]
 part_of: https://agentic-knowledge-base.dev/id/composite/d0b4b228-df49-490d-b346-c659c4c6e8da
 ---
 **함수** — `main()` 다.
@@ -22,7 +22,10 @@ def main() -> int:
     ap.add_argument("--shapes", nargs="*", default=[], help="SHACL shape 파일들 (*-shapes)")
     ap.add_argument("--odd", nargs="*", default=[], help="ODD 파일들 (*-odd)")
     ap.add_argument("--data", nargs="*", default=[], help="A-Box 파일들 (*-kg, *-space)")
-    ap.add_argument("--reason", action="store_true", help="SHACL 전에 OWL-RL 추론 적용")
+    ap.add_argument("--reason", action="store_true",
+                    help="추론 모드 — OWL 2 RL 폐포를 한 번 만들어 게이트 `logical-consistency`(모순)와 폐포 위 `shacl` 만 돌린다. "
+                         "--ontology 가 있어야 하고, 다른 검사의 입력(--gates·--verify-queries·--chunk-files·--residency·"
+                         "--standard-vocab)은 받지 않는다 — 그 검사는 추론 없는 게이트 테스트가 돌린다")
     ap.add_argument("--residency", default="", help="수준 허용표의 원본 defs/kb.bzl — 주면 shape 가 그 표와 같은지 본다")
     ap.add_argument("--gates", default="", metavar="FILE",
                     help="게이트 등록부의 원본 defs/kb.bzl — 주면 게이트 `gate-registry` 가 켜진다. 코드의 태그 "
@@ -31,7 +34,8 @@ def main() -> int:
                     help="게이트 `gate-registry` 가 태그를 훑을 소스 전수 (tools/*.py). --gates 와 함께 쓴다")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 게이트 token-budget 이 sha256 을 고정값과 대조한다. "
                                                "없으면 runfiles 의 고정 파일을 쓴다 (ODD id:cond-tokenizer-lock)")
-    ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 실행 계층)")
+    ap.add_argument("--verify-queries", nargs="*", default=None, metavar="RQ",
+                    help="안티패턴 SPARQL 파일 또는 디렉토리 (2.5절 verify 실행 계층). 주고 질의가 0개면 CONFIG 다")
     ap.add_argument("--chunk-files", nargs="*", default=[],
                     help="단위 지식 파일들(*.md) — 주면 element-drop 의 frontmatter 키 전수 대조가 켜진다")
     ap.add_argument("--standard-vocab", nargs="*", default=[],
@@ -48,6 +52,15 @@ def main() -> int:
     except (OSError, ValueError) as e:  # 면제 표를 읽을 수 없다 — 배선 문제이지 판정 실패가 아니다
         print(f"FAIL [{VALIDATE_TAG}] waiver 표 — {e}")
         return EXIT_CONFIG
+
+    if args.reason:  # 추론 모드의 입력 — 겹치는 검사의 입력을 받으면 조용히 버리지 않고 배선 문제로 멈춘다
+        extra = [flag for flag, given in (("--gates", args.gates), ("--verify-queries", args.verify_queries is not None),
+                                           ("--chunk-files", args.chunk_files), ("--residency", args.residency),
+                                           ("--standard-vocab", args.standard_vocab)) if given]
+        if extra or not args.ontology:
+            print(f"FAIL [{LOGICAL_CONSISTENCY}] --reason 은 --ontology 가 있어야 하고 {' '.join(extra) or '다른 검사의 입력'} 을 "
+                  f"받지 않는다 — 그 검사는 추론 없는 게이트 테스트(//kg:gate_test)가 돌린다")
+            return EXIT_CONFIG
 
     if args.gates:  # 게이트 등록부 — 그래프가 아니라 리터럴과 소스를 본다 (M1 단일 정의 위치, 2026-10-02)
         try:
@@ -81,6 +94,10 @@ def main() -> int:
     except Exception as e:  # 표준 어휘 원문 등 부속 입력의 실패
         print(f"FAIL [{SYNTAX}] {', '.join(args.standard_vocab) or '?'}: 파싱 실패 — {e}")
         return EXIT_CONFIG
+
+    if args.reason:  # 추론 모드 — 폐포 하나를 모순 판정과 shape 적합성이 함께 읽는다 (유저 결정 Q174-a)
+        return reason_main(onto_merged + odd_merged + data_merged, {**onto_files, **odd_files, **data_files},
+                           shapes_merged, args.shapes, waivers, n_files)
 
     errors += check_labels(onto_files)
     errors += check_boundary(onto_files)
@@ -120,9 +137,15 @@ def main() -> int:
     errors += check_element_drop(onto_merged if args.ontology else None, args.chunk_files)
     if args.chunk_files:
         errors += check_belief_consistency(merged, args.chunk_files)
-    if args.verify_queries:
-        errors += check_verify(merged, args.verify_queries)
-        errors += check_confirming_evidence(args.verify_queries)
+    rq_files: list = []
+    if args.verify_queries is not None:  # 플래그를 줬으면 질의가 있어야 한다 — 0개는 판정 불가(CONFIG)이지 PASS 가 아니다
+        try:
+            rq_files = verify_query_files(args.verify_queries)
+        except ConfigFailure as e:
+            print(f"FAIL {e}")
+            return EXIT_CONFIG
+        errors += check_verify(merged, rq_files)
+        errors += check_confirming_evidence(rq_files)
 
     for w in warnings:
         print(f"warn {w}")
@@ -135,7 +158,7 @@ def main() -> int:
         print(f"\nFAIL [{VALIDATE_TAG}] — {len(errors)}건")
         return EXIT_FAIL
 
-    print(f"PASS [{VALIDATE_TAG}] — 파일 {n_files}개, 트리플 {len(merged)}개")
+    print(f"PASS [{VALIDATE_TAG}] — 파일 {n_files}개, 트리플 {len(merged)}개" + (f", verify 질의 {len(rq_files)}개" if rq_files else ""))
     return 0
 ```
 <!-- 인용 끝 -->

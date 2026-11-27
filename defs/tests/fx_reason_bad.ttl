@@ -1,0 +1,32 @@
+# 게이트 logical-consistency 의 음성 고정물 — OWL 2 RL 폐포에서만 드러나는 위반 셋이다 (유저 결정 Q174-a).
+# (1) 서로소 클래스의 공통 개체 — 실제 T-Box 의 공리 agt:Composite owl:disjointWith agt:Chunk 를 쓴다. 개체가 agt:DecisionChunk
+#     (agt:Chunk 의 하위 클래스)와 agt:Composite 에 함께 속한다.
+# (2) owl:Nothing 소속 — 고정물 클래스가 owl:Nothing 의 하위 클래스이고 개체가 그 클래스에 속한다.
+# (3) 폐포 위 shape 위반 — 개체가 동치 클래스(owl:equivalentClass, RDFS 추론에는 없는 규칙)를 거쳐서만 shape 의 대상 클래스에
+#     속하고 그 shape 의 필수 속성이 없다. 짝 shape 는 fx_reason_shapes.ttl 이다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<urn:fx:both>
+    a agt:DecisionChunk , agt:Composite ;
+    agt:assertionLocation "kb/dev/decision/fx-both/conclusion.md" .
+
+<urn:fx:Empty>
+    a owl:Class ;
+    rdfs:subClassOf owl:Nothing .
+
+<urn:fx:void>
+    a <urn:fx:Empty> ;
+    agt:assertionLocation "kb/dev/decision/fx-void/conclusion.md" .
+
+<urn:fx:Alias>
+    a owl:Class ;
+    owl:equivalentClass <urn:fx:Target> .
+
+<urn:fx:Target>
+    a owl:Class .
+
+<urn:fx:alias-only>
+    a <urn:fx:Alias> ;
+    agt:assertionLocation "kb/dev/decision/fx-alias/conclusion.md" .

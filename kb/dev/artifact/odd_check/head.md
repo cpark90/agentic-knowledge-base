@@ -7,7 +7,7 @@ title: module head states in tools/odd_check.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-odd-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/860d7967-4c4a-48c3-846c-a6f932e81933
 ---
@@ -24,6 +24,6 @@ except ImportError:
     import kb_lib  # noqa: E402 — 생성 문서 규약(머리 블록)의 단일 정의 위치
 
 STATES = ("in", "out", "unverified")
-ID_BASE = "https://agentic-knowledge-base.dev/id/"
+ID_BASE = kb_lib.ID_BASE  # 단일 정의 위치 chunk2kg — KB_ID_BASE 가 바꾼다 (task 0327 손질 9)
 ```
 <!-- 인용 끝 -->

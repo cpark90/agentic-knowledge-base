@@ -7,7 +7,7 @@ title: section gates-tail in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/b5154bf0-e67d-4227-8b66-c63012041201
 ---
@@ -28,6 +28,7 @@ GATES_TAIL = {
     "judge-log": {"tier": "test", "tool": "chunk_lint", "ko": "판정 로그", "desc": "판정 로그의 표 형식과 필수 필드 위반", "decision": "p8-judge-session-agreement"},
     "labels": {"tier": "verify", "tool": "validate", "ko": "라벨 완전성", "desc": "agt: 용어의 한·영 라벨 또는 skos:definition 누락", "decision": "p2-ontology-compiler-three-tiers"},
     "list-rules": {"tier": "test", "tool": "chunk_lint", "ko": "목록 규칙", "desc": "손 번호·항목 수·중첩·길이·빈 항목의 목록 규칙 위반", "decision": "p4-slot-answers-one-question"},
+    "logical-consistency": {"tier": "verify", "tool": "validate", "ko": "논리 정합성", "desc": "OWL 2 RL 폐포의 모순 — 추론기의 오류 노드와 owl:Nothing 소속", "decision": "p2-ontology-compiler-three-tiers"},
     "naming": {"tier": "test", "tool": "chunk_lint", "ko": "파일 접미사", "desc": "TTL 파일 이름이 접미사 규약 밖", "decision": "p0-artifact-filename-suffix"},
     "norms-drift": {"tier": "test", "tool": "gen_norms", "ko": "규범 문서 드리프트", "desc": "생성 규범 문서가 절 항목과 결정의 규약 줄에 어긋남", "decision": "p12-norm-documents-from-section-chunks"},
     "odd-ref": {"tier": "verify", "tool": "validate", "ko": "ODD 참조", "desc": "ODD 에 없는 조건을 참조하는 적용 범위·가정·변수", "decision": "p3-condition-entity-from-odd-document"},

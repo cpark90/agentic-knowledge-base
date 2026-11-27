@@ -7,8 +7,8 @@ source: tools/odd2kg.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-odd2kg
 package: kb/dev/artifact/odd2kg
 layer: process
-at: 2026-09-30T08:07:48Z
-source_hash: 2ecf2ef290482f5e
+at: 2026-10-31T18:06:07Z
+source_hash: 619e964a56509c75
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/3d66b1bc-0e65-4e62-9654-fc0ddb6b7d20
   - https://agentic-knowledge-base.dev/id/chunk/40abcad5-6a9c-4233-99d3-0b7ceeafb06b

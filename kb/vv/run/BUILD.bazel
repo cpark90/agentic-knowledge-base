@@ -492,6 +492,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-20261031T204730Z",
+    src = "judge-20261031T204730Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/9008455e-0f7c-4921-a840-6fec9de07678",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
     name = "run-20260919T062548Z",
     src = "run-20260919T062548Z.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/3fa64879-9f43-4c16-bf97-3fcfe5e605a9",
@@ -593,6 +602,7 @@ kb_bundle(
         ":judge-20261026T141751Z",
         ":judge-20261026T141751Z-2",
         ":judge-20261026T141751Z-3",
+        ":judge-20261031T204730Z",
         ":run-20260919T062548Z",
         ":run-20260919T065358Z",
         ":run-20261004T042331Z",

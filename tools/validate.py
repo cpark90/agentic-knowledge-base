@@ -48,9 +48,15 @@
   residency   (--shapes --residency defs/kb.bzl) 수준 허용표가 한 곳에만 적혀 있다 — shape `residency-shapes.ttl` 의
               plane × level 구간이 `defs/kb.bzl` 의 `RESIDENCY` 와 같다. 원본은 Starlark 리터럴이다(분석 시점
               판정이 파일을 읽지 못하므로). 갈리면 shape 를 맞춘다 (M1 단일 정의 위치, 2026-09-26)
-  shacl       (--shapes) OWL-RL 추론 후 pySHACL 적합성 (--reason 시 추론 적용). --waivers <docs/waivers.md>
+  shacl       (--shapes) pySHACL 적합성 — RDFS 추론을 얹어 본다. --reason 이면 OWL 2 RL 폐포 위에서 추론 없이 본다.
+              --waivers <docs/waivers.md>
               를 주면 위반의 focus node 를 agt:assertionLocation 으로 파일에 사상해 게이트 id `shacl`
               (축 `파일`)로 선언된 면제를 집계에서 빼고 `WAIVED [shacl]` 줄로 남긴다 — shape 는 그대로다
+  logical-consistency  (--reason) 온톨로지 검사 3단계의 셋째 단계(p2-ontology-compiler-three-tiers). 온톨로지·ODD·A-Box 의
+              병합에 OWL 2 RL 폐포(owlrl OWLRL_Semantics, 결정 p2-owl2-rl-profile)를 한 번 만들고 모순을 거부한다 — 추론기가
+              그래프에 더한 오류 노드(서로소 클래스의 공통 개체 등)와 owl:Nothing 소속이다. FAIL 줄은 개체 IRI 와 그 모순을 낳은
+              공리·클래스·단언 유형을 적는다. 같은 폐포에 shape 를 적용한다(shacl). 추론 모드는 이 둘만 돌린다 — 나머지 검사는
+              --reason 없는 게이트 테스트가 이미 돌리므로 다시 돌리지 않는다 (유저 결정 Q174-a, //kg:reason_test)
 
 경고(비영 종료 아님, `warn [검사명]` 접두사)
   usesConcept-deprecated  agt:usesConcept 의 대상이 폐기된 용어(owl:deprecated true 또는
@@ -95,6 +101,7 @@ VERIFY = kb_lib.VERIFY_GATE
 SYNTAX = kb_lib.SYNTAX_GATE
 SHACL = kb_lib.SHACL_GATE
 GATE_REGISTRY = kb_lib.GATE_REGISTRY_GATE
+LOGICAL_CONSISTENCY = kb_lib.LOGICAL_CONSISTENCY_GATE
 VALIDATE_TAG = kb_lib.VALIDATE_TAG
 
 
@@ -725,16 +732,15 @@ def check_writer(merged: Graph) -> list[str]:
 
 # ── verify 질의와 단일 정의 위치 ────────────────────
 
-def check_verify(merged: Graph, query_dir: str) -> list[str]:
+def check_verify(merged: Graph, rq_files: list) -> list[str]:
     """안티패턴 단계 (노트 2.5절) — '이런 트리플이 존재하면 실패'를 SPARQL로 명세.
 
     tools/verify-queries/*.rq 하나가 안티패턴 하나다. 결과 행이 나오면 그 행 수만큼
     위반이며, 질의 첫 주석 줄이 실패 메시지의 근거가 된다. shape로 쓰기 어색한
-    제약(연쇄·부정·집계)이 여기로 온다.
+    제약(연쇄·부정·집계)이 여기로 온다. 질의 목록은 `verify_query_files` 가 만든다.
     """
-    from pathlib import Path
     errors = []
-    for rq in sorted(Path(query_dir).glob("*.rq")):
+    for rq in rq_files:
         text = rq.read_text(encoding="utf-8")
         title = text.splitlines()[0].lstrip("# ").strip() if text.startswith("#") else rq.stem
         try:
@@ -750,17 +756,36 @@ def check_verify(merged: Graph, query_dir: str) -> list[str]:
     return errors
 
 
-def check_confirming_evidence(query_dir: str) -> list[str]:
+def verify_query_files(paths: list[str]) -> list:
+    """`--verify-queries` 의 인자(질의 파일 또는 디렉토리) → 정렬된 `.rq` 경로 (task 0327 손질 2).
+
+    게이트 매크로는 질의 filegroup 의 `$(rootpaths)` 를 파일로 넘긴다 — 의존 저장소에서는 질의가 이 모듈의 runfiles 디렉토리에
+    놓이므로 고정 경로가 빗나간다. 0개면 ConfigFailure 다: 질의 0개의 PASS 는 판정을 하지 않은 통과다.
+    """
+    from pathlib import Path
+    out: set = set()
+    for p in paths:
+        path = Path(p)
+        if path.is_dir():
+            out |= set(path.glob("*.rq"))
+        elif path.suffix == ".rq" and path.is_file():
+            out.add(path)
+    if not out:
+        raise ConfigFailure(f"[{VERIFY}] {' '.join(paths) or '(인자 없음)'}: verify 질의가 0개다 — 판정 없이 PASS 하지 않는다. "
+                            "kb_gate_test 의 verify_queries 에 질의 filegroup(@agentic_knowledge_base//tools:verify_queries)을 준다")
+    return sorted(out)
+
+
+def check_confirming_evidence(rq_files: list) -> list[str]:
     """확정 근거 증거 종류의 단일 정의 위치 — verify 질의 confirmed-without-evidence 의 FILTER 목록이
     `kb_lib.SPACE_CONFIRMING_EVIDENCE` 와 같은 집합인가 (게이트 id `verify`, 2026-10-24).
 
     SPARQL 파일은 파이썬 상수를 읽지 못하므로 같은 집합이 두 곳에 적힌다. 원본은 상수이고 질의는 그 사본이다 —
     space2kg·validate.check_space 가 상수를 읽고, 질의가 갈리면 여기서 FAIL 이다(유저 결정을 더한 개정 Q-0055 Q111-a).
     """
-    from pathlib import Path
-    rq = Path(query_dir) / "confirmed-without-evidence.rq"
-    if not rq.is_file():
-        return [f"[{VERIFY}] {rq.as_posix()}: 없다 — 확정 근거 없는 확정 링크를 잡는 질의가 있어야 한다 (9.11절)"]
+    rq = next((f for f in rq_files if f.name == "confirmed-without-evidence.rq"), None)
+    if rq is None:
+        return [f"[{VERIFY}] confirmed-without-evidence.rq: 없다 — 확정 근거 없는 확정 링크를 잡는 질의가 있어야 한다 (9.11절)"]
     m = re.search(r"FILTER\s*\(\s*\?k\s+IN\s*\(([^)]*)\)", rq.read_text(encoding="utf-8"))
     found = {t.strip().split(":", 1)[-1] for t in m.group(1).split(",")} if m else set()
     want = set(kb_lib.SPACE_CONFIRMING_EVIDENCE)
@@ -933,6 +958,106 @@ def check_gate_registry(gates_path: str, sources: list[str]) -> list[str]:
                       f"`tools/{tool}.py` 이거나 파이썬 밖(starlark·bazel) 중 하나다")
     return errors
 
+# ── 논리 정합성 ────────────────────
+# 온톨로지 검사 3단계의 셋째 단계(p2-ontology-compiler-three-tiers). 추론은 OWL 2 RL 안에서만 한다(p2-owl2-rl-profile) —
+# pySHACL 의 inference="both" 는 RDFS 의미론을 더한 폐포이고 그 폐포를 밖에서 볼 수 없어 모순 판정에 같은 폐포를 다시
+# 계산해야 한다. 그래서 owlrl 로 OWL 2 RL 폐포를 한 번 만들고 그 폐포 하나를 모순 판정과 shape 적합성이 함께 읽는다.
+_OWLRL_DISJOINT = re.compile(r"^Disjoint classes (\S+) and (\S+) have a common individual (\S+)$")
+_OWLRL_NOTHING = re.compile(r"^(\S+) is defined of type 'Nothing'$")
+_IRI_IN_TEXT = re.compile(r"(?:https?://|urn:)[^\s,()'\"]+")
+
+
+def owl_rl_closure(asserted: Graph) -> tuple[Graph, list[str]]:
+    """단언 그래프의 OWL 2 RL 폐포와 추론기의 오류 메시지 — 단언 그래프는 그대로 두고 사본을 넓힌다.
+
+    owlrl 은 모순을 만나면 멈추지 않고 오류 노드(`err:ErrorMessage` 개체와 `err:error` 문자열)를 폐포에 더한다. 오류 노드는
+    메시지로 꺼내고 폐포에서 지운다 — 단언 어휘 밖의 노드라 shape 적합성의 입력이 아니다.
+    """
+    import owlrl
+    from owlrl.Namespaces import ERRNS
+
+    closed = Graph()
+    closed += asserted
+    owlrl.DeductiveClosure(owlrl.OWLRL_Semantics).expand(closed)
+    messages = set()
+    for node in list(closed.subjects(RDF.type, ERRNS.ErrorMessage)):
+        messages.update(str(m) for m in closed.objects(node, ERRNS.error))
+        closed.remove((node, None, None))
+    return closed, sorted(messages)
+
+
+def _term(g: Graph, term) -> str:
+    """클래스·공리의 표기 — agt:·id:·owl:·rdfs: 는 접두사로, 나머지는 IRI 전체로 적는다."""
+    for prefix, ns in (("agt", AGT), ("id", kb_lib.ID), ("owl", OWL), ("rdfs", RDFS)):
+        if str(term).startswith(str(ns)):
+            return f"{prefix}:{str(term)[len(str(ns)):]}"
+    return f"<{term}>" if isinstance(term, URIRef) else str(term)
+
+
+def _axiom_file(files: dict[str, Graph], *triples) -> str:
+    """공리 트리플을 담은 파일 — 어느 것도 없으면 `추론`(폐포가 낳은 공리)이다."""
+    for path, g in files.items():
+        if any(t in g for t in triples):
+            return path
+    return "추론"
+
+
+def _type_roots(asserted: Graph, closed: Graph, x, cls) -> str:
+    """개체 x 의 cls 소속을 낳은 단언 rdf:type — cls 자신이거나 그 하위 클래스. 없으면 정의역·치역·동치가 낳은 소속이다."""
+    roots = sorted(_term(closed, t) for t in asserted.objects(x, RDF.type)
+                   if t == cls or (t, RDFS.subClassOf, cls) in closed)
+    return " · ".join(roots) if roots else "단언 유형 없음(추론된 소속)"
+
+
+def _node_location(closed: Graph, node) -> str:
+    """개체의 파일(`agt:assertionLocation`) — 없으면 개체 표기 그대로다. FAIL 줄의 <경로> 자리."""
+    return next((str(l) for l in closed.objects(node, AGT.assertionLocation)), _term(closed, node))
+
+
+def check_logical_consistency(asserted: Graph, closed: Graph, messages: list[str],
+                              files: dict[str, Graph]) -> list[str]:
+    """OWL 2 RL 폐포의 모순 (게이트 `logical-consistency`, 유저 결정 Q174-a) — 오류 노드와 owl:Nothing 소속.
+
+    FAIL 줄은 모순의 근원을 가리킨다 — 개체 IRI 와 그 파일(`agt:assertionLocation`), 모순을 낳은 공리와 그 파일, 개체의
+    단언 유형이다. 서로소 클래스의 공통 개체는 owlrl 메시지에서 두 클래스와 개체를 읽어 공리 `owl:disjointWith` 의 자리를
+    찾는다. owl:Nothing 소속은 폐포를 직접 질의하고(owlrl 의 같은 메시지는 겹치므로 뺀다) 개체가 속한 불만족 클래스를 적는다.
+    그 밖의 owlrl 메시지는 IRI 만 접두사로 줄여 그대로 옮긴다.
+    """
+    gate = LOGICAL_CONSISTENCY
+    errors = []
+    nothing = set(closed.subjects(RDF.type, OWL.Nothing))
+    for x in sorted(nothing):
+        unsat = sorted((c for c in closed.objects(x, RDF.type)
+                        if c != OWL.Nothing and (c, RDFS.subClassOf, OWL.Nothing) in closed), key=str)
+        why = ", ".join(f"{_term(closed, c)}({_axiom_file(files, (c, RDFS.subClassOf, OWL.Nothing), (c, OWL.equivalentClass, OWL.Nothing))})"
+                        for c in unsat) or "없음(owl:Nothing 직접 단언)"
+        roots = " / ".join(_type_roots(asserted, closed, x, c) for c in unsat) or _type_roots(asserted, closed, x, OWL.Nothing)
+        errors.append(f"[{gate}] {_node_location(closed, x)}: 개체 <{x}> 가 owl:Nothing 에 속한다 — 불만족 클래스 {why}, "
+                      f"단언 유형 {roots}")
+    seen: set = set()
+    for msg in messages:
+        if _OWLRL_NOTHING.match(msg):
+            continue
+        m = _OWLRL_DISJOINT.match(msg)
+        if m:
+            c1, c2, x = (URIRef(v) for v in m.groups())
+            # owl:Nothing 의 개체는 모든 클래스에 속하므로 서로소 공리마다 걸린다 — 근원은 위의 owl:Nothing 줄 하나다.
+            # 공리는 대칭이라 owlrl 이 두 순서로 낼 수 있다 — 개체와 클래스 쌍마다 한 줄이다
+            if x in nothing or (x, frozenset((c1, c2))) in seen:
+                continue
+            seen.add((x, frozenset((c1, c2))))
+            axiom = _axiom_file(files, (c1, OWL.disjointWith, c2), (c2, OWL.disjointWith, c1))
+            errors.append(f"[{gate}] {_node_location(closed, x)}: 개체 <{x}> 가 서로소 클래스 {_term(closed, c1)} 와 "
+                          f"{_term(closed, c2)} 에 함께 속한다 — 공리 {_term(closed, c1)} owl:disjointWith {_term(closed, c2)}"
+                          f"({axiom}), 단언 유형 {_type_roots(asserted, closed, x, c1)} / {_type_roots(asserted, closed, x, c2)}")
+            continue
+        iris = _IRI_IN_TEXT.findall(msg)
+        where = next((_node_location(closed, URIRef(i)) for i in iris
+                      if (URIRef(i), AGT.assertionLocation, None) in closed), "OWL 2 RL 폐포")
+        errors.append(f"[{gate}] {where}: 추론기 오류 — " + _IRI_IN_TEXT.sub(lambda i: _term(closed, URIRef(i.group(0))), msg))
+    return errors
+
+
 def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[str],
                 waivers: list[dict] | None = None) -> list[str]:
     """pySHACL 적합성 — 위반마다 focus node 를 파일로 사상해 선언된 면제를 가른다.
@@ -940,6 +1065,8 @@ def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[st
     shape 는 약화하지 않는다. 면제의 자리는 `docs/waivers.md` 하나(게이트 id `shacl`, 축 `파일`)이고 면제된
     위반은 집계에서 빼되 `WAIVED [shacl] <파일>: <sh:resultMessage>` 줄로 남긴다 — `chunk_lint` 의 `chunk`
     면제와 같은 규약이다. focus node → 파일은 그래프의 `agt:assertionLocation` 이 정한다.
+    `reason` 이면 `merged` 가 이미 OWL 2 RL 폐포(`owl_rl_closure`)이므로 추론하지 않는다 — 폐포를 두 번 만들지 않는다.
+    그렇지 않으면 RDFS 추론을 얹는다.
     """
     from pyshacl import validate as shacl_validate
     from rdflib.namespace import SH
@@ -949,7 +1076,7 @@ def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[st
         merged,
         shacl_graph=shapes,
         ont_graph=None,
-        inference="rdfs" if not reason else "both",
+        inference="none" if reason else "rdfs",
         abort_on_first=False,
         allow_infos=True,
         allow_warnings=False,
@@ -1144,7 +1271,10 @@ def main() -> int:
     ap.add_argument("--shapes", nargs="*", default=[], help="SHACL shape 파일들 (*-shapes)")
     ap.add_argument("--odd", nargs="*", default=[], help="ODD 파일들 (*-odd)")
     ap.add_argument("--data", nargs="*", default=[], help="A-Box 파일들 (*-kg, *-space)")
-    ap.add_argument("--reason", action="store_true", help="SHACL 전에 OWL-RL 추론 적용")
+    ap.add_argument("--reason", action="store_true",
+                    help="추론 모드 — OWL 2 RL 폐포를 한 번 만들어 게이트 `logical-consistency`(모순)와 폐포 위 `shacl` 만 돌린다. "
+                         "--ontology 가 있어야 하고, 다른 검사의 입력(--gates·--verify-queries·--chunk-files·--residency·"
+                         "--standard-vocab)은 받지 않는다 — 그 검사는 추론 없는 게이트 테스트가 돌린다")
     ap.add_argument("--residency", default="", help="수준 허용표의 원본 defs/kb.bzl — 주면 shape 가 그 표와 같은지 본다")
     ap.add_argument("--gates", default="", metavar="FILE",
                     help="게이트 등록부의 원본 defs/kb.bzl — 주면 게이트 `gate-registry` 가 켜진다. 코드의 태그 "
@@ -1153,7 +1283,8 @@ def main() -> int:
                     help="게이트 `gate-registry` 가 태그를 훑을 소스 전수 (tools/*.py). --gates 와 함께 쓴다")
     ap.add_argument("--vocab", default="", help="토큰 계수기의 어휘 파일 — 게이트 token-budget 이 sha256 을 고정값과 대조한다. "
                                                "없으면 runfiles 의 고정 파일을 쓴다 (ODD id:cond-tokenizer-lock)")
-    ap.add_argument("--verify-queries", default="", help="안티패턴 SPARQL 디렉토리 (2.5절 verify 실행 계층)")
+    ap.add_argument("--verify-queries", nargs="*", default=None, metavar="RQ",
+                    help="안티패턴 SPARQL 파일 또는 디렉토리 (2.5절 verify 실행 계층). 주고 질의가 0개면 CONFIG 다")
     ap.add_argument("--chunk-files", nargs="*", default=[],
                     help="단위 지식 파일들(*.md) — 주면 element-drop 의 frontmatter 키 전수 대조가 켜진다")
     ap.add_argument("--standard-vocab", nargs="*", default=[],
@@ -1170,6 +1301,15 @@ def main() -> int:
     except (OSError, ValueError) as e:  # 면제 표를 읽을 수 없다 — 배선 문제이지 판정 실패가 아니다
         print(f"FAIL [{VALIDATE_TAG}] waiver 표 — {e}")
         return EXIT_CONFIG
+
+    if args.reason:  # 추론 모드의 입력 — 겹치는 검사의 입력을 받으면 조용히 버리지 않고 배선 문제로 멈춘다
+        extra = [flag for flag, given in (("--gates", args.gates), ("--verify-queries", args.verify_queries is not None),
+                                           ("--chunk-files", args.chunk_files), ("--residency", args.residency),
+                                           ("--standard-vocab", args.standard_vocab)) if given]
+        if extra or not args.ontology:
+            print(f"FAIL [{LOGICAL_CONSISTENCY}] --reason 은 --ontology 가 있어야 하고 {' '.join(extra) or '다른 검사의 입력'} 을 "
+                  f"받지 않는다 — 그 검사는 추론 없는 게이트 테스트(//kg:gate_test)가 돌린다")
+            return EXIT_CONFIG
 
     if args.gates:  # 게이트 등록부 — 그래프가 아니라 리터럴과 소스를 본다 (M1 단일 정의 위치, 2026-10-02)
         try:
@@ -1203,6 +1343,10 @@ def main() -> int:
     except Exception as e:  # 표준 어휘 원문 등 부속 입력의 실패
         print(f"FAIL [{SYNTAX}] {', '.join(args.standard_vocab) or '?'}: 파싱 실패 — {e}")
         return EXIT_CONFIG
+
+    if args.reason:  # 추론 모드 — 폐포 하나를 모순 판정과 shape 적합성이 함께 읽는다 (유저 결정 Q174-a)
+        return reason_main(onto_merged + odd_merged + data_merged, {**onto_files, **odd_files, **data_files},
+                           shapes_merged, args.shapes, waivers, n_files)
 
     errors += check_labels(onto_files)
     errors += check_boundary(onto_files)
@@ -1242,9 +1386,15 @@ def main() -> int:
     errors += check_element_drop(onto_merged if args.ontology else None, args.chunk_files)
     if args.chunk_files:
         errors += check_belief_consistency(merged, args.chunk_files)
-    if args.verify_queries:
-        errors += check_verify(merged, args.verify_queries)
-        errors += check_confirming_evidence(args.verify_queries)
+    rq_files: list = []
+    if args.verify_queries is not None:  # 플래그를 줬으면 질의가 있어야 한다 — 0개는 판정 불가(CONFIG)이지 PASS 가 아니다
+        try:
+            rq_files = verify_query_files(args.verify_queries)
+        except ConfigFailure as e:
+            print(f"FAIL {e}")
+            return EXIT_CONFIG
+        errors += check_verify(merged, rq_files)
+        errors += check_confirming_evidence(rq_files)
 
     for w in warnings:
         print(f"warn {w}")
@@ -1257,7 +1407,33 @@ def main() -> int:
         print(f"\nFAIL [{VALIDATE_TAG}] — {len(errors)}건")
         return EXIT_FAIL
 
-    print(f"PASS [{VALIDATE_TAG}] — 파일 {n_files}개, 트리플 {len(merged)}개")
+    print(f"PASS [{VALIDATE_TAG}] — 파일 {n_files}개, 트리플 {len(merged)}개" + (f", verify 질의 {len(rq_files)}개" if rq_files else ""))
+    return 0
+
+
+def reason_main(asserted: Graph, files: dict[str, Graph], shapes: Graph, shape_paths: list[str],
+                waivers: list[dict], n_files: int) -> int:
+    """추론 모드(`--reason`)의 판정 — OWL 2 RL 폐포를 한 번 만들고 모순과 폐포 위 shape 적합성을 본다.
+
+    게이트마다 `PASS [<id>]` 또는 `FAIL [<id>]` 줄을 내고 끝에 도구 태그의 집계 줄을 낸다. 모순이 있어도 shape 적합성을
+    돌린다 — 한 번의 실행이 고칠 것을 전부 보인다.
+    """
+    closed, messages = owl_rl_closure(asserted)
+    errors = check_logical_consistency(asserted, closed, messages, files)
+    if not errors:
+        print(f"PASS [{LOGICAL_CONSISTENCY}] — OWL 2 RL 폐포 트리플 {len(closed)}개(단언 {len(asserted)}개), "
+              f"추론기 오류 노드 0건, owl:Nothing 소속 0건")
+    if shape_paths:
+        shacl_errors = check_shacl(closed, shapes, True, shape_paths, waivers)
+        if not shacl_errors:
+            print(f"PASS [{SHACL}] — OWL 2 RL 폐포 위 shape 적합 (shape 파일 {len(shape_paths)}개)")
+        errors += shacl_errors
+    if errors:
+        for e in errors:
+            print(f"FAIL {e}")
+        print(f"\nFAIL [{VALIDATE_TAG}] — {len(errors)}건 (추론 모드)")
+        return EXIT_FAIL
+    print(f"PASS [{VALIDATE_TAG}] — 파일 {n_files}개, 추론 모드")
     return 0
 
 
