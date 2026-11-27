@@ -142,6 +142,7 @@ VIEWS = {
     "//kb/dev:adr": "weave",
     "//kb/dev:changelog": "weave",
     "//kb/dev:index": "labels",
+    "//kb/dev:questions": "weave",
     "//kb/dev:requirements": "weave",
     "//kg:audit": "weave",
     "//kg:belief_calibration": "belief_calibration",

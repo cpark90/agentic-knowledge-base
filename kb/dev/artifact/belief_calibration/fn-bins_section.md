@@ -7,7 +7,7 @@ title: function bins_section in tools/belief_calibration.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-belief-calibration}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-11-27T04:11:19Z}
+generated: {by: process:extract, at: 2026-11-27T05:32:11Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/06ac1ac0-5466-4c53-9241-85ddecb10af6]
 part_of: https://agentic-knowledge-base.dev/id/composite/ec53d97b-e4f9-4f6b-983a-cc20d67bb1b6
@@ -20,7 +20,7 @@ def bins_section(title: str, results: dict, note: str) -> list[str]:
     out = [f"## {title}", "", note, ""]
     for slug, letter in RULE_ORDER:
         r = results[slug]
-        out += [f"### {letter} `{slug}`", ""]
+        out += [f"### {letter} `{slug}`" + (" (보정 전 참고)" if slug == "judge-mean" else ""), ""]
         out += bin_rows(r) if r["n"] else ["값이 있는 항목이 없다.", ""]
     return out
 ```

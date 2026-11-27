@@ -7,7 +7,7 @@ title: module head agt in tools/belief_calibration.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-belief-calibration}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-11-27T04:11:19Z}
+generated: {by: process:extract, at: 2026-11-27T05:32:11Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/53c1af98-94eb-4b8d-81cf-9914292abca6
 composite: {id: https://agentic-knowledge-base.dev/id/composite/53c1af98-94eb-4b8d-81cf-9914292abca6, title_ko: 모듈 머리 복합체 agt (tools/belief_calibration.py), title: section composite agt in tools/belief_calibration.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/b2fcf90c-4978-456a-b281-c304ba47b7f7, https://agentic-knowledge-base.dev/id/chunk/e3dfa007-25f8-4aa0-9b65-c4124af23269], part_of: https://agentic-knowledge-base.dev/id/composite/589ba97d-9372-4794-b33c-9b040ecccc97}
@@ -39,7 +39,12 @@ SAMPLE_MIN = 20                          # 합격 기준의 표본 하한 |S| �
 BINS_UNDER = 50                          # |S| < 50 이면 구간 셋 (합격 기준 술어 2)
 BINS = ((Fraction(0), Fraction(1, 3), "[0, 1/3)"), (Fraction(1, 3), Fraction(2, 3), "[1/3, 2/3)"), (Fraction(2, 3), Fraction(1), "[2/3, 1]"))
 Q_LO, Q_HI = Fraction(1, 40), Fraction(39, 40)   # 95% 구간의 양쪽 분위수 2.5% · 97.5%
-CALIBRATION_MIN = 20                     # C 의 보정을 적용하는 확신도 구간당 표본 하한 (결정 p9-belief-by-calibrated-judge)
+CALIBRATION_MIN = 20                     # C 의 보정을 적용하는 사람 라벨 표본 하한 (결정 p9-belief-by-calibrated-judge, Q186-b)
+PLATT_EPS = 1e-6                         # 로짓 입력을 [ε, 1 − ε]로 자르는 폭 — 근거는 모듈 docstring 의 '보정한 C'
+PLATT_MAX_ITER = 100                     # 뉴턴법 반복 상한 — 분리되지 않은 표본은 10번 안팎에 수렴한다
+PLATT_TOL = 1e-10                        # 수렴 판정 — 한 걸음의 매개변수 변화량 최댓값
+PLATT_HALVINGS = 30                      # 로그 우도가 줄 때 걸음을 반으로 줄이는 최대 횟수
+PLATT_NAME = "C `judge-mean` (Platt 보정, LOO)"   # 판정 요약 표의 보정한 C 행 이름
 _GENERATED_BY = re.compile(r"^generated:\s*\{[^}]*?\bby:\s*([^,}\s]+)", re.MULTILINE)
 ```
 <!-- 인용 끝 -->

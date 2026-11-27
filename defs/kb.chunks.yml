@@ -7,8 +7,8 @@ source: defs/kb.bzl
 resource: https://agentic-knowledge-base.dev/id/src-defs-kb
 package: kb/dev/artifact/kb-bzl
 layer: process
-at: 2026-11-27T02:39:25Z
-source_hash: c7dc860a51d67fdc
+at: 2026-11-27T05:32:11Z
+source_hash: 00f3c299ab75bb8a
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/c5bb1922-eb82-4b96-a49c-a46e41c239e4
   - https://agentic-knowledge-base.dev/id/chunk/ee51de32-a48b-4ade-a147-4953bce27364

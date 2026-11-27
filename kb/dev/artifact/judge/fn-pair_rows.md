@@ -7,20 +7,25 @@ title: function pair_rows in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/1dcbf356-b12e-4bc2-b68a-0d4dc08ff69d, https://agentic-knowledge-base.dev/id/chunk/25dbde8d-3165-4a6e-bda8-313cc2ef674b, https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b, https://agentic-knowledge-base.dev/id/chunk/50114263-78e9-4af8-9078-cd158d3f76eb, https://agentic-knowledge-base.dev/id/chunk/9ba49f50-c949-45ae-816e-d24210ec8af6, https://agentic-knowledge-base.dev/id/chunk/a720999d-da2c-4b54-9c40-b64df9c9a74a, https://agentic-knowledge-base.dev/id/chunk/df43fa6f-d424-49d0-aec2-0aea8545572a]
+uses: [https://agentic-knowledge-base.dev/id/chunk/1dcbf356-b12e-4bc2-b68a-0d4dc08ff69d, https://agentic-knowledge-base.dev/id/chunk/25dbde8d-3165-4a6e-bda8-313cc2ef674b, https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b, https://agentic-knowledge-base.dev/id/chunk/50114263-78e9-4af8-9078-cd158d3f76eb, https://agentic-knowledge-base.dev/id/chunk/5a45b037-fe24-4b10-8cc4-48a81ebb8314, https://agentic-knowledge-base.dev/id/chunk/9ba49f50-c949-45ae-816e-d24210ec8af6, https://agentic-knowledge-base.dev/id/chunk/a720999d-da2c-4b54-9c40-b64df9c9a74a, https://agentic-knowledge-base.dev/id/chunk/df43fa6f-d424-49d0-aec2-0aea8545572a]
 part_of: https://agentic-knowledge-base.dev/id/composite/40ebb229-865e-4943-872b-b8b168710b83
 ---
-**함수** — `pair_rows(root, pairs, qs, resp_sets)` 다. 쌍 × 응답 집합마다
+**함수** — `pair_rows(root, pairs, qs, resp_sets, into)` 다. 쌍 × 응답 집합마다
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def pair_rows(root: Path, pairs: list[dict], qs: dict, resp_sets: list[dict]) -> tuple[list[dict], dict]:
-    """쌍 × 응답 집합마다 판정 행 — (행들, 집계 {응답 없음, 낡음, 미끼별 (검출, 응답, 전체)}). 미끼는 행을 내지 않는다."""
+def pair_rows(root: Path, pairs: list[dict], qs: dict, resp_sets: list[dict],
+              into: Path | None = None) -> tuple[list[dict], dict]:
+    """쌍 × 응답 집합마다 판정 행 — (행들, 집계 {응답 없음, 낡음, 미끼별 (검출, 응답, 전체)}). 미끼는 행을 내지 않는다.
+
+    판정지 항목(경로·라벨·본문)은 워크스페이스 `root` 에서 읽고, 결과 주석의 수준은 기록 저장소 `into`(없으면 `root`)에서 정한다(`pair_level`)."""
     now = kb_lib.utc_stamp(datetime.now(timezone.utc))
     rows, tally = [], {"missing": 0, "stale": 0, "neg": [0, 0, 0], "pos": [0, 0, 0]}
     current: dict = {}
+    into = into or root
+    where = index_items(into) if any(not p.get("decoy") for p in pairs) else {}
     for p in pairs:
         if p["question"] not in qs or qs[p["question"]]["form"] != "noul":
             raise JudgeError(f"쌍 {p.get('n')}: 질문 {p['question']!r} 이 프로파일의 noul 질문이 아니다")
@@ -39,7 +44,7 @@ def pair_rows(root: Path, pairs: list[dict], qs: dict, resp_sets: list[dict]) ->
             (m.get("title_ko", ""), m.get("title", ""), body) == (p[end]["title_ko"], p[end]["title"], p[end]["body"])
             for (_, m, body), end in zip(side, ("anchor", "target")))
         p["_record"] = kb_lib.pair_record_fingerprint(side[0][0], side[1][0])
-        p["_level"] = side[0][1]["level"]
+        p["_level"] = pair_level(into, where, p, side[0][1]["level"])
     for data in resp_sets:
         used: set = set()
         for p in pairs:

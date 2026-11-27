@@ -10,8 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 refines: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0151]
 restored: [https://agentic-knowledge-base.dev/id/chunk/973f5595-b22c-48d1-ad19-976a0408497b]
-generated: {by: claude/fable-5, at: 2026-10-24T18:07:48+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}]
+generated: {by: claude/fable-5, at: 2026-11-27T19:40:46+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T19:40:46+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/66832e72-2baf-420e-876f-05120bb3184d
 composite: {id: https://agentic-knowledge-base.dev/id/composite/66832e72-2baf-420e-876f-05120bb3184d, title_ko: 문서 생성과 그 질의, title: Document generation and its queries}
 ---
@@ -25,3 +25,4 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/66832e72-2baf-42
 | 결정 기록(ADR) | `decision` 복합체 하나 + `supersedes` 연쇄 |
 | 변경 이력 | `prov:wasRevisionOf` 연쇄 + `supersedes` |
 | 감사 증적 | 추적 매트릭스 + 링크 속성(확인 주체·시각) |
+| 질문 색인(Q188-a) | 질문지의 질문과 답 + 본문의 질문 참조(`Qn-x`·`Q-NNNN#Qn` 두 꼴) + `userDecision` 증거 |

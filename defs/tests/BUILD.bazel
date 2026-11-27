@@ -964,7 +964,8 @@ filegroup(
 
 # 검증 라운드 기록의 고정물 (유저 답 Q39-c) — `vv_run --round` 가 임시 트리에 라운드 기록을 쓰고, verify 질의 round-stop-rule-violated 가
 # 최소 그래프에서 정지 규칙 위반을 잡거나(양성) 지킨 계열을 통과시키며(음성), audit 라운드 절이 기록으로 자르고 기록이 없으면 날짜 대리로
-# 떨어지는지 본다. 허용 목록의 revalidate 스냅숏 꼴(유저 답 Q38-c)도 여기서 본다 — 실행기의 분류 함수가 판정 대상이다
+# 떨어지는지 본다. 허용 목록의 revalidate 스냅숏 꼴(유저 답 Q38-c)도 여기서 본다 — 실행기의 분류 함수가 판정 대상이다.
+# questions 는 weave 의 질문 반영처 뷰를 임시 질문지 둘·옛 질문지 하나와 최소 증거 그래프로 본다 (유저 답 Q188-a)
 [kb_round_fixture_test(
     name = "round_fixture_%s_test" % case,
     case = case,
@@ -979,6 +980,7 @@ filegroup(
     "violated",
     "kept",
     "weave",
+    "questions",
 ]]
 
 # 생성 문서 머리 `입력` 줄의 union 증분 표기 (유저 답 Q40-a) — 고정물 그래프 셋을 시험이 TEST_TMPDIR 에 쓴다. 양성은 증분이 선언 순서대로
@@ -1007,6 +1009,7 @@ py_test(
     size = "small",
     srcs = [
         "link_fixture_test.py",
+        "//tools:belief_calibration.py",  # Platt 보정과 LOO (task 0369, Q186-b)
         "//tools:chunk2kg.py",
         "//tools:chunk_lint.py",  # 기록 머리 전환(Q161-a) — judge-log 게이트의 두 방향
         "//tools:judge.py",

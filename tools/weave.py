@@ -16,8 +16,17 @@
                 (kb_lib.TIM_CELLS — metrics 와 같은 정의) / 검증 표시(verified 주체 종류 · 검증 뒤 수정) / 링크 근거(증거 종류 · 복원 비율) /
                 draft 끝 링크(p4-chunk-state-machine 의 보고 지표, 출발 상태별) / 증거 극성(종류 × 극성, union 과 설계 공간 출처별) /
                 자족성 선언. bodies 에 //kb/vv·//kb/dev 를, spaces 에 //space:design_space 를 준다 (//kg:audit)
+  questions     질문 반영처 (유저 답 Q188-a) — 질문지(--questions 의 harness/user/Q-*.md · archive/Q-*.md)의 질문마다 한 행: 번호 · 질문지 ·
+                제목 · 질문지 created · 답 원문(질문 절의 `답:` 뒤 값) · 그 질문을 본문에서 인용한 결정(결정 디렉토리) · 설계 공간 · 그 밖의
+                단위 지식(수와 앞 몇 개) · 그 질문을 가리키는 유저 결정 증거(그래프의 agt:evidenceKind agt:userDecision). 인용 꼴은 긴 꼴
+                `Q-NNNN#Qn`(`Q-NNNN Qn` 포함)과 짧은 꼴 `Qn-x` 둘이고, 답 문자 없는 꼴 `Qn` 은 세지 않고 곳 수만 머리에 적는다 — 질문지
+                번호 체계보다 앞선 2026-09-10 세션의 유저 결정 Q1~Q13 이 같은 꼴이라 질문지로 풀 수 없다. 뒤의 절은 셋이다: 풀리지 않는
+                번호(질문지에 없는 번호 · 질문지와 번호가 어긋난 긴 꼴 · 없는 옛 질문지) / 뒤집힘(같은 결정을 인용한 질문 둘 이상을
+                질문지 created 순, 같은 날은 번호 순) / 옛 질문지(archive/legacy/*.md 파일마다 제목 · status · `legacy/<파일>.md` 를
+                인용한 단위 지식 · 증거). data 에 //space:design_space, bodies 에 //kb/dev · //kb/vv · //space:space 를 준다 (//kb/dev:questions)
 그래프는 query·metrics 와 같은 union 을 kb_lib.load_union 으로 올린다. 본문은 --bodies 의 단위 지식 파일에서 frontmatter id 로 찾는다.
-사용: weave.py --kind adr|requirements|changelog|audit --out <파일> [--root .] <그래프 ttl …> [--bodies <단위 지식 .md …>] [--spaces <design-space.ttl>]
+사용: weave.py --kind adr|requirements|changelog|audit|questions --out <파일> [--root .] <그래프 ttl …> [--bodies <단위 지식 .md …>]
+      [--spaces <design-space.ttl>] [--questions <질문지 .md …>]
 종료: 0 생성됨 · 2 입력 문제(kind 밖·그래프 파일 없음·본문 파싱 불가) — 뷰라 판정 실패(1)는 없다. 결정 0건은 빈 절이지 실패가 아니다
 """
 from __future__ import annotations
@@ -134,15 +143,17 @@ def load_bodies(paths: list[str]) -> dict:
 
 # 자기 자신을 다시 만드는 명령 (G6) — kind 마다 하나다
 REPRODUCE = {"adr": "bazel build //kb/dev:adr", "requirements": "bazel build //kb/dev:requirements",
-             "changelog": "bazel build //kb/dev:changelog", "audit": "bazel build //kg:audit"}
+             "changelog": "bazel build //kb/dev:changelog", "audit": "bazel build //kg:audit",
+             "questions": "bazel build //kb/dev:questions"}
 
 
-def head(kind: str, title: str, query: str, g: Graph, inputs: list[str], extra: list[str], union_inputs=None) -> list[str]:
+def head(kind: str, title: str, query: str, g: Graph, inputs: list[str], extra: list[str], union_inputs=None, source: str = "단위 지식") -> list[str]:
     """모든 생성물의 머리 블록 — 규약 G1~G7 (kb_lib.gendoc_header 가 단일 정의 위치, p12-documents-are-generated).
 
-    union_inputs 는 트리플 수의 증분을 셀 그래프다. 설계 공간 그래프처럼 union 밖의 입력이 있으면 그것을 뺀 목록을 준다."""
+    union_inputs 는 트리플 수의 증분을 셀 그래프다. 설계 공간 그래프처럼 union 밖의 입력이 있으면 그것을 뺀 목록을 준다.
+    source 는 성격 경고(G7)가 가리키는 고칠 원본이다."""
     return kb_lib.gendoc_header(kind, title, "tools/weave.py", query, REPRODUCE[kind], inputs,
-                                f"트리플 {len(g)} ({kb_lib.gendoc_union(inputs if union_inputs is None else union_inputs)})", kb_lib.gendoc_view_notice("단위 지식"), extra=extra)
+                                f"트리플 {len(g)} ({kb_lib.gendoc_union(inputs if union_inputs is None else union_inputs)})", kb_lib.gendoc_view_notice(source), extra=extra)
 
 
 def refs(m: Model, nodes) -> str:
@@ -736,6 +747,252 @@ def render_audit(m: Model, bodies: dict, inputs: list[str], gs: Graph | None = N
     return kb_lib.gendoc_assemble(h, body, inputs)
 
 
+# ══ questions — 질문 반영처 (유저 답 Q188-a) ════════════════════
+# 질문지의 질문마다 그 답을 인용한 결정·설계 공간·단위 지식과 유저 결정 증거를 한 표로 낸다. 절 셋이다 — 재료(질문지·옛 질문지·
+# 본문의 인용·증거를 읽는다) · 절마다 함수 하나(질문 표 · 풀리지 않는 번호 · 뒤집힘 · 옛 질문지) · 조립.
+
+# ── 재료 — 질문지와 본문의 인용을 읽는다 ────────────────────
+SHEET_FILE = re.compile(r"(?:^|/)user/(archive/)?(Q-\d{4})\.md$")     # 질문지 — 열림(user/)과 보관(user/archive/)
+LEGACY_FILE = re.compile(r"(?:^|/)user/archive/legacy/([^/]+\.md)$")  # 옛 질문지 — 2026-10-03 이전 유저 lane 의 파일, 질문 번호가 없다
+QUESTION_HEADING = re.compile(r"^## Q(\d+)\.\s*(.*?)\s*$")            # 질문 절의 제목 (harness/README.md 유저 채널 절의 양식)
+ANSWER_LINE = re.compile(r"^답\s*:\s*(.*?)\s*$")                      # 질문 절 안의 답 줄 — 콜론 없는 산문 줄(`답이 가르는 것`)은 걸리지 않는다
+# 인용 꼴 둘 — 긴 꼴은 질문지와 번호(`#` 또는 공백으로 잇는다), 짧은 꼴은 번호와 답 문자다. 한글이 낱말 문자라 `\b` 대신 영숫자 둘레를 본다
+CITE_LONG = re.compile(r"(?<![A-Za-z0-9_])Q-(\d{4})(?:#|\s+)Q(\d+)(?![0-9])")
+CITE_SHORT = re.compile(r"(?<![A-Za-z0-9_#-])Q(\d+)-[a-z](?![A-Za-z0-9_])")
+# 답 문자 없는 꼴은 세지 않는다 — 질문지 번호 체계(2026-10-01~)보다 앞선 2026-09-10 세션의 유저 결정이 같은 꼴이라 질문지로 풀 수 없다
+CITE_BARE = re.compile(r"(?<![A-Za-z0-9_#-])Q(\d+)(?![0-9A-Za-z_-])")
+CITE_LEGACY = re.compile(r"(?<!channel/archive/)legacy/([A-Za-z0-9._-]+\.md)")  # 옛 질문지 인용 — 옛 채널 기록(channel/archive/legacy/)은 아니다
+QUESTION_CELL_SHOW = 5  # 인용처 칸에 이름을 보이는 수 — 넘으면 수와 앞의 이름만 적는다 (상한 뷰는 라벨로 자르지 않고 수를 함께 낸다)
+QUESTION_GROUPS = (("decision", "결정"), ("space", "설계 공간"), ("other", "그 밖의 단위 지식"))
+
+
+def front_fields(text: str) -> dict:
+    """frontmatter 의 최상위 `키: 값` 줄 — 질문지는 단위 지식이 아니어서 chunk2kg 파서의 대상이 아니다. 값 뒤의 `# 주석` 은 뗀다."""
+    lines = text.splitlines()
+    out: dict = {}
+    if not lines or lines[0].strip() != "---":
+        return out
+    for ln in lines[1:]:
+        if ln.strip() == "---":
+            break
+        k, sep, v = ln.partition(":")
+        if sep and k and not k[0].isspace():
+            out[k.strip()] = re.sub(r"\s+#.*$", "", v).strip()
+    return out
+
+
+def read_sheet(path: str) -> tuple[dict, list[dict]]:
+    """질문지 하나 → (frontmatter, 질문 목록). 질문은 번호 · 제목 · 답이고, 답은 질문 절(다음 h2 앞까지)의 첫 `답:` 줄이며 없으면 None 이다."""
+    text = Path(path).read_text(encoding="utf-8")
+    questions, cur = [], None
+    for line in text.splitlines():
+        h = QUESTION_HEADING.match(line)
+        if h:
+            cur = {"n": int(h.group(1)), "title": h.group(2), "answer": None}
+            questions.append(cur)
+        elif line.startswith("## "):
+            cur = None
+        elif cur is not None and cur["answer"] is None and (a := ANSWER_LINE.match(line)):
+            cur["answer"] = a.group(1)
+    return front_fields(text), questions
+
+
+def load_citing(paths: list[str]) -> list[tuple[str, str, str]]:
+    """단위 지식·설계 공간 파일들 → [(저장소 상대 경로, frontmatter type, 본문)] 경로 순. frontmatter 는 chunk2kg 의 파서로 읽는다."""
+    out = []
+    for p in paths:
+        if p.endswith(".md"):
+            meta, _ = parse_chunk(p)
+            out.append((kb_lib.gendoc_input_name(p), str(meta.get("type", "")), kb_lib.chunk_body(Path(p).read_text(encoding="utf-8"))))
+    return sorted(out)
+
+
+def citing_ref(rel: str, kind: str) -> tuple[str, str]:
+    """인용처 → (무리, 표기). 결정 기록은 결정 디렉토리(slug)가 단위이고 그 밖의 결정(V&V 시나리오)은 파일 하나가 단위다.
+    설계 공간은 파일 stem, 그 밖의 단위 지식은 경로다."""
+    if kind == "decision":
+        parts = rel.split("/")
+        return "decision", (parts[3] if rel.startswith(kb_lib.DECISION_DIR + "/") and len(parts) >= 5 else rel[:-3])
+    if kind == kb_lib.SPACE_TYPE:
+        return "space", Path(rel).stem
+    return "other", rel
+
+
+def user_decision_evidence(g: Graph) -> list[tuple[str, str]]:
+    """그래프의 유저 결정 증거 → [(참조, 자리)]. 참조는 `Q-NNNN#Qn` 또는 `legacy/<파일>.md`(kb_lib.USER_DECISION_REF)이고, 자리는 증거를 가진
+    링크가 후보로 든 설계 공간의 stem 과 링크 상태다(space2kg — 설계 공간 → agt:hasCandidate → 링크 → agt:hasEvidence → 증거)."""
+    out = []
+    for ev in g.subjects(AGT.evidenceKind, AGT[kb_lib.USER_DECISION_KIND]):
+        ref = str(next(g.objects(ev, AGT.evidenceRef), ""))
+        for link in sorted(g.subjects(AGT.hasEvidence, ev), key=str) or [None]:
+            space = next(g.subjects(AGT.hasCandidate, link), None) if link is not None else None
+            loc = str(next(g.objects(space, AGT.assertionLocation), "")) if space is not None else ""
+            state = str(next(g.objects(link, AGT.linkState), "")) if link is not None else ""
+            where = Path(loc).stem if loc else (kb_lib.compact_iri(str(link)) if link is not None else kb_lib.NONE_MARK)
+            out.append((ref, f"`{where}` ({state or kb_lib.NONE_MARK})"))
+    return sorted(out)
+
+
+class QuestionIndex:
+    """질문지 · 옛 질문지 · 본문 인용 · 유저 결정 증거를 질문 번호와 옛 질문지 파일 이름으로 모은다 — 네 절이 같은 색인을 읽는다."""
+
+    def __init__(self, sheet_paths: list[str], legacy_paths: list[str], citing: list, evidence: list):
+        self.questions: dict = {}  # 번호 → 질문지 · 열림 여부 · created · 제목 · 답
+        self.sheets: dict = {}     # 질문지 → 열림 여부
+        self.dups: list = []       # (번호, 앞 질문지, 뒤 질문지) — 번호는 질문지 사이에서 겹치지 않아야 한다
+        for p in sorted(sheet_paths, key=lambda p: SHEET_FILE.search(p).group(2)):
+            sm = SHEET_FILE.search(p)
+            meta, qs = read_sheet(p)
+            self.sheets[sm.group(2)] = not sm.group(1)
+            for q in qs:
+                if q["n"] in self.questions:
+                    self.dups.append((q["n"], self.questions[q["n"]]["sheet"], sm.group(2)))
+                    continue
+                self.questions[q["n"]] = dict(q, sheet=sm.group(2), created=meta.get("created") or kb_lib.NONE_MARK)
+        self.legacy: dict = {}
+        for p in sorted(legacy_paths):
+            text = Path(p).read_text(encoding="utf-8")
+            title = next((ln[2:].strip() for ln in text.splitlines() if ln.startswith("# ")), "")
+            self.legacy[LEGACY_FILE.search(p).group(1)] = {"title": title, "status": front_fields(text).get("status", "")}
+        self.cites: dict = defaultdict(lambda: defaultdict(set))  # 번호 → 무리 → 표기
+        self.legacy_cites: dict = defaultdict(set)                # 옛 질문지 → 인용한 파일 경로
+        self.unresolved: list = []                                # (인용, 인용처, 사유)
+        self.bare: Counter = Counter()                            # 답 문자 없는 꼴의 번호 → 곳 수
+        for rel, kind, body in citing:
+            self._scan(rel, kind, body)
+        self.evidence: dict = defaultdict(list)  # 번호 또는 옛 질문지 이름 → 증거 자리
+        for ref, where in evidence:
+            self._evidence(ref, where)
+
+    def _scan(self, rel: str, kind: str, body: str) -> None:
+        group, ref = citing_ref(rel, kind)
+        found: set = set()
+        for sheet, n in ((f"Q-{a}", int(b)) for a, b in CITE_LONG.findall(body)):
+            if self.questions.get(n, {}).get("sheet") == sheet:
+                found.add(n)
+            else:
+                self.unresolved.append((f"{sheet}#Q{n}", rel, "질문지에 이 번호가 없다" if sheet in self.sheets else "질문지가 없다"))
+        for hit in CITE_SHORT.finditer(body):
+            n = int(hit.group(1))
+            if n in self.questions:
+                found.add(n)
+            else:
+                self.unresolved.append((hit.group(0), rel, "질문지에 없는 번호다"))
+        for n in found:
+            self.cites[n][group].add(ref)
+        self.bare.update(map(int, CITE_BARE.findall(CITE_SHORT.sub(" ", CITE_LONG.sub(" ", body)))))
+        for name in CITE_LEGACY.findall(body):
+            if name in self.legacy:
+                self.legacy_cites[name].add(rel)
+            else:
+                self.unresolved.append((f"legacy/{name}", rel, "옛 질문지에 없는 파일이다"))
+
+    def _evidence(self, ref: str, where: str) -> None:
+        m = re.fullmatch(r"(Q-\d{4})#Q(\d+)", ref)
+        if m and self.questions.get(int(m.group(2)), {}).get("sheet") == m.group(1):
+            self.evidence[int(m.group(2))].append(where)
+        elif ref.startswith("legacy/") and ref[len("legacy/"):] in self.legacy:
+            self.evidence[ref[len("legacy/"):]].append(where)
+        else:
+            self.unresolved.append((ref, f"유저 결정 증거 {where}", "질문지나 옛 질문지로 풀리지 않는다"))
+
+    def cited(self) -> list[int]:
+        return sorted(n for n, groups in self.cites.items() if any(groups.values()))
+
+    def reversals(self) -> list[tuple[str, list[int]]]:
+        """같은 결정을 인용한 질문이 둘 이상인 결정 → 질문 번호를 질문지 created 순(같은 날은 번호 순)으로 (orchestrator 판정, task 0374)."""
+        by_decision: dict = defaultdict(set)
+        for n, groups in self.cites.items():
+            for d in groups.get("decision", ()):
+                by_decision[d].add(n)
+        return [(d, sorted(ns, key=lambda n: (self.questions[n]["created"], n))) for d, ns in sorted(by_decision.items()) if len(ns) >= 2]
+
+
+def _cell(text: str) -> str:
+    """표 칸 하나 — 칸 안의 `|` 는 이스케이프하고(GFM, kb_lib._gendoc_cells 와 같은 규칙) 빈 값은 없음이다."""
+    return text.replace("|", "\\|") if text else kb_lib.NONE_MARK
+
+
+def _names_cell(names) -> str:
+    """이름 목록 칸 — 수와 앞 QUESTION_CELL_SHOW 개. 넘는 것은 `외 n` 으로 수를 적는다."""
+    names = sorted(names)
+    if not names:
+        return kb_lib.NONE_MARK
+    shown = " · ".join(f"`{x}`" for x in names[:QUESTION_CELL_SHOW])
+    return f"{len(names)}: {shown}" + (f" 외 {len(names) - QUESTION_CELL_SHOW}" if len(names) > QUESTION_CELL_SHOW else "")
+
+
+# ── 절마다 함수 하나 — 질문 표 · 풀리지 않는 번호 · 뒤집힘 · 옛 질문지 ────────────────────
+
+def _questions_table(ix: QuestionIndex) -> list[str]:
+    """질문마다 한 행 — 제목과 답은 질문지의 원문을 그대로 옮기므로 인용 구역으로 감싼다."""
+    rows = []
+    for n in sorted(ix.questions):
+        q = ix.questions[n]
+        groups = ix.cites.get(n, {})
+        rows.append(f"| Q{n} | {q['sheet']}{'' if not ix.sheets[q['sheet']] else ' (열림)'} | {_cell(q['title'])} | {q['created']} | "
+                    f"{_cell(q['answer'] or '')} | " + " | ".join(_names_cell(groups.get(k, ())) for k, _ in QUESTION_GROUPS)
+                    + f" | {_cell(' · '.join(ix.evidence.get(n, [])))} |")
+    head_ = "| 질문 | 질문지 | 제목 | 생성일 | 답 | " + " | ".join(f"인용한 {name}" for _, name in QUESTION_GROUPS) + " | 유저 결정 증거 |"
+    return ["## 질문 — 질문마다 답의 반영처", "",
+            "질문 번호 순이다. 제목과 답은 질문지의 원문이고, 인용처 칸은 수와 앞의 이름이다. 결정은 결정 디렉토리, 설계 공간은 파일 stem, "
+            "그 밖의 단위 지식은 경로로 적는다.", ""] + kb_lib.gendoc_quote("\n".join([head_, "|" + "---|" * 9] + rows))
+
+
+def _questions_unresolved(ix: QuestionIndex) -> list[str]:
+    body = ["## 풀리지 않는 번호 — 본문이 인용했는데 질문지에 없는 것", ""]
+    if not ix.unresolved and not ix.dups:
+        return body + ["본문과 유저 결정 증거가 인용한 번호와 옛 질문지 가운데 질문지로 풀리지 않는 것은 없다.", ""]
+    body += ["| 인용 | 인용처 | 사유 |", "|---|---|---|"]
+    body += [f"| `{raw}` | {_cell(where if where.startswith('유저') else f'`{where}`')} | {why} |" for raw, where, why in sorted(set(ix.unresolved))]
+    body += [f"| `Q{n}` | `{a}` · `{b}` | 두 질문지에 같은 번호가 있다 — 앞 질문지의 것만 표에 싣는다 |" for n, a, b in ix.dups]
+    return body + [""]
+
+
+def _questions_reversals(ix: QuestionIndex) -> list[str]:
+    groups = ix.reversals()
+    body = ["## 뒤집힘 — 같은 결정을 인용한 질문 둘 이상", "",
+            f"같은 결정을 인용한 질문이 둘 이상인 결정 {len(groups)}개다. 질문은 질문지 생성일 순이고 같은 날은 번호 순이다. "
+            "뒤의 답이 앞의 답을 바꿨는지는 묶음을 읽고 판단한다.", ""]
+    if not groups:
+        return body + [f"묶음 {kb_lib.NONE_MARK}", ""]
+    body += ["| 결정 | 질문 수 | 질문 (생성일 순) |", "|---|---|---|"]
+    for d, ns in groups:
+        body.append(f"| `{d}` | {len(ns)} | " + " · ".join(f"Q{n} ({ix.questions[n]['sheet']}, {ix.questions[n]['created']})" for n in ns) + " |")
+    return body + [""]
+
+
+def _questions_legacy(ix: QuestionIndex) -> list[str]:
+    """옛 질문지 파일마다 한 행 — 질문 번호가 없어 파일이 단위다. 제목은 원문이므로 인용 구역으로 감싼다."""
+    rows = [f"| `{name}` | {_cell(v['title'])} | {_cell(v['status'])} | {_names_cell(ix.legacy_cites.get(name, ()))} | "
+            f"{_cell(' · '.join(ix.evidence.get(name, [])))} |" for name, v in sorted(ix.legacy.items())]
+    body = ["## 옛 질문지 — 질문 번호 없는 파일 단위", "",
+            f"`harness/user/archive/legacy/` 의 파일 {len(rows)}개다. 인용은 본문의 `legacy/<파일 이름>.md` 꼴이다.", ""]
+    table = ["| 파일 | 제목 | 상태 | 인용한 단위 지식 | 유저 결정 증거 |", "|---|---|---|---|---|"] + rows
+    return body + (kb_lib.gendoc_quote("\n".join(table)) if rows else [f"옛 질문지 {kb_lib.NONE_MARK}", ""])
+
+
+# ── 조립 — 머리 블록을 세우고 절을 순서대로 잇는다 ────────────────────
+
+def render_questions(m: Model, citing: list, sheet_paths: list[str], legacy_paths: list[str], inputs: list[str]) -> str:
+    ix = QuestionIndex(sheet_paths, legacy_paths, citing, user_decision_evidence(m.g))
+    open_n = sum(1 for v in ix.sheets.values() if v)
+    answered = sum(1 for q in ix.questions.values() if q["answer"])
+    bare_places = sum(ix.bare.values())
+    h = head("questions", "질문 반영처",
+             "질문지(`harness/user/Q-*.md` · `archive/Q-*.md`)의 `## Qn.` 절마다 제목 · 질문지 `created` · 첫 `답:` 줄, 단위 지식·설계 공간 본문의 "
+             "긴 꼴 `Q-NNNN#Qn`(`Q-NNNN Qn`)과 짧은 꼴 `Qn-x` 인용, 설계 공간 그래프의 `agt:evidenceKind agt:userDecision` 증거의 `agt:evidenceRef`, "
+             "옛 질문지(`archive/legacy/*.md`)의 제목 · `status` · 본문의 `legacy/<파일 이름>.md` 인용", m.g, inputs,
+             [f"- 질문지 {len(ix.sheets)} (열림 {open_n} · 보관 {len(ix.sheets) - open_n}) · 질문 {len(ix.questions)} · 답 줄이 있는 질문 {answered} · "
+              f"인용된 질문 {len(ix.cited())} · 유저 결정 증거가 가리키는 질문 {sum(1 for k in ix.evidence if isinstance(k, int))} · "
+              f"풀리지 않는 인용 {len(set(ix.unresolved)) + len(ix.dups)} · 뒤집힘 묶음 {len(ix.reversals())} · 옛 질문지 {len(ix.legacy)}",
+              f"- 답 문자 없는 꼴 `Qn` 은 질문 인용으로 세지 않는다 — {bare_places}곳 · 번호 {len(ix.bare)}개. 질문지 번호 체계보다 앞선 "
+              "2026-09-10 세션의 유저 결정이 같은 꼴이라 질문지로 풀 수 없다"],
+             source="질문지와 단위 지식 본문")
+    body = _questions_table(ix) + _questions_unresolved(ix) + _questions_reversals(ix) + _questions_legacy(ix)
+    return kb_lib.gendoc_assemble(h, body, inputs)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--kind", required=True, choices=kb_lib.WEAVE_KINDS)
@@ -745,6 +1002,8 @@ def main() -> int:
     ap.add_argument("--residency", default="", help="PLANES·LEVELS·STATES 값 어휘의 원본 defs/kb.bzl — bodies 를 읽을 때만 쓴다"
                                                       "(load_bodies → parse_chunk). 안 주면 이 모듈의 defs/kb.bzl(kb_lib.default_residency)을 쓴다")
     ap.add_argument("--spaces", nargs="*", default=[], help="설계 공간 그래프(//space:design_space) — union 에 섞지 않고 audit 의 증거 극성 절에만 쓴다")
+    ap.add_argument("--questions", nargs="*", default=[], metavar="MD", help="질문지들(//harness:records) — questions 가 harness/user/Q-*.md · "
+                                                                             "archive/Q-*.md · archive/legacy/*.md 만 읽고 나머지는 건너뛴다")
     ap.add_argument("ttl", nargs="*", help="그래프 파일들 (없으면 kb_lib.UNION_GRAPH_PATHS + 온톨로지 모듈)")
     a = ap.parse_args()
     root = Path(a.root)
@@ -758,6 +1017,7 @@ def main() -> int:
     try:
         g = kb_lib.load_union(a.ttl, root)
         bodies = load_bodies(a.bodies) if a.kind in ("adr", "audit") else {}
+        citing = load_citing(a.bodies) if a.kind == "questions" else []
         gs = Graph()
         for f in a.spaces:
             gs.parse(f, format="turtle")
@@ -768,11 +1028,14 @@ def main() -> int:
         print(f"CONFIG [{TAG}] {getattr(e, 'filename', '')}: 읽을 수 없다 — {e}", file=sys.stderr)
         return EXIT_CONFIG
     m = Model(g)
-    inputs = (a.ttl or list(kb_lib.UNION_GRAPH_PATHS)) + list(a.spaces) + list(a.bodies)
+    sheets = [p for p in a.questions if SHEET_FILE.search(kb_lib.gendoc_input_name(p))]
+    legacy = [p for p in a.questions if LEGACY_FILE.search(kb_lib.gendoc_input_name(p))]
+    inputs = (a.ttl or list(kb_lib.UNION_GRAPH_PATHS)) + list(a.spaces) + list(a.bodies) + sheets + legacy
     text = {"adr": lambda: render_adr(m, bodies, inputs, root),
             "requirements": lambda: render_requirements(m, inputs),
             "changelog": lambda: render_changelog(m, inputs),
-            "audit": lambda: render_audit(m, bodies, inputs, gs, a.spaces)}[a.kind]()
+            "audit": lambda: render_audit(m, bodies, inputs, gs, a.spaces),
+            "questions": lambda: render_questions(m, citing, sheets, legacy, inputs)}[a.kind]()
     Path(a.out).write_text(text, encoding="utf-8")
     return EXIT_OK
 

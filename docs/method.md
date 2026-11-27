@@ -1,7 +1,7 @@
 # method.md — 각 단계를 어떻게 하는가 (생성 파일)
 
 - 생성기: `tools/gen_norms.py` · gendoc/1
-- 입력: 원본 파일 102개 · 절 34 · 규약 줄 95 · 전체 목록은 [입력 파일](#입력-파일)
+- 입력: 원본 파일 102개 · 절 34 · 규약 줄 96 · 전체 목록은 [입력 파일](#입력-파일)
 - 질의: `kb/dev/norm/method/` 의 절 항목을 선언 순서로 펼치고 항목마다 결정의 `규약:` 줄을 싣는다
 - 재현: `python3 tools/gen_norms.py --root .`
 - 생성 파일 — 손으로 고치지 않는다. 원본은 `kb/dev/norm/method/` 의 절 항목과 결정의 `conventions.md`이다. 검사: `//:norms_drift_test`. 생성 시각·입력 해시값은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다
@@ -240,6 +240,7 @@ ODD 작성의 게이트는 `bazel test //kb/odd:gate_test`다. 산출은 OpenODD
 | 요구 색인 | 요구 라벨과 EARS 패턴, 정제 결정 수, 도달 정제 수준을 싣는다. 생성 대상은 `//kb/dev:requirements`이고 `INTENT.md`의 손 목록을 대체한다 |
 | 변경 이력 | `supersedes`·`prov:wasRevisionOf` 연쇄를 싣는다. 생성 대상은 `//kb/dev:changelog`다 |
 | 감사 보고서 | `bazel build //kg:audit`가 검증 현황과 최근 실행, 가정, 추적 매트릭스, 검증 표시, 링크 근거를 그래프 union과 관측 본문만으로 낸다 (2026-09-19) |
+| 질문 색인 | 질문지의 질문마다 답 원문과 그 답을 인용한 결정·설계 공간·단위 지식, `userDecision` 증거를 싣는다. 짧은 꼴과 긴 꼴의 질문 참조를 같은 질문으로 풀고, 같은 결정을 인용한 질문을 질문지 생성일 순으로 묶는다. 생성 대상은 `//kb/dev:questions`다(Q188-a) |
 | 복원 후보 | 본문 식별자와 테스트 공동 커버, 개념 공유에서 링크 후보를 뽑고 TIM 제약과 앵커당 k ≤ 7 상한을 두며, `//kg:link_candidates`가 낸다 (2026-09-19). 상한 안의 후보는 근거 순위, 공유 개념 수, 대상 IRI 순서로 정하고 라벨로 정하지 않는다 (2026-10-26, Q169-a) |
 | skill | 도구 docstring과 `kb_lib.SKILLS`에서 `.claude/skills/*/SKILL.md`를 생성해 트리에 두고 드리프트 검사로 확인한다 |
 | 코어 지표 | 지식 종류와 정제 수준의 교차 분포와 고아율, 세 축 대리, 링크 밀도, 크기 분포를 `bazel build //kg:metrics`로 낸다. 문서는 수치를 적지 않고 이 생성물을 인용한다(`p4-projection-as-query`) |

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """검증 라운드 기록의 고정물 시험 — `vv_run --round` · verify 질의 `round-stop-rule-violated` · `weave` audit 라운드 절 (유저 답 Q39-c),
-그리고 `vv_run` 허용 목록의 `revalidate` 스냅숏 꼴 (유저 답 Q38-c).
+그리고 `vv_run` 허용 목록의 `revalidate` 스냅숏 꼴 (유저 답 Q38-c), `weave` questions 뷰 (유저 답 Q188-a).
 
   record     양성 — 임시 트리(판정 주석 다섯, 그중 판정 결과 하나 · 미래 시각 하나)에서 `--round complete` 가 round-<UTC>.md 하나를 쓴다. 라운드 1 · 신규 3 ·
              본문이 종료 사유 개체 하나를 인용한다. 둘째 기록은 라운드 2 · 신규 1 이다. 음성 — 같은 시각의 기록은 덮지 않고(종료 2),
@@ -10,7 +10,10 @@
   violated   양성 — 신규 2 · 2 뒤에 셋째 라운드가 `완료` 로 닫힌 그래프에서 질의가 행 하나를 낸다
   kept       음성 — 같은 계열에 셋째가 `정지 규칙` 이거나, 계열이 3 · 1 로 줄었거나, 기록이 없으면 질의가 행을 내지 않는다
   weave      양성 — 라운드 기록이 있으면 audit 의 라운드 절이 기록으로 자르고 위반 1 을 적는다. 음성 — 기록이 없으면 날짜 대리 절 그대로다
-사용: round_fixture_test.py --case record|classify|violated|kept|weave
+  questions  임시 트리(질문지 둘 · 옛 질문지 하나 · 결정 두 파일 · 코드 · 설계 공간)와 증거 그래프에서 questions 뷰가 짧은 꼴과 긴 꼴을 같은
+             질문으로 풀고, 같은 결정을 다른 날 인용한 두 질문을 생성일 순으로 묶고(번호 순이 아니다), 없는 번호 · 어긋난 긴 꼴 · 없는
+             옛 질문지 · 풀리지 않는 증거를 풀리지 않는 절에 내고, 답 문자 없는 꼴을 세지 않으며, 생성 문서 규약(check_gendoc)을 지킨다
+사용: round_fixture_test.py --case record|classify|violated|kept|weave|questions
 """
 from __future__ import annotations
 
@@ -167,12 +170,80 @@ def check_weave(errs: list) -> None:
             errs.append(f"audit 라운드 절에 `{forbid}` 가 섞였다 (기록 {len(rounds)})")
 
 
+SHEET = """---
+id: {id}
+status: {status}
+subject: 고정물 질문지
+created: {created}
+---
+
+# 고정물 질문지
+
+{questions}
+"""
+CHUNK = """---
+id: urn:fx:{name}
+type: {type}
+level: {level}
+title_ko: 고정물 {name}
+title: Fixture {name}
+status: draft
+generated: {{by: developer/fx, at: 2026-10-01T00:00:00Z}}
+---
+{body}
+"""
+
+
+def check_questions(errs: list) -> None:
+    weave.apply_plane_level_state(*weave.load_plane_level_state(str(RESIDENCY)))  # weave 가 쓰는 chunk2kg 모듈 쪽에 값 어휘를 넣는다
+    root = Path(tempfile.mkdtemp(dir=os.environ.get("TEST_TMPDIR")))
+    files = {  # 질문지 Q-0001 은 Q-0002 보다 늦게 만들어졌다 — 뒤집힘 묶음은 번호 순이 아니라 생성일 순이어야 한다
+        "harness/user/Q-0001.md": SHEET.format(id="Q-0001", status="open", created="2026-10-05",
+                                               questions="## Q1. 첫 질문\n\n답이 가르는 것은 둘이다.\n\n답:a\n\n## Q2. 답 없는 질문\n\n선택지\n"),
+        "harness/user/archive/Q-0002.md": SHEET.format(id="Q-0002", status="closed", created="2026-10-01",
+                                                       questions="## Q3. 셋째 질문\n\n답:(b), 칸 안의 | 는 이스케이프한다\n"),
+        "harness/user/archive/legacy/old-sheet.md": "---\nfrom: hci\nstatus: approved\n---\n\n# 옛 질문 제목\n",
+        "kb/dev/decision/p1-fx/conclusion.md": CHUNK.format(name="con", type="decision", level="logical", body="유저 답 Q1-a 로 정했다."),
+        "kb/dev/decision/p1-fx/rationale.md": CHUNK.format(name="rat", type="decision", level="logical",
+                                                           body="근거는 Q-0002#Q3 이고 Q-0001#Q3 은 어긋난 긴 꼴이다."),
+        "kb/dev/artifact/fx/module.md": CHUNK.format(name="mod", type="artifact", level="concrete",
+                                                     body="Q9-a 는 없는 번호이고 Q2 는 답 문자 없는 꼴이다. legacy/old-sheet.md · legacy/missing.md"),
+        "space/fx-space.md": CHUNK.format(name="space", type=kb_lib.SPACE_TYPE, level="logical", body="질문지 Q-0001 Q1 의 답이다."),
+    }
+    for rel, text in files.items():
+        (root / rel).parent.mkdir(parents=True, exist_ok=True)
+        (root / rel).write_text(text, encoding="utf-8")
+    g = Graph()
+    for i, (ref, state) in enumerate((("Q-0002#Q3", "confirmed"), ("legacy/old-sheet.md", "candidate"), ("Q-0009#Q99", "candidate"))):
+        sp, ln, ev = URIRef(f"urn:fx:space:{i}"), URIRef(f"urn:fx:link:{i}"), URIRef(f"urn:fx:evidence:{i}")
+        g += [(sp, AGT.hasCandidate, ln), (sp, AGT.assertionLocation, Literal(f"space/ev{i}-space.md")), (ln, AGT.linkState, Literal(state)),
+              (ln, AGT.hasEvidence, ev), (ev, RDF.type, AGT.Evidence), (ev, AGT.evidenceKind, AGT[kb_lib.USER_DECISION_KIND]),
+              (ev, AGT.evidenceRef, Literal(ref))]
+    paths = [str(root / rel) for rel in files]
+    sheets = [p for p in paths if weave.SHEET_FILE.search(p)]
+    legacy = [p for p in paths if weave.LEGACY_FILE.search(p)]
+    citing = [(rel.split(str(root) + "/", 1)[-1], kind, body) for rel, kind, body in weave.load_citing([p for p in paths if "/harness/" not in p])]
+    text = weave.render_questions(weave.Model(g), citing, sheets, legacy, sheets + legacy)
+    need = ["| Q1 | Q-0001 (열림) | 첫 질문 | 2026-10-05 | a | 1: `p1-fx` | 1: `fx-space` | 없음 | 없음 |",
+            "| Q2 | Q-0001 (열림) | 답 없는 질문 | 2026-10-05 | 없음 | 없음 | 없음 | 없음 | 없음 |",
+            "| Q3 | Q-0002 | 셋째 질문 | 2026-10-01 | (b), 칸 안의 \\| 는 이스케이프한다 | 1: `p1-fx` | 없음 | 없음 | `ev0-space` (confirmed) |",
+            "| `p1-fx` | 2 | Q3 (Q-0002, 2026-10-01) · Q1 (Q-0001, 2026-10-05) |",
+            "| `Q9-a` |", "| `Q-0001#Q3` |", "| `legacy/missing.md` |", "| `Q-0009#Q99` |",
+            "| `old-sheet.md` | 옛 질문 제목 | approved | 1: `kb/dev/artifact/fx/module.md` | `ev1-space` (candidate) |",
+            "질문지 2 (열림 1 · 보관 1) · 질문 3 · 답 줄이 있는 질문 2 · 인용된 질문 2 · 유저 결정 증거가 가리키는 질문 1 · 풀리지 않는 인용 4 · "
+            "뒤집힘 묶음 1 · 옛 질문지 1", "답 문자 없는 꼴 `Qn` 은 질문 인용으로 세지 않는다 — 1곳 · 번호 1개"]
+    errs += [f"questions 뷰에 `{p}` 가 없다" for p in need if p not in text]
+    gendoc_errors, _ = kb_lib.check_gendoc("questions.md", text)
+    errs += [f"questions 뷰가 생성 문서 규약을 어긴다 — {ln}: {why}" for ln, why in gendoc_errors]
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--case", required=True, choices=("record", "classify", "violated", "kept", "weave"))
+    ap.add_argument("--case", required=True, choices=("record", "classify", "violated", "kept", "weave", "questions"))
     a = ap.parse_args()
     errs: list = []
-    {"record": check_record, "classify": check_classify, "violated": check_violated, "kept": check_kept, "weave": check_weave}[a.case](errs)
+    {"record": check_record, "classify": check_classify, "violated": check_violated, "kept": check_kept, "weave": check_weave,
+     "questions": check_questions}[a.case](errs)
     for e in errs:
         print(f"FAIL [{a.case}] {e}")
     print(f"{'PASS' if not errs else 'FAIL'} — 라운드 고정물 `{a.case}`")

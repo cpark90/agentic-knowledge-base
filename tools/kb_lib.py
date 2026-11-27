@@ -949,7 +949,7 @@ def chunk_body(text: str) -> str:
 
 
 # ── 문서 뷰 (weave — p12-documents-are-generated: 문서는 저장하지 않고 생성하며 생성 시각과 질의를 적는다) ─────────────────
-WEAVE_KINDS = ("adr", "requirements", "changelog", "audit")
+WEAVE_KINDS = ("adr", "requirements", "changelog", "audit", "questions")
 # 작업 집합 예산 게이트 (도입 2단계 구체화 조건 "역할·앵커별 작업 집합 ≤ 예산", handoff/workset-budget-gate-2026-09-22) —
 # 앵커가 주어졌을 때만 문서 전체(라벨 목록 + 펼친 본문) 줄 수가 예산을 넘으면 FAIL. 앵커 없는 뷰(적용 범위 전체 라벨
 # 목록, 구조적으로 예산을 넘는다)는 판정 밖이라 `//kg:workset` 기본 빌드는 깨지지 않는다
@@ -2086,8 +2086,9 @@ _SKILLS_AUTHORING = (  # 저작·검증 — 추출·BUILD·링크 복원·V&V �
                   "bazel run //tools:judge -- --question bodyHasOneClaim --responses r1.json --responses r2.json "
                   "--decoys key.json --into /tmp/judge <단위 지식 파일…>"]},
     {"tool": "weave", "section": "method.md#9-뷰",
-     "when": "결정 기록·요구 색인·변경 이력·감사 보고서를 저장하지 않고 그래프와 관측에서 생성해 인용할 때 쓴다.",
-     "commands": ["bazel build //kg:audit && cat bazel-bin/kg/audit.md", "bazel build //kb/dev:adr //kb/dev:requirements //kb/dev:changelog"]},
+     "when": "결정 기록·요구 색인·변경 이력·감사 보고서·질문 반영처를 저장하지 않고 그래프와 관측, 질문지에서 생성해 인용할 때 쓴다.",
+     "commands": ["bazel build //kg:audit && cat bazel-bin/kg/audit.md", "bazel build //kb/dev:adr //kb/dev:requirements //kb/dev:changelog",
+                  "bazel build //kb/dev:questions && cat bazel-bin/kb/dev/questions.md"]},
     {"tool": "gendoc", "section": f"tools.md#{GATE_CATALOGUE_ANCHOR}",
      "when": "생성기를 고친 뒤 생성 문서의 머리 블록·표·목차·링크·비율 표기가 규약 G1~G18 안인지 게이트와 같은 방식으로 검사할 때 쓴다.",
      "commands": ["bazel test //:gendoc_test",

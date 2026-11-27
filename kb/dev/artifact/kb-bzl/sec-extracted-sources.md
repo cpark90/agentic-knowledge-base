@@ -7,7 +7,7 @@ title: section extracted-sources in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
+generated: {by: process:extract, at: 2026-11-27T05:32:11Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9a583117-c61c-48f7-b30a-f60bddda9bfe
 ---
@@ -108,6 +108,7 @@ VIEWS = {
     "//kb/dev:adr": "weave",
     "//kb/dev:changelog": "weave",
     "//kb/dev:index": "labels",
+    "//kb/dev:questions": "weave",
     "//kb/dev:requirements": "weave",
     "//kg:audit": "weave",
     "//kg:belief_calibration": "belief_calibration",

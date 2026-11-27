@@ -1,6 +1,6 @@
 ---
 name: weave
-description: 결정 기록·요구 색인·변경 이력·감사 보고서를 저장하지 않고 그래프와 관측에서 생성해 인용할 때 쓴다.
+description: 결정 기록·요구 색인·변경 이력·감사 보고서·질문 반영처를 저장하지 않고 그래프와 관측, 질문지에서 생성해 인용할 때 쓴다.
 ---
 
 # weave — 문서 뷰 생성기 (생성 파일)
@@ -15,13 +15,14 @@ description: 결정 기록·요구 색인·변경 이력·감사 보고서를 �
 
 ## 언제 쓰는가
 
-결정 기록·요구 색인·변경 이력·감사 보고서를 저장하지 않고 그래프와 관측에서 생성해 인용할 때 쓴다.
+결정 기록·요구 색인·변경 이력·감사 보고서·질문 반영처를 저장하지 않고 그래프와 관측, 질문지에서 생성해 인용할 때 쓴다.
 
 ## 명령
 
 ```bash
 bazel build //kg:audit && cat bazel-bin/kg/audit.md
 bazel build //kb/dev:adr //kb/dev:requirements //kb/dev:changelog
+bazel build //kb/dev:questions && cat bazel-bin/kb/dev/questions.md
 ```
 
 ## 원본
@@ -30,7 +31,8 @@ bazel build //kb/dev:adr //kb/dev:requirements //kb/dev:changelog
 - 도구: `tools/weave.py` (`bazel run //tools:weave`) — 사용법은 docstring 이 원본이다
 
 ```text
-weave.py --kind adr|requirements|changelog|audit --out <파일> [--root .] <그래프 ttl …> [--bodies <단위 지식 .md …>] [--spaces <design-space.ttl>]
+weave.py --kind adr|requirements|changelog|audit|questions --out <파일> [--root .] <그래프 ttl …> [--bodies <단위 지식 .md …>]
+[--spaces <design-space.ttl>] [--questions <질문지 .md …>]
 ```
 
 ## 실패 시

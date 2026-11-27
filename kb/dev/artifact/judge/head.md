@@ -7,7 +7,7 @@ title: module head agt in tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9b099dc3-facc-4593-9927-5f2afdd09add
 composite: {id: https://agentic-knowledge-base.dev/id/composite/9b099dc3-facc-4593-9927-5f2afdd09add, title_ko: 모듈 머리 복합체 agt (tools/judge.py), title: section composite agt in tools/judge.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/8be49e66-32e1-48fa-8df2-5e42684f3eea, https://agentic-knowledge-base.dev/id/chunk/35cf5136-8348-44b2-8fad-20002523764b, https://agentic-knowledge-base.dev/id/chunk/50114263-78e9-4af8-9078-cd158d3f76eb, https://agentic-knowledge-base.dev/id/chunk/81e5e72c-14de-43e1-ac54-19566c8df95e], part_of: https://agentic-knowledge-base.dev/id/composite/85cd0960-2c5b-4a4c-b5be-bcf71f036c54}
@@ -27,10 +27,10 @@ try:  # noqa: E402 — 대상의 IRI·수준은 frontmatter 파서가 읽는다.
     from tools.chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk
 except ImportError:
     from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402
-try:  # noqa: E402 — 본문 추출은 label_sample.py 하나가 원본이다(단일 정의 위치, 2026-09-30 vnv 결함 보고)
-    from tools.label_sample import body_of as sample_body_of
+try:  # noqa: E402 — 본문 추출·IRI 색인은 label_sample.py 하나가 원본이다(단일 정의 위치, 2026-09-30 vnv 결함 보고)
+    from tools.label_sample import body_of as sample_body_of, index_items
 except ImportError:
-    from label_sample import body_of as sample_body_of  # noqa: E402
+    from label_sample import body_of as sample_body_of, index_items  # noqa: E402
 
 AGT = kb_lib.AGT
 ID = kb_lib.ID

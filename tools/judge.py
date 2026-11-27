@@ -24,7 +24,9 @@ noul·choice·score 셋이고 선택 집합은 255 이하다. 넘으면 독립 �
 `proposedLinkHolds`)이고 질문마다 판정 로그를 따로 낸다. `입력 해시값` 은 sha256(앵커 파일 바이트 ∥ 대상 파일 바이트)이다. 판정지를
 만든 뒤 두 파일 중 하나의 라벨이나 본문이 바뀐 쌍은 낡은 판정이라 행을 내지 않는다. 미끼(음성 — 근거 없는 쌍, 양성 — 확정된 겹침)는
 로그와 증거에 넣지 않고 검출률만 남긴다 — 음성 미끼에 no, 양성 미끼에 yes 가 검출이다. 결과 주석은 쌍마다 하나이고(판정자들의 값·확신도·
-일치를 한 주석에) 파일 이름에 쌍 해시값 앞 8자를 싣고 `targets:` 에 두 IRI 를 적는다.
+일치를 한 주석에) 파일 이름에 쌍 해시값 앞 8자를 싣고 `targets:` 에 두 IRI 를 적는다. 결과 주석의 수준은 **기록 저장소**(`--into`, 없으면
+워크스페이스)에서 살아 있는 끝점의 수준이다(`pair_level`, task 0362 · Q185) — 판정지 항목을 옛 트리에서 읽고 기록을 지금 저장소에 넣으면 앵커가
+묘비일 수 있어서다. 그 수준은 verify 질의 `comment-level-not-inherited`(주석 수준은 대상 가운데 하나의 수준이다)를 지킨다.
 사용: bazel run //tools:judge -- --question <질문 id> --responses <json> [--responses <json> …] [--decoys <json>]
       [--record] [--into <디렉토리>] <단위 지식 파일…>
       bazel run //tools:judge -- --pairs <key.json> --responses <json> --responses <json> [--record] [--into <디렉토리>]
@@ -57,10 +59,10 @@ try:  # noqa: E402 — 대상의 IRI·수준은 frontmatter 파서가 읽는다.
     from tools.chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk
 except ImportError:
     from chunk2kg import apply_plane_level_state, load_plane_level_state, parse_chunk  # noqa: E402
-try:  # noqa: E402 — 본문 추출은 label_sample.py 하나가 원본이다(단일 정의 위치, 2026-09-30 vnv 결함 보고)
-    from tools.label_sample import body_of as sample_body_of
+try:  # noqa: E402 — 본문 추출·IRI 색인은 label_sample.py 하나가 원본이다(단일 정의 위치, 2026-09-30 vnv 결함 보고)
+    from tools.label_sample import body_of as sample_body_of, index_items
 except ImportError:
-    from label_sample import body_of as sample_body_of  # noqa: E402
+    from label_sample import body_of as sample_body_of, index_items  # noqa: E402
 
 AGT = kb_lib.AGT
 ID = kb_lib.ID
@@ -413,11 +415,48 @@ def pair_answer(data: dict, used: set, question: str, fp: str) -> dict | None:
     return None
 
 
-def pair_rows(root: Path, pairs: list[dict], qs: dict, resp_sets: list[dict]) -> tuple[list[dict], dict]:
-    """쌍 × 응답 집합마다 판정 행 — (행들, 집계 {응답 없음, 낡음, 미끼별 (검출, 응답, 전체)}). 미끼는 행을 내지 않는다."""
+def live_level(into: Path, where: dict[str, str], iri: str) -> str | None:
+    """`into` 저장소에서 `iri` 가 살아 있는 단위 지식이면 그 수준, 아니면 None 이다.
+
+    살아 있는 단위 지식은 `into/kb/` 아래 단위 지식 파일의 frontmatter `id` 가 `iri` 이고(색인 `where` — label_sample.index_items)
+    status 가 `kb_lib.LIVE_STATES`(draft·stable·suspect)인 것이다. 묘비(agt:Tombstone — 대체되어 파일을 지운 옛 IRI, chunk2kg.tombstones)는
+    파일이 없어 색인에 없고, invalidated·deprecated 는 기록이지 살아 있는 단위 지식이 아니다. 그래프 빌드를 입력으로 삼지 않는다 — 파일만 훑는다.
+    """
+    rel = where.get(iri)
+    if rel is None:
+        return None
+    try:
+        meta, _ = parse_chunk(str(into / rel))
+    except (OSError, ValueError):
+        return None
+    if meta.get("status") not in kb_lib.LIVE_STATES:
+        return None
+    return meta.get("level") or None
+
+
+def pair_level(into: Path, where: dict[str, str], p: dict, sheet_level: str) -> str:
+    """결과 주석의 수준 (task 0362, Q185) — 기록 저장소 `into` 에서 살아 있고 수준을 가진 끝점의 수준을 물려받는다.
+
+    앵커가 그러면 앵커의 수준, 앵커가 묘비이거나 살아 있지 않으면 대상의 수준이다. 두 끝 모두 아니면 판정지 항목(앵커)의 수준
+    `sheet_level` 을 쓴다. 수준은 `into` 의 파일에서 읽는다 — 판정지를 옛 트리에서 만들었으면 그 트리의 수준은 지금 저장소의 것과 다를 수 있다.
+    """
+    for end in ("anchor", "target"):
+        level = live_level(into, where, p[end]["id"])
+        if level:
+            return level
+    return sheet_level
+
+
+def pair_rows(root: Path, pairs: list[dict], qs: dict, resp_sets: list[dict],
+              into: Path | None = None) -> tuple[list[dict], dict]:
+    """쌍 × 응답 집합마다 판정 행 — (행들, 집계 {응답 없음, 낡음, 미끼별 (검출, 응답, 전체)}). 미끼는 행을 내지 않는다.
+
+    판정지 항목(경로·라벨·본문)은 워크스페이스 `root` 에서 읽고, 결과 주석의 수준은 기록 저장소 `into`(없으면 `root`)에서 정한다(`pair_level`)."""
     now = kb_lib.utc_stamp(datetime.now(timezone.utc))
     rows, tally = [], {"missing": 0, "stale": 0, "neg": [0, 0, 0], "pos": [0, 0, 0]}
     current: dict = {}
+    into = into or root
+    where = index_items(into) if any(not p.get("decoy") for p in pairs) else {}
     for p in pairs:
         if p["question"] not in qs or qs[p["question"]]["form"] != "noul":
             raise JudgeError(f"쌍 {p.get('n')}: 질문 {p['question']!r} 이 프로파일의 noul 질문이 아니다")
@@ -436,7 +475,7 @@ def pair_rows(root: Path, pairs: list[dict], qs: dict, resp_sets: list[dict]) ->
             (m.get("title_ko", ""), m.get("title", ""), body) == (p[end]["title_ko"], p[end]["title"], p[end]["body"])
             for (_, m, body), end in zip(side, ("anchor", "target")))
         p["_record"] = kb_lib.pair_record_fingerprint(side[0][0], side[1][0])
-        p["_level"] = side[0][1]["level"]
+        p["_level"] = pair_level(into, where, p, side[0][1]["level"])
     for data in resp_sets:
         used: set = set()
         for p in pairs:
@@ -589,7 +628,7 @@ def pairs_main(a, root: Path, qs: dict) -> int:
     if not a.responses:
         raise JudgeError("`--responses <json>` 이 없다 — 외부 서비스가 없으므로 세션 판정자의 응답을 오프라인으로 받는다")
     resp_sets = [load_responses(at(root, p)) for p in a.responses]
-    rows, tally = pair_rows(root, pairs, qs, resp_sets)
+    rows, tally = pair_rows(root, pairs, qs, resp_sets, at(root, a.into) if a.into else root)
     decoy = pair_decoy_summary(tally)
     source = "세션 판정자 응답 " + " · ".join(f"`{Path(p).name}`(판정자 `{d.get('judge')}`)" for p, d in zip(a.responses, resp_sets))
     now = datetime.now(timezone.utc)

@@ -7,12 +7,12 @@ title: file tools/judge.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-judge}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-10T00:35:55Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/85cd0960-2c5b-4a4c-b5be-bcf71f036c54, title_ko: 파일 복합체 tools/judge.py, title: file composite tools/judge.py, ordered: [https://agentic-knowledge-base.dev/id/composite/9b099dc3-facc-4593-9927-5f2afdd09add, https://agentic-knowledge-base.dev/id/composite/459184ba-3aec-453b-a423-9345d0975436, https://agentic-knowledge-base.dev/id/composite/97e93b30-be59-4c26-b322-176b8e0f350e, https://agentic-knowledge-base.dev/id/composite/8f3b4eaf-dced-410d-98cc-6771157e17c6, https://agentic-knowledge-base.dev/id/composite/25ad6efd-997a-44a7-b5c4-dc61c13b63ed, https://agentic-knowledge-base.dev/id/composite/3723c1d5-0d22-4da6-86ca-1b408cdc80dc, https://agentic-knowledge-base.dev/id/composite/40ebb229-865e-4943-872b-b8b168710b83, https://agentic-knowledge-base.dev/id/composite/d3829a12-5161-4435-a412-0e94e23dc6ac]}
 ---
-**파일** — `tools/judge.py` 다. 717줄 · 최상위 정의 32개 · 최상위 절 8개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/judge.py` 다. 756줄 · 최상위 정의 34개 · 최상위 절 8개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -44,7 +44,9 @@ noul·choice·score 셋이고 선택 집합은 255 이하다. 넘으면 독립 �
 `proposedLinkHolds`)이고 질문마다 판정 로그를 따로 낸다. `입력 해시값` 은 sha256(앵커 파일 바이트 ∥ 대상 파일 바이트)이다. 판정지를
 만든 뒤 두 파일 중 하나의 라벨이나 본문이 바뀐 쌍은 낡은 판정이라 행을 내지 않는다. 미끼(음성 — 근거 없는 쌍, 양성 — 확정된 겹침)는
 로그와 증거에 넣지 않고 검출률만 남긴다 — 음성 미끼에 no, 양성 미끼에 yes 가 검출이다. 결과 주석은 쌍마다 하나이고(판정자들의 값·확신도·
-일치를 한 주석에) 파일 이름에 쌍 해시값 앞 8자를 싣고 `targets:` 에 두 IRI 를 적는다.
+일치를 한 주석에) 파일 이름에 쌍 해시값 앞 8자를 싣고 `targets:` 에 두 IRI 를 적는다. 결과 주석의 수준은 **기록 저장소**(`--into`, 없으면
+워크스페이스)에서 살아 있는 끝점의 수준이다(`pair_level`, task 0362 · Q185) — 판정지 항목을 옛 트리에서 읽고 기록을 지금 저장소에 넣으면 앵커가
+묘비일 수 있어서다. 그 수준은 verify 질의 `comment-level-not-inherited`(주석 수준은 대상 가운데 하나의 수준이다)를 지킨다.
 사용: bazel run //tools:judge -- --question <질문 id> --responses <json> [--responses <json> …] [--decoys <json>]
       [--record] [--into <디렉토리>] <단위 지식 파일…>
       bazel run //tools:judge -- --pairs <key.json> --responses <json> --responses <json> [--record] [--into <디렉토리>]

@@ -7,8 +7,8 @@ source: tools/kb_lib.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib
 package: kb/dev/artifact/kb_lib
 layer: process
-at: 2026-10-31T18:06:07Z
-source_hash: 215964a33922987f
+at: 2026-11-27T02:39:25Z
+source_hash: 6bb3d3156a7234c3
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/ff72735f-0f6b-4d18-b673-004825efe869
   - https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd

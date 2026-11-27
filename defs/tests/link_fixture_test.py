@@ -20,6 +20,13 @@
         판정)과 이미 확정된 쌍의 행은 증거를 내지 않는다
   판정  `judge --pairs` 는 미끼 행을 로그에 넣지 않고 검출률(음성에 no, 양성에 yes)만 세고, 판정지 뒤에 본문이 바뀐 쌍은 행을 내지 않으며,
         기록은 질문마다 로그와 쌍마다 결과 주석 하나(파일 이름에 쌍 해시값 앞 8자, `targets:` 에 두 IRI)를 쓴다. 로그는 shape 를 지킨다
+  수준  (task 0362, Q185) 기록 저장소(`--into`)에서 앵커가 묘비이면 결과 주석은 살아 있는 다른 끝점의 수준을, 앵커가 살아 있으면
+        그 저장소의 앵커 수준을 물려받는다 — 판정지 트리의 수준이 아니다
+보정 (task 0369, Q186-b) — `belief_calibration` 의 Platt 보정과 하나씩 빼는 교차 검증(LOO)을 손으로 계산되는 표본으로 본다.
+  대칭  p = 3/4 인 항목 다섯(라벨 1 셋 · 0 둘)과 p = 1/4 인 항목 다섯(1 둘 · 0 셋)이면 맞춤이 두 무리의 빈도를 그대로 내므로
+        a = ln(3/2) / ln 3 · b = 0 이고, LOO 값은 남은 무리의 빈도(1/2 · 3/4 · 1/4 · 1/2)다. 두 배 표본(20건)의 LOO Brier 는 8/27 이다
+  자름  p = 0 · 1 은 [ε, 1 − ε]로 잘려 a·L + b = ln 2 · b = ln 2 / 2 (L = ln((1 − ε)/ε))로 맞는다
+  불가  분리 표본 · 라벨 한 값 · 반복 상한 안의 미수렴은 사유 문자열이고, 10건이면 '표본 부족'(short)이다
 머리 전환 (Q161-a) — 판정 로그(`입력 해시값` 열)와 실행 기록(`테스트 케이스` 열)의 머리를 읽는 곳 넷이 기록 시각으로 머리를 가린다.
   전환 시각(kb_lib.RECORD_HEADER_SINCE) 이전 기록 + 새 머리와 이후 기록 + 옛 머리는 FAIL, 맞는 짝은 PASS 다. judge 기록은 새 머리를 쓴다.
 사용: link_fixture_test.py [--vocab <o200k_base>]
@@ -36,7 +43,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from tools import judge, kb_lib, label_sample, link, run_evidence
+from tools import belief_calibration, judge, kb_lib, label_sample, link, run_evidence
 from tools.chunk2kg import apply_plane_level_state, load_plane_level_state
 
 ID = kb_lib.ID_BASE  # 이름공간의 단일 정의 위치 (task 0327 손질 9)
@@ -65,12 +72,12 @@ FIXTURE = (
 )
 
 
-def item(root: Path, rel: str, name: str, extra: str = "") -> str:
+def item(root: Path, rel: str, name: str, extra: str = "", level: str = "concrete") -> str:
     """임시 트리에 결정 결론 하나를 쓰고 IRI 를 돌려준다."""
     iri = f"{ID}fx-{name}"
     path = root / rel
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(f"---\nid: {iri}\ntype: decision\nlevel: concrete\ntitle_ko: 고정물 결정 {name}\ntitle: Fixture decision {name}\n"
+    path.write_text(f"---\nid: {iri}\ntype: decision\nlevel: {level}\ntitle_ko: 고정물 결정 {name}\ntitle: Fixture decision {name}\n"
                     f"status: draft\nsources: [{{resource: {ID}doc-system-notes}}]\nassumes: [{ID}asm-chunk-conventions]\n"
                     f"generated: {{by: developer/fixture, at: 2026-10-25T00:00:00Z}}\n{extra}---\n**결론** — 고정물 {name} 이다.\n",
                     encoding="utf-8")
@@ -255,6 +262,40 @@ def judgement_evidence(tmp: Path) -> list[str]:
     return fails
 
 
+def pair_entries(shown, rows) -> list[dict]:
+    """(앵커, 대상, 미끼, 종류) 목록 → 쌍 판정지 key 의 항목들. `shown` 은 이름 → 판정자에게 보인 항목이다."""
+    entries = []
+    for k, (x, y, decoy, kind) in enumerate(rows, 1):
+        an, ta = shown(x), shown(y)
+        q = kb_lib.pair_question(kind)
+        entries.append({"n": k, "question": q, "kind": kind, "decoy": decoy, "anchor": an, "target": ta,
+                        "fingerprint": kb_lib.pair_fingerprint(q, kind, an, ta)})
+    return entries
+
+
+def run_judge_pairs(sheet: Path, into: Path, key: Path, resp: list[str], vocab: str) -> tuple[int, str, str]:
+    """`judge --pairs --record` 를 부른다 — 판정지 항목은 `sheet` 트리(워크스페이스)에서 읽고 기록은 `into` 에 쓴다 → (종료 코드, stdout, stderr)."""
+    buf, err, old = io.StringIO(), io.StringIO(), os.environ.get("BUILD_WORKSPACE_DIRECTORY")
+    sys.argv = (["judge.py", "--pairs", str(key)] + [x for r in resp for x in ("--responses", r)]
+                + ["--record", "--into", str(into), "--vocab", vocab, "--residency", str(Path("defs/kb.bzl").resolve())])
+    try:
+        with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(err):
+            os.chdir(sheet)  # 쌍의 상대 경로는 워크스페이스 기준이다 — 고정물 트리를 워크스페이스로 본다
+            os.environ["BUILD_WORKSPACE_DIRECTORY"] = str(sheet)
+            for sub in ("kb/ontology/profile/development", "kb/ontology/shapes"):
+                (sheet / sub).parent.mkdir(parents=True, exist_ok=True)
+                if not (sheet / sub).exists():
+                    (sheet / sub).symlink_to(Path(RUNFILES, sub).resolve())
+            code = judge.main()
+    finally:
+        os.chdir(RUNFILES)
+        if old is None:
+            os.environ.pop("BUILD_WORKSPACE_DIRECTORY", None)
+        else:
+            os.environ["BUILD_WORKSPACE_DIRECTORY"] = old
+    return code, buf.getvalue(), err.getvalue()
+
+
 def judgement_pairs(tmp: Path, vocab: str) -> list[str]:
     """판정 — 미끼는 검출률만, 낡은 쌍은 행 없음, 기록은 질문마다 로그와 쌍마다 결과 주석 하나."""
     root = tmp / "jp"
@@ -262,13 +303,8 @@ def judgement_pairs(tmp: Path, vocab: str) -> list[str]:
         item(root, f"kb/dev/decision/fx-{n}/conclusion.md", n)
     shown = lambda n: {"path": f"kb/dev/decision/fx-{n}/conclusion.md", "id": f"{ID}fx-{n}", "title_ko": f"고정물 결정 {n}",  # noqa: E731
                        "title": f"Fixture decision {n}", "body": f"**결론** — 고정물 {n} 이다."}
-    entries = []
-    for k, (x, y, decoy, kind) in enumerate((("ja", "jb", None, "overlapsWith"), ("jc", "jd", None, "refines"), ("jc", "je", None, "overlapsWith"),
-                                             ("je", "jf", "neg", "overlapsWith"), ("ja", "jf", "pos", "overlapsWith")), 1):
-        an, ta = shown(x), shown(y)
-        q = kb_lib.pair_question(kind)
-        entries.append({"n": k, "question": q, "kind": kind, "decoy": decoy, "anchor": an, "target": ta,
-                        "fingerprint": kb_lib.pair_fingerprint(q, kind, an, ta)})
+    entries = pair_entries(shown, (("ja", "jb", None, "overlapsWith"), ("jc", "jd", None, "refines"), ("jc", "je", None, "overlapsWith"),
+                                   ("je", "jf", "neg", "overlapsWith"), ("ja", "jf", "pos", "overlapsWith")))
     (root / "kb/dev/decision/fx-je/conclusion.md").write_text(  # 판정지 뒤에 본문이 바뀐 쌍 — 낡은 판정
         (root / "kb/dev/decision/fx-je/conclusion.md").read_text(encoding="utf-8") + "덧붙인 문장이다.\n", encoding="utf-8")
     key = tmp / "key.json"
@@ -280,27 +316,8 @@ def judgement_pairs(tmp: Path, vocab: str) -> list[str]:
         p = tmp / f"resp-{j[3:]}.json"
         p.write_text(json.dumps({"judge": j, "responses": rs}), encoding="utf-8")
         resp.append(str(p))
-    buf, err, old = io.StringIO(), io.StringIO(), os.environ.get("BUILD_WORKSPACE_DIRECTORY")
-    os.environ["BUILD_WORKSPACE_DIRECTORY"] = str(Path(".").resolve())
-    sys.argv = ["judge.py", "--pairs", str(key), "--responses", resp[0], "--responses", resp[1], "--record", "--into", str(root),
-                "--vocab", vocab, "--residency", str(Path("defs/kb.bzl").resolve())]
-    try:
-        with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(err):
-            os.chdir(root)  # 쌍의 상대 경로는 워크스페이스 기준이다 — 고정물 트리를 워크스페이스로 본다
-            os.environ["BUILD_WORKSPACE_DIRECTORY"] = str(root)
-            for sub in ("kb/ontology/profile/development", "kb/ontology/shapes"):
-                (root / sub).parent.mkdir(parents=True, exist_ok=True)
-                if not (root / sub).exists():
-                    (root / sub).symlink_to(Path(RUNFILES, sub).resolve())
-            code = judge.main()
-    finally:
-        os.chdir(RUNFILES)
-        if old is None:
-            os.environ.pop("BUILD_WORKSPACE_DIRECTORY", None)
-        else:
-            os.environ["BUILD_WORKSPACE_DIRECTORY"] = old
-    out = buf.getvalue()
-    fails = [] if code == 0 else [f"쌍 판정: judge 종료 코드 {code} — {err.getvalue()[-300:]}"]
+    code, out, err = run_judge_pairs(root, root, key, resp, vocab)
+    fails = [] if code == 0 else [f"쌍 판정: judge 종료 코드 {code} — {err[-300:]}"]
     if "판정 행 4 · 응답 없음 0 · 낡은 판정 2" not in out:
         fails.append("쌍 판정: 행 4(실쌍 둘 × 판정자 둘)와 낡은 판정 2 가 아니다")
     if "음성 미끼 1건 중 응답 대조 2건 · 검출(no) 2건" not in out or "양성 미끼 1건 중 응답 대조 2건 · 검출(yes) 1건" not in out:
@@ -327,6 +344,37 @@ def judgement_pairs(tmp: Path, vocab: str) -> list[str]:
         if f"targets: [{ID}fx-ja, {ID}fx-jb]" not in text and f"targets: [{ID}fx-jc, {ID}fx-jd]" not in text:
             fails.append(f"쌍 판정: {v.name} 의 targets 가 두 IRI 가 아니다")
     return fails
+
+
+def judgement_pairs_level(tmp: Path, vocab: str) -> list[str]:
+    """결과 주석의 수준 (task 0362, Q185) — 판정지 항목은 옛 트리에서 읽고 기록은 다른 저장소(`--into`)에 쓴다. 그 저장소에서
+    앵커가 묘비(대체되어 파일이 없는 옛 IRI)이면 주석은 살아 있는 다른 끝점의 수준(functional)을 물려받고, 앵커가 살아 있으면 그
+    저장소의 앵커 수준(logical — 옛 트리의 concrete 가 아니다)을 물려받는다. 어느 쪽이든 verify 질의 comment-level-not-inherited 를 지난다."""
+    sheet, into = tmp / "tb-sheet", tmp / "tb-into"
+    for n, lv in (("tx", "concrete"), ("ty", "functional"), ("tz", "concrete")):  # 옛 트리 — 앵커 tx 의 파일이 아직 있다
+        item(sheet, f"kb/dev/decision/fx-{n}/conclusion.md", n, level=lv)
+    for n, lv in (("ty", "functional"), ("tz", "logical")):  # 기록 저장소 — tx 는 파일이 없다(묘비), tz 는 수준이 바뀌었다
+        item(into, f"kb/dev/decision/fx-{n}/conclusion.md", n, level=lv)
+    shown = lambda n: {"path": f"kb/dev/decision/fx-{n}/conclusion.md", "id": f"{ID}fx-{n}", "title_ko": f"고정물 결정 {n}",  # noqa: E731
+                       "title": f"Fixture decision {n}", "body": f"**결론** — 고정물 {n} 이다."}
+    entries = pair_entries(shown, (("tx", "ty", None, "refines"), ("tz", "ty", None, "refines")))
+    key = tmp / "tb-key.json"
+    key.write_text(json.dumps(entries, ensure_ascii=False), encoding="utf-8")
+    resp = []
+    for j in ("fx/one", "fx/two"):
+        p = tmp / f"tb-resp-{j[3:]}.json"
+        p.write_text(json.dumps({"judge": j, "responses": [{"question": e["question"], "fingerprint": e["fingerprint"], "confidence": 0.2,
+                                                           "value": "no"} for e in entries]}), encoding="utf-8")
+        resp.append(str(p))
+    code, _, err = run_judge_pairs(sheet, into, key, resp, vocab)
+    if code != 0:
+        return [f"주석 수준: judge 종료 코드 {code} — {err[-300:]}"]
+    want = {f"{ID}fx-tx": "functional", f"{ID}fx-tz": "logical"}
+    got = {}
+    for v in sorted((into / kb_lib.JUDGE_VERDICT_DIR).glob("*.md")):
+        meta = dict(ln.split(": ", 1) for ln in v.read_text(encoding="utf-8").split("---")[1].strip().splitlines())
+        got[meta["targets"].strip("[]").split(", ")[0]] = meta["level"]
+    return [] if got == want else [f"주석 수준: 앵커 → 주석 수준이 {want} 가 아니다 — 실제 {got}"]
 
 
 def record_header_switch() -> list[str]:
@@ -363,6 +411,43 @@ def record_header_switch() -> list[str]:
     return fails
 
 
+def belief_platt() -> list[str]:
+    """Platt 보정과 LOO 를 손 계산 값과 대조한다(task 0369). 부동소수점 비교는 1e-9 안이다."""
+    import math
+    from fractions import Fraction as F
+    bc, fails = belief_calibration, []
+    sym = [(F(3, 4), 1)] * 3 + [(F(3, 4), 0)] * 2 + [(F(1, 4), 1)] * 2 + [(F(1, 4), 0)] * 3
+    fit = bc.platt_fit(sym)
+    if isinstance(fit, str) or abs(fit[0] - math.log(1.5) / math.log(3)) > 1e-9 or abs(fit[1]) > 1e-9:
+        fails.append(f"보정: 대칭 표본의 (a, b)가 (ln 1.5 / ln 3, 0)이 아니다 — {fit}")
+    folds, reason = bc.platt_loo(sym)
+    want = [0.5] * 3 + [0.75] * 2 + [0.25] * 2 + [0.5] * 3
+    if reason is not None or any(abs(f[3] - w) > 1e-9 for f, w in zip(folds, want)) or len(folds) != len(want):
+        fails.append(f"보정: 대칭 표본의 LOO 값이 남은 무리의 빈도가 아니다 — {[f[3] for f in folds]} · {reason}")
+    x = math.log(3)   # (3/4, 1) 하나를 뺀 맞춤: 무리 +ln3 의 빈도 2/4 · 무리 −ln3 의 빈도 2/5 를 그대로 낸다
+    fold0 = bc.platt_fit(sym[1:])
+    if isinstance(fold0, str) or abs(fold0[0] * x + fold0[1]) > 1e-9 or abs(-fold0[0] * x + fold0[1] - math.log(2 / 3)) > 1e-9:
+        fails.append(f"보정: 첫 항목을 뺀 맞춤이 σ(a·ln3 + b) = 1/2 · σ(−a·ln3 + b) = 2/5 를 맞추지 않는다 — {fold0}")
+    clip = bc.platt_fit([(F(0), 0), (F(0), 1), (F(1), 1), (F(1), 0), (F(1), 1)])
+    big = math.log((1 - bc.PLATT_EPS) / bc.PLATT_EPS)
+    if isinstance(clip, str) or abs(clip[0] * big + clip[1] - math.log(2)) > 1e-9 or abs(clip[1] - math.log(2) / 2) > 1e-9:
+        fails.append(f"보정: p = 0 · 1 의 자름 맞춤이 a·L + b = ln 2 · b = ln 2 / 2 가 아니다 — {clip}")
+    for name, got in (("분리", bc.platt_fit([(F(1, 5), 0), (F(3, 10), 0), (F(7, 10), 1), (F(4, 5), 1)])),
+                      ("라벨 한 값", bc.platt_fit([(F(1, 5), 1), (F(4, 5), 1)])),
+                      ("미수렴", bc.platt_fit(sym, max_iter=1))):
+        if not isinstance(got, str):
+            fails.append(f"보정: {name} 표본이 보정 불가(사유 문자열)가 아니다 — {got}")
+    short, ok = bc.platt_result(sym), bc.platt_result(sym + sym)
+    if short["status"] != "short" or short["n"] != 10:
+        fails.append(f"보정: 10건이 표본 부족이 아니다 — {short}")
+    if ok["status"] != "ok" or ok["measure"]["n"] != 20 or abs(float(ok["measure"]["brier"]) - 8 / 27) > 1e-9:
+        fails.append(f"보정: 20건의 LOO Brier 가 8/27 이 아니다 — {ok.get('status')} · {ok.get('measure', {}).get('brier')}")
+    sep = bc.platt_result([(F(1, 5), 0)] * 10 + [(F(4, 5), 1)] * 10)
+    if sep["status"] != "fail":
+        fails.append(f"보정: 분리된 20건이 보정 불가가 아니다 — {sep['status']}")
+    return fails
+
+
 RUNFILES = Path(".").resolve()
 
 
@@ -390,16 +475,16 @@ def main() -> int:
     for reason in (link.R_CROSS_LINK, link.R_CODE_PART, link.R_CASE_DERIVES):
         if f"{reason} 1" not in summary:
             fails.append(f"음성: 탈락 분포에 `{reason} 1` 이 없다 — {summary}")
-    fails += judgement_view(tmp) + judged_sample() + cap_label_free(tmp) + judgement_evidence(tmp) + record_header_switch()
+    fails += judgement_view(tmp) + judged_sample() + cap_label_free(tmp) + judgement_evidence(tmp) + record_header_switch() + belief_platt()
     if args.vocab:
-        fails += judgement_pairs(tmp, str(Path(args.vocab).resolve()))
+        fails += judgement_pairs(tmp, str(Path(args.vocab).resolve())) + judgement_pairs_level(tmp, str(Path(args.vocab).resolve()))
     else:
         fails.append("쌍 판정: --vocab 이 없다 — 기록 시험은 계수기가 입력이다")
     for f in fails:
         print(f"FAIL [link-fixture] {f}")
     if not fails:
         print("PASS [link-fixture] — 양성 1 (목표 → 요구 derivesFrom) · 음성 3 (KB 가로지름 · 코드 부분 끝점 · 케이스의 derivesFrom) · "
-              "판정 넷 · 일치(−,−) 표본(크기·재현·큐 구성) · 상한 구성(라벨 무관) · 판정 증거(반박만은 후보, 낡음·확정은 없음) · 쌍 판정 기록 · 기록 머리 전환(두 방향 × 읽는 곳 넷)")
+              "판정 넷 · 일치(−,−) 표본(크기·재현·큐 구성) · 상한 구성(라벨 무관) · 판정 증거(반박만은 후보, 낡음·확정은 없음) · 쌍 판정 기록 · 주석 수준(묘비 앵커) · 기록 머리 전환(두 방향 × 읽는 곳 넷) · Platt 보정(대칭 · LOO · 자름 · 보정 불가 · 표본 부족)")
     return 1 if fails else 0
 
 

@@ -7,12 +7,12 @@ title: file tools/belief_calibration.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-belief-calibration}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-11-27T04:11:19Z}
+generated: {by: process:extract, at: 2026-11-27T05:32:11Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/9deed62a-70ad-4a87-99a2-73c11e1a4453]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/589ba97d-9372-4794-b33c-9b040ecccc97, title_ko: 파일 복합체 tools/belief_calibration.py, title: file composite tools/belief_calibration.py, ordered: [https://agentic-knowledge-base.dev/id/composite/53c1af98-94eb-4b8d-81cf-9914292abca6, https://agentic-knowledge-base.dev/id/composite/1edd84f8-3e8d-4183-996c-4666aefe4a4a, https://agentic-knowledge-base.dev/id/composite/7b6663a6-1c06-4819-aae0-798a36f11390, https://agentic-knowledge-base.dev/id/composite/ec53d97b-e4f9-4f6b-983a-cc20d67bb1b6]}
 ---
-**파일** — `tools/belief_calibration.py` 다. 350줄 · 최상위 정의 12개 · 최상위 절 4개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/belief_calibration.py` 다. 495줄 · 최상위 정의 17개 · 최상위 절 4개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -31,7 +31,17 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/589ba97d-9372-47
         run_evidence.belief_of 의 C 정의를 그대로 부른다. 같은 (판정 로그, 판정자, 극성, 확신도)는 run_evidence 처럼 한 번 센다.
         판정 증거와 달리 입력 해시값으로 낡은 판정을 거르지 않는다 — 라벨은 표본 당시 주장의 판단이고 옛 끝점 파일은 지금 없어서,
         결합 열쇠는 양 끝 IRI 와 종류로 만든 링크 IRI 하나다(Q182-a). 링크 종류 어휘로도 거르지 않는다 — 표본에는 `cites` 가 있다.
-        C 는 보정 전 값이다(결정 p9-belief-by-calibrated-judge — 보정은 확신도 구간마다 표본 하한 20을 채운 뒤에 적용한다).
+        이 평균이 보정 전 C 다. 결정 p9-belief-by-calibrated-judge 가 정한 C 의 값은 보정한 값이고, 보정은 사람 라벨 표본(C 값이 있는
+        항목)이 20건 이상이면 적용한다(Q186-b). 그래서 보정 전 C 는 참고로만 내고 술어 1·2 합격과 선택의 후보에서 뺀다.
+  보정한 C  Platt 보정이다. 입력은 x_i = ln(p_i / (1 − p_i))이고(p_i 는 보정 전 C), 모형 q = σ(a·x + b)의 a·b 를 라벨 y_i 의 로그 우도
+        최대화로 맞춘다. p_i 는 [ε, 1 − ε]로 자르고 ε = 1e-6 이다 — 확신도는 유한 자릿수의 십진 표기여서 0 과 1 만 로짓이 무한이 되고,
+        ε 은 그 밖의 값의 순서와 값을 바꾸지 않을 만큼 작으며 잘린 로짓 ±13.8 은 헤세 행렬을 부동소수점 범위 안에 둔다. 맞춤은 순수 파이썬
+        (math)의 뉴턴법이고 (0, 0)에서 시작해 로그 우도가 줄면 걸음을 반으로 줄인다(최대 30번). 매개변수 변화량의 최댓값이 1e-10 미만이면
+        수렴이고, 반복 상한 100번 안에 수렴하지 않거나 헤세 행렬이 특이하면 보정 불가다. 라벨이 한 값뿐이거나 한 라벨의 로짓이 모두 다른
+        라벨의 로짓 이하인 분리 표본은 최대 우도 해가 무한이므로 뉴턴법 전에 보정 불가로 낸다. 보정 불가는 값을 내지 않고 판정하지 않는다.
+        평가는 하나씩 빼는 교차 검증(LOO)이다 — 항목 i 의 보정값 q_i 는 i 를 뺀 n − 1 건으로 맞춘 (a, b)의 값이고, 술어 1·2 는 이 q_i 로
+        판정한다. 한 번의 맞춤이라도 보정 불가이면 보정한 C 전체가 보정 불가다. 전체 n 건으로 맞춘 (a, b)는 보정 식의 기록으로만 낸다.
+        q_i 는 부동소수점 값을 분수로 바꾼 값이고(Fraction(float)은 정확하다) 그 뒤의 계산은 다른 규칙과 같다.
   규칙 A kind-rank · B beta-binomial  그래프의 `agt:DegreeOfBelief` 노드(링크의 `agt:hasDegreeOfBelief`, `agt:beliefRule`, `agt:beliefValue`)
         에서 표본의 링크 IRI 와 같은 링크의 값만 읽는다. 값이 없는 항목은 그 규칙의 표본에서 빠지고, 다른 링크(뒤이은 링크)의 값을 빌려 오지
         않는다(Q182-a). 규칙 IRI → slug 는 run_evidence.BELIEF_RULES 다.
@@ -44,7 +54,8 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/589ba97d-9372-47
                 닫힌 구간이라 성공 수가 lo 이상 hi 이하이면 든다. 한 구간이라도 벗어나면 거짓이다.
         술어 3  게이트 `belief-consistency` 의 PASS 다. 이 도구는 판정하지 않고 입력으로 받지 않는다.
         n < 20 인 규칙은 '표본 부족'으로 내고 판정하지 않는다 — 값은 참고로 따로 낸다. 술어 1·2가 참인 규칙 가운데 B(R)가 가장 작은 규칙이 선택이다.
-        독립 사람 라벨만으로 같은 계산을 병기하되 판정에 쓰지 않는다(Q178-b).
+        독립 사람 라벨만으로 같은 계산을 병기하되 판정에 쓰지 않는다(Q178-b). 보정한 C 는 독립 라벨이 20건 미만이면 맞추지 않고 표본
+        부족으로 내며, 대신 전체 표본의 LOO 값 가운데 독립 라벨 항목만 모은 Brier 를 판정에 쓰지 않는 값으로 병기한다.
   판정  없음 — 뷰이고 게이트가 아니다. 설계 공간을 닫는 일은 orchestrator 가 이 생성물을 인용해 한다.
 
 종료 코드(kb_lib): 0 생성됨 · 2 설정·입력 문제(라벨 기록 없음·라벨 표를 읽지 못함·같은 링크 IRI 의 두 행·그래프 파싱 실패)
@@ -58,7 +69,7 @@ import re
 import sys
 from collections import defaultdict
 from fractions import Fraction
-from math import comb
+from math import comb, exp, isfinite, log, log1p
 from pathlib import Path
 
 from rdflib import Graph

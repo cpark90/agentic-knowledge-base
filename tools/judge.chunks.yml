@@ -7,8 +7,8 @@ source: tools/judge.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-judge
 package: kb/dev/artifact/judge
 layer: process
-at: 2026-10-31T18:06:07Z
-source_hash: 41d45e26cf60a1f2
+at: 2026-11-27T02:39:25Z
+source_hash: 050661b273cc8e98
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0
 serves: []
@@ -35,6 +35,7 @@ ids:
   fn:decoy_detection_rate: https://agentic-knowledge-base.dev/id/chunk/f804ba0b-8ec8-42b5-b53e-733d51e50546
   fn:decoy_summary: https://agentic-knowledge-base.dev/id/chunk/44e9469f-eeb7-42a0-890d-1e784afb4dd1
   fn:judge_rows: https://agentic-knowledge-base.dev/id/chunk/136a10e2-560c-4817-b3e1-630cbe303a57
+  fn:live_level: https://agentic-knowledge-base.dev/id/chunk/7942fad8-bbd8-417d-840d-f33c6f00af3b
   fn:load_pairs: https://agentic-knowledge-base.dev/id/chunk/d5ec017d-0162-43dd-bd2e-06bb28ffe5d2
   fn:load_profile: https://agentic-knowledge-base.dev/id/chunk/473ab4af-5806-45ea-a923-d7f635544fdb
   fn:load_responses: https://agentic-knowledge-base.dev/id/chunk/21357a69-21e9-470e-8d6c-43908a9308d7
@@ -46,6 +47,7 @@ ids:
   fn:normalize: https://agentic-knowledge-base.dev/id/chunk/9e72d875-7a97-411f-a264-49bd2a07e2d5
   fn:pair_answer: https://agentic-knowledge-base.dev/id/chunk/1dcbf356-b12e-4bc2-b68a-0d4dc08ff69d
   fn:pair_decoy_summary: https://agentic-knowledge-base.dev/id/chunk/69ceb5b2-0e90-45f9-983b-c8a56c9fda09
+  fn:pair_level: https://agentic-knowledge-base.dev/id/chunk/5a45b037-fe24-4b10-8cc4-48a81ebb8314
   fn:pair_rows: https://agentic-knowledge-base.dev/id/chunk/8361deae-2526-4bb1-9fd9-bb8b6899d0f2
   fn:pairs_main: https://agentic-knowledge-base.dev/id/chunk/37cdc474-ee6d-4363-a323-e1a7ea998ddc
   fn:questions: https://agentic-knowledge-base.dev/id/chunk/8a58cf85-fc7e-418d-91fc-ce025cf2cff9

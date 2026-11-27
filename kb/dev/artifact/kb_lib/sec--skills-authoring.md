@@ -7,7 +7,7 @@ title: section -skills-authoring in tools/kb_lib.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-kb-lib}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/624bc78e-4e6c-4b96-b0f7-e9c6f5087b46
 composite: {id: https://agentic-knowledge-base.dev/id/composite/624bc78e-4e6c-4b96-b0f7-e9c6f5087b46, title_ko: 절 복합체 -skills-authoring (tools/kb_lib.py), title: section composite -skills-authoring in tools/kb_lib.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/ac500e24-d795-4cb2-9409-433d7e56a013, https://agentic-knowledge-base.dev/id/chunk/104f7d3c-d114-46c9-aab7-b44761117813], part_of: https://agentic-knowledge-base.dev/id/composite/2fee8437-c9b3-4f23-a1d9-a0ec5e3891b0}
@@ -47,8 +47,9 @@ _SKILLS_AUTHORING = (  # 저작·검증 — 추출·BUILD·링크 복원·V&V �
                   "bazel run //tools:judge -- --question bodyHasOneClaim --responses r1.json --responses r2.json "
                   "--decoys key.json --into /tmp/judge <단위 지식 파일…>"]},
     {"tool": "weave", "section": "method.md#9-뷰",
-     "when": "결정 기록·요구 색인·변경 이력·감사 보고서를 저장하지 않고 그래프와 관측에서 생성해 인용할 때 쓴다.",
-     "commands": ["bazel build //kg:audit && cat bazel-bin/kg/audit.md", "bazel build //kb/dev:adr //kb/dev:requirements //kb/dev:changelog"]},
+     "when": "결정 기록·요구 색인·변경 이력·감사 보고서·질문 반영처를 저장하지 않고 그래프와 관측, 질문지에서 생성해 인용할 때 쓴다.",
+     "commands": ["bazel build //kg:audit && cat bazel-bin/kg/audit.md", "bazel build //kb/dev:adr //kb/dev:requirements //kb/dev:changelog",
+                  "bazel build //kb/dev:questions && cat bazel-bin/kb/dev/questions.md"]},
     {"tool": "gendoc", "section": f"tools.md#{GATE_CATALOGUE_ANCHOR}",
      "when": "생성기를 고친 뒤 생성 문서의 머리 블록·표·목차·링크·비율 표기가 규약 G1~G18 안인지 게이트와 같은 방식으로 검사할 때 쓴다.",
      "commands": ["bazel test //:gendoc_test",

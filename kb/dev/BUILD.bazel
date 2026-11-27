@@ -64,3 +64,16 @@ kb_weave(
     data = _VIEW_GRAPHS,
     kind = "changelog",
 )
+
+# 질문 반영처: 질문지의 질문마다 답 원문과 그 답을 인용한 결정·설계 공간·단위 지식, 유저 결정 증거 (유저 답 Q188-a, bazel build //kb/dev:questions)
+kb_weave(
+    name = "questions",
+    bodies = [
+        ":dev",
+        "//kb/vv",
+        "//space",
+    ],
+    data = ["//space:design_space"],
+    kind = "questions",
+    questions = ["//harness:records"],
+)

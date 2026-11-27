@@ -7,8 +7,8 @@ title: A belief rule beats the base-rate Brier score on the human-labelled sampl
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-sonnet-5-5, at: 2026-11-27T14:03:35+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-11-27T11:49:43+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T12:32:26+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T14:10:40+09:00}]
+generated: {by: vnv/claude-sonnet-5-5, at: 2026-11-27T15:33:25+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-11-27T11:49:43+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T12:32:26+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T14:10:40+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T15:38:18+09:00}]
 ---
 **합격 기준** — 기준 종류는 **보정**이다. 표본 `S`의 항목 `i`에 계산 규칙 `R`이 낸 값을 `p_i`, 사람 정답 라벨을 `y_i ∈ {0, 1}`이라 한다. 아래 세 술어가 모두 참인 `R`만 합격이다.
 
@@ -22,8 +22,8 @@ verified: [{by: orchestrator/claude-opus-5-5, at: 2026-11-27T11:49:43+09:00}, {b
 - 술어 3(일관성). 게이트 `belief-consistency`가 둘을 판정하고 그 PASS가 술어 3이다. 상태 전이 규칙은 믿음 정도를 입력으로 읽지 않는다. 닫힌 계산 규칙이 없는 동안 병기 값은 선호의 동률 깨기에 쓰이지 않는다.
 - 선택. 둘 이상의 규칙이 합격하면 `B(R)`가 가장 낮은 규칙이 고른 것이다.
 
-**등급** — 합격한 규칙이 없다. 2026-11-27의 첫 측정(S3, 결과 기록 `https://agentic-knowledge-base.dev/id/chunk/8e455e5e-1ea1-4b5d-85c2-f1d794477afc`)에서 A `kind-rank`와 B `beta-binomial`은 값이 있는 항목이 0건이라 표본 부족으로 판정하지 않았고, C `judge-mean`은 표본 20건에서 B(R) 0.166이 기저율 Brier 0.160보다 낮지 않아 술어 1이 거짓이므로 불합격이다. 술어 3의 게이트 `belief-consistency`는 저장소에 있고 술어 1·2는 `tools/belief_calibration.py`가 계산하며 생성물은 `//kg:belief_calibration`이다.
+**등급** — 합격한 규칙이 없다. 2026-11-27의 두 번째 측정(S3, 결과 기록 `https://agentic-knowledge-base.dev/id/chunk/ec0e87d8-4b32-4c1c-b01f-2001c801c0e4`)에서 A `kind-rank`와 B `beta-binomial`은 값이 있는 항목이 0건이라 표본 부족으로 판정하지 않았다. 결정 `p9-belief-by-calibrated-judge`가 정한 C `judge-mean`의 값은 보정한 값이고, 보정한 C(Platt, 하나씩 빼는 교차 검증)는 표본 20건에서 B(R) 0.186이 기저율 Brier 0.160보다 낮지 않아 술어 1이 거짓이고, 구간 [0, 1/3)의 관측 빈도 1/1이 허용 성공 수 0~0 밖이라 술어 2도 거짓이므로 불합격이다. 보정 전 C는 B(R) 0.166으로 참고로만 내고 판정에 쓰지 않는다. 술어 3의 게이트 `belief-consistency`는 저장소에 있고 술어 1·2는 `tools/belief_calibration.py`가 계산하며 생성물은 `//kg:belief_calibration`이다.
 
 이 기준이 정제하는 검증 목표는 `https://agentic-knowledge-base.dev/id/chunk/209cb1b9-5182-4db1-886e-0e61dbd552df`다. 그 목표가 draft인 동안 `refines` 링크를 두지 않는다(`p4-chunk-state-machine`).
 
-미확정: 다음 측정은 표본이 늘기를 기다린다. A·B는 표본 링크에 믿음 정도 값이 생겨야 판정할 수 있고, C는 확신도 구간마다 표본 하한 20이 차야 보정을 적용한다. 합격 규칙은 아직 없다.
+미확정: 다음 측정은 표본이 늘기를 기다린다. A·B는 표본 링크에 믿음 정도 값이 생겨야 판정할 수 있고, C는 라벨 0이 늘어야 하나씩 빼는 맞춤의 판별력과 첫 구간의 쏠림이 다시 재어진다. 보정은 사람 라벨 표본이 20건 이상이면 적용한다. 합격 규칙은 아직 없다.

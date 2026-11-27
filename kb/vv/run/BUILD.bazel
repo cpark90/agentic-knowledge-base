@@ -24,6 +24,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "calibration-20261127T062659Z",
+    src = "calibration-20261127T062659Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ec0e87d8-4b32-4c1c-b01f-2001c801c0e4",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
     name = "fidelity-20261003T075642Z",
     src = "fidelity-20261003T075642Z.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/3ebd210d-1c63-486f-a33f-cb59f3738bae",
@@ -604,6 +613,7 @@ kb_bundle(
     name = "kg",
     items = [
         ":calibration-20261127T045831Z",
+        ":calibration-20261127T062659Z",
         ":fidelity-20261003T075642Z",
         ":fidelity-20261003T081751Z",
         ":judge-20260929T182311Z",

@@ -7,12 +7,12 @@ title: file tools/weave.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-weave}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/c0b7f63a-353e-4fdf-9389-961b6f3e130c, https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f, https://agentic-knowledge-base.dev/id/chunk/64cbbffa-54d9-4f66-a2a0-ea2a34dc8653]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/50eac9df-d01a-488f-8254-02ba61b00bf0, title_ko: 파일 복합체 tools/weave.py, title: file composite tools/weave.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/b69488a2-ddf2-4c5d-b093-be38c4f5a853, https://agentic-knowledge-base.dev/id/composite/1a6c538a-b92e-4130-b298-48a8fe030574, https://agentic-knowledge-base.dev/id/composite/ec24ef39-7e27-4fff-bba3-6fdb1829b342, https://agentic-knowledge-base.dev/id/composite/8330a4d7-2140-46ed-b107-9196a6c03aa2, https://agentic-knowledge-base.dev/id/composite/027b8f3a-1382-4deb-a204-543e912d8e6a]}
+composite: {id: https://agentic-knowledge-base.dev/id/composite/50eac9df-d01a-488f-8254-02ba61b00bf0, title_ko: 파일 복합체 tools/weave.py, title: file composite tools/weave.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/b69488a2-ddf2-4c5d-b093-be38c4f5a853, https://agentic-knowledge-base.dev/id/composite/1a6c538a-b92e-4130-b298-48a8fe030574, https://agentic-knowledge-base.dev/id/composite/ec24ef39-7e27-4fff-bba3-6fdb1829b342, https://agentic-knowledge-base.dev/id/composite/8330a4d7-2140-46ed-b107-9196a6c03aa2, https://agentic-knowledge-base.dev/id/composite/027b8f3a-1382-4deb-a204-543e912d8e6a, https://agentic-knowledge-base.dev/id/composite/d4819604-90cc-4d20-9aa3-25160d68c333]}
 ---
-**파일** — `tools/weave.py` 다. 781줄 · 최상위 정의 27개 · 최상위 절 5개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/weave.py` 다. 1044줄 · 최상위 정의 40개 · 최상위 절 6개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -36,8 +36,17 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/50eac9df-d01a-48
                 (kb_lib.TIM_CELLS — metrics 와 같은 정의) / 검증 표시(verified 주체 종류 · 검증 뒤 수정) / 링크 근거(증거 종류 · 복원 비율) /
                 draft 끝 링크(p4-chunk-state-machine 의 보고 지표, 출발 상태별) / 증거 극성(종류 × 극성, union 과 설계 공간 출처별) /
                 자족성 선언. bodies 에 //kb/vv·//kb/dev 를, spaces 에 //space:design_space 를 준다 (//kg:audit)
+  questions     질문 반영처 (유저 답 Q188-a) — 질문지(--questions 의 harness/user/Q-*.md · archive/Q-*.md)의 질문마다 한 행: 번호 · 질문지 ·
+                제목 · 질문지 created · 답 원문(질문 절의 `답:` 뒤 값) · 그 질문을 본문에서 인용한 결정(결정 디렉토리) · 설계 공간 · 그 밖의
+                단위 지식(수와 앞 몇 개) · 그 질문을 가리키는 유저 결정 증거(그래프의 agt:evidenceKind agt:userDecision). 인용 꼴은 긴 꼴
+                `Q-NNNN#Qn`(`Q-NNNN Qn` 포함)과 짧은 꼴 `Qn-x` 둘이고, 답 문자 없는 꼴 `Qn` 은 세지 않고 곳 수만 머리에 적는다 — 질문지
+                번호 체계보다 앞선 2026-09-10 세션의 유저 결정 Q1~Q13 이 같은 꼴이라 질문지로 풀 수 없다. 뒤의 절은 셋이다: 풀리지 않는
+                번호(질문지에 없는 번호 · 질문지와 번호가 어긋난 긴 꼴 · 없는 옛 질문지) / 뒤집힘(같은 결정을 인용한 질문 둘 이상을
+                질문지 created 순, 같은 날은 번호 순) / 옛 질문지(archive/legacy/*.md 파일마다 제목 · status · `legacy/<파일>.md` 를
+                인용한 단위 지식 · 증거). data 에 //space:design_space, bodies 에 //kb/dev · //kb/vv · //space:space 를 준다 (//kb/dev:questions)
 그래프는 query·metrics 와 같은 union 을 kb_lib.load_union 으로 올린다. 본문은 --bodies 의 단위 지식 파일에서 frontmatter id 로 찾는다.
-사용: weave.py --kind adr|requirements|changelog|audit --out <파일> [--root .] <그래프 ttl …> [--bodies <단위 지식 .md …>] [--spaces <design-space.ttl>]
+사용: weave.py --kind adr|requirements|changelog|audit|questions --out <파일> [--root .] <그래프 ttl …> [--bodies <단위 지식 .md …>]
+      [--spaces <design-space.ttl>] [--questions <질문지 .md …>]
 종료: 0 생성됨 · 2 입력 문제(kind 밖·그래프 파일 없음·본문 파싱 불가) — 뷰라 판정 실패(1)는 없다. 결정 0건은 빈 절이지 실패가 아니다
 """
 from __future__ import annotations

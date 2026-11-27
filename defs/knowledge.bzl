@@ -470,24 +470,26 @@ def kb_link_candidates(name, data, k = 7, min_shared = 3, coedit = [], out = "li
         toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
-def kb_weave(name, kind, data, bodies = [], spaces = [], out = None):
+def kb_weave(name, kind, data, bodies = [], spaces = [], questions = [], out = None):
     """그래프(와 단위 지식 본문)에서 문서 뷰를 생성한다 (4.6절 weave, method §9, p12-documents-are-generated).
 
     kind 는 adr(결정 기록의 ADR — bodies 필요) · requirements(요구 색인) · changelog(supersedes 이력) · audit(감사 보고서 —
-    그래프와 관측만으로, bodies 에 //kb/vv·//kb/dev; 로드맵 8단계 audit-self-sufficiency) 중 하나다.
+    그래프와 관측만으로, bodies 에 //kb/vv·//kb/dev; 로드맵 8단계 audit-self-sufficiency) · questions(질문 반영처 — 질문지의 질문마다
+    그 답을 인용한 결정·설계 공간·단위 지식과 유저 결정 증거, questions 에 //harness:records; 유저 답 Q188-a) 중 하나다.
     생성물마다 머리에 생성 시각(UTC)과 질의를 적는다. 뷰이고 게이트가 아니며 생성물은 bazel-bin 에만 있다 —
     소스 트리에 같은 이름의 파일을 두지 않는다 (STYLEGUIDE §6).
 
     Args:
       name: 타깃 이름.
-      kind: adr | requirements | changelog | audit.
+      kind: adr | requirements | changelog | audit | questions.
       data: 그래프 라벨들 (-kg · -odd · 온톨로지 모듈) — query·metrics 와 같은 union.
       bodies: 단위 지식 파일 라벨들 (filegroup 가능). adr 의 결론·근거·대안 본문, audit 의 관측(실행 기록·가정 판정) 본문.
       spaces: 설계 공간 그래프 라벨들 (//space:design_space). union 에 섞지 않고 audit 의 증거 극성 절에만 쓴다 (유저 답 Q117-a).
+      questions: 질문지 라벨들 (//harness:records). questions 가 harness/user/ 의 질문지와 옛 질문지만 골라 읽는다 (유저 답 Q188-a).
       out: 생성할 파일명 (기본 <kind>.md).
     """
-    if kind not in ["adr", "requirements", "changelog", "audit"]:
-        fail("%s: kind 는 adr | requirements | changelog | audit 중 하나다 — 실제 %r" % (name, kind))
+    if kind not in ["adr", "requirements", "changelog", "audit", "questions"]:
+        fail("%s: kind 는 adr | requirements | changelog | audit | questions 중 하나다 — 실제 %r" % (name, kind))
     out = out or kind + ".md"
     # bodies 가 있을 때만 weave.py 가 chunk2kg.parse_chunk 를 부른다 — 그때만 PLANES·LEVELS·STATES 원본(//defs:kb.bzl)이
     # 액션 입력으로 있어야 한다(M1 단일 정의 위치 — 오케스트레이터 판정 2026-09-27: 폴백 없이, 없으면 죽는다).
@@ -495,9 +497,10 @@ def kb_weave(name, kind, data, bodies = [], spaces = [], out = None):
     extra = ((" --bodies " + " ".join(["$(execpaths %s)" % b for b in bodies])
               + " --residency $(location %s)" % residency[0]) if bodies else "")
     extra += (" --spaces " + " ".join(["$(execpaths %s)" % s for s in spaces])) if spaces else ""
+    extra += (" --questions " + " ".join(["$(execpaths %s)" % q for q in questions])) if questions else ""
     native.genrule(
         name = name,
-        srcs = data + bodies + spaces + residency,
+        srcs = data + bodies + spaces + questions + residency,
         outs = [out],
         cmd = _id_cmd() + _tool("weave") + " --kind %s --out $@ %s%s" % (kind, " ".join(["$(execpaths %s)" % d for d in data]), extra),
         tools = [Label("//tools:weave")],
