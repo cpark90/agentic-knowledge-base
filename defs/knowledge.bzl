@@ -418,6 +418,31 @@ def kb_open_questions(name, data, bodies = [], spaces = [], out = "open.md"):
         toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
     )
 
+def kb_belief_calibration(name, records, data, out = "belief-calibration.md"):
+    """사람 정답 라벨 표본에서 믿음 정도 계산 규칙의 보정을 재는 뷰 belief-calibration.md 를 생성한다 (합격 기준
+    belief-calibrated-against-human-labels, 유저 결정 Q181-a).
+
+    규칙마다 Brier 점수와 기저율 Brier, 구간별 정확 이항 구간을 내고 술어 1·2를 판정한다. 술어 3(게이트 belief-consistency)은
+    판정하지 않는다. 뷰이고 게이트가 아니며 생성물은 bazel-bin 에만 있다 (STYLEGUIDE §6).
+
+    Args:
+      name: 타깃 이름.
+      records: 관측 기록 라벨들 (//kb/vv/run) — `label-*.md` 가 라벨 표, `judge-*.md` 가 판정 로그다.
+      data: 그래프 라벨들 — head(:chunks_kg, specializationOf 사슬)와 참조(:references_kg, agt:DegreeOfBelief).
+      out: 생성할 파일명.
+    """
+    native.genrule(
+        name = name,
+        srcs = records + data,
+        outs = [out],
+        cmd = _id_cmd() + _tool("belief_calibration") + " --out $@ --records %s --graphs %s" % (
+            " ".join(["$(execpaths %s)" % r for r in records]),
+            " ".join(["$(execpaths %s)" % d for d in data]),
+        ),
+        tools = [Label("//tools:belief_calibration")],
+        toolchains = _id_toolchains(),  # $(KB_ID_BASE) 의 출처 (task 0327 손질 9)
+    )
+
 def kb_link_candidates(name, data, k = 7, min_shared = 3, coedit = [], out = "link-candidates.md"):
     """그래프(-kg)의 체계 안 증거에서 복원 후보 뷰 link-candidates.md 를 생성한다 (로드맵 8단계 복원, p10-link-by-construction).
 

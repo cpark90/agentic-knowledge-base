@@ -12,6 +12,7 @@ filegroup(
     name = "artifact",
     srcs = [
         "//kb/dev/artifact/assume_check",
+        "//kb/dev/artifact/belief_calibration",
         "//kb/dev/artifact/canonicalize",
         "//kb/dev/artifact/case_gen",
         "//kb/dev/artifact/channel_lint",
@@ -64,6 +65,7 @@ kb_bundle(
     name = "kg",
     items = [
         "//kb/dev/artifact/assume_check:kg",
+        "//kb/dev/artifact/belief_calibration:kg",
         "//kb/dev/artifact/canonicalize:kg",
         "//kb/dev/artifact/case_gen:kg",
         "//kb/dev/artifact/channel_lint:kg",

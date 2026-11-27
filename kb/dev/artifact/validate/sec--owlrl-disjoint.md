@@ -7,7 +7,7 @@ title: section -owlrl-disjoint in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/c119e011-edad-4e1c-8320-30f9527b9a13
 composite: {id: https://agentic-knowledge-base.dev/id/composite/c119e011-edad-4e1c-8320-30f9527b9a13, title_ko: 절 복합체 -owlrl-disjoint (tools/validate.py), title: section composite -owlrl-disjoint in tools/validate.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/70693b1c-ddee-4cfe-84fb-7d1df3326556, https://agentic-knowledge-base.dev/id/chunk/264d9fd1-b338-48ec-9eb9-9ca20577aecc, https://agentic-knowledge-base.dev/id/chunk/36e48838-e65a-47da-9e77-3a3dcef9637a, https://agentic-knowledge-base.dev/id/chunk/56b78eb7-3db4-45f8-b063-9f663a1b2afe, https://agentic-knowledge-base.dev/id/chunk/cd63cbde-c24e-46c6-892a-a26c39ddaa31, https://agentic-knowledge-base.dev/id/chunk/2e3ab692-4155-443c-bf19-1d0a95085056, https://agentic-knowledge-base.dev/id/chunk/36ed7d92-b42b-43c6-9325-c9846e77d4fb, https://agentic-knowledge-base.dev/id/chunk/07104b21-b283-4e54-a921-6b9a61fb6e45], part_of: https://agentic-knowledge-base.dev/id/composite/4d158385-e139-4042-8477-a87c3deeefe2}

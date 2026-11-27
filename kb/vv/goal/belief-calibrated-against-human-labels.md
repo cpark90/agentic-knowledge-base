@@ -8,7 +8,8 @@ title: A degree of belief written alongside a link or candidate must be calibrat
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T13:09:57+09:00}
+generated: {by: vnv/claude-opus-5-5, at: 2026-11-27T14:03:35+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-11-27T11:49:43+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T12:32:26+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T14:10:40+09:00}]
 ---
 **검증 목표** — 계산 규칙이 낸 믿음 정도가 확률로 읽혀도 된다는 것이 보여져야 한다. 이 목표가 재는 것은 계산 규칙의 값과 사람이 판정한 참·거짓의 대응이고, 값을 가질 수 있는가는 재지 않는다.
 
@@ -23,4 +24,4 @@ generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T13:09:57+09:00}
 
 판정의 원본은 요구 `r-032-links-and-candidates-carry-degree-of-belief`(`https://agentic-knowledge-base.dev/id/chunk/a0037ff5-559b-4f3b-894d-2bdef12e206c`)와 설계 공간 `space/degree-of-belief-space.md`의 닫기 기준이다. 그 요구가 draft인 동안 `derivesFrom` 링크를 두지 않는다(`p4-chunk-state-machine`).
 
-미확정: 사람 정답 라벨 표본(하한 20)은 질문지 Q-0047의 답을 기다린다. 표본이 서기 전에는 이 목표의 관측이 하나도 계산되지 않는다.
+미확정: 관측은 2026-11-27에 처음 계산되었고 결과 기록은 `https://agentic-knowledge-base.dev/id/chunk/8e455e5e-1ea1-4b5d-85c2-f1d794477afc`다. 합격 규칙은 아직 없다. 표본은 질문지 Q-0047의 20건이고 원본은 관측 기록 `https://agentic-knowledge-base.dev/id/chunk/bbc63eed-be6f-4316-b0cb-5f1a46dadc5c`다.

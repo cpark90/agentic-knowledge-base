@@ -7,12 +7,12 @@ title: file tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc, https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328, https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5, https://agentic-knowledge-base.dev/id/chunk/cdf76c66-5003-405d-8fc1-4fbcafb8c586, https://agentic-knowledge-base.dev/id/chunk/14782c7c-bf50-47a8-ab11-62715aeeb63e]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/fb7cffc9-e5b5-4ed5-af22-40aa50e3c6aa, title_ko: 파일 복합체 tools/validate.py, title: file composite tools/validate.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/f78b9e0e-d84b-4087-9f1d-29bcf769d844, https://agentic-knowledge-base.dev/id/composite/56ab8e29-8a32-4148-bee8-85b8eabe8488, https://agentic-knowledge-base.dev/id/composite/dfafb084-58ea-49a9-9fe2-20457fba4997, https://agentic-knowledge-base.dev/id/composite/4d158385-e139-4042-8477-a87c3deeefe2]}
 ---
-**파일** — `tools/validate.py` 다. 1441줄 · 최상위 정의 47개 · 최상위 절 4개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/validate.py` 다. 1682줄 · 최상위 정의 54개 · 최상위 절 4개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -75,8 +75,12 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/fb7cffc9-e5b5-4e
   logical-consistency  (--reason) 온톨로지 검사 3단계의 셋째 단계(p2-ontology-compiler-three-tiers). 온톨로지·ODD·A-Box 의
               병합에 OWL 2 RL 폐포(owlrl OWLRL_Semantics, 결정 p2-owl2-rl-profile)를 한 번 만들고 모순을 거부한다 — 추론기가
               그래프에 더한 오류 노드(서로소 클래스의 공통 개체 등)와 owl:Nothing 소속이다. FAIL 줄은 개체 IRI 와 그 모순을 낳은
-              공리·클래스·단언 유형을 적는다. 같은 폐포에 shape 를 적용한다(shacl). 추론 모드는 이 둘만 돌린다 — 나머지 검사는
-              --reason 없는 게이트 테스트가 이미 돌리므로 다시 돌리지 않는다 (유저 결정 Q174-a, //kg:reason_test)
+              공리·클래스·단언 유형을 적는다. 같은 폐포에 shape 를 적용한다(shacl). 추론 모드는 이 둘과 아래 셋만 돌린다 — 나머지
+              검사는 --reason 없는 게이트 테스트가 이미 돌리므로 다시 돌리지 않는다 (유저 결정 Q174-a, //kg:reason_test)
+  cyclic-hierarchy · unsatisfiable-class · unintended-equivalence  (--reason) 분류 계층의 셋째 단계 검사 (유저 결정 Q179-a).
+              대상은 --ontology 파일이 owl:Class 로 선언한 이름 IRI 다. 순환은 단언된 rdfs:subClassOf 에서 찾는다. 불만족은 클래스마다
+              프로브 개체를 넣은 온톨로지 사본의 OWL 2 RL 폐포로 판정하는 RL 근사라 놓치는 불만족이 있다. 동치는 폐포에서 서로 하위인
+              쌍 중 단언된 owl:equivalentClass 의 사슬 밖이고 순환·불만족이 아닌 쌍이다. 한 결함에 한 줄이다
 
 경고(비영 종료 아님, `warn [검사명]` 접두사)
   usesConcept-deprecated  agt:usesConcept 의 대상이 폐기된 용어(owl:deprecated true 또는

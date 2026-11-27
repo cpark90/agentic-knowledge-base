@@ -306,6 +306,22 @@ py_binary(
     ],
 )
 
+# 믿음 정도 보정 측정 뷰 (합격 기준 belief-calibrated-against-human-labels, Q181-a): 사람 라벨 표 · 판정 로그 · agt:DegreeOfBelief
+# → 규칙마다 Brier 와 구간별 정확 이항 구간. 링크 IRI 규칙(link_hash·work_id)은 chunk2kg, C 의 정의(belief_of)는 run_evidence 가 단일 정의 위치다. 게이트가 아니다
+py_binary(
+    name = "belief_calibration",
+    srcs = [
+        "belief_calibration.py",
+        "chunk2kg.py",
+        "run_evidence.py",
+    ],
+    main = "belief_calibration.py",
+    deps = [
+        ":kb_lib",
+        requirement("rdflib"),
+    ],
+)
+
 # 복원 후보 생성기 뷰 (로드맵 8단계 복원, p10-link-by-construction · p10-restored-link-marking): frontmatter 링크가 없는 쌍 → 체계 안 증거
 # (cites · verifies 공동 커버 · usesConcept 교집합)로 후보, TIM·단방향 제약 검사, 앵커당 k ≤ 7. 확정은 사람이 restored: 로 — 게이트가 아니다
 py_binary(

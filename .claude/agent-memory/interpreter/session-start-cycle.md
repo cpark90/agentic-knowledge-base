@@ -28,3 +28,6 @@
 
 ## 되돌아오지 않은 것을 보는 법
 `channel_lint` 의 WAIT 줄 + `./harness/scripts/inbox.sh orchestrator`(내가 보낸 `task` 가운데 `result` 가 아직 없는 것).
+
+## 질문지 닫기의 함정 (2026-11-27)
+질문지는 대개 git 미추적이다. `git mv -k`는 미추적 파일을 조용히 건너뛰고 0으로 끝나므로 `|| mv` 대체가 돌지 않는다. 닫을 때는 `mv harness/user/Q-*.md harness/user/archive/`를 쓰고 `channel_lint`로 확인한다.

@@ -15,6 +15,15 @@ filegroup(
 )
 
 kb_chunk(
+    name = "calibration-20261127T045831Z",
+    src = "calibration-20261127T045831Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8e455e5e-1ea1-4b5d-85c2-f1d794477afc",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
     name = "fidelity-20261003T075642Z",
     src = "fidelity-20261003T075642Z.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/3ebd210d-1c63-486f-a33f-cb59f3738bae",
@@ -501,6 +510,51 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-20261127T035918Z",
+    src = "judge-20261127T035918Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/4a0accf1-c1d7-4d6a-a817-0b665f082aac",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261127T035918Z-2",
+    src = "judge-20261127T035918Z-2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/91e54399-62e1-4f9f-be00-973656619af9",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261127T035918Z-3",
+    src = "judge-20261127T035918Z-3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d695c3d4-6cd9-40ff-8fc1-8b9efc527012",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "judge-20261127T035918Z-4",
+    src = "judge-20261127T035918Z-4.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/197879f3-480f-4ce0-b2d7-e285cf04e6ee",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
+    name = "label-20261127T031607Z",
+    src = "label-20261127T031607Z.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/bbc63eed-be6f-4316-b0cb-5f1a46dadc5c",
+    plane = "memory",
+    level = "concrete",
+    status = "stable",
+)
+
+kb_chunk(
     name = "run-20260919T062548Z",
     src = "run-20260919T062548Z.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/3fa64879-9f43-4c16-bf97-3fcfe5e605a9",
@@ -549,6 +603,7 @@ kb_chunk(
 kb_bundle(
     name = "kg",
     items = [
+        ":calibration-20261127T045831Z",
         ":fidelity-20261003T075642Z",
         ":fidelity-20261003T081751Z",
         ":judge-20260929T182311Z",
@@ -603,6 +658,11 @@ kb_bundle(
         ":judge-20261026T141751Z-2",
         ":judge-20261026T141751Z-3",
         ":judge-20261031T204730Z",
+        ":judge-20261127T035918Z",
+        ":judge-20261127T035918Z-2",
+        ":judge-20261127T035918Z-3",
+        ":judge-20261127T035918Z-4",
+        ":label-20261127T031607Z",
         ":run-20260919T062548Z",
         ":run-20260919T065358Z",
         ":run-20261004T042331Z",

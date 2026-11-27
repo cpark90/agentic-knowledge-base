@@ -61,6 +61,7 @@ STATES = ["draft", "stable", "suspect", "invalidated", "deprecated"]
 # `BUILD.bazel` 의 소스 존재 확인(`glob` 대조, 로드 시점)이 바로 죽는다.
 EXTRACTED_SOURCES = [
     "assume_check",
+    "belief_calibration",
     "canonicalize",
     "case_gen",
     "channel_lint",
@@ -143,6 +144,7 @@ VIEWS = {
     "//kb/dev:index": "labels",
     "//kb/dev:requirements": "weave",
     "//kg:audit": "weave",
+    "//kg:belief_calibration": "belief_calibration",
     "//kg:communities": "community",
     "//kg:cq": "query",
     "//kg:link_candidates": "link",
@@ -215,6 +217,7 @@ GATES = {
     "chunk2kg-merge": {"tier": "analysis", "tool": "chunk2kg", "ko": "head 병합", "desc": "타깃별 head 조각의 병합 실패", "decision": "p6-validate-the-union"},
     "code-part-link": {"tier": "verify", "tool": "validate", "ko": "코드 부분 링크", "desc": "추출 트리의 복합체 부분(정의·구역 단위 지식)이 refines·serves·verifies 의 끝점", "decision": "p7-code-links-on-file-composite"},
     "cross-kb-link": {"tier": "verify", "tool": "validate", "ko": "KB 가로지름 링크", "desc": "verifies 밖의 저작 링크가 두 KB 를 가로지름 (검증 목표 → 요구 derivesFrom 만 예외)", "decision": "p8-vv-independence-scope"},
+    "cyclic-hierarchy": {"tier": "verify", "tool": "validate", "ko": "순환 분류 계층", "desc": "단언된 rdfs:subClassOf 의 순환", "decision": "p2-ontology-compiler-three-tiers"},
     "dangling": {"tier": "verify", "tool": "validate", "ko": "참조 무결성", "desc": "인용·부분·가정·요구·정의 호출의 대상이 실재하지 않음", "decision": "p10-extracted-references-are-candidates"},
     "decision-role": {"tier": "test", "tool": "chunk_lint", "ko": "결정 역할 표지", "desc": "결론·근거·대안·규약의 첫 산문 줄에 역할 표지가 없음", "decision": "p4-convention-slot"},
     "doccheck": {"tier": "test", "tool": "doccheck", "ko": "문서 현행성", "desc": "문서의 죽은 링크·앵커·백틱 경로와 산문 문체 위반", "decision": "p12-generated-documents-are-gated"},
@@ -260,6 +263,8 @@ GATES_TAIL = {
     "taxonomy": {"tier": "analysis", "tool": "taxonomy", "ko": "택소노미 생성", "desc": "택소노미 생성 입력이 읽히거나 파싱되지 않음", "decision": "p0-condition-taxonomy-extensible"},
     "tim": {"tier": "analysis", "tool": "starlark", "ko": "TIM", "desc": "링크 타입의 정의역·치역·방향·수준 위반", "decision": "p10-traceability-information-model"},
     "token-budget": {"tier": "verify", "tool": "validate", "ko": "토큰 상한 단일 정의 위치", "desc": "지식 종류별 본문 토큰 상한의 표와 shape 가 갈림, 어휘 파일 해시값 불일치", "decision": "p1-chunk-unit-is-tokens"},
+    "unintended-equivalence": {"tier": "verify", "tool": "validate", "ko": "의도치 않은 동치", "desc": "OWL 2 RL 폐포에서 서로 하위인데 owl:equivalentClass 선언이 없는 이름 클래스 쌍", "decision": "p2-ontology-compiler-three-tiers"},
+    "unsatisfiable-class": {"tier": "verify", "tool": "validate", "ko": "불만족 클래스", "desc": "프로브 개체의 OWL 2 RL 폐포에서 개체를 가질 수 없는 이름 클래스 — RL 근사라 RL 규칙이 낳지 않는 불만족은 놓친다", "decision": "p2-ontology-compiler-three-tiers"},
     "verify": {"tier": "verify", "tool": "validate", "ko": "안티패턴", "desc": "안티패턴 SPARQL 질의가 위반 행을 냄", "decision": "p2-ontology-compiler-three-tiers"},
     "visibility": {"tier": "analysis", "tool": "bazel", "ko": "의존 방향", "desc": "개발 타깃이 V&V 타깃을 의존함", "decision": "p8-vv-independence-scope"},
     "vocab": {"tier": "verify", "tool": "validate", "ko": "통제 어휘", "desc": "온톨로지와 등록 표준 어휘 밖의 술어·용어", "decision": "p2-ontology-as-vocabulary"},
@@ -276,6 +281,7 @@ GATES.update(GATES_TAIL)
 # 같은 대괄호 표기를 쓰므로 게이트 `gate-registry` 가 태그 전수를 볼 때 이 목록이 둘째 경계다 (USES_TARGETS 와
 # 같은 자리). `GATES` 와 서로소여야 한다 — `check_gates` 가 로드 시점에 강제한다.
 TOOL_TAGS = [
+    "belief-calibration",  # 보정 측정 뷰의 입력 거부(라벨 기록 없음·라벨 표 불량·같은 링크 IRI 의 두 행·그래프 파싱 실패) — 판정 효과가 없다
     "consistency",
     "endorse",  # 쓰는 시점의 입력 거부(미래 시각의 --at) — 게이트는 시계에 의존할 수 없어 판정 효과가 없다
     "judge",

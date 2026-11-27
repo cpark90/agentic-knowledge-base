@@ -1221,6 +1221,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-overlapsholds-pair-5f7f2d06",
+    src = "judge-overlapsholds-pair-5f7f2d06.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/31e19efd-8f3c-409e-961e-b17786775c88",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "judge-overlapsholds-pair-61e03ddb",
     src = "judge-overlapsholds-pair-61e03ddb.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/0c032c8c-5b29-4675-bbe3-41a0e1bada2c",
@@ -1959,6 +1968,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-overlapsholds-pair-afd25e39",
+    src = "judge-overlapsholds-pair-afd25e39.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d8259cd7-3053-44f7-8d87-a603ae448d65",
+    plane = "annotation",
+    level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
     name = "judge-overlapsholds-pair-b03f722c",
     src = "judge-overlapsholds-pair-b03f722c.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/9b2b29e2-b90a-4b1a-a151-1146708d6e69",
@@ -2360,6 +2378,15 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/274d257c-ca7a-476b-9037-03deafd712d7",
     plane = "annotation",
     level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-overlapsholds-pair-d18ebb06",
+    src = "judge-overlapsholds-pair-d18ebb06.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/0b22d9c4-80ff-44bf-8fa0-7eee35399eb3",
+    plane = "annotation",
+    level = "logical",
     status = "draft",
 )
 
@@ -2958,6 +2985,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-proposedlinkholds-pair-0e7b8646",
+    src = "judge-proposedlinkholds-pair-0e7b8646.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b3d0bafd-cf2d-46e2-b3ef-d3c52dda0234",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
     name = "judge-proposedlinkholds-pair-0e8160ac",
     src = "judge-proposedlinkholds-pair-0e8160ac.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/c472b5bf-37d8-42dc-94a2-053d18086e41",
@@ -2994,6 +3030,42 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-proposedlinkholds-pair-2adbc9a5",
+    src = "judge-proposedlinkholds-pair-2adbc9a5.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/08dd747e-e6f0-4e1d-85e7-8d3a4edfc064",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-2c586df2",
+    src = "judge-proposedlinkholds-pair-2c586df2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/eaca4b9e-513d-4934-b675-191c8f0a7142",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-30d8c752",
+    src = "judge-proposedlinkholds-pair-30d8c752.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/5e4f50a7-6a4e-4b1b-9848-2a7c6bf051d8",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-329fadbc",
+    src = "judge-proposedlinkholds-pair-329fadbc.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ac4dd8f1-1e28-42f0-afae-b4709905918e",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
     name = "judge-proposedlinkholds-pair-36c5d013",
     src = "judge-proposedlinkholds-pair-36c5d013.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/751ff4fb-94b2-4013-9dd3-8fc775049c76",
@@ -3012,6 +3084,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-proposedlinkholds-pair-3ffad0d6",
+    src = "judge-proposedlinkholds-pair-3ffad0d6.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/e576707c-d00b-4fc9-982d-c31176b17aef",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
     name = "judge-proposedlinkholds-pair-4b9f4f44",
     src = "judge-proposedlinkholds-pair-4b9f4f44.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/f76d764a-80c5-42ec-9aa8-d5fa227ee24a",
@@ -3021,11 +3102,29 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-proposedlinkholds-pair-566a65e3",
+    src = "judge-proposedlinkholds-pair-566a65e3.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/0383252e-cfc6-46d9-acfb-5d96d7b8149f",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "judge-proposedlinkholds-pair-57611177",
     src = "judge-proposedlinkholds-pair-57611177.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/ac41fd3a-63a8-4b65-89f6-73c12168353c",
     plane = "annotation",
     level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-5e6764f2",
+    src = "judge-proposedlinkholds-pair-5e6764f2.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/ed26160c-3871-49e7-aa79-d8998575a9b7",
+    plane = "annotation",
+    level = "executable",
     status = "draft",
 )
 
@@ -3075,6 +3174,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-proposedlinkholds-pair-8092c023",
+    src = "judge-proposedlinkholds-pair-8092c023.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b82d943d-4dd1-47e4-bc13-36d0e081f409",
+    plane = "annotation",
+    level = "functional",
+    status = "draft",
+)
+
+kb_chunk(
     name = "judge-proposedlinkholds-pair-8b391660",
     src = "judge-proposedlinkholds-pair-8b391660.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/3305dd0b-c848-463a-a838-bb47dfd0a7f6",
@@ -3093,6 +3201,15 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-proposedlinkholds-pair-91efe46e",
+    src = "judge-proposedlinkholds-pair-91efe46e.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/d224290c-e99b-47c5-b88e-7dea3e547b2c",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "judge-proposedlinkholds-pair-93104e85",
     src = "judge-proposedlinkholds-pair-93104e85.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/eea7ecca-b31e-4446-8a15-8b4f30334739",
@@ -3102,11 +3219,56 @@ kb_chunk(
 )
 
 kb_chunk(
+    name = "judge-proposedlinkholds-pair-97cc6454",
+    src = "judge-proposedlinkholds-pair-97cc6454.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/fd911e80-fce3-41f2-b996-1649c7f3ddec",
+    plane = "annotation",
+    level = "executable",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-97d38b1a",
+    src = "judge-proposedlinkholds-pair-97d38b1a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b8cceb4a-a2d5-421c-8916-e559451bfddd",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-9c721e0a",
+    src = "judge-proposedlinkholds-pair-9c721e0a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/3a96aea2-8f72-4da9-a564-be1896a252bf",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
     name = "judge-proposedlinkholds-pair-9f2451af",
     src = "judge-proposedlinkholds-pair-9f2451af.md",
     iri = "https://agentic-knowledge-base.dev/id/chunk/8f6f8e7d-3563-4acc-9596-27943a2fdfa1",
     plane = "annotation",
     level = "abstract",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-9f7a22ac",
+    src = "judge-proposedlinkholds-pair-9f7a22ac.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b88bf3d5-0530-4f05-9078-31873a75ef3b",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-bf8b0a6a",
+    src = "judge-proposedlinkholds-pair-bf8b0a6a.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/53f5f7b1-e1d4-42dd-911e-415c7840a2b6",
+    plane = "annotation",
+    level = "concrete",
     status = "draft",
 )
 
@@ -3125,6 +3287,24 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/4d779336-5816-4df8-a827-1f05ce3ca3c8",
     plane = "annotation",
     level = "logical",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-cd460548",
+    src = "judge-proposedlinkholds-pair-cd460548.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/878f9a98-3351-4b34-84da-fc9f7ebd32b5",
+    plane = "annotation",
+    level = "concrete",
+    status = "draft",
+)
+
+kb_chunk(
+    name = "judge-proposedlinkholds-pair-cf8043a7",
+    src = "judge-proposedlinkholds-pair-cf8043a7.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/8ccec812-eff7-4da1-aa8e-9d4afb7d7e99",
+    plane = "annotation",
+    level = "executable",
     status = "draft",
 )
 
@@ -3464,6 +3644,7 @@ kb_bundle(
         ":judge-overlapsholds-pair-5d0d563f",
         ":judge-overlapsholds-pair-5f49b400",
         ":judge-overlapsholds-pair-5f5853ec",
+        ":judge-overlapsholds-pair-5f7f2d06",
         ":judge-overlapsholds-pair-61e03ddb",
         ":judge-overlapsholds-pair-6291dbd1",
         ":judge-overlapsholds-pair-62b11071",
@@ -3546,6 +3727,7 @@ kb_bundle(
         ":judge-overlapsholds-pair-ad49ee77",
         ":judge-overlapsholds-pair-ade2939f",
         ":judge-overlapsholds-pair-af45827f",
+        ":judge-overlapsholds-pair-afd25e39",
         ":judge-overlapsholds-pair-b03f722c",
         ":judge-overlapsholds-pair-b113b9fe",
         ":judge-overlapsholds-pair-b27d69fe",
@@ -3591,6 +3773,7 @@ kb_bundle(
         ":judge-overlapsholds-pair-d06b4ecc",
         ":judge-overlapsholds-pair-d0d217d6",
         ":judge-overlapsholds-pair-d155c117",
+        ":judge-overlapsholds-pair-d18ebb06",
         ":judge-overlapsholds-pair-d3091efe",
         ":judge-overlapsholds-pair-d3a94ef5",
         ":judge-overlapsholds-pair-d4c3f4c8",
@@ -3657,25 +3840,42 @@ kb_bundle(
         ":judge-overlapsholds-pair-ff7ba6a6",
         ":judge-proposedlinkholds-pair-0bf1b82a",
         ":judge-proposedlinkholds-pair-0c8785ba",
+        ":judge-proposedlinkholds-pair-0e7b8646",
         ":judge-proposedlinkholds-pair-0e8160ac",
         ":judge-proposedlinkholds-pair-203fe084",
         ":judge-proposedlinkholds-pair-295daa1b",
         ":judge-proposedlinkholds-pair-2ac54d13",
+        ":judge-proposedlinkholds-pair-2adbc9a5",
+        ":judge-proposedlinkholds-pair-2c586df2",
+        ":judge-proposedlinkholds-pair-30d8c752",
+        ":judge-proposedlinkholds-pair-329fadbc",
         ":judge-proposedlinkholds-pair-36c5d013",
         ":judge-proposedlinkholds-pair-3c25498a",
+        ":judge-proposedlinkholds-pair-3ffad0d6",
         ":judge-proposedlinkholds-pair-4b9f4f44",
+        ":judge-proposedlinkholds-pair-566a65e3",
         ":judge-proposedlinkholds-pair-57611177",
+        ":judge-proposedlinkholds-pair-5e6764f2",
         ":judge-proposedlinkholds-pair-66fe724a",
         ":judge-proposedlinkholds-pair-6a4e2271",
         ":judge-proposedlinkholds-pair-6b6d94c4",
         ":judge-proposedlinkholds-pair-7747dca0",
         ":judge-proposedlinkholds-pair-7f49aa34",
+        ":judge-proposedlinkholds-pair-8092c023",
         ":judge-proposedlinkholds-pair-8b391660",
         ":judge-proposedlinkholds-pair-8bfae5d2",
+        ":judge-proposedlinkholds-pair-91efe46e",
         ":judge-proposedlinkholds-pair-93104e85",
+        ":judge-proposedlinkholds-pair-97cc6454",
+        ":judge-proposedlinkholds-pair-97d38b1a",
+        ":judge-proposedlinkholds-pair-9c721e0a",
         ":judge-proposedlinkholds-pair-9f2451af",
+        ":judge-proposedlinkholds-pair-9f7a22ac",
+        ":judge-proposedlinkholds-pair-bf8b0a6a",
         ":judge-proposedlinkholds-pair-c28b84a6",
         ":judge-proposedlinkholds-pair-cc749b37",
+        ":judge-proposedlinkholds-pair-cd460548",
+        ":judge-proposedlinkholds-pair-cf8043a7",
         ":judge-proposedlinkholds-pair-d160859a",
         ":judge-proposedlinkholds-pair-d168e13f",
         ":judge-proposedlinkholds-pair-d2900ad6",

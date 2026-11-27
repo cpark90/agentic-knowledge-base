@@ -717,12 +717,45 @@ genrule(
     tools = ["//tools:validate"],
 )
 
+# 양성은 같은 T-Box 만의 폐포가 모순 없이 통과하고 분류 계층 셋(cyclic-hierarchy · unsatisfiable-class · unintended-equivalence)도
+# 통과하는 꼴이다
 genrule(
     name = "logical_consistency_gate_accepted",
     srcs = ["//kb/ontology:modules"],
     outs = ["logical_consistency_gate_accepted.out"],
     cmd = "$(execpath //tools:validate) --reason --ontology $(execpaths //kb/ontology:modules) > $@ && " +
-          "grep -qF 'PASS [logical-consistency] — OWL 2 RL 폐포' $@ && ! grep -qF 'FAIL [' $@",
+          "grep -qF 'PASS [logical-consistency] — OWL 2 RL 폐포' $@ && " +
+          "grep -qF 'PASS [cyclic-hierarchy] — 단언된 rdfs:subClassOf 의 순환 0건' $@ && " +
+          "grep -qF 'PASS [unsatisfiable-class] — 온톨로지 이름 클래스 ' $@ && " +
+          "grep -qF 'PASS [unintended-equivalence] — 이름 클래스 ' $@ && ! grep -qF 'FAIL [' $@",
+    tags = ["manual"],
+    tools = ["//tools:validate"],
+)
+
+# 분류 계층 게이트 셋(validate --reason 의 check_cyclic_hierarchy · check_unsatisfiable_class · check_unintended_equivalence) —
+# 개체 없는 T-Box 결함을 거부한다 (유저 결정 Q179-a, 결정 p2-ontology-compiler-three-tiers). 고정물 하나에 결함 셋이고 실제 T-Box 와
+# 함께 --ontology 로 넘긴다 — 단언된 순환, 서로소인 두 클래스의 공통 하위 클래스(그 하위 클래스는 근원 줄에 함께 적힌다), 같은
+# 존재 제약과 각각 동치여서 OWL 2 RL 이 서로 하위로 만드는 두 클래스다. 결함마다 해당 게이트에서만 한 줄이 나고 모순 게이트는
+# 통과하는지, FAIL 줄이 클래스와 공리의 파일을 적는지 본다
+genrule(
+    name = "class_hierarchy_gates_rejected",
+    srcs = [
+        "fx_reason_tbox_bad.ttl",
+        "//kb/ontology:modules",
+    ],
+    outs = ["class_hierarchy_gates_rejected.out"],
+    cmd = "! $(execpath //tools:validate) --reason --ontology $(execpaths //kb/ontology:modules) " +
+          "$(execpath fx_reason_tbox_bad.ttl) > $@ && " +
+          "grep -qF 'PASS [logical-consistency]' $@ && " +
+          "grep -qF 'FAIL [cyclic-hierarchy] defs/tests/fx_reason_tbox_bad.ttl: 단언된 rdfs:subClassOf 가 순환한다 — " +
+          "<urn:fx:Loop1> rdfs:subClassOf <urn:fx:Loop2>(defs/tests/fx_reason_tbox_bad.ttl), <urn:fx:Loop2> rdfs:subClassOf " +
+          "<urn:fx:Loop3>(defs/tests/fx_reason_tbox_bad.ttl), <urn:fx:Loop3> rdfs:subClassOf <urn:fx:Loop1>(defs/tests/fx_reason_tbox_bad.ttl)' $@ && " +
+          "grep -qF 'FAIL [unsatisfiable-class] defs/tests/fx_reason_tbox_bad.ttl: 클래스 <urn:fx:Hybrid> 는 개체를 가질 수 없다 — " +
+          "상위 클래스 agt:Composite 와 agt:Chunk 가 서로소다(공리 agt:Composite owl:disjointWith agt:Chunk, " +
+          "kb/ontology/entity/knowledge-item/knowledge-item-ontology.ttl) · 같은 근거로 불만족인 하위 클래스 <urn:fx:HybridSub>' $@ && " +
+          "grep -qF 'FAIL [unintended-equivalence] defs/tests/fx_reason_tbox_bad.ttl: 클래스 <urn:fx:Twin1> 와 " +
+          "<urn:fx:Twin2>(defs/tests/fx_reason_tbox_bad.ttl) 가 OWL 2 RL 폐포에서 서로의 하위 클래스다 — owl:equivalentClass 선언이 없다' $@ && " +
+          "grep -qF 'FAIL [validate] — 3건 (추론 모드)' $@",
     tags = ["manual"],
     tools = ["//tools:validate"],
 )
@@ -730,6 +763,7 @@ genrule(
 build_test(
     name = "logical_consistency_gate_test",
     targets = [
+        ":class_hierarchy_gates_rejected",
         ":logical_consistency_gate_accepted",
         ":logical_consistency_gate_rejected",
     ],

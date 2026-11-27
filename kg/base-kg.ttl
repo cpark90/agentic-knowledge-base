@@ -135,6 +135,11 @@ id:src-tools-assume-check
         "tools/assume_check.py (소스 파일, 추출 원천)"@ko ;
     prov:atLocation "tools/assume_check.py" .
 
+id:src-tools-belief-calibration
+    rdfs:label "tools/belief_calibration.py (source file, extraction origin)"@en ,
+        "tools/belief_calibration.py (소스 파일, 추출 원천)"@ko ;
+    prov:atLocation "tools/belief_calibration.py" .
+
 id:src-tools-canonicalize
     rdfs:label "tools/canonicalize.py (source file, extraction origin)"@en ,
         "tools/canonicalize.py (소스 파일, 추출 원천)"@ko ;

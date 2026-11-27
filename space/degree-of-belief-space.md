@@ -7,7 +7,8 @@ title: How degrees of belief are computed and calibrated
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:09:19+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-11-27T14:03:23+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-11-27T12:11:50+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T14:03:23+09:00}]
 ---
 유저는 미결을 "개선 및 확장이 이루어지는 frontier 포인트"로 보았다(Q54-a).
 
@@ -15,7 +16,7 @@ generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:09:19+09:00}
 
 이미 정해진 것 — 믿음 정도는 병기하며 상태 전이와 확정·배제 판정에 들지 않는다(`p9-evidence-ledger-with-belief`, `p9-feasible-set-for-settlement`, Q90-a). 증거 기록 결정의 근거가 말하는 "선호를 돕는다"는 개정된 `p9-preference-partial-order`를 가리키며, 믿음 정도는 부분순서에서 순서가 없는 두 후보의 동률을 언어모델의 제안보다 먼저 깬다(Q109-b). 확률이 표현하는 것은 링크의 믿음 정도와 결정 후보의 선택 확률이다(Q88-a·b). 선행 조건 셋을 지시로 수행한다: 반박 증거 경로, 사람 정답 라벨 표본(구간 하한 20), 동시 편집·공동 커버 증거(Q91).
 
-현재 상태(2026-10-22 측정) — 증거 1,229건 가운데 반박은 6건이고 모두 설계 공간의 배제 근거다. 동시 편집·공동 커버·임베딩·세션 읽음 증거는 0이다. 사람 정답 라벨은 10건이고 20건 표본을 준비하고 있다. V&V 실행 기록의 fail은 옛 테스트 케이스 이름이라 지금 링크로 내려오지 않는다.
+현재 상태(2026-10-22 측정) — 증거 1,229건 가운데 반박은 6건이고 모두 설계 공간의 배제 근거다. 동시 편집·공동 커버·임베딩·세션 읽음 증거는 0이다. V&V 실행 기록의 fail은 옛 테스트 케이스 이름이라 지금 링크로 내려오지 않는다. 첫 측정(2026-11-27, Q181-a)에서 C는 Brier 0.166으로 기저율 0.160보다 높아 불합격이고 A·B는 표본 부족이다(`//kg:belief_calibration`).
 
 답이 가르는 것 — 값이 확률로 해석되는지, 지금 계산할 수 있는지, 어느 선행 조건을 기다리는지가 갈린다.
 

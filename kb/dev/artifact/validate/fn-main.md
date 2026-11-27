@@ -7,7 +7,7 @@ title: function main in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/02c3daad-5974-4be8-80ea-4c6b338b45de, https://agentic-knowledge-base.dev/id/chunk/05336a2f-bef3-4bc3-9b6d-976a1e9adb9d, https://agentic-knowledge-base.dev/id/chunk/07104b21-b283-4e54-a921-6b9a61fb6e45, https://agentic-knowledge-base.dev/id/chunk/0bc1d5ff-d788-47b3-a1b4-43a27654be04, https://agentic-knowledge-base.dev/id/chunk/0eba15f1-9ab6-4d48-bb9a-8809fc98a603, https://agentic-knowledge-base.dev/id/chunk/165313bb-866c-4352-820a-719686c0ca28, https://agentic-knowledge-base.dev/id/chunk/20010c39-d032-41e2-8566-e7d12dc09fd6, https://agentic-knowledge-base.dev/id/chunk/386f974f-846c-47c9-99dc-ee866783f5c5, https://agentic-knowledge-base.dev/id/chunk/40832ce8-b21d-4635-9f79-0212625c61fe, https://agentic-knowledge-base.dev/id/chunk/488bd7ba-cb14-4e6c-94f4-119987372f1f, https://agentic-knowledge-base.dev/id/chunk/56006161-22a8-4cff-9d03-2ec71941b721, https://agentic-knowledge-base.dev/id/chunk/6bf4337c-24c7-4689-8354-d179c822e031, https://agentic-knowledge-base.dev/id/chunk/6f429584-5f62-4039-9848-4d26e16a22ac, https://agentic-knowledge-base.dev/id/chunk/74027bd0-148f-4997-9b67-43e438793d0b, https://agentic-knowledge-base.dev/id/chunk/77d9a605-dbe6-47d6-a87e-5c042030404f, https://agentic-knowledge-base.dev/id/chunk/7848189e-1a29-4f71-9bab-09f2623ff65f, https://agentic-knowledge-base.dev/id/chunk/7b782704-6d75-4344-9b72-f812f73bbfb0, https://agentic-knowledge-base.dev/id/chunk/7cd61807-8e8e-44e7-a140-c95f9f82e4f9, https://agentic-knowledge-base.dev/id/chunk/9126a0ff-4c8a-4088-969f-2b596ee08bdd, https://agentic-knowledge-base.dev/id/chunk/9865784d-08b9-47b0-826d-a088f38dd912, https://agentic-knowledge-base.dev/id/chunk/9d1171df-d5e6-4602-9c49-05605607011c, https://agentic-knowledge-base.dev/id/chunk/a0953baf-5b58-4667-ba87-2c4653097756, https://agentic-knowledge-base.dev/id/chunk/a45854d1-6d8a-4a1a-890e-a55aa166d992, https://agentic-knowledge-base.dev/id/chunk/ba1f7e1e-92c3-4692-9023-f2fb9dddbbc4, https://agentic-knowledge-base.dev/id/chunk/bcd2cb8b-0f77-4111-9cd6-194809eb4d2b, https://agentic-knowledge-base.dev/id/chunk/d26c3802-192f-4414-81da-25abd63211fc, https://agentic-knowledge-base.dev/id/chunk/d44afb5e-6469-4c49-9b40-d3b2f01ae0a6, https://agentic-knowledge-base.dev/id/chunk/e51ab77c-0ffd-4d58-a3cb-d622e9134952, https://agentic-knowledge-base.dev/id/chunk/e9b943fe-3fee-4433-8018-038f1deb41c6, https://agentic-knowledge-base.dev/id/chunk/f5bba732-244e-40a1-a3a0-f5c8e97043be, https://agentic-knowledge-base.dev/id/chunk/f5d521a5-98ba-4f17-ada0-7ddbb7162850, https://agentic-knowledge-base.dev/id/chunk/fd4f59ff-fa52-4ead-afda-fc34d6efe930]
 part_of: https://agentic-knowledge-base.dev/id/composite/d0b4b228-df49-490d-b346-c659c4c6e8da
@@ -23,7 +23,8 @@ def main() -> int:
     ap.add_argument("--odd", nargs="*", default=[], help="ODD 파일들 (*-odd)")
     ap.add_argument("--data", nargs="*", default=[], help="A-Box 파일들 (*-kg, *-space)")
     ap.add_argument("--reason", action="store_true",
-                    help="추론 모드 — OWL 2 RL 폐포를 한 번 만들어 게이트 `logical-consistency`(모순)와 폐포 위 `shacl` 만 돌린다. "
+                    help="추론 모드 — OWL 2 RL 폐포를 한 번 만들어 게이트 `logical-consistency`(모순), 분류 계층 셋(`cyclic-hierarchy`·"
+                         "`unsatisfiable-class`·`unintended-equivalence`)과 폐포 위 `shacl` 만 돌린다. "
                          "--ontology 가 있어야 하고, 다른 검사의 입력(--gates·--verify-queries·--chunk-files·--residency·"
                          "--standard-vocab)은 받지 않는다 — 그 검사는 추론 없는 게이트 테스트가 돌린다")
     ap.add_argument("--residency", default="", help="수준 허용표의 원본 defs/kb.bzl — 주면 shape 가 그 표와 같은지 본다")
@@ -97,7 +98,7 @@ def main() -> int:
 
     if args.reason:  # 추론 모드 — 폐포 하나를 모순 판정과 shape 적합성이 함께 읽는다 (유저 결정 Q174-a)
         return reason_main(onto_merged + odd_merged + data_merged, {**onto_files, **odd_files, **data_files},
-                           shapes_merged, args.shapes, waivers, n_files)
+                           onto_merged, onto_files, shapes_merged, args.shapes, waivers, n_files)
 
     errors += check_labels(onto_files)
     errors += check_boundary(onto_files)

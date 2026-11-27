@@ -7,7 +7,7 @@ title: section gates-tail in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/b5154bf0-e67d-4227-8b66-c63012041201
 ---
@@ -47,6 +47,8 @@ GATES_TAIL = {
     "taxonomy": {"tier": "analysis", "tool": "taxonomy", "ko": "택소노미 생성", "desc": "택소노미 생성 입력이 읽히거나 파싱되지 않음", "decision": "p0-condition-taxonomy-extensible"},
     "tim": {"tier": "analysis", "tool": "starlark", "ko": "TIM", "desc": "링크 타입의 정의역·치역·방향·수준 위반", "decision": "p10-traceability-information-model"},
     "token-budget": {"tier": "verify", "tool": "validate", "ko": "토큰 상한 단일 정의 위치", "desc": "지식 종류별 본문 토큰 상한의 표와 shape 가 갈림, 어휘 파일 해시값 불일치", "decision": "p1-chunk-unit-is-tokens"},
+    "unintended-equivalence": {"tier": "verify", "tool": "validate", "ko": "의도치 않은 동치", "desc": "OWL 2 RL 폐포에서 서로 하위인데 owl:equivalentClass 선언이 없는 이름 클래스 쌍", "decision": "p2-ontology-compiler-three-tiers"},
+    "unsatisfiable-class": {"tier": "verify", "tool": "validate", "ko": "불만족 클래스", "desc": "프로브 개체의 OWL 2 RL 폐포에서 개체를 가질 수 없는 이름 클래스 — RL 근사라 RL 규칙이 낳지 않는 불만족은 놓친다", "decision": "p2-ontology-compiler-three-tiers"},
     "verify": {"tier": "verify", "tool": "validate", "ko": "안티패턴", "desc": "안티패턴 SPARQL 질의가 위반 행을 냄", "decision": "p2-ontology-compiler-three-tiers"},
     "visibility": {"tier": "analysis", "tool": "bazel", "ko": "의존 방향", "desc": "개발 타깃이 V&V 타깃을 의존함", "decision": "p8-vv-independence-scope"},
     "vocab": {"tier": "verify", "tool": "validate", "ko": "통제 어휘", "desc": "온톨로지와 등록 표준 어휘 밖의 술어·용어", "decision": "p2-ontology-as-vocabulary"},

@@ -1,0 +1,38 @@
+# 등록부 — 손이 원본이다. 한정 이름 → uuid 가 코드 단위 지식의 정체성이고 이름은 그 위의 라벨이다
+# (p10-split-keeps-work-identity · p7-code-extraction-direction). 생성기는 신설 uuid 와 `at`·`source_hash` 만 더한다.
+# 개명은 아래 `ids` 의 키를 손으로 고치는 것이고, 삭제는 키를 손으로 지우는 것이다 — 둘 다 사람의 편집이다.
+# 생성물은 `kb/dev/artifact/belief_calibration/` 이며 손으로 고치면 `//:extract_drift_test` 가 거부한다.
+
+source: tools/belief_calibration.py
+resource: https://agentic-knowledge-base.dev/id/src-tools-belief-calibration
+package: kb/dev/artifact/belief_calibration
+layer: process
+at: 2026-11-27T04:11:19Z
+source_hash: 451da3bb905c22a8
+refines:
+  - https://agentic-knowledge-base.dev/id/chunk/9deed62a-70ad-4a87-99a2-73c11e1a4453
+serves: []
+tested: {}
+ids:
+  composite:head: https://agentic-knowledge-base.dev/id/composite/53c1af98-94eb-4b8d-81cf-9914292abca6
+  composite:sec:binom-quantile: https://agentic-knowledge-base.dev/id/composite/7b6663a6-1c06-4819-aae0-798a36f11390
+  composite:sec:label-rows: https://agentic-knowledge-base.dev/id/composite/1edd84f8-3e8d-4183-996c-4666aefe4a4a
+  composite:sec:truth: https://agentic-knowledge-base.dev/id/composite/ec53d97b-e4f9-4f6b-983a-cc20d67bb1b6
+  file: https://agentic-knowledge-base.dev/id/composite/589ba97d-9372-4794-b33c-9b040ecccc97
+  fn:bin_of: https://agentic-knowledge-base.dev/id/chunk/69a84092-df60-4eb4-aed8-32d7724ec3f2
+  fn:bin_rows: https://agentic-knowledge-base.dev/id/chunk/06ac1ac0-5466-4c53-9241-85ddecb10af6
+  fn:binom_quantile: https://agentic-knowledge-base.dev/id/chunk/5e436aa5-2cdd-42eb-ad10-ad7050c25ebf
+  fn:bins_section: https://agentic-knowledge-base.dev/id/chunk/a9090c58-4abc-453a-a64f-e0b2991ca4c8
+  fn:fail: https://agentic-knowledge-base.dev/id/chunk/e3dfa007-25f8-4aa0-9b65-c4124af23269
+  fn:graph_beliefs: https://agentic-knowledge-base.dev/id/chunk/f21b98bb-fdc6-42fa-9b87-cc35fc2f64c6
+  fn:judgement_entries: https://agentic-knowledge-base.dev/id/chunk/c560e205-9ac6-4bcc-8726-2749915945a6
+  fn:label_rows: https://agentic-knowledge-base.dev/id/chunk/71602697-5642-4dd6-af8c-54ac2af76cb7
+  fn:main: https://agentic-knowledge-base.dev/id/chunk/cebecea7-272d-4c2a-8361-dec695b1d188
+  fn:measure: https://agentic-knowledge-base.dev/id/chunk/7669e3bf-cc66-40bb-b8db-155171086ea6
+  fn:summary_rows: https://agentic-knowledge-base.dev/id/chunk/c6d3b385-f4f8-4953-b098-bb5cc8215967
+  fn:truth: https://agentic-knowledge-base.dev/id/chunk/f1ef7fed-44fb-45ef-bc75-8f33101fc8cb
+  head: https://agentic-knowledge-base.dev/id/chunk/b2fcf90c-4978-456a-b281-c304ba47b7f7
+  module: https://agentic-knowledge-base.dev/id/chunk/77244ea8-dcdf-4646-9c5c-07e0d40cb223
+  sec:binom-quantile: https://agentic-knowledge-base.dev/id/chunk/c0533e77-9282-49c3-976d-78291f6fa625
+  sec:label-rows: https://agentic-knowledge-base.dev/id/chunk/a6059672-32f5-4a41-8e2a-2181e2764625
+  sec:truth: https://agentic-knowledge-base.dev/id/chunk/70162ae1-0bba-478c-b469-86123b76eff2

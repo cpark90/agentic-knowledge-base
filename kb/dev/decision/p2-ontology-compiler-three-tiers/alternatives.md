@@ -7,8 +7,8 @@ title: Releasing hand-written Turtle; expressing every constraint as a shape
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-11-27T09:33:25+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T09:33:25+09:00}]
+generated: {by: claude/fable-5, at: 2026-11-27T12:19:30+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T09:33:25+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T12:19:30+09:00}]
 part_of: https://agentic-knowledge-base.dev/id/composite/33d988f2-27b2-44d7-98f2-110215bfe237
 ---
 **대안** — **손으로 쓴 Turtle을 그대로 기반으로 쓰는 안.** 배제 — 라벨 누락·순환 분류 계층·잘못된 참조가 어휘에 그대로 남고, 그 어휘 위에 선 모든 판정이 오염된다.
@@ -18,3 +18,5 @@ part_of: https://agentic-knowledge-base.dev/id/composite/33d988f2-27b2-44d7-98f2
 **자체 검사 파이프라인을 만드는 안.** 배제 — 20년간 다듬어진 것을 다시 만들 이유가 없다 (0.0절).
 
 **ROBOT을 도입하는 안.** 배제(Q175-a) — 앞의 두 단계는 `validate.py`의 검사와 SPARQL verify 질의가 이미 같은 판정을 한다. ROBOT을 들이면 같은 판정이 두 구현에 갈리고, Java 런타임이 빌드 의존으로 들어온다.
+
+**불만족 클래스를 OWL 2 DL 추론기의 배치 검사로 판정하는 안.** 배제(Q179-a) — HermiT 같은 DL 추론기는 클래스 수준 불만족을 완전히 찾지만 Java 런타임과 추론기가 새 의존으로 들어온다. 이 온톨로지의 공리는 RL 프로파일 안에 있으므로 프로브 개체를 넣은 RL 근사로 게이트에서 판정한다.

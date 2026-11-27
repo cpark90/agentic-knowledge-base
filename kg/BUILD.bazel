@@ -1,5 +1,5 @@
 load("//defs:kb.bzl", "EXTRACTED_SOURCES", "kb_kg_merge", "kb_workset_view")
-load("//defs:knowledge.bzl", "kb_community", "kb_cq_report", "kb_gate_test", "kb_link_candidates", "kb_metrics", "kb_open_questions", "kb_reference_kg", "kb_weave")
+load("//defs:knowledge.bzl", "kb_belief_calibration", "kb_community", "kb_cq_report", "kb_gate_test", "kb_link_candidates", "kb_metrics", "kb_open_questions", "kb_reference_kg", "kb_weave")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -210,4 +210,16 @@ kb_open_questions(
     ],
     data = [":chunks_kg"],
     spaces = ["//space:design_space"],
+)
+
+# 믿음 정도 보정 측정 뷰 — 사람 정답 라벨 표본(kb/vv/run 의 label-*.md)에서 계산 규칙 A·B·C 마다 Brier 점수와 구간별 이항 구간을 낸다
+# (합격 기준 belief-calibrated-against-human-labels, 설계 공간 degree-of-belief-space, Q181-a). C 는 판정 로그(judge-*.md)를 링크 IRI 로
+# 결합하고, A·B 는 참조 그래프의 agt:DegreeOfBelief 만 읽는다. bazel build //kg:belief_calibration → bazel-bin/kg/belief-calibration.md
+kb_belief_calibration(
+    name = "belief_calibration",
+    data = [
+        ":chunks_kg",  # specializationOf 사슬 — 링크 IRI 의 뿌리 uuid
+        ":references_kg",  # agt:DegreeOfBelief (run_evidence 가 이어 붙인다)
+    ],
+    records = ["//kb/vv/run"],
 )

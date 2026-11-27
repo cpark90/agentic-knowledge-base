@@ -7,8 +7,8 @@ source: tools/validate.py
 resource: https://agentic-knowledge-base.dev/id/src-tools-validate
 package: kb/dev/artifact/validate
 layer: process
-at: 2026-10-31T18:06:07Z
-source_hash: 285a973e9dc315d3
+at: 2026-11-27T02:39:25Z
+source_hash: ff5b5815186211f9
 refines:
   - https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc
   - https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328
@@ -39,6 +39,7 @@ ids:
   composite:sec:check-space: https://agentic-knowledge-base.dev/id/composite/700062aa-fcac-4d30-8481-7021a666d072
   composite:sec:check-verify: https://agentic-knowledge-base.dev/id/composite/d62da398-7c0d-493a-9514-8d3ccebe5ca7
   composite:sec:main: https://agentic-knowledge-base.dev/id/composite/d0b4b228-df49-490d-b346-c659c4c6e8da
+  composite:sec:ontology-classes: https://agentic-knowledge-base.dev/id/composite/c74d5f7e-91df-4b58-b373-e0724cc08a64
   composite:sec:syntaxfailure: https://agentic-knowledge-base.dev/id/composite/0025c8a9-2659-465c-b2f2-517884f7bcdb
   file: https://agentic-knowledge-base.dev/id/composite/fb7cffc9-e5b5-4ed5-af22-40aa50e3c6aa
   fn:_agt_qname: https://agentic-knowledge-base.dev/id/chunk/6b263b93-09d3-4458-ba0b-03ba81f30852
@@ -61,6 +62,7 @@ ids:
   fn:check_code_part_link: https://agentic-knowledge-base.dev/id/chunk/9865784d-08b9-47b0-826d-a088f38dd912
   fn:check_confirming_evidence: https://agentic-knowledge-base.dev/id/chunk/d44afb5e-6469-4c49-9b40-d3b2f01ae0a6
   fn:check_cross_kb_link: https://agentic-knowledge-base.dev/id/chunk/74027bd0-148f-4997-9b67-43e438793d0b
+  fn:check_cyclic_hierarchy: https://agentic-knowledge-base.dev/id/chunk/6caa6876-675f-4e0a-a42e-115c6f7e71d5
   fn:check_dangling: https://agentic-knowledge-base.dev/id/chunk/05336a2f-bef3-4bc3-9b6d-976a1e9adb9d
   fn:check_deprecated_concepts: https://agentic-knowledge-base.dev/id/chunk/f5d521a5-98ba-4f17-ada0-7ddbb7162850
   fn:check_draft_end: https://agentic-knowledge-base.dev/id/chunk/bcd2cb8b-0f77-4111-9cd6-194809eb4d2b
@@ -76,6 +78,8 @@ ids:
   fn:check_specialization: https://agentic-knowledge-base.dev/id/chunk/d26c3802-192f-4414-81da-25abd63211fc
   fn:check_standard_vocab: https://agentic-knowledge-base.dev/id/chunk/0bc1d5ff-d788-47b3-a1b4-43a27654be04
   fn:check_token_budget: https://agentic-knowledge-base.dev/id/chunk/7b782704-6d75-4344-9b72-f812f73bbfb0
+  fn:check_unintended_equivalence: https://agentic-knowledge-base.dev/id/chunk/ff39b4c5-f9a7-40e5-bda5-e1cab86106d8
+  fn:check_unsatisfiable_class: https://agentic-knowledge-base.dev/id/chunk/19b5263d-b450-496e-a214-49f3f4b0c0be
   fn:check_verify: https://agentic-knowledge-base.dev/id/chunk/f5bba732-244e-40a1-a3a0-f5c8e97043be
   fn:check_vocab: https://agentic-knowledge-base.dev/id/chunk/ba1f7e1e-92c3-4692-9023-f2fb9dddbbc4
   fn:check_writer: https://agentic-knowledge-base.dev/id/chunk/9d1171df-d5e6-4602-9c49-05605607011c
@@ -83,8 +87,12 @@ ids:
   fn:load_files: https://agentic-knowledge-base.dev/id/chunk/56006161-22a8-4cff-9d03-2ec71941b721
   fn:load_standard_vocab: https://agentic-knowledge-base.dev/id/chunk/fd4f59ff-fa52-4ead-afda-fc34d6efe930
   fn:main: https://agentic-knowledge-base.dev/id/chunk/83067d35-114e-4213-babf-d03d8791e97c
+  fn:ontology_classes: https://agentic-knowledge-base.dev/id/chunk/785609a5-d625-4486-b3dc-b0429b1de31c
   fn:owl_rl_closure: https://agentic-knowledge-base.dev/id/chunk/264d9fd1-b338-48ec-9eb9-9ca20577aecc
+  fn:probe_unsatisfiable: https://agentic-knowledge-base.dev/id/chunk/2ef143c2-3056-410b-90b7-4bf908e80b8b
   fn:reason_main: https://agentic-knowledge-base.dev/id/chunk/20010c39-d032-41e2-8566-e7d12dc09fd6
+  fn:subclass_components: https://agentic-knowledge-base.dev/id/chunk/03af6d80-e46c-44f7-acd5-12d186d9bb75
+  fn:told_superclasses: https://agentic-knowledge-base.dev/id/chunk/da2d5667-a0ed-4a3d-bfa8-6a83213f1d3f
   fn:verify_query_files: https://agentic-knowledge-base.dev/id/chunk/165313bb-866c-4352-820a-719686c0ca28
   head: https://agentic-knowledge-base.dev/id/chunk/f78b9e0e-d84b-4087-9f1d-29bcf769d844
   module: https://agentic-knowledge-base.dev/id/chunk/9e2e1287-6ee7-4e18-9c18-f2568a030de1
@@ -97,4 +105,5 @@ ids:
   sec:check-space: https://agentic-knowledge-base.dev/id/chunk/86b1aa74-3cad-4fcd-be59-e13844c4a8f3
   sec:check-verify: https://agentic-knowledge-base.dev/id/chunk/1c3005bb-c51e-45a5-b5d2-9f50e0cf7db2
   sec:main: https://agentic-knowledge-base.dev/id/chunk/2d8a6428-8f67-420d-8f3b-48479a353b49
+  sec:ontology-classes: https://agentic-knowledge-base.dev/id/chunk/9c8ff20b-21b5-413e-9f98-4759ec0b498d
   sec:syntaxfailure: https://agentic-knowledge-base.dev/id/chunk/41ee8e19-867a-4a3b-be2c-db5a8c2234b7

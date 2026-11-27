@@ -7,7 +7,7 @@ title: section extracted-sources in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/9a583117-c61c-48f7-b30a-f60bddda9bfe
 ---
@@ -27,6 +27,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/9a583117-c61c-48f7-b30a
 # `BUILD.bazel` 의 소스 존재 확인(`glob` 대조, 로드 시점)이 바로 죽는다.
 EXTRACTED_SOURCES = [
     "assume_check",
+    "belief_calibration",
     "canonicalize",
     "case_gen",
     "channel_lint",
@@ -109,6 +110,7 @@ VIEWS = {
     "//kb/dev:index": "labels",
     "//kb/dev:requirements": "weave",
     "//kg:audit": "weave",
+    "//kg:belief_calibration": "belief_calibration",
     "//kg:communities": "community",
     "//kg:cq": "query",
     "//kg:link_candidates": "link",

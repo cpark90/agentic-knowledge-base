@@ -15,3 +15,4 @@
 - [동시 한도 대조](concurrency-check.md) — 분담 보고마다 역할별 1·전체 0~5 대조; ODD cmd는 카탈로그 합만 봄; fork·판정자 세션도 센다(0306→0307)
 - [판정 기록의 Q66 예외](judge-record-exception.md) — Q170-c: 판정 기록은 한 번 50개 이하면 묻지 않음, 그 밖은 Q66대로
 - [다른 프로젝트 부트스트랩](other-project-bootstrap.md) — 2026-11-01 smartbelley_vnv: 경계 읽기(원형 밖은 직접), 전사에서 옛 답 복구, 복제 골격(표준 라이브러리 channel_lint), 원형 질문지의 slug 이름은 composite.title_ko 정확 일치
+- [판정지·라벨의 함정](judgement-sheet-pitfalls.md) — 링크 종류 뜻은 온톨로지 정의 그대로(Q-0047 refines 풀이 오류→L05·L15); 보정 표본은 에이전트가 채우지 않음(Q178-b); 대응표 보존; 표본 링크의 낡음

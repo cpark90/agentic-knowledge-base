@@ -7,7 +7,7 @@ title: section gates in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/b5154bf0-e67d-4227-8b66-c63012041201
 ---
@@ -34,6 +34,7 @@ GATES = {
     "chunk2kg-merge": {"tier": "analysis", "tool": "chunk2kg", "ko": "head 병합", "desc": "타깃별 head 조각의 병합 실패", "decision": "p6-validate-the-union"},
     "code-part-link": {"tier": "verify", "tool": "validate", "ko": "코드 부분 링크", "desc": "추출 트리의 복합체 부분(정의·구역 단위 지식)이 refines·serves·verifies 의 끝점", "decision": "p7-code-links-on-file-composite"},
     "cross-kb-link": {"tier": "verify", "tool": "validate", "ko": "KB 가로지름 링크", "desc": "verifies 밖의 저작 링크가 두 KB 를 가로지름 (검증 목표 → 요구 derivesFrom 만 예외)", "decision": "p8-vv-independence-scope"},
+    "cyclic-hierarchy": {"tier": "verify", "tool": "validate", "ko": "순환 분류 계층", "desc": "단언된 rdfs:subClassOf 의 순환", "decision": "p2-ontology-compiler-three-tiers"},
     "dangling": {"tier": "verify", "tool": "validate", "ko": "참조 무결성", "desc": "인용·부분·가정·요구·정의 호출의 대상이 실재하지 않음", "decision": "p10-extracted-references-are-candidates"},
     "decision-role": {"tier": "test", "tool": "chunk_lint", "ko": "결정 역할 표지", "desc": "결론·근거·대안·규약의 첫 산문 줄에 역할 표지가 없음", "decision": "p4-convention-slot"},
     "doccheck": {"tier": "test", "tool": "doccheck", "ko": "문서 현행성", "desc": "문서의 죽은 링크·앵커·백틱 경로와 산문 문체 위반", "decision": "p12-generated-documents-are-gated"},

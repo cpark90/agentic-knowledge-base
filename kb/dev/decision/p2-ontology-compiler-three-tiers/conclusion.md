@@ -7,8 +7,8 @@ title: Only an ontology that passes three tiers is released
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}, {resource: git:aeb0a58:chunks/decision/d-0050-ontology-hygiene-checks.md, id: https://agentic-knowledge-base.dev/id/chunk-d0050, title_ko: "온톨로지 위생 — 커밋 전 자동 검사와 정규화 직렬화", title: "Ontology hygiene - pre-commit checks and canonical serialization"}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: claude/fable-5, at: 2026-11-27T09:57:54+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T09:57:54+09:00}]
+generated: {by: claude/fable-5, at: 2026-11-27T12:19:30+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T11:26:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T18:07:48+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T09:57:54+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-27T12:19:30+09:00}]
 refines: [https://agentic-knowledge-base.dev/id/chunk/f987e08c-fba7-43d8-9e0a-903edbd9375a, https://agentic-knowledge-base.dev/id/chunk/0c3ad8ca-9415-4261-a748-55d6db29f1c7]
 supersedes: [https://agentic-knowledge-base.dev/id/chunk-d0050]
 part_of: https://agentic-knowledge-base.dev/id/composite/33d988f2-27b2-44d7-98f2-110215bfe237
@@ -20,7 +20,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/33d988f2-27b2-44
 |---|---|---|
 | 구문·스타일 | `validate.py`의 labels·boundary 검사와 `chunk_lint` (ROBOT `report`에 해당) | 라벨·정의 누락, 잘못된 참조, 폐기 규약 (0.6·0.9·0.10절) |
 | 안티패턴 | SPARQL verify 질의 `tools/verify-queries/*.rq` (ROBOT `verify`에 해당) | "바람직하지 않은 상황"을 질의로 명세. 결과가 나오면 실패 |
-| 논리 정합성 | `//kg:reason_test` — OWL 2 RL 폐포를 한 번 만들고 게이트 `logical-consistency`와 그 폐포 위의 `shacl`을 돌린다 (2.9절 RL 안에서, Q174-a) | 모순(추론기의 오류 노드, `owl:Nothing` 소속)과 추론된 그래프의 shape 위반. 개체 없는 불만족 클래스, 의도치 않은 동치, 순환 분류 계층은 아직 판정하지 않는다 |
+| 논리 정합성 | `//kg:reason_test` — OWL 2 RL 폐포를 한 번 만들고 게이트 `logical-consistency`·`unintended-equivalence`와 그 폐포 위의 `shacl`을 돌린다. `cyclic-hierarchy`는 단언 그래프를 읽고, `unsatisfiable-class`는 온톨로지의 이름 클래스마다 프로브 개체를 넣은 판정용 사본의 폐포를 읽는다 (2.9절 RL 안에서, Q174-a, Q179-a) | 모순(추론기의 오류 노드, `owl:Nothing` 소속), 순환 분류 계층, 개체 없는 불만족 클래스, 의도치 않은 동치, 추론된 그래프의 shape 위반. 불만족 클래스는 RL 근사라서 RL 규칙이 낳지 않는 불만족을 놓칠 수 있다 |
 
 **안티패턴 단계가 이 체계의 게이트 대부분을 흡수한다.** "근거 없는 할당"(Part IX), "ODD에 없는 조건을 참조하는 가정"(3.3절), "`sources`가 빈 청크"(4.3절), "`verifies`에 기준이 없음"(7.11절), "수준 허용표 밖의 plane·level 조합"(6.4절)은 전부 "이런 트리플이 존재하면 실패"라는 SPARQL 한 줄이다. shape로 쓰기 어색한 제약은 verify 질의로 쓴다.
 

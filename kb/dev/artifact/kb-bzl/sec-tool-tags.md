@@ -7,7 +7,7 @@ title: section tool-tags in defs/kb.bzl
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-defs-kb}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-15T10:04:45Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/43c17d6f-f9ef-4fa2-aa31-cf3f8e6acc81
 composite: {id: https://agentic-knowledge-base.dev/id/composite/43c17d6f-f9ef-4fa2-aa31-cf3f8e6acc81, title_ko: 절 복합체 tool-tags (defs/kb.bzl), title: section composite tool-tags in defs/kb.bzl, ordered: [https://agentic-knowledge-base.dev/id/chunk/c00df5fa-5f8a-4f58-ad04-8357419cf445, https://agentic-knowledge-base.dev/id/chunk/849657ba-c3cf-4977-8106-9d89338460ff], part_of: https://agentic-knowledge-base.dev/id/composite/b5154bf0-e67d-4227-8b66-c63012041201}
@@ -23,6 +23,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/43c17d6f-f9ef-4f
 # 같은 대괄호 표기를 쓰므로 게이트 `gate-registry` 가 태그 전수를 볼 때 이 목록이 둘째 경계다 (USES_TARGETS 와
 # 같은 자리). `GATES` 와 서로소여야 한다 — `check_gates` 가 로드 시점에 강제한다.
 TOOL_TAGS = [
+    "belief-calibration",  # 보정 측정 뷰의 입력 거부(라벨 기록 없음·라벨 표 불량·같은 링크 IRI 의 두 행·그래프 파싱 실패) — 판정 효과가 없다
     "consistency",
     "endorse",  # 쓰는 시점의 입력 거부(미래 시각의 --at) — 게이트는 시계에 의존할 수 없어 판정 효과가 없다
     "judge",

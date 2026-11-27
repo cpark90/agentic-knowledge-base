@@ -1,0 +1,46 @@
+# 게이트 cyclic-hierarchy · unsatisfiable-class · unintended-equivalence 의 음성 고정물 — 개체 없는 T-Box 결함 셋이다 (유저 결정 Q179-a).
+# --ontology 로 실제 T-Box 와 함께 넘긴다. 결함마다 해당 게이트 하나만 한 줄을 낸다.
+# (1) 순환 — Loop1 ⊑ Loop2 ⊑ Loop3 ⊑ Loop1 이 단언돼 있다. 폐포에서 셋은 서로 하위지만 그 쌍은 cyclic-hierarchy 만 보고한다.
+# (2) 불만족 — Hybrid 가 실제 T-Box 의 서로소 공리(agt:Composite owl:disjointWith agt:Chunk)의 agt:Composite 와 agt:DecisionChunk
+#     (agt:Chunk 의 하위 클래스)의 공통 하위 클래스다. HybridSub 은 근거를 물려받은 하위 클래스라 Hybrid 의 줄에 함께 적힌다.
+# (3) 의도치 않은 동치 — Twin1 과 Twin2 가 같은 속성·같은 대상의 존재 제약(빈 노드 둘)과 각각 동치다. OWL 2 RL 의 scm-svf1 이
+#     두 제약을 서로 하위로 만들어 Twin1 과 Twin2 가 순환 없이 서로 하위가 되고, 둘 사이 owl:equivalentClass 선언은 없다.
+@prefix agt: <https://agentic-knowledge-base.dev/agt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<urn:fx:Loop1>
+    a owl:Class ;
+    rdfs:subClassOf <urn:fx:Loop2> .
+
+<urn:fx:Loop2>
+    a owl:Class ;
+    rdfs:subClassOf <urn:fx:Loop3> .
+
+<urn:fx:Loop3>
+    a owl:Class ;
+    rdfs:subClassOf <urn:fx:Loop1> .
+
+<urn:fx:Hybrid>
+    a owl:Class ;
+    rdfs:subClassOf agt:Composite , agt:DecisionChunk .
+
+<urn:fx:HybridSub>
+    a owl:Class ;
+    rdfs:subClassOf <urn:fx:Hybrid> .
+
+<urn:fx:Twin1>
+    a owl:Class ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty agt:refines ;
+        owl:someValuesFrom agt:DecisionChunk ;
+    ] .
+
+<urn:fx:Twin2>
+    a owl:Class ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:onProperty agt:refines ;
+        owl:someValuesFrom agt:DecisionChunk ;
+    ] .

@@ -7,7 +7,7 @@ title: module head agt in tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 part_of: https://agentic-knowledge-base.dev/id/composite/fb7cffc9-e5b5-4ed5-af22-40aa50e3c6aa
 ---
@@ -35,6 +35,9 @@ SYNTAX = kb_lib.SYNTAX_GATE
 SHACL = kb_lib.SHACL_GATE
 GATE_REGISTRY = kb_lib.GATE_REGISTRY_GATE
 LOGICAL_CONSISTENCY = kb_lib.LOGICAL_CONSISTENCY_GATE
+CYCLIC_HIERARCHY = kb_lib.CYCLIC_HIERARCHY_GATE
+UNSATISFIABLE_CLASS = kb_lib.UNSATISFIABLE_CLASS_GATE
+UNINTENDED_EQUIVALENCE = kb_lib.UNINTENDED_EQUIVALENCE_GATE
 VALIDATE_TAG = kb_lib.VALIDATE_TAG
 ```
 <!-- 인용 끝 -->

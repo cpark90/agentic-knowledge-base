@@ -55,8 +55,12 @@
   logical-consistency  (--reason) 온톨로지 검사 3단계의 셋째 단계(p2-ontology-compiler-three-tiers). 온톨로지·ODD·A-Box 의
               병합에 OWL 2 RL 폐포(owlrl OWLRL_Semantics, 결정 p2-owl2-rl-profile)를 한 번 만들고 모순을 거부한다 — 추론기가
               그래프에 더한 오류 노드(서로소 클래스의 공통 개체 등)와 owl:Nothing 소속이다. FAIL 줄은 개체 IRI 와 그 모순을 낳은
-              공리·클래스·단언 유형을 적는다. 같은 폐포에 shape 를 적용한다(shacl). 추론 모드는 이 둘만 돌린다 — 나머지 검사는
-              --reason 없는 게이트 테스트가 이미 돌리므로 다시 돌리지 않는다 (유저 결정 Q174-a, //kg:reason_test)
+              공리·클래스·단언 유형을 적는다. 같은 폐포에 shape 를 적용한다(shacl). 추론 모드는 이 둘과 아래 셋만 돌린다 — 나머지
+              검사는 --reason 없는 게이트 테스트가 이미 돌리므로 다시 돌리지 않는다 (유저 결정 Q174-a, //kg:reason_test)
+  cyclic-hierarchy · unsatisfiable-class · unintended-equivalence  (--reason) 분류 계층의 셋째 단계 검사 (유저 결정 Q179-a).
+              대상은 --ontology 파일이 owl:Class 로 선언한 이름 IRI 다. 순환은 단언된 rdfs:subClassOf 에서 찾는다. 불만족은 클래스마다
+              프로브 개체를 넣은 온톨로지 사본의 OWL 2 RL 폐포로 판정하는 RL 근사라 놓치는 불만족이 있다. 동치는 폐포에서 서로 하위인
+              쌍 중 단언된 owl:equivalentClass 의 사슬 밖이고 순환·불만족이 아닌 쌍이다. 한 결함에 한 줄이다
 
 경고(비영 종료 아님, `warn [검사명]` 접두사)
   usesConcept-deprecated  agt:usesConcept 의 대상이 폐기된 용어(owl:deprecated true 또는
@@ -102,6 +106,9 @@ SYNTAX = kb_lib.SYNTAX_GATE
 SHACL = kb_lib.SHACL_GATE
 GATE_REGISTRY = kb_lib.GATE_REGISTRY_GATE
 LOGICAL_CONSISTENCY = kb_lib.LOGICAL_CONSISTENCY_GATE
+CYCLIC_HIERARCHY = kb_lib.CYCLIC_HIERARCHY_GATE
+UNSATISFIABLE_CLASS = kb_lib.UNSATISFIABLE_CLASS_GATE
+UNINTENDED_EQUIVALENCE = kb_lib.UNINTENDED_EQUIVALENCE_GATE
 VALIDATE_TAG = kb_lib.VALIDATE_TAG
 
 
@@ -1103,6 +1110,228 @@ def check_shacl(merged: Graph, shapes: Graph, reason: bool, shape_paths: list[st
             + f" — sh:message 가 수정 방향이다\n{text}"]
 
 
+# ── 분류 계층 ────────────────────
+# 셋째 단계의 계층 검사 셋(유저 결정 Q179-a) — 순환, 불만족, 의도치 않은 동치다. 대상은 온톨로지 파일(--ontology)이 `owl:Class` 로
+# 선언한 이름 IRI 이고 빈 노드(제약·교집합 같은 익명 클래스)와 owl:Thing·owl:Nothing 은 뺀다. 한 결함에 한 줄이다.
+
+def ontology_classes(onto_files: dict[str, Graph]) -> set:
+    """판정 대상 클래스 — 온톨로지 파일이 `a owl:Class` 로 선언한 이름 IRI. 빈 노드와 owl:Thing·owl:Nothing 은 뺀다."""
+    return {s for g in onto_files.values() for s in g.subjects(RDF.type, OWL.Class)
+            if isinstance(s, URIRef) and s not in (OWL.Thing, OWL.Nothing)}
+
+
+def subclass_components(asserted: Graph) -> list[list]:
+    """단언된 rdfs:subClassOf 간선(이름 IRI 사이)의 강한 연결 요소 중 클래스가 둘 이상인 것 — 각 요소는 정렬된 클래스 목록이다.
+
+    폐포가 아니라 단언 그래프를 본다 — 폐포의 반사적 공리와 동치가 낳은 상호 하위를 순환으로 세지 않는다. 자기 자신으로의 간선은
+    폐포가 반사적으로 더하는 공리와 같아 계층을 무너뜨리지 않으므로 순환이 아니다. 반복형 Kosaraju 다.
+    """
+    succ: dict = {}
+    pred: dict = {}
+    for s, o in asserted.subject_objects(RDFS.subClassOf):
+        if isinstance(s, URIRef) and isinstance(o, URIRef) and s != o:
+            succ.setdefault(s, set()).add(o)
+            pred.setdefault(o, set()).add(s)
+    order, seen = [], set()
+    for root in sorted(set(succ) | set(pred), key=str):
+        if root in seen:
+            continue
+        seen.add(root)
+        stack = [(root, iter(sorted(succ.get(root, ()), key=str)))]
+        while stack:
+            node, it = stack[-1]
+            nxt = next((n for n in it if n not in seen), None)
+            if nxt is None:
+                order.append(node)
+                stack.pop()
+            else:
+                seen.add(nxt)
+                stack.append((nxt, iter(sorted(succ.get(nxt, ()), key=str))))
+    comps, done = [], set()
+    for root in reversed(order):
+        if root in done:
+            continue
+        comp, todo = [], [root]
+        done.add(root)
+        while todo:
+            node = todo.pop()
+            comp.append(node)
+            for n in pred.get(node, ()):
+                if n not in done:
+                    done.add(n)
+                    todo.append(n)
+        if len(comp) > 1:
+            comps.append(sorted(comp, key=str))
+    return sorted(comps, key=lambda c: str(c[0]))
+
+
+def check_cyclic_hierarchy(asserted: Graph, files: dict[str, Graph]) -> list[str]:
+    """단언된 rdfs:subClassOf 의 순환 (게이트 `cyclic-hierarchy`, 유저 결정 Q179-a) — 강한 연결 요소마다 한 줄이다.
+
+    FAIL 줄은 요소의 가장 앞 클래스에서 출발해 돌아오는 가장 짧은 순환을 간선 공리와 그 파일로 적는다. 요소가 그 순환보다 크면
+    요소의 클래스 수를 함께 적는다. <경로> 자리는 첫 간선 공리의 파일이다.
+    """
+    gate = CYCLIC_HIERARCHY
+    errors = []
+    for comp in subclass_components(asserted):
+        members, start = set(comp), comp[0]
+        back = {start: None}  # 너비 우선 — 요소 안에서 start 로 돌아오는 가장 짧은 길
+        frontier, end = [start], None
+        while frontier and end is None:
+            nxt = []
+            for node in frontier:
+                for o in sorted(asserted.objects(node, RDFS.subClassOf), key=str):
+                    if o == start and node != start:
+                        end = node
+                        break
+                    if o in members and o not in back:
+                        back[o] = node
+                        nxt.append(o)
+                if end is not None:
+                    break
+            frontier = nxt
+        path = [end]
+        while back[path[-1]] is not None:
+            path.append(back[path[-1]])
+        cycle = list(reversed(path)) + [start]
+        edges = [(cycle[i], cycle[i + 1]) for i in range(len(cycle) - 1)]
+        where = [_axiom_file(files, (s, RDFS.subClassOf, o)) for s, o in edges]
+        text = ", ".join(f"{_term(asserted, s)} rdfs:subClassOf {_term(asserted, o)}({w})" for (s, o), w in zip(edges, where))
+        size = f" (강한 연결 요소 클래스 {len(comp)}개)" if len(comp) > len(edges) else ""
+        errors.append(f"[{gate}] {where[0]}: 단언된 rdfs:subClassOf 가 순환한다 — {text}{size}")
+    return errors
+
+
+def told_superclasses(g: Graph, cls) -> set:
+    """단언된 계층에서 cls 의 상위 노드(cls 자신 포함) — 단언 rdfs:subClassOf 와 양방향 owl:equivalentClass 를 따라간다(빈 노드 포함).
+
+    프로브 폐포의 상하 관계는 불만족 판정에 쓰지 못한다 — owl:Nothing 이 모든 클래스의 하위(scm-cls)라 불만족 클래스는 폐포에서
+    모든 클래스의 하위가 된다. 그래서 불만족의 근거 공리와 근원·하위의 구분은 단언된 계층을 읽는다.
+    """
+    seen, todo = {cls}, [cls]
+    while todo:
+        node = todo.pop()
+        for n in (*g.objects(node, RDFS.subClassOf), *g.objects(node, OWL.equivalentClass), *g.subjects(OWL.equivalentClass, node)):
+            if n not in seen:
+                seen.add(n)
+                todo.append(n)
+    return seen
+
+
+def probe_unsatisfiable(ontology: Graph, classes: set, onto_files: dict[str, Graph]) -> dict:
+    """불만족 클래스와 그 근거(클래스 → 근거 문구 목록) — 프로브 개체를 넣은 판정용 사본의 OWL 2 RL 폐포로 근사한다.
+
+    사본은 온톨로지 그래프와 클래스마다 프로브 개체 `urn:probe:<퍼센트 인코딩한 클래스 IRI>` 하나(`rdf:type` 단언 하나)다. 데이터
+    그래프와 기존 폐포에는 섞이지 않는다. 데이터 개체는 클래스 수준 불만족에 기여하지 않는다 — 프로브에는 속성 단언이 없다.
+    프로브가 owl:Nothing 에 속하거나, 서로소 클래스(owl:disjointWith·owl:AllDisjointClasses)나 owl:complementOf 의 두 클래스에 함께
+    속하거나, 그 밖의 추론기 오류가 프로브를 가리키면 그 클래스가 불만족이다. RL 근사다 — RL 규칙이 낳지 않는 불만족(예:
+    전칭 제약과 존재 제약의 충돌)은 놓친다. owl:Nothing 의 개체는 모든 클래스에 속하므로 그 프로브의 서로소 메시지는 근거에서 뺀다.
+    """
+    from urllib.parse import quote
+
+    probes = {URIRef("urn:probe:" + quote(str(c), safe="")): c for c in classes}
+    copy = Graph()
+    copy += ontology
+    for p, c in probes.items():
+        copy.add((p, RDF.type, c))
+    closed, messages = owl_rl_closure(copy)
+    reasons: dict = {}
+    for p, c in probes.items():
+        if (p, RDF.type, OWL.Nothing) not in closed:
+            continue
+        axioms = [(s, pr) for s in told_superclasses(ontology, c) for pr in (RDFS.subClassOf, OWL.equivalentClass)
+                  if (s, pr, OWL.Nothing) in ontology or (pr == OWL.equivalentClass and (OWL.Nothing, pr, s) in ontology)]
+        reasons[c] = [f"owl:Nothing 의 하위다(공리 {_term(closed, s)} {_term(closed, pr)} owl:Nothing, "
+                      f"{_axiom_file(onto_files, (s, pr, OWL.Nothing), (OWL.Nothing, pr, s))})" for s, pr in sorted(axioms)] \
+            or ["owl:Nothing 에 속한다(단언된 계층에 근거 공리가 없는 추론)"]
+    for c1, c2 in sorted(closed.subject_objects(OWL.complementOf)):  # owlrl 의 cls-comm 메시지는 개체를 적지 않는다
+        for p in set(closed.subjects(RDF.type, c1)) & set(closed.subjects(RDF.type, c2)) & set(probes):
+            if (p, RDF.type, OWL.Nothing) not in closed:
+                reasons.setdefault(probes[p], []).append(
+                    f"상위 클래스 {_term(closed, c1)} 와 {_term(closed, c2)} 가 여집합이다(공리 {_term(closed, c1)} owl:complementOf "
+                    f"{_term(closed, c2)}, {_axiom_file(onto_files, (c1, OWL.complementOf, c2))})")
+    for msg in messages:
+        if _OWLRL_NOTHING.match(msg):
+            continue
+        m = _OWLRL_DISJOINT.match(msg)
+        if m:
+            c1, c2, x = (URIRef(v) for v in m.groups())
+            if x not in probes or (x, RDF.type, OWL.Nothing) in closed:
+                continue
+            if (c1, OWL.disjointWith, c2) not in ontology:  # 공리는 대칭이라 owlrl 이 두 순서로 낸다 — 단언된 방향으로 적는다
+                c1, c2 = c2, c1
+            text = (f"상위 클래스 {_term(closed, c1)} 와 {_term(closed, c2)} 가 서로소다(공리 {_term(closed, c1)} owl:disjointWith "
+                    f"{_term(closed, c2)}, {_axiom_file(onto_files, (c1, OWL.disjointWith, c2), (c2, OWL.disjointWith, c1))})")
+            if text not in reasons.get(probes[x], []):
+                reasons.setdefault(probes[x], []).append(text)
+            continue
+        for i in _IRI_IN_TEXT.findall(msg):
+            if URIRef(i) in probes and (URIRef(i), RDF.type, OWL.Nothing) not in closed:
+                reasons.setdefault(probes[URIRef(i)], []).append(
+                    "추론기 오류 — " + _IRI_IN_TEXT.sub(lambda t: _term(closed, URIRef(t.group(0))), msg))
+    return {c: sorted(set(why)) for c, why in reasons.items()}
+
+
+def check_unsatisfiable_class(found: dict, ontology: Graph, onto_files: dict[str, Graph]) -> list[str]:
+    """불만족 클래스 (게이트 `unsatisfiable-class`, 유저 결정 Q179-a) — `probe_unsatisfiable` 의 결과를 근원마다 한 줄로 적는다.
+
+    단언된 계층(`told_superclasses`)에서 불만족인 상위 클래스를 가진 불만족 클래스는 같은 근거를 물려받은 것이므로 따로 줄을 내지
+    않고 근원 줄에 하위 클래스로 적는다. 단언된 계층에서 서로 상위인 둘은 각자 근원이다. <경로> 자리는 클래스를 선언한 온톨로지
+    파일이다.
+    """
+    gate = UNSATISFIABLE_CLASS
+    told = {c: told_superclasses(ontology, c) for c in found}
+
+    def below(c, s):  # 단언된 계층에서 c 가 s 의 엄격한 하위다
+        return c != s and s in told[c] and c not in told[s]
+
+    errors = []
+    for c in sorted(found, key=str):
+        if any(below(c, s) for s in found):
+            continue
+        heirs = sorted((_term(ontology, d) for d in found if below(d, c)))
+        tail = f" · 같은 근거로 불만족인 하위 클래스 {', '.join(heirs)}" if heirs else ""
+        errors.append(f"[{gate}] {_axiom_file(onto_files, (c, RDF.type, OWL.Class))}: 클래스 {_term(ontology, c)} 는 개체를 가질 수 "
+                      f"없다 — {'; '.join(found[c])}{tail}")
+    return errors
+
+
+def check_unintended_equivalence(asserted: Graph, closed: Graph, classes: set, unsat: set,
+                                 files: dict[str, Graph]) -> list[str]:
+    """의도치 않은 동치 (게이트 `unintended-equivalence`, 유저 결정 Q179-a) — 폐포에서 서로 하위이나 선언되지 않은 이름 클래스 쌍.
+
+    owlrl 은 폐포에서 모든 클래스에 반사적 owl:equivalentClass 를 더하고 상호 하위에서 동치를 낳으므로, 선언은 단언 그래프에서
+    읽는다. 단언된 owl:equivalentClass 간선(빈 노드 포함)의 연결 요소 안의 쌍은 선언된 동치의 사슬이라 보고하지 않는다. 단언된
+    rdfs:subClassOf 순환 위의 쌍은 `cyclic-hierarchy` 가, 불만족 클래스의 쌍(owl:Nothing 을 거쳐 서로 하위다)은
+    `unsatisfiable-class` 가 보고하므로 여기서 다시 보고하지 않는다. 쌍마다 한 줄이고 순서는 IRI 순이다.
+    """
+    gate = UNINTENDED_EQUIVALENCE
+    declared: dict = {}  # 단언된 동치의 연결 요소 — 합집합 찾기
+
+    def root(n):
+        while declared.get(n, n) != n:
+            n = declared[n]
+        return n
+
+    for s, o in asserted.subject_objects(OWL.equivalentClass):
+        declared.setdefault(s, s)
+        declared.setdefault(o, o)
+        declared[root(s)] = root(o)
+    cycle = {c: i for i, comp in enumerate(subclass_components(asserted)) for c in comp}
+    errors = []
+    pool = sorted(classes - unsat, key=str)
+    for i, a in enumerate(pool):
+        for b in pool[i + 1:]:
+            if (a, RDFS.subClassOf, b) not in closed or (b, RDFS.subClassOf, a) not in closed:
+                continue
+            if root(a) == root(b) or (a in cycle and cycle.get(b) == cycle[a]):
+                continue
+            errors.append(f"[{gate}] {_axiom_file(files, (a, RDF.type, OWL.Class))}: 클래스 {_term(closed, a)} 와 "
+                          f"{_term(closed, b)}({_axiom_file(files, (b, RDF.type, OWL.Class))}) 가 OWL 2 RL 폐포에서 서로의 하위 "
+                          f"클래스다 — owl:equivalentClass 선언이 없다")
+    return errors
+
+
 # ── 믿음 정도 일관성 ────────────────────
 # 코드 단위 지식(추출 생성물 kb/dev/artifact/)의 인용 코드를 읽어, 믿음 정도가 상태 전이와 선호의 동률 깨기에 새지 않았는가를 본다
 # (게이트 belief-consistency, 요구 r-032, 설계 공간 degree-of-belief-space 닫기 기준 3, Q90-a·Q137-a). 추출물은 소스와
@@ -1272,7 +1501,8 @@ def main() -> int:
     ap.add_argument("--odd", nargs="*", default=[], help="ODD 파일들 (*-odd)")
     ap.add_argument("--data", nargs="*", default=[], help="A-Box 파일들 (*-kg, *-space)")
     ap.add_argument("--reason", action="store_true",
-                    help="추론 모드 — OWL 2 RL 폐포를 한 번 만들어 게이트 `logical-consistency`(모순)와 폐포 위 `shacl` 만 돌린다. "
+                    help="추론 모드 — OWL 2 RL 폐포를 한 번 만들어 게이트 `logical-consistency`(모순), 분류 계층 셋(`cyclic-hierarchy`·"
+                         "`unsatisfiable-class`·`unintended-equivalence`)과 폐포 위 `shacl` 만 돌린다. "
                          "--ontology 가 있어야 하고, 다른 검사의 입력(--gates·--verify-queries·--chunk-files·--residency·"
                          "--standard-vocab)은 받지 않는다 — 그 검사는 추론 없는 게이트 테스트가 돌린다")
     ap.add_argument("--residency", default="", help="수준 허용표의 원본 defs/kb.bzl — 주면 shape 가 그 표와 같은지 본다")
@@ -1346,7 +1576,7 @@ def main() -> int:
 
     if args.reason:  # 추론 모드 — 폐포 하나를 모순 판정과 shape 적합성이 함께 읽는다 (유저 결정 Q174-a)
         return reason_main(onto_merged + odd_merged + data_merged, {**onto_files, **odd_files, **data_files},
-                           shapes_merged, args.shapes, waivers, n_files)
+                           onto_merged, onto_files, shapes_merged, args.shapes, waivers, n_files)
 
     errors += check_labels(onto_files)
     errors += check_boundary(onto_files)
@@ -1411,18 +1641,29 @@ def main() -> int:
     return 0
 
 
-def reason_main(asserted: Graph, files: dict[str, Graph], shapes: Graph, shape_paths: list[str],
-                waivers: list[dict], n_files: int) -> int:
-    """추론 모드(`--reason`)의 판정 — OWL 2 RL 폐포를 한 번 만들고 모순과 폐포 위 shape 적합성을 본다.
+def reason_main(asserted: Graph, files: dict[str, Graph], ontology: Graph, onto_files: dict[str, Graph], shapes: Graph,
+                shape_paths: list[str], waivers: list[dict], n_files: int) -> int:
+    """추론 모드(`--reason`)의 판정 — OWL 2 RL 폐포를 한 번 만들고 모순과 분류 계층 셋, 폐포 위 shape 적합성을 본다.
 
-    게이트마다 `PASS [<id>]` 또는 `FAIL [<id>]` 줄을 내고 끝에 도구 태그의 집계 줄을 낸다. 모순이 있어도 shape 적합성을
-    돌린다 — 한 번의 실행이 고칠 것을 전부 보인다.
+    게이트마다 `PASS [<id>]` 또는 `FAIL [<id>]` 줄을 내고 끝에 도구 태그의 집계 줄을 낸다. 모순이 있어도 나머지를 돌린다 — 한 번의
+    실행이 고칠 것을 전부 보인다. 불만족 판정만 온톨로지와 프로브의 판정용 사본에 따로 폐포를 만든다(`probe_unsatisfiable`).
     """
     closed, messages = owl_rl_closure(asserted)
     errors = check_logical_consistency(asserted, closed, messages, files)
     if not errors:
         print(f"PASS [{LOGICAL_CONSISTENCY}] — OWL 2 RL 폐포 트리플 {len(closed)}개(단언 {len(asserted)}개), "
               f"추론기 오류 노드 0건, owl:Nothing 소속 0건")
+    classes = ontology_classes(onto_files)
+    found = probe_unsatisfiable(ontology, classes, onto_files)
+    for gate, found_errors, done in (
+            (CYCLIC_HIERARCHY, check_cyclic_hierarchy(asserted, files), "단언된 rdfs:subClassOf 의 순환 0건"),
+            (UNSATISFIABLE_CLASS, check_unsatisfiable_class(found, ontology, onto_files),
+             f"온톨로지 이름 클래스 {len(classes)}개의 프로브 폐포(OWL 2 RL 근사)에 불만족 클래스 0건"),
+            (UNINTENDED_EQUIVALENCE, check_unintended_equivalence(asserted, closed, classes, set(found), files),
+             f"이름 클래스 {len(classes)}개 사이 선언 없는 상호 하위 쌍 0건")):
+        if not found_errors:
+            print(f"PASS [{gate}] — {done}")
+        errors += found_errors
     if shape_paths:
         shacl_errors = check_shacl(closed, shapes, True, shape_paths, waivers)
         if not shacl_errors:
