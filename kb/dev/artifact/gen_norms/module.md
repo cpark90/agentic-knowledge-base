@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/823b2096-4821-4c38-a7ea-87b9b6cba977]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/29a3a21d-a74b-4fc0-8764-46de4751e58a, title_ko: 파일 복합체 tools/gen_norms.py, title: file composite tools/gen_norms.py, ordered: [https://agentic-knowledge-base.dev/id/composite/aebd48bd-5503-44d2-a028-ca367564d9a2, https://agentic-knowledge-base.dev/id/composite/55330362-0aaf-42fe-bd7b-4cfec40c4e75, https://agentic-knowledge-base.dev/id/composite/4467fb1d-c722-4b87-a22b-5f679ceceee0, https://agentic-knowledge-base.dev/id/composite/d0c409f2-67d6-42c0-b5be-319def3c320d, https://agentic-knowledge-base.dev/id/composite/85f4907d-b39a-4898-8cf9-888cf6204fb4]}
 ---
-**파일** — `tools/gen_norms.py` 다. 567줄 · 최상위 정의 23개 · 최상위 절 5개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/gen_norms.py` 다. 567줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

@@ -4,11 +4,11 @@ type: annotation
 level: concrete
 title_ko: 표본 tools/kb_lib.py 자극 다섯의 churn 한 주기 — 정체성은 보존되나 revalidate·심볼 참조 두 사각지대가 드러난다
 title: One churn cycle over five stimuli on the sample tools/kb_lib.py — identity holds, but revalidate and symbol-reference blind spots surface
-status: draft
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 targets: [https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}
+generated: {by: vnv/claude-sonnet-5-5, at: 2026-11-28T17:06:26+09:00}
 ---
 thought (non-blocking): 다섯 자극 모두 uuid 정체성은 보존되나 revalidate 보고·파이썬 심볼 참조 두 사각지대가 34 파일 확장 전에 남는다.
 

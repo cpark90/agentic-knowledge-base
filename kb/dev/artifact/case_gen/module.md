@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/5ff79a30-1dc2-45e0-be42-2d793dbcf65a]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/6038262a-0bc8-4f38-bb62-357c9eaeece2, title_ko: 파일 복합체 tools/case_gen.py, title: file composite tools/case_gen.py, ordered: [https://agentic-knowledge-base.dev/id/composite/1a0a0d9e-abcb-46ca-bf5b-d530a350816e, https://agentic-knowledge-base.dev/id/composite/10ce940e-ae6b-4b2e-8d0e-3bb5448ae88e, https://agentic-knowledge-base.dev/id/composite/c1361b91-dc50-48d4-bb3e-7e5d11c04516, https://agentic-knowledge-base.dev/id/composite/c6c4a5c0-8ba7-4c89-a79a-bc2544a590be, https://agentic-knowledge-base.dev/id/composite/7cb71e27-ad8a-449d-b46a-454149642b32, https://agentic-knowledge-base.dev/id/composite/d35350bd-7f95-4059-82b7-88108831c060, https://agentic-knowledge-base.dev/id/composite/9b61053c-0a32-44e3-83a7-5cceaaa5c57e]}
 ---
-**파일** — `tools/case_gen.py` 다. 614줄 · 최상위 정의 28개 · 최상위 절 7개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/case_gen.py` 다. 614줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

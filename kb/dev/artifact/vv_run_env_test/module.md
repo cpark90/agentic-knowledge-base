@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/2fa82a3a-2e47-4bf8-8d59-2e02da4270dd]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/3c8e6ba3-aa11-4e78-b59f-c1aac562f7ce, title_ko: 파일 복합체 tools/vv_run_env_test.py, title: file composite tools/vv_run_env_test.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/585ec158-a9d6-48ce-8ecb-f52c92d2544b, https://agentic-knowledge-base.dev/id/composite/78211421-fa91-4809-8250-0a840db49298, https://agentic-knowledge-base.dev/id/composite/491eacc1-0150-4673-96c8-52951bec7409]}
 ---
-**파일** — `tools/vv_run_env_test.py` 다. 129줄 · 최상위 정의 5개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/vv_run_env_test.py` 다. 129줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

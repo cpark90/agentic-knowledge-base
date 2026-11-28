@@ -18,12 +18,4 @@ tested:
   at: 2026-09-30T15:34:48Z
   source_hash: ba4431623bd0b3e0
 ids:
-  composite:head: https://agentic-knowledge-base.dev/id/composite/f02119f5-222e-4905-9533-cd7f037f9d03
-  composite:sec:git: https://agentic-knowledge-base.dev/id/composite/9de96dc9-03ab-40b9-a90a-4481f8f9deb7
-  file: https://agentic-knowledge-base.dev/id/composite/39d9c5d9-3e2f-4e3b-9f05-84c7476fa96b
-  fn:git: https://agentic-knowledge-base.dev/id/chunk/98e08ae7-f85a-4703-809f-fe20c8ac333a
-  fn:main: https://agentic-knowledge-base.dev/id/chunk/6879310b-514b-406a-b81d-1a7c1118de53
-  fn:stamp_one: https://agentic-knowledge-base.dev/id/chunk/580b14fa-6057-4000-9927-c60a4acee79a
-  head: https://agentic-knowledge-base.dev/id/chunk/fe9a3f4c-a455-444c-b612-4f93c3897066
   module: https://agentic-knowledge-base.dev/id/chunk/b297b7e0-4153-4802-bc7d-de6ba295e05e
-  sec:git: https://agentic-knowledge-base.dev/id/chunk/ee9e6195-3e7e-4fc2-8f1c-ecc97db9dc23

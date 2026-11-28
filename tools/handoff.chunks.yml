@@ -17,10 +17,4 @@ tested:
   at: 2026-09-30T15:34:48Z
   source_hash: acc826c6e2a5e951
 ids:
-  composite:head: https://agentic-knowledge-base.dev/id/composite/4bb362f4-c68c-48b4-bfbe-b9fb51efa910
-  composite:sec:main: https://agentic-knowledge-base.dev/id/composite/0b8984a8-4b3a-4b30-9c38-041302b18093
-  file: https://agentic-knowledge-base.dev/id/composite/b1ea15c6-7e5e-4365-91b4-7b2f4ad29839
-  fn:main: https://agentic-knowledge-base.dev/id/chunk/d2c6d26d-171a-421d-93af-57b68ab462fc
-  head: https://agentic-knowledge-base.dev/id/chunk/e027fd98-2f7d-435e-92e6-27671aefb3ca
   module: https://agentic-knowledge-base.dev/id/chunk/db6433c7-428f-434f-8aa1-abbcaec51063
-  sec:main: https://agentic-knowledge-base.dev/id/chunk/d4b905ee-7efb-48b3-8e28-41d33ddb1f99

@@ -7,12 +7,11 @@ title: file tools/link.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-link}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/8d09b0e4-44b4-47b2-9ff6-5da9f3b22e12, https://agentic-knowledge-base.dev/id/chunk/5287133e-f7a3-4913-8aaf-062647cf5491, https://agentic-knowledge-base.dev/id/chunk/6321bf38-7026-4c60-b4fb-7cf3a956b35b]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/b28a66c9-4140-4beb-bb95-69e12a91e607, title_ko: 파일 복합체 tools/link.py, title: file composite tools/link.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/d456c76a-43ad-49f5-b73e-ca32721dd5ec, https://agentic-knowledge-base.dev/id/composite/570df80b-916d-466e-a9fe-8a9ac66eea54, https://agentic-knowledge-base.dev/id/composite/35504745-0bb4-47e0-ae4a-3da6e0e07b3d]}
 ---
-**파일** — `tools/link.py` 다. 459줄 · 최상위 정의 9개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/link.py` 다. 460줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -52,7 +51,8 @@ frontmatter 에 링크 키와 `restored:` 를 적는다 (p10-restored-link-marki
              → 개발 요구 derivesFrom (p8-scenario-ladder-rungs). 판정은 kb_lib.cross_kb_link 이고 저작된 링크는 같은 함수로
              게이트 `cross-kb-link`(validate)가 거부한다
         (나) 코드 부분 끝점 — 추출 트리(kb_lib.EXTRACT_ROOT) 안에서 복합체의 부분인 단위 지식(정의·절·장·모듈 머리)은 끝점이 아니다.
-             링크는 파일 복합체의 선언 단위 지식(module.md)과 질의 단위 지식이 갖는다 (p7-code-links-on-file-composite)
+             링크는 파일 항목(모듈 항목 module.md 와 질의 항목)이 갖는다 (p7-code-links-on-file-composite). 2026-11-28 부터
+             추출기가 부분을 내지 않아(Q191-a) 이 거르기에 걸리는 쌍은 없고, 거르기는 손으로 둔 부분을 막는 자리로 남는다
         (다) 테스트 케이스의 derivesFrom — 테스트 케이스(generated.by = kb_lib.CASE_GEN_ACTOR)의 derivesFrom 은 생성기가 자기 시나리오로 쓴다
              (tools/case_gen.py). 그 밖의 대상은 후보가 아니다
   상한  앵커(주어)당 k ≤ --k (기본 7, 로드맵 입력표) — 근거 강도 → 공유 개념 수 → 대상 IRI 순으로 자르고 넘치는 것은 탈락으로 센다.

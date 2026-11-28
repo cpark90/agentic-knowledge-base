@@ -117,9 +117,9 @@ EXTRACTED_QUERY_DIRS = [
     "verify-queries",
 ]
 
-# 추출 대상 Starlark 소스 — defs/<이름>.bzl 의 최상위 정의 하나가 산출물 단위 지식 하나다(유저 답 Q32-a, 2026-10-04: 요구
-# r-010·r-022·r-023 을 강제하는 코드가 이 파일의 `_check_links` 등에 있는데 코드 단위 지식 밖이었다). 방향과 단위 지식 모양은
-# EXTRACTED_SOURCES 와 같다(p7-code-extraction-direction — 소스가 원본, 최상위 정의 = 정의 단위 지식, 절 주석 = 절 복합체).
+# 추출 대상 Starlark 소스 — defs/<이름>.bzl 하나가 모듈 항목 하나다(유저 답 Q32-a, 2026-10-04: 요구 r-010·r-022·r-023 을
+# 강제하는 코드가 이 파일의 `_check_links` 등에 있는데 코드 단위 지식 밖이었다. Q191-a, 2026-11-28 부터 최상위 정의는 항목이 아니다).
+# 방향과 단위 지식 모양은 EXTRACTED_SOURCES 와 같다(p7-code-extraction-direction — 소스가 원본, 단위 지식은 파일 항목 하나).
 # 등록부 사이드카는 소스 옆의 `defs/<이름>.chunks.yml` 이고 생성 패키지는 `kb/dev/artifact/<이름>-bzl` 이다.
 # **규칙을 강제하는 코드가 든 파일만** 넣는다 — 입력 집합과 인자의 배선만 하는 파일(`defs/knowledge.bzl`)은 항목이
 # 아니다(유저 답 Q10-a). 한 파일 안의 배선 정의는 등록부의 `wiring` 목록이 추출에서 뺀다. **단일 정의 위치**다(M1):
@@ -179,6 +179,8 @@ def norm_doc_labels():
 # EXTRACTED_SOURCES 와 같은 해법): `tools/kb_lib.py` 의 `load_extracted_sources` 가 이 리터럴을 읽어
 # 추출기의 치역 경계로 쓰고, `//defs:knowledge.bzl` 이 같은 리터럴로 드리프트 테스트의 입력(대상 모듈의
 # 등록부 사이드카)을 세운다. EXTRACTED_SOURCES 의 부분집합이어야 한다 — 아래 검사가 로드 시점에 강제한다.
+# 2026-11-28 부터 추출기가 정의 단위 지식을 내지 않아(Q191-a) 이 경계로 방출되는 `uses` 는 없다 — 추출기의 빈 등록부
+# 검사와 드리프트 테스트의 입력으로만 읽힌다.
 USES_TARGETS = [
     "kb_lib",
 ]
@@ -216,7 +218,6 @@ GATES = {
     "chunk": {"tier": "test", "tool": "chunk_lint", "ko": "단위 지식 형식", "desc": "본문 토큰 상한 초과와 frontmatter 형식 위반", "decision": "p1-chunk-unit-is-tokens"},
     "chunk2kg": {"tier": "analysis", "tool": "chunk2kg", "ko": "head 생성", "desc": "head 그래프 생성 시점의 frontmatter·본문 규칙 위반", "decision": "pe-kg-hand-and-generated-files"},
     "chunk2kg-merge": {"tier": "analysis", "tool": "chunk2kg", "ko": "head 병합", "desc": "타깃별 head 조각의 병합 실패", "decision": "p6-validate-the-union"},
-    "code-part-link": {"tier": "verify", "tool": "validate", "ko": "코드 부분 링크", "desc": "추출 트리의 복합체 부분(정의·구역 단위 지식)이 refines·serves·verifies 의 끝점", "decision": "p7-code-links-on-file-composite"},
     "cross-kb-link": {"tier": "verify", "tool": "validate", "ko": "KB 가로지름 링크", "desc": "verifies 밖의 저작 링크가 두 KB 를 가로지름 (검증 목표 → 요구 derivesFrom 만 예외)", "decision": "p8-vv-independence-scope"},
     "cyclic-hierarchy": {"tier": "verify", "tool": "validate", "ko": "순환 분류 계층", "desc": "단언된 rdfs:subClassOf 의 순환", "decision": "p2-ontology-compiler-three-tiers"},
     "dangling": {"tier": "verify", "tool": "validate", "ko": "참조 무결성", "desc": "인용·부분·가정·요구·정의 호출의 대상이 실재하지 않음", "decision": "p10-extracted-references-are-candidates"},
@@ -225,7 +226,7 @@ GATES = {
     "draft-end": {"tier": "verify", "tool": "validate", "ko": "draft 끝 링크", "desc": "살아 있는 단위 지식의 frontmatter 링크가 draft 단위 지식을 끝으로 둠", "decision": "p4-chunk-state-machine"},
     "element-drop": {"tier": "verify", "tool": "validate", "ko": "요소 탈락", "desc": "어휘에 슬롯이 없어 조용히 빠진 소스 요소", "decision": "p8-odc-defect-subtypes"},
     "empty-value": {"tier": "test", "tool": "chunk_lint", "ko": "빈 값 표기", "desc": "세 빈 값 밖의 표기와 표의 단독 대시 셀", "decision": "p4-three-empty-values"},
-    "extract": {"tier": "analysis", "tool": "extract", "ko": "코드 추출", "desc": "추출 시점의 개명 안내·삭제·부분 상한·등록부 불일치", "decision": "p7-code-extraction-direction"},
+    "extract": {"tier": "analysis", "tool": "extract", "ko": "코드 추출", "desc": "추출 시점의 개명 안내·삭제·등록부 불일치", "decision": "p7-code-extraction-direction"},
     "extract-drift": {"tier": "test", "tool": "extract", "ko": "추출 드리프트", "desc": "추출 생성물이 소스와 등록부에 어긋남", "decision": "p7-code-extraction-direction"},
     "extract-refs": {"tier": "analysis", "tool": "extract_refs", "ko": "인용 대상 실재", "desc": "본문 인용의 대상이 실재하지 않음", "decision": "p10-extracted-references-are-candidates"},
     "frozen": {"tier": "test", "tool": "doccheck", "ko": "동결 문서", "desc": "동결 문서의 sha256 이 kb_lib.FROZEN_DOCS 의 고정값과 다름", "decision": "p0-service-is-a-three-layer-wiki"},

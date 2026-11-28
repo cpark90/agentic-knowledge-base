@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/9deed62a-70ad-4a87-99a2-73c11e1a4453, https://agentic-knowledge-base.dev/id/chunk/c5bb1922-eb82-4b96-a49c-a46e41c239e4, https://agentic-knowledge-base.dev/id/chunk/5967869a-2c73-4666-847a-af969e7e6caf]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/27628b6a-73ec-4466-bb12-a1a1ae970dd7, title_ko: 파일 복합체 tools/run_evidence.py, title: file composite tools/run_evidence.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/06ff52f5-9406-4ead-8685-51db4f0cb144, https://agentic-knowledge-base.dev/id/composite/78c6c89d-58c3-43c8-8570-d8bfbac1700f, https://agentic-knowledge-base.dev/id/composite/241f90fa-0b02-4c28-a23e-8e84aecaf4da, https://agentic-knowledge-base.dev/id/composite/ed156a01-76a8-4195-b32e-c9096b040444, https://agentic-knowledge-base.dev/id/composite/a7e4d5c8-a3b3-466a-93eb-1bb3d94b2ed5, https://agentic-knowledge-base.dev/id/composite/e202036d-a930-4e1b-a919-03711832262b]}
 ---
-**파일** — `tools/run_evidence.py` 다. 530줄 · 최상위 정의 10개 · 최상위 절 6개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/run_evidence.py` 다. 530줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

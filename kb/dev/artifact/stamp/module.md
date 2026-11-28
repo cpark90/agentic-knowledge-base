@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/a53c0f16-b020-471b-8106-6ec0043ac0dd, https://agentic-knowledge-base.dev/id/chunk/4ec4de00-ea81-4ed0-abf7-40beedc25e38]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/39d9c5d9-3e2f-4e3b-9f05-84c7476fa96b, title_ko: 파일 복합체 tools/stamp.py, title: file composite tools/stamp.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/fe9a3f4c-a455-444c-b612-4f93c3897066, https://agentic-knowledge-base.dev/id/composite/9de96dc9-03ab-40b9-a90a-4481f8f9deb7]}
 ---
-**파일** — `tools/stamp.py` 다. 119줄 · 최상위 정의 3개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/stamp.py` 다. 119줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

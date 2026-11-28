@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/d93492e4-f343-4736-b4a5-d04f48a3a75f, https://agentic-knowledge-base.dev/id/chunk/3e80ad06-93e6-4ba1-af6c-f354dd163b97, https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/f1d91f37-d353-405b-bd98-41132f8d5390, title_ko: 파일 복합체 tools/chunk_lint.py, title: file composite tools/chunk_lint.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/0149c880-a2a1-45d1-bad4-6d54b7932fc3, https://agentic-knowledge-base.dev/id/composite/ea7476e7-b990-4825-a271-6356855d2118, https://agentic-knowledge-base.dev/id/composite/7b250e22-fd3e-4d64-9b95-214bd55ce9d3]}
 ---
-**파일** — `tools/chunk_lint.py` 다. 400줄 · 최상위 정의 8개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/chunk_lint.py` 다. 400줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

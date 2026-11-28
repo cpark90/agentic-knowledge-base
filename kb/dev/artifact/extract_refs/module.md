@@ -7,12 +7,11 @@ title: file tools/extract_refs.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-extract-refs}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/55535378-f5cd-4f01-a5ce-54d438529104, https://agentic-knowledge-base.dev/id/chunk/8d09b0e4-44b4-47b2-9ff6-5da9f3b22e12]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/1ddb8a02-e2d5-48e7-a66d-3c960e6a523a, title_ko: 파일 복합체 tools/extract_refs.py, title: file composite tools/extract_refs.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/1a3482f6-0687-482a-848a-544cab7ed57b, https://agentic-knowledge-base.dev/id/composite/444fc7bd-680b-4c09-aec8-0e5de0cc1175]}
 ---
-**파일** — `tools/extract_refs.py` 다. 202줄 · 최상위 정의 3개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/extract_refs.py` 다. 202줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

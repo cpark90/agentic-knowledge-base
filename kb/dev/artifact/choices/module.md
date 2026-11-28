@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/7c9d74e6-1a77-4d52-a126-644a65bfab93]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/020b2093-af80-4cce-8bce-86ac125c1c4a, title_ko: 파일 복합체 tools/choices.py, title: file composite tools/choices.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/454b2f0a-c75b-42fd-aad2-d24b00a2eb3b, https://agentic-knowledge-base.dev/id/composite/6c9da832-fd4f-4fba-a0f6-33561303de46]}
 ---
-**파일** — `tools/choices.py` 다. 147줄 · 최상위 정의 4개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/choices.py` 다. 147줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

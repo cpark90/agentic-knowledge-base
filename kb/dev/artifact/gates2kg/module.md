@@ -7,12 +7,11 @@ title: file tools/gates2kg.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-gates2kg}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-07T09:06:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/e8156600-d7a9-4e0c-b51c-8986083805c7, https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/4f1a7107-6da2-49a5-b29b-7bc2f257f90a, title_ko: 파일 복합체 tools/gates2kg.py, title: file composite tools/gates2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/5b36dc12-5981-480b-b53b-b3d740e777b7, https://agentic-knowledge-base.dev/id/composite/ff1c5437-57a6-409e-86e7-767ffd3d41ff, https://agentic-knowledge-base.dev/id/composite/cda496f2-c562-40ea-bde8-f3fa740db1b1]}
 ---
-**파일** — `tools/gates2kg.py` 다. 245줄 · 최상위 정의 7개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/gates2kg.py` 다. 246줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -31,8 +30,8 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/4f1a7107-6da2-49
 
 생성 = 검사:
   - 항목마다 다섯 키(`tier`·`tool`·`ko`·`desc`·`decision`)가 있고 `tier` 는 `GATE_TIERS` 안이다
-  - 판정 도구가 파이썬 안이면 등록부 사이드카(`tools/<도구>.chunks.yml`)의 `ids: file:` 이 실재한다 —
-    `agt:enforcedBy` 의 대상이 그 파일 복합체이고, 없으면 끊긴 링크를 내는 대신 여기서 거부한다
+  - 판정 도구가 파이썬 안이면 등록부 사이드카(`tools/<도구>.chunks.yml`)의 `ids: module:` 이 실재한다 —
+    `agt:enforcedBy` 의 대상이 그 모듈 항목(도구의 파일 항목, Q191-a)이고, 없으면 끊긴 링크를 내는 대신 여기서 거부한다
   - 파이썬 밖(`starlark`·`bazel`)인 게이트는 가리킬 코드 단위 지식이 없어 `agt:enforcedBy` 를 갖지 않는다
 
 투영 모드(`--projections`)는 같은 입력에서 뷰·skill 의 개체를 낸다(유저 답 Q9-a, 2026-10-03). 뷰·skill 은 층의

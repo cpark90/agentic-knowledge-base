@@ -7,12 +7,12 @@ title: The empty TIM cell verifies contract to decision is a real gap leaving lo
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-targets: [https://agentic-knowledge-base.dev/id/chunk/1a5c517a-088b-47c7-b29a-b4a044c84946]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T13:46:23+09:00}
+targets: [https://agentic-knowledge-base.dev/id/chunk/f27e3bb2-85d8-43e1-9020-f659f1d58743]
+generated: {by: vnv/claude-sonnet-5-5, at: 2026-11-28T17:06:26+09:00}
 ---
 issue (non-blocking): 빈 칸 `verifies`:contract→decision 은 실제 누락이다 — 정제 계층 결정은 logical 높이의 `verifies` 를 필수로 두는데 그 주어가 될 합격 기준을 게이트가 거부한다
 
-대상: https://agentic-knowledge-base.dev/id/chunk/1a5c517a-088b-47c7-b29a-b4a044c84946
+대상: https://agentic-knowledge-base.dev/id/chunk/f27e3bb2-85d8-43e1-9020-f659f1d58743
 
 본문: `p8-scenario-ladder-rungs` 는 logical 논리 시나리오(합격 기준 판정 술어) ↔ 범위·제약을 `verifies` **필수**로 두고 TIM 절의 주석도 "logical 기준 → 결정"을 적는다. 2026-10-04 측정에서 `verifies` 는 concrete 테스트 케이스 → concrete 결정과 executable 검증기 → 산출물뿐이고(같은 level 강제) logical 기준 38 의 `verifies` 는 0 이라 logical 결정 514 는 어느 V&V 단위 지식의 `verifies` 대상도 아니다. 기준에 `verifies` 를 달면 기준은 검증 목표(`RequirementChunk`)를 `refines` 하므로 verify 질의 `verifies-without-criteria` 가 거부한다. `p8-pass-criteria` 의 "기준은 `verifies` 링크의 속성으로 바인딩된다"는 기준을 주어가 아니라 바인딩으로 읽게 하므로 두 결정과 게이트가 한 칸에서 어긋난다.
 

@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/a9cc1a02-29b3-4f53-8711-8d60a4bea3cf]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/cf91a784-b983-40fa-afff-ff9105164656, title_ko: 파일 복합체 tools/canonicalize.py, title: file composite tools/canonicalize.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/811c8a9a-7991-488b-927b-a703841a532b, https://agentic-knowledge-base.dev/id/composite/29d788bd-8690-47f5-8a29-184a6e40d389, https://agentic-knowledge-base.dev/id/composite/48c79ecc-7011-4d44-bc3e-be0cc65036b7]}
 ---
-**파일** — `tools/canonicalize.py` 다. 252줄 · 최상위 정의 8개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/canonicalize.py` 다. 252줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

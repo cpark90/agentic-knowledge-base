@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/05cabe0e-10b0-4e02-81b1-8f5154a94fcc]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/711360b7-62ed-4bfc-9088-27974668e958, title_ko: 파일 복합체 tools/impact.py, title: file composite tools/impact.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/e3651d6a-824c-47cd-bd83-2db367e84196, https://agentic-knowledge-base.dev/id/composite/44b63663-ac34-40f1-92c6-a6281c93c7a6]}
 ---
-**파일** — `tools/impact.py` 다. 72줄 · 최상위 정의 3개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/impact.py` 다. 72줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

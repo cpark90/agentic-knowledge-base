@@ -7,12 +7,11 @@ title: file tools/revalidate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-revalidate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/651e2c44-9a19-4a3e-b04a-ed1226aeef23, https://agentic-knowledge-base.dev/id/chunk/57fc48aa-6091-4ee7-9763-13ddab8ac8b1, https://agentic-knowledge-base.dev/id/chunk/ab6eb286-d87b-43a5-88f0-e32ffdd54acc]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/974f7eff-3756-4a18-af98-04c75441cd70, title_ko: 파일 복합체 tools/revalidate.py, title: file composite tools/revalidate.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/8013f604-8091-4bcf-aa5e-9a4a96aa15f1, https://agentic-knowledge-base.dev/id/composite/c09b8f1b-53e8-470d-b164-aa1dfa534c68, https://agentic-knowledge-base.dev/id/composite/f6f22e05-67fd-4351-a17e-d9abe0817b50, https://agentic-knowledge-base.dev/id/composite/a0ecc169-b26e-47aa-b280-454b96a75c1f]}
 ---
-**파일** — `tools/revalidate.py` 다. 449줄 · 최상위 정의 16개 · 최상위 절 4개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/revalidate.py` 다. 449줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

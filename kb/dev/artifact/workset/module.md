@@ -7,12 +7,11 @@ title: file tools/workset.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-workset}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/82e341ba-c47f-4677-8013-491082b24b6c, https://agentic-knowledge-base.dev/id/chunk/965f738a-db50-4729-a551-e58a90cd6320]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/daba0b21-4c2e-4be6-8cc6-9cef10baa82f, title_ko: 파일 복합체 tools/workset.py, title: file composite tools/workset.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/58ca0301-520d-4ec2-848b-bfea07859eab, https://agentic-knowledge-base.dev/id/composite/efdb6344-03eb-4727-97ba-fe8aadcc7424]}
 ---
-**파일** — `tools/workset.py` 다. 191줄 · 최상위 정의 3개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/workset.py` 다. 191줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

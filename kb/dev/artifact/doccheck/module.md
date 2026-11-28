@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5, https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/b5da82da-f5cc-4c80-9fbf-d65784ffee7d, title_ko: 파일 복합체 tools/doccheck.py, title: file composite tools/doccheck.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/782db9bf-fe98-4c49-89d5-5143bc44c0c6, https://agentic-knowledge-base.dev/id/composite/41567349-5994-4e9e-aec7-ac6603e2e6f5, https://agentic-knowledge-base.dev/id/composite/9d5ac0bb-b9b3-4682-886f-6b87b409d984, https://agentic-knowledge-base.dev/id/composite/fc4042df-b620-47ee-b006-cf1ceb777197, https://agentic-knowledge-base.dev/id/composite/379df7df-38d0-4a60-b9ed-27e40b758ea3, https://agentic-knowledge-base.dev/id/composite/00affe30-5483-412c-9fa9-9df66b0b6eaf, https://agentic-knowledge-base.dev/id/composite/7ac51f50-ae24-4b21-944d-11721fe1653c]}
 ---
-**파일** — `tools/doccheck.py` 다. 479줄 · 최상위 정의 15개 · 최상위 절 7개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/doccheck.py` 다. 479줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

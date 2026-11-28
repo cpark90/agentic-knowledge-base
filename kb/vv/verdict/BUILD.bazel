@@ -38,7 +38,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/d29c0250-4327-4f3a-a337-d80979e3fc9a",
     plane = "annotation",
     level = "concrete",
-    status = "draft",
+    status = "deprecated",
 )
 
 kb_chunk(
@@ -3485,7 +3485,7 @@ kb_chunk(
     iri = "https://agentic-knowledge-base.dev/id/chunk/3ff5bc7a-3ad4-4f8b-a855-bb3b80d2034a",
     plane = "annotation",
     level = "concrete",
-    status = "draft",
+    status = "deprecated",
 )
 
 kb_chunk(

@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/60faade0-d3e7-4ad4-8bf6-371be22956c3, https://agentic-knowledge-base.dev/id/chunk/f1d4cbae-2b57-4b96-826f-536b132cd624]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/84c1731c-46ae-469d-a2b2-a52d6615da86, title_ko: 파일 복합체 tools/channel_lint.py, title: file composite tools/channel_lint.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/2b6adf1a-07f9-41ca-b86b-44bcb3041a2a, https://agentic-knowledge-base.dev/id/composite/ac58dec5-5572-44b8-a5b4-28d1816c56e6, https://agentic-knowledge-base.dev/id/composite/45faf691-73c6-43a3-b8c9-25f7a11782bc, https://agentic-knowledge-base.dev/id/composite/f4e440cf-7d39-4f1b-9334-79189a47b8a2, https://agentic-knowledge-base.dev/id/composite/30c94888-c0b3-4616-8c73-db2b38068fb2, https://agentic-knowledge-base.dev/id/composite/3740ef5b-1def-406b-ab6d-bbb40f9c7329, https://agentic-knowledge-base.dev/id/composite/d356c13f-12da-449f-8621-56cdffd536e1]}
 ---
-**파일** — `tools/channel_lint.py` 다. 562줄 · 최상위 정의 12개 · 최상위 절 7개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/channel_lint.py` 다. 562줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

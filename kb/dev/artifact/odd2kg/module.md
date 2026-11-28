@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/3d66b1bc-0e65-4e62-9654-fc0ddb6b7d20, https://agentic-knowledge-base.dev/id/chunk/40abcad5-6a9c-4233-99d3-0b7ceeafb06b]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/50c525bb-02f0-4c2b-a9e0-1a3b666fbd3c, title_ko: 파일 복합체 tools/odd2kg.py, title: file composite tools/odd2kg.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/fb4cc423-29a9-4491-a1e8-a630c1b5a123, https://agentic-knowledge-base.dev/id/composite/f9e4439a-33de-4e81-bb1a-e3ffec0bf77d]}
 ---
-**파일** — `tools/odd2kg.py` 다. 137줄 · 최상위 정의 4개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/odd2kg.py` 다. 137줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

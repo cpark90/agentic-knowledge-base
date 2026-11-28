@@ -1,6 +1,6 @@
 # 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
-load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
 
 package(default_visibility = ["//kb:artifact_readers"])
 
@@ -11,35 +11,10 @@ filegroup(
     srcs = glob(["*.md"]),
 )
 
-kb_composite(
+kb_chunk(
     name = "module",
-    srcs = [
-        "fn-bin_of.md",
-        "fn-bin_rows.md",
-        "fn-binom_quantile.md",
-        "fn-bins_section.md",
-        "fn-fail.md",
-        "fn-graph_beliefs.md",
-        "fn-judgement_entries.md",
-        "fn-label_rows.md",
-        "fn-limits_section.md",
-        "fn-main.md",
-        "fn-measure.md",
-        "fn-platt_fit.md",
-        "fn-platt_loo.md",
-        "fn-platt_result.md",
-        "fn-platt_section.md",
-        "fn-summary_rows.md",
-        "fn-truth.md",
-        "head.md",
-        "module.md",
-        "sec-binom-quantile.md",
-        "sec-label-rows.md",
-        "sec-truth.md",
-    ],
-    iri = "https://agentic-knowledge-base.dev/id/composite/589ba97d-9372-4794-b33c-9b040ecccc97",
-    ordered = ["https://agentic-knowledge-base.dev/id/composite/53c1af98-94eb-4b8d-81cf-9914292abca6", "https://agentic-knowledge-base.dev/id/composite/1edd84f8-3e8d-4183-996c-4666aefe4a4a", "https://agentic-knowledge-base.dev/id/composite/7b6663a6-1c06-4819-aae0-798a36f11390", "https://agentic-knowledge-base.dev/id/composite/ec53d97b-e4f9-4f6b-983a-cc20d67bb1b6"],
-    part_iris = ["https://agentic-knowledge-base.dev/id/composite/53c1af98-94eb-4b8d-81cf-9914292abca6", "https://agentic-knowledge-base.dev/id/composite/1edd84f8-3e8d-4183-996c-4666aefe4a4a", "https://agentic-knowledge-base.dev/id/composite/7b6663a6-1c06-4819-aae0-798a36f11390", "https://agentic-knowledge-base.dev/id/composite/ec53d97b-e4f9-4f6b-983a-cc20d67bb1b6"],
+    src = "module.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/77244ea8-dcdf-4646-9c5c-07e0d40cb223",
     plane = "artifact",
     level = "executable",
     status = "stable",

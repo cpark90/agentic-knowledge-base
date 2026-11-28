@@ -7,12 +7,11 @@ title: file tools/validate.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-validate}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
+generated: {by: process:extract, at: 2026-11-27T05:32:11Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/37e80683-8360-469c-9d06-79e62b8071cc, https://agentic-knowledge-base.dev/id/chunk/f7ac5761-e5da-4a34-8beb-f661f8164328, https://agentic-knowledge-base.dev/id/chunk/54aefb11-98b0-4629-9f11-c112ed9948f5, https://agentic-knowledge-base.dev/id/chunk/cdf76c66-5003-405d-8fc1-4fbcafb8c586, https://agentic-knowledge-base.dev/id/chunk/14782c7c-bf50-47a8-ab11-62715aeeb63e]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/fb7cffc9-e5b5-4ed5-af22-40aa50e3c6aa, title_ko: 파일 복합체 tools/validate.py, title: file composite tools/validate.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/f78b9e0e-d84b-4087-9f1d-29bcf769d844, https://agentic-knowledge-base.dev/id/composite/56ab8e29-8a32-4148-bee8-85b8eabe8488, https://agentic-knowledge-base.dev/id/composite/dfafb084-58ea-49a9-9fe2-20457fba4997, https://agentic-knowledge-base.dev/id/composite/4d158385-e139-4042-8477-a87c3deeefe2]}
 ---
-**파일** — `tools/validate.py` 다. 1682줄 · 최상위 정의 54개 · 최상위 절 4개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/validate.py` 다. 1659줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

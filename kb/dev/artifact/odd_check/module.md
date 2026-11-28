@@ -7,12 +7,11 @@ title: file tools/odd_check.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-odd-check}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/8e83391e-5fd2-499b-881c-37e6f9cb60f1, https://agentic-knowledge-base.dev/id/chunk/2df65a05-0d25-4b3c-aae9-8da6dd82218f]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/860d7967-4c4a-48c3-846c-a6f932e81933, title_ko: 파일 복합체 tools/odd_check.py, title: file composite tools/odd_check.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/c64a0d92-d978-4b1c-b12e-c03e8e8d1ef9, https://agentic-knowledge-base.dev/id/composite/bdc32d15-06d9-439b-a3b2-0d3dab05225f, https://agentic-knowledge-base.dev/id/composite/f0f7ba13-f15d-489f-80df-4c7ae50b0cdd]}
 ---
-**파일** — `tools/odd_check.py` 다. 105줄 · 최상위 정의 6개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/odd_check.py` 다. 105줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

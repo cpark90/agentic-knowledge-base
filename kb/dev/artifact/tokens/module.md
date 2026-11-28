@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-02T00:08:55Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/7afd759f-26b1-4ad8-8edb-abc971dc4393]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/4fe35c96-c167-4a3e-b640-a888f6bcefe5, title_ko: 파일 복합체 tools/tokens.py, title: file composite tools/tokens.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/47cbe988-791e-493e-b71c-1671f649b23a, https://agentic-knowledge-base.dev/id/composite/ee6ebd51-06bf-439a-875f-bf4afa341c35, https://agentic-knowledge-base.dev/id/composite/bb329900-d369-44b7-88d4-5e3996dc0aa5]}
 ---
-**파일** — `tools/tokens.py` 다. 215줄 · 최상위 정의 9개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/tokens.py` 다. 215줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

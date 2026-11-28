@@ -11,8 +11,8 @@
 
 생성 = 검사:
   - 항목마다 다섯 키(`tier`·`tool`·`ko`·`desc`·`decision`)가 있고 `tier` 는 `GATE_TIERS` 안이다
-  - 판정 도구가 파이썬 안이면 등록부 사이드카(`tools/<도구>.chunks.yml`)의 `ids: file:` 이 실재한다 —
-    `agt:enforcedBy` 의 대상이 그 파일 복합체이고, 없으면 끊긴 링크를 내는 대신 여기서 거부한다
+  - 판정 도구가 파이썬 안이면 등록부 사이드카(`tools/<도구>.chunks.yml`)의 `ids: module:` 이 실재한다 —
+    `agt:enforcedBy` 의 대상이 그 모듈 항목(도구의 파일 항목, Q191-a)이고, 없으면 끊긴 링크를 내는 대신 여기서 거부한다
   - 파이썬 밖(`starlark`·`bazel`)인 게이트는 가리킬 코드 단위 지식이 없어 `agt:enforcedBy` 를 갖지 않는다
 
 투영 모드(`--projections`)는 같은 입력에서 뷰·skill 의 개체를 낸다(유저 답 Q9-a, 2026-10-03). 뷰·skill 은 층의
@@ -58,13 +58,14 @@ HEADER = (
 )
 
 
-# ── 판정 도구의 개체 — 등록부 사이드카의 파일 복합체 IRI ────────────────────
+# ── 판정 도구의 개체 — 등록부 사이드카의 모듈 항목 IRI ────────────────────
 
-def tool_composites(registries: list[str], key: str = "file") -> dict[str, str]:
-    """등록부 사이드카들 → 도구 이름 → `ids:` 블록의 `key` 줄 IRI (기본 `file:` — 파일 복합체).
+def tool_composites(registries: list[str], key: str = "module") -> dict[str, str]:
+    """등록부 사이드카들 → 도구 이름 → `ids:` 블록의 `key` 줄 IRI (기본 `module:` — 모듈 항목).
 
-    사이드카는 손이 원본인 등록부이고 파일 복합체가 도구 하나의 개체다 (p7-code-links-on-file-composite).
-    투영 모드는 `module:`(모듈 docstring 단위 지식)을 읽는다 — 뷰·skill 의 내용이 나오는 원본 단위 지식이다.
+    사이드카는 손이 원본인 등록부이고 모듈 항목이 도구 하나의 개체다 (p7-code-links-on-file-composite). 2026-11-28 까지는
+    파일 복합체(`file:`)가 그 자리였고 코드 파일에 부분이 없어지면서(Q191-a) 부분 없는 파일 항목이 자리를 이었다.
+    투영 모드도 같은 `module:` 을 읽는다 — 뷰·skill 의 내용이 나오는 원본 단위 지식이다.
     YAML 파서를 싣지 않는다 — 필요한 것은 `ids:` 블록의 한 줄뿐이고 이 생성기는 타깃마다 돈다.
     """
     out: dict[str, str] = {}
@@ -113,8 +114,8 @@ def emit(gates: dict, tiers: tuple, layer: str, tools: dict[str, str], outside: 
         if spec["tool"] not in outside:
             iri = tools.get(spec["tool"])
             if not iri:
-                errors.append(f"{where}: 게이트 {gate_id!r} 의 판정 도구 {spec['tool']!r} 의 파일 복합체를 찾을 수 없다 — "
-                              f"tools/{spec['tool']}.chunks.yml 의 `ids: file:` 가 agt:enforcedBy 의 대상이다")
+                errors.append(f"{where}: 게이트 {gate_id!r} 의 판정 도구 {spec['tool']!r} 의 모듈 항목을 찾을 수 없다 — "
+                              f"tools/{spec['tool']}.chunks.yml 의 `ids: module:` 가 agt:enforcedBy 의 대상이다")
                 continue
             props.append(f"agt:enforcedBy <{iri}>")
         head = f"id:{kb_lib.GATE_ID_PREFIX}{gate_id} {props[0]}"

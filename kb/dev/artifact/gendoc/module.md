@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/160ca62a-0dd2-4b06-a5e5-21bb1fc54fbe, https://agentic-knowledge-base.dev/id/chunk/61906023-e4bb-46b1-a6db-4bf4635b631b, https://agentic-knowledge-base.dev/id/chunk/2314093a-f5e3-4fc0-96a0-6c5d35db03ee]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/f2a94f2c-1866-41da-848c-d018a7dfc647, title_ko: 파일 복합체 tools/gendoc.py, title: file composite tools/gendoc.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/c0b686cd-daa8-4f89-8cb1-9e142f072f04, https://agentic-knowledge-base.dev/id/composite/b6587551-3784-48fb-ae97-e98493afa24b]}
 ---
-**파일** — `tools/gendoc.py` 다. 101줄 · 최상위 정의 1개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/gendoc.py` 다. 101줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

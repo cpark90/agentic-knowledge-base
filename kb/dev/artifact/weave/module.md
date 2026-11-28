@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-11-27T18:25:23Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/c0b7f63a-353e-4fdf-9389-961b6f3e130c, https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f, https://agentic-knowledge-base.dev/id/chunk/64cbbffa-54d9-4f66-a2a0-ea2a34dc8653]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/50eac9df-d01a-488f-8254-02ba61b00bf0, title_ko: 파일 복합체 tools/weave.py, title: file composite tools/weave.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/b69488a2-ddf2-4c5d-b093-be38c4f5a853, https://agentic-knowledge-base.dev/id/composite/1a6c538a-b92e-4130-b298-48a8fe030574, https://agentic-knowledge-base.dev/id/composite/ec24ef39-7e27-4fff-bba3-6fdb1829b342, https://agentic-knowledge-base.dev/id/composite/8330a4d7-2140-46ed-b107-9196a6c03aa2, https://agentic-knowledge-base.dev/id/composite/027b8f3a-1382-4deb-a204-543e912d8e6a, https://agentic-knowledge-base.dev/id/composite/d4819604-90cc-4d20-9aa3-25160d68c333]}
 ---
-**파일** — `tools/weave.py` 다. 1056줄 · 최상위 정의 41개 · 최상위 절 6개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/weave.py` 다. 1056줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

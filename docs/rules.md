@@ -131,7 +131,7 @@ IRI는 uuid로 영속하고, 내용 버전은 `chunk2kg`가 본문의 sha256 앞
 한글 라벨과 설명 한 줄을 적고, `TOOL_TAGS`는 게이트가 아닌 입력 문제와 보고 태그를 적는다. 이 단일화는 통일 기획
 2단계의 첫 조각이고, 그 전에는 같은 목록이 넷으로 갈려 있었다 (2026-10-02). `kb_lib`이 리터럴 읽기로 `*_GATE`·`*_TAG`를
 파생하므로 상수를 손으로 두지 않는다. 게이트는 프로세스 층의 **항목**이고, 그 개체는 `//kg:gates_kg`의 `id:gate-<id>`다.
-이 개체는 `agt:Gate`이고 `agt:gateTier`와 판정 도구의 파일 복합체를 가리키는 `agt:enforcedBy`를 가지며, `kg/`에 손으로
+이 개체는 `agt:Gate`이고 `agt:gateTier`와 판정 도구의 파일 항목(모듈 항목)을 가리키는 `agt:enforcedBy`를 가지며, `kg/`에 손으로
 쓰지 않는다. 목록이 갈리면 게이트 `gate-registry`가 거부한다. 이 게이트는 코드의 태그가 등록부에 포함되는지, 손 상수가
 없는지, 폴백 값이 일치하는지, 등록 id가 코드에 닿는지를 본다.
 
@@ -377,39 +377,28 @@ bazel run //tools:canonicalize -- --write <files>
 개발 KB는 요구 명세에서 실산출물을 생산하기 위한 지식이다
 ([`p7-dev-kb-purpose`](../kb/dev/decision/p7-dev-kb-purpose/conclusion.md)). 코어 규칙 위에 다음 규칙이 더해진다.
 
-**코드는 단위 지식으로 올라오고 방향은 추출이다** (유저 승인 2026-09-30, [`p7-code-extraction-direction`](../kb/dev/decision/p7-code-extraction-direction/conclusion.md)).
-소스 파일 하나가 패키지 `kb/dev/artifact/<모듈>/` 하나이고, 그 패키지의 단위 지식은 전부 `bazel run //tools:extract -- <소스>`의
-생성물이다. 그래서 손으로 고치면 `//:extract_drift_test`가 거부한다. 정체성의 원본은 소스 옆 사이드카 등록부 `<소스>.chunks.yml`의
+**코드는 단위 지식으로 올라오고 방향은 추출이다** (유저 승인 2026-09-30, 범위 개정 Q191-a, [`p7-code-extraction-direction`](../kb/dev/decision/p7-code-extraction-direction/conclusion.md)).
+코드 파일 하나가 패키지 `kb/dev/artifact/<모듈>/` 하나이고, 그 패키지의 단위 지식은 `bazel run //tools:extract -- <소스>`가 낸
+모듈 항목 하나다. 질의 파일은 질의 항목 하나가 된다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다.
+생성물이므로 손으로 고치면 `//:extract_drift_test`가 거부한다. 정체성의 원본은 소스 옆 사이드카 등록부 `<소스>.chunks.yml`의
 `한정 이름 → uuid`이고, 신설만 자동이며 개명과 삭제는 등록부를 편집해서 한다 ([`p10-function-identity-registry`](../kb/dev/decision/p10-function-identity-registry/conclusion.md)).
-링크는 파일 복합체가 갖는다 ([`p7-code-links-on-file-composite`](../kb/dev/decision/p7-code-links-on-file-composite/conclusion.md)). 추출기가 등록부의
-`refines`를 파일 항목과 절 항목으로 옮기고, 정의는 `part_of`만 갖는다. `serves`는 정의역이 `agt:DecisionChunk`이므로
+링크는 부분 없는 파일 항목이 갖는다 ([`p7-code-links-on-file-composite`](../kb/dev/decision/p7-code-links-on-file-composite/conclusion.md)). 추출기가 등록부의
+`refines`를 모듈 항목으로 옮긴다. `serves`는 정의역이 `agt:DecisionChunk`이므로
 `artifact` 단위 지식은 요구를 직접 `serves`하지 않는다. 대신 결정을 `refines`하고 그 결정이 요구에 닿는다. `artifact`의
 `verified`는 테스트를 통과했다는 표시다 (`STYLEGUIDE.md` §4).
 
-**정의 사이의 호출은 `usesDefinition`으로 올라온다** (유저 답 2026-09-30). 정의의 선택 키 `uses`는 같은 모듈의
-최상위 정의를 가리키고, 추출기가 AST의 이름 참조에서 그 값을 낸다. `uses`는 `references` 족의 잎이므로 Bazel `deps`도
-링크 개체도 아니며, 링크는 그대로 파일 복합체가 갖는다. 방출의 경계는 `defs/kb.bzl`의 `EXTRACTED_SOURCES`이고, 이 경계는
-37 파일 전부를 덮으며 측정한 트리플은 476이다. `EXTRACTED_SOURCES`는 `RESIDENCY`와 같은 해법으로 둔 단일 정의 위치다
-(2026-10-01). `BUILD.bazel`은 그 리터럴을 load하고 `kb_lib.load_extracted_sources`가 `ast.literal_eval`로 읽어 `uses`
-방출 경계를 파생하므로, 상수를 둘로 두지 않는다. 또한 `tools/BUILD.bazel`의 `check_extracted_sources`가 등록부 사이드카의
-집합과 그 목록이 같은지를 로드 시점에 강제하므로, 둘이 갈리면 bazel 명령이 바로 실패한다.
+**추출할 파일은 원리가 정하고 목록은 그 실현이다** (유저 답 Q192-a, [`p7-extraction-range-by-principle`](../kb/dev/decision/p7-extraction-range-by-principle/conclusion.md)).
+규칙을 강제하거나 질의로 답하는 코드 파일은 추출하고, 빌드 배선과 시험, 하네스 운영 스크립트는 추출하지 않는다. 그 실현이
+`defs/kb.bzl`의 `EXTRACTED_SOURCES`와 `EXTRACTED_QUERY_DIRS`, `EXTRACTED_STARLARK`이다. `EXTRACTED_SOURCES`는 `RESIDENCY`와
+같은 해법으로 둔 단일 정의 위치다(2026-10-01). `BUILD.bazel`은 그 리터럴을 load하고 `kb_lib.load_extracted_sources`가
+`ast.literal_eval`로 읽으므로 상수를 둘로 두지 않는다. 또한 `check_extracted_sources`가 등록부 사이드카의 집합과 그 목록이
+같은지를 로드 시점에 강제하므로, 둘이 갈리면 bazel 명령이 바로 실패한다. 코드 파일마다 드리프트 테스트
+`//:extract_drift_<모듈>`이 있고 그 묶음은 `//:extract_drift_test`다.
 
-**치역 경계는 선언이다** (유저 답 1, 2026-10-01). `uses`의 치역은 같은 모듈의 최상위 정의와, `defs/kb.bzl`의
-`USES_TARGETS`가 선언한 모듈의 최상위 정의다. 표본 쌍은 `kb_lib` 하나이고, 치역을 넓히려면 그 리터럴에 이름을 더한다.
-모듈 밖 해소는 최상위 import와 정의 안의 늦은 import가 묶은 이름을 보고, 별칭을 포함한 `kb_lib.<이름>`과
-`from kb_lib import <이름>`의 `Load` 참조를 대상 모듈 등록부의 uuid로 푼다. 측정한 `agt:usesDefinition`은 667이다.
-모듈 안이 484, 모듈 간이 183이고 치역은 전부 `kb_lib`이며, 표본 30과 독립 대조에서 오탐과 누락은 모두 0이었다. 채널이 든
-사례인 `pct`는 이제 **호출부 12**로 잡힌다.
-
-**남은 사각지대는 셋이다.** 첫째는 치역 경계 밖의 모듈이고, 전부로 넓히면 52가 늘며 그 대부분이 `chunk2kg`의 43이다.
-둘째는 함수를 인자로 넘기는 간접 호출 17 표현식이고, 넘기는 쪽은 잡히지만 받는 쪽은 잡히지 않는다. 셋째는 정의가 아닌
-이름인 상수와 모듈 변수를 쓰는 관계이고, 그 이름에는 정의가 없어 어느 경계에서도 올라오지 않는다.
-
-단위 지식 100과 복합체 25로 된 표본 `tools/kb_lib.py`의 churn을 측정해 uuid 정체성이 성립함을 확인했고, 이를 근거로 같은 날
-대상을 `tools/*.py` 전부로 넓혔다. 그 결과는 **37 파일 전부**, 단위 지식 624, 복합체 184이고, 파일마다 드리프트 테스트
-`//:extract_drift_<모듈>`이 있고 그 묶음은 `//:extract_drift_test`다. 절 주석은 최소 하나이므로 파일 복합체의 부분은 둘 이상이다.
-클래스는 정의 하나로 올라오고 측정한 최대 길이는 85줄이다. 200줄을 넘던 `consistency`와 `metrics`의 `main` 둘은 상한을
-올리지 않고 나눴으며, 나눈 뒤에도 산출물은 바이트 단위로 같다.
+**정의 사이의 호출은 지식으로 올라오지 않는다** (유저 답 Q191-a, 2026-11-28). 2026-09-30부터 2026-11-28까지는 정의 항목의
+선택 키 `uses`가 같은 모듈과 `USES_TARGETS`가 선언한 모듈의 최상위 정의를 가리켜 `agt:usesDefinition`으로 올라왔다. 코드
+추출이 정의 단위 항목을 내지 않게 되면서 추출기는 이 속성을 방출하지 않는다. 속성은 온톨로지에 남고, `USES_TARGETS`와
+`revalidate`의 호출부 열은 입력 없이 남는다. 호출 관계는 소스에서 읽는다.
 
 | 규칙 | 내용 | 결정 |
 |---|---|---|

@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/475d2733-e7b8-4b2f-beaa-f369ea22bd73, https://agentic-knowledge-base.dev/id/chunk/40abcad5-6a9c-4233-99d3-0b7ceeafb06b]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/5cd36157-e133-4ff0-bb51-ba6848ba0fbd, title_ko: 파일 복합체 tools/taxonomy.py, title: file composite tools/taxonomy.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/205f5607-e950-444d-b697-1bf3f4449223, https://agentic-knowledge-base.dev/id/composite/9027036d-a39d-4b9e-b7c2-40b3cddb625f]}
 ---
-**파일** — `tools/taxonomy.py` 다. 59줄 · 최상위 정의 1개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/taxonomy.py` 다. 59줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

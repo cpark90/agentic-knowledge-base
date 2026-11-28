@@ -385,28 +385,6 @@ build_test(
     targets = [":unordered_has_no_order"],
 )
 
-# 19. 파일 복합체의 직접 부분 상한 — 최상위 구역이 9를 넘으면 추출기가 거부한다 (4.5절, p7-code-links-on-file-composite,
-# 2026-09-30). 고정물은 절 10개(모듈 머리를 더해 11)인 소스이고 등록부는 `resource` 검사를 지나게 하는 최소 내용이다.
-# 거부의 자리가 추출기임을 고정한다 — 이 검사가 없으면 gen_build 가 뒤에서 잡아 FAIL 이 소스가 아니라 생성 BUILD 를 가리킨다.
-genrule(
-    name = "extract_max_parts_rejected",
-    srcs = [
-        "fx_extract_parts.chunks.yml",
-        "fx_extract_parts.py",
-        "//defs:kb.bzl",  # extract.py 가 --residency 기본값(<루트>/defs/kb.bzl)으로 EXTRACTED_SOURCES 를 읽는다 (M1, 2026-10-01)
-    ],
-    outs = ["extract_max_parts_rejected.err"],
-    cmd = "! $(execpath //tools:extract) $(execpath fx_extract_parts.py) --root . 2> $@ && " +
-          "grep -q '파일 복합체의 직접 부분이 11개다' $@ && grep -q 'FAIL \\[extract\\]' $@",
-    tags = ["manual"],
-    tools = ["//tools:extract"],
-)
-
-build_test(
-    name = "extract_max_parts_test",
-    targets = [":extract_max_parts_rejected"],
-)
-
 # 20. 토큰 상한의 경계와 계수기의 고정 (결정 p1-chunk-unit-is-tokens, 유저 결정 2026-10-01). 크기의 단위가 줄이
 # 아니라 토큰이므로 시험할 것이 둘이다 — 경계가 포함(`sh:maxInclusive`)인가와, 계수기가 바뀌면 판정이 멈추는가다.
 # 고정물 둘은 본문 토큰 수만 다르다: 1,092 는 상한 그 자체이고 1,093 은 한 토큰 초과다. `status: deprecated` 인
@@ -581,47 +559,6 @@ build_test(
     targets = [
         ":verify_queries_empty_rejected",
         ":verify_queries_label_runs",
-    ],
-)
-
-# 게이트 `code-part-link`(validate check_code_part_link) — 추출 트리 안에서 복합체의 부분인 단위 지식(정의·구역 단위 지식)이
-# refines·serves·verifies 의 끝점이면 거부한다 (p7-code-links-on-file-composite, 유저 결정 Q47-b). 음성은 절 항목이 결정을
-# refines 하는 꼴(2026-10-05 전 추출기의 구역 단위 지식 링크 복사), 양성은 같은 링크가 파일 단위 지식(module.md)에만 있는 꼴이다.
-# 판정 함수는 복원 후보 생성기와 같은 kb_lib.code_part 다
-genrule(
-    name = "code_part_link_gate_rejected",
-    srcs = [
-        "fx_code_part_link_bad.ttl",
-        "//kb/ontology:modules",
-    ],
-    outs = ["code_part_link_gate_rejected.out"],
-    cmd = "! $(execpath //tools:validate) --ontology $(execpaths //kb/ontology:modules) " +
-          "--data $(execpath fx_code_part_link_bad.ttl) > $@ && " +
-          "grep -qF 'FAIL [code-part-link] kb/dev/artifact/fx/sec-run.md: 코드 부분 단위 지식이 agt:refines 의 주어다' $@ && " +
-          "grep -qF 'FAIL [validate] — 1건' $@",
-    tags = ["manual"],
-    tools = ["//tools:validate"],
-)
-
-genrule(
-    name = "code_part_link_gate_accepted",
-    srcs = [
-        "fx_code_part_link_ok.ttl",
-        "//kb/ontology:modules",
-    ],
-    outs = ["code_part_link_gate_accepted.out"],
-    cmd = "$(execpath //tools:validate) --ontology $(execpaths //kb/ontology:modules) " +
-          "--data $(execpath fx_code_part_link_ok.ttl) > $@ && " +
-          "! grep -qF 'FAIL [' $@",
-    tags = ["manual"],
-    tools = ["//tools:validate"],
-)
-
-build_test(
-    name = "code_part_link_gate_test",
-    targets = [
-        ":code_part_link_gate_accepted",
-        ":code_part_link_gate_rejected",
     ],
 )
 

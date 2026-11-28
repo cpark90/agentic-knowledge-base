@@ -483,35 +483,13 @@ def check_cross_kb_link(merged: Graph) -> list[str]:
     return errors
 
 
-def check_code_part_link(merged: Graph) -> list[str]:
-    """코드 부분 단위 지식이 `refines`·`serves`·`verifies` 의 끝점이면 거부한다 (게이트 `code-part-link`, 유저 결정 Q47-b).
-
-    코드의 링크는 파일 복합체의 것이고 자리는 선언 단위 지식인 파일 단위 지식 하나다(p7-code-links-on-file-composite). 추출 트리
-    (`kb_lib.EXTRACT_ROOT`) 안에서 복합체의 부분인 단위 지식 — 정의 단위 지식과 구역 단위 지식 — 가 주어든 대상이든 그 링크의 끝에 서면
-    함수 churn 과 절의 재편이 링크를 움직인다. 판정에는 부분 관계(`agt:hasDirectPart`)와 단위 지식 위치가 함께 필요해 단위 지식 하나만
-    보는 `chunk2kg` 나 Bazel deps 만 보는 `_check_links` 는 자리가 아니다 — `cross-kb-link` 와 같이 병합 그래프를 보는 여기가
-    자리다. 판정 함수는 복원 후보 생성기(link `R_CODE_PART`)와 같은 `kb_lib.code_part` 다.
-    """
-    gate = kb_lib.CODE_PART_LINK_GATE
-    parts = set(merged.objects(None, kb_lib.AGT.hasDirectPart))
-    errors = []
-    for key in kb_lib.CODE_PART_LINK_KINDS:
-        for s, o in sorted(merged.subject_objects(kb_lib.AGT[key]), key=lambda so: (str(so[0]), str(so[1]))):
-            for node, role in ((s, "주어"), (o, "대상")):
-                if kb_lib.code_part(str(next(merged.objects(node, kb_lib.AGT.assertionLocation), "")), node in parts):
-                    errors.append(f"[{gate}] {_chunk_location(merged, node)}: 코드 부분 단위 지식이 agt:{key} 의 {role}다 "
-                                  f"({_chunk_location(merged, s)} → {_chunk_location(merged, o)}) — 코드의 링크는 파일 복합체의 "
-                                  f"선언 단위 지식(module.md) 하나가 갖는다 (p7-code-links-on-file-composite)")
-    return errors
-
-
 def check_rung_before_descent(merged: Graph) -> list[str]:
     """같은 정제 수준의 V&V 대응물 없이 다음 정제 수준으로 내려간 정제를 거부한다 (게이트 `rung-before-descent`, 요구 r-023, 유저 결정 Q51-a).
 
     판정 술어는 R1 정제 계층 사슬이다 — functional→abstract 는 정제 대상 요구의 검증 목표, logical→concrete 는 결정 기록이 닿는
     요구의 목표에 달린 합격 기준, concrete→executable 은 그 기준 가운데 검증기가 바인딩한 것을 요구한다(사람 확인 기준만
     가진 요구는 면제, Q26-a). 판정에는 두 KB 의 단위 지식·복합체 부분·링크가 함께 필요해 병합 그래프를 보는 여기가 자리다
-    (`cross-kb-link`·`code-part-link` 와 같다). 판정 함수는 지표(metrics 7단계 절·전방 추적)와 같은 `kb_lib.rung_violations`
+    (`cross-kb-link` 와 같다). 판정 함수는 지표(metrics 7단계 절·전방 추적)와 같은 `kb_lib.rung_violations`
     · `kb_lib.vv_counterparts` 다.
     """
     gate = kb_lib.RUNG_BEFORE_DESCENT_GATE
@@ -1593,7 +1571,6 @@ def main() -> int:
         errors += check_space(merged, located)
         errors += check_specialization(merged, located)
         errors += check_cross_kb_link(merged)
-        errors += check_code_part_link(merged)
         errors += check_rung_before_descent(merged)
         errors += check_draft_end(merged)
         errors += check_writer(merged)

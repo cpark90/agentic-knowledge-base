@@ -4,11 +4,11 @@ type: annotation
 level: concrete
 title_ko: usesDefinition 모듈 간 치역 관측 — 재측정과 pct 자극이 성공 조건의 단위 불일치를 드러낸다
 title: Cross-module usesDefinition range observation — remeasurement and the pct stimulus expose a unit mismatch in the success condition
-status: draft
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 targets: [https://agentic-knowledge-base.dev/id/chunk/120eba0b-c9d8-433e-9f52-d35502589c23]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-24T22:56:06+09:00}
+generated: {by: vnv/claude-sonnet-5-5, at: 2026-11-28T17:06:26+09:00}
 ---
 thought (non-blocking): usesDefinition 재측정은 667/183에서 737/195로 늘었고 pct 자극의 revalidate 호출부(13)는 handoff의 "36 안팎"과 단위가 달라 성공 여부를 액면으로 대조할 수 없다.
 

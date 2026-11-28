@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/92762c1c-18df-4b8e-9b9d-9d43e4811e0f]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/b1ea15c6-7e5e-4365-91b4-7b2f4ad29839, title_ko: 파일 복합체 tools/handoff.py, title: file composite tools/handoff.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/e027fd98-2f7d-435e-92e6-27671aefb3ca, https://agentic-knowledge-base.dev/id/composite/0b8984a8-4b3a-4b30-9c38-041302b18093]}
 ---
-**파일** — `tools/handoff.py` 다. 36줄 · 최상위 정의 1개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/handoff.py` 다. 36줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

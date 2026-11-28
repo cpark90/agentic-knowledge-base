@@ -1,6 +1,6 @@
 # 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
-load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
 
 package(default_visibility = ["//kb:artifact_readers"])
 
@@ -11,19 +11,10 @@ filegroup(
     srcs = glob(["*.md"]),
 )
 
-kb_composite(
+kb_chunk(
     name = "module",
-    srcs = [
-        "fn-git.md",
-        "fn-main.md",
-        "fn-stamp_one.md",
-        "head.md",
-        "module.md",
-        "sec-git.md",
-    ],
-    iri = "https://agentic-knowledge-base.dev/id/composite/39d9c5d9-3e2f-4e3b-9f05-84c7476fa96b",
-    ordered = ["https://agentic-knowledge-base.dev/id/chunk/fe9a3f4c-a455-444c-b612-4f93c3897066", "https://agentic-knowledge-base.dev/id/composite/9de96dc9-03ab-40b9-a90a-4481f8f9deb7"],
-    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/fe9a3f4c-a455-444c-b612-4f93c3897066", "https://agentic-knowledge-base.dev/id/composite/9de96dc9-03ab-40b9-a90a-4481f8f9deb7"],
+    src = "module.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/b297b7e0-4153-4802-bc7d-de6ba295e05e",
     plane = "artifact",
     level = "executable",
     status = "stable",

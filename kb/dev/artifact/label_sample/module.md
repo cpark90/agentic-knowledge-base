@@ -7,12 +7,11 @@ title: file tools/label_sample.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-label-sample}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
+generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/8d962172-f5b0-4fe3-8c9c-8598334847e4, https://agentic-knowledge-base.dev/id/chunk/d3023605-893e-42fb-a22a-3cd1241e45b0]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/06cd565d-e749-42fe-88da-1a56fd71a2a5, title_ko: 파일 복합체 tools/label_sample.py, title: file composite tools/label_sample.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/0642de89-2ca0-4a05-b091-a2adf00d4e0e, https://agentic-knowledge-base.dev/id/composite/f8d4f7c1-457b-4464-a913-96c62e1fcb28, https://agentic-knowledge-base.dev/id/composite/fff3d0e5-ad0f-4eb4-b8c9-e9ae7d1ce791, https://agentic-knowledge-base.dev/id/composite/9341c57d-c9c7-4528-a0a4-3db8f66d0ce7]}
 ---
-**파일** — `tools/label_sample.py` 다. 396줄 · 최상위 정의 12개 · 최상위 절 4개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/label_sample.py` 다. 396줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

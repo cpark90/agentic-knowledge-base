@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-31T18:06:07Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/4754eb68-ad27-45ad-912c-0385087cd063, https://agentic-knowledge-base.dev/id/chunk/b136d285-c4ba-461b-99cf-bda07c2243d8]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/f141ce57-8f04-4bda-a9ff-756f81f57846, title_ko: 파일 복합체 tools/term_propose.py, title: file composite tools/term_propose.py, ordered: [https://agentic-knowledge-base.dev/id/composite/3eff15a8-c6b8-46a9-a707-b95a948c619d, https://agentic-knowledge-base.dev/id/composite/f37f3044-d076-4e57-b68f-4a03d2ad16d5]}
 ---
-**파일** — `tools/term_propose.py` 다. 170줄 · 최상위 정의 3개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/term_propose.py` 다. 170줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

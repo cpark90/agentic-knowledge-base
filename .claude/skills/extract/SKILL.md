@@ -1,6 +1,6 @@
 ---
 name: extract
-description: 소스 파일을 고친 뒤 `artifact` 지식 종류의 함수·절·파일 단위 지식을 다시 추출하고 등록부의 개명·신설·삭제를 맞출 때 쓴다.
+description: 소스 파일을 고친 뒤 `artifact` 지식 종류의 모듈 항목과 질의 항목을 다시 추출하고 등록부의 개명·신설·삭제를 맞출 때 쓴다.
 ---
 
 # extract — 코드 → 단위 지식 추출기 (생성 파일)
@@ -11,11 +11,11 @@ description: 소스 파일을 고친 뒤 `artifact` 지식 종류의 함수·절
 - 재현: `python3 tools/gen_skills.py --root .`
 - 생성 파일 — 손으로 고치지 않는다. 원본은 도구 docstring 과 `kb_lib.SKILLS`이다. 검사: `//:skills_drift_test`. 생성 시각·입력 해시값은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다
 
-코드 → 단위 지식 추출기 — 소스 파일 하나에서 `artifact` 지식 종류의 단위 지식 트리를 생성한다 (p7-code-extraction-direction).
+코드 → 단위 지식 추출기 — 소스 하나에서 `artifact` 지식 종류의 파일 항목을 생성한다 (p7-code-extraction-direction).
 
 ## 언제 쓰는가
 
-소스 파일을 고친 뒤 `artifact` 지식 종류의 함수·절·파일 단위 지식을 다시 추출하고 등록부의 개명·신설·삭제를 맞출 때 쓴다.
+소스 파일을 고친 뒤 `artifact` 지식 종류의 모듈 항목과 질의 항목을 다시 추출하고 등록부의 개명·신설·삭제를 맞출 때 쓴다.
 
 ## 명령
 

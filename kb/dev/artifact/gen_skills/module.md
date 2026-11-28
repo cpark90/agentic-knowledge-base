@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/826eea39-5afc-41d4-a5cc-4afd24c0f0b2, title_ko: 파일 복합체 tools/gen_skills.py, title: file composite tools/gen_skills.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/c29ecdfb-152c-44e9-b18d-b86fbe44d561, https://agentic-knowledge-base.dev/id/composite/210e1533-9390-4961-914e-3e556e96fe3d, https://agentic-knowledge-base.dev/id/composite/b9b38ba6-d689-44c6-814b-4526153a07b1]}
 ---
-**파일** — `tools/gen_skills.py` 다. 221줄 · 최상위 정의 7개 · 최상위 절 3개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/gen_skills.py` 다. 221줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 

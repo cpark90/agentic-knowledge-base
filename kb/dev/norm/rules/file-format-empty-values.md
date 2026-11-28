@@ -7,7 +7,7 @@ title: docs/rules.md file-format section continued — three empty values, slot 
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-11-28T17:24:31+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/a57b18df-3b8b-4579-a0f8-db4655159538
 continues: true
@@ -28,6 +28,6 @@ continues: true
 한글 라벨과 설명 한 줄을 적고, `TOOL_TAGS`는 게이트가 아닌 입력 문제와 보고 태그를 적는다. 이 단일화는 통일 기획
 2단계의 첫 조각이고, 그 전에는 같은 목록이 넷으로 갈려 있었다 (2026-10-02). `kb_lib`이 리터럴 읽기로 `*_GATE`·`*_TAG`를
 파생하므로 상수를 손으로 두지 않는다. 게이트는 프로세스 층의 **항목**이고, 그 개체는 `//kg:gates_kg`의 `id:gate-<id>`다.
-이 개체는 `agt:Gate`이고 `agt:gateTier`와 판정 도구의 파일 복합체를 가리키는 `agt:enforcedBy`를 가지며, `kg/`에 손으로
+이 개체는 `agt:Gate`이고 `agt:gateTier`와 판정 도구의 파일 항목(모듈 항목)을 가리키는 `agt:enforcedBy`를 가지며, `kg/`에 손으로
 쓰지 않는다. 목록이 갈리면 게이트 `gate-registry`가 거부한다. 이 게이트는 코드의 태그가 등록부에 포함되는지, 손 상수가
 없는지, 폴백 값이 일치하는지, 등록 id가 코드에 닿는지를 본다.

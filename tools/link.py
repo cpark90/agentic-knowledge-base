@@ -32,7 +32,8 @@ frontmatter 에 링크 키와 `restored:` 를 적는다 (p10-restored-link-marki
              → 개발 요구 derivesFrom (p8-scenario-ladder-rungs). 판정은 kb_lib.cross_kb_link 이고 저작된 링크는 같은 함수로
              게이트 `cross-kb-link`(validate)가 거부한다
         (나) 코드 부분 끝점 — 추출 트리(kb_lib.EXTRACT_ROOT) 안에서 복합체의 부분인 단위 지식(정의·절·장·모듈 머리)은 끝점이 아니다.
-             링크는 파일 복합체의 선언 단위 지식(module.md)과 질의 단위 지식이 갖는다 (p7-code-links-on-file-composite)
+             링크는 파일 항목(모듈 항목 module.md 와 질의 항목)이 갖는다 (p7-code-links-on-file-composite). 2026-11-28 부터
+             추출기가 부분을 내지 않아(Q191-a) 이 거르기에 걸리는 쌍은 없고, 거르기는 손으로 둔 부분을 막는 자리로 남는다
         (다) 테스트 케이스의 derivesFrom — 테스트 케이스(generated.by = kb_lib.CASE_GEN_ACTOR)의 derivesFrom 은 생성기가 자기 시나리오로 쓴다
              (tools/case_gen.py). 그 밖의 대상은 후보가 아니다
   상한  앵커(주어)당 k ≤ --k (기본 7, 로드맵 입력표) — 근거 강도 → 공유 개념 수 → 대상 IRI 순으로 자르고 넘치는 것은 탈락으로 센다.
@@ -76,7 +77,7 @@ R_SELF, R_DEPRECATED, R_SIBLING, R_LINKED = "자기 자신(같은 단위)", "dep
 R_DIRECTION, R_CROSS_KB, R_CAP = "TIM 칸은 있으나 단방향·수준 규칙 위반", "KB 가로지름 (overlapsWith 불가 — verifies 뿐)", "상한 k 초과"
 # 구조상 채택될 수 없는 후보 — 위반 사유가 곧 탈락 사유다 (docstring 제약 (가)~(다))
 R_CROSS_LINK = "KB 가로지름 링크 (KB 사이 링크는 verifies 뿐 — 목표 → 요구 derivesFrom 만 예외)"
-R_CODE_PART = "코드 부분 단위 지식이 끝점 (링크는 파일 복합체에)"
+R_CODE_PART = "코드 부분 단위 지식이 끝점 (링크는 파일 항목에)"
 R_CASE_DERIVES = "테스트 케이스의 derivesFrom (생성기가 자기 시나리오로 쓴다)"
 STRUCTURAL = (R_CROSS_LINK, R_CASE_DERIVES)
 
@@ -131,7 +132,7 @@ class Units:
         return Path(self.loc.get(c, str(c))).stem
 
     def code_part(self, c) -> bool:
-        """추출 트리 안에서 복합체의 부분인 단위 지식 — 링크 끝점이 아니다. 판정은 게이트 `code-part-link` 와 같은 `kb_lib.code_part` 다."""
+        """추출 트리 안에서 복합체의 부분인 단위 지식 — 링크 끝점이 아니다. 판정은 `kb_lib.code_part` 다."""
         return kb_lib.code_part(self.loc.get(c, ""), c in self.comp_of)
 
     def case(self, c) -> bool:

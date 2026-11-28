@@ -1,6 +1,6 @@
 # 생성 파일 — 손으로 고치지 않는다. 원본은 각 단위 지식의 frontmatter (tools/gen_build.py). 검사: //:build_drift_test
 
-load("//defs:kb.bzl", "kb_bundle", "kb_chunk", "kb_composite")
+load("//defs:kb.bzl", "kb_bundle", "kb_chunk")
 
 package(default_visibility = ["//kb:artifact_readers"])
 
@@ -11,24 +11,10 @@ filegroup(
     srcs = glob(["*.md"]),
 )
 
-kb_composite(
+kb_chunk(
     name = "module",
-    srcs = [
-        "cls-GenSkillsError.md",
-        "fn-docstring_parts.md",
-        "fn-generate.md",
-        "fn-heading_index.md",
-        "fn-kebab.md",
-        "fn-main.md",
-        "fn-render.md",
-        "head.md",
-        "module.md",
-        "sec-genskillserror.md",
-        "sec-render.md",
-    ],
-    iri = "https://agentic-knowledge-base.dev/id/composite/826eea39-5afc-41d4-a5cc-4afd24c0f0b2",
-    ordered = ["https://agentic-knowledge-base.dev/id/chunk/c29ecdfb-152c-44e9-b18d-b86fbe44d561", "https://agentic-knowledge-base.dev/id/composite/210e1533-9390-4961-914e-3e556e96fe3d", "https://agentic-knowledge-base.dev/id/composite/b9b38ba6-d689-44c6-814b-4526153a07b1"],
-    part_iris = ["https://agentic-knowledge-base.dev/id/chunk/c29ecdfb-152c-44e9-b18d-b86fbe44d561", "https://agentic-knowledge-base.dev/id/composite/210e1533-9390-4961-914e-3e556e96fe3d", "https://agentic-knowledge-base.dev/id/composite/b9b38ba6-d689-44c6-814b-4526153a07b1"],
+    src = "module.md",
+    iri = "https://agentic-knowledge-base.dev/id/chunk/2db0c822-35f4-4cf1-b6ab-f74e1627b428",
     plane = "artifact",
     level = "executable",
     status = "stable",

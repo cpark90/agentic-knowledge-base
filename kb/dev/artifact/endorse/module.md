@@ -10,9 +10,8 @@ assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
 generated: {by: process:extract, at: 2026-10-05T16:40:36Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/4ec4de00-ea81-4ed0-abf7-40beedc25e38]
-composite: {id: https://agentic-knowledge-base.dev/id/composite/9a0f13d1-d6f6-48ea-9728-4e96bd777d51, title_ko: 파일 복합체 tools/endorse.py, title: file composite tools/endorse.py, ordered: [https://agentic-knowledge-base.dev/id/composite/e9580aea-56ec-4ca6-a78d-95befb50b334, https://agentic-knowledge-base.dev/id/composite/4a01c621-e30b-42ce-9e5d-a8a449270a57]}
 ---
-**파일** — `tools/endorse.py` 다. 68줄 · 최상위 정의 2개 · 최상위 절 2개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/endorse.py` 다. 68줄이고 이 단위 지식은 추출 생성물이다. 함수와 클래스, 절은 항목으로 올리지 않고 그 원문은 소스에만 있다. 링크와 가정의 자리가 이 파일 항목이다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
