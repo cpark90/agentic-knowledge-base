@@ -98,7 +98,7 @@
 1. **확장점마다 답을 결정에서 읽는다** ([`p2-profile-answers-from-decisions`](../kb/dev/decision/p2-profile-answers-from-decisions/conclusion.md)). 결정이 없으면 유저 승인을 받아 먼저 결정을 만든다. 개발 프로파일에서 실체와 판정 도구, EARS 패턴의 원천은 결정 `p7-dev-plane-substance`이고, 앵커 해석기의 원천은 결정 `pe-anchor-is-bazel-label`이다.
 1. **모듈 `kb/ontology/profile/<domain>/`에 적는다** ([`p2-skeleton-and-domain-profile`](../kb/dev/decision/p2-skeleton-and-domain-profile/conclusion.md)). 파일 하나가 확장점 하나이며, 확장점은 실체 하위 클래스, 판정 도구 개체와 그 바인딩, 패턴 어휘다. 모듈은 `project-ontology.ttl`의 `owl:imports`에 넣고 `gen_build`로 모듈 목록을 재생성한다.
 1. **바인딩한다** ([`p7-dev-plane-substance`](../kb/dev/decision/p7-dev-plane-substance/conclusion.md)). 생성기 `chunk2kg`가 지식 종류를 실체 클래스로 타이핑하고 프로파일 필드인 요구의 `pattern`을 방출하며 데이터를 채운다(요구 33건의 EARS 패턴). 바인딩 없는 어휘는 고립 개념이다(CQ-28).
-1. **역량 질문을 더한다** ([`p2-competency-questions`](../kb/dev/decision/p2-competency-questions/conclusion.md)). 프로파일이 답해야 할 질문을 [`competency-questions.md`](competency-questions.md)에 등재하고 `tools/cq-queries/`에 질의를 만든다. 예로 CQ-36은 각 지식 종류의 단위 지식은 무엇이고 무엇이 판정하는가를 묻는다.
+1. **역량 질문을 더한다** ([`p2-competency-questions`](../kb/dev/decision/p2-competency-questions/conclusion.md)). 프로파일이 답해야 할 질문은 `tools/cq-queries/`에 질의 `CQ-NN.rq`로 등재하고 머리 주석 첫 줄에 질문 원문을 적는다. 질의를 아직 쓸 수 없는 질문만 [`competency-questions.md`](competency-questions.md)에 적는다. 예로 CQ-36은 각 지식 종류의 단위 지식은 무엇이고 무엇이 판정하는가를 묻는다.
 1. **완료를 판정한다** ([`p2-skeleton-and-domain-profile`](../kb/dev/decision/p2-skeleton-and-domain-profile/conclusion.md), [`p2-competency-questions`](../kb/dev/decision/p2-competency-questions/conclusion.md)). 완료 조건은 게이트 통과(boundary·shape)와 새 역량 질문의 답 행 1개 이상, 코어 수정 0이다. 채우지 않은 확장점은 아래 표에 "미채움"으로 남긴다.
 
 원본: [`p7-dev-plane-substance`](../kb/dev/decision/p7-dev-plane-substance/conclusion.md) · [`pe-notation-and-cel`](../kb/dev/decision/pe-notation-and-cel/conclusion.md) · [`p0-condition-taxonomy-extensible`](../kb/dev/decision/p0-condition-taxonomy-extensible/conclusion.md) · [`p8-odc-defect-subtypes`](../kb/dev/decision/p8-odc-defect-subtypes/conclusion.md) · [`p1-chunk-unit-is-tokens`](../kb/dev/decision/p1-chunk-unit-is-tokens/conclusion.md) · [`pe-anchor-is-bazel-label`](../kb/dev/decision/pe-anchor-is-bazel-label/conclusion.md).
@@ -244,7 +244,7 @@ ODD 작성의 게이트는 `bazel test //kb/odd:gate_test`다. 산출은 OpenODD
 | 복원 후보 | 본문 식별자와 테스트 공동 커버, 개념 공유에서 링크 후보를 뽑고 TIM 제약과 앵커당 k ≤ 7 상한을 두며, `//kg:link_candidates`가 낸다 (2026-09-19). 상한 안의 후보는 근거 순위, 공유 개념 수, 대상 IRI 순서로 정하고 라벨로 정하지 않는다 (2026-10-26, Q169-a) |
 | skill | 도구 docstring과 `kb_lib.SKILLS`에서 `.claude/skills/*/SKILL.md`를 생성해 트리에 두고 드리프트 검사로 확인한다 |
 | 코어 지표 | 지식 종류와 정제 수준의 교차 분포와 고아율, 세 축 대리, 링크 밀도, 크기 분포를 `bazel build //kg:metrics`로 낸다. 문서는 수치를 적지 않고 이 생성물을 인용한다(`p4-projection-as-query`) |
-| 역량 질문 | CQ 질의 28개의 답을 라벨 목록으로 낸다(`//kg:cq`). 개별 질의는 `bazel run //tools:query -- <CQ>`로 낸다 |
+| 역량 질문 | 등재된 CQ 질의 전부의 질문 원문과 답을 라벨 목록으로 낸다(`//kg:cq`). 개별 질의는 `bazel run //tools:query -- <CQ>`로 낸다 |
 | 정합성 보고 | `//kb:consistency`가 정확·근사 중복과 묶인 쌍의 응집 저하, 라벨 중복·형식, 용어 옛 표기를 보고한다. 판정은 사람이 한다 |
 | 커뮤니티 탐지 | `//kg:communities`가 결정론적 Louvain으로 복합체 후보와 `relatedTo` 후보를 낸다. 채택·기각은 사람이 한다 |
 

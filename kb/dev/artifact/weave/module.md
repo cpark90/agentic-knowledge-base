@@ -7,12 +7,12 @@ title: file tools/weave.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-weave}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
+generated: {by: process:extract, at: 2026-11-27T18:25:23Z}
 layer: process
 refines: [https://agentic-knowledge-base.dev/id/chunk/c0b7f63a-353e-4fdf-9389-961b6f3e130c, https://agentic-knowledge-base.dev/id/chunk/9cabcc42-9eb0-4b09-a429-caff7dfca72f, https://agentic-knowledge-base.dev/id/chunk/64cbbffa-54d9-4f66-a2a0-ea2a34dc8653]
 composite: {id: https://agentic-knowledge-base.dev/id/composite/50eac9df-d01a-488f-8254-02ba61b00bf0, title_ko: 파일 복합체 tools/weave.py, title: file composite tools/weave.py, ordered: [https://agentic-knowledge-base.dev/id/chunk/b69488a2-ddf2-4c5d-b093-be38c4f5a853, https://agentic-knowledge-base.dev/id/composite/1a6c538a-b92e-4130-b298-48a8fe030574, https://agentic-knowledge-base.dev/id/composite/ec24ef39-7e27-4fff-bba3-6fdb1829b342, https://agentic-knowledge-base.dev/id/composite/8330a4d7-2140-46ed-b107-9196a6c03aa2, https://agentic-knowledge-base.dev/id/composite/027b8f3a-1382-4deb-a204-543e912d8e6a, https://agentic-knowledge-base.dev/id/composite/d4819604-90cc-4d20-9aa3-25160d68c333]}
 ---
-**파일** — `tools/weave.py` 다. 1044줄 · 최상위 정의 40개 · 최상위 절 6개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
+**파일** — `tools/weave.py` 다. 1056줄 · 최상위 정의 41개 · 최상위 절 6개이고 이 단위 지식은 추출 생성물이다. 링크와 가정의 자리가 이 파일 복합체다.
 
 **모듈 머리** — 모듈 docstring 과 import 다.
 
@@ -26,7 +26,7 @@ composite: {id: https://agentic-knowledge-base.dev/id/composite/50eac9df-d01a-48
   adr           살아 있는 결정 전부 — 결정 기록마다 한 절(제목 = 결론 라벨, 상태, 수준, 결론·근거·대안 본문을 단위 지식 파일에서 frontmatter 를
                 뺀 그대로), 그 뒤 "결정 기록 밖의 결정" 절에 결정 기록에 속하지 않는 살아 있는 결정(V&V 시나리오의 단위 지식)을 같은
                 형식으로. 둘 다 refines 하는 요구 라벨, supersedes 연쇄(대체한 옛 결정 라벨), sources, 가정 라벨을 낸다. 목차가 먼저다
-  requirements  요구 색인 표 — 라벨 ko·en, EARS 패턴(agt:pattern), refines/serves 하는 살아 있는 결정 수, 정제 도달 최저 수준
+  requirements  요구 색인 표 — 라벨 ko·en, 이해관계자(요구 본문의 칸), EARS 패턴(agt:pattern), refines/serves 하는 살아 있는 결정 수, 정제 도달 최저 수준
                 (metrics 의 CQ19 와 같은 정의: refines/serves 하류의 가장 낮은 level), IRI. INTENT.md 의 손 목록을 대체하는 뷰다
   changelog     supersedes 쌍(새 → 옛)을 새 결정의 generated.at 순으로, prov:wasRevisionOf 가 있으면 함께
   audit         감사 보고서 (로드맵 8단계 "복원과 감사", 요구 audit-self-sufficiency) — 입력은 그래프 union 과 관측 본문(kb/vv/run/ 의

@@ -54,6 +54,7 @@ kb_composite(
         "fn-round_records.md",
         "fn-round_section.md",
         "fn-source_ref.md",
+        "fn-stakeholder_of.md",
         "fn-supersedes_chain.md",
         "fn-user_decision_evidence.md",
         "head.md",

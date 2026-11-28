@@ -89,9 +89,9 @@ LEDGER와 LARGER에 대응시킨 원안은 채널 항목 `dependency-graph-desig
 ([`p2-competency-questions`](../kb/dev/decision/p2-competency-questions/conclusion.md)). 질문에 기여하지 않는
 개념은 과설계다. 반면 질문이 질의로 답해지면 그 부분은 완성된 것이다.
 
-목록과, 지금 답할 수 있는 질문의 측정은 [`competency-questions.md`](competency-questions.md)에 있다. 노트 v3의
-CQ1~CQ20과 이 저장소에 등록한 질문(`tools/cq-queries/`의 CQ 질의)의 대응표도 그 문서에 있다. 등록한 질문의 현재
-답은 생성 뷰 `bazel build //kg:cq`가 낸다. 어휘를 확장할 때는 답할 수 없는 질문부터 다룬다.
+답할 수 있는 질문은 `tools/cq-queries/`의 CQ 질의로 등록하고, 그 질문 원문과 답은 생성 뷰 `bazel build //kg:cq`가
+낸다. 질의를 아직 쓸 수 없는 질문과, 노트 v3의 CQ1~CQ20과 이 저장소의 질문의 대응표는
+[`competency-questions.md`](competency-questions.md)에 있다. 어휘를 확장할 때는 답할 수 없는 질문부터 다룬다.
 
 ## development — 개발 KB의 어휘 (노트 7.2)
 

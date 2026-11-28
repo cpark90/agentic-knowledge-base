@@ -11,7 +11,7 @@ description: 역량 질문(CQ)의 답을 그래프에서 라벨 목록으로 얻
 - 재현: `python3 tools/gen_skills.py --root .`
 - 생성 파일 — 손으로 고치지 않는다. 원본은 도구 docstring 과 `kb_lib.SKILLS`이다. 검사: `//:skills_drift_test`. 생성 시각·입력 해시값은 없다 — 재생성 바이트 비교가 그 자리의 건전성 장치다
 
-일반 질의 도구 — 역량 질문(docs/competency-questions.md)을 SPARQL 로 노출한다 (로드맵 다음 산출 4, 노트 2.7절).
+일반 질의 도구 — 역량 질문(질의는 tools/cq-queries/*.rq 에 등재하고 질의가 아직 없는 질문은 docs/competency-questions.md 에 둔다)을 SPARQL 로 노출한다 (로드맵 다음 산출 4, 노트 2.7절).
 
 ## 언제 쓰는가
 

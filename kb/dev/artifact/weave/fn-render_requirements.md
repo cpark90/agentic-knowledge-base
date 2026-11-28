@@ -7,16 +7,16 @@ title: function render_requirements in tools/weave.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-weave}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-28T22:13:05Z}
+generated: {by: process:extract, at: 2026-11-27T18:25:23Z}
 layer: process
-uses: [https://agentic-knowledge-base.dev/id/chunk/5c3f6ad5-769e-4850-970b-a137fa5ebc55, https://agentic-knowledge-base.dev/id/chunk/7a42dec5-1fd8-42b8-b484-cc1380047b67, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/f6cf75ba-7624-4742-a6f9-b56a69f540b1]
+uses: [https://agentic-knowledge-base.dev/id/chunk/5c3f6ad5-769e-4850-970b-a137fa5ebc55, https://agentic-knowledge-base.dev/id/chunk/7a42dec5-1fd8-42b8-b484-cc1380047b67, https://agentic-knowledge-base.dev/id/chunk/95847571-b231-48af-adef-10ab457dbaa3, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/f6cf75ba-7624-4742-a6f9-b56a69f540b1]
 part_of: https://agentic-knowledge-base.dev/id/composite/8330a4d7-2140-46ed-b107-9196a6c03aa2
 ---
-**함수** — `render_requirements(m, inputs)` 다.
+**함수** — `render_requirements(m, bodies, inputs)` 다.
 
 <!-- 인용 시작: 소스 파일에서 그대로 옮긴 코드 — 생성기는 원문을 고쳐 쓰지 않는다 -->
 ```python
-def render_requirements(m: Model, inputs: list[str]) -> str:
+def render_requirements(m: Model, bodies: dict, inputs: list[str]) -> str:
     reqs = sorted((c for c in m.chunks if m.plane[c] == "requirement" and m.live(c)), key=lambda c: m.location[c])
     down = defaultdict(set)  # metrics.py CQ19 와 같은 정의 — refines/serves 를 거꾸로 내려간다
     for pred in (AGT.refines, AGT.serves):
@@ -46,20 +46,23 @@ def render_requirements(m: Model, inputs: list[str]) -> str:
                     units.add(unit)
         return len(units)
 
-    rows, patterns, reach = [], Counter(), Counter()
+    rows, patterns, reach, holders = [], Counter(), Counter(), Counter()
     for r in reqs:
+        who = stakeholder_of(bodies.get(str(r), ""))
+        holders[who] += 1
         pat = next(m.g.objects(r, AGT.pattern), None)
         pat_s = PATTERN_VALUE.get(pat, str(pat).split("/")[-1]) if pat is not None else kb_lib.NONE_MARK
         d, n = deepest(r), refining_decisions(r)
         patterns[pat_s] += 1
         reach[d] += 1
-        rows.append(f"| `{Path(m.location[r]).stem}` | {m.ko(r)} | {m.en(r)} | {pat_s} | {n} | {d} | `{kb_lib.compact_iri(str(r))}` |")
-    o = head("requirements", "요구 색인", "살아 있는 `agt:RequirementChunk` 마다 라벨 ko·en · `agt:pattern` · 이 요구를 `agt:refines`/`agt:serves` 하는 살아 있는 결정 단위 수 "
+        rows.append(f"| `{Path(m.location[r]).stem}` | {m.ko(r)} | {m.en(r)} | {who} | {pat_s} | {n} | {d} | `{kb_lib.compact_iri(str(r))}` |")
+    o = head("requirements", "요구 색인", "살아 있는 `agt:RequirementChunk` 마다 라벨 ko·en · 요구 본문의 이해관계자 칸 · `agt:pattern` · 이 요구를 `agt:refines`/`agt:serves` 하는 살아 있는 결정 단위 수 "
              "· `refines`/`serves` 하류의 가장 낮은 level (metrics CQ19 와 같은 정의) · IRI", m.g, inputs,
-             [f"- 요구 {len(reqs)} · EARS 패턴: " + (" · ".join(f"{k} {v}" for k, v in patterns.most_common()) or "없음")
+             [f"- 요구 {len(reqs)} · 이해관계자: " + (" · ".join(f"{k} {v}" for k, v in holders.most_common()) or "없음")
+              + f" (칸 없음 {holders.get(kb_lib.NONE_MARK, 0)})" + " · EARS 패턴: " + (" · ".join(f"{k} {v}" for k, v in patterns.most_common()) or "없음")
               + " · 도달 수준: " + " · ".join(f"{k} {v}" for k, v in sorted(reach.items(), key=lambda kv: LEVELS.index(kv[0]) if kv[0] in LEVELS else 99))
               + f" · 정제 결정 없는 요구 {sum(1 for row in rows if '| 0 |' in row)}"])
-    body = ["| 파일 | 요구 | title | EARS | 정제 결정 | 도달 수준 | IRI |", "|---|---|---|---|---|---|---|"] + rows + [""]
+    body = ["| 파일 | 요구 | title | 이해관계자 | EARS | 정제 결정 | 도달 수준 | IRI |", "|---|---|---|---|---|---|---|---|"] + rows + [""]
     return kb_lib.gendoc_assemble(o, body, inputs)
 ```
 <!-- 인용 끝 -->

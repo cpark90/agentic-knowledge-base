@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""일반 질의 도구 — 역량 질문(docs/competency-questions.md)을 SPARQL 로 노출한다 (로드맵 다음 산출 4, 노트 2.7절).
+"""일반 질의 도구 — 역량 질문(질의는 tools/cq-queries/*.rq 에 등재하고 질의가 아직 없는 질문은 docs/competency-questions.md 에 둔다)을 SPARQL 로 노출한다 (로드맵 다음 산출 4, 노트 2.7절).
 
 질의 하나 = 파일 하나 tools/cq-queries/CQ-NN.rq. 머리 주석 첫 줄이 질문 원문, 둘째 줄이 답의 형태(행 = 무엇)다.
 그래프는 metrics 와 같은 union(head·참조·시드·카탈로그·복합체·ODD)에 온톨로지 모듈을 더해 rdflib 에 **한 번** 올린다 (kb_lib.load_union).
-캐시·직렬화는 두지 않는다 — 원본은 그래프 파일이고 결과는 저장하지 않는 질의 결과다 (competency-questions 4).
+캐시·직렬화는 두지 않는다 — 원본은 그래프 파일이고 결과는 저장하지 않는 질의 결과다 (docs/competency-questions.md 쓰는 법 4번 "답은 저장하지 않는다").
 결과는 표이고 --labels 가 IRI 열을 rdfs:label@ko 로 바꾼다 — 라벨이 인터페이스다 (p4-label-is-the-interface,
 p12-knowledge-retrieval-by-label: 결과는 라벨 목록).
 
@@ -150,7 +150,7 @@ def summary(g: Graph, queries: list[CqQuery], bindings: dict) -> tuple[list[str]
 def report(g: Graph, results: list[tuple[CqQuery, list[str], list[tuple]]], summary_lines: list[str], inputs: list[str]) -> str:
     head = kb_lib.gendoc_header(
         "cq", "역량 질문 뷰", "tools/query.py",
-        f"등재된 역량 질문 {len(results)}건(`docs/competency-questions.md`)을 그래프 union 에 그대로 물어 — 질문 원문은 각 "
+        f"등재된 역량 질문 {len(results)}건(`tools/cq-queries/*.rq`)을 그래프 union 에 그대로 물어 — 질문 원문은 각 "
         f"`tools/cq-queries/CQ-NN.rq` 의 머리 주석 첫 줄, 답의 형태는 둘째 줄이다. 행 수는 답이지 판정이 아니다",
         "bazel build //kg:cq", inputs, f"트리플 {len(g)} · 질의 {len(results)}",
         kb_lib.gendoc_view_notice("질의 파일 `tools/cq-queries/*.rq` 와 단위 지식"),

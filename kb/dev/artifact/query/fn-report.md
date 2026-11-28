@@ -7,7 +7,7 @@ title: function report in tools/query.py
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/src-tools-query}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: process:extract, at: 2026-09-30T08:07:48Z}
+generated: {by: process:extract, at: 2026-11-27T02:39:25Z}
 layer: process
 uses: [https://agentic-knowledge-base.dev/id/chunk/22c8dd80-5cad-4f37-b706-ff35352ff074, https://agentic-knowledge-base.dev/id/chunk/577e30ee-635f-4a97-a192-b3780a178be7, https://agentic-knowledge-base.dev/id/chunk/5b1d87c6-7817-4c3b-8792-288ae36fedf2, https://agentic-knowledge-base.dev/id/chunk/62fad01f-2313-4072-9f22-128e8863be5c, https://agentic-knowledge-base.dev/id/chunk/9608411b-ed6c-441f-9662-2118cdb2a5e7, https://agentic-knowledge-base.dev/id/chunk/f9b6b36a-3732-4fca-b346-5a371afb405e]
 part_of: https://agentic-knowledge-base.dev/id/composite/4358cd56-6be2-4ce1-9f2f-9fb0ed47b5d3
@@ -19,7 +19,7 @@ part_of: https://agentic-knowledge-base.dev/id/composite/4358cd56-6be2-4ce1-9f2f
 def report(g: Graph, results: list[tuple[CqQuery, list[str], list[tuple]]], summary_lines: list[str], inputs: list[str]) -> str:
     head = kb_lib.gendoc_header(
         "cq", "역량 질문 뷰", "tools/query.py",
-        f"등재된 역량 질문 {len(results)}건(`docs/competency-questions.md`)을 그래프 union 에 그대로 물어 — 질문 원문은 각 "
+        f"등재된 역량 질문 {len(results)}건(`tools/cq-queries/*.rq`)을 그래프 union 에 그대로 물어 — 질문 원문은 각 "
         f"`tools/cq-queries/CQ-NN.rq` 의 머리 주석 첫 줄, 답의 형태는 둘째 줄이다. 행 수는 답이지 판정이 아니다",
         "bazel build //kg:cq", inputs, f"트리플 {len(g)} · 질의 {len(results)}",
         kb_lib.gendoc_view_notice("질의 파일 `tools/cq-queries/*.rq` 와 단위 지식"),

@@ -6,7 +6,7 @@
   adr           살아 있는 결정 전부 — 결정 기록마다 한 절(제목 = 결론 라벨, 상태, 수준, 결론·근거·대안 본문을 단위 지식 파일에서 frontmatter 를
                 뺀 그대로), 그 뒤 "결정 기록 밖의 결정" 절에 결정 기록에 속하지 않는 살아 있는 결정(V&V 시나리오의 단위 지식)을 같은
                 형식으로. 둘 다 refines 하는 요구 라벨, supersedes 연쇄(대체한 옛 결정 라벨), sources, 가정 라벨을 낸다. 목차가 먼저다
-  requirements  요구 색인 표 — 라벨 ko·en, EARS 패턴(agt:pattern), refines/serves 하는 살아 있는 결정 수, 정제 도달 최저 수준
+  requirements  요구 색인 표 — 라벨 ko·en, 이해관계자(요구 본문의 칸), EARS 패턴(agt:pattern), refines/serves 하는 살아 있는 결정 수, 정제 도달 최저 수준
                 (metrics 의 CQ19 와 같은 정의: refines/serves 하류의 가장 낮은 level), IRI. INTENT.md 의 손 목록을 대체하는 뷰다
   changelog     supersedes 쌍(새 → 옛)을 새 결정의 generated.at 순으로, prov:wasRevisionOf 가 있으면 함께
   audit         감사 보고서 (로드맵 8단계 "복원과 감사", 요구 audit-self-sufficiency) — 입력은 그래프 union 과 관측 본문(kb/vv/run/ 의
@@ -258,7 +258,7 @@ def source_ref(m: Model, s) -> str:
 
 # ── 요구 색인과 변경 이력 ────────────────────
 
-def render_requirements(m: Model, inputs: list[str]) -> str:
+def render_requirements(m: Model, bodies: dict, inputs: list[str]) -> str:
     reqs = sorted((c for c in m.chunks if m.plane[c] == "requirement" and m.live(c)), key=lambda c: m.location[c])
     down = defaultdict(set)  # metrics.py CQ19 와 같은 정의 — refines/serves 를 거꾸로 내려간다
     for pred in (AGT.refines, AGT.serves):
@@ -288,21 +288,33 @@ def render_requirements(m: Model, inputs: list[str]) -> str:
                     units.add(unit)
         return len(units)
 
-    rows, patterns, reach = [], Counter(), Counter()
+    rows, patterns, reach, holders = [], Counter(), Counter(), Counter()
     for r in reqs:
+        who = stakeholder_of(bodies.get(str(r), ""))
+        holders[who] += 1
         pat = next(m.g.objects(r, AGT.pattern), None)
         pat_s = PATTERN_VALUE.get(pat, str(pat).split("/")[-1]) if pat is not None else kb_lib.NONE_MARK
         d, n = deepest(r), refining_decisions(r)
         patterns[pat_s] += 1
         reach[d] += 1
-        rows.append(f"| `{Path(m.location[r]).stem}` | {m.ko(r)} | {m.en(r)} | {pat_s} | {n} | {d} | `{kb_lib.compact_iri(str(r))}` |")
-    o = head("requirements", "요구 색인", "살아 있는 `agt:RequirementChunk` 마다 라벨 ko·en · `agt:pattern` · 이 요구를 `agt:refines`/`agt:serves` 하는 살아 있는 결정 단위 수 "
+        rows.append(f"| `{Path(m.location[r]).stem}` | {m.ko(r)} | {m.en(r)} | {who} | {pat_s} | {n} | {d} | `{kb_lib.compact_iri(str(r))}` |")
+    o = head("requirements", "요구 색인", "살아 있는 `agt:RequirementChunk` 마다 라벨 ko·en · 요구 본문의 이해관계자 칸 · `agt:pattern` · 이 요구를 `agt:refines`/`agt:serves` 하는 살아 있는 결정 단위 수 "
              "· `refines`/`serves` 하류의 가장 낮은 level (metrics CQ19 와 같은 정의) · IRI", m.g, inputs,
-             [f"- 요구 {len(reqs)} · EARS 패턴: " + (" · ".join(f"{k} {v}" for k, v in patterns.most_common()) or "없음")
+             [f"- 요구 {len(reqs)} · 이해관계자: " + (" · ".join(f"{k} {v}" for k, v in holders.most_common()) or "없음")
+              + f" (칸 없음 {holders.get(kb_lib.NONE_MARK, 0)})" + " · EARS 패턴: " + (" · ".join(f"{k} {v}" for k, v in patterns.most_common()) or "없음")
               + " · 도달 수준: " + " · ".join(f"{k} {v}" for k, v in sorted(reach.items(), key=lambda kv: LEVELS.index(kv[0]) if kv[0] in LEVELS else 99))
               + f" · 정제 결정 없는 요구 {sum(1 for row in rows if '| 0 |' in row)}"])
-    body = ["| 파일 | 요구 | title | EARS | 정제 결정 | 도달 수준 | IRI |", "|---|---|---|---|---|---|---|"] + rows + [""]
+    body = ["| 파일 | 요구 | title | 이해관계자 | EARS | 정제 결정 | 도달 수준 | IRI |", "|---|---|---|---|---|---|---|---|"] + rows + [""]
     return kb_lib.gendoc_assemble(o, body, inputs)
+
+
+STAKEHOLDER_LINE = re.compile(r"^- \*\*이해관계자\*\*:\s*(.*?)\s*·\s*\*\*관심사\*\*:", re.M)
+
+
+def stakeholder_of(body: str) -> str:
+    """요구 본문의 `- **이해관계자**: <값> · **관심사**: …` 칸 값 — 칸이 없거나 값이 비면 없음."""
+    mt = STAKEHOLDER_LINE.search(body or "")
+    return mt.group(1).strip() if mt and mt.group(1).strip() else kb_lib.NONE_MARK
 
 
 def render_changelog(m: Model, inputs: list[str]) -> str:
@@ -1016,7 +1028,7 @@ def main() -> int:
             return EXIT_CONFIG
     try:
         g = kb_lib.load_union(a.ttl, root)
-        bodies = load_bodies(a.bodies) if a.kind in ("adr", "audit") else {}
+        bodies = load_bodies(a.bodies) if a.kind in ("adr", "audit", "requirements") else {}
         citing = load_citing(a.bodies) if a.kind == "questions" else []
         gs = Graph()
         for f in a.spaces:
@@ -1032,7 +1044,7 @@ def main() -> int:
     legacy = [p for p in a.questions if LEGACY_FILE.search(kb_lib.gendoc_input_name(p))]
     inputs = (a.ttl or list(kb_lib.UNION_GRAPH_PATHS)) + list(a.spaces) + list(a.bodies) + sheets + legacy
     text = {"adr": lambda: render_adr(m, bodies, inputs, root),
-            "requirements": lambda: render_requirements(m, inputs),
+            "requirements": lambda: render_requirements(m, bodies, inputs),
             "changelog": lambda: render_changelog(m, inputs),
             "audit": lambda: render_audit(m, bodies, inputs, gs, a.spaces),
             "questions": lambda: render_questions(m, citing, sheets, legacy, inputs)}[a.kind]()

@@ -103,7 +103,7 @@ Part VII이 신설되어, 옛 VII 이후의 번호가 한 칸씩 밀렸다.
 | 문서 | 다루는 것 |
 |---|---|
 | [`ontology.md`](docs/ontology.md) | 코어와 분야 프로파일, 확장 규칙을 코어와 development, V&V 세 부분으로 다룬다 |
-| [`competency-questions.md`](docs/competency-questions.md) | 온톨로지가 답해야 하는 질문과 현재 답할 수 있는 것을 다루고, 노트 CQ1~20의 대응표를 담는다 |
+| [`competency-questions.md`](docs/competency-questions.md) | 역량 질문을 쓰는 법과 질의가 아직 없는 질문을 다루고, 노트 CQ1~20의 대응표를 담는다. 질의가 있는 질문과 그 답은 뷰 `//kg:cq`가 낸다 |
 | [`rules.md`](docs/rules.md) | 무엇이 유효한 구조인가를 코어와 development, V&V로 나누어 다룬다. 코어 부분은 chunk와 복합체, plane, traceability, KG를 다룬다 |
 | [`method.md`](docs/method.md) | §0의 운용 순서와 완료 판정, 그리고 각 단계를 어떻게 하는가를 다룬다. 단계는 코어 절차와 development 저작 흐름, V&V의 위험 분석에서 되먹임까지다 |
 | [`tools.md`](docs/tools.md) | **게이트 총람의 원본**이다. 코어의 검사 도구와 활용 도구, development와 V&V의 도구, Bazel 배선, 게이트 밖 규약을 다룬다 |

@@ -51,9 +51,13 @@ kb_weave(
     kind = "adr",
 )
 
-# 요구 색인: 라벨 · EARS 패턴 · 정제 결정 수 · 도달 최저 수준(CQ19) · IRI — INTENT.md 의 손 목록을 대체한다 (bazel build //kb/dev:requirements)
+# 요구 색인: 라벨 · 이해관계자(요구 본문의 칸) · EARS 패턴 · 정제 결정 수 · 도달 최저 수준(CQ19) · IRI — INTENT.md 의 손 목록을 대체한다 (bazel build //kb/dev:requirements)
 kb_weave(
     name = "requirements",
+    bodies = [
+        ":dev",
+        "//kb/vv",
+    ],
     data = _VIEW_GRAPHS,
     kind = "requirements",
 )
