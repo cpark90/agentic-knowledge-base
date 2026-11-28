@@ -3,14 +3,14 @@ id: https://agentic-knowledge-base.dev/id/chunk/c7aaa3bd-826c-425b-9d0d-76d00900
 type: requirement
 level: functional
 pattern: event-driven
-title_ko: 세션의 시행착오는 memory 지식 종류에 남고 승격 규칙에 따라 주제 지식 종류로 올라가야 한다
-former_title_ko: ["세션의 시행착오는 memory plane 에 남고 승격 규칙에 따라 주제 plane 으로 올라가야 한다"]
-title: A session's trial and error must remain in the memory plane and rise to a topic plane under the promotion rule
+title_ko: 세션의 시행착오는 역할 메모리에 남고 승격 규칙에 따라 주제 지식 종류로 올라가야 한다
+former_title_ko: ["세션의 시행착오는 memory plane 에 남고 승격 규칙에 따라 주제 plane 으로 올라가야 한다", "세션의 시행착오는 memory 지식 종류에 남고 승격 규칙에 따라 주제 지식 종류로 올라가야 한다"]
+title: A session's trial and error must remain in role memory and rise to a topic plane under the promotion rule
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-bazel-toolchain, https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: vnv/claude-opus-5-5, at: 2026-10-25T13:46:23+09:00}
-verified: [{by: vnv/claude-sonnet-5-5, at: 2026-10-06T10:55:34+09:00}, {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}, {by: vnv/claude-opus-5-5, at: 2026-10-25T13:46:23+09:00}]
+generated: {by: vnv/claude-sonnet-5-5, at: 2026-11-28T16:49:27+09:00}
+verified: [{by: vnv/claude-sonnet-5-5, at: 2026-10-06T10:55:34+09:00}, {by: vnv/claude-opus-5-5, at: 2026-10-24T22:39:25+09:00}, {by: vnv/claude-opus-5-5, at: 2026-10-25T13:46:23+09:00}, {by: vnv/claude-sonnet-5-5, at: 2026-11-28T16:52:11+09:00}]
 derivesFrom: [https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b]
 ---
 **검증 목표** — 단기기억은 `memory` 지식 종류에 두고 장기기억은 주제 지식 종류로 승격하며 승격 규칙은 체계가 고정하지 않는 입력이라는 결정이 단기기억·장기기억 두 자리의 존재와 승격 사례로 성립한다는 것이 보여져야 한다. 승격 규칙이 입력이므로 언제 무엇을 올리는지는 프로젝트가 정하고 사람이 확인한다.
