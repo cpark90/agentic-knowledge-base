@@ -2,17 +2,18 @@
 id: https://agentic-knowledge-base.dev/id/chunk/47d04ec1-666e-4532-86d9-807b2a2be6dd
 type: decision
 level: logical
-title_ko: tangle·전부 한 번에·검증기 대상 규칙 완화·미루기는 기각된다
-title: Tangle, all-at-once, relaxing the verifier target rule, and deferral are rejected
+title_ko: tangle·전부 한 번에·검증기 대상 규칙 완화·미루기·함수 단위 전부 추출은 기각된다
+former_title_ko: ["tangle·전부 한 번에·검증기 대상 규칙 완화·미루기는 기각된다"]
+title: Tangle, all-at-once, relaxing the verifier target rule, deferral, and extracting every function are rejected
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
-verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T22:18:17+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}]
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-11-28T16:57:43+09:00}
+verified: [{by: orchestrator/claude-opus-5-5, at: 2026-10-06T22:18:17+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}, {by: orchestrator/claude-opus-5-5, at: 2026-11-28T16:59:05+09:00}]
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/cfdffdf2-c863-4f22-bdfc-2d58e26550be
 ---
-**대안** — 넷을 기각한다.
+**대안** — 다섯을 기각한다.
 
 | 대안 | 기각 이유 |
 |---|---|
@@ -20,3 +21,4 @@ part_of: https://agentic-knowledge-base.dev/id/composite/cfdffdf2-c863-4f22-bdfc
 | 34 파일을 한 번에 올린다 | churn 측정 없이 수백 단위 지식이 생기고 실패의 되돌릴 범위가 전부다. 표본 뒤 넓히는 것이 순서일 뿐 목표는 같다 |
 | 올리지 않고 `verifies`가 concrete 결정을 대상으로 허용 | 검사 약화다. 정제 계층 대응(c→e)의 뜻이 느슨해지고 전방 추적 상한이 고정된다 |
 | tangle 뒤에 판단한다 | 검증기 셋이 대상 없이 남고 CQ19 34.8%의 상한이 그대로다. 추출은 tangle을 전제하지 않는다 |
+| 함수와 클래스, 절마다 항목 하나로 전부 올린다(2026-09-30부터 2026-11-28까지의 범위) | 2026-11-28 측정에서 그 항목 1,038개는 약 44.6만 토큰이었고 결정으로 가는 링크가 없었다. 원문은 소스에 있어 항목이 더하는 것은 함수 단위 `uses` 그래프뿐이었다. 유저가 모듈 항목과 질의 항목만 두기로 했다(Q191-a) |

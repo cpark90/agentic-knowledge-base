@@ -5,10 +5,10 @@ level: logical
 title_ko: 코드를 단위 지식으로 투영하는 범위는 등록 목록이 정한다
 former_title_ko: ["코드를 청크로 투영하는 범위는 등록 목록이 정한다", "코드를 지식 항목으로 투영하는 범위는 등록 목록이 정한다"]
 title: The range of code projected into chunks is set by registered lists
-status: draft
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-11-28T16:57:43+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/7c00131b-7fdb-42db-947e-49d184967047
 composite: {id: https://agentic-knowledge-base.dev/id/composite/7c00131b-7fdb-42db-947e-49d184967047, title_ko: 목록으로 정하는 추출 범위, title: Extraction range set by lists}

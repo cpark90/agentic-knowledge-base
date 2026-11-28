@@ -4976,7 +4976,7 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/70d56a11-ab22-475f-8ca6-7af9c727eb1d", "https://agentic-knowledge-base.dev/id/chunk/cece401e-9876-42f6-8075-a79acbb130a8", "https://agentic-knowledge-base.dev/id/chunk/8537d804-02b8-4e63-9be4-899bf6a4f84d"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/70d56a11-ab22-475f-8ca6-7af9c727eb1d", "https://agentic-knowledge-base.dev/id/chunk/cece401e-9876-42f6-8075-a79acbb130a8", "https://agentic-knowledge-base.dev/id/chunk/8537d804-02b8-4e63-9be4-899bf6a4f84d"],
     part_levels = ["logical", "logical", "logical"],
-    status = "draft",
+    status = "deprecated",
 )
 
 kb_decision(
@@ -4988,7 +4988,13 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/108a10f4-abcb-4cea-8d00-e71d462969a1", "https://agentic-knowledge-base.dev/id/chunk/d5e78b53-a09d-4d1e-995c-ce6968ed2180", "https://agentic-knowledge-base.dev/id/chunk/f637930c-398a-4a65-92bf-9110b051ca11"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/108a10f4-abcb-4cea-8d00-e71d462969a1", "https://agentic-knowledge-base.dev/id/chunk/d5e78b53-a09d-4d1e-995c-ce6968ed2180", "https://agentic-knowledge-base.dev/id/chunk/f637930c-398a-4a65-92bf-9110b051ca11"],
     part_levels = ["logical", "logical", "logical"],
-    status = "draft",
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-029-harness-self-improvement",
+    ],
+    supersedes = [
+        "//kb/dev/decision:p7-extraction-range-by-list",
+    ],
 )
 
 kb_decision(
