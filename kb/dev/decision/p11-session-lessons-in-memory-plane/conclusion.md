@@ -5,10 +5,10 @@ level: logical
 title_ko: 세션 교훈은 작업 메모리(`memory` 지식 종류)에 둔다
 former_title_ko: ["세션 교훈은 작업 메모리(memory plane)에 둔다"]
 title: Session lessons go to working memory (the memory plane)
-status: draft
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-24T22:57:27+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-11-28T15:54:00+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6cffb6db-a066-4167-9d37-c1b06c246441
 composite: {id: https://agentic-knowledge-base.dev/id/composite/6cffb6db-a066-4167-9d37-c1b06c246441, title_ko: 작업 메모리의 세션 교훈, title: Session lessons in working memory}

@@ -7,7 +7,7 @@ title: Normative-document conventions — Ontology sufficiency is checked agains
 status: stable
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-11-28T14:31:00+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-11-28T15:53:00+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/5f6eadd5-ef4f-47cb-8128-f72cca5e8575
 ---
@@ -15,5 +15,5 @@ part_of: https://agentic-knowledge-base.dev/id/composite/5f6eadd5-ef4f-47cb-8128
 
 규약: [지킴] 정의에는 그 개념이 딛고 선 근거를 적는다. 근거 없는 개념은 온톨로지 과설계의 시작이므로, 역량 질문에 기여하지 않는 개념은 만들지 않는다.
 규약: 프로파일 구축 | 역량 질문이 전부 질의로 답해지고 `bazel test //kb/ontology:gate_test`가 통과한다
-규약: **역량 질문을 더한다.** 프로파일이 답해야 할 질문은 `tools/cq-queries/`에 질의 `CQ-NN.rq`로 등재하고 머리 주석 첫 줄에 질문 원문을 적는다. 질의를 아직 쓸 수 없는 질문만 [`competency-questions.md`](../../../../docs/competency-questions.md)에 적는다. 예로 CQ-36은 각 지식 종류의 단위 지식은 무엇이고 무엇이 판정하는가를 묻는다.
-규약: 역량 질문 | 등재된 CQ 질의 전부의 질문 원문과 답을 라벨 목록으로 낸다(`//kg:cq`). 개별 질의는 `bazel run //tools:query -- <CQ>`로 낸다
+규약: **역량 질문을 더한다.** 프로파일이 답해야 할 질문은 `tools/cq-queries/`에 질의 `CQ-NN.rq`로 등재하고 머리 주석 첫 줄에 질문 원문을 적는다. 질의를 아직 쓸 수 없는 질문만 [`competency-questions.md`](../../../../docs/competency-questions.md)에 적는다(Q198-a). 예로 CQ-36은 각 지식 종류의 단위 지식은 무엇이고 무엇이 판정하는가를 묻는다.
+규약: 역량 질문 | 등재된 CQ 질의 전부의 질문 원문과 답을 라벨 목록으로 낸다(`//kg:cq`). 개별 질의는 `bazel run //tools:query -- <CQ>`로 낸다(Q198-a)

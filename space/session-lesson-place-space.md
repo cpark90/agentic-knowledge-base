@@ -7,7 +7,7 @@ title: Whether session lessons go to role memory or to working memory
 status: draft
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-11-28T15:54:00+09:00}
 ---
 유저는 미결을 "개선 및 확장이 이루어지는 frontier 포인트"로 보았다(Q54-a).
 
@@ -15,20 +15,24 @@ generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-25T13:47:12+09:00}
 
 이미 정해진 것 — 단기기억은 `memory` 지식 종류(작업 메모리)에 두고 첫 실행 시 한 번에 읽는다. 장기기억은 주제 지식 종류로 승격해 필요한 순간에 읽는다. 승격 규칙은 체계가 고정하지 않는 입력이다(`p11-memory-promotion-rule`). 이 결정의 결론은 head에서 이미 `r-020`을 `refines`하므로 후보로 들지 않고 관련 결정으로 적는다. 작업 메모리의 항목은 관측(실행 기록)이다(`p5-plane-by-verification`, `p0-run-is-an-append-only-memory-chunk`).
 
-현재 상태(2026-10-24 측정) — 역할 메모리는 `.claude/agent-memory/interpreter/` 하나이고 파일 11개(색인 `MEMORY.md` 포함)다. 작업 메모리 `kb/dev/memory/`의 단위 지식은 관측 5개다. 측정은 `find .claude/agent-memory -type f | wc -l`과 `find kb/dev/memory -name "*.md" | wc -l`이다.
+현재 상태(2026-11-28 측정) — 저장소 안의 역할 메모리는 `.claude/agent-memory/interpreter/` 하나이고, 작업 메모리 `kb/dev/memory/`의 단위 지식은 관측뿐이며 세션 교훈은 없다. orchestrator의 교훈은 저장소 밖 Claude 메모리에 있다. 파일 수는 `find .claude/agent-memory -type f | wc -l`과 `find kb/dev/memory -name "*.md" | wc -l`로 잰다.
 
 답이 가르는 것 — 새 세션 교훈을 어디에 쓰는지와 그 교훈이 승격 규칙의 대상인 그래프 안에 있는지가 갈린다.
 
-선택지 — A는 세션 교훈을 역할 메모리에 두는 현행 유지안이다(`p11-session-lessons-in-role-memory`). B는 세션 교훈을 작업 메모리에 두는 안이다(`p11-session-lessons-in-memory-plane`). 구조 검수는 이 자리에 선택지를 들지 않았다. 그래서 현행 유지와 질문이 가르는 반대쪽 둘만 세운다. 두 후보 모두 열려 있다.
+선택지 — A는 세션 교훈을 역할 메모리에 두는 현행 유지안이다(`p11-session-lessons-in-role-memory`). B는 세션 교훈을 작업 메모리에 두는 안이다(`p11-session-lessons-in-memory-plane`). 구조 검수는 이 자리에 선택지를 들지 않았다. 그래서 현행 유지와 질문이 가르는 반대쪽 둘만 세운다. 두 후보를 세웠다.
+
+해소 — 유저가 질문지 `Q-0087`의 Q193에서 A를 골랐다(Q193-a). 세션 교훈은 역할 메모리에 남기고 파일은 옮기지 않으며, orchestrator의 교훈도 저장소 밖 Claude 메모리에 그대로 둔다. 이 답은 stable 결정 `p11-lesson-promotion`이 이미 정한 "세션이 끝나기 전에 역할 메모리에 남긴다"와 같다. B는 작업 메모리의 항목이 관측(덧붙이기만 하는 실행 기록)이라는 결정과 부딪히고 `p11-lesson-promotion`의 개정을 요구해 배제됐다. 요구 `r-020`의 문장은 시행착오를 `memory` 지식 종류에 남기라고 적어 이 해소와 문자가 다르고, 요구의 개정은 유저 승인 사항이라 이 해소에서 고치지 않는다.
 
 ```yaml
 variable:
   from: https://agentic-knowledge-base.dev/id/chunk/875062b6-2c26-4933-a43e-1b8c3699aa2b
   kind: refines
-status: open
+status: resolved
 candidates:
   - to: https://agentic-knowledge-base.dev/id/chunk/e45a0f86-ddc6-48ae-8b82-d710629e04ed
-    state: open
+    state: confirmed
+    evidence: [{kind: userDecision, ref: Q-0087#Q193}]
   - to: https://agentic-knowledge-base.dev/id/chunk/812a5dca-20bc-4adc-a1a5-5d14700e9420
-    state: open
+    state: eliminated
+    eliminated_by: {kind: constructionRecord, ref: https://agentic-knowledge-base.dev/id/chunk/fcd9f4ce-16ed-4dd9-ad08-ef5a358d9937}
 ```

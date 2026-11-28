@@ -2605,7 +2605,7 @@ kb_decision(
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/812a5dca-20bc-4adc-a1a5-5d14700e9420", "https://agentic-knowledge-base.dev/id/chunk/cfb19182-ca96-48b9-98bb-711dfe5ae5ae", "https://agentic-knowledge-base.dev/id/chunk/ca513a69-00a2-4a3b-83a5-248cc0f2b465"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/812a5dca-20bc-4adc-a1a5-5d14700e9420", "https://agentic-knowledge-base.dev/id/chunk/cfb19182-ca96-48b9-98bb-711dfe5ae5ae", "https://agentic-knowledge-base.dev/id/chunk/ca513a69-00a2-4a3b-83a5-248cc0f2b465"],
     part_levels = ["logical", "logical", "logical"],
-    status = "draft",
+    status = "deprecated",
 )
 
 kb_decision(
@@ -2616,8 +2616,14 @@ kb_decision(
     iri = "https://agentic-knowledge-base.dev/id/composite/44c28dd9-af7d-4c91-a832-00a5eb7af95d",
     ordered = ["https://agentic-knowledge-base.dev/id/chunk/e45a0f86-ddc6-48ae-8b82-d710629e04ed", "https://agentic-knowledge-base.dev/id/chunk/b0445248-a186-4d3d-be57-11a82fdd194d", "https://agentic-knowledge-base.dev/id/chunk/fcd9f4ce-16ed-4dd9-ad08-ef5a358d9937"],
     part_iris = ["https://agentic-knowledge-base.dev/id/chunk/e45a0f86-ddc6-48ae-8b82-d710629e04ed", "https://agentic-knowledge-base.dev/id/chunk/b0445248-a186-4d3d-be57-11a82fdd194d", "https://agentic-knowledge-base.dev/id/chunk/fcd9f4ce-16ed-4dd9-ad08-ef5a358d9937"],
-    part_levels = ["logical", "logical", "logical"],
-    status = "draft",
+    part_levels = ["concrete", "logical", "logical"],
+    status = "stable",
+    refines = [
+        "//kb/dev/requirement:r-013-labels-before-bodies",
+    ],
+    supersedes = [
+        "//kb/dev/decision:p11-session-lessons-in-memory-plane",
+    ],
 )
 
 kb_decision(

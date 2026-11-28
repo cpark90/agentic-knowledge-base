@@ -4,10 +4,10 @@ type: decision
 level: logical
 title_ko: 작업 메모리 후보의 근거는 선택지 원문에 없다
 title: The source option gives no grounds for the working-memory candidate
-status: draft
+status: deprecated
 sources: [{resource: https://agentic-knowledge-base.dev/id/doc-system-notes}]
 assumes: [https://agentic-knowledge-base.dev/id/asm-chunk-conventions]
-generated: {by: orchestrator/claude-opus-5-5, at: 2026-10-09T18:04:39+09:00}
+generated: {by: orchestrator/claude-opus-5-5, at: 2026-11-28T15:54:00+09:00}
 layer: methodology
 part_of: https://agentic-knowledge-base.dev/id/composite/6cffb6db-a066-4167-9d37-c1b06c246441
 ---
